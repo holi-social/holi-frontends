@@ -1,9 +1,21 @@
-import type { NextPage } from 'next'
+import type { GetServerSidePropsContext, NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
-const Home: NextPage = () => {
+import { getUsers, UserData } from 'shared/api';
+import Users from 'shared/Users'
+import { useState } from 'react';
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return {
+    props: {
+      users: await getUsers()
+    }
+  }
+}
+
+const Home: NextPage = ({users}: {users: Array<UserData>}) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -21,6 +33,8 @@ const Home: NextPage = () => {
           Get started by editing{' '}
           <code className={styles.code}>pages/index.tsx</code>
         </p>
+
+        <Users users={users} />
 
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>
