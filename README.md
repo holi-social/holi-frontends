@@ -1,4 +1,4 @@
-# holi-react-setup
+# holi-react-native-setup
 
 ## Running
 
