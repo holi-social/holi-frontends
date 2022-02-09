@@ -1,0 +1,12 @@
+{
+  "name": "holi-react-native-setup",
+  "private": true,
+  "workspaces": {
+    "packages" : [
+      "shared",
+      "mobile",
+      "web"
+    ],
+    "nohoist": ["**/react-native", "**/react-native/**"]
+  }
+}
