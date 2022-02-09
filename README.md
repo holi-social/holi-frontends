@@ -2,4 +2,4 @@
 
 ## How to reproduce
 
-See REPRODUCE.md for instructions on how to reproduce this repo.
+See reproduce.sh for instructions on how to reproduce this repo.
