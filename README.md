@@ -1,9 +1,37 @@
 # holi-react-native-setup
 
 ## Running
-
 Run `yarn workspace mobile run start` for mobile and `yarn workspace web run dev` for web.
 
-## How to reproduce
+## Monorepo - and why
+This is a monorepo. Not in the FAANG sense, as it doesn't contain thousands of applications. It contains two applications: mobile & web. And shared code between mobile & web. This is the one and only reason we create a monorepo.
 
-See reproduce.sh for instructions on how to reproduce this repo.
+Monorepos have been critized heavily and righteously so. Most downsides of monorepos come from frameworks and build systems not supporting monorepos. Therefore, working with monorepos feels like a glueing together many workarounds until it works and hoping it won't break.
+
+On the positive side, this monorepo will allow us to share code between our mobile and web frontend. You can do this without a monorepo, using a library. However, using a library for shared code, you need to publish every little code change (locally) before you can try it out in the applications that use it. This would dramatically decrease development velocity as feedback cycles for shared code changes are simply too long. And it's no fun do work this way either.
+
+### Yarn Workspaces
+Yarn Workspaces are a neat feature that support us with our monorepo approach. It allows to make multiple packages (e.g. `shared`, `mobile` and `web`) and group them together in a (non-publishable) root package. With [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces):
+
+* Your dependencies can be linked together, which means that your workspaces can depend on one another while always using the most up-to-date code available. `mobile` and `web` can depend on `shared`, always pointing to the "newest version" by simply symlinking into the directory.
+* All dependencies are installed together (under the root module), using a single lockfile. There can be exceptions if needed. If you have issues, check if [nohoist](https://classic.yarnpkg.com/blog/2018/02/15/nohoist/) will help.
+
+Working with Yarn Workspaces is (a little) different, but easy. Instead of running e.g.
+
+```
+holi-react-native-setup/ $> cd mobile
+holi-react-native-setup/mobile $> yarn run start
+```
+
+you *can* simply prefix every yarn command with `yarn workspace $MODULE_NAME` like so:
+
+```
+holi-react-native-setup/ $> yarn workspace mobile run start
+```
+
+But notice that *you don't have to* do this, you can also `cd` into the individual packages and use yarn as if you weren't in a monorepo with yarn Workspaces.
+
+### How to Reproduce (Built this from scratch)
+Simply cloning a monorepo template from the Internet won't help you understand how everything is glued together. And if you don't, it's quite likely that you're going to have a hard time as soon as something breaks. At that point you might be months into your project, the code base has become huge and debugging your monorepo issues has become harder as it will be harder to see the forest for the trees.
+
+To avoid this situation, `reproduce.sh` contains every single instruction that was used to create this monorepo. And quite a number of comments on what we're doing and why. This should allow you to understand the process and the reasoning behind it. If you run into problems half a year into the project, this monorepo template (and `reproduce.sh`) allows you to go back in time and debug your monorepo issue on a smaller less cluttered code base. That's the idea, we hope it will pay out.
