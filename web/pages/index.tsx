@@ -5,6 +5,8 @@ import styles from '../styles/Home.module.css'
 
 import { getUsers, UserData } from 'shared/api';
 import Users from 'shared/Users'
+// import Example from 'shared/Example'
+
 import { useState } from 'react';
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
@@ -36,6 +38,7 @@ const Home: NextPage<HomeProps> = ({users}: HomeProps) => {
         </p>
 
         <Users users={users} />
+        {/* <Example /> */}
 
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>
