@@ -30,7 +30,6 @@ const modulesToTranspile = [
   'react-native-svg',
   'native-base',
   'react-native-svg',
-  // 'next-fonts',
   '../shared',
 ]
 
@@ -47,6 +46,7 @@ module.exports = withPlugins(
     // withFonts(fontsConfig),
     [withFonts, { projectRoot: __dirname }],
     // [withExpo, { projectRoot: __dirname }],
+    // [withExpo, { projectRoot: __dirname + '/..' }],
   ],
   nextConfig
 );
