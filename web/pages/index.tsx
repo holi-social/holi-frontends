@@ -14,8 +14,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
   }
 }
+type HomeProps = {users: Array<UserData>}
 
-const Home: NextPage = ({users}: {users: Array<UserData>}) => {
+const Home: NextPage<HomeProps> = ({users}: HomeProps) => {
   return (
     <div className={styles.container}>
       <Head>
