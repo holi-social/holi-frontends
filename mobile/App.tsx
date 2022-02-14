@@ -1,9 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { NativeBaseProvider, extendTheme, Text, Box } from 'native-base';
+
 
 import { getUsers, UserData } from 'shared/api';
 import Users from 'shared/Users'
+import Example from 'shared/Example'
+
+
+const newColorTheme = {
+  brand: {
+    900: '#8287af',
+    800: '#7c83db',
+    700: '#b3bef6',
+  },
+};
+const theme = extendTheme({ colors: newColorTheme });
 
 export default function App() {
   const [users, setUsers] = useState<Array<UserData>>([])
@@ -11,11 +24,13 @@ export default function App() {
     getUsers().then(users => setUsers(users))
   })
   return (
-    <View style={styles.container}>
-      <Text>The Awesome App!</Text>
-      <Users users={users} />
-      <StatusBar style="auto" />
-    </View>
+    <NativeBaseProvider theme={theme}>
+      <Box flex={1} bg="#0f0" alignItems="center" justifyContent="center">
+        <Text>Awesome HOLI!</Text>
+        <Users users={users} />
+        <Example />
+      </Box>
+    </NativeBaseProvider>
   );
 }
 
