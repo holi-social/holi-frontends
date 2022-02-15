@@ -2,8 +2,9 @@ import * as React from 'react';
 import { Box, HStack, VStack, Text, Pressable, Image } from 'native-base';
 
 export default function Example() {
+
   return (
-    <Box bg="primary.600" py="4" px="3" rounded="md" width={375} maxWidth="100%">
+    <Box bg="tertiary.600" py="4" px="3" rounded="md" width={375} maxWidth="90%">
       <HStack justifyContent="space-between">
         <Box justifyContent="space-between">
           <VStack space="2">

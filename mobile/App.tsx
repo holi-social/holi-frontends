@@ -1,44 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
+// Must be the first import !!!
+import 'react-native-gesture-handler';
 import * as React from 'react';
-import { SetStateAction, useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { NativeBaseProvider, extendTheme, Text, Box } from 'native-base';
 
-import { getUsers, UserData } from 'shared/api';
-import Users from 'shared/Users'
-import Example from 'shared/Example'
+import { NavigationContainer } from '@react-navigation/native'
+import { enableScreens } from 'react-native-screens'
+import { ScreensStack } from './screens/stack'
 
+import { NativeBaseProvider } from 'native-base';
+import holiTheme from 'shared/styles/holi-theme'
 
-const newColorTheme = {
-  brand: {
-    900: '#8287af',
-    800: '#7c83db',
-    700: '#b3bef6',
-  },
-};
-const theme = extendTheme({ colors: newColorTheme });
+enableScreens(true)
 
 export default function App() {
-  const [users, setUsers] = useState<Array<UserData>>([])
-  useEffect(() => {
-    getUsers().then((users: SetStateAction<UserData[]>) => setUsers(users))
-  })
+
   return (
-    <NativeBaseProvider theme={theme}>
-      <Box flex={1} bg="#0f0" alignItems="center" justifyContent="center">
-        <Text>Awesome HOLI!</Text>
-        <Users users={users} />
-        <Example />
-      </Box>
+    <NativeBaseProvider theme={holiTheme}>
+      <NavigationContainer>
+        <ScreensStack />
+      </NavigationContainer>
     </NativeBaseProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
