@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
+import * as React from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NativeBaseProvider, extendTheme, Text, Box } from 'native-base';
-
 
 import { getUsers, UserData } from 'shared/api';
 import Users from 'shared/Users'
@@ -21,7 +21,7 @@ const theme = extendTheme({ colors: newColorTheme });
 export default function App() {
   const [users, setUsers] = useState<Array<UserData>>([])
   useEffect(() => {
-    getUsers().then(users => setUsers(users))
+    getUsers().then((users: SetStateAction<UserData[]>) => setUsers(users))
   })
   return (
     <NativeBaseProvider theme={theme}>
