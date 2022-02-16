@@ -3,10 +3,12 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 
 import { NavigationContainer } from '@react-navigation/native'
+import { navigationRef } from './components/navigation/rootNavigation';
+import FooterNavigation from './components/navigation/FooterNavigation'
 import { enableScreens } from 'react-native-screens'
-import { ScreensStack } from './screens/stack'
+import { ScreensStack } from './components/navigation/stack'
 
-import { NativeBaseProvider } from 'native-base';
+import { NativeBaseProvider, Box } from 'native-base';
 import holiTheme from 'shared/styles/holi-theme'
 
 enableScreens(true)
@@ -15,9 +17,14 @@ export default function App() {
 
   return (
     <NativeBaseProvider theme={holiTheme}>
-      <NavigationContainer>
-        <ScreensStack />
-      </NavigationContainer>
+      <Box style={{ display: 'flex' }} height="100%" safeArea>
+        <NavigationContainer ref={navigationRef}>
+          <ScreensStack />
+        </NavigationContainer>
+
+        <FooterNavigation />
+
+      </Box>
     </NativeBaseProvider>
   );
 }

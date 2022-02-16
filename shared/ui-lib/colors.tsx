@@ -9,7 +9,7 @@ export default function Colors() {
 
   return (
     <Box flex="1" safeAreaTop>
-      <Heading mt={3} color="red.700">Colors yy</Heading>
+      <Heading mt={3} color="red.700">Colors</Heading>
 
       <ScrollView borderWidth="1" borderColor="info.500">
         {colors.map(color => (

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { SetStateAction, useEffect, useState } from 'react';
 import { Heading, Box, Button } from 'native-base';
-import Users from 'shared/Users'
-import Example from 'shared/Example'
+import Users from 'shared/components/Users'
+import Example from 'shared/components/Example'
 import { getUsers, UserData } from 'shared/api';
 
 
@@ -14,15 +14,16 @@ export function HomeScreen({ navigation }) {
   })
 
   return (
-    <Box safeArea>
+    // <Box style={{ display: 'flex' }} height="100%" safeArea borderWidth="1" borderColor="info.500">
+    <Box>
       <Heading color="primary.600">Awesome HOLI!</Heading>
       <Users users={users} />
       <Box alignItems="center" py={2}>
         <Example />
       </Box>
-      <Box alignItems="center" py={2}>
+      {/* <Box alignItems="center" py={2}>
         <Button onPress={() => navigation.navigate('Colors')}>Go to Colors</Button>
-      </Box>
+      </Box> */}
     </Box>
   );
 }
