@@ -4,6 +4,13 @@
 # install sponge and jq (we will need these later)
 brew install moreutils jq
 
+# install nodenv for managing the node version
+brew install nodenv
+
+# install node.js
+echo "16.14.0" > .node-version
+nodenv install
+
 PROJECT_ROOT=holi-react-native-setup
 
 mkdir $PROJECT_ROOT
