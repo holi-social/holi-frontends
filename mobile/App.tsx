@@ -1,29 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+// Must be the first import !!!
+import 'react-native-gesture-handler';
+import * as React from 'react';
 
-import { getUsers, UserData } from 'shared/api';
-import Users from 'shared/Users'
+import { NavigationContainer } from '@react-navigation/native'
+import { navigationRef } from './components/navigation/rootNavigation';
+import FooterNavigation from './components/navigation/FooterNavigation'
+import { enableScreens } from 'react-native-screens'
+import { ScreensStack } from './components/navigation/stack'
+
+import { NativeBaseProvider, Box } from 'native-base';
+import holiTheme from 'shared/styles/holi-theme'
+
+enableScreens(true)
 
 export default function App() {
-  const [users, setUsers] = useState<Array<UserData>>([])
-  useEffect(() => {
-    getUsers().then(users => setUsers(users))
-  })
+
   return (
-    <View style={styles.container}>
-      <Text>The Awesome App!</Text>
-      <Users users={users} />
-      <StatusBar style="auto" />
-    </View>
+    <NativeBaseProvider theme={holiTheme}>
+      <Box style={{ display: 'flex' }} height="100%" safeArea>
+        <NavigationContainer ref={navigationRef}>
+          <ScreensStack />
+        </NavigationContainer>
+
+        <FooterNavigation />
+
+      </Box>
+    </NativeBaseProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
