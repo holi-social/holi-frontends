@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
+import Holicon from "../holicon"
 
 const Counter: React.FC = () => {
   const [count, setCount] = useState(0);
@@ -7,6 +8,7 @@ const Counter: React.FC = () => {
   return (
     <div>
       <p>You clicked {count} times</p>
+      <Holicon icon="person" size={20} color="#0f0" />
       <button onClick={incrementCount}>Click Me</button>
     </div>
   )
