@@ -1,8 +1,6 @@
 
-import * as React from 'react';
-import { useState } from 'react';
-// import { StyleSheet } from 'react-native';
-import { Pressable, Text } from 'react-native'
+import * as React from 'react'
+import { StyleSheet, Pressable, Text } from 'react-native'
 import useHover from '../hooks/useHover'
 
 
@@ -26,8 +24,7 @@ const Button: React.FC<ButtonProps> = ({ text } : ButtonProps) => {
 
 export default Button
 
-// TODO: StyleSheet.create for mobile ?!
-const styles = {
+const styles = StyleSheet.create({
   button: {
     borderColor: 'pink', // '#fafafa',
     borderWidth: 1,
@@ -42,4 +39,4 @@ const styles = {
   hovered: {
     borderColor: '#fb345e'
   }
-}
+})
