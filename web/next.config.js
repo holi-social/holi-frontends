@@ -24,7 +24,7 @@ const nextConfig = {
 
 module.exports = withPlugins(
   [
-    withTM(["../shared"], {resolveSymlinks: true, debug: true}),
+    withTM(["shared"], {resolveSymlinks: true, debug: true}),
   ],
   nextConfig
 );
