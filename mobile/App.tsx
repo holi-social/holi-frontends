@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { WithLocalSvg } from 'react-native-svg';
 import Holicon from "shared/holicon"
 import Button from 'shared/components/button'
 
@@ -16,6 +17,11 @@ export default function App() {
     <View style={styles.container}>
       <Text>The Awesome App!</Text>
       <Holicon icon="person" size={20} color="#0f0" />
+      <WithLocalSvg
+        width="50"
+        height="50"
+        asset={require('shared/assets/img/logo/logo.svg')}
+      />
       <Users users={users} />
       <Button text="hello" />
       <StatusBar style="auto" />
