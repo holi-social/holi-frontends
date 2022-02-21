@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 // import { StyleSheet } from 'react-native';
-// import { Pressable } from 'react-native-web'
+import { Pressable, Text } from 'react-native'
 import useHover from '../hooks/useHover'
 
 
@@ -13,14 +13,13 @@ type ButtonProps = {
 
 const Button: React.FC<ButtonProps> = ({ text } : ButtonProps) => {
 
-  const [hoverRef, isHovered] = useHover<HTMLDivElement>()
-  const [someValue, setSomeValue]  = useState('grey')
+  const [hoverRef, isHovered] = useHover<any>()
 
   return (
     <>
-      {/* TODO: use stylesheet */}
-      <button ref={hoverRef} style={styles.button}>{text} {isHovered ? 'hovered' : 'not'}</button>
-      {/* <Pressable onHoverIn={() => setSomeValue('red')} onHoverOut={() => setSomeValue('grey')}>dddd</Pressable> */}
+      <Pressable ref={hoverRef} style={[styles.button, isHovered && styles.hovered]} >
+        <Text>{text}</Text>
+      </Pressable>
     </>
   )
 }
@@ -30,11 +29,17 @@ export default Button
 // TODO: StyleSheet.create for mobile ?!
 const styles = {
   button: {
-    borderColor: '#fb345e', // '#fafafa',
-    borderStyle: 'solid',
-    padding: '10px 20px',
-    margin: 0,
+    borderColor: 'pink', // '#fafafa',
+    borderWidth: 1,
+    borderRadius: 10,
     backgroundColor: '#fafafa',
-    borderRadius: '10px'
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    elevation: 3,
+  },
+  hovered: {
+    borderColor: '#fb345e'
   }
 }
