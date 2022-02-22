@@ -2,6 +2,9 @@
   "name": "mock-api",
   "version": "1.0.0",
   "type": "module",
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
     "express": "^4.17.3",
     "json-graphql-server": "^2.3.1"
