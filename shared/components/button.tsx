@@ -4,18 +4,45 @@ import { StyleSheet, Pressable, Text } from 'react-native'
 import useHover from '../hooks/useHover'
 
 
-type ButtonProps = {
+export type ButtonProps = {
   text: string
+  onPress: (event: React.BaseSyntheticEvent) => void
   href?: string
 }
 
-const Button: React.FC<ButtonProps> = ({ text } : ButtonProps) => {
+export type PressableState = Readonly<{
+  pressed: boolean;
+  hovered?: boolean;
+  focused?: boolean;
+}>
 
-  const [hoverRef, isHovered] = useHover<any>()
+
+const Button: React.FC<ButtonProps> = ({ text, onPress } : ButtonProps) => {
+
+  const [hoverRef, isHovered] = useHover<Element>()
+
+  const onBlur = (e: React.BaseSyntheticEvent) => {
+    console.log('#### onBlur', e.target)
+  }
+  const onFocus = (e: React.BaseSyntheticEvent) => {
+    console.log('#### onFocus', e.target)
+  }
 
   return (
     <>
-      <Pressable ref={hoverRef} style={[styles.button, isHovered && styles.hovered]} >
+      {/* With custom hover hook via ref: */}
+      {/* <Pressable ref={hoverRef} style={[styles.button, isHovered && styles.hovered]}>
+        <Text>{text}</Text>
+      </Pressable> */}
+
+      {/* With react-native interaction: */}
+      {/* https://github.com/necolas/react-native-web/issues/1708 */}
+      <Pressable
+        onPress={onPress}
+        onBlur={onBlur}
+        onFocus={onFocus}
+        style={({ pressed, hovered, focused }: PressableState) => [styles.button, hovered && styles.hovered]}
+      >
         <Text>{text}</Text>
       </Pressable>
     </>
