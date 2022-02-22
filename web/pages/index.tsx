@@ -19,7 +19,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 }
 
-const Home: NextPage = ({users}: {users: Array<UserData>}) => {
+export type PageProps = {
+  users: Array<UserData>
+}
+
+const Home: NextPage<PageProps> = ({users}: PageProps) => {
   return (
     <div className={styles.container}>
       <Head>
