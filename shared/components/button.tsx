@@ -1,21 +1,22 @@
 
 import * as React from 'react'
-import { StyleSheet, Pressable, Text } from 'react-native'
+import { StyleSheet, Pressable, Text, GestureResponderEvent } from 'react-native'
 import useHover from '../hooks/useHover'
 
 
 type ButtonProps = {
   text: string
   href?: string
+  onPress?: null | ((event: GestureResponderEvent) => void)
 }
 
-const Button: React.FC<ButtonProps> = ({ text } : ButtonProps) => {
+const Button: React.FC<ButtonProps> = ({ text, onPress } : ButtonProps) => {
 
   const [hoverRef, isHovered] = useHover<any>()
 
   return (
     <>
-      <Pressable ref={hoverRef} style={[styles.button, isHovered && styles.hovered]} >
+      <Pressable ref={hoverRef} style={[styles.button, isHovered && styles.hovered]} onPress={onPress} >
         <Text>{text}</Text>
       </Pressable>
     </>
