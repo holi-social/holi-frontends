@@ -5,8 +5,8 @@ import useHover from '../hooks/useHover'
 
 
 export type ButtonProps = {
-  text: string
-  onPress: (event: React.BaseSyntheticEvent) => void
+  text?: string
+  onPress?: (event: React.BaseSyntheticEvent) => void
   href?: string
 }
 
