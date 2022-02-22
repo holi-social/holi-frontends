@@ -9,7 +9,6 @@ import Button from 'shared/components/button'
 import Counter from 'shared/components/counter'
 
 
-
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     props: {
@@ -32,10 +31,8 @@ const Home: NextPage = ({users}: {users: Array<UserData>}) => {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
-        </p>
+        {/* TODO: use image from shared folder
+        <Image src="/shared/assets/img/logo/logo.svg" alt="HOLI" width={50} height={50} /> */}
 
         <Users users={users} />
         <Button text="hello" />

@@ -9,7 +9,7 @@ function useHover<T>(): [MutableRefObject<T>, boolean] {
   useEffect(
     () => {
       const node: any = ref.current;
-      if (node) {
+      if (node && node.addEventListener) {
         node.addEventListener("mouseover", handleMouseOver);
         node.addEventListener("mouseout", handleMouseOut);
         return () => {
@@ -22,11 +22,5 @@ function useHover<T>(): [MutableRefObject<T>, boolean] {
   );
   return [ref, value];
 }
-
-// export const useToggle = (initialValue: boolean) => {
-//   const [value, setValue] = useState(initialValue)
-//   const toggleValue = () => setValue(!value)
-//   return [value, toggleValue]
-// }
 
 export default useHover
