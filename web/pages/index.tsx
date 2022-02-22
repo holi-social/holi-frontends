@@ -8,6 +8,8 @@ import Users from 'shared/Users'
 import Button from 'shared/components/button'
 import Counter from 'shared/components/counter'
 
+import SvgLogo from 'shared/assets/img/logo/logo.svg'
+
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
@@ -31,8 +33,7 @@ const Home: NextPage = ({users}: {users: Array<UserData>}) => {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        {/* TODO: use image from shared folder
-        <Image src="/shared/assets/img/logo/logo.svg" alt="HOLI" width={50} height={50} /> */}
+        <Image src={SvgLogo.src} alt="Holi" width={50}  height={50} />
 
         <Users users={users} />
         <Button text="hello" />

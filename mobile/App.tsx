@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native'
+
 import { WithLocalSvg } from 'react-native-svg'
 
 import { getUsers, UserData } from 'shared/api';
@@ -15,11 +16,7 @@ export default function App() {
   })
   return (
     <View style={styles.container}>
-      <WithLocalSvg
-        width="50"
-        height="50"
-        asset={require('shared/assets/img/logo/logo.svg')}
-      />
+      <WithLocalSvg asset={require('shared/assets/img/logo/logo.svg')} width="50" height="50" />
       <Text>The Awesome App!</Text>
       <Users users={users} />
       <Button text="hello" />
