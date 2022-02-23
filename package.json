@@ -5,6 +5,7 @@
     "packages" : [
       "shared",
       "mobile",
+			"mock-api",
       "web"
     ],
     "nohoist": ["**/react-native", "**/react-native/**"]
