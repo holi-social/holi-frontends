@@ -1,7 +1,8 @@
 
-import * as React from 'react'
+// import * as React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { StyleSheet, Pressable, Text } from 'react-native'
-import useHover from '../hooks/useHover'
+// import useHover from '../hooks/useHover'
 
 
 export type ButtonProps = {
@@ -16,10 +17,19 @@ export type PressableState = Readonly<{
   focused?: boolean;
 }>
 
-
 const Button: React.FC<ButtonProps> = ({ text, onPress } : ButtonProps) => {
 
-  const [hoverRef, isHovered] = useHover<Element>()
+
+  // workaround for adding a static className (necessary for the web app)
+  // see here: https://github.com/necolas/react-native-web/issues/1318
+  // but causes flickering as it is done after rendering
+  const viewRef: any = useRef<Element | null>(null)
+  const GLOBAL_BUTTON_CLASS  = 'holi-btn'
+  useEffect(() => {
+    viewRef.current.setNativeProps({
+      className: GLOBAL_BUTTON_CLASS
+    })
+  }, [, viewRef])
 
   const onBlur = (e: React.BaseSyntheticEvent) => {
     console.log('#### onBlur', e.target)
@@ -28,16 +38,10 @@ const Button: React.FC<ButtonProps> = ({ text, onPress } : ButtonProps) => {
     console.log('#### onFocus', e.target)
   }
 
-  return (
-    <>
-      {/* With custom hover hook via ref: */}
-      {/* <Pressable ref={hoverRef} style={[styles.button, isHovered && styles.hovered]}>
-        <Text>{text}</Text>
-      </Pressable> */}
-
-      {/* With react-native interaction: */}
-      {/* https://github.com/necolas/react-native-web/issues/1708 */}
-      <Pressable
+  // https://github.com/necolas/react-native-web/issues/1708
+  const buttonComponent = (
+    <Pressable
+        ref={viewRef}
         onPress={onPress}
         onBlur={onBlur}
         onFocus={onFocus}
@@ -45,8 +49,19 @@ const Button: React.FC<ButtonProps> = ({ text, onPress } : ButtonProps) => {
       >
         <Text>{text}</Text>
       </Pressable>
-    </>
   )
+
+  return buttonComponent
+
+  // const [hoverRef, isHovered] = useHover<Element>()
+  // return (
+  //   <>
+  //     {/* With custom hover hook via ref: */}
+  //     <Pressable ref={hoverRef} style={[styles.button, isHovered && styles.hovered]}>
+  //       <Text>{text}</Text>
+  //     </Pressable>
+  //   </>
+  // )
 }
 
 export default Button
