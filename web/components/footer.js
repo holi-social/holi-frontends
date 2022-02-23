@@ -1,4 +1,4 @@
-import styles from "../styles/Home.module.css";
+import styles from "../styles/layout.module.scss";
 
 export default function Footer() {
   return (

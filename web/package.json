@@ -18,6 +18,7 @@
     "react-icomoon": "^2.4.9",
     "react-native-svg-web": "^1.0.9",
     "react-native-web": "^0.17.5",
+    "sass": "^1.49.8",
     "shared": "*"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { StyleSheet, Pressable, Text, GestureResponderEvent, Platform } from 'react-native'
+import globalVars from '../data/globalVars'
 
-const GLOBAL_BUTTON_CLASS  = 'holi-btn'
 
 export type ButtonProps = {
   text?: string
@@ -24,6 +24,7 @@ const Button: React.FC<ButtonProps> = (props : ButtonProps) => {
     console.log('#### onFocus', e.target)
   }
 
+
   // https://github.com/necolas/react-native-web/issues/1708
   // https://github.com/facebook/react-native/search?q=usePressability
   const buttonComponent = (
@@ -33,12 +34,12 @@ const Button: React.FC<ButtonProps> = (props : ButtonProps) => {
       onFocus={onFocus}
       style={({ pressed, hovered, focused }: PressableState) => [props.style, styles.button, hovered && styles.hovered]}
     >
-      <Text>{props.text}</Text>
+      <Text>{props.text} xx {globalVars.primaryColor}</Text>
     </Pressable>
   )
 
   return (Platform.OS === 'web')
-    ? <button style={webOnlyStyles.buttonReset} className={GLOBAL_BUTTON_CLASS} type="button">{buttonComponent}</button>
+    ? <button style={webOnlyStyles.buttonReset} className={globalVars.CSS_BUTTON_CLASS} type="button">{buttonComponent}</button>
     : buttonComponent
 }
 

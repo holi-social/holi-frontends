@@ -70,7 +70,7 @@ yarn install
 # As the 'mobile' package will use *source code* from the 'shared' package, we need to configure 'mobile' in a way that
 # the 'shared' source code can be found and transpiled. If we were using shared code as a library, code would already
 # have been transpiled. But using our monorepo approach, this is not the case.
-# 
+#
 # See https://docs.expo.dev/guides/monorepos/
 ########################################################################################################################
 
@@ -114,7 +114,7 @@ cat mobile/package.json | jq '. += {"main": "index.js"}' | sponge mobile/package
 ########################################################################################################################
 # 'web' has the same issue as 'mobile' before. The 'web' build process needs to transpile source code from the 'shared'
 # package, so we have to configure it accordingly. To be able to do this, babel will rewrite every import from
-# 'react-native' to 'react-native-web'. 
+# 'react-native' to 'react-native-web'.
 #
 # Also see https://necolas.github.io/react-native-web/docs/setup/.
 ########################################################################################################################
@@ -166,7 +166,7 @@ BABEL_CONFIG
 # At the time of writing this, using 'create-next-app' and 'expo init' lead to the two of them using slightly different
 # versions of react, resulting in build time (or runtime?) exceptions. Here, we make sure that they're on the same
 # version. This most likely has to be adopted in the future.
-# 
+#
 # https://reactjs.org/warnings/invalid-hook-call-warning.html#mismatching-versions-of-react-and-react-dom
 ########################################################################################################################
 
@@ -191,7 +191,7 @@ export function getUsers(): Promise<Array<UserData>> {
 }
 SAMPLE_SHARED_API
 
-cat << SAMPLE_SHARED_COMPONENT > shared/Users.tsx
+cat << SAMPLE_SHARED_COMPONENT > shared/components/Users.tsx
 import { StyleSheet, Text, View } from 'react-native'
 import { UserData } from 'shared/api'
 

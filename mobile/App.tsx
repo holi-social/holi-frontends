@@ -2,15 +2,18 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { WithLocalSvg } from "react-native-svg";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+
+import holiTheme from '../data/theme'
 
 import { getUsers, UserData } from "shared/api";
-import Users from "shared/Users";
+import Users from "shared/components/Users";
 import Button from "shared/components/button";
 import Counter from "shared/components/counter";
 
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+
 
 // see https://reactnavigation.org/docs/typescript/#type-checking-screens
 type RootStackParamList = {
@@ -26,7 +29,7 @@ function HomeScreen({ navigation }: Props) {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Home</Text>
-      
+
       <Button text="Components" onPress={() => navigation.navigate("Components")} />
       <Button text="Users" onPress={() => navigation.navigate("Users")} />
       <Button text="Feed" onPress={() => navigation.navigate("Feed")} />
@@ -75,9 +78,15 @@ function FeedScreen() {
 
 const Stack = createNativeStackNavigator();
 
+
+const globalTheme = {
+  ...DefaultTheme,
+  ...holiTheme,
+}
+
 export default function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={globalTheme}>
       <Stack.Navigator>
         <Stack.Screen
           name="Home"
