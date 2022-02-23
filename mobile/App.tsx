@@ -19,7 +19,8 @@ export default function App() {
       <WithLocalSvg asset={require('shared/assets/img/logo/logo.svg')} width="50" height="50" />
       <Text>The Awesome App!</Text>
       <Users users={users} />
-      <Button text="hello" />
+      <Button text="hello" onPress={() => console.log('hello')} />
+      <Button text="hello with margin" style={{marginTop: 20}} />
       <Counter />
       <StatusBar style="auto" />
     </View>

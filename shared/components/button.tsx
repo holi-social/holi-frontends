@@ -7,6 +7,7 @@ const GLOBAL_BUTTON_CLASS  = 'holi-btn'
 
 export type ButtonProps = {
   text?: string
+  style?: Object
   onPress?: (event: React.BaseSyntheticEvent) => void
   href?: string
 }
@@ -17,7 +18,7 @@ export type PressableState = Readonly<{
   focused?: boolean;
 }>
 
-const Button: React.FC<ButtonProps> = ({ text, onPress } : ButtonProps) => {
+const Button: React.FC<ButtonProps> = (props : ButtonProps) => {
 
   const onBlur = (e: React.BaseSyntheticEvent) => {
     console.log('#### onBlur', e.target)
@@ -30,30 +31,18 @@ const Button: React.FC<ButtonProps> = ({ text, onPress } : ButtonProps) => {
   // https://github.com/facebook/react-native/search?q=usePressability
   const buttonComponent = (
     <Pressable
-        onPress={onPress}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        style={({ pressed, hovered, focused }: PressableState) => [styles.button, hovered && styles.hovered]}
-      >
-        <Text>{text}</Text>
-      </Pressable>
+      {...props}
+      onBlur={onBlur}
+      onFocus={onFocus}
+      style={({ pressed, hovered, focused }: PressableState) => [props.style, styles.button, hovered && styles.hovered]}
+    >
+      <Text>{props.text}</Text>
+    </Pressable>
   )
 
   return (Platform.OS === 'web')
     ? <button style={webOnlyStyles.buttonReset} className={GLOBAL_BUTTON_CLASS} type="button">{buttonComponent}</button>
     : buttonComponent
-
-  // custom hook example
-  // import useHover from '../hooks/useHover'
-  // const [hoverRef, isHovered] = useHover<Element>()
-  // return (
-  //   <>
-  //     {/* With custom hover hook via ref: */}
-  //     <Pressable ref={hoverRef} style={[styles.button, isHovered && styles.hovered]}>
-  //       <Text>{text}</Text>
-  //     </Pressable>
-  //   </>
-  // )
 }
 
 export default Button
@@ -75,13 +64,14 @@ const styles = StyleSheet.create({
   }
 })
 
-// might also be done in web global.scss
+// might also be done in web/global.scss
 const webOnlyStyles = {
   buttonReset: {
     background: 'none',
     backgroundColor: 'transparent',
     border: 'none',
     cursor: 'pointer',
+    display: 'inline-block',
     margin: 0,
     outline: 0,
     padding: 0,

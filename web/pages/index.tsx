@@ -40,7 +40,8 @@ const Home: NextPage<PageProps> = ({users}: PageProps) => {
         <Image src={SvgLogo.src} alt="Holi" width={50}  height={50} />
 
         <Users users={users} />
-        <Button text="hello" />
+        <Button text="hello" onPress={() => console.log('hello')} />
+        <Button text="hello with margin" style={{marginTop: 20}} />
         <Counter />
 
       </main>
