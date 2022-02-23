@@ -1,9 +1,16 @@
-import variables from './_variables.scss'
+// use scss variables in JS for mobile styling
+import sassVariables from '!!sass-vars-to-js-loader!./_variables.scss';
 
-console.log('variables: ', variables)
 
-
-export default {
+const jsVars = {
   CSS_BUTTON_CLASS: 'holi-button',
-  primaryColor: '#f00',
 }
+
+const styleVars = {
+  ...sassVariables,
+}
+
+export {
+  styleVars,
+  jsVars,
+};

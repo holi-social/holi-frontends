@@ -1,6 +1,7 @@
+// use scss variables directly
 @import 'shared/data/variables';
 
 
 .border {
-  border: solid 1px $primary-color;
+  border: solid 1px $border-color;
 }

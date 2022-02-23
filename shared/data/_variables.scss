@@ -1,12 +1,10 @@
-$font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
+
+// TODO: FIXME: it is not generated completely
+// current result is: 'Helvetica'
+$font-family: Helvetica, sans-serif;
+
 
 $primary-color: #0f0;
-
-
-// import into js with
-// import variables from './variables.scss'
-:export {
-  fontFamily: 'uschi';
-  primaryColor: $primary-color;
-}
+$border-color: #e7e6e6;
+$button-border-color: #fdb0c1;
