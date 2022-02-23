@@ -6,6 +6,7 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.3",
     "json-graphql-server": "^2.3.1"
   }

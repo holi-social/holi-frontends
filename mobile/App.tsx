@@ -11,6 +11,10 @@ import Counter from "shared/components/counter";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { ApolloProvider } from "@apollo/client";
+
+import Feed from "shared/components/Feed";
+import client from "shared/graphql/client";
 
 // see https://reactnavigation.org/docs/typescript/#type-checking-screens
 type RootStackParamList = {
@@ -26,8 +30,11 @@ function HomeScreen({ navigation }: Props) {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Home</Text>
-      
-      <Button text="Components" onPress={() => navigation.navigate("Components")} />
+
+      <Button
+        text="Components"
+        onPress={() => navigation.navigate("Components")}
+      />
       <Button text="Users" onPress={() => navigation.navigate("Users")} />
       <Button text="Feed" onPress={() => navigation.navigate("Feed")} />
 
@@ -69,6 +76,8 @@ function FeedScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Feed</Text>
+      <Text>[yarn workspace mock-api run start]</Text>
+      <Feed />
     </View>
   );
 }
@@ -77,18 +86,20 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ title: "Home" }}
-        />
-        <Stack.Screen name="Components" component={ComponentsScreen} />
-        <Stack.Screen name="Users" component={UsersScreen} />
-        <Stack.Screen name="Feed" component={FeedScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <ApolloProvider client={client}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{ title: "Home" }}
+          />
+          <Stack.Screen name="Components" component={ComponentsScreen} />
+          <Stack.Screen name="Users" component={UsersScreen} />
+          <Stack.Screen name="Feed" component={FeedScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ApolloProvider>
   );
 }
 
@@ -100,6 +111,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   header: {
-    fontSize: 24
-  }
+    fontSize: 24,
+  },
 });
