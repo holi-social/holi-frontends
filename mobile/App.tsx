@@ -9,7 +9,7 @@ import Button from "shared/components/button";
 import Counter from "shared/components/counter";
 
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 // see https://reactnavigation.org/docs/typescript/#type-checking-screens
@@ -46,6 +46,8 @@ function ComponentsScreen({ navigation }: Props) {
         height="50"
         asset={require("shared/assets/img/logo/logo.svg")}
       />
+      <Button text="hello" onPress={() => console.log('hello')} />
+      <Button text="hello with margin" style={{marginTop: 20}} />
     </View>
   );
 }

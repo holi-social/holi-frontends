@@ -7,7 +7,6 @@ export default function Nav() {
   const isComponents = router.pathname === '/components'
   const isUsers = router.pathname === '/users'
   const isFeed = router.pathname === '/feed'
-  console.log(router.pathname, isHome, isUsers, isFeed)
   return (
     <>
       {isHome ? <b>Home</b> : <Link href={'/'}><a>Home</a></Link>}{" "}|{" "}

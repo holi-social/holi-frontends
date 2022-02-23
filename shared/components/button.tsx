@@ -1,33 +1,52 @@
-
 import * as React from 'react'
-import { StyleSheet, Pressable, Text, GestureResponderEvent } from 'react-native'
-import useHover from '../hooks/useHover'
+import { StyleSheet, Pressable, Text, GestureResponderEvent, Platform } from 'react-native'
 
+const GLOBAL_BUTTON_CLASS  = 'holi-btn'
 
-type ButtonProps = {
-  text: string
+export type ButtonProps = {
+  text?: string
+  style?: Object
   href?: string
   onPress?: null | ((event: GestureResponderEvent) => void)
 }
 
-const Button: React.FC<ButtonProps> = ({ text, onPress } : ButtonProps) => {
+export type PressableState = Readonly<{
+  pressed: boolean;
+  hovered?: boolean;
+  focused?: boolean;
+}>
 
-  const [hoverRef, isHovered] = useHover<any>()
+const Button: React.FC<ButtonProps> = (props : ButtonProps) => {
+  const onBlur = (e: React.BaseSyntheticEvent) => {
+    console.log('#### onBlur', e.target)
+  }
+  const onFocus = (e: React.BaseSyntheticEvent) => {
+    console.log('#### onFocus', e.target)
+  }
 
-  return (
-    <>
-      <Pressable ref={hoverRef} style={[styles.button, isHovered && styles.hovered]} onPress={onPress} >
-        <Text>{text}</Text>
-      </Pressable>
-    </>
+  // https://github.com/necolas/react-native-web/issues/1708
+  // https://github.com/facebook/react-native/search?q=usePressability
+  const buttonComponent = (
+    <Pressable
+      {...props}
+      onBlur={onBlur}
+      onFocus={onFocus}
+      style={({ pressed, hovered, focused }: PressableState) => [props.style, styles.button, hovered && styles.hovered]}
+    >
+      <Text>{props.text}</Text>
+    </Pressable>
   )
+
+  return (Platform.OS === 'web')
+    ? <button style={webOnlyStyles.buttonReset} className={GLOBAL_BUTTON_CLASS} type="button">{buttonComponent}</button>
+    : buttonComponent
 }
 
 export default Button
 
 const styles = StyleSheet.create({
   button: {
-    borderColor: 'pink', // '#fafafa',
+    borderColor: 'pink',
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: '#fafafa',
@@ -41,3 +60,18 @@ const styles = StyleSheet.create({
     borderColor: '#fb345e'
   }
 })
+
+// might also be done in web/global.scss
+const webOnlyStyles = {
+  buttonReset: {
+    background: 'none',
+    backgroundColor: 'transparent',
+    border: 'none',
+    cursor: 'pointer',
+    display: 'inline-block',
+    margin: 0,
+    outline: 0,
+    padding: 0,
+    textDecoration: 'none',
+  },
+} as const
