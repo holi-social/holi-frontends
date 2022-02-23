@@ -1,8 +1,8 @@
+import React from 'react'
+import { Platform, StyleSheet, Pressable, Text } from 'react-native'
 
-// import * as React, { useRef } from 'react'
-import React, { useRef, useEffect } from 'react'
-import { StyleSheet, Pressable, Text } from 'react-native'
-// import useHover from '../hooks/useHover'
+
+const GLOBAL_BUTTON_CLASS  = 'holi-btn'
 
 
 export type ButtonProps = {
@@ -19,18 +19,6 @@ export type PressableState = Readonly<{
 
 const Button: React.FC<ButtonProps> = ({ text, onPress } : ButtonProps) => {
 
-
-  // workaround for adding a static className (necessary for the web app)
-  // see here: https://github.com/necolas/react-native-web/issues/1318
-  // but causes flickering as it is done after rendering
-  const viewRef: any = useRef<Element | null>(null)
-  const GLOBAL_BUTTON_CLASS  = 'holi-btn'
-  useEffect(() => {
-    viewRef.current.setNativeProps({
-      className: GLOBAL_BUTTON_CLASS
-    })
-  }, [, viewRef])
-
   const onBlur = (e: React.BaseSyntheticEvent) => {
     console.log('#### onBlur', e.target)
   }
@@ -39,9 +27,9 @@ const Button: React.FC<ButtonProps> = ({ text, onPress } : ButtonProps) => {
   }
 
   // https://github.com/necolas/react-native-web/issues/1708
+  // https://github.com/facebook/react-native/search?q=usePressability
   const buttonComponent = (
     <Pressable
-        ref={viewRef}
         onPress={onPress}
         onBlur={onBlur}
         onFocus={onFocus}
@@ -51,8 +39,12 @@ const Button: React.FC<ButtonProps> = ({ text, onPress } : ButtonProps) => {
       </Pressable>
   )
 
-  return buttonComponent
+  return (Platform.OS === 'web')
+    ? <button style={webOnlyStyles.buttonReset} className={GLOBAL_BUTTON_CLASS} type="button">{buttonComponent}</button>
+    : buttonComponent
 
+  // custom hook example
+  // import useHover from '../hooks/useHover'
   // const [hoverRef, isHovered] = useHover<Element>()
   // return (
   //   <>
@@ -68,7 +60,7 @@ export default Button
 
 const styles = StyleSheet.create({
   button: {
-    borderColor: 'pink', // '#fafafa',
+    borderColor: 'pink',
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: '#fafafa',
@@ -82,3 +74,17 @@ const styles = StyleSheet.create({
     borderColor: '#fb345e'
   }
 })
+
+// might also be done in web global.scss
+const webOnlyStyles = {
+  buttonReset: {
+    background: 'none',
+    backgroundColor: 'transparent',
+    border: 'none',
+    cursor: 'pointer',
+    margin: 0,
+    outline: 0,
+    padding: 0,
+    textDecoration: 'none',
+  },
+} as const
