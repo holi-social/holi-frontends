@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import jsonGraphqlExpress from "json-graphql-server";
 
 const port = 4000;
@@ -15,6 +16,7 @@ const data = {
   ],
 };
 
+app.use(cors())
 app.use("/graphql", jsonGraphqlExpress.default(data));
 app.listen(port);
 
