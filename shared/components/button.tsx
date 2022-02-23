@@ -1,15 +1,13 @@
-import React from 'react'
-import { Platform, StyleSheet, Pressable, Text } from 'react-native'
-
+import * as React from 'react'
+import { StyleSheet, Pressable, Text, GestureResponderEvent, Platform } from 'react-native'
 
 const GLOBAL_BUTTON_CLASS  = 'holi-btn'
-
 
 export type ButtonProps = {
   text?: string
   style?: Object
-  onPress?: (event: React.BaseSyntheticEvent) => void
   href?: string
+  onPress?: null | ((event: GestureResponderEvent) => void)
 }
 
 export type PressableState = Readonly<{
@@ -19,7 +17,6 @@ export type PressableState = Readonly<{
 }>
 
 const Button: React.FC<ButtonProps> = (props : ButtonProps) => {
-
   const onBlur = (e: React.BaseSyntheticEvent) => {
     console.log('#### onBlur', e.target)
   }
