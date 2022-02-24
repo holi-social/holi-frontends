@@ -49,7 +49,7 @@ export default Button
 
 const styles = StyleSheet.create({
   button: {
-    borderColor: styleVars.buttonBorderColor.rgba,
+    borderColor: styleVars.buttonBorderColor,
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: '#fafafa',
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     borderColor: '#fb345e'
   },
   text: {
-    fontFamily: styleVars.fontFamily,
+    fontFamily: styleVars.fontFamilyMobile,
   }
 })
 
