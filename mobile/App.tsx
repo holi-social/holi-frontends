@@ -7,7 +7,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ApolloProvider } from "@apollo/client";
 
-import holiTheme from 'shared/data/theme.js'
+import holiTheme from 'shared/data/theme'
 
 import { getUsers, UserData } from "shared/api";
 import Users from "shared/components/Users";

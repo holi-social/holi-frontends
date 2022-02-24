@@ -3,13 +3,20 @@
 // https://riptutorial.com/webpack/topic/6534/loaders
 // import sassVariables from '!!sass-vars-to-js-loader!./_variables.scss';
 // const sassVariables = require('sass-vars-to-js-loader!./_variables.scss')
-// import sassLoader from 'sass-vars-to-js-loader';
-const sassVariables = {
+const dummySassVars = {
+  primaryColor: {
+    rgba: '#ff2d55',
+  },
+  fontColor: {
+    rgba: '#1c1c1e'
+  },
+  borderColor: {
+    rgba: '#e7e6e6'
+  },
   buttonBorderColor: {
-    rgb: 'red'
-  }
+    rgba: '#fdb0c1'
+  },
 }
-
 
 
 const jsVars = {
@@ -17,7 +24,7 @@ const jsVars = {
 }
 
 const styleVars = {
-  ...sassVariables,
+  ...dummySassVars,
 }
 
 export {
