@@ -19,6 +19,8 @@
     "react-native-svg-web": "^1.0.9",
     "react-native-web": "^0.17.5",
     "sass": "^1.49.8",
+    "@apollo/client": "^3.5.9",
+    "graphql": "^16.3.0",
     "shared": "*"
   },
   "devDependencies": {
