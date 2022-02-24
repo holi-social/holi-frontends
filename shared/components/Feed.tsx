@@ -2,7 +2,6 @@ import { gql } from "@apollo/client/core";
 import { useQuery } from "@apollo/client";
 import {
   FlatList,
-  ScrollView,
   Text,
   ListRenderItemInfo,
   View,
@@ -39,6 +38,7 @@ interface Post {
 }
 
 export default function Feed() {
+
   const { loading, error, data } = useQuery<AllPostsQueryResult>(
     ALL_POSTS_QUERY,
     {
@@ -55,9 +55,10 @@ export default function Feed() {
   }
 
   if (error) {
+    console.log('#### Feed error: ', error)
     return (
       <View>
-        <Text>Error :( {error}</Text>
+        <Text>Error in Feed :( </Text>
       </View>
     );
   }

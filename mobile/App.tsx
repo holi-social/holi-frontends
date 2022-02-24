@@ -63,7 +63,8 @@ function UsersScreen() {
   const [users, setUsers] = useState<Array<UserData>>([]);
   useEffect(() => {
     getUsers().then(setUsers);
-  });
+    return () => {}
+  }, []);
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Users</Text>
