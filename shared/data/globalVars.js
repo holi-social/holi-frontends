@@ -1,5 +1,15 @@
 // use scss variables in JS for mobile styling
-import sassVariables from '!!sass-vars-to-js-loader!./_variables.scss';
+
+// https://riptutorial.com/webpack/topic/6534/loaders
+// import sassVariables from '!!sass-vars-to-js-loader!./_variables.scss';
+// const sassVariables = require('sass-vars-to-js-loader!./_variables.scss')
+// import sassLoader from 'sass-vars-to-js-loader';
+const sassVariables = {
+  buttonBorderColor: {
+    rgb: 'red'
+  }
+}
+
 
 
 const jsVars = {
@@ -13,4 +23,4 @@ const styleVars = {
 export {
   styleVars,
   jsVars,
-};
+}

@@ -6,7 +6,7 @@ import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-import holiTheme from '../data/theme'
+import holiTheme from 'shared/data/theme.js'
 
 import { getUsers, UserData } from "shared/api";
 import Users from "shared/components/Users";
