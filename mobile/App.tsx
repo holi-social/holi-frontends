@@ -1,7 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { WithLocalSvg } from "react-native-svg";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -13,8 +12,11 @@ import { getUsers, UserData } from "shared/api";
 import Users from "shared/components/Users";
 import Button from "shared/components/button";
 import Counter from "shared/components/counter";
+import SharedImage from "shared/components/sharedImage";
 import Feed from "shared/components/Feed";
 import client from "shared/graphql/client";
+
+
 
 // see https://reactnavigation.org/docs/typescript/#type-checking-screens
 type RootStackParamList = {
@@ -43,12 +45,12 @@ function ComponentsScreen({ navigation }: Props) {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Components</Text>
+
       <Counter />
-      <WithLocalSvg
-        width="50"
-        height="50"
-        asset={require("shared/assets/img/logo/logo.svg")}
-      />
+
+      <SharedImage imageFile={require('shared/assets/img/logo/Logo_img.png')} style={{ width: 50, height: 50 }} />
+      <SharedImage imageFile={require('shared/assets/img/logo/logo.svg')} isSvg={true} style={{ width: 50, height: 50 }} />
+
       <Button text="hello" onPress={() => console.log('hello')} />
       <Button text="hello with margin" style={{marginTop: 20}} />
     </View>
