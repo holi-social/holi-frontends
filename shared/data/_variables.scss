@@ -1,3 +1,7 @@
+// This file is used in two ways:
+// - direct import into the web's main.scss
+// - as js-variables in shared/data/globalVars.ts for react-native styling
+
 $font-family: Helvetica Neue, sans-serif;
 $font-family-mobile: Helvetica;
 $font-color: #1c1c1e;
