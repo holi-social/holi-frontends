@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import Button from 'shared/components/button'
-import SharedImage from "shared/components/sharedImage.web"
+import SharedImage from "shared/components/sharedImage"
 
 import styles from '../styles/home.module.scss'
 
