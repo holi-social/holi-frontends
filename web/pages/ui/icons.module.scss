@@ -1,0 +1,40 @@
+@import 'shared/data/variables';
+
+.iconsPage {
+  margin-bottom: 100px;
+  width: 100%;
+
+  label {
+    input {
+      margin-left: 10px;
+      padding: 5px;
+      width: 200px;
+    }
+  }
+
+  ul {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+
+    li {
+      padding: 10px;
+      margin-right: 20px;
+      width: 270px;
+      border-bottom: solid 1px $border-color;
+
+      p {
+        line-height: 50px;
+
+        svg, strong {
+          vertical-align: middle;
+          margin-right: 10px;
+        }
+      }
+
+      strong {
+        color: $font-color-grey;
+      }
+    }
+  }
+}
