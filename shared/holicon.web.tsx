@@ -1,5 +1,5 @@
 import IcoMoon, { IconComponent } from 'react-icomoon'
-const iconSet = require('./assets/fonts/selection.json')
+const iconSet = require('shared/assets/fonts/holicons/selection.json')
 
 
 const HoliconWeb: typeof IconComponent = (props) => (
