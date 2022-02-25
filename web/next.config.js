@@ -1,6 +1,7 @@
 
 const withPlugins = require('next-compose-plugins');
 const withTM = require("next-transpile-modules");
+const path = require('path');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -20,6 +21,9 @@ const nextConfig = {
       ...config.resolve.extensions,
     ];
     return config;
+  },
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'styles'), path.join(__dirname, 'shared/data')],
   },
 }
 

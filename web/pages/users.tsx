@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext } from "next";
 import { getUsers, UserData } from "shared/api";
-import UsersComponent from "shared/Users";
+import UsersComponent from "shared/components/Users";
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
