@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "yarn workspace shared run genrate-style-vars && expo start",
-    "android": "yarn workspace shared run genrate-style-vars && expo start --android",
-    "ios": "yarn workspace shared run genrate-style-vars && expo start --ios",
-    "web": "yarn workspace shared run genrate-style-vars && expo start --web",
+    "prestart": "yarn workspace shared run generate-style-vars",
+    "start": "expo start",
+    "preandroid": "yarn workspace shared run generate-style-vars",
+    "android": "expo start --android",
+    "preios": "yarn workspace shared run generate-style-vars",
+    "ios": "expo start --ios",
+    "preweb": "yarn workspace shared run generate-style-vars",
+    "web": "expo start --web",
     "eject": "expo eject"
   },
   "dependencies": {

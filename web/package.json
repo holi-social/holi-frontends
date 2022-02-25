@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "yarn workspace shared run genrate-style-vars && next dev",
-    "build": "yarn workspace shared run genrate-style-vars && next build",
+    "predev": "yarn workspace shared run generate-style-vars",
+    "dev": "next dev",
+    "prebuild": "yarn workspace shared run generate-style-vars",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
