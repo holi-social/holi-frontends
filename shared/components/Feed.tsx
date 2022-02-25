@@ -1,12 +1,6 @@
 import { gql } from "@apollo/client/core";
 import { useQuery } from "@apollo/client";
-import {
-  FlatList,
-  ScrollView,
-  Text,
-  ListRenderItemInfo,
-  View,
-} from "react-native";
+import { FlatList, Text, ListRenderItemInfo } from "react-native";
 
 const ALL_POSTS_QUERY = gql`
   query {
@@ -46,20 +40,24 @@ export default function Feed() {
     }
   );
 
-  if (loading) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
+  if (error) {
+    console.error("Error fetching feed", error);
+    if (error.message) {
+      return <Text>{error.message}</Text>;
+    } else {
+      return (
+        <Text>
+          Errors: {JSON.stringify(error)}
+          {error.graphQLErrors.map(({ message }, i) => (
+            <Text key={i}>{message}</Text>
+          ))}
+        </Text>
+      );
+    }
   }
 
-  if (error) {
-    return (
-      <View>
-        <Text>Error :( {error}</Text>
-      </View>
-    );
+  if (loading) {
+    return <Text>Loading...</Text>;
   }
 
   const feedItem = ({ item }: ListRenderItemInfo<Post>) => {

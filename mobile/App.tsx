@@ -76,7 +76,6 @@ function FeedScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Feed</Text>
-      <Text>[yarn workspace mock-api run start]</Text>
       <Feed />
     </View>
   );
