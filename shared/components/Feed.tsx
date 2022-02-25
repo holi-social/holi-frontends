@@ -33,6 +33,7 @@ interface Post {
 }
 
 export default function Feed() {
+
   const { loading, error, data } = useQuery<AllPostsQueryResult>(
     ALL_POSTS_QUERY,
     {
