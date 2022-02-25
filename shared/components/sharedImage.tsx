@@ -5,7 +5,7 @@ import { Image } from 'react-native'
 import { WithLocalSvg } from "react-native-svg"
 
 // Usage:
-// <SharedImage imageFile={require('shared/assets/img/logo/Logo_img.png')} style={{ width: 50, height: 50 }} />
+// <SharedImage imageFile={PngLogo} style={{ width: 30, height: 30 }} />
 // <SharedImage imageFile={require('shared/assets/img/logo/logo.svg')} isSvg={true} style={{ width: 50, height: 50 }} />
 
 
@@ -15,13 +15,12 @@ interface styeType {
   [key: string]: any
 }
 interface sharedImageProps {
-  imageFile: number | string
+  imageFile: number
   isSvg?: boolean
   style?: styeType
 }
 
 const SharedImage: React.FC<sharedImageProps> = (props: sharedImageProps) => {
-
 
   const imageComponent = () => (
     <Image {...props} source={props.imageFile as number} />

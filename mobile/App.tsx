@@ -41,6 +41,9 @@ function HomeScreen({ navigation }: Props) {
   );
 }
 
+
+import ImportedSvg from 'shared/assets/img/logo/logo.svg'
+
 function ComponentsScreen({ navigation }: Props) {
   return (
     <View style={styles.container}>
@@ -48,8 +51,8 @@ function ComponentsScreen({ navigation }: Props) {
 
       <Counter />
 
-      <SharedImage imageFile={require('shared/assets/img/logo/Logo_img.png')} style={{ width: 50, height: 50 }} />
-      <SharedImage imageFile={require('shared/assets/img/logo/logo.svg')} isSvg={true} style={{ width: 50, height: 50 }} />
+      <SharedImage imageFile={require('shared/assets/img/logo/Logo_img.png')} style={{ width: 30, height: 30 }} />
+      <SharedImage imageFile={ImportedSvg} isSvg={true} style={{ width: 50, height: 50 }} />
 
       <Button text="hello" onPress={() => console.log('hello')} />
       <Button text="hello with margin" style={{marginTop: 20}} />
