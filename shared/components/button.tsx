@@ -23,9 +23,6 @@ const Button: React.FC<ButtonProps> = (props : ButtonProps) => {
     console.log('#### onFocus', e.target)
   }
 
-  console.log('############ styleVars', styleVars)
-
-
 
   // https://github.com/necolas/react-native-web/issues/1708
   // https://github.com/facebook/react-native/search?q=usePressability
