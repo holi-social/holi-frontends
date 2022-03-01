@@ -1,6 +1,6 @@
 import IcoMoon, { IconComponent } from 'react-icomoon'
 import { Svg, Path } from "react-native-svg"
-const iconSet = require('./assets/fonts/selection.json')
+const iconSet = require('shared/assets/fonts/holicons/selection.json')
 
 
 const HoliconMobile: typeof IconComponent = (props) => (
