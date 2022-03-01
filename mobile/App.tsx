@@ -1,7 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { WithLocalSvg } from "react-native-svg";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -13,8 +12,12 @@ import { getUsers, UserData } from "shared/api";
 import Users from "shared/components/Users";
 import Button from "shared/components/button";
 import Counter from "shared/components/counter";
+import Holicon from "shared/holicon"
+import SharedImage from "shared/components/sharedImage";
 import Feed from "shared/components/Feed";
 import client from "shared/graphql/client";
+
+
 
 // see https://reactnavigation.org/docs/typescript/#type-checking-screens
 type RootStackParamList = {
@@ -29,26 +32,31 @@ type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 function HomeScreen({ navigation }: Props) {
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Home</Text>
+      <Text style={styles.header}>Home <Holicon icon="person" size={20} color="#0f0" /></Text>
       <Button text="Components" onPress={() => navigation.navigate("Components")} />
       <Button text="Users" onPress={() => navigation.navigate("Users")} />
       <Button text="Feed" onPress={() => navigation.navigate("Feed")} />
+
+
 
       <StatusBar style="auto" />
     </View>
   );
 }
 
+
+import ImportedSvg from 'shared/assets/img/logo/logo.svg'
+
 function ComponentsScreen({ navigation }: Props) {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Components</Text>
+
       <Counter />
-      <WithLocalSvg
-        width="50"
-        height="50"
-        asset={require("shared/assets/img/logo/logo.svg")}
-      />
+
+      <SharedImage imageFile={require('shared/assets/img/logo/Logo_img.png')} style={{ width: 30, height: 30 }} />
+      <SharedImage imageFile={ImportedSvg} isSvg={true} style={{ width: 50, height: 50 }} />
+
       <Button text="hello" onPress={() => console.log('hello')} />
       <Button text="hello with margin" style={{marginTop: 20}} />
     </View>
