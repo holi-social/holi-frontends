@@ -12,6 +12,7 @@ import { getUsers, UserData } from "shared/api";
 import Users from "shared/components/Users";
 import Button from "shared/components/button";
 import Counter from "shared/components/counter";
+import Holicon from "shared/holicon"
 import SharedImage from "shared/components/sharedImage";
 import Feed from "shared/components/Feed";
 import client from "shared/graphql/client";
@@ -31,10 +32,12 @@ type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 function HomeScreen({ navigation }: Props) {
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Home</Text>
+      <Text style={styles.header}>Home <Holicon icon="person" size={20} color="#0f0" /></Text>
       <Button text="Components" onPress={() => navigation.navigate("Components")} />
       <Button text="Users" onPress={() => navigation.navigate("Users")} />
       <Button text="Feed" onPress={() => navigation.navigate("Feed")} />
+
+
 
       <StatusBar style="auto" />
     </View>
