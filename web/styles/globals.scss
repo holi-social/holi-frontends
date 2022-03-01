@@ -21,6 +21,20 @@ button {
   -webkit-appearance: none;
   -moz-appearance: none;
   border-width: thin;
+
+
+  user-select: none;
+  &::selection {
+    background-color: transparent;
+  }
+
+  &::moz-selection {
+      background-color: transparent;
+  }
+
+  &::webkit-selection {
+      background-color: transparent;
+  }
 }
 
 ul, li {

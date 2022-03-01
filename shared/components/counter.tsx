@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, Pressable } from 'react-native';
+import Button from 'shared/components/button'
 import Holicon from "../holicon"
 
 const Counter: React.FC = () => {
@@ -12,8 +13,11 @@ const Counter: React.FC = () => {
 
       <Pressable onPress={incrementCount} style={styles.button}>
         <Holicon icon="person" size={20} color="#0f0" />
-        <Text style={styles.buttonText}>Click Me</Text>
+        <Text style={styles.buttonText}>Click Me (pure pressable)</Text>
       </Pressable>
+
+      <Button onPress={incrementCount} text="Click Me (Button component)" style={styles.marginTop} />
+
     </View>
   )
 }
@@ -26,6 +30,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  marginTop: {
+    marginTop: 20
   },
   button: {
     borderWidth: 1,
