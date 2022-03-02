@@ -5,5 +5,6 @@ export default {
   "fontColorGrey": "#8b8b8b",
   "primaryColor": "#ff2d55",
   "borderColor": "#e7e6e6",
-  "buttonBorderColor": "#fdb0c1"
+  "buttonBorderColor": "#fdb0c1",
+  "backgroundGrey": "#f7f7f7"
 };

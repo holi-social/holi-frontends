@@ -7,14 +7,14 @@ export default function Nav() {
   const isComponents = router.pathname === '/components'
   const isUsers = router.pathname === '/users'
   const isFeed = router.pathname === '/feed'
-  const isIcons = router.pathname === '/ui/icons'
+  const isUiLib = router.pathname === '/ui'
   return (
     <>
       {isHome ? <b>Home</b> : <Link href={'/'}><a>Home</a></Link>}{" "}|{" "}
       {isComponents ? <b>Components</b> : <Link href={'/components'}><a>Components</a></Link>}{" "}|{" "}
       {isUsers ? <b>Users</b> : <Link href={'/users'}><a>Users</a></Link>}{" "}|{" "}
       {isFeed ? <b>Feed</b> : <Link href={'/feed'}><a>Feed</a></Link>}{" "}|{" "}
-      {isIcons ? <b>Icons</b> : <Link href={'/ui/icons'}><a>Icons</a></Link>}
+      {isUiLib ? <b>UI Lib</b> : <Link href={'/ui'}><a>UI Lib</a></Link>}
     </>
   );
 }
