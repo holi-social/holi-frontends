@@ -1,5 +1,6 @@
 import { NextPage } from 'next'
 import Link from 'next/link'
+import Holicon from "shared/components/ui/holicon"
 import sassStyles from './ui.module.scss'
 
 const UIOverviewPage: NextPage = () => {
@@ -7,10 +8,10 @@ const UIOverviewPage: NextPage = () => {
     <section>
       <h1 className={sassStyles.headline}>UI Pattern Lib</h1>
 
-      <ul>
-        <li><Link href="/ui/icons"><a>Holicons</a></Link></li>
-        <li><Link href="/ui/sharedImage"><a>SharedImage</a></Link></li>
-        <li><Link href="/ui/button"><a>Button</a></Link></li>
+      <ul className={sassStyles.linkList}>
+        <li><Holicon icon="arrowtip-next" size={20} /><Link href="/ui/icons"><a>Holicons</a></Link></li>
+        <li><Holicon icon="arrowtip-next" size={20} /><Link href="/ui/sharedImage"><a>SharedImage</a></Link></li>
+        <li><Holicon icon="arrowtip-next" size={20} /><Link href="/ui/button"><a>Button</a></Link></li>
       </ul>
     </section>
   )

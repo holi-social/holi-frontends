@@ -18,6 +18,18 @@
   }
 }
 
+.linkList {
+  li {
+    &:hover {
+      color: $font-color-hover;
+    }
+    a {
+      line-height: 30px;
+      vertical-align: bottom;
+    }
+  }
+}
+
 .filter {
   margin-top: 30px;
   display: block;
