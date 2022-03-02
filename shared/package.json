@@ -2,7 +2,7 @@
   "name": "shared",
   "version": "1.0.0",
   "scripts": {
-    "generate-style-vars": "sass3js -f ts ./data/_variables.scss ./data/_variables.generated.ts"
+    "generate-style-vars": "sass3js -f ts ./styles/_variables.scss ./styles/_variables.generated.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.5.9",

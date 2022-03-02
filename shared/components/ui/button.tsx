@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { StyleSheet, Pressable, Text, GestureResponderEvent, Platform } from 'react-native'
-import { jsVars, styleVars } from '../data/globalVars'
+import { jsVars, styleVars } from 'shared/styles/globalVars'
 
 export type ButtonProps = {
   text?: string

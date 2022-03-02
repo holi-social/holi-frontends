@@ -1,4 +1,4 @@
-import { styleVars } from '../data/globalVars'
+import { styleVars } from './globalVars'
 
 export default {
   dark: false,
