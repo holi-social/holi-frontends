@@ -1,4 +1,4 @@
-import { styleVars } from './globalVars'
+import { styleVars } from 'shared/styles/globalVars'
 
 export default {
   dark: false,

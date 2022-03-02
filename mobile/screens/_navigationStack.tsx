@@ -5,6 +5,13 @@ import ComponentsScreen from "./Components"
 import UsersScreen from "./Users"
 import FeedScreen from "./Feed"
 
+// see https://reactnavigation.org/docs/typescript/#type-checking-screens
+export type RootStackParamList = {
+  Home: undefined;
+  Components: undefined;
+  Users: undefined;
+  Feed: undefined;
+}
 
 const Stack = createNativeStackNavigator();
 

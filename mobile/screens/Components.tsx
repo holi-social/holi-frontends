@@ -1,11 +1,9 @@
 import { StyleSheet, View, Text } from 'react-native'
-import { StatusBar } from "expo-status-bar"
 import type { NativeStackScreenProps } from "@react-navigation/native-stack"
-import type { RootStackParamList } from "../App"
+import type { RootStackParamList } from "./_navigationStack"
 import Button from 'shared/components/ui/button'
-import Holicon from 'shared/components/ui/holicon'
 import SharedImage from "shared/components/ui/sharedImage";
-import Counter from "shared/components/counter";
+import Counter from "shared/components/counter"
 
 import ImportedSvg from 'shared/assets/img/logo/logo.svg'
 

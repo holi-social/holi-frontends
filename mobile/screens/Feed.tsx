@@ -1,12 +1,12 @@
 import { StyleSheet, View, Text } from 'react-native'
 import type { NativeStackScreenProps } from "@react-navigation/native-stack"
-import type { RootStackParamList } from "../App"
+import type { RootStackParamList } from "./_navigationStack"
 
 import Feed from "shared/components/Feed"
 
 
 
-export type FeedScreenProps = NativeStackScreenProps<RootStackParamList, "Feed">;
+export type FeedScreenProps = NativeStackScreenProps<RootStackParamList, "Feed">
 
 export default function FeedScreen({ navigation }: FeedScreenProps) {
   return (
@@ -14,7 +14,7 @@ export default function FeedScreen({ navigation }: FeedScreenProps) {
       <Text style={styles.header}>Feed</Text>
       <Feed />
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -27,4 +27,4 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
   },
-});
+})
