@@ -9,6 +9,7 @@ import styles from '../styles/home.module.scss'
 import ImportedSvg from 'shared/assets/img/logo/logo.svg'
 import ImportedPng from 'shared/assets/img/logo/Logo_img.png'
 import NewButton from 'shared/components/ui/NewButton'
+import { Paragraph } from 'shared/components/ui/Text'
 
 
 const Home: NextPage = () => {
@@ -16,6 +17,8 @@ const Home: NextPage = () => {
   return (
     <>
       <h1>Home</h1>
+
+      <Paragraph>this is a paragraph with local styles</Paragraph>
 
       <div className={styles.border}>
         <Button text="Components" onPress={() => router.push('/components')}/>

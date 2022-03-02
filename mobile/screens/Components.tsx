@@ -3,6 +3,7 @@ import { StatusBar } from "expo-status-bar"
 import type { NativeStackScreenProps } from "@react-navigation/native-stack"
 import type { RootStackParamList } from "../App"
 import Button from 'shared/components/ui/button'
+import NewButton from 'shared/components/ui/NewButton'
 import Holicon from 'shared/components/ui/holicon'
 import SharedImage from "shared/components/ui/sharedImage";
 import Counter from "shared/components/counter";
@@ -23,7 +24,7 @@ export default function ComponentsScreen({ navigation }: ComponentsScreenProps) 
       <SharedImage imageFile={ImportedSvg} isSvg={true} style={{ width: 50, height: 50 }} />
 
       <Button text="hello" onPress={() => console.log('hello')} />
-      <Button text="hello with margin" style={{marginTop: 20}} />
+      <NewButton text="hello with margin" style={{marginTop: 20}} />
     </View>
   );
 }
