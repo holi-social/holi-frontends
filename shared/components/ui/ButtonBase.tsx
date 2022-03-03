@@ -7,7 +7,6 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native'
-import { styleVars } from 'shared/styles/globalVars'
 import { useTheme } from 'shared/styles/theme'
 
 export type ButtonProps = {

@@ -16,7 +16,7 @@ const defaultTheme = {
   fontFamily: {
     paragraph: Platform.select({
       web: 'Helvetica Neue, sans-serif',
-      android: 'Helvetica',
+      android: 'Arial', // TODO find nice android system font
       ios: 'Apple Braille'
     }),
   },
