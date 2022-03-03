@@ -7,6 +7,7 @@ import NewButton from 'shared/components/ui/NewButton'
 import Holicon from 'shared/components/ui/holicon'
 import SharedImage from "shared/components/ui/sharedImage";
 import Counter from "shared/components/counter";
+import { Paragraph } from 'shared/components/ui/Text'
 
 import ImportedSvg from 'shared/assets/img/logo/logo.svg'
 
@@ -25,6 +26,8 @@ export default function ComponentsScreen({ navigation }: ComponentsScreenProps) 
 
       <Button text="hello" onPress={() => console.log('hello')} />
       <NewButton text="hello with margin" style={{marginTop: 20}} />
+
+      <Paragraph>this is a paragraph</Paragraph>
     </View>
   );
 }

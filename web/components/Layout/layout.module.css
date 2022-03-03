@@ -1,0 +1,7 @@
+.main {
+  flex: 1;
+}
+
+.main:hover {
+  background-color: #f2f2f2;
+}
