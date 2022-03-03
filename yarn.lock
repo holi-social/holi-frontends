@@ -1284,6 +1284,11 @@
     lodash.pick "^4.4.0"
     lodash.template "^4.5.0"
 
+"@faker-js/faker@^6.0.0-alpha.7":
+  version "6.0.0-alpha.7"
+  resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-6.0.0-alpha.7.tgz#d4383b10c5cd35ec02fafd1bc472b2f85c306cf5"
+  integrity sha512-T2nYE8+EfzfkRMLMSm7UvgC7fZ2KkKEyCMeyPVS0q2cuvENbt1SjWyu0bOJ0JqBbTs1g+gYMWMFMXspWlzNVmQ==
+
 "@graphql-tools/graphql-file-loader@^7.3.4":
   version "7.3.4"
   resolved "https://registry.yarnpkg.com/@graphql-tools/graphql-file-loader/-/graphql-file-loader-7.3.4.tgz#61e3e7e6223a21fbdd987f2abaa6f14104ab7b4a"

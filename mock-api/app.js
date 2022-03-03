@@ -5,9 +5,8 @@ import jsonGraphqlExpress from "json-graphql-server";
 import { ApolloServer } from "apollo-server-express";
 import { ApolloServerPluginDrainHttpServer, gql } from "apollo-server-core";
 import http from "http";
-import { loadSchema } from "@graphql-tools/load";
-import { GraphQLFileLoader } from "@graphql-tools/graphql-file-loader";
 import { readFileSync } from "fs";
+import { faker } from "@faker-js/faker";
 
 const DEFAULT_PORT = 4000;
 
@@ -36,15 +35,39 @@ const useStaticData = (app) => {
 };
 
 const useFakeData = async (app) => {
-  /*const schema = await loadSchema("./schema.graphql", {
-    loaders: [new GraphQLFileLoader()],
-  });*/
+  const randomInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  };
+
+  const fakeUser = () => ({
+    id: faker.datatype.uuid(),
+    name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+  });
+
+  const fakePost = (users) => () => {
+    const user = users[randomInt(0, users.length)];
+    console.debug(user)
+    return {
+      id: faker.datatype.uuid(),
+      title: faker.company.catchPhrase(),
+      views: faker.datatype.number(),
+      user_id: user.id,
+      User: user,
+    };
+  };
+
+  const fakeUsers = Array.from({ length: randomInt(0, 100) }, fakeUser);
+  const fakePosts = Array.from(
+    { length: randomInt(0, 100) },
+    fakePost(fakeUsers)
+  );
+
+  console.log("fakePosts", fakePosts);
   const typeDefs = gql(readFileSync("./schema.graphql").toString("utf-8"));
   const resolvers = {
     Query: {
-      allPosts: () => {
-        throw Error("Not yet implemented");
-      },
+      allUsers: () => fakeUsers,
+      allPosts: () => fakePosts,
     },
   };
   const httpServer = http.createServer(app);
@@ -52,7 +75,6 @@ const useFakeData = async (app) => {
     typeDefs,
     resolvers,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-    mocks: true
   });
   await server.start();
   server.applyMiddleware({ app, cors: true });
@@ -66,13 +88,11 @@ const port = options.port ? parseInt(options.port, 10) : DEFAULT_PORT;
 const app = express();
 
 if (options.static) {
-  console.info('Using static data...')
+  console.info("Using static data...");
   useStaticData(app);
 } else {
-  console.info('Using fake data...')
+  console.info("Using fake data...");
   await useFakeData(app);
 }
 
-console.info(
-  `Server up and running at http://localhost:${port}/graphql`
-);
+console.info(`Server up and running at http://localhost:${port}/graphql`);
