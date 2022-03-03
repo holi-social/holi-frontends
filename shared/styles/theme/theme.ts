@@ -16,14 +16,19 @@ const defaultTheme = {
   fontFamily: {
     paragraph: Platform.select({
       web: 'Helvetica Neue, sans-serif',
-      android: 'Arial', // TODO find nice android system font
-      ios: 'Apple Braille'
+      // android: 'Arial', // TODO find nice android system font
+      ios: 'Apple Braille',
     }),
   },
 }
 
-const ThemeContext = React.createContext(defaultTheme)
-export const ThemeProvider = ThemeContext.Provider
+export type HoliTheme = typeof defaultTheme
+
+export const ThemeContext = React.createContext<{
+  theme: HoliTheme
+  toggleDarkMode: () => void
+}>({ theme: defaultTheme, toggleDarkMode: () => {} })
+
 export const ThemeConsumer = ThemeContext.Consumer
 
 export const useTheme = () => React.useContext(ThemeContext)

@@ -30,7 +30,7 @@ const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
     console.log('#### onFocus', e.target)
   }
 
-  const theme = useTheme()
+  const { theme } = useTheme()
 
   // Jasper: just wanted to see, if we can avoid writing invalid style objects
   const styles = StyleSheet.create<{
@@ -43,7 +43,7 @@ const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
       borderColor: theme.colors.buttonBorderColor,
       borderWidth: 1,
       borderRadius: 10,
-      backgroundColor: '#fafafa',
+      backgroundColor: theme.dark ? '#0a0a0a' : '#fafafa',
       alignItems: 'center',
       justifyContent: 'center',
       paddingVertical: 10,
@@ -52,8 +52,10 @@ const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
     },
     hovered: {
       borderColor: '#fb345e',
+      backgroundColor: theme.dark ? '#727272' :'#c2c2c2'
     },
     text: {
+      color: theme.dark ? '#ffffff' : '#000000',
       fontFamily: theme.fontFamily.paragraph,
     },
   })
@@ -68,7 +70,7 @@ const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
       style={({ pressed, hovered, focused }: PressableState) => [
         props.style,
         styles.button,
-        hovered && styles.hovered,
+        (hovered || pressed || focused) && styles.hovered,
       ]}
     >
       <Text style={styles.text}>{props.text}</Text>
