@@ -11,8 +11,6 @@ import { faker } from "@faker-js/faker";
 const DEFAULT_PORT = 4000;
 
 program
-  .option("--static", "serves static data")
-  .option("--fake", "generates random data (default)")
   .option(
     "--port <number>",
     `port on which to run the server (default: ${DEFAULT_PORT}`
@@ -23,76 +21,65 @@ program.parse();
 const options = program.opts();
 const port = options.port ? parseInt(options.port, 10) : DEFAULT_PORT;
 
-const useStaticData = (app) => {
-  const data = {
-    posts: [
-      { id: 1, title: "Lorem Ipsum", views: 254, user_id: 123 },
-      { id: 2, title: "Sic Dolor amet", views: 65, user_id: 456 },
-    ],
-    users: [
-      { id: 123, name: "John Doe" },
-      { id: 456, name: "Jane Doe" },
-    ],
-  };
-  app.use("/graphql", jsonGraphqlExpress.default(data));
-  app.use(cors());
-  app.listen(port);
+const randomInt = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-const useFakeData = async (app) => {
-  const randomInt = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1) + min);
+const fakeUser = () => ({
+  id: faker.unique(faker.datatype.uuid),
+  name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+});
+
+const fakePost = (users) => () => {
+  const user = users[randomInt(0, users.length - 1)];
+  return {
+    id: faker.unique(faker.datatype.uuid),
+    title: faker.company.catchPhrase(),
+    views: randomInt(0, 10000),
+    user_id: user.id,
+    User: user,
   };
+};
 
-  const fakeUser = () => ({
-    id: faker.datatype.uuid(),
-    name: `${faker.name.firstName()} ${faker.name.lastName()}`,
-  });
+const fakeUsers = Array.from({ length: randomInt(0, 100) }, fakeUser);
+const fakePosts = Array.from(
+  { length: fakeUsers.length === 0 ? 0 : randomInt(0, 100) },
+  fakePost(fakeUsers)
+);
 
-  const fakePost = (users) => () => {
-    const user = users[randomInt(0, users.length-1)];
-    console.debug(user)
-    return {
-      id: faker.datatype.uuid(),
-      title: faker.company.catchPhrase(),
-      views: faker.datatype.number(),
-      user_id: user.id,
-      User: user,
-    };
-  };
+console.info(
+  `${fakeUsers.length} fake user(s) and ${fakePosts.length} fake post(s)`
+);
 
-  const fakeUsers = Array.from({ length: randomInt(0, 100) }, fakeUser);
-  const fakePosts = Array.from(
-    { length: randomInt(0, 100) },
-    fakePost(fakeUsers)
-  );
-
-  const typeDefs = gql(readFileSync("./schema.graphql").toString("utf-8"));
-  const resolvers = {
-    Query: {
-      allUsers: () => fakeUsers,
-      allPosts: () => fakePosts,
+const typeDefs = gql(readFileSync("./schema.graphql").toString("utf-8"));
+const resolvers = {
+  Query: {
+    allUsers: (parent, args, context, info) => {
+      console.info("allUsers", args);
+      const offset = args.offset || 0;
+      const limit = args.limit || fakePosts.length;
+      const result = fakeUsers.slice(offset, offset + limit);
+      return result;
     },
-  };
-  const httpServer = http.createServer(app);
-  const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-  });
-  await server.start();
-  server.applyMiddleware({ app, cors: true });
-  await new Promise((resolve) => httpServer.listen({ port }, resolve));
+    allPosts: (parent, args, context, info) => {
+      console.info("allPosts", args);
+      const offset = args.offset || 0;
+      const limit = args.limit || fakePosts.length;
+      const result = fakePosts.slice(offset, offset + limit);
+      return result;
+    },
+  },
 };
 
 const app = express();
-
-if (options.static) {
-  console.info("Using static data...");
-  useStaticData(app);
-} else {
-  console.info("Using fake data...");
-  await useFakeData(app);
-}
+const httpServer = http.createServer(app);
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+});
+await server.start();
+server.applyMiddleware({ app, cors: true });
+await new Promise((resolve) => httpServer.listen({ port }, resolve));
 
 console.info(`Server up and running at http://localhost:${port}/graphql`);

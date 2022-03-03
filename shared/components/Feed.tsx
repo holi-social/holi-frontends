@@ -1,10 +1,11 @@
 import { gql } from "@apollo/client/core";
 import { useQuery } from "@apollo/client";
 import { FlatList, Text, ListRenderItemInfo } from "react-native";
+import Button from './ui/button'
 
 const ALL_POSTS_QUERY = gql`
-  query {
-    allPosts {
+  query Posts($offset: Int, $limit: Int) {
+    allPosts(offset: $offset, limit: $limit) {
       id
       title
       views
@@ -34,10 +35,13 @@ interface Post {
 
 export default function Feed() {
 
-  const { loading, error, data } = useQuery<AllPostsQueryResult>(
+  const { loading, error, data, fetchMore } = useQuery<AllPostsQueryResult>(
     ALL_POSTS_QUERY,
     {
-      fetchPolicy: "cache-and-network",
+      variables: {
+        offset: 0,
+        limit: 10
+      }
     }
   );
 
@@ -70,10 +74,19 @@ export default function Feed() {
   };
 
   return (
-    <FlatList
-      data={data?.allPosts}
-      renderItem={feedItem}
-      keyExtractor={(post) => `${post.id}`}
-    />
+    <>
+      <FlatList
+        data={data?.allPosts}
+        renderItem={feedItem}
+        keyExtractor={(post) => `${post.id}`}
+      />
+      <Button text={`Fetch more (offset ${data.allPosts.length})`} style={{}} onPress={() => {
+        fetchMore({
+          variables: {
+            offset: data.allPosts.length
+          }
+        })
+      }} />
+    </>
   );
 }
