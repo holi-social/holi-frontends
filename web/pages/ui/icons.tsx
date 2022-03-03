@@ -1,8 +1,10 @@
 import { useState } from 'react'
-import {NextPage} from 'next'
+import { NextPage } from 'next'
+import Link from 'next/link'
 import Holicon from "shared/components/ui/holicon"
 import iconSelection from 'shared/assets/fonts/holicons/selection.json'
-import styles from "./icons.module.scss"
+
+import sassStyles from './ui.module.scss'
 
 
 const IconsPage: NextPage = () => {
@@ -13,7 +15,6 @@ const IconsPage: NextPage = () => {
 
   const [filterStr, setFilterString] = useState('')
   const [filteredIcons, setFilteredIcons] = useState(sortedCollection)
-
 
   const searchItems = (searchValue: string) => {
     if(!searchValue || searchValue.length === 0) {
@@ -27,14 +28,21 @@ const IconsPage: NextPage = () => {
     setFilteredIcons(filteredIcons)
   }
 
-  return <section className={styles.iconsPage}>
-    <h1>Icons</h1>
+  return <section>
+    <div className={sassStyles.headline}>
+      <Link href="/ui"><a><Holicon icon="arrow-back" size={50} /></a></Link>
+      <h1>Icons</h1>
+    </div>
 
-    <label>
+    <pre className={sassStyles.code}>{`
+<Holicon icon="arrow-back" size={30} color="#0f0" />
+      `}</pre>
+
+    <label className={sassStyles.filter}>
       Filter:
       <input type="text" onChange={event => searchItems(event.target.value)} />
     </label>
-    <ul>
+    <ul className={sassStyles.exampleList}>
       {filteredIcons.map((icon, index) => (
         <li key={`icon_${index}`}>
 
