@@ -1,14 +1,14 @@
 import { StyleSheet, View, Text } from 'react-native'
 import { StatusBar } from "expo-status-bar"
 import type { NativeStackScreenProps } from "@react-navigation/native-stack"
-import type { RootStackParamList } from "../App"
+import type { RootStackParamList } from "./_navigationStack"
 import Button from 'shared/components/ui/button'
 import Holicon from 'shared/components/ui/holicon'
 
 
 
 
-export type HomeScreenProps = NativeStackScreenProps<RootStackParamList, "Home">;
+export type HomeScreenProps = NativeStackScreenProps<RootStackParamList, "Home">
 
 export default function HomeScreen({ navigation }: HomeScreenProps) {
   return (
@@ -19,7 +19,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
       <Button text="Feed" onPress={() => navigation.navigate("Feed")} />
       <StatusBar style="auto" />
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -32,4 +32,4 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
   },
-});
+})

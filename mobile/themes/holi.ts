@@ -1,6 +1,6 @@
 import React from 'react'
-import { styleVars } from './globalVars'
 import { Platform } from 'react-native'
+import { styleVars } from 'shared/styles/globalVars'
 
 const defaultTheme = {
   dark: false,
