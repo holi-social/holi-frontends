@@ -45,7 +45,7 @@ const useFakeData = async (app) => {
   });
 
   const fakePost = (users) => () => {
-    const user = users[randomInt(0, users.length)];
+    const user = users[randomInt(0, users.length-1)];
     console.debug(user)
     return {
       id: faker.datatype.uuid(),
