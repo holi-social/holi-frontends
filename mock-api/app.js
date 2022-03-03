@@ -18,6 +18,11 @@ program
     `port on which to run the server (default: ${DEFAULT_PORT}`
   );
 
+program.parse();
+
+const options = program.opts();
+const port = options.port ? parseInt(options.port, 10) : DEFAULT_PORT;
+
 const useStaticData = (app) => {
   const data = {
     posts: [
@@ -62,7 +67,6 @@ const useFakeData = async (app) => {
     fakePost(fakeUsers)
   );
 
-  console.log("fakePosts", fakePosts);
   const typeDefs = gql(readFileSync("./schema.graphql").toString("utf-8"));
   const resolvers = {
     Query: {
@@ -78,13 +82,9 @@ const useFakeData = async (app) => {
   });
   await server.start();
   server.applyMiddleware({ app, cors: true });
-  await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
+  await new Promise((resolve) => httpServer.listen({ port }, resolve));
 };
 
-program.parse();
-
-const options = program.opts();
-const port = options.port ? parseInt(options.port, 10) : DEFAULT_PORT;
 const app = express();
 
 if (options.static) {
