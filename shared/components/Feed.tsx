@@ -1,7 +1,14 @@
 import { gql } from "@apollo/client/core";
 import { useQuery } from "@apollo/client";
-import { FlatList, Text, ListRenderItemInfo } from "react-native";
 import Button from './ui/button'
+import {
+  FlatList,
+  Text,
+  ListRenderItemInfo,
+  Pressable,
+  StyleSheet,
+  View,
+} from "react-native";
 
 const ALL_POSTS_QUERY = gql`
   query Posts($offset: Int, $limit: Int) {
@@ -34,7 +41,6 @@ interface Post {
 }
 
 export default function Feed() {
-
   const { loading, error, data, fetchMore } = useQuery<AllPostsQueryResult>(
     ALL_POSTS_QUERY,
     {
@@ -65,11 +71,34 @@ export default function Feed() {
     return <Text>Loading...</Text>;
   }
 
+  const feedItemStyles = StyleSheet.create({
+    item: {
+      paddingTop: 10,
+      paddingBottom: 10,
+      maxWidth: 600,
+    },
+    user: {
+      fontWeight: "bold",
+      color: "#333",
+    },
+    views: {
+      color: "#333",
+    },
+    footer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+  });
+
   const feedItem = ({ item }: ListRenderItemInfo<Post>) => {
     return (
-      <Text>
-        "{item.title}" by {item.User.name} (viewed {item.views} times)
-      </Text>
+      <Pressable onPress={() => {}} style={feedItemStyles.item}>
+        <Text>{item.title}</Text>
+        <View style={feedItemStyles.footer}>
+          <Text style={feedItemStyles.user}>{item.User.name}</Text>
+          <Text style={feedItemStyles.views}>({item.views} views)</Text>
+        </View>
+      </Pressable>
     );
   };
 
@@ -80,10 +109,10 @@ export default function Feed() {
         renderItem={feedItem}
         keyExtractor={(post) => `${post.id}`}
       />
-      <Button text={`Fetch more (offset ${data.allPosts.length})`} style={{}} onPress={() => {
+      <Button text={`Fetch more (offset ${data!.allPosts.length})`} onPress={() => {
         fetchMore({
           variables: {
-            offset: data.allPosts.length
+            offset: data!.allPosts.length
           }
         })
       }} />

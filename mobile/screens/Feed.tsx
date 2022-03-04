@@ -11,7 +11,6 @@ export type FeedScreenProps = NativeStackScreenProps<RootStackParamList, "Feed">
 export default function FeedScreen({ navigation }: FeedScreenProps) {
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Feed</Text>
       <Feed />
     </View>
   )
@@ -23,8 +22,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-  },
-  header: {
-    fontSize: 24,
   },
 })
