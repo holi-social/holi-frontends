@@ -1,3 +1,6 @@
+
+// TODO: clearify: this is from shared - can I use it here ?!
+import chroma from "chroma-js"
 import { styleVars } from 'shared/styles/globalVars'
 
 export default {
@@ -8,6 +11,9 @@ export default {
     card: '#fff',
     text: styleVars.fontColor,
     border: styleVars.borderColor,
-    notification: styleVars.primaryColor,
+    notification: chroma(styleVars.primaryColor).brighten(1).hex(),
   },
 }
+
+
+
