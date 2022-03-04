@@ -140,7 +140,6 @@ export default function Feed({ onPress }: FeedProps) {
         renderItem={feedItem}
         keyExtractor={(post) => post.id}
         onEndReached={(info: { distanceFromEnd: number }) => {
-          console.log("info", info);
           fetchMore({
             variables: {
               offset: data!.allPosts.length,
