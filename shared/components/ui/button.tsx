@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     borderColor: '#fb345e'
   },
   text: {
-    fontFamily: styleVars.fontFamilyMobile,
+    // fontFamily: styleVars.fontFamilyMobile,
   }
 })
 
