@@ -35,6 +35,7 @@ const fakePost = (users) => () => {
   return {
     id: faker.unique(faker.datatype.uuid),
     title: faker.company.catchPhrase(),
+    text: faker.lorem.paragraphs(randomInt(1,3)),
     views: randomInt(0, 10000),
     user_id: user.id,
     User: user,

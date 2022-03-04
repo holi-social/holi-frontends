@@ -15,6 +15,7 @@ const ALL_POSTS_QUERY = gql`
     allPosts(offset: $offset, limit: $limit) {
       id
       title
+      text
       views
       User {
         id
@@ -36,6 +37,7 @@ interface User {
 interface Post {
   id: number;
   title: string;
+  text: string;
   views: number;
   User: User;
 }
@@ -77,6 +79,13 @@ export default function Feed() {
       paddingBottom: 10,
       maxWidth: 600,
     },
+    title: {
+      fontSize: 16,
+      fontWeight: "600",
+      paddingBottom: 5,
+    },
+    text: {
+    },
     user: {
       fontWeight: "bold",
       color: "#333",
@@ -85,6 +94,7 @@ export default function Feed() {
       color: "#333",
     },
     footer: {
+      paddingTop: 5,
       flexDirection: "row",
       justifyContent: "space-between",
     },
@@ -93,7 +103,8 @@ export default function Feed() {
   const feedItem = ({ item }: ListRenderItemInfo<Post>) => {
     return (
       <Pressable onPress={() => {}} style={feedItemStyles.item}>
-        <Text>{item.title}</Text>
+        <Text style={feedItemStyles.title}>{item.title}</Text>
+        <Text style={feedItemStyles.text} numberOfLines={3}>{item.text}</Text>
         <View style={feedItemStyles.footer}>
           <Text style={feedItemStyles.user}>{item.User.name}</Text>
           <Text style={feedItemStyles.views}>({item.views} views)</Text>

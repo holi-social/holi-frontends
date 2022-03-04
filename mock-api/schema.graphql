@@ -12,6 +12,7 @@ type Query {
 type Post {
   id: ID!
   title: String!
+  text: String!
   views: Int!
   user_id: ID!
   User: User
