@@ -1,3 +1,4 @@
+import { Text } from 'react-native'
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 
 import HomeScreen from "./Home"
@@ -18,6 +19,7 @@ const Stack = createNativeStackNavigator();
 export default () => {
   return (
     <Stack.Navigator>
+      <Text>hello text</Text>
       <Stack.Screen
         name="Home"
         component={HomeScreen}

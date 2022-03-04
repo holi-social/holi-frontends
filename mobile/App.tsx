@@ -1,6 +1,8 @@
+
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native"
 import { ApolloProvider } from "@apollo/client"
-import NavigationStack from './screens/_navigationStack'
+import NavigationStack from './screens/NavigationStack'
+import NavigationDrawer from './screens/NavigationDrawer'
 import holiTheme from './themes/holi'
 import client from "shared/graphql/client"
 
@@ -14,7 +16,8 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <NavigationContainer theme={theTheme}>
-        <NavigationStack />
+        {/* <NavigationStack /> */}
+        <NavigationDrawer />
       </NavigationContainer>
     </ApolloProvider>
   )

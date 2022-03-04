@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "prestart": "yarn workspace shared run generate-style-vars",
-    "start": "expo start",
+    "start": "expo start --clear",
     "preandroid": "yarn workspace shared run generate-style-vars",
     "android": "expo start --android",
     "preios": "yarn workspace shared run generate-style-vars",
@@ -14,18 +14,21 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@apollo/client": "^3.5.9",
+    "@react-navigation/drawer": "^6.3.1",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.0",
     "expo": "~44.0.6",
     "expo-status-bar": "~1.2.0",
+    "graphql": "^16.3.0",
     "react": "17.0.2",
     "react-icomoon": "^2.4.9",
     "react-native": "0.64.3",
+    "react-native-gesture-handler": "~2.1.0",
+    "react-native-reanimated": "~2.3.1",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
     "react-native-svg": "12.1.1",
-    "@apollo/client": "^3.5.9",
-    "graphql": "^16.3.0",
     "shared": "*"
   },
   "devDependencies": {
