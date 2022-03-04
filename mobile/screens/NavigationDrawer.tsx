@@ -11,6 +11,8 @@ import HomeScreen from "./Home"
 import ComponentsScreen from "./Components"
 import UsersScreen from "./Users"
 import FeedScreen from "./Feed"
+
+import { styleVars } from 'shared/styles/globalVars'
 import Holicon from 'shared/components/ui/holicon'
 
 
@@ -33,11 +35,11 @@ function CustomHeaderIcon(props: CustomHeaderProps) {
   return (
     <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
       <Pressable onPress={() => props.navigation.toggleDrawer()} {...props} style={{marginLeft: 13}} >
-        <Holicon icon="dashboard" size={20} color="#000" />
+        <Holicon icon="dashboard" size={20} color={styleVars.fontColor} />
       </Pressable>
       { currentRouteName !== 'Home' &&
         <Pressable onPress={() => props.navigation.navigate('Home')} {...props} style={{marginLeft: 20}} >
-          <Holicon icon="arrow-back" size={30} color="#000" />
+          <Holicon icon="arrow-back" size={30} color={styleVars.fontColor} />
         </Pressable>
       }
     </View>
@@ -50,7 +52,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
 
       <Text style={{fontSize: 20, marginLeft: 13, paddingTop: 50, marginBottom: 20}}>Some Text above</Text>
 
-      <DrawerContentScrollView {...props} contentContainerStyle={{ backgroundColor: '#fdfdfd' }}>
+      <DrawerContentScrollView {...props}>
         <DrawerItemList {...props} />
         {/* Add any further menu items */}
         <DrawerItem label="Click me!" onPress={() => alert('Uuuuuh - an alert!')} />
@@ -72,9 +74,9 @@ export default function LeftDrawer() {
       drawerContent={CustomDrawerContent}
       screenOptions={({ navigation }) => ({
         drawerStyle: {
-          backgroundColor: '#fff',
+          backgroundColor: styleVars.backgroundColor,
           width: 240,
-          borderRightColor: '#efefef',
+          borderRightColor: styleVars.borderColor,
           borderRightStyle: 'solid',
           borderRightWidth: 1,
         },

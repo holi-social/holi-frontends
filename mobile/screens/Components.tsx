@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text } from 'react-native'
 import type { NativeStackScreenProps } from "@react-navigation/native-stack"
-import type { NavigationStackScreensList } from "./_navigationStack"
+import type { NavigationStackScreensList } from "./NavigationStack"
 import Button from 'shared/components/ui/button'
 import SharedImage from "shared/components/ui/sharedImage";
 import Counter from "shared/components/counter"
@@ -29,7 +29,6 @@ export default function ComponentsScreen({ navigation }: ComponentsScreenProps) 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },

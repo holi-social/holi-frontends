@@ -9,14 +9,18 @@
 $font-family: Helvetica Neue, sans-serif;
 $font-family-mobile: sans-serif;
 
-$font-color: #1c1c1e;
-$font-color-hover: #618661;
+$font-color: #5b5b5c;
+$font-color-black: $font-color;
 $font-color-grey: #8b8b8b;
 
 $primary-color: #ff2d55;
-$secondary-color: #0f0;
+$secondary-color: rgb(255, 174, 0);
+$tertiary-color: rgb(8, 110, 226);
 
 $border-color: #e7e6e6;
+
 $button-border-color: #fdb0c1;
 
-$background-grey: #f7f7f7;
+$background-color: #fdfdfd;
+$background-color-grey: #f7f7f7;
+$background-color-black: #f7f7f7;

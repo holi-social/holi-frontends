@@ -1,7 +1,6 @@
 import { StyleSheet, View, Text } from 'react-native'
 import type { NativeStackScreenProps } from "@react-navigation/native-stack"
-import type { NavigationStackScreensList } from "./_navigationStack"
-
+import type { NavigationStackScreensList } from "./NavigationStack"
 import Feed from "shared/components/Feed"
 
 
@@ -20,7 +19,6 @@ export default function FeedScreen({ navigation }: FeedScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },

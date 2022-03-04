@@ -4,7 +4,7 @@ export default {
   dark: false,
   colors: {
     primary: styleVars.primaryColor,
-    background: '#f2f2f2',
+    background: styleVars.backgroundColor,
     card: '#fff',
     text: styleVars.fontColor,
     border: styleVars.borderColor,
