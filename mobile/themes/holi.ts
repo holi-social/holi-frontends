@@ -3,6 +3,9 @@
 import chroma from "chroma-js"
 import { styleVars } from 'shared/styles/globalVars'
 
+
+// Chroma-js docu: https://gka.github.io/chroma.js/
+
 export default {
   dark: false,
   colors: {

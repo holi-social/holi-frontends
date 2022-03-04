@@ -21,7 +21,7 @@
 .linkList {
   li {
     &:hover {
-      color: $font-color-hover;
+      color: darken($font-color, 10);
     }
     a {
       line-height: 30px;
