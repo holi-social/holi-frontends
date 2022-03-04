@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text } from 'react-native'
 import type { NativeStackScreenProps } from "@react-navigation/native-stack"
-import type { RootStackParamList } from "./_navigationStack"
+import type { NavigationStackScreensList } from "./_navigationStack"
 import Button from 'shared/components/ui/button'
 import SharedImage from "shared/components/ui/sharedImage";
 import Counter from "shared/components/counter"
@@ -8,7 +8,7 @@ import Counter from "shared/components/counter"
 import ImportedSvg from 'shared/assets/img/logo/logo.svg'
 
 
-export type ComponentsScreenProps = NativeStackScreenProps<RootStackParamList, "Components">;
+export type ComponentsScreenProps = NativeStackScreenProps<NavigationStackScreensList, "Components">;
 
 export default function ComponentsScreen({ navigation }: ComponentsScreenProps) {
   return (

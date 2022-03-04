@@ -7,7 +7,7 @@ import UsersScreen from "./Users"
 import FeedScreen from "./Feed"
 
 // see https://reactnavigation.org/docs/typescript/#type-checking-screens
-export type RootStackParamList = {
+export type NavigationStackScreensList = {
   Home: undefined;
   Components: undefined;
   Users: undefined;

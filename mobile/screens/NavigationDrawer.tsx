@@ -6,6 +6,7 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer'
 import type { DrawerContentComponentProps } from '@react-navigation/drawer'
+import { useNavigation } from '@react-navigation/native';
 import HomeScreen from "./Home"
 import ComponentsScreen from "./Components"
 import UsersScreen from "./Users"
@@ -14,9 +15,34 @@ import Holicon from 'shared/components/ui/holicon'
 
 
 
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator()
 
 
+
+type CustomHeaderProps = {
+  navigation: any;
+  tintColor?: string | undefined;
+  pressColor?: string | undefined;
+  pressOpacity?: number | undefined;
+  labelVisible?: boolean | undefined;
+}
+function CustomHeaderIcon(props: CustomHeaderProps) {
+
+  const currentRouteName = props.navigation.getState().routeNames[props.navigation.getState().index]
+
+  return (
+    <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+      <Pressable onPress={() => props.navigation.toggleDrawer()} {...props} style={{marginLeft: 13}} >
+        <Holicon icon="dashboard" size={20} color="#000" />
+      </Pressable>
+      { currentRouteName !== 'Home' &&
+        <Pressable onPress={() => props.navigation.navigate('Home')} {...props} style={{marginLeft: 20}} >
+          <Holicon icon="arrow-back" size={30} color="#000" />
+        </Pressable>
+      }
+    </View>
+  )
+}
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
   return (
@@ -37,22 +63,10 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
   );
 }
 
-type CustomHeaderProps = {
-  onPress?: null | (() => any),
-  tintColor?: string | undefined;
-  pressColor?: string | undefined;
-  pressOpacity?: number | undefined;
-  labelVisible?: boolean | undefined;
-}
-function CustomHeaderIcon(props: CustomHeaderProps) {
-  return (
-    <Pressable {...props} style={{marginLeft: 13}} >
-      <Holicon icon="dashboard" size={20} color="#000" />
-    </Pressable>
-  )
-}
-
 export default function LeftDrawer() {
+
+  const navigation = useNavigation()
+
   return (
     <Drawer.Navigator
       drawerContent={CustomDrawerContent}
@@ -66,7 +80,7 @@ export default function LeftDrawer() {
         },
         overlayColor: 'rgba(0,0,0,0.7)',
         headerLeft: (props) => (
-          <CustomHeaderIcon onPress={() => navigation.toggleDrawer()} {...props} />
+          <CustomHeaderIcon {...props} navigation={navigation} />
         ),
       })}
     >
@@ -82,9 +96,9 @@ export default function LeftDrawer() {
           // ),
         })}
       />
-      <Drawer.Screen name="Component" component={ComponentsScreen} />
-      <Drawer.Screen name="User" component={UsersScreen} />
+      <Drawer.Screen name="Components" component={ComponentsScreen} />
+      <Drawer.Screen name="Users" component={UsersScreen} />
       <Drawer.Screen name="Feed" component={FeedScreen} />
     </Drawer.Navigator>
-  );
+  )
 }
