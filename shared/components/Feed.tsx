@@ -1,6 +1,5 @@
 import { gql } from "@apollo/client/core";
 import { useQuery } from "@apollo/client";
-import Button from './ui/button'
 import {
   FlatList,
   Text,
@@ -8,6 +7,8 @@ import {
   Pressable,
   StyleSheet,
   View,
+  Platform,
+  Dimensions,
 } from "react-native";
 
 const ALL_POSTS_QUERY = gql`
@@ -30,26 +31,30 @@ interface AllPostsQueryResult {
 }
 
 interface User {
-  id: number;
+  id: string;
   name: string;
 }
 
 interface Post {
-  id: number;
+  id: string;
   title: string;
   text: string;
   views: number;
   User: User;
 }
 
-export default function Feed() {
+export interface FeedProps {
+  onPress: (post: Post) => void;
+}
+
+export default function Feed({ onPress }: FeedProps) {
   const { loading, error, data, fetchMore } = useQuery<AllPostsQueryResult>(
     ALL_POSTS_QUERY,
     {
       variables: {
         offset: 0,
-        limit: 10
-      }
+        limit: 10,
+      },
     }
   );
 
@@ -84,7 +89,9 @@ export default function Feed() {
       fontWeight: "600",
       paddingBottom: 5,
     },
-    text: {
+    text: {},
+    more: {
+      alignSelf: "flex-end",
     },
     user: {
       fontWeight: "bold",
@@ -102,9 +109,14 @@ export default function Feed() {
 
   const feedItem = ({ item }: ListRenderItemInfo<Post>) => {
     return (
-      <Pressable onPress={() => {}} style={feedItemStyles.item}>
+      <Pressable onPress={() => onPress(item)} style={feedItemStyles.item}>
         <Text style={feedItemStyles.title}>{item.title}</Text>
-        <Text style={feedItemStyles.text} numberOfLines={3}>{item.text}</Text>
+        <Text style={feedItemStyles.text} numberOfLines={3}>
+          {item.text}
+        </Text>
+        {Platform.OS === "web" ? (
+          <Text style={feedItemStyles.more}>more</Text>
+        ) : null}
         <View style={feedItemStyles.footer}>
           <Text style={feedItemStyles.user}>{item.User.name}</Text>
           <Text style={feedItemStyles.views}>({item.views} views)</Text>
@@ -113,20 +125,29 @@ export default function Feed() {
     );
   };
 
+  const styles = StyleSheet.create({
+    feed: {
+      // constrained height required to get infinite loading behavior right
+      // (without it onEndReached fires until the whole has been loaded)
+      maxHeight: Dimensions.get('window').height
+    },
+  });
+
   return (
-    <>
+    <View style={styles.feed}>
       <FlatList
         data={data?.allPosts}
         renderItem={feedItem}
-        keyExtractor={(post) => `${post.id}`}
+        keyExtractor={(post) => post.id}
+        onEndReached={(info: { distanceFromEnd: number }) => {
+          console.log("info", info);
+          fetchMore({
+            variables: {
+              offset: data!.allPosts.length,
+            },
+          });
+        }}
       />
-      <Button text={`Fetch more (offset ${data!.allPosts.length})`} onPress={() => {
-        fetchMore({
-          variables: {
-            offset: data!.allPosts.length
-          }
-        })
-      }} />
-    </>
+    </View>
   );
 }

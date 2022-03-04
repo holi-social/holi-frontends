@@ -11,7 +11,7 @@ export type FeedScreenProps = NativeStackScreenProps<RootStackParamList, "Feed">
 export default function FeedScreen({ navigation }: FeedScreenProps) {
   return (
     <View style={styles.container}>
-      <Feed />
+      <Feed onPress={(post) => navigation.navigate('FeedItemDetail', { postId: post.id })}/>
     </View>
   )
 }
