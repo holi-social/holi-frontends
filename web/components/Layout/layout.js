@@ -1,7 +1,7 @@
 import Footer from '../Footer'
 import Nav from '../nav'
 import Head from 'next/head'
-import styles from '../styles/layout.module.scss'
+import styles from './layout.module.scss'
 
 export default function Layout({ children }) {
   return (

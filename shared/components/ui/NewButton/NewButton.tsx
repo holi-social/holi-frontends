@@ -1,3 +1,3 @@
-import ButtonBase from '../ButtonBase'
+import ButtonBase from './ButtonBase'
 
 export const NewButton = ButtonBase
