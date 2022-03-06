@@ -10,11 +10,10 @@ import { faker } from "@faker-js/faker";
 
 const DEFAULT_PORT = 4000;
 
-program
-  .option(
-    "--port <number>",
-    `port on which to run the server (default: ${DEFAULT_PORT}`
-  );
+program.option(
+  "--port <number>",
+  `port on which to run the server (default: ${DEFAULT_PORT}`
+);
 
 program.parse();
 
@@ -35,7 +34,7 @@ const fakePost = (users) => () => {
   return {
     id: faker.unique(faker.datatype.uuid),
     title: faker.company.catchPhrase(),
-    text: faker.lorem.paragraphs(randomInt(1,3)),
+    text: faker.lorem.paragraphs(randomInt(1, 3)),
     views: randomInt(0, 10000),
     user_id: user.id,
     User: user,
@@ -68,6 +67,16 @@ const resolvers = {
       const limit = args.limit || fakePosts.length;
       const result = fakePosts.slice(offset, offset + limit);
       return result;
+    },
+    Post: (parent, args, context, info) => {
+      const postFound = fakePosts.find((p) => p.id === args.id);
+      console.info("Post", args);
+      return postFound;
+    },
+    User: (parent, args, context, info) => {
+      const userFound = fakeUsers.find((u) => u.id === args.id);
+      console.info("User", args);
+      return userFound;
     },
   },
 };

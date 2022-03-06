@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import FeedComponent from "shared/components/Feed"
+import FeedComponent from "shared/components/feed/Feed"
 
 export default function Feed() {
   const router = useRouter()
