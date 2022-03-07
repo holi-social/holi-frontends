@@ -6,7 +6,7 @@ export default function Feed() {
   return (
     <>
       <h1>Feed</h1>
-      <FeedComponent onPress={(post) => router.push(`/feed/${post.id}`)}/>
+      <FeedComponent onItemPressed={(post) => router.push(`/feed/${post.id}`)}/>
     </>
   );
 }
