@@ -1,20 +1,18 @@
 schema {
   query: Query
-  mutation: Mutation
 }
 
 type Query {
   Post(id: ID!): Post
-  allPosts(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: PostFilter): [Post]
-  _allPostsMeta(page: Int, perPage: Int, filter: PostFilter): ListMetadata
   User(id: ID!): User
-  allUsers(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: UserFilter): [User]
-  _allUsersMeta(page: Int, perPage: Int, filter: UserFilter): ListMetadata
+  allPosts(offset: Int, limit: Int): [Post]
+  allUsers(offset: Int, limit: Int): [User]
 }
 
 type Post {
   id: ID!
   title: String!
+  text: String!
   views: Int!
   user_id: ID!
   User: User
@@ -24,57 +22,4 @@ type User {
   id: ID!
   name: String!
   Posts: [Post]
-}
-
-input PostFilter {
-  q: String
-  ids: [ID]
-  id: ID
-  title: String
-  views: Int
-  user_id: ID
-  id_neq: ID
-  title_neq: String
-  views_lt: Int
-  views_lte: Int
-  views_gt: Int
-  views_gte: Int
-  views_neq: Int
-  user_id_neq: ID
-}
-
-type ListMetadata {
-  count: Int
-}
-
-input UserFilter {
-  q: String
-  ids: [ID]
-  id: ID
-  name: String
-  id_neq: ID
-  name_neq: String
-}
-
-type Mutation {
-  createPost(title: String!, views: Int!, user_id: ID!): Post
-  createManyPost(data: [PostInput]): [Post]
-  updatePost(id: ID!, title: String, views: Int, user_id: ID): Post
-  removePost(id: ID!): Post
-  createUser(name: String!): User
-  createManyUser(data: [UserInput]): [User]
-  updateUser(id: ID!, name: String): User
-  removeUser(id: ID!): User
-}
-
-input PostInput {
-  id: ID!
-  title: String!
-  views: Int!
-  user_id: ID!
-}
-
-input UserInput {
-  id: ID!
-  name: String!
 }

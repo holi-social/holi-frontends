@@ -1,12 +1,22 @@
 import { gql } from "@apollo/client/core";
 import { useQuery } from "@apollo/client";
-import { FlatList, Text, ListRenderItemInfo } from "react-native";
+import {
+  FlatList,
+  Text,
+  ListRenderItemInfo,
+  Pressable,
+  StyleSheet,
+  View,
+  Platform,
+  Dimensions,
+} from "react-native";
 
 const ALL_POSTS_QUERY = gql`
-  query {
-    allPosts {
+  query Posts($offset: Int, $limit: Int) {
+    allPosts(offset: $offset, limit: $limit) {
       id
       title
+      text
       views
       User {
         id
@@ -21,23 +31,90 @@ interface AllPostsQueryResult {
 }
 
 interface User {
-  id: number;
+  id: string;
   name: string;
 }
 
 interface Post {
-  id: number;
+  id: string;
   title: string;
+  text: string;
   views: number;
   User: User;
 }
 
-export default function Feed() {
+const feedItemStyles = StyleSheet.create({
+  item: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    maxWidth: 600,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: "600",
+    paddingBottom: 5,
+  },
+  text: {},
+  more: {
+    alignSelf: "flex-end",
+  },
+  user: {
+    fontWeight: "bold",
+    color: "#333",
+  },
+  views: {
+    color: "#333",
+  },
+  footer: {
+    paddingTop: 5,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+});
 
-  const { loading, error, data } = useQuery<AllPostsQueryResult>(
+const feedItem =
+  (onItemPressed: (post: Post) => void) =>
+  ({ item }: ListRenderItemInfo<Post>) => {
+    return (
+      <Pressable
+        onPress={() => onItemPressed(item)}
+        style={feedItemStyles.item}
+      >
+        <Text style={feedItemStyles.title}>{item.title}</Text>
+        <Text style={feedItemStyles.text} numberOfLines={3}>
+          {item.text}
+        </Text>
+        {Platform.OS === "web" ? (
+          <Text style={feedItemStyles.more}>more</Text>
+        ) : null}
+        <View style={feedItemStyles.footer}>
+          <Text style={feedItemStyles.user}>{item.User.name}</Text>
+          <Text style={feedItemStyles.views}>({item.views} views)</Text>
+        </View>
+      </Pressable>
+    );
+  };
+
+const styles = StyleSheet.create({
+  feed: {
+    // constrained height required to get infinite loading behavior right
+    // (without it onEndReached fires until the whole has been loaded)
+    maxHeight: Dimensions.get("window").height,
+  },
+});
+
+export interface FeedProps {
+  onItemPressed: (post: Post) => void;
+}
+
+export default function Feed({ onItemPressed }: FeedProps) {
+  const { loading, error, data, fetchMore } = useQuery<AllPostsQueryResult>(
     ALL_POSTS_QUERY,
     {
-      fetchPolicy: "cache-and-network",
+      variables: {
+        offset: 0,
+        limit: 10,
+      },
     }
   );
 
@@ -61,19 +138,20 @@ export default function Feed() {
     return <Text>Loading...</Text>;
   }
 
-  const feedItem = ({ item }: ListRenderItemInfo<Post>) => {
-    return (
-      <Text>
-        "{item.title}" by {item.User.name} (viewed {item.views} times)
-      </Text>
-    );
-  };
-
   return (
-    <FlatList
-      data={data?.allPosts}
-      renderItem={feedItem}
-      keyExtractor={(post) => `${post.id}`}
-    />
+    <View style={styles.feed}>
+      <FlatList
+        data={data?.allPosts}
+        renderItem={feedItem(onItemPressed)}
+        keyExtractor={(post) => post.id}
+        onEndReached={(info: { distanceFromEnd: number }) => {
+          fetchMore({
+            variables: {
+              offset: data!.allPosts.length,
+            },
+          });
+        }}
+      />
+    </View>
   );
 }
