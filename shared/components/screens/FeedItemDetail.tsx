@@ -1,12 +1,9 @@
 import { StyleSheet, View, Text } from 'react-native'
 import type { NativeStackScreenProps } from "@react-navigation/native-stack"
-import type { RootStackParamList } from "./_navigationStack"
-
-import Feed from "shared/components/Feed"
+import type { NavigationStackScreensList } from "shared/components/navigation/NavigationStack"
 
 
-
-export type FeedItemDetailScreenProps = NativeStackScreenProps<RootStackParamList, "FeedItemDetail">
+export type FeedItemDetailScreenProps = NativeStackScreenProps<NavigationStackScreensList, "FeedItemDetail">
 
 export default function FeedItemDetailScreen({ navigation, route }: FeedItemDetailScreenProps) {
   return (

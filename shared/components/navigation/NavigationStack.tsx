@@ -1,11 +1,11 @@
 import { Text } from 'react-native'
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 
-import HomeScreen from "./Home"
-import ComponentsScreen from "./Components"
-import UsersScreen from "./Users"
-import FeedScreen from "./Feed"
-import FeedItemDetailScreen from "./FeedItemDetail"
+import HomeScreen from "shared/components/screens/Home"
+import ComponentsScreen from "shared/components/screens/Components"
+import UsersScreen from "shared/components/screens/Users"
+import FeedScreen from "shared/components/screens/Feed"
+import FeedItemDetailScreen from "shared/components/screens/FeedItemDetail"
 
 // see https://reactnavigation.org/docs/typescript/#type-checking-screens
 export type NavigationStackScreensList = {

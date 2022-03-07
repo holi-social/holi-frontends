@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text } from 'react-native'
 import type { NativeStackScreenProps } from "@react-navigation/native-stack"
-import type { NavigationStackScreensList } from "./NavigationStack"
+import type { NavigationStackScreensList } from "shared/components/navigation/NavigationStack"
 import Feed from "shared/components/Feed"
 
 

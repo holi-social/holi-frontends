@@ -7,10 +7,10 @@ import {
 } from '@react-navigation/drawer'
 import type { DrawerContentComponentProps } from '@react-navigation/drawer'
 import { useNavigation } from '@react-navigation/native';
-import HomeScreen from "./Home"
-import ComponentsScreen from "./Components"
-import UsersScreen from "./Users"
-import FeedScreen from "./Feed"
+import HomeScreen from "shared/components/screens/Home"
+import ComponentsScreen from "shared/components/screens/Components"
+import UsersScreen from "shared/components/screens/Users"
+import FeedScreen from "shared/components/screens/Feed"
 
 import { styleVars } from 'shared/styles/globalVars'
 import Holicon from 'shared/components/ui/holicon'
@@ -31,6 +31,8 @@ type CustomHeaderProps = {
 function CustomHeaderIcon(props: CustomHeaderProps) {
 
   const currentRouteName = props.navigation.getState().routeNames[props.navigation.getState().index]
+
+
 
   return (
     <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>

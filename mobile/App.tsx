@@ -1,6 +1,6 @@
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
 import { ApolloProvider } from '@apollo/client'
-import NavigationDrawer from './screens/NavigationDrawer'
+import NavigationDrawer from 'shared/components/navigation/NavigationDrawer'
 import defaultHoliTheme, { ThemeProvider } from 'shared/styles/theme'
 import client from 'shared/graphql/client'
 

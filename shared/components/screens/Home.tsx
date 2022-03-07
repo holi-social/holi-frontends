@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-import type { NavigationStackScreensList } from "./NavigationStack"
+import type { NavigationStackScreensList } from "shared/components/navigation/NavigationStack"
 import { styleVars } from 'shared/styles/globalVars'
 import Button from 'shared/components/ui/button'
 import NewButton from 'shared/components/ui/NewButton'
