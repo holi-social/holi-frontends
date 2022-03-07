@@ -8,18 +8,25 @@ import styles from '../styles/home.module.scss'
 
 import ImportedSvg from 'shared/assets/img/logo/logo.svg'
 import ImportedPng from 'shared/assets/img/logo/Logo_img.png'
+import NewButton from 'shared/components/ui/NewButton'
+import { Paragraph } from 'shared/components/ui/Text'
+import { useTheme } from 'shared/styles/theme'
 
 
 const Home: NextPage = () => {
   const router = useRouter()
+  const { toggleDarkMode } = useTheme()
   return (
     <>
       <h1>Home</h1>
 
+      <Paragraph>this is a paragraph with local styles</Paragraph>
+
       <div className={styles.border}>
         <Button text="Components" onPress={() => router.push('/components')}/>
         <Button text="Users" style={{ marginLeft: 10 }} onPress={() => router.push('/users')}/>
-        <Button text="Feed" style={{ marginLeft: 10 }} onPress={() => router.push('/feed')}/>
+        <NewButton text="Feed" style={{ marginLeft: 10 }} onPress={() => router.push('/feed')}/>
+        <NewButton text="Toggle DarkMode" style={{ marginLeft: 10 }} onPress={toggleDarkMode}/>
       </div>
 
       <div>
