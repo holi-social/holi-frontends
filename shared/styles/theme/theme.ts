@@ -17,7 +17,7 @@ const defaultTheme = {
     paragraph: Platform.select({
       web: 'Helvetica Neue, sans-serif',
       // android: 'Arial', // TODO find nice android system font
-      ios: 'Apple Braille',
+      ios: 'SF Pro',
     }),
   },
 }

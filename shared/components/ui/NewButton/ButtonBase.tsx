@@ -56,7 +56,7 @@ const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
     },
     text: {
       color: theme.dark ? '#ffffff' : '#000000',
-      fontFamily: theme.fontFamily.paragraph,
+      // fontFamily: theme.fontFamily.paragraph,
     },
   })
 
