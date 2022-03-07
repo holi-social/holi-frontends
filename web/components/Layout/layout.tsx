@@ -1,9 +1,11 @@
-import Footer from './footer'
-import Nav from './nav'
+import Reaect from 'react'
+import Footer from '../Footer'
+import Nav from '../nav'
 import Head from 'next/head'
-import styles from "../styles/layout.module.scss";
+import styles from './layout.module.scss'
+import React from 'react'
 
-export default function Layout({ children }) {
+const Layout: React.FC = ({ children }) => {
   return (
     <>
       <Head>
@@ -16,3 +18,5 @@ export default function Layout({ children }) {
     </>
   )
 }
+
+export default Layout
