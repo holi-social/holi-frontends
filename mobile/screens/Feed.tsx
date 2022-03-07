@@ -11,8 +11,7 @@ export type FeedScreenProps = NativeStackScreenProps<RootStackParamList, "Feed">
 export default function FeedScreen({ navigation }: FeedScreenProps) {
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Feed</Text>
-      <Feed />
+      <Feed onItemPressed={(post) => navigation.navigate('FeedItemDetail', { postId: post.id })}/>
     </View>
   )
 }
@@ -23,8 +22,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-  },
-  header: {
-    fontSize: 24,
   },
 })
