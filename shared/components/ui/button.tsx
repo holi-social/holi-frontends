@@ -59,9 +59,7 @@ const styles = StyleSheet.create({
   hovered: {
     borderColor: '#fb345e'
   },
-  text: {
-    // fontFamily: styleVars.fontFamilyMobile,
-  }
+  text: {}
 })
 
 // might also be done in web/global.scss

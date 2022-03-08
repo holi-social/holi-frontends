@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text } from 'react-native'
 import type { NativeStackScreenProps } from "@react-navigation/native-stack"
-import type { RootStackParamList } from "./_navigationStack"
+import type { NavigationStackScreensList } from "shared/components/navigation/NavigationDrawer"
 import Button from 'shared/components/ui/button'
 import NewButton from 'shared/components/ui/NewButton'
 import { Paragraph } from 'shared/components/ui/Text'
@@ -10,7 +10,7 @@ import Counter from "shared/components/counter"
 import ImportedSvg from 'shared/assets/img/logo/logo.svg'
 
 
-export type ComponentsScreenProps = NativeStackScreenProps<RootStackParamList, "Components">;
+export type ComponentsScreenProps = NativeStackScreenProps<NavigationStackScreensList, "Components">;
 
 export default function ComponentsScreen({ navigation }: ComponentsScreenProps) {
   return (
@@ -33,7 +33,6 @@ export default function ComponentsScreen({ navigation }: ComponentsScreenProps) 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
