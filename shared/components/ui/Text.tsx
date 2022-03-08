@@ -8,7 +8,6 @@ export const Paragraph: React.FC<{ children: string }> = ({ children }) => {
     text: {
       paddingBottom: 8,
       color: theme.colors.text,
-      // fontFamily: theme.fontFamily.paragraph,
     },
   })
 

@@ -33,10 +33,10 @@ const Drawer = createDrawerNavigator()
 
 type CustomHeaderProps = {
   navigation: any;
-  tintColor?: string | undefined;
-  pressColor?: string | undefined;
-  pressOpacity?: number | undefined;
-  labelVisible?: boolean | undefined;
+  tintColor?: string
+  pressColor?: string
+  pressOpacity?: number
+  labelVisible?: boolean
 }
 function CustomHeaderIcon(props: CustomHeaderProps) {
 

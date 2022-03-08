@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "prestart": "yarn workspace shared run generate-style-vars",
-    "start": "expo start --clear",
+    "start": "expo start",
     "preandroid": "yarn workspace shared run generate-style-vars",
     "android": "expo start --android",
     "preios": "yarn workspace shared run generate-style-vars",
