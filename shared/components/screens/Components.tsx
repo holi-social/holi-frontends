@@ -1,14 +1,16 @@
 import { StyleSheet, View, Text } from 'react-native'
 import type { NativeStackScreenProps } from "@react-navigation/native-stack"
-import type { RootStackParamList } from "./_navigationStack"
+import type { NavigationStackScreensList } from "shared/components/navigation/NavigationDrawer"
 import Button from 'shared/components/ui/button'
+import NewButton from 'shared/components/ui/NewButton'
+import { Paragraph } from 'shared/components/ui/Text'
 import SharedImage from "shared/components/ui/sharedImage";
 import Counter from "shared/components/counter"
 
 import ImportedSvg from 'shared/assets/img/logo/logo.svg'
 
 
-export type ComponentsScreenProps = NativeStackScreenProps<RootStackParamList, "Components">;
+export type ComponentsScreenProps = NativeStackScreenProps<NavigationStackScreensList, "Components">;
 
 export default function ComponentsScreen({ navigation }: ComponentsScreenProps) {
   return (
@@ -21,7 +23,9 @@ export default function ComponentsScreen({ navigation }: ComponentsScreenProps) 
       <SharedImage imageFile={ImportedSvg} isSvg={true} style={{ width: 50, height: 50 }} />
 
       <Button text="hello" onPress={() => console.log('hello')} />
-      <Button text="hello with margin" style={{marginTop: 20}} />
+      <NewButton text="hello with margin" style={{marginTop: 20}} />
+
+      <Paragraph>this is a paragraph</Paragraph>
     </View>
   );
 }
@@ -29,7 +33,6 @@ export default function ComponentsScreen({ navigation }: ComponentsScreenProps) 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },

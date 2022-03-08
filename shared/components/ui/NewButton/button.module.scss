@@ -1,0 +1,29 @@
+.button {
+  background: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  text-decoration: none;
+
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-width: thin;
+
+  user-select: none;
+  &::selection {
+    background-color: transparent;
+  }
+
+  &::moz-selection {
+    background-color: transparent;
+  }
+
+  &::webkit-selection {
+    background-color: transparent;
+  }
+}
