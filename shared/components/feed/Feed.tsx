@@ -1,4 +1,3 @@
-import { gql } from "@apollo/client/core";
 import { useQuery } from "@apollo/client";
 import {
   FlatList,
@@ -10,38 +9,9 @@ import {
   Platform,
   Dimensions,
 } from "react-native";
-
-const ALL_POSTS_QUERY = gql`
-  query Posts($offset: Int, $limit: Int) {
-    allPosts(offset: $offset, limit: $limit) {
-      id
-      title
-      text
-      views
-      User {
-        id
-        name
-      }
-    }
-  }
-`;
-
-interface AllPostsQueryResult {
-  allPosts: Post[];
-}
-
-interface User {
-  id: string;
-  name: string;
-}
-
-interface Post {
-  id: string;
-  title: string;
-  text: string;
-  views: number;
-  User: User;
-}
+import { Post } from "./types";
+import { ALL_POSTS_QUERY, AllPostsQueryResult } from "./queries";
+import GraphQLError from "../GraphQLError";
 
 const feedItemStyles = StyleSheet.create({
   item: {
@@ -95,7 +65,7 @@ const feedItem =
     );
   };
 
-const styles = StyleSheet.create({
+const feedStyles = StyleSheet.create({
   feed: {
     // constrained height required to get infinite loading behavior right
     // (without it onEndReached fires until the whole has been loaded)
@@ -120,18 +90,7 @@ export default function Feed({ onItemPressed }: FeedProps) {
 
   if (error) {
     console.error("Error fetching feed", error);
-    if (error.message) {
-      return <Text>{error.message}</Text>;
-    } else {
-      return (
-        <Text>
-          Errors: {JSON.stringify(error)}
-          {error.graphQLErrors.map(({ message }, i) => (
-            <Text key={i}>{message}</Text>
-          ))}
-        </Text>
-      );
-    }
+    return <GraphQLError error={error} />;
   }
 
   if (loading) {
@@ -139,7 +98,7 @@ export default function Feed({ onItemPressed }: FeedProps) {
   }
 
   return (
-    <View style={styles.feed}>
+    <View style={feedStyles.feed}>
       <FlatList
         data={data?.allPosts}
         renderItem={feedItem(onItemPressed)}
