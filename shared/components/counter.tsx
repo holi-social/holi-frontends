@@ -11,12 +11,12 @@ const Counter: React.FC = () => {
     <View>
       <Text>You clicked {count} times</Text>
 
-      <Pressable onPress={incrementCount} style={styles.button}>
+      <Pressable onPress={incrementCount} style={styles.button} testID="purePressable" accessible={true} accessibilityLabel="purePressable">
         <Holicon icon="person" size={20} color="#0f0" />
         <Text style={styles.buttonText}>Click Me (pure pressable)</Text>
       </Pressable>
 
-      <Button onPress={incrementCount} text="Click Me (Button component)" style={styles.marginTop} />
+      <Button onPress={incrementCount} text="Click Me (Button component)" style={styles.marginTop} testID="buttonComponent" />
 
     </View>
   )

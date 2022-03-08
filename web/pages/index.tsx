@@ -17,7 +17,7 @@ const Home: NextPage = () => {
       <h1>Home</h1>
 
       <div className={styles.border}>
-        <Button text="Components" onPress={() => router.push('/components')}/>
+        <Button testID="componentsButton" text="Components" onPress={() => router.push('/components')}/>
         <Button text="Users" style={{ marginLeft: 10 }} onPress={() => router.push('/users')}/>
         <Button text="Feed" style={{ marginLeft: 10 }} onPress={() => router.push('/feed')}/>
       </div>

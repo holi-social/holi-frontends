@@ -6,6 +6,7 @@ export type ButtonProps = {
   text?: string
   style?: Object
   href?: string
+  testID?: string | undefined
   onPress?: null | ((event: GestureResponderEvent) => void)
 }
 

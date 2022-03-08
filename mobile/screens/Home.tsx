@@ -14,7 +14,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Home <Holicon icon="person" size={20} color="#0f0" /></Text>
-      <Button text="Components" onPress={() => navigation.navigate("Components")} />
+      <Button testID="componentsButton" text="Components" onPress={() => navigation.navigate("Components")} />
       <Button text="Users" onPress={() => navigation.navigate("Users")} />
       <Button text="Feed" onPress={() => navigation.navigate("Feed")} />
       <StatusBar style="auto" />

@@ -1,0 +1,14 @@
+{
+  "name": "codeceptjs-mobile-tests",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+      "codeceptjs": "codeceptjs run --steps",
+      "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
+      "codeceptjs:ui": "codecept-ui --app" 
+  },
+  "dependencies": {
+    "codeceptjs": "^3.3.0",
+    "webdriverio": "^7.16.16"
+  }
+}
