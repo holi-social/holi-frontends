@@ -6,7 +6,6 @@
   },
   "dependencies": {
     "@apollo/client": "^3.5.9",
-    "chroma-js": "^2.4.2",
     "graphql": "^16.3.0"
   },
   "devDependencies": {
