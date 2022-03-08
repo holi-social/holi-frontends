@@ -5,7 +5,7 @@ import Head from 'next/head'
 import styles from './layout.module.scss'
 import React from 'react'
 
-const Layout: React.FC = ({ children }) => {
+const Layout: React.FunctionComponent = ({ children }) => {
   return (
     <>
       <Head>

@@ -8,7 +8,6 @@ import Image from 'next/image'
 // or
 // <SharedImage imageFile={require('shared/assets/img/logo/logo.svg')} style={{ width: 50, height: 50 }} />
 
-
 // TODO: intermediate fix until
 // https://github.com/vercel/next.js/issues/29788
 type StaticImageData = {
@@ -17,22 +16,26 @@ type StaticImageData = {
   width?: number
   blurDataURL?: string
   default?: { src: string }
-};
+}
 
-type sharedImageProps = {
-  imageFile: StaticImageData,
+type SharedImageProps = {
+  imageFile: StaticImageData
   isSvg?: boolean
-  altText?: string,
+  altText?: string
   style?: object
 }
 
-const SharedImage: React.FC<sharedImageProps> = (props: sharedImageProps) => {
-
+const SharedImage: React.VoidFunctionComponent<SharedImageProps> = (
+  props: SharedImageProps
+) => {
   const pathFromRequire = props.imageFile && props.imageFile.src
-  const pathFromImport = props.imageFile && props.imageFile.default && props.imageFile.default.src
+  const pathFromImport =
+    props.imageFile && props.imageFile.default && props.imageFile.default.src
   const path = pathFromRequire || pathFromImport
 
-  return <Image src={path as string} alt={props.altText} width="50" height="50" />
+  return (
+    <Image src={path as string} alt={props.altText} width="50" height="50" />
+  )
 }
 
 export default SharedImage

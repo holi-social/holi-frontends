@@ -1,5 +1,11 @@
 import * as React from 'react'
-import { StyleSheet, Pressable, Text, GestureResponderEvent, Platform } from 'react-native'
+import {
+  StyleSheet,
+  Pressable,
+  Text,
+  GestureResponderEvent,
+  Platform,
+} from 'react-native'
 import { jsVars, styleVars } from 'shared/styles/globalVars'
 
 export type ButtonProps = {
@@ -10,19 +16,20 @@ export type ButtonProps = {
 }
 
 export type PressableState = Readonly<{
-  pressed: boolean;
-  hovered?: boolean;
-  focused?: boolean;
+  pressed: boolean
+  hovered?: boolean
+  focused?: boolean
 }>
 
-const Button: React.FC<ButtonProps> = (props : ButtonProps) => {
+const Button: React.VoidFunctionComponent<ButtonProps> = (
+  props: ButtonProps
+) => {
   const onBlur = (e: React.BaseSyntheticEvent) => {
     console.log('#### onBlur', e.target)
   }
   const onFocus = (e: React.BaseSyntheticEvent) => {
     console.log('#### onFocus', e.target)
   }
-
 
   // https://github.com/necolas/react-native-web/issues/1708
   // https://github.com/facebook/react-native/search?q=usePressability
@@ -31,15 +38,27 @@ const Button: React.FC<ButtonProps> = (props : ButtonProps) => {
       {...props}
       onBlur={onBlur}
       onFocus={onFocus}
-      style={({ pressed, hovered, focused }: PressableState) => [props.style, styles.button, hovered && styles.hovered]}
+      style={({ pressed, hovered, focused }: PressableState) => [
+        props.style,
+        styles.button,
+        hovered && styles.hovered,
+      ]}
     >
       <Text style={styles.text}>{props.text}</Text>
     </Pressable>
   )
 
-  return (Platform.OS === 'web')
-    ? <button style={webOnlyStyles.buttonReset} className={jsVars.CSS_BUTTON_CLASS} type="button">{buttonComponent}</button>
-    : buttonComponent
+  return Platform.OS === 'web' ? (
+    <button
+      style={webOnlyStyles.buttonReset}
+      className={jsVars.CSS_BUTTON_CLASS}
+      type="button"
+    >
+      {buttonComponent}
+    </button>
+  ) : (
+    buttonComponent
+  )
 }
 
 export default Button
@@ -57,9 +76,9 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   hovered: {
-    borderColor: '#fb345e'
+    borderColor: '#fb345e',
   },
-  text: {}
+  text: {},
 })
 
 // might also be done in web/global.scss

@@ -1,3 +1,4 @@
+import * as React from 'react'
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
 import { ApolloProvider } from '@apollo/client'
 import NavigationDrawer from 'shared/components/navigation/NavigationDrawer'
@@ -9,7 +10,7 @@ const theTheme = {
   ...defaultHoliTheme,
 }
 
-export default function App() {
+const App: React.VoidFunctionComponent = () => {
   return (
     <ApolloProvider client={client}>
       <ThemeProvider theme={defaultHoliTheme}>
@@ -20,3 +21,5 @@ export default function App() {
     </ApolloProvider>
   )
 }
+
+export default App

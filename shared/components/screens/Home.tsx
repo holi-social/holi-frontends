@@ -1,22 +1,31 @@
 import { StyleSheet, View, Text } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-import type { NavigationStackScreensList } from "shared/components/navigation/NavigationDrawer"
+import type { NavigationStackScreensList } from 'shared/components/navigation/NavigationDrawer'
 import { styleVars } from 'shared/styles/globalVars'
 import Button from 'shared/components/ui/button'
 import NewButton from 'shared/components/ui/NewButton'
 import Holicon from 'shared/components/ui/holicon'
 import { useTheme } from 'shared/styles/theme'
 
+export type HomeScreenProps = NativeStackScreenProps<
+  NavigationStackScreensList,
+  'Home'
+>
 
-export type HomeScreenProps = NativeStackScreenProps<NavigationStackScreensList, "Home">
-
-export default function HomeScreen({ navigation }: HomeScreenProps) {
+const HomeScreen: React.VoidFunctionComponent<HomeScreenProps> = ({
+  navigation,
+}) => {
   const { toggleDarkMode } = useTheme()
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Home <Holicon icon="person" size={20} color={styleVars.fontColor} /></Text>
-      <Button text="Components" onPress={() => navigation.navigate('Components')} />
+      <Text style={styles.header}>
+        Home <Holicon icon="person" size={20} color={styleVars.fontColor} />
+      </Text>
+      <Button
+        text="Components"
+        onPress={() => navigation.navigate('Components')}
+      />
       <Button text="Users" onPress={() => navigation.navigate('Users')} />
       <Button text="Feed" onPress={() => navigation.navigate('Feed')} />
       <NewButton text="Toggle Darkmode" onPress={toggleDarkMode} />
@@ -35,3 +44,5 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
 })
+
+export default HomeScreen

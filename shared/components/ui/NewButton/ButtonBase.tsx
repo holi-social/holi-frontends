@@ -22,7 +22,9 @@ export type PressableState = Readonly<{
   focused?: boolean
 }>
 
-const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
+const Button: React.VoidFunctionComponent<ButtonProps> = (
+  props: ButtonProps
+) => {
   const onBlur = (e: React.BaseSyntheticEvent) => {
     console.log('#### onBlur', e.target)
   }
@@ -52,7 +54,7 @@ const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
     },
     hovered: {
       borderColor: '#fb345e',
-      backgroundColor: theme.dark ? '#727272' :'#c2c2c2'
+      backgroundColor: theme.dark ? '#727272' : '#c2c2c2',
     },
     text: {
       color: theme.dark ? '#ffffff' : '#000000',
