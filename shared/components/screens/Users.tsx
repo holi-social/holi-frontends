@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text } from 'react-native'
 import { useEffect, useState } from "react"
 import type { NativeStackScreenProps } from "@react-navigation/native-stack"
-import type { NavigationStackScreensList } from "shared/components/navigation/NavigationStack"
+import type { NavigationStackScreensList } from "shared/components/navigation/NavigationDrawer"
 
 import { getUsers, UserData } from "shared/api"
 import Users from "shared/components/Users"

@@ -7,18 +7,28 @@ import {
 } from '@react-navigation/drawer'
 import type { DrawerContentComponentProps } from '@react-navigation/drawer'
 import { useNavigation } from '@react-navigation/native';
+
+import FeedSubNavigationStack from './FeedSubNavigationStack';
 import HomeScreen from "shared/components/screens/Home"
 import ComponentsScreen from "shared/components/screens/Components"
 import UsersScreen from "shared/components/screens/Users"
-import FeedScreen from "shared/components/screens/Feed"
 
 import { styleVars } from 'shared/styles/globalVars'
 import Holicon from 'shared/components/ui/holicon'
 
 
 
-const Drawer = createDrawerNavigator()
+// see https://reactnavigation.org/docs/typescript/#type-checking-screens
+export type NavigationStackScreensList = {
+  Home: undefined;
+  Components: undefined;
+  Users: undefined;
+  Feed: undefined;
+  FeedItemDetail: { postId: string };
+}
 
+
+const Drawer = createDrawerNavigator()
 
 
 type CustomHeaderProps = {
@@ -32,15 +42,14 @@ function CustomHeaderIcon(props: CustomHeaderProps) {
 
   const currentRouteName = props.navigation.getState().routeNames[props.navigation.getState().index]
 
-
-
   return (
     <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
       <Pressable onPress={() => props.navigation.toggleDrawer()} {...props} style={{marginLeft: 13}} >
         <Holicon icon="dashboard" size={20} color={styleVars.fontColor} />
       </Pressable>
       { currentRouteName !== 'Home' &&
-        <Pressable onPress={() => props.navigation.navigate('Home')} {...props} style={{marginLeft: 20}} >
+        // <Pressable onPress={() => props.navigation.navigate('Home')} {...props} style={{marginLeft: 20}} >
+        <Pressable onPress={() => props.navigation.goBack()} {...props} style={{marginLeft: 20}} >
           <Holicon icon="arrow-back" size={30} color={styleVars.fontColor} />
         </Pressable>
       }
@@ -56,6 +65,10 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
 
       <DrawerContentScrollView {...props}>
         <DrawerItemList {...props} />
+        {/* <DrawerItem label="Home" onPress={() => props.navigation.navigate('Home')} />
+        <DrawerItem label="Components" onPress={() => props.navigation.navigate('Components')} />
+        <DrawerItem label="Feed" onPress={() => props.navigation.navigate('Feed')} /> */}
+
         {/* Add any further menu items */}
         <DrawerItem label="Click me!" onPress={() => alert('Uuuuuh - an alert!')} />
       </DrawerContentScrollView>
@@ -66,6 +79,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
     </View>
   );
 }
+
 
 export default function LeftDrawer() {
 
@@ -102,7 +116,9 @@ export default function LeftDrawer() {
       />
       <Drawer.Screen name="Components" component={ComponentsScreen} />
       <Drawer.Screen name="Users" component={UsersScreen} />
-      <Drawer.Screen name="Feed" component={FeedScreen} />
+      {/* <Drawer.Screen name="Feed" component={FeedScreen} /> */}
+      {/* <Drawer.Screen name="FeedItemDetail" component={FeedItemDetailScreen} /> */}
+      <Drawer.Screen name="Feed" component={FeedSubNavigationStack} />
     </Drawer.Navigator>
   )
 }
