@@ -1,20 +1,22 @@
 .button {
-  background: none;
+  align-self: center;
   background-color: transparent;
+  background: none;
+  border-width: thin;
   border: none;
   cursor: pointer;
-  display: inline-block;
+  justify-self: center;
   margin: 0;
-  outline: 0;
-  padding: 0;
-  text-decoration: none;
-
   outline: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  border-width: thin;
-
+  padding: 0;
+  place-self: center;
+  text-decoration: none;
   user-select: none;
+  vertical-align: middle;
+
+  -moz-appearance: none;
+  -webkit-appearance: none;
+
   &::selection {
     background-color: transparent;
   }

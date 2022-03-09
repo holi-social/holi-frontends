@@ -5,7 +5,6 @@ import {
   Text,
   GestureResponderEvent,
   ViewStyle,
-  TextStyle,
 } from 'react-native'
 import { useTheme } from 'shared/styles/theme'
 
@@ -14,6 +13,7 @@ export type ButtonProps = {
   style?: Object
   href?: string
   onPress?: null | ((event: GestureResponderEvent) => void)
+  children?: any
 }
 
 export type PressableState = Readonly<{
@@ -32,16 +32,17 @@ const Button: React.VoidFunctionComponent<ButtonProps> = (
     console.log('#### onFocus', e.target)
   }
 
+  const content = typeof props.children === 'string' ?
+    <Text>{props.children}</Text> :
+    props.children
+
   const { theme } = useTheme()
 
-  // Jasper: just wanted to see, if we can avoid writing invalid style objects
   const styles = StyleSheet.create<{
     button: ViewStyle
     hovered: ViewStyle
-    text: TextStyle
   }>({
     button: {
-      // muss das hier im theme liegen? nein! Im Theme liegen globale Werte. Die Button Component hat lokale Styles und nutzt globale styles. Button spezifische Farbe muss nicht global sein
       borderColor: theme.colors.buttonBorderColor,
       borderWidth: 1,
       borderRadius: 10,
@@ -51,14 +52,15 @@ const Button: React.VoidFunctionComponent<ButtonProps> = (
       paddingVertical: 10,
       paddingHorizontal: 30,
       elevation: 3,
+      height: 50,
+      display: 'flex',
+      flexDirection: 'row',
+
     },
     hovered: {
       borderColor: '#fb345e',
-      backgroundColor: theme.dark ? '#727272' : '#c2c2c2',
-    },
-    text: {
-      color: theme.dark ? '#ffffff' : '#000000',
-    },
+      backgroundColor: theme.dark ? '#727272' :'#c2c2c2'
+    }
   })
 
   // https://github.com/necolas/react-native-web/issues/1708
@@ -74,7 +76,7 @@ const Button: React.VoidFunctionComponent<ButtonProps> = (
         (hovered || pressed || focused) && styles.hovered,
       ]}
     >
-      <Text style={styles.text}>{props.text}</Text>
+      {content}
     </Pressable>
   )
 }

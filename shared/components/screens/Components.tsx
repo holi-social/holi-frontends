@@ -2,8 +2,7 @@ import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import type { NavigationStackScreensList } from 'shared/components/navigation/NavigationDrawer'
-import Button from 'shared/components/ui/button'
-import NewButton from 'shared/components/ui/NewButton'
+import Button from 'shared/components/ui/Button'
 import { Paragraph } from 'shared/components/ui/Text'
 import SharedImage from 'shared/components/ui/sharedImage'
 import Counter from 'shared/components/counter'
@@ -34,8 +33,8 @@ const ComponentsScreen: React.VoidFunctionComponent<ComponentsScreenProps> = ({
         style={{ width: 50, height: 50 }}
       />
 
-      <Button text="hello" onPress={() => console.log('hello')} />
-      <NewButton text="hello with margin" style={{ marginTop: 20 }} />
+      <Button onPress={() => console.log('hello')}>hello</Button>
+      <Button style={{ marginTop: 20 }}>hello with margin</Button>
 
       <Paragraph>this is a paragraph</Paragraph>
     </View>
