@@ -1,16 +1,16 @@
 import type { NextPage } from 'next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import Button from 'shared/components/ui/button'
+import Button from 'shared/components/ui/Button'
 import SharedImage from "shared/components/ui/sharedImage"
+import { Paragraph } from 'shared/components/ui/Text'
 
+import { useTheme } from 'shared/styles/theme'
 import styles from '../styles/home.module.scss'
 
 import ImportedSvg from 'shared/assets/img/logo/logo.svg'
 import ImportedPng from 'shared/assets/img/logo/Logo_img.png'
-import NewButton from 'shared/components/ui/NewButton'
-import { Paragraph } from 'shared/components/ui/Text'
-import { useTheme } from 'shared/styles/theme'
+
 
 
 const Home: NextPage = () => {
@@ -23,10 +23,13 @@ const Home: NextPage = () => {
       <Paragraph>this is a paragraph with local styles</Paragraph>
 
       <div className={styles.border}>
-        <Button text="Components" onPress={() => router.push('/components')}/>
-        <Button text="Users" style={{ marginLeft: 10 }} onPress={() => router.push('/users')}/>
-        <NewButton text="Feed" style={{ marginLeft: 10 }} onPress={() => router.push('/feed')}/>
-        <NewButton text="Toggle DarkMode" style={{ marginLeft: 10 }} onPress={toggleDarkMode}/>
+        <Button onPress={() => router.push('/components')}>Components</Button>
+        <Button style={{ marginLeft: 10 }} onPress={() => router.push('/users')}>
+          <SharedImage imageFile={ImportedSvg} style={{ width: 50, height: 50 }} />
+          <span>Users</span>
+        </Button>
+        <Button style={{ marginLeft: 10 }} onPress={() => router.push('/feed')}>Feed</Button>
+        <Button style={{ marginLeft: 10 }} onPress={toggleDarkMode}>Toggle DarkMode</Button>
       </div>
 
       <div>
