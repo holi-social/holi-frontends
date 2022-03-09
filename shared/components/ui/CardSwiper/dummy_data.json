@@ -1,0 +1,40 @@
+{
+  "offers": [
+    {
+      "title": "Digitales Mentoring für Pensionäre",
+      "provider": "Hamuburger mit Herz e.V.",
+      "image": "/letsAct/senior_03.jpg",
+      "date": "Jeden Dienstag von 10:00 bis 15:00 Uhr"
+    },
+    {
+      "title": "Leseheld*in für Hamburger Grundschulkinder",
+      "provider": "Kinderhelden GmbH",
+      "image": "/letsAct/reading_child_03.jpg",
+      "date": "Täglich eine Std."
+    },
+    {
+      "title": "Gassi gehen",
+      "provider": "DOGing Station Eimsbüttel",
+      "image": "/letsAct/walk_the_dog_02.jpg",
+      "date": "Morgens und abends"
+    },
+    {
+      "title": "Essensausgabe",
+      "provider": "Hamburger Tafel",
+      "image": "/letsAct/food_delivery_02.jpg",
+      "date": "Täglich zwischen 11 und 15 Uhr"
+    },
+    {
+      "title": "Gesellschaft für Alleinstehende",
+      "provider": "Hamuburger mit Herz e.V.",
+      "image": "/letsAct/senior_04.jpg",
+      "date": "offen"
+    },
+    {
+      "title": "Lass uns etwas unternehmen",
+      "provider": "Hamuburger mit Herz e.V.",
+      "image": "/letsAct/senior_01.jpg",
+      "date": "jederzeit"
+    }
+  ]
+}
