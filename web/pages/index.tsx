@@ -23,10 +23,13 @@ const Home: NextPage = () => {
       <Paragraph>this is a paragraph with local styles</Paragraph>
 
       <div className={styles.border}>
-        <Button text="Components" onPress={() => router.push('/components')}/>
-        <Button text="Users" style={{ marginLeft: 10 }} onPress={() => router.push('/users')}/>
-        <Button text="Feed" style={{ marginLeft: 10 }} onPress={() => router.push('/feed')}/>
-        <Button text="Toggle DarkMode" style={{ marginLeft: 10 }} onPress={toggleDarkMode}/>
+        <Button onPress={() => router.push('/components')}>Components</Button>
+        <Button style={{ marginLeft: 10 }} onPress={() => router.push('/users')}>
+          <SharedImage imageFile={ImportedSvg} style={{ width: 50, height: 50 }} />
+          <span>Users</span>
+        </Button>
+        <Button style={{ marginLeft: 10 }} onPress={() => router.push('/feed')}>Feed</Button>
+        <Button style={{ marginLeft: 10 }} onPress={toggleDarkMode}>Toggle DarkMode</Button>
       </div>
 
       <div>

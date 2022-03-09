@@ -16,7 +16,8 @@ const Counter: React.FC = () => {
         <Text style={styles.buttonText}>Click Me (pure pressable)</Text>
       </Pressable>
 
-      <Button onPress={incrementCount} text="Click Me (Button component)" style={styles.marginTop} />
+      <Button onPress={incrementCount} style={styles.marginTop}>Click Me (Button component)</Button>
+
 
     </View>
   )

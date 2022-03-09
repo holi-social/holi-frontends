@@ -21,8 +21,8 @@ export default function ComponentsScreen({ navigation }: ComponentsScreenProps) 
       <SharedImage imageFile={require('shared/assets/img/logo/Logo_img.png')} style={{ width: 30, height: 30 }} />
       <SharedImage imageFile={ImportedSvg} isSvg={true} style={{ width: 50, height: 50 }} />
 
-      <Button text="hello" onPress={() => console.log('hello')} />
-      <Button text="hello with margin" style={{marginTop: 20}} />
+      <Button onPress={() => console.log('hello')}>hello</Button>
+      <Button style={{marginTop: 20}}>hello with margin</Button>
 
       <Paragraph>this is a paragraph</Paragraph>
     </View>
