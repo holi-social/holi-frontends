@@ -1,19 +1,22 @@
 import { StyleSheet, View, Text } from 'react-native'
-import { useEffect, useState } from "react"
-import type { NativeStackScreenProps } from "@react-navigation/native-stack"
-import type { NavigationStackScreensList } from "shared/components/navigation/NavigationDrawer"
+import React, { useEffect, useState } from 'react'
+import type { NativeStackScreenProps } from '@react-navigation/native-stack'
+import type { NavigationStackScreensList } from 'shared/components/navigation/NavigationDrawer'
 
-import { getUsers, UserData } from "shared/api"
-import Users from "shared/components/Users"
+import { getUsers, UserData } from 'shared/api'
+import Users from 'shared/components/Users'
 
+export type UsersScreenProps = NativeStackScreenProps<
+  NavigationStackScreensList,
+  'Users'
+>
 
-
-export type UsersScreenProps = NativeStackScreenProps<NavigationStackScreensList, "Users">
-
-export default function UsersScreen({ navigation }: UsersScreenProps) {
+const UsersScreen: React.VoidFunctionComponent<UsersScreenProps> = ({
+  navigation,
+}) => {
   const [users, setUsers] = useState<Array<UserData>>([])
   useEffect(() => {
-    getUsers().then(setUsers);
+    getUsers().then(setUsers)
     return () => {}
   }, [])
   return (
@@ -27,10 +30,12 @@ export default function UsersScreen({ navigation }: UsersScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   header: {
     fontSize: 24,
   },
 })
+
+export default UsersScreen

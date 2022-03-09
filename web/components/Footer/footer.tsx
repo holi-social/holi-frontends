@@ -1,7 +1,8 @@
+import React from 'react'
 import Image from 'next/image'
-import styles from "./footer.module.scss"
+import styles from './footer.module.scss'
 
-export default function Footer() {
+const Footer: React.VoidFunctionComponent = () => {
   return (
     <footer className={styles.footer}>
       <a
@@ -10,8 +11,15 @@ export default function Footer() {
         rel="noopener noreferrer"
       >
         Powered by the HOLI team
-        <Image src={require('shared/assets/img/logo/logo.svg')} alt="sdfsdf" width="50" height="50" />
+        <Image
+          src={require('shared/assets/img/logo/logo.svg')}
+          alt="sdfsdf"
+          width="50"
+          height="50"
+        />
       </a>
     </footer>
-  );
+  )
 }
+
+export default Footer

@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from '@apollo/client'
 import {
   FlatList,
   Text,
@@ -8,10 +8,10 @@ import {
   View,
   Platform,
   Dimensions,
-} from "react-native";
-import { Post } from "./types";
-import { ALL_POSTS_QUERY, AllPostsQueryResult } from "./queries";
-import GraphQLError from "../GraphQLError";
+} from 'react-native'
+import { Post } from './types'
+import { ALL_POSTS_QUERY, AllPostsQueryResult } from './queries'
+import GraphQLError from '../GraphQLError'
 
 const feedItemStyles = StyleSheet.create({
   item: {
@@ -21,26 +21,26 @@ const feedItemStyles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: '600',
     paddingBottom: 5,
   },
   text: {},
   more: {
-    alignSelf: "flex-end",
+    alignSelf: 'flex-end',
   },
   user: {
-    fontWeight: "bold",
-    color: "#333",
+    fontWeight: 'bold',
+    color: '#333',
   },
   views: {
-    color: "#333",
+    color: '#333',
   },
   footer: {
     paddingTop: 5,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
-});
+})
 
 const feedItem =
   (onItemPressed: (post: Post) => void) =>
@@ -54,7 +54,7 @@ const feedItem =
         <Text style={feedItemStyles.text} numberOfLines={3}>
           {item.text}
         </Text>
-        {Platform.OS === "web" ? (
+        {Platform.OS === 'web' ? (
           <Text style={feedItemStyles.more}>more</Text>
         ) : null}
         <View style={feedItemStyles.footer}>
@@ -62,22 +62,22 @@ const feedItem =
           <Text style={feedItemStyles.views}>({item.views} views)</Text>
         </View>
       </Pressable>
-    );
-  };
+    )
+  }
 
 const feedStyles = StyleSheet.create({
   feed: {
     // constrained height required to get infinite loading behavior right
     // (without it onEndReached fires until the whole has been loaded)
-    maxHeight: Dimensions.get("window").height,
+    maxHeight: Dimensions.get('window').height,
   },
-});
+})
 
 export interface FeedProps {
-  onItemPressed: (post: Post) => void;
+  onItemPressed: (post: Post) => void
 }
 
-export default function Feed({ onItemPressed }: FeedProps) {
+const Feed: React.VoidFunctionComponent<FeedProps> = ({ onItemPressed }) => {
   const { loading, error, data, fetchMore } = useQuery<AllPostsQueryResult>(
     ALL_POSTS_QUERY,
     {
@@ -86,15 +86,15 @@ export default function Feed({ onItemPressed }: FeedProps) {
         limit: 10,
       },
     }
-  );
+  )
 
   if (error) {
-    console.error("Error fetching feed", error);
-    return <GraphQLError error={error} />;
+    console.error('Error fetching feed', error)
+    return <GraphQLError error={error} />
   }
 
   if (loading) {
-    return <Text>Loading...</Text>;
+    return <Text>Loading...</Text>
   }
 
   return (
@@ -108,9 +108,11 @@ export default function Feed({ onItemPressed }: FeedProps) {
             variables: {
               offset: data!.allPosts.length,
             },
-          });
+          })
         }}
       />
     </View>
-  );
+  )
 }
+
+export default Feed
