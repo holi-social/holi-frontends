@@ -17,7 +17,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['react', '@typescript-eslint'],
+  plugins: ['react', 'react-native', '@typescript-eslint'],
   rules: {
     indent: ['error', 2],
     'linebreak-style': ['error', 'unix'],
