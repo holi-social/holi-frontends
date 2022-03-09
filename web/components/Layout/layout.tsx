@@ -1,9 +1,8 @@
-import Reaect from 'react'
+import React from 'react'
 import Footer from '../Footer'
 import Nav from '../nav'
 import Head from 'next/head'
 import styles from './layout.module.scss'
-import React from 'react'
 
 const Layout: React.FunctionComponent = ({ children }) => {
   return (
