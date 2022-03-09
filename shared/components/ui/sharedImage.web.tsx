@@ -33,9 +33,7 @@ const SharedImage: React.VoidFunctionComponent<SharedImageProps> = (
     props.imageFile && props.imageFile.default && props.imageFile.default.src
   const path = pathFromRequire || pathFromImport
 
-  return (
-    <Image src={path as string} alt={props.altText} width="50" height="50" />
-  )
+  return <Image className={'uschi'} src={path as string} alt={props.altText} width="50" height="50"  />
 }
 
 export default SharedImage
