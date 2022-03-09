@@ -2,12 +2,14 @@ import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import type { NavigationStackScreensList } from 'shared/components/navigation/NavigationDrawer'
-import Button from 'shared/components/ui/Button'
-import { Paragraph } from 'shared/components/ui/Text'
-import SharedImage from 'shared/components/ui/sharedImage'
-import Counter from 'shared/components/counter'
 
-import ImportedSvg from 'shared/assets/img/logo/logo.svg'
+import CardSwiper from '../ui/CardSwiper'
+// import Button from 'shared/components/ui/Button'
+// import { Paragraph } from 'shared/components/ui/Text'
+// import SharedImage from 'shared/components/ui/sharedImage'
+// import Counter from 'shared/components/counter'
+
+// import ImportedSvg from 'shared/assets/img/logo/logo.svg'
 
 export type ComponentsScreenProps = NativeStackScreenProps<
   NavigationStackScreensList,
@@ -21,7 +23,9 @@ const ComponentsScreen: React.VoidFunctionComponent<ComponentsScreenProps> = ({
     <View style={styles.container}>
       <Text style={styles.header}>Components</Text>
 
-      <Counter />
+      <CardSwiper />
+
+      {/* <Counter />
 
       <SharedImage
         imageFile={require('shared/assets/img/logo/Logo_img.png')}
@@ -36,7 +40,7 @@ const ComponentsScreen: React.VoidFunctionComponent<ComponentsScreenProps> = ({
       <Button onPress={() => console.log('hello')}>hello</Button>
       <Button style={{ marginTop: 20 }}>hello with margin</Button>
 
-      <Paragraph>this is a paragraph</Paragraph>
+      <Paragraph>this is a paragraph</Paragraph> */}
     </View>
   )
 }

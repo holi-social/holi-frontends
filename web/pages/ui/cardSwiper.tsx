@@ -13,7 +13,7 @@ const CardSwiperPage: NextPage = () => {
 
 
       <div className={sassStyles.example}>
-        <CardSwiper />
+        {/* <CardSwiper /> */}
       </div>
 
       <pre className={sassStyles.code}>{`
