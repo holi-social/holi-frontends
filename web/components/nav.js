@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-export default function Nav() {
+const Nav = () => {
   const router = useRouter()
   const isHome = router.pathname === '/'
   const isComponents = router.pathname === '/components'
@@ -18,3 +18,5 @@ export default function Nav() {
     </>
   );
 }
+
+export default Nav

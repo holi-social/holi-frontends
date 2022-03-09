@@ -1,18 +1,22 @@
 import { StyleSheet, View, Text } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-import type { NavigationStackScreensList } from "shared/components/navigation/NavigationDrawer"
+import type { NavigationStackScreensList } from 'shared/components/navigation/NavigationDrawer'
 import { styleVars } from 'shared/styles/globalVars'
 import Button from 'shared/components/ui/Button'
 import SharedImage from 'shared/components/ui/sharedImage'
 import Holicon from 'shared/components/ui/holicon'
 import { useTheme } from 'shared/styles/theme'
 
+export type HomeScreenProps = NativeStackScreenProps<
+  NavigationStackScreensList,
+  'Home'
+>
 import ImportedSvg from 'shared/assets/img/logo/logo.svg'
 
-export type HomeScreenProps = NativeStackScreenProps<NavigationStackScreensList, "Home">
-
-export default function HomeScreen({ navigation }: HomeScreenProps) {
+const HomeScreen: React.VoidFunctionComponent<HomeScreenProps> = ({
+  navigation,
+}) => {
   const { toggleDarkMode } = useTheme()
   return (
     <View style={styles.container}>
@@ -48,3 +52,5 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
 })
+
+export default HomeScreen

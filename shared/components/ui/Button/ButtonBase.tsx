@@ -22,7 +22,9 @@ export type PressableState = Readonly<{
   focused?: boolean
 }>
 
-const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
+const Button: React.VoidFunctionComponent<ButtonProps> = (
+  props: ButtonProps
+) => {
   const onBlur = (e: React.BaseSyntheticEvent) => {
     console.log('#### onBlur', e.target)
   }

@@ -1,9 +1,12 @@
-import { ApolloError } from "@apollo/client";
-import { Text } from "react-native"
+import React from 'react'
+import { ApolloError } from '@apollo/client'
+import { Text } from 'react-native'
 
-export default function GraphQLError({ error }: { error: ApolloError }) {
+const GraphQLError: React.VoidFunctionComponent<{ error: ApolloError }> = ({
+  error,
+}) => {
   if (error.message) {
-    return <Text>{error.message}</Text>;
+    return <Text>{error.message}</Text>
   } else {
     return (
       <Text>
@@ -12,6 +15,8 @@ export default function GraphQLError({ error }: { error: ApolloError }) {
           <Text key={i}>{message}</Text>
         ))}
       </Text>
-    );
+    )
   }
 }
+
+export default GraphQLError
