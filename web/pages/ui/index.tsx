@@ -12,6 +12,7 @@ const UIOverviewPage: NextPage = () => {
         <li><Holicon icon="arrowtip-next" size={20} /><Link href="/ui/icons"><a>Holicons</a></Link></li>
         <li><Holicon icon="arrowtip-next" size={20} /><Link href="/ui/sharedImage"><a>SharedImage</a></Link></li>
         <li><Holicon icon="arrowtip-next" size={20} /><Link href="/ui/button"><a>Button</a></Link></li>
+        <li><Holicon icon="arrowtip-next" size={20} /><Link href="/ui/cardSwiper"><a>CardSwiper</a></Link></li>
       </ul>
     </section>
   )
