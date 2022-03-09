@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, Pressable } from 'react-native';
-import Button from 'shared/components/ui/button'
+import Button from 'shared/components/ui/Button'
 import Holicon from "shared/components/ui/holicon"
 
 const Counter: React.FC = () => {

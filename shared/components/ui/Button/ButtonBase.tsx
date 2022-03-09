@@ -32,14 +32,12 @@ const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
 
   const { theme } = useTheme()
 
-  // Jasper: just wanted to see, if we can avoid writing invalid style objects
   const styles = StyleSheet.create<{
     button: ViewStyle
     hovered: ViewStyle
     text: TextStyle
   }>({
     button: {
-      // muss das hier im theme liegen? nein! Im Theme liegen globale Werte. Die Button Component hat lokale Styles und nutzt globale styles. Button spezifische Farbe muss nicht global sein
       borderColor: theme.colors.buttonBorderColor,
       borderWidth: 1,
       borderRadius: 10,

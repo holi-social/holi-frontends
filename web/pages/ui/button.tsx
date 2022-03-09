@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 import Link from 'next/link'
 import Holicon from 'shared/components/ui/holicon'
-import Button from 'shared/components/ui/button'
+import Button from 'shared/components/ui/Button'
 import sassStyles from './ui.module.scss'
 
 const ButtonPage: NextPage = () => {
@@ -17,7 +17,7 @@ const ButtonPage: NextPage = () => {
       </div>
 
       <pre className={sassStyles.code}>{`
-import Button from 'shared/components/ui/button'
+import Button from 'shared/components/ui/Button'
 
 <Button text="Users" style={{}} onPress={() => router.push('/users')} />
       `}</pre>
