@@ -25,15 +25,12 @@ type SharedImageProps = {
   style?: object
 }
 
-const SharedImage: React.VoidFunctionComponent<SharedImageProps> = (
-  props: SharedImageProps
-) => {
+const SharedImage: React.VoidFunctionComponent<SharedImageProps> = (props: SharedImageProps) => {
   const pathFromRequire = props.imageFile && props.imageFile.src
-  const pathFromImport =
-    props.imageFile && props.imageFile.default && props.imageFile.default.src
+  const pathFromImport = props.imageFile && props.imageFile.default && props.imageFile.default.src
   const path = pathFromRequire || pathFromImport
 
-  return <Image className={'uschi'} src={path as string} alt={props.altText} width="50" height="50"  />
+  return <Image className={'uschi'} src={path as string} alt={props.altText} width="50" height="50" />
 }
 
 export default SharedImage

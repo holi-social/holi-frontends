@@ -7,9 +7,7 @@ const Feed: NextPage = () => {
   return (
     <>
       <h1>Feed</h1>
-      <FeedComponent
-        onItemPressed={(post) => router.push(`/feed/${post.id}`)}
-      />
+      <FeedComponent onItemPressed={(post) => router.push(`/feed/${post.id}`)} />
     </>
   )
 }
