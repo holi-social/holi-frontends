@@ -5,13 +5,7 @@ import iconSet from 'shared/assets/fonts/holicons/selection.json'
 import { HoliconProps } from '.'
 
 const HoliconMobile: React.VoidFunctionComponent<HoliconProps> = (props) => (
-  <IcoMoon
-    native
-    SvgComponent={Svg}
-    PathComponent={Path}
-    iconSet={iconSet}
-    {...props}
-  />
+  <IcoMoon native SvgComponent={Svg} PathComponent={Path} iconSet={iconSet} {...props} />
 )
 
 export default HoliconMobile

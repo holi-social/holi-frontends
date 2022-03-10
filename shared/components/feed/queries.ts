@@ -1,5 +1,5 @@
-import { gql } from "@apollo/client/core";
-import { Post } from "./types";
+import { gql } from '@apollo/client/core'
+import { Post } from './types'
 
 export const POST_FRAGMENT = gql`
   fragment PostFragment on Post {
@@ -22,10 +22,10 @@ export const ALL_POSTS_QUERY = gql`
       ...PostFragment
     }
   }
-`;
+`
 
 export interface AllPostsQueryResult {
-  allPosts: Post[];
+  allPosts: Post[]
 }
 
 export const POST_BY_ID = gql`
@@ -39,5 +39,5 @@ export const POST_BY_ID = gql`
 `
 
 export interface PostByIdQueryResult {
-  Post: Post;
+  Post: Post
 }
