@@ -20,7 +20,7 @@ const SharedImagePage: NextPage = () => {
       </div>
 
       <div className={sassStyles.example}>
-        <SharedImage imageFile={require('shared/assets/img/logo/logo_img.png')} style={{ width: 30, height: 30 }} />
+        <SharedImage imageFile={require('shared/assets/img/logo/Logo_img.png')} style={{ width: 30, height: 30 }} />
         <SharedImage imageFile={ImportedSvg} isSvg={true} style={{ width: 50, height: 50 }} />
       </div>
 
