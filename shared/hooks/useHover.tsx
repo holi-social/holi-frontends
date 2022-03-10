@@ -1,13 +1,13 @@
 import { useState, useRef, useEffect, MutableRefObject } from 'react'
 
-const useHover = <T,>(): [MutableRefObject<T>, boolean] => {
+const useHover = <T extends HTMLElement>(): [MutableRefObject<T>, boolean] => {
   const [value, setValue] = useState<boolean>(false)
-  const ref: any = useRef<T | null>(null)
+  const ref = useRef<T | null>(null)
   const handleMouseOver = (): void => setValue(true)
   const handleMouseOut = (): void => setValue(false)
   useEffect(
     () => {
-      const node: any = ref.current
+      const node = ref.current
       if (node && node.addEventListener) {
         node.addEventListener('mouseover', handleMouseOver)
         node.addEventListener('mouseout', handleMouseOut)

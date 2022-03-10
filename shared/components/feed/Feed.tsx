@@ -1,14 +1,6 @@
+import React from 'react'
 import { useQuery } from '@apollo/client'
-import {
-  FlatList,
-  Text,
-  ListRenderItemInfo,
-  Pressable,
-  StyleSheet,
-  View,
-  Platform,
-  Dimensions,
-} from 'react-native'
+import { FlatList, Text, ListRenderItemInfo, Pressable, StyleSheet, View, Platform, Dimensions } from 'react-native'
 import { Post } from './types'
 import { ALL_POSTS_QUERY, AllPostsQueryResult } from './queries'
 import GraphQLError from '../GraphQLError'
@@ -42,21 +34,15 @@ const feedItemStyles = StyleSheet.create({
   },
 })
 
-const feedItem =
-  (onItemPressed: (post: Post) => void) =>
-  ({ item }: ListRenderItemInfo<Post>) => {
+const renderFeedItem = (onItemPressed: (post: Post) => void): React.VoidFunctionComponent<ListRenderItemInfo<Post>> => {
+  const Item: React.VoidFunctionComponent<ListRenderItemInfo<Post>> = ({ item }) => {
     return (
-      <Pressable
-        onPress={() => onItemPressed(item)}
-        style={feedItemStyles.item}
-      >
+      <Pressable onPress={() => onItemPressed(item)} style={feedItemStyles.item}>
         <Text style={feedItemStyles.title}>{item.title}</Text>
         <Text style={feedItemStyles.text} numberOfLines={3}>
           {item.text}
         </Text>
-        {Platform.OS === 'web' ? (
-          <Text style={feedItemStyles.more}>more</Text>
-        ) : null}
+        {Platform.OS === 'web' ? <Text style={feedItemStyles.more}>more</Text> : null}
         <View style={feedItemStyles.footer}>
           <Text style={feedItemStyles.user}>{item.User.name}</Text>
           <Text style={feedItemStyles.views}>({item.views} views)</Text>
@@ -64,6 +50,8 @@ const feedItem =
       </Pressable>
     )
   }
+  return Item
+}
 
 const feedStyles = StyleSheet.create({
   feed: {
@@ -78,15 +66,12 @@ export interface FeedProps {
 }
 
 const Feed: React.VoidFunctionComponent<FeedProps> = ({ onItemPressed }) => {
-  const { loading, error, data, fetchMore } = useQuery<AllPostsQueryResult>(
-    ALL_POSTS_QUERY,
-    {
-      variables: {
-        offset: 0,
-        limit: 10,
-      },
-    }
-  )
+  const { loading, error, data, fetchMore } = useQuery<AllPostsQueryResult>(ALL_POSTS_QUERY, {
+    variables: {
+      offset: 0,
+      limit: 10,
+    },
+  })
 
   if (error) {
     console.error('Error fetching feed', error)
@@ -101,12 +86,12 @@ const Feed: React.VoidFunctionComponent<FeedProps> = ({ onItemPressed }) => {
     <View style={feedStyles.feed}>
       <FlatList
         data={data?.allPosts}
-        renderItem={feedItem(onItemPressed)}
+        renderItem={renderFeedItem(onItemPressed)}
         keyExtractor={(post) => post.id}
-        onEndReached={(info: { distanceFromEnd: number }) => {
+        onEndReached={() => {
           fetchMore({
             variables: {
-              offset: data!.allPosts.length,
+              offset: data?.allPosts.length,
             },
           })
         }}

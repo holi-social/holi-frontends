@@ -3,9 +3,7 @@ import React from 'react'
 import { Text } from 'react-native'
 import { UserData } from 'shared/api'
 
-const Users: React.VoidFunctionComponent<{ users: Array<UserData> }> = ({
-  users,
-}) => {
+const Users: React.VoidFunctionComponent<{ users: Array<UserData> }> = ({ users }) => {
   return (
     <>
       {users.map((user) => (
