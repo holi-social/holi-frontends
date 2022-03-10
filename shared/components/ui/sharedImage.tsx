@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
 import { Image } from 'react-native'
 
@@ -10,15 +11,14 @@ import { WithLocalSvg } from 'react-native-svg'
 // <SharedImage imageFile={PngLogo} style={{ width: 30, height: 30 }} />
 // <SharedImage imageFile={require('shared/assets/img/logo/logo.svg')} isSvg={true} style={{ width: 50, height: 50 }} />
 
-interface styeType {
+type StyleType = Record<string, string | number> & {
   width?: number
   height?: number
-  [key: string]: any
 }
 interface SharedImageProps {
   imageFile: number
   isSvg?: boolean
-  style?: styeType
+  style?: StyleType
 }
 
 const SharedImage: React.VoidFunctionComponent<SharedImageProps> = (

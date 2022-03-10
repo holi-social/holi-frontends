@@ -14,9 +14,9 @@ export type ComponentsScreenProps = NativeStackScreenProps<
   'Components'
 >
 
-const ComponentsScreen: React.VoidFunctionComponent<ComponentsScreenProps> = ({
-  navigation,
-}) => {
+const ComponentsScreen: React.VoidFunctionComponent<
+  ComponentsScreenProps
+> = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Components</Text>

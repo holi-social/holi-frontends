@@ -1,3 +1,4 @@
+import React from 'react'
 import { useQuery } from '@apollo/client'
 import {
   FlatList,
@@ -42,9 +43,12 @@ const feedItemStyles = StyleSheet.create({
   },
 })
 
-const feedItem =
-  (onItemPressed: (post: Post) => void) =>
-  ({ item }: ListRenderItemInfo<Post>) => {
+const renderFeedItem = (
+  onItemPressed: (post: Post) => void
+): React.VoidFunctionComponent<ListRenderItemInfo<Post>> => {
+  const Item: React.VoidFunctionComponent<ListRenderItemInfo<Post>> = ({
+    item,
+  }) => {
     return (
       <Pressable
         onPress={() => onItemPressed(item)}
@@ -64,6 +68,8 @@ const feedItem =
       </Pressable>
     )
   }
+  return Item
+}
 
 const feedStyles = StyleSheet.create({
   feed: {
@@ -101,12 +107,12 @@ const Feed: React.VoidFunctionComponent<FeedProps> = ({ onItemPressed }) => {
     <View style={feedStyles.feed}>
       <FlatList
         data={data?.allPosts}
-        renderItem={feedItem(onItemPressed)}
+        renderItem={renderFeedItem(onItemPressed)}
         keyExtractor={(post) => post.id}
-        onEndReached={(info: { distanceFromEnd: number }) => {
+        onEndReached={() => {
           fetchMore({
             variables: {
-              offset: data!.allPosts.length,
+              offset: data?.allPosts.length,
             },
           })
         }}

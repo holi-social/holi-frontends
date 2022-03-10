@@ -10,10 +10,10 @@ import { useTheme } from 'shared/styles/theme'
 
 export type ButtonProps = {
   text?: string
-  style?: Object
+  style?: Record<string, unknown>
   href?: string
   onPress?: null | ((event: GestureResponderEvent) => void)
-  children?: any
+  children?: React.ReactChildren | Array<React.ReactChild> | string
 }
 
 export type PressableState = Readonly<{
@@ -32,9 +32,12 @@ const Button: React.VoidFunctionComponent<ButtonProps> = (
     console.log('#### onFocus', e.target)
   }
 
-  const content = typeof props.children === 'string' ?
-    <Text>{props.children}</Text> :
-    props.children
+  const content =
+    typeof props.children === 'string' ? (
+      <Text>{props.children}</Text>
+    ) : (
+      props.children
+    )
 
   const { theme } = useTheme()
 
@@ -55,12 +58,11 @@ const Button: React.VoidFunctionComponent<ButtonProps> = (
       height: 50,
       display: 'flex',
       flexDirection: 'row',
-
     },
     hovered: {
       borderColor: '#fb345e',
-      backgroundColor: theme.dark ? '#727272' :'#c2c2c2'
-    }
+      backgroundColor: theme.dark ? '#727272' : '#c2c2c2',
+    },
   })
 
   // https://github.com/necolas/react-native-web/issues/1708

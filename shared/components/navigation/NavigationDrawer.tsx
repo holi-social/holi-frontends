@@ -1,3 +1,4 @@
+import React from 'react'
 import { Text, Pressable, View } from 'react-native'
 import {
   createDrawerNavigator,
@@ -6,7 +7,6 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer'
 import type { DrawerContentComponentProps } from '@react-navigation/drawer'
-import { useNavigation } from '@react-navigation/native'
 
 import FeedSubNavigationStack from './FeedSubNavigationStack'
 import HomeScreen from 'shared/components/screens/Home'
@@ -111,8 +111,6 @@ const CustomDrawerContent: React.VoidFunctionComponent<
 }
 
 const LeftDrawer: React.VoidFunctionComponent = () => {
-  const navigation = useNavigation()
-
   return (
     <Drawer.Navigator
       drawerContent={CustomDrawerContent}
@@ -133,7 +131,7 @@ const LeftDrawer: React.VoidFunctionComponent = () => {
       <Drawer.Screen
         name="Home"
         component={HomeScreen}
-        options={({ navigation }) => ({
+        options={() => ({
           // drawerLabel: Home page, // only menu item text
           title: 'Home page', // this changes menu item and header text
           // is shown in the header, but only when screen is active

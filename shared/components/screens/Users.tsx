@@ -11,13 +11,11 @@ export type UsersScreenProps = NativeStackScreenProps<
   'Users'
 >
 
-const UsersScreen: React.VoidFunctionComponent<UsersScreenProps> = ({
-  navigation,
-}) => {
+const UsersScreen: React.VoidFunctionComponent<UsersScreenProps> = () => {
   const [users, setUsers] = useState<Array<UserData>>([])
   useEffect(() => {
     getUsers().then(setUsers)
-    return () => {}
+    return () => null
   }, [])
   return (
     <View style={styles.container}>
