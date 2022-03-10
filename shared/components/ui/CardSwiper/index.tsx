@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
 import CardsSwipe from 'react-native-cards-swipe'
 import Holicon from 'shared/components/ui/holicon'
+import theme from 'shared/styles/theme/theme'
 import data from './dummy_data.json'
 
 
@@ -10,8 +11,6 @@ type CardSwiperProps = {
 }
 
 const CardSwiper: React.VoidFunctionComponent<CardSwiperProps> = (props: CardSwiperProps) => {
-
-  console.log('#### data: ', data.offers)
 
   const cardsData = data && data.offers ? data.offers : []
 
@@ -61,6 +60,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     width: '100%',
     height: '100%',
+    backgroundColor: theme.colors.background,
     shadowColor: '#000000',
     shadowOffset: {
       width: 0,
@@ -83,7 +83,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.3)',
     paddingHorizontal: 20,
     paddingVertical: 20,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    borderRadius: 13,
   },
   text: {
     color: 'white',

@@ -10,6 +10,10 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({
   Component,
   pageProps,
 }) => {
+
+  if(!global.requestAnimationFrame) {
+    global.requestAnimationFrame = (callback: FrameRequestCallback) => (0)
+  }
   return (
     <ApolloProvider client={client}>
       <ThemeProvider>

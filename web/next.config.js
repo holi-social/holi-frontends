@@ -29,7 +29,7 @@ const nextConfig = {
 
 module.exports = withPlugins(
   [
-    withTM(["shared"], {resolveSymlinks: true, debug: true}),
+    withTM(["react-native-reanimated", "react-native-cards-swipe", "shared"], {resolveSymlinks: true, debug: true}),
   ],
   nextConfig
 );
