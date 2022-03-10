@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import Button from 'shared/components/ui/Button'
-import SharedImage from "shared/components/ui/sharedImage"
+import SharedImage from 'shared/components/ui/sharedImage'
 import { Paragraph } from 'shared/components/ui/Text'
 
 import { useTheme } from 'shared/styles/theme'
@@ -10,8 +10,6 @@ import styles from '../styles/home.module.scss'
 
 import ImportedSvg from 'shared/assets/img/logo/logo.svg'
 import ImportedPng from 'shared/assets/img/logo/Logo_img.png'
-
-
 
 const Home: NextPage = () => {
   const router = useRouter()
@@ -28,8 +26,12 @@ const Home: NextPage = () => {
           <SharedImage imageFile={ImportedSvg} style={{ width: 50, height: 50 }} />
           <span>Users</span>
         </Button>
-        <Button style={{ marginLeft: 10 }} onPress={() => router.push('/feed')}>Feed</Button>
-        <Button style={{ marginLeft: 10 }} onPress={toggleDarkMode}>Toggle DarkMode</Button>
+        <Button style={{ marginLeft: 10 }} onPress={() => router.push('/feed')}>
+          Feed
+        </Button>
+        <Button style={{ marginLeft: 10 }} onPress={toggleDarkMode}>
+          Toggle DarkMode
+        </Button>
       </div>
 
       <div>
