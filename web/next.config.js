@@ -14,23 +14,12 @@ const nextConfig = {
       'react-native$': 'react-native-web',
       'react-native-svg': 'react-native-svg-web',
     }
-    config.resolve.extensions = [
-      '.web.js',
-      '.web.ts',
-      '.web.tsx',
-      ...config.resolve.extensions,
-    ]
+    config.resolve.extensions = ['.web.js', '.web.ts', '.web.tsx', ...config.resolve.extensions]
     return config
   },
   sassOptions: {
-    includePaths: [
-      path.join(__dirname, 'styles'),
-      path.join(__dirname, 'shared/data'),
-    ],
+    includePaths: [path.join(__dirname, 'styles'), path.join(__dirname, 'shared/data')],
   },
 }
 
-module.exports = withPlugins(
-  [withTM(['shared'], { resolveSymlinks: true, debug: true })],
-  nextConfig
-)
+module.exports = withPlugins([withTM(['shared'], { resolveSymlinks: true, debug: true })], nextConfig)

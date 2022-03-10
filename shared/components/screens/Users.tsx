@@ -6,10 +6,7 @@ import type { NavigationStackScreensList } from 'shared/components/navigation/Na
 import { getUsers, UserData } from 'shared/api'
 import Users from 'shared/components/Users'
 
-export type UsersScreenProps = NativeStackScreenProps<
-  NavigationStackScreensList,
-  'Users'
->
+export type UsersScreenProps = NativeStackScreenProps<NavigationStackScreensList, 'Users'>
 
 const UsersScreen: React.VoidFunctionComponent<UsersScreenProps> = () => {
   const [users, setUsers] = useState<Array<UserData>>([])

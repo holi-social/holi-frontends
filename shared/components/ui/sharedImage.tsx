@@ -21,12 +21,8 @@ interface SharedImageProps {
   style?: StyleType
 }
 
-const SharedImage: React.VoidFunctionComponent<SharedImageProps> = (
-  props: SharedImageProps
-) => {
-  const imageComponent = () => (
-    <Image {...props} source={props.imageFile as number} />
-  )
+const SharedImage: React.VoidFunctionComponent<SharedImageProps> = (props: SharedImageProps) => {
+  const imageComponent = () => <Image {...props} source={props.imageFile as number} />
 
   const svgComponent = () => (
     <WithLocalSvg

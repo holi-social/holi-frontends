@@ -1,11 +1,5 @@
 import * as React from 'react'
-import {
-  StyleSheet,
-  Pressable,
-  Text,
-  GestureResponderEvent,
-  ViewStyle,
-} from 'react-native'
+import { StyleSheet, Pressable, Text, GestureResponderEvent, ViewStyle } from 'react-native'
 import { useTheme } from 'shared/styles/theme'
 
 export type ButtonProps = {
@@ -22,9 +16,7 @@ export type PressableState = Readonly<{
   focused?: boolean
 }>
 
-const Button: React.VoidFunctionComponent<ButtonProps> = (
-  props: ButtonProps
-) => {
+const Button: React.VoidFunctionComponent<ButtonProps> = (props: ButtonProps) => {
   const onBlur = (e: React.BaseSyntheticEvent) => {
     console.log('#### onBlur', e.target)
   }
@@ -32,12 +24,7 @@ const Button: React.VoidFunctionComponent<ButtonProps> = (
     console.log('#### onFocus', e.target)
   }
 
-  const content =
-    typeof props.children === 'string' ? (
-      <Text>{props.children}</Text>
-    ) : (
-      props.children
-    )
+  const content = typeof props.children === 'string' ? <Text>{props.children}</Text> : props.children
 
   const { theme } = useTheme()
 

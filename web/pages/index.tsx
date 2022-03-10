@@ -22,14 +22,8 @@ const Home: NextPage = () => {
 
       <div className={styles.border}>
         <Button onPress={() => router.push('/components')}>Components</Button>
-        <Button
-          style={{ marginLeft: 10 }}
-          onPress={() => router.push('/users')}
-        >
-          <SharedImage
-            imageFile={ImportedSvg}
-            style={{ width: 50, height: 50 }}
-          />
+        <Button style={{ marginLeft: 10 }} onPress={() => router.push('/users')}>
+          <SharedImage imageFile={ImportedSvg} style={{ width: 50, height: 50 }} />
           <span>Users</span>
         </Button>
         <Button style={{ marginLeft: 10 }} onPress={() => router.push('/feed')}>
@@ -41,14 +35,8 @@ const Home: NextPage = () => {
       </div>
 
       <div>
-        <SharedImage
-          imageFile={require('shared/assets/img/logo/Logo_img.png')}
-          style={{ width: 50, height: 50 }}
-        />
-        <SharedImage
-          imageFile={ImportedSvg}
-          style={{ width: 50, height: 50 }}
-        />
+        <SharedImage imageFile={require('shared/assets/img/logo/Logo_img.png')} style={{ width: 50, height: 50 }} />
+        <SharedImage imageFile={ImportedSvg} style={{ width: 50, height: 50 }} />
         <Image src={ImportedPng} alt="sdfsdf" width="50" height="50" />
       </div>
     </>

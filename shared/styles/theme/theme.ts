@@ -27,10 +27,10 @@ export type HoliTheme = typeof defaultTheme
 export const ThemeContext = React.createContext<{
   theme: HoliTheme
   toggleDarkMode: () => void
-    }>({
-      theme: defaultTheme,
-      toggleDarkMode: () => null,
-    })
+}>({
+  theme: defaultTheme,
+  toggleDarkMode: () => null,
+})
 
 export const ThemeConsumer = ThemeContext.Consumer
 

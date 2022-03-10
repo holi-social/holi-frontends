@@ -43,10 +43,7 @@ const IconsPage: NextPage = () => {
 
       <label className={sassStyles.filter}>
         Filter:
-        <input
-          type="text"
-          onChange={(event) => searchItems(event.target.value)}
-        />
+        <input type="text" onChange={(event) => searchItems(event.target.value)} />
       </label>
       <ul className={sassStyles.exampleList}>
         {filteredIcons.map((icon, index) => (

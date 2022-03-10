@@ -9,25 +9,17 @@ import SharedImage from 'shared/components/ui/sharedImage'
 import Holicon from 'shared/components/ui/holicon'
 import { useTheme } from 'shared/styles/theme'
 
-export type HomeScreenProps = NativeStackScreenProps<
-  NavigationStackScreensList,
-  'Home'
->
+export type HomeScreenProps = NativeStackScreenProps<NavigationStackScreensList, 'Home'>
 import ImportedSvg from 'shared/assets/img/logo/logo.svg'
 
-const HomeScreen: React.VoidFunctionComponent<HomeScreenProps> = ({
-  navigation,
-}) => {
+const HomeScreen: React.VoidFunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const { toggleDarkMode } = useTheme()
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Home</Text>
 
       <View style={{ flexDirection: 'column' }}>
-        <Button
-          style={styles.mt}
-          onPress={() => navigation.navigate('Components')}
-        >
+        <Button style={styles.mt} onPress={() => navigation.navigate('Components')}>
           Components
         </Button>
         <Button style={styles.mt} onPress={() => navigation.navigate('Users')}>
@@ -36,11 +28,7 @@ const HomeScreen: React.VoidFunctionComponent<HomeScreenProps> = ({
         </Button>
         <Button style={styles.mt} onPress={() => navigation.navigate('Feed')}>
           <Text>Feed</Text>
-          <Holicon
-            icon="arrowtip-next"
-            size={20}
-            color={styleVars.primaryColor}
-          />
+          <Holicon icon="arrowtip-next" size={20} color={styleVars.primaryColor} />
         </Button>
         <Button style={styles.mt} onPress={toggleDarkMode}>
           Toggle Darkmode

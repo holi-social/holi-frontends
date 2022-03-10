@@ -8,10 +8,7 @@ import { faker } from '@faker-js/faker'
 
 const DEFAULT_PORT = 4000
 
-program.option(
-  '--port <number>',
-  `port on which to run the server (default: ${DEFAULT_PORT}`
-)
+program.option('--port <number>', `port on which to run the server (default: ${DEFAULT_PORT}`)
 
 program.parse()
 
@@ -40,14 +37,9 @@ const fakePost = (users) => () => {
 }
 
 const fakeUsers = Array.from({ length: randomInt(0, 100) }, fakeUser)
-const fakePosts = Array.from(
-  { length: fakeUsers.length === 0 ? 0 : randomInt(0, 100) },
-  fakePost(fakeUsers)
-)
+const fakePosts = Array.from({ length: fakeUsers.length === 0 ? 0 : randomInt(0, 100) }, fakePost(fakeUsers))
 
-console.info(
-  `${fakeUsers.length} fake user(s) and ${fakePosts.length} fake post(s)`
-)
+console.info(`${fakeUsers.length} fake user(s) and ${fakePosts.length} fake post(s)`)
 
 const typeDefs = gql(readFileSync('./schema.graphql').toString('utf-8'))
 const resolvers = {

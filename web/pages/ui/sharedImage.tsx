@@ -11,10 +11,13 @@ const SharedImagePage: NextPage = () => {
   return (
     <section>
       <div className={sassStyles.headline}>
-        <Link href="/ui"><a><Holicon icon="arrow-back" size={50} /></a></Link>
+        <Link href="/ui">
+          <a>
+            <Holicon icon="arrow-back" size={50} />
+          </a>
+        </Link>
         <h1>SharedImage</h1>
       </div>
-
 
       <div className={sassStyles.example}>
         <SharedImage imageFile={require('shared/assets/img/logo/logo_img.png')} style={{ width: 30, height: 30 }} />

@@ -35,9 +35,7 @@ export interface FeedItemDetailProps {
   postId: string
 }
 
-const FeedItemDetail: React.VoidFunctionComponent<FeedItemDetailProps> = (
-  props
-) => {
+const FeedItemDetail: React.VoidFunctionComponent<FeedItemDetailProps> = (props) => {
   const { loading, error, data } = useQuery<PostByIdQueryResult>(POST_BY_ID, {
     variables: {
       id: props.postId,

@@ -1,11 +1,6 @@
 import React from 'react'
 import { Text, Pressable, View } from 'react-native'
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItemList,
-  DrawerItem,
-} from '@react-navigation/drawer'
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer'
 import type { DrawerContentComponentProps } from '@react-navigation/drawer'
 
 import FeedSubNavigationStack from './FeedSubNavigationStack'
@@ -34,30 +29,17 @@ type CustomHeaderProps = {
   pressOpacity?: number
   labelVisible?: boolean
 }
-const CustomHeaderIcon: React.VoidFunctionComponent<CustomHeaderProps> = (
-  props
-) => {
-  const currentRouteName =
-    props.navigation.getState().routeNames[props.navigation.getState().index]
+const CustomHeaderIcon: React.VoidFunctionComponent<CustomHeaderProps> = (props) => {
+  const currentRouteName = props.navigation.getState().routeNames[props.navigation.getState().index]
 
   return (
-    <View
-      style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
-    >
-      <Pressable
-        onPress={() => props.navigation.toggleDrawer()}
-        {...props}
-        style={{ marginLeft: 13 }}
-      >
+    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+      <Pressable onPress={() => props.navigation.toggleDrawer()} {...props} style={{ marginLeft: 13 }}>
         <Holicon icon="dashboard" size={20} color={styleVars.fontColor} />
       </Pressable>
       {currentRouteName !== 'Home' && (
         // <Pressable onPress={() => props.navigation.navigate('Home')} {...props} style={{marginLeft: 20}} >
-        <Pressable
-          onPress={() => props.navigation.goBack()}
-          {...props}
-          style={{ marginLeft: 20 }}
-        >
+        <Pressable onPress={() => props.navigation.goBack()} {...props} style={{ marginLeft: 20 }}>
           <Holicon icon="arrow-back" size={30} color={styleVars.fontColor} />
         </Pressable>
       )}
@@ -65,9 +47,7 @@ const CustomHeaderIcon: React.VoidFunctionComponent<CustomHeaderProps> = (
   )
 }
 
-const CustomDrawerContent: React.VoidFunctionComponent<
-  DrawerContentComponentProps
-> = (props) => {
+const CustomDrawerContent: React.VoidFunctionComponent<DrawerContentComponentProps> = (props) => {
   return (
     <View style={{ flex: 1, display: 'flex', justifyContent: 'space-between' }}>
       <Text
@@ -88,10 +68,7 @@ const CustomDrawerContent: React.VoidFunctionComponent<
         <DrawerItem label="Feed" onPress={() => props.navigation.navigate('Feed')} /> */}
 
         {/* Add any further menu items */}
-        <DrawerItem
-          label="Click me!"
-          onPress={() => alert('Uuuuuh - an alert!')}
-        />
+        <DrawerItem label="Click me!" onPress={() => alert('Uuuuuh - an alert!')} />
       </DrawerContentScrollView>
 
       <View style={{ backgroundColor: 'lightblue' }}>
@@ -123,9 +100,7 @@ const LeftDrawer: React.VoidFunctionComponent = () => {
           borderRightWidth: 1,
         },
         overlayColor: 'rgba(0,0,0,0.7)',
-        headerLeft: (props) => (
-          <CustomHeaderIcon {...props} navigation={navigation} />
-        ),
+        headerLeft: (props) => <CustomHeaderIcon {...props} navigation={navigation} />,
       })}
     >
       <Drawer.Screen

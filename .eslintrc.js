@@ -21,7 +21,6 @@ module.exports = {
   plugins: ['react', 'react-native', '@typescript-eslint', 'prefer-arrow', 'prettier'],
   rules: {
     'prettier/prettier': ['error'],
-    indent: ['error', 2],
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
