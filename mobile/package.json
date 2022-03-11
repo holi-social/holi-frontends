@@ -11,7 +11,8 @@
     "ios": "expo start --ios",
     "preweb": "yarn workspace shared run generate-style-vars",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "build": "mkdir -p dist && echo 'eas build will eventually go here' > dist/output.txt"
   },
   "dependencies": {
     "@apollo/client": "^3.5.9",
