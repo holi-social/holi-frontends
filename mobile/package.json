@@ -4,11 +4,11 @@
   "main": "index.js",
   "scripts": {
     "prestart": "yarn workspace shared run generate-style-vars",
-    "start": "expo start --dev-client",
+    "start": "expo start",
     "preandroid": "yarn workspace shared run generate-style-vars",
-    "android": "expo run:android",
+    "android": "expo start --android",
     "preios": "yarn workspace shared run generate-style-vars",
-    "ios": "expo run:ios",
+    "ios": "expo start --ios",
     "preweb": "yarn workspace shared run generate-style-vars",
     "web": "expo start --web",
     "eject": "expo eject"
@@ -29,10 +29,7 @@
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
     "react-native-svg": "12.1.1",
-    "shared": "*",
-    "expo-splash-screen": "~0.14.1",
-    "react-dom": "17.0.1",
-    "react-native-web": "0.17.1"
+    "shared": "*"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

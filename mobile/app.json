@@ -3,7 +3,6 @@
     "name": "projectholi",
     "slug": "projectholi",
     "version": "1.0.0",
-    "sdkVersion": "44.0.6",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -18,17 +17,14 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "foundation.holistic.projectholi",
-      "buildNumber": "1.0.0"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "foundation.holistic.projectholi",
-      "versionCode": 1
+      "package": "foundation.holistic.projectholi"
     },
     "web": {
       "favicon": "./assets/favicon.png"
