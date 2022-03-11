@@ -17,14 +17,17 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "foundation.holistic.projectholi",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "foundation.holistic.projectholi"
+      "package": "foundation.holistic.projectholi",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
