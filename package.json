@@ -8,6 +8,7 @@
 			"mock-api",
       "web"
     ],
-    "nohoist": ["**/react-native", "**/react-native/**", "**/ts-invariant"]
+    "nohoist": ["**/react-native", "**/react-native/**", "**/ts-invariant",
+"**/react-native-reanimated"]
   }
 }
