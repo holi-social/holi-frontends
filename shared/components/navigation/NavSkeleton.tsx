@@ -48,12 +48,47 @@ const AppsHomeScreen: React.VoidFunctionComponent<AppsHomeScreenProps> = ({ navi
   )
 }
 
-const CommunityBottomNav = createBottomTabNavigator()
+type CommunityStackList = {
+  Feed: undefined
+  Details: {
+    feedId: string
+  }
+}
+
+const CommunityStack = createNativeStackNavigator<CommunityStackList>()
+
+const FeedScreen: React.VoidFunctionComponent<NativeStackScreenProps<CommunityStackList, 'Feed'>> = ({
+  navigation,
+}) => (
+  <View>
+    <Text>Feed</Text>
+    <Button onPress={() => navigation.navigate('Details', { feedId: 'abc' })}>feed item 1</Button>
+    <Button onPress={() => navigation.navigate('Details', { feedId: 'bcd' })}>feed item 2</Button>
+    <Button onPress={() => navigation.navigate('Details', { feedId: 'asd' })}>feed item 3</Button>
+    <Button onPress={() => navigation.navigate('Details', { feedId: 'flaka' })}>feed item 4</Button>
+  </View>
+)
+
+const FeedDetailScreen: React.VoidFunctionComponent<NativeStackScreenProps<CommunityStackList, 'Details'>> = (
+  props
+) => (
+  <View>
+    <Text>Detail {props.route.params.feedId}</Text>
+    <Button onPress={() => props.navigation.navigate('Feed')}>back</Button>
+  </View>
+)
 
 const CommunityScreen = () => (
-  <View>
-    <Text>Community Home</Text>
-  </View>
+  <CommunityStack.Navigator>
+    <CommunityStack.Screen name="Feed" options={{ headerShown: false }} component={FeedScreen} />
+    <CommunityStack.Screen
+      name="Details"
+      options={{
+        presentation: 'modal',
+      }}
+      component={FeedDetailScreen}
+    />
+  </CommunityStack.Navigator>
 )
 
 const BoardScreen: React.VoidFunctionComponent = () => (
@@ -61,6 +96,8 @@ const BoardScreen: React.VoidFunctionComponent = () => (
     <Text>Board</Text>
   </View>
 )
+
+const CommunityBottomNav = createBottomTabNavigator()
 
 type CommunityAppProps = NativeStackScreenProps<RootStackScreensList, 'Community'>
 
@@ -92,7 +129,7 @@ const SettingsScreen: React.VoidFunctionComponent<DrawerScreenProps<DrawerScreen
 )
 
 const DrawerNav: React.VoidFunctionComponent<NativeStackScreenProps<RootStackScreensList, 'Drawer'>> = () => (
-  <Drawer.Navigator initialRouteName="AppsHome" screenOptions={{}}>
+  <Drawer.Navigator initialRouteName="AppsHome">
     <Drawer.Screen name="AppsHome" component={AppsHomeScreen} />
     <Drawer.Screen name="Settings" component={SettingsScreen} />
   </Drawer.Navigator>
@@ -118,6 +155,13 @@ export const SkeletonNav: React.ComponentType = () => (
     }}
   >
     <RootStack.Screen name="Drawer" component={DrawerNav} />
-    <RootStack.Screen name="Community" component={CommunityApp} />
+    <RootStack.Screen
+      name="Community"
+      component={CommunityApp}
+      options={{
+        animation: 'slide_from_bottom',
+        gestureEnabled: false,
+      }}
+    />
   </RootStack.Navigator>
 )
