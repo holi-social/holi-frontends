@@ -3,17 +3,20 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "predev": "yarn workspace shared run generate-style-vars",
     "prestart": "yarn workspace shared run generate-style-vars",
-    "start": "expo start",
     "preandroid": "yarn workspace shared run generate-style-vars",
-    "android": "expo start --android",
     "preios": "yarn workspace shared run generate-style-vars",
-    "ios": "expo start --ios",
     "preweb": "yarn workspace shared run generate-style-vars",
+    "prebuild": "yarn workspace shared run generate-style-vars",
+    "dev": "expo start",
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject",
-    "build": "mkdir -p dist && echo 'eas build will eventually go here' > dist/output.txt",
-    "lint": "TIMING=1 eslint ."
+    "build": "eas build --platform android",
+    "lint": "TIMING=1 eslint .",
+    "eject": "expo eject"
   },
   "dependencies": {
     "@apollo/client": "^3.5.9",
