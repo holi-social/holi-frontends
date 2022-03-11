@@ -23,7 +23,7 @@ export type NavigationStackScreensList = {
 const Drawer = createDrawerNavigator()
 
 type CustomHeaderProps = {
-  navigation: any
+  navigation: any // eslint-disable-line
   tintColor?: string
   pressColor?: string
   pressOpacity?: number

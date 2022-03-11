@@ -1,3 +1,5 @@
 node_modules
 mobile/.turbo/
 web/.turbo/
+mock-api/.turbo/
+shared/.turbo
