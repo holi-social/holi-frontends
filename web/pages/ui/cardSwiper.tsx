@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-import CardSwiper from 'shared/components/ui/CardSwiper'
+// import CardSwiper from 'shared/components/ui/CardSwiper'
 
 import sassStyles from './ui.module.scss'
 
@@ -25,7 +25,7 @@ const CardSwiperPage: NextPage = () => {
 
 
       <div className={sassStyles.example}>
-        <CardSwiperComponent />
+        {/* <CardSwiperComponent /> */}
       </div>
 
       <pre className={sassStyles.code}>{`
