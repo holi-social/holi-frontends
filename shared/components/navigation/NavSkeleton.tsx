@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Text, Pressable } from 'react-native'
 import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack'
 import { createDrawerNavigator, DrawerScreenProps } from '@react-navigation/drawer'
+import { DrawerActions, useNavigation } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Button from '../ui/Button'
 import Holicon from '../ui/holicon'
@@ -129,17 +130,23 @@ const SettingsScreen: React.VoidFunctionComponent<DrawerScreenProps<DrawerScreen
 )
 
 const DrawerNav: React.VoidFunctionComponent<NativeStackScreenProps<RootStackScreensList, 'Drawer'>> = () => (
-  <Drawer.Navigator initialRouteName="AppsHome">
+  <Drawer.Navigator
+    initialRouteName="AppsHome"
+    screenOptions={{
+      headerLeft: Profile,
+    }}
+  >
     <Drawer.Screen name="AppsHome" component={AppsHomeScreen} />
     <Drawer.Screen name="Settings" component={SettingsScreen} />
   </Drawer.Navigator>
 )
 
 const Profile = () => {
+  const navigation = useNavigation()
   return (
     <Pressable
-      style={{ width: 32, height: 32, backgroundColor: 'red', borderRadius: 24, marginRight: 8 }}
-      onPress={() => console.log('should toggle drawer')}
+      style={{ width: 32, height: 32, backgroundColor: 'red', borderRadius: 24, marginLeft: 12 }}
+      onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
     />
   )
 }
@@ -148,10 +155,9 @@ const RootStack = createNativeStackNavigator<RootStackScreensList>()
 
 export const SkeletonNav: React.ComponentType = () => (
   <RootStack.Navigator
-    initialRouteName="AppsHome"
+    initialRouteName="Drawer"
     screenOptions={{
       headerShown: false,
-      headerLeft: Profile,
     }}
   >
     <RootStack.Screen name="Drawer" component={DrawerNav} />
@@ -159,6 +165,7 @@ export const SkeletonNav: React.ComponentType = () => (
       name="Community"
       component={CommunityApp}
       options={{
+        presentation: 'fullScreenModal',
         animation: 'slide_from_bottom',
         gestureEnabled: false,
       }}
