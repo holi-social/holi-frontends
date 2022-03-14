@@ -1,0 +1,99 @@
+before_script:
+  - 'yarn install'
+
+stages:
+  - 'lint_compile_test'
+  - 'staging'
+  - 'prod'
+
+lint_compile_test:
+  stage: 'lint_compile_test'
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - yarn turbo run lint
+    - yarn turbo run test
+
+# TODO: set dynamic environment variable, see https://docs.gitlab.com/ee/ci/environments/#set-dynamic-environment-urls-after-a-job-finishes
+mobile_staging_publish:
+  stage: 'staging'
+  needs: ['lint_compile_test']
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - echo 'cd mobile && expo publish --release-channel staging'
+    - echo 'set Gitlab environment URL here'
+
+mobile_staging_build:
+  stage: 'staging'
+  needs: ['lint_compile_test']
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - echo 'eas build --platform android --profile staging' # or eas build --platform all
+    - echo 'export AAB_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform android --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
+    - echo 'mkdir -p artifacts_staging && curl -o artifacts_staging/$(basename $AAB_URL) $AAB_URL'
+  artifacts:
+    paths:
+      - artifacts_staging/
+
+mobile_staging_e2e:
+  stage: 'staging'
+  needs: ['mobile_staging_build']
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    # TODO use artifact of previous stage
+    - echo 'trigger (Browserstack) E2E tests here'
+
+# TODO: set dynamic environment variable, see https://docs.gitlab.com/ee/ci/environments/#set-dynamic-environment-urls-after-a-job-finishes
+mobile_prod_publish:
+  stage: 'prod'
+  needs: ['mobile_staging_e2e']
+  when: manual
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - echo 'yarn expo publish will go here'
+    - echo 'set Gitlab environment URL here'
+
+mobile_prod_build:
+  stage: 'prod'
+  needs: ['mobile_staging_e2e']
+  when: manual
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - echo 'eas build --platform android --profile prod' # or eas build --platform all
+    - echo 'export AAB_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform android --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
+    - echo 'mkdir -p artifacts_staging && curl -o artifacts_staging/$(basename $AAB_URL) $AAB_URL'
+
+mobile_prod_submit:
+  stage: 'prod'
+  needs: ['mobile_prod_build']
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - echo 'submission to app store(s) goes here'
+
+web_build:
+  stage: 'staging'
+  needs: ['lint_compile_test']
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - yarn turbo run build --scope=web
+
+web_staging_deploy:
+  stage: 'staging'
+  needs: ['web_build']
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - echo 'staging deployment goes here'
+
+web_staging_e2e:
+  stage: 'staging'
+  needs: ['web_staging_deploy']
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - echo 'staging e2e tests go here'
+
+web_prod_deploy:
+  stage: 'prod'
+  needs: ['web_staging_e2e']
+  when: manual
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - echo 'prod deployment goes here'

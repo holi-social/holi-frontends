@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "TIMING=1 next lint"
+    "lint": "TIMING=1 next lint",
+    "test": "echo 'unit testing goes here'"
   },
   "dependencies": {
     "@apollo/client": "^3.5.9",
