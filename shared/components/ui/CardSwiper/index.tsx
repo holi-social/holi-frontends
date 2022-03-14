@@ -1,177 +1,214 @@
-import React, { useState, useMemo, RefObject } from 'react'
-import { StyleSheet, Text, Button, View, ImageBackground } from 'react-native'
-import TinderCard from 'react-tinder-card'
-
+import React, { useState, RefObject, createRef, useCallback } from 'react'
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import CardStack, { Card } from 'react-native-card-stack-swiper'
+import theme from 'shared/styles/theme/theme'
+import Holicon from 'shared/components/ui/holicon'
 import data from './dummy_data.json'
 
-const alreadyRemoved = []
-const loadedData = data && data.offers ? data.offers : []
-// This fixes issues with updating characters state forcing it to use the current state and not the state that was active when the card was created.
-let charactersState = loadedData
-
 const CardSwiper = () => {
-  const [currentIndex, setCurrentIndex] = useState(loadedData.length - 1)
-  const [characters, setCharacters] = useState(loadedData)
-  const [lastDirection, setLastDirection] = useState()
 
-  const childRefs: RefObject<unknown>[] = useMemo(
-    () =>
-      Array(loadedData.length)
-        .fill(0)
-        .map((i) => React.createRef()),
-    []
-  )
+  const loadedData = data && data.offers ? data.offers : []
+  // const [alreadySwiped, setAlreadySwiped] = useState([])
+  // const [lastIndex, setLastIndex] = useState(-1)
+  let lastIndex = 0
+  const alreadySwiped = []
+  const swiper: RefObject<CardStack> = createRef()
 
-  const swiped = (direction, nameToDelete, index) => {
-    console.log('removing: ' + nameToDelete + ' to the ' + direction)
-    setLastDirection(direction)
-    alreadyRemoved.push(nameToDelete)
-    console.log('### alreadyRemoved: ', alreadyRemoved, 'current Index: ', currentIndex-1)
-    setCurrentIndex(index - 1)
+  const onSwipe = (index, direction) => {
+    if(index === lastIndex) return
+    alreadySwiped.push(direction)
+    lastIndex = index
   }
 
-  const outOfFrame = (title) => {
-    console.log(title + ' left the screen!')
-    charactersState = charactersState.filter(
-      (character) => character.title !== title
-    )
-    setCharacters(charactersState)
-  }
-
-  const swipe = (dir) => {
-    const cardsLeft = characters.filter(
-      (person) => !alreadyRemoved.includes(person.title)
-    )
-    if (cardsLeft.length) {
-      const toBeRemoved = cardsLeft[cardsLeft.length - 1].title // Find the card object to be removed
-      const index = loadedData
-        .map((person) => person.title)
-        .indexOf(toBeRemoved) // Find the index of which to make the reference to
-      alreadyRemoved.push(toBeRemoved) // Make sure the next card gets removed next time if this card do not have time to exit the screen
-
-      // console.log('swipe ### toBeRemoved: ', toBeRemoved, ' with index: ', index, ' of list ', loadedData, childRefs)
-
-      // @ts-ignore
-      childRefs[index].current.swipe(dir) // Swipe the card!
-
-      // console.log('####### after swipe: ', childRefs)
+  const resetSingleCard = (t) => new Promise(resolve => setTimeout(() => {
+    if(swiper && swiper.current) {
+      swiper.current.goBackFromTop()
+      alreadySwiped.pop()
+      lastIndex = lastIndex - 1
     }
+    resolve(true)
+  }, t))
+
+  const rekursiveReset = async (resolve, reject) => {
+    await resetSingleCard(30)
+    if (lastIndex < 0) {
+      return resolve()
+    }
+    rekursiveReset(resolve, reject)
   }
 
-  const undo = () => {
-
-    const newIndex = currentIndex + 1
-    setCurrentIndex(newIndex)
-    console.log('### undo - current Index: ', currentIndex, ' new index: ', newIndex)
-
-    // const index = loadedData
-    //     .map((person) => person.title)
-    //     .indexOf(lastRemoved)
-        // console.log('UNDO ### lastRemoved: ', lastRemoved, ' with index: ', index, ' of list ', loadedData, childRefs)
-    // @ts-ignore
-    // childRefs[newIndex].current.restoreCard()
-    console.log('ref to restore: ', childRefs[4].current)
+  const resetStack = async () => {
+    await new Promise((r, j) => rekursiveReset(r, j))
   }
 
-  const getUrl = (dataItem) => {
-    return `http://localhost:3000${dataItem.image}`
-  }
 
   return (
-    <View style={styles.Container}>
-      <Text style={styles.Header}>React Native Tinder Card</Text>
-      <View style={styles.CardContainer}>
-        {characters.map((character, index) => (
-
-          <TinderCard
-            // @ts-ignore
-            ref={childRefs[index]}
-            key={character.title}
-            onSwipe={(dir) => swiped(dir, character.title, index)}
-            onCardLeftScreen={() => outOfFrame(character.title)}
-            flickOnSwipe={true}
-          >
-            <View style={styles.Card}>
-              <ImageBackground
-                style={styles.CardImage}
-                source={{ uri: getUrl(character) }}
-              >
-                <Text style={styles.CardTitle}>{character.title}</Text>
-              </ImageBackground>
+    <View style={styles.container}>
+      <CardStack
+        style={styles.cardContainer}
+        renderNoMoreCards={() => <Text style={{ fontWeight: '700', fontSize: 18, color: 'gray' }}>No more cards :(</Text>}
+        ref={swiper}
+        loop={true}
+        onSwipedLeft={(index) => onSwipe(index, 'left')}
+        onSwipedRight={(index) => onSwipe(index, 'right')}
+        onSwipedTop={(index) => onSwipe(index, 'top')}
+        onSwipedBottom={(index) => onSwipe(index, 'bottom')}
+        onSwipeEnd={() => console.log('onSwiped end')}
+      >
+        {loadedData.map((card, index) => (
+        <Card style={styles.card} key={`sdfsdf${index}`}>
+          <Image
+            style={styles.cardImg}
+            source={{ uri: `http://localhost:3000${card.image}` }}
+          />
+          <View style={styles.textContainer}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Holicon
+                style={{ marginRight: 6 }}
+                icon="community"
+                size={25}
+                color="#fff"
+              />
+              <Text style={styles.text}>{card.provider}</Text>
             </View>
-          </TinderCard>
+            <View>
+              <Text style={[styles.text, styles.textBig]}>
+                {card.title}
+              </Text>
+              <Text style={[styles.text, { marginTop: 10 }]}>
+                {card.date}
+              </Text>
+            </View>
+          </View>
+        </Card>
         ))}
+      </CardStack>
+
+      <View style={styles.footer}>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={[styles.button, styles.red]} onPress={() => {
+            swiper.current.swipeLeft();
+          }}>
+            <Text>swipe left</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.button, styles.orange]} onPress={() => resetStack()}>
+            <Text>reset</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.button, styles.green]} onPress={() => {
+            swiper.current.swipeRight();
+          }}>
+            <Text>swipe right</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.Buttons}>
-        <Button onPress={() => swipe('left')} title="Swipe left!" />
-        <Button onPress={() => swipe('right')} title="Swipe right!" />
-        <Button onPress={() => undo()} title="Undo" />
-      </View>
-      {lastDirection ? (
-        <Text style={styles.InfoText} key={lastDirection}>
-          You swiped {lastDirection}
-        </Text>
-      ) : (
-        <Text style={styles.InfoText}>
-          Swipe a card or press a button to get started!
-        </Text>
-      )}
+
     </View>
-  )
-}
+  );
+};
 
 export default CardSwiper
 
+
 const styles = StyleSheet.create({
-  Container: {
-    display: 'flex',
+  container: {
+    flex: 1,
+    width: '100%',
+  },
+  cardContainer: {
+    flex: 4,
     alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
   },
-  Header: {
-    color: '#000',
-    fontSize: 30,
-    marginBottom: 30,
+  card:{
+    width: 350,
+    height: 420,
+    flex: 1,
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.07,
+    shadowRadius: 3.3,
+    // borderColor: '#0f0',
+    // borderWidth: 1,
   },
-  CardContainer: {
-    width: '90%',
-    maxWidth: 260,
-    height: 300,
-  },
-  Card: {
-    position: 'absolute',
-    backgroundColor: '#fff',
-    width: '100%',
-    maxWidth: 260,
-    height: 300,
-    shadowColor: 'black',
-    shadowOpacity: 0.2,
-    shadowRadius: 20,
-    borderRadius: 20,
-    resizeMode: 'cover',
-  },
-  CardImage: {
+  cardImg: {
     width: '100%',
     height: '100%',
-    overflow: 'hidden',
-    borderRadius: 20,
+    borderRadius: 13,
   },
-  CardTitle: {
+  textContainer: {
     position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
     bottom: 0,
-    margin: 10,
-    color: '#fff',
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    justifyContent: 'space-between',
+    borderRadius: 13,
   },
-  Buttons: {
-    marginHorizontal: 20,
-    marginVertical: 20,
-    zIndex: -100,
+  text: {
+    color: 'white',
+    fontSize: 16,
   },
-  InfoText: {
-    height: 28,
-    justifyContent: 'center',
-    display: 'flex',
-    zIndex: -100,
+  textBig: {
+    fontSize: 22,
+    fontWeight: 'bold',
   },
-})
+
+  footer:{
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center'
+  },
+  buttonContainer:{
+    width:220,
+    flexDirection:'row',
+    justifyContent: 'space-between',
+  },
+  button:{
+    shadowColor: 'rgba(0,0,0,0.3)',
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowOpacity:0.5,
+    backgroundColor:'#fff',
+    alignItems:'center',
+    justifyContent:'center',
+    zIndex: 0,
+  },
+  orange:{
+    width:55,
+    height:55,
+    borderWidth:6,
+    borderColor:'rgb(246,190,66)',
+    borderRadius:55,
+    marginTop:-15
+  },
+  green:{
+    width:75,
+    height:75,
+    backgroundColor:'#fff',
+    borderRadius:75,
+    borderWidth:6,
+    borderColor:'#01df8a',
+  },
+  red:{
+    width:75,
+    height:75,
+    backgroundColor:'#fff',
+    borderRadius:75,
+    borderWidth:6,
+    borderColor:'#fd267d',
+  },
+
+});
