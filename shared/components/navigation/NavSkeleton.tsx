@@ -29,6 +29,9 @@ type RootStackScreensList = {
   Drawer: undefined
   AppsHome: undefined
   Community: undefined
+  CommunityFeedDetail: {
+    feedId: string
+  }
 }
 
 type DrawerScreensList = {
@@ -49,47 +52,26 @@ const AppsHomeScreen: React.VoidFunctionComponent<AppsHomeScreenProps> = ({ navi
   )
 }
 
-type CommunityStackList = {
-  Feed: undefined
-  Details: {
-    feedId: string
-  }
-}
+const FeedDetailScreen: React.VoidFunctionComponent<
+  NativeStackScreenProps<RootStackScreensList, 'CommunityFeedDetail'>
+> = (props) => (
+  <View>
+    <Text>Detail {props.route.params.feedId}</Text>
+    <Button onPress={() => props.navigation.navigate('Community')}>back</Button>
+  </View>
+)
 
-const CommunityStack = createNativeStackNavigator<CommunityStackList>()
-
-const FeedScreen: React.VoidFunctionComponent<NativeStackScreenProps<CommunityStackList, 'Feed'>> = ({
+const CommunityScreen: React.VoidFunctionComponent<NativeStackScreenProps<RootStackScreensList, 'Community'>> = ({
   navigation,
 }) => (
   <View>
     <Text>Feed</Text>
-    <Button onPress={() => navigation.navigate('Details', { feedId: 'abc' })}>feed item 1</Button>
-    <Button onPress={() => navigation.navigate('Details', { feedId: 'bcd' })}>feed item 2</Button>
-    <Button onPress={() => navigation.navigate('Details', { feedId: 'asd' })}>feed item 3</Button>
-    <Button onPress={() => navigation.navigate('Details', { feedId: 'flaka' })}>feed item 4</Button>
+    <Button onPress={() => navigation.navigate('CommunityFeedDetail', { feedId: '1' })}>feed item 1</Button>
+    <Button onPress={() => navigation.navigate('CommunityFeedDetail', { feedId: '2' })}>feed item 2</Button>
+    <Button onPress={() => navigation.navigate('CommunityFeedDetail', { feedId: '3' })}>feed item 3</Button>
+    <Button onPress={() => navigation.navigate('CommunityFeedDetail', { feedId: '4' })}>feed item 4</Button>
+    <Button onPress={() => navigation.navigate('CommunityFeedDetail', { feedId: '5' })}>feed item 5</Button>
   </View>
-)
-
-const FeedDetailScreen: React.VoidFunctionComponent<NativeStackScreenProps<CommunityStackList, 'Details'>> = (
-  props
-) => (
-  <View>
-    <Text>Detail {props.route.params.feedId}</Text>
-    <Button onPress={() => props.navigation.navigate('Feed')}>back</Button>
-  </View>
-)
-
-const CommunityScreen = () => (
-  <CommunityStack.Navigator>
-    <CommunityStack.Screen name="Feed" options={{ headerShown: false }} component={FeedScreen} />
-    <CommunityStack.Screen
-      name="Details"
-      options={{
-        presentation: 'modal',
-      }}
-      component={FeedDetailScreen}
-    />
-  </CommunityStack.Navigator>
 )
 
 const BoardScreen: React.VoidFunctionComponent = () => (
@@ -165,10 +147,12 @@ export const SkeletonNav: React.ComponentType = () => (
       name="Community"
       component={CommunityApp}
       options={{
-        presentation: 'fullScreenModal',
         animation: 'slide_from_bottom',
         gestureEnabled: false,
       }}
     />
+    <RootStack.Group screenOptions={{ presentation: 'modal', headerShown: true }}>
+      <RootStack.Screen name="CommunityFeedDetail" component={FeedDetailScreen} />
+    </RootStack.Group>
   </RootStack.Navigator>
 )
