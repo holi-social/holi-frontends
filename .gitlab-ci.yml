@@ -25,12 +25,9 @@ mobile_review_publish:
   environment:
     name: review/$CI_COMMIT_REF_SLUG
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=$CI_ENVIRONMENT_SLUG
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: never
-    - if: $CI_COMMIT_REF_SLUG =~ /^noenv\/.*/
-      when: never
-    - if: $CI_COMMIT_BRANCH
+  except:
+    - main
+    - /^noenv\/.*/
 
 mobile_staging_publish:
   stage: 'build_deploy'
@@ -42,9 +39,8 @@ mobile_staging_publish:
   environment:
     name: staging
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=staging
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: on_success
+  only:
+    - main
 
 mobile_staging_build:
   stage: 'build_deploy'
@@ -58,9 +54,8 @@ mobile_staging_build:
   artifacts:
     paths:
       - artifacts_staging/
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: on_success
+  only:
+    - main
 
 mobile_staging_e2e:
   stage: 'build_deploy'
@@ -68,9 +63,8 @@ mobile_staging_e2e:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - echo 'trigger (Browserstack) E2E tests here'
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: on_success
+  only:
+    - main
 
 mobile_production_publish:
   stage: 'build_deploy'
@@ -83,9 +77,8 @@ mobile_production_publish:
   environment:
     name: production
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=production
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: on_success
+  only:
+    - main
 
 mobile_production_build:
   stage: 'build_deploy'
@@ -96,9 +89,8 @@ mobile_production_build:
     - echo 'eas build --platform android --profile production' # or eas build --platform all
     - echo 'export AAB_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform android --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
     - echo 'mkdir -p artifacts_production && curl -o artifacts_production/$(basename $AAB_URL) $AAB_URL'
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: on_success
+  only:
+    - main
 
 mobile_production_submit:
   stage: 'build_deploy'
@@ -106,9 +98,8 @@ mobile_production_submit:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - echo 'submission to app store(s) goes here'
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: on_success
+  only:
+    - main
 
 web_build:
   stage: 'build_deploy'
@@ -123,12 +114,9 @@ web_review_deploy:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - echo "deployment to review/$CI_ENVIRONMENT_SLUG goes here"
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: never
-    - if: $CI_COMMIT_REF_SLUG =~ /^noenv\/.*/
-      when: never
-    - if: $CI_COMMIT_BRANCH
+  except:
+    - main
+    - /^noenv\/.*/
 
 web_staging_deploy:
   stage: 'build_deploy'
@@ -136,12 +124,8 @@ web_staging_deploy:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - echo 'deployment to staging goes here'
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: on_success
-    - if: $CI_COMMIT_REF_SLUG =~ /^noenv\/.*/
-      when: never
-    - if: $CI_COMMIT_BRANCH
+  only:
+    - main
 
 web_review_e2e:
   stage: 'build_deploy'
@@ -149,12 +133,9 @@ web_review_e2e:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - echo "e2e tests against review/$CI_ENVIRONMENT_SLUG go here"
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: never
-    - if: $CI_COMMIT_REF_SLUG =~ /^noenv\/.*/
-      when: never
-    - if: $CI_COMMIT_BRANCH
+  except:
+    - main
+    - /^noenv\/.*/
 
 web_staging_e2e:
   stage: 'build_deploy'
@@ -162,12 +143,8 @@ web_staging_e2e:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - echo 'e2e tests against staging go here'
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: on_success
-    - if: $CI_COMMIT_REF_SLUG =~ /^noenv\/.*/
-      when: never
-    - if: $CI_COMMIT_BRANCH
+  only:
+    - main
 
 web_production_deploy:
   stage: 'build_deploy'
@@ -176,9 +153,5 @@ web_production_deploy:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - echo 'deployment to production goes here'
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: on_success
-    - if: $CI_COMMIT_REF_SLUG =~ /^noenv\/.*/
-      when: never
-    - if: $CI_COMMIT_BRANCH
+  only:
+    - main
