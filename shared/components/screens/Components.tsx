@@ -3,7 +3,8 @@ import { StyleSheet, View, Text } from 'react-native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import type { NavigationStackScreensList } from 'shared/components/navigation/NavigationDrawer'
 
-import CardSwiper from '../ui/CardSwiper'
+import CardSwiper from 'shared/components/ui/CardSwiper'
+import ReanimatedExample from 'shared/components/ui/ReanimatedExample'
 // import Button from 'shared/components/ui/Button'
 // import { Paragraph } from 'shared/components/ui/Text'
 // import SharedImage from 'shared/components/ui/sharedImage'
@@ -21,9 +22,10 @@ const ComponentsScreen: React.VoidFunctionComponent<ComponentsScreenProps> = ({
 }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Components</Text>
+      {/* <Text style={styles.header}>Components</Text> */}
 
-      <CardSwiper />
+      {/* <CardSwiper /> */}
+      <ReanimatedExample />
 
       {/* <Counter />
 
@@ -48,8 +50,11 @@ const ComponentsScreen: React.VoidFunctionComponent<ComponentsScreenProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    borderColor: 'red',
+    borderStyle: 'solid',
+    borderWidth: 1,
   },
   header: {
     fontSize: 24,

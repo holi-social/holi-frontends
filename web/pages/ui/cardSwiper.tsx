@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 import { NextPage } from 'next'
 import CardSwiper from 'shared/components/ui/CardSwiper'
+import ReanimatedExample from 'shared/components/ui/ReanimatedExample'
 
 import sassStyles from './ui.module.scss'
 
@@ -16,12 +17,13 @@ const CardSwiperPage: NextPage = () => {
   return mounted && (
     <section>
       <div className={sassStyles.headline}>
-        <h1>CardSwiper cc</h1>
+        <h1>CardSwiper</h1>
       </div>
 
 
       <div className={sassStyles.example}>
           <CardSwiper />
+          <ReanimatedExample />
       </div>
 
       <pre className={sassStyles.code}>{`

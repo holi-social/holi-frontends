@@ -9,6 +9,7 @@
     "graphql": "^16.3.0",
     "react-native-card-stack-swiper": "^1.2.5",
     "react-native-cards-swipe": "^1.2.1",
+    "react-native-reanimated": "^2.4.1",
     "react-spring": "^8.0.27",
     "react-tinder-card": "^1.4.5"
   },
