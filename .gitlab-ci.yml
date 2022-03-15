@@ -21,6 +21,7 @@ mobile_review_publish:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - cd mobile
+    - env | sort
     - expo publish --release-channel $CI_ENVIRONMENT_SLUG
   environment:
     name: review/$CI_COMMIT_REF_SLUG
@@ -35,6 +36,7 @@ mobile_staging_publish:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - cd mobile
+    - env | sort
     - expo publish --release-channel staging
   environment:
     name: staging
@@ -67,7 +69,6 @@ mobile_staging_e2e:
     - main
 
 mobile_production_publish:
-  stage: 'build_deploy'
   stage: 'build_deploy'
   needs: ['mobile_staging_e2e']
   when: manual
