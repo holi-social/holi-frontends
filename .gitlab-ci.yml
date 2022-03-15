@@ -68,11 +68,13 @@ mobile_staging_e2e:
 
 mobile_production_publish:
   stage: 'build_deploy'
+  stage: 'build_deploy'
   needs: ['mobile_staging_e2e']
   when: manual
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - cd mobile
+    - env | sort
     - expo publish --release-channel production
   environment:
     name: production
