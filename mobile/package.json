@@ -4,13 +4,15 @@
   "main": "index.js",
   "scripts": {
     "prestart": "yarn workspace shared run generate-style-vars",
-    "start": "expo start",
     "preandroid": "yarn workspace shared run generate-style-vars",
-    "android": "expo start --android",
     "preios": "yarn workspace shared run generate-style-vars",
-    "ios": "expo start --ios",
     "preweb": "yarn workspace shared run generate-style-vars",
+    "prebuild": "yarn workspace shared run generate-style-vars",
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
     "web": "expo start --web",
+    "build": "eas build --platform android",
     "eject": "expo eject"
   },
   "dependencies": {
@@ -25,7 +27,7 @@
     "react-icomoon": "^2.4.9",
     "react-native": "0.64.3",
     "react-native-gesture-handler": "~2.1.0",
-    "react-native-reanimated": "~2.3.1",
+    "react-native-reanimated": "~2.3.3",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
     "react-native-svg": "12.1.1",

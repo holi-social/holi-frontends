@@ -5,10 +5,6 @@ Run `yarn workspace mobile run start` for mobile and `yarn workspace web run dev
 
 Start the mock api with `yarn workspace mock-api run start`.
 
-If you have updated the file `shared/styles/_variables.scss` run this task: `yarn workspace shared run generate-style-vars`.
-I will generate the file `_variables.generated.ts`.
-
-
 ## Install libs / packages
 
 For convience reasons you might want to stay in the project root folder. From here you can add new packages with the command:
