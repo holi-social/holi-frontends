@@ -24,8 +24,8 @@ const ComponentsScreen: React.VoidFunctionComponent<ComponentsScreenProps> = ({
     <View style={styles.container}>
       {/* <Text style={styles.header}>Components</Text> */}
 
-      {/* <CardSwiper /> */}
-      <ReanimatedExample />
+      <CardSwiper />
+      {/* <ReanimatedExample /> */}
 
       {/* <Counter />
 

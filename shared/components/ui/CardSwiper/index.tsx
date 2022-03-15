@@ -48,6 +48,12 @@ const CardSwiper = () => {
   }
 
 
+  // TODO: FIXME: we need some image server. Android does not accept localhost
+  // const imgUri = 'http://localhost:3000/letsAct'
+  // it works with the local IP address
+  // const imgUri = 'http://192.168.178.43:3000/letsAct'
+  const imgUri = 'http://gretalee.de/holi'
+
   return (
     <View style={styles.container}>
       <CardStack
@@ -65,7 +71,7 @@ const CardSwiper = () => {
         <Card style={styles.card} key={`sdfsdf${index}`}>
           <Image
             style={styles.cardImg}
-            source={{ uri: `http://localhost:3000${card.image}` }}
+            source={{ uri: `${imgUri}${card.image}` }}
           />
           <View style={styles.textContainer}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -118,8 +124,12 @@ export default CardSwiper
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: '100%',
+    width: 400,
     minHeight: 400,
+    height: 500,
+    borderColor: '#0f0',
+    borderWidth: 1,
+    marginHorizontal: 'auto',
   },
   cardContainer: {
     flex: 4,

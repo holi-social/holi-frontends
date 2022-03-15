@@ -5,6 +5,7 @@ import Animated, {
   withSpring,
   useAnimatedStyle,
   useSharedValue,
+  cancelAnimation,
 } from 'react-native-reanimated'
 import theme from 'shared/styles/theme/theme'
 
@@ -32,11 +33,15 @@ function ReanimatedExample() {
     }
   })
 
+  const cancel = () => {
+    cancelAnimation(offset)
+  }
+
   return (
     <View style={styles.container}>
       <Animated.View style={[styles.box, defaultSpringStyles]} />
       <Animated.View style={[styles.box, customSpringStyles]} />
-      <Button onPress={() => (offset.value = Math.random())} title="Move" />
+      <Button onPress={() => {cancel(); offset.value = Math.random()}} title="Move" />
     </View>
   )
 }
