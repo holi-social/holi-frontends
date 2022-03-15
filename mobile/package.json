@@ -4,14 +4,18 @@
   "main": "index.js",
   "scripts": {
     "prestart": "yarn workspace shared run generate-style-vars",
-    "start": "expo start",
     "preandroid": "yarn workspace shared run generate-style-vars",
-    "android": "expo start --android",
     "preios": "yarn workspace shared run generate-style-vars",
-    "ios": "expo start --ios",
     "preweb": "yarn workspace shared run generate-style-vars",
+    "prebuild": "yarn workspace shared run generate-style-vars",
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "build": "eas build --platform android",
+    "lint": "TIMING=1 eslint .",
+    "eject": "expo eject",
+    "test": "echo 'unit testing goes here'"
   },
   "dependencies": {
     "@apollo/client": "^3.5.9",
@@ -20,8 +24,9 @@
     "@react-navigation/native-stack": "^6.5.0",
     "expo": "~44.0.6",
     "expo-status-bar": "~1.2.0",
+    "expo-updates": "~0.11.6",
     "graphql": "^16.3.0",
-    "react": "17.0.2",
+    "react": "17.0.1",
     "react-icomoon": "^2.4.9",
     "react-native": "0.64.3",
     "react-native-gesture-handler": "~2.1.0",
@@ -32,8 +37,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "@types/react": "17.0.2",
-    "@types/react-native": "~0.64.3",
+    "@types/react": "17.0.1",
+    "@types/react-native": "0.64.3",
     "find-yarn-workspace-root": "^2.0.0",
     "typescript": "~4.3.5"
   },

@@ -2,12 +2,29 @@
   "name": "holi-react-native-setup",
   "private": true,
   "workspaces": {
-    "packages" : [
+    "packages": [
       "shared",
       "mobile",
-			"mock-api",
+      "mock-api",
       "web"
     ],
-    "nohoist": ["**/react-native", "**/react-native/**", "**/ts-invariant"]
-  }
+    "nohoist": [
+      "**/react-native",
+      "**/react-native/**",
+      "**/ts-invariant"
+    ]
+  },
+  "devDependencies": {
+    "turbo": "^1.1.6",
+    "@typescript-eslint/eslint-plugin": "^5.14.0",
+    "@typescript-eslint/parser": "^5.14.0",
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prefer-arrow": "^1.2.3",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.29.3",
+    "eslint-plugin-react-native": "^4.0.0",
+    "prettier": "^2.5.1"
+  },
+  "packageManager": "yarn@1.22.17"
 }

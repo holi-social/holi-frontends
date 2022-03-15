@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "predev": "yarn workspace shared run generate-style-vars",
-    "dev": "next dev",
     "prebuild": "yarn workspace shared run generate-style-vars",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "TIMING=1 next lint",
+    "test": "echo 'unit testing goes here'"
   },
   "dependencies": {
     "@apollo/client": "^3.5.9",
@@ -18,8 +19,8 @@
     "next": "12.0.10",
     "next-compose-plugins": "^2.2.1",
     "next-transpile-modules": "^9.0.0",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
     "react-icomoon": "^2.4.9",
     "react-native-svg-web": "^1.0.9",
     "react-native-web": "^0.17.5",

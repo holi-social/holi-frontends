@@ -6,14 +6,11 @@ import { ApolloProvider } from '@apollo/client'
 import client from 'shared/graphql/client'
 import { ThemeProvider } from 'shared/styles/theme'
 
-const MyApp: React.VoidFunctionComponent<AppProps> = ({
-  Component,
-  pageProps,
-}) => {
-
-  if(!global.requestAnimationFrame) {
-    global.requestAnimationFrame = (callback: FrameRequestCallback) => (0)
+const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }) => {
+  if (!global.requestAnimationFrame) {
+    global.requestAnimationFrame = (callback: FrameRequestCallback) => 0
   }
+
   return (
     <ApolloProvider client={client}>
       <ThemeProvider>

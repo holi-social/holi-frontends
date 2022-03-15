@@ -12,14 +12,9 @@ import ReanimatedExample from 'shared/components/ui/ReanimatedExample'
 
 // import ImportedSvg from 'shared/assets/img/logo/logo.svg'
 
-export type ComponentsScreenProps = NativeStackScreenProps<
-  NavigationStackScreensList,
-  'Components'
->
+export type ComponentsScreenProps = NativeStackScreenProps<NavigationStackScreensList, 'Components'>
 
-const ComponentsScreen: React.VoidFunctionComponent<ComponentsScreenProps> = ({
-  navigation,
-}) => {
+const ComponentsScreen: React.VoidFunctionComponent<ComponentsScreenProps> = () => {
   return (
     <View style={styles.container}>
       {/* <Text style={styles.header}>Components</Text> */}
@@ -29,15 +24,8 @@ const ComponentsScreen: React.VoidFunctionComponent<ComponentsScreenProps> = ({
 
       {/* <Counter />
 
-      <SharedImage
-        imageFile={require('shared/assets/img/logo/Logo_img.png')}
-        style={{ width: 30, height: 30 }}
-      />
-      <SharedImage
-        imageFile={ImportedSvg}
-        isSvg={true}
-        style={{ width: 50, height: 50 }}
-      />
+      <SharedImage imageFile={require('shared/assets/img/logo/Logo_img.png')} style={{ width: 30, height: 30 }} />
+      <SharedImage imageFile={ImportedSvg} isSvg={true} style={{ width: 50, height: 50 }} />
 
       <Button onPress={() => console.log('hello')}>hello</Button>
       <Button style={{ marginTop: 20 }}>hello with margin</Button>
