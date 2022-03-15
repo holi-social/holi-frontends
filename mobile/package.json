@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "prestart": "yarn workspace shared run generate-style-vars",
+    "preandroid": "yarn workspace shared run generate-style-vars",
+    "preios": "yarn workspace shared run generate-style-vars",
+    "preweb": "yarn workspace shared run generate-style-vars",
+    "prebuild": "yarn workspace shared run generate-style-vars",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
