@@ -1,31 +1,27 @@
+import {useState, useEffect} from 'react'
 import { NextPage } from 'next'
-// import CardSwiper from 'shared/components/ui/CardSwiper'
+import CardSwiper from 'shared/components/ui/CardSwiper'
 
 import sassStyles from './ui.module.scss'
 
 
-
-const CardSwiperComponent: React.VoidFunctionComponent = () => {
-
-  if(!window.requestAnimationFrame) {
-    window.requestAnimationFrame = (callback: FrameRequestCallback) => (0)
-  }
-
-  if (typeof window !== 'undefined' && window.requestAnimationFrame) return <CardSwiper />
-  return <div></div>
-}
-
+// @ts-ignore
 const CardSwiperPage: NextPage = () => {
 
-  return (
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+      setMounted(true)
+  }, [])
+
+  return mounted && (
     <section>
       <div className={sassStyles.headline}>
-        <h1>CardSwiper</h1>
+        <h1>CardSwiper cc</h1>
       </div>
 
 
       <div className={sassStyles.example}>
-        {/* <CardSwiperComponent /> */}
+          <CardSwiper />
       </div>
 
       <pre className={sassStyles.code}>{`

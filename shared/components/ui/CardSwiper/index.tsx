@@ -17,7 +17,7 @@ const CardSwiper = () => {
   // const [alreadySwiped, setAlreadySwiped] = useState([])
   // const [lastIndex, setLastIndex] = useState(-1)
   let lastIndex = 0
-  const alreadySwiped = []
+  const alreadySwiped = [String]
   const swiper: RefObject<CardStack> = createRef()
 
   const onSwipe = (index, direction) => {
@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
+    minHeight: 400,
   },
   cardContainer: {
     flex: 4,
@@ -141,6 +142,7 @@ const styles = StyleSheet.create({
   cardImg: {
     width: '100%',
     height: '100%',
+    minHeight: 300,
     borderRadius: 13,
   },
   textContainer: {

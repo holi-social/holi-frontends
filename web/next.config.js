@@ -25,11 +25,15 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles'), path.join(__dirname, 'shared/data')],
   },
+  compiler: {
+    // ssr and displayName are configured by default
+    styledComponents: true,
+  },
 }
 
 module.exports = withPlugins(
   [
-    withTM(["react-native-reanimated", "react-native-cards-swipe", "shared"], {resolveSymlinks: true, debug: true}),
+    withTM(["react-native-reanimated", "react-native-card-stack-swiper", "shared"], {resolveSymlinks: true, debug: true}),
   ],
   nextConfig
 );
