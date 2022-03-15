@@ -2,8 +2,9 @@
 // - direct import into the web's main.scss
 // - as js-variables in shared/styles/globalVars.ts for react-native styling
 
-// IMPORTANT !!!
-// Values in this file must be manually kept in sync with variables.ts
+// Important !!!
+// run `yarn workspace shared run generate-style-vars` on every file change
+// TODO: add to dev-watcher
 
 $font-family: Helvetica Neue, sans-serif;
 $font-family-mobile: sans-serif;
