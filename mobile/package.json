@@ -13,6 +13,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "build": "eas build --platform android",
+    "lint": "TIMING=1 eslint .",
     "eject": "expo eject"
   },
   "dependencies": {
