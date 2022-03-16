@@ -1,6 +1,6 @@
 import React from 'react'
 import { useQuery } from '@apollo/client'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Image } from 'react-native'
 import GraphQLError from '../GraphQLError'
 import { PostByIdQueryResult, POST_BY_ID } from './queries'
 
@@ -14,6 +14,10 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   text: {},
+  image: {
+    width: 200,
+    height: 200
+  },
   more: {
     alignSelf: 'flex-end',
   },
@@ -58,6 +62,7 @@ const FeedItemDetail: React.VoidFunctionComponent<FeedItemDetailProps> = (props)
       <View style={styles.container}>
         <Text style={styles.title}>{post.title}</Text>
         <Text style={styles.text}>{post.text}</Text>
+        { post.image != '' ? <Image style={styles.image} source={{ uri: post.image }}/> : ''}
         <View style={styles.footer}>
           <Text style={styles.user}>{post.User.name}</Text>
           <Text style={styles.views}>({post.views} views)</Text>
