@@ -12,7 +12,6 @@
       "**/react-native",
       "**/react-native/**",
       "**/ts-invariant",
-      "**/react-native-reanimated",
       "**/expo-updates"
     ]
   },
