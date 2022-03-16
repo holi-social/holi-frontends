@@ -8,7 +8,7 @@ import { ThemeProvider } from 'shared/styles/theme'
 
 const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }) => {
   if (!global.requestAnimationFrame) {
-    global.requestAnimationFrame = () => 0
+    global.requestAnimationFrame = (): number => 0
   }
 
   return (
