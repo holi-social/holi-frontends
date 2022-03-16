@@ -36,4 +36,3 @@ const SharedImage: React.VoidFunctionComponent<SharedImageProps> = (props: Share
 }
 
 export default SharedImage
-
