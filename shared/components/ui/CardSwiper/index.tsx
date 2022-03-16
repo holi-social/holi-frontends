@@ -6,16 +6,26 @@ import data from './dummy_data.json'
 
 const CardSwiper = () => {
   const loadedData = data && data.offers ? data.offers : []
-  // const [alreadySwiped, setAlreadySwiped] = useState([])
-  // const [lastIndex, setLastIndex] = useState(-1)
   let lastIndex = 0
   const alreadySwiped: Array<string> = []
   const swiper: RefObject<CardStack> | null = createRef()
 
   const onSwipe = (index: number, direction: string) => {
     if (index === lastIndex) return
+    console.log('*** onSwipe', index, direction)
     alreadySwiped.push(direction)
     lastIndex = index
+  }
+
+  const checkSwipeState = () => {
+    // TODO: web is not stable. Card are not always dragged aside
+    if (swiper && swiper.current) {
+      // @ts-ignore
+      const swipeX = swiper.current.state.drag.x._value
+      // @ts-ignore
+      const swipeY = swiper.current.state.drag.y._value
+      console.log('*** onSwiped end', swipeX, swipeY)
+    }
   }
 
   const resetSingleCard = (duration: number) =>
@@ -70,7 +80,7 @@ const CardSwiper = () => {
         onSwipedRight={(index) => onSwipe(index, 'right')}
         onSwipedTop={(index) => onSwipe(index, 'top')}
         onSwipedBottom={(index) => onSwipe(index, 'bottom')}
-        onSwipeEnd={() => console.log('onSwiped end')}
+        onSwipeEnd={checkSwipeState}
       >
         {loadedData.map((card, index) => (
           <Card style={styles.card} key={`sdfsdf${index}`}>
