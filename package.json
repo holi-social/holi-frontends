@@ -12,7 +12,8 @@
       "**/react-native",
       "**/react-native/**",
       "**/ts-invariant",
-      "**/react-native-reanimated"
+      "**/react-native-reanimated",
+      "**/expo-updates"
     ]
   },
   "devDependencies": {
