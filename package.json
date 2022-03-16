@@ -11,7 +11,9 @@
     "nohoist": [
       "**/react-native",
       "**/react-native/**",
-      "**/ts-invariant"
+      "**/ts-invariant",
+      "**/react-native-reanimated",
+      "**/expo-updates"
     ]
   },
   "scripts": {
