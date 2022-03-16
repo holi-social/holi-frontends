@@ -38,6 +38,14 @@ const CardSwiper = () => {
     rekursiveReset(resolve, reject)
   }
 
+  const swipe = (direction: string) => {
+    const upperCaseDir: string = direction.charAt(0).toUpperCase() + direction.slice(1)
+    if (swiper && swiper.current) {
+      // @ts-ignore
+      swiper.current[`swipe${upperCaseDir}`]()
+    }
+  }
+
   const resetStack = async () => {
     await new Promise((r, j) => rekursiveReset(r, j))
   }
@@ -83,23 +91,13 @@ const CardSwiper = () => {
 
       <View style={styles.footer}>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={[styles.button, styles.red]}
-            onPress={() => {
-              swiper && swiper.current.swipeLeft()
-            }}
-          >
+          <TouchableOpacity style={[styles.button, styles.red]} onPress={() => swipe('left')}>
             <Text>swipe left</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, styles.orange]} onPress={() => resetStack()}>
             <Text>reset</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.button, styles.green]}
-            onPress={() => {
-              swiper && swiper.current.swipeRight()
-            }}
-          >
+          <TouchableOpacity style={[styles.button, styles.green]} onPress={() => swipe('right')}>
             <Text>swipe right</Text>
           </TouchableOpacity>
         </View>
