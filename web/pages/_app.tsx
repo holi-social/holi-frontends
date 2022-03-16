@@ -5,12 +5,9 @@ import type { AppProps } from 'next/app'
 import { ApolloProvider } from '@apollo/client'
 import client from 'shared/graphql/client'
 import { ThemeProvider } from 'shared/styles/theme'
+import 'raf/polyfill'
 
 const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }) => {
-  if (!global.requestAnimationFrame) {
-    global.requestAnimationFrame = (): number => 0
-  }
-
   return (
     <ApolloProvider client={client}>
       <ThemeProvider>
