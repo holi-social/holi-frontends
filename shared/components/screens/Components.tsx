@@ -1,10 +1,10 @@
 import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import type { NavigationStackScreensList } from 'shared/components/navigation/NavigationDrawer'
 
 import CardSwiper from 'shared/components/ui/CardSwiper'
-import ReanimatedExample from 'shared/components/ui/ReanimatedExample'
+// import ReanimatedExample from 'shared/components/ui/ReanimatedExample'
 // import Button from 'shared/components/ui/Button'
 // import { Paragraph } from 'shared/components/ui/Text'
 // import SharedImage from 'shared/components/ui/sharedImage'

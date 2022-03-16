@@ -1,17 +1,9 @@
-import { buildExecutionContext } from 'graphql/execution/execute'
-import React, { useState, RefObject, createRef, useCallback } from 'react'
+import React from 'react'
 import { StyleSheet, View, Button } from 'react-native'
-import Animated, {
-  withSpring,
-  useAnimatedStyle,
-  useSharedValue,
-  cancelAnimation,
-} from 'react-native-reanimated'
+import Animated, { withSpring, useAnimatedStyle, useSharedValue, cancelAnimation } from 'react-native-reanimated'
 import theme from 'shared/styles/theme/theme'
 
-
-
-function ReanimatedExample() {
+const ReanimatedExample = () => {
   const offset = useSharedValue(0)
 
   const defaultSpringStyles = useAnimatedStyle(() => {
@@ -41,7 +33,13 @@ function ReanimatedExample() {
     <View style={styles.container}>
       <Animated.View style={[styles.box, defaultSpringStyles]} />
       <Animated.View style={[styles.box, customSpringStyles]} />
-      <Button onPress={() => {cancel(); offset.value = Math.random()}} title="Move" />
+      <Button
+        onPress={() => {
+          cancel()
+          offset.value = Math.random()
+        }}
+        title="Move"
+      />
     </View>
   )
 }

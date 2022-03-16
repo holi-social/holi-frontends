@@ -1,44 +1,39 @@
-import React, { useState, RefObject, createRef, useCallback } from 'react'
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import React, { RefObject, createRef } from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
 import CardStack, { Card } from 'react-native-card-stack-swiper'
-import theme from 'shared/styles/theme/theme'
 import Holicon from 'shared/components/ui/holicon'
 import data from './dummy_data.json'
 
 const CardSwiper = () => {
-
   const loadedData = data && data.offers ? data.offers : []
   // const [alreadySwiped, setAlreadySwiped] = useState([])
   // const [lastIndex, setLastIndex] = useState(-1)
   let lastIndex = 0
-  const alreadySwiped = [String]
-  const swiper: RefObject<CardStack> = createRef()
+  const alreadySwiped: Array<string> = []
+  const swiper: RefObject<CardStack> | null = createRef()
 
-  const onSwipe = (index, direction) => {
-    if(index === lastIndex) return
+  const onSwipe = (index: number, direction: string) => {
+    if (index === lastIndex) return
     alreadySwiped.push(direction)
     lastIndex = index
   }
 
-  const resetSingleCard = (t) => new Promise(resolve => setTimeout(() => {
-    if(swiper && swiper.current) {
-      swiper.current.goBackFromTop()
-      alreadySwiped.pop()
-      lastIndex = lastIndex - 1
-    }
-    resolve(true)
-  }, t))
+  const resetSingleCard = (duration: number) =>
+    new Promise((resolve) =>
+      setTimeout(() => {
+        if (swiper && swiper.current) {
+          swiper.current.goBackFromTop()
+          alreadySwiped.pop()
+          lastIndex = lastIndex - 1
+        }
+        resolve(true)
+      }, duration)
+    )
 
-  const rekursiveReset = async (resolve, reject) => {
+  const rekursiveReset = async (resolve: (value: unknown) => void, reject: (reason?: unknown) => void) => {
     await resetSingleCard(30)
     if (lastIndex < 0) {
-      return resolve()
+      return resolve('')
     }
     rekursiveReset(resolve, reject)
   }
@@ -47,8 +42,8 @@ const CardSwiper = () => {
     await new Promise((r, j) => rekursiveReset(r, j))
   }
 
-
   // TODO: FIXME: we need some image server. Android does not accept localhost
+  // https://holi.atlassian.net/browse/HOLI-1296
   // const imgUri = 'http://localhost:3000/letsAct'
   // it works with the local IP address
   // const imgUri = 'http://192.168.178.43:3000/letsAct'
@@ -58,7 +53,9 @@ const CardSwiper = () => {
     <View style={styles.container}>
       <CardStack
         style={styles.cardContainer}
-        renderNoMoreCards={() => <Text style={{ fontWeight: '700', fontSize: 18, color: 'gray' }}>No more cards :(</Text>}
+        renderNoMoreCards={() => (
+          <Text style={{ fontWeight: '700', fontSize: 18, color: 'gray' }}>No more cards :(</Text>
+        )}
         ref={swiper}
         loop={true}
         onSwipedLeft={(index) => onSwipe(index, 'left')}
@@ -68,58 +65,50 @@ const CardSwiper = () => {
         onSwipeEnd={() => console.log('onSwiped end')}
       >
         {loadedData.map((card, index) => (
-        <Card style={styles.card} key={`sdfsdf${index}`}>
-          <Image
-            style={styles.cardImg}
-            source={{ uri: `${imgUri}${card.image}` }}
-          />
-          <View style={styles.textContainer}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Holicon
-                style={{ marginRight: 6 }}
-                icon="community"
-                size={25}
-                color="#fff"
-              />
-              <Text style={styles.text}>{card.provider}</Text>
+          <Card style={styles.card} key={`sdfsdf${index}`}>
+            <Image style={styles.cardImg} source={{ uri: `${imgUri}${card.image}` }} />
+            <View style={styles.textContainer}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Holicon style={{ marginRight: 6 }} icon="community" size={25} color="#fff" />
+                <Text style={styles.text}>{card.provider}</Text>
+              </View>
+              <View>
+                <Text style={[styles.text, styles.textBig]}>{card.title}</Text>
+                <Text style={[styles.text, { marginTop: 10 }]}>{card.date}</Text>
+              </View>
             </View>
-            <View>
-              <Text style={[styles.text, styles.textBig]}>
-                {card.title}
-              </Text>
-              <Text style={[styles.text, { marginTop: 10 }]}>
-                {card.date}
-              </Text>
-            </View>
-          </View>
-        </Card>
+          </Card>
         ))}
       </CardStack>
 
       <View style={styles.footer}>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={[styles.button, styles.red]} onPress={() => {
-            swiper.current.swipeLeft();
-          }}>
+          <TouchableOpacity
+            style={[styles.button, styles.red]}
+            onPress={() => {
+              swiper && swiper.current.swipeLeft()
+            }}
+          >
             <Text>swipe left</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, styles.orange]} onPress={() => resetStack()}>
             <Text>reset</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.green]} onPress={() => {
-            swiper.current.swipeRight();
-          }}>
+          <TouchableOpacity
+            style={[styles.button, styles.green]}
+            onPress={() => {
+              swiper && swiper.current.swipeRight()
+            }}
+          >
             <Text>swipe right</Text>
           </TouchableOpacity>
         </View>
       </View>
-
     </View>
-  );
-};
+  )
+}
 
 export default CardSwiper
-
 
 const styles = StyleSheet.create({
   container: {
@@ -135,7 +124,7 @@ const styles = StyleSheet.create({
     flex: 4,
     alignItems: 'center',
   },
-  card:{
+  card: {
     width: 350,
     height: 420,
     flex: 1,
@@ -176,51 +165,50 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  footer:{
-    flex:1,
-    justifyContent:'center',
-    alignItems:'center'
+  footer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  buttonContainer:{
-    width:220,
-    flexDirection:'row',
+  buttonContainer: {
+    width: 220,
+    flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  button:{
+  button: {
     shadowColor: 'rgba(0,0,0,0.3)',
     shadowOffset: {
       width: 0,
-      height: 1
+      height: 1,
     },
-    shadowOpacity:0.5,
-    backgroundColor:'#fff',
-    alignItems:'center',
-    justifyContent:'center',
+    shadowOpacity: 0.5,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
     zIndex: 0,
   },
-  orange:{
-    width:55,
-    height:55,
-    borderWidth:6,
-    borderColor:'rgb(246,190,66)',
-    borderRadius:55,
-    marginTop:-15
+  orange: {
+    width: 55,
+    height: 55,
+    borderWidth: 6,
+    borderColor: 'rgb(246,190,66)',
+    borderRadius: 55,
+    marginTop: -15,
   },
-  green:{
-    width:75,
-    height:75,
-    backgroundColor:'#fff',
-    borderRadius:75,
-    borderWidth:6,
-    borderColor:'#01df8a',
+  green: {
+    width: 75,
+    height: 75,
+    backgroundColor: '#fff',
+    borderRadius: 75,
+    borderWidth: 6,
+    borderColor: '#01df8a',
   },
-  red:{
-    width:75,
-    height:75,
-    backgroundColor:'#fff',
-    borderRadius:75,
-    borderWidth:6,
-    borderColor:'#fd267d',
+  red: {
+    width: 75,
+    height: 75,
+    backgroundColor: '#fff',
+    borderRadius: 75,
+    borderWidth: 6,
+    borderColor: '#fd267d',
   },
-
-});
+})
