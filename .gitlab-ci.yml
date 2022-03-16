@@ -1,9 +1,6 @@
 # TODO add review (aka "development") build for mobile? see https://docs.expo.dev/development/introduction/
 # TODO add e2e test against review (aka development) build for mobile?
 
-before_script:
-  - 'yarn install'
-
 # caching strategy follows "Solution 1" taken from https://medium.com/disdj/speed-up-npm-yarn-install-in-gitlab-1434437f9857
 # first job (lint_compile_test) warms the cache (read-write), subsequent jobs only read from it
 # cache key corresponds to current branch name ($CI_COMMIT_REF_SLUG)
@@ -20,14 +17,14 @@ lint_compile_test:
   stage: 'lint_compile_test'
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
+    - yarn install
     - yarn turbo run lint
     - yarn turbo run test
   cache:
     key: $CI_COMMIT_REF_SLUG
     policy: pull-push
     paths:
-      - .yarn
-      - node_modules
+      - 'node_modules'
       - '*/node_modules'
 
 mobile_review_publish:
@@ -36,7 +33,6 @@ mobile_review_publish:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - cd mobile
-    - env | sort
     - expo publish --release-channel $CI_ENVIRONMENT_SLUG
   environment:
     name: review/$CI_COMMIT_REF_SLUG
@@ -51,7 +47,6 @@ mobile_staging_publish:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - cd mobile
-    - env | sort
     - expo publish --release-channel staging
   environment:
     name: staging
@@ -90,7 +85,6 @@ mobile_production_publish:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - cd mobile
-    - env | sort
     - expo publish --release-channel production
   environment:
     name: production
