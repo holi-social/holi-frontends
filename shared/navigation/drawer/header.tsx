@@ -40,7 +40,11 @@ const DrawerHeader: React.VoidFunctionComponent<DrawerHeaderProps> = (props) => 
   return (
     <SafeAreaView
       style={{
-        height: 100,
+        ...Platform.select({
+          native: {
+            height: 100,
+          },
+        }),
         backgroundColor: 'gray',
       }}
     >
