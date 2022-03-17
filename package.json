@@ -11,13 +11,13 @@
     "nohoist": [
       "**/react-native",
       "**/react-native/**",
-      "**/ts-invariant"
+      "**/ts-invariant",
+      "**/react-native-reanimated",
+      "**/expo-updates"
     ]
   },
-  "scripts": {
-    "lint": "eslint ."
-  },
   "devDependencies": {
+    "turbo": "^1.1.6",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
     "@typescript-eslint/parser": "^5.14.0",
     "eslint": "^8.10.0",
@@ -27,5 +27,6 @@
     "eslint-plugin-react": "^7.29.3",
     "eslint-plugin-react-native": "^4.0.0",
     "prettier": "^2.5.1"
-  }
+  },
+  "packageManager": "yarn@1.22.17"
 }

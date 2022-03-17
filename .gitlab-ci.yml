@@ -1,0 +1,173 @@
+# TODO add review (aka "development") build for mobile? see https://docs.expo.dev/development/introduction/
+# TODO add e2e test against review (aka development) build for mobile?
+
+# caching strategy follows "Solution 1" taken from https://medium.com/disdj/speed-up-npm-yarn-install-in-gitlab-1434437f9857
+# first job (lint_compile_test) warms the cache (read-write), subsequent jobs only read from it
+# cache key corresponds to current branch name ($CI_COMMIT_REF_SLUG)
+cache:
+  key: $CI_COMMIT_REF_SLUG
+  policy: pull
+  untracked: true
+
+stages:
+  - 'lint_compile_test'
+  - 'build_deploy'
+
+lint_compile_test:
+  stage: 'lint_compile_test'
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - yarn install
+    - yarn turbo run lint
+    - yarn turbo run test
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    policy: pull-push
+    paths:
+      - 'node_modules'
+      - '*/node_modules'
+
+mobile_review_publish:
+  stage: 'build_deploy'
+  needs: ['lint_compile_test']
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - cd mobile
+    - expo publish --release-channel $CI_ENVIRONMENT_SLUG
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG
+    url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=$CI_ENVIRONMENT_SLUG
+  except:
+    - main
+    - /^noenv\/.*/
+
+mobile_staging_publish:
+  stage: 'build_deploy'
+  needs: ['lint_compile_test']
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - cd mobile
+    - expo publish --release-channel staging
+  environment:
+    name: staging
+    url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=staging
+  only:
+    - main
+
+mobile_staging_build:
+  stage: 'build_deploy'
+  needs: ['lint_compile_test']
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - 'cd mobile'
+    - 'eas build --platform android --profile staging' # or eas build --platform all
+    - 'export AAB_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform android --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
+    - 'mkdir -p artifacts_staging && curl -o artifacts_staging/$(basename $AAB_URL) $AAB_URL'
+  artifacts:
+    paths:
+      - artifacts_staging/
+  only:
+    - main
+
+mobile_staging_e2e:
+  stage: 'build_deploy'
+  needs: ['mobile_staging_build']
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - echo 'trigger (Browserstack) E2E tests here'
+  only:
+    - main
+
+mobile_production_publish:
+  stage: 'build_deploy'
+  needs: ['mobile_staging_e2e']
+  when: manual
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - cd mobile
+    - expo publish --release-channel production
+  environment:
+    name: production
+    url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=production
+  only:
+    - main
+
+mobile_production_build:
+  stage: 'build_deploy'
+  needs: ['mobile_staging_e2e']
+  when: manual
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - 'cd mobile'
+    - 'eas build --platform android --profile production' # or eas build --platform all
+    - 'export AAB_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform android --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
+    - 'mkdir -p artifacts_production && curl -o artifacts_production/$(basename $AAB_URL) $AAB_URL'
+  artifacts:
+    paths:
+      - artifacts_production/
+  only:
+    - main
+
+mobile_production_submit:
+  stage: 'build_deploy'
+  needs: ['mobile_production_build']
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - echo 'submission to app store(s) goes here'
+  only:
+    - main
+
+web_build:
+  stage: 'build_deploy'
+  needs: ['lint_compile_test']
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - yarn turbo run build --scope=web
+
+web_review_deploy:
+  stage: 'build_deploy'
+  needs: ['web_build']
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - echo "deployment to review/$CI_ENVIRONMENT_SLUG goes here"
+  except:
+    - main
+    - /^noenv\/.*/
+
+web_staging_deploy:
+  stage: 'build_deploy'
+  needs: ['web_build']
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - echo 'deployment to staging goes here'
+  only:
+    - main
+
+web_review_e2e:
+  stage: 'build_deploy'
+  needs: ['web_review_deploy']
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - echo "e2e tests against review/$CI_ENVIRONMENT_SLUG go here"
+  except:
+    - main
+    - /^noenv\/.*/
+
+web_staging_e2e:
+  stage: 'build_deploy'
+  needs: ['web_staging_deploy']
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - echo 'e2e tests against staging go here'
+  only:
+    - main
+
+web_production_deploy:
+  stage: 'build_deploy'
+  needs: ['web_staging_e2e']
+  when: manual
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - echo 'deployment to production goes here'
+  only:
+    - main
