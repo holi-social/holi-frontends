@@ -103,7 +103,7 @@ const LeftDrawer: React.VoidFunctionComponent = () => {
         },
         overlayColor: 'rgba(0,0,0,0.2)',
         headerTransparent: true,
-        headerTitle: '', // dont show anything in the screen haeder, but set a title in each drawer.screen
+        headerTitle: '',
         headerLeft: (props) => <CustomHeaderIcon {...props} navigation={navigation} />,
       })}
     >
