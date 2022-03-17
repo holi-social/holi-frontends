@@ -3,12 +3,11 @@ import { DrawerActions, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
-import { AppsHomeScreen } from '../../features/apps/screen'
-import { SettingsScreen } from '../../features/settings/screen'
-import { CommunityApp } from '../../features/community/app'
-import { FeedDetailScreen } from '../../features/community/details'
-
-import { DrawerContent, DrawerHeader } from '../drawer'
+import { AppsHomeScreen } from 'shared/features/apps/screen'
+import { SettingsScreen } from 'shared/features/settings/screen'
+import { CommunityApp } from 'shared/features/community/app'
+import { FeedDetailScreen } from 'shared/features/community/details'
+import { DrawerContent, DrawerHeader } from 'shared/navigation/drawer'
 
 const Drawer = createDrawerNavigator()
 
@@ -57,7 +56,7 @@ export const NativeNavigation: React.ComponentType = () => (
       }}
     />
     <RootStack.Group screenOptions={{ presentation: 'modal', headerShown: true }}>
-      {/* mondals are only correctly rendered on android when in root navigator */}
+      {/* modals are only correctly rendered on android when in root navigator */}
       <RootStack.Screen name="CommunityFeedDetail" component={FeedDetailScreen} />
     </RootStack.Group>
   </RootStack.Navigator>

@@ -1,7 +1,7 @@
 import React from 'react'
-
 import { Provider } from 'shared/provider'
-import { NativeNavigation } from 'shared/navigation/native'
+
+import { NativeNavigation } from './navigation'
 
 const App: React.VoidFunctionComponent = () => {
   return (
