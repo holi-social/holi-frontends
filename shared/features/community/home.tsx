@@ -2,7 +2,6 @@ import React from 'react'
 import { View, Text } from 'react-native'
 
 import useRouting from '../../navigation/useRouting'
-// import Button from '../../components/ui/Button'
 import Feed from '../../components/feed/Feed'
 
 const CommunityScreen: React.VoidFunctionComponent = () => {
