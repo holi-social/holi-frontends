@@ -1,9 +1,12 @@
 import React from 'react'
 import { View, Text } from 'react-native'
-import useRouting from '../../navigation/useRouting'
-import Button from '../ui/Button'
+import { DrawerScreenProps } from '@react-navigation/drawer'
 
-const AppsHomeScreen: React.VoidFunctionComponent = () => {
+import useRouting from '../../navigation/useRouting'
+import Button from '../../components/ui/Button'
+import { DrawerScreensList } from '../../navigation/native'
+
+const AppsHomeScreen: React.VoidFunctionComponent<DrawerScreenProps<DrawerScreensList>> = () => {
   const { navigate } = useRouting()
   return (
     <View>

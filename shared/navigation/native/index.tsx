@@ -3,9 +3,8 @@ import { DrawerActions, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
-import { AppsHomeScreen } from '../../components/screens/AppsHomeScreen'
-import { SettingsScreen } from '../../components/screens/SettingsScreen'
-
+import { AppsHomeScreen } from '../../features/apps/screen'
+import { SettingsScreen } from '../../features/settings/screen'
 import { CommunityApp } from '../../features/community/app'
 import { FeedDetailScreen } from '../../features/community/details'
 
@@ -20,6 +19,11 @@ export type RootStackScreensList = {
   CommunityFeedDetail: {
     feedId: string
   }
+}
+
+export type DrawerScreensList = {
+  AppsHome: undefined
+  Settings: undefined
 }
 
 const DrawerNav: React.VoidFunctionComponent<NativeStackScreenProps<RootStackScreensList, 'Drawer'>> = () => {
