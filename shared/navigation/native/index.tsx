@@ -1,85 +1,25 @@
 import React from 'react'
-import { View, Text, Pressable } from 'react-native'
 import { DrawerActions, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import { AppsHomeScreen } from '../../components/screens/AppsHomeScreen'
-import { CommunityScreen } from '../../components/screens/CommunityScreen'
 import { SettingsScreen } from '../../components/screens/SettingsScreen'
 
-import { useTheme } from '../../styles/theme'
-import Button from '../../components/ui/Button'
-import Holicon from '../../components/ui/holicon'
+import { CommunityApp } from '../../features/community/app'
+import { FeedDetailScreen } from '../../features/community/details'
+
 import { DrawerContent, DrawerHeader } from '../drawer'
-import useRouting from '../useRouting'
-
-type CustomHeaderIconProps = {
-  onPress: () => void
-}
-
-const CustomHeaderIconButton: React.VoidFunctionComponent<CustomHeaderIconProps> = ({ onPress, ...props }) => {
-  const { theme } = useTheme()
-  return (
-    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-      <Pressable onPress={onPress} {...props} style={{ marginLeft: 12 }}>
-        <Holicon icon="dashboard" size={20} color={theme.colors.text} />
-      </Pressable>
-    </View>
-  )
-}
 
 const Drawer = createDrawerNavigator()
 
-type RootStackScreensList = {
+export type RootStackScreensList = {
   Drawer: undefined
   AppsHome: undefined
   Community: undefined
   CommunityFeedDetail: {
     feedId: string
   }
-}
-
-const FeedDetailScreen: React.VoidFunctionComponent<
-  NativeStackScreenProps<RootStackScreensList, 'CommunityFeedDetail'>
-> = (props) => (
-  <View>
-    <Text>Detail {props.route.params.feedId}</Text>
-    <Button onPress={() => props.navigation.navigate('Community')}>back</Button>
-  </View>
-)
-
-const BoardScreen: React.VoidFunctionComponent = () => (
-  <View>
-    <Text>Board</Text>
-  </View>
-)
-
-const CommunityBottomNav = createBottomTabNavigator()
-
-type CommunityAppProps = NativeStackScreenProps<RootStackScreensList, 'Community'>
-
-const CommunityApp: React.VoidFunctionComponent<CommunityAppProps> = () => {
-  const { navigate } = useRouting()
-  return (
-    <CommunityBottomNav.Navigator
-      initialRouteName="Home"
-      screenOptions={{
-        headerShown: true,
-        headerLeft: () => <CustomHeaderIconButton onPress={() => navigate('/')} />,
-      }}
-    >
-      <CommunityBottomNav.Screen
-        name="Home"
-        options={{
-          tabBarBadge: 3,
-        }}
-        component={CommunityScreen}
-      />
-      <CommunityBottomNav.Screen name="Board" component={BoardScreen} />
-    </CommunityBottomNav.Navigator>
-  )
 }
 
 const DrawerNav: React.VoidFunctionComponent<NativeStackScreenProps<RootStackScreensList, 'Drawer'>> = () => {
@@ -118,6 +58,7 @@ export const NativeNavigation: React.ComponentType = () => (
       }}
     />
     <RootStack.Group screenOptions={{ presentation: 'modal', headerShown: true }}>
+      {/* mondals are only correctly rendered on android when in root navigator */}
       <RootStack.Screen name="CommunityFeedDetail" component={FeedDetailScreen} />
     </RootStack.Group>
   </RootStack.Navigator>

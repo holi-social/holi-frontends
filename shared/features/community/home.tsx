@@ -1,7 +1,8 @@
 import React from 'react'
 import { View, Text } from 'react-native'
+
 import useRouting from '../../navigation/useRouting'
-import Button from '../ui/Button'
+import Button from '../../components/ui/Button'
 
 const CommunityScreen: React.VoidFunctionComponent = () => {
   const { navigate } = useRouting()
