@@ -3,6 +3,7 @@ import { View, Text } from 'react-native'
 
 import useRouting from '../../navigation/useRouting'
 import Button from '../../components/ui/Button'
+import Feed from '../../components/feed/Feed'
 
 const CommunityScreen: React.VoidFunctionComponent = () => {
   const { navigate } = useRouting()
@@ -14,6 +15,7 @@ const CommunityScreen: React.VoidFunctionComponent = () => {
       <Button onPress={() => navigate('/community/3')}>feed item 3</Button>
       <Button onPress={() => navigate('/community/4')}>feed item 4</Button>
       <Button onPress={() => navigate('/community/5')}>feed item 5</Button>
+      <Feed onItemPressed={(post) => navigate(`/community/${post.id}`)} />
     </View>
   )
 }
