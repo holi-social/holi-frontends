@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { AppsHomeScreen } from 'shared/components/screens/AppsHomeScreen'
+import { AppsHomeScreen } from 'shared/features/apps/screen'
 
 const Home: NextPage = () => <AppsHomeScreen />
 

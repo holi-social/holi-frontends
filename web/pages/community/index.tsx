@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-import { CommunityScreen } from 'shared/components/screens/CommunityScreen'
+import { CommunityScreen } from 'shared/features/community/home'
 
 const CommunityPage: NextPage = () => <CommunityScreen />
 

@@ -21,11 +21,6 @@ export type RootStackScreensList = {
   }
 }
 
-export type DrawerScreensList = {
-  AppsHome: undefined
-  Settings: undefined
-}
-
 const DrawerNav: React.VoidFunctionComponent<NativeStackScreenProps<RootStackScreensList, 'Drawer'>> = () => {
   const navigation = useNavigation()
   return (
