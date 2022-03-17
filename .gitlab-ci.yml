@@ -15,9 +15,7 @@ stages:
 
 lint_compile_test:
   stage: 'lint_compile_test'
-  image:
-    name: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-    pull_policy: 'if-not-present'
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - yarn install
     - yarn turbo run lint
@@ -32,9 +30,7 @@ lint_compile_test:
 mobile_review_publish:
   stage: 'build_deploy'
   needs: ['lint_compile_test']
-  image:
-    name: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-    pull_policy: 'if-not-present'
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - cd mobile
     - expo publish --release-channel $CI_ENVIRONMENT_SLUG
@@ -48,9 +44,7 @@ mobile_review_publish:
 mobile_staging_publish:
   stage: 'build_deploy'
   needs: ['lint_compile_test']
-  image:
-    name: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-    pull_policy: 'if-not-present'
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - cd mobile
     - expo publish --release-channel staging
@@ -63,9 +57,7 @@ mobile_staging_publish:
 mobile_staging_build:
   stage: 'build_deploy'
   needs: ['lint_compile_test']
-  image:
-    name: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-    pull_policy: 'if-not-present'
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - 'cd mobile'
     - 'eas build --platform android --profile staging' # or eas build --platform all
@@ -80,9 +72,7 @@ mobile_staging_build:
 mobile_staging_e2e:
   stage: 'build_deploy'
   needs: ['mobile_staging_build']
-  image:
-    name: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-    pull_policy: 'if-not-present'
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - echo 'trigger (Browserstack) E2E tests here'
   only:
@@ -92,9 +82,7 @@ mobile_production_publish:
   stage: 'build_deploy'
   needs: ['mobile_staging_e2e']
   when: manual
-  image:
-    name: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-    pull_policy: 'if-not-present'
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - cd mobile
     - expo publish --release-channel production
@@ -108,9 +96,7 @@ mobile_production_build:
   stage: 'build_deploy'
   needs: ['mobile_staging_e2e']
   when: manual
-  image:
-    name: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-    pull_policy: 'if-not-present'
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - 'cd mobile'
     - 'eas build --platform android --profile production' # or eas build --platform all
@@ -125,9 +111,7 @@ mobile_production_build:
 mobile_production_submit:
   stage: 'build_deploy'
   needs: ['mobile_production_build']
-  image:
-    name: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-    pull_policy: 'if-not-present'
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - echo 'submission to app store(s) goes here'
   only:
@@ -136,18 +120,14 @@ mobile_production_submit:
 web_build:
   stage: 'build_deploy'
   needs: ['lint_compile_test']
-  image:
-    name: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-    pull_policy: 'if-not-present'
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - yarn turbo run build --scope=web
 
 web_review_deploy:
   stage: 'build_deploy'
   needs: ['web_build']
-  image:
-    name: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-    pull_policy: 'if-not-present'
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - echo "deployment to review/$CI_ENVIRONMENT_SLUG goes here"
   except:
@@ -157,9 +137,7 @@ web_review_deploy:
 web_staging_deploy:
   stage: 'build_deploy'
   needs: ['web_build']
-  image:
-    name: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-    pull_policy: 'if-not-present'
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - echo 'deployment to staging goes here'
   only:
@@ -168,9 +146,7 @@ web_staging_deploy:
 web_review_e2e:
   stage: 'build_deploy'
   needs: ['web_review_deploy']
-  image:
-    name: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-    pull_policy: 'if-not-present'
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - echo "e2e tests against review/$CI_ENVIRONMENT_SLUG go here"
   except:
@@ -180,9 +156,7 @@ web_review_e2e:
 web_staging_e2e:
   stage: 'build_deploy'
   needs: ['web_staging_deploy']
-  image:
-    name: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-    pull_policy: 'if-not-present'
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - echo 'e2e tests against staging go here'
   only:
@@ -192,9 +166,7 @@ web_production_deploy:
   stage: 'build_deploy'
   needs: ['web_staging_e2e']
   when: manual
-  image:
-    name: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-    pull_policy: 'if-not-present'
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - echo 'deployment to production goes here'
   only:
