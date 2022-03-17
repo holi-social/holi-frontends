@@ -5,7 +5,7 @@ const path = require('path')
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   distDir: 'build',
   webpack: (config) => {
     config.resolve.alias = {
@@ -22,4 +22,12 @@ const nextConfig = {
   },
 }
 
-module.exports = withPlugins([withTM(['shared'], { resolveSymlinks: true, debug: true })], nextConfig)
+module.exports = withPlugins(
+  [
+    withTM(['react-native-reanimated', 'react-native-card-stack-swiper', 'shared'], {
+      resolveSymlinks: true,
+      debug: true,
+    }),
+  ],
+  nextConfig
+)
