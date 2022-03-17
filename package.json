@@ -12,9 +12,11 @@
       "**/react-native",
       "**/react-native/**",
       "**/ts-invariant",
-      "**/react-native-reanimated",
       "**/expo-updates"
     ]
+  },
+  "scripts": {
+    "lint": "turbo run lint"
   },
   "devDependencies": {
     "turbo": "^1.1.6",
