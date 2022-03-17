@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router'
 
-const useRouting = () => {
+const useRouting = <T extends Record<string, string>>() => {
   const router = useRouter()
   return {
     navigate: (routeName: string) => router.push(routeName),
-    query: router.query,
+    query: router.query as T,
   }
 }
 
