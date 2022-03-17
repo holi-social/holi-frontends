@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
 import { ApolloProvider } from '@apollo/client'
-import NavigationDrawer from 'shared/components/navigation/NavigationDrawer'
+import { SkeletonNav } from 'shared/components/navigation/NavSkeleton'
 import defaultHoliTheme, { ThemeProvider } from 'shared/styles/theme'
 import client from 'shared/graphql/client'
 
@@ -15,7 +15,7 @@ const App: React.VoidFunctionComponent = () => {
     <ApolloProvider client={client}>
       <ThemeProvider theme={defaultHoliTheme}>
         <NavigationContainer theme={theTheme}>
-          <NavigationDrawer />
+          <SkeletonNav />
         </NavigationContainer>
       </ThemeProvider>
     </ApolloProvider>
