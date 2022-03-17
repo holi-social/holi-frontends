@@ -11,11 +11,12 @@
     "nohoist": [
       "**/react-native",
       "**/react-native/**",
-      "**/ts-invariant"
+      "**/ts-invariant",
+      "**/expo-updates"
     ]
   },
   "scripts": {
-    "lint": "yarn workspace shared run lint && yarn workspace mobile run lint && yarn workspace mock-api run lint && yarn workspace web run lint"
+    "lint": "turbo run lint"
   },
   "devDependencies": {
     "turbo": "^1.1.6",
