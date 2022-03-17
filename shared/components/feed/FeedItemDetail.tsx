@@ -15,8 +15,10 @@ const styles = StyleSheet.create({
   },
   text: {},
   image: {
-    width: 200,
-    height: 200
+    flex: -1,
+    width: 400,
+    height: 400,
+    resizeMode: 'contain'
   },
   more: {
     alignSelf: 'flex-end',
@@ -61,8 +63,8 @@ const FeedItemDetail: React.VoidFunctionComponent<FeedItemDetailProps> = (props)
     return (
       <View style={styles.container}>
         <Text style={styles.title}>{post.title}</Text>
+        { post.image != '' ? <Image style={styles.image} source={{ uri: post.image }}/> : null}
         <Text style={styles.text}>{post.text}</Text>
-        { post.image != '' ? <Image style={styles.image} source={{ uri: post.image }}/> : ''}
         <View style={styles.footer}>
           <Text style={styles.user}>{post.User.name}</Text>
           <Text style={styles.views}>({post.views} views)</Text>

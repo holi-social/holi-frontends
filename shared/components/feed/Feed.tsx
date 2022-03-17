@@ -17,9 +17,11 @@ const feedItemStyles = StyleSheet.create({
     paddingBottom: 5,
   },
   text: {},
-  image:{
-    width: 200,
-    height: 200
+  image: {
+    flex: -1,
+    width: 400,
+    height: 400,
+    resizeMode: 'contain'
   },
   more: {
     alignSelf: 'flex-end',
@@ -43,11 +45,11 @@ const renderFeedItem = (onItemPressed: (post: Post) => void): React.VoidFunction
     return (
       <Pressable onPress={() => onItemPressed(item)} style={feedItemStyles.item}>
         <Text style={feedItemStyles.title}>{item.title}</Text>
+        { item.image !== '' ? <Image style={feedItemStyles.image} source={{ uri: item.image }}/> : null}
         <Text style={feedItemStyles.text} numberOfLines={3}>
           {item.text}
         </Text>
         {Platform.OS === 'web' ? <Text style={feedItemStyles.more}>more</Text> : null}
-        { item.image != '' ? <Image style={feedItemStyles.image} source={{ uri: item.image }}/> : ''}
         <View style={feedItemStyles.footer}>
           <Text style={feedItemStyles.user}>{item.User.name}</Text>
           <Text style={feedItemStyles.views}>({item.views} views)</Text>
