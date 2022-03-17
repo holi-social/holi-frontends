@@ -34,7 +34,7 @@ const fakePost = (users) => () => {
     title: faker.company.catchPhrase(),
     text: faker.lorem.paragraphs(randomInt(1, 3)),
     views: randomInt(0, 10000),
-    image: hasImage ? faker.image.image(600, 600) : '',
+    image: hasImage ? faker.image.image(600, 600) : null,
     user_id: user.id,
     User: user,
   }
