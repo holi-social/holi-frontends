@@ -2,10 +2,10 @@ import React from 'react'
 import { Text, Pressable, View } from 'react-native'
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer'
 import type { DrawerContentComponentProps } from '@react-navigation/drawer'
-import { getHeaderTitle } from '@react-navigation/elements'
 
 import FeedSubNavigationStack from './FeedSubNavigationStack'
 import HomeScreen from 'shared/screens/SpaceHome'
+import AppStoreScreen from 'shared/screens/AppStore'
 import ComponentsScreen from 'shared/components/screens/Components'
 import UsersScreen from 'shared/components/screens/Users'
 
@@ -15,6 +15,7 @@ import Holicon from 'shared/components/ui/holicon'
 // see https://reactnavigation.org/docs/typescript/#type-checking-screens
 export type NavigationStackScreensList = {
   Home: undefined
+  AppStore: undefined
   Components: undefined
   Users: undefined
   Feed: undefined
@@ -64,10 +65,10 @@ const CustomDrawerContent: React.VoidFunctionComponent<DrawerContentComponentPro
       </Text>
 
       <DrawerContentScrollView {...props}>
-        <DrawerItemList {...props} />
-        {/* <DrawerItem label="Home" onPress={() => props.navigation.navigate('Home')} />
+        {/* <DrawerItemList {...props} /> */}
+        <DrawerItem label="MySpace" onPress={() => props.navigation.navigate('Home')} />
         <DrawerItem label="Components" onPress={() => props.navigation.navigate('Components')} />
-        <DrawerItem label="Feed" onPress={() => props.navigation.navigate('Feed')} /> */}
+        <DrawerItem label="Feed" onPress={() => props.navigation.navigate('Feed')} />
 
         {/* Add any further menu items */}
         <DrawerItem label="Click me!" onPress={() => alert('Uuuuuh - an alert!')} />
@@ -108,6 +109,7 @@ const LeftDrawer: React.VoidFunctionComponent = () => {
       })}
     >
       <Drawer.Screen name="Home" component={HomeScreen} />
+      <Drawer.Screen name="AppStore" component={AppStoreScreen} />
       <Drawer.Screen name="Components" component={ComponentsScreen} />
       <Drawer.Screen name="Users" component={UsersScreen} />
       <Drawer.Screen name="Feed" component={FeedSubNavigationStack} />
