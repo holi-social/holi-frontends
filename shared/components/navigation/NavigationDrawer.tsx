@@ -4,7 +4,7 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerI
 import type { DrawerContentComponentProps } from '@react-navigation/drawer'
 
 import FeedSubNavigationStack from './FeedSubNavigationStack'
-import HomeScreen from 'shared/components/screens/Home'
+import HomeScreen from 'shared/screens/SpaceHome'
 import ComponentsScreen from 'shared/components/screens/Components'
 import UsersScreen from 'shared/components/screens/Users'
 
@@ -99,7 +99,8 @@ const LeftDrawer: React.VoidFunctionComponent = () => {
           borderRightStyle: 'solid',
           borderRightWidth: 1,
         },
-        overlayColor: 'rgba(0,0,0,0.7)',
+        overlayColor: 'rgba(0,0,0,0.2)',
+        headerTransparent: true,
         headerLeft: (props) => <CustomHeaderIcon {...props} navigation={navigation} />,
       })}
     >
@@ -108,7 +109,7 @@ const LeftDrawer: React.VoidFunctionComponent = () => {
         component={HomeScreen}
         options={() => ({
           // drawerLabel: Home page, // only menu item text
-          title: 'Home page', // this changes menu item and header text
+          title: '', // this changes menu item and header text
           // is shown in the header, but only when screen is active
           // headerLeft: () => (
           //     <CustomHeaderIcon onPress={() => navigation.toggleDrawer()} />
