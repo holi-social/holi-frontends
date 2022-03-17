@@ -56,8 +56,6 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     height: 100,
-    borderTopColor: 'black',
-    borderTopWidth: 1,
     backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
