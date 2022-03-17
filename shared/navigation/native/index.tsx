@@ -1,12 +1,19 @@
 import React from 'react'
 import { View, Text, Pressable } from 'react-native'
-import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack'
-import { createDrawerNavigator, DrawerScreenProps } from '@react-navigation/drawer'
 import { DrawerActions, useNavigation } from '@react-navigation/native'
+import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack'
+import { createDrawerNavigator } from '@react-navigation/drawer'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import Button from '../ui/Button'
-import Holicon from '../ui/holicon'
+
+import { AppsHomeScreen } from '../../components/screens/AppsHomeScreen'
+import { CommunityScreen } from '../../components/screens/CommunityScreen'
+import { SettingsScreen } from '../../components/screens/SettingsScreen'
+
 import { useTheme } from '../../styles/theme'
+import Button from '../../components/ui/Button'
+import Holicon from '../../components/ui/holicon'
+import { DrawerContent, DrawerHeader } from '../drawer'
+import useRouting from '../useRouting'
 
 type CustomHeaderIconProps = {
   onPress: () => void
@@ -34,43 +41,12 @@ type RootStackScreensList = {
   }
 }
 
-type DrawerScreensList = {
-  AppsHome: undefined
-  Settings: undefined
-}
-
-type AppsHomeScreenProps = NativeStackScreenProps<RootStackScreensList, 'AppsHome'>
-
-const AppsHomeScreen: React.VoidFunctionComponent<AppsHomeScreenProps> = ({ navigation }) => {
-  return (
-    <View>
-      <Text style={{ alignSelf: 'center', marginTop: 16 }}>Hallo Anna</Text>
-      <Button style={{ margin: 16 }} onPress={() => navigation.navigate('Community')}>
-        Community
-      </Button>
-    </View>
-  )
-}
-
 const FeedDetailScreen: React.VoidFunctionComponent<
   NativeStackScreenProps<RootStackScreensList, 'CommunityFeedDetail'>
 > = (props) => (
   <View>
     <Text>Detail {props.route.params.feedId}</Text>
     <Button onPress={() => props.navigation.navigate('Community')}>back</Button>
-  </View>
-)
-
-const CommunityScreen: React.VoidFunctionComponent<NativeStackScreenProps<RootStackScreensList, 'Community'>> = ({
-  navigation,
-}) => (
-  <View>
-    <Text>Feed</Text>
-    <Button onPress={() => navigation.navigate('CommunityFeedDetail', { feedId: '1' })}>feed item 1</Button>
-    <Button onPress={() => navigation.navigate('CommunityFeedDetail', { feedId: '2' })}>feed item 2</Button>
-    <Button onPress={() => navigation.navigate('CommunityFeedDetail', { feedId: '3' })}>feed item 3</Button>
-    <Button onPress={() => navigation.navigate('CommunityFeedDetail', { feedId: '4' })}>feed item 4</Button>
-    <Button onPress={() => navigation.navigate('CommunityFeedDetail', { feedId: '5' })}>feed item 5</Button>
   </View>
 )
 
@@ -84,13 +60,14 @@ const CommunityBottomNav = createBottomTabNavigator()
 
 type CommunityAppProps = NativeStackScreenProps<RootStackScreensList, 'Community'>
 
-const CommunityApp: React.VoidFunctionComponent<CommunityAppProps> = ({ navigation }) => {
+const CommunityApp: React.VoidFunctionComponent<CommunityAppProps> = () => {
+  const { navigate } = useRouting()
   return (
     <CommunityBottomNav.Navigator
       initialRouteName="Home"
       screenOptions={{
         headerShown: true,
-        headerLeft: () => <CustomHeaderIconButton onPress={() => navigation.navigate('Drawer')} />,
+        headerLeft: () => <CustomHeaderIconButton onPress={() => navigate('/')} />,
       }}
     >
       <CommunityBottomNav.Screen
@@ -105,37 +82,26 @@ const CommunityApp: React.VoidFunctionComponent<CommunityAppProps> = ({ navigati
   )
 }
 
-const SettingsScreen: React.VoidFunctionComponent<DrawerScreenProps<DrawerScreensList, 'Settings'>> = () => (
-  <View>
-    <Text>Settings</Text>
-  </View>
-)
-
-const DrawerNav: React.VoidFunctionComponent<NativeStackScreenProps<RootStackScreensList, 'Drawer'>> = () => (
-  <Drawer.Navigator
-    initialRouteName="AppsHome"
-    screenOptions={{
-      headerLeft: Profile,
-    }}
-  >
-    <Drawer.Screen name="AppsHome" component={AppsHomeScreen} />
-    <Drawer.Screen name="Settings" component={SettingsScreen} />
-  </Drawer.Navigator>
-)
-
-const Profile = () => {
+const DrawerNav: React.VoidFunctionComponent<NativeStackScreenProps<RootStackScreensList, 'Drawer'>> = () => {
   const navigation = useNavigation()
   return (
-    <Pressable
-      style={{ width: 32, height: 32, backgroundColor: 'red', borderRadius: 24, marginLeft: 12 }}
-      onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-    />
+    <Drawer.Navigator
+      initialRouteName="AppsHome"
+      // We need to build a custom drawer for web anyway, so we can build it in a shared maner and pass it into the Drawer Navigator
+      drawerContent={DrawerContent}
+      screenOptions={{
+        header: () => <DrawerHeader toggleDrawer={() => navigation.dispatch(DrawerActions.toggleDrawer())} />,
+      }}
+    >
+      <Drawer.Screen name="AppsHome" component={AppsHomeScreen} />
+      <Drawer.Screen name="Settings" component={SettingsScreen} />
+    </Drawer.Navigator>
   )
 }
 
 const RootStack = createNativeStackNavigator<RootStackScreensList>()
 
-export const SkeletonNav: React.ComponentType = () => (
+export const NativeNavigation: React.ComponentType = () => (
   <RootStack.Navigator
     initialRouteName="Drawer"
     screenOptions={{
