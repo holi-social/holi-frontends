@@ -1,6 +1,16 @@
 import React from 'react'
 import { useQuery } from '@apollo/client'
-import { FlatList, Text, ListRenderItemInfo, Pressable, StyleSheet, View, Platform, Dimensions, Image } from 'react-native'
+import {
+  FlatList,
+  Text,
+  ListRenderItemInfo,
+  Pressable,
+  StyleSheet,
+  View,
+  Platform,
+  Dimensions,
+  Image,
+} from 'react-native'
 import { Post } from './types'
 import { ALL_POSTS_QUERY, AllPostsQueryResult } from './queries'
 import GraphQLError from '../GraphQLError'
@@ -21,7 +31,7 @@ const feedItemStyles = StyleSheet.create({
     flex: -1,
     width: 600,
     height: 352,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
   more: {
     alignSelf: 'flex-end',
@@ -45,7 +55,7 @@ const renderFeedItem = (onItemPressed: (post: Post) => void): React.VoidFunction
     return (
       <Pressable onPress={() => onItemPressed(item)} style={feedItemStyles.item}>
         <Text style={feedItemStyles.title}>{item.title}</Text>
-        { item.image !== null ? <Image style={feedItemStyles.image} source={{ uri: item.image }}/> : null}
+        {item.image !== null ? <Image style={feedItemStyles.image} source={{ uri: item.image }} /> : null}
         <Text style={feedItemStyles.text} numberOfLines={3}>
           {item.text}
         </Text>

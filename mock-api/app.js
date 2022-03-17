@@ -27,7 +27,7 @@ const fakeUser = () => ({
 const fakePost = (users) => () => {
   const user = users[randomInt(0, users.length - 1)]
 
-  const hasImage = Math.random() < 0.5;
+  const hasImage = Math.random() < 0.5
 
   return {
     id: faker.unique(faker.datatype.uuid),
