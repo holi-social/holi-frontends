@@ -1,7 +1,8 @@
 import React from 'react'
-import { SafeAreaView, ScrollView, View, ImageBackground, Text } from 'react-native'
+import { SafeAreaView, View, ImageBackground, Text } from 'react-native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import type { NavigationStackScreensList } from 'shared/components/navigation/NavigationDrawer'
+import TilesList from 'shared/components/space/TilesList'
 import Button from 'shared/components/ui/Button'
 import Holicon from 'shared/components/ui/holicon'
 
@@ -11,7 +12,6 @@ export type HomeScreenProps = NativeStackScreenProps<NavigationStackScreensList,
 
 const HomeScreen: React.VoidFunctionComponent<HomeScreenProps> = ({ navigation }) => {
 
-    const apps = [...Array(12).keys()]
 
   return (
     <ImageBackground
@@ -23,13 +23,7 @@ const HomeScreen: React.VoidFunctionComponent<HomeScreenProps> = ({ navigation }
         <Text style={styles.header}>Hello Anna</Text>
         <Text style={styles.subHeader}>Nice to see you here!</Text>
 
-        <ScrollView contentContainerStyle={styles.tilesContainer}>
-          {apps.map((value) => (
-            <View style={styles.tile} key={value}>
-              <Text>{value + 1}</Text>
-            </View>
-          ))}
-        </ScrollView>
+        <TilesList />
 
         <View style={styles.footer}>
           <Button style={styles.appStoreButton}>

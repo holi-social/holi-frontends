@@ -2,6 +2,7 @@ import React from 'react'
 import { Text, Pressable, View } from 'react-native'
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer'
 import type { DrawerContentComponentProps } from '@react-navigation/drawer'
+import { getHeaderTitle } from '@react-navigation/elements'
 
 import FeedSubNavigationStack from './FeedSubNavigationStack'
 import HomeScreen from 'shared/screens/SpaceHome'
@@ -29,6 +30,7 @@ type CustomHeaderProps = {
   pressOpacity?: number
   labelVisible?: boolean
 }
+
 const CustomHeaderIcon: React.VoidFunctionComponent<CustomHeaderProps> = (props) => {
   const currentRouteName = props.navigation.getState().routeNames[props.navigation.getState().index]
 
@@ -101,25 +103,13 @@ const LeftDrawer: React.VoidFunctionComponent = () => {
         },
         overlayColor: 'rgba(0,0,0,0.2)',
         headerTransparent: true,
+        headerTitle: '', // dont show anything in the screen haeder, but set a title in each drawer.screen
         headerLeft: (props) => <CustomHeaderIcon {...props} navigation={navigation} />,
       })}
     >
-      <Drawer.Screen
-        name="Home"
-        component={HomeScreen}
-        options={() => ({
-          // drawerLabel: Home page, // only menu item text
-          title: '', // this changes menu item and header text
-          // is shown in the header, but only when screen is active
-          // headerLeft: () => (
-          //     <CustomHeaderIcon onPress={() => navigation.toggleDrawer()} />
-          // ),
-        })}
-      />
+      <Drawer.Screen name="Home" component={HomeScreen} />
       <Drawer.Screen name="Components" component={ComponentsScreen} />
       <Drawer.Screen name="Users" component={UsersScreen} />
-      {/* <Drawer.Screen name="Feed" component={FeedScreen} /> */}
-      {/* <Drawer.Screen name="FeedItemDetail" component={FeedItemDetailScreen} /> */}
       <Drawer.Screen name="Feed" component={FeedSubNavigationStack} />
     </Drawer.Navigator>
   )
