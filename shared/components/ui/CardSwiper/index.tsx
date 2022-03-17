@@ -1,5 +1,5 @@
 import React, { RefObject, createRef } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Image, Platform } from 'react-native'
 import CardStack, { Card } from 'react-native-card-stack-swiper'
 import Holicon from 'shared/components/ui/holicon'
 import data from './dummy_data.json'
@@ -7,13 +7,11 @@ import data from './dummy_data.json'
 const CardSwiper = () => {
   const loadedData = data && data.offers ? data.offers : []
   let lastIndex = 0
-  const alreadySwiped: Array<string> = []
   const swiper: RefObject<CardStack> | null = createRef()
 
   const onSwipe = (index: number, direction: string) => {
     if (index === lastIndex) return
     console.log('*** onSwipe', index, direction)
-    alreadySwiped.push(direction)
     lastIndex = index
   }
 
@@ -33,7 +31,6 @@ const CardSwiper = () => {
       setTimeout(() => {
         if (swiper && swiper.current) {
           swiper.current.goBackFromTop()
-          alreadySwiped.pop()
           lastIndex = lastIndex - 1
         }
         resolve(true)
@@ -60,12 +57,13 @@ const CardSwiper = () => {
     await new Promise((r, j) => rekursiveReset(r, j))
   }
 
-  // TODO: FIXME: we need some image server. Android does not accept localhost
+  // TODO: currently we use the local web-app to serve images.
+  // Later we need some proper concept for that.
   // https://holi.atlassian.net/browse/HOLI-1296
-  // const imgUri = 'http://localhost:3000/letsAct'
-  // it works with the local IP address
-  // const imgUri = 'http://192.168.178.43:3000/letsAct'
-  const imgUri = 'http://gretalee.de/holi'
+  let imgUri = 'http://localhost:3000/letsAct'
+  if (Platform.OS === 'android') {
+    imgUri = 'http://10.0.2.2:3000/letsAct'
+  }
 
   return (
     <View style={styles.container}>
