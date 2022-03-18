@@ -19,8 +19,6 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 0.8,
-    width: undefined,
-    height: undefined,
     resizeMode: 'cover',
     borderRadius: 20,
   },
