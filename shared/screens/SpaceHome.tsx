@@ -8,7 +8,7 @@ const HomeScreen: React.VoidFunctionComponent = () => {
     <SpaceLayout>
       <Text style={styles.header}>Hello Anna</Text>
       <Text style={styles.subHeader}>Nice to see you here!</Text>
-      <TilesList />
+      <TilesList style={{ marginTop: 40 }} />
     </SpaceLayout>
   )
 }
