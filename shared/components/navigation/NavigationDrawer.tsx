@@ -6,7 +6,6 @@ import type { DrawerContentComponentProps } from '@react-navigation/drawer'
 import FeedSubNavigationStack from './FeedSubNavigationStack'
 import HomeScreen from 'shared/components/screens/Home'
 import ComponentsScreen from 'shared/components/screens/Components'
-import UsersScreen from 'shared/components/screens/Users'
 
 import { styleVars } from 'shared/styles/globalVars'
 import Holicon from 'shared/components/ui/holicon'
@@ -15,7 +14,6 @@ import Holicon from 'shared/components/ui/holicon'
 export type NavigationStackScreensList = {
   Home: undefined
   Components: undefined
-  Users: undefined
   Feed: undefined
   FeedItemDetail: { postId: string }
 }
@@ -116,7 +114,6 @@ const LeftDrawer: React.VoidFunctionComponent = () => {
         })}
       />
       <Drawer.Screen name="Components" component={ComponentsScreen} />
-      <Drawer.Screen name="Users" component={UsersScreen} />
       {/* <Drawer.Screen name="Feed" component={FeedScreen} /> */}
       {/* <Drawer.Screen name="FeedItemDetail" component={FeedItemDetailScreen} /> */}
       <Drawer.Screen name="Feed" component={FeedSubNavigationStack} />

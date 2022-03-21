@@ -5,7 +5,6 @@ const Nav = () => {
   const router = useRouter()
   const isHome = router.pathname === '/'
   const isComponents = router.pathname === '/components'
-  const isUsers = router.pathname === '/users'
   const isFeed = router.pathname === '/feed'
   const isUiLib = router.pathname === '/ui'
   return (
@@ -23,14 +22,6 @@ const Nav = () => {
       ) : (
         <Link href={'/components'}>
           <a>Components</a>
-        </Link>
-      )}{' '}
-      |{' '}
-      {isUsers ? (
-        <b>Users</b>
-      ) : (
-        <Link href={'/users'}>
-          <a>Users</a>
         </Link>
       )}{' '}
       |{' '}

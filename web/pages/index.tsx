@@ -6,7 +6,7 @@ import SharedImage from 'shared/components/ui/sharedImage'
 import { Paragraph } from 'shared/components/ui/Text'
 
 import { useTheme } from 'shared/styles/theme'
-import styles from '../styles/home.module.scss'
+import styles from 'web/styles/home.module.scss'
 
 import ImportedSvg from 'shared/assets/img/logo/logo.svg'
 import ImportedPng from 'shared/assets/img/logo/Logo_img.png'
@@ -22,10 +22,6 @@ const Home: NextPage = () => {
 
       <div className={styles.border}>
         <Button onPress={() => router.push('/components')}>Components</Button>
-        <Button style={{ marginLeft: 10 }} onPress={() => router.push('/users')}>
-          <SharedImage imageFile={ImportedSvg} style={{ width: 50, height: 50 }} />
-          <span>Users</span>
-        </Button>
         <Button style={{ marginLeft: 10 }} onPress={() => router.push('/feed')}>
           Feed
         </Button>
