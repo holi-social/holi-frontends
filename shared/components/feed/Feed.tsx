@@ -1,9 +1,11 @@
 import React from 'react'
 import { useQuery } from '@apollo/client'
 import { FlatList, Text, ListRenderItemInfo, Pressable, StyleSheet, View, Platform, Dimensions } from 'react-native'
+
+import GraphQLError from 'shared/components/GraphQLError'
+
 import { Post } from './types'
 import { ALL_POSTS_QUERY, AllPostsQueryResult } from './queries'
-import GraphQLError from '../GraphQLError'
 
 const feedItemStyles = StyleSheet.create({
   item: {
