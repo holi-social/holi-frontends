@@ -1,8 +1,8 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-import useRouting from '../../navigation/useRouting'
-import Button from '../../components/ui/Button'
+import useRouting from 'shared/navigation/useRouting'
+import Button from 'shared/components/ui/Button'
 
 const AppsHomeScreen: React.VoidFunctionComponent = () => {
   const { navigate } = useRouting()

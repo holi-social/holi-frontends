@@ -26,7 +26,7 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <meta name="description" content="bla bli blub" />
+          <meta name="description" content="holi community" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
 

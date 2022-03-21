@@ -1,19 +1,15 @@
 import React from 'react'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
-import useRouting from '../../navigation/useRouting'
-import { CustomHeaderIconButton } from '../../navigation/custom-header-icon-button'
-import { RootStackScreensList } from '../../navigation/native'
+import useRouting from 'shared/navigation/useRouting'
+import { CustomHeaderIconButton } from 'shared/navigation/custom-header-icon-button'
 
-import { CommunityScreen } from './home'
-import { BoardScreen } from './board'
+import { CommunityScreen } from 'shared/features/community/home'
+import { BoardScreen } from 'shared/features/community/board'
 
 const CommunityBottomNav = createBottomTabNavigator()
 
-type CommunityAppProps = NativeStackScreenProps<RootStackScreensList, 'Community'>
-
-export const CommunityApp: React.VoidFunctionComponent<CommunityAppProps> = () => {
+export const CommunityApp: React.VoidFunctionComponent = () => {
   const { navigate } = useRouting()
   return (
     <CommunityBottomNav.Navigator

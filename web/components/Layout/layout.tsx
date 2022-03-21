@@ -4,16 +4,16 @@ import Head from 'next/head'
 import Footer from '../Footer'
 import Nav from '../nav'
 import styles from './layout.module.scss'
-import { Drawer, DrawerHeader } from 'shared/navigation/drawer'
+import { DrawerHeader } from 'shared/navigation/drawer'
+import { Drawer } from 'web/components/drawer'
 
-// because this layout contains Drawer and Header, should it live in the navigationprovider for web?
+// Should it live in NavigationProvider for web, because this layout contains navigation elements like Drawer and DrawerHeader?
 const Layout: React.FunctionComponent = ({ children }) => {
   const [drawerOpen, setDrawerOpen] = React.useState(false)
   return (
     <>
       <Head>
         <title>HOLI - Home</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
       <DrawerHeader toggleDrawer={() => setDrawerOpen(!drawerOpen)} />

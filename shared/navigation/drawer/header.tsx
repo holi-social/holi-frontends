@@ -1,6 +1,8 @@
 import React from 'react'
 import { View, Text, Pressable, Platform, SafeAreaView } from 'react-native'
-import Holicon from '../../components/ui/holicon'
+
+import Holicon from 'shared/components/ui/holicon'
+import useRouting from 'shared/navigation/useRouting'
 
 type ProfileProps = { onPress: () => void }
 
@@ -13,24 +15,27 @@ const Profile: React.VoidFunctionComponent<ProfileProps> = ({ onPress }) => {
   )
 }
 
-const SearchBar = () => (
-  <View
-    style={{
-      borderRadius: 18,
-      height: 30,
-      backgroundColor: '#c2c2c2',
-      flex: 1,
-      marginHorizontal: 30,
-      marginBottom: 2,
-      maxWidth: 700,
-      // alignItems: 'center',
-      paddingHorizontal: 8,
-      justifyContent: 'center',
-    }}
-  >
-    <Text>search here</Text>
-  </View>
-)
+const SearchBar = () => {
+  const { pathname } = useRouting()
+  return (
+    <View
+      style={{
+        borderRadius: 18,
+        height: 30,
+        backgroundColor: '#c2c2c2',
+        flex: 1,
+        marginHorizontal: 30,
+        marginBottom: 2,
+        maxWidth: 700,
+        // alignItems: 'center',
+        paddingHorizontal: 8,
+        justifyContent: 'center',
+      }}
+    >
+      <Text>search here {pathname}</Text>
+    </View>
+  )
+}
 
 type DrawerHeaderProps = {
   toggleDrawer: () => void
@@ -53,14 +58,7 @@ const DrawerHeader: React.VoidFunctionComponent<DrawerHeaderProps> = (props) => 
           flex: 1,
           paddingVertical: 8,
           flexDirection: 'row',
-          ...Platform.select({
-            ios: {
-              alignItems: 'center',
-            },
-            android: {
-              alignItems: 'flex-end',
-            },
-          }),
+          alignItems: 'flex-end',
           justifyContent: 'space-between',
           paddingRight: 12,
         }}

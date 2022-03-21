@@ -1,8 +1,8 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-import useRouting from '../../navigation/useRouting'
-import Feed from '../../components/feed/Feed'
+import useRouting from 'shared/navigation/useRouting'
+import Feed from 'shared/components/feed/Feed'
 
 const CommunityScreen: React.VoidFunctionComponent = () => {
   const { navigate } = useRouting()

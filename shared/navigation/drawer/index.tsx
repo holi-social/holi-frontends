@@ -1,4 +1,4 @@
 import DrawerHeader from './header'
-import { Drawer, DrawerContent } from './drawer'
+import { DrawerContent } from './drawer'
 
-export { Drawer, DrawerContent, DrawerHeader }
+export { DrawerContent, DrawerHeader }
