@@ -1,6 +1,7 @@
 import { NextPage } from 'next'
 import Link from 'next/link'
 import Holicon from 'shared/components/ui/holicon'
+
 import sassStyles from './ui.module.scss'
 
 const UIOverviewPage: NextPage = () => {
