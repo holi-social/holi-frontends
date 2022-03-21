@@ -36,6 +36,7 @@ module.exports = {
     'no-restricted-imports': [
       'error',
       {
+        // Allows relative imports only within the current directory, forbids all other relative imports
         patterns: ['..*'],
       },
     ],

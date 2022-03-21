@@ -1,15 +1,20 @@
 import { useNavigation, useLinkTo } from '@react-navigation/native'
+import { useNavigationContext } from 'shared/navigation/useRouting/context'
 import { UseRouting } from './types'
 
 const useRouting: UseRouting = <T extends Record<string, string>>() => {
+  const context = useNavigationContext()
   const linkTo = useLinkTo()
   const navigation = useNavigation()
   const currentRoute = navigation.getState().routes[navigation.getState().index]
 
   return {
-    navigate: (routeName: string) => linkTo(routeName),
+    navigate: (routeName: string) => {
+      context.setPathname(routeName)
+      return linkTo(routeName)
+    },
     query: currentRoute.params as T,
-    pathname: currentRoute.path || '/',
+    pathname: context.pathname,
   }
 }
 

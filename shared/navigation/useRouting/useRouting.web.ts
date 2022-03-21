@@ -6,7 +6,7 @@ const useRouting: UseRouting = <T extends Record<string, string>>() => {
   return {
     navigate: (routeName: string) => router.push(routeName),
     query: router.query as T,
-    pathname: router.pathname,
+    pathname: router.asPath,
   }
 }
 
