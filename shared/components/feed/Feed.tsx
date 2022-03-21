@@ -4,6 +4,7 @@ import { FlatList, Text, ListRenderItemInfo, Pressable, StyleSheet, View, Platfo
 import { Post } from './types'
 import { ALL_POSTS_QUERY, AllPostsQueryResult } from './queries'
 import GraphQLError from '../GraphQLError'
+import FeedImage from './FeedImage'
 
 const feedItemStyles = StyleSheet.create({
   item: {
@@ -39,6 +40,7 @@ const renderFeedItem = (onItemPressed: (post: Post) => void): React.VoidFunction
     return (
       <Pressable onPress={() => onItemPressed(item)} style={feedItemStyles.item}>
         <Text style={feedItemStyles.title}>{item.title}</Text>
+        {item.image && <FeedImage image={item.image} />}
         <Text style={feedItemStyles.text} numberOfLines={3}>
           {item.text}
         </Text>

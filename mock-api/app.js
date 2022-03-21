@@ -26,11 +26,15 @@ const fakeUser = () => ({
 
 const fakePost = (users) => () => {
   const user = users[randomInt(0, users.length - 1)]
+
+  const hasImage = Math.random() < 0.5
+
   return {
     id: faker.unique(faker.datatype.uuid),
     title: faker.company.catchPhrase(),
     text: faker.lorem.paragraphs(randomInt(1, 3)),
     views: randomInt(0, 10000),
+    image: hasImage ? faker.image.image(600, 352) : null,
     user_id: user.id,
     User: user,
   }
