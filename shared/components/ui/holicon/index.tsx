@@ -1,6 +1,8 @@
 import React from 'react'
 import { IconComponent } from 'react-icomoon'
-import { useTheme } from '../../../styles/theme'
+
+import { useTheme } from 'shared/styles/theme'
+
 import Holicon from './holicon'
 
 export type HoliconProps = React.ComponentProps<typeof IconComponent> & {

@@ -33,5 +33,11 @@ module.exports = {
         classPropertiesAllowed: false,
       },
     ],
+    'no-restricted-imports': [
+      'error',
+      {
+        patterns: ['..*'],
+      },
+    ],
   },
 }

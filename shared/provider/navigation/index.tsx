@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import * as Linking from 'expo-linking'
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
+
 import defaultHoliTheme from 'shared/styles/theme'
 
 const theTheme = {
