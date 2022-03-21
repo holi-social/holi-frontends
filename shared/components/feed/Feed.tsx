@@ -28,12 +28,13 @@ const feedItemStyles = StyleSheet.create({
   },
   text: {},
   imageContainer: {
-    height: 352,
+    height: 350,
+    width: '100%',
   },
   image: {
-    flex: 1,
-    resizeMode: 'contain',
     borderRadius: 20,
+    height: 350,
+    width: '100%',
   },
   more: {
     alignSelf: 'flex-end',
@@ -57,11 +58,11 @@ const renderFeedItem = (onItemPressed: (post: Post) => void): React.VoidFunction
     return (
       <Pressable onPress={() => onItemPressed(item)} style={feedItemStyles.item}>
         <Text style={feedItemStyles.title}>{item.title}</Text>
-        {item.image !== null ? (
+        {item.image && (
           <View style={feedItemStyles.imageContainer}>
             <Image style={feedItemStyles.image} source={{ uri: item.image }} />
           </View>
-        ) : null}
+        )}
         <Text style={feedItemStyles.text} numberOfLines={3}>
           {item.text}
         </Text>
