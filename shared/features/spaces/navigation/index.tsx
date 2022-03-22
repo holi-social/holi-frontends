@@ -1,5 +1,5 @@
 import DrawerHeader from './header'
 import { DrawerContent } from './drawer'
-import CustomHeaderIcon from 'shared/features/spaces/navigation/customHeaderIcon'
+import CustomHeaderIcon from './customHeaderIcon'
 
 export { DrawerContent, DrawerHeader, CustomHeaderIcon }
