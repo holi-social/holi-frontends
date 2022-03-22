@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Text, Pressable } from 'react-native'
-import useRouting from 'shared/navigation/useRouting'
+import useRouting from 'shared/components/navigation/useRouting'
 import SharedImage from 'shared/components/ui/sharedImage'
 import theme from 'shared/styles/theme'
 import { styleVars } from 'shared/styles/globalVars'

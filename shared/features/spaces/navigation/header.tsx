@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, Pressable, Platform, SafeAreaView } from 'react-native'
 
 import Holicon from 'shared/components/ui/holicon'
-import useRouting from 'shared/navigation/useRouting'
+import useRouting from 'shared/components/navigation/useRouting'
 
 type ProfileProps = { onPress: () => void }
 

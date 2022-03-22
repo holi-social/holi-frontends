@@ -1,7 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 
-import { DrawerHeader } from 'shared/navigation/drawer'
+import { DrawerHeader } from 'shared/features/spaces/navigation/drawer'
 
 import Nav from 'web/components/nav'
 import Footer from 'web/components/Footer'

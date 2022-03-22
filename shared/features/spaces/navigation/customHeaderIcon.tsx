@@ -1,7 +1,7 @@
 import React from 'react'
 import { Pressable, View } from 'react-native'
 import { DrawerActions } from '@react-navigation/native'
-import useRouting from 'shared/navigation/useRouting'
+import useRouting from 'shared/components/navigation/useRouting'
 import Holicon from 'shared/components/ui/holicon'
 
 import { styleVars } from 'shared/styles/globalVars'

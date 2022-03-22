@@ -1,7 +1,7 @@
 import { View } from 'react-native'
 
 import Button from 'shared/components/ui/Button'
-import { DrawerContent } from 'shared/navigation/drawer'
+import { DrawerContent } from 'shared/features/spaces/navigation/drawer'
 
 type DrawerProps = {
   open: boolean

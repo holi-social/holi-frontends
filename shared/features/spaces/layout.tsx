@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, SafeAreaView, View, ScrollView, ImageBackground } from 'react-native'
-import useRouting from 'shared/navigation/useRouting'
+import useRouting from 'shared/components/navigation/useRouting'
 
 // import { NavigationProp } from '@react-navigation/native'
 // import type { NavigationStackScreensList } from 'shared/components/navigation/NavigationDrawer'

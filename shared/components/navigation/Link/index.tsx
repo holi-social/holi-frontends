@@ -1,6 +1,6 @@
 import React from 'react'
 import { Pressable } from 'react-native'
-import useRouting from 'shared/navigation/useRouting'
+import useRouting from 'shared/components/navigation/useRouting'
 
 type LinkProps = {
   to: string

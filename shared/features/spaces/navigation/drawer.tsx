@@ -1,9 +1,9 @@
 import React from 'react'
 import { View, Text, ScrollView } from 'react-native'
 
-import { Link } from 'shared/navigation/Link'
+import { Link } from 'shared/components/navigation/Link'
 import Button from 'shared/components/ui/Button'
-import useRouting from 'shared/navigation/useRouting'
+import useRouting from 'shared/components/navigation/useRouting'
 
 export const DrawerContent: React.VoidFunctionComponent = () => {
   const { navigate } = useRouting()
