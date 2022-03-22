@@ -76,15 +76,15 @@ mobile_staging_e2e:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - set -x
-    - cd tests/mobile-android
-    - yarn install
+    - cd mobile
     - export EAS_AAB_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform android --limit 1 | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
     - echo "EAS_AAB_URL=${EAS_AAB_URL}"
     - export EAS_AAB_FILE=$(basename $EAS_AAB_URL)
     - echo "EAS_AAB_FILE=${EAS_AAB_FILE}"
-    - curl -o $EAS_AAB_FILE $EAS_AAB_URL # download .aab from EAS
-    - ls .
-    - export BROWSERSTACK_UPLOAD_RESPONSE=$(curl -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@${EAS_AAB_FILE}")
+    - curl -o /tmp/$EAS_AAB_FILE $EAS_AAB_URL # download .aab from EAS
+    - cd ../tests/mobile-android
+    - yarn install
+    - export BROWSERSTACK_UPLOAD_RESPONSE=$(curl -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@/tmp/${EAS_AAB_FILE}")
     - echo "BROWSERSTACK_UPLOAD_RESPONSE=${BROWSERSTACK_UPLOAD_RESPONSE}"
     - export BROWSERSTACK_APP_URL=$(echo "${BROWSERSTACK_UPLOAD_RESPONSE}" | jq -r '.app_url')
     - echo "BROWSERSTACK_APP_URL=${BROWSERSTACK_APP_URL}"
