@@ -74,7 +74,10 @@ mobile_staging_e2e:
   needs: ['mobile_staging_build']
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
-    - echo 'trigger (Browserstack) E2E tests here'
+    - cd tests/mobile-android
+    - export AAB_FILE=$(find artifacts_staging -name "*.aab" | head -n 1)
+    - export BROWSERSTACK_APP_URL=$(curl -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@${AAB_FILE}"  | jq -r '.app_url')
+    - yarn codeceptjs
   only:
     - main
 
