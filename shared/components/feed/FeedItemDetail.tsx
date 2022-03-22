@@ -1,7 +1,9 @@
 import React from 'react'
 import { useQuery } from '@apollo/client'
 import { StyleSheet, Text, View } from 'react-native'
-import GraphQLError from '../GraphQLError'
+
+import GraphQLError from 'shared/components/GraphQLError'
+
 import { PostByIdQueryResult, POST_BY_ID } from './queries'
 
 const styles = StyleSheet.create({

@@ -8,7 +8,7 @@ const Nav = () => {
   const isFeed = router.pathname === '/feed'
   const isUiLib = router.pathname === '/ui'
   return (
-    <>
+    <nav style={{ flexDirection: 'row' }}>
       {isHome ? (
         <b>Home</b>
       ) : (
@@ -40,7 +40,7 @@ const Nav = () => {
           <a>UI Lib</a>
         </Link>
       )}
-    </>
+    </nav>
   )
 }
 
