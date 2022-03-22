@@ -1,7 +1,6 @@
 import React from 'react'
-import { StyleSheet, ScrollView } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Tile from 'shared/components/space/Tile'
-
 
 type TilesListProps = {
   style?: any
@@ -10,11 +9,11 @@ const TilesList: React.FunctionComponent<TilesListProps> = (props: TilesListProp
   const apps = [...Array(12).keys()]
 
   return (
-    <ScrollView style={props.style} contentContainerStyle={[styles.tilesContainer]}>
+    <View style={[styles.tilesContainer, props.style]}>
       {apps.map((value) => (
         <Tile value={value} key={value} style={styles.tile} />
       ))}
-    </ScrollView>
+    </View>
   )
 }
 

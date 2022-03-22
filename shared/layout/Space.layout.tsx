@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, SafeAreaView, View, ImageBackground } from 'react-native'
+import { StyleSheet, SafeAreaView, View, ScrollView, ImageBackground } from 'react-native'
 import { NavigationProp } from '@react-navigation/native'
 import type { NavigationStackScreensList } from 'shared/components/navigation/NavigationDrawer'
 import { useNavigation } from '@react-navigation/native'
@@ -22,8 +22,7 @@ const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayo
       style={styles.bgImage}
     >
       <SafeAreaView style={styles.container}>
-        {props.children}
-
+        <ScrollView style={styles.scrollView}>{props.children}</ScrollView>
         <View style={styles.footer}>
           {/* TODO: hide within appStore */}
           <Button style={styles.appStoreButton} onPress={() => navigation.navigate('AppStore')}>
@@ -44,6 +43,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     position: 'relative',
+  },
+  scrollView: {
   },
   bgImage: {
     position: 'absolute',
