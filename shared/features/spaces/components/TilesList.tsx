@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import Tile from 'shared/components/space/Tile'
+import Tile from 'shared/features/spaces/components/Tile'
 
 type TilesListProps = {
   style?: any

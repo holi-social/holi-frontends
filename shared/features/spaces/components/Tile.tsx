@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text, Pressable } from 'react-native'
+import useRouting from 'shared/navigation/useRouting'
 import SharedImage from 'shared/components/ui/sharedImage'
 import theme from 'shared/styles/theme'
 import { styleVars } from 'shared/styles/globalVars'
@@ -17,9 +18,11 @@ const Tile: React.FunctionComponent<TileProps> = (props: TileProps) => {
 
   const styles = getStyles(hasDarkBackground)
 
+  const { navigate } = useRouting()
+
   return (
     <View style={[styles.container, props.style]}>
-      <View style={styles.tile}>
+      <Pressable style={styles.tile} onPress={() => navigate('/community')}>
         <View style={styles.header}>
           <View style={styles.logo}>
             <SharedImage
@@ -35,7 +38,7 @@ const Tile: React.FunctionComponent<TileProps> = (props: TileProps) => {
           <Text style={styles.contentHeadline}>Neue Beiträge:</Text>
           <Text style={styles.contentText}>{props.value + 3} neue Beiträge</Text>
         </View>
-      </View>
+      </Pressable>
       <View style={styles.badge} />
     </View>
   )

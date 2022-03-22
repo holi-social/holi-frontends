@@ -3,7 +3,7 @@ import { View } from 'react-native'
 
 import Button from 'shared/components/ui/Button'
 import useRouting from 'shared/navigation/useRouting'
-import FeedItemDetail from 'shared/components/feed/FeedItemDetail'
+import FeedItemDetail from 'shared/features/community/components/feed/FeedItemDetail'
 
 export const FeedDetailScreen: React.VoidFunctionComponent = () => {
   const { navigate, query } = useRouting<{ feedId: string }>()

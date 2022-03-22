@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import FeedComponent from 'shared/components/feed/Feed'
+import FeedComponent from 'shared/features/community/components/feed/Feed'
 
 const Feed: NextPage = () => {
   const router = useRouter()

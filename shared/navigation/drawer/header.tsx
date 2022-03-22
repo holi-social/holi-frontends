@@ -50,7 +50,7 @@ const DrawerHeader: React.VoidFunctionComponent<DrawerHeaderProps> = (props) => 
             height: 100,
           },
         }),
-        backgroundColor: 'gray',
+        backgroundColor: 'transparent',
       }}
     >
       <View

@@ -1,11 +1,11 @@
 import React from 'react'
 import { Provider } from 'shared/provider'
-import { NativeNavigation } from './navigation'
+import { RootNavigator } from './navigation/rootNavigator'
 
 const App: React.VoidFunctionComponent = () => {
   return (
     <Provider>
-      <NativeNavigation />
+      <RootNavigator />
     </Provider>
   )
 }

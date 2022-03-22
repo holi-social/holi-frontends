@@ -2,8 +2,7 @@ import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import useRouting from 'shared/navigation/useRouting'
-import { CustomHeaderIconButton } from 'shared/navigation/custom-header-icon-button'
-
+import { CustomHeaderIconButton } from 'shared/features/community/components/custom-header-icon-button'
 import { CommunityScreen } from 'shared/features/community/home'
 import { BoardScreen } from 'shared/features/community/board'
 
@@ -13,14 +12,14 @@ export const CommunityApp: React.VoidFunctionComponent = () => {
   const { navigate } = useRouting()
   return (
     <CommunityBottomNav.Navigator
-      initialRouteName="Home"
+      initialRouteName="CommunityHome"
       screenOptions={{
         headerShown: true,
         headerLeft: () => <CustomHeaderIconButton onPress={() => navigate('/')} />,
       }}
     >
       <CommunityBottomNav.Screen
-        name="Home"
+        name="CommunityHome"
         options={{
           tabBarBadge: 3,
         }}

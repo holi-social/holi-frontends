@@ -7,7 +7,6 @@ import useRouting from 'shared/navigation/useRouting'
 // import { useNavigation } from '@react-navigation/native'
 import Button from 'shared/components/ui/Button'
 import Holicon from 'shared/components/ui/holicon'
-import theme from 'shared/styles/theme'
 
 type SpaceLayoutProps = {
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string
