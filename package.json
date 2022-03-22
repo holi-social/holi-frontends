@@ -7,14 +7,10 @@
       "mobile",
       "mock-api",
       "web"
-    ],
-    "nohoist": [
-      "**/react-native",
-      "**/react-native/**",
-      "**/react-native-reanimated",
-      "**/ts-invariant",
-      "**/expo-updates"
     ]
+  },
+  "resolutions": {
+    "**/ts-invariant": "0.9.4"
   },
   "scripts": {
     "lint": "turbo run lint",

@@ -35,7 +35,9 @@
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
     "react-native-svg": "12.1.1",
+    "react-native-card-stack-swiper": "^1.2.5",
     "react-native-reanimated": "~2.3.1",
+    "react-spring": "^8.0.27",
     "shared": "*"
   },
   "devDependencies": {
