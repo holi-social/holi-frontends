@@ -10,10 +10,7 @@ Scenario('test something', ({ I }) => {
   I.tap('Components')
   I.waitForText('You clicked 0 times', 10)
   // this works
-  I.waitForElement(
-    '//android.view.ViewGroup[@content-desc="purePressable"]',
-    10
-  )
+  I.waitForElement('//android.view.ViewGroup[@content-desc="purePressable"]', 10)
   // same as the following shortcut
   I.waitForElement('~purePressable', 10)
   // via resource-id works
