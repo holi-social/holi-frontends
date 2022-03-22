@@ -1,10 +1,11 @@
 import React from 'react'
 import { useQuery } from '@apollo/client'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, ScrollView } from 'react-native'
 
 import GraphQLError from 'shared/components/GraphQLError'
 
 import { PostByIdQueryResult, POST_BY_ID } from './queries'
+import FeedImage from './FeedImage'
 
 const styles = StyleSheet.create({
   container: {
@@ -57,14 +58,15 @@ const FeedItemDetail: React.VoidFunctionComponent<FeedItemDetailProps> = (props)
     const post = data.Post
 
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Text style={styles.title}>{post.title}</Text>
+        {post.image && <FeedImage image={post.image} />}
         <Text style={styles.text}>{post.text}</Text>
         <View style={styles.footer}>
           <Text style={styles.user}>{post.User.name}</Text>
           <Text style={styles.views}>({post.views} views)</Text>
         </View>
-      </View>
+      </ScrollView>
     )
   }
   return <Text>no data</Text>

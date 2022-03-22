@@ -6,6 +6,7 @@ export const POST_FRAGMENT = gql`
     id
     title
     text
+    image
     views
     User {
       id
