@@ -68,6 +68,7 @@ mobile_staging_build:
       - artifacts_staging/
   only:
     - main
+    - HOLI-1225
 
 mobile_staging_e2e:
   stage: 'build_deploy'
@@ -80,6 +81,7 @@ mobile_staging_e2e:
     - yarn codeceptjs
   only:
     - main
+    - HOLI-1225
 
 mobile_production_publish:
   stage: 'build_deploy'
