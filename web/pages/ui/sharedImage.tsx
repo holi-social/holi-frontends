@@ -1,11 +1,11 @@
 import { NextPage } from 'next'
 import Link from 'next/link'
+
 import SharedImage from 'shared/components/ui/sharedImage'
 import Holicon from 'shared/components/ui/holicon'
+import ImportedSvg from 'shared/assets/img/logo/logo.svg'
 
 import sassStyles from './ui.module.scss'
-
-import ImportedSvg from 'shared/assets/img/logo/logo.svg'
 
 const SharedImagePage: NextPage = () => {
   return (
