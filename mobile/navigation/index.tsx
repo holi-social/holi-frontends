@@ -3,7 +3,10 @@ import { DrawerActions, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
-import { AppsHomeScreen } from 'shared/features/apps/screen'
+import HomeScreen from 'shared/screens/SpaceHome'
+import AppStoreScreen from 'shared/screens/AppStore'
+
+// TODO: clean up!
 import { SettingsScreen } from 'shared/features/settings/screen'
 import { CommunityApp } from 'shared/features/community/app'
 import { FeedDetailScreen } from 'shared/features/community/details'
@@ -24,14 +27,15 @@ const DrawerNav: React.VoidFunctionComponent<NativeStackScreenProps<RootStackScr
   const navigation = useNavigation()
   return (
     <Drawer.Navigator
-      initialRouteName="AppsHome"
+      initialRouteName="Home"
       // We need to build a custom drawer for web anyway, so we can build it in a shared maner and pass it into the Drawer Navigator
       drawerContent={DrawerContent}
       screenOptions={{
         header: () => <DrawerHeader toggleDrawer={() => navigation.dispatch(DrawerActions.toggleDrawer())} />,
       }}
     >
-      <Drawer.Screen name="AppsHome" component={AppsHomeScreen} />
+      <Drawer.Screen name="Home" component={HomeScreen} />
+      <Drawer.Screen name="AppStore" component={AppStoreScreen} />
       <Drawer.Screen name="Settings" component={SettingsScreen} />
     </Drawer.Navigator>
   )

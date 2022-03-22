@@ -16,11 +16,10 @@ export const NavigationProvider: React.FC = ({ children }) => (
       () => ({
         prefixes: [Linking.createURL('/')],
         config: {
-          initialRouteName: 'AppsHome',
+          initialRouteName: 'Home',
           screens: {
-            // cannot use Drawer here, which is the DrawerNavigator with initialRouteName = AppsHome
-            // Drawer: '',
-            AppsHome: '',
+            Home: '',
+            AppStore: 'appstore',
             Community: 'community',
             Settings: 'settings',
             CommunityFeedDetail: 'community/:feedId',

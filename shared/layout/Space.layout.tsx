@@ -1,8 +1,10 @@
 import React from 'react'
 import { StyleSheet, SafeAreaView, View, ScrollView, ImageBackground } from 'react-native'
-import { NavigationProp } from '@react-navigation/native'
-import type { NavigationStackScreensList } from 'shared/components/navigation/NavigationDrawer'
-import { useNavigation } from '@react-navigation/native'
+import useRouting from 'shared/navigation/useRouting'
+
+// import { NavigationProp } from '@react-navigation/native'
+// import type { NavigationStackScreensList } from 'shared/components/navigation/NavigationDrawer'
+// import { useNavigation } from '@react-navigation/native'
 import Button from 'shared/components/ui/Button'
 import Holicon from 'shared/components/ui/holicon'
 import theme from 'shared/styles/theme'
@@ -10,10 +12,9 @@ import theme from 'shared/styles/theme'
 type SpaceLayoutProps = {
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string
 }
-type NavigationProps = NavigationProp<NavigationStackScreensList>
 
 const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayoutProps) => {
-  const navigation = useNavigation<NavigationProps>()
+  const { navigate } = useRouting()
 
   return (
     <ImageBackground
@@ -25,7 +26,7 @@ const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayo
         <ScrollView style={styles.scrollView}>{props.children}</ScrollView>
         <View style={styles.footer}>
           {/* TODO: hide within appStore */}
-          <Button style={styles.appStoreButton} onPress={() => navigation.navigate('AppStore')}>
+          <Button style={styles.appStoreButton} onPress={() => navigate('/appstore')}>
             <Holicon icon="appstore" size={30} color="black" />
           </Button>
         </View>
@@ -44,8 +45,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     position: 'relative',
   },
-  scrollView: {
-  },
+  scrollView: {},
   bgImage: {
     position: 'absolute',
     height: '100%',

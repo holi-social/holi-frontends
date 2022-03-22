@@ -10,7 +10,9 @@ const useRouting: UseRouting = <T extends Record<string, string>>() => {
 
   return {
     navigate: (routeName: string) => {
+      console.log('[useRouting] navigate to ', routeName)
       context.setPathname(routeName)
+      console.log('[useRouting] context pathname is set .. now linkTo ...')
       return linkTo(routeName)
     },
     query: currentRoute.params as T,

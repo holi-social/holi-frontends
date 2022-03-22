@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
-import { AppsHomeScreen } from 'shared/features/apps/screen'
+import HomeScreen from 'shared/screens/SpaceHome'
 
-const Home: NextPage = () => <AppsHomeScreen />
+const Home: NextPage = () => <HomeScreen />
 
 export default Home

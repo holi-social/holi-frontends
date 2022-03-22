@@ -36,6 +36,8 @@ export const DrawerContent: React.VoidFunctionComponent = () => {
           {({ isActive }) => <Text style={{ fontWeight: isActive ? 'bold' : 'normal' }}>Settings</Text>}
         </Link>
         <Button onPress={() => navigate('/')}>Home</Button>
+        <Button onPress={() => navigate('/appstore')}>AppStore xxx</Button>
+        {/* TODO: duplicate ? */}
         <Button onPress={() => navigate('/settings')}>Settings</Button>
         <Button onPress={() => alert('Uuuuuh - an alert!')}>Click me!</Button>
       </ScrollView>
