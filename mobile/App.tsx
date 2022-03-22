@@ -1,21 +1,13 @@
-import { NavigationContainer, DefaultTheme } from "@react-navigation/native"
-import { ApolloProvider } from "@apollo/client"
-import NavigationStack from './screens/_navigationStack'
-import holiTheme from './themes/holi'
-import client from "shared/graphql/client"
+import React from 'react'
+import { Provider } from 'shared/provider'
+import { NativeNavigation } from './navigation'
 
-
-const theTheme = {
-  ...DefaultTheme,
-  ...holiTheme,
-}
-
-export default function App() {
+const App: React.VoidFunctionComponent = () => {
   return (
-    <ApolloProvider client={client}>
-      <NavigationContainer theme={theTheme}>
-        <NavigationStack />
-      </NavigationContainer>
-    </ApolloProvider>
+    <Provider>
+      <NativeNavigation />
+    </Provider>
   )
 }
+
+export default App

@@ -1,10 +1,12 @@
 {
   "expo": {
-    "name": "projectholi",
+    "name": "Project HOLI",
     "slug": "projectholi",
+    "owner": "holistic-foundation",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "scheme": "holi",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

@@ -1,0 +1,31 @@
+.button {
+  align-self: center;
+  background-color: transparent;
+  background: none;
+  border-width: thin;
+  border: none;
+  cursor: pointer;
+  justify-self: center;
+  margin: 0;
+  outline: none;
+  padding: 0;
+  place-self: center;
+  text-decoration: none;
+  user-select: none;
+  vertical-align: middle;
+
+  -moz-appearance: none;
+  -webkit-appearance: none;
+
+  &::selection {
+    background-color: transparent;
+  }
+
+  &::moz-selection {
+    background-color: transparent;
+  }
+
+  &::webkit-selection {
+    background-color: transparent;
+  }
+}

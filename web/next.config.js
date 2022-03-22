@@ -1,26 +1,21 @@
-
-const withPlugins = require('next-compose-plugins');
-const withTM = require("next-transpile-modules");
-const path = require('path');
+/* eslint-disable @typescript-eslint/no-var-requires */
+const withPlugins = require('next-compose-plugins')
+const withTM = require('next-transpile-modules')
+const path = require('path')
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  distDir: "build",
+  reactStrictMode: false,
+  distDir: 'build',
   webpack: (config) => {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
       // Transform all direct 'react-native' imports to 'react-native-web'
-      "react-native$": "react-native-web",
-      "react-native-svg": "react-native-svg-web"
-    };
-    config.resolve.extensions = [
-      ".web.js",
-      ".web.ts",
-      ".web.tsx",
-      ...config.resolve.extensions,
-    ];
-    return config;
+      'react-native$': 'react-native-web',
+      'react-native-svg': 'react-native-svg-web',
+    }
+    config.resolve.extensions = ['.web.js', '.web.ts', '.web.tsx', ...config.resolve.extensions]
+    return config
   },
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles'), path.join(__dirname, 'shared/data')],
@@ -29,7 +24,10 @@ const nextConfig = {
 
 module.exports = withPlugins(
   [
-    withTM(["shared"], {resolveSymlinks: true, debug: true}),
+    withTM(['react-native-reanimated', 'react-native-card-stack-swiper', 'shared'], {
+      resolveSymlinks: true,
+      debug: true,
+    }),
   ],
   nextConfig
-);
+)

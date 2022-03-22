@@ -1,0 +1,17 @@
+import React from 'react'
+import { View, Text } from 'react-native'
+
+import useRouting from 'shared/navigation/useRouting'
+import Feed from 'shared/components/feed/Feed'
+
+const CommunityScreen: React.VoidFunctionComponent = () => {
+  const { navigate } = useRouting()
+  return (
+    <View>
+      <Text>Feed</Text>
+      <Feed onItemPressed={(post) => navigate(`/community/${post.id}`)} />
+    </View>
+  )
+}
+
+export { CommunityScreen }

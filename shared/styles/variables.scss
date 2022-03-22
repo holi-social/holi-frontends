@@ -1,0 +1,26 @@
+// This file is used in two ways:
+// - direct import into the web's main.scss
+// - as js-variables in shared/styles/globalVars.ts for react-native styling
+
+// Important !!!
+// run `yarn workspace shared run generate-style-vars` on every file change
+// TODO: add to dev-watcher
+
+$font-family: Helvetica Neue, sans-serif;
+$font-family-mobile: sans-serif;
+
+$font-color: #5b5b5c;
+$font-color-black: $font-color;
+$font-color-grey: #8b8b8b;
+
+$primary-color: #ff2d55;
+$secondary-color: rgb(255, 174, 0);
+$tertiary-color: rgb(8, 110, 226);
+
+$border-color: #e7e6e6;
+
+$button-border-color: #fdb0c1;
+
+$background-color: #fdfdfd;
+$background-color-grey: #f7f7f7;
+$background-color-black: #f7f7f7;

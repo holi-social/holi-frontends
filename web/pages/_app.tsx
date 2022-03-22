@@ -1,19 +1,21 @@
-import '../styles/globals.scss'
-import Layout from '../components/layout'
+import React from 'react'
 import type { AppProps } from 'next/app'
-import { ApolloProvider } from "@apollo/client";
-import client from "shared/graphql/client";
+// Fixes issue with missing requestAnimationFrame used by react-native-reanimated
+import 'raf/polyfill'
 
+import { Provider } from 'shared/provider'
+import Layout from 'web/components/Layout/layout'
 
-function MyApp({ Component, pageProps }: AppProps) {
+import 'web/styles/globals.scss'
 
+const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }) => {
   return (
-    <ApolloProvider client={client}>
+    <Provider>
       <Layout>
         <Component {...pageProps} />
       </Layout>
-    </ApolloProvider>
-  );
+    </Provider>
+  )
 }
 
-export default MyApp;
+export default MyApp

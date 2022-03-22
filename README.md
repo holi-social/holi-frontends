@@ -1,9 +1,31 @@
 # holi-react-native-setup
 
 ## Running
+
 Run `yarn workspace mobile run start` for mobile and `yarn workspace web run dev` for web.
 
+Start the mock api with `yarn workspace mock-api run start`.
+
+## Install libs / packages
+
+For convience reasons you might want to stay in the project root folder. From here you can add new packages with the command:
+
+`yarn workspace [workspace-name] add [package-name]`
+
+e.g.
+`yarn workspace web add typescript -D`
+or
+`yarn workspace mobile expo install react-native-gesture-handler`
+
+Alternatively, you can also go into the specific folder where you need the new lib and install it there:
+
+```
+cd web
+yarn add typescript -D
+```
+
 ## Monorepo - and why
+
 This is a monorepo. Not in the FAANG sense, as it doesn't contain thousands of applications. It contains two applications: mobile & web. And shared code between mobile & web. This is the one and only reason we create a monorepo.
 
 Monorepos have been critized heavily and righteously so. Most downsides of monorepos come from frameworks and build systems not supporting monorepos. Therefore, working with monorepos feels like a glueing together many workarounds until it works and hoping it won't break.
@@ -11,10 +33,11 @@ Monorepos have been critized heavily and righteously so. Most downsides of monor
 On the positive side, this monorepo will allow us to share code between our mobile and web frontend. You can do this without a monorepo, using a library. However, using a library for shared code, you need to publish every little code change (locally) before you can try it out in the applications that use it. This would dramatically decrease development velocity as feedback cycles for shared code changes are simply too long. And it's no fun do work this way either.
 
 ### Yarn Workspaces
+
 Yarn Workspaces are a neat feature that support us with our monorepo approach. It allows to make multiple packages (e.g. `shared`, `mobile` and `web`) and group them together in a (non-publishable) root package. With [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces):
 
-* Your dependencies can be linked together, which means that your workspaces can depend on one another while always using the most up-to-date code available. `mobile` and `web` can depend on `shared`, always pointing to the "newest version" by simply symlinking into the directory.
-* All dependencies are installed together (under the root module), using a single lockfile. There can be exceptions if needed. If you have issues, check if [nohoist](https://classic.yarnpkg.com/blog/2018/02/15/nohoist/) will help.
+- Your dependencies can be linked together, which means that your workspaces can depend on one another while always using the most up-to-date code available. `mobile` and `web` can depend on `shared`, always pointing to the "newest version" by simply symlinking into the directory.
+- All dependencies are installed together (under the root module), using a single lockfile. There can be exceptions if needed. If you have issues, check if [nohoist](https://classic.yarnpkg.com/blog/2018/02/15/nohoist/) will help.
 
 Working with Yarn Workspaces is (a little) different, but easy. Instead of running e.g.
 
@@ -23,15 +46,69 @@ holi-react-native-setup/ $> cd mobile
 holi-react-native-setup/mobile $> yarn run start
 ```
 
-you *can* simply prefix every yarn command with `yarn workspace $MODULE_NAME` like so:
+you _can_ simply prefix every yarn command with `yarn workspace $MODULE_NAME` like so:
 
 ```
 holi-react-native-setup/ $> yarn workspace mobile run start
 ```
 
-But notice that *you don't have to* do this, you can also `cd` into the individual packages and use yarn as if you weren't in a monorepo with yarn Workspaces.
+But notice that _you don't have to_ do this, you can also `cd` into the individual packages and use yarn as if you weren't in a monorepo with yarn Workspaces.
 
 ### How to Reproduce (Built this from scratch)
+
 Simply cloning a monorepo template from the Internet won't help you understand how everything is glued together. And if you don't, it's quite likely that you're going to have a hard time as soon as something breaks. At that point you might be months into your project, the code base has become huge and debugging your monorepo issues has become harder as it will be harder to see the forest for the trees.
 
 To avoid this situation, `reproduce.sh` contains every single instruction that was used to create this monorepo. And quite a number of comments on what we're doing and why. This should allow you to understand the process and the reasoning behind it. If you run into problems half a year into the project, this monorepo template (and `reproduce.sh`) allows you to go back in time and debug your monorepo issue on a smaller less cluttered code base. That's the idea, we hope it will pay out.
+
+# Navigation
+
+To create a new route with a screen for mobile and page for web you have to do the following.
+
+Say you wanted to create the route "/profile/:id" which opened the profile page in web and a profile screen in mobile.
+
+## shared
+
+- create shared/features/profile/screen.tsx
+  - implement a shared view for the profile you want to render
+  - use `const { query: { id } } = useRouting()` hook retrieve the id query param
+
+## web
+
+- create web/pages/profile/[id].tsx
+  - render the shared screen within the
+
+```ts
+const ProfilePage: NextPage = () => <ProfileScreen />
+export default ProfilePage
+```
+
+## mobile
+
+- create a route in mobile/navigation e.g. in the RootStack and use the shared screen component to render
+
+```ts
+<RootStack.Screen name="Profile" component={ProfileScreen} />
+```
+
+- create a linking mapping in shared/provider/navigation between the navigator route name and the web url
+
+```ts
+// ...
+config: {
+  screens: {
+    // ...
+    Profile: '/profile/:id',
+  }
+}
+```
+
+## conclusion
+
+you can now navigate from anywhere in web and mobile using the navigate function exposed by the useRouting hook.
+
+
+```ts
+const { navigate } = useRouting()
+
+<Button onPress={() => navigate('/profile/jasper')}>jaspers profile</Button>
+```

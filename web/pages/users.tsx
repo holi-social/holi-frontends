@@ -1,20 +1,22 @@
-import { GetServerSidePropsContext } from "next";
-import { getUsers, UserData } from "shared/api";
-import UsersComponent from "shared/components/Users";
+import { GetServerSideProps, NextPage } from 'next'
+import { getUsers, UserData } from 'shared/api'
+import UsersComponent from 'shared/components/Users'
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export const getServerSideProps: GetServerSideProps = async () => {
   return {
     props: {
       users: await getUsers(),
     },
-  };
+  }
 }
 
-export default function Users({ users }: { users: Array<UserData> }) {
+const Users: NextPage<{ users: Array<UserData> }> = ({ users }) => {
   return (
     <>
       <h1>Users</h1>
       <UsersComponent users={users} />
     </>
-  );
+  )
 }
+
+export default Users
