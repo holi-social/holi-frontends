@@ -51,7 +51,7 @@ export default Tile
 // const fontColor = hasDarkBackground ? 'white' : theme.colors.text
 // const fontColorLight = hasDarkBackground ? 'rgba(255,255,255, 0.8)' : styleVars.fontColorGrey
 
-const getStyles = (hasDarkBackground) =>
+const getStyles = (hasDarkBackground: boolean) =>
   StyleSheet.create({
     container: {
       paddingTop: 5, // needed for badge
@@ -91,7 +91,6 @@ const getStyles = (hasDarkBackground) =>
       color: hasDarkBackground ? 'white' : theme.colors.text,
     },
     contentHeadline: {
-      fontSize: 14,
       color: hasDarkBackground ? 'rgba(255,255,255, 0.8)' : styleVars.fontColorGrey,
       fontSize: 15,
       fontWeight: '500',

@@ -1,12 +1,21 @@
 import React, { useMemo } from 'react'
 import * as Linking from 'expo-linking'
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
+import type { Theme } from '@react-navigation/native'
 
 import defaultHoliTheme from 'shared/styles/theme'
 
-const theTheme = {
+const theTheme: Theme = {
   ...DefaultTheme,
-  ...defaultHoliTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: defaultHoliTheme.colors.primary,
+    notification: defaultHoliTheme.colors.notification,
+    background: defaultHoliTheme.colors.background,
+    text: defaultHoliTheme.colors.text,
+    border: defaultHoliTheme.colors.border,
+  },
+  dark: defaultHoliTheme.dark,
 }
 
 export const NavigationProvider: React.FC = ({ children }) => (
