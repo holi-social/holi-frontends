@@ -1,8 +1,8 @@
-import React from 'react'
-import { View, Text, Pressable, Platform, SafeAreaView } from 'react-native'
+import React, { useState } from 'react'
+import { View, Text, Pressable, Platform, StyleSheet, SafeAreaView, TextInput } from 'react-native'
 
 import Holicon from 'shared/components/ui/holicon'
-import useRouting from 'shared/components/navigation/useRouting'
+import SharedImage from 'shared/components/ui/sharedImage'
 
 type ProfileProps = { onPress: () => void }
 
@@ -16,26 +16,51 @@ const Profile: React.VoidFunctionComponent<ProfileProps> = ({ onPress }) => {
 }
 
 const SearchBar = () => {
-  const { pathname } = useRouting()
+  const [active, setActive] = useState(false)
   return (
-    <View
-      style={{
-        borderRadius: 18,
-        height: 30,
-        backgroundColor: '#c2c2c2',
-        flex: 1,
-        marginHorizontal: 30,
-        marginBottom: 2,
-        maxWidth: 700,
-        // alignItems: 'center',
-        paddingHorizontal: 8,
-        justifyContent: 'center',
-      }}
-    >
-      <Text>search here {pathname}</Text>
-    </View>
+    <Pressable style={searchBarStyles.searchBar} onPress={() => setActive(true)}>
+      {/* TODO do not un/mount, hide instead to keep input state */}
+      {active ? (
+        <TextInput style={searchBarStyles.input} autoFocus onBlur={() => setActive(false)} />
+      ) : (
+        <View style={searchBarStyles.searchContent}>
+          <Holicon icon="search" />
+          <Text>search here</Text>
+        </View>
+      )}
+    </Pressable>
   )
 }
+
+const searchBarStyles = StyleSheet.create({
+  searchBar: {
+    borderRadius: 18,
+    height: 32,
+    backgroundColor: '#fff',
+    flex: 1,
+    marginHorizontal: 30,
+    maxWidth: 700,
+    borderColor: '#c2c2c2',
+    borderWidth: StyleSheet.hairlineWidth,
+  },
+  input: {
+    flex: 1,
+    height: 30,
+    borderRadius: 18,
+    paddingHorizontal: 12,
+    ...Platform.select({
+      web: {
+        outline: 'none',
+      },
+    }),
+  },
+  searchContent: {
+    paddingHorizontal: 8,
+    alignItems: 'center',
+    flexDirection: 'row',
+    flex: 1,
+  },
+})
 
 type DrawerHeaderProps = {
   toggleDrawer: () => void
@@ -43,44 +68,63 @@ type DrawerHeaderProps = {
 
 const DrawerHeader: React.VoidFunctionComponent<DrawerHeaderProps> = (props) => {
   return (
-    <SafeAreaView
-      style={{
-        ...Platform.select({
-          native: {
-            height: 100,
-          },
-        }),
-        backgroundColor: 'transparent',
-      }}
-    >
-      <View
-        style={{
-          flex: 1,
-          paddingVertical: 8,
-          flexDirection: 'row',
-          alignItems: 'flex-end',
-          justifyContent: 'space-between',
-          paddingRight: 12,
-        }}
-      >
+    <SafeAreaView style={headerStyles.safeArea}>
+      <View style={headerStyles.container}>
         {Platform.OS === 'web' ? (
-          <Pressable onPress={props.toggleDrawer}>
+          <Pressable onPress={props.toggleDrawer} style={headerStyles.webLeft}>
+            <SharedImage
+              isSvg
+              imageFile={require('shared/assets/img/logo/logo.svg')}
+              // style={{ height: 24, width: 24 }}
+            />
             <Text>Mein Holi</Text>
           </Pressable>
         ) : (
           <Profile onPress={props.toggleDrawer} />
         )}
         <SearchBar />
-        <View style={{ flexDirection: 'row' }}>
+        <View style={headerStyles.right}>
           <Holicon icon="notification" size={30} />
           {Platform.OS === 'web' && <Holicon icon="settings" size={30} />}
         </View>
-        {/* Profile Image */}
-        {/* Search Bar */}
-        {/* Notifications Bell */}
       </View>
     </SafeAreaView>
   )
 }
 
-export { DrawerHeader }
+const headerStyles = StyleSheet.create({
+  safeArea: {
+    ...Platform.select({
+      native: {
+        height: 100,
+      },
+    }),
+    backgroundColor: 'transparent',
+  },
+  container: {
+    ...Platform.select({
+      native: {
+        alignItems: 'flex-end',
+      },
+      web: {
+        alignItems: 'center',
+      },
+    }),
+    flex: 1,
+    paddingVertical: 8,
+    paddingHorizontal: 8,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingRight: 12,
+  },
+  right: {
+    flexDirection: 'row',
+    marginBottom: 2,
+  },
+  webLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+})
+
+export { DrawerHeader as default }

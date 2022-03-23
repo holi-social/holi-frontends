@@ -6,6 +6,7 @@ export type ButtonProps = {
   text?: string
   style?: Record<string, unknown>
   href?: string
+  testID?: string
   onPress?: null | ((event: GestureResponderEvent) => void)
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string
 }
@@ -45,6 +46,7 @@ const Button: React.FunctionComponent<ButtonProps> = (props: ButtonProps) => {
       height: 50,
       display: 'flex',
       flexDirection: 'row',
+      alignSelf: 'center',
     },
     hovered: {
       borderColor: '#fb345e',
