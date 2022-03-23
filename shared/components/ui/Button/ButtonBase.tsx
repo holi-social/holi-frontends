@@ -6,6 +6,7 @@ export type ButtonProps = {
   text?: string
   style?: Record<string, unknown>
   href?: string
+  testID?: string
   onPress?: null | ((event: GestureResponderEvent) => void)
   children?: React.ReactChildren | Array<React.ReactChild> | string
 }
