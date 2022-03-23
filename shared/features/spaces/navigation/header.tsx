@@ -83,4 +83,4 @@ const DrawerHeader: React.VoidFunctionComponent<DrawerHeaderProps> = (props) => 
   )
 }
 
-export { DrawerHeader as default }
+export { DrawerHeader }

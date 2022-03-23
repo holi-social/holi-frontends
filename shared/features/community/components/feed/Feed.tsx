@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/client'
 import { FlatList, Text, ListRenderItemInfo, Pressable, StyleSheet, View, Platform, Dimensions } from 'react-native'
 
 import GraphQLError from 'shared/components/GraphQLError'
-import FeedImage from 'shared/components/feed/FeedImage'
+import FeedImage from 'shared/features/community/components/feed/FeedImage'
 
 import { Post } from './types'
 import { ALL_POSTS_QUERY, AllPostsQueryResult } from './queries'
