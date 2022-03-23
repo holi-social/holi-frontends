@@ -45,6 +45,7 @@ const Button: React.VoidFunctionComponent<ButtonProps> = (props: ButtonProps) =>
       height: 50,
       display: 'flex',
       flexDirection: 'row',
+      alignSelf: 'center',
     },
     hovered: {
       borderColor: '#fb345e',
