@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import { StyleSheet } from 'react-native'
 
 // Usage:
 
@@ -22,7 +23,7 @@ type SharedImageProps = {
   imageFile: StaticImageData
   isSvg?: boolean
   altText?: string
-  style?: object
+  style?: { width: number; height: number }
 }
 
 const SharedImage: React.VoidFunctionComponent<SharedImageProps> = (props: SharedImageProps) => {
@@ -30,7 +31,13 @@ const SharedImage: React.VoidFunctionComponent<SharedImageProps> = (props: Share
   const pathFromImport = props.imageFile && props.imageFile.default && props.imageFile.default.src
   const path = pathFromRequire || pathFromImport
 
-  return <Image className={'uschi'} src={path as string} alt={props.altText} width="50" height="50" />
+  const styles = StyleSheet.flatten(props.style)
+
+  const width = styles && styles.width ? styles.width : 50
+  const height = styles && styles.height ? styles.height : 50
+
+  // https://github.com/vercel/next.js/discussions/18312
+  return <Image className={'uschi'} src={path as string} alt={props.altText} width={width} height={height} />
 }
 
 export default SharedImage

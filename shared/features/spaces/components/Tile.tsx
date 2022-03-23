@@ -27,7 +27,8 @@ const Tile: React.FunctionComponent<TileProps> = (props: TileProps) => {
           <View style={styles.logo}>
             <SharedImage
               imageFile={require('shared/assets/img/icons/betterplace.png')}
-              style={{ width: 14, height: 14 }}
+              style={styles.logoImg}
+              altText="someText"
             />
           </View>
           <Text ellipsizeMode="tail" numberOfLines={1} style={styles.headerText}>
@@ -45,11 +46,6 @@ const Tile: React.FunctionComponent<TileProps> = (props: TileProps) => {
 }
 
 export default Tile
-
-// const tileBackgroundColor = hasDarkBackground ? theme.colors.primary : theme.colors.background
-// const logoBackgroundColor = hasDarkBackground ? theme.colors.background : styleVars.backgroundColorGrey
-// const fontColor = hasDarkBackground ? 'white' : theme.colors.text
-// const fontColorLight = hasDarkBackground ? 'rgba(255,255,255, 0.8)' : styleVars.fontColorGrey
 
 const getStyles = (hasDarkBackground: boolean) =>
   StyleSheet.create({
@@ -82,6 +78,10 @@ const getStyles = (hasDarkBackground: boolean) =>
       borderRadius: 15,
       alignItems: 'center',
       justifyContent: 'center',
+    },
+    logoImg: {
+      width: 15,
+      height: 15,
     },
     headerText: {
       flex: 1,
