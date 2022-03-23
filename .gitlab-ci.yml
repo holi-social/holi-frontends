@@ -68,15 +68,26 @@ mobile_staging_build:
       - artifacts_staging/
   only:
     - main
+    - HOLI-1225
 
 mobile_staging_e2e:
   stage: 'build_deploy'
   needs: ['mobile_staging_build']
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
-    - echo 'trigger (Browserstack) E2E tests here'
+    - cd mobile
+    - export EAS_AAB_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform android --limit 1 | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
+    - export EAS_AAB_FILE=$(basename $EAS_AAB_URL)
+    - curl -L -s -o ../tests/mobile-android/$EAS_AAB_FILE $EAS_AAB_URL # download .aab from EAS
+    - cd ../tests/mobile-android
+    - yarn install
+    - export BROWSERSTACK_UPLOAD_RESPONSE=$(curl -s -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@${EAS_AAB_FILE}")
+    - export BROWSERSTACK_APP_URL=$(echo "${BROWSERSTACK_UPLOAD_RESPONSE}" | jq -r '.app_url')
+    - yarn run codeceptjs
+  allow_failure: true
   only:
     - main
+    - HOLI-1225
 
 mobile_production_publish:
   stage: 'build_deploy'
