@@ -1,15 +1,15 @@
 .button {
   align-self: center;
+  place-self: center;
+  justify-self: center;
   background-color: transparent;
   background: none;
   border-width: thin;
   border: none;
   cursor: pointer;
-  justify-self: center;
   margin: 0;
   outline: none;
   padding: 0;
-  place-self: center;
   text-decoration: none;
   user-select: none;
   vertical-align: middle;
