@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { Text } from 'react-native'
 import CommunityLayout from 'shared/features/community/layout'
 import useRouting from 'shared/components/navigation/useRouting'
 import Feed from 'shared/features/community/components/feed/Feed'

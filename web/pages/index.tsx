@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
-import HomeScreen from 'shared/features/spaces/screens/home'
+import PrivateSpaceScreen from 'shared/features/spaces/screens/privateSpace'
 
-const Home: NextPage = () => <HomeScreen />
+const PrivateSpace: NextPage = () => <PrivateSpaceScreen />
 
-export default Home
+export default PrivateSpace

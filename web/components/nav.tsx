@@ -10,10 +10,10 @@ const Nav = () => {
   return (
     <nav style={{ flexDirection: 'row' }}>
       {isHome ? (
-        <b>Home</b>
+        <b>PrivateSpace</b>
       ) : (
         <Link href={'/'}>
-          <a>Home</a>
+          <a>PrivateSpace</a>
         </Link>
       )}{' '}
       |{' '}

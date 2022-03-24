@@ -9,7 +9,7 @@ const Layout: React.FunctionComponent = ({ children }) => {
   return (
     <>
       <Head>
-        <title>HOLI - Home</title>
+        <title>HOLI - PrivateSpace</title>
       </Head>
       <DrawerHeader toggleDrawer={() => setDrawerOpen(!drawerOpen)} />
       <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />

@@ -4,6 +4,8 @@ import useRouting from 'shared/components/navigation/useRouting'
 import Holicon from 'shared/components/ui/holicon'
 import { DrawerItem } from 'shared/features/spaces/navigation/item'
 
+// TODO: close action as prop does not make sense
+// ... and it is never used.
 type DrawerContentProps = {
   closeDrawer?: () => void
 }

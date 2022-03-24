@@ -1,14 +1,14 @@
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import SpaceLayout from 'shared/features/spaces/layout'
-import TilesList from 'shared/features/spaces/components/TilesList'
+import AppTiles from 'shared/features/spaces/components/AppTiles'
 
 const HomeScreen: React.VoidFunctionComponent = () => {
   return (
     <SpaceLayout>
       <Text style={styles.header}>Hello Anna</Text>
       <Text style={styles.subHeader}>Nice to see you here!</Text>
-      <TilesList style={{ marginTop: 40 }} />
+      <AppTiles style={{ marginTop: 40 }} />
     </SpaceLayout>
   )
 }

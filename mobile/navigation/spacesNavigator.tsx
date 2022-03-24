@@ -4,7 +4,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { DrawerContent } from 'shared/features/spaces/navigation/drawer'
 import CustomHeaderIcon from 'shared/features/spaces/navigation/customHeaderIcon'
-import HomeScreen from 'shared/features/spaces/screens/home'
+import HomeScreen from 'shared/features/spaces/screens/privateSpace'
 import AppStoreScreen from 'shared/features/spaces/screens/appStore'
 import { SettingsScreen } from 'shared/features/spaces/screens/settings'
 
@@ -16,7 +16,7 @@ const SpacesNavigator: React.VoidFunctionComponent<NativeStackScreenProps<RootSt
   const navigation = useNavigation()
   return (
     <SpacesDrawer.Navigator
-      initialRouteName="Home"
+      initialRouteName="PrivateSpace"
       // We need to build a custom drawer for web anyway, so we can build it in a shared maner and pass it into the Drawer Navigator
       drawerContent={DrawerContent}
       screenOptions={{
@@ -28,7 +28,7 @@ const SpacesNavigator: React.VoidFunctionComponent<NativeStackScreenProps<RootSt
         // header: () => <DrawerHeader toggleDrawer={() => navigation.dispatch(DrawerActions.toggleDrawer())} />,
       }}
     >
-      <SpacesDrawer.Screen name="Home" component={HomeScreen} />
+      <SpacesDrawer.Screen name="PrivateSpace" component={HomeScreen} />
       <SpacesDrawer.Screen name="AppStore" component={AppStoreScreen} />
       <SpacesDrawer.Screen name="Settings" component={SettingsScreen} />
     </SpacesDrawer.Navigator>

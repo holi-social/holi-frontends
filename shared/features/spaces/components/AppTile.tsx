@@ -5,11 +5,11 @@ import SharedImage from 'shared/components/ui/sharedImage'
 import theme from 'shared/styles/theme'
 import { styleVars } from 'shared/styles/globalVars'
 
-type TileProps = {
+type AppTileProps = {
   value: number
   style?: Record<string, unknown>
 }
-const Tile: React.FunctionComponent<TileProps> = (props: TileProps) => {
+const AppTile: React.FunctionComponent<AppTileProps> = (props: AppTileProps) => {
   const [hasDarkBackground, setHasDarkBackground] = useState(false)
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const Tile: React.FunctionComponent<TileProps> = (props: TileProps) => {
   )
 }
 
-export default Tile
+export default AppTile
 
 const getStyles = (hasDarkBackground: boolean) =>
   StyleSheet.create({

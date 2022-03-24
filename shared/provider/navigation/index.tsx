@@ -25,9 +25,9 @@ export const NavigationProvider: React.FC = ({ children }) => (
       () => ({
         prefixes: [Linking.createURL('/')],
         config: {
-          initialRouteName: 'Home',
+          initialRouteName: 'PrivateSpace',
           screens: {
-            Home: '',
+            PrivateSpace: '',
             AppStore: 'appstore',
             Community: 'community',
             Settings: 'settings',
