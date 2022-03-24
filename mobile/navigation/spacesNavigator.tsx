@@ -1,9 +1,10 @@
 import React from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, DrawerActions } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
+
 import { DrawerContent } from 'shared/features/spaces/navigation/drawer'
-import CustomHeaderIcon from 'shared/features/spaces/navigation/customHeaderIcon'
+import DrawerHeader from 'shared/features/spaces/navigation/header'
 import HomeScreen from 'shared/features/spaces/screens/privateSpace'
 import AppStoreScreen from 'shared/features/spaces/screens/appStore'
 import { SettingsScreen } from 'shared/features/spaces/screens/settings'
@@ -21,11 +22,7 @@ const SpacesNavigator: React.VoidFunctionComponent<NativeStackScreenProps<RootSt
       drawerContent={DrawerContent}
       screenOptions={{
         overlayColor: 'rgba(0,0,0,0.2)',
-        headerTransparent: true,
-        headerTitle: '',
-        headerLeft: (props) => <CustomHeaderIcon {...props} navigation={navigation} />,
-        // TODO: header should be transparent !!!
-        // header: () => <DrawerHeader toggleDrawer={() => navigation.dispatch(DrawerActions.toggleDrawer())} />,
+        header: () => <DrawerHeader toggleDrawer={() => navigation.dispatch(DrawerActions.toggleDrawer())} />,
       }}
     >
       <SpacesDrawer.Screen name="PrivateSpace" component={HomeScreen} />

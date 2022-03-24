@@ -1,15 +1,24 @@
 import React, { useState } from 'react'
-import { View, Text, Pressable, Platform, StyleSheet, TextInput } from 'react-native'
+import { View, ViewStyle, Text, Pressable, Platform, StyleSheet, TextInput } from 'react-native'
+import useRouting from 'shared/components/navigation/useRouting'
 
 import Holicon from 'shared/components/ui/holicon'
 import SharedImage from 'shared/components/ui/sharedImage'
 
-type ProfileProps = { onPress: () => void }
+import { styleVars } from 'shared/styles/globalVars'
 
-const Profile: React.VoidFunctionComponent<ProfileProps> = ({ onPress }) => {
+type ProfileProps = {
+  style: ViewStyle
+  onPress: () => void
+}
+
+const Profile: React.VoidFunctionComponent<ProfileProps> = ({ onPress, style }) => {
   return (
     <Pressable
-      style={{ width: 32, height: 32, backgroundColor: 'red', borderRadius: 24, marginLeft: 12 }}
+      style={[
+        { width: 32, height: 32, backgroundColor: styleVars.tertiaryColor, borderRadius: 24, marginLeft: 12 },
+        style,
+      ]}
       onPress={onPress}
     />
   )
@@ -38,7 +47,8 @@ const searchBarStyles = StyleSheet.create({
     height: 32,
     backgroundColor: '#fff',
     flex: 1,
-    marginHorizontal: 30,
+    marginLeft: 10,
+    marginRight: 30,
     maxWidth: 700,
     borderColor: '#c2c2c2',
     borderWidth: StyleSheet.hairlineWidth,
@@ -68,18 +78,30 @@ type DrawerHeaderProps = {
 }
 
 const DrawerHeader: React.VoidFunctionComponent<DrawerHeaderProps> = (props) => {
+  const { navigate, pathname } = useRouting()
+  const isHome = pathname === '/'
+
   return (
     <View style={headerStyles.safeArea}>
       <View style={headerStyles.container}>
         {Platform.OS === 'web' ? (
           <Pressable onPress={props.toggleDrawer} style={headerStyles.webLeft}>
             <SharedImage isSvg imageFile={require('shared/assets/img/logo/logo.svg')} />
-            <Text>Mein Holi</Text>
+            {isHome && <Text>Mein Holi</Text>}
           </Pressable>
         ) : (
-          <Profile onPress={props.toggleDrawer} />
+          <Profile onPress={props.toggleDrawer} style={{ marginRight: 10 }} />
         )}
+
+        {/* Back link */}
+        {!isHome && (
+          <Pressable onPress={() => navigate('/')} {...props}>
+            <Holicon icon="arrow-back" size={30} color={styleVars.fontColor} />
+          </Pressable>
+        )}
+
         <SearchBar />
+
         <View style={headerStyles.right}>
           <Holicon icon="notification" size={30} />
           {Platform.OS === 'web' && <Holicon icon="settings" size={30} />}
