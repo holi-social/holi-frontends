@@ -68,7 +68,7 @@ Say you wanted to create the route "/profile/:id" which opened the profile page 
 
 ## shared
 
-- create shared/features/profile/screen.tsx
+- create shared/features/profile/id.tsx
   - implement a shared view for the profile you want to render
   - use `const { query: { id } } = useRouting()` hook retrieve the id query param
 
@@ -84,13 +84,13 @@ export default ProfilePage
 
 ## mobile
 
-- create a route in mobile/navigation e.g. in the RootStack and use the shared screen component to render
+- create a route in `mobile/navigation/rootNavigator.tsx` e.g. in the RootStack and use the shared screen component to render
 
 ```ts
 <RootStack.Screen name="Profile" component={ProfileScreen} />
 ```
 
-- create a linking mapping in shared/provider/navigation between the navigator route name and the web url
+- create a linking mapping in `shared/provider/navigation/index.tsx` between the navigator route name and the web url
 
 ```ts
 // ...
@@ -112,3 +112,17 @@ const { navigate } = useRouting()
 
 <Button onPress={() => navigate('/profile/jasper')}>jaspers profile</Button>
 ```
+
+## notes
+
+**Important hint: A screen name must be unique.**
+
+It may be configured at different places, but over all it must be unique.
+
+```
+// e.g.
+<RootStack.Screen name="Spaces" component={SpacesNavigator} />
+<SpacesDrawer.Screen name="AppStore" component={AppStoreScreen} />
+<CommunityBottomNav.Screen name="Board" component={BoardScreen} />
+```
+

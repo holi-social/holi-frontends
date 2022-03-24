@@ -8,7 +8,7 @@ export type ButtonProps = {
   href?: string
   testID?: string
   onPress?: null | ((event: GestureResponderEvent) => void)
-  children?: React.ReactChildren | Array<React.ReactChild> | string
+  children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string
 }
 
 export type PressableState = Readonly<{
@@ -17,7 +17,7 @@ export type PressableState = Readonly<{
   focused?: boolean
 }>
 
-const Button: React.VoidFunctionComponent<ButtonProps> = (props: ButtonProps) => {
+const Button: React.FunctionComponent<ButtonProps> = (props: ButtonProps) => {
   const onBlur = (e: React.BaseSyntheticEvent) => {
     console.log('#### onBlur', e.target)
   }
@@ -58,12 +58,12 @@ const Button: React.VoidFunctionComponent<ButtonProps> = (props: ButtonProps) =>
   // https://github.com/facebook/react-native/search?q=usePressability
   return (
     <Pressable
-      {...props}
       onBlur={onBlur}
       onFocus={onFocus}
+      {...props}
       style={({ pressed, hovered, focused }: PressableState) => [
-        props.style,
         styles.button,
+        props.style,
         (hovered || pressed || focused) && styles.hovered,
       ]}
     >
