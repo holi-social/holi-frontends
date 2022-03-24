@@ -39,8 +39,9 @@ const Tile: React.FunctionComponent<TileProps> = (props: TileProps) => {
           <Text style={styles.contentHeadline}>Neue Beiträge:</Text>
           <Text style={styles.contentText}>{props.value + 3} neue Beiträge</Text>
         </View>
+
+        <View style={styles.badge} />
       </Pressable>
-      <View style={styles.badge} />
     </View>
   )
 }
@@ -57,6 +58,7 @@ const getStyles = (hasDarkBackground: boolean) =>
     },
     tile: {
       width: '90%',
+      maxWidth: 200,
       height: 160,
       backgroundColor: hasDarkBackground ? theme.colors.primary : theme.colors.background,
       borderRadius: 15,
@@ -109,7 +111,7 @@ const getStyles = (hasDarkBackground: boolean) =>
       borderRadius: 9,
       backgroundColor: theme.colors.tertiary,
       position: 'absolute',
-      top: 0,
-      right: '2%',
+      top: -3,
+      right: -3,
     },
   })

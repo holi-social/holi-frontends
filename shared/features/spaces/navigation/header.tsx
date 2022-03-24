@@ -50,7 +50,8 @@ const searchBarStyles = StyleSheet.create({
     paddingHorizontal: 12,
     ...Platform.select({
       web: {
-        outline: 'none',
+        outlineWidth: 0,
+        outlineColor: 'transparent',
       },
     }),
   },

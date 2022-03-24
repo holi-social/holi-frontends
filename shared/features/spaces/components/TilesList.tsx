@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Dimensions } from 'react-native'
 import Tile from 'shared/features/spaces/components/Tile'
 
 type TilesListProps = {
@@ -19,6 +19,8 @@ const TilesList: React.FunctionComponent<TilesListProps> = (props: TilesListProp
 
 export default TilesList
 
+const window = Dimensions.get('window')
+
 const styles = StyleSheet.create({
   tilesContainer: {
     paddingHorizontal: 5,
@@ -29,6 +31,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
   tile: {
-    width: '50%',
+    width: window.width > 500 ? '25%' : '50%',
   },
 })
