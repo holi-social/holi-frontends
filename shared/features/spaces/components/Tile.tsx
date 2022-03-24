@@ -25,11 +25,7 @@ const Tile: React.FunctionComponent<TileProps> = (props: TileProps) => {
       <Pressable style={styles.tile} onPress={() => navigate('/community')}>
         <View style={styles.header}>
           <View style={styles.logo}>
-            <SharedImage
-              imageFile={require('shared/assets/img/icons/betterplace.png')}
-              style={styles.logoImg}
-              altText="someText"
-            />
+            <SharedImage imageFile={require('shared/assets/img/icons/betterplace.png')} style={styles.logoImg} />
           </View>
           <Text ellipsizeMode="tail" numberOfLines={1} style={styles.headerText}>
             Community

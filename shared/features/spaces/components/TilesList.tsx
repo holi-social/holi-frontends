@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Dimensions } from 'react-native'
 import Tile from 'shared/features/spaces/components/Tile'
 
@@ -8,18 +8,23 @@ type TilesListProps = {
 const TilesList: React.FunctionComponent<TilesListProps> = (props: TilesListProps) => {
   const apps = [...Array(12).keys()]
 
+  const [windowWidth, setWindowWidth] = useState(0)
+
+  useEffect(() => {
+    const window = Dimensions.get('window')
+    setWindowWidth(window.width)
+  }, [])
+
   return (
     <View style={[styles.tilesContainer, props.style]}>
       {apps.map((value) => (
-        <Tile value={value} key={value} style={styles.tile} />
+        <Tile value={value} key={value} style={windowWidth > 500 ? styles.bigScreen : styles.smallScreen} />
       ))}
     </View>
   )
 }
 
 export default TilesList
-
-const window = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   tilesContainer: {
@@ -30,7 +35,6 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     justifyContent: 'space-evenly',
   },
-  tile: {
-    width: window.width > 500 ? '25%' : '50%',
-  },
+  smallScreen: { width: '50%' },
+  bigScreen: { width: '25%' },
 })
