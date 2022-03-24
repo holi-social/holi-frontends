@@ -21,7 +21,7 @@ export const Drawer: React.VoidFunctionComponent<DrawerProps> = ({ open, onClose
     return { transform: [{ translateX: offset.value }] }
   })
 
-  const animatedModalStyles = useAnimatedStyle<ViewStyle>(() => ({
+  const animatedModalStyles = useAnimatedStyle(() => ({
     opacity: visible.value / 100,
   }))
 
@@ -36,14 +36,21 @@ export const Drawer: React.VoidFunctionComponent<DrawerProps> = ({ open, onClose
     }
   }, [offset, visible, open])
 
+  // prettier-ignore
   return (
     <>
-      <Animated.View style={[styles.drawer, animatedDrawerStyles]}>
+      <Animated.View
+        // @ts-ignore
+        style={[styles.drawer, animatedDrawerStyles]}
+      >
         <Content closeDrawer={onClose} />
       </Animated.View>
 
       {open && (
-        <Animated.View style={[styles.modal, animatedModalStyles]}>
+        <Animated.View
+          // @ts-ignore
+          style={[styles.modal, animatedModalStyles]}
+        >
           <Pressable onPress={onClose} style={{ flex: 1 }} />
         </Animated.View>
       )}
