@@ -1,10 +1,6 @@
 import React from 'react'
 import { StyleSheet, SafeAreaView, View, ScrollView, ImageBackground } from 'react-native'
 import useRouting from 'shared/components/navigation/useRouting'
-
-// import { NavigationProp } from '@react-navigation/native'
-// import type { NavigationStackScreensList } from 'shared/components/navigation/NavigationDrawer'
-// import { useNavigation } from '@react-navigation/native'
 import Button from 'shared/components/ui/Button'
 import Holicon from 'shared/components/ui/holicon'
 
@@ -26,7 +22,7 @@ const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayo
         <View style={styles.footer}>
           {/* TODO: hide within appStore */}
           <Button style={styles.appStoreButton} onPress={() => navigate('/appstore')}>
-            <Holicon icon="appstore" size={30} color="black" />
+            <Holicon icon="appstore" size={30} color="black" style={{ position: 'absolute' }} />
           </Button>
         </View>
       </SafeAreaView>
@@ -43,6 +39,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     position: 'relative',
+    marginTop: 100,
   },
   scrollView: {},
   bgImage: {

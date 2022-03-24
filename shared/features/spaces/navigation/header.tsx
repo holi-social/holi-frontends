@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, Pressable, Platform, StyleSheet, SafeAreaView, TextInput } from 'react-native'
+import { View, Text, Pressable, Platform, StyleSheet, TextInput } from 'react-native'
 
 import Holicon from 'shared/components/ui/holicon'
 import SharedImage from 'shared/components/ui/sharedImage'
@@ -69,15 +69,11 @@ type DrawerHeaderProps = {
 
 const DrawerHeader: React.VoidFunctionComponent<DrawerHeaderProps> = (props) => {
   return (
-    <SafeAreaView style={headerStyles.safeArea}>
+    <View style={headerStyles.safeArea}>
       <View style={headerStyles.container}>
         {Platform.OS === 'web' ? (
           <Pressable onPress={props.toggleDrawer} style={headerStyles.webLeft}>
-            <SharedImage
-              isSvg
-              imageFile={require('shared/assets/img/logo/logo.svg')}
-              // style={{ height: 24, width: 24 }}
-            />
+            <SharedImage isSvg imageFile={require('shared/assets/img/logo/logo.svg')} />
             <Text>Mein Holi</Text>
           </Pressable>
         ) : (
@@ -89,7 +85,7 @@ const DrawerHeader: React.VoidFunctionComponent<DrawerHeaderProps> = (props) => 
           {Platform.OS === 'web' && <Holicon icon="settings" size={30} />}
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   )
 }
 
@@ -101,6 +97,11 @@ const headerStyles = StyleSheet.create({
       },
     }),
     backgroundColor: 'transparent',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1,
   },
   container: {
     ...Platform.select({

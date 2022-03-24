@@ -32,7 +32,7 @@ const CustomHeaderIcon: React.VoidFunctionComponent<CustomHeaderProps> = (props)
 
       {/* Back link */}
       {!isHome && (
-        <Pressable onPress={() => props.navigation.goBack()} {...props} style={{ marginLeft: 20 }}>
+        <Pressable onPress={() => navigate('/')} {...props} style={{ marginLeft: 20 }}>
           <Holicon icon="arrow-back" size={30} color={styleVars.fontColor} />
         </Pressable>
       )}

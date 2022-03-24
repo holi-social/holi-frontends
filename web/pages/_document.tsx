@@ -4,13 +4,13 @@ import { AppRegistry } from 'react-native'
 
 // adapt to react-native behavior
 // Force Next-generated DOM elements to fill their parent's height
-const normalizeNextElements = `
-  #__next {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-`
+// const normalizeNextElements = `
+//   #__next {
+//     display: flex;
+//     flex-direction: column;
+//     height: 100%;
+//   }
+// `
 
 export default class MyDocument extends Document {
   static async getInitialProps({ renderPage }: DocumentContext) {
@@ -18,7 +18,7 @@ export default class MyDocument extends Document {
     // @ts-ignore
     const { getStyleElement } = AppRegistry.getApplication('HOLI')
     const page = await renderPage()
-    const styles = [<style key={0} dangerouslySetInnerHTML={{ __html: normalizeNextElements }} />, getStyleElement()]
+    const styles = getStyleElement()
     return { ...page, styles: Children.toArray(styles) }
   }
 
@@ -30,7 +30,7 @@ export default class MyDocument extends Document {
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <body style={{ background: '#fffcfc' }}>
+        <body>
           <Main />
           <NextScript />
         </body>

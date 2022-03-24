@@ -79,6 +79,7 @@ const styles = StyleSheet.create<{
     backgroundColor: 'white',
     zIndex: 888,
     height: '100%',
+    top: 0,
     overflow: 'hidden',
     width: WIDTH,
     shadowColor: '#000',

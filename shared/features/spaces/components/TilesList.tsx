@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, Dimensions } from 'react-native'
+import { StyleSheet, View, ViewStyle, Dimensions } from 'react-native'
 import Tile from 'shared/features/spaces/components/Tile'
 
 type TilesListProps = {
-  style?: any
+  style?: ViewStyle
 }
 const TilesList: React.FunctionComponent<TilesListProps> = (props: TilesListProps) => {
   const apps = [...Array(12).keys()]
