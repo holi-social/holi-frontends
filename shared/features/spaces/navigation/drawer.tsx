@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { SafeAreaView, View, Text, ScrollView, ViewStyle, StyleSheet, TextStyle, Pressable } from 'react-native'
 import useRouting from 'shared/components/navigation/useRouting'
-import Button from 'shared/components/ui/Button'
 import Holicon from 'shared/components/ui/holicon'
 import { DrawerItem } from 'shared/features/spaces/navigation/item'
 
@@ -20,21 +19,19 @@ export const DrawerContent: React.VoidFunctionComponent<DrawerContentProps> = ({
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.headerText}>Some Text above</Text>
+          <Text style={styles.headerText}>Deine Spaces</Text>
           <Pressable style={styles.closeIcon} onPress={closeDrawer}>
             <Holicon icon="close" color="#000" size={30} />
           </Pressable>
         </View>
 
         <ScrollView style={[styles.scrollView]}>
-          <DrawerItem routeName="/" label="Home" />
-          <DrawerItem routeName="/appstore" label="AppStore" />
-          <DrawerItem routeName="/settings" label="Settings" />
-          <Button onPress={() => alert('Uuuuuh - an alert!')}>Click me!</Button>
+          <DrawerItem routeName="/" label="Privater Space" />
         </ScrollView>
 
         <View style={styles.footer}>
-          <Text>footer</Text>
+          <DrawerItem routeName="/appstore" label="AppStore" />
+          <DrawerItem routeName="/settings" label="Settings" />
         </View>
       </View>
     </SafeAreaView>
