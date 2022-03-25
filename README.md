@@ -8,7 +8,8 @@ Start the mock api with `yarn workspace mock-api run start`.
 
 ## Install libs / packages
 
-For convience reasons you might want to stay in the project root folder. From here you can add new packages with the command:
+For convience reasons you might want to stay in the project root folder. From here you can add new packages with the
+command:
 
 `yarn workspace [workspace-name] add [package-name]`
 
@@ -26,18 +27,30 @@ yarn add typescript -D
 
 ## Monorepo - and why
 
-This is a monorepo. Not in the FAANG sense, as it doesn't contain thousands of applications. It contains two applications: mobile & web. And shared code between mobile & web. This is the one and only reason we create a monorepo.
+This is a monorepo. Not in the FAANG sense, as it doesn't contain thousands of applications. It contains two
+applications: mobile & web. And shared code between mobile & web. This is the one and only reason we create a monorepo.
 
-Monorepos have been critized heavily and righteously so. Most downsides of monorepos come from frameworks and build systems not supporting monorepos. Therefore, working with monorepos feels like a glueing together many workarounds until it works and hoping it won't break.
+Monorepos have been critized heavily and righteously so. Most downsides of monorepos come from frameworks and build
+systems not supporting monorepos. Therefore, working with monorepos feels like glueing together many workarounds until
+it works and hoping it won't break.
 
-On the positive side, this monorepo will allow us to share code between our mobile and web frontend. You can do this without a monorepo, using a library. However, using a library for shared code, you need to publish every little code change (locally) before you can try it out in the applications that use it. This would dramatically decrease development velocity as feedback cycles for shared code changes are simply too long. And it's no fun do work this way either.
+On the positive side, this monorepo will allow us to share code between our mobile and web frontend. You can do this
+without a monorepo, using a library. However, using a library for shared code, you need to publish every little code
+change (locally) before you can try it out in the applications that use it. This would dramatically decrease development
+velocity as feedback cycles for shared code changes are simply too long. And it's no fun do work this way either.
 
 ### Yarn Workspaces
 
-Yarn Workspaces are a neat feature that support us with our monorepo approach. It allows to make multiple packages (e.g. `shared`, `mobile` and `web`) and group them together in a (non-publishable) root package. With [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces):
+Yarn Workspaces are a neat feature that support us with our monorepo approach. It allows to make multiple packages
+(e.g. `shared`, `mobile` and `web`) and group them together in a (non-publishable) root package. With
+[Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces):
 
-- Your dependencies can be linked together, which means that your workspaces can depend on one another while always using the most up-to-date code available. `mobile` and `web` can depend on `shared`, always pointing to the "newest version" by simply symlinking into the directory.
-- All dependencies are installed together (under the root module), using a single lockfile. There can be exceptions if needed. If you have issues, check if [nohoist](https://classic.yarnpkg.com/blog/2018/02/15/nohoist/) will help.
+- Your dependencies can be linked together, which means that your workspaces can depend on one another while always
+  using the most up-to-date code available. `mobile` and `web` can depend on `shared`, always pointing to the "newest
+  version" by simply symlinking into the directory.
+
+- All dependencies are installed together (under the root module), using a single lockfile. There can be exceptions if
+  needed. If you have issues, check if [nohoist](https://classic.yarnpkg.com/blog/2018/02/15/nohoist/) will help.
 
 Working with Yarn Workspaces is (a little) different, but easy. Instead of running e.g.
 
@@ -52,13 +65,43 @@ you _can_ simply prefix every yarn command with `yarn workspace $MODULE_NAME` li
 holi-react-native-setup/ $> yarn workspace mobile run start
 ```
 
-But notice that _you don't have to_ do this, you can also `cd` into the individual packages and use yarn as if you weren't in a monorepo with yarn Workspaces.
+But notice that _you don't have to_ do this, you can also `cd` into the individual packages and use yarn as if you
+weren't in a monorepo with yarn Workspaces.
+
+### (Adding) Dependencies
+
+Due to the monorepo layout and how hoisting works we have to follow a couple of rules that "magically" make everything
+work (to the best of our *current* knowledge):
+
+* **root**: don't add any dependencies here
+    * *exception*: dev dependencies that understand monorepos like `eslint`
+* **shared**: don't add any dependencies here
+* **mobile**: add all your React Native and universal (both mobile and web) dependencies here
+* **web**: add your web-only dependencies here
+
+We have tried different approaches before that were using `nohoist` and more "obvious" / "intuitive" / "known"
+patterns (e.g. adding universal dependencies in both web and mobile, or in shared only). However, these approaches
+always led to one or another build failing: either `expo publish`, `eas build` or local execution.
+
+It might be necessary to work
+with [Yarn resolutions](https://classic.yarnpkg.com/lang/en/docs/selective-version-resolutions/) to resolve dependency
+conflicts (as has been done e.g. with `ts-invariant`).
+
+Please also note that not all dependency versions are compatible with the current version of Expo.
+Running `expo doctor --fix-dependencies` might then help to fix this.
 
 ### How to Reproduce (Built this from scratch)
 
-Simply cloning a monorepo template from the Internet won't help you understand how everything is glued together. And if you don't, it's quite likely that you're going to have a hard time as soon as something breaks. At that point you might be months into your project, the code base has become huge and debugging your monorepo issues has become harder as it will be harder to see the forest for the trees.
+Simply cloning a monorepo template from the Internet won't help you understand how everything is glued together. And if
+you don't, it's quite likely that you're going to have a hard time as soon as something breaks. At that point you might
+be months into your project, the code base has become huge and debugging your monorepo issues has become harder as it
+will be harder to see the forest for the trees.
 
-To avoid this situation, `reproduce.sh` contains every single instruction that was used to create this monorepo. And quite a number of comments on what we're doing and why. This should allow you to understand the process and the reasoning behind it. If you run into problems half a year into the project, this monorepo template (and `reproduce.sh`) allows you to go back in time and debug your monorepo issue on a smaller less cluttered code base. That's the idea, we hope it will pay out.
+To avoid this situation, `reproduce.sh` contains every single instruction that was used to create this monorepo. And
+quite a number of comments on what we're doing and why. This should allow you to understand the process and the
+reasoning behind it. If you run into problems half a year into the project, this monorepo template (and `reproduce.sh`)
+allows you to go back in time and debug your monorepo issue on a smaller less cluttered code base. That's the idea, we
+hope it will pay out.
 
 # Navigation
 
@@ -75,10 +118,10 @@ Say you wanted to create the route "/profile/:id" which opened the profile page 
 ## web
 
 - create web/pages/profile/[id].tsx
-  - render the shared screen within the
+    - render the shared screen within the
 
 ```ts
-const ProfilePage: NextPage = () => <ProfileScreen />
+const ProfilePage: NextPage = () => <ProfileScreen / >
 export default ProfilePage
 ```
 
@@ -87,7 +130,9 @@ export default ProfilePage
 - create a route in `mobile/navigation/rootNavigator.tsx` e.g. in the RootStack and use the shared screen component to render
 
 ```ts
-<RootStack.Screen name="Profile" component={ProfileScreen} />
+<RootStack.Screen name = "Profile"
+component = {ProfileScreen}
+/>
 ```
 
 - create a linking mapping in `shared/provider/navigation/index.tsx` between the navigator route name and the web url
@@ -95,10 +140,10 @@ export default ProfilePage
 ```ts
 // ...
 config: {
-  screens: {
-    // ...
-    Profile: '/profile/:id',
-  }
+    screens: {
+        // ...
+        Profile: '/profile/:id',
+    }
 }
 ```
 
@@ -106,11 +151,16 @@ config: {
 
 you can now navigate from anywhere in web and mobile using the navigate function exposed by the useRouting hook.
 
-
 ```ts
-const { navigate } = useRouting()
+const {navigate} = useRouting()
 
-<Button onPress={() => navigate('/profile/jasper')}>jaspers profile</Button>
+< Button
+onPress = {()
+=>
+navigate('/profile/jasper')
+}>
+jaspers
+profile < /Button>
 ```
 
 ## notes
