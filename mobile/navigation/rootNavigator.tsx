@@ -1,8 +1,8 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import { CommunityApp } from 'shared/features/community/screens/app'
-import { FeedDetailScreen } from 'shared/features/community/screens/details'
+import { CommunityAppScreen } from 'shared/features/community/screens'
+import { CommunityFeedDetailScreen } from 'shared/features/community/screens'
 
 import SpacesNavigator from 'mobile/navigation/spacesNavigator'
 
@@ -26,7 +26,7 @@ export const RootNavigator: React.ComponentType = () => (
     <RootStack.Screen name="Spaces" component={SpacesNavigator} />
     <RootStack.Screen
       name="Community"
-      component={CommunityApp}
+      component={CommunityAppScreen}
       options={{
         animation: 'slide_from_bottom',
         gestureEnabled: false,
@@ -34,7 +34,7 @@ export const RootNavigator: React.ComponentType = () => (
     />
     {/* modals are only correctly rendered on android when in root navigator */}
     <RootStack.Group screenOptions={{ presentation: 'modal', headerShown: true }}>
-      <RootStack.Screen name="CommunityFeedDetail" component={FeedDetailScreen} />
+      <RootStack.Screen name="CommunityFeedDetail" component={CommunityFeedDetailScreen} />
     </RootStack.Group>
   </RootStack.Navigator>
 )

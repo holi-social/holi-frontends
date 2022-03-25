@@ -5,6 +5,7 @@ import AppTile from 'shared/features/spaces/components/AppTile'
 type AppTilesProps = {
   style?: ViewStyle
 }
+
 const AppTiles: React.FunctionComponent<AppTilesProps> = (props: AppTilesProps) => {
   const apps = [...Array(12).keys()]
 

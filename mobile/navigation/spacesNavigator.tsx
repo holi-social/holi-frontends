@@ -4,10 +4,10 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
 import { DrawerContent } from 'shared/features/spaces/navigation/drawer'
-import DrawerHeader from 'shared/features/spaces/navigation/header'
-import HomeScreen from 'shared/features/spaces/screens/privateSpace'
-import AppStoreScreen from 'shared/features/spaces/screens/appStore'
-import { SettingsScreen } from 'shared/features/spaces/screens/settings'
+import { DrawerHeader } from 'shared/features/spaces/navigation/header'
+import { PrivateSpaceScreen } from 'shared/features/spaces/screens'
+import { AppStoreScreen } from 'shared/features/spaces/screens'
+import { SettingsScreen } from 'shared/features/spaces/screens'
 
 import type { RootStackScreensList } from 'mobile/navigation/rootNavigator'
 
@@ -25,7 +25,7 @@ const SpacesNavigator: React.VoidFunctionComponent<NativeStackScreenProps<RootSt
         header: () => <DrawerHeader toggleDrawer={() => navigation.dispatch(DrawerActions.toggleDrawer())} />,
       }}
     >
-      <SpacesDrawer.Screen name="PrivateSpace" component={HomeScreen} />
+      <SpacesDrawer.Screen name="PrivateSpace" component={PrivateSpaceScreen} />
       <SpacesDrawer.Screen name="AppStore" component={AppStoreScreen} />
       <SpacesDrawer.Screen name="Settings" component={SettingsScreen} />
     </SpacesDrawer.Navigator>

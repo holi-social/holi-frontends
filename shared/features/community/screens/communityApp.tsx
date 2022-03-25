@@ -3,12 +3,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import useRouting from 'shared/components/navigation/useRouting'
 import { CustomHeaderIconButton } from 'shared/features/community/components/custom-header-icon-button'
-import { CommunityScreen } from 'shared/features/community/screens/home'
-import { BoardScreen } from 'shared/features/community/screens/board'
+import { CommunityFeedScreen } from './communityFeed'
+import { CommunityBoardScreen } from './communityBoard'
 
 const CommunityBottomNav = createBottomTabNavigator()
 
-export const CommunityApp: React.VoidFunctionComponent = () => {
+const CommunityAppScreen: React.VoidFunctionComponent = () => {
   const { navigate } = useRouting()
   return (
     <CommunityBottomNav.Navigator
@@ -23,9 +23,11 @@ export const CommunityApp: React.VoidFunctionComponent = () => {
         options={{
           tabBarBadge: 3,
         }}
-        component={CommunityScreen}
+        component={CommunityFeedScreen}
       />
-      <CommunityBottomNav.Screen name="Board" component={BoardScreen} />
+      <CommunityBottomNav.Screen name="CommunityBoard" component={CommunityBoardScreen} />
     </CommunityBottomNav.Navigator>
   )
 }
+
+export { CommunityAppScreen }

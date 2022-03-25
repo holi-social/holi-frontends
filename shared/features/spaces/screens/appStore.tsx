@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
-import SpaceLayout from 'shared/features/spaces/layout'
+import SpaceLayout from 'shared/features/spaces/spaceLayout'
 
 const AppStoreScreen: React.VoidFunctionComponent = () => {
   return (
@@ -11,7 +11,7 @@ const AppStoreScreen: React.VoidFunctionComponent = () => {
   )
 }
 
-export default AppStoreScreen
+export { AppStoreScreen }
 
 const styles = StyleSheet.create({
   header: {

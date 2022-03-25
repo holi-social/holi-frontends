@@ -1,13 +1,24 @@
 import React from 'react'
-import { View, Text } from 'react-native'
-import SpaceLayout from 'shared/features/spaces/layout'
+import { StyleSheet, View, Text } from 'react-native'
+import SpaceLayout from 'shared/features/spaces/spaceLayout'
 
 const SettingsScreen: React.VoidFunctionComponent = () => (
   <SpaceLayout>
-    <View>
-      <Text>Settings</Text>
-    </View>
+    <Text style={styles.header}>Settings</Text>
+    <Text style={styles.subHeader}>Customize Your Holi!</Text>
   </SpaceLayout>
 )
 
 export { SettingsScreen }
+
+const styles = StyleSheet.create({
+  header: {
+    fontSize: 20,
+    textAlign: 'center',
+    marginTop: 50,
+  },
+  subHeader: {
+    textAlign: 'center',
+    marginTop: 10,
+  },
+})
