@@ -8,7 +8,6 @@ const CommunityScreen: React.VoidFunctionComponent = () => {
   const { navigate } = useRouting()
   return (
     <CommunityLayout>
-      <Text>Feed</Text>
       <Feed onItemPressed={(post) => navigate(`/community/${post.id}`)} />
     </CommunityLayout>
   )
