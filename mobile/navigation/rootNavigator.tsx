@@ -1,8 +1,8 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import { CommunityAppScreen } from 'shared/features/community/screens'
-import { CommunityFeedDetailScreen } from 'shared/features/community/screens'
+import { CommunityAppScreen } from 'shared/features/community/screens/communityApp'
+import { CommunityFeedDetailScreen } from 'shared/features/community/screens/communityFeedDetail'
 
 import SpacesNavigator from 'mobile/navigation/spacesNavigator'
 

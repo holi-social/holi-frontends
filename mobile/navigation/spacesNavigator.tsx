@@ -5,9 +5,9 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 
 import { DrawerContent } from 'shared/features/spaces/navigation/drawer'
 import { DrawerHeader } from 'shared/features/spaces/navigation/header'
-import { PrivateSpaceScreen } from 'shared/features/spaces/screens'
-import { AppStoreScreen } from 'shared/features/spaces/screens'
-import { SettingsScreen } from 'shared/features/spaces/screens'
+import { PrivateSpaceScreen } from 'shared/features/spaces/screens/privateSpace'
+import { AppStoreScreen } from 'shared/features/spaces/screens/appStore'
+import { SettingsScreen } from 'shared/features/spaces/screens/settings'
 
 import type { RootStackScreensList } from 'mobile/navigation/rootNavigator'
 
