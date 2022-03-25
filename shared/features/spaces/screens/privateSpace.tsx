@@ -1,9 +1,9 @@
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
-import SpaceLayout from 'shared/features/spaces/layout'
+import SpaceLayout from 'shared/features/spaces/spaceLayout'
 import AppTiles from 'shared/features/spaces/components/AppTiles'
 
-const HomeScreen: React.VoidFunctionComponent = () => {
+const PrivateSpaceScreen: React.VoidFunctionComponent = () => {
   return (
     <SpaceLayout>
       <Text style={styles.header}>Hello Anna</Text>
@@ -13,7 +13,7 @@ const HomeScreen: React.VoidFunctionComponent = () => {
   )
 }
 
-export default HomeScreen
+export { PrivateSpaceScreen }
 
 const styles = StyleSheet.create({
   header: {

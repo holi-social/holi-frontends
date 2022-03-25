@@ -1,8 +1,8 @@
 import { NextPage } from 'next'
-import { FeedDetailScreen } from 'shared/features/community/screens/details'
+import { CommunityFeedDetailScreen } from 'shared/features/community/screens/communityFeedDetail'
 
 const DetailPage: NextPage = () => {
-  return <FeedDetailScreen />
+  return <CommunityFeedDetailScreen />
 }
 
 export default DetailPage
