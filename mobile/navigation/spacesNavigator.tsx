@@ -19,7 +19,7 @@ const SpacesNavigator: React.VoidFunctionComponent<NativeStackScreenProps<RootSt
     <SpacesDrawer.Navigator
       initialRouteName="PrivateSpace"
       // We need to build a custom drawer for web anyway, so we can build it in a shared maner and pass it into the Drawer Navigator
-      drawerContent={DrawerContent}
+      drawerContent={() => <DrawerContent closeDrawer={() => navigation.dispatch(DrawerActions.closeDrawer())} />}
       screenOptions={{
         overlayColor: 'rgba(0,0,0,0.2)',
         header: () => <DrawerHeader toggleDrawer={() => navigation.dispatch(DrawerActions.toggleDrawer())} />,
