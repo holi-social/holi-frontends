@@ -2,6 +2,7 @@ import React from 'react'
 import { useQuery } from '@apollo/client'
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
 
+import theme from 'shared/styles/theme'
 import GraphQLError from 'shared/components/GraphQLError'
 
 import { PostByIdQueryResult, POST_BY_ID } from './queries'
@@ -22,10 +23,10 @@ const styles = StyleSheet.create({
   },
   user: {
     fontWeight: 'bold',
-    color: '#333',
+    color: theme.colors.text,
   },
   views: {
-    color: '#333',
+    color: theme.colors.text,
   },
   footer: {
     paddingTop: 5,

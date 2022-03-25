@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, ViewStyle } from 'react-native'
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, withSpring } from 'react-native-reanimated'
 
 import { DrawerContent } from 'shared/features/spaces/navigation/drawer'
+import theme from 'shared/styles/theme'
 
 type DrawerProps = {
   open: boolean
@@ -82,7 +83,7 @@ const styles = StyleSheet.create<{
     top: 0,
     overflow: 'hidden',
     width: WIDTH,
-    shadowColor: '#000',
+    shadowColor: theme.colors.backgroundBlack,
     shadowOffset: {
       width: 8,
       height: 4,

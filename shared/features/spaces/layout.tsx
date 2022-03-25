@@ -1,8 +1,10 @@
 import React from 'react'
 import { StyleSheet, SafeAreaView, View, ScrollView, ImageBackground } from 'react-native'
+import tinycolor from 'tinycolor2'
 import useRouting from 'shared/components/navigation/useRouting'
 import Button from 'shared/components/ui/Button'
 import Holicon from 'shared/components/ui/holicon'
+import theme from 'shared/styles/theme'
 
 type SpaceLayoutProps = {
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     backgroundColor: 'rgba(255,255,255,0.7)',
-    borderColor: 'rgba(150,150,150,0.1)',
+    borderColor: tinycolor(theme.colors.border).setAlpha(0.5).toString(),
     alignItems: 'center',
     borderRadius: 30,
   },

@@ -2,6 +2,7 @@ import React from 'react'
 import { useQuery } from '@apollo/client'
 import { FlatList, Text, ListRenderItemInfo, Pressable, StyleSheet, View, Platform, Dimensions } from 'react-native'
 
+import theme from 'shared/styles/theme'
 import GraphQLError from 'shared/components/GraphQLError'
 import FeedImage from 'shared/features/community/components/feed/FeedImage'
 
@@ -25,10 +26,10 @@ const feedItemStyles = StyleSheet.create({
   },
   user: {
     fontWeight: 'bold',
-    color: '#333',
+    color: theme.colors.text,
   },
   views: {
-    color: '#333',
+    color: theme.colors.text,
   },
   footer: {
     paddingTop: 5,

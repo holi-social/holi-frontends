@@ -9,11 +9,7 @@ const theTheme: Theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: defaultHoliTheme.colors.primary,
-    notification: defaultHoliTheme.colors.notification,
-    background: defaultHoliTheme.colors.background,
-    text: defaultHoliTheme.colors.text,
-    border: defaultHoliTheme.colors.border,
+    notification: defaultHoliTheme.colors.secondary,
   },
   dark: defaultHoliTheme.dark,
 }
