@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, Text, Pressable } from 'react-native'
+import { StyleSheet, View, Text, Pressable, Platform, Dimensions } from 'react-native'
 import useRouting from 'shared/components/navigation/useRouting'
 import SharedImage from 'shared/components/ui/sharedImage'
-import theme from 'shared/styles/theme'
+import { HoliTheme, useTheme } from 'shared/styles/theme'
 import { styleVars } from 'shared/styles/globalVars'
 
 type AppTileProps = {
@@ -10,15 +10,39 @@ type AppTileProps = {
   style?: Record<string, unknown>
 }
 const AppTile: React.FunctionComponent<AppTileProps> = (props: AppTileProps) => {
+  const { navigate } = useRouting()
+  const { theme } = useTheme()
   const [hasDarkBackground, setHasDarkBackground] = useState(false)
+  const [tileSize, setTileSize] = useState(160)
+  const styles = getStyles(hasDarkBackground, tileSize, theme)
 
   useEffect(() => {
     setHasDarkBackground(!!(props.value % 3))
+    const dimensionsWindow = Dimensions.get('window')
+    const handleResize = () => {
+      const width = window ? window.innerWidth : dimensionsWindow.width
+      if (width > 1000) {
+        setTileSize(250)
+      } else if (width > 800) {
+        setTileSize(200)
+      } else if (width > 500) {
+        setTileSize(180)
+      } else {
+        setTileSize(160)
+      }
+    }
+    handleResize()
+
+    if (Platform.OS === 'web') {
+      window.addEventListener('resize', handleResize)
+    }
+
+    return () => {
+      if (Platform.OS === 'web') {
+        window.removeEventListener('resize', handleResize)
+      }
+    }
   }, [])
-
-  const styles = getStyles(hasDarkBackground)
-
-  const { navigate } = useRouting()
 
   return (
     <View style={[styles.container, props.style]}>
@@ -44,21 +68,23 @@ const AppTile: React.FunctionComponent<AppTileProps> = (props: AppTileProps) => 
 
 export default AppTile
 
-const getStyles = (hasDarkBackground: boolean) =>
+const getStyles = (hasDarkBackground: boolean, tileSize: number, theme: HoliTheme) =>
   StyleSheet.create({
     container: {
       paddingTop: 5, // needed for badge
       paddingBottom: 40,
       justifyContent: 'center',
       alignItems: 'center',
+      paddingHorizontal: Math.floor((tileSize - 150) / 10),
+      maxWidth: '46%',
     },
     tile: {
-      width: '90%',
-      maxWidth: 200,
-      height: 160,
       backgroundColor: hasDarkBackground ? theme.colors.primary : theme.colors.background,
       borderRadius: 15,
       padding: 10,
+      width: tileSize,
+      maxWidth: '100%',
+      height: tileSize,
     },
     header: {
       flexDirection: 'row',

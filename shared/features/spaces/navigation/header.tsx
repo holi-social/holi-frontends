@@ -115,7 +115,7 @@ const headerStyles = StyleSheet.create({
   safeArea: {
     ...Platform.select({
       native: {
-        height: 100,
+        height: 80,
       },
     }),
     backgroundColor: 'transparent',
