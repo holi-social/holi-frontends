@@ -6,8 +6,9 @@ const defaultTheme = {
   dark: false,
   colors: {
     primary: styleVars.primaryColor,
+    secondary: styleVars.secondaryColor,
+    tertiary: styleVars.tertiaryColor,
     background: styleVars.backgroundColor,
-    card: '#fff',
     text: styleVars.fontColor,
     border: styleVars.borderColor,
     buttonBorderColor: styleVars.buttonBorderColor,

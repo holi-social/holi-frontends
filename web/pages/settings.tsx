@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
-import { SettingsScreen } from 'shared/features/settings/screen'
+import { SettingsScreen } from 'shared/features/spaces/screens/settings'
 
-const CommunityPage: NextPage = () => <SettingsScreen />
+const SettingsPage: NextPage = () => <SettingsScreen />
 
-export default CommunityPage
+export default SettingsPage
