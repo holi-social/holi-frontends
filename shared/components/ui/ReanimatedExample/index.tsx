@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     borderWidth: 1,
-    borderColor: 'blue',
+    borderColor: theme.colors.primary,
     borderStyle: 'solid',
   },
   box: {

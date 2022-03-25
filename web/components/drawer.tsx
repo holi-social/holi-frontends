@@ -1,8 +1,9 @@
 import { useEffect } from 'react'
 import { Pressable, StyleSheet, ViewStyle } from 'react-native'
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, withSpring } from 'react-native-reanimated'
-
+import tinycolor from 'tinycolor2'
 import { DrawerContent } from 'shared/features/spaces/navigation/drawer'
+import theme from 'shared/styles/theme'
 
 type DrawerProps = {
   open: boolean
@@ -69,20 +70,20 @@ const styles = StyleSheet.create<{
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: tinycolor(theme.colors.backgroundBlack).setAlpha(0.2).toString(),
   },
   drawer: {
     flex: 1,
     justifyContent: 'space-between',
     flexDirection: 'column',
     position: 'absolute',
-    backgroundColor: 'white',
+    backgroundColor: theme.colors.background,
     zIndex: 888,
     height: '100%',
     top: 0,
     overflow: 'hidden',
     width: WIDTH,
-    shadowColor: '#000',
+    shadowColor: theme.colors.backgroundBlack,
     shadowOffset: {
       width: 8,
       height: 4,

@@ -5,14 +5,17 @@ import { styleVars } from 'shared/styles/globalVars'
 const defaultTheme = {
   dark: false,
   colors: {
+    text: styleVars.fontColor,
+    textBlack: styleVars.fontColor,
+    textGrey: styleVars.fontColorGrey,
+    textWhite: styleVars.fontColorWhite,
     primary: styleVars.primaryColor,
     secondary: styleVars.secondaryColor,
     tertiary: styleVars.tertiaryColor,
-    background: styleVars.backgroundColor,
-    text: styleVars.fontColor,
     border: styleVars.borderColor,
-    buttonBorderColor: styleVars.buttonBorderColor,
-    notification: styleVars.primaryColor,
+    background: styleVars.backgroundColor,
+    backgroundGrey: styleVars.backgroundColorGrey,
+    backgroundBlack: styleVars.backgroundColorBlack,
   },
   fontFamily: {
     paragraph: Platform.select({

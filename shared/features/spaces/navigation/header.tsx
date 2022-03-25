@@ -5,7 +5,7 @@ import useRouting from 'shared/components/navigation/useRouting'
 import Holicon from 'shared/components/ui/holicon'
 import SharedImage from 'shared/components/ui/sharedImage'
 
-import { styleVars } from 'shared/styles/globalVars'
+import theme from 'shared/styles/theme'
 
 type ProfileProps = {
   style: ViewStyle
@@ -16,7 +16,7 @@ const Profile: React.VoidFunctionComponent<ProfileProps> = ({ onPress, style }) 
   return (
     <Pressable
       style={[
-        { width: 32, height: 32, backgroundColor: styleVars.tertiaryColor, borderRadius: 24, marginLeft: 12 },
+        { width: 32, height: 32, backgroundColor: theme.colors.tertiary, borderRadius: 24, marginLeft: 12 },
         style,
       ]}
       onPress={onPress}
@@ -45,12 +45,12 @@ const searchBarStyles = StyleSheet.create({
   searchBar: {
     borderRadius: 18,
     height: 32,
-    backgroundColor: '#fff',
+    backgroundColor: theme.colors.background,
     flex: 1,
     marginLeft: 10,
     marginRight: 30,
     maxWidth: 700,
-    borderColor: '#c2c2c2',
+    borderColor: theme.colors.border,
     borderWidth: StyleSheet.hairlineWidth,
   },
   input: {
@@ -96,7 +96,7 @@ const DrawerHeader: React.VoidFunctionComponent<DrawerHeaderProps> = (props) => 
         {/* Back link */}
         {!isHome && (
           <Pressable onPress={() => navigate('/')} {...props}>
-            <Holicon icon="arrow-back" size={30} color={styleVars.fontColor} />
+            <Holicon icon="arrow-back" size={30} color={theme.colors.text} />
           </Pressable>
         )}
 

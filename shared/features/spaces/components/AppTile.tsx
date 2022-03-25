@@ -3,7 +3,6 @@ import { StyleSheet, View, Text, Pressable, Platform, Dimensions } from 'react-n
 import useRouting from 'shared/components/navigation/useRouting'
 import SharedImage from 'shared/components/ui/sharedImage'
 import { HoliTheme, useTheme } from 'shared/styles/theme'
-import { styleVars } from 'shared/styles/globalVars'
 
 type AppTileProps = {
   value: number
@@ -79,7 +78,7 @@ const getStyles = (hasDarkBackground: boolean, tileSize: number, theme: HoliThem
       maxWidth: '46%',
     },
     tile: {
-      backgroundColor: hasDarkBackground ? theme.colors.primary : theme.colors.background,
+      backgroundColor: hasDarkBackground ? theme.colors.secondary : theme.colors.background,
       borderRadius: 15,
       padding: 10,
       width: tileSize,
@@ -96,7 +95,7 @@ const getStyles = (hasDarkBackground: boolean, tileSize: number, theme: HoliThem
       paddingHorizontal: 5,
     },
     logo: {
-      backgroundColor: hasDarkBackground ? theme.colors.background : styleVars.backgroundColorGrey,
+      backgroundColor: hasDarkBackground ? theme.colors.background : theme.colors.backgroundGrey,
       width: 30,
       height: 30,
       borderRadius: 15,
@@ -112,10 +111,10 @@ const getStyles = (hasDarkBackground: boolean, tileSize: number, theme: HoliThem
       marginLeft: 10,
       fontSize: 16,
       fontWeight: '500',
-      color: hasDarkBackground ? 'white' : theme.colors.text,
+      color: hasDarkBackground ? theme.colors.textWhite : theme.colors.text,
     },
     contentHeadline: {
-      color: hasDarkBackground ? 'rgba(255,255,255, 0.8)' : styleVars.fontColorGrey,
+      color: hasDarkBackground ? theme.colors.textWhite : theme.colors.textGrey,
       fontSize: 15,
       fontWeight: '500',
     },
@@ -123,7 +122,7 @@ const getStyles = (hasDarkBackground: boolean, tileSize: number, theme: HoliThem
       fontSize: 20,
       fontWeight: '500',
       marginTop: 5,
-      color: hasDarkBackground ? 'white' : theme.colors.text,
+      color: hasDarkBackground ? theme.colors.textWhite : theme.colors.text,
     },
     badge: {
       width: 18,
@@ -131,7 +130,7 @@ const getStyles = (hasDarkBackground: boolean, tileSize: number, theme: HoliThem
       borderWidth: 2,
       borderColor: theme.colors.background,
       borderRadius: 9,
-      backgroundColor: theme.colors.tertiary,
+      backgroundColor: theme.colors.primary,
       position: 'absolute',
       top: -3,
       right: -3,
