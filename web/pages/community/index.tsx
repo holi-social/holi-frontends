@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
-import { CommunityScreen } from 'shared/features/community/screens/home'
+import { CommunityFeedScreen } from 'shared/features/community/screens/communityFeed'
 
-const CommunityPage: NextPage = () => <CommunityScreen />
+const CommunityPage: NextPage = () => <CommunityFeedScreen />
 
 export default CommunityPage

@@ -151,4 +151,4 @@ const headerStyles = StyleSheet.create({
   },
 })
 
-export { DrawerHeader as default }
+export { DrawerHeader }

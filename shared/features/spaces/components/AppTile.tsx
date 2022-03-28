@@ -8,6 +8,7 @@ type AppTileProps = {
   value: number
   style?: Record<string, unknown>
 }
+
 const AppTile: React.FunctionComponent<AppTileProps> = (props: AppTileProps) => {
   const { navigate } = useRouting()
   const { theme } = useTheme()
