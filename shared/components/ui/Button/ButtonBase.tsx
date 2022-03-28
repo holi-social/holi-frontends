@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { StyleSheet, Pressable, Text, GestureResponderEvent, ViewStyle } from 'react-native'
+import tinycolor from 'tinycolor2'
 import { useTheme } from 'shared/styles/theme'
 
 export type ButtonProps = {
@@ -34,10 +35,10 @@ const Button: React.FunctionComponent<ButtonProps> = (props: ButtonProps) => {
     hovered: ViewStyle
   }>({
     button: {
-      borderColor: theme.colors.buttonBorderColor,
+      borderColor: theme.colors.border,
       borderWidth: 1,
       borderRadius: 10,
-      backgroundColor: theme.dark ? '#0a0a0a' : '#fafafa',
+      backgroundColor: theme.dark ? theme.colors.background : theme.colors.backgroundGrey,
       alignItems: 'center',
       justifyContent: 'center',
       paddingVertical: 10,
@@ -49,8 +50,8 @@ const Button: React.FunctionComponent<ButtonProps> = (props: ButtonProps) => {
       alignSelf: 'center',
     },
     hovered: {
-      borderColor: '#fb345e',
-      backgroundColor: theme.dark ? '#727272' : '#c2c2c2',
+      borderColor: tinycolor(theme.colors.backgroundGrey).darken(15).toString(),
+      backgroundColor: theme.dark ? theme.colors.backgroundGrey : theme.colors.background,
     },
   })
 

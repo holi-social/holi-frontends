@@ -2,6 +2,7 @@ import React, { RefObject, createRef } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Image, Platform } from 'react-native'
 import CardStack, { Card } from 'react-native-card-stack-swiper'
 import Holicon from 'shared/components/ui/holicon'
+import theme from 'shared/styles/theme'
 import data from './dummy_data.json'
 
 const CardSwiper = () => {
@@ -70,7 +71,7 @@ const CardSwiper = () => {
       <CardStack
         style={styles.cardContainer}
         renderNoMoreCards={() => (
-          <Text style={{ fontWeight: '700', fontSize: 18, color: 'gray' }}>No more cards :(</Text>
+          <Text style={{ fontWeight: '700', fontSize: 18, color: theme.colors.textGrey }}>No more cards :(</Text>
         )}
         ref={swiper}
         loop={true}
@@ -85,7 +86,7 @@ const CardSwiper = () => {
             <Image style={styles.cardImg} source={{ uri: `${imgUri}${card.image}` }} />
             <View style={styles.textContainer}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Holicon style={{ marginRight: 6 }} icon="community" size={25} color="#fff" />
+                <Holicon style={{ marginRight: 6 }} icon="community" size={25} color={theme.colors.textWhite} />
                 <Text style={styles.text}>{card.provider}</Text>
               </View>
               <View>
@@ -122,8 +123,6 @@ const styles = StyleSheet.create({
     width: 400,
     minHeight: 400,
     height: 500,
-    borderColor: '#0f0',
-    borderWidth: 1,
     marginHorizontal: 'auto',
   },
   cardContainer: {
@@ -141,8 +140,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.07,
     shadowRadius: 3.3,
-    // borderColor: '#0f0',
-    // borderWidth: 1,
   },
   cardImg: {
     width: '100%',
@@ -163,7 +160,7 @@ const styles = StyleSheet.create({
     borderRadius: 13,
   },
   text: {
-    color: 'white',
+    color: theme.colors.textWhite,
     fontSize: 16,
   },
   textBig: {
@@ -188,7 +185,7 @@ const styles = StyleSheet.create({
       height: 1,
     },
     shadowOpacity: 0.5,
-    backgroundColor: '#fff',
+    backgroundColor: theme.colors.background,
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 0,
@@ -197,24 +194,24 @@ const styles = StyleSheet.create({
     width: 55,
     height: 55,
     borderWidth: 6,
-    borderColor: 'rgb(246,190,66)',
+    borderColor: theme.colors.secondary,
     borderRadius: 55,
     marginTop: -15,
   },
   green: {
     width: 75,
     height: 75,
-    backgroundColor: '#fff',
+    backgroundColor: theme.colors.background,
     borderRadius: 75,
     borderWidth: 6,
-    borderColor: '#01df8a',
+    borderColor: theme.colors.tertiary,
   },
   red: {
     width: 75,
     height: 75,
-    backgroundColor: '#fff',
+    backgroundColor: theme.colors.background,
     borderRadius: 75,
     borderWidth: 6,
-    borderColor: '#fd267d',
+    borderColor: theme.colors.primary,
   },
 })
