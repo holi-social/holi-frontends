@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, Text, Pressable } from 'react-native'
+import { StyleSheet, View, Text, Pressable, Platform, Dimensions } from 'react-native'
 import useRouting from 'shared/components/navigation/useRouting'
 import SharedImage from 'shared/components/ui/sharedImage'
-import theme from 'shared/styles/theme'
-import { styleVars } from 'shared/styles/globalVars'
+import { HoliTheme, useTheme } from 'shared/styles/theme'
 
 type AppTileProps = {
   value: number
@@ -11,15 +10,39 @@ type AppTileProps = {
 }
 
 const AppTile: React.FunctionComponent<AppTileProps> = (props: AppTileProps) => {
+  const { navigate } = useRouting()
+  const { theme } = useTheme()
   const [hasDarkBackground, setHasDarkBackground] = useState(false)
+  const [tileSize, setTileSize] = useState(160)
+  const styles = getStyles(hasDarkBackground, tileSize, theme)
 
   useEffect(() => {
     setHasDarkBackground(!!(props.value % 3))
+    const dimensionsWindow = Dimensions.get('window')
+    const handleResize = () => {
+      const width = window ? window.innerWidth : dimensionsWindow.width
+      if (width > 1000) {
+        setTileSize(250)
+      } else if (width > 800) {
+        setTileSize(200)
+      } else if (width > 500) {
+        setTileSize(180)
+      } else {
+        setTileSize(160)
+      }
+    }
+    handleResize()
+
+    if (Platform.OS === 'web') {
+      window.addEventListener('resize', handleResize)
+    }
+
+    return () => {
+      if (Platform.OS === 'web') {
+        window.removeEventListener('resize', handleResize)
+      }
+    }
   }, [])
-
-  const styles = getStyles(hasDarkBackground)
-
-  const { navigate } = useRouting()
 
   return (
     <View style={[styles.container, props.style]}>
@@ -45,21 +68,23 @@ const AppTile: React.FunctionComponent<AppTileProps> = (props: AppTileProps) => 
 
 export default AppTile
 
-const getStyles = (hasDarkBackground: boolean) =>
+const getStyles = (hasDarkBackground: boolean, tileSize: number, theme: HoliTheme) =>
   StyleSheet.create({
     container: {
       paddingTop: 5, // needed for badge
       paddingBottom: 40,
       justifyContent: 'center',
       alignItems: 'center',
+      paddingHorizontal: Math.floor((tileSize - 150) / 10),
+      maxWidth: '46%',
     },
     tile: {
-      width: '90%',
-      maxWidth: 200,
-      height: 160,
-      backgroundColor: hasDarkBackground ? theme.colors.primary : theme.colors.background,
+      backgroundColor: hasDarkBackground ? theme.colors.secondary : theme.colors.background,
       borderRadius: 15,
       padding: 10,
+      width: tileSize,
+      maxWidth: '100%',
+      height: tileSize,
     },
     header: {
       flexDirection: 'row',
@@ -71,7 +96,7 @@ const getStyles = (hasDarkBackground: boolean) =>
       paddingHorizontal: 5,
     },
     logo: {
-      backgroundColor: hasDarkBackground ? theme.colors.background : styleVars.backgroundColorGrey,
+      backgroundColor: hasDarkBackground ? theme.colors.background : theme.colors.backgroundGrey,
       width: 30,
       height: 30,
       borderRadius: 15,
@@ -87,10 +112,10 @@ const getStyles = (hasDarkBackground: boolean) =>
       marginLeft: 10,
       fontSize: 16,
       fontWeight: '500',
-      color: hasDarkBackground ? 'white' : theme.colors.text,
+      color: hasDarkBackground ? theme.colors.textWhite : theme.colors.text,
     },
     contentHeadline: {
-      color: hasDarkBackground ? 'rgba(255,255,255, 0.8)' : styleVars.fontColorGrey,
+      color: hasDarkBackground ? theme.colors.textWhite : theme.colors.textGrey,
       fontSize: 15,
       fontWeight: '500',
     },
@@ -98,7 +123,7 @@ const getStyles = (hasDarkBackground: boolean) =>
       fontSize: 20,
       fontWeight: '500',
       marginTop: 5,
-      color: hasDarkBackground ? 'white' : theme.colors.text,
+      color: hasDarkBackground ? theme.colors.textWhite : theme.colors.text,
     },
     badge: {
       width: 18,
@@ -106,7 +131,7 @@ const getStyles = (hasDarkBackground: boolean) =>
       borderWidth: 2,
       borderColor: theme.colors.background,
       borderRadius: 9,
-      backgroundColor: theme.colors.tertiary,
+      backgroundColor: theme.colors.primary,
       position: 'absolute',
       top: -3,
       right: -3,

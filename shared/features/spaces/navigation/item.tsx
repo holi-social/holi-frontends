@@ -1,5 +1,7 @@
 import React from 'react'
 import { View, Text, StyleSheet, ViewStyle } from 'react-native'
+import tinycolor from 'tinycolor2'
+import theme from 'shared/styles/theme'
 import { Link } from 'shared/components/navigation/Link'
 
 export const DrawerItem: React.VoidFunctionComponent<{
@@ -35,14 +37,14 @@ const styles = StyleSheet.create<{
     paddingHorizontal: 16,
     justifyContent: 'center',
     borderRadius: 8,
-    backgroundColor: '#f2f2f2',
+    backgroundColor: theme.colors.backgroundGrey,
   },
   isActive: {
-    backgroundColor: '#c2c2c2',
+    backgroundColor: tinycolor(theme.colors.backgroundGrey).darken(15).toString(),
   },
   active: {},
   hovered: {
-    backgroundColor: '#d2d2d2',
+    backgroundColor: tinycolor(theme.colors.backgroundGrey).darken(15).toString(),
   },
   pressed: {
     opacity: 0.8,

@@ -3,6 +3,7 @@ import { SafeAreaView, View, Text, ScrollView, ViewStyle, StyleSheet, TextStyle,
 import useRouting from 'shared/components/navigation/useRouting'
 import Holicon from 'shared/components/ui/holicon'
 import { DrawerItem } from 'shared/features/spaces/navigation/item'
+import theme from 'shared/styles/theme'
 
 // TODO: close action as prop does not make sense
 // ... and it is never used.
@@ -53,7 +54,7 @@ const styles = StyleSheet.create<{
   },
   footer: {
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: '#c2c2c2',
+    borderTopColor: theme.colors.border,
     paddingVertical: 20,
   },
   container: {
