@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, Pressable } from 'react-native'
-
+import theme from 'shared/styles/theme'
 import Button from 'shared/components/ui/Button'
 import Holicon from 'shared/components/ui/holicon'
 
@@ -33,7 +33,6 @@ export default Counter
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -42,7 +41,7 @@ const styles = StyleSheet.create({
   },
   button: {
     borderWidth: 1,
-    borderColor: 'red',
+    borderColor: theme.colors.secondary,
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 5,

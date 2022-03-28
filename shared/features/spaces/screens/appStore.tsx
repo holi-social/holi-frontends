@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 20,
     textAlign: 'center',
-    marginTop: 50,
   },
   subHeader: {
     textAlign: 'center',
