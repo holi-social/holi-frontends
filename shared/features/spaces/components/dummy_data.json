@@ -1,0 +1,49 @@
+[
+  {
+    "title": "Community",
+    "icon": "/betterplace.png",
+    "text2": "22 neue Beiträge"
+  },
+  {
+    "title": "Betterplace",
+    "icon": "/betterplace.png",
+    "backgroundImg": "https://images.photowall.com/products/50295/sea-turtle-in-coral.jpg?h=300&q=85",
+    "text2": "One Earth: Plastik im Meer"
+  },
+  {
+    "title": "Good News",
+    "icon": "/betterplace.png",
+    "text1": "Heute:",
+    "text2": "Freitags Ausgabe"
+  },
+  {
+    "title": "Let's Act",
+    "icon": "/betterplace.png",
+    "text1": "Freitag, 18:00",
+    "text2": "Digitales Mentoring für Pensionäre"
+  },
+  {
+    "title": "Good Events",
+    "icon": "/betterplace.png",
+    "backgroundImg": "https://ak.picdn.net/shutterstock/videos/9864725/thumb/1.jpg",
+    "text1": "Morgen 18:00",
+    "text2": "Climate Summit 2022"
+  },
+  {
+    "title": "Social Wiki",
+    "icon": "/betterplace.png",
+    "text1": "Neuer Beitrag",
+    "text2": "Achtsamkeit im Alltag"
+  },
+  {
+    "title": "Chat",
+    "icon": "/betterplace.png",
+    "text2": "6 Updates aus deinen Teams"
+  },
+  {
+    "title": "Finanzierung",
+    "icon": "/betterplace.png",
+    "backgroundImg": "https://www.unicef.org/sites/default/files/styles/hero_mobile/public/UNI328439.jpg?itok=Xjxi155w",
+    "text2": "Neues Investor Matching"
+  }
+]

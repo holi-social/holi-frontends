@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, Text, Pressable, Platform, Dimensions } from 'react-native'
+import { StyleSheet, View, Text, Pressable, Platform, Dimensions, ImageBackground } from 'react-native'
 import useRouting from 'shared/components/navigation/useRouting'
 import SharedImage from 'shared/components/ui/sharedImage'
 import { HoliTheme, useTheme } from 'shared/styles/theme'
 
+export interface AppData {
+  title: string
+  icon: string
+  backgroundImg?: string
+  text1: string
+  text2: string
+}
+
 type AppTileProps = {
-  value: number
+  appData: AppData
   style?: Record<string, unknown>
 }
 
@@ -17,7 +25,7 @@ const AppTile: React.FunctionComponent<AppTileProps> = (props: AppTileProps) => 
   const styles = getStyles(hasDarkBackground, tileSize, theme)
 
   useEffect(() => {
-    setHasDarkBackground(!!(props.value % 3))
+    setHasDarkBackground(!!props.appData.backgroundImg)
     const dimensionsWindow = Dimensions.get('window')
     const handleResize = () => {
       const width = window ? window.innerWidth : dimensionsWindow.width
@@ -44,24 +52,44 @@ const AppTile: React.FunctionComponent<AppTileProps> = (props: AppTileProps) => 
     }
   }, [])
 
-  return (
-    <View style={[styles.container, props.style]}>
-      <Pressable style={styles.tile} onPress={() => navigate('/community')}>
+  const tileContent = (
+    <>
+      {/* TODO: link to app */}
+      <Pressable style={styles.pressable} onPress={() => navigate('/community')}>
         <View style={styles.header}>
           <View style={styles.logo}>
+            {/* TODO: dynamic app icon */}
             <SharedImage imageFile={require('shared/assets/img/icons/betterplace.png')} style={styles.logoImg} />
           </View>
           <Text ellipsizeMode="tail" numberOfLines={1} style={styles.headerText}>
-            Community
+            {props.appData.title}
           </Text>
         </View>
         <View style={styles.content}>
-          <Text style={styles.contentHeadline}>Neue Beiträge:</Text>
-          <Text style={styles.contentText}>{props.value + 3} neue Beiträge</Text>
+          {props.appData.text1 && <Text style={styles.contentHeadline}>{props.appData.text1}</Text>}
+          {props.appData.text2 && <Text style={styles.contentText}>{props.appData.text2}</Text>}
         </View>
-
-        <View style={styles.badge} />
       </Pressable>
+      {/* TODO: dynamic badge */}
+      <View style={styles.badge} />
+    </>
+  )
+
+  const hasBackgroundImage = typeof props.appData.backgroundImg !== 'undefined'
+  return (
+    <View style={[styles.container, props.style]}>
+      {hasBackgroundImage ? (
+        <ImageBackground
+          style={styles.tile}
+          imageStyle={styles.backgroundImage}
+          source={{ uri: props.appData.backgroundImg }}
+          resizeMode="cover"
+        >
+          {tileContent}
+        </ImageBackground>
+      ) : (
+        <View style={styles.tile}>{tileContent}</View>
+      )}
     </View>
   )
 }
@@ -81,10 +109,21 @@ const getStyles = (hasDarkBackground: boolean, tileSize: number, theme: HoliThem
     tile: {
       backgroundColor: hasDarkBackground ? theme.colors.secondary : theme.colors.background,
       borderRadius: 15,
-      padding: 10,
       width: tileSize,
       maxWidth: '100%',
       height: tileSize,
+    },
+    overlay: {
+      backgroundColor: 'rgba(0,0,0,0.3)',
+    },
+    backgroundImage: {
+      borderRadius: 15,
+    },
+    pressable: {
+      flex: 1,
+      backgroundColor: hasDarkBackground ? 'rgba(0,0,0,0.4)' : 'transparent',
+      padding: 10,
+      borderRadius: 15,
     },
     header: {
       flexDirection: 'row',
@@ -96,7 +135,9 @@ const getStyles = (hasDarkBackground: boolean, tileSize: number, theme: HoliThem
       paddingHorizontal: 5,
     },
     logo: {
-      backgroundColor: hasDarkBackground ? theme.colors.background : theme.colors.backgroundGrey,
+      backgroundColor: theme.colors.background,
+      borderWidth: 1,
+      borderColor: hasDarkBackground ? theme.colors.background : theme.colors.backgroundGrey,
       width: 30,
       height: 30,
       borderRadius: 15,
@@ -121,7 +162,7 @@ const getStyles = (hasDarkBackground: boolean, tileSize: number, theme: HoliThem
     },
     contentText: {
       fontSize: 20,
-      fontWeight: '500',
+      fontWeight: '600',
       marginTop: 5,
       color: hasDarkBackground ? theme.colors.textWhite : theme.colors.text,
     },
