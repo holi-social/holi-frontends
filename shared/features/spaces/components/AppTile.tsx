@@ -10,6 +10,7 @@ export interface AppData {
   backgroundImg?: string
   text1: string
   text2: string
+  linkTo: string
 }
 
 type AppTileProps = {
@@ -57,8 +58,10 @@ const AppTile: React.FunctionComponent<AppTileProps> = (props: AppTileProps) => 
 
   const tileContent = (
     <>
-      {/* TODO: link to app */}
-      <Pressable style={[styles.pressable, hasDarkBackground && styles.overlay]} onPress={() => navigate('/community')}>
+      <Pressable
+        style={[styles.pressable, hasDarkBackground && styles.overlay]}
+        onPress={() => navigate(props.appData.linkTo)}
+      >
         <View style={styles.header}>
           <View style={styles.logo}>
             {/* TODO: dynamic app icon */}
