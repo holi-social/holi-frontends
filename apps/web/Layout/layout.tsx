@@ -1,6 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
-import { DrawerHeader } from 'shared/features/spaces/navigation/header'
+import { DrawerHeader } from '@holi/shared/features/spaces/navigation/header'
 import { Drawer } from 'web/components/drawer'
 import styles from './layout.module.scss'
 

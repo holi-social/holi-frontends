@@ -24,7 +24,7 @@ const nextConfig = {
 
 module.exports = withPlugins(
   [
-    withTM(['react-native-reanimated', 'react-native-card-stack-swiper', 'shared'], {
+    withTM(['react-native-reanimated', 'react-native-card-stack-swiper', '@holi/shared', '@holi-apps/community'], {
       resolveSymlinks: true,
       debug: true,
     }),

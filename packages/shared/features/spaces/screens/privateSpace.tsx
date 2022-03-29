@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
-import SpaceLayout from 'shared/features/spaces/spaceLayout'
-import AppTiles from 'shared/features/spaces/components/AppTiles'
+import SpaceLayout from '@holi/shared/features/spaces/spaceLayout'
+import AppTiles from '@holi/shared/features/spaces/components/AppTiles'
 
 const PrivateSpaceScreen: React.VoidFunctionComponent = () => {
   return (

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, StyleSheet, TextStyle } from 'react-native'
 
-import { useTheme } from 'shared/styles/theme/theme'
+import { useTheme } from '@holi/shared/styles/theme/theme'
 
 export const Paragraph: React.VoidFunctionComponent<{ children: string }> = ({ children }) => {
   const { theme } = useTheme()

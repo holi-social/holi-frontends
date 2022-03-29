@@ -3,11 +3,11 @@ import { useNavigation, DrawerActions } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
-import { DrawerContent } from 'shared/features/spaces/navigation/drawer'
-import { DrawerHeader } from 'shared/features/spaces/navigation/header'
-import { PrivateSpaceScreen } from 'shared/features/spaces/screens/privateSpace'
-import { AppStoreScreen } from 'shared/features/spaces/screens/appStore'
-import { SettingsScreen } from 'shared/features/spaces/screens/settings'
+import { DrawerContent } from '@holi/shared/features/spaces/navigation/drawer'
+import { DrawerHeader } from '@holi/shared/features/spaces/navigation/header'
+import { PrivateSpaceScreen } from '@holi/shared/features/spaces/screens/privateSpace'
+import { AppStoreScreen } from '@holi/shared/features/spaces/screens/appStore'
+import { SettingsScreen } from '@holi/shared/features/spaces/screens/settings'
 
 import type { RootStackScreensList } from 'mobile/navigation/rootNavigator'
 

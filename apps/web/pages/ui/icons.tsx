@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { NextPage } from 'next'
 import Link from 'next/link'
-import Holicon from 'shared/components/ui/holicon'
-import iconSelection from 'shared/assets/fonts/holicons/selection.json'
+import Holicon from '@holi/shared/components/ui/holicon'
+import iconSelection from '@holi/shared/assets/fonts/holicons/selection.json'
 
 import sassStyles from './ui.module.scss'
 

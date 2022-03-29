@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Text, Pressable, Platform, Dimensions } from 'react-native'
-import useRouting from 'shared/components/navigation/useRouting'
-import SharedImage from 'shared/components/ui/sharedImage'
-import { HoliTheme, useTheme } from 'shared/styles/theme'
+import useRouting from '@holi/shared/components/navigation/useRouting'
+import SharedImage from '@holi/shared/components/ui/sharedImage'
+import { HoliTheme, useTheme } from '@holi/shared/styles/theme'
 
 type AppTileProps = {
   value: number
@@ -49,7 +49,7 @@ const AppTile: React.FunctionComponent<AppTileProps> = (props: AppTileProps) => 
       <Pressable style={styles.tile} onPress={() => navigate('/community')}>
         <View style={styles.header}>
           <View style={styles.logo}>
-            <SharedImage imageFile={require('shared/assets/img/icons/betterplace.png')} style={styles.logoImg} />
+            <SharedImage imageFile={require('@holi/shared/assets/img/icons/betterplace.png')} style={styles.logoImg} />
           </View>
           <Text ellipsizeMode="tail" numberOfLines={1} style={styles.headerText}>
             Community

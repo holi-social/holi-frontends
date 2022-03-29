@@ -1,17 +1,17 @@
 {
-  "name": "mobile",
+  "name": "@holi/mobile",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "prestart": "yarn workspace shared run generate-style-vars",
-    "preandroid": "yarn workspace shared run generate-style-vars",
-    "preios": "yarn workspace shared run generate-style-vars",
-    "preweb": "yarn workspace shared run generate-style-vars",
-    "prebuild": "yarn workspace shared run generate-style-vars",
+    "prestart": "yarn workspace @holi/shared run generate-style-vars",
+    "preandroid": "yarn workspace @holi/shared run generate-style-vars",
+    "preios": "yarn workspace @holi/shared run generate-style-vars",
+    "preweb": "yarn workspace @holi/shared run generate-style-vars",
+    "prebuild": "yarn workspace @holi/shared run generate-style-vars",
+    "dev": "expo start",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web",
     "build": "eas build --platform android",
     "lint": "TIMING=1 eslint .",
     "eject": "expo eject",
@@ -38,7 +38,7 @@
     "react-native-screens": "~3.10.1",
     "react-native-svg": "12.1.1",
     "react-spring": "^8.0.27",
-    "shared": "*"
+    "@holi/shared": "*"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

@@ -3,7 +3,7 @@ import * as Linking from 'expo-linking'
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
 import type { Theme } from '@react-navigation/native'
 
-import defaultHoliTheme from 'shared/styles/theme'
+import defaultHoliTheme from '@holi/shared/styles/theme'
 
 const theTheme: Theme = {
   ...DefaultTheme,

@@ -1,7 +1,7 @@
 import React from 'react'
 import { IconComponent } from 'react-icomoon'
 
-import { useTheme } from 'shared/styles/theme'
+import { useTheme } from '@holi/shared/styles/theme'
 
 import HoliconBase from './holicon'
 

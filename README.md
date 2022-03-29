@@ -2,9 +2,9 @@
 
 ## Running
 
-Run `yarn workspace mobile run start` for mobile and `yarn workspace web run dev` for web.
+Run `yarn workspace @holi/mobile run start` for mobile and `yarn workspace @holi/web run dev` for web.
 
-Start the mock api with `yarn workspace mock-api run start`.
+Start the mock api with `yarn workspace @holi/mock-api run start`.
 
 ## Install libs / packages
 
@@ -14,9 +14,9 @@ command:
 `yarn workspace [workspace-name] add [package-name]`
 
 e.g.
-`yarn workspace web add typescript -D`
+`yarn workspace @holi/web add typescript -D`
 or
-`yarn workspace mobile expo install react-native-gesture-handler`
+`yarn workspace @holi/mobile expo install react-native-gesture-handler`
 
 Alternatively, you can also go into the specific folder where you need the new lib and install it there:
 
@@ -42,7 +42,7 @@ velocity as feedback cycles for shared code changes are simply too long. And it'
 ### Yarn Workspaces
 
 Yarn Workspaces are a neat feature that support us with our monorepo approach. It allows to make multiple packages
-(e.g. `shared`, `mobile` and `web`) and group them together in a (non-publishable) root package. With
+(e.g. `@holi/shared`, `@holi/mobile` and `@holi/web`) and group them together in a (non-publishable) root package. With
 [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces):
 
 - Your dependencies can be linked together, which means that your workspaces can depend on one another while always
@@ -62,7 +62,7 @@ holi-react-native-setup/mobile $> yarn run start
 you _can_ simply prefix every yarn command with `yarn workspace $MODULE_NAME` like so:
 
 ```
-holi-react-native-setup/ $> yarn workspace mobile run start
+holi-react-native-setup/ $> yarn workspace @holi/mobile run start
 ```
 
 But notice that _you don't have to_ do this, you can also `cd` into the individual packages and use yarn as if you
@@ -127,7 +127,7 @@ export default ProfilePage
 
 ## mobile
 
-- create a route in `mobile/navigation/rootNavigator.tsx` e.g. in the RootStack and use the shared screen component to render
+- create a route in `apps/mobile/navigation/rootNavigator.tsx` e.g. in the RootStack and use the shared screen component to render
 
 ```ts
 <RootStack.Screen name = "Profile"
@@ -135,7 +135,7 @@ component = {ProfileScreen}
 />
 ```
 
-- create a linking mapping in `shared/provider/navigation/index.tsx` between the navigator route name and the web url
+- create a linking mapping in `packages/shared/provider/navigation/index.tsx` between the navigator route name and the web url
 
 ```ts
 // ...

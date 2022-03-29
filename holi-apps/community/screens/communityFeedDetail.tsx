@@ -1,9 +1,9 @@
 import React from 'react'
 import { View } from 'react-native'
 
-import Button from 'shared/components/ui/Button'
-import useRouting from 'shared/components/navigation/useRouting'
-import FeedItemDetail from 'shared/features/community/components/feed/FeedItemDetail'
+import Button from '@holi/shared/components/ui/Button'
+import useRouting from '@holi/shared/components/navigation/useRouting'
+import FeedItemDetail from '@holi-apps/community/components/feed/FeedItemDetail'
 
 const CommunityFeedDetailScreen: React.VoidFunctionComponent = () => {
   const { navigate, query } = useRouting<{ feedId: string }>()

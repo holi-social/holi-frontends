@@ -1,5 +1,5 @@
 import { useNavigation, useLinkTo } from '@react-navigation/native'
-import { useNavigationContext } from 'shared/components/navigation/useRouting/context'
+import { useNavigationContext } from '@holi/shared/components/navigation/useRouting/context'
 import { UseRouting } from './types'
 
 const useRouting: UseRouting = <T extends Record<string, string>>() => {

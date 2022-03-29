@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, View, ViewStyle } from 'react-native'
-import AppTile from 'shared/features/spaces/components/AppTile'
+import AppTile from '@holi/shared/features/spaces/components/AppTile'
 
 type AppTilesProps = {
   style?: ViewStyle

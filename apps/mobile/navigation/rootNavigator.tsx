@@ -1,10 +1,10 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import { CommunityAppScreen } from 'shared/features/community/screens/communityApp'
-import { CommunityFeedDetailScreen } from 'shared/features/community/screens/communityFeedDetail'
+import { CommunityAppScreen } from '@holi-apps/community/screens/communityApp'
+import { CommunityFeedDetailScreen } from '@holi-apps/community/screens/communityFeedDetail'
 
-import SpacesNavigator from 'mobile/navigation/spacesNavigator'
+import SpacesNavigator from './spacesNavigator'
 
 export type RootStackScreensList = {
   Spaces: undefined

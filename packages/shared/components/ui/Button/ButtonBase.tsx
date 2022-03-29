@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { StyleSheet, Pressable, Text, GestureResponderEvent, ViewStyle } from 'react-native'
 import tinycolor from 'tinycolor2'
-import { useTheme } from 'shared/styles/theme'
+import { useTheme } from '@holi/shared/styles/theme'
 
 export type ButtonProps = {
   text?: string

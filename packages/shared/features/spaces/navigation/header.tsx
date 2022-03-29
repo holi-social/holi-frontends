@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { View, ViewStyle, Text, Pressable, Platform, StyleSheet, TextInput } from 'react-native'
-import useRouting from 'shared/components/navigation/useRouting'
+import useRouting from '@holi/shared/components/navigation/useRouting'
 
-import Holicon from 'shared/components/ui/holicon'
-import SharedImage from 'shared/components/ui/sharedImage'
+import Holicon from '@holi/shared/components/ui/holicon'
+import SharedImage from '@holi/shared/components/ui/sharedImage'
 
-import theme from 'shared/styles/theme'
+import theme from '@holi/shared/styles/theme'
 
 type ProfileProps = {
   style: ViewStyle
@@ -86,7 +86,7 @@ const DrawerHeader: React.VoidFunctionComponent<DrawerHeaderProps> = (props) => 
       <View style={headerStyles.container}>
         {Platform.OS === 'web' ? (
           <Pressable onPress={props.toggleDrawer} style={headerStyles.webLeft}>
-            <SharedImage isSvg imageFile={require('shared/assets/img/logo/logo.svg')} />
+            <SharedImage isSvg imageFile={require('@holi/shared/assets/img/logo/logo.svg')} />
             {isHome && <Text>Mein Holi</Text>}
           </Pressable>
         ) : (

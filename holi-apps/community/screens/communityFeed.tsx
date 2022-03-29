@@ -1,7 +1,7 @@
 import React from 'react'
-import CommunityLayout from 'shared/features/community/communityLayout'
-import useRouting from 'shared/components/navigation/useRouting'
-import Feed from 'shared/features/community/components/feed/Feed'
+import CommunityLayout from '@holi-apps/community/communityLayout'
+import useRouting from '@holi/shared/components/navigation/useRouting'
+import Feed from '@holi-apps/community/components/feed/Feed'
 
 const CommunityFeedScreen: React.VoidFunctionComponent = () => {
   const { navigate } = useRouting()

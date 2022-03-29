@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, Pressable } from 'react-native'
-import theme from 'shared/styles/theme'
-import Button from 'shared/components/ui/Button'
-import Holicon from 'shared/components/ui/holicon'
+import theme from '@holi/shared/styles/theme'
+import Button from '@holi/shared/components/ui/Button'
+import Holicon from '@holi/shared/components/ui/holicon'
 
 const Counter: React.VoidFunctionComponent = () => {
   const [count, setCount] = useState(0)

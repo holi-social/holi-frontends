@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
-import SpaceLayout from 'shared/features/spaces/spaceLayout'
+import SpaceLayout from '@holi/shared/features/spaces/spaceLayout'
 
 const AppStoreScreen: React.VoidFunctionComponent = () => {
   return (

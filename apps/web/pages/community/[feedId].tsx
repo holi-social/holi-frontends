@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-import { CommunityFeedDetailScreen } from 'shared/features/community/screens/communityFeedDetail'
+import { CommunityFeedDetailScreen } from '@holi-apps/community/screens/communityFeedDetail'
 
 const DetailPage: NextPage = () => {
   return <CommunityFeedDetailScreen />

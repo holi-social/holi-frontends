@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { NextPage } from 'next'
-import CardSwiper from 'shared/components/ui/CardSwiper'
-import ReanimatedExample from 'shared/components/ui/ReanimatedExample'
+import CardSwiper from '@holi/shared/components/ui/CardSwiper'
+import ReanimatedExample from '@holi/shared/components/ui/ReanimatedExample'
 
 import sassStyles from './ui.module.scss'
 

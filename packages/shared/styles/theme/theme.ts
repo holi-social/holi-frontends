@@ -1,6 +1,6 @@
 import React from 'react'
 import { Platform } from 'react-native'
-import { styleVars } from 'shared/styles/globalVars'
+import { styleVars } from '@holi/shared/styles/globalVars'
 
 const defaultTheme = {
   dark: false,
