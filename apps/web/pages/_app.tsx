@@ -4,7 +4,7 @@ import type { AppProps } from 'next/app'
 import 'raf/polyfill'
 
 import { Provider } from 'shared/provider'
-import Layout from 'web/Layout/layout'
+import Layout from 'apps/web/layout/layout'
 
 import 'web/styles/globals.scss'
 

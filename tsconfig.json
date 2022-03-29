@@ -2,9 +2,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "rootDirs": [
-      "web",
-      "shared",
-      "mobile"
+      "apps/mobile",
+      "apps/web",
+      "packages/shared",
     ],
     "jsx": "preserve",
     "strict": true,
