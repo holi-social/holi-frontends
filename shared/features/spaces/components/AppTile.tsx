@@ -8,8 +8,8 @@ export interface AppData {
   title: string
   icon: string
   backgroundImg?: string
-  text1: string
-  text2: string
+  text1?: string
+  text2?: string
   linkTo: string
 }
 
