@@ -1,11 +1,6 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "rootDirs": [
-      "apps/mobile",
-      "apps/web",
-      "packages/shared",
-    ],
     "paths": {
       "mobile": ["apps/mobile"],
       "web": ["apps/web"],
