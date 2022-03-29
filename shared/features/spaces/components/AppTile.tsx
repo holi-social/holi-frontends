@@ -58,7 +58,7 @@ const AppTile: React.FunctionComponent<AppTileProps> = (props: AppTileProps) => 
   const tileContent = (
     <>
       {/* TODO: link to app */}
-      <Pressable style={styles.pressable} onPress={() => navigate('/community')}>
+      <Pressable style={[styles.pressable, hasDarkBackground && styles.overlay]} onPress={() => navigate('/community')}>
         <View style={styles.header}>
           <View style={styles.logo}>
             {/* TODO: dynamic app icon */}
@@ -116,14 +116,13 @@ const getStyles = (hasDarkBackground: boolean, tileSize: number, theme: HoliThem
       height: tileSize,
     },
     overlay: {
-      backgroundColor: 'rgba(0,0,0,0.3)',
+      backgroundColor: 'rgba(0,0,0,0.4)',
     },
     backgroundImage: {
       borderRadius: 15,
     },
     pressable: {
       flex: 1,
-      backgroundColor: hasDarkBackground ? 'rgba(0,0,0,0.4)' : 'transparent',
       padding: 10,
       borderRadius: 15,
     },
