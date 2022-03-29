@@ -6,7 +6,7 @@ Scenario('test something', ({ I }) => {
   // following https://codecept.io/mobile-react-native-locators.html, but did not get it to work
   //I.waitForElement('//*[@view-tag="componentsButton"]', 10)
 
-  I.waitForText('Hallo Anna', 10)
+  I.waitForText('Hello Anna', 10)
   I.tap('Community')
   I.waitForText('Feed', 10)
 
