@@ -6,6 +6,11 @@
       "apps/web",
       "packages/shared",
     ],
+    "paths": {
+      "mobile": ["apps/mobile"],
+      "web": ["apps/web"],
+      "shared": ["packages/shared"],
+    },
     "jsx": "preserve",
     "strict": true,
     "allowJs": true,
