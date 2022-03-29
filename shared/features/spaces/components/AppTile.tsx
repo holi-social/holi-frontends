@@ -22,10 +22,13 @@ const AppTile: React.FunctionComponent<AppTileProps> = (props: AppTileProps) => 
   const { theme } = useTheme()
   const [hasDarkBackground, setHasDarkBackground] = useState(false)
   const [tileSize, setTileSize] = useState(160)
+  const [hasNotification, setHasNotification] = useState(false)
   const styles = getStyles(hasDarkBackground, tileSize, theme)
 
   useEffect(() => {
     setHasDarkBackground(!!props.appData.backgroundImg)
+    setHasNotification(!Math.round(Math.random()))
+
     const dimensionsWindow = Dimensions.get('window')
     const handleResize = () => {
       const width = window ? window.innerWidth : dimensionsWindow.width
@@ -70,8 +73,7 @@ const AppTile: React.FunctionComponent<AppTileProps> = (props: AppTileProps) => 
           {props.appData.text2 && <Text style={styles.contentText}>{props.appData.text2}</Text>}
         </View>
       </Pressable>
-      {/* TODO: dynamic badge */}
-      <View style={styles.badge} />
+      {hasNotification && <View style={styles.badge} />}
     </>
   )
 
