@@ -4,9 +4,9 @@ import type { AppProps } from 'next/app'
 import 'raf/polyfill'
 
 import { Provider } from '@holi/shared/provider'
-import Layout from 'web/layout/layout'
+import Layout from '@holi/web/layout/layout'
 
-import 'web/styles/globals.scss'
+import '@holi/web/styles/globals.scss'
 
 const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }) => {
   return (
