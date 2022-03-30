@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   appStoreButton: {
     width: 60,
     height: 60,
-    backgroundColor: tinycolor(theme.colors.background).setAlpha(0.2).toString(),
+    backgroundColor: tinycolor(theme.colors.background).setAlpha(0.7).toString(),
     borderColor: tinycolor(theme.colors.border).setAlpha(0.5).toString(),
     alignItems: 'center',
     borderRadius: 30,
