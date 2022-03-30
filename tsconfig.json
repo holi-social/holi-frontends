@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "rootDirs": [
-      "web",
-      "shared",
-      "mobile"
-    ],
+    "paths": {
+      "@holi/mobile": ["apps/mobile"],
+      "@holi/web": ["apps/web"],
+      "@holi/shared": ["packages/shared"],
+      "@holi/holi-apps": ["holi-apps/"]
+    },
     "jsx": "preserve",
     "strict": true,
     "allowJs": true,
