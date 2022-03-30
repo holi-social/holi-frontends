@@ -2,9 +2,9 @@
 
 ## Running
 
-Run `yarn workspace @holi/mobile run start` for mobile and `yarn workspace @holi/web run dev` for web.
+Run `yarn mobile:dev` for mobile and `yarn web:dev` for web.
 
-Start the mock api with `yarn workspace @holi/mock-api run start`.
+Start the mock api with `yarn mock-api:dev`.
 
 ## Install libs / packages
 
