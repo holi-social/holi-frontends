@@ -1,0 +1,42 @@
+{
+  "name": "@holi/web",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "predev": "yarn workspace @holi/shared run generate-style-vars",
+    "prebuild": "yarn workspace @holi/shared run generate-style-vars",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "TIMING=1 next lint",
+    "test": "echo 'unit testing goes here'"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.5.9",
+    "@babel/preset-typescript": "^7.16.7",
+    "babel-plugin-react-native-web": "^0.17.5",
+    "graphql": "^16.3.0",
+    "next": "12.0.10",
+    "next-compose-plugins": "^2.2.1",
+    "next-transpile-modules": "^9.0.0",
+    "raf": "^3.4.1",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-icomoon": "^2.4.9",
+    "react-native-svg-web": "^1.0.9",
+    "react-native-web": "^0.17.5",
+    "@holi/shared": "*",
+    "@holi-apps/community": "*"
+  },
+  "devDependencies": {
+    "@types/node": "17.0.18",
+    "@types/react": "17.0.39",
+    "@types/react-native": "~0.64.3",
+    "eslint": "8.9.0",
+    "eslint-config-next": "12.0.10",
+    "typescript": "4.5.5"
+  },
+  "peerDependencies": {
+    "react-native": "0.64.3"
+  }
+}
