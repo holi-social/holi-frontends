@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigation, DrawerActions } from '@react-navigation/native'
+import { DrawerActions } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
@@ -14,15 +14,18 @@ import type { RootStackScreensList } from 'mobile/navigation/rootNavigator'
 const SpacesDrawer = createDrawerNavigator()
 
 const SpacesNavigator: React.VoidFunctionComponent<NativeStackScreenProps<RootStackScreensList, 'Spaces'>> = () => {
-  const navigation = useNavigation()
   return (
     <SpacesDrawer.Navigator
       initialRouteName="PrivateSpace"
       // We need to build a custom drawer for web anyway, so we can build it in a shared maner and pass it into the Drawer Navigator
-      drawerContent={() => <DrawerContent closeDrawer={() => navigation.dispatch(DrawerActions.closeDrawer())} />}
+      drawerContent={({ navigation }) => (
+        <DrawerContent closeDrawer={() => navigation.dispatch(DrawerActions.closeDrawer())} />
+      )}
       screenOptions={{
         overlayColor: 'rgba(0,0,0,0.2)',
-        header: () => <DrawerHeader toggleDrawer={() => navigation.dispatch(DrawerActions.toggleDrawer())} />,
+        header: ({ navigation }) => (
+          <DrawerHeader toggleDrawer={() => navigation.dispatch(DrawerActions.toggleDrawer())} />
+        ),
       }}
     >
       <SpacesDrawer.Screen name="PrivateSpace" component={PrivateSpaceScreen} />
