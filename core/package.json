@@ -1,0 +1,21 @@
+{
+  "name": "@holi/core",
+  "version": "1.0.0",
+  "scripts": {
+    "lint": "TIMING=1 eslint .",
+    "test": "echo 'unit testing goes here'"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/react": "17.0.1",
+    "@types/react-native": "0.64.3",
+    "@types/tinycolor2": "1.4.3"
+  },
+  "peerDependencies": {
+    "react": "17.0.1",
+    "react-icomoon": "2.4.9",
+    "react-native": "0.64.3",
+    "react-native-svg": "12.1.1"
+  },
+  "type": "module"
+}

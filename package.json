@@ -5,7 +5,8 @@
     "packages": [
       "apps/*",
       "holi-apps/*",
-      "packages/*"
+      "packages/*",
+      "core"
     ]
   },
   "resolutions": {

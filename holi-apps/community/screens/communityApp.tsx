@@ -1,7 +1,7 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
-import useRouting from '@holi/shared/components/navigation/useRouting'
+import useRouting from '@holi/ui/navigation/useRouting'
 import { CustomHeaderIconButton } from '@holi-apps/community/components/custom-header-icon-button'
 import { CommunityFeedScreen } from './communityFeed'
 import { CommunityBoardScreen } from './communityBoard'

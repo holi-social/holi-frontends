@@ -4,7 +4,7 @@ import type { AppProps } from 'next/app'
 import 'raf/polyfill'
 
 // Apollo, Theme, NavigationContext, Navigation(not used in web)
-import { Provider } from '@holi/shared/provider'
+import { Provider } from '@holi/core/provider'
 import Layout from '@holi/web/layout/layout'
 
 import '@holi/web/styles/globals.scss'

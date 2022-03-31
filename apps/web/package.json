@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "predev": "yarn workspace @holi/shared run generate-style-vars",
-    "prebuild": "yarn workspace @holi/shared run generate-style-vars",
+    "predev": "yarn workspace @holi/styles run generate-style-vars",
+    "prebuild": "yarn workspace @holi/styles run generate-style-vars",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -25,7 +25,11 @@
     "react-icomoon": "^2.4.9",
     "react-native-svg-web": "^1.0.9",
     "react-native-web": "^0.17.5",
-    "@holi/shared": "*",
+    "@holi/ui": "*",
+    "@holi/styles": "*",
+    "@holi/api": "*",
+    "@holi/core": "*",
+    "@holi/assets": "*",
     "@holi-apps/community": "*"
   },
   "devDependencies": {

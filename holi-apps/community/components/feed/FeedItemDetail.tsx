@@ -2,8 +2,8 @@ import React from 'react'
 import { useQuery } from '@apollo/client'
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
 
-import theme from '@holi/shared/styles/theme'
-import GraphQLError from '@holi/shared/components/GraphQLError'
+import theme from '@holi/styles/theme'
+import GraphQLError from '@holi/ui/GraphQLError'
 
 import { PostByIdQueryResult, POST_BY_ID } from './queries'
 import FeedImage from './FeedImage'

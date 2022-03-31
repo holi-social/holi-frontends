@@ -2,8 +2,8 @@ import { useEffect } from 'react'
 import { Pressable, StyleSheet, ViewStyle } from 'react-native'
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, withSpring } from 'react-native-reanimated'
 import tinycolor from 'tinycolor2'
-import { DrawerContent } from '@holi/shared/features/spaces/navigation/drawer'
-import theme from '@holi/shared/styles/theme'
+import { DrawerContent } from '@holi/core/spaces/navigation/drawer'
+import theme from '@holi/styles/theme'
 
 type DrawerProps = {
   open: boolean

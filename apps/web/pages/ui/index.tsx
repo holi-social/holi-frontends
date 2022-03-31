@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 import Link from 'next/link'
-import Holicon from '@holi/shared/components/ui/holicon'
+import Holicon from '@holi/ui/holicon'
 
 import sassStyles from './ui.module.scss'
 
