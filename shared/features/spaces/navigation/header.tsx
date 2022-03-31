@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { View, ViewStyle, Text, Pressable, Platform, StyleSheet, TextInput } from 'react-native'
 import useRouting from 'shared/components/navigation/useRouting'
-
 import Holicon from 'shared/components/ui/holicon'
 import SharedImage from 'shared/components/ui/sharedImage'
+import { SafeAreaView } from 'shared/components/safe-area'
 
 import theme from 'shared/styles/theme'
 
@@ -82,7 +82,7 @@ const DrawerHeader: React.VoidFunctionComponent<DrawerHeaderProps> = (props) => 
   const isHome = pathname === '/'
 
   return (
-    <View style={headerStyles.safeArea}>
+    <SafeAreaView style={headerStyles.safeArea}>
       <View style={headerStyles.container}>
         {Platform.OS === 'web' ? (
           <Pressable onPress={props.toggleDrawer} style={headerStyles.webLeft}>
@@ -107,7 +107,7 @@ const DrawerHeader: React.VoidFunctionComponent<DrawerHeaderProps> = (props) => 
           {Platform.OS === 'web' && <Holicon icon="settings" size={30} />}
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   )
 }
 
@@ -115,7 +115,7 @@ const headerStyles = StyleSheet.create({
   safeArea: {
     ...Platform.select({
       native: {
-        height: 80,
+        height: 100,
       },
     }),
     backgroundColor: 'transparent',

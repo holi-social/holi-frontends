@@ -1,10 +1,12 @@
 import React from 'react'
-import { StyleSheet, SafeAreaView, View, ScrollView, ImageBackground } from 'react-native'
+import { StyleSheet, View, ScrollView, ImageBackground } from 'react-native'
 import tinycolor from 'tinycolor2'
 import useRouting from 'shared/components/navigation/useRouting'
 import Button from 'shared/components/ui/Button'
 import Holicon from 'shared/components/ui/holicon'
 import theme from 'shared/styles/theme'
+import { SafeAreaView } from 'shared/components/safe-area'
+import { HEADER_HEIGHT, HEADER_MARGIN } from 'shared/styles/constants'
 
 type SpaceLayoutProps = {
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string
@@ -36,12 +38,11 @@ export default SpaceLayout
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
     position: 'relative',
-    marginTop: 100,
+    marginTop: HEADER_HEIGHT + HEADER_MARGIN,
   },
   scrollView: {},
   bgImage: {
@@ -51,10 +52,8 @@ const styles = StyleSheet.create({
   },
   footer: {
     position: 'absolute',
-    left: 0,
-    right: 0,
     bottom: 0,
-    height: 100,
+    marginBottom: 20,
     backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',

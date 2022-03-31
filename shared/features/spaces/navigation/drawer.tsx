@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
-import { SafeAreaView, View, Text, ScrollView, ViewStyle, StyleSheet, TextStyle, Pressable } from 'react-native'
+import { View, Text, ScrollView, ViewStyle, StyleSheet, TextStyle, Pressable } from 'react-native'
 import useRouting from 'shared/components/navigation/useRouting'
 import Holicon from 'shared/components/ui/holicon'
 import { DrawerItem } from 'shared/features/spaces/navigation/item'
 import theme from 'shared/styles/theme'
+import { SafeAreaView } from 'shared/components/safe-area'
 
 // TODO: close action as prop does not make sense
 // ... and it is never used.

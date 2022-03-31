@@ -8,33 +8,6 @@ import GraphQLError from 'shared/components/GraphQLError'
 import { PostByIdQueryResult, POST_BY_ID } from './queries'
 import FeedImage from './FeedImage'
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: '600',
-    paddingBottom: 5,
-  },
-  text: {},
-  more: {
-    alignSelf: 'flex-end',
-  },
-  user: {
-    fontWeight: 'bold',
-    color: theme.colors.text,
-  },
-  views: {
-    color: theme.colors.text,
-  },
-  footer: {
-    paddingTop: 5,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-})
-
 export interface FeedItemDetailProps {
   postId: string
 }
@@ -74,3 +47,30 @@ const FeedItemDetail: React.VoidFunctionComponent<FeedItemDetailProps> = (props)
 }
 
 export default FeedItemDetail
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'column',
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: '600',
+    paddingBottom: 5,
+  },
+  text: {},
+  more: {
+    alignSelf: 'flex-end',
+  },
+  user: {
+    fontWeight: 'bold',
+    color: theme.colors.text,
+  },
+  views: {
+    color: theme.colors.text,
+  },
+  footer: {
+    paddingTop: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+})
