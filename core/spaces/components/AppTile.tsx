@@ -64,7 +64,6 @@ const AppTile: React.FunctionComponent<AppTileProps> = (props: AppTileProps) => 
       >
         <View style={styles.header}>
           <View style={styles.logo}>
-            <SharedImage imageFile={require('@holi/assets/img/icons/betterplace.png')} style={styles.logoImg} />
             {/* TODO: dynamic app icon */}
             <SharedImage imageFile={require('@holi/assets/img/icons/betterplace.png')} style={styles.logoImg} />
           </View>
