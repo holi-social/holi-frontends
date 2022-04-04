@@ -3,13 +3,13 @@ import { DrawerActions } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
-import { DrawerContent } from '@holi/shared/features/spaces/navigation/drawer'
-import { DrawerHeader } from '@holi/shared/features/spaces/navigation/header'
-import { PrivateSpaceScreen } from '@holi/shared/features/spaces/screens/privateSpace'
-import { AppStoreScreen } from '@holi/shared/features/spaces/screens/appStore'
-import { SettingsScreen } from '@holi/shared/features/spaces/screens/settings'
+import { DrawerContent } from '@holi/core/spaces/navigation/drawer'
+import { DrawerHeader } from '@holi/core/spaces/navigation/header'
+import { PrivateSpaceScreen } from '@holi/core/spaces/screens/privateSpace'
+import { AppStoreScreen } from '@holi/core/spaces/screens/appStore'
+import { SettingsScreen } from '@holi/core/spaces/screens/settings'
 
-import type { RootStackScreensList } from 'mobile/navigation/rootNavigator'
+import type { RootStackScreensList } from '@holi/mobile/navigation/rootNavigator'
 
 const SpacesDrawer = createDrawerNavigator()
 

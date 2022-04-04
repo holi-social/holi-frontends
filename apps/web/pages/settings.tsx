@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-import { SettingsScreen } from '@holi/shared/features/spaces/screens/settings'
+import { SettingsScreen } from '@holi/core/spaces/screens/settings'
 
 const SettingsPage: NextPage = () => <SettingsScreen />
 

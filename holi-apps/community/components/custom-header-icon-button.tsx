@@ -1,8 +1,8 @@
 import React from 'react'
 import { View, Pressable } from 'react-native'
 
-import { useTheme } from '@holi/shared/styles/theme'
-import Holicon from '@holi/shared/components/ui/holicon'
+import { useTheme } from '@holi/ui/styles/theme'
+import Holicon from '@holi/ui/components/holicon'
 
 type CustomHeaderIconProps = {
   onPress: () => void

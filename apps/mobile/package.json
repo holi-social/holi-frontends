@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "prestart": "yarn workspace @holi/shared run generate-style-vars",
-    "preandroid": "yarn workspace @holi/shared run generate-style-vars",
-    "preios": "yarn workspace @holi/shared run generate-style-vars",
-    "preweb": "yarn workspace @holi/shared run generate-style-vars",
-    "prebuild": "yarn workspace @holi/shared run generate-style-vars",
+    "prestart": "yarn workspace @holi/ui run generate-style-vars",
+    "preandroid": "yarn workspace @holi/ui run generate-style-vars",
+    "preios": "yarn workspace @holi/ui run generate-style-vars",
+    "preweb": "yarn workspace @holi/ui run generate-style-vars",
+    "prebuild": "yarn workspace @holi/ui run generate-style-vars",
     "dev": "expo start",
     "start": "expo start",
     "android": "expo start --android",
@@ -38,7 +38,11 @@
     "react-native-screens": "~3.10.1",
     "react-native-svg": "12.1.1",
     "react-spring": "^8.0.27",
-    "@holi/shared": "*"
+    "tinycolor2": "1.4.2",
+    "@holi/ui": "*",
+    "@holi/api": "*",
+    "@holi/core": "*",
+    "@holi-apps/community": "*"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
