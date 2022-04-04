@@ -1,9 +1,8 @@
 import React from 'react'
 import { useQuery } from '@apollo/client'
 import { FlatList, Text, ListRenderItemInfo, Pressable, StyleSheet, View, Platform, Dimensions } from 'react-native'
-
-import theme from '@holi/shared/styles/theme'
-import GraphQLError from '@holi/shared/components/GraphQLError'
+import theme from '@holi/ui/styles/theme'
+import GraphQLError from '@holi/ui/components/GraphQLError'
 import FeedImage from '@holi-apps/community/components/feed/FeedImage'
 
 import { Post } from './types'

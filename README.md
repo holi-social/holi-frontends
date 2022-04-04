@@ -42,7 +42,7 @@ velocity as feedback cycles for shared code changes are simply too long. And it'
 ### Yarn Workspaces
 
 Yarn Workspaces are a neat feature that support us with our monorepo approach. It allows to make multiple packages
-(e.g. `@holi/shared`, `@holi/mobile` and `@holi/web`) and group them together in a (non-publishable) root package. With
+(e.g. `@holi/core`, `@holi/mobile` and `@holi/web`) and group them together in a (non-publishable) root package. With
 [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces):
 
 - Your dependencies can be linked together, which means that your workspaces can depend on one another while always
@@ -111,7 +111,7 @@ Say you wanted to create the route "/profile/:id" which opened the profile page 
 
 ## shared
 
-- create shared/features/profile/id.tsx
+- create core/profile/id.tsx
   - implement a shared view for the profile you want to render
   - use `const { query: { id } } = useRouting()` hook retrieve the id query param
 
@@ -135,7 +135,7 @@ component = {ProfileScreen}
 />
 ```
 
-- create a linking mapping in `packages/shared/provider/navigation/index.tsx` between the navigator route name and the web url
+- create a linking mapping in `core/navigation/index.tsx` between the navigator route name and the web url
 
 ```ts
 // ...
