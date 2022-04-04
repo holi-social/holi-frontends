@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'holicons';
-  src:  url('fonts/holicons.eot?oubl9w');
-  src:  url('fonts/holicons.eot?oubl9w#iefix') format('embedded-opentype'),
-    url('fonts/holicons.ttf?oubl9w') format('truetype'),
-    url('fonts/holicons.woff?oubl9w') format('woff'),
-    url('fonts/holicons.svg?oubl9w#holicons') format('svg');
+  src:  url('holicons.eot?oubl9w');
+  src:  url('holicons.eot?oubl9w#iefix') format('embedded-opentype'),
+    url('holicons.ttf?oubl9w') format('truetype'),
+    url('holicons.woff?oubl9w') format('woff'),
+    url('holicons.svg?oubl9w#holicons') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
