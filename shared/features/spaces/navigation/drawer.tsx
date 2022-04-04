@@ -35,6 +35,8 @@ export const DrawerContent: React.VoidFunctionComponent<DrawerContentProps> = ({
         <View style={styles.footer}>
           <DrawerItem routeName="/appstore" label="AppStore" />
           <DrawerItem routeName="/settings" label="Settings" />
+          <DrawerItem routeName="/login" label="Login" />
+          <DrawerItem routeName="/logout" label="Logout" />
         </View>
       </View>
     </SafeAreaView>

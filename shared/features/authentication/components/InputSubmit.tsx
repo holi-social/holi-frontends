@@ -1,0 +1,37 @@
+import { UiNode, UiNodeInputAttributes } from '@ory/kratos-client'
+import React from 'react'
+import { Button, View } from 'react-native'
+import { getNodeId, getNodeTitle } from 'shared/features/authentication/helpers/form'
+
+interface Props extends InputSubmitProps {
+  node: UiNode
+  attributes: UiNodeInputAttributes
+}
+
+export interface InputSubmitProps {
+  isSubmitting: boolean
+  onSubmitPress: (key: string, value: any) => void
+  onChange: (value: any) => void
+}
+
+export const NodeInputSubmit = ({ node, attributes, isSubmitting, onSubmitPress }: Props) => {
+  if (attributes.type !== 'submit') {
+    return null
+  }
+
+  const name = getNodeId(node)
+  const title = getNodeTitle(node)
+
+  return (
+    <View testID={`field/${name}/${attributes.value}`}>
+      <Button
+        testID="submit-form"
+        disabled={isSubmitting}
+        title={title}
+        onPress={() => {
+          onSubmitPress(attributes.name, attributes.value)
+        }}
+      />
+    </View>
+  )
+}

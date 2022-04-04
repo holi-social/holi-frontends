@@ -3,11 +3,16 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { CommunityAppScreen } from 'shared/features/community/screens/communityApp'
 import { CommunityFeedDetailScreen } from 'shared/features/community/screens/communityFeedDetail'
-
+import { Login } from 'shared/features/authentication/screens/Login'
+import { Logout } from 'shared/features/authentication/screens/Logout'
+import { Registration } from 'shared/features/authentication/screens/Registration'
 import SpacesNavigator from 'mobile/navigation/spacesNavigator'
 
 export type RootStackScreensList = {
   Spaces: undefined
+  Login: undefined
+  Logout: undefined
+  Registration: undefined
   Community: undefined
   CommunityFeedDetail: {
     feedId: string
@@ -24,6 +29,9 @@ export const RootNavigator: React.ComponentType = () => (
     }}
   >
     <RootStack.Screen name="Spaces" component={SpacesNavigator} />
+    <RootStack.Screen name="Login" component={Login} />
+    <RootStack.Screen name="Logout" component={Logout} />
+    <RootStack.Screen name="Registration" component={Registration} />
     <RootStack.Screen
       name="Community"
       component={CommunityAppScreen}
