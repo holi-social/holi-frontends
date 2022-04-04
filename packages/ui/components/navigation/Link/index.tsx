@@ -1,6 +1,6 @@
 import React from 'react'
 import { Pressable } from 'react-native'
-import useRouting from '@holi/ui/navigation/useRouting'
+import useRouting from '@holi/ui/components/navigation/useRouting'
 
 type PressableCallbackProps = {
   hovered: boolean

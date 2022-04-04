@@ -11,14 +11,8 @@
       "@holi/ui": [
         "packages/ui"
       ],
-      "@holi/styles": [
-        "packages/styles"
-      ],
       "@holi/api": [
         "packages/api"
-      ],
-      "@holi/assets": [
-        "packages/core"
       ],
       "@holi/core": [
         "core"

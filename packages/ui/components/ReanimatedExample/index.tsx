@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, Button } from 'react-native'
 import Animated, { withSpring, useAnimatedStyle, useSharedValue, cancelAnimation } from 'react-native-reanimated'
-import theme from '@holi/styles/theme/theme'
+import theme from '@holi/ui/styles/theme/theme'
 
 const ReanimatedExample = () => {
   const offset = useSharedValue(0)

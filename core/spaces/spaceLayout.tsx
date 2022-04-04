@@ -1,10 +1,10 @@
 import React from 'react'
 import { StyleSheet, SafeAreaView, View, ScrollView, ImageBackground } from 'react-native'
 import tinycolor from 'tinycolor2'
-import useRouting from '@holi/ui/navigation/useRouting'
-import Button from '@holi/ui/Button'
-import Holicon from '@holi/ui/holicon'
-import theme from '@holi/styles/theme'
+import useRouting from '@holi/ui/components/navigation/useRouting'
+import Button from '@holi/ui/components/Button'
+import Holicon from '@holi/ui/components/holicon'
+import theme from '@holi/ui/styles/theme'
 
 type SpaceLayoutProps = {
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string

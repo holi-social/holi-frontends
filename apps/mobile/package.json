@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "prestart": "yarn workspace @holi/styles run generate-style-vars",
-    "preandroid": "yarn workspace @holi/styles run generate-style-vars",
-    "preios": "yarn workspace @holi/styles run generate-style-vars",
-    "preweb": "yarn workspace @holi/styles run generate-style-vars",
-    "prebuild": "yarn workspace @holi/styles run generate-style-vars",
+    "prestart": "yarn workspace @holi/ui run generate-style-vars",
+    "preandroid": "yarn workspace @holi/ui run generate-style-vars",
+    "preios": "yarn workspace @holi/ui run generate-style-vars",
+    "preweb": "yarn workspace @holi/ui run generate-style-vars",
+    "prebuild": "yarn workspace @holi/ui run generate-style-vars",
     "dev": "expo start",
     "start": "expo start",
     "android": "expo start --android",
@@ -40,10 +40,8 @@
     "react-spring": "^8.0.27",
     "tinycolor2": "1.4.2",
     "@holi/ui": "*",
-    "@holi/styles": "*",
     "@holi/api": "*",
     "@holi/core": "*",
-    "@holi/assets": "*",
     "@holi-apps/community": "*"
   },
   "devDependencies": {

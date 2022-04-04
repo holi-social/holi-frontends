@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Text, Pressable, Platform, Dimensions, ImageBackground } from 'react-native'
-import useRouting from '@holi/ui/navigation/useRouting'
-import SharedImage from '@holi/ui/sharedImage'
-import { HoliTheme, useTheme } from '@holi/styles/theme'
+import useRouting from '@holi/ui/components/navigation/useRouting'
+import SharedImage from '@holi/ui/components/sharedImage'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface AppData {
   title: string
@@ -65,7 +65,7 @@ const AppTile: React.FunctionComponent<AppTileProps> = (props: AppTileProps) => 
         <View style={styles.header}>
           <View style={styles.logo}>
             {/* TODO: dynamic app icon */}
-            <SharedImage imageFile={require('@holi/assets/img/icons/betterplace.png')} style={styles.logoImg} />
+            <SharedImage imageFile={require('@holi/ui/assets/img/icons/betterplace.png')} style={styles.logoImg} />
           </View>
           <Text ellipsizeMode="tail" numberOfLines={1} style={styles.headerText}>
             {props.appData.title}

@@ -1,8 +1,8 @@
 import React from 'react'
 import { View, Text, StyleSheet, ViewStyle } from 'react-native'
 import tinycolor from 'tinycolor2'
-import theme from '@holi/styles/theme'
-import { Link } from '@holi/ui/navigation/Link'
+import theme from '@holi/ui/styles/theme'
+import { Link } from '@holi/ui/components/navigation/Link'
 
 export const DrawerItem: React.VoidFunctionComponent<{
   routeName: string

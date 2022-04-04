@@ -4,10 +4,10 @@ import { StyleSheet } from 'react-native'
 
 // Usage:
 
-// import PngLogo from '@holi/assets/img/logo/logo.svg'
+// import PngLogo from '@holi/ui/assets/img/logo/logo.svg'
 // <SharedImage imageFile={PngLogo.src} style={{ width: 50, height: 50 }} />
 // or
-// <SharedImage imageFile={require('@holi/assets/img/logo/logo.svg')} style={{ width: 50, height: 50 }} />
+// <SharedImage imageFile={require('@holi/ui/assets/img/logo/logo.svg')} style={{ width: 50, height: 50 }} />
 
 // TODO: intermediate fix until
 // https://github.com/vercel/next.js/issues/29788

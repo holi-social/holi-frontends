@@ -1,5 +1,5 @@
 // Both return a number:
-// import ImportedSvg from '@holi/assets/img/logo/logo.svg'
+// import ImportedSvg from '@holi/ui/assets/img/logo/logo.svg'
 // require('hared/assets/img/logo/logo.svg')
 
 declare module '*.svg' {

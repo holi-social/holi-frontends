@@ -17,6 +17,7 @@
     "web:dev": "yarn workspace @holi/web dev",
     "web:build": "yarn workspace @holi/web build",
     "mock-api:dev": "yarn workspace @holi/mock-api dev",
+    "ui:generate-style-vars": "yarn workspace @holi/ui run generate-style-vars",
     "lint": "turbo run lint",
     "prepare": "husky install"
   },

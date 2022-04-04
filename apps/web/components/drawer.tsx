@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, ViewStyle } from 'react-native'
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, withSpring } from 'react-native-reanimated'
 import tinycolor from 'tinycolor2'
 import { DrawerContent } from '@holi/core/spaces/navigation/drawer'
-import theme from '@holi/styles/theme'
+import theme from '@holi/ui/styles/theme'
 
 type DrawerProps = {
   open: boolean

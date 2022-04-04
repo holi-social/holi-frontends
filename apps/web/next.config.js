@@ -30,7 +30,6 @@ module.exports = withPlugins(
         'react-native-card-stack-swiper',
         '@holi-apps/community',
         '@holi/ui',
-        '@holi/styles',
         '@holi/core',
         '@holi/api',
       ],

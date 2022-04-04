@@ -1,8 +1,8 @@
 import { NextPage } from 'next'
 import Link from 'next/link'
-import Holicon from '@holi/ui/holicon'
-import SharedImage from '@holi/ui/sharedImage'
-import Button from '@holi/ui/Button'
+import Holicon from '@holi/ui/components/holicon'
+import SharedImage from '@holi/ui/components/sharedImage'
+import Button from '@holi/ui/components/Button'
 import sassStyles from './ui.module.scss'
 
 const ButtonPage: NextPage = () => {
@@ -24,13 +24,13 @@ const ButtonPage: NextPage = () => {
           <Holicon icon="arrowtip-next" size={20} color="red" />
         </Button>
         <Button style={{ marginLeft: 10 }}>
-          <SharedImage imageFile={require('@holi/assets/img/logo/logo.svg')} style={{ width: 50, height: 50 }} />
+          <SharedImage imageFile={require('@holi/ui/assets/img/logo/logo.svg')} style={{ width: 50, height: 50 }} />
           <span>With Image</span>
         </Button>
       </div>
 
       <pre className={sassStyles.code}>{`
-import Button from '@holi/ui/Button'
+import Button from '@holi/ui/components/Button'
 
 <Button>Hello</Button>
 
@@ -40,7 +40,7 @@ import Button from '@holi/ui/Button'
 </Button>
 
 <Button>
-  <SharedImage imageFile={require('@holi/assets/img/logo/logo.svg')} style={{ width: 50, height: 50 }} />
+  <SharedImage imageFile={require('@holi/ui/assets/img/logo/logo.svg')} style={{ width: 50, height: 50 }} />
   <span>With Image</span>
 </Button>
       `}</pre>

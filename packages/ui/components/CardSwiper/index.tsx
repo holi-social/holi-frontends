@@ -1,8 +1,8 @@
 import React, { RefObject, createRef } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Image, Platform } from 'react-native'
 import CardStack, { Card } from 'react-native-card-stack-swiper'
-import Holicon from '@holi/ui/holicon'
-import theme from '@holi/styles/theme'
+import Holicon from '@holi/ui/components/holicon'
+import theme from '@holi/ui/styles/theme'
 import data from './dummy_data.json'
 
 const CardSwiper = () => {

@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { SafeAreaView, View, Text, ScrollView, ViewStyle, StyleSheet, TextStyle, Pressable } from 'react-native'
-import useRouting from '@holi/ui/navigation/useRouting'
-import Holicon from '@holi/ui/holicon'
+import useRouting from '@holi/ui/components/navigation/useRouting'
+import Holicon from '@holi/ui/components/holicon'
 import { DrawerItem } from '@holi/core/spaces/navigation/item'
-import theme from '@holi/styles/theme'
+import theme from '@holi/ui/styles/theme'
 
 // TODO: close action as prop does not make sense
 // ... and it is never used.
