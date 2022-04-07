@@ -1,11 +1,26 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "rootDirs": [
-      "web",
-      "shared",
-      "mobile"
-    ],
+    "paths": {
+      "@holi/mobile": [
+        "apps/mobile"
+      ],
+      "@holi/web": [
+        "apps/web"
+      ],
+      "@holi/ui": [
+        "packages/ui"
+      ],
+      "@holi/api": [
+        "packages/api"
+      ],
+      "@holi/core": [
+        "core"
+      ],
+      "@holi/holi-apps": [
+        "holi-apps/"
+      ]
+    },
     "jsx": "preserve",
     "strict": true,
     "allowJs": true,
@@ -19,6 +34,14 @@
     "noEmit": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "target": "ESNext"
+    "target": "ESNext",
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "isolatedModules": true,
+    "incremental": true,
   },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+  ],
 }

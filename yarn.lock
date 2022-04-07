@@ -1989,7 +1989,7 @@
     "@types/mime" "^1"
     "@types/node" "*"
 
-"@types/tinycolor2@^1.4.3":
+"@types/tinycolor2@1.4.3":
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/@types/tinycolor2/-/tinycolor2-1.4.3.tgz#ed4a0901f954b126e6a914b4839c77462d56e706"
   integrity sha512-Kf1w9NE5HEgGxCRyIcRXR/ZYtDv0V8FVPtYHwLxl0O+maGX0erE77pQlD0gpP+/KByMZ87mOA79SjifhSB3PjQ==
@@ -7122,14 +7122,14 @@ sane@^4.0.3:
     minimist "^1.1.1"
     walker "~1.0.5"
 
-sass3js@^1.0.9:
+sass3js@1.0.9:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/sass3js/-/sass3js-1.0.9.tgz#91e4c3288f282629871fecb2343470db883aa946"
   integrity sha512-61Nq+JK+x9ky1YdGxq+VOJgbX9gLnraUgLWRuNeqVwzblDNXhwJQmf1V7Q4ZvcWhuardO+LbspHzO6ycJQ3m2w==
   dependencies:
     commander "^2.20.0"
 
-sass@^1.49.9:
+sass@1.49.9:
   version "1.49.9"
   resolved "https://registry.yarnpkg.com/sass/-/sass-1.49.9.tgz#b15a189ecb0ca9e24634bae5d1ebc191809712f9"
   integrity sha512-YlYWkkHP9fbwaFRZQRXgDi3mXZShslVmmo+FVK3kHLUELHHEYrCmL1x6IUjC7wLS6VuJSAFXRQS/DxdsC4xL1A==
@@ -7673,7 +7673,7 @@ through2@^2.0.1:
     readable-stream "~2.3.6"
     xtend "~4.0.1"
 
-tinycolor2@^1.4.2:
+tinycolor2@1.4.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.4.2.tgz#3f6a4d1071ad07676d7fa472e1fac40a719d8803"
   integrity sha512-vJhccZPs965sV/L2sU4oRQVAos0pQXwsvTLkWYdqJ+a8Q5kPFzJTuOFwy7UniPli44NKQGAglksjvOcpo95aZA==

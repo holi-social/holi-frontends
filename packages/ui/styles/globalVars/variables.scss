@@ -1,0 +1,25 @@
+// This file is used in two ways:
+// - direct import into the web's main.scss
+// - as js-variables in packages/styles/globalVars.ts for react-native styling
+
+// Important !!!
+// run `yarn workspace @holi/ui run generate-style-vars` on every file change
+// TODO: add to dev-watcher
+
+$font-family: Helvetica Neue, sans-serif;
+$font-family-mobile: sans-serif;
+
+$font-color: #222;
+$font-color-black: $font-color;
+$font-color-grey: #6B7280;
+$font-color-white: #fff;
+
+$primary-color: #0066FF;
+$secondary-color: #ff2d55;
+$tertiary-color: #57d14c;
+
+$border-color: #e7e6e6;
+
+$background-color: #fdfdfd;
+$background-color-grey: #e5e5e5;
+$background-color-black: #313131;
