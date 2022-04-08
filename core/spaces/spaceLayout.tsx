@@ -5,15 +5,15 @@ import useRouting from '@holi/ui/components/navigation/useRouting'
 import Button from '@holi/ui/components/Button'
 import Holicon from '@holi/ui/components/holicon'
 import theme from '@holi/ui/styles/theme'
-import { SafeAreaView } from '@holi/ui/components/safe-area'
-import { HEADER_HEIGHT, HEADER_MARGIN } from '@holi/ui/styles/globalVars/constants'
+import { DrawerHeader } from '@holi/core/spaces/navigation/header'
+import { jsVars } from '@holi/ui/styles/globalVars'
 
 type SpaceLayoutProps = {
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string
 }
 
 const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayoutProps) => {
-  const { navigate } = useRouting()
+  const { navigate, toggleDrawer } = useRouting()
 
   return (
     <ImageBackground
@@ -21,7 +21,7 @@ const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayo
       resizeMode="cover"
       style={styles.bgImage}
     >
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <ScrollView style={styles.scrollView}>{props.children}</ScrollView>
         <View style={styles.footer}>
           {/* TODO: hide within appStore */}
@@ -29,7 +29,10 @@ const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayo
             <Holicon icon="appstore" size={30} color="black" style={{ position: 'absolute' }} />
           </Button>
         </View>
-      </SafeAreaView>
+        <View style={styles.header}>
+          <DrawerHeader toggleDrawer={() => toggleDrawer()} style={{borderWidth: 1, borderColor: 'pink'}} />
+        </View>
+      </View>
     </ImageBackground>
   )
 }
@@ -37,18 +40,25 @@ const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayo
 export default SpaceLayout
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    position: 'relative',
-    marginTop: HEADER_HEIGHT + HEADER_MARGIN,
-  },
-  scrollView: {},
   bgImage: {
     position: 'absolute',
     height: '100%',
     width: '100%',
+  },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    position: 'relative',
+  },
+  scrollView: {
+    marginTop: jsVars.CSS_HEADER_Height,
+  },
+  header: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: jsVars.CSS_HEADER_Height,
   },
   footer: {
     position: 'absolute',

@@ -11,7 +11,7 @@ const Layout: React.FunctionComponent = ({ children }) => {
       <Head>
         <title>HOLI - PrivateSpace</title>
       </Head>
-      <DrawerHeader toggleDrawer={() => setDrawerOpen(!drawerOpen)} />
+      {/* <DrawerHeader toggleDrawer={() => setDrawerOpen(!drawerOpen)} /> */}
       <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
       <main className={styles.main}>{children}</main>
     </>

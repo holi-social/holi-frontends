@@ -1,6 +1,6 @@
 import React from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
-import { HEADER_HEIGHT, HEADER_MARGIN } from '@holi/ui/styles/globalVars/constants'
+import { jsVars } from '@holi/ui/styles/globalVars'
 
 type CommunityLayoutProps = {
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     ...Platform.select({
       web: {
-        paddingTop: HEADER_HEIGHT + HEADER_MARGIN,
+        paddingTop: jsVars.CSS_HEADER_Height,
       },
     }),
   },
