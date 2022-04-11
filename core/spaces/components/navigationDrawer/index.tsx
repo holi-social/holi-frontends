@@ -3,10 +3,10 @@ import { View, Text, ScrollView, ViewStyle, StyleSheet, TextStyle, Pressable } f
 import { SafeAreaView } from '@holi/ui/components/safe-area'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import Holicon from '@holi/ui/components/holicon'
-import { DrawerItem } from '@holi/core/spaces/navigation/item'
+import { LinkItem } from './linkItem'
 import theme from '@holi/ui/styles/theme'
 
-export const DrawerContent: React.VoidFunctionComponent = () => {
+export const NavigationDrawer: React.VoidFunctionComponent = () => {
   const { toggleDrawer } = useRouting()
 
   return (
@@ -20,12 +20,12 @@ export const DrawerContent: React.VoidFunctionComponent = () => {
         </View>
 
         <ScrollView style={[styles.scrollView]}>
-          <DrawerItem routeName="/" label="Privater Space" />
+          <LinkItem routeName="/" label="Privater Space" />
         </ScrollView>
 
         <View style={styles.footer}>
-          <DrawerItem routeName="/appstore" label="AppStore" />
-          <DrawerItem routeName="/settings" label="Settings" />
+          <LinkItem routeName="/appstore" label="AppStore" />
+          <LinkItem routeName="/settings" label="Settings" />
         </View>
       </View>
     </SafeAreaView>

@@ -4,7 +4,7 @@ import tinycolor from 'tinycolor2'
 import theme from '@holi/ui/styles/theme'
 import { Link } from '@holi/ui/components/navigation/Link'
 
-export const DrawerItem: React.VoidFunctionComponent<{
+export const LinkItem: React.VoidFunctionComponent<{
   routeName: string
   label: string
 }> = ({ routeName, label }) => {

@@ -1,9 +1,8 @@
 import React from 'react'
-import { DrawerActions } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
-import { DrawerContent } from '@holi/core/spaces/navigation/drawer'
+import { NavigationDrawer } from '@holi/core/spaces/components/navigationDrawer'
 import { PrivateSpaceScreen } from '@holi/core/spaces/screens/privateSpace'
 import { AppStoreScreen } from '@holi/core/spaces/screens/appStore'
 import { SettingsScreen } from '@holi/core/spaces/screens/settings'
@@ -17,9 +16,7 @@ const SpacesNavigator: React.VoidFunctionComponent<NativeStackScreenProps<RootSt
     <SpacesDrawer.Navigator
       initialRouteName="PrivateSpace"
       // We need to build a custom drawer for web anyway, so we can build it in a shared maner and pass it into the Drawer Navigator
-      drawerContent={({ navigation }) => (
-        <DrawerContent closeDrawer={() => navigation.dispatch(DrawerActions.closeDrawer())} />
-      )}
+      drawerContent={() => <NavigationDrawer />}
       screenOptions={{
         overlayColor: 'rgba(0,0,0,0.2)',
         headerShown: false,
