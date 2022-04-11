@@ -3,20 +3,20 @@ import { Pressable, StyleSheet, ViewStyle } from 'react-native'
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, withSpring } from 'react-native-reanimated'
 import tinycolor from 'tinycolor2'
 import { DrawerContent } from '@holi/core/spaces/navigation/drawer'
+import { useNavigationContext } from '@holi/ui/components/navigation/useRouting/context'
 import theme from '@holi/ui/styles/theme'
 
 type DrawerProps = {
-  open: boolean
-  onClose: () => void
   children?: React.ReactChildren
   Content?: typeof DrawerContent
 }
 
 const WIDTH = 300
 
-export const Drawer: React.VoidFunctionComponent<DrawerProps> = ({ open, onClose, Content = DrawerContent }) => {
-  const offset = useSharedValue(0)
+export const Drawer: React.VoidFunctionComponent<DrawerProps> = ({ Content = DrawerContent }) => {
+  const offset = useSharedValue(-WIDTH - 50)
   const visible = useSharedValue(0)
+  const navigationContext = useNavigationContext()
 
   const animatedDrawerStyles = useAnimatedStyle(() => {
     return { transform: [{ translateX: offset.value }] }
@@ -27,15 +27,14 @@ export const Drawer: React.VoidFunctionComponent<DrawerProps> = ({ open, onClose
   }))
 
   useEffect(() => {
-    // FIXME hides after initial render
-    if (open) {
+    if (navigationContext.drawerIsOpen) {
       offset.value = withTiming(0)
       visible.value = withSpring(100)
     } else {
       offset.value = withTiming(-WIDTH - 50)
       visible.value = withSpring(0)
     }
-  }, [offset, visible, open])
+  }, [offset, visible, navigationContext.drawerIsOpen])
 
   // prettier-ignore
   return (
@@ -44,15 +43,15 @@ export const Drawer: React.VoidFunctionComponent<DrawerProps> = ({ open, onClose
         // @ts-ignore
         style={[styles.drawer, animatedDrawerStyles]}
       >
-        <Content closeDrawer={onClose} />
+        <Content closeDrawer={navigationContext.toggleDrawerIsOpen} />
       </Animated.View>
 
-      {open && (
+      {navigationContext.drawerIsOpen && (
         <Animated.View
           // @ts-ignore
           style={[styles.modal, animatedModalStyles]}
         >
-          <Pressable onPress={onClose} style={{ flex: 1 }} />
+          <Pressable onPress={navigationContext.toggleDrawerIsOpen} style={{ flex: 1 }} />
         </Animated.View>
       )}
     </>

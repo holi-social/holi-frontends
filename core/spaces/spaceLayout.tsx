@@ -13,7 +13,7 @@ type SpaceLayoutProps = {
 }
 
 const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayoutProps) => {
-  const { navigate, toggleDrawer } = useRouting()
+  const { navigate } = useRouting()
 
   return (
     <ImageBackground
@@ -30,7 +30,7 @@ const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayo
           </Button>
         </View>
         <View style={styles.header}>
-          <DrawerHeader toggleDrawer={() => toggleDrawer()} style={{borderWidth: 1, borderColor: 'pink'}} />
+          <DrawerHeader />
         </View>
       </View>
     </ImageBackground>

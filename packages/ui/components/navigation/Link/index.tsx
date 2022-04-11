@@ -1,5 +1,5 @@
 import React from 'react'
-import { Pressable } from 'react-native'
+import { Pressable, Platform } from 'react-native'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 
 type PressableCallbackProps = {
@@ -14,10 +14,19 @@ type LinkProps = {
 }
 
 export const Link: React.VoidFunctionComponent<LinkProps> = ({ to, children }) => {
-  const { navigate, pathname } = useRouting()
+  const { navigate, pathname, toggleDrawer } = useRouting()
   const isActive = React.useMemo(() => pathname === to, [pathname, to])
+
+  const onPress = () => {
+    if (Platform.OS === 'web') {
+      // mobile toggling is handled by reactnavigation (would be duplicate though)
+      toggleDrawer()
+    }
+    navigate(to)
+  }
+
   return (
-    <Pressable onPress={() => navigate(to)}>
+    <Pressable onPress={onPress}>
       {({ hovered, active, pressed }: PressableCallbackProps) =>
         typeof children === 'function' ? children({ isActive, hovered, active, pressed }) : children
       }

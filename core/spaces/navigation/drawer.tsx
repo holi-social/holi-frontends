@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { View, Text, ScrollView, ViewStyle, StyleSheet, TextStyle, Pressable } from 'react-native'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import Holicon from '@holi/ui/components/holicon'
@@ -6,25 +6,15 @@ import { DrawerItem } from '@holi/core/spaces/navigation/item'
 import theme from '@holi/ui/styles/theme'
 import { SafeAreaView } from '@holi/ui/components/safe-area'
 
-// TODO: close action as prop does not make sense
-// ... and it is never used.
-type DrawerContentProps = {
-  closeDrawer?: () => void
-}
-
-export const DrawerContent: React.VoidFunctionComponent<DrawerContentProps> = ({ closeDrawer }) => {
-  const { pathname } = useRouting()
-
-  useEffect(() => {
-    if (closeDrawer) closeDrawer()
-  }, [pathname])
+export const DrawerContent: React.VoidFunctionComponent = () => {
+  const { toggleDrawer } = useRouting()
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Deine Spaces</Text>
-          <Pressable style={styles.closeIcon} onPress={closeDrawer}>
+          <Pressable style={styles.closeIcon} onPress={toggleDrawer}>
             <Holicon icon="close" color="#000" size={30} />
           </Pressable>
         </View>
