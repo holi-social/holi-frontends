@@ -7,22 +7,24 @@ import { Link } from '@holi/ui/components/navigation/Link'
 export const DrawerItem: React.VoidFunctionComponent<{
   routeName: string
   label: string
-}> = ({ routeName, label }) => (
-  <Link to={routeName}>
-    {({ isActive, hovered, active, pressed }) => (
-      <View
-        style={[
-          styles.container,
-          isActive && styles.isActive,
-          (active || hovered) && styles.hovered,
-          pressed && styles.pressed,
-        ]}
-      >
-        <Text>{label}</Text>
-      </View>
-    )}
-  </Link>
-)
+}> = ({ routeName, label }) => {
+  return (
+    <Link to={routeName}>
+      {({ isActive, hovered, active, pressed }) => (
+        <View
+          style={[
+            styles.container,
+            isActive && styles.isActive,
+            (active || hovered) && styles.hovered,
+            pressed && styles.pressed,
+          ]}
+        >
+          <Text>{label}</Text>
+        </View>
+      )}
+    </Link>
+  )
+}
 
 const styles = StyleSheet.create<{
   container: ViewStyle
