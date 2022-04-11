@@ -5,7 +5,7 @@ import 'raf/polyfill'
 import { ApolloProvider } from '@apollo/client'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 import client from '@holi/api/graphql/client'
-import { NavigationContextProvider } from '@holi/ui/components/navigation/useRouting/context'
+import { NavigationContextProvider } from '@holi/ui/components/navigation/context'
 import Layout from '@holi/web/layout/layout'
 
 import '@holi/web/styles/globals.scss'

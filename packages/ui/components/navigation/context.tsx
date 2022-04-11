@@ -1,19 +1,21 @@
 import React, { useState, createContext, useContext } from 'react'
 
-const NavigationContext = createContext<{
+export type NavigationContextType = {
   pathname: string
   setPathname: (path: string) => void
   drawerIsOpen: boolean
   toggleDrawerIsOpen: () => void
-}>({
+}
+
+const NavigationContext = createContext<NavigationContextType>({
   pathname: '/',
   setPathname: () => null,
   drawerIsOpen: false,
   toggleDrawerIsOpen: () => null,
 })
+export const useNavigationContext = () => useContext(NavigationContext)
 
 export const NavigationContextProvider: React.FC = ({ children }) => {
-  // is needed in web context
   const [drawerIsOpen, setDrawerIsOpen] = useState(false)
   const toggleDrawerIsOpen = () => {
     setDrawerIsOpen(!drawerIsOpen)
@@ -27,4 +29,3 @@ export const NavigationContextProvider: React.FC = ({ children }) => {
     </NavigationContext.Provider>
   )
 }
-export const useNavigationContext = () => useContext(NavigationContext)
