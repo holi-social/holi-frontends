@@ -8,17 +8,12 @@ const useRouting: UseRouting = <T extends Record<string, string>>() => {
   const navigation = useNavigation()
   const currentRoute = navigation.getState().routes[navigation.getState().index]
 
-  const someFunc = () => {
-    console.log('useRouting: toggleDrawer: ', navigationContext.drawerIsOpen)
-    navigation.dispatch(DrawerActions.toggleDrawer())
-  }
-
   return {
     navigate: (routeName: string) => {
       navigationContext.setPathname(routeName)
       return linkTo(routeName)
     },
-    toggleDrawer: someFunc,
+    toggleDrawer: () => navigation.dispatch(DrawerActions.toggleDrawer()),
     query: currentRoute.params as T,
     pathname: navigationContext.pathname,
   }

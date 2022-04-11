@@ -1,10 +1,10 @@
 import React from 'react'
 import { View, Text, ScrollView, ViewStyle, StyleSheet, TextStyle, Pressable } from 'react-native'
+import { SafeAreaView } from '@holi/ui/components/safe-area'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import Holicon from '@holi/ui/components/holicon'
 import { DrawerItem } from '@holi/core/spaces/navigation/item'
 import theme from '@holi/ui/styles/theme'
-import { SafeAreaView } from '@holi/ui/components/safe-area'
 
 export const DrawerContent: React.VoidFunctionComponent = () => {
   const { toggleDrawer } = useRouting()
