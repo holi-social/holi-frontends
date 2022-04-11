@@ -10,13 +10,17 @@ const CommunityFeedDetailScreen: React.VoidFunctionComponent = () => {
   const { navigate, query } = useRouting<{ feedId: string }>()
   return (
     <View
-      style={Platform.select({
-        web: {
-          marginTop: jsVars.CSS_HEADER_Height,
-        },
-      })}
+      style={{
+        height: '100%',
+        ...Platform.select({
+          web: {
+            marginTop: jsVars.CSS_HEADER_Height,
+          },
+        }),
+      }}
     >
       <FeedItemDetail postId={query.feedId} />
+      {/* TODO: put back link into header */}
       <Button onPress={() => navigate('/community')}>back</Button>
     </View>
   )
