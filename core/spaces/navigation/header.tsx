@@ -1,28 +1,9 @@
 import React, { useState } from 'react'
 import { View, ViewStyle, Text, Pressable, Platform, StyleSheet, TextInput } from 'react-native'
 import useRouting from '@holi/ui/components/navigation/useRouting'
-
+import { SafeAreaView } from '@holi/ui/components/safe-area'
 import Holicon from '@holi/ui/components/holicon'
-import SharedImage from '@holi/ui/components/sharedImage'
-
 import theme from '@holi/ui/styles/theme'
-
-type ProfileProps = {
-  style: ViewStyle
-  onPress: () => void
-}
-
-const Profile: React.VoidFunctionComponent<ProfileProps> = ({ onPress, style }) => {
-  return (
-    <Pressable
-      style={[
-        { width: 32, height: 32, backgroundColor: theme.colors.tertiary, borderRadius: 24, marginLeft: 12 },
-        style,
-      ]}
-      onPress={onPress}
-    />
-  )
-}
 
 const SearchBar = () => {
   const [active, setActive] = useState(false)
@@ -74,62 +55,40 @@ const searchBarStyles = StyleSheet.create({
 })
 
 type DrawerHeaderProps = {
-  toggleDrawer: () => void
+  style?: ViewStyle
 }
 
 const DrawerHeader: React.VoidFunctionComponent<DrawerHeaderProps> = (props) => {
-  const { navigate, pathname } = useRouting()
+  const { navigate, pathname, toggleDrawer } = useRouting()
   const isHome = pathname === '/'
 
   return (
-    <View style={headerStyles.safeArea}>
-      <View style={headerStyles.container}>
-        {Platform.OS === 'web' ? (
-          <Pressable onPress={props.toggleDrawer} style={headerStyles.webLeft}>
-            <SharedImage isSvg imageFile={require('@holi/ui/assets/img/logo/logo.svg')} />
-            {isHome && <Text>Mein Holi</Text>}
-          </Pressable>
-        ) : (
-          <Profile onPress={props.toggleDrawer} style={{ marginRight: 10 }} />
-        )}
+    <SafeAreaView style={[headerStyles.container, props.style]}>
+      <Pressable
+        style={[{ width: 32, height: 32, backgroundColor: theme.colors.tertiary, borderRadius: 24, marginLeft: 12 }]}
+        onPress={toggleDrawer}
+      />
 
-        {/* Back link */}
-        {!isHome && (
-          <Pressable onPress={() => navigate('/')} {...props}>
-            <Holicon icon="arrow-back" size={30} color={theme.colors.text} />
-          </Pressable>
-        )}
+      {/* Back link */}
+      {!isHome && (
+        <Pressable onPress={() => navigate('/')}>
+          <Holicon icon="arrow-back" size={30} color={theme.colors.text} />
+        </Pressable>
+      )}
 
-        <SearchBar />
+      <SearchBar />
 
-        <View style={headerStyles.right}>
-          <Holicon icon="notification" size={30} />
-          {Platform.OS === 'web' && <Holicon icon="settings" size={30} />}
-        </View>
+      <View style={headerStyles.right}>
+        <Holicon icon="notification" size={30} />
+        {Platform.OS === 'web' && <Holicon icon="settings" size={30} />}
       </View>
-    </View>
+    </SafeAreaView>
   )
 }
 
 const headerStyles = StyleSheet.create({
-  safeArea: {
-    ...Platform.select({
-      native: {
-        height: 80,
-      },
-    }),
-    backgroundColor: 'transparent',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: 1,
-  },
   container: {
     ...Platform.select({
-      native: {
-        alignItems: 'flex-end',
-      },
       web: {
         alignItems: 'center',
       },
@@ -145,7 +104,7 @@ const headerStyles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 2,
   },
-  webLeft: {
+  imageWithText: {
     flexDirection: 'row',
     alignItems: 'center',
   },

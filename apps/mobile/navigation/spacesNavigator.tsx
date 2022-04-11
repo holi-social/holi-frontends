@@ -4,7 +4,6 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
 import { DrawerContent } from '@holi/core/spaces/navigation/drawer'
-import { DrawerHeader } from '@holi/core/spaces/navigation/header'
 import { PrivateSpaceScreen } from '@holi/core/spaces/screens/privateSpace'
 import { AppStoreScreen } from '@holi/core/spaces/screens/appStore'
 import { SettingsScreen } from '@holi/core/spaces/screens/settings'
@@ -23,9 +22,7 @@ const SpacesNavigator: React.VoidFunctionComponent<NativeStackScreenProps<RootSt
       )}
       screenOptions={{
         overlayColor: 'rgba(0,0,0,0.2)',
-        header: ({ navigation }) => (
-          <DrawerHeader toggleDrawer={() => navigation.dispatch(DrawerActions.toggleDrawer())} />
-        ),
+        headerShown: false,
       }}
     >
       <SpacesDrawer.Screen name="PrivateSpace" component={PrivateSpaceScreen} />
