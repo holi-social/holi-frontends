@@ -3,7 +3,7 @@ import { View, Text, ScrollView, ViewStyle, StyleSheet, TextStyle, Pressable } f
 import { SafeAreaView } from '@holi/ui/components/safe-area'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import Holicon from '@holi/ui/components/holicon'
-import { LinkItem } from './linkItem'
+import { LinkItem } from './navigationItem'
 import theme from '@holi/ui/styles/theme'
 
 export const NavigationDrawer: React.VoidFunctionComponent = () => {
