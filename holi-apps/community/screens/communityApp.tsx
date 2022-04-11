@@ -14,8 +14,7 @@ const CommunityAppScreen: React.VoidFunctionComponent = () => {
     <CommunityBottomNav.Navigator
       initialRouteName="CommunityHome"
       screenOptions={{
-        headerShown: true,
-        headerLeft: () => <CustomHeaderIconButton onPress={() => navigate('/')} />,
+        headerShown: false,
       }}
     >
       <CommunityBottomNav.Screen
