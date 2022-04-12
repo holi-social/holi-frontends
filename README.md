@@ -6,7 +6,6 @@ Run `yarn mobile:dev` for mobile and `yarn web:dev` for web.
 
 Start the mock api with `yarn mock-api:dev`.
 
-
 ## Install libs / packages
 
 For convience reasons you might want to stay in the project root folder. From here you can add new packages with the
