@@ -44,7 +44,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
       return setAuth(null)
     }
     console.log('[auth] token:' + auth.session_token)
-    // Use the session token from the auth session:
+   // Use the session token from the auth session:
     return (
       newKratosSdk()
         // whoami() returns the session belonging to the session_token:
@@ -54,7 +54,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
           //
           // Here you could print the user's email using e.g.:
           //
-          setSessionContext({ session, session_token: auth.session_token })
+         setSessionContext({ session, session_token: auth.session_token })
           return Promise.resolve()
         })
         .catch((err: AxiosError) => {
@@ -65,7 +65,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
           } else {
             // A network or some other error occurred
             console.error('[auth] ' + err)
-          }
+         }
 
           // Remove the session / log the user out.
           setSessionContext(null)
