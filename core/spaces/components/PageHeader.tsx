@@ -54,11 +54,11 @@ const searchBarStyles = StyleSheet.create({
   },
 })
 
-type DrawerHeaderProps = {
+type PageHeaderProps = {
   style?: ViewStyle
 }
 
-const DrawerHeader: React.VoidFunctionComponent<DrawerHeaderProps> = (props) => {
+const PageHeader: React.VoidFunctionComponent<PageHeaderProps> = (props) => {
   const { navigate, pathname, toggleDrawer } = useRouting()
   const isHome = pathname === '/'
 
@@ -110,4 +110,4 @@ const headerStyles = StyleSheet.create({
   },
 })
 
-export { DrawerHeader }
+export { PageHeader }

@@ -1,16 +1,32 @@
 import React from 'react'
-import { View, Text, StyleSheet, ViewStyle } from 'react-native'
+import { View, Text, StyleSheet, ViewStyle, Pressable, Platform } from 'react-native'
 import tinycolor from 'tinycolor2'
 import theme from '@holi/ui/styles/theme'
-import { Link } from '@holi/ui/components/navigation/Link'
+import useRouting from '@holi/ui/components/navigation/useRouting'
 
-export const DrawerItem: React.VoidFunctionComponent<{
+type PressableCallbackProps = {
+  hovered: boolean
+  active: boolean
+  pressed: boolean
+}
+
+export const LinkItem: React.VoidFunctionComponent<{
   routeName: string
   label: string
 }> = ({ routeName, label }) => {
+  const { navigate, pathname, toggleDrawer } = useRouting()
+  const isActive = React.useMemo(() => pathname === routeName, [pathname, routeName])
+  const onPress = () => {
+    if (Platform.OS === 'web') {
+      // mobile toggling is handled by reactnavigation (would be duplicate though)
+      toggleDrawer()
+    }
+    navigate(routeName)
+  }
+
   return (
-    <Link to={routeName}>
-      {({ isActive, hovered, active, pressed }) => (
+    <Pressable onPress={onPress}>
+      {({ hovered, active, pressed }: PressableCallbackProps) => (
         <View
           style={[
             styles.container,
@@ -22,7 +38,7 @@ export const DrawerItem: React.VoidFunctionComponent<{
           <Text>{label}</Text>
         </View>
       )}
-    </Link>
+    </Pressable>
   )
 }
 

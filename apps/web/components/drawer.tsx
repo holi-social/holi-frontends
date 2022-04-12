@@ -2,18 +2,18 @@ import { useEffect } from 'react'
 import { Pressable, StyleSheet, ViewStyle } from 'react-native'
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, withSpring } from 'react-native-reanimated'
 import tinycolor from 'tinycolor2'
-import { DrawerContent } from '@holi/core/spaces/navigation/drawer'
-import { useNavigationContext } from '@holi/ui/components/navigation/useRouting/context'
+import { NavigationDrawer } from '@holi/core/spaces/components/navigationDrawer'
+import { useNavigationContext } from '@holi/ui/components/navigation/context'
 import theme from '@holi/ui/styles/theme'
 
 type DrawerProps = {
   children?: React.ReactChildren
-  Content?: typeof DrawerContent
+  DrawerContent?: typeof NavigationDrawer
 }
 
 const WIDTH = 300
 
-export const Drawer: React.VoidFunctionComponent<DrawerProps> = ({ Content = DrawerContent }) => {
+export const Drawer: React.VoidFunctionComponent<DrawerProps> = ({ DrawerContent = NavigationDrawer }) => {
   const offset = useSharedValue(-WIDTH - 50)
   const visible = useSharedValue(0)
   const navigationContext = useNavigationContext()
@@ -43,7 +43,7 @@ export const Drawer: React.VoidFunctionComponent<DrawerProps> = ({ Content = Dra
         // @ts-ignore
         style={[styles.drawer, animatedDrawerStyles]}
       >
-        <Content closeDrawer={navigationContext.toggleDrawerIsOpen} />
+        <DrawerContent />
       </Animated.View>
 
       {navigationContext.drawerIsOpen && (

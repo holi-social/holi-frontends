@@ -5,7 +5,7 @@ import useRouting from '@holi/ui/components/navigation/useRouting'
 import Button from '@holi/ui/components/Button'
 import Holicon from '@holi/ui/components/holicon'
 import theme from '@holi/ui/styles/theme'
-import { DrawerHeader } from '@holi/core/spaces/navigation/header'
+import { PageHeader } from '@holi/core/spaces/components/PageHeader'
 import { jsVars } from '@holi/ui/styles/globalVars'
 
 type SpaceLayoutProps = {
@@ -30,7 +30,7 @@ const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayo
           </Button>
         </View>
         <View style={styles.header}>
-          <DrawerHeader />
+          <PageHeader />
         </View>
       </View>
     </ImageBackground>

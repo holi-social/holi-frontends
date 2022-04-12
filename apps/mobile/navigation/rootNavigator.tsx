@@ -33,7 +33,12 @@ export const RootNavigator: React.ComponentType = () => (
       }}
     />
     {/* modals are only correctly rendered on android when in root navigator */}
-    <RootStack.Group screenOptions={{ presentation: 'modal', headerShown: true }}>
+    <RootStack.Group
+      screenOptions={{
+        presentation: 'modal',
+        headerShown: false,
+      }}
+    >
       <RootStack.Screen name="CommunityFeedDetail" component={CommunityFeedDetailScreen} />
     </RootStack.Group>
   </RootStack.Navigator>
