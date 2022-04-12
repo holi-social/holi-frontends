@@ -33,6 +33,8 @@ export const DrawerContent: React.VoidFunctionComponent<DrawerContentProps> = ({
         </ScrollView>
 
         <View style={styles.footer}>
+          <DrawerItem routeName="/login" label="Login" />
+          <DrawerItem routeName="/logout" label="Logout" />
           <DrawerItem routeName="/appstore" label="AppStore" />
           <DrawerItem routeName="/settings" label="Settings" />
         </View>

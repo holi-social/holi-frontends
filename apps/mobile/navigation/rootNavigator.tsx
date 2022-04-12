@@ -6,12 +6,19 @@ import { CommunityFeedDetailScreen } from '@holi-apps/community/screens/communit
 
 import SpacesNavigator from './spacesNavigator'
 
+import { Login } from '@holi/core/auth/screens/Login'
+import { Logout } from '@holi/core/auth/screens/Logout'
+import { Registration } from '@holi/core/auth/screens/Registration'
+
 export type RootStackScreensList = {
   Spaces: undefined
   Community: undefined
   CommunityFeedDetail: {
     feedId: string
   }
+  Login: undefined
+  Logout: undefined
+  Registration: undefined
 }
 
 const RootStack = createNativeStackNavigator<RootStackScreensList>()
@@ -36,5 +43,8 @@ export const RootNavigator: React.ComponentType = () => (
     <RootStack.Group screenOptions={{ presentation: 'modal', headerShown: true }}>
       <RootStack.Screen name="CommunityFeedDetail" component={CommunityFeedDetailScreen} />
     </RootStack.Group>
+    <RootStack.Screen name="Login" component={Login} />
+    <RootStack.Screen name="Logout" component={Logout} />
+    <RootStack.Screen name="Registration" component={Registration} />
   </RootStack.Navigator>
 )
