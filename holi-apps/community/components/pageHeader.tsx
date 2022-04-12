@@ -3,8 +3,6 @@ import { View, ViewStyle, Text, Pressable, Platform, StyleSheet } from 'react-na
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import Holicon from '@holi/ui/components/holicon'
 import theme from '@holi/ui/styles/theme'
-import { jsVars } from '@holi/ui/styles/globalVars'
-
 
 type PageHeaderProps = {
   style?: ViewStyle
