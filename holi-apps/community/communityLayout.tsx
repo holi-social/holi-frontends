@@ -1,6 +1,7 @@
 import React from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
-import { jsVars } from '@holi/ui/styles/globalVars'
+import { StyleSheet, View } from 'react-native'
+import { SafeAreaView } from '@holi/ui/components/safe-area'
+import { PageHeader } from './components/pageHeader'
 
 type CommunityLayoutProps = {
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string
@@ -8,9 +9,10 @@ type CommunityLayoutProps = {
 
 const CommunityLayout: React.FunctionComponent<CommunityLayoutProps> = (props: CommunityLayoutProps) => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <PageHeader />
       <View style={styles.scrollView}>{props.children}</View>
-    </View>
+    </SafeAreaView>
   )
 }
 
@@ -22,11 +24,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     position: 'relative',
-    ...Platform.select({
-      web: {
-        paddingTop: jsVars.CSS_HEADER_Height,
-      },
-    }),
   },
-  scrollView: {},
+  scrollView: {
+    marginTop: 20,
+  },
 })

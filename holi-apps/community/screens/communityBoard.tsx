@@ -1,8 +1,9 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { Text } from 'react-native'
+import CommunityLayout from '@holi-apps/community/communityLayout'
 
 export const CommunityBoardScreen: React.VoidFunctionComponent = () => (
-  <View>
+  <CommunityLayout>
     <Text>Board</Text>
-  </View>
+  </CommunityLayout>
 )
