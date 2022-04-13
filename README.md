@@ -6,16 +6,6 @@ Run `yarn mobile:dev` for mobile and `yarn web:dev` for web.
 
 Start the mock api with `yarn mock-api:dev`.
 
-## Ory Proxy
-In order to use the authentication an ory proxy has to run locally, forwarding the requests to the ory cloud.
-Installation instructions can be found here: https://www.ory.sh/docs/guides/cli/installation
-
-Run 
-```
-export ORY_SDK_URL=https://mystifying-carver-akajr6v4t8.projects.oryapis.com
-ory proxy http://localhost:3000
-```
-Than you use the web app via localhost:4000.
 
 ## Install libs / packages
 
