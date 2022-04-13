@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, ScrollView, ImageBackground } from 'react-native'
+import { StyleSheet, View, ScrollView, ImageBackground, Platform } from 'react-native'
 import tinycolor from 'tinycolor2'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import Button from '@holi/ui/components/Button'
@@ -49,9 +49,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     position: 'relative',
+    ...Platform.select({
+      web: {
+        marginTop: 20,
+      },
+    }),
   },
   scrollView: {
-    marginTop: jsVars.CSS_HEADER_Height,
+    marginTop: jsVars.CSS_HEADER_Height + 20,
   },
   header: {
     position: 'absolute',

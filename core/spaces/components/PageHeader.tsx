@@ -63,7 +63,7 @@ const PageHeader: React.VoidFunctionComponent<PageHeaderProps> = (props) => {
   const isHome = pathname === '/'
 
   return (
-    <SafeAreaView style={[headerStyles.container, props.style]}>
+    <SafeAreaView style={[headerStyles.container, headerStyles.horizontalElements, props.style]}>
       <Pressable
         style={[{ width: 32, height: 32, backgroundColor: theme.colors.tertiary, borderRadius: 24, marginLeft: 12 }]}
         onPress={toggleDrawer}
@@ -78,9 +78,9 @@ const PageHeader: React.VoidFunctionComponent<PageHeaderProps> = (props) => {
 
       <SearchBar />
 
-      <View style={headerStyles.right}>
-        <Holicon icon="notification" size={30} />
-        {Platform.OS === 'web' && <Holicon icon="settings" size={30} />}
+      <View style={headerStyles.horizontalElements}>
+        <Holicon icon="notification" size={26} />
+        {Platform.OS === 'web' && <Holicon icon="settings" size={26} />}
       </View>
     </SafeAreaView>
   )
@@ -88,21 +88,13 @@ const PageHeader: React.VoidFunctionComponent<PageHeaderProps> = (props) => {
 
 const headerStyles = StyleSheet.create({
   container: {
-    ...Platform.select({
-      web: {
-        alignItems: 'center',
-      },
-    }),
-    flex: 1,
-    paddingVertical: 8,
+    paddingTop: 10,
     paddingHorizontal: 8,
-    flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingRight: 12,
+    alignItems: 'center',
   },
-  right: {
+  horizontalElements: {
     flexDirection: 'row',
-    marginBottom: 2,
   },
   imageWithText: {
     flexDirection: 'row',
