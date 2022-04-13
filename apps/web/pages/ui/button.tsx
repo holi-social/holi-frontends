@@ -18,7 +18,7 @@ const ButtonPage: NextPage = () => {
       </div>
 
       <div className={sassStyles.example}>
-        <Button style={{}}>Hello</Button>
+        <Button>Hello</Button>
         <Button style={{ marginLeft: 10 }}>
           <span>With Icon</span>
           <Holicon icon="arrowtip-next" size={20} color="red" />
@@ -26,6 +26,10 @@ const ButtonPage: NextPage = () => {
         <Button style={{ marginLeft: 10 }}>
           <SharedImage imageFile={require('@holi/ui/assets/img/logo/logo.svg')} style={{ width: 50, height: 50 }} />
           <span>With Image</span>
+        </Button>
+
+        <Button fullWidth style={{ marginTop: 10 }}>
+          Fullwidth
         </Button>
       </div>
 
