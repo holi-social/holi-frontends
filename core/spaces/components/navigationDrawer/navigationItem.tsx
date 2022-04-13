@@ -1,70 +1,38 @@
 import React from 'react'
-import { View, Text, StyleSheet, ViewStyle, Pressable, Platform } from 'react-native'
+import { StyleSheet, ViewStyle, Platform } from 'react-native'
 import tinycolor from 'tinycolor2'
 import theme from '@holi/ui/styles/theme'
 import useRouting from '@holi/ui/components/navigation/useRouting'
+import Button from '@holi/ui/components/Button'
 
-type PressableCallbackProps = {
-  hovered: boolean
-  active: boolean
-  pressed: boolean
-}
-
-export const LinkItem: React.VoidFunctionComponent<{
+export type NaviItemProps = {
+  style?: ViewStyle
   routeName: string
   label: string
-}> = ({ routeName, label }) => {
+}
+
+const NaviItem: React.VoidFunctionComponent<NaviItemProps> = (props) => {
   const { navigate, pathname, toggleDrawer } = useRouting()
-  const isActive = React.useMemo(() => pathname === routeName, [pathname, routeName])
+  const isActive = React.useMemo(() => pathname === props.routeName, [pathname, props.routeName])
   const onPress = () => {
     if (Platform.OS === 'web') {
       // mobile toggling is handled by reactnavigation (would be duplicate though)
       toggleDrawer()
     }
-    navigate(routeName)
+    navigate(props.routeName)
   }
 
   return (
-    <Pressable onPress={onPress}>
-      {({ hovered, active, pressed }: PressableCallbackProps) => (
-        <View
-          style={[
-            styles.container,
-            isActive && styles.isActive,
-            (active || hovered) && styles.hovered,
-            pressed && styles.pressed,
-          ]}
-        >
-          <Text>{label}</Text>
-        </View>
-      )}
-    </Pressable>
+    <Button fullWidth onPress={onPress} style={[isActive ? styles.isActive : undefined, props.style]}>
+      {props.label}
+    </Button>
   )
 }
 
-const styles = StyleSheet.create<{
-  container: ViewStyle
-  isActive: ViewStyle
-  active: ViewStyle
-  hovered: ViewStyle
-  pressed: ViewStyle
-}>({
-  container: {
-    marginVertical: 4,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    justifyContent: 'center',
-    borderRadius: 8,
-    backgroundColor: theme.colors.backgroundGrey,
-  },
+export default NaviItem
+
+const styles = StyleSheet.create({
   isActive: {
     backgroundColor: tinycolor(theme.colors.backgroundGrey).darken(15).toString(),
-  },
-  active: {},
-  hovered: {
-    backgroundColor: tinycolor(theme.colors.backgroundGrey).darken(15).toString(),
-  },
-  pressed: {
-    opacity: 0.8,
   },
 })

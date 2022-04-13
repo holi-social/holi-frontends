@@ -4,8 +4,8 @@ import tinycolor from 'tinycolor2'
 import { useTheme } from '@holi/ui/styles/theme'
 
 export type ButtonProps = {
-  text?: string
-  style?: Record<string, unknown>
+  style?: (ViewStyle | Record<string, unknown> | undefined) | (ViewStyle | Record<string, unknown> | undefined)[]
+  fullWidth?: boolean
   href?: string
   testID?: string
   onPress?: null | ((event: GestureResponderEvent) => void)
@@ -33,6 +33,7 @@ const Button: React.FunctionComponent<ButtonProps> = (props: ButtonProps) => {
   const styles = StyleSheet.create<{
     button: ViewStyle
     hovered: ViewStyle
+    fullWidth: ViewStyle
   }>({
     button: {
       borderColor: theme.colors.border,
@@ -53,6 +54,9 @@ const Button: React.FunctionComponent<ButtonProps> = (props: ButtonProps) => {
       borderColor: tinycolor(theme.colors.backgroundGrey).darken(15).toString(),
       backgroundColor: theme.dark ? theme.colors.backgroundGrey : theme.colors.background,
     },
+    fullWidth: {
+      width: '100%',
+    },
   })
 
   // https://github.com/necolas/react-native-web/issues/1708
@@ -64,6 +68,7 @@ const Button: React.FunctionComponent<ButtonProps> = (props: ButtonProps) => {
       {...props}
       style={({ pressed, hovered, focused }: PressableState) => [
         styles.button,
+        props.fullWidth && styles.fullWidth,
         props.style,
         (hovered || pressed || focused) && styles.hovered,
       ]}
