@@ -18,7 +18,7 @@ const ButtonPage: NextPage = () => {
       </div>
 
       <div className={sassStyles.example}>
-        <Button style={{}}>Hello</Button>
+        <Button>Hello</Button>
         <Button style={{ marginLeft: 10 }}>
           <span>With Icon</span>
           <Holicon icon="arrowtip-next" size={20} color="red" />

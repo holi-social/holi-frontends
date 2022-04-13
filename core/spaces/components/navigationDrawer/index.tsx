@@ -1,9 +1,9 @@
 import React from 'react'
-import { View, Text, ScrollView, ViewStyle, StyleSheet, TextStyle, Pressable } from 'react-native'
+import { View, Text, ScrollView, StyleSheet, Pressable } from 'react-native'
 import { SafeAreaView } from '@holi/ui/components/safe-area'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import Holicon from '@holi/ui/components/holicon'
-import { LinkItem } from './navigationItem'
+import NaviItem from './navigationItem'
 import theme from '@holi/ui/styles/theme'
 
 export const NavigationDrawer: React.VoidFunctionComponent = () => {
@@ -20,26 +20,19 @@ export const NavigationDrawer: React.VoidFunctionComponent = () => {
         </View>
 
         <ScrollView style={[styles.scrollView]}>
-          <LinkItem routeName="/" label="Privater Space" />
+          <NaviItem routeName="/" label="Privater Space" style={styles.naviItem} />
         </ScrollView>
 
         <View style={styles.footer}>
-          <LinkItem routeName="/appstore" label="AppStore" />
-          <LinkItem routeName="/settings" label="Settings" />
+          <NaviItem routeName="/appstore" label="AppStore" style={styles.naviItem} />
+          <NaviItem routeName="/settings" label="Settings" style={styles.naviItem} />
         </View>
       </View>
     </SafeAreaView>
   )
 }
 
-const styles = StyleSheet.create<{
-  container: ViewStyle
-  header: ViewStyle
-  headerText: TextStyle
-  closeIcon: ViewStyle
-  footer: ViewStyle
-  scrollView: ViewStyle
-}>({
+const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
@@ -64,5 +57,8 @@ const styles = StyleSheet.create<{
     position: 'absolute',
     right: 0,
     top: 14,
+  },
+  naviItem: {
+    marginTop: 20,
   },
 })
