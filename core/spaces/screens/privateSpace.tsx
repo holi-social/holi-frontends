@@ -17,7 +17,11 @@ const PrivateSpaceScreen: React.VoidFunctionComponent = () => {
 
   return (
     <SpaceLayout>
-      {(isAuthenticated || session) ? <Text style={styles.header}>Hello {session?.identity.traits.email}</Text> : <Text style={styles.header}>Hello Anna</Text>}
+      {isAuthenticated || session ? (
+        <Text style={styles.header}>Hello {session?.identity.traits.email}</Text>
+      ) : (
+        <Text style={styles.header}>Hello Anna</Text>
+      )}
       <Text style={styles.subHeader}>Nice to see you here!</Text>
       <AppTiles style={{ marginTop: 40 }} />
     </SpaceLayout>

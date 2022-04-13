@@ -1,5 +1,4 @@
 // This file defines a React Context which keeps track of the authenticated session.
-import CookieManager from '@react-native-cookies/cookies'
 import React, { createContext, useEffect, useState } from 'react'
 import {
   getAuthenticatedSession,

@@ -1,10 +1,6 @@
 import { UiNode } from '@ory/kratos-client'
 import React from 'react'
-import {
-  isUiNodeImageAttributes,
-  isUiNodeInputAttributes,
-  isUiNodeTextAttributes,
-} from '@holi/core/auth/helpers/form'
+import { isUiNodeImageAttributes, isUiNodeInputAttributes, isUiNodeTextAttributes } from '@holi/core/auth/helpers/form'
 import { NodeImage } from '@holi/core/auth/components/Image'
 import { NodeText } from '@holi/core/auth/components/Text'
 import { InputProps, NodeInput } from '@holi/core/auth/components/Input'
