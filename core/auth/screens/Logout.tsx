@@ -1,4 +1,3 @@
-// This file renders the login screen.
 import React, { useContext } from 'react'
 import { SubmitSelfServiceLogoutFlowWithoutBrowserBody } from '@ory/kratos-client'
 import { submitLogoutFlow } from '@holi/core/auth/helpers/auth'

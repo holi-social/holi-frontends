@@ -99,5 +99,3 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 })
-
-// state={typeToState({ type, disabled }

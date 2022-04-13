@@ -36,14 +36,11 @@ const Login: React.VoidFunctionComponent = () => {
   // When the component is mounted, we initialize a new use login flow:
   useEffect(() => initializeFlow(), [])
 
-  const options = {
-    headers: { 'Access-Control-Allow-Credentials': 'true', withCredentials: 'true' },
-  }
   // This will update the login flow with the user provided input:
   const onSubmit = (payload: SubmitSelfServiceLoginFlowBody) =>
     flow
       ? newKratosSdk()
-          .submitSelfServiceLoginFlow(flow.id, sessionToken, payload, options)
+          .submitSelfServiceLoginFlow(flow.id, sessionToken, payload)
           .then((response) => {
             console.log(response.headers)
             return Promise.resolve(response.data as SessionContext)

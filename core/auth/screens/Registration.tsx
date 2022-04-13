@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useFocusEffect } from '@react-navigation/native'
 import { SelfServiceFlow } from '@holi/core/auth/components'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { AuthContext } from '@holi/core/auth/AuthProvider'

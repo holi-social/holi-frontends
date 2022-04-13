@@ -1,5 +1,4 @@
 import { Configuration, V0alpha2Api } from '@ory/kratos-client'
-//import Constants from 'expo-constants'
 import axiosFactory from 'axios'
 import { Platform } from 'react-native'
 import { resilience } from '@holi/core/auth/helpers/axios'

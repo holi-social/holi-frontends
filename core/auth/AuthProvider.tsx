@@ -1,4 +1,3 @@
-// This file defines a React Context which keeps track of the authenticated session.
 import React, { createContext, useEffect, useState } from 'react'
 import {
   getAuthenticatedSession,
@@ -18,7 +17,6 @@ interface Context {
   didFetch: boolean
   isAuthenticated: boolean
 }
-//import useRouting from 'shared/components/navigation/useRouting'
 
 export const AuthContext = createContext<Context>({
   setSession: () => {
@@ -32,7 +30,6 @@ export const AuthContext = createContext<Context>({
 export const AuthContextProvider: React.FC = ({ children }) => {
   const [sessionContext, setSessionContext] = useState<SessionContext | undefined>(undefined)
 
-  //const { navigate } = useRouting()
   // Fetches the authentication session.
   useEffect(() => {
     getAuthenticatedSession().then(syncSession)
@@ -43,9 +40,6 @@ export const AuthContextProvider: React.FC = ({ children }) => {
       return setAuth(null)
     }
     console.log('auth token ' + auth.session_token)
-    //CookieManager.get('http://localhost:4000').then((cookies: any) => {
-    //  console.log('CookieManager.get =>', cookies)
-    // })
     // Use the session token from the auth session:
     return (
       newKratosSdk()

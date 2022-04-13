@@ -8,7 +8,6 @@ import {
   UiNodeAttributes,
 } from '@ory/kratos-client'
 import { AxiosError } from 'axios'
-//import { showMessage } from 'react-native-flash-message'
 
 export const isUiNodeAnchorAttributes = (pet: UiNodeAttributes): pet is UiNodeAnchorAttributes => {
   return (pet as UiNodeAnchorAttributes).href !== undefined
