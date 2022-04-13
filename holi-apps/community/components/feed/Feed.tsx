@@ -3,10 +3,31 @@ import { useQuery } from '@apollo/client'
 import { FlatList, Text, ListRenderItemInfo, Pressable, StyleSheet, View, Platform, Dimensions } from 'react-native'
 import theme from '@holi/ui/styles/theme'
 import GraphQLError from '@holi/ui/components/GraphQLError'
+import { jsVars } from '@holi/ui/styles/globalVars'
 import FeedImage from '@holi-apps/community/components/feed/FeedImage'
 
 import { Post } from './types'
 import { ALL_POSTS_QUERY, AllPostsQueryResult } from './queries'
+
+const renderFeedItem = (onItemPressed: (post: Post) => void): React.VoidFunctionComponent<ListRenderItemInfo<Post>> => {
+  const Item: React.VoidFunctionComponent<ListRenderItemInfo<Post>> = ({ item }) => {
+    return (
+      <Pressable onPress={() => onItemPressed(item)} style={feedItemStyles.item}>
+        <Text style={feedItemStyles.title}>{item.title}</Text>
+        {item.image && <FeedImage image={item.image} />}
+        <Text style={feedItemStyles.text} numberOfLines={3}>
+          {item.text}
+        </Text>
+        {Platform.OS === 'web' ? <Text style={feedItemStyles.more}>more</Text> : null}
+        <View style={feedItemStyles.footer}>
+          <Text style={feedItemStyles.user}>{item.User.name}</Text>
+          <Text style={feedItemStyles.views}>({item.views} views)</Text>
+        </View>
+      </Pressable>
+    )
+  }
+  return Item
+}
 
 const feedItemStyles = StyleSheet.create({
   item: {
@@ -34,34 +55,6 @@ const feedItemStyles = StyleSheet.create({
     paddingTop: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-})
-
-const renderFeedItem = (onItemPressed: (post: Post) => void): React.VoidFunctionComponent<ListRenderItemInfo<Post>> => {
-  const Item: React.VoidFunctionComponent<ListRenderItemInfo<Post>> = ({ item }) => {
-    return (
-      <Pressable onPress={() => onItemPressed(item)} style={feedItemStyles.item}>
-        <Text style={feedItemStyles.title}>{item.title}</Text>
-        {item.image && <FeedImage image={item.image} />}
-        <Text style={feedItemStyles.text} numberOfLines={3}>
-          {item.text}
-        </Text>
-        {Platform.OS === 'web' ? <Text style={feedItemStyles.more}>more</Text> : null}
-        <View style={feedItemStyles.footer}>
-          <Text style={feedItemStyles.user}>{item.User.name}</Text>
-          <Text style={feedItemStyles.views}>({item.views} views)</Text>
-        </View>
-      </Pressable>
-    )
-  }
-  return Item
-}
-
-const feedStyles = StyleSheet.create({
-  feed: {
-    // constrained height required to get infinite loading behavior right
-    // (without it onEndReached fires until the whole has been loaded)
-    maxHeight: Dimensions.get('window').height,
   },
 })
 
@@ -103,5 +96,16 @@ const Feed: React.VoidFunctionComponent<FeedProps> = ({ onItemPressed }) => {
     </View>
   )
 }
+
+const feedStyles = StyleSheet.create({
+  feed: {
+    // constrained height required to get infinite loading behavior right
+    // (without it onEndReached fires until the whole has been loaded)
+    maxHeight: Dimensions.get('window').height - jsVars.CSS_HEADER_Height,
+    borderTopColor: theme.colors.border,
+    borderTopWidth: 1,
+    paddingTop: 20,
+  },
+})
 
 export default Feed
