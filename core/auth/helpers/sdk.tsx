@@ -1,6 +1,6 @@
-import { Configuration, V0alpha2Api } from '@ory/kratos-client'
 import axiosFactory from 'axios'
 import { Platform } from 'react-native'
+import { Configuration, V0alpha2Api } from '@ory/kratos-client'
 import { resilience } from '@holi/core/auth/helpers/axios'
 
 const axios = axiosFactory.create()

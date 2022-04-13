@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   input: {
     height: 40,
     width: 300,
-    margin: 1,
+   margin: 1,
     borderWidth: 1,
   },
 })
