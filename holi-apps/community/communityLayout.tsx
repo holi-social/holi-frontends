@@ -11,7 +11,7 @@ const CommunityLayout: React.FunctionComponent<CommunityLayoutProps> = (props: C
   return (
     <SafeAreaView style={styles.container}>
       <PageHeader />
-      <View style={styles.scrollView}>{props.children}</View>
+      <View style={styles.contentView}>{props.children}</View>
     </SafeAreaView>
   )
 }
@@ -23,9 +23,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    position: 'relative',
   },
-  scrollView: {
-    marginTop: 20,
+  contentView: {
+    flex: 1,
   },
 })
