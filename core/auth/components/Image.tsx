@@ -1,7 +1,7 @@
 import React from 'react'
+import { View } from 'react-native'
 import { UiNode, UiNodeImageAttributes } from '@ory/kratos-client'
 import { getNodeId } from '@holi/core/auth/helpers/form'
-import { View } from 'react-native'
 
 interface Props {
   node: UiNode

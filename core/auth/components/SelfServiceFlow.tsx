@@ -8,10 +8,10 @@ import {
   SubmitSelfServiceSettingsFlowBody,
   UiNode,
 } from '@ory/kratos-client'
-import Messages from './Messages'
+import Messages from '@holi/core/auth/components/Messages'
 import { getNodeId, isUiNodeInputAttributes } from '@holi/core/auth/helpers/form'
-import { Node } from './Node'
-import { TextInputOverride } from './Input'
+import { Node } from '@holi/core/auth/components/Node'
+import { TextInputOverride } from '@holi/core/auth/components/Input'
 
 interface Props<T> {
   flow?: SelfServiceLoginFlow | SelfServiceRegistrationFlow | SelfServiceSettingsFlow

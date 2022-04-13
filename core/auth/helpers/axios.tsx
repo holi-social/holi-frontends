@@ -1,5 +1,3 @@
-// A small which adds retries to axios
-
 import { AxiosInstance } from 'axios'
 
 export const resilience = (axios: AxiosInstance) => {

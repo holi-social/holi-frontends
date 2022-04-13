@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios'
 import {
   GenericError,
   UiNode,
@@ -7,7 +8,6 @@ import {
   UiNodeTextAttributes,
   UiNodeAttributes,
 } from '@ory/kratos-client'
-import { AxiosError } from 'axios'
 
 export const isUiNodeAnchorAttributes = (pet: UiNodeAttributes): pet is UiNodeAnchorAttributes => {
   return (pet as UiNodeAnchorAttributes).href !== undefined
@@ -54,10 +54,6 @@ export const getNodeTitle = ({ attributes, meta }: UiNode): string => {
   return ''
 }
 
-export const handleFlowInitError = (err: AxiosError) => {
-  return
-}
-
 export const handleFormSubmitError = (setConfig: (p: any) => void, initialize: () => void, logout?: () => void) => {
   return (err: AxiosError) => {
     if (err.response) {
@@ -71,14 +67,14 @@ export const handleFormSubmitError = (setConfig: (p: any) => void, initialize: (
           }
 
           console.debug('Form validation failed:', err.response.data)
-          //setConfig(err.response.data)
+          setConfig(err.response.data)
           return Promise.resolve()
         case 404:
         case 410:
           // This happens when the flow is, for example, expired or was deleted.
           // We simply re-initialize the flow if that happens!
           console.debug('Flow could not be found, reloading page.')
-          //initialize()
+          initialize()
           return Promise.resolve()
         case 403:
         case 401:

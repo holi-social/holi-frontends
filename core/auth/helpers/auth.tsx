@@ -1,8 +1,8 @@
 import { Session as KratosSession } from '@ory/kratos-client'
 import * as SecureStore from 'expo-secure-store'
-import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { AxiosPromise } from 'axios'
 import { SelfServiceLoginFlow } from '@ory/kratos-client'
+import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { SubmitSelfServiceLogoutFlowWithoutBrowserBody } from '@ory/kratos-client'
 
 const userSessionName = 'user_session'

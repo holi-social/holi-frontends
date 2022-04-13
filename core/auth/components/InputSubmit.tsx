@@ -1,7 +1,8 @@
 import { UiNode, UiNodeInputAttributes } from '@ory/kratos-client'
 import React from 'react'
-import { Button, View } from 'react-native'
+import { View } from 'react-native'
 import { getNodeId, getNodeTitle } from '@holi/core/auth/helpers/form'
+import Button from '@holi/ui/components/Button'
 
 interface Props extends InputSubmitProps {
   node: UiNode
@@ -9,12 +10,11 @@ interface Props extends InputSubmitProps {
 }
 
 export interface InputSubmitProps {
-  isSubmitting: boolean
   onSubmitPress: (key: string, value: any) => void
   onChange: (value: any) => void
 }
 
-export const NodeInputSubmit = ({ node, attributes, isSubmitting, onSubmitPress }: Props) => {
+export const NodeInputSubmit = ({ node, attributes, onSubmitPress }: Props) => {
   if (attributes.type !== 'submit') {
     return null
   }
@@ -24,14 +24,7 @@ export const NodeInputSubmit = ({ node, attributes, isSubmitting, onSubmitPress 
 
   return (
     <View testID={`field/${name}/${attributes.value}`}>
-      <Button
-        testID="submit-form"
-        disabled={isSubmitting}
-        title={title}
-        onPress={() => {
-          onSubmitPress(attributes.name, attributes.value)
-        }}
-      />
+      <Button onPress={() => onSubmitPress(attributes.name, attributes.value)}>{title}</Button>
     </View>
   )
 }

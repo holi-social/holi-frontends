@@ -1,7 +1,6 @@
-// This file renders the login screen.
-import React, { useContext, useState, useEffect, useCallback } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/kratos-client'
-
+import { Text, View } from 'react-native'
 import { SelfServiceFlow } from '@holi/core/auth/components'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
@@ -9,7 +8,6 @@ import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { initLoginFlow, SessionContext } from '@holi/core/auth/helpers/auth'
 import AuthLayout from '@holi/core/auth/authLayout'
 import Button from '@holi/ui/components/Button'
-import { Text, View } from 'react-native'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 
 const Login: React.VoidFunctionComponent = () => {
@@ -51,7 +49,7 @@ const Login: React.VoidFunctionComponent = () => {
               navigate('/')
             }, 100)
           })
-          .catch(console.error)
+          .catch(handleFormSubmitError(setFlow, initializeFlow))
       : Promise.resolve()
 
   return (

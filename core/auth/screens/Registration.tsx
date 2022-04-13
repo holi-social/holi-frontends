@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } from '@ory/kratos-client'
+import { Platform, View, Text } from 'react-native'
 import { SelfServiceFlow } from '@holi/core/auth/components'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import { getNodeId, handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { Platform, View, Text } from 'react-native'
-import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } from '@ory/kratos-client'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import AuthLayout from '@holi/core/auth/authLayout'
 import Button from '@holi/ui/components/Button'
@@ -61,7 +61,7 @@ const Registration = () => {
           })
           // Let's log the user in!
           .then(setSession)
-          .catch(console.error)
+          .catch(handleFormSubmitError(setConfig, initializeFlow))
       : Promise.resolve()
 
   return (

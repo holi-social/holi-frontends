@@ -1,6 +1,6 @@
-import { UiNode, UiNodeInputAttributes } from '@ory/kratos-client'
 import React from 'react'
 import { TextInput, TextInputProps, View, Text, StyleSheet } from 'react-native'
+import { UiNode, UiNodeInputAttributes } from '@ory/kratos-client'
 import { getNodeId, getNodeTitle, isUiNodeInputAttributes } from '@holi/core/auth/helpers/form'
 
 interface Props extends InputProps {
@@ -94,8 +94,8 @@ export const NodeInput = ({ node, value, onChange, disabled, textInputOverride }
 const styles = StyleSheet.create({
   input: {
     height: 40,
-    margin: 12,
+    width: 400,
+    margin: 1,
     borderWidth: 1,
-    padding: 10,
   },
 })

@@ -1,13 +1,13 @@
 import React, { createContext, useEffect, useState } from 'react'
+import { Session } from '@ory/kratos-client'
+import { AxiosError } from 'axios'
+import { newKratosSdk } from './helpers/sdk'
 import {
   getAuthenticatedSession,
   killAuthenticatedSession,
   SessionContext,
   setAuthenticatedSession,
 } from './helpers/auth'
-import { AxiosError } from 'axios'
-import { newKratosSdk } from './helpers/sdk'
-import { Session } from '@ory/kratos-client'
 
 interface Context {
   session?: Session
