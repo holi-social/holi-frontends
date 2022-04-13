@@ -27,6 +27,10 @@ const ButtonPage: NextPage = () => {
           <SharedImage imageFile={require('@holi/ui/assets/img/logo/logo.svg')} style={{ width: 50, height: 50 }} />
           <span>With Image</span>
         </Button>
+
+        <Button fullWidth style={{ marginTop: 10 }}>
+          Fullwidth
+        </Button>
       </div>
 
       <pre className={sassStyles.code}>{`

@@ -4,8 +4,8 @@ import tinycolor from 'tinycolor2'
 import { useTheme } from '@holi/ui/styles/theme'
 
 export type ButtonProps = {
-  text?: string
-  style?: Record<string, unknown>
+  style?: ViewStyle
+  fullWidth?: boolean
   href?: string
   testID?: string
   onPress?: null | ((event: GestureResponderEvent) => void)

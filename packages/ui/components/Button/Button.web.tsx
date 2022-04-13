@@ -5,7 +5,7 @@ import styles from './button.module.scss'
 
 export const Button: React.FC<ButtonProps> = (props) => {
   return (
-    <button className={[jsVars.CSS_BUTTON_CLASS, styles.button].join(' ')} type="button">
+    <button className={[jsVars.CSS_BUTTON_CLASS, styles.button, props.fullWidth ? styles.fullWidth : ''].join(' ')} type="button">
       <ButtonBase {...props} />
     </button>
   )
