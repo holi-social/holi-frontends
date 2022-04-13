@@ -1,10 +1,12 @@
 import React from 'react'
-import { StyleSheet, SafeAreaView, View, ScrollView, ImageBackground } from 'react-native'
+import { StyleSheet, View, ScrollView, ImageBackground, Platform } from 'react-native'
 import tinycolor from 'tinycolor2'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import Button from '@holi/ui/components/Button'
 import Holicon from '@holi/ui/components/holicon'
 import theme from '@holi/ui/styles/theme'
+import { PageHeader } from '@holi/core/spaces/components/PageHeader'
+import { jsVars } from '@holi/ui/styles/globalVars'
 
 type SpaceLayoutProps = {
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string
@@ -19,7 +21,7 @@ const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayo
       resizeMode="cover"
       style={styles.bgImage}
     >
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <ScrollView style={styles.scrollView}>{props.children}</ScrollView>
         <View style={styles.footer}>
           {/* TODO: hide within appStore */}
@@ -27,7 +29,10 @@ const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayo
             <Holicon icon="appstore" size={30} color="black" style={{ position: 'absolute' }} />
           </Button>
         </View>
-      </SafeAreaView>
+        <View style={styles.header}>
+          <PageHeader />
+        </View>
+      </View>
     </ImageBackground>
   )
 }
@@ -35,26 +40,35 @@ const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayo
 export default SpaceLayout
 
 const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    position: 'relative',
-    marginTop: 100,
-  },
-  scrollView: {},
   bgImage: {
     position: 'absolute',
     height: '100%',
     width: '100%',
   },
-  footer: {
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    position: 'relative',
+    ...Platform.select({
+      web: {
+        marginTop: 20,
+      },
+    }),
+  },
+  scrollView: {
+    marginTop: jsVars.CSS_HEADER_Height + 20,
+  },
+  header: {
     position: 'absolute',
+    top: 0,
     left: 0,
     right: 0,
+    height: jsVars.CSS_HEADER_Height,
+  },
+  footer: {
+    position: 'absolute',
     bottom: 0,
-    height: 100,
+    marginBottom: 20,
     backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',

@@ -4,6 +4,7 @@ import sassVars from './variables'
 // global js variables
 const jsVars = {
   CSS_BUTTON_CLASS: 'holi-btn',
+  CSS_HEADER_Height: 70,
 }
 
 // SCSS variables for mobile styling
