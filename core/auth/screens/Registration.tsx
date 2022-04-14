@@ -8,6 +8,7 @@ import { getNodeId, handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import AuthLayout from '@holi/core/auth/authLayout'
 import Button from '@holi/ui/components/Button'
+import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 
 const Registration = () => {
   const { navigate } = useRouting()
@@ -16,8 +17,7 @@ const Registration = () => {
   const { setSession, isAuthenticated } = useContext(AuthContext)
 
   const initializeFlow = () => {
-    newKratosSdk()
-      .initializeSelfServiceRegistrationFlowWithoutBrowser()
+    initRegistrationFlow()
       // The flow was initialized successfully, let's set the form data:
       .then(({ data: flow }) => {
         setConfig(flow)

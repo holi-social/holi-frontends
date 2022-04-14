@@ -1,4 +1,4 @@
-import { Session as KratosSession } from '@ory/kratos-client'
+import { SelfServiceRegistrationFlow, Session as KratosSession } from '@ory/kratos-client'
 import * as SecureStore from 'expo-secure-store'
 import { AxiosPromise } from 'axios'
 import { SelfServiceLoginFlow } from '@ory/kratos-client'
@@ -46,4 +46,8 @@ export const initLoginFlow = (): AxiosPromise<SelfServiceLoginFlow> => {
 
 export const submitLogoutFlow = (payload: SubmitSelfServiceLogoutFlowWithoutBrowserBody) => {
   return newKratosSdk().submitSelfServiceLogoutFlowWithoutBrowser(payload)
+}
+
+export const initRegistrationFlow = (): AxiosPromise<SelfServiceRegistrationFlow> => {
+  return newKratosSdk().initializeSelfServiceRegistrationFlowWithoutBrowser()
 }

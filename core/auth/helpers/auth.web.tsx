@@ -1,4 +1,4 @@
-import { Session as KratosSession, SubmitSelfServiceLogoutFlowWithoutBrowserBody } from '@ory/kratos-client'
+import { Session as KratosSession, SubmitSelfServiceLogoutFlowWithoutBrowserBody, SelfServiceRegistrationFlow } from '@ory/kratos-client'
 import AsyncStore from '@react-native-async-storage/async-storage'
 import { AxiosPromise } from 'axios'
 import { SelfServiceLoginFlow } from '@ory/kratos-client'
@@ -47,4 +47,8 @@ export const initLoginFlow = (): AxiosPromise<SelfServiceLoginFlow> => {
 
 export const submitLogoutFlow = (payload: SubmitSelfServiceLogoutFlowWithoutBrowserBody) => {
   return newKratosSdk().submitSelfServiceLogoutFlow(payload.session_token)
+}
+
+export const initRegistrationFlow = (): AxiosPromise<SelfServiceRegistrationFlow> => {
+  return newKratosSdk().initializeSelfServiceRegistrationFlowForBrowsers()
 }
