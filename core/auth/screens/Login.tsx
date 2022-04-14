@@ -42,7 +42,7 @@ const Login: React.VoidFunctionComponent = () => {
       ? newKratosSdk()
           .submitSelfServiceLoginFlow(flow.id, sessionToken, payload)
           .then((response) => {
-            console.log(response.headers)
+            console.log('[Login.tsx] response headers', response.headers)
             return Promise.resolve(response.data as SessionContext)
           })
           .then((session) => {
@@ -51,7 +51,7 @@ const Login: React.VoidFunctionComponent = () => {
               navigate('/')
             }, 100)
           })
-          .catch(console.error)
+          .catch((error) => console.error('[Login.tsx] error:', error))
       : Promise.resolve()
 
   return (

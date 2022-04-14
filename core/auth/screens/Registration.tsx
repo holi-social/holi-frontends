@@ -22,7 +22,7 @@ const Registration = () => {
       .then(({ data: flow }) => {
         setConfig(flow)
       })
-      .catch(console.error)
+      .catch((error) => console.error('[Registration.tsx] initializeFlow error:', error))
   }
   // When the component is mounted, we initialize a new use login flow:
   useEffect(() => initializeFlow(), [])
@@ -43,6 +43,8 @@ const Registration = () => {
       ? newKratosSdk()
           .submitSelfServiceRegistrationFlow(flow.id, payload)
           .then(({ data }) => {
+            console.log('[Registration.tsx] onSubmit data:', data)
+
             // ORY Kratos can be configured in such a way that it requires a login after
             // registration. You could handle that case by navigating to the Login screen
             // but for simplicity we'll just print an error here:
@@ -61,7 +63,9 @@ const Registration = () => {
           })
           // Let's log the user in!
           .then(setSession)
-          .catch(console.error)
+          .catch((error) => {
+            console.error('[Registration.tsx] onSubmit error:', error)
+          })
       : Promise.resolve()
 
   return (
