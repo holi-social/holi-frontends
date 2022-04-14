@@ -25,10 +25,10 @@ const Login: React.VoidFunctionComponent = () => {
       .then((response) => {
         const { data: flow } = response
         // The flow was initialized successfully, let's set the form data:
-        console.log('set flow')
+        console.log('[auth] login flow initialized.')
         setFlow(flow)
       })
-      .catch(console.error)
+      .catch((e) => console.error('[auth] ' + e))
   }
 
   // When the component is mounted, we initialize a new use login flow:
@@ -40,11 +40,11 @@ const Login: React.VoidFunctionComponent = () => {
       ? newKratosSdk()
           .submitSelfServiceLoginFlow(flow.id, sessionToken, payload)
           .then((response) => {
-            console.log(response.headers)
             return Promise.resolve(response.data as SessionContext)
           })
           .then((session) => {
             setSession(session)
+            console.log('[auth] session created.')
             setTimeout(() => {
               navigate('/')
             }, 100)

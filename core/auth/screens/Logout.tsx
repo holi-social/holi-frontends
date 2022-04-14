@@ -24,12 +24,12 @@ const Logout: React.VoidFunctionComponent = () => {
       .then((session) => {
         killAuthenticatedSession()
         setSession(null)
-        console.log(session)
+        console.log('[auth] logout successful.')
         setTimeout(() => {
           navigate('/')
         }, 100)
       })
-      .catch((e) => console.error(e))
+      .catch((e) => console.error('[auth] ' + e))
   }
   return (
     <AuthLayout>

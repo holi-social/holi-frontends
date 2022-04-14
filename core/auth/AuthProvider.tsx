@@ -39,7 +39,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     if (!auth) {
       return setAuth(null)
     }
-    console.log('auth token ' + auth.session_token)
+    console.log('[auth] token:' + auth.session_token)
     // Use the session token from the auth session:
     return (
       newKratosSdk()
@@ -50,7 +50,6 @@ export const AuthContextProvider: React.FC = ({ children }) => {
           //
           // Here you could print the user's email using e.g.:
           //
-          console.log(session.expires_at)
           setSessionContext({ session, session_token: auth.session_token })
           return Promise.resolve()
         })
@@ -61,7 +60,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
             //navigate('/login')
           } else {
             // A network or some other error occurred
-            console.error(err)
+            console.error('[auth] ' + err)
           }
 
           // Remove the session / log the user out.

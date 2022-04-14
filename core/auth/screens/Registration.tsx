@@ -20,6 +20,7 @@ const Registration = () => {
     initRegistrationFlow()
       // The flow was initialized successfully, let's set the form data:
       .then(({ data: flow }) => {
+        console.log('[auth] registration flow initialized.')
         setConfig(flow)
       })
       .catch(console.error)
@@ -52,7 +53,7 @@ const Registration = () => {
               )
               return Promise.reject(err)
             }
-
+            console.log('[auth] registration was successful.')
             // Looks like we got a session!
             return Promise.resolve({
               session: data.session,
