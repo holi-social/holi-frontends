@@ -1,3 +1,4 @@
+/* eslint-disable prefer-arrow/prefer-arrow-functions */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const withPlugins = require('next-compose-plugins')
 const withTM = require('next-transpile-modules')
@@ -19,6 +20,14 @@ const nextConfig = {
   },
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles'), path.join(__dirname, 'shared/data')],
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/ory/:path*',
+        destination: 'https://mystifying-carver-akajr6v4t8.projects.oryapis.com/:path*',
+      },
+    ]
   },
 }
 
