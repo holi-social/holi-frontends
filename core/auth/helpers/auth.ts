@@ -1,9 +1,5 @@
-<<<<<<< HEAD:core/auth/helpers/auth.ts
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/auth.tsx
 import { SelfServiceRegistrationFlow, Session as KratosSession } from '@ory/kratos-client'
-=======
-import { Session as KratosSession } from '@ory/kratos-client'
->>>>>>> code clean up:core/auth/helpers/auth.tsx
 import * as SecureStore from 'expo-secure-store'
 import { AxiosPromise } from 'axios'
 import { SelfServiceLoginFlow } from '@ory/kratos-client'

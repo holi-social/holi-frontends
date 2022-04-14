@@ -55,6 +55,5 @@ export const submitLogoutFlow = (payload: SubmitSelfServiceLogoutFlowWithoutBrow
 }
 
 export const initRegistrationFlow = (): AxiosPromise<SelfServiceRegistrationFlow> => {
-  //return newKratosSdk().initializeSelfServiceRegistrationFlowForBrowsers()
-  return newKratosSdk().initializeSelfServiceRegistrationFlowWithoutBrowser()
+  return newKratosSdk().initializeSelfServiceRegistrationFlowForBrowsers()
 }
