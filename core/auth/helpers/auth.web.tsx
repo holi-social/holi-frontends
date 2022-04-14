@@ -1,4 +1,8 @@
-import { Session as KratosSession, SubmitSelfServiceLogoutFlowWithoutBrowserBody, SelfServiceRegistrationFlow } from '@ory/kratos-client'
+import {
+  Session as KratosSession,
+  SubmitSelfServiceLogoutFlowWithoutBrowserBody,
+  SelfServiceRegistrationFlow,
+} from '@ory/kratos-client'
 import AsyncStore from '@react-native-async-storage/async-storage'
 import { AxiosPromise } from 'axios'
 import { SelfServiceLoginFlow } from '@ory/kratos-client'
