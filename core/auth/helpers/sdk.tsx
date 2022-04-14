@@ -9,7 +9,8 @@ resilience(axios) // Adds retry mechanism to axios
 export const newKratosSdk = () => {
   const host = Platform.OS === 'android' ? '10.0.2.2' : 'localhost' // 172.16.110.186
   const mobileUrl = 'https://mystifying-carver-akajr6v4t8.projects.oryapis.com'
-  const webUrl = 'http://' + host + ':3000/ory'
+  // const webUrl = 'http://' + host + ':3000/ory'
+  const webUrl = 'http://' + host + ':3000/api/auth'
 
   return new V0alpha2Api(
     new Configuration({
