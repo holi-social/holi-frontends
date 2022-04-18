@@ -121,7 +121,8 @@ mobile_production_build:
   only:
     - main
 
-mobile_production_submit:
+# disabled (hidden) (not implemented yet), only increases build times and uses up runner minutes
+.mobile_production_submit:
   stage: 'build_deploy'
   needs: ['mobile_production_build']
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
@@ -137,7 +138,8 @@ web_build:
   script:
     - yarn turbo run build --scope=web
 
-web_review_deploy:
+# disabled (hidden) (not implemented yet), only increases build times and uses up runner minutes
+.web_review_deploy:
   stage: 'build_deploy'
   needs: ['web_build']
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
@@ -147,7 +149,8 @@ web_review_deploy:
     - main
     - /^noenv\/.*/
 
-web_staging_deploy:
+# disabled (hidden) (not implemented yet), only increases build times and uses up runner minutes
+.web_staging_deploy:
   stage: 'build_deploy'
   needs: ['web_build']
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
@@ -156,7 +159,8 @@ web_staging_deploy:
   only:
     - main
 
-web_review_e2e:
+# disabled (hidden) (not implemented yet), only increases build times and uses up runner minutes
+.web_review_e2e:
   stage: 'build_deploy'
   needs: ['web_review_deploy']
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
@@ -166,7 +170,8 @@ web_review_e2e:
     - main
     - /^noenv\/.*/
 
-web_staging_e2e:
+# disabled (hidden) (not implemented yet), only increases build times and uses up runner minutes
+.web_staging_e2e:
   stage: 'build_deploy'
   needs: ['web_staging_deploy']
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
@@ -175,7 +180,8 @@ web_staging_e2e:
   only:
     - main
 
-web_production_deploy:
+# disabled (hidden) (not implemented yet), only increases build times and uses up runner minutes
+.web_production_deploy:
   stage: 'build_deploy'
   needs: ['web_staging_e2e']
   when: manual
