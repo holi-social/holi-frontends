@@ -1,5 +1,6 @@
 import React from 'react'
-import { StyleSheet, SafeAreaView, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
+import { SafeAreaView } from '@holi/ui/components/safe-area'
 
 type AuthLayoutProps = {
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string
