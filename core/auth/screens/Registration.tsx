@@ -55,7 +55,7 @@ const Registration = () => {
               )
               return Promise.reject(err)
             }
-            console.log('[auth] registration was successful.')
+            console.log('[Registration.tsx] registration was successful.')
             // Looks like we got a session!
             return Promise.resolve({
               session: data.session,

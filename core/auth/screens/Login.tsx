@@ -25,10 +25,10 @@ const Login: React.VoidFunctionComponent = () => {
       .then((response) => {
         const { data: flow } = response
         // The flow was initialized successfully, let's set the form data:
-        console.log('[auth] login flow initialized.')
+        console.log('[Login.tsx] login flow initialized.')
         setFlow(flow)
       })
-      .catch((e) => console.error('[auth] ' + e))
+      .catch((e) => console.error('[Login.tsx] ' + e))
   }
 
   // When the component is mounted, we initialize a new use login flow:
@@ -45,16 +45,16 @@ const Login: React.VoidFunctionComponent = () => {
           })
           .then((session) => {
             setSession(session)
-            console.log('[auth] session created.')
+            console.log('[Login.tsx] session created.')
             setTimeout(() => {
               navigate('/')
             }, 100)
           })
           .catch((error) => {
             console.error('[Login.tsx] error:', error)
-            handleFormSubmitError(setFlow, initializeFlow)})
-          : Promise.resolve()
-
+            handleFormSubmitError(setFlow, initializeFlow)
+          })
+      : Promise.resolve()
   return (
     <AuthLayout>
       <View>
