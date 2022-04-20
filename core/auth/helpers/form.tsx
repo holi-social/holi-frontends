@@ -61,7 +61,8 @@ export const handleFormSubmitError = (setConfig: (p: any) => void, initialize: (
         case 400:
           if (typeof err.response.data.error === 'object') {
             const ge: GenericError = err.response.data
-            console.log('[auth]' + ge.message)
+
+            console.log('[auth/helpers/form.tsx] 400 error:', ge.message)
 
             return Promise.resolve()
           }
