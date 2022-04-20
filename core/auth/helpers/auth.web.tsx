@@ -47,7 +47,7 @@ export const killAuthenticatedSession = () => {
 
 export const initLoginFlow = (): AxiosPromise<SelfServiceLoginFlow> => {
   return newKratosSdk().initializeSelfServiceLoginFlowWithoutBrowser()
-  // return newKratosSdk().initializeSelfServiceLoginFlowForBrowsers()
+  //return newKratosSdk().initializeSelfServiceLoginFlowForBrowsers()
 }
 
 export const submitLogoutFlow = (payload: SubmitSelfServiceLogoutFlowWithoutBrowserBody) => {
@@ -55,5 +55,6 @@ export const submitLogoutFlow = (payload: SubmitSelfServiceLogoutFlowWithoutBrow
 }
 
 export const initRegistrationFlow = (): AxiosPromise<SelfServiceRegistrationFlow> => {
-  return newKratosSdk().initializeSelfServiceRegistrationFlowForBrowsers()
+  //return newKratosSdk().initializeSelfServiceRegistrationFlowForBrowsers()
+  return newKratosSdk().initializeSelfServiceRegistrationFlowWithoutBrowser()
 }
