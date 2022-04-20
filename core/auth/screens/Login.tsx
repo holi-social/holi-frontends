@@ -46,6 +46,7 @@ const Login: React.VoidFunctionComponent = () => {
             setSession(session)
             console.log('[Login.tsx] session created.')
             navigate('/')
+
           })
           .catch((error) => {
             console.error('[Login.tsx] error:', error)
