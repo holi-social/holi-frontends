@@ -5,7 +5,7 @@ import useRouting from '@holi/ui/components/navigation/useRouting'
 import Holicon from '@holi/ui/components/holicon'
 import NaviItem from './navigationItem'
 import theme from '@holi/ui/styles/theme'
-import { AuthContext } from 'core/auth/AuthProvider'
+import { AuthContext } from '@holi/core/auth/AuthProvider'
 
 export const NavigationDrawer: React.VoidFunctionComponent = () => {
   const { toggleDrawer } = useRouting()
