@@ -94,7 +94,7 @@ export const NodeInput = ({ node, value, onChange, disabled, textInputOverride }
 const styles = StyleSheet.create({
   input: {
     height: 40,
-    width: 400,
+    width: 300,
     margin: 1,
     borderWidth: 1,
   },
