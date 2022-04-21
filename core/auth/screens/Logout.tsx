@@ -19,17 +19,17 @@ const Logout: React.VoidFunctionComponent = () => {
 
   const onSubmit = (payload: SubmitSelfServiceLogoutFlowWithoutBrowserBody) => {
     submitLogoutFlow(payload)
-      .then(({ data }) => Promise.resolve(data))
-      // Looks like everything worked and we have a session!
       .then((session) => {
         killAuthenticatedSession()
         setSession(null)
-        console.log('[Logout.tsx] logout successful.')
+        console.log('[Logout.tsx] logout successful.' + session.data)
         setTimeout(() => {
           navigate('/')
         }, 100)
       })
-      .catch((e) => console.error('[Logout.tsx] ' + e))
+      .catch((error) => {
+        console.error('[Logout.tsx] ' + error.response)
+      })
   }
   return (
     <AuthLayout>
