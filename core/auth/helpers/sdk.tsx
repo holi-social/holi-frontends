@@ -1,7 +1,21 @@
 import axiosFactory from 'axios'
 import { Platform } from 'react-native'
-import { Configuration, V0alpha2Api } from '@ory/kratos-client'
+import {
+  Session as KratosSession,
+  SubmitSelfServiceLogoutFlowWithoutBrowserBody,
+  SelfServiceRegistrationFlow,
+  Configuration,
+  V0alpha2Api,
+} from '@ory/kratos-client'
+import { AxiosPromise } from 'axios'
+import { SelfServiceLoginFlow } from '@ory/kratos-client'
 import { resilience } from '@holi/core/auth/helpers/axios'
+
+export type SessionContext = {
+  session_token: string
+
+  session: KratosSession
+} | null
 
 const axios = axiosFactory.create()
 resilience(axios) // Adds retry mechanism to axios
@@ -28,4 +42,16 @@ export const newKratosSdk = () => {
     // Ensure that we are using the axios client with retry.
     axios
   )
+}
+
+export const initLoginFlow = (): AxiosPromise<SelfServiceLoginFlow> => {
+  return newKratosSdk().initializeSelfServiceLoginFlowWithoutBrowser()
+}
+
+export const submitLogoutFlow = (payload: SubmitSelfServiceLogoutFlowWithoutBrowserBody) => {
+  return newKratosSdk().submitSelfServiceLogoutFlowWithoutBrowser(payload)
+}
+
+export const initRegistrationFlow = (): AxiosPromise<SelfServiceRegistrationFlow> => {
+  return newKratosSdk().initializeSelfServiceRegistrationFlowWithoutBrowser()
 }
