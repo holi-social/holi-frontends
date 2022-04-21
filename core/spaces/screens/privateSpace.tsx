@@ -9,8 +9,8 @@ const PrivateSpaceScreen: React.VoidFunctionComponent = () => {
 
   useEffect(() => {
     if (!isAuthenticated || !session) {
-      console.log(isAuthenticated + ' ' + session?.active)
-      console.log(sessionToken)
+      // console.log(isAuthenticated + ' ' + session?.active)
+      // console.log(sessionToken)
       //navigation.navigate('/login')
     }
   }, [isAuthenticated, sessionToken])
