@@ -2,13 +2,8 @@
 import React, { createContext, useEffect, useState } from 'react'
 import { Session } from '@ory/kratos-client'
 import { AxiosError } from 'axios'
-import { newKratosSdk } from './helpers/sdk'
-import {
-  getAuthenticatedSession,
-  killAuthenticatedSession,
-  SessionContext,
-  setAuthenticatedSession,
-} from './helpers/auth'
+import { newKratosSdk, SessionContext } from './helpers/sdk'
+import { getAuthenticatedSession, killAuthenticatedSession, setAuthenticatedSession } from './helpers/auth'
 
 interface Context {
   session?: Session
@@ -55,7 +50,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
             setSessionContext({ session, session_token: auth.session_token })
           } else {
             console.log('[AuthProvider] session expired')
-            setSessionContext(null)
+            setAuth(null)
           }
           return Promise.resolve()
         })

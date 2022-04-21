@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Text, View } from 'react-native'
 import { SubmitSelfServiceLogoutFlowWithoutBrowserBody } from '@ory/kratos-client'
-import { submitLogoutFlow } from '@holi/core/auth/helpers/auth'
+import { submitLogoutFlow } from '@holi/core/auth/helpers/sdk'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import AuthLayout from '@holi/core/auth/authLayout'
 import Button from '@holi/ui/components/Button'

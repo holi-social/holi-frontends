@@ -5,17 +5,9 @@ import {
   SelfServiceRegistrationFlow,
 } from '@ory/kratos-client'
 import AsyncStore from '@react-native-async-storage/async-storage'
-import { AxiosPromise } from 'axios'
-import { SelfServiceLoginFlow } from '@ory/kratos-client'
-import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
+import { SessionContext } from 'core/auth/helpers/sdk'
 
 const userSessionName = 'user_session'
-
-export type SessionContext = {
-  session_token: string
-
-  session: KratosSession
-} | null
 
 // getAuthenticatedSession returns a promise with the session of the authenticated user, if the
 // user is authenticated or null is the user is not authenticated.
@@ -44,18 +36,4 @@ export const setAuthenticatedSession = (session: SessionContext): Promise<void> 
 
 export const killAuthenticatedSession = () => {
   return AsyncStore.removeItem(userSessionName)
-}
-
-export const initLoginFlow = (): AxiosPromise<SelfServiceLoginFlow> => {
-  return newKratosSdk().initializeSelfServiceLoginFlowWithoutBrowser()
-  //return newKratosSdk().initializeSelfServiceLoginFlowForBrowsers()
-}
-
-export const submitLogoutFlow = (payload: SubmitSelfServiceLogoutFlowWithoutBrowserBody) => {
-  return newKratosSdk().submitSelfServiceLogoutFlow(payload.session_token)
-}
-
-export const initRegistrationFlow = (): AxiosPromise<SelfServiceRegistrationFlow> => {
-  //return newKratosSdk().initializeSelfServiceRegistrationFlowForBrowsers()
-  return newKratosSdk().initializeSelfServiceRegistrationFlowWithoutBrowser()
 }

@@ -5,7 +5,7 @@ import { SelfServiceFlow } from '@holi/core/auth/components'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { initLoginFlow, SessionContext } from '@holi/core/auth/helpers/auth'
+import { initLoginFlow, SessionContext } from '@holi/core/auth/helpers/sdk'
 import AuthLayout from '@holi/core/auth/authLayout'
 import Button from '@holi/ui/components/Button'
 import useRouting from '@holi/ui/components/navigation/useRouting'
@@ -46,7 +46,6 @@ const Login: React.VoidFunctionComponent = () => {
             setSession(session)
             console.log('[Login.tsx] session created.')
             navigate('/')
-
           })
           .catch((error) => {
             console.error('[Login.tsx] error:', error)
