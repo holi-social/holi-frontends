@@ -1,19 +1,11 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useContext } from 'react'
 import { StyleSheet, Text } from 'react-native'
 import SpaceLayout from '@holi/core/spaces/spaceLayout'
 import AppTiles from '@holi/core/spaces/components/AppTiles'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 
 const PrivateSpaceScreen: React.VoidFunctionComponent = () => {
-  const { isAuthenticated, session, sessionToken } = useContext(AuthContext)
-
-  useEffect(() => {
-    if (!isAuthenticated || !session) {
-      //console.log(isAuthenticated + ' ' + session?.active)
-      //console.log(sessionToken)
-      //navigation.navigate('/login')
-    }
-  }, [isAuthenticated, sessionToken])
+  const { isAuthenticated, session } = useContext(AuthContext)
 
   return (
     <SpaceLayout>
