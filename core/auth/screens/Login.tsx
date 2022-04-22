@@ -14,7 +14,6 @@ const Login: React.VoidFunctionComponent = () => {
   const { setSession, session, sessionToken } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
   const { navigate } = useRouting()
-  console.log('Login')
 
   if (session) {
     navigate('/')

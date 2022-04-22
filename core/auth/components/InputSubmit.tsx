@@ -1,3 +1,4 @@
+// Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/Ory/Ui/Node/InputSubmit.tsx
 import { UiNode, UiNodeInputAttributes } from '@ory/kratos-client'
 import React from 'react'
 import { View } from 'react-native'

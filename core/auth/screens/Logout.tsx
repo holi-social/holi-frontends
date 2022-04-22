@@ -9,12 +9,9 @@ import useRouting from '@holi/ui/components/navigation/useRouting'
 import { killAuthenticatedSession } from '@holi/core/auth/helpers/auth.web'
 
 const Logout: React.VoidFunctionComponent = () => {
-  const { isAuthenticated, session, sessionToken, setSession } = useContext(AuthContext)
+  const { sessionToken, setSession } = useContext(AuthContext)
   const { navigate } = useRouting()
 
-  if (!isAuthenticated || !session) {
-    //navigate('/login')
-  }
   const payload = { session_token: sessionToken ? sessionToken : '' }
 
   const onSubmit = (payload: SubmitSelfServiceLogoutFlowWithoutBrowserBody) => {
