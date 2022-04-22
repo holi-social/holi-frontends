@@ -6,7 +6,6 @@ const path = require('path')
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
-  distDir: 'build',
   webpack: (config) => {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
@@ -19,6 +18,10 @@ const nextConfig = {
   },
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles'), path.join(__dirname, 'shared/data')],
+  },
+  experimental: {
+    outputStandalone: true,
+    outputFileTracingRoot: path.join(__dirname, '../../'),
   },
 }
 
