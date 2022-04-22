@@ -58,13 +58,11 @@ const CardSwiper = () => {
     await new Promise((r, j) => rekursiveReset(r, j))
   }
 
-  // TODO: currently we use the local web-app to serve images.
-  // Later we need some proper concept for that.
+  // TODO: currently we use the local web-app to serve images from the 'public' folder.
+  // this works on web, but would not work on mobile. therefore, we'd need to have the
+  // images being served on some URL-addressable server/storage
   // https://holi.atlassian.net/browse/HOLI-1296
-  let imgUri = 'http://localhost:3000/letsAct'
-  if (Platform.OS === 'android') {
-    imgUri = 'http://10.0.2.2:3000/letsAct'
-  }
+  const imgUri = '/letsAct'
 
   return (
     <View style={styles.container}>
