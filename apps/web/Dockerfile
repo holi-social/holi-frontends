@@ -1,5 +1,5 @@
 # Production image, copy all the files and run next
-FROM node:16-alpine AS runner
+FROM node:16-alpine
 
 WORKDIR /app
 
@@ -24,6 +24,8 @@ RUN mv ./apps/web/.next ./
 # static could also be hosted by a CDN but we include it into
 # the container for now for simplicity reasons
 COPY ./.next/static ./.next/static
+
+RUN chown -R nextjs:nodejs ./.next/
 
 USER nextjs
 
