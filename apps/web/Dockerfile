@@ -5,9 +5,6 @@ WORKDIR /app
 
 ENV NODE_ENV production
 
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nextjs -u 1001
-
 COPY ./next.config.js ./
 COPY ./public ./public
 COPY ./package.json ./package.json
@@ -25,9 +22,9 @@ RUN mv ./apps/web/.next ./
 # the container for now for simplicity reasons
 COPY ./.next/static ./.next/static
 
-RUN chown -R nextjs:nodejs ./.next/
+RUN chown -R node:node ./.next/
 
-USER nextjs
+USER node
 
 EXPOSE 3000
 
