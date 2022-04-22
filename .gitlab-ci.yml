@@ -147,9 +147,18 @@ web_build_docker:
   image: docker:20.10
   services:
     - docker:20.10-dind
+  variables:
+    GITLAB_IMAGE: $CI_REGISTRY_IMAGE/hrns
+    GCR_IMAGE: eu.gcr.io/playground-daniel-347811/hrns
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - cat $GOOGLE_CLOUD_SERVICE_ACCOUNT | docker login -u _json_key --password-stdin https://eu.gcr.io
   script:
     - cd apps/web/
-    - docker build .
+    - docker pull $GITLAB_IMAGE || true # Allows us to use --cache-from
+    - docker build --cache-from $GITLAB_IMAGE -t $GITLAB_IMAGE:$CI_COMMIT_SHA -t $GCR_IMAGE:$CI_COMMIT_SHA .
+    - docker push $GITLAB_IMAGE:$CI_COMMIT_SHA
+    - docker push $GCR_IMAGE:$CI_COMMIT_SHA
 
 
 # disabled (hidden) (not implemented yet), only increases build times and uses up runner minutes
