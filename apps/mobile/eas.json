@@ -3,6 +3,11 @@
     "version": ">= 0.47.0"
   },
   "build": {
+    "simulator": {
+      "ios": {
+        "simulator": true
+      }
+    },
     "development": {
       "developmentClient": true,
       "distribution": "internal"
