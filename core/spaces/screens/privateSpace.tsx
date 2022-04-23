@@ -6,8 +6,12 @@ import AppTiles from '@holi/core/spaces/components/AppTiles'
 const PrivateSpaceScreen: React.VoidFunctionComponent = () => {
   return (
     <SpaceLayout>
-      <Text style={styles.header}>Hello Anna</Text>
-      <Text style={styles.subHeader}>Nice to see you here!</Text>
+      <Text style={styles.header} testID="private-space-header-greeting">
+        Hello Anna
+      </Text>
+      <Text style={styles.subHeader} testID="private-space-header-sub">
+        Nice to see you here!
+      </Text>
       <AppTiles style={{ marginTop: 40 }} />
     </SpaceLayout>
   )
