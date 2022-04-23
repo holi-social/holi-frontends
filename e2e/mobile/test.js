@@ -1,7 +1,13 @@
 Feature('startup')
 
 Scenario('test something', ({ I }) => {
-  I.seeAppIsInstalled('foundation.holistic.projectholi')
+  I.runOnIOS(() => {
+    // run something ios-specific here
+  })
+  I.runOnAndroid(() => {
+    I.seeAppIsInstalled('foundation.holistic.projectholi')
+  })
+
   // only works for web
   // following https://codecept.io/mobile-react-native-locators.html, but did not get it to work
   //I.waitForElement('//*[@view-tag="componentsButton"]', 10)
