@@ -1,17 +1,28 @@
-// Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/sdk.tsx
 import axiosFactory from 'axios'
 import { Platform } from 'react-native'
-import { Configuration, V0alpha2Api } from '@ory/kratos-client'
+import {
+  Session as KratosSession,
+  SubmitSelfServiceLogoutFlowWithoutBrowserBody,
+  SelfServiceRegistrationFlow,
+  Configuration,
+  V0alpha2Api,
+} from '@ory/kratos-client'
+import { AxiosPromise } from 'axios'
+import { SelfServiceLoginFlow } from '@ory/kratos-client'
 import { resilience } from '@holi/core/auth/helpers/axios'
+
+export type SessionContext = {
+  session_token: string
+
+  session: KratosSession
+} | null
 
 const axios = axiosFactory.create()
 resilience(axios) // Adds retry mechanism to axios
 
 export const newKratosSdk = () => {
-  const host = Platform.OS === 'android' ? '10.0.2.2' : 'localhost' // 172.16.110.186
   const mobileUrl = 'https://mystifying-carver-akajr6v4t8.projects.oryapis.com'
-  // const webUrl = 'http://' + host + ':3000/ory'
-  const webUrl = 'http://' + host + ':3000/api/auth'
+  const webUrl = 'http://localhost:3000/api/auth'
 
   return new V0alpha2Api(
     new Configuration({
@@ -29,4 +40,16 @@ export const newKratosSdk = () => {
     // Ensure that we are using the axios client with retry.
     axios
   )
+}
+
+export const initLoginFlow = (): AxiosPromise<SelfServiceLoginFlow> => {
+  return newKratosSdk().initializeSelfServiceLoginFlowWithoutBrowser()
+}
+
+export const submitLogoutFlow = (payload: SubmitSelfServiceLogoutFlowWithoutBrowserBody) => {
+  return newKratosSdk().submitSelfServiceLogoutFlowWithoutBrowser(payload)
+}
+
+export const initRegistrationFlow = (): AxiosPromise<SelfServiceRegistrationFlow> => {
+  return newKratosSdk().initializeSelfServiceRegistrationFlowWithoutBrowser()
 }
