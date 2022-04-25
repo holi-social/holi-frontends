@@ -1,5 +1,6 @@
 import React from 'react'
 import { Platform } from 'react-native'
+
 import { styleVars } from '@holi/ui/styles/globalVars'
 
 const defaultTheme = {

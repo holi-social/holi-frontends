@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 
 export type NavigationContextType = {
   pathname: string

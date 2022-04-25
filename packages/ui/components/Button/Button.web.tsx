@@ -1,6 +1,8 @@
 import React from 'react'
-import ButtonBase, { ButtonProps } from './ButtonBase'
+
 import { jsVars } from '@holi/ui/styles/globalVars'
+
+import ButtonBase, { ButtonProps } from './ButtonBase'
 import styles from './button.module.scss'
 
 export const Button: React.FC<ButtonProps> = (props) => {
