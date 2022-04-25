@@ -54,6 +54,7 @@ const localAndroidEmulator = {
     platformVersion: '11',
     deviceName: 'Android Emulator',
     showGradleLog: true,
+    appPackage: 'foundation.holistic.projectholi',
   },
 }
 
