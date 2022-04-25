@@ -11,28 +11,19 @@ export const config = {
   },
 }
 
-// =========== Option 1 ===========
-// Returns error: "The HTTP Request Header included the \"Origin\" key, indicating that this request was made as part of an AJAX request in a Browser. The flow however was initiated as an API request. To prevent potential misuse and mitigate several attack vectors including CSRF, the request has been blocked. Please consult the documentation."
+/* This middleware is used to prevent CORS errors when calling the Ory API. Since we are currently not hosting Ory Kratos on our own, we cannot set the CORS header for Ory.
+This causes erros when calling the Ory API in the web app. This middleware is a work around by passing the requests through the next server. 
+By doing so, we send the requests to localhost and they are forwarded to ory from here.
+Since the next server is the endpoint for ory, we do not use the Ory Browser API right now. */
 const handleProxyInit = (proxy: httpProxy) => {
-  /**
-   * Check the list of bindable events in the `http-proxy` specification.
-   * @see https://www.npmjs.com/package/http-proxy#listening-for-proxy-events
-   */
   proxy.on('proxyReq', (proxyReq, req) => {
-    // proxyReq.setHeader('Origin', oryUrl)
+    // The headers are removed here to obfuscate that the requests are coming from an Browser.
     proxyReq.removeHeader('Origin')
     proxyReq.removeHeader('Cookie')
-    console.info('######### [api handler] (on-proxyReq)  url:', req.url)
-    // console.info('######### [api handler] (on-proxyReq)  req:', req.headers)
-    console.info('######### [api handler] (on-proxyReq)  proxyReq:', proxyReq.getHeaders())
+    console.info('[api auth handler] (on-proxyReq)  url:', req.url)
   })
-  // proxy.on('proxyRes', (proxyRes, req, response) => {
-  //   console.info('######### [api handler] (on-proxyRes)  statusCode:', proxyRes.statusCode)
-  //   console.info('######### [api handler] (on-proxyRes)  proxyResponse:', proxyRes.headers)
-  //   response.setHeader('statusCode', 200)
-  //   // console.info('######### [api handler] (on-proxyRes)  response:', response.getHeaders())
-  // })
 }
+
 const handler = async (req: NextApiRequest, res: NextApiResponse) =>
   httpProxyMiddleware(req, res, {
     target: oryUrl,
