@@ -20,6 +20,7 @@
     "mock-api:dev": "yarn workspace @holi/mock-api dev",
     "ui:generate-style-vars": "yarn workspace @holi/ui run generate-style-vars",
     "lint": "turbo run lint",
+    "format": "prettier --write \"./**/*.{ts,tsx,json}\"",
     "prepare": "husky install"
   },
   "devDependencies": {
