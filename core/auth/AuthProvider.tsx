@@ -31,10 +31,13 @@ export const AuthContext = createContext<Context>({
 export const AuthContextProvider: React.FC = ({ children }) => {
   const [sessionContext, setSessionContext] = useState<SessionContext | undefined>(undefined)
 
-  // Fetches the authentication session.
-  useEffect(() => {
-    getAuthenticatedSession().then(syncSession)
-  }, [])
+  const setAuth = (session: SessionContext) => {
+    if (!session) {
+      return killAuthenticatedSession().then(() => setSessionContext(session))
+    }
+
+    setAuthenticatedSession(session).then(() => syncSession(session))
+  }
 
   const syncSession = (auth: SessionContext) => {
     if (!auth) {
@@ -70,13 +73,10 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     )
   }
 
-  const setAuth = (session: SessionContext) => {
-    if (!session) {
-      return killAuthenticatedSession().then(() => setSessionContext(session))
-    }
-
-    setAuthenticatedSession(session).then(() => syncSession(session))
-  }
+  // Fetches the authentication session.
+  useEffect(() => {
+    getAuthenticatedSession().then(syncSession)
+  }, [])
 
   if (sessionContext === undefined) {
     return null

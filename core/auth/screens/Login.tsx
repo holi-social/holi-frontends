@@ -45,9 +45,7 @@ const Login: React.VoidFunctionComponent = () => {
           .then((session) => {
             setSession(session)
             console.log('[Login.tsx] session created.')
-            setTimeout(() => {
-              navigate('/')
-            }, 100)
+            navigate('/')
           })
           .catch((error) => {
             console.error('[Login.tsx] error:', error)

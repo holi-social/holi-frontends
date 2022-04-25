@@ -101,7 +101,6 @@ export const SelfServiceFlow = <
             value={getValue(name)}
             onChange={onChange(name)}
             node={node}
-            isSubmitting={inProgress}
             onSubmitPress={onPress}
           />
         )
