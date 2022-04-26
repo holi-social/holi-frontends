@@ -2,3 +2,6 @@
 .husky
 .vscode
 node_modules
+apps/mobile/.expo
+apps/web/.next
+apps/web/build

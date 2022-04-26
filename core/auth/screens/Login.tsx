@@ -1,12 +1,13 @@
-import React, { useContext, useState, useEffect } from 'react'
 import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/kratos-client'
+import React, { useContext, useEffect, useState } from 'react'
 import { Text, View } from 'react-native'
-import { SelfServiceFlow } from '@holi/core/auth/components'
-import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
+
 import { AuthContext } from '@holi/core/auth/AuthProvider'
-import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { initLoginFlow, SessionContext } from '@holi/core/auth/helpers/auth'
 import AuthLayout from '@holi/core/auth/authLayout'
+import { SelfServiceFlow } from '@holi/core/auth/components'
+import { SessionContext, initLoginFlow } from '@holi/core/auth/helpers/auth'
+import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
+import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import Button from '@holi/ui/components/Button'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 

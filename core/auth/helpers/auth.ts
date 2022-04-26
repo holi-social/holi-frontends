@@ -1,10 +1,11 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/auth.tsx
-import { SelfServiceRegistrationFlow, Session as KratosSession } from '@ory/kratos-client'
-import * as SecureStore from 'expo-secure-store'
-import { AxiosPromise } from 'axios'
+import { Session as KratosSession, SelfServiceRegistrationFlow } from '@ory/kratos-client'
 import { SelfServiceLoginFlow } from '@ory/kratos-client'
-import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { SubmitSelfServiceLogoutFlowWithoutBrowserBody } from '@ory/kratos-client'
+import { AxiosPromise } from 'axios'
+import * as SecureStore from 'expo-secure-store'
+
+import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 
 const userSessionName = 'user_session'
 

@@ -1,14 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react'
 import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } from '@ory/kratos-client'
-import { Platform, View, Text } from 'react-native'
-import { SelfServiceFlow } from '@holi/core/auth/components'
-import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
+import React, { useContext, useEffect, useState } from 'react'
+import { Platform, Text, View } from 'react-native'
+
 import { AuthContext } from '@holi/core/auth/AuthProvider'
-import { getNodeId, handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import useRouting from '@holi/ui/components/navigation/useRouting'
 import AuthLayout from '@holi/core/auth/authLayout'
-import Button from '@holi/ui/components/Button'
+import { SelfServiceFlow } from '@holi/core/auth/components'
 import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
+import { getNodeId, handleFormSubmitError } from '@holi/core/auth/helpers/form'
+import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
+import Button from '@holi/ui/components/Button'
+import useRouting from '@holi/ui/components/navigation/useRouting'
 
 const Registration = () => {
   const { navigate } = useRouting()
