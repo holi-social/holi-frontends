@@ -1,20 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } from '@ory/kratos-client'
 import { Platform, View, Text } from 'react-native'
 import { SelfServiceFlow } from '@holi/core/auth/components'
-import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
-import { AuthContext } from '@holi/core/auth/AuthProvider'
+import { newKratosSdk, initRegistrationFlow } from '@holi/core/auth/helpers/sdk'
 import { getNodeId, handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import AuthLayout from '@holi/core/auth/authLayout'
 import Button from '@holi/ui/components/Button'
-import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
+import { AuthContext } from '@holi/core/auth/AuthProvider'
 
 const Registration = () => {
   const { navigate } = useRouting()
-
+  const { setSession } = useContext(AuthContext)
   const [flow, setConfig] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
-  const { setSession, isAuthenticated } = useContext(AuthContext)
 
   const initializeFlow = () => {
     initRegistrationFlow()
@@ -27,16 +25,6 @@ const Registration = () => {
   }
   // When the component is mounted, we initialize a new use login flow:
   useEffect(() => initializeFlow(), [])
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/')
-    }
-  }, [isAuthenticated])
-
-  if (isAuthenticated) {
-    return null
-  }
 
   // This will update the registration flow with the user provided input:
   const onSubmit = (payload: SubmitSelfServiceRegistrationFlowBody): Promise<void> =>
@@ -63,7 +51,10 @@ const Registration = () => {
             })
           })
           // Let's log the user in!
-          .then(setSession)
+          .then((sessionContext) => {
+            setSession(sessionContext)
+            navigate('/')
+          })
           .catch((error) => {
             console.error('[Registration.tsx] onSubmit error:', error)
             handleFormSubmitError(setConfig, initializeFlow)

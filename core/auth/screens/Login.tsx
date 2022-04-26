@@ -3,21 +3,17 @@ import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/krato
 import { Text, View } from 'react-native'
 import { SelfServiceFlow } from '@holi/core/auth/components'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
-import { AuthContext } from '@holi/core/auth/AuthProvider'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { initLoginFlow, SessionContext } from '@holi/core/auth/helpers/sdk'
 import AuthLayout from '@holi/core/auth/authLayout'
 import Button from '@holi/ui/components/Button'
+import { AuthContext } from '@holi/core/auth/AuthProvider'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 
 const Login: React.VoidFunctionComponent = () => {
-  const { setSession, session, sessionToken } = useContext(AuthContext)
+  const { setSession } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
   const { navigate } = useRouting()
-
-  if (session) {
-    navigate('/')
-  }
 
   const initializeFlow = () => {
     initLoginFlow()
@@ -37,7 +33,7 @@ const Login: React.VoidFunctionComponent = () => {
   const onSubmit = (payload: SubmitSelfServiceLoginFlowBody) =>
     flow
       ? newKratosSdk()
-          .submitSelfServiceLoginFlow(flow.id, sessionToken, payload)
+          .submitSelfServiceLoginFlow(flow.id, undefined, payload)
           .then((response) => {
             console.log('[Login.tsx] response headers', response.headers)
             return Promise.resolve(response.data as SessionContext)
