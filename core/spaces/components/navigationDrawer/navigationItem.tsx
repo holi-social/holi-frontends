@@ -1,9 +1,10 @@
 import React from 'react'
-import { StyleSheet, ViewStyle, Platform } from 'react-native'
+import { Platform, StyleSheet, ViewStyle } from 'react-native'
 import tinycolor from 'tinycolor2'
-import theme from '@holi/ui/styles/theme'
-import useRouting from '@holi/ui/components/navigation/useRouting'
+
 import Button from '@holi/ui/components/Button'
+import useRouting from '@holi/ui/components/navigation/useRouting'
+import theme from '@holi/ui/styles/theme'
 
 export type NaviItemProps = {
   style?: ViewStyle

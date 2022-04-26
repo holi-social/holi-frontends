@@ -1,14 +1,15 @@
-import axiosFactory from 'axios'
-import { Platform } from 'react-native'
 import {
-  Session as KratosSession,
-  SubmitSelfServiceLogoutFlowWithoutBrowserBody,
-  SelfServiceRegistrationFlow,
   Configuration,
+  Session as KratosSession,
+  SelfServiceRegistrationFlow,
+  SubmitSelfServiceLogoutFlowWithoutBrowserBody,
   V0alpha2Api,
 } from '@ory/kratos-client'
-import { AxiosPromise } from 'axios'
 import { SelfServiceLoginFlow } from '@ory/kratos-client'
+import axiosFactory from 'axios'
+import { AxiosPromise } from 'axios'
+import { Platform } from 'react-native'
+
 import { resilience } from '@holi/core/auth/helpers/axios'
 
 export type SessionContext = {

@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
+
 import SpaceLayout from '@holi/core/spaces/spaceLayout'
 
 const SettingsScreen: React.VoidFunctionComponent = () => (

@@ -1,5 +1,7 @@
-import { useNavigation, useLinkTo, DrawerActions } from '@react-navigation/native'
+import { DrawerActions, useLinkTo, useNavigation } from '@react-navigation/native'
+
 import { useNavigationContext } from '@holi/ui/components/navigation/context'
+
 import { UseRouting } from './types'
 
 const useRouting: UseRouting = <T extends Record<string, string>>() => {

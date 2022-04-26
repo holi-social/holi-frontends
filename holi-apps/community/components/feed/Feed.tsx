@@ -1,13 +1,15 @@
-import React from 'react'
 import { useQuery } from '@apollo/client'
-import { FlatList, Text, ListRenderItemInfo, Pressable, StyleSheet, View, Platform, Dimensions } from 'react-native'
-import theme from '@holi/ui/styles/theme'
+import React from 'react'
+import { Dimensions, FlatList, ListRenderItemInfo, Platform, Pressable, StyleSheet, Text, View } from 'react-native'
+
 import GraphQLError from '@holi/ui/components/GraphQLError'
 import { jsVars } from '@holi/ui/styles/globalVars'
+import theme from '@holi/ui/styles/theme'
+
 import FeedImage from '@holi-apps/community/components/feed/FeedImage'
 
-import { Post } from './types'
 import { ALL_POSTS_QUERY, AllPostsQueryResult } from './queries'
+import { Post } from './types'
 
 const renderFeedItem = (onItemPressed: (post: Post) => void): React.VoidFunctionComponent<ListRenderItemInfo<Post>> => {
   const Item: React.VoidFunctionComponent<ListRenderItemInfo<Post>> = ({ item }) => {

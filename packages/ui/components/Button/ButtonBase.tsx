@@ -1,6 +1,7 @@
 import * as React from 'react'
-import { StyleSheet, Pressable, Text, GestureResponderEvent, ViewStyle } from 'react-native'
+import { GestureResponderEvent, Pressable, StyleSheet, Text, ViewStyle } from 'react-native'
 import tinycolor from 'tinycolor2'
+
 import { useTheme } from '@holi/ui/styles/theme'
 
 export type ButtonProps = {

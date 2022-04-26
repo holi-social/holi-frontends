@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { View, ViewStyle, Text, Pressable, Platform, StyleSheet, TextInput } from 'react-native'
+import { Platform, Pressable, StyleSheet, Text, TextInput, View, ViewStyle } from 'react-native'
+
+import Holicon from '@holi/ui/components/holicon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import { SafeAreaView } from '@holi/ui/components/safe-area'
-import Holicon from '@holi/ui/components/holicon'
 import theme from '@holi/ui/styles/theme'
 
 const SearchBar = () => {

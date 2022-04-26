@@ -20,9 +20,11 @@
     "mock-api:dev": "yarn workspace @holi/mock-api dev",
     "ui:generate-style-vars": "yarn workspace @holi/ui run generate-style-vars",
     "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json}\"",
     "prepare": "husky install"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^3.2.0",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
     "@typescript-eslint/parser": "^5.14.0",
     "eslint": "^8.10.0",

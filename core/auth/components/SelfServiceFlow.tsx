@@ -1,5 +1,4 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/Ory/Ui/SelfServiceFlow.tsx
-import React, { useEffect, useState } from 'react'
 import {
   SelfServiceLoginFlow,
   SelfServiceRegistrationFlow,
@@ -9,10 +8,12 @@ import {
   SubmitSelfServiceSettingsFlowBody,
   UiNode,
 } from '@ory/kratos-client'
-import Messages from '@holi/core/auth/components/Messages'
-import { getNodeId, isUiNodeInputAttributes } from '@holi/core/auth/helpers/form'
-import { Node } from '@holi/core/auth/components/Node'
+import React, { useEffect, useState } from 'react'
+
 import { TextInputOverride } from '@holi/core/auth/components/Input'
+import Messages from '@holi/core/auth/components/Messages'
+import { Node } from '@holi/core/auth/components/Node'
+import { getNodeId, isUiNodeInputAttributes } from '@holi/core/auth/helpers/form'
 
 interface Props<T> {
   flow?: SelfServiceLoginFlow | SelfServiceRegistrationFlow | SelfServiceSettingsFlow

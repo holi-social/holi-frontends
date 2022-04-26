@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
 import { Pressable, StyleSheet, ViewStyle } from 'react-native'
-import Animated, { useSharedValue, useAnimatedStyle, withTiming, withSpring } from 'react-native-reanimated'
+import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated'
 import tinycolor from 'tinycolor2'
+
 import { NavigationDrawer } from '@holi/core/spaces/components/navigationDrawer'
 import { useNavigationContext } from '@holi/ui/components/navigation/context'
 import theme from '@holi/ui/styles/theme'

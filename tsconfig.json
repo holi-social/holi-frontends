@@ -2,34 +2,18 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@holi/mobile": [
-        "apps/mobile"
-      ],
-      "@holi/web": [
-        "apps/web"
-      ],
-      "@holi/ui": [
-        "packages/ui"
-      ],
-      "@holi/api": [
-        "packages/api"
-      ],
-      "@holi/core": [
-        "core"
-      ],
-      "@holi/holi-apps": [
-        "holi-apps/"
-      ]
+      "@holi/mobile": ["apps/mobile"],
+      "@holi/web": ["apps/web"],
+      "@holi/ui": ["packages/ui"],
+      "@holi/api": ["packages/api"],
+      "@holi/core": ["core"],
+      "@holi/holi-apps": ["holi-apps/"]
     },
     "jsx": "preserve",
     "strict": true,
     "allowJs": true,
     "esModuleInterop": true,
-    "lib": [
-      "DOM",
-      "ESNext",
-      "dom.iterable",
-    ],
+    "lib": ["DOM", "ESNext", "dom.iterable"],
     "moduleResolution": "node",
     "noEmit": true,
     "resolveJsonModule": true,
@@ -38,10 +22,7 @@
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
     "isolatedModules": true,
-    "incremental": true,
+    "incremental": true
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-  ],
+  "include": ["**/*.ts", "**/*.tsx"]
 }

@@ -1,5 +1,5 @@
+import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document'
 import { Children } from 'react'
-import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document'
 import { AppRegistry } from 'react-native'
 
 // adapt to react-native behavior

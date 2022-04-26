@@ -1,8 +1,9 @@
+import React, { useContext } from 'react'
+import { StyleSheet, Text } from 'react-native'
+
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import AppTiles from '@holi/core/spaces/components/AppTiles'
 import SpaceLayout from '@holi/core/spaces/spaceLayout'
-import React, { useContext } from 'react'
-import { StyleSheet, Text } from 'react-native'
 
 const PrivateSpaceScreen: React.VoidFunctionComponent = () => {
   const { isAuthenticated, session } = useContext(AuthContext)

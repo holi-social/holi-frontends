@@ -1,9 +1,8 @@
 {
-    "name": "@holi-apps/community",
-    "version": "1.0.0",
-    "scripts": {
-      "lint": "TIMING=1 eslint .",
-      "test": "echo 'unit testing goes here'"
-    }
+  "name": "@holi-apps/community",
+  "version": "1.0.0",
+  "scripts": {
+    "lint": "TIMING=1 eslint .",
+    "test": "echo 'unit testing goes here'"
   }
-  
+}
