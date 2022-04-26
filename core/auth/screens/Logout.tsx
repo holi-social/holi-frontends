@@ -11,7 +11,6 @@ const Logout: React.VoidFunctionComponent = () => {
   const { navigate } = useRouting()
   const { setSession } = useContext(AuthContext)
 
-
   const onSubmit = () => {
     getAuthenticatedSession()
       .then((session) => {
