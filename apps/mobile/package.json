@@ -19,12 +19,17 @@
   },
   "dependencies": {
     "@apollo/client": "^3.5.9",
+    "@holi-apps/community": "*",
+    "@holi/api": "*",
+    "@holi/core": "*",
+    "@holi/ui": "*",
     "@react-navigation/bottom-tabs": "^6.2.0",
     "@react-navigation/drawer": "^6.3.1",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.0",
     "expo": "~44.0.6",
     "expo-linking": "^3.0.0",
+    "expo-secure-store": "^11.1.1",
     "expo-status-bar": "~1.2.0",
     "expo-updates": "~0.11.6",
     "graphql": "^16.3.0",
@@ -38,11 +43,7 @@
     "react-native-screens": "~3.10.1",
     "react-native-svg": "12.1.1",
     "react-spring": "^8.0.27",
-    "tinycolor2": "1.4.2",
-    "@holi/ui": "*",
-    "@holi/api": "*",
-    "@holi/core": "*",
-    "@holi-apps/community": "*"
+    "tinycolor2": "1.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
