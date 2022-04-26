@@ -2,6 +2,7 @@
 import { UiNode, UiNodeInputAttributes } from '@ory/kratos-client'
 import React from 'react'
 import { View } from 'react-native'
+
 import { getNodeId, getNodeTitle } from '@holi/core/auth/helpers/form'
 import Button from '@holi/ui/components/Button'
 

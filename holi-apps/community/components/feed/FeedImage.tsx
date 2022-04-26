@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Image } from 'react-native'
+import { Image, StyleSheet, View } from 'react-native'
 
 const styles = StyleSheet.create({
   imageContainer: {

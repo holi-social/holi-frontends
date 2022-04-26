@@ -1,12 +1,13 @@
+import { SubmitSelfServiceLogoutFlowWithoutBrowserBody } from '@ory/kratos-client'
 import React, { useContext } from 'react'
 import { Text, View } from 'react-native'
-import { SubmitSelfServiceLogoutFlowWithoutBrowserBody } from '@ory/kratos-client'
-import { submitLogoutFlow } from '@holi/core/auth/helpers/auth'
+
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import AuthLayout from '@holi/core/auth/authLayout'
+import { submitLogoutFlow } from '@holi/core/auth/helpers/auth'
+import { killAuthenticatedSession } from '@holi/core/auth/helpers/auth.web'
 import Button from '@holi/ui/components/Button'
 import useRouting from '@holi/ui/components/navigation/useRouting'
-import { killAuthenticatedSession } from '@holi/core/auth/helpers/auth.web'
 
 const Logout: React.VoidFunctionComponent = () => {
   const { sessionToken, setSession } = useContext(AuthContext)

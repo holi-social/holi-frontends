@@ -1,14 +1,14 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/form.tsx
-import { AxiosError } from 'axios'
 import {
   GenericError,
   UiNode,
   UiNodeAnchorAttributes,
+  UiNodeAttributes,
   UiNodeImageAttributes,
   UiNodeInputAttributes,
   UiNodeTextAttributes,
-  UiNodeAttributes,
 } from '@ory/kratos-client'
+import { AxiosError } from 'axios'
 
 export const isUiNodeAnchorAttributes = (pet: UiNodeAttributes): pet is UiNodeAnchorAttributes => {
   return (pet as UiNodeAnchorAttributes).href !== undefined

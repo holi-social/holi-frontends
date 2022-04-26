@@ -1,7 +1,9 @@
 import React from 'react'
 import IcoMoon from 'react-icomoon'
-import { Svg, Path } from 'react-native-svg'
+import { Path, Svg } from 'react-native-svg'
+
 import iconSet from '@holi/ui/assets/fonts/holicons/selection.json'
+
 import { HoliconProps } from '.'
 
 const HoliconMobile: React.VoidFunctionComponent<HoliconProps> = (props) => (

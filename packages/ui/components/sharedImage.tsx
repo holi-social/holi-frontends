@@ -1,6 +1,5 @@
 import React from 'react'
 import { Image } from 'react-native'
-
 // TODO: "no exported member" !!!!!!!!!!!!!!!!!!!!
 // https://github.com/react-native-svg/react-native-svg/pull/1443
 // @ts-ignore

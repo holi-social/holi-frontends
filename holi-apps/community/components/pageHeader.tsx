@@ -1,9 +1,10 @@
 import React from 'react'
-import { View, ViewStyle, Text, Pressable, Platform, StyleSheet } from 'react-native'
-import useRouting from '@holi/ui/components/navigation/useRouting'
+import { Platform, Pressable, StyleSheet, Text, View, ViewStyle } from 'react-native'
+
 import Holicon from '@holi/ui/components/holicon'
-import theme from '@holi/ui/styles/theme'
+import useRouting from '@holi/ui/components/navigation/useRouting'
 import { jsVars } from '@holi/ui/styles/globalVars'
+import theme from '@holi/ui/styles/theme'
 
 type PageHeaderProps = {
   style?: ViewStyle

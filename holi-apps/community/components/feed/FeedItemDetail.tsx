@@ -1,12 +1,12 @@
-import React from 'react'
 import { useQuery } from '@apollo/client'
-import { StyleSheet, Text, View, ScrollView } from 'react-native'
+import React from 'react'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 
-import theme from '@holi/ui/styles/theme'
 import GraphQLError from '@holi/ui/components/GraphQLError'
+import theme from '@holi/ui/styles/theme'
 
-import { PostByIdQueryResult, POST_BY_ID } from './queries'
 import FeedImage from './FeedImage'
+import { POST_BY_ID, PostByIdQueryResult } from './queries'
 
 export interface FeedItemDetailProps {
   postId: string

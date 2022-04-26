@@ -1,8 +1,10 @@
 import { NextPage } from 'next'
 import Link from 'next/link'
+
+import Button from '@holi/ui/components/Button'
 import Holicon from '@holi/ui/components/holicon'
 import SharedImage from '@holi/ui/components/sharedImage'
-import Button from '@holi/ui/components/Button'
+
 import sassStyles from './ui.module.scss'
 
 const ButtonPage: NextPage = () => {
