@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, View, ViewStyle } from 'react-native'
+
 import AppTile from '@holi/core/spaces/components/AppTile'
 
 import dummyApps from './dummy_data.json'

@@ -1,5 +1,5 @@
-import { NextApiRequest, NextApiResponse } from 'next'
 import httpProxy from 'http-proxy'
+import { NextApiRequest, NextApiResponse } from 'next'
 import httpProxyMiddleware from 'next-http-proxy-middleware'
 
 const oryUrl = 'https://mystifying-carver-akajr6v4t8.projects.oryapis.com'

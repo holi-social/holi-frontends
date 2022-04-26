@@ -1,6 +1,8 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
+
 import { SafeAreaView } from '@holi/ui/components/safe-area'
+
 import { PageHeader } from './components/pageHeader'
 
 type CommunityLayoutProps = {

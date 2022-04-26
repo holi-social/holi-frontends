@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
 import { NextPage } from 'next'
 import Link from 'next/link'
-import Holicon from '@holi/ui/components/holicon'
+import { useEffect, useState } from 'react'
+
 import CardSwiper from '@holi/ui/components/CardSwiper'
 import ReanimatedExample from '@holi/ui/components/ReanimatedExample'
+import Holicon from '@holi/ui/components/holicon'
 
 import sassStyles from './ui.module.scss'
 

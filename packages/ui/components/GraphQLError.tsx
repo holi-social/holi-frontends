@@ -1,5 +1,5 @@
-import React from 'react'
 import { ApolloError } from '@apollo/client'
+import React from 'react'
 import { Text } from 'react-native'
 
 const GraphQLError: React.VoidFunctionComponent<{ error: ApolloError }> = ({ error }) => {

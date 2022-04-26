@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, Text, Pressable, Platform, Dimensions, ImageBackground } from 'react-native'
+import { Dimensions, ImageBackground, Platform, Pressable, StyleSheet, Text, View } from 'react-native'
+
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import SharedImage from '@holi/ui/components/sharedImage'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'

@@ -1,10 +1,10 @@
-import express from 'express'
-import { program } from 'commander'
-import { ApolloServer } from 'apollo-server-express'
-import { ApolloServerPluginDrainHttpServer, gql } from 'apollo-server-core'
-import http from 'http'
-import { readFileSync } from 'fs'
 import { faker } from '@faker-js/faker'
+import { ApolloServerPluginDrainHttpServer, gql } from 'apollo-server-core'
+import { ApolloServer } from 'apollo-server-express'
+import { program } from 'commander'
+import express from 'express'
+import { readFileSync } from 'fs'
+import http from 'http'
 
 const DEFAULT_PORT = 4000
 
@@ -82,8 +82,12 @@ const server = new ApolloServer({
   resolvers,
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 })
-await server.start()
-server.applyMiddleware({ app, cors: true })
-await new Promise((resolve) => httpServer.listen({ port }, resolve))
-
-console.info(`Server up and running at http://localhost:${port}/graphql`)
+server
+  .start()
+  .then(() => {
+    server.applyMiddleware({ app, cors: true })
+    return new Promise((resolve) => httpServer.listen({ port }, resolve))
+  })
+  .then(() => {
+    console.info(`Server up and running at http://localhost:${port}/graphql`)
+  })

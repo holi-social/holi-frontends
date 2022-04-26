@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react'
 import * as Linking from 'expo-linking'
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
+import React, { useMemo } from 'react'
+
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native'
 import type { Theme } from '@react-navigation/native'
 
 import defaultHoliTheme from '@holi/ui/styles/theme'
