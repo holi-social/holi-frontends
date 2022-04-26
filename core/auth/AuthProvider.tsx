@@ -33,7 +33,6 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     if (!auth) {
       return setAuth(null)
     }
-    console.log('[AuthProvider] token:' + auth.session_token)
     // Use the session token from the auth session:
     return (
       newKratosSdk()
@@ -79,7 +78,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
       value={{
         username: sessionContext?.session.identity.traits.email,
         isAuthenticated: Boolean(sessionContext?.session_token),
-        setSession: () => setAuth,
+        setSession: setAuth,
       }}
     >
       {children}

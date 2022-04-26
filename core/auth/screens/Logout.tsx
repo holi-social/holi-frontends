@@ -17,10 +17,9 @@ const Logout: React.VoidFunctionComponent = () => {
         const payload = { session_token: session ? session.session_token : '' }
         submitLogoutFlow(payload)
       })
-      .then((session) => {
-        killAuthenticatedSession()
+      .then(() => {
         setSession(null)
-        console.log('[Logout.tsx] logout successful.' + session)
+        console.log('[Logout.tsx] logout successful.')
         navigate('/')
       })
       .catch((error) => {

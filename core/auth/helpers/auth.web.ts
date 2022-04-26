@@ -1,9 +1,4 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/auth.tsx
-import {
-  Session as KratosSession,
-  SubmitSelfServiceLogoutFlowWithoutBrowserBody,
-  SelfServiceRegistrationFlow,
-} from '@ory/kratos-client'
 import AsyncStore from '@react-native-async-storage/async-storage'
 import { SessionContext } from 'core/auth/helpers/sdk'
 
