@@ -5,7 +5,7 @@ import AuthLayout from '@holi/core/auth/authLayout'
 import Button from '@holi/ui/components/Button'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import useRouting from '@holi/ui/components/navigation/useRouting'
-import { getAuthenticatedSession, killAuthenticatedSession } from '@holi/core/auth/helpers/auth'
+import { getAuthenticatedSession } from '@holi/core/auth/helpers/auth'
 
 const Logout: React.VoidFunctionComponent = () => {
   const { navigate } = useRouting()
