@@ -44,8 +44,7 @@ const browserStackCapabilities = () => ({
 // local emulator/simulator testing //
 //////////////////////////////////////
 
-// see https://appium.io/docs/en/writing-running-appium/caps/
-
+// see https://appium.io/docs/en/writing-running-appium/caps/#android
 const localAndroidEmulator = {
   platform: 'Android',
   device: 'emulator',
@@ -62,6 +61,8 @@ const localAndroidEmulator = {
   },
 }
 
+// see https://appium.io/docs/en/writing-running-appium/caps/#ios-only
+// see https://github.com/appium/appium-xcuitest-driver#desired-capabilities
 const localIOSSimulator = {
   platform: 'ios',
   device: 'simulator',
@@ -70,6 +71,8 @@ const localIOSSimulator = {
     platformVersion: '15.4',
     deviceName: 'iPhone XS',
     udid: '41573563-E6F4-433C-B68F-BCDF76CEBA50',
+    bundleId: 'foundation.holistic.projectholi',
+    showIOSLog: true,
   },
 }
 
