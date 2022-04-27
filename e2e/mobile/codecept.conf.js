@@ -50,6 +50,7 @@ const localAndroidEmulator = {
   platform: 'Android',
   device: 'emulator',
   desiredCapabilities: {
+    automationName: 'UiAutomator2',
     // automationName: 'Espresso',
     // https://github.com/appium/appium-espresso-driver/issues/639
     /*espressoBuildConfig: JSON.stringify({

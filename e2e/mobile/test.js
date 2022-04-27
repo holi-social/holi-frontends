@@ -14,8 +14,8 @@ Scenario('test something', ({ I }) => {
   })
   I.runOnAndroid(() => {
     I.seeAppIsInstalled('foundation.holistic.projectholi')
-    I.see('Hello Anna')
-    I.see('Nice to see you here!')
+    I.waitForText('Hello Anna', 10)
+    I.waitForText('Nice to see you here!', 10)
     I.tap('Community')
     I.waitForText('CommunityHome', 10)
   })
