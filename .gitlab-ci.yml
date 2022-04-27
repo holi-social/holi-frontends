@@ -76,6 +76,7 @@ mobile_staging_build:
   only:
     - main
     - HOLI-1321_eas-browserstack-ios
+    - HOLI-1368_fix-android-e2e
 
 mobile_staging_e2e_android:
   stage: 'build_deploy'
@@ -95,6 +96,7 @@ mobile_staging_e2e_android:
   only:
     - main
     - HOLI-1321_eas-browserstack-ios
+    - HOLI-1368_fix-android-e2e
 
 mobile_staging_e2e_ios:
   stage: 'build_deploy'
@@ -114,6 +116,7 @@ mobile_staging_e2e_ios:
   only:
     - main
     - HOLI-1321_eas-browserstack-ios
+    - HOLI-1368_fix-android-e2e
 
 mobile_production_publish:
   stage: 'build_deploy'
