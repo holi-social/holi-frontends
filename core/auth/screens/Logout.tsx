@@ -12,6 +12,7 @@ const Logout: React.VoidFunctionComponent = () => {
   const { navigate } = useRouting()
   const { setSession } = useContext(AuthContext)
 
+<<<<<<< HEAD
   const onSubmit = () => {
     getAuthenticatedSession()
       .then((session) => {
@@ -19,6 +20,16 @@ const Logout: React.VoidFunctionComponent = () => {
         submitLogoutFlow(payload)
       })
       .then(() => {
+=======
+  const payload = { session_token: sessionToken ? sessionToken : '' }
+
+  const onSubmit = (payload: SubmitSelfServiceLogoutFlowWithoutBrowserBody) => {
+    submitLogoutFlow(payload)
+      .then(({ data }) => Promise.resolve(data))
+      // Looks like everything worked and we have a session!
+      .then(() => {
+        killAuthenticatedSession()
+>>>>>>> call error handling function correctly
         setSession(null)
         console.log('[Logout.tsx] logout successful.')
         navigate('/')
@@ -26,6 +37,14 @@ const Logout: React.VoidFunctionComponent = () => {
       .catch((error) => {
         console.error('[Logout.tsx] ' + error.response)
       })
+<<<<<<< HEAD
+=======
+      .catch((e) => {
+        killAuthenticatedSession()
+        setSession(null)
+        throw e
+      })
+>>>>>>> call error handling function correctly
   }
   return (
     <AuthLayout>

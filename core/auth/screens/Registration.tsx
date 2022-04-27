@@ -52,6 +52,7 @@ const Registration = () => {
             })
           })
           // Let's log the user in!
+<<<<<<< HEAD
           .then((sessionContext) => {
             setSession(sessionContext)
             navigate('/')
@@ -59,7 +60,13 @@ const Registration = () => {
           .catch((error) => {
             console.error('[Registration.tsx] onSubmit error:', error)
             handleFormSubmitError(setConfig, initializeFlow)
+=======
+          .then((session) => {
+            setSession(session)
+            navigate('/')
+>>>>>>> call error handling function correctly
           })
+          .catch(handleFormSubmitError(setConfig, initializeFlow))
       : Promise.resolve()
 
   return (
