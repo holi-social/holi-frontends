@@ -4,8 +4,7 @@ import { Text, View } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import AuthLayout from '@holi/core/auth/authLayout'
-import { submitLogoutFlow } from '@holi/core/auth/helpers/auth'
-import { killAuthenticatedSession } from '@holi/core/auth/helpers/auth.web'
+import { killAuthenticatedSession, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
 import Button from '@holi/ui/components/Button'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 
@@ -18,9 +17,8 @@ const Logout: React.VoidFunctionComponent = () => {
   const onSubmit = (payload: SubmitSelfServiceLogoutFlowWithoutBrowserBody) => {
     submitLogoutFlow(payload)
       .then(({ data }) => Promise.resolve(data))
-      // Looks like everything worked and we have a session!
-      .then((session) => {
-        killAuthenticatedSession()
+      .then(killAuthenticatedSession)
+      .then(() => {
         setSession(null)
         console.log('[Logout.tsx] logout successful.')
         setTimeout(() => {
