@@ -71,7 +71,7 @@ const localIOSSimulator = {
     platformVersion: '15.4',
     deviceName: 'iPhone XS',
     udid: '41573563-E6F4-433C-B68F-BCDF76CEBA50',
-    bundleId: 'foundation.holistic.projectholi',
+    //bundleId: 'foundation.holistic.projectholi',
     showIOSLog: true,
   },
 }
