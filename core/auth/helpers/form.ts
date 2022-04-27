@@ -1,8 +1,6 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/form.tsx
 import {
   GenericError,
-  SelfServiceLoginFlow,
-  SelfServiceRegistrationFlow,
   UiNode,
   UiNodeAnchorAttributes,
   UiNodeAttributes,
@@ -70,14 +68,14 @@ export const handleFormSubmitError = (setConfig: (p: any) => void, initialize: (
             return Promise.resolve()
           }
 
-          console.error('[auth/helpers/form.ts] Form validation failed:', err.response.data)
+          console.log('[auth/helpers/form.ts] Form validation failed.')
           setConfig(err.response.data)
           return Promise.resolve()
         case 404:
         case 410:
           // This happens when the flow is, for example, expired or was deleted.
           // We simply re-initialize the flow if that happens!
-          console.error('[auth] Flow could not be found, reloading page.')
+          console.log('[auth] Flow could not be found, reloading page.')
           initialize()
           return Promise.resolve()
       }
