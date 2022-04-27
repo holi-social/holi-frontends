@@ -34,10 +34,6 @@ export const SelfServiceFlow = <
   const [values, setValues] = useState<T>({} as T)
   const [nodes, setNodes] = useState<Array<UiNode>>([])
 
-  if (flow) {
-    console.log('SelfServiceFlow', flow.ui)
-  }
-
   useEffect(() => {
     if (!flow) {
       return

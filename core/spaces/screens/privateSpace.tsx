@@ -6,12 +6,12 @@ import AppTiles from '@holi/core/spaces/components/AppTiles'
 import SpaceLayout from '@holi/core/spaces/spaceLayout'
 
 const PrivateSpaceScreen: React.VoidFunctionComponent = () => {
-  const { isAuthenticated, session } = useContext(AuthContext)
+  const { isAuthenticated, username } = useContext(AuthContext)
 
   return (
     <SpaceLayout>
-      {isAuthenticated || session ? (
-        <Text style={styles.header}>Hello {session?.identity.traits.email}</Text>
+      {isAuthenticated ? (
+        <Text style={styles.header}>Hello {username}</Text>
       ) : (
         <Text style={styles.header}>Hello Anna</Text>
       )}

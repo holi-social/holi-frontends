@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 
+import { AuthContext } from '@holi/core/auth/AuthProvider'
 import Holicon from '@holi/ui/components/holicon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import { SafeAreaView } from '@holi/ui/components/safe-area'
@@ -10,6 +11,7 @@ import NaviItem from './navigationItem'
 
 export const NavigationDrawer: React.VoidFunctionComponent = () => {
   const { toggleDrawer } = useRouting()
+  const { isAuthenticated } = useContext(AuthContext)
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -26,8 +28,11 @@ export const NavigationDrawer: React.VoidFunctionComponent = () => {
         </ScrollView>
 
         <View style={styles.footer}>
-          <NaviItem routeName="/login" label="Login" style={styles.naviItem} />
-          <NaviItem routeName="/logout" label="Logout" style={styles.naviItem} />
+          {isAuthenticated ? (
+            <NaviItem routeName="/logout" label="Logout" style={styles.naviItem} />
+          ) : (
+            <NaviItem routeName="/login" label="Login" style={styles.naviItem} />
+          )}
           <NaviItem routeName="/appstore" label="AppStore" style={styles.naviItem} />
           <NaviItem routeName="/settings" label="Settings" style={styles.naviItem} />
         </View>
