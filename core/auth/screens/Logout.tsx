@@ -3,10 +3,10 @@ import { Text, View } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import AuthLayout from '@holi/core/auth/authLayout'
+import { getAuthenticatedSession } from '@holi/core/auth/helpers/auth'
 import { submitLogoutFlow } from '@holi/core/auth/helpers/sdk'
 import Button from '@holi/ui/components/Button'
 import useRouting from '@holi/ui/components/navigation/useRouting'
-import { getAuthenticatedSession } from '@holi/core/auth/helpers/auth'
 
 const Logout: React.VoidFunctionComponent = () => {
   const { navigate } = useRouting()
