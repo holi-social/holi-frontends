@@ -11,7 +11,9 @@ interface Props extends InputProps {
 }
 
 export interface InputProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange: (value: any) => void
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any
   disabled?: boolean
   textInputOverride?: TextInputOverride

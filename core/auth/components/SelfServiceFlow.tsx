@@ -74,6 +74,7 @@ export const SelfServiceFlow = <
     return null
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onChange = (name: string) => (value: any) => {
     setValues((values) => ({
       ...values,
@@ -82,6 +83,8 @@ export const SelfServiceFlow = <
   }
 
   const getValue = (name: string) => values[name as keyof T]
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onPress = (key: string, value: any) => {
     setInProgress(true)
     onSubmit({ ...values, [key]: value }).then(() => {
