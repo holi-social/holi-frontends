@@ -9,7 +9,7 @@ Scenario('test something', ({ I }) => {
     // run something ios-specific here
     I.see('Hello Anna', '~private-space-header-greeting')
     I.see('Nice to see you here!', '~private-space-header-sub')
-    I.tap('Community', '~app-tile-community')
+    I.tap('~app-tile-community')
     I.waitForText('CommunityHome', 10)
   })
   I.runOnAndroid(() => {
