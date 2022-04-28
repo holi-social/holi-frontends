@@ -12,7 +12,9 @@ interface Props extends InputSubmitProps {
 }
 
 export interface InputSubmitProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSubmitPress: (key: string, value: any) => void
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange: (value: any) => void
 }
 
