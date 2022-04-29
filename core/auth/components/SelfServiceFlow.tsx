@@ -30,7 +30,6 @@ export const SelfServiceFlow = <
   onSubmit,
   textInputOverride,
 }: Props<T>) => {
-  const [inProgress, setInProgress] = useState(false)
   const [values, setValues] = useState<T>({} as T)
   const [nodes, setNodes] = useState<Array<UiNode>>([])
 
@@ -79,10 +78,7 @@ export const SelfServiceFlow = <
 
   const getValue = (name: string) => values[name as keyof T]
   const onPress = (key: string, value: any) => {
-    setInProgress(true)
-    onSubmit({ ...values, [key]: value }).then(() => {
-      setInProgress(false)
-    })
+    onSubmit({ ...values, [key]: value })
   }
 
   return (
@@ -94,7 +90,6 @@ export const SelfServiceFlow = <
           <Node
             key={`form-field-${flow.ui.action || ''}-${name}-${k}`}
             textInputOverride={textInputOverride}
-            disabled={inProgress}
             value={getValue(name)}
             onChange={onChange(name)}
             node={node}
