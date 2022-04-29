@@ -82,7 +82,7 @@ const localCapabilities = () => ({
     // if CODECEPT_APP_PATH is not given, codecept expects application to be running on emulator / simulator
     // if CODECEPT_APP_PATH is given, codecept will install application before running the test
     app: process.env.CODECEPT_APP_PATH || undefined,
-    appPackage: process.env.CODECEPT_APP_PATH ? undefined : 'foundation.holistic.projectholi',
+    //appPackage: process.env.CODECEPT_APP_PATH ? undefined : 'foundation.holistic.projectholi',
     ...(platform === 'android' ? localAndroidEmulator : localIOSSimulator).desiredCapabilities,
   },
 })
