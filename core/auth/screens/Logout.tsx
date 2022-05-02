@@ -20,7 +20,7 @@ const Logout: React.VoidFunctionComponent = () => {
       })
       .then(() => {
         setSession(null)
-        console.log('[Logout.tsx] logout successful.')
+        console.info('[Logout.tsx] logout successful.')
         navigate('/')
       })
       .catch((e) => {

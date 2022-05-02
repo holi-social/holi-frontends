@@ -1,6 +1,5 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/form.tsx
 import {
-  GenericError,
   UiNode,
   UiNodeAnchorAttributes,
   UiNodeAttributes,
@@ -55,29 +54,24 @@ export const getNodeTitle = ({ attributes, meta }: UiNode): string => {
   return ''
 }
 
-export const handleFormSubmitError = (setConfig: (p: any) => void, initialize: () => void) => {
+export const handleFormSubmitError = (setFlow: (p: any) => void, initializeFlow: () => void) => {
   return (err: AxiosError) => {
     if (err.response) {
       switch (err.response.status) {
         case 400:
           if (typeof err.response.data.error === 'object') {
-            const ge: GenericError = err.response.data
-
-            console.error('[auth/helpers/form.ts] 400 error:', ge.message)
-
-            return Promise.resolve()
+            console.error('[auth/helpers/form.ts] 400 error:', err.response)
           }
 
-          console.log('[auth/helpers/form.ts] Form validation failed.')
-          setConfig(err.response.data)
-          return Promise.resolve()
+          console.info('[auth/helpers/form.ts] Form validation failed.')
+          setFlow(err.response.data)
+          break
         case 404:
         case 410:
           // This happens when the flow is, for example, expired or was deleted.
           // We simply re-initialize the flow if that happens!
-          console.log('[auth] Flow could not be found, reloading page.')
-          initialize()
-          return Promise.resolve()
+          console.error('[auth] Flow could not be found, reloading page: ' + err.response)
+          initializeFlow()
       }
     }
 

@@ -20,7 +20,7 @@ const Login: React.VoidFunctionComponent = () => {
     initLoginFlow().then((response) => {
       const { data: flow } = response
       // The flow was initialized successfully, let's set the form data:
-      console.log('[Login.tsx] login flow initialized.')
+      console.info('[Login.tsx] login flow initialized.')
       setFlow(flow)
     })
   }
@@ -38,7 +38,7 @@ const Login: React.VoidFunctionComponent = () => {
           })
           .then((session) => {
             setSession(session)
-            console.log('[Login.tsx] session created.')
+            console.info('[Login.tsx] session created.')
             navigate('/')
           })
           .catch(handleFormSubmitError(setFlow, initializeFlow))
