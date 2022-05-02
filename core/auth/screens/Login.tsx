@@ -17,14 +17,12 @@ const Login: React.VoidFunctionComponent = () => {
   const { navigate } = useRouting()
 
   const initializeFlow = () => {
-    initLoginFlow()
-      .then((response) => {
-        const { data: flow } = response
-        // The flow was initialized successfully, let's set the form data:
-        console.log('[Login.tsx] login flow initialized.')
-        setFlow(flow)
-      })
-      .catch((e) => console.error('[Login.tsx] ' + e))
+    initLoginFlow().then((response) => {
+      const { data: flow } = response
+      // The flow was initialized successfully, let's set the form data:
+      console.info('[Login.tsx] login flow initialized.')
+      setFlow(flow)
+    })
   }
 
   // When the component is mounted, we initialize a new use login flow:
@@ -40,13 +38,10 @@ const Login: React.VoidFunctionComponent = () => {
           })
           .then((session) => {
             setSession(session)
-            console.log('[Login.tsx] session created.')
+            console.info('[Login.tsx] session created.')
             navigate('/')
           })
-          .catch((error) => {
-            console.error('[Login.tsx] error:', error)
-            handleFormSubmitError(setFlow, initializeFlow)
-          })
+          .catch(handleFormSubmitError(setFlow, initializeFlow))
       : Promise.resolve()
   return (
     <AuthLayout>

@@ -41,10 +41,10 @@ export const AuthContextProvider: React.FC = ({ children }) => {
         .toSession(auth.session_token)
         .then(({ data: session }) => {
           if (session.active) {
-            console.log('[AuthProvider.tsx] session still active')
+            console.info('[AuthProvider.tsx] session still active')
             setSessionContext({ session, session_token: auth.session_token })
           } else {
-            console.log('[AuthProvider.tsx] session expired')
+            console.info('[AuthProvider.tsx] session expired')
             setAuth(null)
           }
           return Promise.resolve()
@@ -52,7 +52,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
         .catch((err: AxiosError) => {
           if (err.response?.status === 401) {
             // The user is no longer logged in (hence 401)
-            console.log('[AuthProvider.tsx] Session is not authenticated:', err)
+            console.info('[AuthProvider.tsx] Session is not authenticated:', err)
             //navigate('/login')
           }
           // Remove the session / log the user out.
