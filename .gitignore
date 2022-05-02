@@ -7,3 +7,6 @@ yarn-error.log
 # any build dir
 build
 .envrc.local
+
+.holi-terraform.key
+.terraform*
