@@ -1,0 +1,153 @@
+variables:
+  UI_DOMAIN_PATH: "$CI_PROJECT_DIR/ui_domain"
+
+# job templates
+
+.web_deploy:
+  image: 
+    name: 'hashicorp/terraform:light'
+    # default entrypoint is terraform command, but we want to run shell scripts
+    entrypoint: ["/bin/sh", "-c"]
+  artifacts:
+    paths:
+      - $UI_DOMAIN_PATH
+  variables:
+    ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
+  artifacts:
+    paths:
+      - "apps/web/terraform/scripts/crash.log" # optional, only available in case of a crash/panic
+      - "apps/web/terraform/scripts/terraform-*.log" # separate log for every step/command
+      - $UI_DOMAIN_PATH
+    name: "${CI_JOB_NAME}_${CI_JOB_ID}"
+    #when: on_failure
+  script:
+    - export GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_CLOUD_SERVICE_ACCOUNT}
+    - apps/web/terraform/scripts/create-or-update-env.sh $ENVIRONMENT_ID
+    - echo "$(apps/web/terraform/scripts/get-app-domain.sh)" > $UI_DOMAIN_PATH
+  resource_group: $ENVIRONMENT_ID # never execute terraform in parallel on the same environment
+  interruptible: false
+
+.web_e2e:
+  image: 'codeceptjs/codeceptjs'
+  script:
+    - UI_DOMAIN=`cat $UI_DOMAIN_PATH`
+    - echo "e2e tests against $CI_ENVIRONMENT_SLUG environment go here and against $UI_DOMAIN"
+    - apps/web/terraform/scripts/wait-for-ssl.sh "https://${UI_DOMAIN}"
+  interruptible: true
+
+# end job templates
+
+# pipeline in chronological order
+
+## common steps
+
+web_build:
+  needs: ['lint_compile_test']
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - yarn web:build
+  artifacts:
+    paths:
+      - apps/web/.next
+  interruptible: true
+
+web_build_docker:
+  needs: ['web_build']
+  image: docker:20.10
+  services:
+    - docker:20.10-dind
+  variables:
+    GITLAB_IMAGE: $CI_REGISTRY_IMAGE/hrns
+    # this could be fetched via terraform output ("gcr_location" in infra project), but then we would need an extra job for terraform
+    GCR_IMAGE: eu.gcr.io/holi-shared/hrns
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - cat $GOOGLE_CLOUD_SERVICE_ACCOUNT | docker login -u _json_key --password-stdin https://eu.gcr.io
+  script:
+    - cd apps/web/
+    - docker pull $GITLAB_IMAGE || true # Allows us to use --cache-from
+    - docker build --cache-from $GITLAB_IMAGE -t $GITLAB_IMAGE:$CI_COMMIT_REF_SLUG -t $GCR_IMAGE:$CI_COMMIT_REF_SLUG .
+    - docker push $GITLAB_IMAGE:$CI_COMMIT_REF_SLUG
+    - docker push $GCR_IMAGE:$CI_COMMIT_REF_SLUG
+  interruptible: true
+
+## only for review environments
+
+web_review_deploy:
+  extends: .web_deploy
+  needs: ['web_build_docker']
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG-web
+    url: https://$CI_COMMIT_REF_SLUG.web.project-holi.org
+    on_stop: web_review_destroy
+    auto_stop_in: 1 week
+  except:
+    - main
+    - /^noenv\/.*/
+
+web_review_e2e:
+  extends: .web_e2e
+  needs: ['web_review_deploy']
+  except:
+    - main
+    - /^noenv\/.*/
+
+web_review_destroy:
+  needs: ['web_build_docker']
+  image: 'hashicorp/terraform:light'
+  variables:
+    # has to be set to none for auto stop
+    GIT_STRATEGY: none
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG-web
+    action: stop
+  dependencies: [] # explicitly disable artifact usage
+  before_script:
+  script:
+    - export GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_CLOUD_SERVICE_ACCOUNT}
+    # branch may be deleted, so we clone and checkout master
+    - git clone $CI_REPOSITORY_URL
+    - apps/web/terraform/scripts/destroy-env.sh $CI_COMMIT_REF_SLUG
+  # can't use rules here: https://gitlab.com/gitlab-org/gitlab/-/issues/34077
+  when: manual
+  except:
+    - main
+    - /^noenv\/.*/
+  resource_group: $CI_COMMIT_REF_SLUG # never execute terraform in parallel on the same environment
+  interruptible: false
+
+## staging environment
+
+web_staging_deploy:
+  extends: .web_deploy
+  needs: ['web_build_docker']
+  environment:
+    name: web-staging
+    deployment_tier: staging
+    url: https://staging.web.project-holi.org
+  variables:
+    ENVIRONMENT_ID: staging
+  only:
+    - main
+
+web_staging_e2e:
+  extends: .web_e2e
+  needs: ['web_staging_deploy']
+  only:
+    - main
+
+## production environment
+
+web_production_deploy:
+  extends: .web_deploy
+  needs: ['web_staging_e2e']
+  when: manual
+  environment:
+    name: web-production
+    deployment_tier: production
+    url: https://production.web.project-holi.org
+  variables:
+    ENVIRONMENT_ID: production
+  only:
+    - main
+
