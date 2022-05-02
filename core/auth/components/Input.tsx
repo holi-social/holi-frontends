@@ -25,7 +25,7 @@ const guessVariant = ({ attributes }: UiNode) => {
   }
 
   if (attributes.name === 'identifier') {
-    return 'username'
+    return 'email'
   }
 
   switch (attributes.type) {
