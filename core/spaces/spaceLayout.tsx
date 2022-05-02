@@ -1,12 +1,13 @@
 import React from 'react'
-import { StyleSheet, View, ScrollView, ImageBackground, Platform } from 'react-native'
+import { ImageBackground, Platform, ScrollView, StyleSheet, View } from 'react-native'
 import tinycolor from 'tinycolor2'
-import useRouting from '@holi/ui/components/navigation/useRouting'
+
+import { PageHeader } from '@holi/core/spaces/components/PageHeader'
 import Button from '@holi/ui/components/Button'
 import Holicon from '@holi/ui/components/holicon'
-import theme from '@holi/ui/styles/theme'
-import { PageHeader } from '@holi/core/spaces/components/PageHeader'
+import useRouting from '@holi/ui/components/navigation/useRouting'
 import { jsVars } from '@holi/ui/styles/globalVars'
+import theme from '@holi/ui/styles/theme'
 
 type SpaceLayoutProps = {
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string

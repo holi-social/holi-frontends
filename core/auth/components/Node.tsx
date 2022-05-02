@@ -1,10 +1,11 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/Ory/Ui/Node/Node.tsx
 import { UiNode } from '@ory/kratos-client'
 import React from 'react'
-import { isUiNodeInputAttributes, isUiNodeTextAttributes } from '@holi/core/auth/helpers/form'
-import { NodeText } from '@holi/core/auth/components/Text'
+
 import { InputProps, NodeInput } from '@holi/core/auth/components/Input'
 import { InputSubmitProps, NodeInputSubmit } from '@holi/core/auth/components/InputSubmit'
+import { NodeText } from '@holi/core/auth/components/Text'
+import { isUiNodeInputAttributes, isUiNodeTextAttributes } from '@holi/core/auth/helpers/form'
 
 interface Props extends InputSubmitProps, InputProps {
   node: UiNode

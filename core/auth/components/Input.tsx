@@ -1,7 +1,8 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/Ory/Ui/Node/Input.tsx
-import React from 'react'
-import { TextInput, TextInputProps, View, Text, StyleSheet } from 'react-native'
 import { UiNode, UiNodeInputAttributes } from '@ory/kratos-client'
+import React from 'react'
+import { StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native'
+
 import { getNodeId, getNodeTitle, isUiNodeInputAttributes } from '@holi/core/auth/helpers/form'
 
 interface Props extends InputProps {
@@ -24,7 +25,7 @@ const guessVariant = ({ attributes }: UiNode) => {
   }
 
   if (attributes.name === 'identifier') {
-    return 'username'
+    return 'email'
   }
 
   switch (attributes.type) {

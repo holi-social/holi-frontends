@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client/core'
+
 import { Post } from './types'
 
 export const POST_FRAGMENT = gql`

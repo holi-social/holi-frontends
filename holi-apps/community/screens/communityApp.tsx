@@ -1,7 +1,9 @@
 import React from 'react'
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { CommunityFeedScreen } from './communityFeed'
+
 import { CommunityBoardScreen } from './communityBoard'
+import { CommunityFeedScreen } from './communityFeed'
 
 const CommunityBottomNav = createBottomTabNavigator()
 

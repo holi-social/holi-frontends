@@ -1,6 +1,7 @@
 import React from 'react'
-import { StyleSheet, View, Button } from 'react-native'
-import Animated, { withSpring, useAnimatedStyle, useSharedValue, cancelAnimation } from 'react-native-reanimated'
+import { Button, StyleSheet, View } from 'react-native'
+import Animated, { cancelAnimation, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
+
 import theme from '@holi/ui/styles/theme/theme'
 
 const ReanimatedExample = () => {

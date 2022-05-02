@@ -1,9 +1,9 @@
 import { NextPage } from 'next'
 import Link from 'next/link'
 
-import SharedImage from '@holi/ui/components/sharedImage'
-import Holicon from '@holi/ui/components/holicon'
 import ImportedSvg from '@holi/ui/assets/img/logo/logo.svg'
+import Holicon from '@holi/ui/components/holicon'
+import SharedImage from '@holi/ui/components/sharedImage'
 
 import sassStyles from './ui.module.scss'
 
