@@ -33,7 +33,7 @@ export const resilience = (axios: AxiosInstance) => {
         count: (error?.config?.count || 0) + 1,
       }
 
-      if (config.count > 5) {
+      if (config.count > 60) {
         const err = new Error(
           'Unable to reach network, gave up after 60 retries. Please restart the app and try again.'
         )
