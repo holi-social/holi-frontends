@@ -25,8 +25,4 @@ config.resolver = {
   blockList: [/.*\.web\.(tsx|ts|json|jsx|js|cjs)/, config.resolver.blockList],
 }
 
-console.log('==================================================')
-console.log(config)
-console.log('==================================================')
-
 module.exports = config
