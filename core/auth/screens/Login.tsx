@@ -1,6 +1,6 @@
 import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/kratos-client'
 import React, { useContext, useEffect, useState } from 'react'
-import { Text, View } from 'react-native'
+import { ScrollView, Text } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import AuthLayout from '@holi/core/auth/authLayout'
@@ -50,11 +50,11 @@ const Login: React.VoidFunctionComponent = () => {
       : Promise.resolve()
   return (
     <AuthLayout>
-      <View>
+      <ScrollView>
         <Text>Sign in to your account</Text>
         <SelfServiceFlow flow={flow} onSubmit={onSubmit} />
         <Button onPress={() => navigate('/registration')}>Register</Button>
-      </View>
+      </ScrollView>
     </AuthLayout>
   )
 }

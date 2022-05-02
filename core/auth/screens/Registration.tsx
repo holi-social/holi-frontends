@@ -1,6 +1,6 @@
 import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } from '@ory/kratos-client'
 import React, { useContext, useEffect, useState } from 'react'
-import { Platform, Text, View } from 'react-native'
+import { Platform, ScrollView, Text } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import AuthLayout from '@holi/core/auth/authLayout'
@@ -64,7 +64,7 @@ const Registration = () => {
 
   return (
     <AuthLayout>
-      <View>
+      <ScrollView>
         <Text>Create an account</Text>
         <SelfServiceFlow
           textInputOverride={(field, props) => {
@@ -88,7 +88,7 @@ const Registration = () => {
           flow={flow}
           onSubmit={onSubmit}
         />
-      </View>
+      </ScrollView>
 
       <Button onPress={() => navigate('/login')}>Already have an account?</Button>
     </AuthLayout>
