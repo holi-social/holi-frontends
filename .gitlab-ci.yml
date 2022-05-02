@@ -9,6 +9,11 @@ cache:
   policy: pull
   untracked: true
 
+default:
+  before_script:
+    - set -ex
+    - env
+
 stages:
   - 'lint_compile_test'
   - 'build_deploy'
@@ -180,25 +185,41 @@ web_build_docker:
     - docker:20.10-dind
   variables:
     GITLAB_IMAGE: $CI_REGISTRY_IMAGE/hrns
-    GCR_IMAGE: eu.gcr.io/playground-daniel-347811/hrns
+    # this could be fetched via terraform output ("gcr_location" in infra project), but then we would need an extra job for terraform
+    GCR_IMAGE: eu.gcr.io/holi-shared/hrns
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - cat $GOOGLE_CLOUD_SERVICE_ACCOUNT | docker login -u _json_key --password-stdin https://eu.gcr.io
   script:
     - cd apps/web/
     - docker pull $GITLAB_IMAGE || true # Allows us to use --cache-from
-    - docker build --cache-from $GITLAB_IMAGE -t $GITLAB_IMAGE:$CI_COMMIT_SHA -t $GCR_IMAGE:$CI_COMMIT_SHA .
-    - docker push $GITLAB_IMAGE:$CI_COMMIT_SHA
-    - docker push $GCR_IMAGE:$CI_COMMIT_SHA
+    - docker build --cache-from $GITLAB_IMAGE -t $GITLAB_IMAGE:$CI_COMMIT_REF_SLUG -t $GCR_IMAGE:$CI_COMMIT_REF_SLUG .
+    - docker push $GITLAB_IMAGE:$CI_COMMIT_REF_SLUG
+    - docker push $GCR_IMAGE:$CI_COMMIT_REF_SLUG
+
+
+
 
 
 # disabled (hidden) (not implemented yet), only increases build times and uses up runner minutes
 .web_review_deploy:
   stage: 'build_deploy'
   needs: ['web_build_docker']
-  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  image: 'hashicorp/terraform:light'
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG
+    on_stop: terraform_destroy_branch
+    auto_stop_in: 1 week
+  artifacts:
+    paths:
+      - "apps/web/terraform/scripts/crash.log" # optional, only available in case of a crash/panic
+      - "apps/web/terraform/scripts/terraform-*.log" # separate log for every step/command
+    name: "${CI_JOB_NAME}_${CI_JOB_ID}"
+    when: on_failure
+  before_script:
+    - export GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_CLOUD_SERVICE_ACCOUNT}
   script:
-    - echo "deployment to review/$CI_ENVIRONMENT_SLUG goes here"
+    - apps/web/terraform/scripts/create-or-update-env.sh $CI_COMMIT_REF_SLUG
   except:
     - main
     - /^noenv\/.*/
@@ -207,9 +228,19 @@ web_build_docker:
 .web_staging_deploy:
   stage: 'build_deploy'
   needs: ['web_build_docker']
-  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  image: 'hashicorp/terraform:light'
+  environment:
+    name: staging
+  artifacts:
+    paths:
+      - "apps/web/terraform/scripts/crash.log" # optional, only available in case of a crash/panic
+      - "apps/web/terraform/scripts/terraform-*.log" # separate log for every step/command
+    name: "${CI_JOB_NAME}_${CI_JOB_ID}"
+    when: on_failure
+  before_script:
+    - export GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_CLOUD_SERVICE_ACCOUNT}
   script:
-    - echo 'deployment to staging goes here'
+    - apps/web/terraform/scripts/create-or-update-env.sh staging
   only:
     - main
 
@@ -240,7 +271,17 @@ web_build_docker:
   needs: ['web_staging_e2e']
   when: manual
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  environment:
+    name: production
+  artifacts:
+    paths:
+      - "apps/web/terraform/scripts/crash.log" # optional, only available in case of a crash/panic
+      - "apps/web/terraform/scripts/terraform-*.log" # separate log for every step/command
+    name: "${CI_JOB_NAME}_${CI_JOB_ID}"
+    when: on_failure
+  before_script:
+    - export GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_CLOUD_SERVICE_ACCOUNT}
   script:
-    - echo 'deployment to production goes here'
+    - apps/web/terraform/scripts/create-or-update-env.sh production
   only:
     - main
