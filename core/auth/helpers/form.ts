@@ -64,13 +64,15 @@ export const handleFormSubmitError = (setFlow: (p: any) => void, initializeFlow:
           }
 
           console.info('[auth/helpers/form.ts] Form validation failed.')
+          // The error response data contains a flow with the error messages.
+          // This is data is here set to be the new flow.
           setFlow(err.response.data)
           break
         case 404:
         case 410:
           // This happens when the flow is, for example, expired or was deleted.
           // We simply re-initialize the flow if that happens!
-          console.error('[auth] Flow could not be found, reloading page: ' + err.response)
+          console.error('[auth] Flow could not be found, reloading page: ', err.response)
           initializeFlow()
       }
     }
