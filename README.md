@@ -1,5 +1,19 @@
 # holi-react-native-setup
 
+## Requirements
+
+Before we can get started building, please ensure that both [`direnv`](https://github.com/direnv/direnv/) and one of the folloging node version managers are installed and properly set up on your system:
+
+- [`nodenv`](https://github.com/nodenv/nodenv) or
+- [`nvm`](https://github.com/nvm-sh/nvm)
+
+Follow the instructions in the corresponding READMEs for setup.
+
+Run `cp .envrc-local.template .envrc-local` and adjust `.envrc-local` to match your configuration (e.g. using the correct node version manager). Using `direnv`, `.envrc` (and `.envrc-local`) will automatically be loaded when you `cd` into the directory.
+
+`.node-version` (used by `nodenv`) ensures that all developers are using the same `node`/`npm` versions.
+It is kept in sync with `.nvmrc` (used by `nvm`) by a symbolic link, so please make sure to use a format that is understood by both tools (e.g. a fixed version).
+
 ## Running
 
 Run `yarn mobile:dev` for mobile and `yarn web:dev` for web.
@@ -12,7 +26,8 @@ We are using [Expo](https://docs.expo.dev/) to build the app for both mobile app
 
 - Follow the instructions to install [Android studio](https://docs.expo.dev/workflow/android-studio-emulator/)
 - Create an adb device using the Virtual Device Manager from Android Studio
-- Start the emulator `emulator @<device-name>`
+- Add `<path-to-android-sdk>/emulator` to your `PATH` environment variable
+- Start the emulator using `emulator @<device-name>`
 - Run `adb devices`: Make sure the adb daemon could be started and the emulator is listed
 - `yarn mobile:dev` > `a`
 - Note: Pressing `w` to open the web app is not expected to work - use `yarn web:dev` instead
