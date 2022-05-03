@@ -69,8 +69,8 @@ const localIOSSimulator = {
 }
 
 const localCapabilities = () => ({
-  // if CODECEPT_PATH is not given, codecept expects application to be running on emulator / simulator
-  // if CODECEPT_PATH is given, codecept will install application before running the test
+  // if CODECEPT_APP_PATH is not given, codecept expects application to be running on emulator / simulator
+  // if CODECEPT_APP_PATH is given, codecept will install application before running the test
   app: process.env.CODECEPT_APP_PATH || undefined,
   ...(platform === 'android' ? localAndroidEmulator : localIOSSimulator),
 })
