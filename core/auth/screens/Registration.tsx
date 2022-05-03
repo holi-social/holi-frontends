@@ -1,6 +1,6 @@
 import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } from '@ory/kratos-client'
 import React, { useContext, useEffect, useState } from 'react'
-import { Platform, ScrollView, Text } from 'react-native'
+import { Platform, Text } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import AuthLayout from '@holi/core/auth/authLayout'
@@ -64,32 +64,29 @@ const Registration = () => {
 
   return (
     <AuthLayout>
-      <ScrollView>
-        <Text>Create an account</Text>
-        <SelfServiceFlow
-          textInputOverride={(field, props) => {
-            const iOS12Plus = Platform.OS === 'ios' && parseInt(String(Platform.Version), 10) >= 12
-            switch (getNodeId(field)) {
-              case 'traits.email':
-                return {
-                  autoCapitalize: 'none',
-                  autoCompleteType: 'email',
-                  textContentType: 'username',
-                  autoCorrect: false,
-                }
-              case 'password':
-                return {
-                  textContentType: iOS12Plus ? 'newPassword' : 'password',
-                  secureTextEntry: true,
-                }
-            }
-            return props
-          }}
-          flow={flow}
-          onSubmit={onSubmit}
-        />
-      </ScrollView>
-
+      <Text>Create an account</Text>
+      <SelfServiceFlow
+        textInputOverride={(field, props) => {
+          const iOS12Plus = Platform.OS === 'ios' && parseInt(String(Platform.Version), 10) >= 12
+          switch (getNodeId(field)) {
+            case 'traits.email':
+              return {
+                autoCapitalize: 'none',
+                autoCompleteType: 'email',
+                textContentType: 'username',
+                autoCorrect: false,
+              }
+            case 'password':
+              return {
+                textContentType: iOS12Plus ? 'newPassword' : 'password',
+                secureTextEntry: true,
+              }
+          }
+          return props
+        }}
+        flow={flow}
+        onSubmit={onSubmit}
+      />
       <Button onPress={() => navigate('/login')}>Already have an account?</Button>
     </AuthLayout>
   )
