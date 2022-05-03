@@ -17,6 +17,11 @@ exports.config = {
       browser: 'chromium',
     },
   },
+  multiple: {
+    crossbrowser: {
+      browsers: [{ browser: 'firefox' }, { browser: 'webkit' }, { browser: 'chromium' }],
+    },
+  },
   include: {
     I: './steps_file.js',
   },
