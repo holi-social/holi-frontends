@@ -12,6 +12,7 @@ export interface AppData {
   text1?: string
   text2?: string
   linkTo: string
+  testID: string
 }
 
 type AppTileProps = {
@@ -62,6 +63,7 @@ const AppTile: React.FunctionComponent<AppTileProps> = (props: AppTileProps) => 
       <Pressable
         style={[styles.pressable, hasDarkBackground && styles.overlay]}
         onPress={() => navigate(props.appData.linkTo)}
+        testID={props.appData.testID}
       >
         <View style={styles.header}>
           <View style={styles.logo}>

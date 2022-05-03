@@ -1,14 +1,24 @@
 Feature('startup')
 
+const testID = (testID) => {
+  return { android: `//*[@view-tag="${testID}"]`, ios: `~${testID}` }
+}
+
 Scenario('test something', ({ I }) => {
-  I.seeAppIsInstalled('foundation.holistic.projectholi')
+  I.runOnIOS(() => {
+    // run something ios-specific here
+  })
+  I.runOnAndroid(() => {
+    I.seeAppIsInstalled('foundation.holistic.projectholi')
+  })
+
+  I.see('Hello Anna', testID('private-space-header-greeting'))
+  I.see('Nice to see you here!', testID('private-space-header-sub'))
   // only works for web
   // following https://codecept.io/mobile-react-native-locators.html, but did not get it to work
   //I.waitForElement('//*[@view-tag="componentsButton"]', 10)
-
-  I.waitForText('Hello Anna', 10)
-  I.tap('Community')
-  I.waitForText('Feed', 10)
+  I.tap(testID('app-tile-community'))
+  I.waitForText('CommunityHome', 10)
 
   // this works
   //I.waitForElement('//android.view.ViewGroup[@content-desc="purePressable"]', 10)
