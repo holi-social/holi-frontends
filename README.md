@@ -6,6 +6,21 @@ Run `yarn mobile:dev` for mobile and `yarn web:dev` for web.
 
 Start the mock api with `yarn mock-api:dev`.
 
+We are using [Expo](https://docs.expo.dev/) to build the app for both mobile app variants.
+
+### Android emulator
+
+- Follow the instructions to install [Android studio](https://docs.expo.dev/workflow/android-studio-emulator/)
+- Create an adb device using the Virtual Device Manager from Android Studio
+- Start the emulator `emulator @<device-name>`
+- Run `adb devices`: Make sure the adb daemon could be started and the emulator is listed
+- `yarn mobile:dev` > `a`
+- Note: Pressing `w` to open the web app is not expected to work - use `yarn web:dev` instead
+
+### iOS simulator
+
+- Follow the instructions to install [Xcode](https://docs.expo.dev/workflow/ios-simulator/) and setup a simulator
+- `yarn mobile:dev` > `i`
 
 ## Install libs / packages
 
@@ -21,7 +36,7 @@ or
 
 Alternatively, you can also go into the specific folder where you need the new lib and install it there:
 
-```
+```sh
 cd web
 yarn add typescript -D
 ```
@@ -55,14 +70,14 @@ Yarn Workspaces are a neat feature that support us with our monorepo approach. I
 
 Working with Yarn Workspaces is (a little) different, but easy. Instead of running e.g.
 
-```
+```sh
 holi-react-native-setup/ $> cd mobile
 holi-react-native-setup/mobile $> yarn run start
 ```
 
 you _can_ simply prefix every yarn command with `yarn workspace $MODULE_NAME` like so:
 
-```
+```sh
 holi-react-native-setup/ $> yarn workspace @holi/mobile run start
 ```
 
@@ -74,11 +89,11 @@ weren't in a monorepo with yarn Workspaces.
 Due to the monorepo layout and how hoisting works we have to follow a couple of rules that "magically" make everything
 work (to the best of our *current* knowledge):
 
-* **root**: don't add any dependencies here
-    * *exception*: dev dependencies that understand monorepos like `eslint`
-* **shared**: don't add any dependencies here
-* **mobile**: add all your React Native and universal (both mobile and web) dependencies here
-* **web**: add your web-only dependencies here
+- **root**: don't add any dependencies here
+  - *exception*: dev dependencies that understand monorepos like `eslint`
+- **shared**: don't add any dependencies here
+- **mobile**: add all your React Native and universal (both mobile and web) dependencies here
+- **web**: add your web-only dependencies here
 
 We have tried different approaches before that were using `nohoist` and more "obvious" / "intuitive" / "known"
 patterns (e.g. adding universal dependencies in both web and mobile, or in shared only). However, these approaches
@@ -104,29 +119,29 @@ reasoning behind it. If you run into problems half a year into the project, this
 allows you to go back in time and debug your monorepo issue on a smaller less cluttered code base. That's the idea, we
 hope it will pay out.
 
-# Navigation
+## Navigation
 
 To create a new route with a screen for mobile and page for web you have to do the following.
 
 Say you wanted to create the route "/profile/:id" which opened the profile page in web and a profile screen in mobile.
 
-## shared
+### shared
 
 - create core/profile/id.tsx
   - implement a shared view for the profile you want to render
   - use `const { query: { id } } = useRouting()` hook retrieve the id query param
 
-## web
+### web
 
 - create web/pages/profile/[id].tsx
-    - render the shared screen within the
+  - render the shared screen within the
 
 ```ts
 const ProfilePage: NextPage = () => <ProfileScreen / >
 export default ProfilePage
 ```
 
-## mobile
+### mobile
 
 - create a route in `apps/mobile/navigation/rootNavigator.tsx` e.g. in the RootStack and use the shared screen component to render
 
@@ -148,7 +163,7 @@ config: {
 }
 ```
 
-## conclusion
+### conclusion
 
 you can now navigate from anywhere in web and mobile using the navigate function exposed by the useRouting hook.
 
@@ -164,16 +179,15 @@ jaspers
 profile < /Button>
 ```
 
-## notes
+### notes
 
 **Important hint: A screen name must be unique.**
 
 It may be configured at different places, but over all it must be unique.
 
-```
+```tsx
 // e.g.
 <RootStack.Screen name="Spaces" component={SpacesNavigator} />
 <SpacesDrawer.Screen name="AppStore" component={AppStoreScreen} />
 <CommunityBottomNav.Screen name="Board" component={BoardScreen} />
 ```
-
