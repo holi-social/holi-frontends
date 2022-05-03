@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Text, View } from 'react-native'
+import { Text } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import AuthLayout from '@holi/core/auth/authLayout'
@@ -31,10 +31,8 @@ const Logout: React.VoidFunctionComponent = () => {
   }
   return (
     <AuthLayout>
-      <View>
-        <Text>Do you want to log out?</Text>
-        <Button onPress={() => onSubmit()}>Log out</Button>
-      </View>
+      <Text>Do you want to log out?</Text>
+      <Button onPress={() => onSubmit()}>Log out</Button>
     </AuthLayout>
   )
 }
