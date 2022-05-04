@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 
 import { SafeAreaView } from '@holi/ui/components/safe-area'
 
@@ -7,13 +7,11 @@ type AuthLayoutProps = {
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string
 }
 
-const AuthLayout: React.FunctionComponent<AuthLayoutProps> = (props: AuthLayoutProps) => {
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.scrollView}>{props.children}</View>
-    </SafeAreaView>
-  )
-}
+const AuthLayout: React.FunctionComponent<AuthLayoutProps> = (props: AuthLayoutProps) => (
+  <SafeAreaView style={styles.container}>
+    <ScrollView>{props.children}</ScrollView>
+  </SafeAreaView>
+)
 
 export default AuthLayout
 
@@ -26,5 +24,4 @@ const styles = StyleSheet.create({
     position: 'relative',
     marginTop: 100,
   },
-  scrollView: {},
 })
