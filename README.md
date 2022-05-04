@@ -2,7 +2,7 @@
 
 ## Requirements
 
-Before we can get started building, please ensure that both [`direnv`](https://github.com/direnv/direnv/) and one of the folloging node version managers are installed and properly set up on your system:
+Before we can get started building, please ensure that both [`direnv`](https://github.com/direnv/direnv/) and one of the following node version managers are installed and properly set up on your system:
 
 - [`nodenv`](https://github.com/nodenv/nodenv) or
 - [`nvm`](https://github.com/nvm-sh/nvm)
