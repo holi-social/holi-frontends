@@ -5,4 +5,4 @@ node_modules
 **/.turbo
 
 # any build dir
-build
+build.envrc.local
