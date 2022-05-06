@@ -78,6 +78,7 @@ export BROWSERSTACK_USERNAME=<yourusername>
 export BROWSERSTACK_ACCESS_KEY=<youraccesskey>
 
 export CODECEPT_TARGET='browserstack' # optional, as this is the default setting
+export CODECEPT_PLATFORM='ios' # or 'android'
 
 yarn codeceptjs
 ```
