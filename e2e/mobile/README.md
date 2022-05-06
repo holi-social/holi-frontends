@@ -1,13 +1,20 @@
 # Mobile Testing
 
-* [Building via EAS](#building-via-eas)
-* [Building Locally (Android)](#building-locally-android)
-* [Local Test Execution Against Expo Dev Mode](#local-test-execution-against-expo-dev-mode)
-* [Local Test Execution Against (Simulator) Binary](#local-test-execution-against-binary)
-    * [iOS Simulator](#ios-simulator)
-    * [Android Emulator](#android-emulator)
-* [Remote Test Execution on BrowserStack](#remote-test-execution-on-browserstackhttpswwwbrowserstackcom)
-* [Troubleshooting](#troubleshooting)
+- [Mobile Testing](#mobile-testing)
+  - [Building via EAS](#building-via-eas)
+  - [Building Locally (Android)](#building-locally-android)
+  - [Local Test Execution](#local-test-execution)
+    - [Prerequisites](#prerequisites)
+    - [Local Test Execution Against Expo Dev Mode](#local-test-execution-against-expo-dev-mode)
+    - [Local Test Execution Against Binary](#local-test-execution-against-binary)
+      - [iOS Simulator](#ios-simulator)
+      - [Android Emulator](#android-emulator)
+  - [Remote Test Execution on BrowserStack](#remote-test-execution-on-browserstack)
+  - [Troubleshooting](#troubleshooting)
+    - ["browser driver is not running"](#browser-driver-is-not-running)
+    - [No Matching Android Version available on Virtual Device](#no-matching-android-version-available-on-virtual-device)
+    - [Espresso server can't be built / started](#espresso-server-cant-be-built--started)
+    - [Can't find ANDROID_HOME nor ANDROID_SDK_ROOT](#cant-find-android_home-nor-android_sdk_root)
 
 ## Building via EAS
 
@@ -31,13 +38,7 @@ from [GitLab](https://gitlab.com/holisticfoundation/holi-react-native-setup/-/pi
 
 Follow [this tutorial](https://www.robincussol.com/build-standalone-expo-apk-ipa-with-turtle-cli/).
 
-## Local Test Execution Against Expo Dev Mode
-
-1. Make sure the application is running and on the "home screen" (i.e. where it goes right after start)
-2. Within `e2e/mobile`, run `CODECEPT_TARGET=local CODECEPT_PLATFORM=ios yarn run codeceptjs` OR
-   `CODECEPT_TARGET=local CODECEPT_PLATFORM=android yarn run codeceptjs`
-
-## Local Test Execution Against Binary
+## Local Test Execution
 
 ### Prerequisites
 
@@ -57,12 +58,20 @@ Then, run `appium` on a shell and leave it running.
 
 In *this* directory, run `yarn install`.
 
-### iOS Simulator
+### Local Test Execution Against Expo Dev Mode
+
+1. Make sure the application is running and on the "home screen" (i.e. where it goes right after start)
+2. Within `e2e/mobile`, run `CODECEPT_TARGET=local CODECEPT_PLATFORM=ios yarn run codeceptjs` OR
+   `CODECEPT_TARGET=local CODECEPT_PLATFORM=android yarn run codeceptjs`
+
+### Local Test Execution Against Binary
+
+#### iOS Simulator
 
 `CODECEPT_TARGET=local CODECEPT_PLATFORM=ios CODECEPT_APP_PATH=/path/to/application.app yarn codeceptjs`. You
 need to use the simulator build here.
 
-### Android Emulator
+#### Android Emulator
 
 `CODECEPT_TARGET=local CODECEPT_PLATFORM=android CODECEPT_APP_PATH=/path/to/application.app yarn codeceptjs`
 
