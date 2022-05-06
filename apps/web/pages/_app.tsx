@@ -6,6 +6,7 @@ import React from 'react'
 
 import client from '@holi/api/graphql/client'
 import { AuthContextProvider } from '@holi/core/auth/AuthProvider'
+import { UserContextProvider } from '@holi/core/user/UserContextProvider'
 import { NavigationContextProvider } from '@holi/ui/components/navigation/context'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 import Layout from '@holi/web/layout/layout'
@@ -16,11 +17,13 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }) 
     <ApolloProvider client={client}>
       <ThemeProvider theme={defaultHoliTheme}>
         <AuthContextProvider>
-          <NavigationContextProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </NavigationContextProvider>
+          <UserContextProvider>
+            <NavigationContextProvider>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </NavigationContextProvider>
+          </UserContextProvider>
         </AuthContextProvider>
       </ThemeProvider>
     </ApolloProvider>

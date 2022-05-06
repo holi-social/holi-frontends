@@ -32,6 +32,7 @@ export const NavigationProvider: React.FC = ({ children }) => (
             Login: 'login',
             Logout: 'logout',
             Registration: 'registration',
+            UserProfile: 'profile',
           },
         },
       }),

@@ -2,9 +2,11 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
+// TODO(SF) naming convention: capital letter?
 import { Login } from '@holi/core/auth/screens/Login'
 import { Logout } from '@holi/core/auth/screens/Logout'
 import { Registration } from '@holi/core/auth/screens/Registration'
+import { UserProfileScreen } from '@holi/core/spaces/screens/userProfile'
 
 import { CommunityAppScreen } from '@holi-apps/community/screens/communityApp'
 import { CommunityFeedDetailScreen } from '@holi-apps/community/screens/communityFeedDetail'
@@ -20,6 +22,7 @@ export type RootStackScreensList = {
   Login: undefined
   Logout: undefined
   Registration: undefined
+  UserProfile: undefined
 }
 
 const RootStack = createNativeStackNavigator<RootStackScreensList>()
@@ -52,5 +55,6 @@ export const RootNavigator: React.ComponentType = () => (
     <RootStack.Screen name="Login" component={Login} />
     <RootStack.Screen name="Logout" component={Logout} />
     <RootStack.Screen name="Registration" component={Registration} />
+    <RootStack.Screen name="UserProfile" component={UserProfileScreen} />
   </RootStack.Navigator>
 )

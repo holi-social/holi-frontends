@@ -1,0 +1,7 @@
+#import "./userFragment.graphql"
+
+query Users($offset: Int, $limit: Int) {
+  allUsers(offset: $offset, limit: $limit) {
+    ...FullUser
+  }
+}

@@ -25,6 +25,7 @@ export const NavigationDrawer: React.VoidFunctionComponent = () => {
 
         <ScrollView style={[styles.scrollView]}>
           <NaviItem routeName="/" label="Privater Space" style={styles.naviItem} />
+          <NaviItem routeName="/profile" label="Profile" style={styles.naviItem} />
         </ScrollView>
 
         <View style={styles.footer}>

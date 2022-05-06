@@ -1,0 +1,7 @@
+fragment FullUser on User {
+  id
+  name
+  aboutMe
+  pronouns
+  location
+}
