@@ -1,37 +1,49 @@
 # Mobile Testing
 
-This spike uses codeceptjs as a high-level wrapper framework for mobile and web testing.
+- [Mobile Testing](#mobile-testing)
+  - [Building via EAS](#building-via-eas)
+  - [Building Locally (Android)](#building-locally-android)
+  - [Local Test Execution](#local-test-execution)
+    - [Prerequisites](#prerequisites)
+    - [Local Test Execution Against Expo Dev Mode](#local-test-execution-against-expo-dev-mode)
+    - [Local Test Execution Against Binary](#local-test-execution-against-binary)
+      - [iOS Simulator](#ios-simulator)
+      - [Android Emulator](#android-emulator)
+  - [Remote Test Execution on BrowserStack](#remote-test-execution-on-browserstack)
+  - [Troubleshooting](#troubleshooting)
+    - ["browser driver is not running"](#browser-driver-is-not-running)
+    - [No Matching Android Version available on Virtual Device](#no-matching-android-version-available-on-virtual-device)
+    - [Espresso server can't be built / started](#espresso-server-cant-be-built--started)
+    - [Can't find ANDROID_HOME nor ANDROID_SDK_ROOT](#cant-find-android_home-nor-android_sdk_root)
 
-## Build the application bundle
+## Building via EAS
 
-First, you need to get hold of an Android application package (`.aab` or `.apk`)
-against which the tests shall be executed.
+*Note for iOS:* There are two options on how to build an application for iOS: simulator build and archive build. The
+former can be used to run your application within a simulator, the latter is used for installation on real devices /
+distribution via app stores. Browserstack works on real devices, so archive builds are needed there.
 
-* **Build via and Download from Expo Application Services (EAS) (preferred/simple):** The build pipeline already produces Android artifacts in the stages `mobile_staging_build` and
-  `mobile_production_build`. These can either be downloaded from GitLab as a build artifact or from the
-  [Expo Dashboards Build View](https://expo.dev/accounts/holistic-foundation/projects/projectholi/builds).
-* **Manually build the APK locally:** Follow [this tutorial](https://www.robincussol.com/build-standalone-expo-apk-ipa-with-turtle-cli/)
+|Platform       |Yarn Command               |Alternatively run within `apps/mobile`        |
+|---------------|---------------------------|----------------------------------------------|
+|iOS (Simulator)|`yarn mobile:build_ios_sim`|`eas build --platform ios --profile simulator`|
+|iOS            |`yarn mobile:build_ios`    |`eas build --platform ios`                    |
+|Android        |`yarn mobile:build_android`|`eas build --platform android`                |
+|Both           |`yarn mobile:build_all`    |`eas build --platform all`                    |
 
+**Alternatively**, you can use application binaries that have already been built by the build pipeline. It produces iOS
+and Android artifacts in the stages `mobile_staging_build` and `mobile_production_build`. These can either be downloaded
+from [GitLab](https://gitlab.com/holisticfoundation/holi-react-native-setup/-/pipelines) as a build artifact or from the
+[Expo Dashboards Build View](https://expo.dev/accounts/holistic-foundation/projects/projectholi/builds).
 
-## Execute Tests on [BrowserStack](https://www.browserstack.com)
+## Building Locally (Android)
 
-Upload the previously created application bundle via the tooling or the instructions on the
-[BrowserStack Dashboard](https://app-automate.browserstack.com/dashboard/v2/get-started#upload-app). Copy and paste the
-"app_url" value displayed on the dashboard (or e.g. as returned by `curl`) into the following command: 
+Follow [this tutorial](https://www.robincussol.com/build-standalone-expo-apk-ipa-with-turtle-cli/).
 
-```
-export BROWSERSTACK_APP_URL=<yourappurl>
-export BROWSERSTACK_USERNAME=<yourusername>
-export BROWSERSTACK_ACCESS_KEY=<youraccesskey>
+## Local Test Execution
 
-export CODECEPT_TARGET='browserstack' # optional, as this is the default setting
+### Prerequisites
 
-npx codeceptjs run --steps
-```
-
-## Local Execution
-
-In order to locally test mobile, we can use appium. I generally followed [this manual](https://codecept.io/mobile/#setting-up).
+In order to locally test mobile, we can use appium. I generally followed
+[this manual](https://codecept.io/mobile/#setting-up).
 
 The short manual is roughly (not replayed / reproduced on other machines):
 
@@ -46,18 +58,48 @@ Then, run `appium` on a shell and leave it running.
 
 In *this* directory, run `yarn install`.
 
-Now, start your Android emulator. Then run the test via
+### Local Test Execution Against Expo Dev Mode
+
+1. Make sure the application is running and on the "home screen" (i.e. where it goes right after start)
+2. Within `e2e/mobile`, run `CODECEPT_TARGET=local CODECEPT_PLATFORM=ios yarn run codeceptjs` OR
+   `CODECEPT_TARGET=local CODECEPT_PLATFORM=android yarn run codeceptjs`
+
+### Local Test Execution Against Binary
+
+#### iOS Simulator
+
+`CODECEPT_TARGET=local CODECEPT_PLATFORM=ios CODECEPT_APP_PATH=/path/to/application.app yarn codeceptjs`. You
+need to use the simulator build here.
+
+#### Android Emulator
+
+`CODECEPT_TARGET=local CODECEPT_PLATFORM=android CODECEPT_APP_PATH=/path/to/application.app yarn codeceptjs`
+
+## Remote Test Execution on [BrowserStack](https://www.browserstack.com)
+
+Upload the previously created application bundle via the tooling or the instructions on the
+[BrowserStack Dashboard](https://app-automate.browserstack.com/dashboard/v2/get-started#upload-app). Copy and paste the
+"app_url" value displayed on the dashboard (or e.g. as returned by `curl`) into the following command:
 
 ```
-export CODECEPT_TARGET='local'
-export CODECEPT_APP_PATH=/path/to/your/apk
+export BROWSERSTACK_APP_URL=<yourappurl>
+export BROWSERSTACK_USERNAME=<yourusername>
+export BROWSERSTACK_ACCESS_KEY=<youraccesskey>
 
-npx codeceptjs run --steps
+export CODECEPT_TARGET='browserstack' # optional, as this is the default setting
+export CODECEPT_PLATFORM='ios' # or 'android'
+
+yarn codeceptjs
 ```
-  
-### Troubleshooting
 
-#### "browser driver is not running"
+Alternatively, add your Browserstack credentials to `.envrc.local` and have them automatically exported via `direnv`
+when cd'ing into `e2e/mobile`.
+
+If you feel like automating this process by writing a script, take a look at `.gitlab-ci.yml`.
+
+## Troubleshooting
+
+### "browser driver is not running"
 
 When running codecept, if you see an error message along the lines of
 
@@ -70,15 +112,32 @@ npm install -g appium
 apium
 ```
 
-#### No Matching Android Version available on Virtual Device
+### No Matching Android Version available on Virtual Device
 
 Make sure that you have set up an Android Virtual Device (AVD) with an Android version that matches the one configured
 in `codecept.conf.js`.
 
-#### Espresso server can't be built / started
+### Espresso server can't be built / started
 
 I had trouble that the Espresso server could not be built on AdoptOpenJDK16 on macOS. Changing my java version to SDK 11
-as was [hinted here](https://github.com/exercism/support/issues/73#issuecomment-538498370) helped. 
+as was [hinted here](https://github.com/exercism/support/issues/73#issuecomment-538498370) helped.
 
 In order to debug what's going on, watch the output of the appium process and use the `showGradleLog: true` capability
 in `codecept.conf.js`.
+
+### Can't find ANDROID_HOME nor ANDROID_SDK_ROOT
+
+If you see the following error even though `appium-doctor` says that `ANDROID_HOME` is set
+
+```
+Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+Please make sure Selenium Server is running and accessible
+```
+
+you might need to add Androids `tools` and `platform-tools` to `PATH`, too: 
+
+```
+export ANDROID_HOME=/home/$(whoami)/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_HOME/tools
+```

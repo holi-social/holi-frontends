@@ -44,19 +44,25 @@ const browserStackCapabilities = () => ({
 // local emulator/simulator testing //
 //////////////////////////////////////
 
-// see https://appium.io/docs/en/writing-running-appium/caps/
-
+// see https://appium.io/docs/en/writing-running-appium/caps/#android
 const localAndroidEmulator = {
   platform: 'Android',
   device: 'emulator',
   desiredCapabilities: {
-    automationName: 'Espresso',
+    automationName: 'UiAutomator2',
+    // automationName: 'Espresso',
+    // https://github.com/appium/appium-espresso-driver/issues/639
+    /*espressoBuildConfig: JSON.stringify({
+      additionalAppDependencies: ['androidx.lifecycle:lifecycle-extensions:2.2.0'],
+    }),*/
     platformVersion: '11',
     deviceName: 'Android Emulator',
     showGradleLog: true,
   },
 }
 
+// see https://appium.io/docs/en/writing-running-appium/caps/#ios-only
+// see https://github.com/appium/appium-xcuitest-driver#desired-capabilities
 const localIOSSimulator = {
   platform: 'ios',
   device: 'simulator',
@@ -65,17 +71,25 @@ const localIOSSimulator = {
     platformVersion: '15.4',
     deviceName: 'iPhone XS',
     udid: '41573563-E6F4-433C-B68F-BCDF76CEBA50',
+    //bundleId: 'foundation.holistic.projectholi',
+    showIOSLog: true,
   },
 }
 
 const localCapabilities = () => ({
-  // if CODECEPT_APP_PATH is not given, codecept expects application to be running on emulator / simulator
-  // if CODECEPT_APP_PATH is given, codecept will install application before running the test
-  app: process.env.CODECEPT_APP_PATH || undefined,
   ...(platform === 'android' ? localAndroidEmulator : localIOSSimulator),
+  desiredCapabilities: {
+    // if CODECEPT_APP_PATH is not given, codecept expects application to be running on emulator / simulator
+    // if CODECEPT_APP_PATH is given, codecept will install application before running the test
+    app: process.env.CODECEPT_APP_PATH || undefined,
+    //appPackage: process.env.CODECEPT_APP_PATH ? undefined : 'foundation.holistic.projectholi',
+    ...(platform === 'android' ? localAndroidEmulator : localIOSSimulator).desiredCapabilities,
+  },
 })
 
 const appiumConfig = target === 'local' ? localCapabilities() : browserStackCapabilities()
+
+console.info('Starting codecept via Appium with config=', appiumConfig)
 
 exports.config = {
   tests: './*.js',

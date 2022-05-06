@@ -14,6 +14,10 @@
   },
   "scripts": {
     "mobile:dev": "yarn workspace @holi/mobile dev",
+    "mobile:build_all": "yarn workspace @holi/mobile build_all",
+    "mobile:build_android": "yarn workspace @holi/mobile build_android",
+    "mobile:build_ios": "yarn workspace @holi/mobile build_ios",
+    "mobile:build_ios_sim": "yarn workspace @holi/mobile build_ios_sim",
     "web:dev": "yarn workspace @holi/web dev",
     "web:build": "yarn workspace @holi/web build",
     "web:start": "yarn workspace @holi/web start",

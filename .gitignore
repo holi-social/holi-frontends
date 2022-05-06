@@ -6,4 +6,3 @@ node_modules
 # any build dir
 build
 .envrc.local
-
