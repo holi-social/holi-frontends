@@ -114,3 +114,20 @@ as was [hinted here](https://github.com/exercism/support/issues/73#issuecomment-
 
 In order to debug what's going on, watch the output of the appium process and use the `showGradleLog: true` capability
 in `codecept.conf.js`.
+
+### Can't find ANDROID_HOME nor ANDROID_SDK_ROOT
+
+If you see the following error even though `appium-doctor` says that `ANDROID_HOME` is set
+
+```
+Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+Please make sure Selenium Server is running and accessible
+```
+
+you might need to add Androids `tools` and `platform-tools` to `PATH`, too: 
+
+```
+export ANDROID_HOME=/home/$(whoami)/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_HOME/tools
+```
