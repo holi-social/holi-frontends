@@ -54,6 +54,7 @@ export const getNodeTitle = ({ attributes, meta }: UiNode): string => {
   return ''
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const handleFormSubmitError = (setFlow: (p: any) => void, initializeFlow: () => void) => {
   return (err: AxiosError) => {
     if (err.response) {

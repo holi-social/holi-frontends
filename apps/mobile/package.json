@@ -12,7 +12,10 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "build": "eas build --platform android",
+    "build_all": "eas build --platform all",
+    "build_android": "eas build --platform android",
+    "build_ios": "eas build --platform ios",
+    "build_ios_sim": "eas build --platform ios --profile simulator",
     "lint": "TIMING=1 eslint .",
     "eject": "expo eject",
     "test": "echo 'unit testing goes here'"
