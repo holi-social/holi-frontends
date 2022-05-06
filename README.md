@@ -9,7 +9,7 @@ Start the mock api with `yarn mock-api:dev`.
 
 ## Install libs / packages
 
-For convience reasons you might want to stay in the project root folder. From here you can add new packages with the
+For convenience reasons you might want to stay in the project root folder. From here you can add new packages with the
 command:
 
 `yarn workspace [workspace-name] add [package-name]`

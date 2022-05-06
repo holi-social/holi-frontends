@@ -63,9 +63,8 @@ const AppTile: React.FunctionComponent<AppTileProps> = (props: AppTileProps) => 
       <Pressable
         style={[styles.pressable, hasDarkBackground && styles.overlay]}
         onPress={() => navigate(props.appData.linkTo)}
-        testID={props.appData.testID}
       >
-        <View style={styles.header}>
+        <View style={styles.header} testID={props.appData.testID}>
           <View style={styles.logo}>
             {/* TODO: dynamic app icon */}
             <SharedImage imageFile={require('@holi/ui/assets/img/icons/betterplace.png')} style={styles.logoImg} />
