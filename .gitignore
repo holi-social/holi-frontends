@@ -1,6 +1,5 @@
 node_modules
 .expo
-.envrc
 .DS_Store
 **/.turbo
 

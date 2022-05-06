@@ -69,13 +69,21 @@ const AppTile: React.FunctionComponent<AppTileProps> = (props: AppTileProps) => 
             {/* TODO: dynamic app icon */}
             <SharedImage imageFile={require('@holi/ui/assets/img/icons/betterplace.png')} style={styles.logoImg} />
           </View>
-          <Text ellipsizeMode="tail" numberOfLines={1} style={styles.headerText}>
+          <Text ellipsizeMode="tail" numberOfLines={1} style={styles.headerText} allowFontScaling={false}>
             {props.appData.title}
           </Text>
         </View>
-        <View style={styles.content}>
-          {props.appData.text1 && <Text style={styles.contentHeadline}>{props.appData.text1}</Text>}
-          {props.appData.text2 && <Text style={styles.contentText}>{props.appData.text2}</Text>}
+        <View style={styles.content} allowFontScaling={false}>
+          {props.appData.text1 && (
+            <Text style={styles.contentHeadline} allowFontScaling={false}>
+              {props.appData.text1}
+            </Text>
+          )}
+          {props.appData.text2 && (
+            <Text style={styles.contentText} ellipsizeMode="tail" numberOfLines={3} allowFontScaling={false}>
+              {props.appData.text2}
+            </Text>
+          )}
         </View>
       </Pressable>
       {hasNotification && <View style={styles.badge} />}
@@ -88,7 +96,7 @@ const AppTile: React.FunctionComponent<AppTileProps> = (props: AppTileProps) => 
       {hasBackgroundImage ? (
         <ImageBackground
           style={styles.tile}
-          imageStyle={styles.backgroundImage}
+          imageStyle={styles.imageView}
           source={{ uri: props.appData.backgroundImg }}
           resizeMode="cover"
         >
@@ -123,8 +131,9 @@ const getStyles = (hasDarkBackground: boolean, tileSize: number, theme: HoliThem
     overlay: {
       backgroundColor: 'rgba(0,0,0,0.4)',
     },
-    backgroundImage: {
+    imageView: {
       borderRadius: 15,
+      width: '100%',
     },
     pressable: {
       flex: 1,

@@ -1,6 +1,6 @@
 import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } from '@ory/kratos-client'
 import React, { useContext, useEffect, useState } from 'react'
-import { Platform, Text, View } from 'react-native'
+import { Platform, Text } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import AuthLayout from '@holi/core/auth/authLayout'
@@ -19,7 +19,6 @@ const Registration = () => {
     initRegistrationFlow()
       // The flow was initialized successfully, let's set the form data:
       .then(({ data: flow }) => {
-        console.log('[auth] registration flow initialized.')
         setConfig(flow)
       })
       .catch((error) => console.error('[Registration.tsx] initializeFlow error:', error))
@@ -33,8 +32,6 @@ const Registration = () => {
       ? newKratosSdk()
           .submitSelfServiceRegistrationFlow(flow.id, payload)
           .then(({ data }) => {
-            console.log('[Registration.tsx] onSubmit data:', data)
-
             // ORY Kratos can be configured in such a way that it requires a login after
             // registration. You could handle that case by navigating to the Login screen
             // but for simplicity we'll just print an error here:
@@ -44,52 +41,45 @@ const Registration = () => {
               )
               return Promise.reject(err)
             }
-            console.log('[Registration.tsx] registration was successful.')
+            console.info('[Registration.tsx] registration was successful.')
             // Looks like we got a session!
             return Promise.resolve({
               session: data.session,
               session_token: data.session_token,
             })
           })
-          // Let's log the user in!
-          .then((sessionContext) => {
-            setSession(sessionContext)
+          .then((session) => {
+            setSession(session)
             navigate('/')
           })
-          .catch((error) => {
-            console.error('[Registration.tsx] onSubmit error:', error)
-            handleFormSubmitError(setConfig, initializeFlow)
-          })
+          .catch(handleFormSubmitError(setConfig, initializeFlow))
       : Promise.resolve()
 
   return (
     <AuthLayout>
-      <View>
-        <Text>Create an account</Text>
-        <SelfServiceFlow
-          textInputOverride={(field, props) => {
-            const iOS12Plus = Platform.OS === 'ios' && parseInt(String(Platform.Version), 10) >= 12
-            switch (getNodeId(field)) {
-              case 'traits.email':
-                return {
-                  autoCapitalize: 'none',
-                  autoCompleteType: 'email',
-                  textContentType: 'username',
-                  autoCorrect: false,
-                }
-              case 'password':
-                return {
-                  textContentType: iOS12Plus ? 'newPassword' : 'password',
-                  secureTextEntry: true,
-                }
-            }
-            return props
-          }}
-          flow={flow}
-          onSubmit={onSubmit}
-        />
-      </View>
-
+      <Text>Create an account</Text>
+      <SelfServiceFlow
+        textInputOverride={(field, props) => {
+          const iOS12Plus = Platform.OS === 'ios' && parseInt(String(Platform.Version), 10) >= 12
+          switch (getNodeId(field)) {
+            case 'traits.email':
+              return {
+                autoCapitalize: 'none',
+                autoCompleteType: 'email',
+                textContentType: 'username',
+                autoCorrect: false,
+              }
+            case 'password':
+              return {
+                textContentType: iOS12Plus ? 'newPassword' : 'password',
+                secureTextEntry: true,
+              }
+          }
+          return props
+        }}
+        flow={flow}
+        onSubmit={onSubmit}
+      />
       <Button onPress={() => navigate('/login')}>Already have an account?</Button>
     </AuthLayout>
   )

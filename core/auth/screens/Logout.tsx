@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
-import { Text, View } from 'react-native'
+import { Text } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import AuthLayout from '@holi/core/auth/authLayout'
-import { getAuthenticatedSession } from '@holi/core/auth/helpers/auth'
+import { getAuthenticatedSession, killAuthenticatedSession } from '@holi/core/auth/helpers/auth'
 import { submitLogoutFlow } from '@holi/core/auth/helpers/sdk'
 import Button from '@holi/ui/components/Button'
 import useRouting from '@holi/ui/components/navigation/useRouting'
@@ -20,19 +20,19 @@ const Logout: React.VoidFunctionComponent = () => {
       })
       .then(() => {
         setSession(null)
-        console.log('[Logout.tsx] logout successful.')
+        console.info('[Logout.tsx] logout successful.')
         navigate('/')
       })
-      .catch((error) => {
-        console.error('[Logout.tsx] ' + error.response)
+      .catch((e) => {
+        killAuthenticatedSession()
+        setSession(null)
+        throw e
       })
   }
   return (
     <AuthLayout>
-      <View>
-        <Text>Do you want to log out?</Text>
-        <Button onPress={() => onSubmit()}>Log out</Button>
-      </View>
+      <Text>Do you want to log out?</Text>
+      <Button onPress={() => onSubmit()}>Log out</Button>
     </AuthLayout>
   )
 }
