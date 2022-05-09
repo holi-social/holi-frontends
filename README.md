@@ -56,9 +56,6 @@ cd web
 yarn add typescript -D
 ```
 
-TODO(SF) pinned version ts-invariant
-TODO(SF) add script to clean builds?
-
 ## Monorepo - and why
 
 This is a monorepo. Not in the FAANG sense, as it doesn't contain thousands of applications. It contains two
@@ -120,10 +117,27 @@ always led to one or another build failing: either `expo publish`, `eas build` o
 It might be necessary to work
 with [Yarn resolutions](https://classic.yarnpkg.com/lang/en/docs/selective-version-resolutions/) to resolve dependency
 conflicts (as has been done e.g. with `ts-invariant`).
-TODO(SF) use for ts-lib as well?
 
 Please also note that not all dependency versions are compatible with the current version of Expo.
 Running `expo doctor --fix-dependencies` might then help to fix this.
+
+### Clean up
+
+To clean up builds you can run
+
+```sh
+yarn clean
+```
+
+in the root directory or a specific workspace.
+
+In order to clean up everything including `node_modules` directories you can run
+
+```sh
+yarn clean:all
+```
+
+in the root directory or a specific workspace.
 
 ### How to Reproduce (Built this from scratch)
 

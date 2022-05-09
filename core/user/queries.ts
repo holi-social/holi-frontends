@@ -2,12 +2,6 @@ import { gql } from '@apollo/client/core'
 
 import { User } from '@holi/core/user/types'
 
-// TODO(SF) worked for a while with babel-plugin-import-graphql
-// but then i ran into issue https://github.com/detrohutt/babel-plugin-import-graphql/issues/79
-// import allUsersQuery from './queries/allUsersQuery.graphql'
-// import updateUserMutation from './queries/updateUser.graphql'
-// import userQuery from './queries/userQuery.graphql'
-
 export const userFragment = gql`
   fragment FullUser on User {
     id
