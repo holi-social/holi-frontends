@@ -56,6 +56,9 @@ cd web
 yarn add typescript -D
 ```
 
+Note: Be careful when using `expo install`, as it seems to ignore the resolutions defined in the root `package.json`
+and might cause dependency conflicts.
+
 ## Monorepo - and why
 
 This is a monorepo. Not in the FAANG sense, as it doesn't contain thousands of applications. It contains two
