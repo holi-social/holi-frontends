@@ -66,6 +66,7 @@ const resolvers = {
         ...args.user,
       }
       fakeUsers[userIndex] = updatedUser
+      // Return user with id for automatic cache updates
       return updatedUser
     },
   },

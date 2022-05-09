@@ -15,8 +15,7 @@ export const UserContext = createContext<Context>({
 })
 
 export const UserContextProvider: React.FC = ({ children }) => {
-  // Later: Retrieve user id from auth context and only load single user here
-  // TODO(SF) or include fully in auth context?
+  // Later: Possibly retrieve user id from auth context and load user by id here
   const { loading, error, data } = useQuery<AllUsersQueryResult>(allUsersQuery, {
     variables: {
       offset: 0,

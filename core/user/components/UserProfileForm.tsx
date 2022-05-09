@@ -15,12 +15,11 @@ type UserProfileFormProps = {
 
 const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ onSubmit }) => {
   const { user } = useContext(UserContext)
-  // TODO(SF) keep here or move to UserContextProvider?
   const [updateUser, { loading, error, data }] = useMutation<User>(updateUserMutation)
   const [name, setName] = useState(user?.name || '')
 
   const submit = async () => {
-    const result = await updateUser({
+    await updateUser({
       variables: {
         id: user?.id,
         user: {
@@ -28,10 +27,8 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
         },
       },
     })
-    // TODO(SF) error handling?
-    // TODO(SF) use data from result or hook?
-    if (!error && result.data && onSubmit) {
-      onSubmit(result.data)
+    if (!error && data && onSubmit) {
+      onSubmit(data)
     }
   }
 
@@ -49,6 +46,7 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
     errorComponent = <GraphQLError error={error} />
   }
 
+  // Later: possibly use form tag for web
   return (
     <>
       <Text>Name:</Text>
