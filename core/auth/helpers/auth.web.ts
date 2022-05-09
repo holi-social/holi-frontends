@@ -3,7 +3,7 @@ import {
   SelfServiceLoginFlow,
   SelfServiceRegistrationFlow,
   SubmitSelfServiceLogoutFlowWithoutBrowserBody,
-  createSelfServiceLogoutFlowUrlForBrowsers,
+  submitSelfServiceLogoutFlowUrlForBrowsers
 } from '@ory/kratos-client'
 import AsyncStore from '@react-native-async-storage/async-storage'
 import { AxiosPromise } from 'axios'
@@ -46,7 +46,11 @@ export const initLoginFlow = (): AxiosPromise<SelfServiceLoginFlow> => {
 }
 
 export const submitLogoutFlow = (payload: SubmitSelfServiceLogoutFlowWithoutBrowserBody) => {
-  return newKratosSdk().createSelfServiceLogoutFlowUrlForBrowsers('')
+  return newKratosSdk()
+    .createSelfServiceLogoutFlowUrlForBrowsers('')
+    .then(({ data }) => {
+      return newKratosSdk().submitSelfServiceLogoutFlow(data.logout_token)
+    })
 }
 
 export const initRegistrationFlow = (): AxiosPromise<SelfServiceRegistrationFlow> => {
