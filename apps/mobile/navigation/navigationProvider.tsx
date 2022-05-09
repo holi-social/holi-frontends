@@ -28,7 +28,6 @@ export const NavigationProvider: React.FC = ({ children }) => (
             AppStore: 'appstore',
             Community: 'community',
             Settings: 'settings',
-            CommunityFeedDetail: 'community/:feedId',
             Login: 'login',
             Logout: 'logout',
             Registration: 'registration',

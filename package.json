@@ -22,8 +22,8 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json}\"",
     "prepare": "husky install",
-    "clean": "yarn workspaces run --if-present clean",
-    "clean:all": "yarn workspaces run --if-present clean:all && rimraf node_modules"
+    "clean": "yarn workspaces run clean",
+    "clean:all": "yarn workspaces run clean:all && rimraf node_modules"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^3.2.0",

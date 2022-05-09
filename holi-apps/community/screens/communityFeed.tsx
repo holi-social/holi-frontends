@@ -1,15 +1,12 @@
 import React from 'react'
-
-import useRouting from '@holi/ui/components/navigation/useRouting'
+import { Text } from 'react-native'
 
 import CommunityLayout from '@holi-apps/community/communityLayout'
-import Feed from '@holi-apps/community/components/feed/Feed'
 
 const CommunityFeedScreen: React.VoidFunctionComponent = () => {
-  const { navigate } = useRouting()
   return (
     <CommunityLayout>
-      <Feed onItemPressed={(post) => navigate(`/community/${post.id}`)} />
+      <Text>Nothing here yet</Text>
     </CommunityLayout>
   )
 }
