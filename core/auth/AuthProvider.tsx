@@ -75,7 +75,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     <AuthContext.Provider
       value={{
         username: sessionContext?.session.identity.traits.email,
-        isAuthenticated: Boolean(sessionContext?.session_token),
+        isAuthenticated: Boolean(sessionContext?.session),
         setSession: setAuth,
       }}
     >
