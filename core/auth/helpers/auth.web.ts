@@ -3,7 +3,6 @@ import {
   SelfServiceLoginFlow,
   SelfServiceRegistrationFlow,
   SubmitSelfServiceLogoutFlowWithoutBrowserBody,
-  submitSelfServiceLogoutFlowUrlForBrowsers
 } from '@ory/kratos-client'
 import AsyncStore from '@react-native-async-storage/async-storage'
 import { AxiosPromise } from 'axios'
