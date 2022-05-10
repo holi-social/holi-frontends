@@ -28,7 +28,7 @@ variables:
   interruptible: false
 
 .web_e2e:
-  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  image: 'codeceptjs/codeceptjs'
   script:
     - UI_DOMAIN=`cat $UI_DOMAIN_PATH`
     - echo "e2e tests against $CI_ENVIRONMENT_SLUG environment go here and against $UI_DOMAIN"
