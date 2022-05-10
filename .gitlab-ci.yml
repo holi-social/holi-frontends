@@ -17,6 +17,7 @@ default:
 stages:
   - 'lint_compile_test'
   - 'build_deploy'
+  - 'cleanup'
 
 lint_compile_test:
   stage: 'lint_compile_test'
@@ -203,7 +204,7 @@ web_review_deploy:
   image: 'hashicorp/terraform:light'
   environment:
     name: review/$CI_COMMIT_REF_SLUG
-    on_stop: terraform_destroy_branch
+    on_stop: web_review_destroy
     auto_stop_in: 1 week
   artifacts:
     paths:
@@ -218,6 +219,8 @@ web_review_deploy:
   except:
     - main
     - /^noenv\/.*/
+  resource_group: $CI_COMMIT_REF_SLUG # never execute terraform in parallel on the same environment
+  interruptible: false
 
 web_staging_deploy:
   stage: 'build_deploy'
@@ -237,7 +240,32 @@ web_staging_deploy:
     - apps/web/terraform/scripts/create-or-update-env.sh staging
   only:
     - main
+  resource_group: $CI_COMMIT_REF_SLUG # never execute terraform in parallel on the same environment
+  interruptible: false
 
+web_review_destroy:
+  stage: cleanup
+  image: 'hashicorp/terraform:light'
+  variables:
+    # has to be set to none for auto stop
+    GIT_STRATEGY: none
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG
+    action: stop
+  dependencies: [] # explicitly disable artifact usage
+  before_script:
+    - export GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_CLOUD_SERVICE_ACCOUNT}
+  script:
+    # branch may be deleted, so we clone and checkout master
+    - git clone $CI_REPOSITORY_URL
+    - apps/web/terraform/scripts/destroy-env.sh $CI_COMMIT_REF_SLUG
+  # can't use rules here: https://gitlab.com/gitlab-org/gitlab/-/issues/34077
+  when: manual
+  except:
+    - master
+    - /^noenv\/.*/
+  resource_group: $CI_COMMIT_REF_SLUG # never execute terraform in parallel on the same environment
+  interruptible: false
 
 
 
