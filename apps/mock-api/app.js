@@ -46,7 +46,7 @@ const resolvers = {
     },
     user: (_, args) => {
       const userFound = fakeUsers.find((u) => u.id === args.id)
-      console.info('User', args)
+      console.info('user', args)
       return userFound
     },
   },
@@ -57,6 +57,7 @@ const resolvers = {
         ...args.user,
       }
       fakeUsers.push(newUser)
+      console.info('createUser', newUser)
       return newUser
     },
     updateUser: (_, args) => {
@@ -66,6 +67,7 @@ const resolvers = {
         ...args.user,
       }
       fakeUsers[userIndex] = updatedUser
+      console.info('updateUser', updatedUser)
       // Return user with id for automatic cache updates
       return updatedUser
     },
