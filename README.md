@@ -178,8 +178,8 @@ It may be configured at different places, but over all it must be unique.
 ```
 
 # Authentication Proxy
-In order to use authentication in a local development environment, the ory proxy is needed in order to communicate with ory successfully. In all other enironments the requests can use the general ory endpoint auth.holi-project.org.
-Here is a resouce on how to install the ory proxy: `https://www.ory.sh/docs/guides/cli/installation`
+In order to use authentication in a local development environment, the ory proxy is needed in order to communicate with ory successfully. In all other enironments the requests can use the general ory endpoint.
+Here is a resource on how to install the ory proxy: `https://www.ory.sh/docs/guides/cli/installation`
 When the ory cli is installed run:
 ```
 export ORY_SDK_URL=https://mystifying-carver-akajr6v4t8.projects.oryapis.com
