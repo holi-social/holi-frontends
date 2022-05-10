@@ -197,12 +197,7 @@ web_build_docker:
     - docker push $GITLAB_IMAGE:$CI_COMMIT_REF_SLUG
     - docker push $GCR_IMAGE:$CI_COMMIT_REF_SLUG
 
-
-
-
-
-# disabled (hidden) (not implemented yet), only increases build times and uses up runner minutes
-.web_review_deploy:
+web_review_deploy:
   stage: 'build_deploy'
   needs: ['web_build_docker']
   image: 'hashicorp/terraform:light'
@@ -224,8 +219,7 @@ web_build_docker:
     - main
     - /^noenv\/.*/
 
-# disabled (hidden) (not implemented yet), only increases build times and uses up runner minutes
-.web_staging_deploy:
+web_staging_deploy:
   stage: 'build_deploy'
   needs: ['web_build_docker']
   image: 'hashicorp/terraform:light'
@@ -243,6 +237,10 @@ web_build_docker:
     - apps/web/terraform/scripts/create-or-update-env.sh staging
   only:
     - main
+
+
+
+
 
 # disabled (hidden) (not implemented yet), only increases build times and uses up runner minutes
 .web_review_e2e:
