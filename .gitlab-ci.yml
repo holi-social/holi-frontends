@@ -31,9 +31,8 @@ lint_compile_test:
       - 'core/node_modules'
       - 'e2e/*/node_modules'
 
-# the web pipeline is defined in a separate file
-include: '.gitlab-ci-web.yml'
-
-# the mobile pipeline is defined in a separate file
-include: '.gitlab-ci-mobile.yml'
+# the web and mobile pipelines are defined in a separate file
+include: 
+  - '.gitlab-ci-web.yml'
+  - '.gitlab-ci-mobile.yml'
 
