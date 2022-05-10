@@ -32,6 +32,9 @@ variables:
   script:
     - UI_DOMAIN=`cat $UI_DOMAIN_PATH`
     - echo "e2e tests against $CI_ENVIRONMENT_SLUG environment go here and against $UI_DOMAIN"
+    - pwd
+    - ls
+    - ls apps/web/terraform/scripts
     - apps/web/terraform/scripts/wait-for-ssl.sh "https://${UI_DOMAIN}"
   interruptible: true
 
