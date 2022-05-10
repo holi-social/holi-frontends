@@ -217,9 +217,8 @@ web_review_deploy:
       - "apps/web/terraform/scripts/terraform-*.log" # separate log for every step/command
     name: "${CI_JOB_NAME}_${CI_JOB_ID}"
     when: on_failure
-  before_script:
-    - export GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_CLOUD_SERVICE_ACCOUNT}
   script:
+    - export GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_CLOUD_SERVICE_ACCOUNT}
     - apps/web/terraform/scripts/create-or-update-env.sh $CI_COMMIT_REF_SLUG
   except:
     - main
