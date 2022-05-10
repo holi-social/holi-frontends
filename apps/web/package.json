@@ -9,7 +9,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "TIMING=1 next lint",
-    "test": "echo 'unit testing goes here'"
+    "test": "echo 'unit testing goes here'",
+    "clean": "rimraf .next",
+    "clean:all": "yarn clean && rimraf node_modules"
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.16.7",

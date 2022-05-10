@@ -56,6 +56,9 @@ cd web
 yarn add typescript -D
 ```
 
+Note: Be careful when using `expo install`, as it seems to ignore the resolutions defined in the root `package.json`
+and might cause dependency conflicts.
+
 ## Monorepo - and why
 
 This is a monorepo. Not in the FAANG sense, as it doesn't contain thousands of applications. It contains two
@@ -120,6 +123,24 @@ conflicts (as has been done e.g. with `ts-invariant`).
 
 Please also note that not all dependency versions are compatible with the current version of Expo.
 Running `expo doctor --fix-dependencies` might then help to fix this.
+
+### Clean up
+
+To clean up builds you can run
+
+```sh
+yarn clean
+```
+
+in the root directory or a specific workspace.
+
+In order to clean up everything including `node_modules` directories you can run
+
+```sh
+yarn clean:all
+```
+
+in the root directory or a specific workspace.
 
 ### How to Reproduce (Built this from scratch)
 

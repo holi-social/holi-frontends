@@ -7,6 +7,7 @@ import { NavigationDrawer } from '@holi/core/spaces/components/navigationDrawer'
 import { AppStoreScreen } from '@holi/core/spaces/screens/appStore'
 import { PrivateSpaceScreen } from '@holi/core/spaces/screens/privateSpace'
 import { SettingsScreen } from '@holi/core/spaces/screens/settings'
+import { UserProfileScreen } from '@holi/core/spaces/screens/userProfile'
 import type { RootStackScreensList } from '@holi/mobile/navigation/rootNavigator'
 
 const SpacesDrawer = createDrawerNavigator()
@@ -25,6 +26,7 @@ const SpacesNavigator: React.VoidFunctionComponent<NativeStackScreenProps<RootSt
       <SpacesDrawer.Screen name="PrivateSpace" component={PrivateSpaceScreen} />
       <SpacesDrawer.Screen name="AppStore" component={AppStoreScreen} />
       <SpacesDrawer.Screen name="Settings" component={SettingsScreen} />
+      <SpacesDrawer.Screen name="UserProfile" component={UserProfileScreen} />
     </SpacesDrawer.Navigator>
   )
 }
