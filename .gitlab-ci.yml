@@ -204,9 +204,7 @@ web_review_deploy:
   image: 
     name: 'hashicorp/terraform:light'
     # default entrypoint is terraform command, but we want to run shell scripts
-    entrypoint:
-      - '/bin/sh'
-    #  - 'PATH=/usr/sbin:/usr/bin:/sbin:/bin'
+    entrypoint: ['/bin/sh']
   environment:
     name: review/$CI_COMMIT_REF_SLUG
     on_stop: web_review_destroy
