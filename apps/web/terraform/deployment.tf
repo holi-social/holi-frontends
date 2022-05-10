@@ -4,11 +4,11 @@
  * project id in order to avoid collisions.
  */
 resource "random_id" "main" {
-  byte_length = 1
+  byte_length = 2
   prefix      = "${local.project_name}-"
 }
 
-resource "google_project" "mvp_web" {
+/*resource "google_project" "mvp_web" {
   name            = local.project_name
   project_id      = random_id.main.hex
   folder_id       = local.parent_folder
@@ -23,11 +23,11 @@ resource "google_project" "mvp_web" {
 
         on project-main.tf line 262, in resource "google_storage_bucket" "gra":
        262: resource "google_storage_bucket" "gra" {
-    */
+  -/
     command = "sleep 30"
   }
 
-}
+}*/
 
 resource "google_project_service" "service" {
   for_each = toset([
@@ -40,19 +40,19 @@ resource "google_project_service" "service" {
 
   service = each.key
 
-  project            = google_project.mvp_web.project_id
+  project            = data.terraform_remote_state.holi_infra_state.outputs.shared_project_id
   disable_on_destroy = false
 }
 
 resource "google_cloud_run_service" "mvp_web" {
-  project  = google_project.mvp_web.id
-  name     = "mvp-web"
-  location = "europe-west3" # TODO: non-static reference to default location
+  project  = data.terraform_remote_state.holi_infra_state.outputs.shared_project_id
+  name     = random_id.main.hex
+  location = "europe-north1" # TODO: non-static reference to default location
 
   template {
     spec {
       containers {
-        image = "${data.terraform_remote_state.holi_infra_state.outputs.gcr_location}/hrns:tagname"
+        image = "${data.terraform_remote_state.holi_infra_state.outputs.gcr_location}/hrns:${local.environment}"
       }
     }
   }
@@ -61,11 +61,13 @@ resource "google_cloud_run_service" "mvp_web" {
     percent         = 100
     latest_revision = true
   }
+
+  depends_on = [google_project_service.service]
 }
 
 resource "google_cloud_run_domain_mapping" "mvp_web" {
   project  = google_cloud_run_service.mvp_web.project
-  location = google_cloud_run_service.mvp_web.location
+  location = "europe-north1"
   name     = local.dns_name
 
   metadata {
