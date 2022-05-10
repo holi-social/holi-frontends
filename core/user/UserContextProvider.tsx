@@ -4,7 +4,6 @@ import { Text } from 'react-native'
 
 import { AllUsersQueryResult, allUsersQuery } from '@holi/core/user/queries'
 import { User } from '@holi/core/user/types'
-import GraphQLError from '@holi/ui/components/GraphQLError'
 
 interface Context {
   user: User | undefined
@@ -28,8 +27,8 @@ export const UserContextProvider: React.FC = ({ children }) => {
   }
 
   if (error) {
+    // Necessary to display error to user?
     console.error('Error fetching users', error)
-    return <GraphQLError error={error} />
   }
 
   const user = data?.allUsers && data?.allUsers[0]
