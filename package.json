@@ -25,7 +25,9 @@
     "ui:generate-style-vars": "yarn workspace @holi/ui run generate-style-vars",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json}\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "clean": "yarn workspaces run clean",
+    "clean:all": "yarn workspaces run clean:all && rimraf node_modules"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^3.2.0",

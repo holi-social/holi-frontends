@@ -18,7 +18,9 @@
     "build_ios_sim": "eas build --platform ios --profile simulator",
     "lint": "TIMING=1 eslint .",
     "eject": "expo eject",
-    "test": "echo 'unit testing goes here'"
+    "test": "echo 'unit testing goes here'",
+    "clean": "rimraf .expo",
+    "clean:all": "yarn clean && rimraf node_modules"
   },
   "dependencies": {
     "@apollo/client": "^3.5.9",
