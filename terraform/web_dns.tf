@@ -23,8 +23,9 @@ resource "google_dns_record_set" "web_environments_zone_entry" {
 }
 
 output "dns_web_domain" {
-  value = google_dns_managed_zone.web_environments_zone.dns_name
+  value = trim(google_dns_managed_zone.web_environments_zone.dns_name, ".")
 }
+
 output "dns_web_domain_name" {
   value = google_dns_managed_zone.web_environments_zone.name
 }
