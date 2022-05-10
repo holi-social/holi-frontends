@@ -8,3 +8,8 @@ resource "google_dns_record_set" "mvp_web_domain_record_set" {
   ttl          = 300
   rrdatas      = [google_cloud_run_domain_mapping.mvp_web.status[0].resource_records[0].rrdata]
 }
+
+output "app_domain" {
+    value = trimsuffix(google_dns_record_set.mvp_web_domain_record_set.name, ".")
+    description = "Domain where the app resides"
+}
