@@ -201,10 +201,11 @@ web_build_docker:
 web_review_deploy:
   stage: 'build_deploy'
   needs: ['web_build_docker']
-  image: 'hashicorp/terraform:light'
-  entrypoint:
-    - '/bin/sh'
-    - 'PATH=/usr/sbin:/usr/bin:/sbin:/bin'
+  image: 
+    name: 'hashicorp/terraform:light'
+    entrypoint:
+      - '/bin/sh'
+      - 'PATH=/usr/sbin:/usr/bin:/sbin:/bin'
   environment:
     name: review/$CI_COMMIT_REF_SLUG
     on_stop: web_review_destroy
@@ -228,10 +229,11 @@ web_review_deploy:
 web_staging_deploy:
   stage: 'build_deploy'
   needs: ['web_build_docker']
-  image: 'hashicorp/terraform:light'
-  entrypoint:
-    - '/bin/sh'
-    - 'PATH=/usr/sbin:/usr/bin:/sbin:/bin'
+  image: 
+    name: 'hashicorp/terraform:light'
+    entrypoint:
+      - '/bin/sh'
+      - 'PATH=/usr/sbin:/usr/bin:/sbin:/bin'
   environment:
     name: staging
   artifacts:
