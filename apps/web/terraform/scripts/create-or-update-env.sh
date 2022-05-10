@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 # exit when any command fails
 set -ex
@@ -6,11 +6,11 @@ set -ex
 # enable full debug output in terraform, which is only written to logfiles
 export TF_LOG=TRACE
 
-pushd apps/web/terraform
+cd apps/web/terraform
 
 WORKSPACE=$1
 
-function execute_plan() {
+execute_plan() {
   PLAN_FILE="$1"
   TF_LOG_PATH="terraform-$PLAN_FILE.log" terraform plan \
     -out "$PLAN_FILE" \
@@ -27,5 +27,3 @@ set +e
 TF_LOG_PATH=terraform-apply.log terraform apply -auto-approve -parallelism=50 plan
 first_apply_code=$?
 set -e
-
-popd
