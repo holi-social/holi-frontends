@@ -2,6 +2,7 @@ node_modules
 .expo
 .DS_Store
 **/.turbo
+yarn-error.log
 
 # any build dir
 build
