@@ -25,7 +25,7 @@ variables:
   script:
     - export GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_CLOUD_SERVICE_ACCOUNT}
     - apps/web/terraform/scripts/create-or-update-env.sh $ENVIRONMENT_ID
-    - echo "$(terraform/get-app-domain.sh)" > $UI_DOMAIN_PATH
+    - echo "$(apps/web/terraform/scripts/get-app-domain.sh)" > $UI_DOMAIN_PATH
   resource_group: $ENVIRONMENT_ID # never execute terraform in parallel on the same environment
   interruptible: false
 
@@ -79,7 +79,8 @@ web_review_deploy:
   extends: .web_deploy
   needs: ['web_build_docker']
   environment:
-    name: review/$CI_COMMIT_REF_SLUG
+    name: review/web-$CI_COMMIT_REF_SLUG
+    url: https://$CI_COMMIT_REF_SLUG.web.project-holi.org
     on_stop: web_review_destroy
     auto_stop_in: 1 week
   except:
@@ -100,7 +101,7 @@ web_review_destroy:
     # has to be set to none for auto stop
     GIT_STRATEGY: none
   environment:
-    name: review/$CI_COMMIT_REF_SLUG
+    name: review/web-$CI_COMMIT_REF_SLUG
     action: stop
   dependencies: [] # explicitly disable artifact usage
   before_script:
@@ -123,7 +124,9 @@ web_staging_deploy:
   extends: .web_deploy
   needs: ['web_build_docker']
   environment:
-    name: staging
+    name: web-staging
+    deployment_tier: staging
+    url: https://staging.web.project-holi.org
   variables:
     ENVIRONMENT_ID: staging
   only:
@@ -142,7 +145,9 @@ web_production_deploy:
   needs: ['web_staging_e2e']
   when: manual
   environment:
-    name: production
+    name: web-production
+    deployment_tier: production
+    url: https://production.web.project-holi.org
   variables:
     ENVIRONMENT_ID: production
   only:

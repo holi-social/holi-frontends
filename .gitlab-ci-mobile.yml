@@ -5,7 +5,7 @@ mobile_review_publish:
     - cd apps/mobile
     - expo publish --release-channel $CI_ENVIRONMENT_SLUG
   environment:
-    name: review/$CI_COMMIT_REF_SLUG
+    name: review/mobile-$CI_COMMIT_REF_SLUG
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=$CI_ENVIRONMENT_SLUG
   except:
     - main
@@ -18,7 +18,8 @@ mobile_staging_publish:
     - cd apps/mobile
     - expo publish --release-channel staging
   environment:
-    name: staging
+    name: mobile-staging
+    deployment_tier: staging
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=staging
   only:
     - main
@@ -88,7 +89,8 @@ mobile_production_publish:
     - cd apps/mobile
     - expo publish --release-channel production
   environment:
-    name: production
+    name: mobile-production
+    deployment_tier: production
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=production
   only:
     - main
