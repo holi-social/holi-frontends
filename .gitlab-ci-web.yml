@@ -94,7 +94,7 @@ web_review_e2e:
     - /^noenv\/.*/
 
 web_review_destroy:
-  needs: ['web_review_e2e ']
+  needs: ['web_review_e2e']
   image: 'hashicorp/terraform:light'
   variables:
     # has to be set to none for auto stop
