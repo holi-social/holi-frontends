@@ -93,7 +93,7 @@ web_review_e2e:
     - /^noenv\/.*/
 
 web_review_destroy:
-  needs: ['web_build_docker']
+  needs: ['web_review_deploy']
   image: 'hashicorp/terraform:light'
   variables:
     # has to be set to none for auto stop

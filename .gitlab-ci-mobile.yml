@@ -25,7 +25,6 @@ mobile_review_destroy:
     action: stop
   dependencies: [] # explicitly disable artifact usage
   script:
-    # branch may be deleted, so we clone and checkout master
     - echo "Nothing to do, you can't unpublish an expo release. This is only for cleaning up the gitlab environments"
   # can't use rules here: https://gitlab.com/gitlab-org/gitlab/-/issues/34077
   when: manual
