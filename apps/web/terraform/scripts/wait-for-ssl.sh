@@ -2,7 +2,10 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+# needs to start with https:// for this script to work, of course
 url="$1"
+# google has a cdn answering on requests. This cdn takes a while to be fully updated.
+# Therefore, we don't return on first success, but on a number of consecutive successes.
 number_of_consecutive_successful_tries_needed=10
 number_of_consecutive_successful_tries_achieved=0
 

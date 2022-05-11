@@ -23,7 +23,4 @@ TF_LOG_PATH=terraform-version.log terraform version
 TF_LOG_PATH=terraform-workspace.log terraform workspace new "$WORKSPACE" || terraform workspace select "$WORKSPACE"
 
 execute_plan plan
-set +e
 TF_LOG_PATH=terraform-apply.log terraform apply -auto-approve -parallelism=50 plan
-first_apply_code=$?
-set -e

@@ -1,33 +1,12 @@
 /**
- * the project id of projects must be globally unique. Since we might create a project for a branch multiple times,
- * and a project is not deleted instantly, but sticks around for 30 days, we need to append some random data to the
- * project id in order to avoid collisions.
+ * The resource ids of resources must be unique. Since we might create resources for a branch multiple times
+ * (after destroying the ones created before maybe failed, e.g. on environment cleanup, reopening a branch), we ensure uniqueness
+ * by appending some random data to resource ids in order to avoid collisions.
  */
 resource "random_id" "main" {
   byte_length = 2
-  prefix      = "${local.project_name}-"
+  prefix      = "${local.environment_name}-"
 }
-
-/*resource "google_project" "mvp_web" {
-  name            = local.project_name
-  project_id      = random_id.main.hex
-  folder_id       = local.parent_folder
-  billing_account = data.terraform_remote_state.holi_infra_state.outputs.billing_account_id
-
-  provisioner "local-exec" {
-    # https://github.com/terraform-providers/terraform-provider-google/issues/5649
-    # not fully fixed yet
-    # raised to 30 after 
-    /*
-      Error: googleapi: Error 412: One or more users named in the policy do not belong to a permitted customer., conditionNotMet
-
-        on project-main.tf line 262, in resource "google_storage_bucket" "gra":
-       262: resource "google_storage_bucket" "gra" {
-  -/
-    command = "sleep 30"
-  }
-
-}*/
 
 resource "google_project_service" "service" {
   for_each = toset([
@@ -35,7 +14,6 @@ resource "google_project_service" "service" {
     "servicemanagement.googleapis.com",
     "servicecontrol.googleapis.com",
     "endpoints.googleapis.com",
-    //    "cloudbuild.googleapis.com",
   ])
 
   service = each.key
@@ -47,7 +25,7 @@ resource "google_project_service" "service" {
 resource "google_cloud_run_service" "mvp_web" {
   project  = data.terraform_remote_state.holi_infra_state.outputs.shared_project_id
   name     = random_id.main.hex
-  location = "europe-north1" # TODO: non-static reference to default location
+  location = "europe-north1" # TODO: Frankfurt doesn't work, settle on a region here (north1 is finland and very co2 friendly)
 
   template {
     spec {
@@ -67,7 +45,8 @@ resource "google_cloud_run_service" "mvp_web" {
 
 resource "google_cloud_run_domain_mapping" "mvp_web" {
   project  = google_cloud_run_service.mvp_web.project
-  location = "europe-north1"
+  # location needs to be the same as the service's
+  location = google_cloud_run_service.mvp_web.location
   name     = local.dns_name
 
   metadata {

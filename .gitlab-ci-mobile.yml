@@ -5,11 +5,32 @@ mobile_review_publish:
     - cd apps/mobile
     - expo publish --release-channel $CI_ENVIRONMENT_SLUG
   environment:
-    name: review/mobile-$CI_COMMIT_REF_SLUG
+    name: review/$CI_COMMIT_REF_SLUG-mobile
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=$CI_ENVIRONMENT_SLUG
   except:
     - main
     - /^noenv\/.*/
+  interruptible: true
+
+mobile_review_destroy:
+  needs: ['mobile_review_publish']
+  image: 'alpine'
+  variables:
+    # has to be set to none for auto stop
+    GIT_STRATEGY: none
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG-mobile
+    action: stop
+  dependencies: [] # explicitly disable artifact usage
+  script:
+    # branch may be deleted, so we clone and checkout master
+    - echo "Nothing to do, you can't unpublish an expo release. This is only for cleaning up the gitlab environments"
+  # can't use rules here: https://gitlab.com/gitlab-org/gitlab/-/issues/34077
+  when: manual
+  except:
+    - main
+    - /^noenv\/.*/
+  interruptible: false
 
 mobile_staging_publish:
   needs: ['lint_compile_test']
@@ -23,6 +44,7 @@ mobile_staging_publish:
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=staging
   only:
     - main
+  interruptible: true
 
 mobile_staging_build:
   needs: ['lint_compile_test']
@@ -42,6 +64,7 @@ mobile_staging_build:
     - main
     - HOLI-1321_eas-browserstack-ios
     - HOLI-1368_fix-android-e2e
+  interruptible: true
 
 mobile_staging_e2e_android:
   needs: ['mobile_staging_build']
@@ -61,6 +84,7 @@ mobile_staging_e2e_android:
     - main
     - HOLI-1321_eas-browserstack-ios
     - HOLI-1368_fix-android-e2e
+  interruptible: true
 
 mobile_staging_e2e_ios:
   needs: ['mobile_staging_build']
@@ -80,6 +104,7 @@ mobile_staging_e2e_ios:
     - main
     - HOLI-1321_eas-browserstack-ios
     - HOLI-1368_fix-android-e2e
+  interruptible: true
 
 mobile_production_publish:
   needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
@@ -94,6 +119,7 @@ mobile_production_publish:
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=production
   only:
     - main
+  interruptible: true
 
 mobile_production_build:
   needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
@@ -112,6 +138,7 @@ mobile_production_build:
       - artifacts_production/
   only:
     - main
+  interruptible: true
 
 # disabled (hidden) (not implemented yet), only increases build times and uses up runner minutes
 .mobile_production_submit:
@@ -121,4 +148,5 @@ mobile_production_build:
     - echo 'submission to app store(s) goes here'
   only:
     - main
+  interruptible: false
 

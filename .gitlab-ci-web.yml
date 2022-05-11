@@ -32,9 +32,6 @@ variables:
   script:
     - UI_DOMAIN=`cat $UI_DOMAIN_PATH`
     - echo "e2e tests against $CI_ENVIRONMENT_SLUG environment go here and against $UI_DOMAIN"
-    - pwd
-    - ls
-    - ls apps/web/terraform/scripts
     - apps/web/terraform/scripts/wait-for-ssl.sh "https://${UI_DOMAIN}"
   interruptible: true
 
@@ -80,7 +77,7 @@ web_review_deploy:
   extends: .web_deploy
   needs: ['web_build_docker']
   environment:
-    name: review/web-$CI_COMMIT_REF_SLUG
+    name: review/$CI_COMMIT_REF_SLUG-web
     url: https://$CI_COMMIT_REF_SLUG.web.project-holi.org
     on_stop: web_review_destroy
     auto_stop_in: 1 week
@@ -96,18 +93,18 @@ web_review_e2e:
     - /^noenv\/.*/
 
 web_review_destroy:
-  needs: ['web_review_e2e']
+  needs: ['web_build_docker']
   image: 'hashicorp/terraform:light'
   variables:
     # has to be set to none for auto stop
     GIT_STRATEGY: none
   environment:
-    name: review/web-$CI_COMMIT_REF_SLUG
+    name: review/$CI_COMMIT_REF_SLUG-web
     action: stop
   dependencies: [] # explicitly disable artifact usage
   before_script:
-    - export GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_CLOUD_SERVICE_ACCOUNT}
   script:
+    - export GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_CLOUD_SERVICE_ACCOUNT}
     # branch may be deleted, so we clone and checkout master
     - git clone $CI_REPOSITORY_URL
     - apps/web/terraform/scripts/destroy-env.sh $CI_COMMIT_REF_SLUG

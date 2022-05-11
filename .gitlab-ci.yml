@@ -30,8 +30,9 @@ lint_compile_test:
       - 'packages/*/node_modules'
       - 'core/node_modules'
       - 'e2e/*/node_modules'
+  interruptible: true
 
-# the web and mobile pipelines are defined in a separate file
+# the web and mobile only pipeline steps are defined in separate files for better overview and separation of concerns
 include: 
   - '.gitlab-ci-web.yml'
   - '.gitlab-ci-mobile.yml'
