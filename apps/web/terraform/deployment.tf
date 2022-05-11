@@ -31,6 +31,26 @@ resource "google_cloud_run_service" "mvp_web" {
     spec {
       containers {
         image = "${data.terraform_remote_state.holi_infra_state.outputs.gcr_location}/hrns:${local.environment}"
+        ports {
+          container_port = 3000
+        }
+
+        resources {
+          limits = {
+            cpu    = local.environment == "production" ? "1000m" : "1000m"
+            memory = local.environment == "production" ? "512Mi" : "256Mi"
+          }
+          requests = {
+            cpu    = local.environment == "production" ? "1000m" : "10m"
+            memory = local.environment == "production" ? "512Mi" : "256Mi"
+          }
+        }
+      }
+    }
+    metadata {
+      annotations = {
+        "autoscaling.knative.dev/minScale" = local.environment == "production" ? "1" : "0"
+        "autoscaling.knative.dev/maxScale" = local.environment == "production" ? "10" : "1"
       }
     }
   }
@@ -44,7 +64,7 @@ resource "google_cloud_run_service" "mvp_web" {
 }
 
 resource "google_cloud_run_domain_mapping" "mvp_web" {
-  project  = google_cloud_run_service.mvp_web.project
+  project = google_cloud_run_service.mvp_web.project
   # location needs to be the same as the service's
   location = google_cloud_run_service.mvp_web.location
   name     = local.dns_name
@@ -56,4 +76,21 @@ resource "google_cloud_run_domain_mapping" "mvp_web" {
   spec {
     route_name = google_cloud_run_service.mvp_web.name
   }
+}
+
+data "google_iam_policy" "mvp_web" {
+  binding {
+    role = "roles/run.invoker"
+    members = [
+      "allUsers",
+    ]
+  }
+}
+
+resource "google_cloud_run_service_iam_policy" "mvp_web" {
+  location = google_cloud_run_service.mvp_web.location
+  project  = google_cloud_run_service.mvp_web.project
+  service  = google_cloud_run_service.mvp_web.name
+
+  policy_data = data.google_iam_policy.mvp_web.policy_data
 }

@@ -8,9 +8,6 @@ variables:
     name: 'hashicorp/terraform:light'
     # default entrypoint is terraform command, but we want to run shell scripts
     entrypoint: ["/bin/sh", "-c"]
-  artifacts:
-    paths:
-      - $UI_DOMAIN_PATH
   variables:
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
   artifacts:
@@ -105,9 +102,9 @@ web_review_destroy:
   before_script:
   script:
     - export GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_CLOUD_SERVICE_ACCOUNT}
-    # branch may be deleted, so we clone and checkout master
-    - git clone $CI_REPOSITORY_URL
-    - apps/web/terraform/scripts/destroy-env.sh $CI_COMMIT_REF_SLUG
+    # branch may have been deleted, so we clone and checkout main
+    - git clone $CI_REPOSITORY_URL main-clone
+    - main-clone/apps/web/terraform/scripts/destroy-env.sh $CI_COMMIT_REF_SLUG
   # can't use rules here: https://gitlab.com/gitlab-org/gitlab/-/issues/34077
   when: manual
   except:

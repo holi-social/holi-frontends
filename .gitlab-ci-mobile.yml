@@ -63,8 +63,6 @@ mobile_staging_build:
       - artifacts_staging/
   only:
     - main
-    - HOLI-1321_eas-browserstack-ios
-    - HOLI-1368_fix-android-e2e
   interruptible: true
 
 mobile_staging_e2e_android:
@@ -83,8 +81,6 @@ mobile_staging_e2e_android:
   allow_failure: true
   only:
     - main
-    - HOLI-1321_eas-browserstack-ios
-    - HOLI-1368_fix-android-e2e
   interruptible: true
 
 mobile_staging_e2e_ios:
@@ -103,8 +99,6 @@ mobile_staging_e2e_ios:
   allow_failure: true
   only:
     - main
-    - HOLI-1321_eas-browserstack-ios
-    - HOLI-1368_fix-android-e2e
   interruptible: true
 
 mobile_production_publish:
