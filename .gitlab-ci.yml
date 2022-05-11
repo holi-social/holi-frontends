@@ -35,6 +35,6 @@ lint_compile_test:
 
 # the web and mobile only pipeline steps are defined in separate files for better overview and separation of concerns
 include: 
-  - '.gitlab-ci-web.yml'
-  - '.gitlab-ci-mobile.yml'
+  - '/.gitlab-ci-web.yml'
+  - '/.gitlab-ci-mobile.yml'
 
