@@ -3,6 +3,7 @@
 const withPlugins = require('next-compose-plugins')
 const withTM = require('next-transpile-modules')
 const path = require('path')
+const { withSentryConfig } = require('@sentry/nextjs')
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -26,22 +27,37 @@ const nextConfig = {
   },
 }
 
-module.exports = withPlugins(
-  [
-    withTM(
-      [
-        'react-native-reanimated',
-        'react-native-card-stack-swiper',
-        '@holi-apps/community',
-        '@holi/ui',
-        '@holi/core',
-        '@holi/api',
-      ],
-      {
-        resolveSymlinks: true,
-        debug: true,
-      }
-    ),
-  ],
-  nextConfig
+const sentryWebpackPluginOptions = {
+  // Additional config options for the Sentry Webpack plugin. Keep in mind that
+  // the following options are set automatically, and overriding them is not
+  // recommended:
+  //   release, url, org, project, authToken, configFile, stripPrefix,
+  //   urlPrefix, include, ignore
+
+  silent: true, // Suppresses all logs
+  // For all available options, see:
+  // https://github.com/getsentry/sentry-webpack-plugin#options.
+}
+
+module.exports = withSentryConfig(
+  withPlugins(
+    [
+      withTM(
+        [
+          'react-native-reanimated',
+          'react-native-card-stack-swiper',
+          '@holi-apps/community',
+          '@holi/ui',
+          '@holi/core',
+          '@holi/api',
+        ],
+        {
+          resolveSymlinks: true,
+          debug: true,
+        }
+      ),
+    ],
+    nextConfig
+  ),
+  sentryWebpackPluginOptions
 )
