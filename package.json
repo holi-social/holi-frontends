@@ -10,7 +10,8 @@
     ]
   },
   "resolutions": {
-    "**/ts-invariant": "0.9.4"
+    "**/ts-invariant": "0.9.4",
+    "**/tslib": "2.3.1"
   },
   "scripts": {
     "mobile:dev": "yarn workspace @holi/mobile dev",
