@@ -1,6 +1,8 @@
 # holi-react-native-setup
 
-## Requirements
+## Development
+
+### Requirements
 
 Before we can get started building, please ensure that both [`direnv`](https://github.com/direnv/direnv/) and one of the following node version managers are installed and properly set up on your system:
 
@@ -14,7 +16,7 @@ Run `cp .envrc-local.template .envrc-local` and adjust `.envrc-local` to match y
 `.node-version` (used by `nodenv`) ensures that all developers are using the same `node`/`npm` versions.
 It is kept in sync with `.nvmrc` (used by `nvm`) by a symbolic link, so please make sure to use a format that is understood by both tools (e.g. a fixed version).
 
-## Running
+### Running
 
 Run `yarn mobile:dev` for mobile and `yarn web:dev` for web.
 
@@ -22,7 +24,7 @@ Start the mock api with `yarn mock-api:dev`.
 
 We are using [Expo](https://docs.expo.dev/) to build the app for both mobile app variants.
 
-### Android emulator
+#### Android emulator
 
 - Follow the instructions to install [Android studio](https://docs.expo.dev/workflow/android-studio-emulator/)
 - Create an adb device using the Virtual Device Manager from Android Studio
@@ -32,12 +34,12 @@ We are using [Expo](https://docs.expo.dev/) to build the app for both mobile app
 - `yarn mobile:dev` > `a`
 - Note: Pressing `w` to open the web app is not expected to work - use `yarn web:dev` instead
 
-### iOS simulator
+#### iOS simulator
 
 - Follow the instructions to install [Xcode](https://docs.expo.dev/workflow/ios-simulator/) and setup a simulator
 - `yarn mobile:dev` > `i`
 
-## Install libs / packages
+### Install libs / packages
 
 For convenience reasons you might want to stay in the project root folder. From here you can add new packages with the
 command:
@@ -73,7 +75,7 @@ without a monorepo, using a library. However, using a library for shared code, y
 change (locally) before you can try it out in the applications that use it. This would dramatically decrease development
 velocity as feedback cycles for shared code changes are simply too long. And it's no fun do work this way either.
 
-### Yarn Workspaces
+#### Yarn Workspaces
 
 Yarn Workspaces are a neat feature that support us with our monorepo approach. It allows to make multiple packages
 (e.g. `@holi/core`, `@holi/mobile` and `@holi/web`) and group them together in a (non-publishable) root package. With
@@ -102,7 +104,7 @@ holi-react-native-setup/ $> yarn workspace @holi/mobile run start
 But notice that _you don't have to_ do this, you can also `cd` into the individual packages and use yarn as if you
 weren't in a monorepo with yarn Workspaces.
 
-### (Adding) Dependencies
+#### (Adding) Dependencies
 
 Due to the monorepo layout and how hoisting works we have to follow a couple of rules that "magically" make everything
 work (to the best of our *current* knowledge):
@@ -142,7 +144,7 @@ yarn clean:all
 
 in the root directory or a specific workspace.
 
-### How to Reproduce (Built this from scratch)
+#### How to Reproduce (Built this from scratch)
 
 Simply cloning a monorepo template from the Internet won't help you understand how everything is glued together. And if
 you don't, it's quite likely that you're going to have a hard time as soon as something breaks. At that point you might
@@ -155,19 +157,19 @@ reasoning behind it. If you run into problems half a year into the project, this
 allows you to go back in time and debug your monorepo issue on a smaller less cluttered code base. That's the idea, we
 hope it will pay out.
 
-## Navigation
+### Navigation
 
 To create a new route with a screen for mobile and page for web you have to do the following.
 
 Say you wanted to create the route "/profile/:id" which opened the profile page in web and a profile screen in mobile.
 
-### shared
+#### shared
 
 - create core/profile/id.tsx
   - implement a shared view for the profile you want to render
   - use `const { query: { id } } = useRouting()` hook retrieve the id query param
 
-### web
+#### web
 
 - create web/pages/profile/[id].tsx
   - render the shared screen within the
@@ -177,7 +179,7 @@ const ProfilePage: NextPage = () => <ProfileScreen / >
 export default ProfilePage
 ```
 
-### mobile
+#### mobile
 
 - create a route in `apps/mobile/navigation/rootNavigator.tsx` e.g. in the RootStack and use the shared screen component to render
 
@@ -199,7 +201,7 @@ config: {
 }
 ```
 
-### conclusion
+#### conclusion
 
 you can now navigate from anywhere in web and mobile using the navigate function exposed by the useRouting hook.
 
@@ -227,3 +229,19 @@ It may be configured at different places, but over all it must be unique.
 <SpacesDrawer.Screen name="AppStore" component={AppStoreScreen} />
 <CommunityBottomNav.Screen name="Board" component={BoardScreen} />
 ```
+
+## Continuous Integration and Deployment
+
+### Development / Feature Branches
+
+When you are working on a story, please create a branch that contains the ticket number in its name, and keep the branch name short. A good default is either only the ticket number (e.g. HOLI-1234) or git flow based names (e.g. feature/HOLI-1234).
+
+When you push this branch, a GitLab CI pipeline is triggered that builds and deploys the code to web (available via https://$BRANCH_NAME.web.project-holi.org) and to mobile (available via expo). Also, E2E tests are executed against all platforms.
+
+### Want to shorten the pipeline / not deploy environments and run e2e tests?
+
+When you prefix your branch name with `noenv/`, the pipeline only lints, builds and runs, but does not publish, deploy or e2e test. This saves quite some time.
+
+### Staging and Production Deployments
+
+When a branch is merged to the main branch, the pipeline deploys to the staging environment and runs e2e tests against it. After these are successful, you can manually trigger a deployment of a specific commit to production via GitLab CI.
