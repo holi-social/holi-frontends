@@ -15,7 +15,7 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 'latest',
+    ecmaVersion: '6',
     sourceType: 'module',
   },
   plugins: ['react', 'react-native', '@typescript-eslint', 'prefer-arrow', 'prettier'],
