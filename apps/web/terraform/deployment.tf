@@ -37,6 +37,7 @@ resource "google_cloud_run_service" "mvp_web" {
 
         resources {
           limits = {
+            # cpu can only be scaled down to 1000m as long as concurrency is set to >1
             cpu    = local.environment == "production" ? "1000m" : "1000m"
             memory = local.environment == "production" ? "512Mi" : "256Mi"
           }
@@ -50,7 +51,7 @@ resource "google_cloud_run_service" "mvp_web" {
     metadata {
       annotations = {
         "autoscaling.knative.dev/minScale" = local.environment == "production" ? "1" : "0"
-        "autoscaling.knative.dev/maxScale" = local.environment == "production" ? "10" : "1"
+        "autoscaling.knative.dev/maxScale" = local.environment == "production" ? "10" : "0"
       }
     }
   }
