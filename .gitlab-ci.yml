@@ -15,6 +15,7 @@ default:
     - env
 
 lint_compile_test:
+  stage: build
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - yarn install
