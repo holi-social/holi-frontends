@@ -37,7 +37,7 @@ resource "google_cloud_run_service" "mvp_web" {
 
         resources {
           limits = {
-            # cpu can only be scaled down to 1000m as long as concurrency is set to >1
+            # cpu can only be scaled down to 1000m as long as container_concurrency is set to != 1
             cpu    = local.environment == "production" ? "1000m" : "1000m"
             memory = local.environment == "production" ? "512Mi" : "256Mi"
           }
@@ -47,6 +47,7 @@ resource "google_cloud_run_service" "mvp_web" {
           }
         }
       }
+      container_concurrency = 0 # 0 means thread safe, no restriction on max concurrency
     }
     metadata {
       annotations = {
