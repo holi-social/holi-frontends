@@ -8,7 +8,7 @@ import App from './App'
 Sentry.init({
   dsn: 'https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191',
   enableInExpoDevelopment: true,
-  debug: true, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
+  debug: false, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
 })
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
