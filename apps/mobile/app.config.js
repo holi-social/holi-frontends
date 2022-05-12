@@ -1,0 +1,41 @@
+export default {
+  expo: {
+    name: 'Project HOLI',
+    slug: 'projectholi',
+    owner: 'holistic-foundation',
+    version: '1.0.0',
+    orientation: 'portrait',
+    icon: './assets/icon.png',
+    scheme: 'holi',
+    splash: {
+      image: './assets/splash.png',
+      resizeMode: 'contain',
+      backgroundColor: '#ffffff',
+    },
+    updates: {
+      fallbackToCacheTimeout: 0,
+    },
+    assetBundlePatterns: ['**/*'],
+    ios: {
+      supportsTablet: true,
+      bundleIdentifier: 'foundation.holistic.projectholi',
+      buildNumber: '1.0.0',
+    },
+    android: {
+      adaptiveIcon: {
+        foregroundImage: './assets/adaptive-icon.png',
+        backgroundColor: '#FFFFFF',
+      },
+      package: 'foundation.holistic.projectholi',
+      versionCode: 1,
+    },
+    web: {
+      favicon: './assets/favicon.png',
+    },
+    extra: {
+      kratos: {
+        url: process.env.KRATOS_BASE_URL || 'https://mystifying-carver-akajr6v4t8.projects.oryapis.com',
+      },
+    },
+  },
+}
