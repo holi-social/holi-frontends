@@ -34,7 +34,7 @@ export default {
     },
     extra: {
       kratos: {
-        url: process.env.KRATOS_BASE_URL || 'https://mystifying-carver-akajr6v4t8.projects.oryapis.com',
+        url: process.env.KRATOS_BASE_URL || 'https://auth.project-holi.org',
       },
     },
   },

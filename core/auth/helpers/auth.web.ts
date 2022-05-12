@@ -6,8 +6,13 @@ import {
 } from '@ory/kratos-client'
 import AsyncStore from '@react-native-async-storage/async-storage'
 import { AxiosPromise } from 'axios'
+import getConfig from 'next/config'
 
 import { SessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
+
+const { publicRuntimeConfig } = getConfig()
+
+export const kratosUrl = publicRuntimeConfig.kratos.url
 
 const userSessionName = 'user_session'
 
