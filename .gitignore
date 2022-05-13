@@ -1,10 +1,12 @@
 node_modules
 .expo
-.envrc
 .DS_Store
 **/.turbo
+yarn-error.log
 
 # any build dir
 build
 .envrc.local
 
+.holi-terraform.key
+.terraform*

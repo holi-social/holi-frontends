@@ -1,26 +1,29 @@
 schema {
   query: Query
+  mutation: Mutation
 }
 
 type Query {
-  Post(id: ID!): Post
-  User(id: ID!): User
-  allPosts(offset: Int, limit: Int): [Post]
+  user(id: ID!): User
   allUsers(offset: Int, limit: Int): [User]
 }
 
-type Post {
-  id: ID!
-  title: String!
-  text: String!
-  image: String
-  views: Int!
-  user_id: ID!
-  User: User
+type Mutation {
+  createUser(user: UserInput): User
+  updateUser(id: ID!, user: UserInput): User
+}
+
+input UserInput {
+  name: String!
+  aboutMe: String
+  pronouns: String
+  location: String
 }
 
 type User {
   id: ID!
   name: String!
-  Posts: [Post]
+  aboutMe: String
+  pronouns: String
+  location: String
 }

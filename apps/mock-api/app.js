@@ -19,31 +19,20 @@ const randomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-const fakeUser = () => ({
-  id: faker.unique(faker.datatype.uuid),
-  name: `${faker.name.firstName()} ${faker.name.lastName()}`,
-})
-
-const fakePost = (users) => () => {
-  const user = users[randomInt(0, users.length - 1)]
-
-  const hasImage = Math.random() < 0.5
-
+const fakeUser = () => {
+  const pronouns = ['they/them', 'she/her', 'he/him', '']
   return {
     id: faker.unique(faker.datatype.uuid),
-    title: faker.company.catchPhrase(),
-    text: faker.lorem.paragraphs(randomInt(1, 3)),
-    views: randomInt(0, 10000),
-    image: hasImage ? faker.image.image(600, 352) : null,
-    user_id: user.id,
-    User: user,
+    name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+    aboutMe: faker.lorem.lines(),
+    pronouns: pronouns[randomInt(0, pronouns.length - 1)],
+    location: `${faker.address.city()}, ${faker.address.country()}`,
   }
 }
 
 const fakeUsers = Array.from({ length: randomInt(0, 100) }, fakeUser)
-const fakePosts = Array.from({ length: fakeUsers.length === 0 ? 0 : randomInt(0, 100) }, fakePost(fakeUsers))
 
-console.info(`${fakeUsers.length} fake user(s) and ${fakePosts.length} fake post(s)`)
+console.info(`${fakeUsers.length} fake user(s)`)
 
 const typeDefs = gql(readFileSync('./schema.graphql').toString('utf-8'))
 const resolvers = {
@@ -51,26 +40,36 @@ const resolvers = {
     allUsers: (_, args) => {
       console.info('allUsers', args)
       const offset = args.offset || 0
-      const limit = args.limit || fakePosts.length
+      const limit = args.limit || fakeUsers.length
       const result = fakeUsers.slice(offset, offset + limit)
       return result
     },
-    allPosts: (_, args) => {
-      console.info('allPosts', args)
-      const offset = args.offset || 0
-      const limit = args.limit || fakePosts.length
-      const result = fakePosts.slice(offset, offset + limit)
-      return result
-    },
-    Post: (_, args) => {
-      const postFound = fakePosts.find((p) => p.id === args.id)
-      console.info('Post', args)
-      return postFound
-    },
-    User: (_, args) => {
+    user: (_, args) => {
       const userFound = fakeUsers.find((u) => u.id === args.id)
-      console.info('User', args)
+      console.info('user', args)
       return userFound
+    },
+  },
+  Mutation: {
+    createUser: (_, args) => {
+      const newUser = {
+        ...fakeUser(),
+        ...args.user,
+      }
+      fakeUsers.push(newUser)
+      console.info('createUser', newUser)
+      return newUser
+    },
+    updateUser: (_, args) => {
+      const userIndex = fakeUsers.findIndex((u) => u.id === args.id)
+      const updatedUser = {
+        ...fakeUsers[userIndex],
+        ...args.user,
+      }
+      fakeUsers[userIndex] = updatedUser
+      console.info('updateUser', updatedUser)
+      // Return user with id for automatic cache updates
+      return updatedUser
     },
   },
 }

@@ -1,15 +1,47 @@
 # holi-react-native-setup
 
-## Running
+## Development
+
+### Requirements
+
+Before we can get started building, please ensure that both [`direnv`](https://github.com/direnv/direnv/) and one of the following node version managers are installed and properly set up on your system:
+
+- [`nodenv`](https://github.com/nodenv/nodenv) or
+- [`nvm`](https://github.com/nvm-sh/nvm)
+
+Follow the instructions in the corresponding READMEs for setup.
+
+Run `cp .envrc-local.template .envrc-local` and adjust `.envrc-local` to match your configuration (e.g. using the correct node version manager). Using `direnv`, `.envrc` (and `.envrc-local`) will automatically be loaded when you `cd` into the directory.
+
+`.node-version` (used by `nodenv`) ensures that all developers are using the same `node`/`npm` versions.
+It is kept in sync with `.nvmrc` (used by `nvm`) by a symbolic link, so please make sure to use a format that is understood by both tools (e.g. a fixed version).
+
+### Running
 
 Run `yarn mobile:dev` for mobile and `yarn web:dev` for web.
 
 Start the mock api with `yarn mock-api:dev`.
 
+We are using [Expo](https://docs.expo.dev/) to build the app for both mobile app variants.
 
-## Install libs / packages
+#### Android emulator
 
-For convience reasons you might want to stay in the project root folder. From here you can add new packages with the
+- Follow the instructions to install [Android studio](https://docs.expo.dev/workflow/android-studio-emulator/)
+- Create an adb device using the Virtual Device Manager from Android Studio
+- Add `<path-to-android-sdk>/emulator` to your `PATH` environment variable
+- Start the emulator using `emulator @<device-name>`
+- Run `adb devices`: Make sure the adb daemon could be started and the emulator is listed
+- `yarn mobile:dev` > `a`
+- Note: Pressing `w` to open the web app is not expected to work - use `yarn web:dev` instead
+
+#### iOS simulator
+
+- Follow the instructions to install [Xcode](https://docs.expo.dev/workflow/ios-simulator/) and setup a simulator
+- `yarn mobile:dev` > `i`
+
+### Install libs / packages
+
+For convenience reasons you might want to stay in the project root folder. From here you can add new packages with the
 command:
 
 `yarn workspace [workspace-name] add [package-name]`
@@ -21,10 +53,13 @@ or
 
 Alternatively, you can also go into the specific folder where you need the new lib and install it there:
 
-```
+```sh
 cd web
 yarn add typescript -D
 ```
+
+Note: Be careful when using `expo install`, as it seems to ignore the resolutions defined in the root `package.json`
+and might cause dependency conflicts.
 
 ## Monorepo - and why
 
@@ -40,7 +75,7 @@ without a monorepo, using a library. However, using a library for shared code, y
 change (locally) before you can try it out in the applications that use it. This would dramatically decrease development
 velocity as feedback cycles for shared code changes are simply too long. And it's no fun do work this way either.
 
-### Yarn Workspaces
+#### Yarn Workspaces
 
 Yarn Workspaces are a neat feature that support us with our monorepo approach. It allows to make multiple packages
 (e.g. `@holi/core`, `@holi/mobile` and `@holi/web`) and group them together in a (non-publishable) root package. With
@@ -55,30 +90,30 @@ Yarn Workspaces are a neat feature that support us with our monorepo approach. I
 
 Working with Yarn Workspaces is (a little) different, but easy. Instead of running e.g.
 
-```
+```sh
 holi-react-native-setup/ $> cd mobile
 holi-react-native-setup/mobile $> yarn run start
 ```
 
 you _can_ simply prefix every yarn command with `yarn workspace $MODULE_NAME` like so:
 
-```
+```sh
 holi-react-native-setup/ $> yarn workspace @holi/mobile run start
 ```
 
 But notice that _you don't have to_ do this, you can also `cd` into the individual packages and use yarn as if you
 weren't in a monorepo with yarn Workspaces.
 
-### (Adding) Dependencies
+#### (Adding) Dependencies
 
 Due to the monorepo layout and how hoisting works we have to follow a couple of rules that "magically" make everything
 work (to the best of our *current* knowledge):
 
-* **root**: don't add any dependencies here
-    * *exception*: dev dependencies that understand monorepos like `eslint`
-* **shared**: don't add any dependencies here
-* **mobile**: add all your React Native and universal (both mobile and web) dependencies here
-* **web**: add your web-only dependencies here
+- **root**: don't add any dependencies here
+  - *exception*: dev dependencies that understand monorepos like `eslint`
+- **shared**: don't add any dependencies here
+- **mobile**: add all your React Native and universal (both mobile and web) dependencies here
+- **web**: add your web-only dependencies here
 
 We have tried different approaches before that were using `nohoist` and more "obvious" / "intuitive" / "known"
 patterns (e.g. adding universal dependencies in both web and mobile, or in shared only). However, these approaches
@@ -91,7 +126,25 @@ conflicts (as has been done e.g. with `ts-invariant`).
 Please also note that not all dependency versions are compatible with the current version of Expo.
 Running `expo doctor --fix-dependencies` might then help to fix this.
 
-### How to Reproduce (Built this from scratch)
+### Clean up
+
+To clean up builds you can run
+
+```sh
+yarn clean
+```
+
+in the root directory or a specific workspace.
+
+In order to clean up everything including `node_modules` directories you can run
+
+```sh
+yarn clean:all
+```
+
+in the root directory or a specific workspace.
+
+#### How to Reproduce (Built this from scratch)
 
 Simply cloning a monorepo template from the Internet won't help you understand how everything is glued together. And if
 you don't, it's quite likely that you're going to have a hard time as soon as something breaks. At that point you might
@@ -104,29 +157,29 @@ reasoning behind it. If you run into problems half a year into the project, this
 allows you to go back in time and debug your monorepo issue on a smaller less cluttered code base. That's the idea, we
 hope it will pay out.
 
-# Navigation
+### Navigation
 
 To create a new route with a screen for mobile and page for web you have to do the following.
 
 Say you wanted to create the route "/profile/:id" which opened the profile page in web and a profile screen in mobile.
 
-## shared
+#### shared
 
 - create core/profile/id.tsx
   - implement a shared view for the profile you want to render
   - use `const { query: { id } } = useRouting()` hook retrieve the id query param
 
-## web
+#### web
 
 - create web/pages/profile/[id].tsx
-    - render the shared screen within the
+  - render the shared screen within the
 
 ```ts
 const ProfilePage: NextPage = () => <ProfileScreen / >
 export default ProfilePage
 ```
 
-## mobile
+#### mobile
 
 - create a route in `apps/mobile/navigation/rootNavigator.tsx` e.g. in the RootStack and use the shared screen component to render
 
@@ -148,7 +201,7 @@ config: {
 }
 ```
 
-## conclusion
+#### conclusion
 
 you can now navigate from anywhere in web and mobile using the navigate function exposed by the useRouting hook.
 
@@ -164,13 +217,13 @@ jaspers
 profile < /Button>
 ```
 
-## notes
+### notes
 
 **Important hint: A screen name must be unique.**
 
 It may be configured at different places, but over all it must be unique.
 
-```
+```tsx
 // e.g.
 <RootStack.Screen name="Spaces" component={SpacesNavigator} />
 <SpacesDrawer.Screen name="AppStore" component={AppStoreScreen} />
@@ -187,3 +240,19 @@ ory proxy http://localhost:3000
 ```
 You cannot use our custom domain here as a ORY_SDK_URL since the cookies will not be set correctly.
 The default port for the proxy is 4000, so use `localhost:4000` when accessing the web app.
+
+## Continuous Integration and Deployment
+
+### Development / Feature Branches
+
+When you are working on a story, please create a branch that contains the ticket number in its name, and keep the branch name short. A good default is either only the ticket number (e.g. HOLI-1234) or git flow based names (e.g. feature/HOLI-1234).
+
+When you push this branch, a GitLab CI pipeline is triggered that builds and deploys the code to web (available via https://$BRANCH_NAME.web.project-holi.org) and to mobile (available via expo). Also, E2E tests are executed against all platforms.
+
+### Want to shorten the pipeline / not deploy environments and run e2e tests?
+
+When you prefix your branch name with `noenv/`, the pipeline only lints, builds and runs, but does not publish, deploy or e2e test. This saves quite some time.
+
+### Staging and Production Deployments
+
+When a branch is merged to the main branch, the pipeline deploys to the staging environment and runs e2e tests against it. After these are successful, you can manually trigger a deployment of a specific commit to production via GitLab CI.
