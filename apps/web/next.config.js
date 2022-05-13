@@ -26,11 +26,11 @@ const nextConfig = {
   },
   publicRuntimeConfig: {
     kratos: {
-      url: process.env.KRATOS_BASE_URL || 'http://localhost:4000/.ory',
+      url: process.env.KRATOS_BASE_URL || 'https://auth.project-holi.org',
     },
   },
 }
-
+/**http://localhost:4000/.ory */
 module.exports = withPlugins(
   [
     withTM(
