@@ -185,4 +185,5 @@ When the ory cli is installed run:
 export ORY_SDK_URL=https://mystifying-carver-akajr6v4t8.projects.oryapis.com
 ory proxy http://localhost:3000
 ```
+You cannot use our custom domain here as a ORY_SDK_URL since the cookies will not be set correctly.
 The default port for the proxy is 4000, so use `localhost:4000` when accessing the web app.
