@@ -32,7 +32,7 @@ export default {
     web: {
       favicon: './assets/favicon.png',
     },
-    plugins: ['sentry - expo'],
+    plugins: ['sentry-expo'],
     hooks: {
       postPublish: [
         {
