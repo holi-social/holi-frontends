@@ -26,7 +26,7 @@ const nextConfig = {
   },
   publicRuntimeConfig: {
     kratos: {
-      url: process.env.KRATOS_BASE_URL || 'https://auth.project-holi.org',
+      url: 'https://auth.project-holi.org',
     },
   },
 }
