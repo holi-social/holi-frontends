@@ -24,8 +24,13 @@ const nextConfig = {
     outputStandalone: true,
     outputFileTracingRoot: path.join(__dirname, '../../'),
   },
+  publicRuntimeConfig: {
+    kratos: {
+      url: process.env.KRATOS_BASE_URL || 'https://auth.project-holi.org',
+    },
+  },
 }
-
+/**http://localhost:4000/.ory */
 module.exports = withPlugins(
   [
     withTM(
