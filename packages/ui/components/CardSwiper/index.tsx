@@ -1,5 +1,5 @@
 import React, { RefObject, createRef } from 'react'
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import CardStack, { Card } from 'react-native-card-stack-swiper'
 
 import Holicon from '@holi/ui/components/holicon'
