@@ -25,6 +25,9 @@ const defaultTheme = {
       ios: 'SF Pro',
     }),
   },
+  font: {
+    textSize: 16,
+  },
 }
 
 export type HoliTheme = typeof defaultTheme
