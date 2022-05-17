@@ -6,7 +6,7 @@ import express from 'express'
 import { readFileSync } from 'fs'
 import http from 'http'
 
-const DEFAULT_PORT = 4000
+const DEFAULT_PORT = 4001
 
 program.option('--port <number>', `port on which to run the server (default: ${DEFAULT_PORT}`)
 
