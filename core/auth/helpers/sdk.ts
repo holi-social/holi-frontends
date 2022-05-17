@@ -20,7 +20,7 @@ export const newKratosSdk = () => {
       baseOptions: {
         // Setting this is very important as axios will send the CSRF cookie otherwise
         // which causes problems with ORY Kratos' security detection.
-        withCredentials: false,
+        withCredentials: true,
 
         // Timeout after 5 seconds.
         timeout: 10000,
