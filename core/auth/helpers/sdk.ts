@@ -18,6 +18,7 @@ export const newKratosSdk = () => {
     new Configuration({
       basePath: kratosUrl,
       baseOptions: {
+        credentials: 'include',
         // Setting this is very important as axios will send the CSRF cookie otherwise
         // which causes problems with ORY Kratos' security detection.
         withCredentials: true,
