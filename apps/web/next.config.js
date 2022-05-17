@@ -25,6 +25,11 @@ const nextConfig = {
     outputStandalone: true,
     outputFileTracingRoot: path.join(__dirname, '../../'),
   },
+  publicRuntimeConfig: {
+    kratos: {
+      url: 'https://auth.project-holi.org',
+    },
+  },
 }
 
 const sentryWebpackPluginOptions = {
