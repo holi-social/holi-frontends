@@ -232,17 +232,6 @@ It may be configured at different places, but over all it must be unique.
 <CommunityBottomNav.Screen name="Board" component={BoardScreen} />
 ```
 
-# Authentication Proxy
-In order to use authentication in a local development environment, the ory proxy is needed in order to communicate with ory successfully. In all other enironments the requests can use the general ory endpoint.
-Here is a resource on how to install the ory proxy: `https://www.ory.sh/docs/guides/cli/installation`
-When the ory cli is installed run:
-```
-export ORY_SDK_URL=https://mystifying-carver-akajr6v4t8.projects.oryapis.com
-ory proxy http://localhost:3000
-```
-You cannot use our custom domain here as a ORY_SDK_URL since the cookies will not be set correctly.
-The default port for the proxy is 4000, so use `localhost:4000` when accessing the web app.
-
 ## Continuous Integration and Deployment
 
 ### Development / Feature Branches

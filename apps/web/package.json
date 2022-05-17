@@ -16,6 +16,7 @@
   "dependencies": {
     "@babel/preset-typescript": "^7.16.7",
     "@react-native-async-storage/async-storage": "^1.17.3",
+    "@sentry/nextjs": "^6.19.7",
     "babel-plugin-react-native-web": "^0.17.5",
     "next": "12.0.10",
     "next-compose-plugins": "^2.2.1",
@@ -34,7 +35,7 @@
     "@types/react": "17.0.39",
     "@types/react-native": "~0.64.3",
     "@types/request": "^2.48.8",
-    "eslint": "8.9.0",
+    "eslint": "8.15.0",
     "eslint-config-next": "12.0.10",
     "express": "^4.17.3",
     "request": "^2.88.2",

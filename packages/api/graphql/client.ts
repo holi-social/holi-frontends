@@ -7,7 +7,7 @@ import { Platform } from 'react-native'
 const LOCAL_IP = Platform.OS === 'android' ? '10.0.2.2' : 'localhost' // 172.16.110.186
 
 export const client = new ApolloClient({
-  uri: `http://${LOCAL_IP}:4000/graphql`,
+  uri: `http://${LOCAL_IP}:4001/graphql`,
   cache: new InMemoryCache({
     typePolicies: {
       Query: {
