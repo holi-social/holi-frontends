@@ -11,7 +11,7 @@ Before we can get started building, please ensure that both [`direnv`](https://g
 
 Follow the instructions in the corresponding READMEs for setup.
 
-Run `cp .envrc-local.template .envrc-local` and adjust `.envrc-local` to match your configuration (e.g. using the correct node version manager). Using `direnv`, `.envrc` (and `.envrc-local`) will automatically be loaded when you `cd` into the directory.
+Run `cp .envrc-local.template .envrc-local` and adjust `.envrc-local` to match your configuration (e.g. using the correct node version manager). Using `direnv`, `.envrc` (and `.envrc-local`) will automatically be loaded when you `cd` into the directOry.
 
 `.node-version` (used by `nodenv`) ensures that all developers are using the same `node`/`npm` versions.
 It is kept in sync with `.nvmrc` (used by `nvm`) by a symbolic link, so please make sure to use a format that is understood by both tools (e.g. a fixed version).
@@ -83,7 +83,7 @@ Yarn Workspaces are a neat feature that support us with our monorepo approach. I
 
 - Your dependencies can be linked together, which means that your workspaces can depend on one another while always
   using the most up-to-date code available. `mobile` and `web` can depend on `shared`, always pointing to the "newest
-  version" by simply symlinking into the directory.
+  version" by simply symlinking into the directOry.
 
 - All dependencies are installed together (under the root module), using a single lockfile. There can be exceptions if
   needed. If you have issues, check if [nohoist](https://classic.yarnpkg.com/blog/2018/02/15/nohoist/) will help.
@@ -136,7 +136,7 @@ To clean up builds you can run
 yarn clean
 ```
 
-in the root directory or a specific workspace.
+in the root directOry or a specific workspace.
 
 In order to clean up everything including `node_modules` directories you can run
 
@@ -144,7 +144,7 @@ In order to clean up everything including `node_modules` directories you can run
 yarn clean:all
 ```
 
-in the root directory or a specific workspace.
+in the root directOry or a specific workspace.
 
 #### How to Reproduce (Built this from scratch)
 
@@ -233,21 +233,29 @@ It may be configured at different places, but over all it must be unique.
 ```
 
 # Authentication Proxy
-In order to use authentication in a local development environment, the ory proxy is needed in order to communicate with ory successfully. In all other enironments the requests can use the general ory endpoint.
-Here is a resource on how to install the ory proxy: `https://www.ory.sh/docs/guides/cli/installation`
-When the ory cli is installed run:
+In order to use authentication in a local development environment, Ory proxy needs to run locally in order to
+communicate with Ory successfully. The proxy then proxies both the communication with Ory and the application itself.
+
+On application side, `KRATOS_BASE_URL` needs to be set to
+`http://localhost:4000/.ory` (this is done automatically within `.envrc` if you use `direnv`). In all other environments
+requests can use `https://auth.project-holi.org` as `KRATOS_BASE_URL` (default if not set). This is required because Ory
+(AFAIK) does not allow `localhost` to be used for CORS requests (or any other domain than the one configured as CNAME,
+i.e. `project-holi.org`). 
+
+Here is a resource on how to install the Ory proxy (which is a part of `ory-cli`):
+`https://www.Ory.sh/docs/guides/cli/installation`. When `ory-cli` is installed, run:
+
 ```
-export ORY_SDK_URL=https://mystifying-carver-akajr6v4t8.projects.oryapis.com
-ory proxy http://localhost:3000
+ory proxy --sdk-url=https://auth.project-holi.org http://localhost:3000
 ```
-You cannot use our custom domain here as a ORY_SDK_URL since the cookies will not be set correctly.
-The default port for the proxy is 4000, so use `localhost:4000` when accessing the web app.
+
+⚠️ The default port for the proxy is 4000, so use `http://localhost:4000` when accessing the **web** app.
 
 ## Continuous Integration and Deployment
 
 ### Development / Feature Branches
 
-When you are working on a story, please create a branch that contains the ticket number in its name, and keep the branch name short. A good default is either only the ticket number (e.g. HOLI-1234) or git flow based names (e.g. feature/HOLI-1234).
+When you are working on a stOry, please create a branch that contains the ticket number in its name, and keep the branch name short. A good default is either only the ticket number (e.g. HOLI-1234) or git flow based names (e.g. feature/HOLI-1234).
 
 When you push this branch, a GitLab CI pipeline is triggered that builds and deploys the code to web (available via https://$BRANCH_NAME.web.project-holi.org) and to mobile (available via expo). Also, E2E tests are executed against all platforms.
 
