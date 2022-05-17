@@ -121,9 +121,7 @@ always led to one or another build failing: either `expo publish`, `eas build` o
 
 It might be necessary to work
 with [Yarn resolutions](https://classic.yarnpkg.com/lang/en/docs/selective-version-resolutions/) to resolve dependency
-conflicts (as has been done e.g. with `ts-invariant` and `tslib`).
-
-* tslib is pinned to 2.3.1 because without this pin, there was an error `TypeError: tslib.__spreadArray is not a function.` (2022-05-04)
+conflicts (as has been done e.g. with `ts-invariant`).
 
 Please also note that not all dependency versions are compatible with the current version of Expo.
 Running `expo doctor --fix-dependencies` might then help to fix this.
