@@ -107,7 +107,8 @@ web_review_destroy:
     - export GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_CLOUD_SERVICE_ACCOUNT}
     # branch may have been deleted, so we clone and checkout main
     - git clone $CI_REPOSITORY_URL main-clone
-    - main-clone/apps/web/terraform/scripts/destroy-env.sh $CI_COMMIT_REF_SLUG
+    - cd main-clone
+    - apps/web/terraform/scripts/destroy-env.sh $CI_COMMIT_REF_SLUG
   # can't use rules here: https://gitlab.com/gitlab-org/gitlab/-/issues/34077
   when: manual
   except:
