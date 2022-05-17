@@ -91,7 +91,10 @@ web_review_e2e:
 
 web_review_destroy:
   needs: ['web_review_deploy']
-  image: 'hashicorp/terraform:light'
+  image:
+    name: 'hashicorp/terraform:light'
+    # default entrypoint is terraform command, but we want to run shell scripts
+    entrypoint: ["/bin/sh", "-c"]
   variables:
     # has to be set to none for auto stop
     GIT_STRATEGY: none
