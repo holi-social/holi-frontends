@@ -246,7 +246,7 @@ Here is a resource on how to install the Ory proxy (which is a part of `ory-cli`
 `https://www.Ory.sh/docs/guides/cli/installation`. When `ory-cli` is installed, run:
 
 ```
-ory proxy --sdk-url=https://auth.project-holi.org http://localhost:3000
+ory proxy --sdk-url=https://mystifying-carver-akajr6v4t8.projects.oryapis.com http://localhost:3000
 ```
 
 ⚠️ The default port for the proxy is 4000, so use `http://localhost:4000` when accessing the **web** app.
