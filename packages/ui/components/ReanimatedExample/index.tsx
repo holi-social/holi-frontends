@@ -1,7 +1,8 @@
 import React from 'react'
-import { Button, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Animated, { cancelAnimation, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 
+import HoliButton from '@holi/ui/components/HoliButton'
 import theme from '@holi/ui/styles/theme/theme'
 
 const ReanimatedExample = () => {
@@ -34,7 +35,7 @@ const ReanimatedExample = () => {
     <View style={styles.container}>
       <Animated.View style={[styles.box, defaultSpringStyles]} />
       <Animated.View style={[styles.box, customSpringStyles]} />
-      <Button
+      <HoliButton
         onPress={() => {
           cancel()
           offset.value = Math.random()

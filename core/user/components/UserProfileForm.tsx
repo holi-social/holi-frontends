@@ -5,8 +5,8 @@ import { Text, TextInput } from 'react-native'
 import { UserContext } from '@holi/core/user/UserContextProvider'
 import { updateUserMutation } from '@holi/core/user/queries'
 import { User } from '@holi/core/user/types'
-import Button from '@holi/ui/components/Button'
 import GraphQLError from '@holi/ui/components/GraphQLError'
+import HoliButton from '@holi/ui/components/HoliButton'
 
 type UserProfileFormProps = {
   children?: React.ReactChildren
@@ -52,7 +52,7 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
       <Text>Name:</Text>
       <TextInput value={name} onChangeText={setName} />
       {errorComponent}
-      <Button onPress={submit}>Save</Button>
+      <HoliButton onPress={submit}>Save</HoliButton>
     </>
   )
 }

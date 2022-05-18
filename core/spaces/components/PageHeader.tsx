@@ -67,7 +67,7 @@ const PageHeader: React.VoidFunctionComponent<PageHeaderProps> = (props) => {
     <SafeAreaView style={[headerStyles.container, headerStyles.horizontalElements, props.style]}>
       <Pressable
         style={[
-          { width: 32, height: 32, backgroundColor: theme.colors.tertiaryColor, borderRadius: 24, marginLeft: 12 },
+          { width: 32, height: 32, backgroundColor: theme.colors.primaryColor, borderRadius: 24, marginLeft: 12 },
         ]}
         onPress={toggleDrawer}
       />
