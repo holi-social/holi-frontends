@@ -16,7 +16,7 @@ const PageHeader: React.VoidFunctionComponent<PageHeaderProps> = (props) => {
   return (
     <View style={[headerStyles.container, headerStyles.horizontalElements, props.style]}>
       <Pressable onPress={() => navigate('/')}>
-        <Holicon icon="dashboard" size={20} color={theme.colors.text} />
+        <Holicon icon="dashboard" size={20} color={theme.colors.fontColorBlack} />
       </Pressable>
 
       <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Community</Text>

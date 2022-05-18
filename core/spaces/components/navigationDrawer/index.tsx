@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: theme.colors.border,
+    borderTopColor: theme.colors.borderColorBlack,
     paddingVertical: 20,
   },
   container: {

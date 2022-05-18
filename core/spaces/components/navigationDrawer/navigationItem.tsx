@@ -34,6 +34,7 @@ export default NaviItem
 
 const styles = StyleSheet.create({
   isActive: {
-    backgroundColor: tinycolor(theme.colors.backgroundGrey).darken(15).toString(),
+    backgroundColor: theme.colors.secondaryColor,
+    color: theme.colors.fontColorWhite,
   },
 })

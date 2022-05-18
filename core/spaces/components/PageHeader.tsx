@@ -27,12 +27,12 @@ const searchBarStyles = StyleSheet.create({
   searchBar: {
     borderRadius: 18,
     height: 32,
-    backgroundColor: theme.colors.background,
+    backgroundColor: theme.colors.backgroundColorWhite,
     flex: 1,
     marginLeft: 10,
     marginRight: 30,
     maxWidth: 700,
-    borderColor: theme.colors.border,
+    borderColor: theme.colors.borderColorBlack,
     borderWidth: StyleSheet.hairlineWidth,
   },
   input: {
@@ -66,14 +66,16 @@ const PageHeader: React.VoidFunctionComponent<PageHeaderProps> = (props) => {
   return (
     <SafeAreaView style={[headerStyles.container, headerStyles.horizontalElements, props.style]}>
       <Pressable
-        style={[{ width: 32, height: 32, backgroundColor: theme.colors.tertiary, borderRadius: 24, marginLeft: 12 }]}
+        style={[
+          { width: 32, height: 32, backgroundColor: theme.colors.tertiaryColor, borderRadius: 24, marginLeft: 12 },
+        ]}
         onPress={toggleDrawer}
       />
 
       {/* Back link */}
       {!isHome && (
         <Pressable onPress={() => navigate('/')}>
-          <Holicon icon="arrow-back" size={30} color={theme.colors.text} />
+          <Holicon icon="arrow-back" size={30} color={theme.colors.fontColorBlack} />
         </Pressable>
       )}
 

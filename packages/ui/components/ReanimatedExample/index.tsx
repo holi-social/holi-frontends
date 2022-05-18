@@ -51,13 +51,13 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     borderWidth: 1,
-    borderColor: theme.colors.primary,
+    borderColor: theme.colors.secondaryColor,
     borderStyle: 'solid',
   },
   box: {
     width: 100,
     height: 100,
-    backgroundColor: theme.colors.primary,
+    backgroundColor: theme.colors.secondaryColor,
     borderRadius: 10,
     marginBottom: 10,
   },

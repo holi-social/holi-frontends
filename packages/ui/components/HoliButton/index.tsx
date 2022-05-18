@@ -5,6 +5,11 @@ import tinycolor from 'tinycolor2'
 
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
+// TODO: test-id, href, onPress,
+// TODO: aria-role, aria-label, focussable, ...
+// TODO: mobile usage
+// TODO: aktive state (font-color) core/spaces/components/navigationDrawer/navigationItem.tsx
+
 export type ButtonProps = {
   style?: (ViewStyle | Record<string, unknown> | undefined) | (ViewStyle | Record<string, unknown> | undefined)[]
   inline?: boolean
@@ -19,7 +24,6 @@ const HoliButton: React.FunctionComponent<ButtonProps> = (props: ButtonProps) =>
   const { theme } = useTheme()
   const styles = getStyles(theme, props.inline || false)
   const [disabled, setDisabled] = useState(props.disabled || false)
-  // TODO: use HoliText component instead !!!
   const content =
     typeof props.children === 'string' ? <Text style={styles.text}>{props.children}</Text> : props.children
 
@@ -45,10 +49,10 @@ export default HoliButton
 const getStyles = (theme: HoliTheme, inline: boolean) =>
   StyleSheet.create({
     holiButton: {
-      borderColor: theme.colors.border,
+      borderColor: theme.colors.borderColorBlack,
       borderWidth: 1,
       borderRadius: 10,
-      backgroundColor: theme.dark ? theme.colors.background : theme.colors.backgroundGrey,
+      backgroundColor: theme.colors.backgroundColorWhite,
       paddingVertical: 10,
       paddingHorizontal: 30,
       elevation: 3,
@@ -69,14 +73,14 @@ const getStyles = (theme: HoliTheme, inline: boolean) =>
       fontSize: 14,
     },
     hovered: {
-      backgroundColor: tinycolor(theme.colors.backgroundGrey).darken(3).toString(),
+      backgroundColor: tinycolor(theme.colors.backgroundColorGrey).darken(3).toString(),
     },
     focused: {
       // boxShadow: '0px 0px 0px 1px blue',
       borderColor: '#0f0', // TODO: can't change it ?!
     },
     pressed: {
-      backgroundColor: tinycolor(theme.colors.backgroundGrey).lighten(3).toString(),
+      backgroundColor: tinycolor(theme.colors.backgroundColorGrey).lighten(3).toString(),
     },
     disabled: {
       opacity: 0.6,
