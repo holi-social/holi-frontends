@@ -16,6 +16,7 @@ export type ButtonProps = {
   href?: string
   testID?: string
   disabled?: boolean
+  active?: boolean
   onPress?: null | ((event: GestureResponderEvent) => void)
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string
 }
@@ -25,7 +26,11 @@ const HoliButton: React.FunctionComponent<ButtonProps> = (props: ButtonProps) =>
   const styles = getStyles(theme, props.inline || false)
   const [disabled, setDisabled] = useState(props.disabled || false)
   const content =
-    typeof props.children === 'string' ? <Text style={styles.text}>{props.children}</Text> : props.children
+    typeof props.children === 'string' ? (
+      <Text style={[styles.text, !disabled && props.active && styles.active]}>{props.children}</Text>
+    ) : (
+      props.children
+    )
 
   return (
     <Pressable
@@ -36,6 +41,7 @@ const HoliButton: React.FunctionComponent<ButtonProps> = (props: ButtonProps) =>
         !disabled && state.focused && styles.focused,
         !disabled && state.hovered && styles.hovered,
         !disabled && state.pressed && styles.pressed,
+        !disabled && props.active && styles.active,
         disabled && styles.disabled,
       ]}
     >
@@ -76,11 +82,15 @@ const getStyles = (theme: HoliTheme, inline: boolean) =>
       backgroundColor: tinycolor(theme.colors.backgroundColorGrey).darken(3).toString(),
     },
     focused: {
-      // boxShadow: '0px 0px 0px 1px blue',
-      borderColor: '#0f0', // TODO: can't change it ?!
+      boxShadow: `0px 0px 3px 1px ${theme.colors.secondaryColor}`,
+      borderColor: theme.colors.secondaryColor,
     },
     pressed: {
       backgroundColor: tinycolor(theme.colors.backgroundColorGrey).lighten(3).toString(),
+    },
+    active: {
+      backgroundColor: theme.colors.secondaryColor,
+      color: theme.colors.fontColorWhite,
     },
     disabled: {
       opacity: 0.6,

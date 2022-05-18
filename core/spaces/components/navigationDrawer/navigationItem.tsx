@@ -1,9 +1,8 @@
 import React from 'react'
-import { Platform, StyleSheet, ViewStyle } from 'react-native'
+import { Platform, ViewStyle } from 'react-native'
 
-import Button from '@holi/ui/components/Button'
+import HoliButton from '@holi/ui/components/HoliButton'
 import useRouting from '@holi/ui/components/navigation/useRouting'
-import theme from '@holi/ui/styles/theme'
 
 export type NaviItemProps = {
   style?: ViewStyle
@@ -23,17 +22,10 @@ const NaviItem: React.VoidFunctionComponent<NaviItemProps> = (props) => {
   }
 
   return (
-    <Button fullWidth onPress={onPress} style={[isActive ? styles.isActive : undefined, props.style]}>
+    <HoliButton active={isActive} onPress={onPress} style={[props.style]}>
       {props.label}
-    </Button>
+    </HoliButton>
   )
 }
 
 export default NaviItem
-
-const styles = StyleSheet.create({
-  isActive: {
-    backgroundColor: theme.colors.secondaryColor,
-    color: theme.colors.fontColorWhite,
-  },
-})
