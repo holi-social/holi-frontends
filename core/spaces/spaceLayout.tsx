@@ -1,6 +1,5 @@
 import React from 'react'
 import { ImageBackground, Platform, ScrollView, StyleSheet, View } from 'react-native'
-import tinycolor from 'tinycolor2'
 
 import { PageHeader } from '@holi/core/spaces/components/PageHeader'
 import Button from '@holi/ui/components/Button'
