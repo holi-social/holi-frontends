@@ -11,7 +11,7 @@ export type SessionContext = {
 } | null
 
 const axios = axiosFactory.create()
-resilience(axios) // Adds retry mechanism to axios
+//resilience(axios) // Adds retry mechanism to axios
 
 export const newKratosSdk = () => {
   return new V0alpha2Api(
