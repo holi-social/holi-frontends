@@ -52,6 +52,7 @@ export const Drawer: React.VoidFunctionComponent<DrawerProps> = ({ DrawerContent
           // @ts-ignore
           style={[styles.modal, animatedModalStyles]}
         >
+          {/* Transparent overlay */}
           <Pressable onPress={navigationContext.toggleDrawerIsOpen} style={{ flex: 1 }} />
         </Animated.View>
       )}
@@ -70,20 +71,20 @@ const styles = StyleSheet.create<{
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: tinycolor(theme.colors.backgroundBlack).setAlpha(0.2).toString(),
+    backgroundColor: tinycolor(theme.colors.backgroundColorGrey).setAlpha(0.2).toString(),
   },
   drawer: {
     flex: 1,
     justifyContent: 'space-between',
     flexDirection: 'column',
     position: 'absolute',
-    backgroundColor: theme.colors.background,
+    backgroundColor: theme.colors.backgroundColorGrey,
     zIndex: 888,
     height: '100%',
     top: 0,
     overflow: 'hidden',
     width: WIDTH,
-    shadowColor: theme.colors.backgroundBlack,
+    shadowColor: theme.colors.backgroundColorGrey,
     shadowOffset: {
       width: 8,
       height: 4,

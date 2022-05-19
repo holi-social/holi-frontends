@@ -37,10 +37,10 @@ const Button: React.FunctionComponent<ButtonProps> = (props: ButtonProps) => {
     fullWidth: ViewStyle
   }>({
     button: {
-      borderColor: theme.colors.border,
+      borderColor: theme.colors.borderColorBlack,
       borderWidth: 1,
       borderRadius: 10,
-      backgroundColor: theme.dark ? theme.colors.background : theme.colors.backgroundGrey,
+      backgroundColor: theme.colors.backgroundColorWhite,
       alignItems: 'center',
       justifyContent: 'center',
       paddingVertical: 10,
@@ -52,8 +52,8 @@ const Button: React.FunctionComponent<ButtonProps> = (props: ButtonProps) => {
       alignSelf: 'center',
     },
     hovered: {
-      borderColor: tinycolor(theme.colors.backgroundGrey).darken(15).toString(),
-      backgroundColor: theme.dark ? theme.colors.backgroundGrey : theme.colors.background,
+      borderColor: tinycolor(theme.colors.backgroundColorGrey).darken(15).toString(),
+      backgroundColor: theme.colors.backgroundColorWhite,
     },
     fullWidth: {
       width: '100%',

@@ -6,17 +6,18 @@ import { styleVars } from '@holi/ui/styles/globalVars'
 const defaultTheme = {
   dark: false,
   colors: {
-    text: styleVars.fontColor,
-    textBlack: styleVars.fontColor,
-    textGrey: styleVars.fontColorGrey,
-    textWhite: styleVars.fontColorWhite,
-    primary: styleVars.primaryColor,
-    secondary: styleVars.secondaryColor,
-    tertiary: styleVars.tertiaryColor,
-    border: styleVars.borderColor,
-    background: styleVars.backgroundColor,
-    backgroundGrey: styleVars.backgroundColorGrey,
-    backgroundBlack: styleVars.backgroundColorBlack,
+    ...styleVars,
+    // text: styleVars.fontColor,
+    // textBlack: styleVars.fontColor,
+    // textGrey: styleVars.fontColorGrey,
+    // textWhite: styleVars.fontColorWhite,
+    // primary: styleVars.primaryColor,
+    // secondary: styleVars.secondaryColor,
+    // tertiary: styleVars.tertiaryColor,
+    // border: styleVars.borderColor,
+    // background: styleVars.backgroundColor,
+    // backgroundGrey: styleVars.backgroundColorGrey,
+    // backgroundBlack: styleVars.backgroundColorBlack,
   },
   fontFamily: {
     paragraph: Platform.select({
@@ -24,6 +25,9 @@ const defaultTheme = {
       // android: 'Arial', // TODO find nice android system font
       ios: 'SF Pro',
     }),
+  },
+  font: {
+    textSize: 16,
   },
 }
 

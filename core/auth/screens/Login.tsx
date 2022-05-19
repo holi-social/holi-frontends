@@ -8,7 +8,7 @@ import { SelfServiceFlow } from '@holi/core/auth/components'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { SessionContext, initLoginFlow } from '@holi/core/auth/helpers/sdk'
-import Button from '@holi/ui/components/Button'
+import HoliButton from '@holi/ui/components/HoliButton'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 
 const Login: React.VoidFunctionComponent = () => {
@@ -47,7 +47,9 @@ const Login: React.VoidFunctionComponent = () => {
     <AuthLayout>
       <Text>Sign in to your account</Text>
       <SelfServiceFlow flow={flow} onSubmit={onSubmit} />
-      <Button onPress={() => navigate('/registration')}>Register</Button>
+      <HoliButton label="" onPress={() => navigate('/registration')}>
+        Register
+      </HoliButton>
     </AuthLayout>
   )
 }

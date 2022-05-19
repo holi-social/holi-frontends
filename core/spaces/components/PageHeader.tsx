@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Platform, Pressable, StyleSheet, Text, TextInput, View, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, Text, TextInput, View, ViewStyle } from 'react-native'
 
+import HoliButton from '@holi/ui/components/HoliButton'
 import Holicon from '@holi/ui/components/holicon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import { SafeAreaView } from '@holi/ui/components/safe-area'
@@ -9,7 +10,7 @@ import theme from '@holi/ui/styles/theme'
 const SearchBar = () => {
   const [active, setActive] = useState(false)
   return (
-    <Pressable style={searchBarStyles.searchBar} onPress={() => setActive(true)}>
+    <HoliButton label="" style={searchBarStyles.searchBar} onPress={() => setActive(true)}>
       {/* TODO do not un/mount, hide instead to keep input state */}
       {active ? (
         <TextInput style={searchBarStyles.input} autoFocus onBlur={() => setActive(false)} />
@@ -19,26 +20,26 @@ const SearchBar = () => {
           <Text>search here</Text>
         </View>
       )}
-    </Pressable>
+    </HoliButton>
   )
 }
 
 const searchBarStyles = StyleSheet.create({
   searchBar: {
-    borderRadius: 18,
-    height: 32,
-    backgroundColor: theme.colors.background,
     flex: 1,
     marginLeft: 10,
     marginRight: 30,
     maxWidth: 700,
-    borderColor: theme.colors.border,
-    borderWidth: StyleSheet.hairlineWidth,
+    paddingTop: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingBottom: 0,
+    borderRadius: 18,
   },
   input: {
     flex: 1,
-    height: 30,
-    borderRadius: 18,
+    height: '100%',
+    backgroundColor: theme.colors.backgroundColorWhite,
     paddingHorizontal: 12,
     ...Platform.select({
       web: {
@@ -48,7 +49,9 @@ const searchBarStyles = StyleSheet.create({
     }),
   },
   searchContent: {
-    paddingHorizontal: 8,
+    paddingHorizontal: 0,
+    height: '100%',
+    backgroundColor: theme.colors.backgroundColorWhite,
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
@@ -65,16 +68,26 @@ const PageHeader: React.VoidFunctionComponent<PageHeaderProps> = (props) => {
 
   return (
     <SafeAreaView style={[headerStyles.container, headerStyles.horizontalElements, props.style]}>
-      <Pressable
-        style={[{ width: 32, height: 32, backgroundColor: theme.colors.tertiary, borderRadius: 24, marginLeft: 12 }]}
+      <HoliButton
+        label="Open main navigation menu"
+        style={[
+          {
+            width: 32,
+            height: 32,
+            backgroundColor: theme.colors.primaryColor,
+            borderRadius: '50%',
+            marginLeft: 12,
+            padding: 0,
+          },
+        ]}
         onPress={toggleDrawer}
       />
 
       {/* Back link */}
       {!isHome && (
-        <Pressable onPress={() => navigate('/')}>
-          <Holicon icon="arrow-back" size={30} color={theme.colors.text} />
-        </Pressable>
+        <HoliButton label="Home" inline transparent onPress={() => navigate('/')}>
+          <Holicon icon="arrow-back" size={30} color={theme.colors.fontColorBlack} />
+        </HoliButton>
       )}
 
       <SearchBar />
