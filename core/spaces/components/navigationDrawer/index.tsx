@@ -19,13 +19,7 @@ export const NavigationDrawer: React.VoidFunctionComponent = () => {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Deine Spaces</Text>
-          <HoliButton
-            label="Close main navigation menu"
-            inline
-            transparent
-            style={styles.closeIcon}
-            onPress={toggleDrawer}
-          >
+          <HoliButton label="Close main menu" inline transparent style={styles.closeIcon} onPress={toggleDrawer}>
             <Holicon icon="close" color="#000" size={30} />
           </HoliButton>
         </View>

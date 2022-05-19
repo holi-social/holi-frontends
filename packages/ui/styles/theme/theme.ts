@@ -7,17 +7,6 @@ const defaultTheme = {
   dark: false,
   colors: {
     ...styleVars,
-    // text: styleVars.fontColor,
-    // textBlack: styleVars.fontColor,
-    // textGrey: styleVars.fontColorGrey,
-    // textWhite: styleVars.fontColorWhite,
-    // primary: styleVars.primaryColor,
-    // secondary: styleVars.secondaryColor,
-    // tertiary: styleVars.tertiaryColor,
-    // border: styleVars.borderColor,
-    // background: styleVars.backgroundColor,
-    // backgroundGrey: styleVars.backgroundColorGrey,
-    // backgroundBlack: styleVars.backgroundColorBlack,
   },
   fontFamily: {
     paragraph: Platform.select({

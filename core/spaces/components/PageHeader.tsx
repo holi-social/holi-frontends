@@ -69,7 +69,7 @@ const PageHeader: React.VoidFunctionComponent<PageHeaderProps> = (props) => {
   return (
     <SafeAreaView style={[headerStyles.container, headerStyles.horizontalElements, props.style]}>
       <HoliButton
-        label="Open main navigation menu"
+        label="Open main menu"
         style={[
           {
             width: 32,
