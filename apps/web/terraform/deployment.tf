@@ -8,6 +8,7 @@ resource "random_id" "main" {
   prefix      = "${local.environment_name}-"
 }
 
+
 resource "google_project_service" "service" {
   for_each = toset([
     "run.googleapis.com",
@@ -22,6 +23,12 @@ resource "google_project_service" "service" {
   disable_on_destroy = false
 }
 
+# in CI, this is set via scripts/create-or-update-env.sh 
+variable "image_tag" {
+  type    = string
+  nullable= false
+}
+
 resource "google_cloud_run_service" "mvp_web" {
   project  = data.terraform_remote_state.holi_infra_state.outputs.shared_project_id
   name     = random_id.main.hex
@@ -30,7 +37,7 @@ resource "google_cloud_run_service" "mvp_web" {
   template {
     spec {
       containers {
-        image = "${data.terraform_remote_state.holi_infra_state.outputs.gcr_location}/hrns:${local.docker_image_tag}"
+        image = "${data.terraform_remote_state.holi_infra_state.outputs.gcr_location}/hrns:${var.image_tag}"
         ports {
           container_port = 3000
         }
