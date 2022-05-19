@@ -13,6 +13,8 @@ default:
   before_script:
     - set -ex
     - env
+  tags:
+    - holi
 
 lint_compile_test:
   stage: build
