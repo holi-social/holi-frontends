@@ -1,7 +1,7 @@
 import { Configuration, Session as KratosSession, V0alpha2Api } from '@ory/kratos-client'
 import axiosFactory from 'axios'
 
-//import { resilience } from '@holi/core/auth/helpers/axios'
+import { resilience } from '@holi/core/auth/helpers/axios'
 import { kratosUrl } from '@holi/core/auth/helpers/config'
 
 export type SessionContext = {
@@ -11,7 +11,7 @@ export type SessionContext = {
 } | null
 
 const axios = axiosFactory.create()
-//resilience(axios) // Adds retry mechanism to axios
+resilience(axios) // Adds retry mechanism to axios
 
 export const newKratosSdk = () => {
   axios.defaults.withCredentials = true
@@ -22,7 +22,7 @@ export const newKratosSdk = () => {
         credentials: 'include',
         // Setting this is very important as axios will send the CSRF cookie otherwise
         // which causes problems with ORY Kratos' security detection.
-        withCredentials: true,
+        //withCredentials: true,
 
         // Timeout after 5 seconds.
         timeout: 10000,
