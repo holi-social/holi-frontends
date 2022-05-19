@@ -14,6 +14,7 @@ const axios = axiosFactory.create()
 //resilience(axios) // Adds retry mechanism to axios
 
 export const newKratosSdk = () => {
+  axios.defaults.withCredentials = true
   return new V0alpha2Api(
     new Configuration({
       basePath: kratosUrl,
@@ -27,7 +28,7 @@ export const newKratosSdk = () => {
         timeout: 10000,
       },
     }),
-    '',
+    kratosUrl,
     // Ensure that we are using the axios client with retry.
     axios
   )
