@@ -9,6 +9,7 @@ export TF_LOG=TRACE
 cd apps/web/terraform
 
 WORKSPACE=$1
+TAG=$2
 
 execute_plan() {
   PLAN_FILE="$1"
@@ -23,4 +24,4 @@ TF_LOG_PATH=terraform-version.log terraform version
 TF_LOG_PATH=terraform-workspace.log terraform workspace new "$WORKSPACE" || terraform workspace select "$WORKSPACE"
 
 execute_plan plan
-TF_LOG_PATH=terraform-apply.log terraform apply -auto-approve -parallelism=50 plan
+TF_LOG_PATH=terraform-apply.log terraform apply -var="image_tag=$TAG" -auto-approve -parallelism=50 plan

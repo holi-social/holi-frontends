@@ -19,7 +19,7 @@ variables:
     #when: on_failure
   script:
     - export GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_CLOUD_SERVICE_ACCOUNT}
-    - apps/web/terraform/scripts/create-or-update-env.sh $ENVIRONMENT_ID
+    - apps/web/terraform/scripts/create-or-update-env.sh $ENVIRONMENT_ID $CI_COMMIT_SHA
     - echo "$(apps/web/terraform/scripts/get-app-domain.sh)" > $UI_DOMAIN_PATH
   resource_group: $ENVIRONMENT_ID # never execute terraform in parallel on the same environment
   interruptible: false
@@ -54,18 +54,16 @@ web_build_docker:
   services:
     - docker:20.10-dind
   variables:
-    GITLAB_IMAGE: $CI_REGISTRY_IMAGE/hrns
     # this could be fetched via terraform output ("gcr_location" in infra project), but then we would need an extra job for terraform
     GCR_IMAGE: eu.gcr.io/holi-shared/hrns
   before_script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - cat $GOOGLE_CLOUD_SERVICE_ACCOUNT | docker login -u _json_key --password-stdin https://eu.gcr.io
   script:
     - cd apps/web/
-    - docker pull $GITLAB_IMAGE || true # Allows us to use --cache-from
-    - docker build --cache-from $GITLAB_IMAGE -t $GITLAB_IMAGE:$CI_COMMIT_REF_SLUG -t $GCR_IMAGE:$CI_COMMIT_REF_SLUG .
-    - docker push $GITLAB_IMAGE:$CI_COMMIT_REF_SLUG
-    - docker push $GCR_IMAGE:$CI_COMMIT_REF_SLUG
+    - docker pull $GCR_IMAGE || true # Allows us to use --cache-from
+    - docker build --cache-from $GCR_IMAGE -t $GCR_IMAGE:$CI_COMMIT_SHA -t $GCR_IMAGE:$CI_COMMIT_REF_SLUG .
+    - docker push $GCR_IMAGE:$CI_COMMIT_SHA # this is the tag that is used for deployment
+    - docker push $GCR_IMAGE:$CI_COMMIT_REF_SLUG # just for easyly knowing which is the last image for a branch
   interruptible: true
 
 ## only for review environments
