@@ -20,7 +20,7 @@ const PrivateSpaceScreen: React.VoidFunctionComponent = () => {
         </Text>
       )}
       <Text style={styles.subHeader} testID="private-space-header-sub">
-        Nice to see you here! Fullstop
+        Nice to see you here!
       </Text>
       <AppTiles style={{ marginTop: 40 }} />
     </SpaceLayout>
