@@ -1,7 +1,7 @@
 import { Configuration, Session as KratosSession, V0alpha2Api } from '@ory/kratos-client'
 import axiosFactory from 'axios'
 
-import { resilience } from '@holi/core/auth/helpers/axios'
+//import { resilience } from '@holi/core/auth/helpers/axios'
 import { kratosUrl } from '@holi/core/auth/helpers/config'
 
 export type SessionContext = {
