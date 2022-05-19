@@ -36,6 +36,7 @@ const ReanimatedExample = () => {
       <Animated.View style={[styles.box, defaultSpringStyles]} />
       <Animated.View style={[styles.box, customSpringStyles]} />
       <HoliButton
+        label="Beschreibung"
         onPress={() => {
           cancel()
           offset.value = Math.random()

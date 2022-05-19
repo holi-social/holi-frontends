@@ -20,21 +20,27 @@ const ButtonPage: NextPage = () => {
       </div>
 
       <div className={sassStyles.example}>
-        <HoliButton inline disabled>
+        <HoliButton label="nothing to do here" testID="someId" inline disabled>
           Disabled
         </HoliButton>
-        <HoliButton inline active style={{ marginLeft: 10 }}>
-          Active
+        <HoliButton
+          label="Öffne dialog"
+          onPress={() => alert('##### some alert message')}
+          inline
+          active
+          style={{ marginLeft: 10 }}
+        >
+          aktiv
         </HoliButton>
-        <HoliButton inline style={{ marginLeft: 10 }}>
+        <HoliButton label="Beschreibung" inline style={{ marginLeft: 10 }}>
           <span>With Icon</span>
           <Holicon icon="arrowtip-next" size={20} color="red" />
         </HoliButton>
-        <HoliButton inline style={{ marginLeft: 10 }}>
+        <HoliButton label="Go to" inline style={{ marginLeft: 10 }}>
           <SharedImage imageFile={require('@holi/ui/assets/img/logo/logo.svg')} style={{ width: 50, height: 50 }} />
           <span>With Image</span>
         </HoliButton>
-        <HoliButton>Fullwidth</HoliButton>
+        <HoliButton label="Go to">Fullwidth</HoliButton>
       </div>
 
       <pre className={sassStyles.code}>{`

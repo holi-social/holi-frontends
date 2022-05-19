@@ -80,7 +80,9 @@ const Registration = () => {
         flow={flow}
         onSubmit={onSubmit}
       />
-      <HoliButton onPress={() => navigate('/login')}>Already have an account?</HoliButton>
+      <HoliButton label="Go to login" onPress={() => navigate('/login')}>
+        Already have an account?
+      </HoliButton>
     </AuthLayout>
   )
 }

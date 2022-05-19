@@ -21,7 +21,9 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
       <Text>({user.pronouns})</Text>
       <Text>{user.location}</Text>
       <Text>{user.aboutMe}</Text>
-      <HoliButton onPress={editUser}>Edit</HoliButton>
+      <HoliButton label="Profile data" onPress={editUser}>
+        Edit
+      </HoliButton>
     </>
   )
 }

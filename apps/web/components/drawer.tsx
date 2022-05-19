@@ -52,6 +52,7 @@ export const Drawer: React.VoidFunctionComponent<DrawerProps> = ({ DrawerContent
           // @ts-ignore
           style={[styles.modal, animatedModalStyles]}
         >
+          {/* Transparent overlay */}
           <Pressable onPress={navigationContext.toggleDrawerIsOpen} style={{ flex: 1 }} />
         </Animated.View>
       )}

@@ -32,7 +32,9 @@ const Logout: React.VoidFunctionComponent = () => {
   return (
     <AuthLayout>
       <Text>Do you want to log out?</Text>
-      <HoliButton onPress={() => onSubmit()}>Log out</HoliButton>
+      <HoliButton label="" onPress={() => onSubmit()}>
+        Log out
+      </HoliButton>
     </AuthLayout>
   )
 }

@@ -28,7 +28,9 @@ export const NodeInputSubmit = ({ node, attributes, onSubmitPress }: Props) => {
 
   return (
     <View testID={`field/${name}/${attributes.value}`}>
-      <HoliButton onPress={() => onSubmitPress(attributes.name, attributes.value)}>{title}</HoliButton>
+      <HoliButton label="" onPress={() => onSubmitPress(attributes.name, attributes.value)}>
+        {title}
+      </HoliButton>
     </View>
   )
 }

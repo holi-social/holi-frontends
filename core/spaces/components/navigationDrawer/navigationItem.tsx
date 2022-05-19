@@ -22,7 +22,7 @@ const NaviItem: React.VoidFunctionComponent<NaviItemProps> = (props) => {
   }
 
   return (
-    <HoliButton active={isActive} onPress={onPress} style={[props.style]}>
+    <HoliButton label="" active={isActive} onPress={onPress} style={[props.style]}>
       {props.label}
     </HoliButton>
   )

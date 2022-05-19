@@ -52,7 +52,9 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
       <Text>Name:</Text>
       <TextInput value={name} onChangeText={setName} />
       {errorComponent}
-      <HoliButton onPress={submit}>Save</HoliButton>
+      <HoliButton label="Profile data" onPress={submit}>
+        Save
+      </HoliButton>
     </>
   )
 }

@@ -1,46 +1,57 @@
 import * as React from 'react'
 import { useState } from 'react'
-import { GestureResponderEvent, Pressable, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { GestureResponderEvent, Platform, Pressable, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import tinycolor from 'tinycolor2'
 
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-// TODO: test-id, href, onPress,
-// TODO: aria-role, aria-label, focussable, ...
+// TODO: href
 // TODO: mobile usage
-// TODO: aktive state (font-color) core/spaces/components/navigationDrawer/navigationItem.tsx
+// TODO: switch off accessibility
 
 export type ButtonProps = {
+  label: string
   style?: (ViewStyle | Record<string, unknown> | undefined) | (ViewStyle | Record<string, unknown> | undefined)[]
   inline?: boolean
   href?: string
-  testID?: string
   disabled?: boolean
   active?: boolean
-  onPress?: null | ((event: GestureResponderEvent) => void)
+  transparent?: boolean
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string
+  disableFocuasability?: boolean
+  // ony for TS (props are added by {...props})
+  onPress?: null | ((event: GestureResponderEvent) => void)
+  testID?: string
 }
 
 const HoliButton: React.FunctionComponent<ButtonProps> = (props: ButtonProps) => {
   const { theme } = useTheme()
-  const styles = getStyles(theme, props.inline || false)
+  const styles = getStyles(theme, props.inline || false, props.transparent || false)
   const [disabled, setDisabled] = useState(props.disabled || false)
-  const content =
-    typeof props.children === 'string' ? (
-      <Text style={[styles.text, !disabled && props.active && styles.active]}>{props.children}</Text>
-    ) : (
-      props.children
-    )
+
+  const buttonText = typeof props.children === 'string' ? props.children : ''
+  const accessibilityProps: { accessibilityLabel?: string } = {
+    accessibilityLabel: `${buttonText} ${props.label}`,
+  }
+  const content = buttonText ? (
+    <Text style={[styles.text, !disabled && props.active && styles.active]}>{buttonText}</Text>
+  ) : (
+    props.children
+  )
 
   return (
     <Pressable
+      accessible={true}
+      focusable={props.disableFocuasability}
+      accessibilityRole="button"
+      {...accessibilityProps}
       {...props}
       style={(state) => [
         styles.holiButton,
         props.style,
-        !disabled && state.focused && styles.focused,
-        !disabled && state.hovered && styles.hovered,
-        !disabled && state.pressed && styles.pressed,
+        !disabled && !props.transparent && state.focused && styles.focused,
+        !disabled && !props.transparent && state.hovered && styles.hovered,
+        !disabled && !props.transparent && state.pressed && styles.pressed,
         !disabled && props.active && styles.active,
         disabled && styles.disabled,
       ]}
@@ -52,19 +63,23 @@ const HoliButton: React.FunctionComponent<ButtonProps> = (props: ButtonProps) =>
 
 export default HoliButton
 
-const getStyles = (theme: HoliTheme, inline: boolean) =>
+const getStyles = (theme: HoliTheme, inline: boolean, transparent: boolean) =>
   StyleSheet.create({
     holiButton: {
-      borderColor: theme.colors.borderColorBlack,
+      borderColor: transparent ? 'transparent' : theme.colors.borderColorBlack,
       borderWidth: 1,
       borderRadius: 10,
-      backgroundColor: theme.colors.backgroundColorWhite,
+      backgroundColor: transparent ? 'transparent' : theme.colors.backgroundColorWhite,
       paddingVertical: 10,
       paddingHorizontal: 30,
       elevation: 3,
       width: inline ? 'auto' : '100%',
-      display: 'inline-block',
       overflow: 'hidden',
+      ...Platform.select({
+        web: {
+          display: 'inline-block',
+        },
+      }),
     },
     buttonContent: {
       display: 'flex',
@@ -79,7 +94,7 @@ const getStyles = (theme: HoliTheme, inline: boolean) =>
       fontSize: 14,
     },
     hovered: {
-      backgroundColor: tinycolor(theme.colors.backgroundColorGrey).darken(3).toString(),
+      backgroundColor: transparent ? 'transparent' : tinycolor(theme.colors.backgroundColorGrey).darken(3).toString(),
     },
     focused: {
       boxShadow: `0px 0px 3px 1px ${theme.colors.secondaryColor}`,

@@ -47,7 +47,9 @@ const Login: React.VoidFunctionComponent = () => {
     <AuthLayout>
       <Text>Sign in to your account</Text>
       <SelfServiceFlow flow={flow} onSubmit={onSubmit} />
-      <HoliButton onPress={() => navigate('/registration')}>Register</HoliButton>
+      <HoliButton label="" onPress={() => navigate('/registration')}>
+        Register
+      </HoliButton>
     </AuthLayout>
   )
 }
