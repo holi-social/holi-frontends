@@ -10,6 +10,7 @@ import sassStyles from './ui.module.scss'
 const ButtonPage: NextPage = () => {
   return (
     <section>
+      {/* ===== Header section ===== */}
       <div className={sassStyles.headline}>
         <Link href="/ui">
           <a>
@@ -19,20 +20,21 @@ const ButtonPage: NextPage = () => {
         <h1>Button</h1>
       </div>
 
+      {/* ===== Demo section ===== */}
       <div className={sassStyles.example}>
         <HoliButton label="nothing to do here" testID="someId" inline disabled>
           Disabled
         </HoliButton>
         <HoliButton
-          label="Öffne dialog"
+          label="Open dialog"
           onPress={() => alert('##### some alert message')}
           inline
           active
           style={{ marginLeft: 10 }}
         >
-          aktiv
+          active
         </HoliButton>
-        <HoliButton label="Beschreibung" inline style={{ marginLeft: 10 }}>
+        <HoliButton label="Description" inline style={{ marginLeft: 10 }}>
           <span>With Icon</span>
           <Holicon icon="arrowtip-next" size={20} color="red" />
         </HoliButton>
@@ -43,24 +45,29 @@ const ButtonPage: NextPage = () => {
         <HoliButton label="Go to">Fullwidth</HoliButton>
       </div>
 
+      {/* ===== Code to copy section ===== */}
       <pre className={sassStyles.code}>{`
 import HoliButton from '@holi/ui/components/HoliButton'
 
-<HoliButton inline disabled>Hello</HoliButton>
-
-<HoliButton inline active>Active</HoliButton>
-
-<HoliButton inline>
-  <span>With Icon</span>
-  <Holicon icon="arrowtip-next" size={20} color='red' />
+<HoliButton label="nothing to do here" testID="someId" inline disabled>
+  Disabled
 </HoliButton>
 
-<HoliButton inline>
+<HoliButton label="Description" inline active>
+  active
+</HoliButton>
+
+<HoliButton label="Description" inline>
+  <span>With Icon</span>
+  <Holicon icon="arrowtip-next" size={20} color="red" />
+</HoliButton>
+
+<HoliButton label="Description" inline>
   <SharedImage imageFile={require('@holi/ui/assets/img/logo/logo.svg')} style={{ width: 50, height: 50 }} />
   <span>With Image</span>
 </HoliButton>
 
-<HoliButton>Fullwidth</HoliButton>
+<HoliButton label="Description">Fullwidth</HoliButton>
       `}</pre>
     </section>
   )
