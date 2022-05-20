@@ -1,5 +1,5 @@
 import React from 'react'
-import { Platform, Pressable, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, Text, View, ViewStyle } from 'react-native'
 
 import HoliButton from '@holi/ui/components/HoliButton'
 import Holicon from '@holi/ui/components/holicon'

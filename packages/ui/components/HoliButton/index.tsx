@@ -72,7 +72,7 @@ const getStyles = (theme: HoliTheme, inline: boolean, transparent: boolean) =>
       backgroundColor: transparent ? 'transparent' : theme.colors.backgroundColorWhite,
       paddingVertical: 10,
       paddingHorizontal: 30,
-      elevation: 3,
+      elevation: 0,
       width: inline ? 'auto' : '100%',
       overflow: 'hidden',
       ...Platform.select({
@@ -92,6 +92,7 @@ const getStyles = (theme: HoliTheme, inline: boolean, transparent: boolean) =>
     },
     text: {
       fontSize: 14,
+      color: theme.colors.fontColorBlack,
     },
     hovered: {
       backgroundColor: transparent ? 'transparent' : tinycolor(theme.colors.backgroundColorGrey).darken(3).toString(),

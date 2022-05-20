@@ -75,7 +75,7 @@ const PageHeader: React.VoidFunctionComponent<PageHeaderProps> = (props) => {
             width: 32,
             height: 32,
             backgroundColor: theme.colors.primaryColor,
-            borderRadius: '50%',
+            borderRadius: 25,
             marginLeft: 12,
             padding: 0,
           },
