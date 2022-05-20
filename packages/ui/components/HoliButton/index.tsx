@@ -19,7 +19,7 @@ export type ButtonProps = {
   transparent?: boolean
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string
   disableFocuasability?: boolean
-  // ony for TS (props are added by {...props})
+  // only for TS (props are added by {...props})
   onPress?: null | ((event: GestureResponderEvent) => void)
   testID?: string
 }
