@@ -49,6 +49,9 @@ export default {
       kratos: {
         url: 'https://auth.project-holi.org',
       },
+      api: {
+        host: process.env.API_HOST || '10.0.2.2',
+      },
     },
   },
 }

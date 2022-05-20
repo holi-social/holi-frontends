@@ -29,6 +29,9 @@ const nextConfig = {
     kratos: {
       url: process.env.KRATOS_BASE_URL || 'https://auth.project-holi.org',
     },
+    api: {
+      host: process.env.API_HOST || 'localhost',
+    },
   },
 }
 
