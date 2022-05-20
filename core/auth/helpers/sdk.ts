@@ -1,16 +1,8 @@
-import {
-  Configuration,
-  Session as KratosSession,
-  SelfServiceRegistrationFlow,
-  SubmitSelfServiceLogoutFlowWithoutBrowserBody,
-  V0alpha2Api,
-} from '@ory/kratos-client'
-import { SelfServiceLoginFlow } from '@ory/kratos-client'
+import { Configuration, Session as KratosSession, V0alpha2Api } from '@ory/kratos-client'
 import axiosFactory from 'axios'
-import { AxiosPromise } from 'axios'
-import { Platform } from 'react-native'
 
 import { resilience } from '@holi/core/auth/helpers/axios'
+import { kratosUrl } from '@holi/core/auth/helpers/config'
 
 export type SessionContext = {
   session_token: string
@@ -22,35 +14,21 @@ const axios = axiosFactory.create()
 resilience(axios) // Adds retry mechanism to axios
 
 export const newKratosSdk = () => {
-  const mobileUrl = 'https://mystifying-carver-akajr6v4t8.projects.oryapis.com'
-  const webUrl = 'http://localhost:3000/api/auth'
-
   return new V0alpha2Api(
     new Configuration({
-      basePath: Platform.OS === 'web' ? webUrl : mobileUrl,
+      basePath: kratosUrl,
       baseOptions: {
-        // Setting this is very important as axios will send the CSRF cookie otherwise
-        // which causes problems with ORY Kratos' security detection.
-        withCredentials: false,
-
+        // setting `withCredentials: true` is crucial. if set, the GET request that initializes the login flow will be
+        // executed in `credentials: 'include'` mode (see https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
+        // if it was not set, the browser would ignore any cookies returned in the browser response. in this case, the
+        // browser would miss CSRF cookies which are required in subsequent requests
+        withCredentials: true,
         // Timeout after 5 seconds.
         timeout: 10000,
       },
     }),
-    '',
+    kratosUrl,
     // Ensure that we are using the axios client with retry.
     axios
   )
-}
-
-export const initLoginFlow = (): AxiosPromise<SelfServiceLoginFlow> => {
-  return newKratosSdk().initializeSelfServiceLoginFlowWithoutBrowser()
-}
-
-export const submitLogoutFlow = (payload: SubmitSelfServiceLogoutFlowWithoutBrowserBody) => {
-  return newKratosSdk().submitSelfServiceLogoutFlowWithoutBrowser(payload)
-}
-
-export const initRegistrationFlow = (): AxiosPromise<SelfServiceRegistrationFlow> => {
-  return newKratosSdk().initializeSelfServiceRegistrationFlowWithoutBrowser()
 }
