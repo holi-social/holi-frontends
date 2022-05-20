@@ -1,6 +1,7 @@
 import React from 'react'
 import { Platform, Pressable, StyleSheet, Text, View, ViewStyle } from 'react-native'
 
+import HoliButton from '@holi/ui/components/HoliButton'
 import Holicon from '@holi/ui/components/holicon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import { jsVars } from '@holi/ui/styles/globalVars'
@@ -15,9 +16,9 @@ const PageHeader: React.VoidFunctionComponent<PageHeaderProps> = (props) => {
 
   return (
     <View style={[headerStyles.container, headerStyles.horizontalElements, props.style]}>
-      <Pressable onPress={() => navigate('/')}>
+      <HoliButton label="Go to home" onPress={() => navigate('/')} inline transparent>
         <Holicon icon="dashboard" size={20} color={theme.colors.fontColorBlack} />
-      </Pressable>
+      </HoliButton>
 
       <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Community</Text>
 

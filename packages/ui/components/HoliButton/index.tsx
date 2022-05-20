@@ -97,8 +97,12 @@ const getStyles = (theme: HoliTheme, inline: boolean, transparent: boolean) =>
       backgroundColor: transparent ? 'transparent' : tinycolor(theme.colors.backgroundColorGrey).darken(3).toString(),
     },
     focused: {
-      boxShadow: `0px 0px 3px 1px ${theme.colors.secondaryColor}`,
       borderColor: theme.colors.secondaryColor,
+      ...Platform.select({
+        web: {
+          boxShadow: `0px 0px 3px 1px ${theme.colors.secondaryColor}`,
+        },
+      }),
     },
     pressed: {
       backgroundColor: tinycolor(theme.colors.backgroundColorGrey).lighten(3).toString(),
