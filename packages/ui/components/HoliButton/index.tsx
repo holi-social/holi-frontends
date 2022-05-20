@@ -5,10 +5,6 @@ import tinycolor from 'tinycolor2'
 
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-// TODO: href
-// TODO: mobile usage
-// TODO: switch off accessibility
-
 export type ButtonProps = {
   label: string
   style?: (ViewStyle | Record<string, unknown> | undefined) | (ViewStyle | Record<string, unknown> | undefined)[]
