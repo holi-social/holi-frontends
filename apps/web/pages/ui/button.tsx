@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 import Link from 'next/link'
 
-import Button from '@holi/ui/components/Button'
+import HoliButton from '@holi/ui/components/HoliButton'
 import Holicon from '@holi/ui/components/holicon'
 import SharedImage from '@holi/ui/components/sharedImage'
 
@@ -10,6 +10,7 @@ import sassStyles from './ui.module.scss'
 const ButtonPage: NextPage = () => {
   return (
     <section>
+      {/* ===== Header section ===== */}
       <div className={sassStyles.headline}>
         <Link href="/ui">
           <a>
@@ -19,36 +20,54 @@ const ButtonPage: NextPage = () => {
         <h1>Button</h1>
       </div>
 
+      {/* ===== Demo section ===== */}
       <div className={sassStyles.example}>
-        <Button>Hello</Button>
-        <Button style={{ marginLeft: 10 }}>
+        <HoliButton label="nothing to do here" testID="someId" inline disabled>
+          Disabled
+        </HoliButton>
+        <HoliButton
+          label="Open dialog"
+          onPress={() => alert('##### some alert message')}
+          inline
+          active
+          style={{ marginLeft: 10 }}
+        >
+          active
+        </HoliButton>
+        <HoliButton label="Description" inline style={{ marginLeft: 10 }}>
           <span>With Icon</span>
           <Holicon icon="arrowtip-next" size={20} color="red" />
-        </Button>
-        <Button style={{ marginLeft: 10 }}>
+        </HoliButton>
+        <HoliButton label="Go to" inline style={{ marginLeft: 10 }}>
           <SharedImage imageFile={require('@holi/ui/assets/img/logo/logo.svg')} style={{ width: 50, height: 50 }} />
           <span>With Image</span>
-        </Button>
-
-        <Button fullWidth style={{ marginTop: 10 }}>
-          Fullwidth
-        </Button>
+        </HoliButton>
+        <HoliButton label="Go to">Fullwidth</HoliButton>
       </div>
 
+      {/* ===== Code to copy section ===== */}
       <pre className={sassStyles.code}>{`
-import Button from '@holi/ui/components/Button'
+import HoliButton from '@holi/ui/components/HoliButton'
 
-<Button>Hello</Button>
+<HoliButton label="nothing to do here" testID="someId" inline disabled>
+  Disabled
+</HoliButton>
 
-<Button>
+<HoliButton label="Description" inline active>
+  active
+</HoliButton>
+
+<HoliButton label="Description" inline>
   <span>With Icon</span>
-  <Holicon icon="arrowtip-next" size={20} color='red' />
-</Button>
+  <Holicon icon="arrowtip-next" size={20} color="red" />
+</HoliButton>
 
-<Button>
+<HoliButton label="Description" inline>
   <SharedImage imageFile={require('@holi/ui/assets/img/logo/logo.svg')} style={{ width: 50, height: 50 }} />
   <span>With Image</span>
-</Button>
+</HoliButton>
+
+<HoliButton label="Description">Fullwidth</HoliButton>
       `}</pre>
     </section>
   )
