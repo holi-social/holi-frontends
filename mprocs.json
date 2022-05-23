@@ -1,0 +1,22 @@
+{
+  "procs": {
+    "mock-api": {
+      "shell": "yarn mock-api:dev"
+    },
+    "web": {
+      "shell": "yarn web:dev"
+    },
+    "mobile": {
+      "shell": "yarn mobile:dev"
+    },
+    "ory-proxy": {
+      "shell": "ory proxy --sdk-url=https://mystifying-carver-akajr6v4t8.projects.oryapis.com http://localhost:300"
+    },
+    "tests": {
+      "shell": "jest -w",
+      "env": {
+        "NODE_ENV": "test"
+      }
+    }
+  }
+}
