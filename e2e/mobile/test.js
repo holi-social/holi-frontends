@@ -11,13 +11,15 @@ Scenario('test something', ({ I }) => {
     I.see('Nice to see you here!', '~private-space-header-sub')
     I.tap('~app-tile-community')
     I.waitForText('CommunityHome', 10)
+    I.tap('#communityHomeButton')
   })
   I.runOnAndroid(() => {
-    I.seeAppIsInstalled('foundation.holistic.projectholi')
+    // I.seeAppIsInstalled('foundation.holistic.projectholi')
     I.waitForText('Hello Anna', 10)
     I.waitForText('Nice to see you here!', 10)
     I.tap('Community')
     I.waitForText('CommunityHome', 10)
+    I.tap('#communityHomeButton')
   })
 
   // only works for web
