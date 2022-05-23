@@ -5,6 +5,8 @@ import Holicon from '@holi/ui/components/holicon'
 
 import sassStyles from './ui.module.scss'
 
+// TODO: use different layout (without main menu)
+
 const UIOverviewPage: NextPage = () => {
   return (
     <section>
