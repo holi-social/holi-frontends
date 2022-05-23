@@ -1,11 +1,13 @@
 {
-  "name": "codeceptjs-web-tests",
+  "name": "@holi/e2e-web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "codeceptjs": "codeceptjs run-multiple crossbrowser --steps",
     "codeceptjs:headless": "HEADLESS=true codeceptjs run-multiple crossbrowser --steps",
-    "codeceptjs:ui": "codecept-ui --app"
+    "codeceptjs:ui": "codecept-ui --app",
+    "clean": "rimraf output",
+    "clean:all": "yarn clean && rimraf node_modules"
   },
   "devDependencies": {
     "@codeceptjs/configure": "^0.8.0",

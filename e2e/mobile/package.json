@@ -1,11 +1,15 @@
 {
-  "name": "codeceptjs-mobile-tests",
+  "name": "@holi/e2e-mobile",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "codeceptjs": "codeceptjs run --steps",
+    "codeceptjs:ios": "CODECEPT_TARGET=local CODECEPT_PLATFORM=ios codeceptjs run --steps",
+    "codeceptjs:android": "CODECEPT_TARGET=local CODECEPT_PLATFORM=android codeceptjs run --steps",
     "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
-    "codeceptjs:ui": "codecept-ui --app"
+    "codeceptjs:ui": "codecept-ui --app",
+    "clean": "rimraf output",
+    "clean:all": "yarn clean && rimraf node_modules"
   },
   "dependencies": {
     "codeceptjs": "^3.3.0",
