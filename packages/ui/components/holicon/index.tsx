@@ -11,7 +11,7 @@ export type HoliconProps = React.ComponentProps<typeof IconComponent> & {
 
 const Holicon: React.VoidFunctionComponent<HoliconProps> = (props) => {
   const { theme } = useTheme()
-  return <HoliconBase color={theme.colors.text} size={20} {...props} />
+  return <HoliconBase color={theme.colors.fontColorBlack} size={20} {...props} />
 }
 
 export default Holicon

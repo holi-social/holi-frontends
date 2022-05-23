@@ -71,7 +71,7 @@ const CardSwiper = () => {
       <CardStack
         style={styles.cardContainer}
         renderNoMoreCards={() => (
-          <Text style={{ fontWeight: '700', fontSize: 18, color: theme.colors.textGrey }}>No more cards :(</Text>
+          <Text style={{ fontWeight: '700', fontSize: 18, color: theme.colors.fontColorGrey }}>No more cards :(</Text>
         )}
         ref={swiper}
         loop={true}
@@ -86,7 +86,7 @@ const CardSwiper = () => {
             <Image style={styles.cardImg} source={{ uri: `${imgUri}${card.image}` }} />
             <View style={styles.textContainer}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Holicon style={{ marginRight: 6 }} icon="community" size={25} color={theme.colors.textWhite} />
+                <Holicon style={{ marginRight: 6 }} icon="community" size={25} color={theme.colors.fontColorWhite} />
                 <Text style={styles.text}>{card.provider}</Text>
               </View>
               <View>
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     borderRadius: 13,
   },
   text: {
-    color: theme.colors.textWhite,
+    color: theme.colors.fontColorWhite,
     fontSize: 16,
   },
   textBig: {
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
       height: 1,
     },
     shadowOpacity: 0.5,
-    backgroundColor: theme.colors.background,
+    backgroundColor: theme.colors.backgroundColorWhite,
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 0,
@@ -194,24 +194,24 @@ const styles = StyleSheet.create({
     width: 55,
     height: 55,
     borderWidth: 6,
-    borderColor: theme.colors.secondary,
+    borderColor: theme.colors.primaryColor,
     borderRadius: 55,
     marginTop: -15,
   },
   green: {
     width: 75,
     height: 75,
-    backgroundColor: theme.colors.background,
+    backgroundColor: theme.colors.tertiaryColor,
     borderRadius: 75,
     borderWidth: 6,
-    borderColor: theme.colors.tertiary,
+    borderColor: theme.colors.tertiaryColor,
   },
   red: {
     width: 75,
     height: 75,
-    backgroundColor: theme.colors.background,
+    backgroundColor: theme.colors.secondaryColor,
     borderRadius: 75,
     borderWidth: 6,
-    borderColor: theme.colors.primary,
+    borderColor: theme.colors.secondaryColor,
   },
 })

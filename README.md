@@ -11,7 +11,7 @@ Before we can get started building, please ensure that both [`direnv`](https://g
 
 Follow the instructions in the corresponding READMEs for setup.
 
-Run `cp .envrc-local.template .envrc-local` and adjust `.envrc-local` to match your configuration (e.g. using the correct node version manager). Using `direnv`, `.envrc` (and `.envrc-local`) will automatically be loaded when you `cd` into the directory.
+Run `cp .envrc-local.template .envrc-local` and adjust `.envrc-local` to match your configuration (e.g. using the correct node version manager). Using `direnv`, `.envrc` (and `.envrc-local`) will automatically be loaded when you `cd` into the directOry.
 
 `.node-version` (used by `nodenv`) ensures that all developers are using the same `node`/`npm` versions.
 It is kept in sync with `.nvmrc` (used by `nvm`) by a symbolic link, so please make sure to use a format that is understood by both tools (e.g. a fixed version).
@@ -23,6 +23,13 @@ Run `yarn mobile:dev` for mobile and `yarn web:dev` for web.
 Start the mock api with `yarn mock-api:dev`.
 
 We are using [Expo](https://docs.expo.dev/) to build the app for both mobile app variants.
+
+### Running via `mprocs`
+
+Instead of opening multiple terminal sessions and executing multiple commands you can use
+[mprocs](https://github.com/pvolok/mprocs) and simply run `mprocs` to get up and going. This repo
+contains an `mprocs.json` file that defines all the processes that need to be run. When `mprocs` is
+running, you can simply switch panes using `Ctrl+a`.
 
 #### Android emulator
 
@@ -83,7 +90,7 @@ Yarn Workspaces are a neat feature that support us with our monorepo approach. I
 
 - Your dependencies can be linked together, which means that your workspaces can depend on one another while always
   using the most up-to-date code available. `mobile` and `web` can depend on `shared`, always pointing to the "newest
-  version" by simply symlinking into the directory.
+  version" by simply symlinking into the directOry.
 
 - All dependencies are installed together (under the root module), using a single lockfile. There can be exceptions if
   needed. If you have issues, check if [nohoist](https://classic.yarnpkg.com/blog/2018/02/15/nohoist/) will help.
@@ -121,7 +128,9 @@ always led to one or another build failing: either `expo publish`, `eas build` o
 
 It might be necessary to work
 with [Yarn resolutions](https://classic.yarnpkg.com/lang/en/docs/selective-version-resolutions/) to resolve dependency
-conflicts (as has been done e.g. with `ts-invariant`).
+conflicts (as has been done e.g. with `ts-invariant` and `tslib`).
+
+* tslib is pinned to 2.3.1 because without this pin, there was an error `TypeError: tslib.__spreadArray is not a function.` (2022-05-04)
 
 Please also note that not all dependency versions are compatible with the current version of Expo.
 Running `expo doctor --fix-dependencies` might then help to fix this.
@@ -134,7 +143,7 @@ To clean up builds you can run
 yarn clean
 ```
 
-in the root directory or a specific workspace.
+in the root directOry or a specific workspace.
 
 In order to clean up everything including `node_modules` directories you can run
 
@@ -142,7 +151,7 @@ In order to clean up everything including `node_modules` directories you can run
 yarn clean:all
 ```
 
-in the root directory or a specific workspace.
+in the root directOry or a specific workspace.
 
 #### How to Reproduce (Built this from scratch)
 
@@ -230,11 +239,30 @@ It may be configured at different places, but over all it must be unique.
 <CommunityBottomNav.Screen name="Board" component={BoardScreen} />
 ```
 
+# Authentication Proxy
+In order to use authentication in a local development environment, Ory proxy needs to run locally in order to
+communicate with Ory successfully. The proxy then proxies both the communication with Ory and the application itself.
+
+On application side, `KRATOS_BASE_URL` needs to be set to
+`http://localhost:4000/.ory` (this is done automatically within `.envrc` if you use `direnv`). In all other environments
+requests can use `https://auth.project-holi.org` as `KRATOS_BASE_URL` (default if not set). This is required because Ory
+(AFAIK) does not allow `localhost` to be used for CORS requests (or any other domain than the one configured as CNAME,
+i.e. `project-holi.org`). 
+
+Here is a resource on how to install the Ory proxy (which is a part of `ory-cli`):
+`https://www.Ory.sh/docs/guides/cli/installation`. When `ory-cli` is installed, run:
+
+```
+ory proxy --sdk-url=https://mystifying-carver-akajr6v4t8.projects.oryapis.com http://localhost:3000
+```
+
+⚠️ The default port for the proxy is 4000, so use `http://localhost:4000` when accessing the **web** app.
+
 ## Continuous Integration and Deployment
 
 ### Development / Feature Branches
 
-When you are working on a story, please create a branch that contains the ticket number in its name, and keep the branch name short. A good default is either only the ticket number (e.g. HOLI-1234) or git flow based names (e.g. feature/HOLI-1234).
+When you are working on a stOry, please create a branch that contains the ticket number in its name, and keep the branch name short. A good default is either only the ticket number (e.g. HOLI-1234) or git flow based names (e.g. feature/HOLI-1234).
 
 When you push this branch, a GitLab CI pipeline is triggered that builds and deploys the code to web (available via https://$BRANCH_NAME.web.project-holi.org) and to mobile (available via expo). Also, E2E tests are executed against all platforms.
 

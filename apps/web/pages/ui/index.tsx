@@ -5,6 +5,8 @@ import Holicon from '@holi/ui/components/holicon'
 
 import sassStyles from './ui.module.scss'
 
+// TODO: use different layout (without main menu)
+
 const UIOverviewPage: NextPage = () => {
   return (
     <section>
@@ -25,8 +27,8 @@ const UIOverviewPage: NextPage = () => {
         </li>
         <li>
           <Holicon icon="arrowtip-next" size={20} />
-          <Link href="/ui/button">
-            <a>Button</a>
+          <Link href="/ui/holibutton">
+            <a>HoliButton</a>
           </Link>
         </li>
         <li>
