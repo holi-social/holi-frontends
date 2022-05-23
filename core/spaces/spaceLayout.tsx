@@ -1,9 +1,8 @@
 import React from 'react'
 import { ImageBackground, Platform, ScrollView, StyleSheet, View } from 'react-native'
-import tinycolor from 'tinycolor2'
 
 import { PageHeader } from '@holi/core/spaces/components/PageHeader'
-import Button from '@holi/ui/components/Button'
+import HoliButton from '@holi/ui/components/HoliButton'
 import Holicon from '@holi/ui/components/holicon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import { jsVars } from '@holi/ui/styles/globalVars'
@@ -26,9 +25,9 @@ const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayo
         <ScrollView style={styles.scrollView}>{props.children}</ScrollView>
         <View style={styles.footer}>
           {/* TODO: hide within appStore */}
-          <Button style={styles.appStoreButton} onPress={() => navigate('/appstore')}>
+          <HoliButton label="Open Appstore" style={styles.appStoreButton} onPress={() => navigate('/appstore')}>
             <Holicon icon="appstore" size={30} color="black" style={{ position: 'absolute' }} />
-          </Button>
+          </HoliButton>
         </View>
         <View style={styles.header}>
           <PageHeader />
@@ -77,8 +76,8 @@ const styles = StyleSheet.create({
   appStoreButton: {
     width: 60,
     height: 60,
-    backgroundColor: tinycolor(theme.colors.background).setAlpha(0.7).toString(),
-    borderColor: tinycolor(theme.colors.border).setAlpha(0.5).toString(),
+    backgroundColor: theme.colors.primaryColor,
+    borderColor: theme.colors.borderColorBlack,
     alignItems: 'center',
     borderRadius: 30,
   },

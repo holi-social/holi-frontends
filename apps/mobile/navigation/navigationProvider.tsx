@@ -10,7 +10,7 @@ const theTheme: Theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    notification: defaultHoliTheme.colors.secondary,
+    notification: defaultHoliTheme.colors.secondaryColor,
   },
   dark: defaultHoliTheme.dark,
 }

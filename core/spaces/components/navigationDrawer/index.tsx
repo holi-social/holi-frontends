@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
+import HoliButton from '@holi/ui/components/HoliButton'
 import Holicon from '@holi/ui/components/holicon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import { SafeAreaView } from '@holi/ui/components/safe-area'
@@ -18,9 +19,9 @@ export const NavigationDrawer: React.VoidFunctionComponent = () => {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Deine Spaces</Text>
-          <Pressable style={styles.closeIcon} onPress={toggleDrawer}>
+          <HoliButton label="Close main menu" inline transparent style={styles.closeIcon} onPress={toggleDrawer}>
             <Holicon icon="close" color="#000" size={30} />
-          </Pressable>
+          </HoliButton>
         </View>
 
         <ScrollView style={[styles.scrollView]}>
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: theme.colors.border,
+    borderTopColor: theme.colors.borderColorBlack,
     paddingVertical: 20,
   },
   container: {
@@ -65,8 +66,8 @@ const styles = StyleSheet.create({
   },
   closeIcon: {
     position: 'absolute',
-    right: 0,
-    top: 14,
+    right: -35,
+    top: 7,
   },
   naviItem: {
     marginTop: 20,

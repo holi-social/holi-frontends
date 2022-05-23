@@ -6,20 +6,36 @@
 // run `yarn workspace @holi/ui run generate-style-vars` on every file change
 // TODO: add to dev-watcher
 
+
+$softblack: #222326;
+$softblackTransparent: rgba(27, 29, 32, 0.1);
+$white: #fff;
+$softwhite: #F7F6F3;
+$impactyellow: #F3F360;
+$positivepurple: #6267E7;
+$grey: #6F7081;
+
+
+
 $font-family: Helvetica Neue, sans-serif;
 $font-family-mobile: sans-serif;
 
-$font-color: #222;
+$font-color: $softblack;
 $font-color-black: $font-color;
-$font-color-grey: #6B7280;
-$font-color-white: #fff;
+$font-color-grey: $grey;
+$font-color-white: $white;
 
-$primary-color: #0066FF;
-$secondary-color: #ff2d55;
+$primary-color: $impactyellow;
+$secondary-color: $positivepurple;
 $tertiary-color: #57d14c;
 
-$border-color: #e7e6e6;
+$border-color: $softblack;
+$border-color-black: $softblack;
+$border-color-grey: $softblackTransparent;
 
-$background-color: #fdfdfd;
-$background-color-grey: #e5e5e5;
-$background-color-black: #313131;
+$background-color: $white;
+$background-color-white: $white;
+$background-color-grey: $softwhite;
+$background-color-black: $softblack;
+
+
