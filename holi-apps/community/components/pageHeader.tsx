@@ -16,7 +16,7 @@ const PageHeader: React.VoidFunctionComponent<PageHeaderProps> = (props) => {
 
   return (
     <View style={[headerStyles.container, headerStyles.horizontalElements, props.style]}>
-      <HoliButton label="Go to home" onPress={() => navigate('/')} inline transparent>
+      <HoliButton label="Go to home" onPress={() => navigate('/')} inline transparent testID="communityHomeButton">
         <Holicon icon="dashboard" size={20} color={theme.colors.fontColorBlack} />
       </HoliButton>
 

@@ -42,27 +42,33 @@ Follow [this tutorial](https://www.robincussol.com/build-standalone-expo-apk-ipa
 
 ### Prerequisites
 
-In order to locally test mobile, we can use appium. I generally followed
-[this manual](https://codecept.io/mobile/#setting-up).
-
 The short manual is roughly (not replayed / reproduced on other machines):
 
-```
-npm i -g appium appium-doctor
-appium-doctor
-```
+1. `npm i -g appium appium-doctor`
+2. run `appium-doctor`
+  (Then do all the things appium-doctor tells you to do / shows as error.)
 
-Then do all the things appium-doctor tells you to do / shows as error.
+    When appium-doctor is successful, run appium:
 
-Then, run `appium` on a shell and leave it running.
+3. run `appium`
+4. Open new terminal tab
+5. `cd e2e/mobile`
+6. `yarn install`
 
-In *this* directory, run `yarn install`.
 
 ### Local Test Execution Against Expo Dev Mode
 
 1. Make sure the application is running and on the "home screen" (i.e. where it goes right after start)
-2. Within `e2e/mobile`, run `CODECEPT_TARGET=local CODECEPT_PLATFORM=ios yarn run codeceptjs` OR
-   `CODECEPT_TARGET=local CODECEPT_PLATFORM=android yarn run codeceptjs`
+3. (iOs) grab simulator Id with this command (in new tab):
+
+    `xcrun simctl list | grep Booted`
+
+    and add field `udid` to file `e2e/mobile/codecept.conf.js`
+4. `cd e2e/mobile`
+4. `CODECEPT_TARGET=local CODECEPT_PLATFORM=ios yarn run codeceptjs`
+5. `CODECEPT_TARGET=local CODECEPT_PLATFORM=android yarn run codeceptjs`
+
+Find more docu [here](https://codecept.io/mobile/#setting-up)
 
 ### Local Test Execution Against Binary
 
@@ -134,7 +140,7 @@ Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Rea
 Please make sure Selenium Server is running and accessible
 ```
 
-you might need to add Androids `tools` and `platform-tools` to `PATH`, too: 
+you might need to add Androids `tools` and `platform-tools` to `PATH`, too:
 
 ```
 export ANDROID_HOME=/home/$(whoami)/Android/sdk
