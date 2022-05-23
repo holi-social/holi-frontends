@@ -23,7 +23,7 @@ export const UserContextProvider: React.FC = ({ children }) => {
   })
 
   if (loading) {
-    children
+    return <>{children}</>
   }
 
   if (error) {
@@ -32,7 +32,6 @@ export const UserContextProvider: React.FC = ({ children }) => {
   }
 
   const user = data?.allUsers && data?.allUsers[0]
-  //const user = undefined // TODO implement fetching user context for logged-in user
 
   return (
     <UserContext.Provider
