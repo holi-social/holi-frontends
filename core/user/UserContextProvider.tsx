@@ -23,7 +23,7 @@ export const UserContextProvider: React.FC = ({ children }) => {
   })
 
   if (loading) {
-    return <Text>Loading...</Text>
+    children
   }
 
   if (error) {
