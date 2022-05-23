@@ -5,7 +5,7 @@ import { AuthContext } from '@holi/core/auth/AuthProvider'
 import AuthLayout from '@holi/core/auth/authLayout'
 import { getAuthenticatedSession, killAuthenticatedSession } from '@holi/core/auth/helpers/auth'
 import { submitLogoutFlow } from '@holi/core/auth/helpers/auth'
-import Button from '@holi/ui/components/Button'
+import HoliButton from '@holi/ui/components/HoliButton'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 
 const Logout: React.VoidFunctionComponent = () => {
@@ -32,7 +32,9 @@ const Logout: React.VoidFunctionComponent = () => {
   return (
     <AuthLayout>
       <Text>Do you want to log out?</Text>
-      <Button onPress={() => onSubmit()}>Log out</Button>
+      <HoliButton label="" onPress={() => onSubmit()}>
+        Log out
+      </HoliButton>
     </AuthLayout>
   )
 }

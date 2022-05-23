@@ -8,7 +8,7 @@ import { SelfServiceFlow } from '@holi/core/auth/components'
 import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { getNodeId, handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
-import Button from '@holi/ui/components/Button'
+import HoliButton from '@holi/ui/components/HoliButton'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 
 const Registration = () => {
@@ -81,7 +81,9 @@ const Registration = () => {
         flow={flow}
         onSubmit={onSubmit}
       />
-      <Button onPress={() => navigate('/login')}>Already have an account?</Button>
+      <HoliButton label="Go to login" onPress={() => navigate('/login')}>
+        Already have an account?
+      </HoliButton>
     </AuthLayout>
   )
 }

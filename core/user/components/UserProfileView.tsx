@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Text } from 'react-native'
 
 import { UserContext } from '@holi/core/user/UserContextProvider'
-import Button from '@holi/ui/components/Button'
+import HoliButton from '@holi/ui/components/HoliButton'
 
 type UserProfileViewProps = {
   editUser: () => void
@@ -21,7 +21,9 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
       <Text>({user.pronouns})</Text>
       <Text>{user.location}</Text>
       <Text>{user.aboutMe}</Text>
-      <Button onPress={editUser}>Edit</Button>
+      <HoliButton label="Profile data" onPress={editUser}>
+        Edit
+      </HoliButton>
     </>
   )
 }

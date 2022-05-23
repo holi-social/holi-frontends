@@ -4,7 +4,7 @@ import React from 'react'
 import { View } from 'react-native'
 
 import { getNodeId, getNodeTitle } from '@holi/core/auth/helpers/form'
-import Button from '@holi/ui/components/Button'
+import HoliButton from '@holi/ui/components/HoliButton'
 
 interface Props extends InputSubmitProps {
   node: UiNode
@@ -28,7 +28,9 @@ export const NodeInputSubmit = ({ node, attributes, onSubmitPress }: Props) => {
 
   return (
     <View testID={`field/${name}/${attributes.value}`}>
-      <Button onPress={() => onSubmitPress(attributes.name, attributes.value)}>{title}</Button>
+      <HoliButton label="" onPress={() => onSubmitPress(attributes.name, attributes.value)}>
+        {title}
+      </HoliButton>
     </View>
   )
 }
