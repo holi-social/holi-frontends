@@ -1,3 +1,3 @@
 import Constants from 'expo-constants'
 
-export const apiHost = Constants.manifest?.extra?.api.host
+export const holiApi = Constants.manifest?.extra?.holi_api.url

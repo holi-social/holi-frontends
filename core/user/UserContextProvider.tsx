@@ -23,7 +23,7 @@ export const UserContextProvider: React.FC = ({ children }) => {
   })
 
   if (loading) {
-    return <>{children}</>
+    return <UserContext.Provider value={{ user: undefined }}>{children}</UserContext.Provider>
   }
 
   if (error) {

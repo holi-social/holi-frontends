@@ -2,4 +2,4 @@ import getConfig from 'next/config'
 
 const { publicRuntimeConfig } = getConfig()
 
-export const apiHost = publicRuntimeConfig.api.host
+export const holiApi = publicRuntimeConfig.holi_api.url

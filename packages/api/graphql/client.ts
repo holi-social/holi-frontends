@@ -1,10 +1,10 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 import { offsetLimitPagination } from '@apollo/client/utilities'
 
-import { apiHost } from '@holi/api/config'
+import { holiApi } from '@holi/api/config'
 
 export const client = new ApolloClient({
-  uri: `http://${apiHost}:4001/graphql`,
+  uri: holiApi,
   cache: new InMemoryCache({
     typePolicies: {
       Query: {
