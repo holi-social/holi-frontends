@@ -8,24 +8,31 @@ setHeadlessWhen(process.env.HEADLESS)
 setCommonPlugins()
 
 exports.config = {
-  tests: './*.js',
+  name: 'web',
+  tests: './**/*.test.js',
   output: './output',
   helpers: {
     Playwright: {
       url: process.env.BASE_URL || 'http://localhost:3000',
-      show: true,
+      show: false, // headless
       browser: 'chromium',
     },
-  },
-  multiple: {
-    crossbrowser: {
-      browsers: [{ browser: 'firefox' }, { browser: 'webkit' }, { browser: 'chromium' }],
+    SelectorHelper: {
+      require: './helpers/css-selector.js',
+    },
+    AccessibilityHelper: {
+      require: './helpers/axe-playwright.js',
     },
   },
   include: {
     I: './steps_file.js',
   },
+  multiple: {
+    crossbrowser: {
+      // browsers: [{ browser: 'firefox' }, { browser: 'webkit' }, { browser: 'chromium' }],
+      browsers: [{ browser: 'chromium' }],
+    },
+  },
   bootstrap: null,
   mocha: {},
-  name: 'web',
 }
