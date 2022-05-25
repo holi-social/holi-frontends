@@ -1,3 +1,8 @@
+/**
+ * Axes rules list: https://dequeuniversity.com/rules/axe/4.4
+ * Rule descriptions: https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
+ */
+
 const Helper = require('@codeceptjs/helper')
 const { checkA11y, injectAxe } = require('axe-playwright')
 
@@ -7,12 +12,16 @@ class AccessibilityHelper extends Helper {
   _after() {}
 
   async checkAccessibility() {
-    // console.log('*************** process.env', process.env)
     const { page } = this.helpers['Playwright']
-    // const pageUrl = await page.url()
 
     await injectAxe(page)
-    await checkA11y(page)
+
+    const options = {
+      rules: {
+        region: { enabled: false },
+      },
+    }
+    await checkA11y(page, options)
   }
 }
 

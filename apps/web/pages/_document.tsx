@@ -24,7 +24,7 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <Html>
+      <Html lang="en">
         <Head>
           <meta name="description" content="holi community" />
           <link rel="icon" href="/favicon.ico" />

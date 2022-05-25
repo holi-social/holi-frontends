@@ -12,8 +12,10 @@ type CommunityLayoutProps = {
 const CommunityLayout: React.FunctionComponent<CommunityLayoutProps> = (props: CommunityLayoutProps) => {
   return (
     <SafeAreaView style={styles.container}>
-      <PageHeader />
-      <View style={styles.contentView}>{props.children}</View>
+      <PageHeader accessibilityRole="region" accessibilityLabel="Page Header" />
+      <View style={styles.contentView} accessibilityRole="main" accessibilityLabel="Main Content">
+        {props.children}
+      </View>
     </SafeAreaView>
   )
 }

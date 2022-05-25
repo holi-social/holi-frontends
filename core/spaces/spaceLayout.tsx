@@ -22,14 +22,16 @@ const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayo
       style={styles.bgImage}
     >
       <View style={styles.container}>
-        <ScrollView style={styles.scrollView}>{props.children}</ScrollView>
-        <View style={styles.footer}>
+        <ScrollView style={styles.scrollView} accessibilityRole="main" accessibilityLabel="Main Content">
+          {props.children}
+        </ScrollView>
+        <View style={styles.footer} accessibilityRole="region" accessibilityLabel="Page Footer">
           {/* TODO: hide within appStore */}
           <HoliButton label="Open Appstore" style={styles.appStoreButton} onPress={() => navigate('/appstore')}>
             <Holicon icon="appstore" size={30} color="black" style={{ position: 'absolute' }} />
           </HoliButton>
         </View>
-        <View style={styles.header}>
+        <View style={styles.header} accessibilityRole="region" accessibilityLabel="Page Header">
           <PageHeader />
         </View>
       </View>
