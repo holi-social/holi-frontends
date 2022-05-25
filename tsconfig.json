@@ -7,7 +7,9 @@
       "@holi/ui": ["packages/ui"],
       "@holi/api": ["packages/api"],
       "@holi/core": ["core"],
-      "@holi/holi-apps": ["holi-apps/"]
+      "@holi/holi-apps": ["holi-apps/"],
+      "@holi/e2e-mobile": ["e2e/mobile"],
+      "@holi/e2d-web": ["e2e/web"],
     },
     "jsx": "preserve",
     "strict": true,

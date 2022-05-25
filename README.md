@@ -24,6 +24,13 @@ Start the mock api with `yarn mock-api:dev`.
 
 We are using [Expo](https://docs.expo.dev/) to build the app for both mobile app variants.
 
+### Running via `mprocs`
+
+Instead of opening multiple terminal sessions and executing multiple commands you can use
+[mprocs](https://github.com/pvolok/mprocs) and simply run `mprocs` to get up and going. This repo
+contains an `mprocs.json` file that defines all the processes that need to be run. When `mprocs` is
+running, you can simply switch panes using `Ctrl+a`.
+
 #### Android emulator
 
 - Follow the instructions to install [Android studio](https://docs.expo.dev/workflow/android-studio-emulator/)
