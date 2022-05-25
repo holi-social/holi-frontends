@@ -1,8 +1,7 @@
-import { useQuery } from '@apollo/client'
-import React, { createContext } from 'react'
-import { Text } from 'react-native'
+import React, { createContext, useState } from 'react'
 
-import { AllUsersQueryResult, allUsersQuery } from '@holi/core/user/queries'
+import { client } from '@holi/api/graphql/client'
+import { allUsersQuery } from '@holi/core/user/queries'
 import { User } from '@holi/core/user/types'
 
 interface Context {
@@ -14,25 +13,12 @@ export const UserContext = createContext<Context>({
 })
 
 export const UserContextProvider: React.FC = ({ children }) => {
-  // Later: Possibly retrieve user id from auth context and load user by id here
-  const { loading, error, data } = useQuery<AllUsersQueryResult>(allUsersQuery, {
-    variables: {
-      offset: 0,
-      limit: 1,
-    },
+  const [user, setUser] = useState<User | undefined>(undefined)
+
+  client.query({ query: allUsersQuery }).then((data) => {
+    setUser(data.data?.allUsers ? data.data?.allUsers[0] : undefined)
   })
 
-  // if (loading) {
-  //   return <UserContext.Provider value={{ user: undefined }}>{children}</UserContext.Provider>
-  // }
-
-  if (error) {
-    // Necessary to display error to user?
-    console.error('Error fetching users', error)
-  }
-
-  const user = data?.allUsers ? data?.allUsers[0] : undefined
-  console.log(user)
   return (
     <UserContext.Provider
       value={{
