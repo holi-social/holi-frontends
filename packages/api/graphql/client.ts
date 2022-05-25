@@ -5,8 +5,7 @@ import { holiApi } from '@holi/api/config'
 
 export const client = new ApolloClient({
   uri: holiApi,
-  cache: new InMemoryCache(),
-  /*{
+  cache: new InMemoryCache({
     typePolicies: {
       Query: {
         fields: {
@@ -15,7 +14,7 @@ export const client = new ApolloClient({
         },
       },
     },
-  }),*/
+  }),
 })
 
 export default client
