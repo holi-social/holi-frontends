@@ -2,11 +2,12 @@
 
 This spike uses codeceptjs as a high-level wrapper framework for mobile and web testing.
 
-For testing the web app, run it from the project root
+For testing the web app, start the local dev environment and execute the tests:
 
-  yarn workspace web run dev
+  `yarn install`
 
-And then, in this directory, run
+  `yarn web:dev`
 
-  yarn install
-  yarn codeceptjs:headless # or similar
+  Open new terminal tab and run
+
+  `yarn web:e2e`

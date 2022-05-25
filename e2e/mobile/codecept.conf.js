@@ -55,7 +55,7 @@ const localAndroidEmulator = {
     /*espressoBuildConfig: JSON.stringify({
       additionalAppDependencies: ['androidx.lifecycle:lifecycle-extensions:2.2.0'],
     }),*/
-    platformVersion: '11',
+    // platformVersion: '12',
     deviceName: 'Android Emulator',
     showGradleLog: true,
   },
@@ -68,9 +68,9 @@ const localIOSSimulator = {
   device: 'simulator',
   desiredCapabilities: {
     automationName: 'XCUITest',
-    platformVersion: '15.4',
-    deviceName: 'iPhone XS',
-    udid: '41573563-E6F4-433C-B68F-BCDF76CEBA50',
+    // platformVersion: '15.4',
+    // deviceName: 'iPhone XS',
+    udid: '6831D2B2-5FC2-401C-8987-A20E43693B44',
     //bundleId: 'foundation.holistic.projectholi',
     showIOSLog: true,
   },
