@@ -22,17 +22,17 @@ export const UserContextProvider: React.FC = ({ children }) => {
     },
   })
 
-  if (loading) {
-    return <UserContext.Provider value={{ user: undefined }}>{children}</UserContext.Provider>
-  }
+  // if (loading) {
+  //   return <UserContext.Provider value={{ user: undefined }}>{children}</UserContext.Provider>
+  // }
 
   if (error) {
     // Necessary to display error to user?
     console.error('Error fetching users', error)
   }
 
-  const user = data?.allUsers && data?.allUsers[0]
-
+  const user = data?.allUsers ? data?.allUsers[0] : undefined
+  console.log(user)
   return (
     <UserContext.Provider
       value={{
