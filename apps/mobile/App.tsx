@@ -3,13 +3,13 @@ import React from 'react'
 import { Provider } from '@holi/core/provider'
 import { NavigationProvider } from '@holi/mobile/navigation/navigationProvider'
 
-import { RootNavigator } from './navigation/rootNavigator'
+import { RootTabsNavigator } from './navigation/rootTabsNavigator'
 
 const App: React.VoidFunctionComponent = () => {
   return (
     <Provider>
       <NavigationProvider>
-        <RootNavigator />
+        <RootTabsNavigator />
       </NavigationProvider>
     </Provider>
   )

@@ -1,12 +1,12 @@
 import * as Linking from 'expo-linking'
 import React, { useMemo } from 'react'
 
-import { DefaultTheme, NavigationContainer } from '@react-navigation/native'
 import type { Theme } from '@react-navigation/native'
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native'
 
 import defaultHoliTheme from '@holi/ui/styles/theme'
 
-const theTheme: Theme = {
+const navigationTheme: Theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
@@ -17,21 +17,36 @@ const theTheme: Theme = {
 
 export const NavigationProvider: React.FC = ({ children }) => (
   <NavigationContainer
-    theme={theTheme}
+    theme={navigationTheme}
     linking={useMemo(
       () => ({
         prefixes: [Linking.createURL('/')],
         config: {
-          initialRouteName: 'PrivateSpace',
+          initialRouteName: 'HomeFeed',
           screens: {
-            PrivateSpace: '',
-            AppStore: 'appstore',
-            Community: 'community',
-            Settings: 'settings',
-            Login: 'login',
-            Logout: 'logout',
-            Registration: 'registration',
-            UserProfile: 'profile',
+            Home: {
+              screens: {
+                HomeFeed: '',
+                Topic: 'topics/:topicId',
+                TopicEditorModal: 'topics/:topicId/editors',
+                Post: 'topics/:topicId/posts/:postId',
+                UserProfile: 'profile/:userId',
+                Notifications: 'notifications',
+                Login: 'login',
+                Logout: 'logout',
+                Registration: 'registration',
+              },
+            },
+            Chat: {
+              screens: {
+                ChatHome: 'chat',
+              },
+            },
+            Search: {
+              screens: {
+                Search: 'search',
+              },
+            },
           },
         },
       }),
