@@ -7,6 +7,7 @@ import Holicon from '@holi/ui/components/holicon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import { jsVars } from '@holi/ui/styles/globalVars'
 import theme from '@holi/ui/styles/theme'
+import { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/typings'
 
 type SpaceLayoutProps = {
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string
@@ -15,6 +16,12 @@ type SpaceLayoutProps = {
 const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayoutProps) => {
   const { navigate } = useRouting()
 
+  const getAccessibilityProps = (role: AccessibilityRoleWeb, label: string): AccessibilityPropsWeb => ({
+    accessible: true,
+    accessibilityLabel: label,
+    accessibilityRole: role,
+  })
+
   return (
     <ImageBackground
       source={{ uri: 'https://cdn.pixabay.com/photo/2016/04/12/22/35/watercolour-1325656__480.jpg' }}
@@ -22,16 +29,16 @@ const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayo
       style={styles.bgImage}
     >
       <View style={styles.container}>
-        <ScrollView style={styles.scrollView} accessibilityRole="main" accessibilityLabel="Main Content">
+        <ScrollView style={styles.scrollView} {...getAccessibilityProps('main', 'Main Content')}>
           {props.children}
         </ScrollView>
-        <View style={styles.footer} accessibilityRole="region" accessibilityLabel="Page Footer">
+        <View style={styles.footer} {...getAccessibilityProps('region', 'Page Footer')}>
           {/* TODO: hide within appStore */}
           <HoliButton label="Open Appstore" style={styles.appStoreButton} onPress={() => navigate('/appstore')}>
             <Holicon icon="appstore" size={30} color="black" style={{ position: 'absolute' }} />
           </HoliButton>
         </View>
-        <View style={styles.header} accessibilityRole="region" accessibilityLabel="Page Header">
+        <View style={styles.header} {...getAccessibilityProps('region', 'Page Header')}>
           <PageHeader />
         </View>
       </View>
