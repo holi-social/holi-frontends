@@ -1,13 +1,13 @@
 import React from 'react'
-import { ImageBackground, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { AccessibilityProps, ImageBackground, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { PageHeader } from '@holi/core/spaces/components/PageHeader'
+import type { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/@types/react-native-web'
 import HoliButton from '@holi/ui/components/HoliButton'
 import Holicon from '@holi/ui/components/holicon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import { jsVars } from '@holi/ui/styles/globalVars'
 import theme from '@holi/ui/styles/theme'
-import { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/typings'
 
 type SpaceLayoutProps = {
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string
@@ -16,11 +16,22 @@ type SpaceLayoutProps = {
 const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayoutProps) => {
   const { navigate } = useRouting()
 
-  const getAccessibilityProps = (role: AccessibilityRoleWeb, label: string): AccessibilityPropsWeb => ({
-    accessible: true,
-    accessibilityLabel: label,
-    accessibilityRole: role,
-  })
+  // Accessibility landmark rule
+  // see here: https://dequeuniversity.com/rules/axe/4.3/region
+  const getAccessibilityProps = (
+    role: AccessibilityRoleWeb,
+    label: string
+  ): AccessibilityProps | AccessibilityPropsWeb => {
+    let roleUpdated = role
+    if (Platform.OS !== 'web') {
+      roleUpdated = role === 'main' || role === 'banner' ? 'none' : role
+    }
+    return {
+      accessible: true,
+      accessibilityLabel: label,
+      accessibilityRole: roleUpdated,
+    }
+  }
 
   return (
     <ImageBackground
@@ -29,16 +40,19 @@ const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayo
       style={styles.bgImage}
     >
       <View style={styles.container}>
+        {/* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/main_role */}
         <ScrollView style={styles.scrollView} {...getAccessibilityProps('main', 'Main Content')}>
           {props.children}
         </ScrollView>
-        <View style={styles.footer} {...getAccessibilityProps('region', 'Page Footer')}>
-          {/* TODO: hide within appStore */}
+
+        {/* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/toolbar_role */}
+        <View style={styles.footer} {...getAccessibilityProps('toolbar', 'Page Action Button')}>
           <HoliButton label="Open Appstore" style={styles.appStoreButton} onPress={() => navigate('/appstore')}>
             <Holicon icon="appstore" size={30} color="black" style={{ position: 'absolute' }} />
           </HoliButton>
         </View>
-        <View style={styles.header} {...getAccessibilityProps('region', 'Page Header')}>
+        {/* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/banner_role */}
+        <View style={styles.header} {...getAccessibilityProps('banner', 'Page Header')}>
           <PageHeader />
         </View>
       </View>

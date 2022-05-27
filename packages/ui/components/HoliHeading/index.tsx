@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { Platform, StyleSheet, Text, ViewStyle } from 'react-native'
+import { AccessibilityProps, Platform, StyleSheet, Text, ViewStyle } from 'react-native'
 
+import type { AccessibilityPropsWeb } from '@holi/ui/@types/react-native-web'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { AccessibilityPropsWeb } from '@holi/ui/typings'
 
 export type HeadingProps = {
   children: React.ReactChild | React.ReactChildren | (React.ReactChild | string | undefined)[]
@@ -15,13 +15,26 @@ const HoliHeading: React.FunctionComponent<HeadingProps> = (props: HeadingProps)
   const { theme } = useTheme()
   const styles = getStyles(theme)
 
-  const accessibilityProps: AccessibilityPropsWeb = {
-    accessibilityRole: 'header',
-    accessibilityLevel: props.level || 2,
+  const getAccessibilityProps = (): AccessibilityProps | AccessibilityPropsWeb => {
+    if (Platform.OS === 'web') {
+      // accessibilityRole = 'header' plus level renders to '<h1 role="heading">'
+      // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/heading_role
+      return {
+        accessible: true,
+        accessibilityRole: 'header',
+        accessibilityLevel: props.level || 2,
+      }
+    }
+    // the react-native implementation does not know a header's level
+    // see here: https://github.com/paularmstrong/build-tracker/blob/main/typings/react-native/index.d.ts
+    return {
+      accessible: true,
+      accessibilityRole: 'header',
+    }
   }
 
   return (
-    <Text style={[styles.holiHeading, props.style]} {...accessibilityProps}>
+    <Text style={[styles.holiHeading, props.style]} {...getAccessibilityProps()}>
       {props.children}
     </Text>
   )

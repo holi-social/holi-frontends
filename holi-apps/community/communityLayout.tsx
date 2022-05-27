@@ -1,6 +1,7 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { AccessibilityProps, Platform, StyleSheet, View } from 'react-native'
 
+import type { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/@types/react-native-web'
 import { SafeAreaView } from '@holi/ui/components/safe-area'
 
 import { PageHeader } from './components/pageHeader'
@@ -10,10 +11,27 @@ type CommunityLayoutProps = {
 }
 
 const CommunityLayout: React.FunctionComponent<CommunityLayoutProps> = (props: CommunityLayoutProps) => {
+  // Accessibility landmark rule
+  // see here: https://dequeuniversity.com/rules/axe/4.3/region
+  const getAccessibilityProps = (
+    role: AccessibilityRoleWeb,
+    label: string
+  ): AccessibilityProps | AccessibilityPropsWeb => {
+    let roleUpdated = role
+    if (Platform.OS !== 'web') {
+      roleUpdated = role === 'main' || role === 'banner' ? 'none' : role
+    }
+    return {
+      accessible: true,
+      accessibilityLabel: label,
+      accessibilityRole: roleUpdated,
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <PageHeader accessibilityRole="region" accessibilityLabel="Page Header" />
-      <View style={styles.contentView} accessibilityRole="main" accessibilityLabel="Main Content">
+      <PageHeader {...getAccessibilityProps('banner', 'Page Header')} />
+      <View style={styles.contentView} {...getAccessibilityProps('main', 'Main Content')}>
         {props.children}
       </View>
     </SafeAreaView>

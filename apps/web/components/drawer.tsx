@@ -43,7 +43,9 @@ export const Drawer: React.VoidFunctionComponent<DrawerProps> = ({ DrawerContent
       <Animated.View
         // @ts-ignore
         style={[styles.drawer, animatedDrawerStyles]}
-        accessibilityRole="navigation" accessibilityLabel="Main Navigation"
+        accessible={true}
+        accessibilityRole="navigation"
+        accessibilityLabel="Main Navigation"
       >
         <DrawerContent />
       </Animated.View>
