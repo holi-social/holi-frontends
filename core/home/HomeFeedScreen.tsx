@@ -9,6 +9,7 @@ export const HomeFeedScreen: React.VFC = () => {
   const { navigate } = useRouting()
   return (
     <View style={{ padding: 10, alignItems: 'center' }}>
+      <Text style={{ fontSize: 20 }}>Home</Text>
       <Text style={{ fontSize: 18 }}>Apps</Text>
       <View style={{ flexDirection: 'row' }}>
         <Pressable onPress={() => navigate('/apps/volunteering')}>
