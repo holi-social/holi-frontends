@@ -49,6 +49,7 @@ module.exports = withSentryConfig(
     [
       withTranspileModules(
         [
+          'solito',
           'react-native-reanimated',
           'react-native-card-stack-swiper',
           '@holi-apps/community',

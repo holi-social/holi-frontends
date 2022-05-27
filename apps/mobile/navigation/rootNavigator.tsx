@@ -1,33 +1,25 @@
-import React, { useContext } from 'react'
-import { Button, Pressable, SafeAreaView, Text, View } from 'react-native'
+import React from 'react'
+import { Pressable, SafeAreaView, View } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { NativeStackScreenProps, createNativeStackNavigator } from '@react-navigation/native-stack'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { Login } from '@holi/core/auth/screens/Login'
 import { Logout } from '@holi/core/auth/screens/Logout'
 import { Registration } from '@holi/core/auth/screens/Registration'
-import { UserContext } from '@holi/core/user/UserContextProvider'
+import { ChatHomeScreen } from '@holi/core/chat/ChatHomeScreen'
+import { HomeFeedScreen } from '@holi/core/home/HomeFeedScreen'
+import { NotificationsScreen } from '@holi/core/notifications/NotificationsScreen'
+import { UserProfileScreen, UserProfileScreenParams } from '@holi/core/profile/UserProfileScreen'
+import { SearchScreen } from '@holi/core/search/SearchScreen'
+import { TopicEditorModal, TopicEditorModalParams } from '@holi/core/topics/TopicEditorModal'
+import { TopicScreenParams, TopicsScreen } from '@holi/core/topics/TopicsScreen'
+import { PostScreen, PostScreenParams } from '@holi/core/topics/posts/PostScreen'
 import Holicon from '@holi/ui/components/holicon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import theme from '@holi/ui/styles/theme/theme'
 
-export type UserProfileScreenParams = {
-  userId: string
-}
-
-export type TopicScreenParams = {
-  topicId: string
-}
-
-export type TopicEditorModalParams = {
-  topicId: string
-}
-
-export type PostScreenParams = {
-  topicId: string
-  postId: string
-}
+import { VolunteeringAppHomeScreen } from '@holi-apps/volunteering/screens/VolunteeringAppHomeScreen'
 
 export type ChatStackScreensList = {
   ChatHome: undefined
@@ -69,157 +61,6 @@ const BottomTabs = createBottomTabNavigator<BottomTabsScreensList>()
 const VolunteeringAppStack = createNativeStackNavigator<VolunteeringAppScreensList>()
 const RootStack = createNativeStackNavigator<RootStackScreensList>()
 
-const loremIpsum =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio eget metus, est mauris viverra orci rhoncus quis ' +
-  'eu. Ultricies pellentesque et tincidunt vitae etiam turpis at vulputate.'
-
-const fakeTopics = new Map()
-fakeTopics.set('abc', {
-  title: 'What does it mean to be a refugee in Europe?',
-  text:
-    'Most of the world’s refugees take shelter in refugee camps, run by the United Nations Refugee Agency. Refugee ' +
-    'camps are safe but temporary shelters, where refugees can live before their resettlement into other countries. ' +
-    '\n' +
-    '\n' +
-    loremIpsum,
-  posts: {
-    123: { author: 'Max Arghentzu', text: '123 ' + loremIpsum },
-    321: { author: 'Max Arghentzu', text: '321 ' + loremIpsum },
-  },
-})
-fakeTopics.set('bca', {
-  title: 'How can we stop a climate catastrophe?',
-  text:
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio eget metus, est mauris viverra orci rhoncus quis ' +
-    'eu. Ultricies pellentesque et tincidunt vitae etiam turpis at vulputate.',
-  posts: {
-    456: { author: 'Max Arghentzu', text: '456 ' + loremIpsum },
-    654: { author: 'Max Arghentzu', text: '654 ' + loremIpsum },
-  },
-})
-
-const HomeFeedComponent: React.VFC = () => {
-  const { navigate } = useRouting()
-  return (
-    <View style={{ padding: 10, alignItems: 'center' }}>
-      <Text style={{ fontSize: 18 }}>Apps</Text>
-      <View style={{ flexDirection: 'row' }}>
-        <Pressable onPress={() => navigate('/apps/volunteering')}>
-          <View style={{ flexDirection: 'column', alignItems: 'center', padding: 10 }}>
-            <Holicon icon="work" size={20} />
-            <Text>Volunteering</Text>
-          </View>
-        </Pressable>
-        <Pressable onPress={() => navigate('/apps/volunteering')}>
-          <View style={{ flexDirection: 'column', alignItems: 'center', padding: 10 }}>
-            <Holicon icon="support" size={20} />
-            <Text>Donations</Text>
-          </View>
-        </Pressable>
-      </View>
-      <Text style={{ fontSize: 18, paddingTop: 20 }}>
-        This week’s topics are Immigration, Education and Sustainability
-      </Text>
-      {[...fakeTopics.keys()].map((topicId) => (
-        <Button key={topicId} onPress={() => navigate(`/topics/${topicId}`)} title={fakeTopics.get(topicId).title} />
-      ))}
-    </View>
-  )
-}
-
-type TopicScreenProps = NativeStackScreenProps<HomeStackScreensList, 'Topic'>
-const TopicScreen: React.FC<TopicScreenProps> = ({ navigation, route }: TopicScreenProps) => {
-  const { topicId } = route.params
-  const { navigate } = useRouting()
-  return (
-    <View style={{ padding: 10 }}>
-      <Text>Topic topidId={topicId}</Text>
-      <Button onPress={() => navigate(`/topics/${topicId}/editors`)} title="Topic Editors" />
-      <Text style={{ fontSize: 24, paddingBottom: 10 }}>{fakeTopics.get(topicId).title}</Text>
-      <Text style={{ paddingBottom: 10 }}>{fakeTopics.get(topicId).text}</Text>
-      <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Posts</Text>
-      {[...Object.getOwnPropertyNames(fakeTopics.get(topicId).posts)].map((postId) => (
-        <Pressable key={postId} onPress={() => navigate(`/topics/${topicId}/posts/${postId}`)}>
-          <Text style={{ paddingTop: 10 }}>{fakeTopics.get(topicId).posts[postId].text}</Text>
-        </Pressable>
-      ))}
-    </View>
-  )
-}
-
-type TopicEditorModalProps = NativeStackScreenProps<RootStackScreensList, 'TopicEditorModal'>
-const TopicEditorModal: React.FC<TopicEditorModalProps> = ({ navigation, route }) => {
-  const { topicId } = route.params
-  return (
-    <View style={{ padding: 10 }}>
-      <Text>This week&lsquo;s topic editors for topicId={topicId}</Text>
-    </View>
-  )
-}
-
-type PostScreenProps = NativeStackScreenProps<HomeStackScreensList, 'Post'>
-const PostScreen: React.FC<PostScreenProps> = ({ navigation, route }) => {
-  const { topicId, postId } = route.params
-  return (
-    <View style={{ justifyContent: 'center', padding: 10 }}>
-      <Text>
-        Topic {topicId} Post {postId}
-      </Text>
-      <Text style={{ paddingTop: 10 }}>by {fakeTopics.get(topicId).posts[postId].author}</Text>
-      <Text style={{ paddingTop: 10 }}>{fakeTopics.get(topicId).posts[postId].text}</Text>
-    </View>
-  )
-}
-
-const SearchScreen: React.FC = () => (
-  <View style={{ padding: 10 }}>
-    <Text>Search</Text>
-  </View>
-)
-
-type UserProfileScreenProps = NativeStackScreenProps<HomeStackScreensList, 'UserProfile'>
-const UserProfileScreen: React.FC<UserProfileScreenProps> = ({ navigation, route }) => {
-  const { navigate } = useRouting()
-  const { userId } = route.params
-  const { user } = useContext(UserContext)
-  if (user) {
-    // Logged-in
-    return (
-      <View style={{ padding: 10, alignItems: 'center' }}>
-        <Text style={{ fontSize: 20 }}>{user.name}&lsquo;s Profile</Text>
-        <Button onPress={() => navigate('/logout')} title="Logout" />
-      </View>
-    )
-  } else {
-    // Logged-out
-    return (
-      <View style={{ padding: 10 }}>
-        <Text>Profile userId={userId}</Text>
-        <Button onPress={() => navigate('/login')} title="Login" />
-        <Button onPress={() => navigate('/registration')} title="Register" />
-      </View>
-    )
-  }
-}
-
-const NotificationsScreen: React.VFC = () => (
-  <View style={{ padding: 10 }}>
-    <Text>Notifications</Text>
-  </View>
-)
-
-const ChatHomeScreen: React.VFC = () => (
-  <View style={{ padding: 10 }}>
-    <Text>Chat Home</Text>
-  </View>
-)
-
-const VolunteeringAppHomeScreen: React.VFC = () => (
-  <View style={{ padding: 10 }}>
-    <Text>Volunteering App Home</Text>
-  </View>
-)
-
 export const ChatStackNavigator: React.VFC = () => (
   <ChatStack.Navigator
     initialRouteName="ChatHome"
@@ -240,7 +81,7 @@ export const HomeStackNavigator: React.VFC = () => (
   >
     <HomeStack.Screen
       name="HomeFeed"
-      component={HomeFeedComponent}
+      component={HomeFeedScreen}
       options={{
         title: 'Good Morning',
         headerLeft: () => {
@@ -271,7 +112,7 @@ export const HomeStackNavigator: React.VFC = () => (
     />
     <HomeStack.Screen
       name="Topic"
-      component={TopicScreen}
+      component={TopicsScreen}
       options={{
         title: 'Topic',
         headerBackTitle: '',
@@ -297,7 +138,7 @@ export const HomeStackNavigator: React.VFC = () => (
   </HomeStack.Navigator>
 )
 
-export const AppWrapper: React.FC = ({ children }) => {
+export const AppNavigation: React.FC = ({ children }) => {
   const { navigate } = useRouting()
   return (
     <SafeAreaView style={{ padding: 10, position: 'absolute', bottom: 10, right: 10 }}>
@@ -319,7 +160,7 @@ export const VolunteeringAppNavigator: React.VFC = () => (
     <VolunteeringAppStack.Navigator initialRouteName="VolunteeringAppHome">
       <VolunteeringAppStack.Screen name="VolunteeringAppHome" component={VolunteeringAppHomeScreen} />
     </VolunteeringAppStack.Navigator>
-    <AppWrapper />
+    <AppNavigation />
   </SafeAreaView>
 )
 
