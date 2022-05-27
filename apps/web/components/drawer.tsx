@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Pressable, StyleSheet, ViewStyle } from 'react-native'
+import { Platform } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated'
 import tinycolor from 'tinycolor2'
 
@@ -44,7 +45,7 @@ export const Drawer: React.VoidFunctionComponent<DrawerProps> = ({ DrawerContent
         // @ts-ignore
         style={[styles.drawer, animatedDrawerStyles]}
         accessible={true}
-        accessibilityRole="navigation"
+        accessibilityRole={Platform.OS === 'web' ? 'navigation' : 'toolbar'}
         accessibilityLabel="Main Navigation"
       >
         <DrawerContent />
