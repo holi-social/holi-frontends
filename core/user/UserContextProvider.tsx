@@ -32,7 +32,13 @@ export const UserContextProvider: React.FC = ({ children }) => {
   }
 
   const user = data?.allUsers && data?.allUsers[0]*/
-  const user = undefined // TODO implement fetching user context for logged-in user
+  const user = {
+    id: '123',
+    name: 'Daniel',
+    aboutMe: 'lksjfalksjd',
+    pronouns: 'laksjdflaskj',
+    location: 'lakjdsflas',
+  } // TODO implement fetching user context for logged-in user
 
   return (
     <UserContext.Provider

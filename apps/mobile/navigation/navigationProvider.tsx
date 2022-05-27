@@ -20,33 +20,39 @@ export const NavigationProvider: React.FC = ({ children }) => (
     theme={navigationTheme}
     linking={useMemo(
       () => ({
-        prefixes: [Linking.createURL('/')],
+        prefixes: [Linking.createURL('/'), 'holi://', 'https://*.web.project-holi.org'],
         config: {
-          initialRouteName: 'HomeFeed',
+          initialRouteName: 'App',
           screens: {
-            Home: {
+            // the actual app
+            App: {
               screens: {
-                HomeFeed: '',
-                Topic: 'topics/:topicId',
-                TopicEditorModal: 'topics/:topicId/editors',
-                Post: 'topics/:topicId/posts/:postId',
-                UserProfile: 'profile/:userId',
-                Notifications: 'notifications',
-                Login: 'login',
-                Logout: 'logout',
-                Registration: 'registration',
+                Home: {
+                  screens: {
+                    HomeFeed: '',
+                    Topic: 'topics/:topicId',
+                    Post: 'topics/:topicId/posts/:postId',
+                    UserProfile: 'profile/:userId',
+                    Notifications: 'notifications',
+                  },
+                },
+                Chat: {
+                  screens: {
+                    ChatHome: 'chat',
+                  },
+                },
+                Search: {
+                  screens: {
+                    Search: 'search',
+                  },
+                },
               },
             },
-            Chat: {
-              screens: {
-                ChatHome: 'chat',
-              },
-            },
-            Search: {
-              screens: {
-                Search: 'search',
-              },
-            },
+            // all modals
+            Login: 'login',
+            Logout: 'logout',
+            Registration: 'registration',
+            TopicEditorModal: 'topics/:topicId/editors',
           },
         },
       }),

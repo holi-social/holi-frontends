@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Button, Pressable, Text, View } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -7,7 +7,10 @@ import { NativeStackScreenProps, createNativeStackNavigator } from '@react-navig
 import { Login } from '@holi/core/auth/screens/Login'
 import { Logout } from '@holi/core/auth/screens/Logout'
 import { Registration } from '@holi/core/auth/screens/Registration'
+import { UserContext } from '@holi/core/user/UserContextProvider'
+import Holicon from '@holi/ui/components/holicon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
+import theme from '@holi/ui/styles/theme/theme'
 
 export type UserProfileScreenParams = {
   userId: string
@@ -33,29 +36,36 @@ export type ChatStackScreensList = {
 export type HomeStackScreensList = {
   HomeFeed: undefined
   Topic: TopicScreenParams
-  TopicEditorModal: TopicEditorModalParams
   Post: PostScreenParams
   UserProfile: UserProfileScreenParams
   Notifications: undefined
-  Login: undefined
-  Logout: undefined
-  Registration: undefined
 }
 
-export type RootStackScreensList = {
+export type BottomTabsScreensList = {
   Home: undefined
   Chat: undefined
   Search: undefined
 }
 
+export type RootStackScreensList = {
+  // the actual app
+  App: undefined
+  // all modals
+  Login: undefined
+  Logout: undefined
+  Registration: undefined
+  TopicEditorModal: TopicEditorModalParams
+}
+
 const HomeStack = createNativeStackNavigator<HomeStackScreensList>()
 const ChatStack = createNativeStackNavigator<ChatStackScreensList>()
-const RootTabs = createBottomTabNavigator<RootStackScreensList>()
+const BottomTabs = createBottomTabNavigator<BottomTabsScreensList>()
+const RootStack = createNativeStackNavigator<RootStackScreensList>()
 
-const HomeFeedComponent: React.FC = () => {
+const HomeFeedComponent: React.VFC = () => {
   const { navigate } = useRouting()
   return (
-    <View style={{ padding: 10 }}>
+    <View style={{ padding: 10, alignItems: 'center' }}>
       <Text style={{ fontSize: 18 }}>This week’s topics are Immigration, Education and Sustainability</Text>
       {[...fakeTopics.keys()].map((topicId) => (
         <Button key={topicId} onPress={() => navigate(`/topics/${topicId}`)} title={fakeTopics.get(topicId).title} />
@@ -113,7 +123,7 @@ const TopicScreen: React.FC<TopicScreenProps> = ({ navigation, route }: TopicScr
   )
 }
 
-type TopicEditorModalProps = NativeStackScreenProps<HomeStackScreensList, 'TopicEditorModal'>
+type TopicEditorModalProps = NativeStackScreenProps<RootStackScreensList, 'TopicEditorModal'>
 const TopicEditorModal: React.FC<TopicEditorModalProps> = ({ navigation, route }) => {
   const { topicId } = route.params
   return (
@@ -147,29 +157,40 @@ type UserProfileScreenProps = NativeStackScreenProps<HomeStackScreensList, 'User
 const UserProfileScreen: React.FC<UserProfileScreenProps> = ({ navigation, route }) => {
   const { navigate } = useRouting()
   const { userId } = route.params
-  return (
-    <View style={{ padding: 10 }}>
-      <Text>Profile userId={userId}</Text>
-      <Button onPress={() => navigate('/login')} title="Login" />
-      <Button onPress={() => navigate('/logout')} title="Logout" />
-      <Button onPress={() => navigate('/registration')} title="Register" />
-    </View>
-  )
+  const { user } = useContext(UserContext)
+  if (user) {
+    // Logged-in
+    return (
+      <View style={{ padding: 10, alignItems: 'center' }}>
+        <Text style={{ fontSize: 20 }}>{user.name}&lsquo;s Profile</Text>
+        <Button onPress={() => navigate('/logout')} title="Logout" />
+      </View>
+    )
+  } else {
+    // Logged-out
+    return (
+      <View style={{ padding: 10 }}>
+        <Text>Profile userId={userId}</Text>
+        <Button onPress={() => navigate('/login')} title="Login" />
+        <Button onPress={() => navigate('/registration')} title="Register" />
+      </View>
+    )
+  }
 }
 
-const NotificationsScreen: React.FC = () => (
+const NotificationsScreen: React.VFC = () => (
   <View style={{ padding: 10 }}>
     <Text>Notifications</Text>
   </View>
 )
 
-const ChatHomeScreen: React.FC = () => (
+const ChatHomeScreen: React.VFC = () => (
   <View style={{ padding: 10 }}>
     <Text>Chat Home</Text>
   </View>
 )
 
-export const ChatStackNavigator: React.VoidFunctionComponent = () => (
+export const ChatStackNavigator: React.VFC = () => (
   <ChatStack.Navigator
     initialRouteName="ChatHome"
     screenOptions={{
@@ -180,7 +201,7 @@ export const ChatStackNavigator: React.VoidFunctionComponent = () => (
   </ChatStack.Navigator>
 )
 
-export const HomeStackNavigator = () => (
+export const HomeStackNavigator: React.VFC = () => (
   <HomeStack.Navigator
     initialRouteName="HomeFeed"
     screenOptions={{
@@ -194,11 +215,19 @@ export const HomeStackNavigator = () => (
         title: 'Good Morning',
         headerLeft: () => {
           const { navigate } = useRouting()
-          return <Button onPress={() => navigate('/notifications')} title="<!>" />
+          return (
+            <Pressable onPress={() => navigate('/notifications')}>
+              <Holicon icon="notification" size={20} color={theme.colors.fontColorBlack} />
+            </Pressable>
+          )
         },
         headerRight: () => {
           const { navigate } = useRouting()
-          return <Button onPress={() => navigate('/profile/danbim')} title="Profile" />
+          return (
+            <Pressable onPress={() => navigate('/profile/danbim')}>
+              <Holicon icon="person" size={25} color={theme.colors.fontColorBlack} />
+            </Pressable>
+          )
         },
       }}
     />
@@ -235,37 +264,78 @@ export const HomeStackNavigator = () => (
         animation: 'slide_from_bottom',
       }}
     />
+  </HomeStack.Navigator>
+)
+
+export const BottomTabsNavigator: React.VFC = () => (
+  <BottomTabs.Navigator initialRouteName="Home">
+    <BottomTabs.Screen
+      name="Home"
+      options={{
+        headerShown: false, // don't show on root level as the content comes with a header
+        tabBarShowLabel: false,
+        tabBarIcon: ({ focused, color, size }) => {
+          return (
+            <Holicon icon="home" size={25} color={focused ? theme.colors.fontColorBlack : theme.colors.fontColorGrey} />
+          )
+        },
+      }}
+      component={HomeStackNavigator} // chat is complex, probably needs a navigator
+    />
+    <BottomTabs.Screen
+      name="Chat"
+      component={ChatStackNavigator} // chat is complex, probably needs a navigator
+      options={{
+        tabBarShowLabel: false,
+        tabBarIcon: ({ focused, color, size }) => {
+          return (
+            <Holicon
+              icon="comment"
+              size={25}
+              color={focused ? theme.colors.fontColorBlack : theme.colors.fontColorGrey}
+            />
+          )
+        },
+      }}
+    />
+    <BottomTabs.Screen
+      name="Search"
+      component={SearchScreen} // a simple component should do
+      options={{
+        tabBarShowLabel: false,
+        tabBarIcon: ({ focused, color, size }) => {
+          return (
+            <Holicon
+              icon="search"
+              size={25}
+              color={focused ? theme.colors.fontColorBlack : theme.colors.fontColorGrey}
+            />
+          )
+        },
+      }}
+    />
+  </BottomTabs.Navigator>
+)
+
+export const RootNavigator: React.VFC = () => (
+  <RootStack.Navigator
+    initialRouteName="App"
+    screenOptions={{
+      headerShown: false,
+    }}
+  >
+    <RootStack.Screen name="App" component={BottomTabsNavigator} />
     {/* modals are only correctly rendered on android when in root navigator */}
-    <HomeStack.Group
+    <RootStack.Group
       screenOptions={{
         presentation: 'modal',
         headerShown: true,
       }}
     >
-      <HomeStack.Screen name="Login" component={Login} />
-      <HomeStack.Screen name="Logout" component={Logout} />
-      <HomeStack.Screen name="Registration" component={Registration} />
-      <HomeStack.Screen name="TopicEditorModal" component={TopicEditorModal} />
-    </HomeStack.Group>
-  </HomeStack.Navigator>
-)
-
-export const RootTabsNavigator: React.VoidFunctionComponent = () => (
-  <RootTabs.Navigator initialRouteName="Home">
-    <RootTabs.Screen
-      name="Home"
-      options={{
-        headerShown: false, // don't show on root level as the content comes with a header
-      }}
-      component={HomeStackNavigator} // chat is complex, probably needs a navigator
-    />
-    <RootTabs.Screen
-      name="Chat"
-      component={ChatStackNavigator} // chat is complex, probably needs a navigator
-    />
-    <RootTabs.Screen
-      name="Search"
-      component={SearchScreen} // a simple component should do
-    />
-  </RootTabs.Navigator>
+      <RootStack.Screen name="Login" component={Login} />
+      <RootStack.Screen name="Logout" component={Logout} />
+      <RootStack.Screen name="Registration" component={Registration} />
+      <RootStack.Screen name="TopicEditorModal" component={TopicEditorModal} />
+    </RootStack.Group>
+  </RootStack.Navigator>
 )
