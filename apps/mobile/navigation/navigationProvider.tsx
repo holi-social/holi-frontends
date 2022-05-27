@@ -25,7 +25,7 @@ export const NavigationProvider: React.FC = ({ children }) => (
           initialRouteName: 'App',
           screens: {
             // the actual app
-            App: {
+            Core: {
               screens: {
                 Home: {
                   screens: {
@@ -46,6 +46,12 @@ export const NavigationProvider: React.FC = ({ children }) => (
                     Search: 'search',
                   },
                 },
+              },
+            },
+            // apps from the HOLI store
+            VolunteeringApp: {
+              screens: {
+                VolunteeringAppHome: 'apps/volunteering',
               },
             },
             // all modals

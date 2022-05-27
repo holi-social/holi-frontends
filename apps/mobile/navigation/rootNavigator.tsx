@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Button, Pressable, Text, View } from 'react-native'
+import { Button, Pressable, SafeAreaView, Text, View } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NativeStackScreenProps, createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -33,6 +33,10 @@ export type ChatStackScreensList = {
   ChatHome: undefined
 }
 
+export type VolunteeringAppScreensList = {
+  VolunteeringAppHome: undefined
+}
+
 export type HomeStackScreensList = {
   HomeFeed: undefined
   Topic: TopicScreenParams
@@ -49,7 +53,9 @@ export type BottomTabsScreensList = {
 
 export type RootStackScreensList = {
   // the actual app
-  App: undefined
+  Core: undefined
+  // apps from the HOLI store
+  VolunteeringApp: undefined
   // all modals
   Login: undefined
   Logout: undefined
@@ -60,19 +66,8 @@ export type RootStackScreensList = {
 const HomeStack = createNativeStackNavigator<HomeStackScreensList>()
 const ChatStack = createNativeStackNavigator<ChatStackScreensList>()
 const BottomTabs = createBottomTabNavigator<BottomTabsScreensList>()
+const VolunteeringAppStack = createNativeStackNavigator<VolunteeringAppScreensList>()
 const RootStack = createNativeStackNavigator<RootStackScreensList>()
-
-const HomeFeedComponent: React.VFC = () => {
-  const { navigate } = useRouting()
-  return (
-    <View style={{ padding: 10, alignItems: 'center' }}>
-      <Text style={{ fontSize: 18 }}>This week’s topics are Immigration, Education and Sustainability</Text>
-      {[...fakeTopics.keys()].map((topicId) => (
-        <Button key={topicId} onPress={() => navigate(`/topics/${topicId}`)} title={fakeTopics.get(topicId).title} />
-      ))}
-    </View>
-  )
-}
 
 const loremIpsum =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio eget metus, est mauris viverra orci rhoncus quis ' +
@@ -102,6 +97,35 @@ fakeTopics.set('bca', {
     654: { author: 'Max Arghentzu', text: '654 ' + loremIpsum },
   },
 })
+
+const HomeFeedComponent: React.VFC = () => {
+  const { navigate } = useRouting()
+  return (
+    <View style={{ padding: 10, alignItems: 'center' }}>
+      <Text style={{ fontSize: 18 }}>Apps</Text>
+      <View style={{ flexDirection: 'row' }}>
+        <Pressable onPress={() => navigate('/apps/volunteering')}>
+          <View style={{ flexDirection: 'column', alignItems: 'center', padding: 10 }}>
+            <Holicon icon="work" size={20} />
+            <Text>Volunteering</Text>
+          </View>
+        </Pressable>
+        <Pressable onPress={() => navigate('/apps/volunteering')}>
+          <View style={{ flexDirection: 'column', alignItems: 'center', padding: 10 }}>
+            <Holicon icon="support" size={20} />
+            <Text>Donations</Text>
+          </View>
+        </Pressable>
+      </View>
+      <Text style={{ fontSize: 18, paddingTop: 20 }}>
+        This week’s topics are Immigration, Education and Sustainability
+      </Text>
+      {[...fakeTopics.keys()].map((topicId) => (
+        <Button key={topicId} onPress={() => navigate(`/topics/${topicId}`)} title={fakeTopics.get(topicId).title} />
+      ))}
+    </View>
+  )
+}
 
 type TopicScreenProps = NativeStackScreenProps<HomeStackScreensList, 'Topic'>
 const TopicScreen: React.FC<TopicScreenProps> = ({ navigation, route }: TopicScreenProps) => {
@@ -190,6 +214,12 @@ const ChatHomeScreen: React.VFC = () => (
   </View>
 )
 
+const VolunteeringAppHomeScreen: React.VFC = () => (
+  <View style={{ padding: 10 }}>
+    <Text>Volunteering App Home</Text>
+  </View>
+)
+
 export const ChatStackNavigator: React.VFC = () => (
   <ChatStack.Navigator
     initialRouteName="ChatHome"
@@ -267,6 +297,32 @@ export const HomeStackNavigator: React.VFC = () => (
   </HomeStack.Navigator>
 )
 
+export const AppWrapper: React.FC = ({ children }) => {
+  const { navigate } = useRouting()
+  return (
+    <SafeAreaView style={{ padding: 10, position: 'absolute', bottom: 10, right: 10 }}>
+      <View style={{ flexDirection: 'row', padding: 20 }}>
+        <Pressable onPress={() => navigate('/')}>
+          <Holicon icon="home" size={30} color={theme.colors.fontColorBlack} />
+        </Pressable>
+        <Pressable onPress={() => navigate('/search')}>
+          <Holicon icon="search" size={30} color={theme.colors.fontColorBlack} />
+        </Pressable>
+      </View>
+      {children}
+    </SafeAreaView>
+  )
+}
+
+export const VolunteeringAppNavigator: React.VFC = () => (
+  <SafeAreaView style={{ padding: 10, height: '100%' }}>
+    <VolunteeringAppStack.Navigator initialRouteName="VolunteeringAppHome">
+      <VolunteeringAppStack.Screen name="VolunteeringAppHome" component={VolunteeringAppHomeScreen} />
+    </VolunteeringAppStack.Navigator>
+    <AppWrapper />
+  </SafeAreaView>
+)
+
 export const BottomTabsNavigator: React.VFC = () => (
   <BottomTabs.Navigator initialRouteName="Home">
     <BottomTabs.Screen
@@ -319,12 +375,13 @@ export const BottomTabsNavigator: React.VFC = () => (
 
 export const RootNavigator: React.VFC = () => (
   <RootStack.Navigator
-    initialRouteName="App"
+    initialRouteName="Core"
     screenOptions={{
       headerShown: false,
     }}
   >
-    <RootStack.Screen name="App" component={BottomTabsNavigator} />
+    <RootStack.Screen name="Core" component={BottomTabsNavigator} />
+    <RootStack.Screen name="VolunteeringApp" component={VolunteeringAppNavigator} />
     {/* modals are only correctly rendered on android when in root navigator */}
     <RootStack.Group
       screenOptions={{
