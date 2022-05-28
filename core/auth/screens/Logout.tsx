@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Text } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
-import AuthLayout from '@holi/core/auth/authLayout'
+import AuthLayout from '@holi/core/auth/AuthLayout'
 import { getAuthenticatedSession, killAuthenticatedSession } from '@holi/core/auth/helpers/auth'
 import { submitLogoutFlow } from '@holi/core/auth/helpers/auth'
 import HoliButton from '@holi/ui/components/HoliButton'

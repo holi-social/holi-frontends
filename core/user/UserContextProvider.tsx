@@ -1,8 +1,5 @@
-import { useQuery } from '@apollo/client'
 import React, { createContext } from 'react'
-import { Text } from 'react-native'
 
-import { AllUsersQueryResult, allUsersQuery } from '@holi/core/user/queries'
 import { User } from '@holi/core/user/types'
 
 interface Context {
@@ -35,18 +32,10 @@ export const UserContextProvider: React.FC = ({ children }) => {
   const user = {
     id: '123',
     name: 'Daniel',
-    aboutMe: 'lksjfalksjd',
-    pronouns: 'laksjdflaskj',
-    location: 'lakjdsflas',
+    aboutMe: 'Developer developing developments',
+    pronouns: 'he/she/it',
+    location: 'Tenerife, España',
   } // TODO implement fetching user context for logged-in user
 
-  return (
-    <UserContext.Provider
-      value={{
-        user,
-      }}
-    >
-      {children}
-    </UserContext.Provider>
-  )
+  return <UserContext.Provider value={{ user: user }}>{children}</UserContext.Provider>
 }

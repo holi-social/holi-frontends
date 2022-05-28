@@ -2,13 +2,13 @@ import React from 'react'
 import { Text, View } from 'react-native'
 import { createParam } from 'solito'
 
-export type TopicEditorModalParams = {
+export type TopicEditorsScreenParams = {
   topicId: string
 }
 
-const { useParam } = createParam<TopicEditorModalParams>()
+const { useParam } = createParam<TopicEditorsScreenParams>()
 
-export const TopicEditorModal: React.VFC = () => {
+export const TopicEditorsScreen: React.VFC = () => {
   const [topicId] = useParam('topicId')
   return (
     <View style={{ padding: 10 }}>

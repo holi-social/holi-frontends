@@ -63,7 +63,7 @@ export const NavigationProvider: React.FC = ({ children }) => (
             Login: 'login',
             Logout: 'logout',
             Registration: 'registration',
-            TopicEditorModal: 'topics/:topicId/editors',
+            TopicEditorsScreen: 'topics/:topicId/editors',
           },
         },
       }),

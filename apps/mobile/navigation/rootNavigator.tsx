@@ -10,9 +10,9 @@ import { Registration } from '@holi/core/auth/screens/Registration'
 import { ChatHomeScreen } from '@holi/core/chat/ChatHomeScreen'
 import { HomeFeedScreen } from '@holi/core/home/HomeFeedScreen'
 import { NotificationsScreen } from '@holi/core/notifications/NotificationsScreen'
-import { UserProfileScreen, UserProfileScreenParams } from '@holi/core/profile/UserProfileScreen'
+import { UserProfileScreen } from '@holi/core/profile/UserProfileScreen'
 import { SearchScreen } from '@holi/core/search/SearchScreen'
-import { TopicEditorModal, TopicEditorModalParams } from '@holi/core/topics/TopicEditorModal'
+import { TopicEditorsScreen, TopicEditorsScreenParams } from '@holi/core/topics/TopicEditorsScreen'
 import { TopicScreenParams, TopicsScreen } from '@holi/core/topics/TopicsScreen'
 import { PostScreen, PostScreenParams } from '@holi/core/topics/posts/PostScreen'
 import Holicon from '@holi/ui/components/holicon'
@@ -33,7 +33,7 @@ export type HomeStackScreensList = {
   HomeFeed: undefined
   Topic: TopicScreenParams
   Post: PostScreenParams
-  UserProfile: UserProfileScreenParams
+  UserProfile: undefined
   Notifications: undefined
 }
 
@@ -52,7 +52,7 @@ export type RootStackScreensList = {
   Login: undefined
   Logout: undefined
   Registration: undefined
-  TopicEditorModal: TopicEditorModalParams
+  TopicEditorsScreen: TopicEditorsScreenParams
 }
 
 const HomeStack = createNativeStackNavigator<HomeStackScreensList>()
@@ -233,7 +233,13 @@ export const RootNavigator: React.VFC = () => (
       <RootStack.Screen name="Login" component={Login} />
       <RootStack.Screen name="Logout" component={Logout} />
       <RootStack.Screen name="Registration" component={Registration} />
-      <RootStack.Screen name="TopicEditorModal" component={TopicEditorModal} />
+      <RootStack.Screen
+        name="TopicEditorsScreen"
+        component={TopicEditorsScreen}
+        options={{
+          title: 'Topic Editors',
+        }}
+      />
     </RootStack.Group>
   </RootStack.Navigator>
 )

@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import React from 'react'
-import { Pressable, StyleSheet, View, ViewStyle } from 'react-native'
-import { Dimensions } from 'react-native';
+import { Pressable, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { Dimensions } from 'react-native'
 
 import Holicon from '@holi/ui/components/holicon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
@@ -47,7 +47,6 @@ const DefaultLayout: React.FunctionComponent = ({ children }) => {
 
   const isNotifications = pathname.startsWith('/notifications')
   const isProfile = pathname.startsWith('/profile')
-
   const isChat = pathname.startsWith('/chat')
   const isSearch = pathname.startsWith('/search')
   const isHome = !isNotifications && !isProfile && !isChat && !isSearch
@@ -62,7 +61,7 @@ const DefaultLayout: React.FunctionComponent = ({ children }) => {
           <Pressable onPress={() => navigate('/notifications')}>
             <Holicon icon="notification" size={35} color={isNotifications ? black : grey} />
           </Pressable>
-          Good Morning
+          <Text>Good Morning</Text>
           <Pressable onPress={() => navigate('/profile/danbim')}>
             <Holicon icon="person" size={35} color={isProfile ? black : grey} />
           </Pressable>
