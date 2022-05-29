@@ -13,14 +13,14 @@
   },
   "devDependencies": {
     "@types/react": "17.0.1",
-    "@types/react-native": "0.64.3",
+    "@types/react-native": "0.67.7",
     "@types/tinycolor2": "1.4.3"
   },
   "peerDependencies": {
-    "react": "17.0.1",
+    "react": "17.0.2",
     "react-icomoon": "2.4.9",
-    "react-native": "0.64.3",
-    "react-native-svg": "12.1.1"
+    "react-native": "0.68.2",
+    "react-native-svg": "12.3.0"
   },
   "type": "module"
 }
