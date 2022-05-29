@@ -9,7 +9,7 @@ export const HomeFeedScreen: React.VFC = () => {
   const { navigate } = useRouting()
   return (
     <View style={{ padding: 10, alignItems: 'center' }}>
-      <Text style={{ fontSize: 20 }}>Home</Text>
+      <Text style={{ fontSize: 20 }} testID='home-feed-title'>Home</Text>
       <Text style={{ fontSize: 18 }}>Apps</Text>
       <View style={{ flexDirection: 'row' }}>
         <Pressable onPress={() => navigate('/apps/volunteering')}>
@@ -25,7 +25,7 @@ export const HomeFeedScreen: React.VFC = () => {
           </View>
         </Pressable>
       </View>
-      <Text style={{ fontSize: 18, paddingTop: 20 }}>
+      <Text style={{ fontSize: 18, paddingTop: 20 }} testID='home-feed-topics'>
         This week’s topics are Immigration, Education and Sustainability
       </Text>
       {[...fakeTopics.keys()].map((topicId) => (
