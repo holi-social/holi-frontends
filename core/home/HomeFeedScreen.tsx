@@ -13,7 +13,7 @@ export const HomeFeedScreen: React.VFC = () => {
       <Text style={{ fontSize: 18 }}>Apps</Text>
       <View style={{ flexDirection: 'row' }}>
         <Pressable onPress={() => navigate('/apps/volunteering')}>
-          <View style={{ flexDirection: 'column', alignItems: 'center', padding: 10 }}>
+          <View testID='app-tile-volunteering' style={{ flexDirection: 'column', alignItems: 'center', padding: 10 }}>
             <Holicon icon="work" size={20} />
             <Text>Volunteering</Text>
           </View>

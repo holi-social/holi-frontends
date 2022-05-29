@@ -34,7 +34,7 @@ export const AppLayout: React.FunctionComponent = ({ children }) => {
       </Head>
       <main className={defaultStyles.main}>
         <View style={styles.appNav}>
-          <Pressable onPress={() => navigate('/')}>
+          <Pressable testID="nav-button-home" onPress={() => navigate('/')}>
             <Holicon icon="home" size={35} color={theme.colors.fontColorBlack} />
           </Pressable>
           <Pressable onPress={() => navigate('/search')}>
