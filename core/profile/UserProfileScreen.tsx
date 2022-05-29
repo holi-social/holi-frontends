@@ -1,7 +1,6 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Text, View } from 'react-native'
 
-import { UserContext } from '@holi/core/user/UserContextProvider'
 import { UserProfileForm } from '@holi/core/user/components/UserProfileForm'
 import { UserProfileView } from '@holi/core/user/components/UserProfileView'
 import useRouting from '@holi/ui/components/navigation/useRouting'

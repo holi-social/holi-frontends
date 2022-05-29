@@ -2,8 +2,8 @@ import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } fr
 import React, { useContext, useEffect, useState } from 'react'
 import { Platform, Text } from 'react-native'
 
-import { AuthContext } from '@holi/core/auth/AuthProvider'
 import AuthLayout from '@holi/core/auth/AuthLayout'
+import { AuthContext } from '@holi/core/auth/AuthProvider'
 import { SelfServiceFlow } from '@holi/core/auth/components'
 import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { getNodeId, handleFormSubmitError } from '@holi/core/auth/helpers/form'

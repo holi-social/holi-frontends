@@ -29,7 +29,7 @@ export type VolunteeringAppScreensList = {
   VolunteeringAppHome: undefined
 }
 
-export type HomeStackScreensList = {
+export type CoreStackScreensList = {
   HomeFeed: undefined
   Topic: TopicScreenParams
   Post: PostScreenParams
@@ -55,7 +55,7 @@ export type RootStackScreensList = {
   TopicEditorsScreen: TopicEditorsScreenParams
 }
 
-const HomeStack = createNativeStackNavigator<HomeStackScreensList>()
+const HomeStack = createNativeStackNavigator<CoreStackScreensList>()
 const ChatStack = createNativeStackNavigator<ChatStackScreensList>()
 const BottomTabs = createBottomTabNavigator<BottomTabsScreensList>()
 const VolunteeringAppStack = createNativeStackNavigator<VolunteeringAppScreensList>()
@@ -144,7 +144,7 @@ export const AppNavigation: React.FC = ({ children }) => {
     <SafeAreaView style={{ padding: 10, position: 'absolute', bottom: 10, right: 10 }}>
       <View style={{ flexDirection: 'row', padding: 20 }}>
         <Pressable onPress={() => navigate('/')}>
-          <Holicon icon="home" size={30} color={theme.colors.fontColorBlack} testID='nav-button-home' />
+          <Holicon icon="home" size={30} color={theme.colors.fontColorBlack} testID="nav-button-home" />
         </Pressable>
         <Pressable onPress={() => navigate('/search')}>
           <Holicon icon="search" size={30} color={theme.colors.fontColorBlack} />

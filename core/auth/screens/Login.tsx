@@ -2,8 +2,8 @@ import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/krato
 import React, { useContext, useEffect, useState } from 'react'
 import { Text } from 'react-native'
 
-import { AuthContext } from '@holi/core/auth/AuthProvider'
 import AuthLayout from '@holi/core/auth/AuthLayout'
+import { AuthContext } from '@holi/core/auth/AuthProvider'
 import { SelfServiceFlow } from '@holi/core/auth/components'
 import { initLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'

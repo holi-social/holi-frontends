@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import React from 'react'
+import React, { PropsWithChildren, ReactNode } from 'react'
 import { Pressable, StyleSheet, View, ViewStyle } from 'react-native'
 
 import Holicon from '@holi/ui/components/holicon'
@@ -25,7 +25,8 @@ const styles = StyleSheet.create<{
   },
 })
 
-export const AppLayout: React.FunctionComponent = ({ children }) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildren<any>) => {
   const { navigate } = useRouting()
   return (
     <>

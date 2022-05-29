@@ -6,6 +6,6 @@ import iconSet from '@holi/ui/assets/fonts/holicons/selection.json'
 
 import { HoliconProps } from '.'
 
-const HoliconWeb: React.VoidFunctionComponent<HoliconProps> = (props) => <IcoMoon iconSet={iconSet} {...props} />
+const HoliconWeb: React.VFC<HoliconProps> = (props) => <IcoMoon iconSet={iconSet} {...props} />
 
 export default HoliconWeb
