@@ -1,13 +1,15 @@
-import { NextPage } from 'next'
 import Link from 'next/link'
+import { ReactElement } from 'react'
 
 import ImportedSvg from '@holi/ui/assets/img/logo/logo.svg'
 import Holicon from '@holi/ui/components/holicon'
 import SharedImage from '@holi/ui/components/sharedImage'
+import { UiLayout } from '@holi/web/layout/UiLayout'
+import type { NextPageWithLayout } from '@holi/web/pages/_app'
 
 import sassStyles from './ui.module.scss'
 
-const SharedImagePage: NextPage = () => {
+const SharedImagePage: NextPageWithLayout = () => {
   return (
     <section>
       <div className={sassStyles.headline}>
@@ -33,5 +35,7 @@ import ImportedSvg from '@holi/ui/assets/img/some.svg'
     </section>
   )
 }
+
+SharedImagePage.getLayout = (page: ReactElement) => <UiLayout>{page}</UiLayout>
 
 export default SharedImagePage

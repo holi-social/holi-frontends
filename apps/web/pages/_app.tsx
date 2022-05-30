@@ -8,7 +8,7 @@ import { Provider } from '@holi/core/provider'
 import DefaultLayout from '@holi/web/layout/DefaultLayout'
 import '@holi/web/styles/globals.scss'
 
-type NextPageWithLayout = NextPage & {
+export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
 }
 

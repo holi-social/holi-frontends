@@ -1,13 +1,15 @@
-import { NextPage } from 'next'
 import Link from 'next/link'
+import { ReactElement } from 'react'
 
 import HoliButton from '@holi/ui/components/HoliButton'
 import Holicon from '@holi/ui/components/holicon'
 import SharedImage from '@holi/ui/components/sharedImage'
+import { UiLayout } from '@holi/web/layout/UiLayout'
+import type { NextPageWithLayout } from '@holi/web/pages/_app'
 
 import sassStyles from './ui.module.scss'
 
-const ButtonPage: NextPage = () => {
+const ButtonPage: NextPageWithLayout = () => {
   return (
     <section>
       {/* ===== Header section ===== */}
@@ -72,5 +74,7 @@ import HoliButton from '@holi/ui/components/HoliButton'
     </section>
   )
 }
+
+ButtonPage.getLayout = (page: ReactElement) => <UiLayout>{page}</UiLayout>
 
 export default ButtonPage

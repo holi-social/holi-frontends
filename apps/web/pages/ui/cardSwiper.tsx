@@ -1,15 +1,17 @@
-import { NextPage } from 'next'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { ReactElement } from 'react'
 
 import CardSwiper from '@holi/ui/components/CardSwiper'
 import ReanimatedExample from '@holi/ui/components/ReanimatedExample'
 import Holicon from '@holi/ui/components/holicon'
+import { UiLayout } from '@holi/web/layout/UiLayout'
+import type { NextPageWithLayout } from '@holi/web/pages/_app'
 
 import sassStyles from './ui.module.scss'
 
 // @ts-ignore
-const CardSwiperPage: NextPage = () => {
+const CardSwiperPage: NextPageWithLayout = () => {
   const [mounted, setMounted] = useState(false)
   useEffect(() => {
     setMounted(true)
@@ -39,5 +41,7 @@ const CardSwiperPage: NextPage = () => {
     )
   )
 }
+
+CardSwiperPage.getLayout = (page: ReactElement) => <UiLayout>{page}</UiLayout>
 
 export default CardSwiperPage
