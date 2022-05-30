@@ -15,23 +15,17 @@ const HoliHeading: React.FunctionComponent<HeadingProps> = (props: HeadingProps)
   const { theme } = useTheme()
   const styles = getStyles(theme)
 
-  const getAccessibilityProps = (): AccessibilityProps | AccessibilityPropsWeb => {
-    if (Platform.OS === 'web') {
+  const getAccessibilityProps = (): AccessibilityProps | AccessibilityPropsWeb =>
+    Platform.select({
+      // mobile
       // accessibilityRole = 'header' plus level renders to '<h1 role="heading">'
       // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/heading_role
-      return {
-        accessible: true,
-        accessibilityRole: 'header',
-        accessibilityLevel: props.level || 2,
-      }
-    }
-    // the react-native implementation does not know a header's level
-    // see here: https://github.com/paularmstrong/build-tracker/blob/main/typings/react-native/index.d.ts
-    return {
-      accessible: true,
-      accessibilityRole: 'header',
-    }
-  }
+      native: { accessible: true, accessibilityRole: 'header' },
+      // web
+      // accessibilityRole = 'header' plus level renders to '<h1 role="heading">'
+      // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/heading_role
+      default: { accessible: true, accessibilityRole: 'header', accessibilityLevel: props.level || 2 },
+    })
 
   return (
     <Text style={[styles.holiHeading, props.style]} {...getAccessibilityProps()}>

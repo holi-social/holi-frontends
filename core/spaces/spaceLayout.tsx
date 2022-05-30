@@ -22,14 +22,13 @@ const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayo
     role: AccessibilityRoleWeb,
     label: string
   ): AccessibilityProps | AccessibilityPropsWeb => {
-    let roleUpdated = role
-    if (Platform.OS !== 'web') {
-      roleUpdated = role === 'main' || role === 'banner' ? 'none' : role
-    }
     return {
       accessible: true,
       accessibilityLabel: label,
-      accessibilityRole: roleUpdated,
+      accessibilityRole: Platform.select({
+        native: role === 'main' || role === 'banner' ? 'none' : role,
+        default: role,
+      }),
     }
   }
 
