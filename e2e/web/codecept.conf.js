@@ -14,7 +14,7 @@ exports.config = {
   helpers: {
     Playwright: {
       url: process.env.BASE_URL || 'http://localhost:3000',
-      show: false, // headless
+      show: !process.env.HEADLESS, // false = headless
       browser: 'chromium',
     },
     SelectorHelper: {
@@ -29,8 +29,7 @@ exports.config = {
   },
   multiple: {
     crossbrowser: {
-      // browsers: [{ browser: 'firefox' }, { browser: 'webkit' }, { browser: 'chromium' }],
-      browsers: [{ browser: 'chromium' }],
+      browsers: [{ browser: 'firefox' }, { browser: 'webkit' }, { browser: 'chromium' }],
     },
   },
   bootstrap: null,
