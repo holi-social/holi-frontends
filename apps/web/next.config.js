@@ -1,7 +1,7 @@
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const withPlugins = require('next-compose-plugins')
-const withTM = require('next-transpile-modules')
+const withTranspileModules = require('next-transpile-modules')
 const path = require('path')
 const { withSentryConfig } = require('@sentry/nextjs')
 
@@ -50,7 +50,7 @@ const sentryWebpackPluginOptions = {
 module.exports = withSentryConfig(
   withPlugins(
     [
-      withTM(
+      withTranspileModules(
         [
           'react-native-reanimated',
           'react-native-card-stack-swiper',
