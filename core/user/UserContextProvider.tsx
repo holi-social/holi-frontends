@@ -15,7 +15,7 @@ export const UserContext = createContext<Context>({
 
 export const UserContextProvider: React.FC = ({ children }) => {
   // Later: Possibly retrieve user id from auth context and load user by id here
-  /*const { loading, error, data } = useQuery<AllUsersQueryResult>(allUsersQuery, {
+  const { loading, error, data } = useQuery<AllUsersQueryResult>(allUsersQuery, {
     variables: {
       offset: 0,
       limit: 1,
@@ -23,7 +23,7 @@ export const UserContextProvider: React.FC = ({ children }) => {
   })
 
   if (loading) {
-    return <Text>Loading...</Text>
+    return <UserContext.Provider value={{ user: undefined }}>{children}</UserContext.Provider>
   }
 
   if (error) {
@@ -31,8 +31,7 @@ export const UserContextProvider: React.FC = ({ children }) => {
     console.error('Error fetching users', error)
   }
 
-  const user = data?.allUsers && data?.allUsers[0]*/
-  const user = undefined // TODO implement fetching user context for logged-in user
+  const user = data?.allUsers && data?.allUsers[0]
 
   return (
     <UserContext.Provider
