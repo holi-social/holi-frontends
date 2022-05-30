@@ -1,7 +1,8 @@
 import Head from 'next/head'
-import React, { PropsWithChildren, ReactNode } from 'react'
-import { Pressable, StyleSheet, View, ViewStyle } from 'react-native'
+import React, { PropsWithChildren } from 'react'
+import { StyleSheet, View, ViewStyle } from 'react-native'
 
+import HoliButton from '@holi/ui/components/HoliButton'
 import Holicon from '@holi/ui/components/holicon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import theme from '@holi/ui/styles/theme/theme'
@@ -35,12 +36,12 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
       </Head>
       <main className={defaultStyles.main}>
         <View style={styles.appNav}>
-          <Pressable testID="nav-button-home" onPress={() => navigate('/')}>
+          <HoliButton testID="nav-button-home" label="Home" inline transparent onPress={() => navigate('/')}>
             <Holicon icon="home" size={35} color={theme.colors.fontColorBlack} />
-          </Pressable>
-          <Pressable onPress={() => navigate('/search')}>
+          </HoliButton>
+          <HoliButton label="Seach" inline transparent onPress={() => navigate('/search')}>
             <Holicon icon="search" size={35} color={theme.colors.fontColorBlack} />
-          </Pressable>
+          </HoliButton>
         </View>
         <View>{children}</View>
       </main>

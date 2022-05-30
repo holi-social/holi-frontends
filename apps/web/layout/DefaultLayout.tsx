@@ -1,8 +1,9 @@
 import Head from 'next/head'
 import React from 'react'
-import { Pressable, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { Dimensions } from 'react-native'
 
+import HoliButton from '@holi/ui/components/HoliButton'
 import Holicon from '@holi/ui/components/holicon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import theme from '@holi/ui/styles/theme/theme'
@@ -58,25 +59,25 @@ const DefaultLayout: React.FunctionComponent = ({ children }) => {
       </Head>
       <main className={styles.main}>
         <View style={styles.headerNav}>
-          <Pressable onPress={() => navigate('/notifications')}>
+          <HoliButton label="Notifications" inline transparent onPress={() => navigate('/notifications')}>
             <Holicon icon="notification" size={35} color={isNotifications ? black : grey} />
-          </Pressable>
+          </HoliButton>
           <Text>Good Morning</Text>
-          <Pressable onPress={() => navigate('/profile/danbim')}>
+          <HoliButton label="Profile" inline transparent onPress={() => navigate('/profile/danbim')}>
             <Holicon icon="person" size={35} color={isProfile ? black : grey} />
-          </Pressable>
+          </HoliButton>
         </View>
         {children}
         <View style={styles.bottomTabNav}>
-          <Pressable onPress={() => navigate('/')}>
+          <HoliButton label="Home" inline transparent onPress={() => navigate('/')}>
             <Holicon icon="home" size={35} color={isHome ? black : grey} />
-          </Pressable>
-          <Pressable onPress={() => navigate('/chat')}>
+          </HoliButton>
+          <HoliButton label="Chat" inline transparent onPress={() => navigate('/chat')}>
             <Holicon icon="comment" size={35} color={isChat ? black : grey} />
-          </Pressable>
-          <Pressable onPress={() => navigate('/search')}>
+          </HoliButton>
+          <HoliButton label="Search" inline transparent onPress={() => navigate('/search')}>
             <Holicon icon="search" size={35} color={isSearch ? black : grey} />
-          </Pressable>
+          </HoliButton>
         </View>
       </main>
     </>

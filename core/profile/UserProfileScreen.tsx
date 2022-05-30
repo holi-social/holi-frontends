@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { Button, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 
 import { UserProfileForm } from '@holi/core/user/components/UserProfileForm'
 import { UserProfileView } from '@holi/core/user/components/UserProfileView'
+import HoliButton from '@holi/ui/components/HoliButton'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 
 export const UserProfileScreen: React.VFC = () => {
@@ -18,9 +19,15 @@ export const UserProfileScreen: React.VFC = () => {
       ) : (
         <UserProfileView editUser={() => toggleEditing()} />
       )}
-      <Button onPress={() => navigate('/login')} title="Login" />
-      <Button onPress={() => navigate('/logout')} title="Logout" />
-      <Button onPress={() => navigate('/registration')} title="Register" />
+      <HoliButton label="Login" inline onPress={() => navigate('/login')}>
+        Login
+      </HoliButton>
+      <HoliButton label="Logout" inline onPress={() => navigate('/logout')}>
+        Logout
+      </HoliButton>
+      <HoliButton label="Register" inline onPress={() => navigate('/registration')}>
+        Register
+      </HoliButton>
     </View>
   )
 }

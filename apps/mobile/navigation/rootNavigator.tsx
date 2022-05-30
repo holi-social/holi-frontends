@@ -1,5 +1,5 @@
 import React from 'react'
-import { Pressable, SafeAreaView, View } from 'react-native'
+import { SafeAreaView, View } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -15,6 +15,7 @@ import { SearchScreen } from '@holi/core/search/SearchScreen'
 import { TopicEditorsScreen, TopicEditorsScreenParams } from '@holi/core/topics/TopicEditorsScreen'
 import { TopicScreenParams, TopicsScreen } from '@holi/core/topics/TopicsScreen'
 import { PostScreen, PostScreenParams } from '@holi/core/topics/posts/PostScreen'
+import HoliButton from '@holi/ui/components/HoliButton'
 import Holicon from '@holi/ui/components/holicon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import theme from '@holi/ui/styles/theme/theme'
@@ -87,17 +88,17 @@ export const HomeStackNavigator: React.VFC = () => (
         headerLeft: () => {
           const { navigate } = useRouting()
           return (
-            <Pressable onPress={() => navigate('/notifications')}>
+            <HoliButton label="Notifications" inline transparent onPress={() => navigate('/notifications')}>
               <Holicon icon="notification" size={20} color={theme.colors.fontColorBlack} />
-            </Pressable>
+            </HoliButton>
           )
         },
         headerRight: () => {
           const { navigate } = useRouting()
           return (
-            <Pressable onPress={() => navigate('/profile/danbim')}>
+            <HoliButton label="Profile" inline transparent onPress={() => navigate('/profile/danbim')}>
               <Holicon icon="person" size={25} color={theme.colors.fontColorBlack} />
-            </Pressable>
+            </HoliButton>
           )
         },
       }}
@@ -143,12 +144,12 @@ export const AppNavigation: React.FC = ({ children }) => {
   return (
     <SafeAreaView style={{ padding: 10, position: 'absolute', bottom: 10, right: 10 }}>
       <View style={{ flexDirection: 'row', padding: 20 }}>
-        <Pressable onPress={() => navigate('/')}>
+        <HoliButton label="Home" inline transparent onPress={() => navigate('/')}>
           <Holicon icon="home" size={30} color={theme.colors.fontColorBlack} testID="nav-button-home" />
-        </Pressable>
-        <Pressable onPress={() => navigate('/search')}>
+        </HoliButton>
+        <HoliButton label="Search" inline transparent onPress={() => navigate('/search')}>
           <Holicon icon="search" size={30} color={theme.colors.fontColorBlack} />
-        </Pressable>
+        </HoliButton>
       </View>
       {children}
     </SafeAreaView>
