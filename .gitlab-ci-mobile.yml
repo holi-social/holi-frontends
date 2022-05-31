@@ -63,6 +63,7 @@ mobile_staging_build:
       - artifacts_staging/
   only:
     - main
+    - HOLI-1462
   interruptible: true
 
 mobile_staging_e2e_android:
@@ -81,6 +82,7 @@ mobile_staging_e2e_android:
   allow_failure: true
   only:
     - main
+    - HOLI-1462
   interruptible: true
 
 mobile_staging_e2e_ios:
@@ -99,6 +101,7 @@ mobile_staging_e2e_ios:
   allow_failure: true
   only:
     - main
+    - HOLI-1462
   interruptible: true
 
 mobile_production_publish:
