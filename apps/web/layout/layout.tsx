@@ -12,7 +12,7 @@ const Layout: React.FunctionComponent = ({ children }) => {
         <title>HOLI - PrivateSpace</title>
       </Head>
       <Drawer />
-      <main className={styles.main}>{children}</main>
+      <div className={styles.main}>{children}</div>
     </>
   )
 }

@@ -15,6 +15,7 @@ type StyleType = Record<string, string | number> & {
 }
 interface SharedImageProps {
   imageFile: number
+  altText: string
   isSvg?: boolean
   style?: StyleType
 }

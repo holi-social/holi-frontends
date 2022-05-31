@@ -1,12 +1,13 @@
 import React from 'react'
-import { Text } from 'react-native'
+
+import HoliHeading from '@holi/ui/components/HoliHeading'
 
 import CommunityLayout from '@holi-apps/community/communityLayout'
 
 const CommunityFeedScreen: React.VoidFunctionComponent = () => {
   return (
     <CommunityLayout>
-      <Text>Nothing here yet</Text>
+      <HoliHeading level={1}>Nothing here yet</HoliHeading>
     </CommunityLayout>
   )
 }

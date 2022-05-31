@@ -9,13 +9,15 @@ import theme from '@holi/ui/styles/theme'
 
 type PageHeaderProps = {
   style?: ViewStyle
+  accessibilityRole: string
+  accessibilityLabel: string
 }
 
 const PageHeader: React.VoidFunctionComponent<PageHeaderProps> = (props) => {
   const { navigate } = useRouting()
 
   return (
-    <View style={[headerStyles.container, headerStyles.horizontalElements, props.style]}>
+    <View style={[headerStyles.container, headerStyles.horizontalElements, props.style]} {...props}>
       <HoliButton label="Go to home" onPress={() => navigate('/')} inline transparent testID="communityHomeButton">
         <Holicon icon="dashboard" size={20} color={theme.colors.fontColorBlack} />
       </HoliButton>
