@@ -14,6 +14,7 @@ export type HeadingProps = {
 const HoliHeading: React.FunctionComponent<HeadingProps> = (props: HeadingProps) => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
+  const { style, level, children, ...otherProps } = props
 
   const getAccessibilityProps = (): AccessibilityProps | AccessibilityPropsWeb =>
     Platform.select({
@@ -24,12 +25,12 @@ const HoliHeading: React.FunctionComponent<HeadingProps> = (props: HeadingProps)
       // web
       // accessibilityRole = 'header' plus level renders to '<h1 role="heading">'
       // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/heading_role
-      default: { accessible: true, accessibilityRole: 'header', accessibilityLevel: props.level || 2 },
+      default: { accessible: true, accessibilityRole: 'header', accessibilityLevel: level || 2 },
     })
 
   return (
-    <Text style={[styles.holiHeading, props.style]} {...getAccessibilityProps()}>
-      {props.children}
+    <Text style={[styles.holiHeading, style]} {...otherProps} {...getAccessibilityProps()}>
+      {children}
     </Text>
   )
 }
