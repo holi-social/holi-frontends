@@ -1,7 +1,8 @@
 import React from 'react'
-import { ImageBackground, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { AccessibilityProps, ImageBackground, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { PageHeader } from '@holi/core/spaces/components/PageHeader'
+import type { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/@types/react-native-web'
 import HoliButton from '@holi/ui/components/HoliButton'
 import Holicon from '@holi/ui/components/holicon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
@@ -15,6 +16,22 @@ type SpaceLayoutProps = {
 const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayoutProps) => {
   const { navigate } = useRouting()
 
+  // Accessibility landmark rule
+  // see here: https://dequeuniversity.com/rules/axe/4.3/region
+  const getAccessibilityProps = (
+    role: AccessibilityRoleWeb,
+    label: string
+  ): AccessibilityProps | AccessibilityPropsWeb => {
+    return {
+      accessible: true,
+      accessibilityLabel: label,
+      accessibilityRole: Platform.select({
+        native: role === 'main' || role === 'banner' ? 'none' : role,
+        default: role,
+      }),
+    }
+  }
+
   return (
     <ImageBackground
       source={{ uri: 'https://cdn.pixabay.com/photo/2016/04/12/22/35/watercolour-1325656__480.jpg' }}
@@ -22,14 +39,19 @@ const SpaceLayout: React.FunctionComponent<SpaceLayoutProps> = (props: SpaceLayo
       style={styles.bgImage}
     >
       <View style={styles.container}>
-        <ScrollView style={styles.scrollView}>{props.children}</ScrollView>
-        <View style={styles.footer}>
-          {/* TODO: hide within appStore */}
+        {/* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/main_role */}
+        <ScrollView style={styles.scrollView} {...getAccessibilityProps('main', 'Main Content')}>
+          {props.children}
+        </ScrollView>
+
+        {/* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/toolbar_role */}
+        <View style={styles.footer} {...getAccessibilityProps('toolbar', 'Page Action Button')}>
           <HoliButton label="Open Appstore" style={styles.appStoreButton} onPress={() => navigate('/appstore')}>
             <Holicon icon="appstore" size={30} color="black" style={{ position: 'absolute' }} />
           </HoliButton>
         </View>
-        <View style={styles.header}>
+        {/* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/banner_role */}
+        <View style={styles.header} {...getAccessibilityProps('banner', 'Page Header')}>
           <PageHeader />
         </View>
       </View>

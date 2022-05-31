@@ -22,7 +22,7 @@ type StaticImageData = {
 type SharedImageProps = {
   imageFile: StaticImageData
   isSvg?: boolean
-  altText?: string
+  altText: string
   style?: { width: number; height: number }
 }
 
@@ -37,7 +37,7 @@ const SharedImage: React.VoidFunctionComponent<SharedImageProps> = (props: Share
   const height = styles && styles.height ? styles.height : 50
 
   // https://github.com/vercel/next.js/discussions/18312
-  return <Image className={'uschi'} src={path as string} alt={props.altText} width={width} height={height} />
+  return <Image src={path as string} alt={props.altText} width={width} height={height} />
 }
 
 export default SharedImage
