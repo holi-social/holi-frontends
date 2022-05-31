@@ -1,4 +1,29 @@
-# holi-react-native-setup
+# holi-frontends
+
+- [holi-frontends](#holi-frontends)
+  - [Development](#development)
+    - [Requirements](#requirements)
+    - [Running](#running)
+    - [Running via `mprocs`](#running-via--mprocs-)
+      - [Android emulator](#android-emulator)
+      - [iOS simulator](#ios-simulator)
+    - [Install libs / packages](#install-libs---packages)
+  - [Monorepo - and why](#monorepo---and-why)
+    - [Yarn Workspaces](#yarn-workspaces)
+      - [(Adding) Dependencies](#-adding--dependencies)
+    - [Clean up](#clean-up)
+      - [How to Reproduce (Built this from scratch)](#how-to-reproduce--built-this-from-scratch-)
+  - [Navigation](#navigation)
+    - [shared](#shared)
+    - [web](#web)
+    - [mobile](#mobile)
+    - [conclusion](#conclusion)
+    - [notes](#notes)
+  - [Authentication Proxy](#authentication-proxy)
+  - [Continuous Integration and Deployment](#continuous-integration-and-deployment)
+    - [Development / Feature Branches](#development---feature-branches)
+    - [Want to shorten the pipeline / not deploy environments and run e2e tests?](#want-to-shorten-the-pipeline---not-deploy-environments-and-run-e2e-tests-)
+    - [Staging and Production Deployments](#staging-and-production-deployments)
 
 ## Development
 
@@ -82,7 +107,7 @@ without a monorepo, using a library. However, using a library for shared code, y
 change (locally) before you can try it out in the applications that use it. This would dramatically decrease development
 velocity as feedback cycles for shared code changes are simply too long. And it's no fun do work this way either.
 
-#### Yarn Workspaces
+### Yarn Workspaces
 
 Yarn Workspaces are a neat feature that support us with our monorepo approach. It allows to make multiple packages
 (e.g. `@holi/core`, `@holi/mobile` and `@holi/web`) and group them together in a (non-publishable) root package. With
@@ -130,7 +155,7 @@ It might be necessary to work
 with [Yarn resolutions](https://classic.yarnpkg.com/lang/en/docs/selective-version-resolutions/) to resolve dependency
 conflicts (as has been done e.g. with `ts-invariant` and `tslib`).
 
-* tslib is pinned to 2.3.1 because without this pin, there was an error `TypeError: tslib.__spreadArray is not a function.` (2022-05-04)
+- tslib is pinned to 2.3.1 because without this pin, there was an error `TypeError: tslib.__spreadArray is not a function.` (2022-05-04)
 
 Please also note that not all dependency versions are compatible with the current version of Expo.
 Running `expo doctor --fix-dependencies` might then help to fix this.
@@ -166,19 +191,19 @@ reasoning behind it. If you run into problems half a year into the project, this
 allows you to go back in time and debug your monorepo issue on a smaller less cluttered code base. That's the idea, we
 hope it will pay out.
 
-### Navigation
+## Navigation
 
 To create a new route with a screen for mobile and page for web you have to do the following.
 
 Say you wanted to create the route "/profile/:id" which opened the profile page in web and a profile screen in mobile.
 
-#### shared
+### shared
 
 - create core/profile/id.tsx
   - implement a shared view for the profile you want to render
   - use `const { query: { id } } = useRouting()` hook retrieve the id query param
 
-#### web
+### web
 
 - create web/pages/profile/[id].tsx
   - render the shared screen within the
@@ -188,7 +213,7 @@ const ProfilePage: NextPage = () => <ProfileScreen / >
 export default ProfilePage
 ```
 
-#### mobile
+### mobile
 
 - create a route in `apps/mobile/navigation/rootNavigator.tsx` e.g. in the RootStack and use the shared screen component to render
 
@@ -210,7 +235,7 @@ config: {
 }
 ```
 
-#### conclusion
+### conclusion
 
 you can now navigate from anywhere in web and mobile using the navigate function exposed by the useRouting hook.
 
@@ -239,7 +264,8 @@ It may be configured at different places, but over all it must be unique.
 <CommunityBottomNav.Screen name="Board" component={BoardScreen} />
 ```
 
-# Authentication Proxy
+## Authentication Proxy
+
 In order to use authentication in a local development environment, Ory proxy needs to run locally in order to
 communicate with Ory successfully. The proxy then proxies both the communication with Ory and the application itself.
 
@@ -252,7 +278,7 @@ i.e. `project-holi.org`).
 Here is a resource on how to install the Ory proxy (which is a part of `ory-cli`):
 `https://www.Ory.sh/docs/guides/cli/installation`. When `ory-cli` is installed, run:
 
-```
+```sh
 ory proxy --sdk-url=https://mystifying-carver-akajr6v4t8.projects.oryapis.com http://localhost:3000
 ```
 
@@ -264,7 +290,7 @@ ory proxy --sdk-url=https://mystifying-carver-akajr6v4t8.projects.oryapis.com ht
 
 When you are working on a stOry, please create a branch that contains the ticket number in its name, and keep the branch name short. A good default is either only the ticket number (e.g. HOLI-1234) or git flow based names (e.g. feature/HOLI-1234).
 
-When you push this branch, a GitLab CI pipeline is triggered that builds and deploys the code to web (available via https://$BRANCH_NAME.web.project-holi.org) and to mobile (available via expo). Also, E2E tests are executed against all platforms.
+When you push this branch, a GitLab CI pipeline is triggered that builds and deploys the code to web (available via <https://$BRANCH_NAME.web.project-holi.org>) and to mobile (available via expo). Also, E2E tests are executed against all platforms.
 
 ### Want to shorten the pipeline / not deploy environments and run e2e tests?
 

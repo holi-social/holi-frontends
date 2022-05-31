@@ -52,17 +52,16 @@ The short manual is roughly (not replayed / reproduced on other machines):
 
 3. run `appium`
 
-
 ### Local Test Execution Against Expo Dev Mode
 
 1. Make sure the application is running and on the "home screen" (i.e. where it goes right after start)
-3. (iOs) grab simulator Id with this command (in new tab):
+2. (iOs) grab simulator Id with this command (in new tab):
 
     `xcrun simctl list | grep Booted`
 
     and add field `udid` to file `e2e/mobile/codecept.conf.js`
-4. run `yarn run mobile:e2e:ios`
-5. run `yarn run mobile:e2e:android`
+3. run `yarn run mobile:e2e:ios`
+4. run `yarn run mobile:e2e:android`
 
 Find more docu [here](https://codecept.io/mobile/#setting-up)
 
@@ -83,7 +82,7 @@ Upload the previously created application bundle via the tooling or the instruct
 [BrowserStack Dashboard](https://app-automate.browserstack.com/dashboard/v2/get-started#upload-app). Copy and paste the
 "app_url" value displayed on the dashboard (or e.g. as returned by `curl`) into the following command:
 
-```
+```sh
 export BROWSERSTACK_APP_URL=<yourappurl>
 export BROWSERSTACK_USERNAME=<yourusername>
 export BROWSERSTACK_ACCESS_KEY=<youraccesskey>
@@ -109,9 +108,9 @@ When running codecept, if you see an error message along the lines of
 
 it might be necessary to manually run the `appium` process in a separate terminal session, via:
 
-```
+```sh
 npm install -g appium
-apium
+appium
 ```
 
 ### No Matching Android Version available on Virtual Device
@@ -131,14 +130,14 @@ in `codecept.conf.js`.
 
 If you see the following error even though `appium-doctor` says that `ANDROID_HOME` is set
 
-```
+```sh
 Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
 Please make sure Selenium Server is running and accessible
 ```
 
 you might need to add Androids `tools` and `platform-tools` to `PATH`, too:
 
-```
+```sh
 export ANDROID_HOME=/home/$(whoami)/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$ANDROID_HOME/tools
