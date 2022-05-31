@@ -11,3 +11,17 @@ For testing the web app, start the local dev environment and execute the tests:
   Open new terminal tab and run
 
   `yarn web:e2e`
+
+  od
+
+  `yarn web:e2e:headless`
+
+## Troubleshooting
+
+### Host system is missing dependencies to run browsers
+
+Try running
+
+```sh
+npx playwright install-deps
+```
