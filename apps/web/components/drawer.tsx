@@ -45,7 +45,10 @@ export const Drawer: React.VoidFunctionComponent<DrawerProps> = ({ DrawerContent
         // @ts-ignore
         style={[styles.drawer, animatedDrawerStyles]}
         accessible={true}
-        accessibilityRole={Platform.OS === 'web' ? 'navigation' : 'toolbar'}
+        accessibilityRole={Platform.select({
+          native: 'toolbar',
+          default: 'navigation',
+        })}
         accessibilityLabel="Main Navigation"
       >
         <DrawerContent />
