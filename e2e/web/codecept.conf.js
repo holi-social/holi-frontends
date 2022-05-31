@@ -16,6 +16,7 @@ exports.config = {
       url: process.env.BASE_URL || 'http://localhost:3000',
       show: !process.env.HEADLESS, // false = headless
       browser: 'chromium',
+      ignoreHTTPSErrors: true,
     },
     SelectorHelper: {
       require: './helpers/css-selector.js',
