@@ -29,7 +29,7 @@ exports.config = {
   },
   multiple: {
     crossbrowser: {
-      browsers: [{ browser: 'firefox' }, { browser: 'webkit' }, { browser: 'chromium' }],
+      browsers: [{ browser: 'firefox' }, { browser: 'webkit', ignoreHTTPSErrors: true }, { browser: 'chromium' }],
     },
   },
   bootstrap: null,
