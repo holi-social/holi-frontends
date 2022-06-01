@@ -1,18 +1,19 @@
 import Head from 'next/head'
 import React from 'react'
-import { StyleSheet, Text, View, ViewStyle } from 'react-native'
-import { Dimensions } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 
 import HoliButton from '@holi/ui/components/HoliButton'
 import Holicon from '@holi/ui/components/holicon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
-import theme from '@holi/ui/styles/theme/theme'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme/theme'
 
 import defaultStyles from './DefaultLayout.module.scss'
 
 const DefaultLayout: React.FunctionComponent = ({ children }) => {
   const { navigate, pathname } = useRouting()
 
+  const { theme } = useTheme()
+  const styles = getStyles(theme)
   const black = theme.colors.fontColorBlack
   const grey = theme.colors.fontColorGrey
 
@@ -83,30 +84,28 @@ const DefaultLayout: React.FunctionComponent = ({ children }) => {
 
 export default DefaultLayout
 
-const styles = StyleSheet.create<{
-  main: ViewStyle
-  headerNav: ViewStyle
-  bottomTabNav: ViewStyle
-}>({
-  main: {
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: '100vh',
-  },
-  headerNav: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: theme.colors.backgroundColorGrey,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.borderColorBlack,
-  },
-  bottomTabNav: {
-    flexDirection: 'row',
-    borderStyle: 'solid',
-    borderWidth: 2,
-    borderColor: '#888',
-    borderRadius: 10,
-    padding: 10,
-    margin: 5,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    main: {
+      display: 'flex',
+      flexDirection: 'column',
+      minHeight: '100vh',
+      minWidth: '90vw',
+    },
+    headerNav: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: theme.colors.backgroundColorGrey,
+      borderBottomWidth: 1,
+      borderBottomColor: theme.colors.borderColorBlack,
+    },
+    bottomTabNav: {
+      flexDirection: 'row',
+      borderStyle: 'solid',
+      borderWidth: 2,
+      borderColor: '#888',
+      borderRadius: 10,
+      padding: 10,
+      margin: 5,
+    },
+  })
