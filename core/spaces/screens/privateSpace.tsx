@@ -11,15 +11,9 @@ const PrivateSpaceScreen: React.VoidFunctionComponent = () => {
 
   return (
     <SpaceLayout>
-      {isAuthenticated ? (
-        <HoliHeading level={1} testID="private-space-header-greeting">
-          Hello {username}
-        </HoliHeading>
-      ) : (
-        <HoliHeading level={1} testID="private-space-header-greeting">
-          Hello Anna
-        </HoliHeading>
-      )}
+      <HoliHeading level={1} testID="private-space-header-greeting">
+        Hello {isAuthenticated ? username : 'Anna'}
+      </HoliHeading>
       <Text style={styles.subHeader} testID="private-space-header-sub">
         Nice to see you here!
       </Text>
