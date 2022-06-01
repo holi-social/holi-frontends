@@ -12,7 +12,7 @@ For testing the web app, start the local dev environment and execute the tests:
 
   `yarn web:e2e`
 
-  od
+  or
 
   `yarn web:e2e:headless`
 

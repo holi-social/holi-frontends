@@ -14,6 +14,7 @@
     "ios": "expo start --ios",
     "build_all": "eas build --platform all",
     "build_android": "eas build --platform android",
+    "build_android_apk": "eas build --platform android --profile preview",
     "build_ios": "eas build --platform ios",
     "build_ios_sim": "eas build --platform ios --profile simulator",
     "lint": "TIMING=1 eslint .",

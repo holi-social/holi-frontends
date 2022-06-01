@@ -22,12 +22,15 @@
 former can be used to run your application within a simulator, the latter is used for installation on real devices /
 distribution via app stores. Browserstack works on real devices, so archive builds are needed there.
 
-|Platform       |Yarn Command               |Alternatively run within `apps/mobile`        |
-|---------------|---------------------------|----------------------------------------------|
-|iOS (Simulator)|`yarn mobile:build_ios_sim`|`eas build --platform ios --profile simulator`|
-|iOS            |`yarn mobile:build_ios`    |`eas build --platform ios`                    |
-|Android        |`yarn mobile:build_android`|`eas build --platform android`                |
-|Both           |`yarn mobile:build_all`    |`eas build --platform all`                    |
+This requires the [EAS command line tool](https://github.com/expo/eas-cli) to be installed.
+
+|Platform       |Yarn Command                   |Alternatively run within `apps/mobile`          |
+|---------------|-------------------------------|------------------------------------------------|
+|iOS (Simulator)|`yarn mobile:build_ios_sim`    |`eas build --platform ios --profile simulator`  |
+|iOS            |`yarn mobile:build_ios`        |`eas build --platform ios`                      |
+|Android        |`yarn mobile:build_android`    |`eas build --platform android`                  |
+|Android (APK)  |`yarn mobile:build_android_apk`|`eas build --platform android --profile preview`|
+|Both           |`yarn mobile:build_all`        |`eas build --platform all`                      |
 
 **Alternatively**, you can use application binaries that have already been built by the build pipeline. It produces iOS
 and Android artifacts in the stages `mobile_staging_build` and `mobile_production_build`. These can either be downloaded
@@ -69,12 +72,15 @@ Find more docu [here](https://codecept.io/mobile/#setting-up)
 
 #### iOS Simulator
 
-`CODECEPT_TARGET=local CODECEPT_PLATFORM=ios CODECEPT_APP_PATH=/path/to/application.app yarn codeceptjs`. You
-need to use the simulator build here.
+`CODECEPT_TARGET=local CODECEPT_PLATFORM=ios CODECEPT_APP_PATH=/path/to/application.app yarn codeceptjs`.
+
+You need to use the simulator build here.
 
 #### Android Emulator
 
 `CODECEPT_TARGET=local CODECEPT_PLATFORM=android CODECEPT_APP_PATH=/path/to/application.app yarn codeceptjs`
+
+You need to use the APK build here.
 
 ## Remote Test Execution on [BrowserStack](https://www.browserstack.com)
 
