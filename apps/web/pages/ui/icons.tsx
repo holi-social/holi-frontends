@@ -1,13 +1,15 @@
-import { NextPage } from 'next'
 import Link from 'next/link'
 import { useState } from 'react'
+import { ReactElement } from 'react'
 
 import iconSelection from '@holi/ui/assets/fonts/holicons/selection.json'
 import Holicon from '@holi/ui/components/holicon'
+import { UiLayout } from '@holi/web/layout/UiLayout'
+import type { NextPageWithLayout } from '@holi/web/pages/_app'
 
 import sassStyles from './ui.module.scss'
 
-const IconsPage: NextPage = () => {
+const IconsPage: NextPageWithLayout = () => {
   const sortedCollection = iconSelection.icons.sort((a, b) => {
     return a.properties.name.localeCompare(b.properties.name)
   })
@@ -60,5 +62,7 @@ const IconsPage: NextPage = () => {
     </section>
   )
 }
+
+IconsPage.getLayout = (page: ReactElement) => <UiLayout>{page}</UiLayout>
 
 export default IconsPage

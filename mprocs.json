@@ -10,7 +10,7 @@
       "shell": "yarn mobile:dev"
     },
     "ory-proxy": {
-      "shell": "ory proxy --sdk-url=https://mystifying-carver-akajr6v4t8.projects.oryapis.com http://localhost:3000"
+      "shell": "ORY_SDK_URL=https://mystifying-carver-akajr6v4t8.projects.oryapis.com ory proxy http://localhost:3000"
     },
     "tests": {
       "shell": "jest -w",

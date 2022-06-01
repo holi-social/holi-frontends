@@ -11520,6 +11520,11 @@ socket.io@^2.3.0:
     socket.io-client "2.4.0"
     socket.io-parser "~3.4.0"
 
+solito@^0.0.26:
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/solito/-/solito-0.0.26.tgz#739102ad8ea4fd1dc0f4b002ff1a2a2c158d71a6"
+  integrity sha512-Imxy26m4DTkeQXkh7XXmS3bH0JQl8L0y2R4R95heyft2l3yh0yYwLy+Qf7DA6SRCvAoQpQRxYOOjTjVrCsm0/A==
+
 "source-map-js@>=0.6.2 <2.0.0", source-map-js@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.0.2.tgz#adbc361d9c62df380125e7f161f71c826f1e490c"
