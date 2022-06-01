@@ -8,37 +8,7 @@ import Holicon from '@holi/ui/components/holicon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import theme from '@holi/ui/styles/theme/theme'
 
-const styles = StyleSheet.create<{
-  main: ViewStyle
-  headerNav: ViewStyle
-  bottomTabNav: ViewStyle
-}>({
-  main: {
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: '100vh',
-  },
-  headerNav: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: theme.colors.backgroundColorGrey,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.borderColorBlack,
-  },
-  bottomTabNav: {
-    position: 'absolute',
-    bottom: 0,
-    width: Dimensions.get('window').width - 10,
-    flexDirection: 'row',
-    borderStyle: 'solid',
-    borderWidth: 2,
-    borderColor: '#888',
-    borderRadius: 10,
-    padding: 10,
-    margin: 5,
-    zIndex: 1000,
-  },
-})
+import defaultStyles from './DefaultLayout.module.scss'
 
 const DefaultLayout: React.FunctionComponent = ({ children }) => {
   const { navigate, pathname } = useRouting()
@@ -57,19 +27,46 @@ const DefaultLayout: React.FunctionComponent = ({ children }) => {
       <Head>
         <title>HOLI</title>
       </Head>
-      <main className={styles.main}>
-        <View style={styles.headerNav}>
+
+      {/*
+        Accessibility region:
+        Docu: https://www.w3.org/WAI/WCAG21/Techniques/aria/ARIA11.html
+        Rule: https://dequeuniversity.com/rules/axe/4.4/region
+      */}
+
+      <header className={defaultStyles.header}>
+        <View
+          style={styles.headerNav}
+          accessible={true}
+          accessibilityRole="navigation"
+          accessibilityLabel="Top Navigation"
+        >
           <HoliButton label="Notifications" inline transparent onPress={() => navigate('/notifications')}>
             <Holicon icon="notification" size={35} color={isNotifications ? black : grey} />
           </HoliButton>
           <Text>Good Morning</Text>
-          <HoliButton label="Profile" inline transparent onPress={() => navigate('/profile/danbim')}>
+          <HoliButton
+            label="Profile"
+            inline
+            transparent
+            onPress={() => navigate('/profile/danbim')}
+            testID="profile-button"
+          >
             <Holicon icon="person" size={35} color={isProfile ? black : grey} />
           </HoliButton>
         </View>
-        {children}
-        <View style={styles.bottomTabNav}>
-          <HoliButton label="Home" inline transparent onPress={() => navigate('/')}>
+      </header>
+
+      <main className={defaultStyles.main}>{children}</main>
+
+      <footer className={defaultStyles.footer}>
+        <View
+          style={styles.bottomTabNav}
+          accessible={true}
+          accessibilityRole="navigation"
+          accessibilityLabel="Bottom Navigation"
+        >
+          <HoliButton label="Home" inline transparent onPress={() => navigate('/')} testID="nav-button-home">
             <Holicon icon="home" size={35} color={isHome ? black : grey} />
           </HoliButton>
           <HoliButton label="Chat" inline transparent onPress={() => navigate('/chat')}>
@@ -79,9 +76,37 @@ const DefaultLayout: React.FunctionComponent = ({ children }) => {
             <Holicon icon="search" size={35} color={isSearch ? black : grey} />
           </HoliButton>
         </View>
-      </main>
+      </footer>
     </>
   )
 }
 
 export default DefaultLayout
+
+const styles = StyleSheet.create<{
+  main: ViewStyle
+  headerNav: ViewStyle
+  bottomTabNav: ViewStyle
+}>({
+  main: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+  },
+  headerNav: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: theme.colors.backgroundColorGrey,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.borderColorBlack,
+  },
+  bottomTabNav: {
+    flexDirection: 'row',
+    borderStyle: 'solid',
+    borderWidth: 2,
+    borderColor: '#888',
+    borderRadius: 10,
+    padding: 10,
+    margin: 5,
+  },
+})

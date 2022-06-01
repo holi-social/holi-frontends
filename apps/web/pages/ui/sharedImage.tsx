@@ -22,15 +22,19 @@ const SharedImagePage: NextPageWithLayout = () => {
       </div>
 
       <div className={sassStyles.example}>
-        <SharedImage imageFile={require('@holi/ui/assets/img/logo/Logo_img.png')} style={{ width: 30, height: 30 }} />
-        <SharedImage imageFile={ImportedSvg} isSvg={true} style={{ width: 50, height: 50 }} />
+        <SharedImage
+          imageFile={require('@holi/ui/assets/img/logo/Logo_img.png')}
+          style={{ width: 30, height: 30 }}
+          altText="Holi logo"
+        />
+        <SharedImage imageFile={ImportedSvg} isSvg={true} style={{ width: 50, height: 50 }} altText="Holi logo" />
       </div>
 
       <pre className={sassStyles.code}>{`
-<SharedImage imageFile={require('assets/img/some.png')} style={{ width: 30, height: 30 }} />
+<SharedImage imageFile={require('assets/img/some.png')} style={{ width: 30, height: 30 }} altText="Holi logo" />
 
 import ImportedSvg from '@holi/ui/assets/img/some.svg'
-<SharedImage imageFile={ImportedSvg} isSvg={true} style={{ width: 50, height: 50 }} />
+<SharedImage imageFile={ImportedSvg} isSvg={true} style={{ width: 50, height: 50 }} altText="Holi logo" />
       `}</pre>
     </section>
   )

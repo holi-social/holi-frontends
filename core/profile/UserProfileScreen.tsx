@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 
 import { UserProfileForm } from '@holi/core/user/components/UserProfileForm'
 import { UserProfileView } from '@holi/core/user/components/UserProfileView'
 import HoliButton from '@holi/ui/components/HoliButton'
+import HoliHeading from '@holi/ui/components/HoliHeading'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 
 export const UserProfileScreen: React.VFC = () => {
@@ -13,7 +14,7 @@ export const UserProfileScreen: React.VFC = () => {
 
   return (
     <View style={{ padding: 10, alignItems: 'center' }}>
-      <Text style={{ fontSize: 20 }}>Profile</Text>
+      <HoliHeading level={1}>Profile</HoliHeading>
       {editing ? (
         <UserProfileForm onCancel={toggleEditing} onSubmit={toggleEditing} />
       ) : (

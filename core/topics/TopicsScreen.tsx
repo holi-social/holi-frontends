@@ -3,6 +3,7 @@ import { Text, View } from 'react-native'
 import { createParam } from 'solito'
 
 import HoliButton from '@holi/ui/components/HoliButton'
+import HoliHeading from '@holi/ui/components/HoliHeading'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 
 import { fakeTopics } from './fakeTopics'
@@ -20,7 +21,8 @@ export const TopicsScreen: React.VFC = () => {
   if (!topic) return <Text>Topic {topicId} not found</Text>
   return (
     <View style={{ padding: 10 }}>
-      <Text>Topic topicId={topicId}</Text>
+      <HoliHeading level={1}>Topic topicId={topicId}</HoliHeading>
+
       <HoliButton label="Topic Editors" inline onPress={() => navigate(`/topics/${topicId}/editors`)}>
         Topic Editors
       </HoliButton>

@@ -5,9 +5,9 @@ import { StyleSheet } from 'react-native'
 // Usage:
 
 // import PngLogo from '@holi/ui/assets/img/logo/logo.svg'
-// <SharedImage imageFile={PngLogo.src} style={{ width: 50, height: 50 }} />
+// <SharedImage imageFile={PngLogo.src} style={{ width: 50, height: 50 }} altText="some alt text" />
 // or
-// <SharedImage imageFile={require('@holi/ui/assets/img/logo/logo.svg')} style={{ width: 50, height: 50 }} />
+// <SharedImage imageFile={require('@holi/ui/assets/img/logo/logo.svg')} style={{ width: 50, height: 50 }} altText="some alt text" />
 
 // TODO: intermediate fix until
 // https://github.com/vercel/next.js/issues/29788
@@ -22,7 +22,7 @@ type StaticImageData = {
 type SharedImageProps = {
   imageFile: StaticImageData
   isSvg?: boolean
-  altText?: string
+  altText: string
   style?: { width: number; height: number }
 }
 
@@ -37,7 +37,7 @@ const SharedImage: React.VoidFunctionComponent<SharedImageProps> = (props: Share
   const height = styles && styles.height ? styles.height : 50
 
   // https://github.com/vercel/next.js/discussions/18312
-  return <Image className={'uschi'} src={path as string} alt={props.altText} width={width} height={height} />
+  return <Image src={path as string} alt={props.altText} width={width} height={height} />
 }
 
 export default SharedImage

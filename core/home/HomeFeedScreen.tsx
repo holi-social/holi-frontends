@@ -1,8 +1,9 @@
 import React from 'react'
-import { Button, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 
 import { fakeTopics } from '@holi/core/topics/fakeTopics'
 import HoliButton from '@holi/ui/components/HoliButton'
+import HoliHeading from '@holi/ui/components/HoliHeading'
 import Holicon from '@holi/ui/components/holicon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 
@@ -10,13 +11,19 @@ export const HomeFeedScreen: React.VFC = () => {
   const { navigate } = useRouting()
   return (
     <View style={{ padding: 10, alignItems: 'center' }}>
-      <Text style={{ fontSize: 20 }} testID="home-feed-title">
+      <HoliHeading level={1} testID="home-feed-title">
         Home
-      </Text>
+      </HoliHeading>
       <Text style={{ fontSize: 18 }}>Apps</Text>
       <View style={{ flexDirection: 'row' }}>
-        <HoliButton label="Volunteering" inline transparent onPress={() => navigate('/apps/volunteering')}>
-          <View testID="app-tile-volunteering" style={{ flexDirection: 'column', alignItems: 'center', padding: 10 }}>
+        <HoliButton
+          label="Volunteering"
+          inline
+          transparent
+          onPress={() => navigate('/apps/volunteering')}
+          testID="app-tile-volunteering"
+        >
+          <View style={{ flexDirection: 'column', alignItems: 'center', padding: 10 }}>
             <Holicon icon="work" size={20} />
             <Text>Volunteering</Text>
           </View>

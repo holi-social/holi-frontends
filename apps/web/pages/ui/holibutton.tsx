@@ -41,7 +41,11 @@ const ButtonPage: NextPageWithLayout = () => {
           <Holicon icon="arrowtip-next" size={20} color="red" />
         </HoliButton>
         <HoliButton label="Go to" inline style={{ marginLeft: 10 }}>
-          <SharedImage imageFile={require('@holi/ui/assets/img/logo/logo.svg')} style={{ width: 50, height: 50 }} />
+          <SharedImage
+            imageFile={require('@holi/ui/assets/img/logo/logo.svg')}
+            style={{ width: 50, height: 50 }}
+            altText={'Holi Logo'}
+          />
           <span>With Image</span>
         </HoliButton>
         <HoliButton label="Go to">Fullwidth</HoliButton>
@@ -65,7 +69,7 @@ import HoliButton from '@holi/ui/components/HoliButton'
 </HoliButton>
 
 <HoliButton label="Description" inline>
-  <SharedImage imageFile={require('@holi/ui/assets/img/logo/logo.svg')} style={{ width: 50, height: 50 }} />
+  <SharedImage imageFile={require('@holi/ui/assets/img/logo/logo.svg')} style={{ width: 50, height: 50 }}  altText="" />
   <span>With Image</span>
 </HoliButton>
 

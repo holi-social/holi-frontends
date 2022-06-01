@@ -9,23 +9,6 @@ import theme from '@holi/ui/styles/theme/theme'
 
 import defaultStyles from './DefaultLayout.module.scss'
 
-const styles = StyleSheet.create<{
-  appNav: ViewStyle
-}>({
-  appNav: {
-    position: 'absolute',
-    bottom: 0,
-    margin: 5,
-    flexDirection: 'row',
-    borderStyle: 'solid',
-    borderWidth: 2,
-    borderColor: '#888',
-    borderRadius: 10,
-    padding: 10,
-    zIndex: 1000,
-  },
-})
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildren<any>) => {
   const { navigate } = useRouting()
@@ -34,8 +17,24 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
       <Head>
         <title>HOLI</title>
       </Head>
-      <main className={defaultStyles.main}>
-        <View style={styles.appNav}>
+
+      {/*
+        Accessibility region:
+        Docu: https://www.w3.org/WAI/WCAG21/Techniques/aria/ARIA11.html
+        Rule: https://dequeuniversity.com/rules/axe/4.4/region
+      */}
+
+      <header></header>
+
+      <main className={defaultStyles.main}>{children}</main>
+
+      <footer className={defaultStyles.footer}>
+        <View
+          style={styles.appNav}
+          accessible={true}
+          accessibilityRole="navigation"
+          accessibilityLabel="Bottom Navigation"
+        >
           <HoliButton testID="nav-button-home" label="Home" inline transparent onPress={() => navigate('/')}>
             <Holicon icon="home" size={35} color={theme.colors.fontColorBlack} />
           </HoliButton>
@@ -43,8 +42,21 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
             <Holicon icon="search" size={35} color={theme.colors.fontColorBlack} />
           </HoliButton>
         </View>
-        <View>{children}</View>
-      </main>
+      </footer>
     </>
   )
 }
+
+const styles = StyleSheet.create<{
+  appNav: ViewStyle
+}>({
+  appNav: {
+    margin: 5,
+    flexDirection: 'row',
+    borderStyle: 'solid',
+    borderWidth: 2,
+    borderColor: '#888',
+    borderRadius: 10,
+    padding: 10,
+  },
+})

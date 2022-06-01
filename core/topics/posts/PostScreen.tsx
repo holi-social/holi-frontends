@@ -3,6 +3,7 @@ import { Text, View } from 'react-native'
 import { createParam } from 'solito'
 
 import { fakeTopics } from '@holi/core/topics/fakeTopics'
+import HoliHeading from '@holi/ui/components/HoliHeading'
 
 export type PostScreenParams = {
   topicId: string
@@ -20,9 +21,10 @@ export const PostScreen: React.VFC = () => {
 
   return (
     <View style={{ justifyContent: 'center', padding: 10 }}>
-      <Text>
+      <HoliHeading level={1}>
         Topic {topicId} Post {postId}
-      </Text>
+      </HoliHeading>
+
       <Text style={{ paddingTop: 10 }}>by {fakeTopics.get(topicId).posts[postId].author}</Text>
       <Text style={{ paddingTop: 10 }}>{fakeTopics.get(topicId).posts[postId].text}</Text>
     </View>

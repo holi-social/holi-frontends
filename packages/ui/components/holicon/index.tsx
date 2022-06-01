@@ -1,5 +1,4 @@
 import React from 'react'
-import IconComponent from 'react-icomoon'
 
 import { useTheme } from '@holi/ui/styles/theme'
 
