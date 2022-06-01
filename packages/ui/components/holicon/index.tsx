@@ -1,12 +1,14 @@
 import React from 'react'
-import IconComponent from 'react-icomoon'
 
 import { useTheme } from '@holi/ui/styles/theme'
 
 import HoliconBase from './holicon'
 
-export type HoliconProps = React.ComponentProps<typeof IconComponent> & {
+export type HoliconProps = {
+  icon: string
   color?: string
+  size?: number
+  testID?: string
 }
 
 const Holicon: React.VoidFunctionComponent<HoliconProps> = (props) => {

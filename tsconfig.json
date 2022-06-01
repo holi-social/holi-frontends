@@ -9,7 +9,7 @@
       "@holi/core": ["core"],
       "@holi/holi-apps": ["holi-apps/"],
       "@holi/e2e-mobile": ["e2e/mobile"],
-      "@holi/e2d-web": ["e2e/web"],
+      "@holi/e2d-web": ["e2e-web"]
     },
     "jsx": "preserve",
     "strict": true,
