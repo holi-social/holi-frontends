@@ -1,8 +1,33 @@
 # holi-react-native-setup
 
+- [Development](#development)
+  - [Prerequisites](#prerequisites)
+    - [Android Emulator](#android-emulator)
+    - [iOS Simulator](#ios-simulator)
+  - [Running](#running)
+  - [Running via mprocs](#running-via-mprocs)
+- [Monorepo (and why)](#monorepo---and-why)
+  - [Yarn Workspaces](#yarn-workspaces)
+  - [Dependencies](#dependencies)
+    - [Dependencies and Yarn Workspaces](#adding-dependencies-and-yarn-workspaces)
+    - [Rules for Adding Dependencies](#rules-for-adding-dependencies)
+  - [Clean up](#clean-up)
+  - [How to Reproduce (Built this from scratch)](#how-to-reproduce-built-this-from-scratch)
+  - [Navigation](#navigation)
+    - [shared](#shared)
+    - [web](#web)
+    - [mobile](#mobile)
+    - [conclusion](#conclusion)
+    - [notes](#notes)
+- [Authentication Proxy](#authentication-proxy)
+- [Continuous Integration and Deployment](#continuous-integration-and-deployment)
+  - [Feature Branches & Environments](#feature-branches--environments)
+  - [noenv Branches](#noenv-branches)
+  - [Staging and Production Environments](#staging-and-production-deployments)
+
 ## Development
 
-### Requirements
+### Prerequisites
 
 Before we can get started building, please ensure that both [`direnv`](https://github.com/direnv/direnv/) and one of the following node version managers are installed and properly set up on your system:
 
@@ -15,21 +40,6 @@ Run `cp .envrc-local.template .envrc-local` and adjust `.envrc-local` to match y
 
 `.node-version` (used by `nodenv`) ensures that all developers are using the same `node`/`npm` versions.
 It is kept in sync with `.nvmrc` (used by `nvm`) by a symbolic link, so please make sure to use a format that is understood by both tools (e.g. a fixed version).
-
-### Running
-
-Run `yarn mobile:dev` for mobile and `yarn web:dev` for web.
-
-Start the mock api with `yarn mock-api:dev`.
-
-We are using [Expo](https://docs.expo.dev/) to build the app for both mobile app variants.
-
-### Running via `mprocs`
-
-Instead of opening multiple terminal sessions and executing multiple commands you can use
-[mprocs](https://github.com/pvolok/mprocs) and simply run `mprocs` to get up and going. This repo
-contains an `mprocs.json` file that defines all the processes that need to be run. When `mprocs` is
-running, you can simply switch panes using `Ctrl+a`.
 
 #### Android emulator
 
@@ -46,27 +56,20 @@ running, you can simply switch panes using `Ctrl+a`.
 - Follow the instructions to install [Xcode](https://docs.expo.dev/workflow/ios-simulator/) and setup a simulator
 - `yarn mobile:dev` > `i`
 
-### Install libs / packages
+### Running
 
-For convenience reasons you might want to stay in the project root folder. From here you can add new packages with the
-command:
+Run `yarn mobile:dev` for mobile and `yarn web:dev` for web.
 
-`yarn workspace [workspace-name] add [package-name]`
+Start the mock api with `yarn mock-api:dev`.
 
-e.g.
-`yarn workspace @holi/web add typescript -D`
-or
-`yarn workspace @holi/mobile expo install react-native-gesture-handler`
+We are using [Expo](https://docs.expo.dev/) to build the app for both mobile app variants.
 
-Alternatively, you can also go into the specific folder where you need the new lib and install it there:
+### Running via `mprocs`
 
-```sh
-cd web
-yarn add typescript -D
-```
-
-Note: Be careful when using `expo install`, as it seems to ignore the resolutions defined in the root `package.json`
-and might cause dependency conflicts.
+Instead of opening multiple terminal sessions and executing multiple commands you can use
+[mprocs](https://github.com/pvolok/mprocs) and simply run `mprocs` to get up and going. This repo
+contains an `mprocs.json` file that defines all the processes that need to be run. When `mprocs` is
+running, you can simply switch panes using `Ctrl+a`.
 
 ## Monorepo - and why
 
@@ -82,14 +85,14 @@ without a monorepo, using a library. However, using a library for shared code, y
 change (locally) before you can try it out in the applications that use it. This would dramatically decrease development
 velocity as feedback cycles for shared code changes are simply too long. And it's no fun do work this way either.
 
-#### Yarn Workspaces
+### Yarn Workspaces
 
 Yarn Workspaces are a neat feature that support us with our monorepo approach. It allows to make multiple packages
 (e.g. `@holi/core`, `@holi/mobile` and `@holi/web`) and group them together in a (non-publishable) root package. With
 [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces):
 
 - Your dependencies can be linked together, which means that your workspaces can depend on one another while always
-  using the most up-to-date code available. `mobile` and `web` can depend on `shared`, always pointing to the "newest
+  using the most up-to-date code available. `mobile` and `web` can depend on `core`, always pointing to the "newest
   version" by simply symlinking into the directOry.
 
 - All dependencies are installed together (under the root module), using a single lockfile. There can be exceptions if
@@ -111,14 +114,37 @@ holi-react-native-setup/ $> yarn workspace @holi/mobile run start
 But notice that _you don't have to_ do this, you can also `cd` into the individual packages and use yarn as if you
 weren't in a monorepo with yarn Workspaces.
 
-#### (Adding) Dependencies
+### Dependencies
 
-Due to the monorepo layout and how hoisting works we have to follow a couple of rules that "magically" make everything
-work (to the best of our *current* knowledge):
+#### Dependencies and Yarn Workspaces 
+
+For convenience reasons you might want to stay in the project root folder. From here you can add new packages with the
+command:
+
+`yarn workspace [workspace-name] add [package-name]`
+
+e.g.
+`yarn workspace @holi/web add typescript -D`
+or
+`yarn workspace @holi/mobile expo install react-native-gesture-handler`
+
+Alternatively, you can also go into the specific folder where you need the new lib and install it there:
+
+```sh
+cd apps/web
+yarn add typescript -D
+```
+
+Note: Be careful when using `expo install`, as it seems to ignore the resolutions defined in the root `package.json`
+and might cause dependency conflicts.
+
+### Rules for Adding Dependencies
+
+Due to the monorepo layout and how hoisting works we have to follow a couple of rules that "magically" make everything work:
 
 - **root**: don't add any dependencies here
   - *exception*: dev dependencies that understand monorepos like `eslint`
-- **shared**: don't add any dependencies here
+- **core**: don't add any dependencies here
 - **mobile**: add all your React Native and universal (both mobile and web) dependencies here
 - **web**: add your web-only dependencies here
 
@@ -143,7 +169,7 @@ To clean up builds you can run
 yarn clean
 ```
 
-in the root directOry or a specific workspace.
+in the root directory or a specific workspace.
 
 In order to clean up everything including `node_modules` directories you can run
 
@@ -151,9 +177,9 @@ In order to clean up everything including `node_modules` directories you can run
 yarn clean:all
 ```
 
-in the root directOry or a specific workspace.
+in the root directory or a specific workspace.
 
-#### How to Reproduce (Built this from scratch)
+### How to Reproduce (Built this from scratch)
 
 Simply cloning a monorepo template from the Internet won't help you understand how everything is glued together. And if
 you don't, it's quite likely that you're going to have a hard time as soon as something breaks. At that point you might
@@ -226,7 +252,7 @@ jaspers
 profile < /Button>
 ```
 
-### notes
+#### notes
 
 **Important hint: A screen name must be unique.**
 
@@ -258,18 +284,18 @@ ory proxy --sdk-url=https://mystifying-carver-akajr6v4t8.projects.oryapis.com ht
 
 ⚠️ The default port for the proxy is 4000, so use `http://localhost:4000` when accessing the **web** app.
 
-## Continuous Integration and Deployment
+# Continuous Integration and Deployment
 
-### Development / Feature Branches
+## Feature Branches & Environments
 
 When you are working on a stOry, please create a branch that contains the ticket number in its name, and keep the branch name short. A good default is either only the ticket number (e.g. HOLI-1234) or git flow based names (e.g. feature/HOLI-1234).
 
 When you push this branch, a GitLab CI pipeline is triggered that builds and deploys the code to web (available via https://$BRANCH_NAME.web.project-holi.org) and to mobile (available via expo). Also, E2E tests are executed against all platforms.
 
-### Want to shorten the pipeline / not deploy environments and run e2e tests?
+## noenv Branches
 
-When you prefix your branch name with `noenv/`, the pipeline only lints, builds and runs, but does not publish, deploy or e2e test. This saves quite some time.
+When you prefix your branch name with `noenv/` (e.g. `noenv/my-readme-update`) the pipeline only lints & builds, but does not publish, deploy or run e2e test. This saves quite some time. Obviously, many things go untested so only use this if "you know what you're doing".
 
-### Staging and Production Deployments
+## Staging and Production Environments
 
 When a branch is merged to the main branch, the pipeline deploys to the staging environment and runs e2e tests against it. After these are successful, you can manually trigger a deployment of a specific commit to production via GitLab CI.
