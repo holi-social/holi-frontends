@@ -24,7 +24,7 @@
 - [Continuous Integration and Deployment](#continuous-integration-and-deployment)
   - [Feature Branches & Environments](#feature-branches--environments)
   - [noenv Branches](#noenv-branches)
-  - [Staging and Production Environments](#staging-and-production-deployments)
+  - [Staging and Production Environments](#staging-and-production-environments)
 
 ## Development
 
