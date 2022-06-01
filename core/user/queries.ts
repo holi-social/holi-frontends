@@ -5,10 +5,17 @@ import { User } from '@holi/core/user/types'
 export const userFragment = gql`
   fragment FullUser on User {
     id
-    name
+    image
+    firstName
+    middleName
+    lastName
     aboutMe
     pronouns
     location
+    engagementLevel
+    interests
+    sdgs
+    skills
   }
 `
 
