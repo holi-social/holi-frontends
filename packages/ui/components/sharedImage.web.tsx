@@ -5,9 +5,9 @@ import { StyleSheet } from 'react-native'
 // Usage:
 
 // import PngLogo from '@holi/ui/assets/img/logo/logo.svg'
-// <SharedImage imageFile={PngLogo.src} style={{ width: 50, height: 50 }} />
+// <SharedImage imageFile={PngLogo.src} style={{ width: 50, height: 50 }} altText="some alt text" />
 // or
-// <SharedImage imageFile={require('@holi/ui/assets/img/logo/logo.svg')} style={{ width: 50, height: 50 }} />
+// <SharedImage imageFile={require('@holi/ui/assets/img/logo/logo.svg')} style={{ width: 50, height: 50 }} altText="some alt text" />
 
 // TODO: intermediate fix until
 // https://github.com/vercel/next.js/issues/29788

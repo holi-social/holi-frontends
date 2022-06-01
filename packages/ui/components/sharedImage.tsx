@@ -6,8 +6,8 @@ import { Image } from 'react-native'
 import { WithLocalSvg } from 'react-native-svg'
 
 // Usage:
-// <SharedImage imageFile={PngLogo} style={{ width: 30, height: 30 }} />
-// <SharedImage imageFile={require('@holi/ui/assets/img/logo/logo.svg')} isSvg={true} style={{ width: 50, height: 50 }} />
+// <SharedImage imageFile={PngLogo} style={{ width: 30, height: 30 }} altText="some alt text" />
+// <SharedImage imageFile={require('@holi/ui/assets/img/logo/logo.svg')} isSvg={true} style={{ width: 50, height: 50 }} altText="some alt text" />
 
 type StyleType = Record<string, string | number> & {
   width?: number

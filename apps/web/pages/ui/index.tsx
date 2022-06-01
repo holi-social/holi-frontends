@@ -1,13 +1,13 @@
-import { NextPage } from 'next'
 import Link from 'next/link'
+import { ReactElement } from 'react'
 
 import Holicon from '@holi/ui/components/holicon'
+import { UiLayout } from '@holi/web/layout/UiLayout'
+import type { NextPageWithLayout } from '@holi/web/pages/_app'
 
 import sassStyles from './ui.module.scss'
 
-// TODO: use different layout (without main menu)
-
-const UIOverviewPage: NextPage = () => {
+const UIOverviewPage: NextPageWithLayout = () => {
   return (
     <section>
       <h1 className={sassStyles.headline}>UI Pattern Lib</h1>
@@ -41,5 +41,7 @@ const UIOverviewPage: NextPage = () => {
     </section>
   )
 }
+
+UIOverviewPage.getLayout = (page: ReactElement) => <UiLayout>{page}</UiLayout>
 
 export default UIOverviewPage

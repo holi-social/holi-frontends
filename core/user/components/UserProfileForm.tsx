@@ -10,10 +10,11 @@ import HoliButton from '@holi/ui/components/HoliButton'
 
 type UserProfileFormProps = {
   children?: React.ReactChildren
+  onCancel?: () => void
   onSubmit?: (user: User) => void
 }
 
-const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ onSubmit }) => {
+const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ onCancel, onSubmit }) => {
   const { user } = useContext(UserContext)
   const [updateUser, { loading, error, data }] = useMutation<User>(updateUserMutation)
   const [name, setName] = useState(user?.name || '')
@@ -52,6 +53,9 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
       <Text>Name:</Text>
       <TextInput value={name} onChangeText={setName} />
       {errorComponent}
+      <HoliButton label="Profile data" onPress={onCancel}>
+        Cancel
+      </HoliButton>
       <HoliButton label="Profile data" onPress={submit}>
         Save
       </HoliButton>
