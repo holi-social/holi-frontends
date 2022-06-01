@@ -22,9 +22,9 @@ input UserInput {
   pronouns: String
   location: String
   engagementLevel: String
-  interests: String
-  sdgs: String
-  skills: String
+  interests: [String]
+  sdgs: [String]
+  skills: [String]
 }
 
 type User {
@@ -37,7 +37,7 @@ type User {
   pronouns: String
   location: String
   engagementLevel: String
-  interests: String
-  sdgs: String
-  skills: String
+  interests: [String]
+  sdgs: [String]
+  skills: [String]
 }

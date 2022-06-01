@@ -8,7 +8,7 @@ export interface User {
   pronouns: string
   location: string
   engagementLevel: string
-  interests: string
-  sdgs: string
-  skills: string
+  interests: [string]
+  sdgs: [string]
+  skills: [string]
 }

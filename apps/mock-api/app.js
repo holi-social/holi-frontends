@@ -46,9 +46,9 @@ const fakeUser = () => {
     pronouns: pronouns[randomInt(0, pronouns.length - 1)],
     location: `${faker.address.city()}, ${faker.address.country()}`,
     engagementLevel: engagementLevel[randomInt(0, engagementLevel.length - 1)],
-    interests: interests[randomInt(0, interests.length - 1)],
-    sdgs: sdgs[randomInt(0, sdgs.length - 1)],
-    skills: skills[randomInt(0, skills.length - 1)],
+    interests: interests.slice(0, randomInt(1, interests.length - 1)),
+    sdgs: sdgs.slice(0, randomInt(1, sdgs.length - 1)),
+    skills: skills.slice(0, randomInt(1, skills.length - 1)),
   }
 }
 
