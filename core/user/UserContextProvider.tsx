@@ -1,6 +1,5 @@
 import { useQuery } from '@apollo/client'
 import React, { createContext } from 'react'
-import { Text } from 'react-native'
 
 import { AllUsersQueryResult, allUsersQuery } from '@holi/core/user/queries'
 import { User } from '@holi/core/user/types'
