@@ -23,7 +23,7 @@
     "clean:all": "yarn clean && rimraf node_modules"
   },
   "dependencies": {
-    "@apollo/client": "^3.5.9",
+    "@apollo/client": "3.5.9",
     "@holi-apps/community": "*",
     "@holi/api": "*",
     "@holi/core": "*",

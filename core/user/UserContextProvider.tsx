@@ -1,7 +1,7 @@
-import React, { createContext, useState } from 'react'
+import { useQuery } from '@apollo/client'
+import React, { createContext } from 'react'
 
-import { client } from '@holi/api/graphql/client'
-import { allUsersQuery } from '@holi/core/user/queries'
+import { AllUsersQueryResult, allUsersQuery } from '@holi/core/user/queries'
 import { User } from '@holi/core/user/types'
 
 interface Context {
@@ -13,11 +13,23 @@ export const UserContext = createContext<Context>({
 })
 
 export const UserContextProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState<User | undefined>(undefined)
-
-  client.query({ query: allUsersQuery }).then((data) => {
-    setUser(data.data?.allUsers ? data.data?.allUsers[0] : undefined)
+  const { loading, error, data } = useQuery<AllUsersQueryResult>(allUsersQuery, {
+    variables: {
+      offset: 0,
+      limit: 1,
+    },
   })
+
+  if (loading) {
+    return <UserContext.Provider value={{ user: undefined }}>{children}</UserContext.Provider>
+  }
+
+  if (error) {
+    // Necessary to display error to user?
+    console.error('Error fetching users', error)
+  }
+
+  const user = data?.allUsers && data?.allUsers[0]
 
   return (
     <UserContext.Provider
