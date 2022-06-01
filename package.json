@@ -1,5 +1,5 @@
 {
-  "name": "holi-react-native-setup",
+  "name": "holi-frontends",
   "private": true,
   "workspaces": {
     "packages": [

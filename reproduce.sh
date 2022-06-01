@@ -11,7 +11,7 @@ brew install nodenv
 echo "16.14.0" > .node-version
 nodenv install
 
-PROJECT_ROOT=holi-react-native-setup
+PROJECT_ROOT=holi-frontends
 
 mkdir $PROJECT_ROOT
 cd $PROJECT_ROOT
@@ -22,7 +22,7 @@ mkdir shared mobile web
 # for the meaning of nohoist, see https://classic.yarnpkg.com/blog/2018/02/15/nohoist/
 cat << ROOT_PACKAGE > package.json
 {
-  "name": "holi-react-native-setup",
+  "name": "holi-frontends",
   "private": true,
   "workspaces": {
     "packages" : [

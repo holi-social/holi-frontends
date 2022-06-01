@@ -1,4 +1,4 @@
-# holi-react-native-setup
+# holi-frontends
 
 ## Development
 
@@ -98,14 +98,14 @@ Yarn Workspaces are a neat feature that support us with our monorepo approach. I
 Working with Yarn Workspaces is (a little) different, but easy. Instead of running e.g.
 
 ```sh
-holi-react-native-setup/ $> cd mobile
-holi-react-native-setup/mobile $> yarn run start
+holi-frontends/ $> cd mobile
+holi-frontends/mobile $> yarn run start
 ```
 
 you _can_ simply prefix every yarn command with `yarn workspace $MODULE_NAME` like so:
 
 ```sh
-holi-react-native-setup/ $> yarn workspace @holi/mobile run start
+holi-frontends/ $> yarn workspace @holi/mobile run start
 ```
 
 But notice that _you don't have to_ do this, you can also `cd` into the individual packages and use yarn as if you
