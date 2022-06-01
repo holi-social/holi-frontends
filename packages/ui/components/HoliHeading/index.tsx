@@ -28,7 +28,7 @@ const HoliHeading: React.FunctionComponent<HeadingProps> = (props: HeadingProps)
     })
 
   return (
-    <Text style={[styles.holiHeading, props.style]} {...getAccessibilityProps()}>
+    <Text style={[styles.holiHeading, props.style]} {...getAccessibilityProps()} {...props}>
       {props.children}
     </Text>
   )

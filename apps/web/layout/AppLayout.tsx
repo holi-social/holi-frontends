@@ -38,7 +38,7 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
           accessibilityRole="navigation"
           accessibilityLabel="Bottom Navigation"
         >
-          <HoliButton testID="nav-button-home" label="Home" inline transparent onPress={() => navigate('/')}>
+          <HoliButton label="Home" inline transparent onPress={() => navigate('/')} testID="nav-button-home">
             <Holicon icon="home" size={35} color={theme.colors.fontColorBlack} />
           </HoliButton>
           <HoliButton label="Seach" inline transparent onPress={() => navigate('/search')}>
