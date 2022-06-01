@@ -13,6 +13,7 @@ export const UserContext = createContext<Context>({
 })
 
 export const UserContextProvider: React.FC = ({ children }) => {
+  // Later: Possibly retrieve user id from auth context and load user by id here
   const { loading, error, data } = useQuery<AllUsersQueryResult>(allUsersQuery, {
     variables: {
       offset: 0,

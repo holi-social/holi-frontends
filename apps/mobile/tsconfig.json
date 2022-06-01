@@ -3,5 +3,5 @@
   "compilerOptions": {
     "jsx": "react-native"
   },
-  "typeRoots": ["./src/@types", "./node_modules/@types"]
+  "typeRoots": ["./@types", "./node_modules/@types"]
 }

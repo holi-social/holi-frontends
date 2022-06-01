@@ -4,6 +4,7 @@ import { StyleSheet, Text } from 'react-native'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import AppTiles from '@holi/core/spaces/components/AppTiles'
 import SpaceLayout from '@holi/core/spaces/spaceLayout'
+import HoliHeading from '@holi/ui/components/HoliHeading'
 
 const PrivateSpaceScreen: React.VoidFunctionComponent = () => {
   const { isAuthenticated, username } = useContext(AuthContext)
@@ -11,13 +12,13 @@ const PrivateSpaceScreen: React.VoidFunctionComponent = () => {
   return (
     <SpaceLayout>
       {isAuthenticated ? (
-        <Text style={styles.header} testID="private-space-header-greeting">
+        <HoliHeading level={1} testID="private-space-header-greeting">
           Hello {username}
-        </Text>
+        </HoliHeading>
       ) : (
-        <Text style={styles.header} testID="private-space-header-greeting">
+        <HoliHeading level={1} testID="private-space-header-greeting">
           Hello Anna
-        </Text>
+        </HoliHeading>
       )}
       <Text style={styles.subHeader} testID="private-space-header-sub">
         Nice to see you here!
@@ -30,10 +31,6 @@ const PrivateSpaceScreen: React.VoidFunctionComponent = () => {
 export { PrivateSpaceScreen }
 
 const styles = StyleSheet.create({
-  header: {
-    fontSize: 20,
-    textAlign: 'center',
-  },
   subHeader: {
     textAlign: 'center',
     marginTop: 10,
