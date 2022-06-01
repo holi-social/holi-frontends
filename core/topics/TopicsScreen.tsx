@@ -59,4 +59,3 @@ const styles = StyleSheet.create({
     borderColor: 'pink',
   },
 })
-
