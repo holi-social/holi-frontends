@@ -70,7 +70,7 @@ const localIOSSimulator = {
     automationName: 'XCUITest',
     // platformVersion: '15.4',
     // deviceName: 'iPhone XS',
-    udid: '6831D2B2-5FC2-401C-8987-A20E43693B44', // get it with `xcrun simctl list | grep Booted`
+    udid: '1FB640B2-C94D-4F8E-93B2-41D6D20E0FF1', // get it with `xcrun simctl list | grep Booted`
     //bundleId: 'foundation.holistic.projectholi',
     showIOSLog: true,
   },
@@ -92,7 +92,7 @@ const appiumConfig = target === 'local' ? localCapabilities() : browserStackCapa
 console.info('Starting codecept via Appium with config=', appiumConfig)
 
 exports.config = {
-  tests: './*.js',
+  tests: './**/*.test.js',
   output: './output',
   helpers: {
     Appium: appiumConfig,
