@@ -1,7 +1,7 @@
 Feature('startup')
 
 const testID = (testID) => {
-  return { android: `//*[@view-tag="${testID}"]`, ios: `~${testID}` }
+  return { android: `#${testID}`, ios: `~${testID}` }
 }
 
 Scenario('test something', ({ I }) => {
@@ -11,10 +11,10 @@ Scenario('test something', ({ I }) => {
 
   // I.seeAppIsInstalled('foundation.holistic.projectholi')
   // awaiting app startup
-  I.waitForText('Home', 10)
-  I.see('Home', '~home-feed-title') // I.see() without given element id times out in iOs
-  I.see('This week’s topics are Immigration, Education and Sustainability', '~home-feed-topics')
-  I.tap('~app-tile-volunteering')
+  I.waitForText('Home', 10, testID('home-feed-title'))
+  I.see('Home', testID('home-feed-title')) // I.see() without given element id times out in iOs
+  I.see('This week’s topics are Immigration, Education and Sustainability', testID('home-feed-topics'))
+  I.tap(testID('app-tile-volunteering'))
   I.waitForText('Volunteering App Home', 10)
   I.tap(testID('nav-button-home'))
 })
