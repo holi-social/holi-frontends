@@ -144,8 +144,8 @@ export const AppNavigation: React.FC = ({ children }) => {
   return (
     <SafeAreaView style={{ padding: 10, position: 'absolute', bottom: 10, right: 10 }}>
       <View style={{ flexDirection: 'row', padding: 20 }}>
-        <HoliButton label="Home" inline transparent onPress={() => navigate('/')}>
-          <Holicon icon="home" size={30} color={theme.colors.fontColorBlack} testID="nav-button-home" />
+        <HoliButton label="Home" inline transparent onPress={() => navigate('/')} testID="nav-button-home">
+          <Holicon icon="home" size={30} color={theme.colors.fontColorBlack} />
         </HoliButton>
         <HoliButton label="Search" inline transparent onPress={() => navigate('/search')}>
           <Holicon icon="search" size={30} color={theme.colors.fontColorBlack} />
