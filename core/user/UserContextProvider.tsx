@@ -1,8 +1,5 @@
-import { useQuery } from '@apollo/client'
 import React, { createContext } from 'react'
-import { Text } from 'react-native'
 
-import { AllUsersQueryResult, allUsersQuery } from '@holi/core/user/queries'
 import { User } from '@holi/core/user/types'
 
 interface Context {
@@ -15,7 +12,7 @@ export const UserContext = createContext<Context>({
 
 export const UserContextProvider: React.FC = ({ children }) => {
   // Later: Possibly retrieve user id from auth context and load user by id here
-  const { loading, error, data } = useQuery<AllUsersQueryResult>(allUsersQuery, {
+  /*const { loading, error, data } = useQuery<AllUsersQueryResult>(allUsersQuery, {
     variables: {
       offset: 0,
       limit: 1,
@@ -23,7 +20,7 @@ export const UserContextProvider: React.FC = ({ children }) => {
   })
 
   if (loading) {
-    return <UserContext.Provider value={{ user: undefined }}>{children}</UserContext.Provider>
+    return <Text>Loading...</Text>
   }
 
   if (error) {
@@ -31,15 +28,14 @@ export const UserContextProvider: React.FC = ({ children }) => {
     console.error('Error fetching users', error)
   }
 
-  const user = data?.allUsers && data?.allUsers[0]
+  const user = data?.allUsers && data?.allUsers[0]*/
+  const user = {
+    id: '123',
+    name: 'Daniel',
+    aboutMe: 'Developer developing developments',
+    pronouns: 'he/she/it',
+    location: 'Tenerife, España',
+  } // TODO implement fetching user context for logged-in user
 
-  return (
-    <UserContext.Provider
-      value={{
-        user,
-      }}
-    >
-      {children}
-    </UserContext.Provider>
-  )
+  return <UserContext.Provider value={{ user: user }}>{children}</UserContext.Provider>
 }

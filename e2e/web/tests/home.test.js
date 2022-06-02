@@ -6,12 +6,13 @@ Feature('Hello Home')
 
 Scenario('open the home screen', ({ I }) => {
   I.amOnPage('/')
-  I.waitForText('Hello Anna')
-  I.waitForText('Nice to see you here!')
-  I.waitForElement('[data-testid=app-tile-community]')
-  I.clickOnElementWithTestId('app-tile-community')
-  // I.waitForText('CommunityHome', 10) // menu not yet implemented in web
-  I.waitForElement('[data-testid=communityHomeButton]')
-  I.clickOnElementWithTestId('communityHomeButton')
-  I.waitForText('Hello Anna')
+  I.waitForText('Home')
+  I.waitForText('This week’s topics are Immigration, Education and Sustainability')
+  I.waitForElement('[data-testid=app-tile-volunteering]')
+  I.clickOnElementWithTestId('app-tile-volunteering')
+
+  I.waitForText('Volunteering App Home')
+
+  I.clickOnElementWithTestId('nav-button-home')
+  I.waitForText('Home')
 })

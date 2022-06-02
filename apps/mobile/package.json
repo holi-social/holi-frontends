@@ -24,8 +24,8 @@
     "clean:all": "yarn clean && rimraf node_modules"
   },
   "dependencies": {
-    "@apollo/client": "^3.5.9",
-    "@holi-apps/community": "*",
+    "@apollo/client": "3.5.9",
+    "@holi-apps/volunteering": "*",
     "@holi/api": "*",
     "@holi/core": "*",
     "@holi/ui": "*",
@@ -54,6 +54,7 @@
     "react-native-svg": "12.3.0",
     "react-spring": "^8.0.27",
     "sentry-expo": "^4.2.0",
+    "solito": "^0.0.26",
     "tinycolor2": "1.4.2"
   },
   "devDependencies": {

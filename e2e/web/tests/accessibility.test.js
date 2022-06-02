@@ -11,14 +11,27 @@ Scenario('Playwright web page accessibility test', async ({ I }) => {
   I.waitForElement('main')
   I.waitForElement('h1')
 
-  // go into community
-  I.clickOnElementWithTestId('app-tile-community')
+  // go to volunteering app
+  I.clickOnElementWithTestId('profile-button')
   I.checkAccessibility()
   // manual region test
   I.waitForElement('nav')
   I.waitForElement('header')
   I.waitForElement('main')
   I.waitForElement('h1')
+
   // and go back home
-  I.clickOnElementWithTestId('communityHomeButton')
+  I.clickOnElementWithTestId('nav-button-home')
+
+  // go to volunteering app
+  I.clickOnElementWithTestId('app-tile-volunteering')
+  I.checkAccessibility()
+  // manual region test
+  I.waitForElement('nav')
+  I.waitForElement('header')
+  I.waitForElement('main')
+  I.waitForElement('h1')
+
+  // and go back home
+  I.clickOnElementWithTestId('nav-button-home')
 })

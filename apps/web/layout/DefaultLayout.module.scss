@@ -1,0 +1,21 @@
+.container {
+  padding: 0 2rem;
+}
+
+.header {
+  width: 100%;
+}
+
+.main {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  border: solid 1px red;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 1000,;
+}

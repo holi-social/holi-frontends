@@ -5,7 +5,7 @@
  */
 resource "random_id" "main" {
   byte_length = 2
-  prefix      = "${local.environment_name}-"
+  prefix      = "frontends-web-${local.environment_name}-"
 }
 
 
@@ -25,8 +25,8 @@ resource "google_project_service" "service" {
 
 # in CI, this is set via scripts/create-or-update-env.sh 
 variable "image_tag" {
-  type    = string
-  nullable= false
+  type     = string
+  nullable = false
 }
 
 resource "google_cloud_run_service" "mvp_web" {
@@ -37,7 +37,7 @@ resource "google_cloud_run_service" "mvp_web" {
   template {
     spec {
       containers {
-        image = "${data.terraform_remote_state.holi_infra_state.outputs.gcr_location}/hrns:${var.image_tag}"
+        image = "${data.terraform_remote_state.holi_infra_state.outputs.gcr_location}/holi-frontends-web:${var.image_tag}"
         ports {
           container_port = 3000
         }

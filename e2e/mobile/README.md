@@ -34,7 +34,7 @@ This requires the [EAS command line tool](https://github.com/expo/eas-cli) to be
 
 **Alternatively**, you can use application binaries that have already been built by the build pipeline. It produces iOS
 and Android artifacts in the stages `mobile_staging_build` and `mobile_production_build`. These can either be downloaded
-from [GitLab](https://gitlab.com/holisticfoundation/holi-react-native-setup/-/pipelines) as a build artifact or from the
+from [GitLab](https://gitlab.com/holisticfoundation/holi-frontends/-/pipelines) as a build artifact or from the
 [Expo Dashboards Build View](https://expo.dev/accounts/holistic-foundation/projects/projectholi/builds).
 
 ## Building Locally (Android)

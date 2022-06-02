@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 
-import { PrivateSpaceScreen } from '@holi/core/spaces/screens/privateSpace'
+import { HomeFeedScreen } from '@holi/core/home/HomeFeedScreen'
 
-const PrivateSpacePage: NextPage = () => <PrivateSpaceScreen />
+const HomeFeedPage: NextPage = () => <HomeFeedScreen />
 
-export default PrivateSpacePage
+export default HomeFeedPage
