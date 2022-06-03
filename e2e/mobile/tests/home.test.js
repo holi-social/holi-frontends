@@ -12,7 +12,9 @@ Scenario('test something', ({ I }) => {
   // I.seeAppIsInstalled('foundation.holistic.projectholi')
   I.see('Home', testID('home-feed-title')) // I.see() without given element id times out in iOs
   I.see('This week’s topics are Immigration, Education and Sustainability', testID('home-feed-topics'))
-  I.tap(testID('app-tile-volunteering'))
+
+  I.tapOnElementWithTestId('app-tile-volunteering')
   I.waitForText('Volunteering App Home', 10)
-  I.tap(testID('nav-button-home'))
+
+  I.tapOnElementWithTestId('nav-button-home')
 })
