@@ -96,6 +96,9 @@ exports.config = {
   output: './output',
   helpers: {
     Appium: appiumConfig,
+    SelectorHelper: {
+      require: './helpers/element-selector.js',
+    },
   },
   include: {
     I: './steps_file.js',
