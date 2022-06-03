@@ -1,8 +1,8 @@
 Feature('startup')
 
-const testID = (testID) => {
-  return { android: `#${testID}`, ios: `~${testID}` }
-}
+const testID = (testID) =>
+  // { android: `//*[@view-tag="${testID}"]`, ios: `~${testID}` }
+  ({ android: `#${testID}`, ios: `~${testID}` })
 
 Scenario('test something', ({ I }) => {
   // example distinction:
