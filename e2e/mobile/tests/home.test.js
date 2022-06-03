@@ -10,6 +10,8 @@ Scenario('test something', ({ I }) => {
   // I.runOnAndroid(() => { })
 
   // I.seeAppIsInstalled('foundation.holistic.projectholi')
+  // awaiting app startup
+  I.waitForText('Home', 10, testID('home-feed-title'))
   I.see('Home', testID('home-feed-title')) // I.see() without given element id times out in iOs
   I.see('This week’s topics are Immigration, Education and Sustainability', testID('home-feed-topics'))
   I.tap(testID('app-tile-volunteering'))
