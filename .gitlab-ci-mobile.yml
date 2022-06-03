@@ -1,9 +1,72 @@
-mobile_review_publish:
-  needs: ['lint_compile_test']
+# job templates
+
+.mobile_publish:
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  variables:
+    ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
+  script:
+    - cd apps/mobile
+    - expo publish --release-channel $ENVIRONMENT_ID
+  interruptible: true
+
+.mobile_build:
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  variables:
+    ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
+    BUILD_PROFILE: preview
+    KEEP_ARTIFACTS: 'false'
+  script:
+    - 'cd apps/mobile'
+    - 'eas build --platform all --profile $BUILD_PROFILE --non-interactive'
+    - 'export APK_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform android --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
+    - 'export IPA_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform ios --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
+    - >
+      if [ "$KEEP_ARTIFACTS" == "true" ]; then
+        mkdir -p artifacts_$ENVIRONMENT_ID
+        curl -o artifacts_$ENVIRONMENT_ID/$(basename $APK_URL) $APK_URL
+        curl -o artifacts_$ENVIRONMENT_ID/$(basename $IPA_URL) $IPA_URL
+      fi
+  interruptible: true
+
+.mobile_e2e_android:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - cd apps/mobile
-    - expo publish --release-channel $CI_ENVIRONMENT_SLUG
+    - export EAS_APK_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform android --limit 1 | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
+    - export EAS_APK_FILE=$(basename $EAS_APK_URL)
+    - curl -L -s -o ../../e2e/mobile/$EAS_APK_FILE $EAS_APK_URL # download .apk from EAS
+    - cd ../../e2e/mobile
+    - yarn install
+    - export BROWSERSTACK_UPLOAD_RESPONSE=$(curl -s -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@${EAS_APK_FILE}")
+    - export BROWSERSTACK_APP_URL=$(echo "${BROWSERSTACK_UPLOAD_RESPONSE}" | jq -r '.app_url')
+    - CODECEPT_PLATFORM=android yarn run codeceptjs
+  allow_failure: true
+  interruptible: true
+
+.mobile_e2e_ios:
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  script:
+    - cd apps/mobile
+    - export EAS_IPA_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform ios --limit 1 | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
+    - export EAS_IPA_FILE=$(basename $EAS_IPA_URL)
+    - curl -L -s -o ../../e2e/mobile/$EAS_IPA_FILE $EAS_IPA_URL # download .ipa from EAS
+    - cd ../../e2e/mobile
+    - yarn install
+    - export BROWSERSTACK_UPLOAD_RESPONSE=$(curl -s -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@${EAS_IPA_FILE}")
+    - export BROWSERSTACK_APP_URL=$(echo "${BROWSERSTACK_UPLOAD_RESPONSE}" | jq -r '.app_url')
+    - CODECEPT_PLATFORM=ios yarn run codeceptjs
+  allow_failure: true
+  interruptible: true
+
+# end job templates
+
+# pipeline in chronological order
+
+## only for review environments
+
+mobile_review_publish:
+  extends: .mobile_publish
+  needs: ['lint_compile_test']
   environment:
     name: review/$CI_COMMIT_REF_SLUG-mobile
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=$CI_ENVIRONMENT_SLUG
@@ -12,7 +75,6 @@ mobile_review_publish:
   except:
     - main
     - /^noenv\/.*/
-  interruptible: true
 
 mobile_review_destroy:
   needs: ['mobile_review_publish']
@@ -33,107 +95,93 @@ mobile_review_destroy:
     - /^noenv\/.*/
   interruptible: false
 
-mobile_staging_publish:
+mobile_review_build:
+  extends: .mobile_build
   needs: ['lint_compile_test']
-  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-  script:
-    - cd apps/mobile
-    - expo publish --release-channel staging
+  except:
+    - main
+    - /^noenv\/.*/
+
+mobile_review_e2e_android:
+  extends: .mobile_e2e_android
+  needs: ['mobile_review_build']
+  except:
+    - main
+    - /^noenv\/.*/
+
+mobile_review_e2e_ios:
+  extends: .mobile_e2e_ios
+  needs: ['mobile_review_build']
+  except:
+    - main
+    - /^noenv\/.*/
+
+## staging environment
+
+mobile_staging_publish:
+  extends: .mobile_publish
+  needs: ['lint_compile_test']
   environment:
     name: mobile-staging
     deployment_tier: staging
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=staging
+  variables:
+    ENVIRONMENT_ID: staging
   only:
     - main
-  interruptible: true
 
 mobile_staging_build:
+  extends: .mobile_build
   needs: ['lint_compile_test']
-  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-  script:
-    - 'cd apps/mobile'
-    - 'eas build --platform all --profile preview --non-interactive'
-    - 'export APK_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform android --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
-    - 'export IPA_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform ios --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
-    - 'mkdir -p artifacts_staging'
-    - 'curl -o artifacts_staging/$(basename $APK_URL) $APK_URL'
-    - 'curl -o artifacts_staging/$(basename $IPA_URL) $IPA_URL'
+  variables:
+    ENVIRONMENT_ID: staging
+    KEEP_ARTIFACTS: 'true'
   artifacts:
     paths:
       - artifacts_staging/
   only:
     - main
-  interruptible: true
 
 mobile_staging_e2e_android:
+  extends: .mobile_e2e_android
   needs: ['mobile_staging_build']
-  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-  script:
-    - cd apps/mobile
-    - export EAS_APK_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform android --limit 1 | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
-    - export EAS_APK_FILE=$(basename $EAS_APK_URL)
-    - curl -L -s -o ../../e2e/mobile/$EAS_APK_FILE $EAS_APK_URL # download .apk from EAS
-    - cd ../../e2e/mobile
-    - yarn install
-    - export BROWSERSTACK_UPLOAD_RESPONSE=$(curl -s -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@${EAS_APK_FILE}")
-    - export BROWSERSTACK_APP_URL=$(echo "${BROWSERSTACK_UPLOAD_RESPONSE}" | jq -r '.app_url')
-    - CODECEPT_PLATFORM=android yarn run codeceptjs
-  allow_failure: true
   only:
     - main
-  interruptible: true
 
 mobile_staging_e2e_ios:
+  extends: .mobile_e2e_ios
   needs: ['mobile_staging_build']
-  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-  script:
-    - cd apps/mobile
-    - export EAS_IPA_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform ios --limit 1 | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
-    - export EAS_IPA_FILE=$(basename $EAS_IPA_URL)
-    - curl -L -s -o ../../e2e/mobile/$EAS_IPA_FILE $EAS_IPA_URL # download .ipa from EAS
-    - cd ../../e2e/mobile
-    - yarn install
-    - export BROWSERSTACK_UPLOAD_RESPONSE=$(curl -s -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@${EAS_IPA_FILE}")
-    - export BROWSERSTACK_APP_URL=$(echo "${BROWSERSTACK_UPLOAD_RESPONSE}" | jq -r '.app_url')
-    - CODECEPT_PLATFORM=ios yarn run codeceptjs
-  allow_failure: true
   only:
     - main
-  interruptible: true
+
+## production environment
 
 mobile_production_publish:
+  extends: .mobile_publish
   needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
   when: manual
-  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-  script:
-    - cd apps/mobile
-    - expo publish --release-channel production
   environment:
     name: mobile-production
     deployment_tier: production
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=production
+  variables:
+    ENVIRONMENT_ID: production
   only:
-    - main
-  interruptible: true
+  - main
 
 mobile_production_build:
+  extends: .mobile_build
   needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
   when: manual
-  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-  script:
-    - 'cd apps/mobile'
-    - 'eas build --platform all --profile production --non-interactive'
-    - 'export APK_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform android --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
-    - 'export IPA_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform ios --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
-    - 'mkdir -p artifacts_production'
-    - 'curl -o artifacts_production/$(basename $APK_URL) $APK_URL'
-    - 'curl -o artifacts_production/$(basename $IPA_URL) $IPA_URL'
+  variables:
+    ENVIRONMENT_ID: production
+    KEEP_ARTIFACTS: 'true'
+    BUILD_PROFILE: production
   artifacts:
     paths:
       - artifacts_production/
   only:
     - main
-  interruptible: true
 
 # disabled (hidden) (not implemented yet), only increases build times and uses up runner minutes
 .mobile_production_submit:
