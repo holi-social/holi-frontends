@@ -4,7 +4,7 @@ const selectorByTestId = (testID, platform) => (platform === 'ios' ? `~${testID}
 
 /**
  * Codecepts Appium Helper
- * https://github.com/codeceptjs/CodeceptJS/blob/18f9fd5f356396c94a7aeb040a03ec92340849a7/lib/helper/Appium.js
+ * https://github.com/codeceptjs/CodeceptJS/blob/master/lib/helper/Appium.js
  */
 class SelectorHelper extends Helper {
   async seeTextWithTestId(expectedText, testId) {
