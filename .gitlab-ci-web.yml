@@ -1,6 +1,11 @@
 variables:
   UI_DOMAIN_PATH: "$CI_PROJECT_DIR/ui_domain"
 
+default:
+  before_script:
+    - set -ex
+    - env
+
 # job templates
 
 .web_deploy:
@@ -9,7 +14,7 @@ variables:
     # default entrypoint is terraform command, but we want to run shell scripts
     entrypoint: ["/bin/sh", "-c"]
   variables:
-    ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
+    ENVIRONMENT_ID: $CI_ENVIRONMENT_SLUG
   artifacts:
     paths:
       - "apps/web/terraform/scripts/crash.log" # optional, only available in case of a crash/panic
@@ -76,7 +81,7 @@ web_review_deploy:
   needs: ['web_build_docker']
   environment:
     name: review/$CI_COMMIT_REF_SLUG-web
-    url: https://$CI_COMMIT_REF_SLUG.web.project-holi.org
+    url: https://$CI_ENVIRONMENT_SLUG.web.project-holi.org
     on_stop: web_review_destroy
     auto_stop_in: 1 week
   except:
@@ -109,13 +114,13 @@ web_review_destroy:
     # branch may have been deleted, so we clone and checkout main
     - git clone $CI_REPOSITORY_URL main-clone
     - cd main-clone
-    - apps/web/terraform/scripts/destroy-env.sh $CI_COMMIT_REF_SLUG
+    - apps/web/terraform/scripts/destroy-env.sh $CI_ENVIRONMENT_SLUG
   # can't use rules here: https://gitlab.com/gitlab-org/gitlab/-/issues/34077
   when: manual
   except:
     - main
     - /^noenv\/.*/
-  resource_group: $CI_COMMIT_REF_SLUG # never execute terraform in parallel on the same environment
+  resource_group: $CI_ENVIRONMENT_SLUG # never execute terraform in parallel on the same environment
   interruptible: false
 
 ## staging environment
