@@ -8,5 +8,6 @@ locals {
   dns_name = "${trimsuffix(substr(local.environment, 0, 39), ".-")}.${data.terraform_remote_state.holi_mvp_shared_state.outputs.dns_web_domain}"
   # in staging and production envs, we are deploying the docker image built from the main branch
   docker_image_tag = contains(["staging", "production"], local.environment) ? "main" : local.environment
-  holi_api_url = "https://${local.environment == "production" ? "production" : "staging"}.${data.terraform_remote_state.holi_unified_api_common_state.outputs.dns_unified_api_domain}"
+  # in production, we work against prod apis, in staging and feature envs, we use the staging apis
+  holi_api_url = "https://${local.environment == "production" ? "production" : "staging"}.${data.terraform_remote_state.holi_unified_api_common_state.outputs.dns_unified_api_domain}/graphql"
 }
