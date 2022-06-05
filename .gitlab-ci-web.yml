@@ -32,8 +32,6 @@ variables:
     - BASE_URL="https://${UI_DOMAIN}" yarn web:e2e:headless
   interruptible: true
   allow_failure: true
-  tags:
-    - holi-big
 
 # end job templates
 
@@ -72,8 +70,6 @@ web_build_docker:
   interruptible: true
   except:
     - /^noenv\/.*/
-  tags: [] # run on gitlab shared runners, since there's a problem on our runners with running docker TODO
-    
 
 ## only for review environments
 
