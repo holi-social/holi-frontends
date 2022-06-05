@@ -32,6 +32,8 @@ variables:
     - BASE_URL="https://${UI_DOMAIN}" yarn web:e2e:headless
   interruptible: true
   allow_failure: true
+  tags:
+    - holi-big
 
 # end job templates
 
@@ -48,6 +50,8 @@ web_build:
     paths:
       - apps/web/.next
   interruptible: true
+  tags:
+    - holi-big
 
 web_build_docker:
   needs: ['web_build']
@@ -68,6 +72,8 @@ web_build_docker:
   interruptible: true
   except:
     - /^noenv\/.*/
+  tags:
+    - holi-big
 
 ## only for review environments
 

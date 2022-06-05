@@ -14,7 +14,7 @@ default:
     - set -ex
     - env
   tags:
-    - holi
+    - holi-small
 
 lint_compile_test:
   stage: build
@@ -34,6 +34,8 @@ lint_compile_test:
       - 'core/node_modules'
       - 'e2e/*/node_modules'
   interruptible: true
+  tags:
+    - holi-big
 
 # the web and mobile only pipeline steps are defined in separate files for better overview and separation of concerns
 include: 
