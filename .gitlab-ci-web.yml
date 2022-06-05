@@ -72,8 +72,8 @@ web_build_docker:
   interruptible: true
   except:
     - /^noenv\/.*/
-  tags:
-    - holi-big
+  tags: [] # run on gitlab shared runners, since there's a problem on our runners with running docker TODO
+    
 
 ## only for review environments
 
