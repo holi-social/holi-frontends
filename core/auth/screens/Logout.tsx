@@ -21,7 +21,7 @@ const Logout: React.VoidFunctionComponent = () => {
       .then(() => {
         setSession(null)
         console.info('[Logout.tsx] logout successful.')
-        navigate('/')
+        navigate('/login')
       })
       .catch((e) => {
         killAuthenticatedSession()

@@ -54,8 +54,12 @@ export const getNodeTitle = ({ attributes, meta }: UiNode): string => {
   return ''
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const handleFormSubmitError = (setFlow: (p: any) => void, initializeFlow: () => void) => {
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+export function handleFormSubmitError(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setFlow: (p: any) => void,
+  initializeFlow: () => Promise<void>
+): (err: AxiosError) => Promise<void> {
   return (err: AxiosError) => {
     if (err.response) {
       switch (err.response.status) {
@@ -68,16 +72,16 @@ export const handleFormSubmitError = (setFlow: (p: any) => void, initializeFlow:
           // The error response data contains a flow with the error messages.
           // This is data is here set to be the new flow.
           setFlow(err.response.data)
-          break
+          return Promise.resolve()
         case 404:
         case 410:
           // This happens when the flow is, for example, expired or was deleted.
           // We simply re-initialize the flow if that happens!
           console.error('[auth] Flow could not be found, reloading page: ', err.response)
-          initializeFlow()
+          return initializeFlow()
       }
     }
-
+    // error was not handled, re-throw
     throw err
   }
 }
