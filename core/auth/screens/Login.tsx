@@ -1,8 +1,6 @@
 import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/kratos-client'
-import React, { useCallback, useContext, useState } from 'react'
-import { Text } from 'react-native'
-
-import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { Platform, Text } from 'react-native'
 
 import AuthLayout from '@holi/core/auth/AuthLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
@@ -29,12 +27,20 @@ const Login: React.VoidFunctionComponent = () => {
   }
 
   // When the component is mounted and every time it is focused anew, we initialize a new use login flow
-  useFocusEffect(
-    useCallback(() => {
-      // noinspection JSIgnoredPromiseFromCall
+  if (Platform.OS == 'ios' || Platform.OS == 'android') {
+    // eslint-disable-next-line
+    const RN = require('@react-navigation/native') // import fails on web
+    RN.useFocusEffect(
+      useCallback(() => {
+        // noinspection JSIgnoredPromiseFromCall
+        initializeFlow()
+      }, [])
+    )
+  } else {
+    useEffect(() => {
       initializeFlow()
     }, [])
-  )
+  }
 
   // This will update the login flow with the user provided input:
   const onSubmit = (payload: SubmitSelfServiceLoginFlowBody) => {
