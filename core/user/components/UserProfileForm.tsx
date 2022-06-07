@@ -17,19 +17,19 @@ type UserProfileFormProps = {
 const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ onCancel, onSubmit }) => {
   const { user } = useContext(UserContext)
   const [updateUser, { loading, error, data }] = useMutation<User>(updateUserMutation)
-  const [name, setName] = useState(user?.name || '')
+  const [firstName, setName] = useState(user?.firstName || '')
 
   const submit = async () => {
-    await updateUser({
+    const result = await updateUser({
       variables: {
         id: user?.id,
         user: {
-          name,
+          firstName,
         },
       },
     })
-    if (!error && data && onSubmit) {
-      onSubmit(data)
+    if (!error && result.data && onSubmit) {
+      onSubmit(result.data)
     }
   }
 
@@ -51,7 +51,7 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
   return (
     <>
       <Text>Name:</Text>
-      <TextInput value={name} onChangeText={setName} />
+      <TextInput value={firstName} onChangeText={setName} />
       {errorComponent}
       <HoliButton label="Profile data" onPress={onCancel}>
         Cancel
