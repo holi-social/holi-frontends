@@ -32,9 +32,9 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
       <Text>{user.aboutMe}</Text>
       <Text>{user.location}</Text>
       <Text>{user.engagementLevel}</Text>
-      <Text>{user.interests}</Text>
-      <Text>{user.sdgs}</Text>
-      <Text>{user.skills}</Text>
+      <Text>{user.interests.join(', ')}</Text>
+      <Text>{user.sdgs.join(', ')}</Text>
+      <Text>{user.skills.join(', ')}</Text>
       <HoliButton label="Profile data" onPress={editUser}>
         Edit
       </HoliButton>
