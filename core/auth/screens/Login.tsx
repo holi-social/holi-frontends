@@ -11,6 +11,7 @@ import { SessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import HoliButton from '@holi/ui/components/HoliButton'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 
+
 const Login: React.VoidFunctionComponent = () => {
   const { setSession } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
@@ -38,6 +39,7 @@ const Login: React.VoidFunctionComponent = () => {
     )
   } else {
     useEffect(() => {
+      // noinspection JSIgnoredPromiseFromCall
       initializeFlow()
     }, [])
   }

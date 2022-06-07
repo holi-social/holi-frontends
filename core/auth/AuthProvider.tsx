@@ -2,7 +2,7 @@
 import { AxiosError } from 'axios'
 import React, { createContext, useEffect, useState } from 'react'
 
-import { getAuthenticatedSession, killAuthenticatedSession, setAuthenticatedSession } from './helpers/auth'
+import { getAuthenticatedSession, removeSessionFromStore, setSessionInStore } from './helpers/auth'
 import { SessionContext, newKratosSdk } from './helpers/sdk'
 
 interface Context {
@@ -14,52 +14,45 @@ interface Context {
 export const AuthContext = createContext<Context>({
   username: undefined,
   isAuthenticated: false,
-  setSession: () => {
-    undefined
-  },
+  setSession: () => undefined,
 })
 
 export const AuthContextProvider: React.FC = ({ children }) => {
   const [sessionContext, setSessionContext] = useState<SessionContext | undefined>(undefined)
 
-  const setAuth = (session: SessionContext) => {
+  const setAuth = (session?: SessionContext): Promise<void> => {
     if (!session) {
-      return killAuthenticatedSession().then(() => setSessionContext(session))
+      return removeSessionFromStore().then(() => setSessionContext(undefined))
     }
-
-    setAuthenticatedSession(session).then(() => syncSession(session))
+    return setSessionInStore(session).then(() => syncSession(session))
   }
 
-  const syncSession = (auth: SessionContext) => {
+  const syncSession = (auth: SessionContext | null): Promise<void> => {
     if (!auth) {
       return setAuth(null)
     }
     // Use the session token from the auth session:
-    return (
-      newKratosSdk()
-        // whoami() returns the session belonging to the session_token:
-        .toSession(auth.session_token)
-        .then(({ data: session }) => {
-          if (session.active) {
-            console.info('[AuthProvider.tsx] session still active')
-            setSessionContext({ session, session_token: auth.session_token })
-          } else {
-            console.info('[AuthProvider.tsx] session expired')
-            setAuth(null)
-          }
+    return newKratosSdk()
+      .toSession(auth.session_token)
+      .then(({ data: session }) => {
+        if (session.active) {
+          console.info('[AuthProvider.tsx] session still active')
+          setSessionContext({ session, session_token: auth.session_token })
           return Promise.resolve()
-        })
-        .catch((err: AxiosError) => {
-          if (err.response?.status === 401) {
-            // The user is no longer logged in (hence 401)
-            console.info('[AuthProvider.tsx] Session is not authenticated:', err)
-            //navigate('/login')
-          }
-          // Remove the session / log the user out.
-          setAuth(null)
-          setSessionContext(null)
-        })
-    )
+        } else {
+          console.info('[AuthProvider.tsx] session expired')
+          return setAuth(null)
+        }
+      })
+      .catch((err: AxiosError) => {
+        if (err.response?.status === 401) {
+          // The user is no longer logged in (hence 401)
+          console.info('[AuthProvider.tsx] session is not authenticated:', err)
+          //navigate('/login')
+        }
+        // Remove the session / log the user out.
+        return setAuth(null).then(() => setSessionContext(null))
+      })
   }
 
   // Fetches the authentication session.

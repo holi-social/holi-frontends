@@ -16,27 +16,21 @@ const userSessionName = 'user_session'
 //
 // If an error (e.g. network error) occurs, the promise rejects with an error.
 export const getAuthenticatedSession = (): Promise<SessionContext> => {
+  console.log('getAuthenticatedSession')
   const parse = (sessionRaw: string | null): SessionContext => {
     if (!sessionRaw) {
       return null
     }
-
-    return JSON.parse(sessionRaw)
+    return JSON.parse(sessionRaw) as SessionContext
   }
-
-  const p = AsyncStore.getItem(userSessionName)
-  return p.then(parse)
+  return AsyncStore.getItem(userSessionName).then(parse)
 }
 
-export const setAuthenticatedSession = (session: SessionContext): Promise<void> => {
-  if (!session) {
-    return killAuthenticatedSession()
-  }
-
+export const setSessionInStore = (session: SessionContext): Promise<void> => {
   return AsyncStore.setItem(userSessionName, JSON.stringify(session))
 }
 
-export const killAuthenticatedSession = () => {
+export const removeSessionFromStore = (): Promise<void> => {
   return AsyncStore.removeItem(userSessionName)
 }
 
