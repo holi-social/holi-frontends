@@ -23,6 +23,7 @@
     "mobile:e2e:ios": "yarn workspace @holi/e2e-mobile codeceptjs:ios",
     "mobile:e2e:android": "yarn workspace @holi/e2e-mobile codeceptjs:android",
     "web:dev": "yarn workspace @holi/web dev",
+    "web:storybook": "yarn workspace @holi/web storybook",
     "web:build": "yarn workspace @holi/web build",
     "web:start": "yarn workspace @holi/web start",
     "web:e2e": "yarn workspace @holi/e2e-web codeceptjs",

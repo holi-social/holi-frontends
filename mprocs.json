@@ -6,6 +6,9 @@
     "web": {
       "shell": "yarn web:dev"
     },
+    "storybook": {
+      "shell": "yarn web:storybook"
+    },
     "mobile": {
       "shell": "yarn mobile:dev"
     },
