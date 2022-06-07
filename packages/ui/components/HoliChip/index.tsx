@@ -1,0 +1,127 @@
+import * as React from 'react'
+import {
+  GestureResponderEvent,
+  Platform,
+  Pressable,
+  PressableProps,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native'
+import tinycolor from 'tinycolor2'
+
+import Holicon from '@holi/ui/components/holicon'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+
+export type ChipProps = PressableProps & {
+  label: string
+  inline?: boolean
+  bordered?: boolean
+  href?: string
+  checked?: boolean
+  disabled?: boolean
+  disableFocuasability?: boolean
+  roundedBorders?: boolean
+  onPress?: null | ((event: GestureResponderEvent) => void)
+}
+
+const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
+  const { theme } = useTheme()
+  const styles = getStyles(theme, props.checked, props.bordered)
+
+  const contentText = typeof props.children === 'string' ? props.children : ''
+  const accessibilityProps: { accessibilityLabel?: string } = {
+    accessibilityLabel: `${contentText} ${props.label}`,
+  }
+  const content = <Text style={styles.text}>{contentText}</Text>
+
+  return (
+    <Pressable
+      accessible={true}
+      disabled={props.disabled}
+      focusable={props.disableFocuasability}
+      accessibilityRole="button"
+      {...accessibilityProps}
+      {...props}
+      style={({ focused, hovered, pressed }) => [
+        styles.holiChip,
+        props.style as StyleProp<ViewStyle>,
+        !props.disabled && props.checked && styles.checked,
+        !props.disabled && focused && styles.focused,
+        !props.disabled && hovered && styles.hovered,
+        !props.disabled && pressed && styles.pressed,
+      ]}
+    >
+      <View style={styles.chipContent}>
+        {content}
+        {!props.disabled && (
+          <View style={{ marginLeft: 1.5 }}>
+            <Holicon
+              color={props.checked ? theme.colors.fontColorWhite : theme.colors.fontColorGrey}
+              icon={props.checked ? 'check' : 'plus'}
+              size={theme.chip.iconSize}
+            />
+          </View>
+        )}
+      </View>
+    </Pressable>
+  )
+}
+
+export default HoliChip
+
+const getStyles = (theme: HoliTheme, checked = false, bordered = false) =>
+  StyleSheet.create({
+    holiChip: {
+      borderColor: theme.colors.softblackTransparent,
+      borderWidth: bordered ? 1 : 0,
+      borderRadius: theme.chip.borderRadius,
+      backgroundColor: theme.colors.backgroundColorGrey,
+      paddingVertical: theme.chip.paddingVertical,
+      paddingHorizontal: theme.chip.paddingHorizontal,
+      overflow: 'hidden',
+      ...Platform.select({
+        web: {
+          display: 'inline-block',
+        },
+      }),
+    },
+    chipContent: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignSelf: 'center',
+      alignItems: 'center', // vertical center
+      justifyContent: 'center', // horizontal center
+    },
+    text: {
+      fontWeight: '400',
+      fontSize: theme.chip.fontSize,
+      color: checked ? theme.colors.fontColorWhite : theme.colors.fontColorGrey,
+      lineHeight: theme.chip.lineHeight,
+    },
+    hovered: {
+      backgroundColor: tinycolor(checked ? theme.colors.secondaryColor : theme.colors.backgroundColorGrey)
+        .darken(3)
+        .toString(),
+      color: checked ? theme.colors.fontColorWhite : theme.colors.secondaryColor,
+    },
+    focused: {
+      borderColor: theme.colors.secondaryColor,
+      ...Platform.select({
+        web: {
+          boxShadow: `0px 0px 0.7px 0.7px ${checked ? theme.colors.secondaryColor : theme.colors.backgroundColorGrey}`,
+        },
+      }),
+    },
+    pressed: {
+      backgroundColor: tinycolor(checked ? theme.colors.secondaryColor : theme.colors.backgroundColorGrey)
+        .lighten(3)
+        .toString(),
+    },
+    checked: {
+      backgroundColor: theme.colors.secondaryColor,
+      borderRadius: theme.chip.borderRadiusChecked,
+    },
+  })
