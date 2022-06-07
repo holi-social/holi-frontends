@@ -32,7 +32,6 @@ const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
   const accessibilityProps: { accessibilityLabel?: string } = {
     accessibilityLabel: `${contentText} ${props.label}`,
   }
-  const content = <Text style={styles.text}>{contentText}</Text>
 
   return (
     <Pressable
@@ -51,18 +50,21 @@ const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
         !props.disabled && pressed && styles.pressed,
       ]}
     >
-      <View style={styles.chipContent}>
-        {content}
-        {!props.disabled && (
-          <View style={{ marginLeft: 1.5 }}>
-            <Holicon
-              color={props.checked ? theme.colors.fontColorWhite : theme.colors.fontColorGrey}
-              icon={props.checked ? 'check' : 'plus'}
-              size={theme.chip.iconSize}
-            />
-          </View>
-        )}
-      </View>
+      {/* Arrow function to pass Pressable states to its children */}
+      {({ hovered }) => (
+        <View style={styles.chipContent}>
+          <Text style={[styles.text, hovered && styles.hovered]}>{contentText}</Text>
+          {!props.disabled && (
+            <View style={{ marginLeft: 1.5 }}>
+              <Holicon
+                color={props.checked ? theme.colors.fontColorWhite : theme.colors.fontColorGrey}
+                icon={props.checked ? 'check' : 'plus'}
+                size={theme.chip.iconSize}
+              />
+            </View>
+          )}
+        </View>
+      )}
     </Pressable>
   )
 }
