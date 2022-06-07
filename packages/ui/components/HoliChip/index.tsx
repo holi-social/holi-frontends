@@ -16,20 +16,17 @@ import Holicon from '@holi/ui/components/holicon'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type ChipProps = PressableProps & {
-  label: string
+  label?: string
   inline?: boolean
-  bordered?: boolean
-  href?: string
   checked?: boolean
   disabled?: boolean
   disableFocuasability?: boolean
-  roundedBorders?: boolean
   onPress?: null | ((event: GestureResponderEvent) => void)
 }
 
 const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
   const { theme } = useTheme()
-  const styles = getStyles(theme, props.checked, props.bordered)
+  const styles = getStyles(theme, props.checked)
 
   const contentText = typeof props.children === 'string' ? props.children : ''
   const accessibilityProps: { accessibilityLabel?: string } = {
@@ -72,11 +69,9 @@ const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
 
 export default HoliChip
 
-const getStyles = (theme: HoliTheme, checked = false, bordered = false) =>
+const getStyles = (theme: HoliTheme, checked = false) =>
   StyleSheet.create({
     holiChip: {
-      borderColor: theme.colors.softblackTransparent,
-      borderWidth: bordered ? 1 : 0,
       borderRadius: theme.chip.borderRadius,
       backgroundColor: theme.colors.backgroundColorGrey,
       paddingVertical: theme.chip.paddingVertical,
