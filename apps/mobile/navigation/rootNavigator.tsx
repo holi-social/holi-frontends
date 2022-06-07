@@ -144,8 +144,8 @@ export const AppNavigation: React.FC = ({ children }) => {
   return (
     <SafeAreaView style={{ padding: 10, position: 'absolute', bottom: 10, right: 10 }}>
       <View style={{ flexDirection: 'row', padding: 20 }}>
-        <HoliButton label="Home" inline transparent onPress={() => navigate('/')}>
-          <Holicon icon="home" size={30} color={theme.colors.fontColorBlack} testID="nav-button-home" />
+        <HoliButton label="Home" inline transparent onPress={() => navigate('/')} testID="nav-button-home">
+          <Holicon icon="home" size={30} color={theme.colors.fontColorBlack} />
         </HoliButton>
         <HoliButton label="Search" inline transparent onPress={() => navigate('/search')}>
           <Holicon icon="search" size={30} color={theme.colors.fontColorBlack} />
@@ -228,12 +228,31 @@ export const RootNavigator: React.VFC = () => (
     <RootStack.Group
       screenOptions={{
         presentation: 'modal',
+        animation: 'slide_from_bottom',
         headerShown: true,
       }}
     >
-      <RootStack.Screen name="Login" component={Login} />
-      <RootStack.Screen name="Logout" component={Logout} />
-      <RootStack.Screen name="Registration" component={Registration} />
+      <RootStack.Screen
+        name="Login"
+        component={Login}
+        options={{
+          title: 'Login',
+        }}
+      />
+      <RootStack.Screen
+        name="Logout"
+        component={Logout}
+        options={{
+          title: 'Logout',
+        }}
+      />
+      <RootStack.Screen
+        name="Registration"
+        component={Registration}
+        options={{
+          title: 'Registration',
+        }}
+      />
       <RootStack.Screen
         name="TopicEditorsScreen"
         component={TopicEditorsScreen}
