@@ -1,0 +1,130 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  accessibilityLabel="hello undefined"
+  accessibilityRole="button"
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#f7f6f3",
+        "borderRadius": 8,
+        "overflow": "hidden",
+        "paddingHorizontal": 14,
+        "paddingVertical": 8,
+      },
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      false,
+    ]
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "alignSelf": "center",
+        "display": "flex",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#6f7081",
+            "fontSize": 14,
+            "fontWeight": "400",
+            "lineHeight": 24,
+          },
+          undefined,
+        ]
+      }
+    >
+      hello
+    </Text>
+    <View
+      style={
+        Object {
+          "marginLeft": 1.5,
+        }
+      }
+    >
+      <RNSVGSvgView
+        align="xMidYMid"
+        bbHeight={15}
+        bbWidth={15}
+        color={4285493377}
+        focusable={false}
+        meetOrSlice={0}
+        minX={0}
+        minY={0}
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "borderWidth": 0,
+            },
+            Object {
+              "display": "flex",
+              "fill": "currentColor",
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "height": 15,
+              "stroke": "currentColor",
+              "width": 15,
+            },
+            Object {
+              "flex": 0,
+              "height": 15,
+              "width": 15,
+            },
+          ]
+        }
+        tintColor={4285493377}
+        vbHeight={1024}
+        vbWidth={1024}
+      >
+        <RNSVGGroup
+          fill={
+            Array [
+              2,
+            ]
+          }
+          propList={
+            Array [
+              "fill",
+              "stroke",
+            ]
+          }
+          stroke={
+            Array [
+              2,
+            ]
+          }
+        >
+          <RNSVGPath
+            d="M512 874.667c-25.6 0-42.667-17.067-42.667-42.667v-277.333h-277.333c-25.6 0-42.667-17.067-42.667-42.667s17.067-42.667 42.667-42.667h277.333v-277.333c0-25.6 17.067-42.667 42.667-42.667s42.667 17.067 42.667 42.667v277.333h277.333c25.6 0 42.667 17.067 42.667 42.667s-17.067 42.667-42.667 42.667h-277.333v277.333c0 25.6-17.067 42.667-42.667 42.667z"
+          />
+        </RNSVGGroup>
+      </RNSVGSvgView>
+    </View>
+  </View>
+</View>
+`;
