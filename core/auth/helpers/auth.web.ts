@@ -16,7 +16,6 @@ const userSessionName = 'user_session'
 //
 // If an error (e.g. network error) occurs, the promise rejects with an error.
 export const getAuthenticatedSession = (): Promise<SessionContext> => {
-  console.log('getAuthenticatedSession')
   const parse = (sessionRaw: string | null): SessionContext => {
     if (!sessionRaw) {
       return null

@@ -217,7 +217,7 @@ export const BottomTabsNavigator: React.VFC = () => (
 
 export const RootNavigator: React.VFC = () => (
   <RootStack.Navigator
-    initialRouteName="Login"
+    initialRouteName="Core"
     screenOptions={{
       headerShown: false,
     }}

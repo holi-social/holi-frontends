@@ -20,6 +20,9 @@ export const UserProfileScreen: React.VFC = () => {
       ) : (
         <UserProfileView editUser={() => toggleEditing()} />
       )}
+      <HoliButton label="Login" inline onPress={() => navigate('/login')}>
+        Login
+      </HoliButton>
       <HoliButton label="Logout" inline onPress={() => navigate('/logout')}>
         Logout
       </HoliButton>
