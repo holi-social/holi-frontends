@@ -1,9 +1,9 @@
 export const holiApiUrl = (() => {
   if (!(typeof window === 'undefined')) {
     if (window.location.host.indexOf('production.') === 0) {
-      return 'https://production.unified.apis.project-holi.org'
+      return 'https://production.unified.apis.project-holi.org/graphql'
     } else {
-      return 'https://staging.unified.apis.project-holi.org'
+      return 'https://staging.unified.apis.project-holi.org/graphql'
     }
   } else if (process.env.HOLI_API_URL) {
     // server case
