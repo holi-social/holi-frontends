@@ -53,7 +53,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
       {/* Arrow function to pass Pressable states to its children */}
       {({ hovered }) => (
         <View style={styles.chipContent}>
-          <Text style={[styles.text, hovered && styles.hovered]}>{contentText}</Text>
+          <Text style={[styles.text, hovered && styles.hoveredText]}>{contentText}</Text>
           {!props.disabled && (
             <View style={{ marginLeft: 1.5 }}>
               <Holicon
@@ -102,6 +102,8 @@ const getStyles = (theme: HoliTheme, checked = false) =>
       backgroundColor: tinycolor(checked ? theme.colors.secondaryColor : theme.colors.backgroundColorGrey)
         .darken(3)
         .toString(),
+    },
+    hoveredText: {
       color: checked ? theme.colors.fontColorWhite : theme.colors.secondaryColor,
     },
     focused: {
