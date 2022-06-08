@@ -41,6 +41,10 @@ resource "google_cloud_run_service" "mvp_web" {
         ports {
           container_port = 3000
         }
+        env {
+          name  = "HOLI_API_URL"
+          value = local.holi_api_url
+        }
 
         resources {
           limits = {

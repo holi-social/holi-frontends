@@ -27,7 +27,6 @@
     "web:start": "yarn workspace @holi/web start",
     "web:e2e": "yarn workspace @holi/e2e-web codeceptjs",
     "web:e2e:headless": "yarn workspace @holi/e2e-web codeceptjs:headless",
-    "mock-api:dev": "yarn workspace @holi/mock-api dev",
     "ui:generate-style-vars": "yarn workspace @holi/ui run generate-style-vars",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json}\"",

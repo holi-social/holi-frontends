@@ -228,12 +228,31 @@ export const RootNavigator: React.VFC = () => (
     <RootStack.Group
       screenOptions={{
         presentation: 'modal',
+        animation: 'slide_from_bottom',
         headerShown: true,
       }}
     >
-      <RootStack.Screen name="Login" component={Login} />
-      <RootStack.Screen name="Logout" component={Logout} />
-      <RootStack.Screen name="Registration" component={Registration} />
+      <RootStack.Screen
+        name="Login"
+        component={Login}
+        options={{
+          title: 'Login',
+        }}
+      />
+      <RootStack.Screen
+        name="Logout"
+        component={Logout}
+        options={{
+          title: 'Logout',
+        }}
+      />
+      <RootStack.Screen
+        name="Registration"
+        component={Registration}
+        options={{
+          title: 'Registration',
+        }}
+      />
       <RootStack.Screen
         name="TopicEditorsScreen"
         component={TopicEditorsScreen}
