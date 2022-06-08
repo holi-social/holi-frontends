@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {
+  AccessibilityProps,
   GestureResponderEvent,
   Platform,
   Pressable,
@@ -16,11 +17,9 @@ import Holicon from '@holi/ui/components/holicon'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type ChipProps = PressableProps & {
-  label?: string
-  inline?: boolean
+  label: string
   checked?: boolean
   disabled?: boolean
-  disableFocuasability?: boolean
   onPress?: null | ((event: GestureResponderEvent) => void)
 }
 
@@ -29,16 +28,16 @@ const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
   const styles = getStyles(theme, props.checked)
 
   const contentText = typeof props.children === 'string' ? props.children : ''
-  const accessibilityProps: { accessibilityLabel?: string } = {
+  const accessibilityProps: AccessibilityProps & { accessibilityPressed?: boolean } = {
     accessibilityLabel: `${contentText} ${props.label}`,
+    accessibilityRole: 'button',
+    accessibilityPressed: props.checked,
   }
 
   return (
     <Pressable
       accessible={true}
       disabled={props.disabled}
-      focusable={props.disableFocuasability}
-      accessibilityRole="button"
       {...accessibilityProps}
       {...props}
       style={({ focused, hovered, pressed }) => [
@@ -53,9 +52,11 @@ const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
       {/* Arrow function to pass Pressable states to its children */}
       {({ hovered }) => (
         <View style={styles.chipContent}>
-          <Text style={[styles.text, hovered && styles.hoveredText]}>{contentText}</Text>
+          <Text selectable={false} style={[styles.text, hovered && styles.hoveredText]}>
+            {contentText}
+          </Text>
           {!props.disabled && (
-            <View style={{ marginLeft: 1.5 }}>
+            <View style={styles.iconView}>
               <Holicon
                 color={props.checked ? theme.colors.fontColorWhite : theme.colors.fontColorGrey}
                 icon={props.checked ? 'check' : 'plus'}
@@ -97,6 +98,9 @@ const getStyles = (theme: HoliTheme, checked = false) =>
       fontSize: theme.chip.fontSize,
       color: checked ? theme.colors.fontColorWhite : theme.colors.fontColorGrey,
       lineHeight: theme.chip.lineHeight,
+    },
+    iconView: {
+      marginLeft: 1.5,
     },
     hovered: {
       backgroundColor: tinycolor(checked ? theme.colors.secondaryColor : theme.colors.backgroundColorGrey)
