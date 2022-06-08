@@ -1,5 +1,1 @@
-import getConfig from 'next/config'
-
-const { publicRuntimeConfig } = getConfig()
-
-export const kratosUrl = publicRuntimeConfig.kratos.url
+export const kratosUrl = process.env.NODE_PUBLIC_KRATOS_BASE_URL || 'https://auth.project-holi.org'

@@ -4,6 +4,7 @@
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   variables:
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
+    NODE_PUBLIC_HOLI_API_URL: https://staging.unified.apis.project-holi.org
   script:
     - cd apps/mobile
     - expo publish --release-channel $ENVIRONMENT_ID
@@ -15,6 +16,7 @@
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
     BUILD_PROFILE: preview
     KEEP_ARTIFACTS: 'false'
+    NODE_PUBLIC_HOLI_API_URL: https://staging.unified.apis.project-holi.org
   script:
     - 'cd apps/mobile'
     - 'eas build --platform all --profile $BUILD_PROFILE --non-interactive'
@@ -166,6 +168,7 @@ mobile_production_publish:
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=production
   variables:
     ENVIRONMENT_ID: production
+    NODE_PUBLIC_HOLI_API_URL: https://production.unified.apis.project-holi.org
   only:
   - main
 
@@ -177,6 +180,7 @@ mobile_production_build:
     ENVIRONMENT_ID: production
     KEEP_ARTIFACTS: 'true'
     BUILD_PROFILE: production
+    NODE_PUBLIC_HOLI_API_URL: https://production.unified.apis.project-holi.org
   artifacts:
     paths:
       - artifacts_production/

@@ -42,7 +42,7 @@ resource "google_cloud_run_service" "mvp_web" {
           container_port = 3000
         }
         env {
-          name  = "HOLI_API_URL"
+          name  = "NODE_PUBLIC_HOLI_API_URL"
           value = local.holi_api_url
         }
 

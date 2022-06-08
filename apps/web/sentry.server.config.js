@@ -2,11 +2,11 @@
 // The config you add here will be used whenever the server handles a request.
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 import * as Sentry from '@sentry/nextjs'
+import getConfig from 'next/config'
 
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN
 
-console.info('sentry init', process.env)
-console.info('api url: ', process.env.HOLI_API_URL)
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
 
 Sentry.init({
   dsn: SENTRY_DSN || 'https://25eadef1cf0444c6bab1eec8d9acaacc@o949544.ingest.sentry.io/6396737',
