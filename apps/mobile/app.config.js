@@ -50,7 +50,7 @@ export default {
         url: 'https://auth.project-holi.org',
       },
       holi_api: {
-        url: process.env.NEXT_PUBLIC_HOLI_API_URL || 'http://10.0.2.2:4001/graphql',
+        url: process.env.HOLI_API_URL || 'http://10.0.2.2:4001/graphql',
       },
     },
   },
