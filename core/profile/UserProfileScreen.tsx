@@ -23,9 +23,12 @@ export const UserProfileScreen: React.VFC = () => {
         <UserProfileView editUser={() => toggleEditing()} />
       )}
       <View style={{ marginVertical: 10 }}>
-        <HoliChip label="Nothing to do here" onPress={() => setChipChecked(!chipChecked)} checked={chipChecked}>
-          Example interest
-        </HoliChip>
+        <HoliChip
+          label="Nothing to do here"
+          onPress={() => setChipChecked(!chipChecked)}
+          checked={chipChecked}
+          text="Example Interest"
+        />
       </View>
       <HoliButton label="Login" inline onPress={() => navigate('/login')}>
         Login

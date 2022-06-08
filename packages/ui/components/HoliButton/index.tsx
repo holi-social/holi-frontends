@@ -1,6 +1,15 @@
 import * as React from 'react'
 import { useState } from 'react'
-import { GestureResponderEvent, Platform, Pressable, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import {
+  AccessibilityProps,
+  GestureResponderEvent,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native'
 import tinycolor from 'tinycolor2'
 
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -26,9 +35,13 @@ const HoliButton: React.FunctionComponent<ButtonProps> = (props: ButtonProps) =>
   const [disabled, setDisabled] = useState(props.disabled || false)
 
   const buttonText = typeof props.children === 'string' ? props.children : ''
-  const accessibilityProps: { accessibilityLabel?: string } = {
+
+  const accessibilityProps: AccessibilityProps & { accessibilityPressed?: boolean } = {
+    accessible: true,
+    accessibilityRole: 'button',
     accessibilityLabel: `${buttonText} ${props.label}`,
   }
+
   const content = buttonText ? (
     <Text style={[styles.text, !disabled && props.active && styles.active]}>{buttonText}</Text>
   ) : (
@@ -37,9 +50,7 @@ const HoliButton: React.FunctionComponent<ButtonProps> = (props: ButtonProps) =>
 
   return (
     <Pressable
-      accessible={true}
       focusable={props.disableFocuasability}
-      accessibilityRole="button"
       {...accessibilityProps}
       {...props}
       style={(state) => [
@@ -94,7 +105,7 @@ const getStyles = (theme: HoliTheme, inline: boolean, transparent: boolean) =>
       backgroundColor: transparent ? 'transparent' : tinycolor(theme.colors.backgroundColorGrey).darken(3).toString(),
     },
     focused: {
-      borderColor: theme.colors.secondaryColor,
+      outlineColor: theme.colors.secondaryColor,
       ...Platform.select({
         web: {
           boxShadow: `0px 0px 3px 1px ${theme.colors.secondaryColor}`,

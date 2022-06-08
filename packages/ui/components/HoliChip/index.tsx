@@ -17,7 +17,8 @@ import Holicon from '@holi/ui/components/holicon'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type ChipProps = PressableProps & {
-  label: string
+  text: string
+  label?: string
   checked?: boolean
   disabled?: boolean
   onPress?: null | ((event: GestureResponderEvent) => void)
@@ -27,17 +28,15 @@ const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
   const { theme } = useTheme()
   const styles = getStyles(theme, props.checked)
 
-  const contentText = typeof props.children === 'string' ? props.children : ''
   const accessibilityProps: AccessibilityProps & { accessibilityPressed?: boolean } = {
-    accessibilityLabel: `${contentText} ${props.label}`,
+    accessible: true,
     accessibilityRole: 'button',
     accessibilityPressed: props.checked,
+    ...(props.label ? { accessibilityLabel: props.label } : {}),
   }
 
   return (
     <Pressable
-      accessible={true}
-      disabled={props.disabled}
       {...accessibilityProps}
       {...props}
       style={({ focused, hovered, pressed }) => [
@@ -53,7 +52,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
       {({ hovered }) => (
         <View style={styles.chipContent}>
           <Text selectable={false} style={[styles.text, hovered && styles.hoveredText]}>
-            {contentText}
+            {props.text}
           </Text>
           {!props.disabled && (
             <View style={styles.iconView}>
@@ -111,7 +110,7 @@ const getStyles = (theme: HoliTheme, checked = false) =>
       color: checked ? theme.colors.fontColorWhite : theme.colors.secondaryColor,
     },
     focused: {
-      borderColor: theme.colors.secondaryColor,
+      outlineColor: theme.colors.secondaryColor,
       ...Platform.select({
         web: {
           boxShadow: `0px 0px 0.7px 0.7px ${checked ? theme.colors.secondaryColor : theme.colors.backgroundColorGrey}`,
