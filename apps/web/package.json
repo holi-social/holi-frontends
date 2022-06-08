@@ -11,7 +11,9 @@
     "lint": "TIMING=1 next lint",
     "test": "echo 'unit testing goes here'",
     "clean": "rimraf .next",
-    "clean:all": "yarn clean && rimraf node_modules"
+    "clean:all": "yarn clean && rimraf node_modules",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.16.7",
@@ -30,8 +32,21 @@
     "sharp": "^0.30.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.18.2",
+    "@storybook/addon-a11y": "^6.5.6",
+    "@storybook/addon-actions": "^6.5.6",
+    "@storybook/addon-essentials": "^6.5.6",
+    "@storybook/addon-interactions": "^6.5.6",
+    "@storybook/addon-knobs": "^6.4.0",
+    "@storybook/addon-links": "^6.5.6",
+    "@storybook/builder-webpack5": "^6.5.6",
+    "@storybook/jest": "^0.0.10",
+    "@storybook/manager-webpack5": "^6.5.6",
+    "@storybook/react": "^6.5.6",
+    "@storybook/testing-library": "^0.0.11",
     "@types/react": "17.0.2",
     "@types/react-native": "0.67.7",
+    "babel-loader": "^8.2.5",
     "eslint": "8.15.0",
     "eslint-config-next": "12.0.10",
     "typescript": "4.5.5"
