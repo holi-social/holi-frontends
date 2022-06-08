@@ -71,7 +71,7 @@ mobile_review_publish:
   needs: ['lint_compile_test']
   environment:
     name: review/$CI_COMMIT_REF_SLUG-mobile
-    url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=$CI_ENVIRONMENT_SLUG
+    url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=$CI_COMMIT_REF_SLUG
     on_stop: mobile_review_destroy
     auto_stop_in: 2 weeks
   except:
