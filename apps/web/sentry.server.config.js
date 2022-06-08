@@ -5,6 +5,9 @@ import * as Sentry from '@sentry/nextjs'
 
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN
 
+console.info('sentry init', process.env)
+console.info('api url: ', process.env.HOLI_API_URL)
+
 Sentry.init({
   dsn: SENTRY_DSN || 'https://25eadef1cf0444c6bab1eec8d9acaacc@o949544.ingest.sentry.io/6396737',
   // Adjust this value in production, or use tracesSampler for greater control
