@@ -1,19 +1,20 @@
+/*
+TODO try out using the publicRuntimeConfig 
+https://nextjs.org/docs/api-reference/next.config.js/runtime-configuration
+In order to avoid https://nextjs.org/docs/advanced-features/automatic-static-optimization , we would need to use `getInitialProps` for all pages AFAICS
+*/
 export const holiApiUrl = (() => {
-  console.info('determining URL')
+  // client
   if (!(typeof window === 'undefined')) {
     if (window.location.host.indexOf('production.') === 0) {
-      console.info('production')
       return 'https://production.unified.apis.project-holi.org/graphql'
     } else {
-      console.info('staging')
       return 'https://staging.unified.apis.project-holi.org/graphql'
     }
   } else if (process.env.HOLI_API_URL) {
     // server case
-    console.info('server')
     return process.env.HOLI_API_URL
   }
   // default fallback
-  console.info('default')
   return 'http://localhost:4001/graphql'
 })()
