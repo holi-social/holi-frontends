@@ -24,13 +24,9 @@ const ChipPage: NextPageWithLayout = () => {
 
       {/* ===== Demo section ===== */}
       <div className={sassStyles.example}>
-        <HoliChip label="Nothing to do here" onPress={() => setChecked(!checked)} checked={checked} inline>
-          Selectable
-        </HoliChip>
+        <HoliChip label="Nothing to do here" onPress={() => setChecked(!checked)} checked={checked} text="Selectable" />
 
-        <HoliChip label="Nothing to do here" inline disabled style={{ marginLeft: 10 }}>
-          Disabled
-        </HoliChip>
+        <HoliChip label="Nothing to do here" disabled style={{ marginLeft: 10 }} text="Disabled" />
       </div>
 
       {/* ===== Code to copy section ===== */}
@@ -39,13 +35,9 @@ import HoliChip from '@holi/ui/components/HoliChip'
 
 const [checked, setChecked] = useState(false)
 
-<HoliChip label="Nothing to do here" onPress={() => setChecked(!checked)} checked={checked} inline>
-  Selectable
-</HoliChip>
+<HoliChip label="Nothing to do here" onPress={() => setChecked(!checked)} checked={checked} text="Selectable" />
 
-<HoliChip label="Nothing to do here" inline disabled style={{ marginLeft: 10 }}>
-  Disabled
-</HoliChip>
+<HoliChip label="Nothing to do here" disabled style={{ marginLeft: 10 }} text="Disabled" />
 
 `}</pre>
     </section>
