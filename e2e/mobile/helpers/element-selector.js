@@ -11,6 +11,7 @@ class SelectorHelper extends Helper {
     const { Appium } = this.helpers
     const elementSelector = selectorByTestId(testId, Appium.platform)
 
+    await Appium.waitForElement(elementSelector)
     await Appium.see(expectedText, elementSelector)
   }
 
