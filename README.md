@@ -5,7 +5,6 @@
     - [Android Emulator](#android-emulator)
     - [iOS Simulator](#ios-simulator)
   - [Running](#running)
-  - [Running via mprocs](#running-via-mprocs)
 - [Monorepo (and why)](#monorepo---and-why)
   - [Yarn Workspaces](#yarn-workspaces)
   - [Workspaces / Package Structure](#workspaces--package-structure)
@@ -59,18 +58,13 @@ It is kept in sync with `.nvmrc` (used by `nvm`) by a symbolic link, so please m
 
 ### Running
 
-Run `yarn mobile:dev` for mobile and `yarn web:dev` for web.
+Best way to run a dev environment is to checkout [holi-meta](https://gitlab.com/holisticfoundation/holi-meta) and use
+it to quickly start a complete environment.
 
-Start the mock api with `yarn mock-api:dev`.
+Locally in this repository, you can run `yarn mobile:dev` for mobile and `yarn web:dev` for web.
+You will need a running instance of [holi-unified-api](https://gitlab.com/holisticfoundation/holi-unified-api/) for this.
 
 We are using [Expo](https://docs.expo.dev/) to build the app for both mobile app variants.
-
-### Running via `mprocs`
-
-Instead of opening multiple terminal sessions and executing multiple commands you can use
-[mprocs](https://github.com/pvolok/mprocs) and simply run `mprocs` to get up and going. This repo
-contains an `mprocs.json` file that defines all the processes that need to be run. When `mprocs` is
-running, you can simply switch panes using `Ctrl+a`.
 
 ## Monorepo - and why
 

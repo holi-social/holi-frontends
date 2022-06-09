@@ -7,3 +7,22 @@ interface AccessibilityPropsWeb extends AccessibilityProps {
   accessibilityLevel?: number
   accessibilityRole?: AccessibilityRoleWeb
 }
+
+// include web specific types (https://github.com/necolas/react-native-web/issues/1684)
+declare module 'react-native' {
+  interface PressableStateCallbackType {
+    hovered?: boolean
+    focused?: boolean
+  }
+
+  interface ViewStyle {
+    display?: 'flex' | 'none' | 'inline-block' | undefined
+    boxShadow?: string | undefined
+  }
+  interface TextStyle {
+    display?: 'flex' | 'none' | 'inline-block' | undefined
+  }
+  interface ImgageStyle {
+    display?: 'flex' | 'none' | 'inline-block' | undefined
+  }
+}
