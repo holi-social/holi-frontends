@@ -18,15 +18,6 @@ const defaultTheme = {
   font: {
     textSize: 16,
   },
-  chip: {
-    borderRadius: 8,
-    borderRadiusChecked: 24,
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    fontSize: 14,
-    lineHeight: 24,
-    iconSize: 15,
-  },
 }
 
 export type HoliTheme = typeof defaultTheme

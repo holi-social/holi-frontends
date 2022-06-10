@@ -66,6 +66,22 @@ You will need a running instance of [holi-unified-api](https://gitlab.com/holist
 
 We are using [Expo](https://docs.expo.dev/) to build the app for both mobile app variants.
 
+### Testing
+
+The unit tests are written with [jest](https://jestjs.io/) and [@testing-library/react-native](https://callstack.github.io/react-native-testing-library/).
+
+Running `yarn test` in the root of this repository (or within any package that has unit tests) will run jest on
+all files with unit tests. To run with watch mode, simply use `yarn test:watch` to run tests on uncommitted files,
+or `yarn test:watchAll` to run tests in all files.
+
+We are using a jest convention to locate test files within a `__tests__` folder. Jest will run all test files
+within those folders, or any files that end with a suffix of .spec.js or .test.js by default.
+
+We use [snapshot tests](https://jestjs.io/docs/snapshot-testing) which generates a `__snapshots__` folder next to
+the test file. The goal with snapshot tests is to "make sure your UI does not change unexpectedly".
+If there is an intentional to change the UI, you can run `yarn test:update` and it will update the snapshots.
+It is recommended to always commit the snapshots folder and keep it in version control.
+
 ## Monorepo - and why
 
 This is a monorepo. Not in the FAANG sense, as it doesn't contain thousands of applications. It contains two
@@ -113,21 +129,21 @@ weren't in a monorepo with yarn Workspaces.
 
 To give an overview, the project contains the following workspaces (npm packages):
 
-* `apps`
-  * `mobile` - the mobile ("native" as in React Native) app for iOS and Android, managed by Expo. Contains just the minimal platform-specific code that can not be shared with `web`.
-  * `web` - the web (reactive, small and big screen) site, built with React Native for Web and Expo. Contains just the minimal platform-specific code that can not be shared with `mobile`.
-* `core` - shared code for the core of the HOLI app / site (feature-specific components, screens, ...)
-* `e2e` - end-to-end tests
-  * `mobile` - end-to-end tests for the mobile app
-  * `web` - end-to-end tests for the web site
-* `holi-apps` - apps for the HOLI app "store" will eventually go here
-* `packages` - shared "library" code goes here, i.e. everything reusable that *could* also be published as an npm package
-  * `api` - client-side code for the HOLI API
-  * `ui` - the HOLI component library
+- `apps`
+  - `mobile` - the mobile ("native" as in React Native) app for iOS and Android, managed by Expo. Contains just the minimal platform-specific code that can not be shared with `web`.
+  - `web` - the web (reactive, small and big screen) site, built with React Native for Web and Expo. Contains just the minimal platform-specific code that can not be shared with `mobile`.
+- `core` - shared code for the core of the HOLI app / site (feature-specific components, screens, ...)
+- `e2e` - end-to-end tests
+  - `mobile` - end-to-end tests for the mobile app
+  - `web` - end-to-end tests for the web site
+- `holi-apps` - apps for the HOLI app "store" will eventually go here
+- `packages` - shared "library" code goes here, i.e. everything reusable that _could_ also be published as an npm package
+  - `api` - client-side code for the HOLI API
+  - `ui` - the HOLI component library
 
 ### Dependencies
 
-#### Dependencies and Yarn Workspaces 
+#### Dependencies and Yarn Workspaces
 
 When adding dependencies, for convenience reasons, you might want to stay in the project root folder. From here you can add new packages with the
 command:
@@ -154,7 +170,7 @@ and might cause dependency conflicts.
 Due to the monorepo layout and how hoisting works we have to follow a couple of rules that "magically" make everything work:
 
 - **root**: don't add any dependencies here
-  - *exception*: dev dependencies that understand monorepos like `eslint`
+  - _exception_: dev dependencies that understand monorepos like `eslint`
 - **core**: don't add any dependencies here
 - **mobile**: add all your React Native and universal (both mobile and web) dependencies here
 - **web**: add your web-only dependencies here
@@ -167,7 +183,7 @@ It might be necessary to work
 with [Yarn resolutions](https://classic.yarnpkg.com/lang/en/docs/selective-version-resolutions/) to resolve dependency
 conflicts (as has been done e.g. with `ts-invariant` and `tslib`).
 
-* tslib is pinned to 2.3.1 because without this pin, there was an error `TypeError: tslib.__spreadArray is not a function.` (2022-05-04)
+- tslib is pinned to 2.3.1 because without this pin, there was an error `TypeError: tslib.__spreadArray is not a function.` (2022-05-04)
 
 Please also note that not all dependency versions are compatible with the current version of Expo.
 Running `expo doctor --fix-dependencies` might then help to fix this.
@@ -221,7 +237,7 @@ Say you wanted to create the route "/profile/:id" which opened the profile page 
   - render the shared screen within the
 
 ```ts
-const ProfilePage: NextPage = () => <ProfileScreen / >
+const ProfilePage: NextPage = () => <ProfileScreen />
 export default ProfilePage
 ```
 
@@ -230,7 +246,7 @@ export default ProfilePage
 - create a route in `apps/mobile/navigation/rootNavigator.tsx` e.g. in the RootStack and use the shared screen component to render
 
 ```ts
-<RootStack.Screen name = "Profile" component =  {ProfileScreen} />
+<RootStack.Screen name="Profile" component={ProfileScreen} />
 ```
 
 - create a linking mapping in `core/navigation/index.tsx` between the navigator route name and the web url
@@ -248,8 +264,10 @@ config: {
 #### conclusion
 
     }
+
 }
-```
+
+````
 
 #### conclusion
 
@@ -265,7 +283,7 @@ navigate('/profile/jasper')
 }>
 jaspers
 profile < /Button>
-```
+````
 
 #### notes
 
@@ -281,6 +299,7 @@ It may be configured at different places, but over all it must be unique.
 ```
 
 # Authentication Proxy
+
 In order to use authentication in a local development environment, Ory tunnel needs to run locally in order to
 communicate with Ory successfully. The tunnel is providing the Ory API on localhost.
 
@@ -288,7 +307,7 @@ On application side, `KRATOS_BASE_URL` needs to be set to
 `http://localhost:4000` (this is done automatically within `.envrc` if you use `direnv`). In all other environments
 requests can use `https://auth.project-holi.org` as `KRATOS_BASE_URL` (default if not set). This is required because Ory
 (AFAIK) does not allow `localhost` to be used for CORS requests (or any other domain than the one configured as CNAME,
-i.e. `project-holi.org`). 
+i.e. `project-holi.org`).
 
 Here is a resource on how to install the Ory proxy (which is a part of `ory-cli`):
 `https://www.Ory.sh/docs/guides/cli/installation`. When `ory-cli` is installed, run:
