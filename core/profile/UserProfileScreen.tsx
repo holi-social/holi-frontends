@@ -9,7 +9,6 @@ import HoliChip from '@holi/ui/components/HoliChip'
 import HoliHeading from '@holi/ui/components/HoliHeading'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 
-
 export const UserProfileScreen: React.VFC = () => {
   const { isAuthenticated } = useContext(AuthContext)
   const { navigate } = useRouting()

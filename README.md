@@ -5,6 +5,7 @@
     - [Android Emulator](#android-emulator)
     - [iOS Simulator](#ios-simulator)
   - [Running](#running)
+  - [Testing](#testing)
 - [Monorepo (and why)](#monorepo---and-why)
   - [Yarn Workspaces](#yarn-workspaces)
   - [Workspaces / Package Structure](#workspaces--package-structure)
@@ -129,21 +130,21 @@ weren't in a monorepo with yarn Workspaces.
 
 To give an overview, the project contains the following workspaces (npm packages):
 
-- `apps`
-  - `mobile` - the mobile ("native" as in React Native) app for iOS and Android, managed by Expo. Contains just the minimal platform-specific code that can not be shared with `web`.
-  - `web` - the web (reactive, small and big screen) site, built with React Native for Web and Expo. Contains just the minimal platform-specific code that can not be shared with `mobile`.
-- `core` - shared code for the core of the HOLI app / site (feature-specific components, screens, ...)
-- `e2e` - end-to-end tests
-  - `mobile` - end-to-end tests for the mobile app
-  - `web` - end-to-end tests for the web site
-- `holi-apps` - apps for the HOLI app "store" will eventually go here
-- `packages` - shared "library" code goes here, i.e. everything reusable that _could_ also be published as an npm package
-  - `api` - client-side code for the HOLI API
-  - `ui` - the HOLI component library
+* `apps`
+  * `mobile` - the mobile ("native" as in React Native) app for iOS and Android, managed by Expo. Contains just the minimal platform-specific code that can not be shared with `web`.
+  * `web` - the web (reactive, small and big screen) site, built with React Native for Web and Expo. Contains just the minimal platform-specific code that can not be shared with `mobile`.
+* `core` - shared code for the core of the HOLI app / site (feature-specific components, screens, ...)
+* `e2e` - end-to-end tests
+  * `mobile` - end-to-end tests for the mobile app
+  * `web` - end-to-end tests for the web site
+* `holi-apps` - apps for the HOLI app "store" will eventually go here
+* `packages` - shared "library" code goes here, i.e. everything reusable that *could* also be published as an npm package
+  * `api` - client-side code for the HOLI API
+  * `ui` - the HOLI component library
 
 ### Dependencies
 
-#### Dependencies and Yarn Workspaces
+#### Dependencies and Yarn Workspaces 
 
 When adding dependencies, for convenience reasons, you might want to stay in the project root folder. From here you can add new packages with the
 command:
@@ -170,7 +171,7 @@ and might cause dependency conflicts.
 Due to the monorepo layout and how hoisting works we have to follow a couple of rules that "magically" make everything work:
 
 - **root**: don't add any dependencies here
-  - _exception_: dev dependencies that understand monorepos like `eslint`
+  - *exception*: dev dependencies that understand monorepos like `eslint`
 - **core**: don't add any dependencies here
 - **mobile**: add all your React Native and universal (both mobile and web) dependencies here
 - **web**: add your web-only dependencies here
@@ -183,7 +184,7 @@ It might be necessary to work
 with [Yarn resolutions](https://classic.yarnpkg.com/lang/en/docs/selective-version-resolutions/) to resolve dependency
 conflicts (as has been done e.g. with `ts-invariant` and `tslib`).
 
-- tslib is pinned to 2.3.1 because without this pin, there was an error `TypeError: tslib.__spreadArray is not a function.` (2022-05-04)
+* tslib is pinned to 2.3.1 because without this pin, there was an error `TypeError: tslib.__spreadArray is not a function.` (2022-05-04)
 
 Please also note that not all dependency versions are compatible with the current version of Expo.
 Running `expo doctor --fix-dependencies` might then help to fix this.
@@ -237,7 +238,7 @@ Say you wanted to create the route "/profile/:id" which opened the profile page 
   - render the shared screen within the
 
 ```ts
-const ProfilePage: NextPage = () => <ProfileScreen />
+const ProfilePage: NextPage = () => <ProfileScreen / >
 export default ProfilePage
 ```
 
@@ -246,7 +247,7 @@ export default ProfilePage
 - create a route in `apps/mobile/navigation/rootNavigator.tsx` e.g. in the RootStack and use the shared screen component to render
 
 ```ts
-<RootStack.Screen name="Profile" component={ProfileScreen} />
+<RootStack.Screen name = "Profile" component =  {ProfileScreen} />
 ```
 
 - create a linking mapping in `core/navigation/index.tsx` between the navigator route name and the web url
@@ -264,10 +265,8 @@ config: {
 #### conclusion
 
     }
-
 }
-
-````
+```
 
 #### conclusion
 
@@ -283,7 +282,7 @@ navigate('/profile/jasper')
 }>
 jaspers
 profile < /Button>
-````
+```
 
 #### notes
 
