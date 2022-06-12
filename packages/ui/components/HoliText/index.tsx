@@ -29,7 +29,6 @@ const HoliText = ({ children, type = HoliTextType.label, isAccessible = true, ..
       },
     })
 
-  console.log(HoliTextType[type])
   return (
     <Text style={[styles.default, styles[HoliTextType[type]], props?.styles]} {...getAccessibilityProps()} {...props}>
       {children}
