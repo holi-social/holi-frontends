@@ -1,5 +1,10 @@
+interface HoliTextTypeInfo {
+  name: string
+  level: number
+  role: string
+}
 
-export enum HoliTextTypes {
+export enum HoliTextType {
   super = 'super',
   heading1 = 'heading1',
   heading2 = 'heading2',
@@ -12,28 +17,15 @@ export enum HoliTextTypes {
   label = 'label',
 }
 
-export enum HoliTextAccessibilityRoles {
-  super = 'header',
-  heading1 = 'header',
-  heading2 = 'header',
-  heading3 = 'header',
-  button = 'button',
-  body = 'text',
-  captionLink = 'link',
-  caption = 'none',
-  labelLink = 'link',
-  label = 'text',
-}
-
-export enum HoliTextAccessibilityLevels {
-  super = 1,
-  heading1 = 1,
-  heading2 = 2,
-  heading3 = 3,
-  button = 0,
-  body = 0,
-  captionLink = 0,
-  caption = 0,
-  labelLink = 0,
-  label = 0,
+export const HoliTextTypes: Record<HoliTextType, HoliTextTypeInfo> = {
+  [HoliTextType.super]: { name: HoliTextType.super, level: 1, role: 'header' },
+  [HoliTextType.heading1]: { name: HoliTextType.heading1, level: 1, role: 'header' },
+  [HoliTextType.heading2]: { name: HoliTextType.heading2, level: 2, role: 'header' },
+  [HoliTextType.heading3]: { name: HoliTextType.heading3, level: 3, role: 'header' },
+  [HoliTextType.button]: { name: HoliTextType.button, level: 0, role: 'button' },
+  [HoliTextType.body]: { name: HoliTextType.body, level: 0, role: 'text' },
+  [HoliTextType.captionLink]: { name: HoliTextType.captionLink, level: 0, role: 'link' },
+  [HoliTextType.caption]: { name: HoliTextType.caption, level: 0, role: 'none' },
+  [HoliTextType.labelLink]: { name: HoliTextType.labelLink, level: 0, role: 'link' },
+  [HoliTextType.label]: { name: HoliTextType.label, level: 0, role: 'text' },
 }

@@ -3,7 +3,7 @@ import { color, text } from '@storybook/addon-knobs'
 import React from 'react'
 
 import HoliText from '@holi/ui/components/HoliText'
-import { HoliTextTypes } from '@holi/ui/components/HoliText/HoliText.types'
+import { HoliTextType, HoliTextTypes } from '@holi/ui/components/HoliText/HoliText.types'
 import variables from '@holi/ui/styles/globalVars/variables'
 
 export default {
@@ -20,17 +20,17 @@ export default {
 export const Primary = ({ ...args }) => <HoliText type={args.type}>{args.children}</HoliText>
 Primary.args = {
   children: 'Text',
-  type: HoliTextTypes.super,
+  type: HoliTextType.super,
   isAccessible: true,
 }
 Primary.argTypes = {
   children: {
-    description: 'React.ReactChild | React.ReactChild[] | React.ReactText | React.ReactText[] | string',
+    description: 'React.ReactChild | React.ReactChild[] | string',
     control: { type: 'text' },
   },
   type: {
-    description: 'typeof HoliTextTypes',
-    control: { type: 'select', options: Object.keys(HoliTextTypes) },
+    description: 'typeof HoliTextType',
+    control: { type: 'select', options: Object.keys(HoliTextType) },
   },
   isAccessible: { description: 'boolean', control: { type: 'boolean' } },
 }
@@ -38,10 +38,10 @@ Primary.argTypes = {
 export const Colored = ({ ...args }) => (
   <HoliText>
     <div style={{ opacity: 0.2 }}>Colored example</div>
-    <HoliText type={HoliTextTypes.super} styles={{ color: variables.positivepurple }}>
+    <HoliText type={HoliTextType.super} styles={{ color: variables.positivepurple }}>
       Positive purple
     </HoliText>
-    <HoliText type={HoliTextTypes.super} styles={{ color: variables.grey }}>
+    <HoliText type={HoliTextType.super} styles={{ color: variables.grey }}>
       Grey
     </HoliText>
   </HoliText>
@@ -54,7 +54,7 @@ export const All = () => {
       <div key={type} style={{ marginBottom: '16px' }}>
         <div style={{ opacity: 0.2 }}>{type}</div>
         <HoliText
-          type={type}
+          type={type as HoliTextType}
           styles={{
             color: color('color', 'black'),
           }}

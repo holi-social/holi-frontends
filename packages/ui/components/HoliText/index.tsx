@@ -1,22 +1,18 @@
 import * as React from 'react'
-import { Platform, StyleSheet, Text, TextStyle } from 'react-native'
+import { Platform, Text, TextStyle } from 'react-native'
 
 import { getHoliTextStyles as getStyles } from '@holi/ui/components/HoliText/HoliText.styles'
-import {
-  HoliTextAccessibilityLevels,
-  HoliTextAccessibilityRoles,
-  HoliTextTypes,
-} from '@holi/ui/components/HoliText/HoliText.types'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { HoliTextType, HoliTextTypes } from '@holi/ui/components/HoliText/HoliText.types'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type HoliTextProps = {
-  children: React.ReactChild | React.ReactChild[] | React.ReactText | React.ReactText[] | string
+  children: React.ReactChild | React.ReactChild[] | string
   type?: keyof typeof HoliTextTypes
   isAccessible?: boolean
   styles?: TextStyle
 }
 
-const HoliText = ({ children, type = HoliTextTypes.label, isAccessible = true, ...props }: HoliTextProps) => {
+const HoliText = ({ children, type = HoliTextType.label, isAccessible = true, ...props }: HoliTextProps) => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
 
@@ -24,17 +20,18 @@ const HoliText = ({ children, type = HoliTextTypes.label, isAccessible = true, .
     Platform.select({
       web: {
         accessible: isAccessible,
-        accessibilityRole: HoliTextAccessibilityRoles[type],
-        accessibilityLevel: HoliTextAccessibilityLevels[type],
+        accessibilityRole: HoliTextTypes[type].role,
+        accessibilityLevel: HoliTextTypes[type].level,
       },
       default: {
         accessible: isAccessible,
-        accessibilityRole: HoliTextAccessibilityRoles[type],
+        accessibilityRole: HoliTextTypes[type].role,
       },
     })
 
+  console.log(HoliTextType[type])
   return (
-    <Text style={[styles.default, styles[HoliTextTypes[type]], props?.styles]} {...getAccessibilityProps()} {...props}>
+    <Text style={[styles.default, styles[HoliTextType[type]], props?.styles]} {...getAccessibilityProps()} {...props}>
       {children}
     </Text>
   )
