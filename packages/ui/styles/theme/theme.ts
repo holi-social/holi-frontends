@@ -14,6 +14,9 @@ const defaultTheme = {
       // android: 'Arial', // TODO find nice android system font
       ios: 'SF Pro',
     }),
+    default: Platform.select({
+      default: 'Circular Std, Helvetica Neue, sans-serif',
+    }),
   },
   font: {
     textSize: 16,
