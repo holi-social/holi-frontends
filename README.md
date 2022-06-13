@@ -280,23 +280,6 @@ It may be configured at different places, but over all it must be unique.
 <CommunityBottomNav.Screen name="Board" component={BoardScreen} />
 ```
 
-# Authentication Proxy
-In order to use authentication in a local development environment, Ory tunnel needs to run locally in order to
-communicate with Ory successfully. The tunnel is providing the Ory API on localhost.
-
-On application side, `KRATOS_BASE_URL` needs to be set to
-`http://localhost:4000` (this is done automatically within `.envrc` if you use `direnv`). In all other environments
-requests can use `https://auth.project-holi.org` as `KRATOS_BASE_URL` (default if not set). This is required because Ory
-(AFAIK) does not allow `localhost` to be used for CORS requests (or any other domain than the one configured as CNAME,
-i.e. `project-holi.org`). 
-
-Here is a resource on how to install the Ory proxy (which is a part of `ory-cli`):
-`https://www.Ory.sh/docs/guides/cli/installation`. When `ory-cli` is installed, run:
-
-```
-ory tunnel http://localhost:3000 --dev --project mystifying-carver-akajr6v4t8
-```
-
 # Continuous Integration and Deployment
 
 ## Feature Branches & Environments
