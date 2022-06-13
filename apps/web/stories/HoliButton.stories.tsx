@@ -2,6 +2,7 @@
 import React from 'react'
 
 import HoliButton from '@holi/ui/components/HoliButton'
+
 // import Holicon from '@holi/ui/components/holicon'
 // import SharedImage from '@holi/ui/components/sharedImage'
 
