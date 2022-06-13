@@ -103,7 +103,6 @@ exports[`renders correctly renders correctly when checked 1`] = `
             },
           ]
         }
-        testID="icon-check"
         tintColor={4294967295}
         vbHeight={1024}
         vbWidth={1024}
@@ -303,7 +302,6 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
             },
           ]
         }
-        testID="icon-plus"
         tintColor={4285493377}
         vbHeight={1024}
         vbWidth={1024}

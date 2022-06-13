@@ -3,6 +3,7 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 
 import HoliChip from '@holi/ui/components/HoliChip'
+import Holicon from '@holi/ui/components/holicon'
 
 describe('renders correctly', () => {
   it('renders correctly when checked', () => {
@@ -39,29 +40,29 @@ describe('calls onPress prop function correctly', () => {
 
 describe('displays icons correctly', () => {
   it('shows check icon when checked', () => {
-    const { queryByTestId } = render(<HoliChip text="Test" checked={true} />)
+    const testRenderer = renderer.create(<HoliChip text="Test" checked={true} />)
+    const holiChipInstance = testRenderer.root
 
-    const checkIcon = queryByTestId('icon-check')
-    const plusIcon = queryByTestId('icon-plus')
-    expect(checkIcon).toBeDefined()
-    expect(plusIcon).toBeNull()
+    const iconInstance = holiChipInstance.findByType(Holicon)
+
+    expect(iconInstance.props.icon).toBe('check')
   })
 
   it('shows plus icon when unchecked', () => {
-    const { queryByTestId } = render(<HoliChip text="Test" checked={false} />)
+    const testRenderer = renderer.create(<HoliChip text="Test" checked={false} />)
+    const holiChipInstance = testRenderer.root
 
-    const checkIcon = queryByTestId('icon-check')
-    const plusIcon = queryByTestId('icon-plus')
-    expect(checkIcon).toBeNull()
-    expect(plusIcon).toBeDefined()
+    const iconInstance = holiChipInstance.findByType(Holicon)
+
+    expect(iconInstance.props.icon).toBe('plus')
   })
 
   it('shows no icons when disabled', () => {
-    const { queryByTestId } = render(<HoliChip text="Test" checked={false} disabled={true} />)
+    const testRenderer = renderer.create(<HoliChip text="Test" checked={false} disabled={true} />)
+    const holiChipInstance = testRenderer.root
 
-    const checkIcon = queryByTestId('icon-check')
-    const plusIcon = queryByTestId('icon-plus')
-    expect(checkIcon).toBeNull()
-    expect(plusIcon).toBeNull()
+    const iconInstances = holiChipInstance.findAllByType(Holicon)
+
+    expect(iconInstances.length).toBe(0)
   })
 })

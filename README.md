@@ -80,7 +80,7 @@ within those folders, or any files that end with a suffix of .spec.js or .test.j
 
 We use [snapshot tests](https://jestjs.io/docs/snapshot-testing) which generates a `__snapshots__` folder next to
 the test file. The goal with snapshot tests is to "make sure your UI does not change unexpectedly".
-If there is an intentional to change the UI, you can run `yarn test:update` and it will update the snapshots.
+If there is an intentional change to the UI, you can run `yarn test:update` and it will update the snapshots.
 It is recommended to always commit the snapshots folder and keep it in version control.
 
 ## Monorepo - and why

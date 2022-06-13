@@ -60,7 +60,6 @@ const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
                 size={15}
                 color={props.checked ? theme.colors.fontColorWhite : theme.colors.fontColorGrey}
                 icon={props.checked ? 'check' : 'plus'}
-                testID={props.checked ? 'icon-check' : 'icon-plus'}
               />
             </View>
           )}
