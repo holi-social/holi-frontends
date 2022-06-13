@@ -23,10 +23,30 @@ const ButtonPage: NextPageWithLayout = () => {
 
       {/* ===== Demo section ===== */}
       <div className={sassStyles.example}>
-        <HoliUserAvatar size="large" />
-        <HoliUserAvatar />
-        <HoliUserAvatar size="small" />
-        <HoliUserAvatar size="micro" />
+        <HoliUserAvatar
+          userName="Holi Shit"
+          imageSrc="https://loremflickr.com/cache/resized/65535_51813229831_15e7ac9498_s_50_50_nofilter.jpg"
+          size="extralarge"
+        />
+        <HoliUserAvatar
+          userName="some Name"
+          imageSrc="https://loremflickr.com/cache/resized/65535_51813229831_15e7ac9498_s_50_50_nofilter.jpg"
+          size="large"
+        />
+        <HoliUserAvatar
+          userName="Karl Heinz"
+          imageSrc="https://loremflickr.com/cache/resized/65535_51813229831_15e7ac9498_s_50_50_nofilter.jpg"
+        />
+        <HoliUserAvatar
+          userName="Uschi Meyer"
+          imageSrc="https://loremflickr.com/cache/resized/65535_51813229831_15e7ac9498_s_50_50_nofilter.jpg"
+          size="small"
+        />
+        <HoliUserAvatar
+          userName="Manni"
+          imageSrc="https://loremflickr.com/cache/resized/65535_51813229831_15e7ac9498_s_50_50_nofilter.jpg"
+          size="micro"
+        />
       </div>
 
       {/* ===== Code to copy section ===== */}
