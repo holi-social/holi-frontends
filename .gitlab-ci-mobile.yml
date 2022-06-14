@@ -4,7 +4,6 @@
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   variables:
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
-  cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   script:
     - cd apps/mobile
@@ -17,7 +16,6 @@
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
     BUILD_PROFILE: preview
     KEEP_ARTIFACTS: 'false'
-  cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   script:
     - 'cd apps/mobile'

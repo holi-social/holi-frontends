@@ -102,6 +102,8 @@ web_review_deploy:
 web_review_e2e:
   extends: .web_e2e
   needs: ['web_review_deploy']
+  dependencies:
+    - web_review_deploy
   except:
     - main
     - /^noenv\/.*/
@@ -152,6 +154,8 @@ web_staging_deploy:
 web_staging_e2e:
   extends: .web_e2e
   needs: ['web_staging_deploy']
+  dependencies:
+    - web_staging_deploy
   only:
     - main
 
