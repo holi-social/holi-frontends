@@ -16,7 +16,7 @@ export const UserProfileScreen: React.VFC = () => {
   const toggleEditing = () => setEditing(!editing)
 
   return (
-    <LoginProtection loggedOutContent={<Text>Inspirational text about community</Text>}>
+    <LoginProtection loggedOutContent={<Text>Log in to see your profile</Text>}>
       <View style={{ padding: 10, alignItems: 'center' }}>
         <HoliHeading level={1}>Profile</HoliHeading>
         {editing ? (
