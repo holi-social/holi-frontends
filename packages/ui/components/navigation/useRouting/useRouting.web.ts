@@ -1,18 +1,22 @@
 import { useRouter } from 'next/router'
 
-import { useNavigationContext } from '@holi/ui/components/navigation/context'
-
 import { UseRouting } from './types'
 
 const useRouting: UseRouting = <T extends Record<string, string>>() => {
   const router = useRouter()
-  const navigationContext = useNavigationContext()
 
+  const navigate = (routeName: string) => router.push(routeName)
   return {
-    navigate: (routeName: string) => router.push(routeName),
+    navigate,
+    navigateBack: (fallbackRouteName = '/') => {
+      if (window.history.length) {
+        router.back()
+      } else {
+        navigate(fallbackRouteName)
+      }
+    },
     query: router.query as T,
     pathname: router.asPath,
-    toggleDrawer: navigationContext.toggleDrawerIsOpen,
   }
 }
 

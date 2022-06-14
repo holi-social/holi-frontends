@@ -7,10 +7,10 @@ feedId query param
 // type T is only helping the compiler. it does not guarantee that the query param is actually available!
 export type RoutingState<T> = {
   navigate: (routeName: string) => void
+  navigateBack: (fallbackRouteName?: string) => void
   query: T
   // pathnahme in mobile is depending on the navigator in which it is used
   pathname: string
-  toggleDrawer: () => void
 }
 
 export type UseRouting = <T extends Record<string, string>>() => RoutingState<T>
