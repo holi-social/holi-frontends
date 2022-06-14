@@ -1,19 +1,13 @@
 import React, { useContext } from 'react'
-import { Image, StyleSheet, Text } from 'react-native'
+import { Text } from 'react-native'
 
 import { UserContext } from '@holi/core/user/UserContextProvider'
 import HoliButton from '@holi/ui/components/HoliButton'
+import HoliUserAvatar from '@holi/ui/components/HoliUserAvatar'
 
 type UserProfileViewProps = {
   editUser: () => void
 }
-
-const imageStyle = StyleSheet.create({
-  image: {
-    width: 50,
-    height: 50,
-  },
-})
 
 const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ editUser }) => {
   const { user } = useContext(UserContext)
@@ -24,7 +18,8 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
 
   return (
     <>
-      <Image style={imageStyle.image} source={{ uri: user.image }} />
+      <HoliUserAvatar imageSrc={user.image} userName={user.firstName} size="large" />
+
       <Text>{user.firstName}</Text>
       <Text>{user.middleName}</Text>
       <Text>{user.lastName}</Text>

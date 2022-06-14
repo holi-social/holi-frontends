@@ -1,19 +1,20 @@
 import * as React from 'react'
 import { AccessibilityProps, Image, ImageSourcePropType, Platform, StyleSheet, View, ViewStyle } from 'react-native'
 
-import type { AccessibilityPropsWeb } from '@holi/ui/@types/react-native-web'
-// import SharedImage from '@holi/ui/components/sharedImage'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-export type HeadingProps = {
+// See accessibility hints: https://www.w3.org/WAI/tutorials/images/informative/
+// https://usability.yale.edu/web-accessibility/articles/images#image-guidelines
+
+export type AvatarProps = {
   style?: (ViewStyle | Record<string, unknown> | undefined) | (ViewStyle | Record<string, unknown> | undefined)[]
-  imageSrc: ImageSourcePropType | undefined
+  imageSrc: string | undefined
   userName: string
   size?: 'micro' | 'small' | 'medium' | 'large' | 'extralarge'
   testID?: string
 }
 
-const HoliUserAvatar: React.FunctionComponent<HeadingProps> = (props: HeadingProps) => {
+const HoliUserAvatar: React.FunctionComponent<AvatarProps> = (props: AvatarProps) => {
   const { theme } = useTheme()
   const sizes = {
     micro: 30,
@@ -24,27 +25,19 @@ const HoliUserAvatar: React.FunctionComponent<HeadingProps> = (props: HeadingPro
   }
   const width = sizes[props.size || 'medium']
   const styles = getStyles(theme, width)
-
-  // const getAccessibilityProps = (): AccessibilityProps | AccessibilityPropsWeb =>
-  //   Platform.select({
-  //     native: { accessible: true },
-  //     default: { accessible: true },
-  //   })
+  const imageUri: ImageSourcePropType = { uri: props.imageSrc }
+  const sizeClass = props.size || 'medium'
 
   const accessibilityProps: AccessibilityProps & { accessibilityPressed?: boolean } = {
     accessible: true,
-    // accessibilityRole: 'button',
     accessibilityLabel: props.userName,
   }
 
+  // TODO: default image
+
   return (
-    <View style={[styles.holiUserAvatar, props.style, { width: width, height: width }]} {...props}>
-      <Image source={props.imageSrc} style={{ width: width, height: width }} {...accessibilityProps} />
-      {/* <SharedImage
-        imageFile={require('@holi/ui/assets/img/dummyUser/Avatar_01.png')}
-        style={{ width: width, height: width }}
-        altText="Holi logo"
-      /> */}
+    <View style={[styles.holiUserAvatar, props.style, styles[sizeClass]]} {...props}>
+      {props.imageSrc && <Image source={imageUri} style={{ width: width, height: width }} {...accessibilityProps} />}
     </View>
   )
 }
@@ -59,9 +52,34 @@ const getStyles = (theme: HoliTheme, width: number) =>
           display: 'inline-block',
         },
       }),
-      borderWidth: 1,
-      borderColor: '#0f0',
       borderRadius: width / 2,
+      borderWidth: 1,
+      borderColor: 'transparent',
+      backgroundColor: theme.colors.backgroundColorGrey,
       overflow: 'hidden',
+    },
+    micro: {
+      width: width,
+      height: width,
+    },
+    small: {
+      width: width,
+      height: width,
+    },
+    medium: {
+      width: width,
+      height: width,
+    },
+    large: {
+      width: width,
+      height: width,
+      borderWidth: 1,
+      borderColor: theme.colors.softblack,
+    },
+    extralarge: {
+      width: width,
+      height: width,
+      borderWidth: 1,
+      borderColor: theme.colors.softblack,
     },
   })
