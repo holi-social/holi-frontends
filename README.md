@@ -5,6 +5,7 @@
     - [Android Emulator](#android-emulator)
     - [iOS Simulator](#ios-simulator)
   - [Running](#running)
+  - [Testing](#testing)
 - [Monorepo (and why)](#monorepo---and-why)
   - [Yarn Workspaces](#yarn-workspaces)
   - [Workspaces / Package Structure](#workspaces--package-structure)
@@ -65,6 +66,22 @@ Locally in this repository, you can run `yarn mobile:dev` for mobile and `yarn w
 You will need a running instance of [holi-unified-api](https://gitlab.com/holisticfoundation/holi-unified-api/) for this.
 
 We are using [Expo](https://docs.expo.dev/) to build the app for both mobile app variants.
+
+### Testing
+
+The unit tests are written with [jest](https://jestjs.io/) and [@testing-library/react-native](https://callstack.github.io/react-native-testing-library/).
+
+Running `yarn test` in the root of this repository (or within any package that has unit tests) will run jest on
+all files with unit tests. To run with watch mode, simply use `yarn test:watch` to run tests on uncommitted files,
+or `yarn test:watchAll` to run tests in all files.
+
+We are using a jest convention to locate test files within a `__tests__` folder. Jest will run all test files
+within those folders, or any files that end with a suffix of .spec.js or .test.js by default.
+
+We use [snapshot tests](https://jestjs.io/docs/snapshot-testing) which generates a `__snapshots__` folder next to
+the test file. The goal with snapshot tests is to "make sure your UI does not change unexpectedly".
+If there is an intentional change to the UI, you can run `yarn test:update` and it will update the snapshots.
+It is recommended to always commit the snapshots folder and keep it in version control.
 
 ## Monorepo - and why
 
