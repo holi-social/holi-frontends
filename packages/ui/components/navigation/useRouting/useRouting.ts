@@ -1,4 +1,4 @@
-import { DrawerActions, useLinkTo, useNavigation } from '@react-navigation/native'
+import { useLinkTo, useNavigation } from '@react-navigation/native'
 
 import { useNavigationContext } from '@holi/ui/components/navigation/context'
 
@@ -10,12 +10,20 @@ const useRouting: UseRouting = <T extends Record<string, string>>() => {
   const navigation = useNavigation()
   const currentRoute = navigation.getState().routes[navigation.getState().index]
 
+  const navigate = (routeName: string) => {
+    navigationContext.setPathname(routeName)
+    return linkTo(routeName)
+  }
+
   return {
-    navigate: (routeName: string) => {
-      navigationContext.setPathname(routeName)
-      return linkTo(routeName)
+    navigate,
+    navigateBack: (fallbackRouteName = '/') => {
+      if (navigation.canGoBack()) {
+        navigation.goBack()
+      } else {
+        navigate(fallbackRouteName)
+      }
     },
-    toggleDrawer: () => navigation.dispatch(DrawerActions.toggleDrawer()),
     query: currentRoute.params as T,
     pathname: navigationContext.pathname,
   }

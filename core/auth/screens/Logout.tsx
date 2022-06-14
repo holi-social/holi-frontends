@@ -9,7 +9,7 @@ import HoliButton from '@holi/ui/components/HoliButton'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 
 const Logout: React.VoidFunctionComponent = () => {
-  const { navigate } = useRouting()
+  const { navigateBack } = useRouting()
   const { setSession } = useContext(AuthContext)
 
   const onSubmit = () => {
@@ -21,7 +21,7 @@ const Logout: React.VoidFunctionComponent = () => {
       .then(() => {
         setSession(null)
         console.info('[Logout.tsx] logout successful.')
-        navigate('/')
+        navigateBack()
       })
       .catch((e) => {
         killAuthenticatedSession()

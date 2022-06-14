@@ -15,7 +15,7 @@ import useRouting from '@holi/ui/components/navigation/useRouting'
 const Login: React.VoidFunctionComponent = () => {
   const { setSession } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
-  const { navigate } = useRouting()
+  const { navigate, navigateBack } = useRouting()
 
   const initializeFlow = () => {
     initLoginFlow().then((response) => {
@@ -40,7 +40,7 @@ const Login: React.VoidFunctionComponent = () => {
           .then((session) => {
             setSession(session)
             console.info('[Login.tsx] session created.')
-            navigate('/')
+            navigateBack()
           })
           .catch(handleFormSubmitError(setFlow, initializeFlow))
       : Promise.resolve()
