@@ -35,7 +35,7 @@ Primary.argTypes = {
   isAccessible: { description: 'boolean', control: { type: 'boolean' } },
 }
 
-export const Colored = ({ ...args }) => (
+export const Colored = () => (
   <Fragment>
     <div style={{ opacity: 0.2 }}>Colored example</div>
     <HoliText type={HoliTextType.super} styles={{ color: theme.colors.positivepurple }}>

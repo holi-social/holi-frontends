@@ -15,7 +15,8 @@ const defaultTheme = {
       ios: 'SF Pro',
     }),
     default: Platform.select({
-      default: 'Circular Std, Helvetica Neue, sans-serif',
+      web: 'Circular Std, Helvetica Neue, sans-serif',
+      default: 'Circular Std',
     }),
   },
   font: {

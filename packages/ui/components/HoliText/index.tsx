@@ -10,27 +10,27 @@ export type HoliTextProps = {
   type?: keyof typeof HoliTextTypes
   isAccessible?: boolean
   styles?: TextStyle
+  testID?: string
 }
 
 const HoliText = ({ children, type = HoliTextType.body, isAccessible = true, ...props }: HoliTextProps) => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
 
-  const getAccessibilityProps = () =>
-    Platform.select({
-      web: {
-        accessible: isAccessible,
-        ...(HoliTextTypes[type].role && { accessibilityRole: HoliTextTypes[type].role }),
-        ...(!!HoliTextTypes[type].level && { accessibilityLevel: HoliTextTypes[type].level }),
-      },
-      default: {
-        accessible: isAccessible,
-        ...(HoliTextTypes[type].role && { accessibilityRole: HoliTextTypes[type].role }),
-      },
-    })
+  const getAccessibilityProps = Platform.select({
+    web: {
+      accessible: isAccessible,
+      ...(HoliTextTypes[type].role && { accessibilityRole: HoliTextTypes[type].role }),
+      ...(!!HoliTextTypes[type].level && { accessibilityLevel: HoliTextTypes[type].level }),
+    },
+    default: {
+      accessible: isAccessible,
+      ...(HoliTextTypes[type].role && { accessibilityRole: HoliTextTypes[type].role }),
+    },
+  })
 
   return (
-    <Text style={[styles.default, styles[HoliTextType[type]], props?.styles]} {...getAccessibilityProps()} {...props}>
+    <Text style={[styles.default, styles[HoliTextType[type]], props?.styles]} {...getAccessibilityProps} {...props}>
       {children}
     </Text>
   )

@@ -6,14 +6,16 @@ import HoliButton from '@holi/ui/components/HoliButton'
 import HoliHeading from '@holi/ui/components/HoliHeading'
 import Holicon from '@holi/ui/components/holicon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
+import HoliText from '@holi/ui/components/HoliText'
+import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
 export const HomeFeedScreen: React.VFC = () => {
   const { navigate } = useRouting()
   return (
     <View style={styles.view}>
-      <HoliHeading level={1} testID="home-feed-title">
+      <HoliText type={HoliTextType.super} testID="home-feed-title">
         Home
-      </HoliHeading>
+      </HoliText>
 
       {/* Holi Apps */}
       <HoliHeading level={2}>Apps</HoliHeading>
