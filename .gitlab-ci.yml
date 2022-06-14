@@ -1,7 +1,4 @@
-# TODO add review (aka "development") build for mobile? see https://docs.expo.dev/development/introduction/
-# TODO add e2e test against review (aka development) build for mobile?
 # TODO speed up yarn dependency caching https://medium.com/disdj/speed-up-npm-yarn-install-in-gitlab-1434437f9857
-# TODO speed up pipeline by explicitly not using cache and artifacts in build steps that don't need it.
 
 # caching strategy follows "Solution 1" taken from https://medium.com/disdj/speed-up-npm-yarn-install-in-gitlab-1434437f9857
 # first job (lint_compile_test) warms the cache (read-write), subsequent jobs only read from it
