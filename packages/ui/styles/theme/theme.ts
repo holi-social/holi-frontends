@@ -6,7 +6,7 @@ import { styleVars } from '@holi/ui/styles/globalVars'
 const defaultTheme = {
   dark: false,
   colors: {
-    ...styleVars,
+    ...styleVars.colors,
   },
   fontFamily: {
     paragraph: Platform.select({
