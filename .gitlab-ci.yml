@@ -29,8 +29,8 @@ lint_compile_test:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   script:
     - yarn install
-    - yarn turbo run lint
-    - yarn turbo run test
+    - yarn lint
+    - yarn test
   cache:
     key: $CI_COMMIT_REF_SLUG
     policy: pull-push
@@ -46,6 +46,6 @@ lint_compile_test:
     - holi-big
 
 # the web and mobile only pipeline steps are defined in separate files for better overview and separation of concerns
-include: 
+include:
   - '/.gitlab-ci-web.yml'
   - '/.gitlab-ci-mobile.yml'
