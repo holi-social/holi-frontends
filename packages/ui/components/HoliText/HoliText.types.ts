@@ -1,7 +1,7 @@
 interface HoliTextTypeInfo {
   name: string
-  level: number
-  role: string
+  level?: number
+  role?: string
 }
 
 export enum HoliTextType {
@@ -22,10 +22,10 @@ export const HoliTextTypes: Record<HoliTextType, HoliTextTypeInfo> = {
   [HoliTextType.heading1]: { name: HoliTextType.heading1, level: 1, role: 'header' },
   [HoliTextType.heading2]: { name: HoliTextType.heading2, level: 2, role: 'header' },
   [HoliTextType.heading3]: { name: HoliTextType.heading3, level: 3, role: 'header' },
-  [HoliTextType.button]: { name: HoliTextType.button, level: 0, role: 'button' },
-  [HoliTextType.body]: { name: HoliTextType.body, level: 0, role: 'text' },
-  [HoliTextType.captionLink]: { name: HoliTextType.captionLink, level: 0, role: 'link' },
-  [HoliTextType.caption]: { name: HoliTextType.caption, level: 0, role: 'none' },
-  [HoliTextType.labelLink]: { name: HoliTextType.labelLink, level: 0, role: 'link' },
-  [HoliTextType.label]: { name: HoliTextType.label, level: 0, role: 'text' },
+  [HoliTextType.button]: { name: HoliTextType.button },
+  [HoliTextType.body]: { name: HoliTextType.body },
+  [HoliTextType.captionLink]: { name: HoliTextType.captionLink },
+  [HoliTextType.caption]: { name: HoliTextType.caption },
+  [HoliTextType.labelLink]: { name: HoliTextType.labelLink },
+  [HoliTextType.label]: { name: HoliTextType.label },
 }

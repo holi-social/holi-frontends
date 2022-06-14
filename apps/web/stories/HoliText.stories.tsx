@@ -1,10 +1,10 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { color, text } from '@storybook/addon-knobs'
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType, HoliTextTypes } from '@holi/ui/components/HoliText/HoliText.types'
-import variables from '@holi/ui/styles/globalVars/variables'
+import theme from '@holi/ui/styles/theme'
 
 export default {
   title: 'Components/HoliText',
@@ -36,15 +36,15 @@ Primary.argTypes = {
 }
 
 export const Colored = ({ ...args }) => (
-  <HoliText>
+  <Fragment>
     <div style={{ opacity: 0.2 }}>Colored example</div>
-    <HoliText type={HoliTextType.super} styles={{ color: variables.positivepurple }}>
+    <HoliText type={HoliTextType.super} styles={{ color: theme.colors.positivepurple }}>
       Positive purple
     </HoliText>
-    <HoliText type={HoliTextType.super} styles={{ color: variables.grey }}>
-      Grey
+    <HoliText type={HoliTextType.super} styles={{ color: theme.colors.grey }}>
+      {' Grey'}
     </HoliText>
-  </HoliText>
+  </Fragment>
 )
 
 export const All = () => {
@@ -56,7 +56,7 @@ export const All = () => {
         <HoliText
           type={type as HoliTextType}
           styles={{
-            color: color('color', 'black'),
+            color: color('color', theme.colors.fontColorBlack),
           }}
         >
           {text(type, type)}

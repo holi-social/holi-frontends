@@ -12,7 +12,7 @@ export type HoliTextProps = {
   styles?: TextStyle
 }
 
-const HoliText = ({ children, type = HoliTextType.label, isAccessible = true, ...props }: HoliTextProps) => {
+const HoliText = ({ children, type = HoliTextType.body, isAccessible = true, ...props }: HoliTextProps) => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
 
@@ -20,12 +20,12 @@ const HoliText = ({ children, type = HoliTextType.label, isAccessible = true, ..
     Platform.select({
       web: {
         accessible: isAccessible,
-        accessibilityRole: HoliTextTypes[type].role,
-        accessibilityLevel: HoliTextTypes[type].level,
+        ...(HoliTextTypes[type].role && { accessibilityRole: HoliTextTypes[type].role }),
+        ...(!!HoliTextTypes[type].level && { accessibilityLevel: HoliTextTypes[type].level }),
       },
       default: {
         accessible: isAccessible,
-        accessibilityRole: HoliTextTypes[type].role,
+        ...(HoliTextTypes[type].role && { accessibilityRole: HoliTextTypes[type].role }),
       },
     })
 
