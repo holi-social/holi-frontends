@@ -32,7 +32,6 @@
 
 .mobile_e2e_android:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-  cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   script:
     - cd apps/mobile
@@ -49,7 +48,6 @@
 
 .mobile_e2e_ios:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-  cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   script:
     - cd apps/mobile
