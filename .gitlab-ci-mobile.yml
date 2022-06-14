@@ -4,6 +4,7 @@
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   variables:
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
+    HOLI_API_URL: https://staging.unified.apis.project-holi.org/graphql
   script:
     - cd apps/mobile
     - expo publish --release-channel $ENVIRONMENT_ID
@@ -15,6 +16,7 @@
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
     BUILD_PROFILE: preview
     KEEP_ARTIFACTS: 'false'
+    HOLI_API_URL: https://staging.unified.apis.project-holi.org/graphql
   script:
     - 'cd apps/mobile'
     - 'eas build --platform all --profile $BUILD_PROFILE --non-interactive'
@@ -69,7 +71,7 @@ mobile_review_publish:
   needs: ['lint_compile_test']
   environment:
     name: review/$CI_COMMIT_REF_SLUG-mobile
-    url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=$CI_ENVIRONMENT_SLUG
+    url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=$CI_COMMIT_REF_SLUG
     on_stop: mobile_review_destroy
     auto_stop_in: 2 weeks
   except:
@@ -166,6 +168,7 @@ mobile_production_publish:
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=production
   variables:
     ENVIRONMENT_ID: production
+    HOLI_API_URL: https://production.unified.apis.project-holi.org/graphql
   only:
   - main
 
@@ -177,6 +180,7 @@ mobile_production_build:
     ENVIRONMENT_ID: production
     KEEP_ARTIFACTS: 'true'
     BUILD_PROFILE: production
+    HOLI_API_URL: https://production.unified.apis.project-holi.org/graphql
   artifacts:
     paths:
       - artifacts_production/
