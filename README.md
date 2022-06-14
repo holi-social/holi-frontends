@@ -5,6 +5,7 @@
     - [Android Emulator](#android-emulator)
     - [iOS Simulator](#ios-simulator)
   - [Running](#running)
+  - [Testing](#testing)
 - [Monorepo (and why)](#monorepo---and-why)
   - [Yarn Workspaces](#yarn-workspaces)
   - [Workspaces / Package Structure](#workspaces--package-structure)
@@ -36,7 +37,7 @@ Before we can get started building, please ensure that both [`direnv`](https://g
 
 Follow the instructions in the corresponding READMEs for setup.
 
-Run `cp .envrc-local.template .envrc-local` and adjust `.envrc-local` to match your configuration (e.g. using the correct node version manager). Using `direnv`, `.envrc` (and `.envrc-local`) will automatically be loaded when you `cd` into the directOry.
+Run `cp .envrc-local.template .envrc-local` and adjust `.envrc-local` to match your configuration (e.g. using the correct node version manager). Using `direnv`, `.envrc` (and `.envrc-local`) will automatically be loaded when you `cd` into the directory.
 
 `.node-version` (used by `nodenv`) ensures that all developers are using the same `node`/`npm` versions.
 It is kept in sync with `.nvmrc` (used by `nvm`) by a symbolic link, so please make sure to use a format that is understood by both tools (e.g. a fixed version).
@@ -66,6 +67,22 @@ You will need a running instance of [holi-unified-api](https://gitlab.com/holist
 
 We are using [Expo](https://docs.expo.dev/) to build the app for both mobile app variants.
 
+### Testing
+
+The unit tests are written with [jest](https://jestjs.io/) and [@testing-library/react-native](https://callstack.github.io/react-native-testing-library/).
+
+Running `yarn test` in the root of this repository (or within any package that has unit tests) will run jest on
+all files with unit tests. To run with watch mode, simply use `yarn test:watch` to run tests on uncommitted files,
+or `yarn test:watchAll` to run tests in all files.
+
+We are using a jest convention to locate test files within a `__tests__` folder. Jest will run all test files
+within those folders, or any files that end with a suffix of .spec.js or .test.js by default.
+
+We use [snapshot tests](https://jestjs.io/docs/snapshot-testing) which generates a `__snapshots__` folder next to
+the test file. The goal with snapshot tests is to "make sure your UI does not change unexpectedly".
+If there is an intentional change to the UI, you can run `yarn test:update` and it will update the snapshots.
+It is recommended to always commit the snapshots folder and keep it in version control.
+
 ## Monorepo - and why
 
 This is a monorepo. Not in the FAANG sense, as it doesn't contain thousands of applications. It contains two
@@ -88,7 +105,7 @@ Yarn Workspaces are a neat feature that support us with our monorepo approach. I
 
 - Your dependencies can be linked together, which means that your workspaces can depend on one another while always
   using the most up-to-date code available. `mobile` and `web` can depend on `core`, always pointing to the "newest
-  version" by simply symlinking into the directOry.
+  version" by simply symlinking into the directory.
 
 - All dependencies are installed together (under the root module), using a single lockfile. There can be exceptions if
   needed. If you have issues, check if [nohoist](https://classic.yarnpkg.com/blog/2018/02/15/nohoist/) will help.
@@ -113,21 +130,21 @@ weren't in a monorepo with yarn Workspaces.
 
 To give an overview, the project contains the following workspaces (npm packages):
 
-* `apps`
-  * `mobile` - the mobile ("native" as in React Native) app for iOS and Android, managed by Expo. Contains just the minimal platform-specific code that can not be shared with `web`.
-  * `web` - the web (reactive, small and big screen) site, built with React Native for Web and Expo. Contains just the minimal platform-specific code that can not be shared with `mobile`.
-* `core` - shared code for the core of the HOLI app / site (feature-specific components, screens, ...)
-* `e2e` - end-to-end tests
-  * `mobile` - end-to-end tests for the mobile app
-  * `web` - end-to-end tests for the web site
-* `holi-apps` - apps for the HOLI app "store" will eventually go here
-* `packages` - shared "library" code goes here, i.e. everything reusable that *could* also be published as an npm package
-  * `api` - client-side code for the HOLI API
-  * `ui` - the HOLI component library
+- `apps`
+  - `mobile` - the mobile ("native" as in React Native) app for iOS and Android, managed by Expo. Contains just the minimal platform-specific code that can not be shared with `web`.
+  - `web` - the web (reactive, small and big screen) site, built with React Native for Web and Expo. Contains just the minimal platform-specific code that can not be shared with `mobile`.
+- `core` - shared code for the core of the HOLI app / site (feature-specific components, screens, ...)
+- `e2e` - end-to-end tests
+  - `mobile` - end-to-end tests for the mobile app
+  - `web` - end-to-end tests for the web site
+- `holi-apps` - apps for the HOLI app "store" will eventually go here
+- `packages` - shared "library" code goes here, i.e. everything reusable that *could* also be published as an npm package
+  - `api` - client-side code for the HOLI API
+  - `ui` - the HOLI component library
 
 ### Dependencies
 
-#### Dependencies and Yarn Workspaces 
+#### Dependencies and Yarn Workspaces
 
 When adding dependencies, for convenience reasons, you might want to stay in the project root folder. From here you can add new packages with the
 command:
@@ -167,7 +184,7 @@ It might be necessary to work
 with [Yarn resolutions](https://classic.yarnpkg.com/lang/en/docs/selective-version-resolutions/) to resolve dependency
 conflicts (as has been done e.g. with `ts-invariant` and `tslib`).
 
-* tslib is pinned to 2.3.1 because without this pin, there was an error `TypeError: tslib.__spreadArray is not a function.` (2022-05-04)
+- tslib is pinned to 2.3.1 because without this pin, there was an error `TypeError: tslib.__spreadArray is not a function.` (2022-05-04)
 
 Please also note that not all dependency versions are compatible with the current version of Expo.
 Running `expo doctor --fix-dependencies` might then help to fix this.
@@ -247,12 +264,6 @@ config: {
 
 #### conclusion
 
-    }
-}
-```
-
-#### conclusion
-
 you can now navigate from anywhere in web and mobile using the navigate function exposed by the useRouting hook.
 
 ```ts
@@ -280,35 +291,18 @@ It may be configured at different places, but over all it must be unique.
 <CommunityBottomNav.Screen name="Board" component={BoardScreen} />
 ```
 
-# Authentication Proxy
-In order to use authentication in a local development environment, Ory tunnel needs to run locally in order to
-communicate with Ory successfully. The tunnel is providing the Ory API on localhost.
+## Continuous Integration and Deployment
 
-On application side, `KRATOS_BASE_URL` needs to be set to
-`http://localhost:4000` (this is done automatically within `.envrc` if you use `direnv`). In all other environments
-requests can use `https://auth.project-holi.org` as `KRATOS_BASE_URL` (default if not set). This is required because Ory
-(AFAIK) does not allow `localhost` to be used for CORS requests (or any other domain than the one configured as CNAME,
-i.e. `project-holi.org`). 
+### Feature Branches & Environments
 
-Here is a resource on how to install the Ory proxy (which is a part of `ory-cli`):
-`https://www.Ory.sh/docs/guides/cli/installation`. When `ory-cli` is installed, run:
-
-```
-ory tunnel http://localhost:3000 --dev --project mystifying-carver-akajr6v4t8
-```
-
-# Continuous Integration and Deployment
-
-## Feature Branches & Environments
-
-When you are working on a stOry, please create a branch that contains the ticket number in its name, and keep the branch name short. A good default is either only the ticket number (e.g. HOLI-1234) or git flow based names (e.g. feature/HOLI-1234).
+When you are working on a story, please create a branch that contains the ticket number in its name, and keep the branch name short. A good default is either only the ticket number (e.g. HOLI-1234) or git flow based names (e.g. feature/HOLI-1234).
 
 When you push this branch, a GitLab CI pipeline is triggered that builds and deploys the code to web (available via https://$BRANCH_NAME.web.project-holi.org) and to mobile (available via expo). Also, E2E tests are executed against all platforms.
 
-## noenv Branches
+### noenv Branches
 
 When you prefix your branch name with `noenv/` (e.g. `noenv/my-readme-update`) the pipeline only lints & builds, but does not publish, deploy or run e2e test. This saves quite some time. Obviously, many things go untested so only use this if "you know what you're doing".
 
-## Staging and Production Environments
+### Staging and Production Environments
 
 When a branch is merged to the main branch, the pipeline deploys to the staging environment and runs e2e tests against it. After these are successful, you can manually trigger a deployment of a specific commit to production via GitLab CI.
