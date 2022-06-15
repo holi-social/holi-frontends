@@ -25,9 +25,6 @@ const LoginProtection: React.VFC<LoginProtectionProps> = ({ children, loggedOutC
       <HoliButton label="Login" inline onPress={() => navigate('/login')}>
         Login
       </HoliButton>
-      <HoliButton label="Create account" inline onPress={() => navigate('/registration')}>
-        Create account
-      </HoliButton>
     </AuthLayout>
   )
 }

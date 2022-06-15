@@ -27,4 +27,12 @@ module.exports = {
   core: {
     builder: '@storybook/builder-webpack5',
   },
+  webpackFinal: (config) => {
+    config.resolve.alias = {
+      'react-native$': 'react-native-web',
+    }
+    // https://github.com/react-native-svg/react-native-svg/issues/1553#issuecomment-1011487502
+    config.resolve.extensions.unshift('.web.js')
+    return config
+  },
 }

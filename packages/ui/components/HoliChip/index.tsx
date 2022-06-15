@@ -26,7 +26,7 @@ export type ChipProps = PressableProps & {
 
 const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
   const { theme } = useTheme()
-  const styles = getStyles(theme, props.checked)
+  const styles = getStyles(theme, props.checked, props.disabled)
 
   const accessibilityProps: AccessibilityProps & { accessibilityPressed?: boolean } = {
     accessible: true,
@@ -71,7 +71,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
 
 export default HoliChip
 
-const getStyles = (theme: HoliTheme, checked = false) =>
+const getStyles = (theme: HoliTheme, checked = false, disabled = false) =>
   StyleSheet.create({
     holiChip: {
       borderRadius: 8,
@@ -95,7 +95,7 @@ const getStyles = (theme: HoliTheme, checked = false) =>
     text: {
       fontWeight: '400',
       fontSize: 14,
-      color: checked ? theme.colors.fontColorWhite : theme.colors.fontColorGrey,
+      color: checked && !disabled ? theme.colors.fontColorWhite : theme.colors.fontColorGrey,
       lineHeight: 24,
     },
     iconView: {
