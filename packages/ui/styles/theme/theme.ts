@@ -14,11 +14,11 @@ const defaultTheme = {
       // android: 'Arial', // TODO find nice android system font
       ios: 'SF Pro',
     }),
-    default: ((variant = '') =>
+    default: (variant = '') =>
       Platform.select({
         web: 'Circular Std, Helvetica Neue, sans-serif',
         default: variant.length > 0 ? `Circular Std ${variant}` : 'Circular Std',
-      }))(''),
+      }),
   },
   font: {
     textSize: 16,
