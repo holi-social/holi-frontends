@@ -21,7 +21,7 @@ export const Primary: ComponentStory<typeof HoliChip> = Template.bind({})
 
 Primary.argTypes = {
   text: { description: 'Text', required: true, control: { type: 'text' } },
-  label: { description: 'Accesibility Label', control: { type: 'text' } },
+  label: { description: 'Accessibility Label', control: { type: 'text' } },
   disabled: { description: 'Disables interaction', type: 'boolean', control: { type: 'boolean' } },
   checked: { description: 'Checked or unchecked state', type: 'boolean', control: { type: 'boolean' } },
 }
