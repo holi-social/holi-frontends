@@ -1,11 +1,10 @@
-@import '@holi/ui/styles/globalVars/fonts';
+@import '@holi/ui/assets/fonts/CircularStd/style';
 @import '@holi/ui/styles/globalVars/variables';
 
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: $font-family;
 }
 
 a {
