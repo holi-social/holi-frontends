@@ -6,7 +6,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { Login } from '@holi/core/auth/screens/Login'
 import { Logout } from '@holi/core/auth/screens/Logout'
-import { Registration } from '@holi/core/auth/screens/Registration'
 import { ChatHomeScreen } from '@holi/core/chat/ChatHomeScreen'
 import { HomeFeedScreen } from '@holi/core/home/HomeFeedScreen'
 import { NotificationsScreen } from '@holi/core/notifications/NotificationsScreen'
@@ -52,7 +51,6 @@ export type RootStackScreensList = {
   // all modals
   Login: undefined
   Logout: undefined
-  Registration: undefined
   TopicEditorsScreen: TopicEditorsScreenParams
 }
 
@@ -244,13 +242,6 @@ export const RootNavigator: React.VFC = () => (
         component={Logout}
         options={{
           title: 'Logout',
-        }}
-      />
-      <RootStack.Screen
-        name="Registration"
-        component={Registration}
-        options={{
-          title: 'Registration',
         }}
       />
       <RootStack.Screen
