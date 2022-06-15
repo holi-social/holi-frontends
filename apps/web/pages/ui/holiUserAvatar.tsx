@@ -10,7 +10,6 @@ import type { NextPageWithLayout } from '@holi/web/pages/_app'
 import sassStyles from './ui.module.scss'
 
 const ButtonPage: NextPageWithLayout = () => {
-  // const imgUrl = 'https://loremflickr.com/cache/resized/65535_51813229831_15e7ac9498_s_50_50_nofilter.jpg'
   const imgUrl = undefined
   return (
     <section>
@@ -27,28 +26,23 @@ const ButtonPage: NextPageWithLayout = () => {
       {/* ===== Demo section ===== */}
       <div className={sassStyles.example} style={{ display: 'flex' }}>
         <View style={styles.bubble}>
-          <HoliUserAvatar
-            userName="Holi Shit"
-            imageSrc={'https://loremflickr.com/cache/resized/65535_51813229831_15e7ac9498_s_50_50_nofilter.jpg'}
-            defaultColor="red"
-            size="extralarge"
-          />
+          <HoliUserAvatar nameLabel="Uschi" imageSrc={imgUrl} defaultColor="red" size="extralarge" />
           <Text style={styles.text}>extralarge</Text>
         </View>
         <View style={styles.bubble}>
-          <HoliUserAvatar userName="some Name" imageSrc={imgUrl} defaultColor="pink" size="large" />
+          <HoliUserAvatar nameLabel="some Name" imageSrc={imgUrl} defaultColor="pink" size="large" />
           <Text style={styles.text}>large</Text>
         </View>
         <View style={styles.bubble}>
-          <HoliUserAvatar userName="Karl Heinz" imageSrc={imgUrl} defaultColor="violet" />
+          <HoliUserAvatar nameLabel="Karl Heinz" imageSrc={imgUrl} defaultColor="violet" />
           <Text style={styles.text}>medium</Text>
         </View>
         <View style={styles.bubble}>
-          <HoliUserAvatar userName="Uschi Meyer" imageSrc={imgUrl} defaultColor="blue" size="small" />
+          <HoliUserAvatar nameLabel="Uschi Meyer" imageSrc={imgUrl} defaultColor="blue" size="small" />
           <Text style={styles.text}>small</Text>
         </View>
         <View style={styles.bubble}>
-          <HoliUserAvatar userName="Manni" imageSrc={imgUrl} defaultColor="yellow" size="micro" />
+          <HoliUserAvatar nameLabel="Manni" imageSrc={imgUrl} defaultColor="yellow" size="micro" />
           <Text style={styles.text}>micro</Text>
         </View>
       </div>
@@ -57,7 +51,7 @@ const ButtonPage: NextPageWithLayout = () => {
       <pre className={sassStyles.code}>{`
 import HoliUserAvatar from '@holi/ui/components/HoliUserAvatar'
 
-<HoliUserAvatar userName="Holi Shit" imageSrc={imgUrl}  defaultColor="red" size="extralarge" />
+<HoliUserAvatar nameLabel="Uschi" imageSrc={imgUrl}  defaultColor="red" size="extralarge" />
 `}</pre>
     </section>
   )

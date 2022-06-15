@@ -19,7 +19,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 export type AvatarProps = {
   style?: (ViewStyle | Record<string, unknown> | undefined) | (ViewStyle | Record<string, unknown> | undefined)[]
   imageSrc: string | undefined
-  userName: string
+  nameLabel: string
   defaultColor: string
   size?: 'micro' | 'small' | 'medium' | 'large' | 'extralarge'
   testID?: string
@@ -38,11 +38,11 @@ const HoliUserAvatar: React.FunctionComponent<AvatarProps> = (props: AvatarProps
   const styles = getStyles(theme, width, props.defaultColor, !!props.imageSrc)
   const imageUri: ImageSourcePropType = { uri: props.imageSrc }
   const sizeClass = props.size || 'medium'
-  const initials = props.userName.charAt(0)
+  const initials = props.nameLabel.charAt(0)
 
   const accessibilityProps: AccessibilityProps & { accessibilityPressed?: boolean } = {
     accessible: true,
-    accessibilityLabel: props.userName,
+    accessibilityLabel: props.nameLabel,
   }
 
   return (
