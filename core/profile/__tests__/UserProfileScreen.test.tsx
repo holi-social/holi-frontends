@@ -8,7 +8,7 @@ describe('renders correctly', () => {
   it('renders profile when logged in', () => {
     const { queryByText } = render(
       <AuthContext.Provider value={{ username: '', isAuthenticated: true, setSession: jest.fn() }}>
-        <UserProfileScreen/>
+        <UserProfileScreen />
       </AuthContext.Provider>
     )
 
@@ -18,8 +18,8 @@ describe('renders correctly', () => {
   })
 
   it('renders login hint when logged out', () => {
-    const { queryByText } = render(<UserProfileScreen/>)
-    
+    const { queryByText } = render(<UserProfileScreen />)
+
     expect(queryByText('Log in to see your profile')).toBeTruthy()
     expect(queryByText('Login')).toBeTruthy()
     expect(queryByText('Profile')).toBeFalsy()

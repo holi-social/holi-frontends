@@ -2,6 +2,7 @@ import { gql } from '@apollo/client/core'
 
 import { User } from '@holi/core/user/types'
 
+// TODO: user needs also default color (HOLI-1525)
 export const userFragment = gql`
   fragment FullUser on User {
     id
