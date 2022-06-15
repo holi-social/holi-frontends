@@ -1,4 +1,5 @@
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
+
 import { HoliTheme } from '@holi/ui/styles/theme'
 
 export const getHoliTextStyles = (theme: HoliTheme) =>
@@ -7,7 +8,7 @@ export const getHoliTextStyles = (theme: HoliTheme) =>
       fontSize: 16,
       fontWeight: '500',
       lineHeight: 16 * 1.2,
-      fontFamily: theme.fontFamily.default,
+      fontFamily: theme.fontFamily.default('Medium'),
     },
     super: {
       fontSize: 36,
@@ -30,7 +31,8 @@ export const getHoliTextStyles = (theme: HoliTheme) =>
     },
     body: {
       lineHeight: 16 * 1.4,
-      fontWeight: '400',
+      fontWeight: '450',
+      fontFamily: theme.fontFamily.default('Book'),
     },
     captionLink: {
       fontSize: 14,
@@ -40,6 +42,7 @@ export const getHoliTextStyles = (theme: HoliTheme) =>
       fontSize: 14,
       lineHeight: 14 * 1.2,
       fontWeight: '450',
+      fontFamily: theme.fontFamily.default('Book'),
     },
     labelLink: {
       fontSize: 12,
@@ -49,5 +52,6 @@ export const getHoliTextStyles = (theme: HoliTheme) =>
       fontSize: 12,
       lineHeight: 12 * 1.2,
       fontWeight: '450',
+      fontFamily: theme.fontFamily.default('Book'),
     },
   })

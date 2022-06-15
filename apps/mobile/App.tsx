@@ -14,7 +14,10 @@ const App: React.VoidFunctionComponent = () => {
   const init = async () => {
     try {
       await Font.loadAsync({
-        ['Circular Std']: require('./assets/fonts/circular-std/circular-std-medium-500.ttf'),
+        ['Circular Std Book']: require('./assets/fonts/CircularStd/CircularStd-Book.ttf'),
+        ['Circular Std Book Italic']: require('./assets/fonts/CircularStd/CircularStd-BookItalic.ttf'),
+        ['Circular Std Medium']: require('./assets/fonts/CircularStd/CircularStd-Medium.ttf'),
+        ['Circular Std Medium Italic']: require('./assets/fonts/CircularStd/CircularStd-MediumItalic.ttf'),
       })
     } catch (e) {
       console.warn(e)
