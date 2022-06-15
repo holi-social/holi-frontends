@@ -1,1 +1,1 @@
-module.exports = require('../../jest.setup.ts')
+export default require('../../jest.setup.ts')
