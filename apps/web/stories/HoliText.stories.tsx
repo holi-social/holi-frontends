@@ -1,5 +1,4 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { color, text } from '@storybook/addon-knobs'
 import React, { Fragment } from 'react'
 
 import HoliText from '@holi/ui/components/HoliText'
@@ -41,28 +40,39 @@ export const Colored = () => (
     <HoliText type={HoliTextType.super} styles={{ color: theme.colors.positivepurple }}>
       Positive purple
     </HoliText>
-    <HoliText type={HoliTextType.super} styles={{ color: theme.colors.grey }}>
-      {' Grey'}
-    </HoliText>
   </Fragment>
 )
 
-export const All = () => {
-  const types = Object.keys(HoliTextTypes)
-  const samples = types.map((type) => {
+export const All = ({ ...args }) => {
+  const types: HoliTextType[] = Object.keys(HoliTextTypes) as HoliTextType[]
+  const samples = types.map((type: HoliTextType) => {
     return (
       <div key={type} style={{ marginBottom: '16px' }}>
         <div style={{ opacity: 0.2 }}>{type}</div>
         <HoliText
           type={type as HoliTextType}
           styles={{
-            color: color('color', theme.colors.fontColorBlack),
+            color: args.color,
           }}
         >
-          {text(type, type)}
+          {args[type]}
         </HoliText>
       </div>
     )
   })
   return <div style={{ padding: '16px' }}>{samples}</div>
+}
+
+All.args = {
+  color: theme.colors.fontColorBlack,
+  ...{
+    ...Object.keys(HoliTextTypes).reduce((acc, curr) => {
+      acc[curr] = curr
+      return acc
+    }, {}),
+  },
+}
+
+All.argTypes = {
+  color: { control: { type: 'color' } },
 }
