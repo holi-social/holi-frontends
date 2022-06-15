@@ -14,10 +14,10 @@ const App: React.VoidFunctionComponent = () => {
   const init = async () => {
     try {
       await Font.loadAsync({
-        ['Circular Std Book']: require('./assets/fonts/CircularStd/CircularStd-Book.ttf'),
-        ['Circular Std Book Italic']: require('./assets/fonts/CircularStd/CircularStd-BookItalic.ttf'),
-        ['Circular Std Medium']: require('./assets/fonts/CircularStd/CircularStd-Medium.ttf'),
-        ['Circular Std Medium Italic']: require('./assets/fonts/CircularStd/CircularStd-MediumItalic.ttf'),
+        ['Circular Std Book']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-Book.otf'),
+        ['Circular Std Book Italic']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-BookItalic.otf'),
+        ['Circular Std Medium']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-Medium.otf'),
+        ['Circular Std Medium Italic']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-MediumItalic.otf'),
       })
     } catch (e) {
       console.warn(e)
