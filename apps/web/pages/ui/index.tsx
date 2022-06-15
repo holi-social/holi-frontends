@@ -27,10 +27,16 @@ const UIOverviewPage: NextPageWithLayout = () => {
         </li>
         <li>
           <Holicon icon="arrowtip-next" size={20} />
+          <Link href="/ui/holiUserAvatar">
+            <a>HoliUserAvatar</a>
+          </Link>
+        </li>
+        {/* <li>
+          <Holicon icon="arrowtip-next" size={20} />
           <Link href="/ui/cardSwiper">
             <a>CardSwiper</a>
           </Link>
-        </li>
+        </li>  */}
       </ul>
     </section>
   )
