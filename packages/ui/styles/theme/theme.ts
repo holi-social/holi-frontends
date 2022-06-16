@@ -20,9 +20,6 @@ const defaultTheme = {
         default: variant.length > 0 ? `Circular Std ${variant}` : 'Circular Std',
       }),
   },
-  font: {
-    textSize: 16,
-  },
   chip: {
     borderRadius: 8,
     borderRadiusChecked: 24,
