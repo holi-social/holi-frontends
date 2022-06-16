@@ -15,18 +15,6 @@ const UIOverviewPage: NextPageWithLayout = () => {
       <ul className={sassStyles.linkList}>
         <li>
           <Holicon icon="arrowtip-next" size={20} />
-          <Link href="/ui/icons">
-            <a>Holicons</a>
-          </Link>
-        </li>
-        <li>
-          <Holicon icon="arrowtip-next" size={20} />
-          <Link href="/ui/sharedImage">
-            <a>SharedImage</a>
-          </Link>
-        </li>
-        <li>
-          <Holicon icon="arrowtip-next" size={20} />
           <Link href="/ui/holiUserAvatar">
             <a>HoliUserAvatar</a>
           </Link>
