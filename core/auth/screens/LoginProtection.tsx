@@ -11,7 +11,7 @@ type LoginProtectionProps = {
   loggedOutContent?: React.ReactChild | React.ReactChildren
 }
 
-const LoginProtection: React.VFC<LoginProtectionProps> = ({ children, loggedOutContent }) => {
+const LoginProtection: React.VFC<LoginProtectionProps> = ({ children, loggedOutContent }: LoginProtectionProps) => {
   const { isAuthenticated } = useContext(AuthContext)
   const { navigate } = useRouting()
 

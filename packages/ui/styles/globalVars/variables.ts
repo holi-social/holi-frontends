@@ -1,6 +1,6 @@
 export default {
   softblack: '#222326',
-  softblackTransparent: 'rgba(27,29,32,.1)',
+  softblackTransparent: '#1b1d201a',
   white: '#fff',
   softwhite: '#f7f6f3',
   impactyellow: '#f3f360',
@@ -17,7 +17,7 @@ export default {
   tertiaryColor: '#57d14c',
   borderColor: '#222326',
   borderColorBlack: '#222326',
-  borderColorGrey: 'rgba(27,29,32,.1)',
+  borderColorGrey: '#1b1d201a',
   backgroundColor: '#fff',
   backgroundColorWhite: '#fff',
   backgroundColorGrey: '#f7f6f3',

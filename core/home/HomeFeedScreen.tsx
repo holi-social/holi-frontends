@@ -4,6 +4,8 @@ import { StyleSheet, Text, View } from 'react-native'
 import { fakeTopics } from '@holi/core/topics/fakeTopics'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliHeading from '@holi/ui/components/HoliHeading'
+import HoliText from '@holi/ui/components/HoliText'
+import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 import Holicon from '@holi/ui/components/holicon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 
@@ -11,9 +13,9 @@ export const HomeFeedScreen: React.VFC = () => {
   const { navigate } = useRouting()
   return (
     <View style={styles.view}>
-      <HoliHeading level={1} testID="home-feed-title">
-        Home
-      </HoliHeading>
+      <HoliText type={HoliTextType.super} testID="home-feed-title">
+        Home H3
+      </HoliText>
 
       {/* Holi Apps */}
       <HoliHeading level={2}>Apps</HoliHeading>
