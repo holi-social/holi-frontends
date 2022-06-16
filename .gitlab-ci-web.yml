@@ -15,6 +15,7 @@ default:
     entrypoint: ["/bin/sh", "-c"]
   variables:
     ENVIRONMENT_ID: $CI_ENVIRONMENT_SLUG
+    SENTRY_ENVIRONMENT: staging
   artifacts:
     paths:
       - "apps/web/terraform/scripts/crash.log" # optional, only available in case of a crash/panic
@@ -47,6 +48,8 @@ default:
 web_build:
   needs: ['lint_compile_test']
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  variables:
+    SENTRY_ENVIRONMENT: staging
   script:
     - yarn web:build
   artifacts:
@@ -138,6 +141,7 @@ web_staging_deploy:
     url: https://staging.web.project-holi.org
   variables:
     ENVIRONMENT_ID: staging
+    SENTRY_ENVIRONMENT: staging
   only:
     - main
 
@@ -159,6 +163,7 @@ web_production_deploy:
     url: https://production.web.project-holi.org
   variables:
     ENVIRONMENT_ID: production
+    SENTRY_ENVIRONMENT: production
   only:
     - main
 
