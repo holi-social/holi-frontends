@@ -5,8 +5,8 @@ import { Text, TextInput } from 'react-native'
 import { UserContext } from '@holi/core/user/UserContextProvider'
 import { updateUserMutation } from '@holi/core/user/queries'
 import { User } from '@holi/core/user/types'
-import GraphQLError from '@holi/ui/components/GraphQLError'
 import HoliButton from '@holi/ui/components/HoliButton'
+import useErrorHandling from '@holi/ui/components/errors/useErrorHandling'
 
 type UserProfileFormProps = {
   children?: React.ReactChildren
@@ -18,6 +18,7 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
   const { user } = useContext(UserContext)
   const [updateUser, { loading, error, data }] = useMutation<User>(updateUserMutation)
   const [firstName, setName] = useState(user?.firstName || '')
+  const { displayError } = useErrorHandling()
 
   const submit = async () => {
     const result = await updateUser({
@@ -41,10 +42,8 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
     return <Text>Saving...</Text>
   }
 
-  let errorComponent
   if (error) {
-    console.error('Error updating user', error)
-    errorComponent = <GraphQLError error={error} />
+    displayError(error, 'Error updating user')
   }
 
   // Later: possibly use form tag for web
@@ -52,7 +51,6 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
     <>
       <Text>Name:</Text>
       <TextInput value={firstName} onChangeText={setName} />
-      {errorComponent}
       <HoliButton label="Profile data" onPress={onCancel}>
         Cancel
       </HoliButton>

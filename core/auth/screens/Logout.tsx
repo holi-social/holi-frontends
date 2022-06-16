@@ -6,11 +6,13 @@ import { AuthContext } from '@holi/core/auth/AuthProvider'
 import { getAuthenticatedSession, killAuthenticatedSession } from '@holi/core/auth/helpers/auth'
 import { submitLogoutFlow } from '@holi/core/auth/helpers/auth'
 import HoliButton from '@holi/ui/components/HoliButton'
+import useErrorHandling from '@holi/ui/components/errors/useErrorHandling'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 
 const Logout: React.VoidFunctionComponent = () => {
   const { navigateBack } = useRouting()
   const { setSession } = useContext(AuthContext)
+  const { displayError } = useErrorHandling()
 
   const onSubmit = () => {
     getAuthenticatedSession()
@@ -28,6 +30,7 @@ const Logout: React.VoidFunctionComponent = () => {
         setSession(null)
         throw e
       })
+      .catch((error) => displayError(error, 'Logout failed'))
   }
   return (
     <AuthLayout>
