@@ -15,6 +15,7 @@ default:
     entrypoint: ["/bin/sh", "-c"]
   variables:
     ENVIRONMENT_ID: $CI_ENVIRONMENT_SLUG
+    SENTRY_ENVIRONMENT: staging
   cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   artifacts:
@@ -170,6 +171,7 @@ web_production_deploy:
     url: https://production.web.project-holi.org
   variables:
     ENVIRONMENT_ID: production
+    SENTRY_ENVIRONMENT: production
   only:
     - main
 
