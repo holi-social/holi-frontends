@@ -21,7 +21,7 @@ module.exports = {
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     '@storybook/addon-a11y',
-    '@storybook/addon-knobs',
+    '@storybook/addon-storysource',
   ],
   framework: '@storybook/react',
   core: {
