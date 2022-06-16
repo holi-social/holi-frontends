@@ -5,6 +5,7 @@
   variables:
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
     HOLI_API_URL: https://staging.unified.apis.project-holi.org/graphql
+  dependencies: [] # explicitly disable artifact usage
   script:
     - cd apps/mobile
     - expo publish --release-channel $ENVIRONMENT_ID
@@ -17,6 +18,7 @@
     BUILD_PROFILE: preview
     KEEP_ARTIFACTS: 'false'
     HOLI_API_URL: https://staging.unified.apis.project-holi.org/graphql
+  dependencies: [] # explicitly disable artifact usage
   script:
     - 'cd apps/mobile'
     - 'eas build --platform all --profile $BUILD_PROFILE --non-interactive'
@@ -32,6 +34,7 @@
 
 .mobile_e2e_android:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  dependencies: [] # explicitly disable artifact usage
   script:
     - cd apps/mobile
     - export EAS_APK_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform android --limit 1 | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
@@ -47,6 +50,7 @@
 
 .mobile_e2e_ios:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  dependencies: [] # explicitly disable artifact usage
   script:
     - cd apps/mobile
     - export EAS_IPA_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform ios --limit 1 | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
@@ -87,6 +91,7 @@ mobile_review_destroy:
   environment:
     name: review/$CI_COMMIT_REF_SLUG-mobile
     action: stop
+  cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   script:
     - echo "Nothing to do, you can't unpublish an expo release. This is only for cleaning up the gitlab environments"
@@ -191,6 +196,8 @@ mobile_production_build:
 .mobile_production_submit:
   needs: ['mobile_production_build']
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  cache: [] # explicitly disable caching
+  dependencies: [] # explicitly disable artifact usage
   script:
     - echo 'submission to app store(s) goes here'
   only:
