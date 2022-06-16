@@ -26,7 +26,7 @@ export type ChipProps = PressableProps & {
 
 const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
   const { theme } = useTheme()
-  const styles = getStyles(theme, props.checked)
+  const styles = getStyles(theme, props.checked, props.disabled)
 
   const accessibilityProps: AccessibilityProps & { accessibilityPressed?: boolean } = {
     accessible: true,
@@ -57,9 +57,9 @@ const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
           {!props.disabled && (
             <View style={styles.iconView}>
               <Holicon
+                size={15}
                 color={props.checked ? theme.colors.fontColorWhite : theme.colors.fontColorGrey}
                 icon={props.checked ? 'check' : 'plus'}
-                size={theme.chip.iconSize}
               />
             </View>
           )}
@@ -71,13 +71,13 @@ const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
 
 export default HoliChip
 
-const getStyles = (theme: HoliTheme, checked = false) =>
+const getStyles = (theme: HoliTheme, checked = false, disabled = false) =>
   StyleSheet.create({
     holiChip: {
-      borderRadius: theme.chip.borderRadius,
+      borderRadius: 8,
       backgroundColor: theme.colors.backgroundColorGrey,
-      paddingVertical: theme.chip.paddingVertical,
-      paddingHorizontal: theme.chip.paddingHorizontal,
+      paddingVertical: 8,
+      paddingHorizontal: 14,
       overflow: 'hidden',
       ...Platform.select({
         web: {
@@ -89,14 +89,14 @@ const getStyles = (theme: HoliTheme, checked = false) =>
       display: 'flex',
       flexDirection: 'row',
       alignSelf: 'center',
-      alignItems: 'center', // vertical center
-      justifyContent: 'center', // horizontal center
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     text: {
       fontWeight: '400',
-      fontSize: theme.chip.fontSize,
-      color: checked ? theme.colors.fontColorWhite : theme.colors.fontColorGrey,
-      lineHeight: theme.chip.lineHeight,
+      fontSize: 14,
+      color: checked && !disabled ? theme.colors.fontColorWhite : theme.colors.fontColorGrey,
+      lineHeight: 24,
     },
     iconView: {
       marginLeft: 1.5,
@@ -124,6 +124,6 @@ const getStyles = (theme: HoliTheme, checked = false) =>
     },
     checked: {
       backgroundColor: theme.colors.secondaryColor,
-      borderRadius: theme.chip.borderRadiusChecked,
+      borderRadius: 24,
     },
   })

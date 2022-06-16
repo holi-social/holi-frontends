@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { View } from 'react-native'
+import { Text, View } from 'react-native'
 
+import { LoginProtection } from '@holi/core/auth/screens/LoginProtection'
 import { UserProfileForm } from '@holi/core/user/components/UserProfileForm'
 import { UserProfileView } from '@holi/core/user/components/UserProfileView'
 import HoliButton from '@holi/ui/components/HoliButton'
@@ -15,30 +16,26 @@ export const UserProfileScreen: React.VFC = () => {
   const toggleEditing = () => setEditing(!editing)
 
   return (
-    <View style={{ padding: 10, alignItems: 'center' }}>
-      <HoliHeading level={1}>Profile</HoliHeading>
-      {editing ? (
-        <UserProfileForm onCancel={toggleEditing} onSubmit={toggleEditing} />
-      ) : (
-        <UserProfileView editUser={() => toggleEditing()} />
-      )}
-      <View style={{ marginVertical: 10 }}>
-        <HoliChip
-          label="Nothing to do here"
-          onPress={() => setChipChecked(!chipChecked)}
-          checked={chipChecked}
-          text="Example Interest"
-        />
+    <LoginProtection loggedOutContent={<Text>Log in to see your profile</Text>}>
+      <View style={{ padding: 10, alignItems: 'center' }}>
+        <HoliHeading level={1}>Profile</HoliHeading>
+        {editing ? (
+          <UserProfileForm onCancel={toggleEditing} onSubmit={toggleEditing} />
+        ) : (
+          <UserProfileView editUser={() => toggleEditing()} />
+        )}
+        <View style={{ marginVertical: 10 }}>
+          <HoliChip
+            label="Nothing to do here"
+            onPress={() => setChipChecked(!chipChecked)}
+            checked={chipChecked}
+            text="Example Interest"
+          />
+        </View>
+        <HoliButton label="Logout" inline onPress={() => navigate('/logout')}>
+          Logout
+        </HoliButton>
       </View>
-      <HoliButton label="Login" inline onPress={() => navigate('/login')}>
-        Login
-      </HoliButton>
-      <HoliButton label="Logout" inline onPress={() => navigate('/logout')}>
-        Logout
-      </HoliButton>
-      <HoliButton label="Register" inline onPress={() => navigate('/registration')}>
-        Register
-      </HoliButton>
-    </View>
+    </LoginProtection>
   )
 }
