@@ -5,6 +5,7 @@
   variables:
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
     HOLI_API_URL: https://staging.unified.apis.project-holi.org/graphql
+    SENTRY_ENVIRONMENT: staging
   script:
     - cd apps/mobile
     - expo publish --release-channel $ENVIRONMENT_ID
@@ -17,6 +18,7 @@
     BUILD_PROFILE: preview
     KEEP_ARTIFACTS: 'false'
     HOLI_API_URL: https://staging.unified.apis.project-holi.org/graphql
+    SENTRY_ENVIRONMENT: staging
   script:
     - 'cd apps/mobile'
     - 'eas build --platform all --profile $BUILD_PROFILE --non-interactive'
@@ -169,6 +171,7 @@ mobile_production_publish:
   variables:
     ENVIRONMENT_ID: production
     HOLI_API_URL: https://production.unified.apis.project-holi.org/graphql
+    SENTRY_ENVIRONMENT: production
   only:
   - main
 
@@ -181,6 +184,7 @@ mobile_production_build:
     KEEP_ARTIFACTS: 'true'
     BUILD_PROFILE: production
     HOLI_API_URL: https://production.unified.apis.project-holi.org/graphql
+    SENTRY_ENVIRONMENT: production
   artifacts:
     paths:
       - artifacts_production/
