@@ -10,6 +10,11 @@ const jsVars = {
 // SCSS variables for mobile styling
 const styleVars = {
   ...sassVars,
+  colors: (() => {
+    return Object.keys(sassVars)
+      .map((key) => /^#[0-9A-F]{3,8}$/i.test(sassVars[key]) && { [key]: sassVars[key] })
+      .reduce((acc, curr) => ({ ...acc, ...curr }), {})
+  })(),
 }
 
 export { styleVars, jsVars }
