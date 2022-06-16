@@ -10,3 +10,4 @@ build
 
 .holi-terraform.key
 .terraform*
+terraform*.log
