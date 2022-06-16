@@ -10,11 +10,13 @@ import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { SessionContext } from '@holi/core/auth/helpers/sdk'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import useErrorHandling from '@holi/ui/components/errors/useErrorHandling'
 
 const Login: React.VoidFunctionComponent = () => {
   const { setSession } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
   const { navigateBack } = useRouting()
+  const { displayError } = useErrorHandling()
 
   const initializeFlow = () => {
     initLoginFlow().then((response) => {
@@ -42,6 +44,7 @@ const Login: React.VoidFunctionComponent = () => {
             navigateBack()
           })
           .catch(handleFormSubmitError(setFlow, initializeFlow))
+          .catch((error) => displayError(error, 'Login failed'))
       : Promise.resolve()
   return (
     <AuthLayout>

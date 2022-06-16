@@ -9,11 +9,13 @@ import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { getNodeId, handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import useErrorHandling from '@holi/ui/components/errors/useErrorHandling'
 
 const Registration = () => {
   const { navigate } = useRouting()
   const { setSession } = useContext(AuthContext)
   const [flow, setConfig] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
+  const { displayError } = useErrorHandling()
 
   const initializeFlow = () => {
     initRegistrationFlow()
@@ -21,7 +23,7 @@ const Registration = () => {
       .then(({ data: flow }) => {
         setConfig(flow)
       })
-      .catch((error) => console.error('[Registration.tsx] initializeFlow error:', error))
+      .catch((error) => displayError(error, '[Registration.tsx] initializeFlow error'))
   }
   // When the component is mounted, we initialize a new use login flow:
   useEffect(() => initializeFlow(), [])
@@ -53,6 +55,7 @@ const Registration = () => {
             navigate('/')
           })
           .catch(handleFormSubmitError(setConfig, initializeFlow))
+          .catch((error) => displayError(error, 'Registration failed'))
       : Promise.resolve()
 
   return (

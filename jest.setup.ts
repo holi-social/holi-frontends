@@ -16,4 +16,6 @@ jest.mock('@react-navigation/native', () => {
   }
 })
 
+jest.mock('@sentry/react-native', () => ({}))
+
 export default {}
