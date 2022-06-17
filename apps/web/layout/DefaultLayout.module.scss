@@ -13,6 +13,7 @@
   width: 100%;
   min-height: 100vh;
   display: flex;
+  padding-bottom: #{$bottom-bar-height}px;
 }
 
 .footer {

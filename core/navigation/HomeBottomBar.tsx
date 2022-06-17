@@ -1,17 +1,18 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliIcon from '@holi/ui/components/HoliIcon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
-import { useTheme } from '@holi/ui/styles/theme'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme/theme'
 
 export type HomeBottomBarProps = {
   activePath?: string
 }
 
-const HomeBottomBar: React.VoidFunctionComponent<HomeBottomBarProps> = (props) => {
-  // const { theme } = useTheme()
+const HomeBottomBar: React.VoidFunctionComponent<HomeBottomBarProps> = (props: HomeBottomBarProps) => {
+  const { theme } = useTheme()
+  const styles = getStyles(theme)
   const { navigate, pathname } = useRouting()
 
   const isNotifications = pathname.startsWith('/notifications')
@@ -47,19 +48,21 @@ const HomeBottomBar: React.VoidFunctionComponent<HomeBottomBarProps> = (props) =
 
 export default HomeBottomBar
 
-const styles = StyleSheet.create({
-  fullWidthContainer: {
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderTopWidth: 1,
-    borderTopColor: 'red',
-    paddingHorizontal: 20,
-  },
-  buttonContainer: {
-    flex: 1,
-    width: '100%',
-    maxWidth: 1200,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    fullWidthContainer: {
+      alignItems: 'center',
+      backgroundColor: theme.colors.backgroundColorWhite,
+      borderTopWidth: 1,
+      borderTopColor: theme.colors.borderColorGrey,
+      paddingHorizontal: 20,
+      height: theme.vars.bottomBarHeight,
+    },
+    buttonContainer: {
+      flex: 1,
+      width: '100%',
+      maxWidth: 1200,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+  })

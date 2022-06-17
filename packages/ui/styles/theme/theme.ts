@@ -6,13 +6,16 @@ import { styleVars } from '@holi/ui/styles/globalVars'
 const defaultTheme = {
   dark: false,
   colors: {
-    ...styleVars.color,
+    ...styleVars.colors,
+  },
+  vars: {
+    ...styleVars.vars,
   },
   fontFamily: {
     default: (variant = '') =>
       Platform.select({
-        web: styleVars.var.fontFamilyWeb,
-        default: variant.length > 0 ? `${styleVars.var.fontFamilyMobile} ${variant}` : styleVars.var.fontFamilyMobile,
+        web: styleVars.vars.fontFamilyWeb,
+        default: variant.length > 0 ? `${styleVars.vars.fontFamilyMobile} ${variant}` : styleVars.vars.fontFamilyMobile,
       }),
   },
 }

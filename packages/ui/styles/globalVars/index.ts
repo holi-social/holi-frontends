@@ -7,7 +7,11 @@ const jsVars = {
   CSS_HEADER_Height: 70,
 }
 
-const otherVars = {}
+type varsType = {
+  [x: string]: string | number
+}
+
+const otherVars: varsType = {}
 const colors = Object.keys(sassVars)
   .map((key) => {
     if (/^#[0-9A-F]{3,8}$/i.test(sassVars[key]) && sassVars[key]) {
@@ -22,8 +26,8 @@ const colors = Object.keys(sassVars)
 
 // SCSS variables for mobile styling
 const styleVars = {
-  var: { ...otherVars },
-  color: { ...colors },
+  vars: { ...otherVars },
+  colors: { ...colors },
 }
 
 export { styleVars, jsVars }
