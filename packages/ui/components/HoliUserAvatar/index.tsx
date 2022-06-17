@@ -43,12 +43,17 @@ const HoliUserAvatar: React.FunctionComponent<AvatarProps> = (props: AvatarProps
   const accessibilityProps: AccessibilityProps & { accessibilityPressed?: boolean } = {
     accessible: true,
     accessibilityLabel: props.nameLabel,
+    accessibilityRole: 'image',
   }
 
   return (
     <View style={[styles.holiUserAvatar, props.style, styles[sizeClass]]} {...props}>
       {props.imageSrc && <Image source={imageUri} style={{ width: width, height: width }} {...accessibilityProps} />}
-      {!props.imageSrc && <Text style={styles.inititals}>{initials}</Text>}
+      {!props.imageSrc && (
+        <Text style={styles.inititals} {...accessibilityProps}>
+          {initials}
+        </Text>
+      )}
     </View>
   )
 }
