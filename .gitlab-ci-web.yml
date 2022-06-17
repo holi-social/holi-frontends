@@ -15,6 +15,8 @@ default:
     entrypoint: ["/bin/sh", "-c"]
   variables:
     ENVIRONMENT_ID: $CI_ENVIRONMENT_SLUG
+  cache: [] # explicitly disable caching
+  dependencies: [] # explicitly disable artifact usage
   artifacts:
     paths:
       - "apps/web/terraform/scripts/crash.log" # optional, only available in case of a crash/panic
@@ -31,6 +33,7 @@ default:
 
 .web_e2e:
   image: 'codeceptjs/codeceptjs'
+  dependencies: [] # explicitly disable artifact usage
   script:
     - UI_DOMAIN=`cat $UI_DOMAIN_PATH`
     - apps/web/terraform/scripts/wait-for-ssl.sh "https://${UI_DOMAIN}"
@@ -61,6 +64,9 @@ web_build_docker:
   image: docker:20.10
   services:
     - docker:20.10-dind
+  cache: [] # explicitly disable caching
+  dependencies:
+    - web_build
   variables:
     # this could be fetched via terraform output ("gcr_location" in infra project), but then we would need an extra job for terraform
     GCR_IMAGE: eu.gcr.io/holi-shared/holi-frontends-web
@@ -95,6 +101,8 @@ web_review_deploy:
 web_review_e2e:
   extends: .web_e2e
   needs: ['web_review_deploy']
+  dependencies:
+    - web_review_deploy
   except:
     - main
     - /^noenv\/.*/
@@ -111,6 +119,7 @@ web_review_destroy:
   environment:
     name: review/$CI_COMMIT_REF_SLUG-web
     action: stop
+  cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   before_script:
   script:
@@ -144,6 +153,8 @@ web_staging_deploy:
 web_staging_e2e:
   extends: .web_e2e
   needs: ['web_staging_deploy']
+  dependencies:
+    - web_staging_deploy
   only:
     - main
 
