@@ -32,8 +32,15 @@ $background-color-white: $white;
 $background-color-grey: $softwhite;
 $background-color-black: $softblack;
 
-$font-family-web: 'Circular Std', Helvetica, Arial, sans-serif;
-$font-family-mobile: 'Circular Std';
+$font-family-web: Circular Std, Helvetica, Arial, sans-serif;
+$font-family-mobile: Circular Std;
 
 $bottom-bar-height: 52;
+
+$breakpoint-s: 576;
+$breakpoint-m: 768;
+$breakpoint-l: 992;
+$breakpoint-xl: 1200;
+$breakpoint-xxl: 2200;
+$breakpoint-xxxl: 2800;
 

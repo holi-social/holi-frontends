@@ -1,9 +1,9 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, useWindowDimensions, Platform } from 'react-native'
 
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliIcon from '@holi/ui/components/HoliIcon'
-import useRouting from '@holi/ui/components/navigation/useRouting'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme/theme'
 
 export type HomeBottomBarProps = {
@@ -12,14 +12,16 @@ export type HomeBottomBarProps = {
 
 const HomeBottomBar: React.VoidFunctionComponent<HomeBottomBarProps> = (props: HomeBottomBarProps) => {
   const { theme } = useTheme()
-  const styles = getStyles(theme)
+  const { width } = useWindowDimensions()
+  const styles = getStyles(theme, width)
   const { navigate, pathname } = useRouting()
 
   const isNotifications = pathname.startsWith('/notifications')
   const isProfile = pathname.startsWith('/profile')
   const isChat = pathname.startsWith('/chat')
+  const isExplore = pathname.startsWith('/explore')
   const isSearch = pathname.startsWith('/search')
-  const isHome = !isNotifications && !isProfile && !isChat && !isSearch
+  const isHome = !isNotifications && !isProfile && !isChat && !isSearch && !isExplore
 
   return (
     <View
@@ -35,8 +37,8 @@ const HomeBottomBar: React.VoidFunctionComponent<HomeBottomBarProps> = (props: H
         <HoliButton label="Chat" inline transparent onPress={() => navigate('/chat')}>
           <HoliIcon icon="chat" size={20} filled={isChat} />
         </HoliButton>
-        <HoliButton label="Explore initiatives" inline transparent disabled>
-          <HoliIcon icon="explore" size={20} filled={false} />
+        <HoliButton label="Explore initiatives" inline transparent  onPress={() => navigate('/explore')}>
+          <HoliIcon icon="explore" size={20} filled={isExplore} />
         </HoliButton>
         <HoliButton label="Search" inline transparent onPress={() => navigate('/search')}>
           <HoliIcon icon="search" size={20} filled={isSearch} />
@@ -48,14 +50,14 @@ const HomeBottomBar: React.VoidFunctionComponent<HomeBottomBarProps> = (props: H
 
 export default HomeBottomBar
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = (theme: HoliTheme, screenWidth: number) =>
   StyleSheet.create({
     fullWidthContainer: {
       alignItems: 'center',
       backgroundColor: theme.colors.backgroundColorWhite,
       borderTopWidth: 1,
       borderTopColor: theme.colors.borderColorGrey,
-      paddingHorizontal: 20,
+      paddingHorizontal: screenWidth > theme.vars.breakpointL ? 20 : 10,
       height: theme.vars.bottomBarHeight,
     },
     buttonContainer: {
