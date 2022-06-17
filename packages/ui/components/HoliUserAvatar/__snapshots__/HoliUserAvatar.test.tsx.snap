@@ -45,7 +45,7 @@ exports[`React tree renders correctly 1`] = `
 </View>
 `;
 
-exports[`React tree renders the users initials, when give image prop is empty 1`] = `
+exports[`React tree renders the users initials, when given image prop is empty 1`] = `
 <View
   defaultColor="red"
   nameLabel="Uschi Meyer"
