@@ -29,6 +29,7 @@ exports[`React tree renders correctly 1`] = `
 >
   <Image
     accessibilityLabel="Uschi Meyer"
+    accessibilityRole="image"
     accessible={true}
     source={
       Object {
@@ -72,6 +73,9 @@ exports[`React tree renders the users initials, when given image prop is empty 1
   }
 >
   <Text
+    accessibilityLabel="Uschi Meyer"
+    accessibilityRole="image"
+    accessible={true}
     style={
       Object {
         "color": "#fff",
