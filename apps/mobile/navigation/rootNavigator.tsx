@@ -15,6 +15,7 @@ import { TopicEditorsScreen, TopicEditorsScreenParams } from '@holi/core/topics/
 import { TopicScreenParams, TopicsScreen } from '@holi/core/topics/TopicsScreen'
 import { PostScreen, PostScreenParams } from '@holi/core/topics/posts/PostScreen'
 import HoliButton from '@holi/ui/components/HoliButton'
+import HoliIcon from '@holi/ui/components/HoliIcon'
 import Holicon from '@holi/ui/components/holicon'
 import useRouting from '@holi/ui/components/navigation/useRouting'
 import theme from '@holi/ui/styles/theme/theme'
@@ -87,7 +88,8 @@ export const HomeStackNavigator: React.VFC = () => (
           const { navigate } = useRouting()
           return (
             <HoliButton label="Notifications" inline transparent onPress={() => navigate('/notifications')}>
-              <Holicon icon="notification" size={20} color={theme.colors.fontColorBlack} />
+              {/* <Holicon icon="notification" size={20} color={theme.colors.fontColorBlack} /> */}
+              <HoliIcon icon="chat" size={20} />
             </HoliButton>
           )
         },
@@ -95,7 +97,8 @@ export const HomeStackNavigator: React.VFC = () => (
           const { navigate } = useRouting()
           return (
             <HoliButton label="Profile" inline transparent onPress={() => navigate('/profile/danbim')}>
-              <Holicon icon="person" size={25} color={theme.colors.fontColorBlack} />
+              {/* <Holicon icon="person" size={25} color={theme.colors.fontColorBlack} /> */}
+              <HoliIcon icon="chat" size={20} />
             </HoliButton>
           )
         },

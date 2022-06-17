@@ -6,18 +6,13 @@ import { styleVars } from '@holi/ui/styles/globalVars'
 const defaultTheme = {
   dark: false,
   colors: {
-    ...styleVars.colors,
+    ...styleVars.color,
   },
   fontFamily: {
-    paragraph: Platform.select({
-      web: 'Helvetica Neue, sans-serif',
-      // android: 'Arial', // TODO find nice android system font
-      ios: 'SF Pro',
-    }),
     default: (variant = '') =>
       Platform.select({
-        web: 'Circular Std, Helvetica Neue, sans-serif',
-        default: variant.length > 0 ? `Circular Std ${variant}` : 'Circular Std',
+        web: styleVars.var.fontFamilyWeb,
+        default: variant.length > 0 ? `${styleVars.var.fontFamilyMobile} ${variant}` : styleVars.var.fontFamilyMobile,
       }),
   },
 }
