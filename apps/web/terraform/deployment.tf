@@ -46,8 +46,8 @@ resource "google_cloud_run_service" "mvp_web" {
           value = local.holi_api_url
         }
         env {
-          name  = "SENTRY_ENVIRONMENT"
-          value = local.sentry_environment
+          name  = "NEXT_PUBLIC_ENVIRONMENT_ID"
+          value = local.environment
         }
 
         resources {
