@@ -52,9 +52,9 @@ export default {
       holi_api: {
         url: process.env.HOLI_API_URL || 'http://10.0.2.2:4001/graphql',
       },
+      environment: process.env.ENVIRONMENT_ID,
       sentry: {
         dsn: process.env.SENTRY_DSN || 'https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191',
-        environment: process.env.SENTRY_ENVIRONMENT,
       },
     },
   },

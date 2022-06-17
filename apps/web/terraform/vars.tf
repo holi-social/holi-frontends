@@ -10,5 +10,4 @@ locals {
   docker_image_tag   = contains(["staging", "production"], local.environment) ? "main" : local.environment
   # in production, we work against prod apis, in staging and feature envs, we use the staging apis
   holi_api_url       = "https://${local.environment == "production" ? "production" : "staging"}.${data.terraform_remote_state.holi_unified_api_common_state.outputs.dns_unified_api_domain}/graphql"
-  sentry_environment = local.environment == "production" ? "production" : "staging"
 }
