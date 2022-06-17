@@ -12,7 +12,7 @@ describe('React tree', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  it('renders the users initials, when give image prop is empty', () => {
+  it('renders the users initials, when given image prop is empty', () => {
     const tree = renderer
       .create(<HoliUserAvatar nameLabel="Uschi Meyer" imageSrc={undefined} defaultColor="red" size="extralarge" />)
       .toJSON()
