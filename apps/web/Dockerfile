@@ -34,4 +34,6 @@ ENV PORT 3000
 # Uncomment the following line in case you want to disable telemetry.
 ENV NEXT_TELEMETRY_DISABLED 1
 
+ENV NEXT_PUBLIC_ENVIRONMENT_ID $ENVIRONMENT_ID
+
 CMD ["node", "server.js"]

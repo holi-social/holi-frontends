@@ -15,7 +15,6 @@ default:
     entrypoint: ["/bin/sh", "-c"]
   variables:
     ENVIRONMENT_ID: $CI_ENVIRONMENT_SLUG
-    SENTRY_ENVIRONMENT: staging
   cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   artifacts:
@@ -51,6 +50,8 @@ default:
 web_build:
   needs: ['lint_compile_test']
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  variables:
+    ENVIRONMENT_ID: $CI_ENVIRONMENT_SLUG
   script:
     - yarn web:build
   artifacts:
@@ -73,6 +74,7 @@ web_build_docker:
     GCR_IMAGE: eu.gcr.io/holi-shared/holi-frontends-web
     # https://about.gitlab.com/blog/2019/07/31/docker-in-docker-with-docker-19-dot-03/
     DOCKER_TLS_CERTDIR: "/certs"
+    ENVIRONMENT_ID: $CI_ENVIRONMENT_SLUG
   before_script:
     - cat $GOOGLE_CLOUD_SERVICE_ACCOUNT | docker login -u _json_key --password-stdin https://eu.gcr.io
   script:
@@ -171,7 +173,6 @@ web_production_deploy:
     url: https://production.web.project-holi.org
   variables:
     ENVIRONMENT_ID: production
-    SENTRY_ENVIRONMENT: production
   only:
     - main
 
