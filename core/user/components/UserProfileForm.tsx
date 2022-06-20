@@ -2,11 +2,11 @@ import { useMutation } from '@apollo/client'
 import React, { useContext, useState } from 'react'
 import { Text, TextInput } from 'react-native'
 
+import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import { UserContext } from '@holi/core/user/UserContextProvider'
 import { updateUserMutation } from '@holi/core/user/queries'
 import { User } from '@holi/core/user/types'
 import HoliButton from '@holi/ui/components/HoliButton'
-import useErrorHandling from '@holi/ui/components/errors/useErrorHandling'
 
 type UserProfileFormProps = {
   children?: React.ReactChildren

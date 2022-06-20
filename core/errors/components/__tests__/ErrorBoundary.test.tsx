@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React, { useEffect, useState } from 'react'
 import { Text } from 'react-native'
 
-import { ErrorBoundary } from '@holi/ui/components/errors/ErrorBoundary'
+import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 
 type ErrorComponentProps = {
   throwError?: boolean

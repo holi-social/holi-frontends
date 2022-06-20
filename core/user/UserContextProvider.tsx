@@ -2,9 +2,9 @@ import { useQuery } from '@apollo/client'
 import React, { createContext } from 'react'
 import { Text } from 'react-native'
 
+import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import { AllUsersQueryResult, allUsersQuery } from '@holi/core/user/queries'
 import { User } from '@holi/core/user/types'
-import useErrorHandling from '@holi/ui/components/errors/useErrorHandling'
 
 interface Context {
   user: User | undefined

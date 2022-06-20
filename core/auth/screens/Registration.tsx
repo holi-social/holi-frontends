@@ -8,8 +8,8 @@ import { SelfServiceFlow } from '@holi/core/auth/components'
 import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { getNodeId, handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
+import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import useErrorHandling from '@holi/ui/components/errors/useErrorHandling'
 
 const Registration = () => {
   const { navigate } = useRouting()

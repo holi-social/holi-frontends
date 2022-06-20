@@ -1,8 +1,8 @@
 import React from 'react'
 import { Text } from 'react-native'
 
+import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import HoliButton from '@holi/ui/components/HoliButton'
-import useErrorHandling from '@holi/ui/components/errors/useErrorHandling'
 import { SafeAreaView } from '@holi/ui/components/safe-area'
 
 type ErrorBoundaryProps = {
@@ -40,4 +40,4 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   }
 }
 
-export { ErrorBoundary }
+export default ErrorBoundary

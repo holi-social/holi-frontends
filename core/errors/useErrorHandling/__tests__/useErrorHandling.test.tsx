@@ -2,7 +2,7 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Alert, Text } from 'react-native'
 
-import useErrorHandling from '@holi/ui/components/errors/useErrorHandling'
+import useErrorHandling from '@holi/core/errors/useErrorHandling'
 
 jest.spyOn(Alert, 'alert')
 
