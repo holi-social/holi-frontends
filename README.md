@@ -130,17 +130,40 @@ weren't in a monorepo with yarn Workspaces.
 
 To give an overview, the project contains the following workspaces (npm packages):
 
-- `apps`
+- `apps` - contains platform specific configs, styles and structurally differing code that can not be shared like the navigation and next.js pages
   - `mobile` - the mobile ("native" as in React Native) app for iOS and Android, managed by Expo. Contains just the minimal platform-specific code that can not be shared with `web`.
   - `web` - the web (reactive, small and big screen) site, built with React Native for Web and Expo. Contains just the minimal platform-specific code that can not be shared with `mobile`.
 - `core` - shared code for the core of the HOLI app / site (feature-specific components, screens, ...)
+  - `auth` - shared components and helpers for authentication
+  - `errors` - shared components and helpers for error handling
+  - `navigation` - shared components and helpers for navigation
+  - `rootProvider.tsx` - shared root provider
+  - `screens` - all screens used in the core app
+    - `UserProfile` - exmplary for screens in general, contains everything specific to this screen that is not shared, no 'Screen' suffix in name
+      - `components`
+      - `hooks`
+      - `providers`
+      - `index.tsx`
+      - `queries.ts`
+      - `types.ts`
 - `e2e` - end-to-end tests
   - `mobile` - end-to-end tests for the mobile app
   - `web` - end-to-end tests for the web site
 - `holi-apps` - apps for the HOLI app "store" will eventually go here
+  - `volunteering` - examplary for holi-apps in general, contains everything specific to this app, structurally equivalent to `screens` in `core`
 - `packages` - shared "library" code goes here, i.e. everything reusable that *could* also be published as an npm package
-  - `api` - client-side code for the HOLI API
+  - `api` - shared client-side code for the HOLI API
   - `ui` - the HOLI component library
+- `storybook` - TODO move from `apps/web`?
+- `terraform` - TODO move `apps/web/terraform` to `terraform/web`?
+
+### Code conventions
+
+- Filenames: camelCase
+- File and folder names for components (basically all `.tsx` files, including screens and tests) uppercase
+- Default instead of named exports, esp. for components. Exceptions might be e.g. collections of util functions.
+- Platform specific code: create subfolder with `foobar.ts` (mobile variant), `foobar.web.ts` (web variant) and `index.ts` with default export
+- Tests: Folder `__tests__` next to the files to be tested, inside `<fileName>.test.ts[x]`
 
 ### Dependencies
 
