@@ -1,8 +1,8 @@
 import Head from 'next/head'
 import React from 'react'
 
-import HomeButtonBar from '@holi/core/navigation/components/web/HomeBottomBar'
-import HomeTopBar from '@holi/core/navigation/components/web/HomeTopBar'
+import HomeButtonBar from '@holi/web/components/navigation/HomeBottomBar'
+import HomeTopBar from '@holi/web/components/navigation/HomeTopBar'
 
 import defaultStyles from './DefaultLayout.module.scss'
 
