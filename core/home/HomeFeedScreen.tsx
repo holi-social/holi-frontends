@@ -66,6 +66,7 @@ export const HomeFeedScreen: React.VFC = () => {
 const styles = StyleSheet.create({
   view: {
     alignItems: 'center',
+    maxWidth: '100%',
   },
   appTile: {
     paddingRight: 10,

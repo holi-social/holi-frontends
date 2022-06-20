@@ -10,7 +10,7 @@ const DefaultLayout: React.FunctionComponent = ({ children }) => {
   return (
     <>
       <Head>
-        <title>HOLI</title>
+        <title>Holi Project</title>
       </Head>
 
       {/*
