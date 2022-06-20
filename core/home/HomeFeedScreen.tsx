@@ -7,7 +7,7 @@ import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 import Holicon from '@holi/ui/components/holicon'
-import useRouting from '@holi/ui/components/navigation/useRouting'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 
 export const HomeFeedScreen: React.VFC = () => {
   const { navigate } = useRouting()
@@ -66,6 +66,7 @@ export const HomeFeedScreen: React.VFC = () => {
 const styles = StyleSheet.create({
   view: {
     alignItems: 'center',
+    maxWidth: '100%',
   },
   appTile: {
     paddingRight: 10,

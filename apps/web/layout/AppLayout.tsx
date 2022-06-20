@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native'
 
 import HoliButton from '@holi/ui/components/HoliButton'
 import Holicon from '@holi/ui/components/holicon'
-import useRouting from '@holi/ui/components/navigation/useRouting'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme/theme'
 
 import defaultStyles from './DefaultLayout.module.scss'

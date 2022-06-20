@@ -8,16 +8,14 @@ const defaultTheme = {
   colors: {
     ...styleVars.colors,
   },
+  vars: {
+    ...styleVars.vars,
+  },
   fontFamily: {
-    paragraph: Platform.select({
-      web: 'Helvetica Neue, sans-serif',
-      // android: 'Arial', // TODO find nice android system font
-      ios: 'SF Pro',
-    }),
     default: (variant = '') =>
       Platform.select({
-        web: 'Circular Std, Helvetica Neue, sans-serif',
-        default: variant.length > 0 ? `Circular Std ${variant}` : 'Circular Std',
+        web: styleVars.vars.fontFamilyWeb,
+        default: variant.length > 0 ? `${styleVars.vars.fontFamilyMobile} ${variant}` : styleVars.vars.fontFamilyMobile,
       }),
   },
 }
