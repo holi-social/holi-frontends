@@ -42,6 +42,7 @@ export type CoreStackScreensList = {
 export type BottomTabsScreensList = {
   Home: undefined
   Chat: undefined
+  Explore: undefined
   Search: undefined
 }
 
