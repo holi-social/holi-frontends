@@ -1,16 +1,12 @@
 import React from 'react'
-import { StyleSheet, View, useWindowDimensions, Platform } from 'react-native'
+import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliIcon from '@holi/ui/components/HoliIcon'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme/theme'
 
-export type HomeBottomBarProps = {
-  activePath?: string
-}
-
-const HomeBottomBar: React.VoidFunctionComponent<HomeBottomBarProps> = (props: HomeBottomBarProps) => {
+const HomeBottomBar: React.VoidFunctionComponent = () => {
   const { theme } = useTheme()
   const { width } = useWindowDimensions()
   const styles = getStyles(theme, width)
@@ -37,7 +33,7 @@ const HomeBottomBar: React.VoidFunctionComponent<HomeBottomBarProps> = (props: H
         <HoliButton label="Chat" inline transparent onPress={() => navigate('/chat')}>
           <HoliIcon icon="chat" size={20} filled={isChat} />
         </HoliButton>
-        <HoliButton label="Explore initiatives" inline transparent  onPress={() => navigate('/explore')}>
+        <HoliButton label="Explore initiatives" inline transparent onPress={() => navigate('/explore')}>
           <HoliIcon icon="explore" size={20} filled={isExplore} />
         </HoliButton>
         <HoliButton label="Search" inline transparent onPress={() => navigate('/search')}>
