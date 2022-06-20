@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 
 import { LoginProtection } from '@holi/core/auth/screens/LoginProtection'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserProfileForm } from '@holi/core/user/components/UserProfileForm'
 import { UserProfileView } from '@holi/core/user/components/UserProfileView'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliChip from '@holi/ui/components/HoliChip'
 import HoliHeading from '@holi/ui/components/HoliHeading'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import HoliText from '@holi/ui/components/HoliText'
+import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
 export const UserProfileScreen: React.VFC = () => {
   const { navigate } = useRouting()
@@ -15,8 +17,9 @@ export const UserProfileScreen: React.VFC = () => {
   const [chipChecked, setChipChecked] = useState(false)
   const toggleEditing = () => setEditing(!editing)
 
+  const loggedOutContent = <HoliText type={HoliTextType.heading1}>Log in to see your profile</HoliText>
   return (
-    <LoginProtection loggedOutContent={<Text>Log in to see your profile</Text>}>
+    <LoginProtection loggedOutContent={loggedOutContent}>
       <View style={{ padding: 10, alignItems: 'center' }}>
         <HoliHeading level={1}>Profile</HoliHeading>
         {editing ? (

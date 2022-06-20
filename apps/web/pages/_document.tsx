@@ -28,6 +28,7 @@ export default class MyDocument extends Document {
         <Head>
           <meta name="description" content="HOLI community" />
           <link rel="icon" href="/favicon.ico" />
+          <title>Holi Project</title>
         </Head>
 
         <body>
