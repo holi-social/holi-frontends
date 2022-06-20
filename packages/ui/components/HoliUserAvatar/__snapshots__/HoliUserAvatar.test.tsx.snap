@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`React tree renders correctly 1`] = `
+<View
+  defaultColor="red"
+  imageSrc="https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg"
+  nameLabel="Uschi Meyer"
+  size="extralarge"
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#f7f6f3",
+        "borderColor": "transparent",
+        "borderRadius": 61.5,
+        "borderWidth": 1,
+        "justifyContent": "center",
+        "overflow": "hidden",
+      },
+      undefined,
+      Object {
+        "borderColor": "#222326",
+        "borderWidth": 1,
+        "height": 123,
+        "width": 123,
+      },
+    ]
+  }
+>
+  <Image
+    accessibilityLabel="Uschi Meyer"
+    accessibilityRole="image"
+    accessible={true}
+    source={
+      Object {
+        "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
+      }
+    }
+    style={
+      Object {
+        "height": 123,
+        "width": 123,
+      }
+    }
+  />
+</View>
+`;
+
+exports[`React tree renders the users initials, when given image prop is empty 1`] = `
+<View
+  defaultColor="red"
+  nameLabel="Uschi Meyer"
+  size="extralarge"
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "red",
+        "borderColor": "transparent",
+        "borderRadius": 61.5,
+        "borderWidth": 1,
+        "justifyContent": "center",
+        "overflow": "hidden",
+      },
+      undefined,
+      Object {
+        "borderColor": "#222326",
+        "borderWidth": 1,
+        "height": 123,
+        "width": 123,
+      },
+    ]
+  }
+>
+  <Text
+    accessibilityLabel="Uschi Meyer"
+    accessibilityRole="image"
+    accessible={true}
+    style={
+      Object {
+        "color": "#fff",
+        "fontFamily": "sans-serif",
+        "fontSize": 78.10000000000001,
+        "fontWeight": "bold",
+        "textAlignVertical": "center",
+        "textTransform": "uppercase",
+      }
+    }
+  >
+    U
+  </Text>
+</View>
+`;
