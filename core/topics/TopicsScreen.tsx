@@ -4,7 +4,7 @@ import { createParam } from 'solito'
 
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliHeading from '@holi/ui/components/HoliHeading'
-import useRouting from '@holi/ui/components/navigation/useRouting'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 
 import { fakeTopics } from './fakeTopics'
 

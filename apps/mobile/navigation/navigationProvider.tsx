@@ -1,10 +1,10 @@
-import { RootStackScreensList } from 'apps/mobile/navigation/rootNavigator'
 import * as Linking from 'expo-linking'
 import React from 'react'
 
 import type { LinkingOptions, Theme } from '@react-navigation/native'
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native'
 
+import { RootStackScreensList } from '@holi/mobile/navigation/rootNavigator'
 import defaultHoliTheme from '@holi/ui/styles/theme'
 
 const navigationTheme: Theme = {
