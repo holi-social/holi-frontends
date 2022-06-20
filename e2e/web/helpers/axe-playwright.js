@@ -18,7 +18,7 @@ class AccessibilityHelper extends Helper {
 
     const options = {
       rules: {
-        region: { enabled: false },
+        region: { enabled: true }, // https://dequeuniversity.com/rules/axe/4.4/region
       },
     }
     await checkA11y(page, options)

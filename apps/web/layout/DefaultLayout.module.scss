@@ -1,5 +1,8 @@
+@import '@holi/ui/styles/globalVars/variables';
+
 .container {
   padding: 0 2rem;
+  background-color: $background-color-white;
 }
 
 .header {
@@ -10,12 +13,12 @@
   width: 100%;
   min-height: 100vh;
   display: flex;
-  border: solid 1px red;
+  padding-bottom: #{$bottom-bar-height}px;
 }
 
 .footer {
   position: fixed;
   bottom: 0;
   width: 100%;
-  z-index: 1000,;
+  z-index: 1000;
 }

@@ -9,7 +9,7 @@ import { initLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { SessionContext } from '@holi/core/auth/helpers/sdk'
-import useRouting from '@holi/ui/components/navigation/useRouting'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 
 const Login: React.VoidFunctionComponent = () => {
   const { setSession } = useContext(AuthContext)
