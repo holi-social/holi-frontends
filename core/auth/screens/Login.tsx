@@ -25,6 +25,7 @@ const Login: React.VoidFunctionComponent = () => {
       console.info('[Login.tsx] login flow initialized.')
       setFlow(flow)
     })
+    .catch((error) => displayError(error, '[Login.tsx] initializeFlow error'))
   }
 
   // When the component is mounted, we initialize a new use login flow:
