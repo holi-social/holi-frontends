@@ -2,9 +2,9 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { createParam } from 'solito'
 
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliHeading from '@holi/ui/components/HoliHeading'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 
 import { fakeTopics } from './fakeTopics'
 
