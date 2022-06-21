@@ -32,9 +32,9 @@ data "terraform_remote_state" "holi_unified_api_common_state" {
 
 # provider google including beta features
 provider "google" {
-  region = "europe-west3"
+  region = "europe-north1"
 }
 
 provider "google-beta" {
-  region = "europe-west3"
+  region = "europe-north1"
 }
