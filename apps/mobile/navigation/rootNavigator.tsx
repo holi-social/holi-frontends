@@ -9,6 +9,9 @@ import { Logout } from '@holi/core/auth/screens/Logout'
 import { ChatHomeScreen } from '@holi/core/chat/ChatHomeScreen'
 import { ExploreScreen } from '@holi/core/explore/ExploreScreen'
 import { HomeFeedScreen } from '@holi/core/home/HomeFeedScreen'
+import HeaderNotificationLink from '@holi/core/navigation/components/HeaderNotificationLink'
+import HeaderProfileLink from '@holi/core/navigation/components/HeaderProfileLink'
+import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { NotificationsScreen } from '@holi/core/notifications/NotificationsScreen'
 import { UserProfileScreen } from '@holi/core/profile/UserProfileScreen'
@@ -74,79 +77,63 @@ export const ChatStackNavigator: React.VFC = () => (
   </ChatStack.Navigator>
 )
 
-export const HomeStackNavigator: React.VFC = () => (
-  <HomeStack.Navigator
-    initialRouteName="HomeFeed"
-    screenOptions={{
-      headerShown: true,
-    }}
-  >
-    <HomeStack.Screen
-      name="HomeFeed"
-      component={HomeFeedScreen}
-      options={{
-        title: 'Good Morning',
-        headerLeft: ({ canGoBack, tintColor }) => {
-          const { navigate } = useRouting()
-          return (
-            <HoliButton
-              label="Notifications"
-              inline
-              transparent
-              onPress={() => navigate('/notifications')}
-              style={{ paddingHorizontal: 0 }}
-            >
-              {/* TODO: notification icon */}
-              <HoliIcon icon="chat" size={20} />
-            </HoliButton>
-          )
-        },
-        headerRight: ({ canGoBack, tintColor }) => {
-          const { navigate, pathname } = useRouting()
-          // TODO: differs, when logged in
-          return (
-            <HoliButton label="Profile" inline transparent onPress={() => navigate('/profile/danbim')}>
-              <HoliIcon icon="user-circled" size={20} />
-            </HoliButton>
-          )
+export const HomeStackNavigator: React.VFC = () => {
+  const { theme } = useTheme()
+  return (
+    <HomeStack.Navigator
+      initialRouteName="HomeFeed"
+      screenOptions={{
+        headerShown: true,
+        headerStyle: {
+          backgroundColor: theme.colors.backgroundColorWhite,
         },
       }}
-    />
-    <HomeStack.Screen
-      name="UserProfile"
-      component={UserProfileScreen}
-      options={{
-        title: 'Profile',
-        headerBackTitle: '',
-      }}
-    />
-    <HomeStack.Screen
-      name="Topic"
-      component={TopicsScreen}
-      options={{
-        title: 'Topic',
-        headerBackTitle: '',
-      }}
-    />
-    <HomeStack.Screen
-      name="Post"
-      component={PostScreen}
-      options={{
-        title: 'Post',
-        headerBackTitle: '',
-      }}
-    />
-    <HomeStack.Screen
-      name="Notifications"
-      component={NotificationsScreen}
-      options={{
-        title: 'Notifications',
-        headerBackTitle: '',
-        animation: 'slide_from_bottom',
-      }}
-    />
-  </HomeStack.Navigator>
-)
+    >
+      <HomeStack.Screen
+        name="HomeFeed"
+        component={HomeFeedScreen}
+        options={{
+          headerTitle: () => <HeaderTitle style={{ paddingTop: 5 }} />,
+          headerLeft: () => <HeaderNotificationLink style={{ paddingHorizontal: 0, marginLeft: 5 }} />,
+          headerRight: () => <HeaderProfileLink style={{ paddingHorizontal: 0, marginRight: 5 }} />,
+        }}
+      />
+      <HomeStack.Screen
+        name="UserProfile"
+        component={UserProfileScreen}
+        options={{
+          title: 'Profile',
+          headerBackTitle: '',
+        }}
+      />
+      <HomeStack.Screen
+        name="Topic"
+        component={TopicsScreen}
+        options={{
+          title: 'Topic',
+          headerBackTitle: '',
+        }}
+      />
+      <HomeStack.Screen
+        name="Post"
+        component={PostScreen}
+        options={{
+          title: 'Post',
+          headerBackTitle: '',
+        }}
+      />
+      <HomeStack.Screen
+        name="Notifications"
+        component={NotificationsScreen}
+        options={{
+          title: 'Notifications',
+          headerBackTitle: '',
+          animation: 'slide_from_bottom',
+        }}
+      />
+    </HomeStack.Navigator>
+  )
+}
 
 export const AppNavigation: React.FC = ({ children }) => {
   const { theme } = useTheme()
@@ -177,15 +164,18 @@ export const VolunteeringAppNavigator: React.VFC = () => (
 
 export const BottomTabsNavigator: React.VFC = () => {
   const { theme } = useTheme()
+
+  const iconColor = (isActive: boolean) => (isActive ? theme.colors.fontColorBlack : theme.colors.fontColorGrey)
+
   return (
     <BottomTabs.Navigator
       initialRouteName="Home"
       screenOptions={{
         tabBarStyle: {
           backgroundColor: theme.colors.backgroundColorWhite,
-          paddingHorizontal: 5,
+          paddingHorizontal: 0,
           borderTopWidth: 1,
-          borderTopColor: theme.colors.backgroundColorWhite,
+          borderTopColor: theme.colors.fontColorGrey,
         },
       }}
     >
@@ -194,8 +184,8 @@ export const BottomTabsNavigator: React.VFC = () => {
         options={{
           headerShown: false, // don't show on root level as the content comes with a header
           tabBarShowLabel: false,
-          tabBarIcon: ({ focused, color, size }) => {
-            return <HoliIcon icon="home" size={20} filled={focused} />
+          tabBarIcon: ({ focused }) => {
+            return <HoliIcon icon="home" size={20} filled={focused} style={{ color: iconColor(focused) }} />
           },
         }}
         component={HomeStackNavigator} // chat is complex, probably needs a navigator
@@ -205,8 +195,8 @@ export const BottomTabsNavigator: React.VFC = () => {
         component={ChatStackNavigator} // chat is complex, probably needs a navigator
         options={{
           tabBarShowLabel: false,
-          tabBarIcon: ({ focused, color, size }) => {
-            return <HoliIcon icon="chat" size={20} filled={focused} />
+          tabBarIcon: ({ focused }) => {
+            return <HoliIcon icon="chat" size={20} filled={focused} style={{ color: iconColor(focused) }} />
           },
         }}
       />
@@ -215,8 +205,8 @@ export const BottomTabsNavigator: React.VFC = () => {
         component={ExploreScreen} // a simple component should do
         options={{
           tabBarShowLabel: false,
-          tabBarIcon: ({ focused, color, size }) => {
-            return <HoliIcon icon="explore" size={20} filled={focused} />
+          tabBarIcon: ({ focused }) => {
+            return <HoliIcon icon="explore" size={20} filled={focused} style={{ color: iconColor(focused) }} />
           },
         }}
       />
@@ -225,8 +215,8 @@ export const BottomTabsNavigator: React.VFC = () => {
         component={SearchScreen} // a simple component should do
         options={{
           tabBarShowLabel: false,
-          tabBarIcon: ({ focused, color, size }) => {
-            return <HoliIcon icon="search" size={20} filled={focused} />
+          tabBarIcon: ({ focused }) => {
+            return <HoliIcon icon="search" size={20} filled={focused} style={{ color: iconColor(focused) }} />
           },
         }}
       />

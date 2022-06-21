@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { ReactChild, ReactChildren } from 'react'
 import { useState } from 'react'
 import {
   AccessibilityProps,
@@ -22,7 +22,7 @@ export type ButtonProps = {
   disabled?: boolean
   active?: boolean
   transparent?: boolean
-  children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string
+  children?: ReactChild | ReactChild[] | ReactChildren | Array<ReactChild> | string
   disableFocuasability?: boolean
   // only for TS (props are added by {...props})
   onPress?: null | ((event: GestureResponderEvent) => void)

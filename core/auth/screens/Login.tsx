@@ -22,6 +22,7 @@ const Login: React.VoidFunctionComponent = () => {
       // The flow was initialized successfully, let's set the form data:
       console.info('[Login.tsx] login flow initialized.')
       setFlow(flow)
+      // TODO: jump into first input element after form is shown
     })
   }
 
