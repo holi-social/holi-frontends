@@ -9,6 +9,9 @@ import { Logout } from '@holi/core/auth/screens/Logout'
 import { ChatHomeScreen } from '@holi/core/chat/ChatHomeScreen'
 import { ExploreScreen } from '@holi/core/explore/ExploreScreen'
 import { HomeFeedScreen } from '@holi/core/home/HomeFeedScreen'
+import HeaderNotifcationLink from '@holi/core/navigation/components/HeaderNotifcationLink'
+import HeaderProfileLink from '@holi/core/navigation/components/HeaderProfileLink'
+import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { NotificationsScreen } from '@holi/core/notifications/NotificationsScreen'
 import { UserProfileScreen } from '@holi/core/profile/UserProfileScreen'
@@ -42,7 +45,6 @@ export type CoreStackScreensList = {
 export type BottomTabsScreensList = {
   Home: undefined
   Chat: undefined
-  Explore: undefined
   Search: undefined
 }
 
@@ -79,37 +81,18 @@ export const HomeStackNavigator: React.VFC = () => (
     initialRouteName="HomeFeed"
     screenOptions={{
       headerShown: true,
+      headerStyle: {
+        backgroundColor: 'red',
+      }
     }}
   >
     <HomeStack.Screen
       name="HomeFeed"
       component={HomeFeedScreen}
       options={{
-        title: 'Good Morning',
-        headerLeft: ({ canGoBack, tintColor }) => {
-          const { navigate } = useRouting()
-          return (
-            <HoliButton
-              label="Notifications"
-              inline
-              transparent
-              onPress={() => navigate('/notifications')}
-              style={{ paddingHorizontal: 0 }}
-            >
-              {/* TODO: notification icon */}
-              <HoliIcon icon="chat" size={20} />
-            </HoliButton>
-          )
-        },
-        headerRight: ({ canGoBack, tintColor }) => {
-          const { navigate, pathname } = useRouting()
-          // TODO: differs, when logged in
-          return (
-            <HoliButton label="Profile" inline transparent onPress={() => navigate('/profile/danbim')}>
-              <HoliIcon icon="user-circled" size={20} />
-            </HoliButton>
-          )
-        },
+        headerTitle: () => <HeaderTitle style={{ paddingTop: 5 }} />,
+        headerLeft: () => <HeaderNotifcationLink style={{ marginLeft: 5 }} />,
+        headerRight: () => <HeaderProfileLink style={{ marginRight: 5, color: '#0f0' }} />,
       }}
     />
     <HomeStack.Screen
@@ -195,7 +178,7 @@ export const BottomTabsNavigator: React.VFC = () => {
           headerShown: false, // don't show on root level as the content comes with a header
           tabBarShowLabel: false,
           tabBarIcon: ({ focused, color, size }) => {
-            return <HoliIcon icon="home" size={20} filled={focused} />
+            return <HoliIcon icon="home" size={20} filled={focused} color="red" />
           },
         }}
         component={HomeStackNavigator} // chat is complex, probably needs a navigator

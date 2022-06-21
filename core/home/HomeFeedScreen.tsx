@@ -1,16 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
+import { useNavigationContext } from '@holi/core/navigation/context'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { fakeTopics } from '@holi/core/topics/fakeTopics'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 import Holicon from '@holi/ui/components/holicon'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 
 export const HomeFeedScreen: React.VFC = () => {
   const { navigate } = useRouting()
+  const navigationContext = useNavigationContext()
+
+  useEffect(() => navigationContext.setHeaderTitle('Topic of the day'), [])
+
   return (
     <View style={styles.view}>
       <HoliText type={HoliTextType.super} testID="home-feed-title">

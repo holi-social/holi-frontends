@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { View } from 'react-native'
 
+import { AuthContext } from '@holi/core/auth/AuthProvider'
 import { LoginProtection } from '@holi/core/auth/screens/LoginProtection'
+import { useNavigationContext } from '@holi/core/navigation/context'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { UserContext } from '@holi/core/user/UserContextProvider'
 import { UserProfileForm } from '@holi/core/user/components/UserProfileForm'
 import { UserProfileView } from '@holi/core/user/components/UserProfileView'
 import HoliButton from '@holi/ui/components/HoliButton'
@@ -16,6 +19,14 @@ export const UserProfileScreen: React.VFC = () => {
   const [editing, setEditing] = useState(false)
   const [chipChecked, setChipChecked] = useState(false)
   const toggleEditing = () => setEditing(!editing)
+
+  const navigationContext = useNavigationContext()
+  const { isAuthenticated } = useContext(AuthContext)
+  const { user } = useContext(UserContext)
+
+  useEffect(() => {
+    navigationContext.setHeaderTitle(isAuthenticated && user ? user.firstName : 'Profile')
+  }, [isAuthenticated])
 
   const loggedOutContent = <HoliText type={HoliTextType.heading1}>Log in to see your profile</HoliText>
   return (
