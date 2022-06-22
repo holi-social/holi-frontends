@@ -13,7 +13,6 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { NotificationsScreen } from '@holi/core/notifications/NotificationsScreen'
 import { UserProfileScreen } from '@holi/core/profile/UserProfileScreen'
 import { SearchScreen } from '@holi/core/search/SearchScreen'
-import { TopicEditorsScreen, TopicEditorsScreenParams } from '@holi/core/topics/TopicEditorsScreen'
 import { TopicScreenParams, TopicsScreen } from '@holi/core/topics/TopicsScreen'
 import { PostScreen, PostScreenParams } from '@holi/core/topics/posts/PostScreen'
 import HoliButton from '@holi/ui/components/HoliButton'
@@ -54,7 +53,6 @@ export type RootStackScreensList = {
   // all modals
   Login: undefined
   Logout: undefined
-  TopicEditorsScreen: TopicEditorsScreenParams
 }
 
 const HomeStack = createNativeStackNavigator<CoreStackScreensList>()
@@ -263,13 +261,6 @@ export const RootNavigator: React.VFC = () => (
         component={Logout}
         options={{
           title: 'Logout',
-        }}
-      />
-      <RootStack.Screen
-        name="TopicEditorsScreen"
-        component={TopicEditorsScreen}
-        options={{
-          title: 'Topic Editors',
         }}
       />
     </RootStack.Group>

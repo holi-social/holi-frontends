@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly renders correctly when closed 1`] = `
+<Modal
+  hardwareAccelerated={false}
+  transparent={true}
+  visible={false}
+/>
+`;
+
+exports[`renders correctly renders correctly when open 1`] = `
+<Modal
+  hardwareAccelerated={false}
+  transparent={true}
+  visible={true}
+>
+  <View
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "rgba(0,0,0, 0.5)",
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+          "zIndex": 80,
+        }
+      }
+      testID="backDrop"
+    />
+    <View
+      collapsable={false}
+      style={
+        Object {
+          "backgroundColor": "#fff",
+          "borderTopLeftRadius": 24,
+          "borderTopRightRadius": 24,
+          "bottom": -1000.5,
+          "height": 1000.5,
+          "left": 0,
+          "overflow": "hidden",
+          "position": "absolute",
+          "right": 0,
+          "shadowColor": "#000",
+          "shadowOffset": Object {
+            "height": 0,
+            "width": 0,
+          },
+          "zIndex": 100,
+        }
+      }
+    >
+      <View
+        collapsable={false}
+        onGestureHandlerEvent={[Function]}
+        onGestureHandlerStateChange={[Function]}
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#fff",
+              "height": 44,
+              "justifyContent": "center",
+            },
+            Object {
+              "shadowColor": "#000",
+              "shadowOffset": Object {
+                "height": 0,
+                "width": 0,
+              },
+            },
+            Object {
+              "position": "relative",
+              "shadowOffset": Object {
+                "height": 3,
+                "width": 750,
+              },
+            },
+          ]
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#1b1d201a",
+                "borderRadius": 4,
+                "height": 4,
+                "position": "absolute",
+                "top": 8,
+                "width": 33,
+                "zIndex": 10,
+              },
+            ]
+          }
+        />
+      </View>
+    </View>
+  </View>
+</Modal>
+`;

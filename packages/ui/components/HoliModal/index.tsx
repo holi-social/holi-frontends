@@ -6,13 +6,13 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type HoliModalProps = ModalProps & {
   show: boolean
-  relativeHeight?: number
   onDismiss: () => void
+  relativeHeight?: number
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild>
 }
 
 const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProps) => {
-  const { show, relativeHeight, onDismiss, children } = props
+  const { show, relativeHeight, onDismiss, children, testID } = props
   const { theme } = useTheme()
   const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
   const styles = getStyles(theme)
@@ -28,6 +28,7 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
   }
 
   const onGestureEnd = (event: any) => {
+    // if dragged more than half of the height down, dismiss the modal
     if (event.nativeEvent.translationY > modalHeight / 2) {
       onDismiss()
     } else {
@@ -58,7 +59,7 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
   return (
     <Modal visible={visible} transparent={true}>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <Pressable onPress={onDismiss} style={styles.backDrop} />
+        <Pressable onPress={onDismiss} style={styles.backDrop} testID="backDrop" />
 
         <Animated.View
           style={[
@@ -91,7 +92,6 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
               <View style={[styles.handle]} />
             </View>
           </PanGestureHandler>
-
           {children}
         </Animated.View>
       </GestureHandlerRootView>
