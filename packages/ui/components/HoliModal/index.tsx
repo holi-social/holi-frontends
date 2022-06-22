@@ -12,7 +12,7 @@ export type HoliModalProps = ModalProps & {
 }
 
 const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProps) => {
-  const { show, relativeHeight, onDismiss, children, testID } = props
+  const { show, relativeHeight, onDismiss, children } = props
   const { theme } = useTheme()
   const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
   const styles = getStyles(theme)
