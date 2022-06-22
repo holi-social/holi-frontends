@@ -120,13 +120,14 @@ const getStyles = (theme: HoliTheme) =>
       alignItems: 'center',
     },
     handle: {
-      width: 33,
+      width: 40,
       height: 4,
       borderRadius: 4,
       position: 'absolute',
-      top: 8,
+      top: 10,
       zIndex: 10,
-      backgroundColor: theme.colors.softblackTransparent,
+      backgroundColor: theme.colors.softblack,
+      opacity: 0.3,
     },
     common: {
       shadowColor: '#000',
@@ -144,6 +145,7 @@ const getStyles = (theme: HoliTheme) =>
     backDrop: {
       ...StyleSheet.absoluteFillObject,
       zIndex: 80,
-      backgroundColor: 'rgba(0,0,0, 0.5)',
+      opacity: 0.4,
+      backgroundColor: theme.colors.softblack,
     },
   })

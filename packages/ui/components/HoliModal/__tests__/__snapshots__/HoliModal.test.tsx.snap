@@ -36,9 +36,10 @@ exports[`renders correctly renders correctly when open 1`] = `
       onStartShouldSetResponder={[Function]}
       style={
         Object {
-          "backgroundColor": "rgba(0,0,0, 0.5)",
+          "backgroundColor": "#222326",
           "bottom": 0,
           "left": 0,
+          "opacity": 0.4,
           "position": "absolute",
           "right": 0,
           "top": 0,
@@ -102,12 +103,13 @@ exports[`renders correctly renders correctly when open 1`] = `
           style={
             Array [
               Object {
-                "backgroundColor": "#1b1d201a",
+                "backgroundColor": "#222326",
                 "borderRadius": 4,
                 "height": 4,
+                "opacity": 0.3,
                 "position": "absolute",
-                "top": 8,
-                "width": 33,
+                "top": 10,
+                "width": 40,
                 "zIndex": 10,
               },
             ]
