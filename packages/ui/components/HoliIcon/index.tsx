@@ -10,7 +10,7 @@ export type HoliIconProps = {
   filled?: boolean
   size?: number
   testID?: string
-  style?: React.CSSProperties | undefined
+  style?: React.CSSProperties
 }
 
 const HoliIcon: React.VoidFunctionComponent<HoliIconProps> = (props: HoliIconProps) => {

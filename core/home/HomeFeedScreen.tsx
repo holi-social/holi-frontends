@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
+import { useNavigation } from '@react-navigation/native'
+
 import { useNavigationContext } from '@holi/core/navigation/context'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { fakeTopics } from '@holi/core/topics/fakeTopics'
@@ -13,8 +15,12 @@ import Holicon from '@holi/ui/components/holicon'
 export const HomeFeedScreen: React.VFC = () => {
   const { navigate, pathname } = useRouting()
   const navigationContext = useNavigationContext()
+  const navigation = useNavigation()
 
-  useEffect(() => navigationContext.setHeaderTitle('Topic of the day'), [pathname])
+  useEffect(
+    () => navigation.addListener('focus', () => navigationContext.setHeaderTitle('Topic of the day')),
+    [navigation]
+  )
 
   return (
     <View style={styles.view}>
