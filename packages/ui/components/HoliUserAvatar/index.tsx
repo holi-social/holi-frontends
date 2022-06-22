@@ -28,7 +28,7 @@ export type AvatarProps = {
 const HoliUserAvatar: React.FunctionComponent<AvatarProps> = (props: AvatarProps) => {
   const { theme } = useTheme()
   const sizes = {
-    micro: 30,
+    micro: 25,
     small: 50,
     medium: 65,
     large: 80,

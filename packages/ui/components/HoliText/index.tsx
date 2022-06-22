@@ -9,7 +9,7 @@ export type HoliTextProps = {
   children: React.ReactChild | React.ReactChild[] | string
   type?: keyof typeof HoliTextTypes
   isAccessible?: boolean
-  styles?: TextStyle
+  style?: TextStyle
   testID?: string
 }
 
@@ -30,7 +30,7 @@ const HoliText = ({ children, type = HoliTextType.body, isAccessible = true, ...
   })
 
   return (
-    <Text {...getAccessibilityProps} {...props} style={[styles.default, styles[HoliTextType[type]], props?.styles]}>
+    <Text {...getAccessibilityProps} {...props} style={[styles.default, styles[HoliTextType[type]], props?.style]}>
       {children}
     </Text>
   )

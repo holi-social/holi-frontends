@@ -25,7 +25,8 @@ export const UserProfileScreen: React.VFC = () => {
   const { user } = useContext(UserContext)
 
   useEffect(() => {
-    navigationContext.setHeaderTitle(isAuthenticated && user ? user.firstName : 'Profile')
+    const profileTitle = isAuthenticated && user ? user.firstName : 'Profile'
+    navigationContext.setHeaderTitle(profileTitle)
   }, [isAuthenticated])
 
   const loggedOutContent = <HoliText type={HoliTextType.heading1}>Log in to see your profile</HoliText>

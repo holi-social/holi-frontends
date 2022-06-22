@@ -11,10 +11,10 @@ import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 import Holicon from '@holi/ui/components/holicon'
 
 export const HomeFeedScreen: React.VFC = () => {
-  const { navigate } = useRouting()
+  const { navigate, pathname } = useRouting()
   const navigationContext = useNavigationContext()
 
-  useEffect(() => navigationContext.setHeaderTitle('Topic of the day'), [])
+  useEffect(() => navigationContext.setHeaderTitle('Topic of the day'), [pathname])
 
   return (
     <View style={styles.view}>

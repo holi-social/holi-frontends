@@ -1,5 +1,5 @@
 import React from 'react'
-import { SafeAreaView, View } from 'react-native'
+import { SafeAreaView, StyleSheet, View } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -87,6 +87,7 @@ export const HomeStackNavigator: React.VFC = () => {
         headerStyle: {
           backgroundColor: theme.colors.backgroundColorWhite,
         },
+        headerTitleAlign: 'center',
       }}
     >
       <HomeStack.Screen
@@ -95,14 +96,21 @@ export const HomeStackNavigator: React.VFC = () => {
         options={{
           headerTitle: () => <HeaderTitle style={{ paddingTop: 5 }} />,
           headerLeft: () => <HeaderNotificationLink style={{ paddingHorizontal: 0, marginLeft: 5 }} />,
-          headerRight: () => <HeaderProfileLink style={{ paddingHorizontal: 0, marginRight: 5 }} />,
+          headerRight: () => (
+            <HeaderProfileLink
+              style={{
+                paddingHorizontal: 0,
+                marginRight: 5,
+              }}
+            />
+          ),
         }}
       />
       <HomeStack.Screen
         name="UserProfile"
         component={UserProfileScreen}
         options={{
-          title: 'Profile',
+          headerTitle: () => <HeaderTitle style={{ paddingTop: 5 }} />,
           headerBackTitle: '',
         }}
       />
@@ -110,7 +118,7 @@ export const HomeStackNavigator: React.VFC = () => {
         name="Topic"
         component={TopicsScreen}
         options={{
-          title: 'Topic',
+          headerTitle: () => <HeaderTitle style={{ paddingTop: 5 }} />,
           headerBackTitle: '',
         }}
       />
@@ -118,7 +126,7 @@ export const HomeStackNavigator: React.VFC = () => {
         name="Post"
         component={PostScreen}
         options={{
-          title: 'Post',
+          headerTitle: () => <HeaderTitle style={{ paddingTop: 5 }} />,
           headerBackTitle: '',
         }}
       />
@@ -126,7 +134,7 @@ export const HomeStackNavigator: React.VFC = () => {
         name="Notifications"
         component={NotificationsScreen}
         options={{
-          title: 'Notifications',
+          headerTitle: () => <HeaderTitle style={{ paddingTop: 5 }} />,
           headerBackTitle: '',
           animation: 'slide_from_bottom',
         }}
@@ -174,7 +182,7 @@ export const BottomTabsNavigator: React.VFC = () => {
         tabBarStyle: {
           backgroundColor: theme.colors.backgroundColorWhite,
           paddingHorizontal: 0,
-          borderTopWidth: 1,
+          borderTopWidth: StyleSheet.hairlineWidth,
           borderTopColor: theme.colors.fontColorGrey,
         },
       }}

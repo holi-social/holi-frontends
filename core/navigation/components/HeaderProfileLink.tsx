@@ -47,7 +47,7 @@ const HeaderNotificationLink: React.VoidFunctionComponent<HeaderNotificationLink
       style={[{ paddingHorizontal: 0 }, props.style]}
       testID="profile-button"
     >
-      {!isAuthenticated && <HoliIcon icon="user-circled" size={20} filled={isProfile} color="green" />}
+      {!isAuthenticated && <HoliIcon icon="user-circled" size={20} filled={isProfile} />}
       {isAuthenticated && userAvatar}
     </HoliButton>
   )
