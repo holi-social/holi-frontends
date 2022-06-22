@@ -46,6 +46,10 @@ resource "google_cloud_run_service" "mvp_web" {
           name  = "HOLI_API_URL"
           value = local.holi_api_url
         }
+        env {
+          name  = "NEXT_PUBLIC_ENVIRONMENT_ID"
+          value = local.environment
+        }
 
         resources {
           limits = {
