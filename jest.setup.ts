@@ -1,4 +1,9 @@
 global.mockLinkTo = jest.fn()
+global.captureSentryException = jest.fn()
+global.console = {
+  ...console,
+  error: jest.fn(),
+}
 
 jest.mock('@react-navigation/native', () => {
   const actualNav = jest.requireActual('@react-navigation/native')
@@ -15,5 +20,9 @@ jest.mock('@react-navigation/native', () => {
     useLinkTo: () => global.mockLinkTo,
   }
 })
+
+jest.mock('@sentry/react-native', () => ({
+  captureException: global.captureSentryException,
+}))
 
 export default {}
