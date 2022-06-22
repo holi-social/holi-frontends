@@ -23,7 +23,7 @@ const Registration = () => {
       .then(({ data: flow }) => {
         setConfig(flow)
       })
-      .catch((error) => displayError(error, '[Registration.tsx] initializeFlow error'))
+      .catch((error) => displayError(error, 'Initializing registration flow failed'))
   }
   // When the component is mounted, we initialize a new use login flow:
   useEffect(() => initializeFlow(), [])

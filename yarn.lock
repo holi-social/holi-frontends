@@ -4584,6 +4584,11 @@ anymatch@^3.0.0, anymatch@^3.0.3, anymatch@~3.1.1, anymatch@~3.1.2:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
+apollo-link-timeout@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/apollo-link-timeout/-/apollo-link-timeout-4.0.0.tgz#3e255bcced6a6babdcc080b1919dd958c036e235"
+  integrity sha512-2tZsNvmbsAHunWSsGi+URLMQSDoSU0NRDJeYicX/eB7J94QXydgvZOG4FCsgU5hY0dhUrPrLCotcpJjvOOfSlA==
+
 app-root-dir@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/app-root-dir/-/app-root-dir-1.0.2.tgz#38187ec2dea7577fff033ffcb12172692ff6e118"
