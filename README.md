@@ -9,6 +9,8 @@
 - [Monorepo (and why)](#monorepo---and-why)
   - [Yarn Workspaces](#yarn-workspaces)
   - [Workspaces / Package Structure](#workspaces--package-structure)
+  - [Code conventions](#code-conventions)
+    - [Code style](#code-style)
   - [Dependencies](#dependencies)
     - [Dependencies and Yarn Workspaces](#adding-dependencies-and-yarn-workspaces)
     - [Rules for Adding Dependencies](#rules-for-adding-dependencies)
@@ -130,14 +132,15 @@ weren't in a monorepo with yarn Workspaces.
 
 To give an overview, the project contains the following workspaces (npm packages):
 
-- `apps` - contains platform specific configs, styles and structurally differing code that can not be shared like the navigation and next.js pages
+- `apps` - contains platform specific configs, styles and structurally differing code that can not be shared (e.g. the navigation and next.js pages)
   - `mobile` - the mobile ("native" as in React Native) app for iOS and Android, managed by Expo. Contains just the minimal platform-specific code that can not be shared with `web`.
   - `web` - the web (reactive, small and big screen) site, built with React Native for Web and Expo. Contains just the minimal platform-specific code that can not be shared with `mobile`.
+  - `storybook` - app to explore UI components. `stories` should be placed next to the respective components in `packages/ui`
 - `core` - shared code for the core of the HOLI app / site (feature-specific components, screens, ...)
   - `auth` - shared components and helpers for authentication
   - `errors` - shared components and helpers for error handling
   - `navigation` - shared components and helpers for navigation
-  - `rootProvider.tsx` - shared root provider
+  - `RootProvider.tsx` - shared root provider
   - `screens` - all screens used in the core app
     - `UserProfile` - exmplary for screens in general, contains everything specific to this screen that is not shared, no 'Screen' suffix in name
       - `components`
@@ -154,18 +157,45 @@ To give an overview, the project contains the following workspaces (npm packages
 - `packages` - shared "library" code goes here, i.e. everything reusable that *could* also be published as an npm package
   - `api` - shared client-side code for the HOLI API
   - `ui` - the HOLI component library
-- `storybook` - TODO move from `apps/web`? or maybe move to `packages` or `packages/ui`?
 - `terraform`
   - `common` - definitions for common infrastructure
-  - `web` - definitions for web environment
+  - `platforms` - definitions for the specific platforms (currently only necessary for web)
+    - `web` - definitions for web platform
 
 ### Code conventions
 
-- Filenames: camelCase
-- File and folder names for components (basically all `.tsx` files, including screens and tests) uppercase
-- Default instead of named exports, esp. for components. Exceptions might be e.g. collections of util functions.
-- Platform specific code: create subfolder with `foobar.ts` (mobile variant), `foobar.web.ts` (web variant) and `index.ts` with default export
-- Tests: Folder `__tests__` next to the files to be tested, inside `<fileName>.test.ts[x]`
+- File names: camelCase
+- File and folder names for components (basically all `.tsx` files except for `index.tsx`, including screens and tests): PascalCase
+- Default instead of named exports, esp. for components. I.e. every file should typically only export one component or function, exceptions might be e.g. collections of util functions. If it necessary to export prop types as well, they may be exported in the same file as the component
+  - E.g.
+
+    ```ts
+    export type MyComponentProps = [...]
+
+    export default const MyComponent = [...]
+    ```
+
+  - which can be imported as `import MyComponent, { MyComponentProps } from 'path/to/MyComponent'`
+- For more complex components that span over multiple files (e.g. screens or platform specific variants), group all files in a folder and provide an `index.tsx` file exporting the root component as default export. This enables importing the component as if it was a single file (using e.g. `import MyComponent from 'path/to/MyComponent'`) and hides the complexity of the component itself.
+  - Example for components:
+    - `MyComponent`
+      - `index.tsx` - default export of the root component
+      - other files required for the component that are not shared
+  - Example for platform specific code:
+    - `foobar` - see `core/navigation/hooks/useNavigation` as example
+      - `foobar.ts` - mobile variant
+      - `foobar.web.ts` - web variant
+      - `index.ts` - default export
+- Tests: Folder `__tests__` next to the files to be tested and `.test` suffix for the test file names, e.g.:
+  - `foobar.tsx`
+  - `__tests__`
+    - `foobar.test.tsx`
+
+#### Code style
+
+We use `eslint` and `prettier` to lint and format the code.
+The rules are defined in `.eslintrc.js` resp. `.prettierrc` and are checked by our commit hooks as well as during the CI pipelines.
+Make sure to install appropriate IDE plugins to assist writing properly linted code and automate formatting.
 
 ### Dependencies
 
