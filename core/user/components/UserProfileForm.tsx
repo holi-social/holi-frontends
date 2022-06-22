@@ -1,12 +1,13 @@
 import { useMutation } from '@apollo/client'
 import React, { useContext, useState } from 'react'
-import { Text, TextInput } from 'react-native'
+import { TextInput } from 'react-native'
 
 import { UserContext } from '@holi/core/user/UserContextProvider'
 import { updateUserMutation } from '@holi/core/user/queries'
 import { User } from '@holi/core/user/types'
 import GraphQLError from '@holi/ui/components/GraphQLError'
 import HoliButton from '@holi/ui/components/HoliButton'
+import HoliText from '@holi/ui/components/HoliText'
 
 type UserProfileFormProps = {
   children?: React.ReactChildren
@@ -34,11 +35,11 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
   }
 
   if (!user) {
-    return <Text>No user fetched</Text>
+    return <HoliText>No user fetched</HoliText>
   }
 
   if (loading) {
-    return <Text>Saving...</Text>
+    return <HoliText>Saving...</HoliText>
   }
 
   let errorComponent
@@ -50,7 +51,7 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
   // Later: possibly use form tag for web
   return (
     <>
-      <Text>Name:</Text>
+      <HoliText>Name:</HoliText>
       <TextInput value={firstName} onChangeText={setName} />
       {errorComponent}
       <HoliButton label="Profile data" onPress={onCancel}>

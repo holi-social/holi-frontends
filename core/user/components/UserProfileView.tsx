@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
-import { Text } from 'react-native'
 
 import { UserContext } from '@holi/core/user/UserContextProvider'
 import HoliButton from '@holi/ui/components/HoliButton'
+import HoliText from '@holi/ui/components/HoliText'
 import HoliUserAvatar from '@holi/ui/components/HoliUserAvatar'
 
 type UserProfileViewProps = {
@@ -13,7 +13,7 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
   const { user } = useContext(UserContext)
 
   if (!user) {
-    return <Text>No user fetched</Text>
+    return <HoliText>No user fetched</HoliText>
   }
 
   // TODO: hand over email, when firstName is empty
@@ -26,16 +26,16 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
     <>
       <HoliUserAvatar imageSrc={user.image} nameLabel={userImageLabel} defaultColor={userDefaultColor} size="large" />
 
-      <Text>{user.firstName}</Text>
-      <Text>{user.middleName}</Text>
-      <Text>{user.lastName}</Text>
-      <Text>{user.pronouns}</Text>
-      <Text>{user.aboutMe}</Text>
-      <Text>{user.location}</Text>
-      <Text>{user.engagementLevel}</Text>
-      <Text>{user.interests.join(', ')}</Text>
-      <Text>{user.sdgs.join(', ')}</Text>
-      <Text>{user.skills.join(', ')}</Text>
+      <HoliText>{user.firstName}</HoliText>
+      <HoliText>{user.middleName}</HoliText>
+      <HoliText>{user.lastName}</HoliText>
+      <HoliText>{user.pronouns}</HoliText>
+      <HoliText>{user.aboutMe}</HoliText>
+      <HoliText>{user.location}</HoliText>
+      <HoliText>{user.engagementLevel}</HoliText>
+      <HoliText>{user.interests.join(', ')}</HoliText>
+      <HoliText>{user.sdgs.join(', ')}</HoliText>
+      <HoliText>{user.skills.join(', ')}</HoliText>
       <HoliButton label="Profile data" onPress={editUser}>
         Edit
       </HoliButton>

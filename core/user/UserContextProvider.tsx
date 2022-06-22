@@ -1,9 +1,9 @@
 import { useQuery } from '@apollo/client'
 import React, { createContext } from 'react'
-import { Text } from 'react-native'
 
 import { AllUsersQueryResult, allUsersQuery } from '@holi/core/user/queries'
 import { User } from '@holi/core/user/types'
+import HoliText from '@holi/ui/components/HoliText'
 
 interface Context {
   user: User | undefined
@@ -24,7 +24,7 @@ export const UserContextProvider: React.FC = ({ children }) => {
   })
 
   if (loading) {
-    return <Text>Loading...</Text>
+    return <HoliText>Loading...</HoliText>
   }
 
   if (error) {

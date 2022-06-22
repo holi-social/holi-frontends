@@ -9,6 +9,7 @@ import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { getNodeId, handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import HoliText from '@holi/ui/components/HoliText'
 
 const Registration = () => {
   const { navigate } = useRouting()
@@ -57,7 +58,7 @@ const Registration = () => {
 
   return (
     <AuthLayout>
-      <Text>Create an account</Text>
+      <HoliText>Create an account</HoliText>
       <SelfServiceFlow
         textInputOverride={(field, props) => {
           const iOS12Plus = Platform.OS === 'ios' && parseInt(String(Platform.Version), 10) >= 12
