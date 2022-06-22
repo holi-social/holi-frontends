@@ -19,14 +19,15 @@ const Login: React.VoidFunctionComponent = () => {
   const { displayError } = useErrorHandling()
 
   const initializeFlow = () => {
-    initLoginFlow().then((response) => {
-      const { data: flow } = response
-      // The flow was initialized successfully, let's set the form data:
-      console.info('[Login.tsx] login flow initialized.')
-      setFlow(flow)
-      // TODO: jump into first input element after form is shown
-    })
-      .catch((error) => displayError(error, '[Login.tsx] initializeFlow error'))
+    initLoginFlow()
+      .then((response) => {
+        const { data: flow } = response
+        // The flow was initialized successfully, let's set the form data:
+        console.info('[Login.tsx] login flow initialized.')
+        setFlow(flow)
+        // TODO: jump into first input element after form is shown
+      })
+      .catch((error) => displayError(error, 'Initializing login flow failed'))
   }
 
   // When the component is mounted, we initialize a new use login flow:

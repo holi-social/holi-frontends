@@ -7,7 +7,9 @@
     "clean": "echo 'nothing to be done'",
     "clean:all": "rimraf node_modules"
   },
-  "dependencies": {},
+  "dependencies": {
+    "apollo-link-timeout": "^4.0.0"
+  },
   "devDependencies": {},
   "peerDependencies": {},
   "type": "module"
