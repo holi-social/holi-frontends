@@ -1,18 +1,19 @@
 import { ApolloError } from '@apollo/client'
 import React from 'react'
-import { Text } from 'react-native'
+
+import HoliText from '@holi/ui/components/HoliText'
 
 const GraphQLError: React.VoidFunctionComponent<{ error: ApolloError }> = ({ error }) => {
   if (error.message) {
-    return <Text>{error.message}</Text>
+    return <HoliText>{error.message}</HoliText>
   } else {
     return (
-      <Text>
+      <HoliText>
         Errors: {JSON.stringify(error)}
         {error.graphQLErrors.map(({ message }, i) => (
-          <Text key={i}>{message}</Text>
+          <HoliText key={i}>{message}</HoliText>
         ))}
-      </Text>
+      </HoliText>
     )
   }
 }

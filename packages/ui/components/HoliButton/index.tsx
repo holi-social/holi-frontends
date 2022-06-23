@@ -6,12 +6,12 @@ import {
   Platform,
   Pressable,
   StyleSheet,
-  Text,
   View,
   ViewStyle,
 } from 'react-native'
 import tinycolor from 'tinycolor2'
 
+import HoliText from '@holi/ui/components/HoliText'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type ButtonProps = {
@@ -43,7 +43,7 @@ const HoliButton: React.FunctionComponent<ButtonProps> = (props: ButtonProps) =>
   }
 
   const content = buttonText ? (
-    <Text style={[styles.text, !disabled && props.active && styles.active]}>{buttonText}</Text>
+    <HoliText styles={[styles.text, !disabled && props.active && styles.active]}>{buttonText}</HoliText>
   ) : (
     props.children
   )
