@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import { createParam } from 'solito'
 
 import { fakeTopics } from '@holi/core/topics/fakeTopics'
@@ -17,8 +17,8 @@ export const PostScreen: React.VFC = () => {
   const [topicId] = useParam('topicId')
   const [postId] = useParam('postId')
 
-  if (!topicId) return <Text>Missing topicId</Text>
-  if (!postId) return <Text>Missing postId</Text>
+  if (!topicId) return <HoliText>Missing topicId</HoliText>
+  if (!postId) return <HoliText>Missing postId</HoliText>
 
   return (
     <View style={{ justifyContent: 'center', padding: 10 }}>
