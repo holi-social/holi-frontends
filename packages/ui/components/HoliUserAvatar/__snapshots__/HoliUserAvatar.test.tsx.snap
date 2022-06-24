@@ -77,6 +77,29 @@ exports[`React tree renders the users initials, when given image prop is empty 1
     accessibilityRole="image"
     accessible={true}
     style={
+      Array [
+        Object {
+          "fontFamily": "Circular Std Medium",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "lineHeight": 19.2,
+        },
+        Object {
+          "fontFamily": "Circular Std Book",
+          "fontWeight": "400",
+          "lineHeight": 22.4,
+        },
+        Object {
+          "color": "#fff",
+          "fontFamily": "sans-serif",
+          "fontSize": 78.10000000000001,
+          "fontWeight": "bold",
+          "textAlignVertical": "center",
+          "textTransform": "uppercase",
+        },
+      ]
+    }
+    styles={
       Object {
         "color": "#fff",
         "fontFamily": "sans-serif",

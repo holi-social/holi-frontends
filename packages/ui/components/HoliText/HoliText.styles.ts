@@ -31,7 +31,7 @@ export const getHoliTextStyles = (theme: HoliTheme) =>
     },
     body: {
       lineHeight: 16 * 1.4,
-      // fontWeight: '450',
+      fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
     },
     captionLink: {
@@ -41,7 +41,7 @@ export const getHoliTextStyles = (theme: HoliTheme) =>
     caption: {
       fontSize: 14,
       lineHeight: 14 * 1.2,
-      // fontWeight: '450',
+      fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
     },
     labelLink: {
@@ -51,7 +51,7 @@ export const getHoliTextStyles = (theme: HoliTheme) =>
     label: {
       fontSize: 12,
       lineHeight: 12 * 1.2,
-      // fontWeight: '450',
+      fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
     },
   })

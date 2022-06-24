@@ -1,11 +1,10 @@
 import React, { useEffect, useLayoutEffect } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { createParam } from 'solito'
 
 import { useNavigationContext } from '@holi/core/navigation/context'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliButton from '@holi/ui/components/HoliButton'
-import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
@@ -21,10 +20,11 @@ export const TopicsScreen: React.VFC = ({ navigation }) => {
   const [topicId] = useParam('topicId')
   const { navigate } = useRouting()
   const topic = fakeTopics.get(topicId)
-  if (!topic) return <Text>Topic {topicId} not found</Text>
+  if (!topic) return <HoliText>Topic {topicId} not found</HoliText>
 
+  const headerTitle = `Topic ${topicId}`
   const navigationContext = useNavigationContext()
-  useEffect(() => navigationContext.setHeaderTitle(`Topic ${topicId}`))
+  useEffect(() => navigationContext.setHeaderTitle(headerTitle))
 
   navigation &&
     useLayoutEffect(
@@ -32,7 +32,7 @@ export const TopicsScreen: React.VFC = ({ navigation }) => {
         navigation.setOptions({
           headerTitle: () => (
             <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
-              Topic {topicId}
+              {headerTitle}
             </HoliText>
           ),
         }),
@@ -41,15 +41,19 @@ export const TopicsScreen: React.VFC = ({ navigation }) => {
 
   return (
     <View style={styles.topicView}>
-      <HoliHeading level={1}>Topic topicId={topicId}</HoliHeading>
+      <HoliText type={HoliTextType.super} styles={{ alignSelf: 'center' }}>
+        Topic topicId={topicId}
+      </HoliText>
 
       <HoliButton label="Topic Editors" inline onPress={() => navigate(`/topics/${topicId}/editors`)}>
         Topic Editors
       </HoliButton>
 
-      <Text style={{ fontSize: 24, paddingBottom: 10 }}>{topic.title}</Text>
-      <Text style={styles.text}>{topic.text}</Text>
-      <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Posts</Text>
+      <HoliText type={HoliTextType.heading1} styles={{ paddingBottom: 10 }}>
+        {topic.title}
+      </HoliText>
+      <HoliText>{topic.text}</HoliText>
+      <HoliText type={HoliTextType.heading3}>Posts</HoliText>
       {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
         <HoliButton
           key={postId}
@@ -59,7 +63,7 @@ export const TopicsScreen: React.VFC = ({ navigation }) => {
           style={styles.post}
           onPress={() => navigate(`/topics/${topicId}/posts/${postId}`)}
         >
-          <Text>{topic.posts[postId].text}</Text>
+          <HoliText>{topic.posts[postId].text}</HoliText>
         </HoliButton>
       ))}
     </View>

@@ -1,6 +1,5 @@
 import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/kratos-client'
 import React, { useContext, useEffect, useState } from 'react'
-import { Text } from 'react-native'
 
 import AuthLayout from '@holi/core/auth/AuthLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
@@ -11,6 +10,7 @@ import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { SessionContext } from '@holi/core/auth/helpers/sdk'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import HoliText from '@holi/ui/components/HoliText'
 
 const Login: React.VoidFunctionComponent = () => {
   const { setSession } = useContext(AuthContext)
@@ -50,7 +50,7 @@ const Login: React.VoidFunctionComponent = () => {
       : Promise.resolve()
   return (
     <AuthLayout>
-      <Text>Sign in to your account</Text>
+      <HoliText>Sign in to your account</HoliText>
       <SelfServiceFlow flow={flow} onSubmit={onSubmit} />
     </AuthLayout>
   )
