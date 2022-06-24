@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { View } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
@@ -14,20 +14,30 @@ import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
-export const UserProfileScreen: React.VFC = () => {
+export const UserProfileScreen: React.VFC = ({ navigation }) => {
   const { navigate } = useRouting()
   const [editing, setEditing] = useState(false)
   const [chipChecked, setChipChecked] = useState(false)
   const toggleEditing = () => setEditing(!editing)
 
-  const navigationContext = useNavigationContext()
   const { isAuthenticated } = useContext(AuthContext)
   const { user } = useContext(UserContext)
 
-  useEffect(() => {
-    const profileTitle = isAuthenticated && user ? user.firstName : 'Profile'
-    navigationContext.setHeaderTitle(profileTitle)
-  }, [isAuthenticated])
+  const navigationContext = useNavigationContext()
+  const profileTitle = isAuthenticated && user ? user.firstName : 'Profile'
+
+  useEffect(() => navigationContext.setHeaderTitle(profileTitle))
+
+  navigation &&
+    useLayoutEffect(() => {
+      navigation.setOptions({
+        headerTitle: () => (
+          <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
+            {profileTitle}
+          </HoliText>
+        ),
+      })
+    }, [isAuthenticated])
 
   const loggedOutContent = <HoliText type={HoliTextType.heading1}>Log in to see your profile</HoliText>
   return (

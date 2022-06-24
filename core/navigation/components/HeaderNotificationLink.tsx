@@ -11,9 +11,7 @@ export type HeaderTitleProps = {
 }
 
 const HeaderProfileLink: React.VoidFunctionComponent<HeaderTitleProps> = (props: HeaderTitleProps) => {
-  const { navigate, pathname } = useRouting()
-
-  const isNotifications = pathname.startsWith('/notifications')
+  const { navigate } = useRouting()
 
   return (
     <HoliButton
@@ -24,7 +22,7 @@ const HeaderProfileLink: React.VoidFunctionComponent<HeaderTitleProps> = (props:
       {...props}
       style={[props.style]}
     >
-      <HoliIcon icon="bell" size={20} filled={isNotifications} />
+      <HoliIcon icon="bell" size={20} />
     </HoliButton>
   )
 }

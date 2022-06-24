@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-
-import { useNavigation } from '@react-navigation/native'
 
 import { useNavigationContext } from '@holi/core/navigation/context'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -12,15 +10,24 @@ import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 import Holicon from '@holi/ui/components/holicon'
 
-export const HomeFeedScreen: React.VFC = () => {
-  const { navigate, pathname } = useRouting()
-  const navigationContext = useNavigationContext()
-  const navigation = useNavigation()
+export const HomeFeedScreen: React.VFC = ({ navigation }) => {
+  const { navigate } = useRouting()
 
-  useEffect(
-    () => navigation.addListener('focus', () => navigationContext.setHeaderTitle('Topic of the day')),
-    [navigation]
-  )
+  const navigationContext = useNavigationContext()
+  useEffect(() => navigationContext.setHeaderTitle('Topic of the day'))
+
+  navigation &&
+    useLayoutEffect(
+      () =>
+        navigation.setOptions({
+          headerTitle: () => (
+            <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
+              Topic of the day
+            </HoliText>
+          ),
+        }),
+      [navigation]
+    )
 
   return (
     <View style={styles.view}>
