@@ -9,12 +9,14 @@ import { initLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { SessionContext } from '@holi/core/auth/helpers/sdk'
+import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 
 const Login: React.VoidFunctionComponent = () => {
   const { setSession } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
   const { navigateBack } = useRouting()
+  const { displayError } = useErrorHandling()
 
   const initializeFlow = () => {
     initLoginFlow().then((response) => {
@@ -24,6 +26,7 @@ const Login: React.VoidFunctionComponent = () => {
       setFlow(flow)
       // TODO: jump into first input element after form is shown
     })
+      .catch((error) => displayError(error, '[Login.tsx] initializeFlow error'))
   }
 
   // When the component is mounted, we initialize a new use login flow:
@@ -33,16 +36,17 @@ const Login: React.VoidFunctionComponent = () => {
   const onSubmit = (payload: SubmitSelfServiceLoginFlowBody) =>
     flow
       ? newKratosSdk()
-          .submitSelfServiceLoginFlow(flow.id, undefined, payload)
-          .then((response) => {
-            return Promise.resolve(response.data as SessionContext)
-          })
-          .then((session) => {
-            setSession(session)
-            console.info('[Login.tsx] session created.')
-            navigateBack()
-          })
-          .catch(handleFormSubmitError(setFlow, initializeFlow))
+        .submitSelfServiceLoginFlow(flow.id, undefined, payload)
+        .then((response) => {
+          return Promise.resolve(response.data as SessionContext)
+        })
+        .then((session) => {
+          setSession(session)
+          console.info('[Login.tsx] session created.')
+          navigateBack()
+        })
+        .catch(handleFormSubmitError(setFlow, initializeFlow))
+        .catch((error) => displayError(error, 'Login failed'))
       : Promise.resolve()
   return (
     <AuthLayout>

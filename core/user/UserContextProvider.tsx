@@ -2,6 +2,7 @@ import { useQuery } from '@apollo/client'
 import React, { createContext } from 'react'
 import { Text } from 'react-native'
 
+import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import { AllUsersQueryResult, allUsersQuery } from '@holi/core/user/queries'
 import { User } from '@holi/core/user/types'
 
@@ -14,6 +15,7 @@ export const UserContext = createContext<Context>({
 })
 
 export const UserContextProvider: React.FC = ({ children }) => {
+  const { displayError } = useErrorHandling()
   // TODO implement fetching user context for logged-in user
   // Later: Possibly retrieve user id from auth context and load user by id here
   const { loading, error, data } = useQuery<AllUsersQueryResult>(allUsersQuery, {
@@ -28,8 +30,7 @@ export const UserContextProvider: React.FC = ({ children }) => {
   }
 
   if (error) {
-    // Necessary to display error to user?
-    console.error('Error fetching users', error)
+    displayError(error, 'Error fetching users')
   }
 
   const user = data?.allUsers && data?.allUsers[0]
