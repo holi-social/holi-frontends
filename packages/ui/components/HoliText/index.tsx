@@ -6,11 +6,11 @@ import { HoliTextType, HoliTextTypes } from '@holi/ui/components/HoliText/HoliTe
 import { useTheme } from '@holi/ui/styles/theme'
 
 export type HoliTextProps = {
-  children: React.ReactChild | React.ReactChild[] | string
+  children?: React.ReactNode
   type?: keyof typeof HoliTextTypes
   isAccessible?: boolean
-  style?: TextStyle
-  testID?: string
+  styles?: TextStyle | TextStyle[]
+  [x: string]: any
 }
 
 const HoliText = ({ children, type = HoliTextType.body, isAccessible = true, ...props }: HoliTextProps) => {
@@ -30,7 +30,7 @@ const HoliText = ({ children, type = HoliTextType.body, isAccessible = true, ...
   })
 
   return (
-    <Text {...getAccessibilityProps} {...props} style={[styles.default, styles[HoliTextType[type]], props?.style]}>
+    <Text {...getAccessibilityProps} {...props} style={[styles.default, styles[HoliTextType[type]], props?.styles]}>
       {children}
     </Text>
   )

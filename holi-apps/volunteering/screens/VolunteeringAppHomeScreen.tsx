@@ -7,7 +7,7 @@ import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
 export const VolunteeringAppHomeScreen: React.VFC = ({ navigation }) => {
   const navigationContext = useNavigationContext()
-  useEffect(() => navigationContext.setHeaderTitle('Chat'))
+  useEffect(() => navigationContext.setHeaderTitle('Lets Act'))
 
   navigation &&
     useLayoutEffect(

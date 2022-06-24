@@ -5,7 +5,6 @@ import { useNavigationContext } from '@holi/core/navigation/context'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { fakeTopics } from '@holi/core/topics/fakeTopics'
 import HoliButton from '@holi/ui/components/HoliButton'
-import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 import Holicon from '@holi/ui/components/holicon'
@@ -32,12 +31,11 @@ export const HomeFeedScreen: React.VFC = ({ navigation }) => {
   return (
     <View style={styles.view}>
       <HoliText type={HoliTextType.super} testID="home-feed-title">
-        Home H3
+        Home
       </HoliText>
 
       {/* Holi Apps */}
-      <HoliHeading level={2}>Apps</HoliHeading>
-
+      <HoliText type={HoliTextType.heading2}>Apps</HoliText>
       <View style={{ flexDirection: 'row' }}>
         <HoliButton
           label="Volunteering"
@@ -48,7 +46,7 @@ export const HomeFeedScreen: React.VFC = ({ navigation }) => {
           testID="app-tile-volunteering"
         >
           <Holicon icon="work" size={20} />
-          <Text>Volunteering</Text>
+          <HoliText type={HoliTextType.body}>Volunteering</HoliText>
         </HoliButton>
         <HoliButton
           label="Donations"
@@ -58,14 +56,14 @@ export const HomeFeedScreen: React.VFC = ({ navigation }) => {
           style={styles.appTile}
         >
           <Holicon icon="support" size={20} />
-          <Text>Donations</Text>
+          <HoliText type={HoliTextType.body}>Donations</HoliText>
         </HoliButton>
       </View>
 
       {/* Weekly Topics */}
-      <HoliHeading level={2} testID="home-feed-topics">
+      <HoliText type={HoliTextType.heading2} testID="home-feed-topics">
         This week’s topics are Immigration, Education and Sustainability
-      </HoliHeading>
+      </HoliText>
 
       {[...fakeTopics.keys()].map((topicId) => (
         <HoliButton

@@ -10,7 +10,6 @@ import { UserProfileForm } from '@holi/core/user/components/UserProfileForm'
 import { UserProfileView } from '@holi/core/user/components/UserProfileView'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliChip from '@holi/ui/components/HoliChip'
-import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
@@ -43,7 +42,7 @@ export const UserProfileScreen: React.VFC = ({ navigation }) => {
   return (
     <LoginProtection loggedOutContent={loggedOutContent}>
       <View style={{ padding: 10, alignItems: 'center' }}>
-        <HoliHeading level={1}>Profile</HoliHeading>
+        <HoliText type={HoliTextType.super}>Profile</HoliText>
         {editing ? (
           <UserProfileForm onCancel={toggleEditing} onSubmit={toggleEditing} />
         ) : (
