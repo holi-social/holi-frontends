@@ -1,16 +1,8 @@
 import * as React from 'react'
-import {
-  AccessibilityProps,
-  Image,
-  ImageSourcePropType,
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-} from 'react-native'
+import { AccessibilityProps, Image, ImageSourcePropType, Platform, StyleSheet, View, ViewStyle } from 'react-native'
 import tinycolor from 'tinycolor2'
 
+import HoliText from '@holi/ui/components/HoliText'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 // See accessibility hints: https://www.w3.org/WAI/tutorials/images/informative/
@@ -50,9 +42,9 @@ const HoliUserAvatar: React.FunctionComponent<AvatarProps> = (props: AvatarProps
     <View style={[styles.holiUserAvatar, props.style, styles[sizeClass]]} {...props}>
       {props.imageSrc && <Image source={imageUri} style={{ width: width, height: width }} {...accessibilityProps} />}
       {!props.imageSrc && (
-        <Text style={styles.inititals} {...accessibilityProps}>
+        <HoliText styles={styles.inititals} {...accessibilityProps}>
           {initials}
-        </Text>
+        </HoliText>
       )}
     </View>
   )
