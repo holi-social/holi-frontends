@@ -12,12 +12,13 @@ export type HoliModalProps = ModalProps & {
 }
 
 const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProps) => {
-  const { show, relativeHeight, onDismiss, children } = props
+  // default height is 75% of screen size
+  const { show = false, relativeHeight = 0.75, onDismiss, children } = props
   const { theme } = useTheme()
   const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
   const styles = getStyles(theme)
 
-  const modalHeight = deviceHeight * (relativeHeight || 0.75) // default height is 75% of screen size
+  const modalHeight = deviceHeight * relativeHeight
   const [visible, setVisible] = useState(show)
   const bottom = useRef(new Animated.Value(-modalHeight)).current
 
