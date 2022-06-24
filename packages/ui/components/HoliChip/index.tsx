@@ -7,12 +7,12 @@ import {
   PressableProps,
   StyleProp,
   StyleSheet,
-  Text,
   View,
   ViewStyle,
 } from 'react-native'
 import tinycolor from 'tinycolor2'
 
+import HoliText from '@holi/ui/components/HoliText'
 import Holicon from '@holi/ui/components/holicon'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -51,9 +51,9 @@ const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
       {/* Arrow function to pass Pressable states to its children */}
       {({ hovered }) => (
         <View style={styles.chipContent}>
-          <Text selectable={false} style={[styles.text, hovered && styles.hoveredText]}>
+          <HoliText selectable={false} styles={[styles.text, hovered && styles.hoveredText]}>
             {props.text}
-          </Text>
+          </HoliText>
           {!props.disabled && (
             <View style={styles.iconView}>
               <Holicon
