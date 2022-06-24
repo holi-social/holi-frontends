@@ -61,7 +61,7 @@ describe('renders correctly', () => {
       </ErrorBoundary>
     )
 
-    expect(console.error).toHaveBeenCalledWith('[useErrorHandling.ts]', new Error('Test'), expect.any(String))
+    expect(console.error).toHaveBeenCalledWith('[useErrorHandling.ts] [ErrorBoundary.tsx]:', new Error('Test'), expect.any(String))
     expect(captureSentryException).toHaveBeenCalledWith(new Error('Test'))
   })
 
