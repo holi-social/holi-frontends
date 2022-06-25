@@ -4,7 +4,11 @@ import { TextInput } from 'react-native'
 
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import { UserContext } from '@holi/core/user/UserContextProvider'
-import { updateUserMutation } from '@holi/core/user/queries'
+import {
+  UpdateAuthenticatedUserInput,
+  UpdateAuthenticatedUserResponse,
+  updateUserMutation,
+} from '@holi/core/user/queries'
 import { User } from '@holi/core/user/types'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliText from '@holi/ui/components/HoliText'
@@ -17,21 +21,25 @@ type UserProfileFormProps = {
 
 const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ onCancel, onSubmit }) => {
   const { user } = useContext(UserContext)
-  const [updateUser, { loading, error, data }] = useMutation<User>(updateUserMutation)
-  const [firstName, setName] = useState(user?.firstName || '')
+  const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
+  const [firstName, setFirstName] = useState(user?.firstName || '')
+  const [middleName, setMiddleName] = useState(user?.middleName || '')
+  const [lastName, setLastName] = useState(user?.lastName || '')
   const { displayError } = useErrorHandling()
 
   const submit = async () => {
+    const input: UpdateAuthenticatedUserInput = {
+      firstName: firstName,
+      middleName: middleName,
+      lastName: lastName,
+    }
     const result = await updateUser({
       variables: {
-        id: user?.id,
-        user: {
-          firstName,
-        },
+        input: input,
       },
     })
     if (!error && result.data && onSubmit) {
-      onSubmit(result.data)
+      onSubmit(result.data.authenticatedUser)
     }
   }
 
@@ -51,7 +59,9 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
   return (
     <>
       <HoliText>Name:</HoliText>
-      <TextInput value={firstName} onChangeText={setName} />
+      <TextInput value={firstName} onChangeText={setFirstName} />
+      <TextInput value={middleName} onChangeText={setMiddleName} />
+      <TextInput value={lastName} onChangeText={setLastName} />
       <HoliButton label="Profile data" onPress={onCancel}>
         Cancel
       </HoliButton>
