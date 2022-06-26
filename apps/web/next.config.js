@@ -47,6 +47,7 @@ module.exports = withSentryConfig(
           'solito',
           'react-native-reanimated',
           'react-native-card-stack-swiper',
+          'react-native-gesture-handler',
           '@holi-apps/volunteering',
           '@holi/ui',
           '@holi/core',
