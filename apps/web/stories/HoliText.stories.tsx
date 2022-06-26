@@ -29,7 +29,8 @@ Primary.argTypes = {
   },
   type: {
     description: 'typeof HoliTextType',
-    control: { type: 'select', options: Object.keys(HoliTextType) },
+    control: { type: 'select' },
+    options: Object.keys(HoliTextType),
   },
   isAccessible: { description: 'boolean', control: { type: 'boolean' } },
 }

@@ -10,6 +10,7 @@ export type HoliTextProps = {
   type?: keyof typeof HoliTextTypes
   isAccessible?: boolean
   styles?: TextStyle | TextStyle[]
+  // eslint-disable-next-line
   [x: string]: any
 }
 

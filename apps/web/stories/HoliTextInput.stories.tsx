@@ -2,7 +2,6 @@
 import React from 'react'
 
 import HoliTextInput from '@holi/ui/components/HoliTextInput'
-import { HoliTextInputType } from '@holi/ui/components/HoliTextInput/HoliTextInput.types'
 
 export default {
   title: 'Components/HoliTextInput',
@@ -17,34 +16,62 @@ export default {
 
 export const Primary = ({ ...args }) => (
   <HoliTextInput
+    value={args.value}
     label={args.label}
     placeholder={args.placeholder}
     helperText={args.helperText}
     isErrored={args.isErrored}
     noLabel={args.noLabel}
-    isFullWidth={args.isFullWidth}
     minNumberOfLines={args.minNumberOfLines}
     maxNumberOfLines={args.maxNumberOfLines}
+    isDisabled={args.isDisabled}
   />
 )
 Primary.args = {
+  value: '',
   label: 'Label',
   placeholder: 'Placeholder',
   helperText: 'Helper Text',
+  isDisabled: false,
   isErrored: false,
   noLabel: false,
-  isFullWidth: false,
   minNumberOfLines: 1,
   maxNumberOfLines: 3,
 }
-Primary.argTypes = {
-  placeholder: {
-    description: 'string',
-  },
-  isErrored: {
-    description: 'boolean',
-  },
-  onChange: {
-    description: 'function - onChange callback',
-  },
+Primary.argTypes = {}
+
+export const NoLabel = ({ ...args }) => (
+  <HoliTextInput
+    value={args.value}
+    label={'Label'}
+    placeholder={'Placeholder'}
+    helperText={'Helper Text'}
+    noLabel={true}
+  />
+)
+NoLabel.args = {}
+
+export const Errored = ({ ...args }) => (
+  <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} isErrored={true} />
+)
+Errored.args = {}
+
+export const Disabled = ({ ...args }) => (
+  <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} isDisabled={true} />
+)
+Disabled.args = {}
+
+export const Multiline = ({ ...args }) => (
+  <HoliTextInput
+    value={args.value}
+    label={'Label'}
+    placeholder={'Placeholder'}
+    helperText={'Helper Text'}
+    minNumberOfLines={3}
+    maxNumberOfLines={args.maxNumberOfLines}
+  />
+)
+Multiline.args = {
+  value: '',
+  maxNumberOfLines: 5,
 }

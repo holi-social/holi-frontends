@@ -6,6 +6,7 @@ export default {
   impactyellow: '#f3f360',
   positivepurple: '#6267e7',
   grey: '#6f7081',
+  lightGrey: '#F5F5F5',
   greyAA: '#767676',
   greyAAA: '#595959',
   errorRed: '#EE0004',

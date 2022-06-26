@@ -1,86 +1,126 @@
-import React, { useEffect, useState } from 'react'
-import { TextInput, View } from 'react-native'
+import React, { Fragment, useEffect, useState } from 'react'
+import { Pressable, Text, TextInput, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
-import { getHoliTextInputStyles as getStyles } from '@holi/ui/components/HoliTextInput/HoliTextInput.styles'
+import {
+  getHoliTextInputStyles as getStyles,
+  inputLineHeight,
+} from '@holi/ui/components/HoliTextInput/HoliTextInput.styles'
 import { KeyboardType } from '@holi/ui/components/HoliTextInput/HoliTextInput.types'
 import { useTheme } from '@holi/ui/styles/theme'
 
 export type HoliTextInputProps = {
   label?: string
+  value?: string
   placeholder?: string
   helperText?: string
+  isDisabled?: boolean
   isErrored?: boolean
   noLabel?: boolean
-  isFullWidth?: boolean
   minNumberOfLines?: number
   maxNumberOfLines?: number
   onChange?: (value: string) => void
   keyboardType?: keyof typeof KeyboardType
+  // eslint-disable-next-line
   [x: string]: any
 }
 
+const minMaxNumberOfLines = 3
+
 const HoliTextInput = ({
-  label = 'Label',
-  helperText = 'Helper Text',
-  placeholder = 'Placeholder',
+  label = '',
+  helperText = '',
+  placeholder = '',
   noLabel = false,
-  isFullWidth = false,
   minNumberOfLines = 1,
-  maxNumberOfLines = 3,
+  maxNumberOfLines = minMaxNumberOfLines,
   onChange,
   keyboardType = KeyboardType.default,
   ...props
 }: HoliTextInputProps) => {
-  const [isFocused, setFocused] = useState<boolean>(false)
+  const [inputValue, setInputValue] = useState(props?.value || '')
   const [isHovered, setHovered] = useState<boolean>(false)
-  const isHover = useHover
+  const [isFocused, setFocused] = useState<boolean>(false)
   const [isErrored, setErrored] = useState<boolean>(!!props?.isErrored ?? false)
-  const [textAreaHeight, setTextAreaHeight] = useState<number | null>(null)
+  const [numberOfLines, setNumberOfLines] = useState<number>(
+    Math.max(minNumberOfLines, Math.min(minMaxNumberOfLines, maxNumberOfLines))
+  )
+  const growTextInput = (contentSizeHeight: number) => {
+    if (maxNumberOfLines > numberOfLines) {
+      const linesCount = Math.round((contentSizeHeight - inputLineHeight * minMaxNumberOfLines) / inputLineHeight)
+      setNumberOfLines(Math.max(minMaxNumberOfLines, minMaxNumberOfLines + linesCount))
+    }
+  }
+
   useEffect(() => {
-    setErrored(!!props?.isErrored ?? false)
+    setErrored(!!props?.isErrored ?? isErrored)
   }, [props?.isErrored])
+  useEffect(() => {
+    setInputValue(props?.value || inputValue)
+  }, [props?.value])
 
   const { theme } = useTheme()
-  const styles = getStyles(theme, isErrored, isFocused, isFullWidth, isHovered)
+  const styles = getStyles({ theme, isErrored, isFocused, isHovered, isDisabled: !!props?.isDisabled })
 
   return (
-    <>
+    <Pressable
+      onHoverIn={() => {
+        setHovered(true)
+      }}
+      onHoverOut={() => {
+        setHovered(false)
+      }}
+      style={styles.pressable}
+    >
       {!noLabel && (
-        <View>
-          <HoliText type={HoliTextType.caption} styles={styles.label}>
-            {label}
-          </HoliText>
-        </View>
-      )}
-      <TextInput
-        style={[styles.input]}
-        multiline={minNumberOfLines > 1}
-        numberOfLines={maxNumberOfLines >= minNumberOfLines ? maxNumberOfLines : minNumberOfLines}
-        onFocus={() => {
-          setFocused(true)
-        }}
-        onBlur={() => {
-          setFocused(false)
-        }}
-        placeholder={placeholder}
-        placeholderTextColor={theme.colors.softblackTransparent}
-        onChange={(event) => {
-          setErrored(false)
-          onChange && onChange(event.nativeEvent.text)
-        }}
-        onContentSizeChange={(event) => {
-          console.log(event.nativeEvent.contentSize)
-        }}
-        keyboardType={KeyboardType[keyboardType]}
-      />
-      <View>
-        <HoliText type={HoliTextType.label} styles={styles.helperText}>
-          {helperText}
+        <HoliText type={HoliTextType.caption} styles={styles.label}>
+          {label}
         </HoliText>
+      )}
+      <View style={styles.inputWrapper}>
+        <TextInput
+          value={inputValue}
+          style={[styles.input]}
+          multiline={minNumberOfLines > 1}
+          numberOfLines={numberOfLines}
+          onFocus={() => {
+            setFocused(true)
+          }}
+          onBlur={() => {
+            setFocused(false)
+          }}
+          placeholder={placeholder}
+          placeholderTextColor={theme.colors.softblackTransparent}
+          onChange={(event) => {
+            setErrored(false)
+            setInputValue(event.nativeEvent.text)
+            onChange && onChange(event.nativeEvent.text)
+          }}
+          onContentSizeChange={(event) => {
+            growTextInput(event.nativeEvent.contentSize.height)
+          }}
+          keyboardType={KeyboardType[keyboardType]}
+          disabled={props?.isDisabled}
+        />
+        {isErrored && <ErrorIcon />}
       </View>
-    </>
+      <HoliText type={HoliTextType.label} styles={styles.helperText}>
+        {helperText}
+      </HoliText>
+    </Pressable>
+  )
+}
+
+const ErrorIcon = () => {
+  const { theme } = useTheme()
+  const styles = getStyles({ theme })
+  return (
+    <View style={styles.errorIconWrapper}>
+      <View style={styles.errorIcon}>
+        <Text style={styles.errorText}>!</Text>
+      </View>
+    </View>
   )
 }
 

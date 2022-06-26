@@ -17,15 +17,18 @@ export default {
 }
 
 export const Primary = ({ ...args }) => <Holicon icon={args.icon} size={args.size} color={args.color} />
-Primary.args = {}
+Primary.args = {
+  icon: 'app-edit',
+  size: 32,
+  color: theme.colors.fontColorBlack,
+}
 Primary.argTypes = {
-  color: { defaultValue: theme.colors.fontColorBlack, control: { type: 'color' } },
+  color: { control: { type: 'color' } },
   icon: {
     type: 'select',
-    defaultValue: 'app-edit',
     options: iconSelection.icons.map((icon) => icon?.properties?.name),
   },
-  size: { defaultValue: 32, control: { type: 'number' } },
+  size: { control: { type: 'number' } },
 }
 
 export const All = ({ ...args }) => {
@@ -34,7 +37,14 @@ export const All = ({ ...args }) => {
       {iconSelection.icons.map((icon, index) => (
         <div
           key={index}
-          style={{ display: 'inline-flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center', width: '128px', padding: '16px' }}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            width: '128px',
+            padding: '16px',
+          }}
         >
           <div style={{ border: `1px dashed ${theme.colors.fontColorBlack}` }}>
             <Holicon icon={icon?.properties?.name} size={32} color={args.color} />
@@ -45,7 +55,9 @@ export const All = ({ ...args }) => {
     </div>
   )
 }
-
+All.args = {
+  color: theme.colors.fontColorBlack,
+}
 All.argTypes = {
-  color: { defaultValue: theme.colors.fontColorBlack, control: { type: 'color' } },
+  color: { control: { type: 'color' } },
 }
