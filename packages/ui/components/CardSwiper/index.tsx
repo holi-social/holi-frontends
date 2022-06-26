@@ -1,7 +1,8 @@
 import React, { RefObject, createRef } from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
 import CardStack, { Card } from 'react-native-card-stack-swiper'
 
+import HoliText from '@holi/ui/components/HoliText'
 import Holicon from '@holi/ui/components/holicon'
 import theme from '@holi/ui/styles/theme'
 
@@ -71,7 +72,9 @@ const CardSwiper = () => {
       <CardStack
         style={styles.cardContainer}
         renderNoMoreCards={() => (
-          <Text style={{ fontWeight: '700', fontSize: 18, color: theme.colors.fontColorGrey }}>No more cards :(</Text>
+          <HoliText styles={{ fontWeight: '700', fontSize: 18, color: theme.colors.fontColorGrey }}>
+            No more cards :(
+          </HoliText>
         )}
         ref={swiper}
         loop={true}
@@ -87,11 +90,11 @@ const CardSwiper = () => {
             <View style={styles.textContainer}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Holicon style={{ marginRight: 6 }} icon="community" size={25} color={theme.colors.fontColorWhite} />
-                <Text style={styles.text}>{card.provider}</Text>
+                <HoliText styles={styles.text}>{card.provider}</HoliText>
               </View>
               <View>
-                <Text style={[styles.text, styles.textBig]}>{card.title}</Text>
-                <Text style={[styles.text, { marginTop: 10 }]}>{card.date}</Text>
+                <HoliText styles={[styles.text, styles.textBig]}>{card.title}</HoliText>
+                <HoliText styles={[styles.text, { marginTop: 10 }]}>{card.date}</HoliText>
               </View>
             </View>
           </Card>
@@ -101,13 +104,13 @@ const CardSwiper = () => {
       <View style={styles.footer}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={[styles.button, styles.red]} onPress={() => swipe('left')}>
-            <Text>swipe left</Text>
+            <HoliText>swipe left</HoliText>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, styles.orange]} onPress={() => resetStack()}>
-            <Text>reset</Text>
+            <HoliText>reset</HoliText>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, styles.green]} onPress={() => swipe('right')}>
-            <Text>swipe right</Text>
+            <HoliText>swipe right</HoliText>
           </TouchableOpacity>
         </View>
       </View>

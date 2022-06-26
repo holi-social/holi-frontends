@@ -50,8 +50,33 @@ exports[`renders correctly renders correctly when checked 1`] = `
     }
   >
     <Text
+      accessible={true}
       selectable={false}
       style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+            "lineHeight": 22.4,
+          },
+          Array [
+            Object {
+              "color": "#fff",
+              "fontSize": 14,
+              "fontWeight": "400",
+              "lineHeight": 24,
+            },
+            undefined,
+          ],
+        ]
+      }
+      styles={
         Array [
           Object {
             "color": "#fff",
@@ -185,8 +210,33 @@ exports[`renders correctly renders correctly when disabled 1`] = `
     }
   >
     <Text
+      accessible={true}
       selectable={false}
       style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+            "lineHeight": 22.4,
+          },
+          Array [
+            Object {
+              "color": "#6f7081",
+              "fontSize": 14,
+              "fontWeight": "400",
+              "lineHeight": 24,
+            },
+            undefined,
+          ],
+        ]
+      }
+      styles={
         Array [
           Object {
             "color": "#6f7081",
@@ -249,8 +299,33 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
     }
   >
     <Text
+      accessible={true}
       selectable={false}
       style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+            "lineHeight": 22.4,
+          },
+          Array [
+            Object {
+              "color": "#6f7081",
+              "fontSize": 14,
+              "fontWeight": "400",
+              "lineHeight": 24,
+            },
+            undefined,
+          ],
+        ]
+      }
+      styles={
         Array [
           Object {
             "color": "#6f7081",

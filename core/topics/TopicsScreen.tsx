@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { createParam } from 'solito'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { TopicEditors } from '@holi/core/topics/TopicEditors'
 import HoliButton from '@holi/ui/components/HoliButton'
-import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliModal from '@holi/ui/components/HoliModal'
+import HoliText from '@holi/ui/components/HoliText'
+import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
 import { fakeTopics } from './fakeTopics'
 
@@ -18,21 +19,25 @@ export type TopicScreenParams = {
 
 export const TopicsScreen: React.VFC = () => {
   const [showModal, setShowModal] = useState(false)
-  const [topicId] = useParam('topicId')
+  const [topicId = ''] = useParam('topicId')
   const { navigate } = useRouting()
   const topic = fakeTopics.get(topicId)
-  if (!topic) return <Text>Topic {topicId} not found</Text>
+  if (!topic) return <HoliText>Topic {topicId} not found</HoliText>
   return (
     <View style={styles.topicView}>
-      <HoliHeading level={1}>Topic topicId={topicId}</HoliHeading>
+      <HoliText type={HoliTextType.super} styles={{ alignSelf: 'center' }}>
+        Topic topicId={topicId}
+      </HoliText>
 
       <HoliButton label="Topic Editors" inline onPress={() => setShowModal(true)}>
         Topic Editors
       </HoliButton>
 
-      <Text style={{ fontSize: 24, paddingBottom: 10 }}>{topic.title}</Text>
-      <Text style={styles.text}>{topic.text}</Text>
-      <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Posts</Text>
+      <HoliText type={HoliTextType.heading1} styles={{ paddingBottom: 10 }}>
+        {topic.title}
+      </HoliText>
+      <HoliText>{topic.text}</HoliText>
+      <HoliText type={HoliTextType.heading3}>Posts</HoliText>
       {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
         <HoliButton
           key={postId}
@@ -42,7 +47,7 @@ export const TopicsScreen: React.VFC = () => {
           style={styles.post}
           onPress={() => navigate(`/topics/${topicId}/posts/${postId}`)}
         >
-          <Text>{topic.posts[postId].text}</Text>
+          <HoliText>{topic.posts[postId].text}</HoliText>
         </HoliButton>
       ))}
       <HoliModal
