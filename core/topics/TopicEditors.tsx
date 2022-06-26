@@ -11,7 +11,7 @@ type TopicEditorsProps = {
 export const TopicEditors: React.FunctionComponent<TopicEditorsProps> = ({ topicId }) => {
   return (
     <View style={{ padding: 10 }}>
-      <HoliText type={HoliTextType.super}>{`This week&lsquo;s topic editors for topicId=${topicId}`}</HoliText>
+      <HoliText type={HoliTextType.super}>{`This week's topic editors for topicId=${topicId}`}</HoliText>
     </View>
   )
 }
