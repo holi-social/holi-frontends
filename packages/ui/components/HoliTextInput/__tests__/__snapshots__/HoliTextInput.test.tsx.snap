@@ -56,6 +56,7 @@ exports[`renders correctly when disabled 1`] = `
   <View
     style={
       Object {
+        "alignSelf": "flex-start",
         "backgroundColor": "#F5F5F5",
         "borderColor": "#1b1d201a",
         "borderRadius": 4,
@@ -68,10 +69,13 @@ exports[`renders correctly when disabled 1`] = `
     }
   >
     <TextInput
+      accessibilityLabel="Label"
+      accessible={true}
       disabled={true}
       keyboardType="default"
+      maxLength={5000}
       multiline={false}
-      numberOfLines={3}
+      numberOfLines={10}
       onBlur={[Function]}
       onChange={[Function]}
       onContentSizeChange={[Function]}
@@ -81,6 +85,7 @@ exports[`renders correctly when disabled 1`] = `
       style={
         Array [
           Object {
+            "alignSelf": "flex-start",
             "caretColor": "#6267e7",
             "color": "#222326",
             "flex": 1,
@@ -88,7 +93,7 @@ exports[`renders correctly when disabled 1`] = `
             "fontSize": 16,
             "fontWeight": "400",
             "lineHeight": 22.4,
-            "overflow": "hidden",
+            "overflow": "scroll",
           },
         ]
       }
@@ -183,6 +188,7 @@ exports[`renders correctly when errored 1`] = `
   <View
     style={
       Object {
+        "alignSelf": "flex-start",
         "backgroundColor": "#fff",
         "borderColor": "#EE0004",
         "borderRadius": 4,
@@ -195,9 +201,13 @@ exports[`renders correctly when errored 1`] = `
     }
   >
     <TextInput
+      accessibilityLabel="Label"
+      accessible={true}
+      disabled={false}
       keyboardType="default"
+      maxLength={5000}
       multiline={false}
-      numberOfLines={3}
+      numberOfLines={10}
       onBlur={[Function]}
       onChange={[Function]}
       onContentSizeChange={[Function]}
@@ -207,6 +217,7 @@ exports[`renders correctly when errored 1`] = `
       style={
         Array [
           Object {
+            "alignSelf": "flex-start",
             "caretColor": "#6267e7",
             "color": "#222326",
             "flex": 1,
@@ -214,7 +225,7 @@ exports[`renders correctly when errored 1`] = `
             "fontSize": 16,
             "fontWeight": "400",
             "lineHeight": 22.4,
-            "overflow": "hidden",
+            "overflow": "scroll",
           },
         ]
       }
@@ -343,6 +354,7 @@ exports[`renders correctly when multiline 1`] = `
   <View
     style={
       Object {
+        "alignSelf": "flex-start",
         "backgroundColor": "#fff",
         "borderColor": "#1b1d201a",
         "borderRadius": 4,
@@ -355,9 +367,13 @@ exports[`renders correctly when multiline 1`] = `
     }
   >
     <TextInput
+      accessibilityLabel="Label"
+      accessible={true}
+      disabled={false}
       keyboardType="default"
+      maxLength={5000}
       multiline={true}
-      numberOfLines={3}
+      numberOfLines={5}
       onBlur={[Function]}
       onChange={[Function]}
       onContentSizeChange={[Function]}
@@ -367,6 +383,7 @@ exports[`renders correctly when multiline 1`] = `
       style={
         Array [
           Object {
+            "alignSelf": "flex-start",
             "caretColor": "#6267e7",
             "color": "#222326",
             "flex": 1,
@@ -374,7 +391,7 @@ exports[`renders correctly when multiline 1`] = `
             "fontSize": 16,
             "fontWeight": "400",
             "lineHeight": 22.4,
-            "overflow": "hidden",
+            "overflow": "scroll",
           },
         ]
       }
@@ -469,6 +486,7 @@ exports[`renders correctly with default props 1`] = `
   <View
     style={
       Object {
+        "alignSelf": "flex-start",
         "backgroundColor": "#fff",
         "borderColor": "#1b1d201a",
         "borderRadius": 4,
@@ -481,10 +499,13 @@ exports[`renders correctly with default props 1`] = `
     }
   >
     <TextInput
+      accessibilityLabel="Label"
+      accessible={true}
       disabled={false}
       keyboardType="default"
+      maxLength={5000}
       multiline={false}
-      numberOfLines={3}
+      numberOfLines={10}
       onBlur={[Function]}
       onChange={[Function]}
       onContentSizeChange={[Function]}
@@ -494,6 +515,7 @@ exports[`renders correctly with default props 1`] = `
       style={
         Array [
           Object {
+            "alignSelf": "flex-start",
             "caretColor": "#6267e7",
             "color": "#222326",
             "flex": 1,
@@ -501,7 +523,7 @@ exports[`renders correctly with default props 1`] = `
             "fontSize": 16,
             "fontWeight": "400",
             "lineHeight": 22.4,
-            "overflow": "hidden",
+            "overflow": "scroll",
           },
         ]
       }
@@ -563,6 +585,7 @@ exports[`renders correctly without label 1`] = `
   <View
     style={
       Object {
+        "alignSelf": "flex-start",
         "backgroundColor": "#fff",
         "borderColor": "#1b1d201a",
         "borderRadius": 4,
@@ -575,9 +598,13 @@ exports[`renders correctly without label 1`] = `
     }
   >
     <TextInput
+      accessibilityLabel="Label"
+      accessible={true}
+      disabled={false}
       keyboardType="default"
+      maxLength={5000}
       multiline={false}
-      numberOfLines={3}
+      numberOfLines={10}
       onBlur={[Function]}
       onChange={[Function]}
       onContentSizeChange={[Function]}
@@ -587,6 +614,7 @@ exports[`renders correctly without label 1`] = `
       style={
         Array [
           Object {
+            "alignSelf": "flex-start",
             "caretColor": "#6267e7",
             "color": "#222326",
             "flex": 1,
@@ -594,7 +622,7 @@ exports[`renders correctly without label 1`] = `
             "fontSize": 16,
             "fontWeight": "400",
             "lineHeight": 22.4,
-            "overflow": "hidden",
+            "overflow": "scroll",
           },
         ]
       }
