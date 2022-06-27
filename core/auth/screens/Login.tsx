@@ -37,17 +37,17 @@ const Login: React.VoidFunctionComponent = () => {
   const onSubmit = (payload: SubmitSelfServiceLoginFlowBody) =>
     flow
       ? newKratosSdk()
-        .submitSelfServiceLoginFlow(flow.id, undefined, payload)
-        .then((response) => {
-          return Promise.resolve(response.data as SessionContext)
-        })
-        .then((session) => {
-          setSession(session)
-          console.info('[Login.tsx] session created.')
-          navigateBack()
-        })
-        .catch(handleFormSubmitError(setFlow, initializeFlow))
-        .catch((error) => displayError(error, 'Login failed'))
+          .submitSelfServiceLoginFlow(flow.id, undefined, payload)
+          .then((response) => {
+            return Promise.resolve(response.data as SessionContext)
+          })
+          .then((session) => {
+            setSession(session)
+            console.info('[Login.tsx] session created.')
+            navigateBack()
+          })
+          .catch(handleFormSubmitError(setFlow, initializeFlow))
+          .catch((error) => displayError(error, 'Login failed'))
       : Promise.resolve()
   return (
     <AuthLayout>
