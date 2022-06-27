@@ -3394,6 +3394,7 @@
 "@storybook/react-docgen-typescript-plugin@1.0.1", "@storybook/react-docgen-typescript-plugin@1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@storybook/react-docgen-typescript-plugin/-/react-docgen-typescript-plugin-1.0.1.tgz#d4c94b1863036128e85e625c4ab888169be89f27"
+  integrity sha512-dqbHa+5gaxaklFCuV1WTvljVPTo3QIJgpW4Ln+QeME7osPZUnUhjN2/djvo+sxrWUrTTuqX5jkn291aDngu9Tw==
   dependencies:
     debug "^4.1.1"
     endent "^2.0.1"
@@ -13333,6 +13334,7 @@ react-devtools@4.14.0:
 react-docgen-typescript@^2.0.0:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/react-docgen-typescript/-/react-docgen-typescript-2.2.2.tgz#4611055e569edc071204aadb20e1c93e1ab1659c"
+  integrity sha512-tvg2ZtOpOi6QDwsb3GZhOjDkkX0h8Z2gipvTg6OVMUyoYoURhEiRNePT8NZItTVCDh39JJHnLdfCOkzoLbFnTg==
 
 react-docgen@^5.0.0:
   version "5.4.2"
@@ -13420,6 +13422,7 @@ react-native-codegen@^0.0.17:
 react-native-gesture-handler@~2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-2.2.1.tgz#672258aa5a40c92a97c736bdde0a8bd6c8c6c692"
+  integrity sha512-P4kAPbSY8VFAjvFNzfePgFsbZEldfEnEfNqOJw6MlpcdXrPGwRbvMqWMVkA9lifdKTZ3XifvAgJ8+R+uEZN0zA==
   dependencies:
     "@egjs/hammerjs" "^2.0.17"
     hoist-non-react-statics "^3.3.0"
@@ -15421,6 +15424,7 @@ ts-interface-checker@^0.1.9:
 ts-invariant@0.9.4, ts-invariant@^0.9.4:
   version "0.9.4"
   resolved "https://registry.yarnpkg.com/ts-invariant/-/ts-invariant-0.9.4.tgz#42ac6c791aade267dd9dc65276549df5c5d71cac"
+  integrity sha512-63jtX/ZSwnUNi/WhXjnK8kz4cHHpYS60AnmA6ixz17l7E12a5puCWFlNpkne5Rl0J8TBPVHpGjsj4fxs8ObVLQ==
   dependencies:
     tslib "^2.1.0"
 
@@ -15440,6 +15444,7 @@ tsconfig-paths@^3.14.1:
 tslib@2.3.1, tslib@^1.10.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3, tslib@^2.0.0, tslib@^2.0.1, tslib@^2.0.3, tslib@^2.1.0, tslib@^2.3.0, tslib@^2.4.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
+  integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
 
 tsutils@^3.21.0:
   version "3.21.0"

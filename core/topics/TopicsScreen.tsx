@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { createParam } from 'solito'
 
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { TopicEditors } from '@holi/core/topics/TopicEditors'
 import HoliButton from '@holi/ui/components/HoliButton'
+import HoliModal from '@holi/ui/components/HoliModal'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
@@ -17,7 +19,8 @@ export type TopicScreenParams = {
 }
 
 export const TopicsScreen: React.VFC = () => {
-  const [topicId] = useParam('topicId')
+  const [showModal, setShowModal] = useState(false)
+  const [topicId = ''] = useParam('topicId')
   const { navigate } = useRouting()
   const topic = fakeTopics.get(topicId)
   if (!topic) return <HoliText>Topic {topicId} not found</HoliText>
@@ -39,7 +42,7 @@ export const TopicsScreen: React.VFC = () => {
         Topic topicId={topicId}
       </HoliText>
 
-      <HoliButton label="Topic Editors" inline onPress={() => navigate(`/topics/${topicId}/editors`)}>
+      <HoliButton label="Topic Editors" inline onPress={() => setShowModal(true)}>
         Topic Editors
       </HoliButton>
 
@@ -60,6 +63,14 @@ export const TopicsScreen: React.VFC = () => {
           <HoliText>{topic.posts[postId].text}</HoliText>
         </HoliButton>
       ))}
+      <HoliModal
+        show={showModal}
+        onDismiss={() => {
+          setShowModal(false)
+        }}
+      >
+        <TopicEditors topicId={topicId || ''}></TopicEditors>
+      </HoliModal>
     </View>
   )
 }

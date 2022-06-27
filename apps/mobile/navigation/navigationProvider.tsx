@@ -62,7 +62,6 @@ const rootLinkingConfig: LinkingOptions<RootStackScreensList> = {
       // all modals
       Login: 'login',
       Logout: 'logout',
-      TopicEditorsScreen: 'topics/:topicId/editors',
     },
   },
 }
