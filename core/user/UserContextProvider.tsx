@@ -20,7 +20,7 @@ export const UserContextProvider: React.FC = ({ children }) => {
   // Later: Possibly retrieve user id from auth context and load user by id here
   const { loading, error, data } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery)
 
-  if (loading) {
+  if (loading && !error) {
     return <HoliText>Loading...</HoliText>
   }
 

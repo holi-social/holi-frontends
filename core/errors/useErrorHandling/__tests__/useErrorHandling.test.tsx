@@ -17,9 +17,9 @@ describe('handles errors correctly', () => {
   it('logs and tracks error with sentry', () => {
     const { logError } = useErrorHandling()
 
-    logError(new Error('Test'), 'some stack')
+    logError(new Error('Test'), 'some message', 'some stack')
 
-    expect(console.error).toHaveBeenCalledWith('[useErrorHandling.ts]', new Error('Test'), 'some stack')
+    expect(console.error).toHaveBeenCalledWith('[useErrorHandling.ts] some message:', new Error('Test'), 'some stack')
     expect(captureSentryException).toHaveBeenCalledWith(new Error('Test'))
   })
 
@@ -32,7 +32,7 @@ describe('handles errors correctly', () => {
   it('logs displayed errors', () => {
     render(<ErrorComponent />)
 
-    expect(console.error).toHaveBeenCalledWith('[useErrorHandling.ts]', new Error('Test'), undefined)
+    expect(console.error).toHaveBeenCalledWith('[useErrorHandling.ts] An error occurred:', new Error('Test'), undefined)
     expect(captureSentryException).toHaveBeenCalledWith(new Error('Test'))
   })
 })

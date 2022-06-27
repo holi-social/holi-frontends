@@ -1,14 +1,37 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client'
+import { ApolloClient, HttpLink, InMemoryCache, concat } from '@apollo/client'
+import { onError } from '@apollo/client/link/error'
+import ApolloLinkTimeout from 'apollo-link-timeout'
 
 import { holiApiUrl } from '@holi/api/config'
+import useErrorHandling from '@holi/core/errors/useErrorHandling'
 
-import link from './link'
+import authLink from './authLink'
+
+const TIMEOUT_IN_MS = 10000 // 10 second timeout
+
+const { logError } = useErrorHandling()
+
+const timeoutLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
+const httpLink = new HttpLink({ uri: holiApiUrl })
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors) {
+    graphQLErrors.forEach(({ message, locations, path }) => {
+      const errorMessage = `Message: ${message}, Location: ${locations}, Path: ${path}`
+      logError(new Error(errorMessage), '[GraphQL Error]')
+    })
+  }
+  if (networkError) {
+    logError(networkError, '[Network error]')
+  }
+})
+
+const link = authLink
+  ? authLink.concat(timeoutLink.concat(errorLink.concat(httpLink)))
+  : timeoutLink.concat(errorLink.concat(httpLink))
 
 export const client = new ApolloClient({
-  uri: holiApiUrl,
+  link,
   credentials: 'include',
-  // default behavior on web (sending Ory session cookies), on mobile we add 'X-Session-Token' header for authentication
-  link: link,
   cache: new InMemoryCache({
     typePolicies: {
       Query: {

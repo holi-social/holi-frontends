@@ -22,7 +22,7 @@ const LoginProtection: React.VFC<LoginProtectionProps> = ({ children, loggedOutC
   return (
     <AuthLayout>
       {loggedOutContent || <Text>You’re not logged in</Text>}
-      <HoliButton label="Login" inline onPress={() => navigate('/login')}>
+      <HoliButton label="Open login form" inline onPress={() => navigate('/login')}>
         Login
       </HoliButton>
     </AuthLayout>
