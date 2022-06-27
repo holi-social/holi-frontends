@@ -2,6 +2,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { createParam } from 'solito'
 
+import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import { fakeTopics } from '@holi/core/topics/fakeTopics'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
@@ -16,6 +17,17 @@ const { useParam } = createParam<PostScreenParams>()
 export const PostScreen: React.VFC = () => {
   const [topicId] = useParam('topicId')
   const [postId] = useParam('postId')
+
+  const { setNavigationHeader } = useNavigationHeader()
+  const title = `Post ${postId} in topic ${topicId}`
+  setNavigationHeader({
+    title: title,
+    titleElement: () => (
+      <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
+        {title}
+      </HoliText>
+    ),
+  })
 
   if (!topicId) return <HoliText>Missing topicId</HoliText>
   if (!postId) return <HoliText>Missing postId</HoliText>
