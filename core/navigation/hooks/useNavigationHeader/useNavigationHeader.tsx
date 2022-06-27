@@ -11,7 +11,9 @@ const useNavigationHeader = () => {
   // https://github.com/react-navigation/react-navigation/blob/main/packages/elements/src/types.tsx
   const headerOptions: NativeStackNavigationOptions = {}
 
-  useLayoutEffect(() => navigation.setOptions(headerOptions), [navigation])
+  useLayoutEffect(() => {
+    navigation.setOptions(headerOptions)
+  }, [navigation])
 
   return {
     setNavigationHeader: (headerProps: HeaderProps) => {
