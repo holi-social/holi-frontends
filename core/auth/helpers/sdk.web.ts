@@ -3,6 +3,7 @@ import { Configuration, Session as KratosSession, V0alpha2Api } from '@ory/krato
 import axiosFactory from 'axios'
 
 import { resilience } from '@holi/core/auth/helpers/axios'
+import { baseOptions } from '@holi/core/auth/helpers/sharedConfig'
 
 export type SessionContext = {
   session_token: string
@@ -14,7 +15,10 @@ resilience(axios) // Adds retry mechanism to axios
 
 export const newKratosSdk = () => {
   return new V0alpha2Api(
-    new Configuration(edgeConfig),
+    new Configuration({
+      ...edgeConfig,
+      baseOptions,
+    }),
     edgeConfig.basePath,
     // Ensure that we are using the axios client with retry.
     axios

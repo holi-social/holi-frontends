@@ -1,5 +1,5 @@
 export type ErrorHandling = {
-  logError: (error: Error, stack?: string) => void
+  logError: (error: Error, message?: string, stack?: string) => void
   displayError: (error: Error, message?: string) => void
 }
 

@@ -1,7 +1,11 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/axios.tsx
 import { AxiosInstance } from 'axios'
 
+const REQUEST_TIMEOUT_IN_MS = 1000
+const RETRY_COUNT = 10
+
 export const resilience = (axios: AxiosInstance) => {
+  axios.defaults.timeout = REQUEST_TIMEOUT_IN_MS
   axios.interceptors.response.use(
     (v) => Promise.resolve(v),
     (error) => {
@@ -29,15 +33,15 @@ export const resilience = (axios: AxiosInstance) => {
 
       const config = {
         ...error.config,
-        timeout: 1000,
+        timeout: REQUEST_TIMEOUT_IN_MS,
         count: (error?.config?.count || 0) + 1,
       }
 
-      if (config.count > 60) {
+      if (config.count > RETRY_COUNT) {
         const err = new Error(
-          'Unable to reach network, gave up after 60 retries. Please restart the app and try again.'
+          `Unable to reach network, gave up after ${RETRY_COUNT} retries. Please restart the app and try again.`
         )
-        console.error('[auth]' + err, { config: error.config, error })
+        console.error('[auth] ' + err, { config: error.config, error })
         return Promise.reject(err)
       }
 
@@ -45,10 +49,10 @@ export const resilience = (axios: AxiosInstance) => {
         count: error.config.count,
         error,
       })
-      return new Promise((resolve, reject) => {
+      new Promise((resolve, reject) => {
         setTimeout(() => {
           axios.request(config).then(resolve).catch(reject)
-        }, 1000)
+        }, REQUEST_TIMEOUT_IN_MS)
       })
     }
   )
