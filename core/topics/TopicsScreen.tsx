@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { createParam } from 'solito'
 
+import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { TopicEditors } from '@holi/core/topics/TopicEditors'
 import HoliButton from '@holi/ui/components/HoliButton'
@@ -23,6 +24,18 @@ export const TopicsScreen: React.VFC = () => {
   const { navigate } = useRouting()
   const topic = fakeTopics.get(topicId)
   if (!topic) return <HoliText>Topic {topicId} not found</HoliText>
+
+  const { setNavigationHeader } = useNavigationHeader()
+  const title = `Topic ${topicId}`
+  setNavigationHeader({
+    title: title,
+    titleElement: () => (
+      <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
+        {title}
+      </HoliText>
+    ),
+  })
+
   return (
     <View style={styles.topicView}>
       <HoliText type={HoliTextType.super} styles={{ alignSelf: 'center' }}>
