@@ -16,7 +16,7 @@ const defaultTheme = {
       Platform.select({
         web: styleVars.vars.fontFamilyWeb,
         default: variant.length > 0 ? `${styleVars.vars.fontFamilyMobile} ${variant}` : styleVars.vars.fontFamilyMobile,
-      }).toString(),
+      }) as string,
   },
 }
 

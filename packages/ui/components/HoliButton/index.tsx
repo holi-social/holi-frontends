@@ -9,61 +9,89 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
-import tinycolor from 'tinycolor2'
 
+import { HoliButtonType, HoliButtonVariant } from '@holi/ui/components/HoliButton/HoliButton.types'
 import HoliText from '@holi/ui/components/HoliText'
+import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type ButtonProps = {
   label: string
-  style?: (ViewStyle | Record<string, unknown> | undefined) | (ViewStyle | Record<string, unknown> | undefined)[]
-  inline?: boolean
+  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
+  inline: boolean
+  type: HoliButtonType
+  variant: HoliButtonVariant
+  disabled: boolean
   href?: string
-  disabled?: boolean
-  active?: boolean
-  transparent?: boolean
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string
-  disableFocuasability?: boolean
+  disableFocusability?: boolean
   // only for TS (props are added by {...props})
   onPress?: null | ((event: GestureResponderEvent) => void)
   testID?: string
 }
 
 const HoliButton: React.FunctionComponent<ButtonProps> = (props: ButtonProps) => {
-  const { theme } = useTheme()
-  const styles = getStyles(theme, props.inline || false, props.transparent || false)
-  const [disabled, setDisabled] = useState(props.disabled || false)
+  const isSmall = () => {
+    return props.variant == HoliButtonVariant.small
+  }
+  const isTransparent = () => {
+    return props.variant == HoliButtonVariant.transparent
+  }
+  const isPrimary = () => {
+    return props.type === HoliButtonType.primary
+  }
 
-  const buttonText = typeof props.children === 'string' ? props.children : ''
+  const { theme } = useTheme()
+  const styles = getStyles(theme, props.inline || false, isTransparent())
 
   const accessibilityProps: AccessibilityProps & { accessibilityPressed?: boolean } = {
     accessible: true,
     accessibilityRole: 'button',
-    accessibilityLabel: `${buttonText} ${props.label}`,
+    ...(props.label ? { accessibilityLabel: props.label } : {}),
   }
 
-  const content = buttonText ? (
-    <HoliText styles={[styles.text, !disabled && props.active && styles.active]}>{buttonText}</HoliText>
-  ) : (
-    props.children
-  )
+  const content =
+    typeof props.children === 'string' ? (
+      <HoliText type={isSmall() ? HoliTextType.buttonSmall : HoliTextType.button}>{props.children}</HoliText>
+    ) : (
+      props.children
+    )
 
   return (
     <Pressable
-      focusable={props.disableFocuasability}
+      focusable={!props.disableFocusability}
       {...accessibilityProps}
       {...props}
-      style={(state) => [
-        styles.holiButton,
-        props.style,
-        !disabled && !props.transparent && state.focused && styles.focused,
-        !disabled && !props.transparent && state.hovered && styles.hovered,
-        !disabled && !props.transparent && state.pressed && styles.pressed,
-        !disabled && props.active && styles.active,
-        disabled && styles.disabled,
-      ]}
+      onPress={(event) => {
+        !props.disabled && props.onPress && props.onPress(event)
+      }}
+      style={(state) => {
+        const result = [props.style]
+        if (!isTransparent()) {
+          result.push(styles.holiButton)
+          if (isSmall()) {
+            result.push(styles.small)
+          }
+          if (props.disabled) {
+            result.push(styles.disabled)
+            isPrimary() && result.push(styles.primaryDisabled)
+          } else {
+            isPrimary() && result.push(styles.primary)
+            if (state.pressed) {
+              console.log('pressed')
+              isPrimary() && result.push(styles.pressedPrimary)
+              !isPrimary() && result.push(styles.pressedSecondary)
+            } else {
+              console.log('not pressed')
+              state.focused && result.push(styles.focused)
+              state.hovered && result.push(styles.hovered)
+            }
+          }
+        }
+        return result
+      }}
     >
-      <View style={styles.buttonContent}>{content}</View>
+      <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>{content}</View>
     </Pressable>
   )
 }
@@ -74,11 +102,11 @@ const getStyles = (theme: HoliTheme, inline: boolean, transparent: boolean) =>
   StyleSheet.create({
     holiButton: {
       borderColor: transparent ? 'transparent' : theme.colors.borderColorBlack,
-      borderWidth: 1,
-      borderRadius: 10,
+      borderWidth: 2,
+      borderRadius: 24,
       backgroundColor: transparent ? 'transparent' : theme.colors.backgroundColorWhite,
-      paddingVertical: 10,
-      paddingHorizontal: 30,
+      paddingHorizontal: 32,
+      paddingVertical: 13,
       elevation: 0,
       width: inline ? 'auto' : '100%',
       overflow: 'hidden',
@@ -88,38 +116,43 @@ const getStyles = (theme: HoliTheme, inline: boolean, transparent: boolean) =>
         },
       }),
     },
-    buttonContent: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignSelf: 'center',
-      fontSize: 14,
-      alignItems: 'center', // vertical center
-      justifyContent: 'center', // horizontal center
-      height: 30,
-    },
-    text: {
-      fontSize: 14,
-      color: theme.colors.fontColorBlack,
-    },
+    text: {},
     hovered: {
-      backgroundColor: transparent ? 'transparent' : tinycolor(theme.colors.backgroundColorGrey).darken(3).toString(),
+      shadowColor: theme.colors.shadowColorBlack,
+      shadowOffset: {
+        width: 4,
+        height: 4,
+      },
+      shadowOpacity: 1,
+      shadowRadius: 0,
+      elevation: 8,
     },
     focused: {
-      outlineColor: theme.colors.secondaryColor,
-      ...Platform.select({
-        web: {
-          boxShadow: `0px 0px 3px 1px ${theme.colors.secondaryColor}`,
-        },
-      }),
+      borderWidth: 4,
+      paddingHorizontal: 30,
+      paddingVertical: 11,
     },
-    pressed: {
-      backgroundColor: tinycolor(theme.colors.backgroundColorGrey).lighten(3).toString(),
+    pressedPrimary: {
+      backgroundColor: theme.colors.backgroundColorYellowShadow,
     },
-    active: {
-      backgroundColor: theme.colors.secondaryColor,
-      color: theme.colors.fontColorWhite,
+    pressedSecondary: {
+      backgroundColor: theme.colors.backgroundColorWhiteShadow,
+    },
+    small: {
+      borderRadius: 16,
+      paddingHorizontal: 16,
+      paddingVertical: 6,
+    },
+    textSmall: {
+      fontSize: 14,
     },
     disabled: {
       opacity: 0.6,
+    },
+    primary: {
+      backgroundColor: theme.colors.primaryColor,
+    },
+    primaryDisabled: {
+      backgroundColor: '#f2f1ec', // TODO: keep this color changed by opacity 0.6 to f7f6f3? Or explicitly set colors for disabled style on text, background and border?
     },
   })
