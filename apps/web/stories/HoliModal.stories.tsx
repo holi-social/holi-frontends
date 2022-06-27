@@ -26,6 +26,7 @@ Primary.argTypes = {
 }
 
 Primary.args = {
-  show: false,
+  show: true,
+  relativeHeight: 0.75,
   onDismiss: () => null,
 }
