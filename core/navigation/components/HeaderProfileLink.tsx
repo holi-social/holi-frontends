@@ -8,17 +8,13 @@ import HoliButton from '@holi/ui/components/HoliButton'
 import HoliIcon from '@holi/ui/components/HoliIcon'
 import HoliUserAvatar from '@holi/ui/components/HoliUserAvatar'
 
-export type HeaderNotificationLinkProps = {
+export type HeaderProfileLinkProps = {
   style?: ViewStyle | Record<string, unknown>
   testID?: string
 }
 
-const HeaderNotificationLink: React.VoidFunctionComponent<HeaderNotificationLinkProps> = (
-  props: HeaderNotificationLinkProps
-) => {
-  const { navigate, pathname } = useRouting()
-
-  const isProfile = pathname.startsWith('/profile')
+const HeaderProfileLink: React.VoidFunctionComponent<HeaderProfileLinkProps> = (props: HeaderProfileLinkProps) => {
+  const { navigate } = useRouting()
 
   const { user } = useContext(UserContext)
   const { isAuthenticated } = useContext(AuthContext)
@@ -47,10 +43,10 @@ const HeaderNotificationLink: React.VoidFunctionComponent<HeaderNotificationLink
       style={[{ paddingHorizontal: 0 }, props.style]}
       testID="profile-button"
     >
-      {!isAuthenticated && <HoliIcon icon="user-circled" size={20} filled={isProfile} />}
+      {!isAuthenticated && <HoliIcon icon="user-circled" size={20} />}
       {isAuthenticated && userAvatar}
     </HoliButton>
   )
 }
 
-export default HeaderNotificationLink
+export default HeaderProfileLink
