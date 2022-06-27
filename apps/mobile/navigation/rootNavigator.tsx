@@ -11,6 +11,7 @@ import { HomeFeedScreen } from '@holi/core/home/HomeFeedScreen'
 import HeaderNotificationLink from '@holi/core/navigation/components/HeaderNotificationLink'
 import HeaderProfileLink from '@holi/core/navigation/components/HeaderProfileLink'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { NotificationsScreen } from '@holi/core/notifications/NotificationsScreen'
 import { UserProfileScreen } from '@holi/core/profile/UserProfileScreen'
 import { SearchScreen } from '@holi/core/search/SearchScreen'
@@ -19,7 +20,9 @@ import { TopicScreenParams, TopicsScreen } from '@holi/core/topics/TopicsScreen'
 import { PostScreen, PostScreenParams } from '@holi/core/topics/posts/PostScreen'
 import ChatStackNavigator from '@holi/mobile/navigation/chatNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/volunteeringAppNavigator'
+import HoliButton from '@holi/ui/components/HoliButton'
 import HoliIcon from '@holi/ui/components/HoliIcon'
+import Holicon from '@holi/ui/components/holicon'
 import { useTheme } from '@holi/ui/styles/theme/theme'
 
 export type HomeStackScreens = {
@@ -78,10 +81,67 @@ export const HomeStackNavigator: React.VFC = () => {
           ),
         }}
       />
-      <HomeStack.Screen name="UserProfile" component={UserProfileScreen} />
-      <HomeStack.Screen name="Topic" component={TopicsScreen} />
+      <HomeStack.Screen
+        name="UserProfile"
+        component={UserProfileScreen}
+        options={{
+          headerLeft: () => {
+            const { navigate } = useRouting()
+            return (
+              <HoliButton
+                label="Notifications"
+                inline
+                transparent
+                onPress={() => navigate('/')}
+                style={{ paddingHorizontal: 0 }}
+              >
+                <Holicon icon="arrow-back" size={30} color={theme.colors.positivepurple} />
+              </HoliButton>
+            )
+          },
+        }}
+      />
+      <HomeStack.Screen
+        name="Topic"
+        component={TopicsScreen}
+        options={{
+          headerLeft: () => {
+            const { navigate } = useRouting()
+            return (
+              <HoliButton
+                label="Notifications"
+                inline
+                transparent
+                onPress={() => navigate('/')}
+                style={{ paddingHorizontal: 0 }}
+              >
+                <Holicon icon="arrow-back" size={30} color={theme.colors.positivepurple} />
+              </HoliButton>
+            )
+          },
+        }}
+      />
       <HomeStack.Screen name="Post" component={PostScreen} />
-      <HomeStack.Screen name="Notifications" component={NotificationsScreen} />
+      <HomeStack.Screen
+        name="Notifications"
+        component={NotificationsScreen}
+        options={{
+          headerLeft: () => {
+            const { navigate } = useRouting()
+            return (
+              <HoliButton
+                label="Notifications"
+                inline
+                transparent
+                onPress={() => navigate('/')}
+                style={{ paddingHorizontal: 0 }}
+              >
+                <Holicon icon="arrow-back" size={30} color={theme.colors.positivepurple} />
+              </HoliButton>
+            )
+          },
+        }}
+      />
     </HomeStack.Navigator>
   )
 }
