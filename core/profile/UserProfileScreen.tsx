@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { View } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import { LoginProtection } from '@holi/core/auth/screens/LoginProtection'
-import { useNavigationContext } from '@holi/core/navigation/context'
+import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserContext } from '@holi/core/user/UserContextProvider'
 import { UserProfileForm } from '@holi/core/user/components/UserProfileForm'
@@ -13,7 +13,7 @@ import HoliChip from '@holi/ui/components/HoliChip'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
-export const UserProfileScreen: React.VFC = ({ navigation }) => {
+export const UserProfileScreen: React.VFC = () => {
   const { navigate } = useRouting()
   const [editing, setEditing] = useState(false)
   const [chipChecked, setChipChecked] = useState(false)
@@ -22,21 +22,16 @@ export const UserProfileScreen: React.VFC = ({ navigation }) => {
   const { isAuthenticated } = useContext(AuthContext)
   const { user } = useContext(UserContext)
 
-  const navigationContext = useNavigationContext()
+  const { setNavigationHeader } = useNavigationHeader()
   const profileTitle = isAuthenticated && user ? user.firstName : 'Profile'
-
-  useEffect(() => navigationContext.setHeaderTitle(profileTitle))
-
-  navigation &&
-    useLayoutEffect(() => {
-      navigation.setOptions({
-        headerTitle: () => (
-          <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
-            {profileTitle}
-          </HoliText>
-        ),
-      })
-    }, [isAuthenticated])
+  setNavigationHeader({
+    title: profileTitle,
+    titleElement: () => (
+      <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
+        {profileTitle}
+      </HoliText>
+    ),
+  })
 
   const loggedOutContent = <HoliText type={HoliTextType.heading1}>Log in to see your profile</HoliText>
   return (

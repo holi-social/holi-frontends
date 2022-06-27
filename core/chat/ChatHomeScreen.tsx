@@ -1,26 +1,21 @@
-import React, { useEffect, useLayoutEffect } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 
-import { useNavigationContext } from '@holi/core/navigation/context'
+import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
-export const ChatHomeScreen: React.VFC = ({ navigation }) => {
-  const navigationContext = useNavigationContext()
-  useEffect(() => navigationContext.setHeaderTitle('Chat'))
-
-  navigation &&
-    useLayoutEffect(
-      () =>
-        navigation.setOptions({
-          headerTitle: () => (
-            <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
-              Chat
-            </HoliText>
-          ),
-        }),
-      [navigation]
-    )
+export const ChatHomeScreen: React.VFC = () => {
+  const { setNavigationHeader } = useNavigationHeader()
+  const title = 'Chat'
+  setNavigationHeader({
+    title: title,
+    titleElement: () => (
+      <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
+        {title}
+      </HoliText>
+    ),
+  })
 
   return (
     <View style={{ padding: 10, alignItems: 'center' }}>

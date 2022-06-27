@@ -1,8 +1,8 @@
-import React, { useEffect, useLayoutEffect } from 'react'
+import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { createParam } from 'solito'
 
-import { useNavigationContext } from '@holi/core/navigation/context'
+import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliText from '@holi/ui/components/HoliText'
@@ -16,28 +16,22 @@ export type TopicScreenParams = {
   topicId: string
 }
 
-export const TopicsScreen: React.VFC = ({ navigation }) => {
+export const TopicsScreen: React.VFC = () => {
   const [topicId] = useParam('topicId')
   const { navigate } = useRouting()
   const topic = fakeTopics.get(topicId)
   if (!topic) return <HoliText>Topic {topicId} not found</HoliText>
 
-  const headerTitle = `Topic ${topicId}`
-  const navigationContext = useNavigationContext()
-  useEffect(() => navigationContext.setHeaderTitle(headerTitle))
-
-  navigation &&
-    useLayoutEffect(
-      () =>
-        navigation.setOptions({
-          headerTitle: () => (
-            <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
-              {headerTitle}
-            </HoliText>
-          ),
-        }),
-      [navigation]
-    )
+  const { setNavigationHeader } = useNavigationHeader()
+  const title = `Topic ${topicId}`
+  setNavigationHeader({
+    title: title,
+    titleElement: () => (
+      <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
+        {title}
+      </HoliText>
+    ),
+  })
 
   return (
     <View style={styles.topicView}>

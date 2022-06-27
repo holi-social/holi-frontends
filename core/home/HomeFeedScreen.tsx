@@ -1,7 +1,7 @@
-import React, { useEffect, useLayoutEffect } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import { StyleSheet, View } from 'react-native'
 
-import { useNavigationContext } from '@holi/core/navigation/context'
+import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { fakeTopics } from '@holi/core/topics/fakeTopics'
 import HoliButton from '@holi/ui/components/HoliButton'
@@ -9,24 +9,19 @@ import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 import Holicon from '@holi/ui/components/holicon'
 
-export const HomeFeedScreen: React.VFC = ({ navigation }) => {
+export const HomeFeedScreen: React.VFC = () => {
   const { navigate } = useRouting()
+  const { setNavigationHeader } = useNavigationHeader()
+  const title = 'Topic of the day'
 
-  const navigationContext = useNavigationContext()
-  useEffect(() => navigationContext.setHeaderTitle('Topic of the day'))
-
-  navigation &&
-    useLayoutEffect(
-      () =>
-        navigation.setOptions({
-          headerTitle: () => (
-            <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
-              Topic of the day
-            </HoliText>
-          ),
-        }),
-      [navigation]
-    )
+  setNavigationHeader({
+    title: title,
+    titleElement: () => (
+      <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
+        {title}
+      </HoliText>
+    ),
+  })
 
   return (
     <View style={styles.view}>

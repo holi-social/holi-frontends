@@ -1,31 +1,26 @@
-import React, { useEffect, useLayoutEffect } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 
-import { useNavigationContext } from '@holi/core/navigation/context'
+import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
-export const VolunteeringAppHomeScreen: React.VFC = ({ navigation }) => {
-  const navigationContext = useNavigationContext()
-  useEffect(() => navigationContext.setHeaderTitle('Lets Act'))
-
-  navigation &&
-    useLayoutEffect(
-      () =>
-        navigation.setOptions({
-          headerTitle: () => (
-            <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
-              Lets Act
-            </HoliText>
-          ),
-        }),
-      [navigation]
-    )
+export const VolunteeringAppHomeScreen: React.VFC = () => {
+  const { setNavigationHeader } = useNavigationHeader()
+  const title = 'Lets Act'
+  setNavigationHeader({
+    title: title,
+    titleElement: () => (
+      <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
+        {title}
+      </HoliText>
+    ),
+  })
 
   return (
     <View style={{ padding: 10 }}>
       <HoliText type={HoliTextType.super} testID="home-feed-title">
-        Volunteering App Hom
+        Volunteering App Home
       </HoliText>
     </View>
   )

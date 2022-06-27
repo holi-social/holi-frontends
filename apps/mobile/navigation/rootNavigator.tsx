@@ -78,39 +78,10 @@ export const HomeStackNavigator: React.VFC = () => {
           ),
         }}
       />
-      <HomeStack.Screen
-        name="UserProfile"
-        component={UserProfileScreen}
-        options={{
-          headerTitle: () => <HeaderTitle style={{ paddingTop: 5 }} />,
-          headerBackTitle: '',
-        }}
-      />
-      <HomeStack.Screen
-        name="Topic"
-        component={TopicsScreen}
-        options={{
-          headerTitle: () => <HeaderTitle style={{ paddingTop: 5 }} />,
-          headerBackTitle: '',
-        }}
-      />
-      <HomeStack.Screen
-        name="Post"
-        component={PostScreen}
-        options={{
-          headerTitle: () => <HeaderTitle style={{ paddingTop: 5 }} />,
-          headerBackTitle: '',
-        }}
-      />
-      <HomeStack.Screen
-        name="Notifications"
-        component={NotificationsScreen}
-        options={{
-          headerTitle: () => <HeaderTitle style={{ paddingTop: 5 }} />,
-          headerBackTitle: '',
-          animation: 'slide_from_bottom',
-        }}
-      />
+      <HomeStack.Screen name="UserProfile" component={UserProfileScreen} />
+      <HomeStack.Screen name="Topic" component={TopicsScreen} />
+      <HomeStack.Screen name="Post" component={PostScreen} />
+      <HomeStack.Screen name="Notifications" component={NotificationsScreen} />
     </HomeStack.Navigator>
   )
 }
@@ -159,6 +130,7 @@ export const BottomTabsNavigator: React.VFC = () => {
         component={ExploreScreen}
         options={{
           headerShown: true, // TODO: replace with custom header
+          headerTitleAlign: 'center',
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="explore" size={20} filled={focused} style={{ color: iconColor(focused) }} />
@@ -170,6 +142,7 @@ export const BottomTabsNavigator: React.VFC = () => {
         component={SearchScreen}
         options={{
           headerShown: true, // TODO: replace with custom header
+          headerTitleAlign: 'center',
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="search" size={20} filled={focused} style={{ color: iconColor(focused) }} />
