@@ -2,6 +2,8 @@
 import { AxiosError } from 'axios'
 import React, { createContext, useEffect, useState } from 'react'
 
+import useErrorHandling from '@holi/core/errors/useErrorHandling'
+
 import { getAuthenticatedSession, killAuthenticatedSession, setAuthenticatedSession } from './helpers/auth'
 import { SessionContext, newKratosSdk } from './helpers/sdk'
 
@@ -21,6 +23,7 @@ export const AuthContext = createContext<Context>({
 
 export const AuthContextProvider: React.FC = ({ children }) => {
   const [sessionContext, setSessionContext] = useState<SessionContext | undefined>(undefined)
+  const { displayError } = useErrorHandling()
 
   const setAuth = (session: SessionContext) => {
     if (!session) {
@@ -59,6 +62,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
           setAuth(null)
           setSessionContext(null)
         })
+        .catch((error) => displayError(error, 'Error creating session'))
     )
   }
 

@@ -25,7 +25,7 @@ export const UserContextProvider: React.FC = ({ children }) => {
     },
   })
 
-  if (loading) {
+  if (loading && !error) {
     return <HoliText>Loading...</HoliText>
   }
 
