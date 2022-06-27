@@ -8,6 +8,7 @@ interface TextInputStylesProps {
   isFocused?: boolean
   isErrored?: boolean
   isDisabled?: boolean
+  isInline?: boolean
 }
 
 export const inputLineHeight = 16 * 1.4
@@ -18,6 +19,7 @@ export const getHoliTextInputStyles = ({
   isErrored = false,
   isFocused = false,
   isDisabled = false,
+  isInline = false,
 }: TextInputStylesProps) =>
   StyleSheet.create({
     pressable: {
@@ -40,6 +42,7 @@ export const getHoliTextInputStyles = ({
       marginBottom: 6,
       paddingVertical: 17,
       backgroundColor: isDisabled ? theme.colors.lightGrey : theme.colors.white,
+      alignSelf: isInline ? 'flex-start' : 'stretch',
     },
     input: {
       flex: 1,
@@ -49,7 +52,8 @@ export const getHoliTextInputStyles = ({
       fontFamily: theme.fontFamily.default('Book'),
       color: theme.colors.softblack,
       caretColor: theme.colors.positivepurple,
-      overflow: 'hidden',
+      overflow: 'scroll',
+      alignSelf: isInline ? 'flex-start' : 'stretch',
     },
     label: {
       color: isErrored ? theme.colors.errorRed : isFocused ? theme.colors.positivepurple : theme.colors.softblack,

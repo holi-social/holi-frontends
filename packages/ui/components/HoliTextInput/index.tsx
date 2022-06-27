@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { Pressable, Text, TextInput, View } from 'react-native'
+import { AccessibilityProps, KeyboardType, Pressable, Text, TextInput, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
@@ -7,7 +7,6 @@ import {
   getHoliTextInputStyles as getStyles,
   inputLineHeight,
 } from '@holi/ui/components/HoliTextInput/HoliTextInput.styles'
-import { KeyboardType } from '@holi/ui/components/HoliTextInput/HoliTextInput.types'
 import { useTheme } from '@holi/ui/styles/theme'
 
 export type HoliTextInputProps = {
@@ -18,39 +17,50 @@ export type HoliTextInputProps = {
   isDisabled?: boolean
   isErrored?: boolean
   noLabel?: boolean
-  minNumberOfLines?: number
-  maxNumberOfLines?: number
+  noOfLines?: number
+  maxNoOfLines?: number
+  noOfCharacters?: number
   onChange?: (value: string) => void
-  keyboardType?: keyof typeof KeyboardType
+  keyboardType?: KeyboardType
+  isInline?: boolean
   // eslint-disable-next-line
   [x: string]: any
 }
 
-const minMaxNumberOfLines = 3
-
 const HoliTextInput = ({
   label = '',
-  helperText = '',
   placeholder = '',
+  helperText = '',
+  isDisabled = false,
   noLabel = false,
-  minNumberOfLines = 1,
-  maxNumberOfLines = minMaxNumberOfLines,
+  noOfLines = 1,
+  maxNoOfLines = 10,
+  noOfCharacters = 5000,
   onChange,
-  keyboardType = KeyboardType.default,
+  keyboardType = 'default',
+  isInline = true,
   ...props
 }: HoliTextInputProps) => {
   const [inputValue, setInputValue] = useState(props?.value || '')
   const [isHovered, setHovered] = useState<boolean>(false)
   const [isFocused, setFocused] = useState<boolean>(false)
   const [isErrored, setErrored] = useState<boolean>(!!props?.isErrored ?? false)
+
+  const maxNoOfLinesCap = 10
   const [numberOfLines, setNumberOfLines] = useState<number>(
-    Math.max(minNumberOfLines, Math.min(minMaxNumberOfLines, maxNumberOfLines))
+    Math.max(noOfLines, Math.min(maxNoOfLinesCap, maxNoOfLines))
   )
+
   const growTextInput = (contentSizeHeight: number) => {
-    if (maxNumberOfLines > numberOfLines) {
-      const linesCount = Math.round((contentSizeHeight - inputLineHeight * minMaxNumberOfLines) / inputLineHeight)
-      setNumberOfLines(Math.max(minMaxNumberOfLines, minMaxNumberOfLines + linesCount))
+    if (maxNoOfLines > numberOfLines) {
+      const linesCount = Math.round((contentSizeHeight - inputLineHeight * maxNoOfLinesCap) / inputLineHeight)
+      setNumberOfLines(Math.max(maxNoOfLinesCap, maxNoOfLinesCap + linesCount))
     }
+  }
+
+  const accessibilityProps: AccessibilityProps = {
+    accessible: true,
+    accessibilityLabel: `${label}`,
   }
 
   useEffect(() => {
@@ -61,7 +71,7 @@ const HoliTextInput = ({
   }, [props?.value])
 
   const { theme } = useTheme()
-  const styles = getStyles({ theme, isErrored, isFocused, isHovered, isDisabled: !!props?.isDisabled })
+  const styles = getStyles({ theme, isErrored, isFocused, isHovered, isDisabled: isDisabled, isInline: isInline })
 
   return (
     <Pressable
@@ -82,7 +92,7 @@ const HoliTextInput = ({
         <TextInput
           value={inputValue}
           style={[styles.input]}
-          multiline={minNumberOfLines > 1}
+          multiline={noOfLines > 1}
           numberOfLines={numberOfLines}
           onFocus={() => {
             setFocused(true)
@@ -100,8 +110,10 @@ const HoliTextInput = ({
           onContentSizeChange={(event) => {
             growTextInput(event.nativeEvent.contentSize.height)
           }}
-          keyboardType={KeyboardType[keyboardType]}
-          disabled={props?.isDisabled}
+          keyboardType={keyboardType}
+          maxLength={noOfCharacters}
+          disabled={isDisabled}
+          {...accessibilityProps}
         />
         {isErrored && <ErrorIcon />}
       </View>

@@ -22,21 +22,23 @@ export const Primary = ({ ...args }) => (
     helperText={args.helperText}
     isErrored={args.isErrored}
     noLabel={args.noLabel}
-    minNumberOfLines={args.minNumberOfLines}
-    maxNumberOfLines={args.maxNumberOfLines}
+    noOfLines={args.noOfLines}
+    maxNoOfLines={args.maxNumberOfLines}
     isDisabled={args.isDisabled}
+    isInline={args.isInline}
   />
 )
 Primary.args = {
   value: '',
   label: 'Label',
+  noLabel: false,
   placeholder: 'Placeholder',
   helperText: 'Helper Text',
+  noOfLines: 1,
+  maxNoOfLines: 3,
   isDisabled: false,
   isErrored: false,
-  noLabel: false,
-  minNumberOfLines: 1,
-  maxNumberOfLines: 3,
+  isInline: true,
 }
 Primary.argTypes = {}
 
