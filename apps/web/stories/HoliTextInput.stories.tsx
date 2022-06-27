@@ -69,11 +69,11 @@ export const Multiline = ({ ...args }) => (
     label={'Label'}
     placeholder={'Placeholder'}
     helperText={'Helper Text'}
-    minNumberOfLines={3}
-    maxNumberOfLines={args.maxNumberOfLines}
+    noOfLines={3}
+    maxNoOfLines={args.maxNoOfLines}
   />
 )
 Multiline.args = {
   value: '',
-  maxNumberOfLines: 5,
+  maxNoOfLines: 5,
 }
