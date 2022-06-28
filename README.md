@@ -42,7 +42,7 @@ Follow the instructions in the corresponding READMEs for setup.
 Run `cp .envrc-local.template .envrc-local` and adjust `.envrc-local` to match your configuration (e.g. using the correct node version manager). Using `direnv`, `.envrc` (and `.envrc-local`) will automatically be loaded when you `cd` into the directory.
 
 `.node-version` (used by `nodenv`) ensures that all developers are using the same `node`/`npm` versions.
-It is kept in sync with `.nvmrc` (used by `nvm`) by a symbolic authLink, so please make sure to use a format that is understood by both tools (e.g. a fixed version).
+It is kept in sync with `.nvmrc` (used by `nvm`) by a symbolic link, so please make sure to use a format that is understood by both tools (e.g. a fixed version).
 
 #### Android emulator
 
