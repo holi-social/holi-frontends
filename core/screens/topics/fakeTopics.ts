@@ -2,7 +2,7 @@ const loremIpsum =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio eget metus, est mauris viverra orci rhoncus quis ' +
   'eu. Ultricies pellentesque et tincidunt vitae etiam turpis at vulputate.'
 
-export const fakeTopics = new Map()
+const fakeTopics = new Map()
 fakeTopics.set('abc', {
   title: 'What does it mean to be a refugee in Europe?',
   text:
@@ -26,3 +26,5 @@ fakeTopics.set('bca', {
     654: { author: 'Max Arghentzu', text: '654 ' + loremIpsum },
   },
 })
+
+export default fakeTopics

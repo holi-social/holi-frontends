@@ -4,21 +4,20 @@ import { createParam } from 'solito'
 
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { TopicEditors } from '@holi/core/topics/TopicEditors'
+import TopicEditors from '@holi/core/screens/topics/components/TopicEditors'
+import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliModal from '@holi/ui/components/HoliModal'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
-import { fakeTopics } from './fakeTopics'
+const { useParam } = createParam<TopicParams>()
 
-const { useParam } = createParam<TopicScreenParams>()
-
-export type TopicScreenParams = {
+export type TopicParams = {
   topicId: string
 }
 
-export const TopicsScreen: React.VFC = () => {
+const Topic: React.VFC = () => {
   const [showModal, setShowModal] = useState(false)
   const [topicId = ''] = useParam('topicId')
   const { navigate } = useRouting()
@@ -88,3 +87,5 @@ const styles = StyleSheet.create({
     borderColor: 'pink',
   },
 })
+
+export default Topic

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import { ChatHomeScreen } from '@holi/core/chat/ChatHomeScreen'
+import ChatHome from '@holi/core/screens/ChatHome'
 import { useTheme } from '@holi/ui/styles/theme/theme'
 
 export type ChatStackScreensList = {
@@ -23,7 +23,7 @@ const ChatStackNavigator: React.VFC = () => {
         headerTitleAlign: 'center',
       }}
     >
-      <ChatStack.Screen name="ChatHome" component={ChatHomeScreen} />
+      <ChatStack.Screen name="ChatHome" component={ChatHome} />
     </ChatStack.Navigator>
   )
 }

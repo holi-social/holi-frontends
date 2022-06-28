@@ -5,9 +5,9 @@ import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
-export const ExploreScreen: React.VFC = () => {
+const ChatHome: React.VFC = () => {
   const { setNavigationHeader } = useNavigationHeader()
-  const title = 'Explore Holi'
+  const title = 'Chat'
   setNavigationHeader({
     title: title,
     titleElement: () => (
@@ -19,7 +19,9 @@ export const ExploreScreen: React.VFC = () => {
 
   return (
     <View style={{ padding: 10, alignItems: 'center' }}>
-      <HoliText type={HoliTextType.super}>Explore</HoliText>
+      <HoliText type={HoliTextType.super}>Chat</HoliText>
     </View>
   )
 }
+
+export default ChatHome

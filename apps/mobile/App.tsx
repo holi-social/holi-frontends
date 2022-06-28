@@ -3,8 +3,8 @@ import * as SplashScreen from 'expo-splash-screen'
 import React, { useEffect, useState } from 'react'
 
 import { Provider } from '@holi/core/provider'
-import { NavigationProvider } from '@holi/mobile/navigation/navigationProvider'
-import { RootNavigator } from '@holi/mobile/navigation/rootNavigator'
+import NavigationProvider from '@holi/mobile/navigation/NavigationProvider'
+import RootNavigator from '@holi/mobile/navigation/RootNavigator'
 
 const App: React.VoidFunctionComponent = () => {
   const [isReady, setIsReady] = useState(false)
