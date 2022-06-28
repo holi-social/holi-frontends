@@ -187,7 +187,9 @@ Components in `packages/ui` and `screens` should use the following folder struct
     ```ts
     export type MyComponentProps = [...]
 
-    export default const MyComponent = [...]
+    const MyComponent = [...]
+
+    export default MyComponent
     ```
 
   - which can be imported as `import MyComponent, { MyComponentProps } from 'path/to/MyComponent'`
