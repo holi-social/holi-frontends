@@ -8,7 +8,7 @@ import HoliButton from '@holi/ui/components/HoliButton'
 import Holicon from '@holi/ui/components/holicon'
 import { useTheme } from '@holi/ui/styles/theme/theme'
 
-import { VolunteeringAppHomeScreen } from '@holi-apps/volunteering/screens/VolunteeringAppHomeScreen'
+import VolunteeringAppHome from '@holi-apps/volunteering/screens/VolunteeringAppHome'
 
 export type VolunteeringAppScreensList = {
   VolunteeringAppHome: undefined
@@ -56,7 +56,7 @@ const VolunteeringAppNavigator: React.VFC = () => {
           headerTitleAlign: 'center',
         }}
       >
-        <VolunteeringAppStack.Screen name="VolunteeringAppHome" component={VolunteeringAppHomeScreen} />
+        <VolunteeringAppStack.Screen name="VolunteeringAppHome" component={VolunteeringAppHome} />
       </VolunteeringAppStack.Navigator>
       <AppNavigation />
     </SafeAreaView>

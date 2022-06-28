@@ -6,19 +6,19 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { Login } from '@holi/core/auth/screens/Login'
 import { Logout } from '@holi/core/auth/screens/Logout'
-import { ExploreScreen } from '@holi/core/explore/ExploreScreen'
-import { HomeFeedScreen } from '@holi/core/home/HomeFeedScreen'
 import HeaderNotificationLink from '@holi/core/navigation/components/HeaderNotificationLink'
 import HeaderProfileLink from '@holi/core/navigation/components/HeaderProfileLink'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { NotificationsScreen } from '@holi/core/notifications/NotificationsScreen'
 import { UserProfileScreen } from '@holi/core/profile/UserProfileScreen'
-import { SearchScreen } from '@holi/core/search/SearchScreen'
-import { TopicScreenParams, TopicsScreen } from '@holi/core/topics/TopicsScreen'
-import { PostScreen, PostScreenParams } from '@holi/core/topics/posts/PostScreen'
-import ChatStackNavigator from '@holi/mobile/navigation/chatNavigator'
-import VolunteeringAppNavigator from '@holi/mobile/navigation/volunteeringAppNavigator'
+import Explore from '@holi/core/screens/Explore'
+import HomeFeed from '@holi/core/screens/HomeFeed'
+import Notifications from '@holi/core/screens/Notifications'
+import Search from '@holi/core/screens/Search'
+import Post, { PostParams } from '@holi/core/screens/topics/Post'
+import Topic, { TopicParams } from '@holi/core/screens/topics/Topic'
+import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
+import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliIcon from '@holi/ui/components/HoliIcon'
 import Holicon from '@holi/ui/components/holicon'
@@ -26,8 +26,8 @@ import { useTheme } from '@holi/ui/styles/theme/theme'
 
 export type HomeStackScreens = {
   HomeFeed: undefined
-  Topic: TopicScreenParams
-  Post: PostScreenParams
+  Topic: TopicParams
+  Post: PostParams
   UserProfile: undefined
   Notifications: undefined
 }
@@ -65,7 +65,7 @@ export const HomeStackNavigator: React.VFC = () => {
     >
       <HomeStack.Screen
         name="HomeFeed"
-        component={HomeFeedScreen}
+        component={HomeFeed}
         options={{
           headerTitle: () => <HeaderTitle style={{ paddingTop: 5 }} />,
           headerLeft: () => <HeaderNotificationLink style={{ paddingHorizontal: 0, marginLeft: 5 }} />,
@@ -101,7 +101,7 @@ export const HomeStackNavigator: React.VFC = () => {
       />
       <HomeStack.Screen
         name="Topic"
-        component={TopicsScreen}
+        component={Topic}
         options={{
           headerLeft: () => {
             const { navigate } = useRouting()
@@ -119,10 +119,10 @@ export const HomeStackNavigator: React.VFC = () => {
           },
         }}
       />
-      <HomeStack.Screen name="Post" component={PostScreen} />
+      <HomeStack.Screen name="Post" component={Post} />
       <HomeStack.Screen
         name="Notifications"
-        component={NotificationsScreen}
+        component={Notifications}
         options={{
           headerLeft: () => {
             const { navigate } = useRouting()
@@ -185,7 +185,7 @@ export const BottomTabsNavigator: React.VFC = () => {
       />
       <BottomTabs.Screen
         name="Explore"
-        component={ExploreScreen}
+        component={Explore}
         options={{
           headerShown: true, // TODO: replace with custom header
           headerTitleAlign: 'center',
@@ -197,7 +197,7 @@ export const BottomTabsNavigator: React.VFC = () => {
       />
       <BottomTabs.Screen
         name="Search"
-        component={SearchScreen}
+        component={Search}
         options={{
           headerShown: true, // TODO: replace with custom header
           headerTitleAlign: 'center',
@@ -211,7 +211,7 @@ export const BottomTabsNavigator: React.VFC = () => {
   )
 }
 
-export const RootNavigator: React.VFC = () => (
+const RootNavigator: React.VFC = () => (
   <RootStack.Navigator
     initialRouteName="Core"
     screenOptions={{
@@ -245,3 +245,5 @@ export const RootNavigator: React.VFC = () => (
     </RootStack.Group>
   </RootStack.Navigator>
 )
+
+export default RootNavigator
