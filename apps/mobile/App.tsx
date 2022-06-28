@@ -2,7 +2,7 @@ import * as Font from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 import React, { useEffect, useState } from 'react'
 
-import { Provider } from '@holi/core/provider'
+import RootProvider from '@holi/core/RootProvider'
 import { NavigationProvider } from '@holi/mobile/navigation/navigationProvider'
 import { RootNavigator } from '@holi/mobile/navigation/rootNavigator'
 
@@ -33,11 +33,11 @@ const App: React.VoidFunctionComponent = () => {
   if (!isReady) return null
 
   return (
-    <Provider>
+    <RootProvider>
       <NavigationProvider>
         <RootNavigator />
       </NavigationProvider>
-    </Provider>
+    </RootProvider>
   )
 }
 

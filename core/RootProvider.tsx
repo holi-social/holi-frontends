@@ -8,7 +8,7 @@ import { NavigationContextProvider } from '@holi/core/navigation/context'
 import { UserContextProvider } from '@holi/core/user/UserContextProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 
-export const Provider: React.VoidFunctionComponent<{ children: React.ReactElement }> = ({ children }) => (
+const RootProvider: React.VoidFunctionComponent<{ children: React.ReactElement }> = ({ children }) => (
   <ThemeProvider theme={defaultHoliTheme}>
     <ErrorBoundary>
       <ApolloProvider client={client}>
@@ -21,3 +21,5 @@ export const Provider: React.VoidFunctionComponent<{ children: React.ReactElemen
     </ErrorBoundary>
   </ThemeProvider>
 )
+
+export default RootProvider
