@@ -26,7 +26,7 @@ export type HoliTextInputProps = {
   helperText?: string
   validationErrorText?: string
   isDisabled?: boolean
-  isErrored?: boolean
+  hasValidationErrors?: boolean
   noLabel?: boolean
   /** Number of lines/rows to be displayed on initial render. */
   noOfLines?: number
@@ -64,10 +64,10 @@ const HoliTextInput = ({
   const [inputValue, setInputValue] = useState(props?.value || '')
   const [isHovered, setHovered] = useState<boolean>(false)
   const [isFocused, setFocused] = useState<boolean>(false)
-  const [isErrored, setErrored] = useState<boolean>(!!props?.isErrored ?? false)
+  const [hasValidationErrors, setErrored] = useState<boolean>(!!props?.hasValidationErrors ?? false)
 
   const inputRef = useRef(null)
-  const [inputHeight, setInputHeight] = useState<number>(noOfLines * inputLineHeight)
+  const [inputHeight, setInputHeight] = useState<number>(Math.min(noOfLines, maxNoOfLines) * inputLineHeight)
 
   const accessibilityProps: AccessibilityProps = {
     accessible: true,
@@ -75,14 +75,24 @@ const HoliTextInput = ({
   }
 
   useEffect(() => {
-    setErrored(!!props?.isErrored ?? isErrored)
-  }, [props?.isErrored])
+    setErrored(!!props?.hasValidationErrors ?? hasValidationErrors)
+  }, [props?.hasValidationErrors])
   useEffect(() => {
     setInputValue(props?.value || inputValue)
   }, [props?.value])
+  useEffect(() => {
+    setInputHeight(Math.min(noOfLines, maxNoOfLines) * inputLineHeight)
+  }, [noOfLines, maxNoOfLines])
 
   const { theme } = useTheme()
-  const styles = getStyles({ theme, hasValidationErrors: isErrored, isFocused, isHovered, isDisabled, isInline })
+  const styles = getStyles({
+    theme,
+    hasValidationErrors,
+    isFocused,
+    isHovered,
+    isDisabled,
+    isInline,
+  })
 
   return (
     <Pressable onHoverIn={() => setHovered(true)} onHoverOut={() => setHovered(false)} style={styles.pressable}>
@@ -122,10 +132,12 @@ const HoliTextInput = ({
           {...accessibilityProps}
           {...inputProps}
         />
-        {(isErrored || trailingIcon) && (
+        {(hasValidationErrors || trailingIcon) && (
           <View style={styles.iconWrapper}>
-            {trailingIcon && !isErrored && <HoliIcon icon={trailingIcon} size={22} color={theme.colors.softblack} />}
-            {isErrored && (
+            {trailingIcon && !hasValidationErrors && (
+              <HoliIcon icon={trailingIcon} size={22} color={theme.colors.softblack} />
+            )}
+            {hasValidationErrors && (
               <View style={styles.errorIcon}>
                 <Text style={styles.errorText}>!</Text>
               </View>
@@ -139,12 +151,12 @@ const HoliTextInput = ({
         )}
       </View>
       <View style={styles.helper}>
-        {isErrored && validationErrorText != '' && (
+        {hasValidationErrors && validationErrorText != '' && (
           <HoliText type={HoliTextType.label} styles={styles.validationErrorText}>
             {validationErrorText}
           </HoliText>
         )}
-        {!isErrored && helperText != '' && (
+        {!hasValidationErrors && helperText != '' && (
           <HoliText type={HoliTextType.label} styles={styles.helperText}>
             {helperText}
           </HoliText>

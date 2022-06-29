@@ -1,8 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
 import React from 'react'
 
-import HoliTextInput from '@holi/ui/components/HoliTextInput'
 import iconSetRegular from '@holi/ui/assets/fonts/HoliIcons/filled/selection.json'
+import HoliTextInput from '@holi/ui/components/HoliTextInput'
 
 export default {
   title: 'Components/HoliTextInput',
@@ -21,7 +21,7 @@ export const Primary = ({ ...args }) => (
     placeholder={args.placeholder}
     helperText={args.helperText}
     validationErrorText={args.validationErrorText}
-    isErrored={args.isErrored}
+    hasValidationErrors={args.hasValidationErrors}
     noLabel={args.noLabel}
     noOfLines={args.noOfLines}
     maxNoOfLines={args.maxNoOfLines}
@@ -41,9 +41,9 @@ Primary.args = {
   maxNoOfLines: 3,
   noOfCharacters: 50,
   isDisabled: false,
-  isErrored: false,
+  hasValidationErrors: false,
   isInline: true,
-  trailingIcon: 'search',
+  trailingIcon: null,
 }
 Primary.argTypes = {
   trailingIcon: {
@@ -62,7 +62,7 @@ export const Errored = ({ ...args }) => (
     label={'Label'}
     placeholder={'Placeholder'}
     validationErrorText={'Validation Error Text'}
-    isErrored={true}
+    hasValidationErrors={true}
     {...args}
   />
 )
