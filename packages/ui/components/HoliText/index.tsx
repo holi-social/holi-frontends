@@ -10,6 +10,7 @@ export type HoliTextProps = {
   type?: keyof typeof HoliTextTypes
   isAccessible?: boolean
   styles?: TextStyle | TextStyle[]
+  selectable: boolean
   [x: string]: any
 }
 
@@ -17,7 +18,7 @@ const HoliText = ({ children, type = HoliTextType.body, isAccessible = true, ...
   const { theme } = useTheme()
   const styles = getStyles(theme)
 
-  const getAccessibilityProps = Platform.select({
+  const getAccessibilityProps = () => Platform.select({
     web: {
       accessible: isAccessible,
       ...(HoliTextTypes[type].role && { accessibilityRole: HoliTextTypes[type].role }),

@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useState } from 'react'
 import {
   AccessibilityProps,
   GestureResponderEvent,
@@ -10,7 +9,6 @@ import {
   ViewStyle,
 } from 'react-native'
 
-import { HoliButtonType, HoliButtonVariant } from '@holi/ui/components/HoliButton/HoliButton.types'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -18,10 +16,10 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 export type ButtonProps = {
   label: string
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
-  inline: boolean
-  type: HoliButtonType
-  variant: HoliButtonVariant
-  disabled: boolean
+  inline?: boolean
+  type?: 'primary' | 'secondary'
+  variant?: 'default' | 'small' | 'transparent'
+  disabled?: boolean
   href?: string
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string
   disableFocusability?: boolean
@@ -30,59 +28,64 @@ export type ButtonProps = {
   testID?: string
 }
 
-const HoliButton: React.FunctionComponent<ButtonProps> = (props: ButtonProps) => {
-  const isSmall = () => {
-    return props.variant == HoliButtonVariant.small
-  }
-  const isTransparent = () => {
-    return props.variant == HoliButtonVariant.transparent
-  }
-  const isPrimary = () => {
-    return props.type === HoliButtonType.primary
-  }
+const HoliButton: React.FunctionComponent<ButtonProps> = ({
+  label,
+  inline = true,
+  type = 'primary',
+  variant = 'default',
+  disabled = false,
+  disableFocusability = false,
+  ...props
+}: ButtonProps) => {
+  const isSmall = variant == 'small'
+  const isTransparent = variant == 'transparent'
+  const isPrimary = type === 'primary'
 
   const { theme } = useTheme()
-  const styles = getStyles(theme, props.inline || false, isTransparent())
+  const styles = getStyles(theme, inline || false, isTransparent)
 
   const accessibilityProps: AccessibilityProps & { accessibilityPressed?: boolean } = {
-    accessible: true,
+    ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),
     accessibilityRole: 'button',
-    ...(props.label ? { accessibilityLabel: props.label } : {}),
+    ...(label ? { accessibilityLabel: label } : {}),
   }
-
   const content =
     typeof props.children === 'string' ? (
-      <HoliText type={isSmall() ? HoliTextType.buttonSmall : HoliTextType.button}>{props.children}</HoliText>
+      <HoliText
+        styles={disabled ? styles.textDisabled : {}}
+        type={isSmall ? HoliTextType.buttonSmall : HoliTextType.button}
+        selectable={false}
+      >
+        {props.children}
+      </HoliText>
     ) : (
       props.children
     )
 
   return (
     <Pressable
-      focusable={!props.disableFocusability}
       {...accessibilityProps}
       {...props}
+      disabled={disabled}
       onPress={(event) => {
-        !props.disabled && props.onPress && props.onPress(event)
+        !disabled && props.onPress && props.onPress(event)
       }}
       style={(state) => {
         const result = [props.style]
-        if (!isTransparent()) {
+        if (!isTransparent) {
           result.push(styles.holiButton)
-          if (isSmall()) {
+          if (isSmall) {
             result.push(styles.small)
           }
-          if (props.disabled) {
+          if (disabled) {
             result.push(styles.disabled)
-            isPrimary() && result.push(styles.primaryDisabled)
+            isPrimary && result.push(styles.primaryDisabled)
           } else {
-            isPrimary() && result.push(styles.primary)
+            isPrimary && result.push(styles.primary)
             if (state.pressed) {
-              console.log('pressed')
-              isPrimary() && result.push(styles.pressedPrimary)
-              !isPrimary() && result.push(styles.pressedSecondary)
+              isPrimary && result.push(styles.pressedPrimary)
+              !isPrimary && result.push(styles.pressedSecondary)
             } else {
-              console.log('not pressed')
               state.focused && result.push(styles.focused)
               state.hovered && result.push(styles.hovered)
             }
@@ -91,7 +94,9 @@ const HoliButton: React.FunctionComponent<ButtonProps> = (props: ButtonProps) =>
         return result
       }}
     >
-      <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>{content}</View>
+      <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }} pointerEvents="none">
+        {content}
+      </View>
     </Pressable>
   )
 }
@@ -116,7 +121,9 @@ const getStyles = (theme: HoliTheme, inline: boolean, transparent: boolean) =>
         },
       }),
     },
-    text: {},
+    textDisabled: {
+      color: theme.colors.fontColorGrey,
+    },
     hovered: {
       shadowColor: theme.colors.shadowColorBlack,
       shadowOffset: {
@@ -133,10 +140,10 @@ const getStyles = (theme: HoliTheme, inline: boolean, transparent: boolean) =>
       paddingVertical: 11,
     },
     pressedPrimary: {
-      backgroundColor: theme.colors.backgroundColorYellowShadow,
+      backgroundColor: theme.colors.backgroundColorYellowDark,
     },
     pressedSecondary: {
-      backgroundColor: theme.colors.backgroundColorWhiteShadow,
+      backgroundColor: theme.colors.backgroundColorWhiteDark,
     },
     small: {
       borderRadius: 16,
@@ -147,12 +154,12 @@ const getStyles = (theme: HoliTheme, inline: boolean, transparent: boolean) =>
       fontSize: 14,
     },
     disabled: {
-      opacity: 0.6,
+      borderColor: theme.colors.borderColorBlackDisabled,
     },
     primary: {
       backgroundColor: theme.colors.primaryColor,
     },
     primaryDisabled: {
-      backgroundColor: '#f2f1ec', // TODO: keep this color changed by opacity 0.6 to f7f6f3? Or explicitly set colors for disabled style on text, background and border?
+      backgroundColor: theme.colors.backgroundColorGrey,
     },
   })
