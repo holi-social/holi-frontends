@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { StyleSheet, View } from 'react-native'
 
 import { UserContext } from '@holi/core/user/UserContextProvider'
 import HoliButton from '@holi/ui/components/HoliButton'
@@ -24,14 +25,24 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
 
   return (
     <>
-      <HoliUserAvatar imageSrc={user.image} nameLabel={userImageLabel} defaultColor={userDefaultColor} size="large" />
-
-      <HoliText>{user.firstName}</HoliText>
-      <HoliText>{user.middleName}</HoliText>
-      <HoliText>{user.lastName}</HoliText>
-      <HoliText>{user.pronouns}</HoliText>
-      <HoliText>{user.aboutMe}</HoliText>
-      <HoliText>{user.location}</HoliText>
+      <View style={styles.profileHeader}>
+        <View>
+          <View>
+            <HoliUserAvatar
+              imageSrc={user.image}
+              nameLabel={userImageLabel}
+              defaultColor={userDefaultColor}
+              size="large"
+            />
+          </View>
+          <View>
+            <HoliText>{user.firstName + ' ' + user.middleName + ' ' + user.lastName}</HoliText>
+            <HoliText>{user.pronouns}</HoliText>
+            <HoliText>{user.location}</HoliText>
+          </View>
+        </View>
+        <HoliText>{user.aboutMe}</HoliText>
+      </View>
       <HoliText>{user.engagementLevel}</HoliText>
       <HoliText>{user.interests.join(', ')}</HoliText>
       <HoliText>{user.sdgs.join(', ')}</HoliText>
@@ -42,5 +53,14 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
     </>
   )
 }
+
+const styles = StyleSheet.create({
+  profileHeader: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    padding: '16px 24px',
+  },
+})
 
 export { UserProfileView }
