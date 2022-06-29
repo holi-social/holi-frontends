@@ -6,7 +6,7 @@ interface TextInputStylesProps {
   theme: HoliTheme
   isHovered?: boolean
   isFocused?: boolean
-  isErrored?: boolean
+  hasValidationErrors?: boolean
   isDisabled?: boolean
   isInline?: boolean
 }
@@ -16,7 +16,7 @@ export const inputLineHeight = 16 * 1.4
 export const getHoliTextInputStyles = ({
   theme,
   isHovered = false,
-  isErrored = false,
+  hasValidationErrors = false,
   isFocused = false,
   isDisabled = false,
   isInline = false,
@@ -24,13 +24,14 @@ export const getHoliTextInputStyles = ({
   StyleSheet.create({
     pressable: {
       cursor: 'default',
+      alignSelf: isInline ? 'flex-start' : 'stretch',
     },
     inputWrapper: {
       flexDirection: 'row',
       borderWidth: 2,
       borderColor: isDisabled
         ? theme.colors.softblackTransparent
-        : isErrored
+        : hasValidationErrors
         ? theme.colors.errorRed
         : isFocused
         ? theme.colors.positivepurple
@@ -39,8 +40,8 @@ export const getHoliTextInputStyles = ({
         : theme.colors.softblackTransparent,
       borderRadius: 4,
       paddingHorizontal: 12,
-      marginBottom: 6,
-      paddingVertical: 17,
+      marginVertical: 6,
+      paddingVertical: 13,
       backgroundColor: isDisabled ? theme.colors.lightGrey : theme.colors.white,
       alignSelf: isInline ? 'flex-start' : 'stretch',
     },
@@ -55,17 +56,34 @@ export const getHoliTextInputStyles = ({
       overflow: 'scroll',
       alignSelf: isInline ? 'flex-start' : 'stretch',
     },
+    inputCharsText: {
+      position: 'absolute',
+      paddingHorizontal: 8,
+      right: 8,
+      bottom: -8,
+      backgroundColor: theme.colors.white,
+    },
     label: {
-      color: isErrored ? theme.colors.errorRed : isFocused ? theme.colors.positivepurple : theme.colors.softblack,
-      marginBottom: 6,
+      color: hasValidationErrors
+        ? theme.colors.errorRed
+        : isFocused
+        ? theme.colors.positivepurple
+        : theme.colors.softblack,
       alignSelf: 'stretch',
     },
-    helperText: {
-      color: isErrored ? theme.colors.errorRed : theme.colors.greyAAA,
+    helper: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
     },
-    errorIconWrapper: {
-      width: 24,
-      height: 24,
+    helperText: {
+      color: theme.colors.greyAAA,
+    },
+    validationErrorText: {
+      color: theme.colors.errorRed,
+    },
+    iconWrapper: {
+      width: 22,
+      height: 22,
       alignItems: 'flex-end',
       justifyContent: 'center',
     },

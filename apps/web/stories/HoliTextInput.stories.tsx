@@ -2,6 +2,7 @@
 import React from 'react'
 
 import HoliTextInput from '@holi/ui/components/HoliTextInput'
+import iconSetRegular from '@holi/ui/assets/fonts/HoliIcons/filled/selection.json'
 
 export default {
   title: 'Components/HoliTextInput',
@@ -16,64 +17,72 @@ export default {
 
 export const Primary = ({ ...args }) => (
   <HoliTextInput
-    value={args.value}
     label={args.label}
     placeholder={args.placeholder}
     helperText={args.helperText}
+    validationErrorText={args.validationErrorText}
     isErrored={args.isErrored}
     noLabel={args.noLabel}
     noOfLines={args.noOfLines}
-    maxNoOfLines={args.maxNumberOfLines}
+    maxNoOfLines={args.maxNoOfLines}
+    noOfCharacters={args.noOfCharacters}
     isDisabled={args.isDisabled}
     isInline={args.isInline}
+    trailingIcon={args.trailingIcon}
   />
 )
 Primary.args = {
-  value: '',
   label: 'Label',
   noLabel: false,
   placeholder: 'Placeholder',
   helperText: 'Helper Text',
+  validationErrorText: 'Validation Error Text',
   noOfLines: 1,
   maxNoOfLines: 3,
+  noOfCharacters: 50,
   isDisabled: false,
   isErrored: false,
   isInline: true,
+  trailingIcon: 'search',
 }
-Primary.argTypes = {}
+Primary.argTypes = {
+  trailingIcon: {
+    type: 'select',
+    options: iconSetRegular.icons.map((icon) => icon?.properties?.name),
+  },
+}
 
 export const NoLabel = ({ ...args }) => (
-  <HoliTextInput
-    value={args.value}
-    label={'Label'}
-    placeholder={'Placeholder'}
-    helperText={'Helper Text'}
-    noLabel={true}
-  />
+  <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} noLabel={true} />
 )
 NoLabel.args = {}
 
 export const Errored = ({ ...args }) => (
-  <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} isErrored={true} />
+  <HoliTextInput
+    label={'Label'}
+    placeholder={'Placeholder'}
+    validationErrorText={'Validation Error Text'}
+    isErrored={true}
+    {...args}
+  />
 )
 Errored.args = {}
 
 export const Disabled = ({ ...args }) => (
-  <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} isDisabled={true} />
+  <HoliTextInput
+    label={'Label'}
+    placeholder={'Placeholder'}
+    helperText={'Input disabled'}
+    isDisabled={true}
+    {...args}
+  />
 )
 Disabled.args = {}
 
 export const Multiline = ({ ...args }) => (
-  <HoliTextInput
-    value={args.value}
-    label={'Label'}
-    placeholder={'Placeholder'}
-    helperText={'Helper Text'}
-    noOfLines={3}
-    maxNoOfLines={args.maxNoOfLines}
-  />
+  <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} {...args} />
 )
 Multiline.args = {
-  value: '',
+  noOfLines: 2,
   maxNoOfLines: 5,
 }

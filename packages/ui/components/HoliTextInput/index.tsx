@@ -1,6 +1,16 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import { AccessibilityProps, KeyboardType, Pressable, Text, TextInput, View } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import {
+  AccessibilityProps,
+  KeyboardType,
+  Pressable,
+  ReturnKeyType,
+  Text,
+  TextInput,
+  TextInputProps,
+  View,
+} from 'react-native'
 
+import HoliIcon from '@holi/ui/components/HoliIcon'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 import {
@@ -14,15 +24,21 @@ export type HoliTextInputProps = {
   value?: string
   placeholder?: string
   helperText?: string
+  validationErrorText?: string
   isDisabled?: boolean
   isErrored?: boolean
   noLabel?: boolean
+  /** Number of lines/rows to be displayed on initial render. */
   noOfLines?: number
   maxNoOfLines?: number
   noOfCharacters?: number
   onChange?: (value: string) => void
   keyboardType?: KeyboardType
+  returnKeyType?: ReturnKeyType
   isInline?: boolean
+  /** TextInputProps to extend input */
+  inputProps?: TextInputProps
+  trailingIcon?: string
   // eslint-disable-next-line
   [x: string]: any
 }
@@ -31,14 +47,18 @@ const HoliTextInput = ({
   label = '',
   placeholder = '',
   helperText = '',
+  validationErrorText = '',
   isDisabled = false,
   noLabel = false,
   noOfLines = 1,
-  maxNoOfLines = 10,
+  maxNoOfLines = 3,
   noOfCharacters = 5000,
   onChange,
   keyboardType = 'default',
+  returnKeyType = 'done',
   isInline = true,
+  inputProps,
+  trailingIcon,
   ...props
 }: HoliTextInputProps) => {
   const [inputValue, setInputValue] = useState(props?.value || '')
@@ -46,17 +66,8 @@ const HoliTextInput = ({
   const [isFocused, setFocused] = useState<boolean>(false)
   const [isErrored, setErrored] = useState<boolean>(!!props?.isErrored ?? false)
 
-  const maxNoOfLinesCap = 10
-  const [numberOfLines, setNumberOfLines] = useState<number>(
-    Math.max(noOfLines, Math.min(maxNoOfLinesCap, maxNoOfLines))
-  )
-
-  const growTextInput = (contentSizeHeight: number) => {
-    if (maxNoOfLines > numberOfLines) {
-      const linesCount = Math.round((contentSizeHeight - inputLineHeight * maxNoOfLinesCap) / inputLineHeight)
-      setNumberOfLines(Math.max(maxNoOfLinesCap, maxNoOfLinesCap + linesCount))
-    }
-  }
+  const inputRef = useRef(null)
+  const [inputHeight, setInputHeight] = useState<number>(noOfLines * inputLineHeight)
 
   const accessibilityProps: AccessibilityProps = {
     accessible: true,
@@ -71,18 +82,10 @@ const HoliTextInput = ({
   }, [props?.value])
 
   const { theme } = useTheme()
-  const styles = getStyles({ theme, isErrored, isFocused, isHovered, isDisabled: isDisabled, isInline: isInline })
+  const styles = getStyles({ theme, hasValidationErrors: isErrored, isFocused, isHovered, isDisabled, isInline })
 
   return (
-    <Pressable
-      onHoverIn={() => {
-        setHovered(true)
-      }}
-      onHoverOut={() => {
-        setHovered(false)
-      }}
-      style={styles.pressable}
-    >
+    <Pressable onHoverIn={() => setHovered(true)} onHoverOut={() => setHovered(false)} style={styles.pressable}>
       {!noLabel && (
         <HoliText type={HoliTextType.caption} styles={styles.label}>
           {label}
@@ -90,10 +93,10 @@ const HoliTextInput = ({
       )}
       <View style={styles.inputWrapper}>
         <TextInput
+          ref={inputRef}
           value={inputValue}
-          style={[styles.input]}
+          style={[styles.input, { height: inputHeight }]}
           multiline={noOfLines > 1}
-          numberOfLines={numberOfLines}
           onFocus={() => {
             setFocused(true)
           }}
@@ -108,31 +111,46 @@ const HoliTextInput = ({
             onChange && onChange(event.nativeEvent.text)
           }}
           onContentSizeChange={(event) => {
-            growTextInput(event.nativeEvent.contentSize.height)
+            const contentSizeHeight = event.nativeEvent.contentSize.height
+            const maxHeightCap = Math.max(noOfLines, maxNoOfLines) * inputLineHeight
+            contentSizeHeight <= maxHeightCap && setInputHeight(contentSizeHeight)
           }}
           keyboardType={keyboardType}
           maxLength={noOfCharacters}
-          disabled={isDisabled}
+          editable={!isDisabled}
+          returnKeyType={returnKeyType}
           {...accessibilityProps}
+          {...inputProps}
         />
-        {isErrored && <ErrorIcon />}
+        {(isErrored || trailingIcon) && (
+          <View style={styles.iconWrapper}>
+            {trailingIcon && !isErrored && <HoliIcon icon={trailingIcon} size={22} color={theme.colors.softblack} />}
+            {isErrored && (
+              <View style={styles.errorIcon}>
+                <Text style={styles.errorText}>!</Text>
+              </View>
+            )}
+          </View>
+        )}
+        {inputValue.length > noOfCharacters * 0.8 && (
+          <HoliText type={HoliTextType.label} styles={styles.inputCharsText}>
+            {`${inputValue.length}/${noOfCharacters}`}
+          </HoliText>
+        )}
       </View>
-      <HoliText type={HoliTextType.label} styles={styles.helperText}>
-        {helperText}
-      </HoliText>
+      <View style={styles.helper}>
+        {isErrored && validationErrorText != '' && (
+          <HoliText type={HoliTextType.label} styles={styles.validationErrorText}>
+            {validationErrorText}
+          </HoliText>
+        )}
+        {!isErrored && helperText != '' && (
+          <HoliText type={HoliTextType.label} styles={styles.helperText}>
+            {helperText}
+          </HoliText>
+        )}
+      </View>
     </Pressable>
-  )
-}
-
-const ErrorIcon = () => {
-  const { theme } = useTheme()
-  const styles = getStyles({ theme })
-  return (
-    <View style={styles.errorIconWrapper}>
-      <View style={styles.errorIcon}>
-        <Text style={styles.errorText}>!</Text>
-      </View>
-    </View>
   )
 }
 
