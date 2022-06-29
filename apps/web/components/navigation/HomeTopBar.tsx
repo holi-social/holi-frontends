@@ -26,7 +26,7 @@ const HomeTopBar: React.VoidFunctionComponent<HomeTopBarProps> = (props) => {
       accessibilityLabel="Top Navigation"
     >
       <View style={styles.buttonContainer}>
-        <HoliButton label="Notifications" inline transparent onPress={() => navigate('/notifications')}>
+        <HoliButton label="Notifications" inline variant='transparent' onPress={() => navigate('/notifications')}>
           <Holicon icon="notification" size={35} color={isNotifications ? 'black' : 'grey'} />
           {/* <HoliIcon icon="home" size={20} filled={isNotifications} /> */}
         </HoliButton>
@@ -34,7 +34,7 @@ const HomeTopBar: React.VoidFunctionComponent<HomeTopBarProps> = (props) => {
         <HoliButton
           label="Profile"
           inline
-          transparent
+          variant='transparent'
           onPress={() => navigate('/profile/danbim')}
           testID="profile-button"
         >

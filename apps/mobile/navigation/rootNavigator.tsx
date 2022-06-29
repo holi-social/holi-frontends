@@ -90,7 +90,7 @@ export const HomeStackNavigator: React.VFC = () => (
             <HoliButton
               label="Notifications"
               inline
-              transparent
+              variant='transparent'
               onPress={() => navigate('/notifications')}
               style={{ paddingHorizontal: 0 }}
             >
@@ -103,7 +103,7 @@ export const HomeStackNavigator: React.VFC = () => (
           const { navigate, pathname } = useRouting()
           // TODO: differs, when logged in
           return (
-            <HoliButton label="Profile" inline transparent onPress={() => navigate('/profile/danbim')}>
+            <HoliButton label="Profile" inline variant='transparent' onPress={() => navigate('/profile/danbim')}>
               <HoliIcon icon="user-circled" size={20} />
             </HoliButton>
           )
@@ -152,10 +152,10 @@ export const AppNavigation: React.FC = ({ children }) => {
   return (
     <SafeAreaView style={{ padding: 10, position: 'absolute', bottom: 10, right: 10 }}>
       <View style={{ flexDirection: 'row', padding: 20 }}>
-        <HoliButton label="Home" inline transparent onPress={() => navigate('/')} testID="nav-button-home">
+        <HoliButton label="Home" inline variant='transparent' onPress={() => navigate('/')} testID="nav-button-home">
           <Holicon icon="home" size={30} color={theme.colors.fontColorBlack} />
         </HoliButton>
-        <HoliButton label="Search" inline transparent onPress={() => navigate('/search')}>
+        <HoliButton label="Search" inline variant='transparent' onPress={() => navigate('/search')}>
           <Holicon icon="search" size={30} color={theme.colors.fontColorBlack} />
         </HoliButton>
       </View>

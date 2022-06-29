@@ -27,16 +27,16 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
       accessibilityLabel="Bottom Navigation"
     >
       <View style={styles.buttonContainer}>
-        <HoliButton label="Home" inline transparent onPress={() => navigate('/')} testID="nav-button-home">
+        <HoliButton label="Home" inline variant='transparent' onPress={() => navigate('/')} testID="nav-button-home">
           <HoliIcon icon="home" size={20} filled={isHome} />
         </HoliButton>
-        <HoliButton label="Chat" inline transparent onPress={() => navigate('/chat')}>
+        <HoliButton label="Chat" inline variant='transparent' onPress={() => navigate('/chat')}>
           <HoliIcon icon="chat" size={20} filled={isChat} />
         </HoliButton>
-        <HoliButton label="Explore initiatives" inline transparent onPress={() => navigate('/explore')}>
+        <HoliButton label="Explore initiatives" inline variant='transparent' onPress={() => navigate('/explore')}>
           <HoliIcon icon="explore" size={20} filled={isExplore} />
         </HoliButton>
-        <HoliButton label="Search" inline transparent onPress={() => navigate('/search')}>
+        <HoliButton label="Search" inline variant='transparent' onPress={() => navigate('/search')}>
           <HoliIcon icon="search" size={20} filled={isSearch} />
         </HoliButton>
       </View>
