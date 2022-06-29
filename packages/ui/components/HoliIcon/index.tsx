@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useTheme } from '@holi/ui/styles/theme'
 
-import HoliIconBase from './holiIcon'
+import HoliIconBase from './HoliIconBase'
 
 export type HoliIconProps = {
   icon: string
