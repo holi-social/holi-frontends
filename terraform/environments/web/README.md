@@ -3,7 +3,7 @@
 This folder contains definitions that are solely used by a single web environment. This enables us to 
 create environments for feature branches / merge requests in git.
 
-Anything that is used across multiple environments is defined in $PROJECT_ROOT/terraform.
+Anything that is used across multiple environments is defined in $PROJECT_ROOT/terraform/common.
 
 ## Feature Environments
 

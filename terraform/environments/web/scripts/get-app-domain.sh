@@ -3,6 +3,6 @@
 # exit when any command fails
 set -ex
 
-cd apps/web/terraform > /dev/null
+cd "$(dirname "$0")"/.. > /dev/null
 
 terraform output -raw app_domain
