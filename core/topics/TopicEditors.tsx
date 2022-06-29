@@ -1,8 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 
-import HoliText from '@holi/ui/components/HoliText'
-import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
+import HoliText, { HoliTextType } from '@holi/ui/components/HoliText'
 
 type TopicEditorsProps = {
   topicId: string

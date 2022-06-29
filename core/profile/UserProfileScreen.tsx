@@ -10,8 +10,7 @@ import { UserProfileForm } from '@holi/core/user/components/UserProfileForm'
 import { UserProfileView } from '@holi/core/user/components/UserProfileView'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliChip from '@holi/ui/components/HoliChip'
-import HoliText from '@holi/ui/components/HoliText'
-import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
+import HoliText, { HoliTextType } from '@holi/ui/components/HoliText'
 
 export const UserProfileScreen: React.VFC = () => {
   const { navigate } = useRouting()

@@ -2,8 +2,7 @@ import React from 'react'
 import { View } from 'react-native'
 
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
-import HoliText from '@holi/ui/components/HoliText'
-import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
+import HoliText, { HoliTextType } from '@holi/ui/components/HoliText'
 
 export const ExploreScreen: React.VFC = () => {
   const { setNavigationHeader } = useNavigationHeader()

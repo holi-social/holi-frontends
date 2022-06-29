@@ -1,8 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import React, { Fragment } from 'react'
 
-import HoliText from '@holi/ui/components/HoliText'
-import { HoliTextType, HoliTextTypes } from '@holi/ui/components/HoliText/HoliText.types'
+import HoliText, { HoliTextType, HoliTextTypes } from '@holi/ui/components/HoliText'
 import theme from '@holi/ui/styles/theme'
 
 export default {

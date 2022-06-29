@@ -7,8 +7,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { TopicEditors } from '@holi/core/topics/TopicEditors'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliModal from '@holi/ui/components/HoliModal'
-import HoliText from '@holi/ui/components/HoliText'
-import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
+import HoliText, { HoliTextType } from '@holi/ui/components/HoliText'
 
 import { fakeTopics } from './fakeTopics'
 

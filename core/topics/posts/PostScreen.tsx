@@ -4,8 +4,7 @@ import { createParam } from 'solito'
 
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import { fakeTopics } from '@holi/core/topics/fakeTopics'
-import HoliText from '@holi/ui/components/HoliText'
-import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
+import HoliText, { HoliTextType } from '@holi/ui/components/HoliText'
 
 export type PostScreenParams = {
   topicId: string
