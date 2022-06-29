@@ -25,7 +25,7 @@ export const UserContextProvider: React.FC = ({ children }) => {
   }
 
   if (error) {
-    displayError(error, 'Error fetching users')
+    displayError(error, 'Error fetching authenticated user')
   }
 
   const user = data && data?.authenticatedUser
