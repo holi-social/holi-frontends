@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native'
 import { UserContext } from '@holi/core/user/UserContextProvider'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliText from '@holi/ui/components/HoliText'
+import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 import HoliUserAvatar from '@holi/ui/components/HoliUserAvatar'
 
 type UserProfileViewProps = {
@@ -25,24 +26,28 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
 
   return (
     <>
-      <View style={styles.profileHeader}>
-        <View>
-          <View>
-            <HoliUserAvatar
-              imageSrc={user.image}
-              nameLabel={userImageLabel}
-              defaultColor={userDefaultColor}
-              size="large"
-            />
+      {
+        <View style={styles.profileHeader}>
+          <View style={styles.profileAvatarName}>
+            <View>
+              <HoliUserAvatar
+                imageSrc={user.image}
+                nameLabel={userImageLabel}
+                defaultColor={userDefaultColor}
+                size="large"
+              />
+            </View>
+            <View>
+              <HoliText type={HoliTextType.heading2}>
+                {user.firstName + ' ' + user.middleName + ' ' + user.lastName}
+              </HoliText>
+              <HoliText>{user.pronouns}</HoliText>
+              <HoliText type={HoliTextType.body}>{user.location}</HoliText>
+            </View>
           </View>
-          <View>
-            <HoliText>{user.firstName + ' ' + user.middleName + ' ' + user.lastName}</HoliText>
-            <HoliText>{user.pronouns}</HoliText>
-            <HoliText>{user.location}</HoliText>
-          </View>
+          <HoliText>{user.aboutMe}</HoliText>
         </View>
-        <HoliText>{user.aboutMe}</HoliText>
-      </View>
+      }
       <HoliText>{user.engagementLevel}</HoliText>
       <HoliText>{user.interests.join(', ')}</HoliText>
       <HoliText>{user.sdgs.join(', ')}</HoliText>
@@ -56,10 +61,10 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
 
 const styles = StyleSheet.create({
   profileHeader: {
-    display: 'flex',
     flexDirection: 'column',
-    alignItems: 'flex-start',
-    padding: '16px 24px',
+  },
+  profileAvatarName: {
+    flexDirection: 'row',
   },
 })
 
