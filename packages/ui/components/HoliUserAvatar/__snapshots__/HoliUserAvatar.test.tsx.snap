@@ -4,6 +4,7 @@ exports[`React tree renders correctly 1`] = `
 <View
   defaultColor="red"
   imageSrc="https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg"
+  initials="UM"
   nameLabel="Uschi Meyer"
   size="extralarge"
   style={
@@ -49,6 +50,7 @@ exports[`React tree renders correctly 1`] = `
 exports[`React tree renders the users initials, when given image prop is empty 1`] = `
 <View
   defaultColor="red"
+  initials="UM"
   nameLabel="Uschi Meyer"
   size="extralarge"
   style={
@@ -91,7 +93,7 @@ exports[`React tree renders the users initials, when given image prop is empty 1
         },
         Object {
           "color": "#fff",
-          "fontSize": 78.10000000000001,
+          "fontSize": 65.80000000000001,
           "fontWeight": "bold",
           "textAlignVertical": "center",
           "textTransform": "uppercase",
@@ -101,14 +103,14 @@ exports[`React tree renders the users initials, when given image prop is empty 1
     styles={
       Object {
         "color": "#fff",
-        "fontSize": 78.10000000000001,
+        "fontSize": 65.80000000000001,
         "fontWeight": "bold",
         "textAlignVertical": "center",
         "textTransform": "uppercase",
       }
     }
   >
-    U
+    UM
   </Text>
 </View>
 `;
