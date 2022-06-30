@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 
-import { SearchScreen } from '@holi/core/search/SearchScreen'
+import Search from '@holi/core/screens/Search'
 
-const SearchPage: NextPage = () => <SearchScreen />
+const SearchPage: NextPage = () => <Search />
 
 export default SearchPage

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { ReactChild, ReactChildren } from 'react'
 import {
   AccessibilityProps,
   GestureResponderEvent,
@@ -21,7 +21,7 @@ export type ButtonProps = {
   variant?: 'default' | 'small' | 'transparent'
   disabled?: boolean
   href?: string
-  children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | string
+  children?: ReactChild | ReactChild[] | ReactChildren | Array<ReactChild> | string
   disableFocusability?: boolean
   // only for TS (props are added by {...props})
   onPress?: null | ((event: GestureResponderEvent) => void)
@@ -43,7 +43,6 @@ const HoliButton: React.FunctionComponent<ButtonProps> = ({
 
   const { theme } = useTheme()
   const styles = getStyles(theme, inline)
-  
 
   const accessibilityProps: AccessibilityProps & { accessibilityPressed?: boolean } = {
     ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),

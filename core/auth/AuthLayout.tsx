@@ -1,12 +1,12 @@
 import React, { PropsWithChildren } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 
-import { SafeAreaView } from '@holi/ui/components/safe-area'
+import SafeArea from '@holi/ui/components/SafeArea'
 
 const AuthLayout: React.FunctionComponent = (props: PropsWithChildren<any>) => (
-  <SafeAreaView style={styles.container}>
+  <SafeArea style={styles.container}>
     <ScrollView>{props.children}</ScrollView>
-  </SafeAreaView>
+  </SafeArea>
 )
 
 export default AuthLayout

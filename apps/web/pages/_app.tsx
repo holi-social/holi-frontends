@@ -4,7 +4,7 @@ import type { AppProps } from 'next/app'
 import 'raf/polyfill'
 import React, { ReactElement, ReactNode } from 'react'
 
-import { Provider } from '@holi/core/provider'
+import RootProvider from '@holi/core/RootProvider'
 import DefaultLayout from '@holi/web/layout/DefaultLayout'
 import '@holi/web/styles/globals.scss'
 
@@ -22,7 +22,7 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
   // taken from https://nextjs.org/docs/basic-features/layouts#with-typescript
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => <DefaultLayout>{page}</DefaultLayout>)
-  return <Provider>{getLayout(<Component {...pageProps} />)}</Provider>
+  return <RootProvider>{getLayout(<Component {...pageProps} />)}</RootProvider>
 }
 
 export default MyApp

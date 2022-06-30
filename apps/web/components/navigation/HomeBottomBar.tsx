@@ -19,6 +19,8 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
   const isSearch = pathname.startsWith('/search')
   const isHome = !isNotifications && !isProfile && !isChat && !isSearch && !isExplore
 
+  const iconColor = (isActive: boolean) => (isActive ? theme.colors.fontColorBlack : theme.colors.fontColorGrey)
+
   return (
     <View
       style={styles.fullWidthContainer}
@@ -27,17 +29,17 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
       accessibilityLabel="Bottom Navigation"
     >
       <View style={styles.buttonContainer}>
-        <HoliButton label="Home" inline variant='transparent' onPress={() => navigate('/')} testID="nav-button-home">
-          <HoliIcon icon="home" size={20} filled={isHome} />
+        <HoliButton label="Home" inline variant="transparent" onPress={() => navigate('/')} testID="nav-button-home">
+          <HoliIcon icon="home" size={20} filled={isHome} style={{ color: iconColor(isHome) }} />
         </HoliButton>
-        <HoliButton label="Chat" inline variant='transparent' onPress={() => navigate('/chat')}>
-          <HoliIcon icon="chat" size={20} filled={isChat} />
+        <HoliButton label="Chat" inline variant="transparent" onPress={() => navigate('/chat')}>
+          <HoliIcon icon="chat" size={20} filled={isChat} style={{ color: iconColor(isChat) }} />
         </HoliButton>
-        <HoliButton label="Explore initiatives" inline variant='transparent' onPress={() => navigate('/explore')}>
-          <HoliIcon icon="explore" size={20} filled={isExplore} />
+        <HoliButton label="Explore initiatives" inline variant="transparent" onPress={() => navigate('/explore')}>
+          <HoliIcon icon="explore" size={20} filled={isExplore} style={{ color: iconColor(isExplore) }} />
         </HoliButton>
-        <HoliButton label="Search" inline variant='transparent' onPress={() => navigate('/search')}>
-          <HoliIcon icon="search" size={20} filled={isSearch} />
+        <HoliButton label="Search" inline variant="transparent" onPress={() => navigate('/search')}>
+          <HoliIcon icon="search" size={20} filled={isSearch} style={{ color: iconColor(isSearch) }} />
         </HoliButton>
       </View>
     </View>

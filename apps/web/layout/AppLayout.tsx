@@ -2,10 +2,11 @@ import Head from 'next/head'
 import React, { PropsWithChildren } from 'react'
 import { StyleSheet, View } from 'react-native'
 
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliButton from '@holi/ui/components/HoliButton'
 import Holicon from '@holi/ui/components/holicon'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme/theme'
+import HomeTopBar from '@holi/web/components/navigation/HomeTopBar'
 
 import defaultStyles from './DefaultLayout.module.scss'
 
@@ -18,7 +19,7 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
   return (
     <>
       <Head>
-        <title>HOLI</title>
+        <title>Holi Project</title>
       </Head>
 
       {/*
@@ -26,8 +27,9 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
         Docu: https://www.w3.org/WAI/WCAG21/Techniques/aria/ARIA11.html
         Rule: https://dequeuniversity.com/rules/axe/4.4/region
       */}
-
-      <header></header>
+      <header className={defaultStyles.header}>
+        <HomeTopBar />
+      </header>
 
       <main className={defaultStyles.main}>{children}</main>
 

@@ -39,10 +39,10 @@ const HoliText = ({
 
   return (
     <Text
-      style={[styles.default, styles[HoliTextType[type]], props?.styles]}
       {...getAccessibilityProps}
-      selectable={selectable}
       {...props}
+      selectable={selectable}
+      style={[styles.default, styles[HoliTextType[type]], props?.styles]}
     >
       {children}
     </Text>
