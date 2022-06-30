@@ -134,6 +134,14 @@ export const HomeStackNavigator: React.VFC = () => {
           headerBackTitleVisible: false,
           headerBackVisible: false,
           headerLeft: backButton,
+          headerRight: () => (
+            <HeaderProfileLink
+              style={{
+                paddingHorizontal: 0,
+                marginRight: 5,
+              }}
+            />
+          ),
         }}
       />
     </HomeStack.Navigator>
@@ -148,6 +156,7 @@ export const BottomTabsNavigator: React.VFC = () => {
   return (
     <BottomTabs.Navigator
       initialRouteName="Home"
+      // https://github.com/react-navigation/react-navigation/blob/main/packages/bottom-tabs/src/types.tsx
       screenOptions={{
         tabBarStyle: {
           backgroundColor: theme.colors.backgroundColorWhite,
@@ -160,8 +169,9 @@ export const BottomTabsNavigator: React.VFC = () => {
       <BottomTabs.Screen
         name="Home"
         component={HomeStackNavigator}
+        // https://github.com/react-navigation/react-navigation/blob/main/packages/material-bottom-tabs/src/types.tsx
         options={{
-          headerShown: false, // each page sets it's own header, see HomeStackNavigator
+          headerShown: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="home" size={20} filled={focused} style={{ color: iconColor(focused) }} />
@@ -170,7 +180,7 @@ export const BottomTabsNavigator: React.VFC = () => {
       />
       <BottomTabs.Screen
         name="Chat"
-        component={ChatStackNavigator} // chat is complex, probably needs a navigator
+        component={ChatStackNavigator}
         options={{
           headerShown: false,
           tabBarShowLabel: false,
@@ -183,7 +193,7 @@ export const BottomTabsNavigator: React.VFC = () => {
         name="Explore"
         component={ExploreScreen}
         options={{
-          headerShown: true, // TODO: replace with custom header
+          headerShown: true,
           headerTitleAlign: 'center',
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
@@ -195,7 +205,7 @@ export const BottomTabsNavigator: React.VFC = () => {
         name="Search"
         component={SearchScreen}
         options={{
-          headerShown: true, // TODO: replace with custom header
+          headerShown: true,
           headerTitleAlign: 'center',
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {

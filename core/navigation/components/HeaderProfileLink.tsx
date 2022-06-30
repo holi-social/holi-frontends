@@ -40,7 +40,7 @@ const HeaderProfileLink: React.VoidFunctionComponent<HeaderProfileLinkProps> = (
       transparent
       onPress={() => navigate(profileUrl)}
       {...props}
-      style={[{ paddingHorizontal: 0 }, props.style]}
+      style={props.style}
       testID="profile-button"
     >
       {!isAuthenticated && <HoliIcon icon="user-circled" size={20} />}
