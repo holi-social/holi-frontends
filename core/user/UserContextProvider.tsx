@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import React, { createContext } from 'react'
 
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
-import { AllUsersQueryResult, allUsersQuery } from '@holi/core/user/queries'
+import { AuthenticatedUserResponse, authenticatedUserQuery } from '@holi/core/user/queries'
 import { User } from '@holi/core/user/types'
 import HoliText from '@holi/ui/components/HoliText'
 
@@ -18,22 +18,17 @@ export const UserContextProvider: React.FC = ({ children }) => {
   const { displayError } = useErrorHandling()
   // TODO implement fetching user context for logged-in user
   // Later: Possibly retrieve user id from auth context and load user by id here
-  const { loading, error, data } = useQuery<AllUsersQueryResult>(allUsersQuery, {
-    variables: {
-      offset: 0,
-      limit: 1,
-    },
-  })
+  const { loading, error, data } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery)
 
   if (loading && !error) {
     return <HoliText>Loading...</HoliText>
   }
 
   if (error) {
-    displayError(error, 'Error fetching users')
+    displayError(error, 'Error fetching authenticated user')
   }
 
-  const user = data?.allUsers && data?.allUsers[0]
+  const user = data && data?.authenticatedUser
 
   return <UserContext.Provider value={{ user: user }}>{children}</UserContext.Provider>
 }
