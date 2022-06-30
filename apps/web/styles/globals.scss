@@ -1,5 +1,6 @@
 @import '@holi/ui/assets/fonts/CircularStd/style';
 @import '@holi/ui/styles/globalVars/variables';
+@import '@holi/web/styles/common';
 
 html,
 body {
@@ -65,8 +66,4 @@ ul, li {
   list-style-type: none;
   margin: 0;
   padding: 0;
-}
-
-input:focus, textarea:focus {
-  outline: none
 }

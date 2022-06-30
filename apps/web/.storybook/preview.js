@@ -1,5 +1,5 @@
 import '@holi/ui/assets/fonts/CircularStd/style.css';
-import '@holi/web/.storybook/preview.css';
+import '@holi/web/styles/common.css';
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },

@@ -39,7 +39,7 @@ export const getHoliTextInputStyles = ({
         ? theme.colors.greyAA
         : theme.colors.softblackTransparent,
       borderRadius: 4,
-      paddingHorizontal: 12,
+      paddingHorizontal: 8,
       marginVertical: 6,
       paddingVertical: 13,
       backgroundColor: isDisabled ? theme.colors.lightGrey : theme.colors.white,
