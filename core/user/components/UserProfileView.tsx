@@ -24,7 +24,13 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
 
   return (
     <>
-      <HoliUserAvatar imageSrc={user.avatar} nameLabel={userImageLabel} defaultColor={userDefaultColor} size="large" />
+      <HoliUserAvatar
+        imageSrc={user.avatar}
+        nameLabel={userImageLabel}
+        defaultColor={userDefaultColor}
+        initials={userImageLabel.charAt(0)}
+        size="large"
+      />
 
       <HoliText>{user.firstName}</HoliText>
       <HoliText>{user.middleName}</HoliText>
