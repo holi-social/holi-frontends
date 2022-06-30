@@ -25,6 +25,9 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
 })
 
+// Web authentication works using http-only cookies that are transparently added to requests by the Browser
+// Mobile authentication works by adding the `X-Session-Token` header which takes its value from `SecureStorage`
+// `authLink` is therefore only needed on Mobile (i.e. when defined)
 const link = authLink
   ? authLink.concat(timeoutLink.concat(errorLink.concat(httpLink)))
   : timeoutLink.concat(errorLink.concat(httpLink))

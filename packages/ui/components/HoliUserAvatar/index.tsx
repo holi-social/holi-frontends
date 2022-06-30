@@ -38,7 +38,7 @@ const HoliUserAvatar: React.FunctionComponent<AvatarProps> = (props: AvatarProps
     accessibilityRole: 'image',
   }
 
-  const hasImage: boolean = props.imageSrc !== null && props.imageSrc !== undefined && props.imageSrc !== ''
+  const hasImage = !!props.imageSrc
 
   return (
     <View style={[styles.holiUserAvatar, props.style, styles[sizeClass]]} {...props}>
