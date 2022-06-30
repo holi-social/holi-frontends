@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { createParam } from 'solito'
 
@@ -18,7 +18,7 @@ export type TopicScreenParams = {
   topicId: string
 }
 
-export const TopicsScreen: React.VFC = () => {
+export const TopicsScreen: React.VFC = ({ navigation }) => {
   const [showModal, setShowModal] = useState(false)
   const [topicId = ''] = useParam('topicId')
   const { navigate } = useRouting()
@@ -26,15 +26,18 @@ export const TopicsScreen: React.VFC = () => {
   if (!topic) return <HoliText>Topic {topicId} not found</HoliText>
 
   const { setNavigationHeader } = useNavigationHeader()
-  const title = `Topic ${topicId}`
-  setNavigationHeader({
-    title: title,
-    titleElement: () => (
-      <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
-        {title}
-      </HoliText>
-    ),
-  })
+
+  useLayoutEffect(() => {
+    const title = `Topic ${topicId}`
+    setNavigationHeader({
+      title: title,
+      titleElement: () => (
+        <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
+          {title}
+        </HoliText>
+      ),
+    })
+  }, [navigation])
 
   return (
     <View style={styles.topicView}>

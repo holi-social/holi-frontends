@@ -1,23 +1,20 @@
-import { useLayoutEffect } from 'react'
 import { NativeStackNavigationOptions } from 'react-native-screens/native-stack'
 
 import { useNavigation } from '@react-navigation/native'
 
-import { HeaderProps } from './index'
+import type { HeaderProps } from './index'
 
 const useNavigationHeader = () => {
   const navigation = useNavigation()
 
-  // https://github.com/react-navigation/react-navigation/blob/main/packages/elements/src/types.tsx
-  const headerOptions: NativeStackNavigationOptions = {}
-
-  useLayoutEffect(() => navigation.setOptions && navigation.setOptions(headerOptions), [navigation])
-
   return {
     setNavigationHeader: (headerProps: HeaderProps) => {
+      // https://github.com/react-navigation/react-navigation/blob/main/packages/elements/src/types.tsx
+      const headerOptions: NativeStackNavigationOptions = {}
       if (headerProps.titleElement) headerOptions.headerTitle = headerProps.titleElement
       if (headerProps.leftElement) headerOptions.headerLeft = headerProps.leftElement
       if (headerProps.rightElement) headerOptions.headerRight = headerProps.rightElement
+      navigation.setOptions && navigation.setOptions(headerOptions)
     },
   }
 }

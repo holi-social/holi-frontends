@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { NativeStackNavigationOptions } from 'react-native-screens/native-stack'
 
 export interface HeaderProps extends NativeStackNavigationOptions {

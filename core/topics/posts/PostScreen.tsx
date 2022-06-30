@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { View } from 'react-native'
 import { createParam } from 'solito'
 
@@ -14,20 +14,23 @@ export type PostScreenParams = {
 
 const { useParam } = createParam<PostScreenParams>()
 
-export const PostScreen: React.VFC = () => {
+export const PostScreen: React.VFC = ({ navigation }) => {
   const [topicId] = useParam('topicId')
   const [postId] = useParam('postId')
 
   const { setNavigationHeader } = useNavigationHeader()
-  const title = `Post ${postId} in topic ${topicId}`
-  setNavigationHeader({
-    title: title,
-    titleElement: () => (
-      <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
-        {title}
-      </HoliText>
-    ),
-  })
+
+  useLayoutEffect(() => {
+    const title = `Post ${postId} in topic ${topicId}`
+    setNavigationHeader({
+      title: title,
+      titleElement: () => (
+        <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
+          {title}
+        </HoliText>
+      ),
+    })
+  }, [navigation])
 
   if (!topicId) return <HoliText>Missing topicId</HoliText>
   if (!postId) return <HoliText>Missing postId</HoliText>

@@ -1,21 +1,26 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { View } from 'react-native'
 
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
-export const ExploreScreen: React.VFC = () => {
+export const ExploreScreen: React.VFC = ({ navigation }) => {
   const { setNavigationHeader } = useNavigationHeader()
   const title = 'Explore Holi'
-  setNavigationHeader({
-    title: title,
-    titleElement: () => (
-      <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
-        {title}
-      </HoliText>
-    ),
-  })
+
+  useLayoutEffect(
+    () =>
+      setNavigationHeader({
+        title: title,
+        titleElement: () => (
+          <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
+            {title}
+          </HoliText>
+        ),
+      }),
+    [navigation]
+  )
 
   return (
     <View style={{ padding: 10, alignItems: 'center' }}>
