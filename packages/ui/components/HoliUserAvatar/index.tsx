@@ -13,6 +13,7 @@ export type AvatarProps = {
   imageSrc: string | undefined
   nameLabel: string
   defaultColor: string
+  initials: string
   size?: 'micro' | 'small' | 'medium' | 'large' | 'extralarge'
   testID?: string
 }
@@ -30,7 +31,7 @@ const HoliUserAvatar: React.FunctionComponent<AvatarProps> = (props: AvatarProps
   const styles = getStyles(theme, width, props.defaultColor, !!props.imageSrc)
   const imageUri: ImageSourcePropType = { uri: props.imageSrc }
   const sizeClass = props.size || 'medium'
-  const initials = props.nameLabel.charAt(0)
+  const initials = props.initials
 
   const accessibilityProps: AccessibilityProps & { accessibilityPressed?: boolean } = {
     accessible: true,
@@ -95,7 +96,7 @@ const getStyles = (theme: HoliTheme, width: number, defaultColor: string, imageI
       borderColor: theme.colors.softblack,
     },
     inititals: {
-      fontSize: (width / 10) * 7 - 8,
+      fontSize: (width / 10) * 6 - 8,
       textTransform: 'uppercase',
       fontWeight: 'bold',
       color: tinycolor(defaultColor).isLight() ? theme.colors.fontColorBlack : theme.colors.fontColorWhite,
