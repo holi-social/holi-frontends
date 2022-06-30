@@ -5,9 +5,9 @@ import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
-export const NotificationsScreen: React.VFC = () => {
+const VolunteeringAppHome: React.VFC = () => {
   const { setNavigationHeader } = useNavigationHeader()
-  const title = 'Your Notifications'
+  const title = 'Lets Act'
   setNavigationHeader({
     title: title,
     titleElement: () => (
@@ -18,8 +18,12 @@ export const NotificationsScreen: React.VFC = () => {
   })
 
   return (
-    <View style={{ padding: 10, alignItems: 'center' }}>
-      <HoliText type={HoliTextType.super}>Notifications</HoliText>
+    <View style={{ padding: 10 }}>
+      <HoliText type={HoliTextType.super} testID="home-feed-title">
+        Volunteering App Home
+      </HoliText>
     </View>
   )
 }
+
+export default VolunteeringAppHome

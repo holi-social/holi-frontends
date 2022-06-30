@@ -4,7 +4,7 @@ import React from 'react'
 import type { LinkingOptions, Theme } from '@react-navigation/native'
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native'
 
-import { RootStackScreensList } from '@holi/mobile/navigation/rootNavigator'
+import { RootStackScreensList } from '@holi/mobile/navigation/RootNavigator'
 import defaultHoliTheme from '@holi/ui/styles/theme'
 
 const navigationTheme: Theme = {
@@ -66,8 +66,10 @@ const rootLinkingConfig: LinkingOptions<RootStackScreensList> = {
   },
 }
 
-export const NavigationProvider: React.FC = ({ children }) => (
+const NavigationProvider: React.FC = ({ children }) => (
   <NavigationContainer theme={navigationTheme} linking={rootLinkingConfig}>
     {children}
   </NavigationContainer>
 )
+
+export default NavigationProvider

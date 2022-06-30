@@ -5,9 +5,9 @@ import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
-export const ChatHomeScreen: React.VFC = () => {
+const Search: React.FC = () => {
   const { setNavigationHeader } = useNavigationHeader()
-  const title = 'Chat'
+  const title = 'Search Result'
   setNavigationHeader({
     title: title,
     titleElement: () => (
@@ -19,7 +19,9 @@ export const ChatHomeScreen: React.VFC = () => {
 
   return (
     <View style={{ padding: 10, alignItems: 'center' }}>
-      <HoliText type={HoliTextType.super}>Chat</HoliText>
+      <HoliText type={HoliTextType.super}>Search</HoliText>
     </View>
   )
 }
+
+export default Search

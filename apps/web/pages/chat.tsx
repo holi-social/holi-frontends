@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 
-import { ChatHomeScreen } from '@holi/core/chat/ChatHomeScreen'
+import ChatHome from '@holi/core/screens/ChatHome'
 
-const ChatHomePage: NextPage = () => <ChatHomeScreen />
+const ChatHomePage: NextPage = () => <ChatHome />
 
 export default ChatHomePage
