@@ -5,7 +5,7 @@ import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
-export const VolunteeringAppHomeScreen: React.VFC = ({ navigation }) => {
+const VolunteeringAppHome: React.VFC = ({ navigation }) => {
   const { setNavigationHeader } = useNavigationHeader()
   const title = 'Lets Act'
 
@@ -30,3 +30,5 @@ export const VolunteeringAppHomeScreen: React.VFC = ({ navigation }) => {
     </View>
   )
 }
+
+export default VolunteeringAppHome

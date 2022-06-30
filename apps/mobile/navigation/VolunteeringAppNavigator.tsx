@@ -1,14 +1,15 @@
 import React from 'react'
-import { SafeAreaView, View } from 'react-native'
+import { View } from 'react-native'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliButton from '@holi/ui/components/HoliButton'
+import SafeArea from '@holi/ui/components/SafeArea'
 import Holicon from '@holi/ui/components/holicon'
 import { useTheme } from '@holi/ui/styles/theme/theme'
 
-import { VolunteeringAppHomeScreen } from '@holi-apps/volunteering/screens/VolunteeringAppHomeScreen'
+import VolunteeringAppHome from '@holi-apps/volunteering/screens/VolunteeringAppHome'
 
 export type VolunteeringAppScreensList = {
   VolunteeringAppHome: undefined
@@ -20,7 +21,7 @@ export const AppNavigation: React.FC = ({ children }) => {
   const { theme } = useTheme()
   const { navigate } = useRouting()
   return (
-    <SafeAreaView
+    <SafeArea
       style={{
         padding: 10,
         position: 'absolute',
@@ -38,14 +39,14 @@ export const AppNavigation: React.FC = ({ children }) => {
         </HoliButton>
       </View>
       {children}
-    </SafeAreaView>
+    </SafeArea>
   )
 }
 
 const VolunteeringAppNavigator: React.VFC = () => {
   const { theme } = useTheme()
   return (
-    <SafeAreaView style={{ padding: 10, height: '100%' }}>
+    <SafeArea style={{ padding: 10, height: '100%' }}>
       <VolunteeringAppStack.Navigator
         initialRouteName="VolunteeringAppHome"
         screenOptions={{
@@ -56,10 +57,10 @@ const VolunteeringAppNavigator: React.VFC = () => {
           headerTitleAlign: 'center',
         }}
       >
-        <VolunteeringAppStack.Screen name="VolunteeringAppHome" component={VolunteeringAppHomeScreen} />
+        <VolunteeringAppStack.Screen name="VolunteeringAppHome" component={VolunteeringAppHome} />
       </VolunteeringAppStack.Navigator>
       <AppNavigation />
-    </SafeAreaView>
+    </SafeArea>
   )
 }
 

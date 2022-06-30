@@ -5,7 +5,7 @@ import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
-export const ChatHomeScreen: React.VFC = ({ navigation }) => {
+const ChatHome: React.VFC = ({ navigation }) => {
   const { setNavigationHeader } = useNavigationHeader()
   const title = 'Chat'
 
@@ -28,3 +28,5 @@ export const ChatHomeScreen: React.VFC = ({ navigation }) => {
     </View>
   )
 }
+
+export default ChatHome

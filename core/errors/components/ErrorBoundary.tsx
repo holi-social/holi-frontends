@@ -3,7 +3,7 @@ import React from 'react'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliText from '@holi/ui/components/HoliText'
-import { SafeAreaView } from '@holi/ui/components/safe-area'
+import SafeArea from '@holi/ui/components/SafeArea'
 
 type ErrorBoundaryProps = {
   children: React.ReactChild | React.ReactChildren | (React.ReactChild | string | undefined)[]
@@ -27,12 +27,12 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   render() {
     if (this.state.error) {
       return (
-        <SafeAreaView style={{ padding: 10, alignItems: 'center' }}>
+        <SafeArea style={{ padding: 10, alignItems: 'center' }}>
           <HoliText>Something went wrong</HoliText>
           <HoliButton label="Try again?" inline onPress={() => this.setState({ error: null })}>
             <HoliText>Try again?</HoliText>
           </HoliButton>
-        </SafeAreaView>
+        </SafeArea>
       )
     }
 

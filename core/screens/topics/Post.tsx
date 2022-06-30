@@ -3,18 +3,18 @@ import { View } from 'react-native'
 import { createParam } from 'solito'
 
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
-import { fakeTopics } from '@holi/core/topics/fakeTopics'
+import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
-export type PostScreenParams = {
+export type PostParams = {
   topicId: string
   postId: string
 }
 
-const { useParam } = createParam<PostScreenParams>()
+const { useParam } = createParam<PostParams>()
 
-export const PostScreen: React.VFC = ({ navigation }) => {
+const Post: React.VFC = ({ navigation }) => {
   const [topicId] = useParam('topicId')
   const [postId] = useParam('postId')
 
@@ -49,3 +49,5 @@ export const PostScreen: React.VFC = ({ navigation }) => {
     </View>
   )
 }
+
+export default Post

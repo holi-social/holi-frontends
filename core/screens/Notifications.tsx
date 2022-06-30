@@ -1,15 +1,15 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useEffect } from 'react'
 import { View } from 'react-native'
 
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
-export const SearchScreen: React.FC = ({ navigation }) => {
+const Notifications: React.VFC = ({ navigation }) => {
   const { setNavigationHeader } = useNavigationHeader()
-  const title = 'Search Result'
+  const title = 'Your Notifications'
 
-  useLayoutEffect(
+  useEffect(
     () =>
       setNavigationHeader({
         title: title,
@@ -24,7 +24,9 @@ export const SearchScreen: React.FC = ({ navigation }) => {
 
   return (
     <View style={{ padding: 10, alignItems: 'center' }}>
-      <HoliText type={HoliTextType.super}>Search</HoliText>
+      <HoliText type={HoliTextType.super}>Notifications</HoliText>
     </View>
   )
 }
+
+export default Notifications

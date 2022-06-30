@@ -3,13 +3,13 @@ import { StyleSheet, View } from 'react-native'
 
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { fakeTopics } from '@holi/core/topics/fakeTopics'
+import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 import Holicon from '@holi/ui/components/holicon'
 
-export const HomeFeedScreen: React.VFC = ({ navigation }) => {
+const HomeFeed: React.VFC = ({ navigation }) => {
   const { navigate } = useRouting()
   const { setNavigationHeader } = useNavigationHeader()
   const title = 'Topic of the day'
@@ -87,3 +87,5 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
 })
+
+export default HomeFeed

@@ -5,9 +5,9 @@ import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
-export const ExploreScreen: React.VFC = ({ navigation }) => {
+const Search: React.FC = ({ navigation }) => {
   const { setNavigationHeader } = useNavigationHeader()
-  const title = 'Explore Holi'
+  const title = 'Search Result'
 
   useLayoutEffect(
     () =>
@@ -24,7 +24,9 @@ export const ExploreScreen: React.VFC = ({ navigation }) => {
 
   return (
     <View style={{ padding: 10, alignItems: 'center' }}>
-      <HoliText type={HoliTextType.super}>Explore</HoliText>
+      <HoliText type={HoliTextType.super}>Search</HoliText>
     </View>
   )
 }
+
+export default Search

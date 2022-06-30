@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 
-import { TopicsScreen } from '@holi/core/topics/TopicsScreen'
+import Topic from '@holi/core/screens/topics/Topic'
 
-const TopicsPage: NextPage = () => <TopicsScreen />
+const TopicsPage: NextPage = () => <Topic />
 
 export default TopicsPage

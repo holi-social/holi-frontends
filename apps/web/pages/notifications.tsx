@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 
-import { NotificationsScreen } from '@holi/core/notifications/NotificationsScreen'
+import Notifications from '@holi/core/screens/Notifications'
 
-const NotificationsPage: NextPage = () => <NotificationsScreen />
+const NotificationsPage: NextPage = () => <Notifications />
 
 export default NotificationsPage
