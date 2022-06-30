@@ -3,9 +3,9 @@ import { ReactElement } from 'react'
 import { AppLayout } from '@holi/web/layout/AppLayout'
 import type { NextPageWithLayout } from '@holi/web/pages/_app'
 
-import { VolunteeringAppHomeScreen } from '@holi-apps/volunteering/screens/VolunteeringAppHomeScreen'
+import VolunteeringAppHome from '@holi-apps/volunteering/screens/VolunteeringAppHome'
 
-const VolunteeringAppHomePage: NextPageWithLayout = () => <VolunteeringAppHomeScreen />
+const VolunteeringAppHomePage: NextPageWithLayout = () => <VolunteeringAppHome />
 
 VolunteeringAppHomePage.getLayout = (page: ReactElement) => <AppLayout>{page}</AppLayout>
 
