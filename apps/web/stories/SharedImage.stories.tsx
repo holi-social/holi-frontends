@@ -1,14 +1,14 @@
 /* eslint-disable import/no-anonymous-default-export */
 import React, { Fragment } from 'react'
 
-import SharedImage from '@holi/ui/components/sharedImage'
+import SharedImage from '@holi/ui/components/SharedImage'
 
 export default {
   title: 'Components/SharedImage',
   parameters: {
     docs: {
       description: {
-        component: 'Holicon - shared image component.',
+        component: 'SharedImage - shared image component.',
       },
     },
   },
