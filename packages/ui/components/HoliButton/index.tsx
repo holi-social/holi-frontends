@@ -42,7 +42,8 @@ const HoliButton: React.FunctionComponent<ButtonProps> = ({
   const isPrimary = type === 'primary'
 
   const { theme } = useTheme()
-  const styles = getStyles(theme, inline || false, isTransparent)
+  const styles = getStyles(theme, inline)
+  
 
   const accessibilityProps: AccessibilityProps & { accessibilityPressed?: boolean } = {
     ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),
@@ -71,9 +72,9 @@ const HoliButton: React.FunctionComponent<ButtonProps> = ({
         !disabled && props.onPress && props.onPress(event)
       }}
       style={(state) => {
-        const result = [props.style]
+        const result = [props.style, styles.base]
         if (!isTransparent) {
-          result.push(styles.holiButton)
+          result.push(styles.nonTransparent)
           if (isSmall) {
             result.push(styles.small)
           }
@@ -103,23 +104,26 @@ const HoliButton: React.FunctionComponent<ButtonProps> = ({
 
 export default HoliButton
 
-const getStyles = (theme: HoliTheme, inline: boolean, transparent: boolean) =>
+const getStyles = (theme: HoliTheme, inline: boolean) =>
   StyleSheet.create({
-    holiButton: {
-      borderColor: transparent ? 'transparent' : theme.colors.borderColorBlack,
-      borderWidth: 2,
-      borderRadius: 24,
-      backgroundColor: transparent ? 'transparent' : theme.colors.backgroundColorWhite,
-      paddingHorizontal: 32,
-      paddingVertical: 13,
-      elevation: 0,
-      width: inline ? 'auto' : '100%',
-      overflow: 'hidden',
+    base: {
       ...Platform.select({
         web: {
           display: 'inline-block',
         },
       }),
+      width: inline ? 'auto' : '100%',
+    },
+    nonTransparent: {
+      borderColor: theme.colors.borderColorBlack,
+      borderWidth: 2,
+      borderRadius: 24,
+      backgroundColor: theme.colors.backgroundColorWhite,
+      paddingHorizontal: 32,
+      paddingVertical: 13,
+      margin: 4, // make the drop shadow not overlap onto other components
+      elevation: 0,
+      overflow: 'hidden',
     },
     textDisabled: {
       color: theme.colors.fontColorGrey,
