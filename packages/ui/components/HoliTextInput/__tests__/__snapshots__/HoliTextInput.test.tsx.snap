@@ -62,7 +62,7 @@ exports[`renders correctly when disabled 1`] = `
         "borderWidth": 2,
         "flexDirection": "row",
         "marginVertical": 6,
-        "paddingHorizontal": 12,
+        "paddingHorizontal": 8,
         "paddingVertical": 13,
       }
     }
@@ -205,7 +205,7 @@ exports[`renders correctly when errored 1`] = `
         "borderWidth": 2,
         "flexDirection": "row",
         "marginVertical": 6,
-        "paddingHorizontal": 12,
+        "paddingHorizontal": 8,
         "paddingVertical": 13,
       }
     }
@@ -382,7 +382,7 @@ exports[`renders correctly when multiline 1`] = `
         "borderWidth": 2,
         "flexDirection": "row",
         "marginVertical": 6,
-        "paddingHorizontal": 12,
+        "paddingHorizontal": 8,
         "paddingVertical": 13,
       }
     }
@@ -525,7 +525,7 @@ exports[`renders correctly with default props 1`] = `
         "borderWidth": 2,
         "flexDirection": "row",
         "marginVertical": 6,
-        "paddingHorizontal": 12,
+        "paddingHorizontal": 8,
         "paddingVertical": 13,
       }
     }
@@ -637,7 +637,7 @@ exports[`renders correctly without label 1`] = `
         "borderWidth": 2,
         "flexDirection": "row",
         "marginVertical": 6,
-        "paddingHorizontal": 12,
+        "paddingHorizontal": 8,
         "paddingVertical": 13,
       }
     }
