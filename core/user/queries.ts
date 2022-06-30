@@ -6,7 +6,7 @@ import { User } from '@holi/core/user/types'
 export const userFragment = gql`
   fragment FullUser on User {
     id
-    image
+    avatar
     firstName
     middleName
     lastName
@@ -20,26 +20,46 @@ export const userFragment = gql`
   }
 `
 
-export const allUsersQuery = gql`
+export const authenticatedUserQuery = gql`
   ${userFragment}
 
-  query Users($offset: Int, $limit: Int) {
-    allUsers(offset: $offset, limit: $limit) {
+  query AuthenticatedUser {
+    authenticatedUser {
       ...FullUser
     }
   }
 `
+
+export type AuthenticatedUserResponse = {
+  authenticatedUser: User
+}
+
+export type UpdateAuthenticatedUserInput = {
+  avatar?: string
+  firstName?: string
+  middleName?: string
+  lastName?: string
+  aboutMe?: string
+  pronouns?: string
+  location?: string
+  engagementLevel?: string
+  interests?: [string]
+  sdgs?: [string]
+  skills?: [string]
+}
+
+export type UpdateAuthenticatedUserResponse = {
+  authenticatedUser: User
+}
 
 export const updateUserMutation = gql`
   ${userFragment}
 
-  mutation UpdateUser($id: ID!, $user: UserInput) {
-    updateUser(id: $id, user: $user) {
-      ...FullUser
-    }
+  mutation UpdateAuthenticatedUser($input: UpdateAuthenticatedUserInput!) {
+      updateAuthenticatedUser(input: $input) {
+          authenticatedUser {
+              ...FullUser
+          }
+      }
   }
 `
-
-export interface AllUsersQueryResult {
-  allUsers: User[]
-}

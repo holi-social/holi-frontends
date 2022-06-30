@@ -38,9 +38,11 @@ const HoliUserAvatar: React.FunctionComponent<AvatarProps> = (props: AvatarProps
     accessibilityRole: 'image',
   }
 
+  const hasImage = !!props.imageSrc
+
   return (
     <View style={[styles.holiUserAvatar, props.style, styles[sizeClass]]} {...props}>
-      {props.imageSrc && <Image source={imageUri} style={{ width: width, height: width }} {...accessibilityProps} />}
+      {hasImage && <Image source={imageUri} style={{ width: width, height: width }} {...accessibilityProps} />}
       {!props.imageSrc && (
         <HoliText styles={styles.inititals} {...accessibilityProps}>
           {initials}
@@ -93,7 +95,6 @@ const getStyles = (theme: HoliTheme, width: number, defaultColor: string, imageI
       borderColor: theme.colors.softblack,
     },
     inititals: {
-      fontFamily: 'sans-serif',
       fontSize: (width / 10) * 7 - 8,
       textTransform: 'uppercase',
       fontWeight: 'bold',
