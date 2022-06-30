@@ -50,6 +50,26 @@ const HomeStack = createNativeStackNavigator<HomeStackScreens>()
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
+const backButton = () => {
+  const { theme } = useTheme()
+  const { navigateBack } = useRouting()
+  return (
+    <HoliButton label="Go back home" inline transparent onPress={() => navigateBack()} style={{ paddingHorizontal: 0 }}>
+      <Holicon icon="arrow-back" size={30} color={theme.colors.softblack} />
+    </HoliButton>
+  )
+}
+
+const downButton = () => {
+  const { theme } = useTheme()
+  const { navigateBack } = useRouting()
+  return (
+    <HoliButton label="Go back home" inline transparent onPress={() => navigateBack()} style={{ paddingHorizontal: 0 }}>
+      <Holicon icon="arrowtip-down" size={30} color={theme.colors.softblack} />
+    </HoliButton>
+  )
+}
+
 export const HomeStackNavigator: React.VFC = () => {
   const { theme } = useTheme()
   return (
@@ -66,6 +86,7 @@ export const HomeStackNavigator: React.VFC = () => {
       <HomeStack.Screen
         name="HomeFeed"
         component={HomeFeedScreen}
+        // https://github.com/react-navigation/react-navigation/blob/main/packages/native-stack/src/types.tsx
         options={{
           headerTitle: () => <HeaderTitle style={{ paddingTop: 5 }} />,
           headerLeft: () => <HeaderNotificationLink style={{ paddingHorizontal: 0, marginLeft: 5 }} />,
@@ -83,61 +104,36 @@ export const HomeStackNavigator: React.VFC = () => {
         name="UserProfile"
         component={UserProfileScreen}
         options={{
-          headerLeft: () => {
-            const { navigate } = useRouting()
-            return (
-              <HoliButton
-                label="Notifications"
-                inline
-                transparent
-                onPress={() => navigate('/')}
-                style={{ paddingHorizontal: 0 }}
-              >
-                <Holicon icon="arrow-back" size={30} color={theme.colors.positivepurple} />
-              </HoliButton>
-            )
-          },
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+          headerLeft: backButton,
         }}
       />
       <HomeStack.Screen
         name="Topic"
         component={TopicsScreen}
         options={{
-          headerLeft: () => {
-            const { navigate } = useRouting()
-            return (
-              <HoliButton
-                label="Notifications"
-                inline
-                transparent
-                onPress={() => navigate('/')}
-                style={{ paddingHorizontal: 0 }}
-              >
-                <Holicon icon="arrow-back" size={30} color={theme.colors.positivepurple} />
-              </HoliButton>
-            )
-          },
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+          headerLeft: backButton,
         }}
       />
-      <HomeStack.Screen name="Post" component={PostScreen} />
+      <HomeStack.Screen
+        name="Post"
+        component={PostScreen}
+        options={{
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+          headerLeft: backButton,
+        }}
+      />
       <HomeStack.Screen
         name="Notifications"
         component={NotificationsScreen}
         options={{
-          headerLeft: () => {
-            const { navigate } = useRouting()
-            return (
-              <HoliButton
-                label="Notifications"
-                inline
-                transparent
-                onPress={() => navigate('/')}
-                style={{ paddingHorizontal: 0 }}
-              >
-                <Holicon icon="arrow-back" size={30} color={theme.colors.positivepurple} />
-              </HoliButton>
-            )
-          },
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+          headerLeft: backButton,
         }}
       />
     </HomeStack.Navigator>
@@ -226,6 +222,10 @@ export const RootNavigator: React.VFC = () => (
         presentation: 'modal',
         animation: 'slide_from_bottom',
         headerShown: true,
+        headerTitleAlign: 'center',
+        headerBackVisible: false,
+        headerBackTitleVisible: false,
+        headerLeft: downButton,
       }}
     >
       <RootStack.Screen
