@@ -1,9 +1,9 @@
 import React from 'react'
-import { Text } from 'react-native'
 
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import HoliButton from '@holi/ui/components/HoliButton'
-import { SafeAreaView } from '@holi/ui/components/safe-area'
+import HoliText from '@holi/ui/components/HoliText'
+import SafeArea from '@holi/ui/components/SafeArea'
 
 type ErrorBoundaryProps = {
   children: React.ReactChild | React.ReactChildren | (React.ReactChild | string | undefined)[]
@@ -20,19 +20,19 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
   componentDidCatch(error: Error, errorInfo: { componentStack: string }) {
     const { logError } = useErrorHandling()
-    logError(error, errorInfo.componentStack)
+    logError(error, '[ErrorBoundary.tsx]', errorInfo.componentStack)
     this.setState({ error })
   }
 
   render() {
     if (this.state.error) {
       return (
-        <SafeAreaView style={{ padding: 10, alignItems: 'center' }}>
-          <Text>Something went wrong</Text>
+        <SafeArea style={{ padding: 10, alignItems: 'center' }}>
+          <HoliText>Something went wrong</HoliText>
           <HoliButton label="Try again?" inline onPress={() => this.setState({ error: null })}>
-            Try again?
+            <HoliText>Try again?</HoliText>
           </HoliButton>
-        </SafeAreaView>
+        </SafeArea>
       )
     }
 

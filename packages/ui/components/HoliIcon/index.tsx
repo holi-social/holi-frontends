@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useTheme } from '@holi/ui/styles/theme'
 
-import HoliIconBase from './holiIcon'
+import HoliIconBase from './HoliIconBase'
 
 export type HoliIconProps = {
   icon: string
@@ -10,6 +10,7 @@ export type HoliIconProps = {
   filled?: boolean
   size?: number
   testID?: string
+  style?: React.CSSProperties
 }
 
 const HoliIcon: React.VoidFunctionComponent<HoliIconProps> = (props: HoliIconProps) => {

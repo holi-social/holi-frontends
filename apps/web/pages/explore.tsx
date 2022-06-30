@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 
-import { ExploreScreen } from '@holi/core/explore/ExploreScreen'
+import Explore from '@holi/core/screens/Explore'
 
-const ExplorePage: NextPage = () => <ExploreScreen />
+const ExplorePage: NextPage = () => <Explore />
 
 export default ExplorePage

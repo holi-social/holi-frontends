@@ -31,7 +31,7 @@ const HoliText = ({ children, type = HoliTextType.body, isAccessible = true, ...
   })
 
   return (
-    <Text style={[styles.default, styles[HoliTextType[type]], props?.styles]} {...getAccessibilityProps} {...props}>
+    <Text {...getAccessibilityProps} {...props} style={[styles.default, styles[HoliTextType[type]], props?.styles]}>
       {children}
     </Text>
   )

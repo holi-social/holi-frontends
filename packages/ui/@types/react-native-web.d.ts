@@ -19,6 +19,11 @@ declare module 'react-native' {
     display?: 'flex' | 'none' | 'inline-block' | undefined
     boxShadow?: string | undefined
   }
+
+  interface ViewProps extends ViewProps {
+    accessibilityRole?: string
+  }
+
   interface TextStyle {
     display?: 'flex' | 'none' | 'inline-block' | undefined
   }
