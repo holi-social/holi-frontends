@@ -13,9 +13,14 @@ const useErrorHandling: UseErrorHandling = () => {
     logError,
     displayError: (error: Error, message?: string) => {
       logError(error, message)
-      const errorMessage = message || 'Something went wrong'
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      Alert.alert('Error', `${errorMessage}: ${error.message}`, [{ text: 'OK', onPress: () => {} }])
+      const messageHeadline = message || 'Something went wrong'
+      try {
+        const detailMessage = error ? error.message : ''
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        Alert.alert('Error', `${messageHeadline}: ${detailMessage}`, [{ text: 'OK', onPress: () => {} }])
+      } catch (e) {
+        console.error('[useErrorHandling.ts] Unespected error' + e)
+      }
     },
   }
 }
