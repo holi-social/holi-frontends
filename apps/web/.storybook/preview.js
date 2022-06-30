@@ -1,4 +1,4 @@
-import '../../../packages/ui/assets/fonts/CircularStd/style.css'
+import '@holi/ui/assets/fonts/CircularStd/style.css'
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
