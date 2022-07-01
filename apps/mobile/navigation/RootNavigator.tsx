@@ -86,7 +86,6 @@ export const HomeStackNavigator: React.VFC = () => {
       <HomeStack.Screen
         name="HomeFeed"
         component={HomeFeed}
-        // https://github.com/react-navigation/react-navigation/blob/main/packages/native-stack/src/types.tsx
         options={{
           headerTitle: () => <HeaderTitle style={{ paddingTop: 5 }} />,
           headerLeft: () => <HeaderNotificationLink style={{ paddingHorizontal: 0, marginLeft: 5 }} />,
@@ -164,7 +163,6 @@ export const BottomTabsNavigator: React.VFC = () => {
   return (
     <BottomTabs.Navigator
       initialRouteName="Home"
-      // https://github.com/react-navigation/react-navigation/blob/main/packages/bottom-tabs/src/types.tsx
       screenOptions={{
         tabBarStyle: {
           backgroundColor: theme.colors.backgroundColorWhite,
@@ -177,7 +175,6 @@ export const BottomTabsNavigator: React.VFC = () => {
       <BottomTabs.Screen
         name="Home"
         component={HomeStackNavigator}
-        // https://github.com/react-navigation/react-navigation/blob/main/packages/material-bottom-tabs/src/types.tsx
         options={{
           headerShown: false,
           tabBarShowLabel: false,

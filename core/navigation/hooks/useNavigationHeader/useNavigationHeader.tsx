@@ -9,7 +9,6 @@ const useNavigationHeader = () => {
 
   return {
     setNavigationHeader: (headerProps: HeaderProps) => {
-      // https://github.com/react-navigation/react-navigation/blob/main/packages/elements/src/types.tsx
       const headerOptions: NativeStackNavigationOptions = {}
       if (headerProps.titleElement) headerOptions.headerTitle = headerProps.titleElement
       if (headerProps.leftElement) headerOptions.headerLeft = headerProps.leftElement
