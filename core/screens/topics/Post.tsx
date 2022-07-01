@@ -2,8 +2,11 @@ import React, { useLayoutEffect } from 'react'
 import { View } from 'react-native'
 import { createParam } from 'solito'
 
+import type { NativeStackScreenProps } from '@react-navigation/native-stack'
+
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
+import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
@@ -14,7 +17,9 @@ export type PostParams = {
 
 const { useParam } = createParam<PostParams>()
 
-const Post: React.VFC = ({ navigation }) => {
+type PostProps = NativeStackScreenProps<HomeStackScreens>
+
+const Post: React.VFC<PostProps> = ({ navigation }: PostProps) => {
   const [topicId] = useParam('topicId')
   const [postId] = useParam('postId')
 

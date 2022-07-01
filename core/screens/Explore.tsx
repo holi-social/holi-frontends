@@ -1,11 +1,16 @@
 import React, { useLayoutEffect } from 'react'
 import { View } from 'react-native'
 
+import type { NativeStackScreenProps } from '@react-navigation/native-stack'
+
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
+import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
-const Explore: React.VFC = ({ navigation }) => {
+type ExploreProps = NativeStackScreenProps<HomeStackScreens>
+
+const Explore: React.VFC<ExploreProps> = ({ navigation }: ExploreProps) => {
   const { setNavigationHeader } = useNavigationHeader()
   const title = 'Explore Holi'
 

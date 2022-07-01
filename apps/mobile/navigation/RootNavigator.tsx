@@ -107,6 +107,14 @@ export const HomeStackNavigator: React.VFC = () => {
           headerBackTitleVisible: false,
           headerBackVisible: false,
           headerLeft: backButton,
+          headerRight: () => (
+            <HeaderProfileLink
+              style={{
+                paddingHorizontal: 0,
+                marginRight: 5,
+              }}
+            />
+          ),
         }}
       />
       <HomeStack.Screen

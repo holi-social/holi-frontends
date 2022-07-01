@@ -2,22 +2,26 @@ import React, { useLayoutEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { createParam } from 'solito'
 
+import type { NativeStackScreenProps } from '@react-navigation/native-stack'
+
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import TopicEditors from '@holi/core/screens/topics/components/TopicEditors'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
+import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliModal from '@holi/ui/components/HoliModal'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
-const { useParam } = createParam<TopicParams>()
-
 export type TopicParams = {
   topicId: string
 }
+const { useParam } = createParam<TopicParams>()
 
-const Topic: React.VFC = ({ navigation }) => {
+type TopicProps = NativeStackScreenProps<HomeStackScreens>
+
+const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
   const [showModal, setShowModal] = useState(false)
   const [topicId = ''] = useParam('topicId')
   const { navigate } = useRouting()
