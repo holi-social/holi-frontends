@@ -18,12 +18,13 @@ const HeaderProfileLink: React.VoidFunctionComponent<HeaderProfileLinkProps> = (
 
   const { user } = useContext(UserContext)
   const { isAuthenticated } = useContext(AuthContext)
+  const hasUserData = isAuthenticated && user
 
   // TODO: navigate to user profile!
   const profileUrl = '/profile/danbim'
 
   let userAvatar
-  if (isAuthenticated && user) {
+  if (hasUserData) {
     // TODO: hand over email, when firstName is empty
     const userImageLabel = user.firstName
     // TODO: should be generated during user registration process (HOLI-1525)
@@ -43,8 +44,8 @@ const HeaderProfileLink: React.VoidFunctionComponent<HeaderProfileLinkProps> = (
       style={props.style}
       testID="profile-button"
     >
-      {!isAuthenticated && <HoliIcon icon="user-circled" size={20} />}
-      {isAuthenticated && userAvatar}
+      {!hasUserData && <HoliIcon icon="user-circled" size={20} />}
+      {hasUserData && userAvatar}
     </HoliButton>
   )
 }
