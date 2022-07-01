@@ -20,7 +20,6 @@ export type ButtonProps = {
   type?: 'primary' | 'secondary'
   variant?: 'default' | 'small' | 'transparent'
   disabled?: boolean
-  href?: string
   children?: ReactChild | ReactChild[] | ReactChildren | Array<ReactChild> | string
   disableFocusability?: boolean
   // only for TS (props are added by {...props})
