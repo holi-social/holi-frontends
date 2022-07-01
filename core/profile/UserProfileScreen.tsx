@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useLayoutEffect, useState } from 'react'
 import { View } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
@@ -23,15 +23,18 @@ export const UserProfileScreen: React.VFC = () => {
   const { user } = useContext(UserContext)
 
   const { setNavigationHeader } = useNavigationHeader()
-  const profileTitle = isAuthenticated && user ? user.firstName : 'Profile'
-  setNavigationHeader({
-    title: profileTitle,
-    titleElement: () => (
-      <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
-        {profileTitle}
-      </HoliText>
-    ),
-  })
+
+  useLayoutEffect(() => {
+    const profileTitle = isAuthenticated && user ? user.firstName : 'Profile'
+    setNavigationHeader({
+      title: profileTitle,
+      titleElement: () => (
+        <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
+          {profileTitle}
+        </HoliText>
+      ),
+    })
+  }, [isAuthenticated])
 
   const loggedOutContent = <HoliText type={HoliTextType.heading1}>Log in to see your profile</HoliText>
   return (
