@@ -50,6 +50,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
     }
   >
     <Text
+      accessible={true}
       selectable={false}
       style={
         Array [
@@ -209,6 +210,7 @@ exports[`renders correctly renders correctly when disabled 1`] = `
     }
   >
     <Text
+      accessible={true}
       selectable={false}
       style={
         Array [
@@ -297,6 +299,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
     }
   >
     <Text
+      accessible={true}
       selectable={false}
       style={
         Array [

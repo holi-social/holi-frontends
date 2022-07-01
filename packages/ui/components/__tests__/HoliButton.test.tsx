@@ -6,20 +6,6 @@ import HoliButton from '@holi/ui/components/HoliButton'
 import HoliIcon from '@holi/ui/components/HoliIcon'
 import HoliText from '@holi/ui/components/HoliText'
 
-/*
-label: string
-style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
-inline?: boolean
-type?: 'primary' | 'secondary'
-variant?: 'default' | 'small' | 'transparent'
-disabled?: boolean
-children?: ReactChild | ReactChild[] | ReactChildren | Array<ReactChild> | string
-disableFocusability?: boolean
-// only for TS (props are added by {...props})
-onPress?: null | ((event: GestureResponderEvent) => void)
-testID?: string
-*/
-
 describe('renders correctly', () => {
   const booleanValues = [true, false]
   const typeValues: ('primary' | 'secondary')[] = ['primary', 'secondary']

@@ -1,7 +1,9 @@
+import { AccessibilityRole } from 'react-native'
+
 interface HoliTextTypeInfo {
   name: string
   level?: number
-  role?: string
+  role?: AccessibilityRole
 }
 
 export enum HoliTextType {
