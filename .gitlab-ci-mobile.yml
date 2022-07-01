@@ -10,6 +10,8 @@
     - cd apps/mobile
     - expo publish --release-channel $ENVIRONMENT_ID
   interruptible: true
+  tags:
+    - holi-big
 
 .mobile_build:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
@@ -31,6 +33,8 @@
         curl -o artifacts_$ENVIRONMENT_ID/$(basename $IPA_URL) $IPA_URL
       fi
   interruptible: true
+  tags:
+    - holi-micro
 
 .mobile_e2e_android:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
