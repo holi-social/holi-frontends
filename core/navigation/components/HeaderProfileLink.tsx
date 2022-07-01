@@ -39,7 +39,7 @@ const HeaderProfileLink: React.VoidFunctionComponent<HeaderProfileLinkProps> = (
     <HoliButton
       label="Profile"
       inline
-      transparent
+      variant="transparent"
       onPress={() => navigate(profileUrl)}
       {...props}
       style={props.style}

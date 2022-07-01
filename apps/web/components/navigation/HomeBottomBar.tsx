@@ -29,16 +29,41 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
       accessibilityLabel="Bottom Navigation"
     >
       <View style={styles.buttonContainer}>
-        <HoliButton label="Home" inline variant="transparent" onPress={() => navigate('/')} testID="nav-button-home">
+        <HoliButton
+          label="Home"
+          inline
+          variant="transparent"
+          onPress={() => navigate('/')}
+          testID="nav-button-home"
+          style={{ paddingHorizontal: 20, paddingVertical: 10 }}
+        >
           <HoliIcon icon="home" size={20} filled={isHome} style={{ color: iconColor(isHome) }} />
         </HoliButton>
-        <HoliButton label="Chat" inline variant="transparent" onPress={() => navigate('/chat')}>
+        <HoliButton
+          label="Chat"
+          inline
+          variant="transparent"
+          onPress={() => navigate('/chat')}
+          style={{ paddingHorizontal: 20, paddingVertical: 10 }}
+        >
           <HoliIcon icon="chat" size={20} filled={isChat} style={{ color: iconColor(isChat) }} />
         </HoliButton>
-        <HoliButton label="Explore initiatives" inline variant="transparent" onPress={() => navigate('/explore')}>
+        <HoliButton
+          label="Explore initiatives"
+          inline
+          variant="transparent"
+          onPress={() => navigate('/explore')}
+          style={{ paddingHorizontal: 20, paddingVertical: 10 }}
+        >
           <HoliIcon icon="explore" size={20} filled={isExplore} style={{ color: iconColor(isExplore) }} />
         </HoliButton>
-        <HoliButton label="Search" inline variant="transparent" onPress={() => navigate('/search')}>
+        <HoliButton
+          label="Search"
+          inline
+          variant="transparent"
+          onPress={() => navigate('/search')}
+          style={{ paddingHorizontal: 20, paddingVertical: 10 }}
+        >
           <HoliIcon icon="search" size={20} filled={isSearch} style={{ color: iconColor(isSearch) }} />
         </HoliButton>
       </View>
@@ -56,7 +81,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       borderTopWidth: 1,
       borderTopColor: theme.colors.borderColorGrey,
       paddingHorizontal: screenWidth > theme.vars.breakpointL ? 20 : 10,
-      height: theme.vars.bottomBarHeight,
+      maxHeight: theme.vars.bottomBarHeight,
     },
     buttonContainer: {
       flex: 1,
@@ -64,5 +89,6 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       maxWidth: 1200,
       flexDirection: 'row',
       justifyContent: 'space-between',
+      maxHeight: theme.vars.bottomBarHeight,
     },
   })
