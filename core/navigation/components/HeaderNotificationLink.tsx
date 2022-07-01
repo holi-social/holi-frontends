@@ -20,7 +20,7 @@ const HeaderNotificationLink: React.VoidFunctionComponent<HeaderTitleProps> = (p
       variant="transparent"
       onPress={() => navigate('/notifications')}
       {...props}
-      style={[{ paddingHorizontal: 0 }, props.style || {}]}
+      style={props.style || {}}
     >
       <HoliIcon icon="bell" size={20} />
     </HoliButton>

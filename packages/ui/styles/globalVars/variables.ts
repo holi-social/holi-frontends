@@ -27,6 +27,7 @@ export default {
   backgroundColorBlack: '#222326',
   fontFamilyWeb: 'Circular Std,Helvetica,Arial,sans-serif',
   fontFamilyMobile: 'Circular Std',
+  topBarHeight: '52',
   bottomBarHeight: '52',
   breakpointS: '576',
   breakpointM: '768',
