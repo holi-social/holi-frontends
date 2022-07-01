@@ -25,7 +25,8 @@ const HeaderProfileLink: React.VoidFunctionComponent<HeaderProfileLinkProps> = (
   let userAvatar
   if (isAuthenticated && user) {
     // TODO: hand over email, when firstName is empty
-    const userImageLabel = user.firstName
+    const userImageLabel = user.firstName || 'unnamed user'
+
     // TODO: should be generated during user registration process (HOLI-1525)
     const userDefaultColor = '#0f0'
     userAvatar = (
