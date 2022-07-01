@@ -93,7 +93,7 @@ exports[`React tree renders the users initials, when given image prop is empty 1
         },
         Object {
           "color": "#fff",
-          "fontSize": 65.80000000000001,
+          "fontSize": 55.35,
           "fontWeight": "bold",
           "textAlignVertical": "center",
           "textTransform": "uppercase",
@@ -103,7 +103,7 @@ exports[`React tree renders the users initials, when given image prop is empty 1
     styles={
       Object {
         "color": "#fff",
-        "fontSize": 65.80000000000001,
+        "fontSize": 55.35,
         "fontWeight": "bold",
         "textAlignVertical": "center",
         "textTransform": "uppercase",

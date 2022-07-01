@@ -9,13 +9,13 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 // https://usability.yale.edu/web-accessibility/articles/images#image-guidelines
 
 export type AvatarProps = {
-  style?: (ViewStyle | Record<string, unknown> | undefined) | (ViewStyle | Record<string, unknown> | undefined)[]
   imageSrc: string | undefined
   nameLabel: string
   defaultColor: string
   initials: string
   size?: 'micro' | 'small' | 'medium' | 'large' | 'extralarge'
   testID?: string
+  style?: (ViewStyle | Record<string, unknown> | undefined) | (ViewStyle | Record<string, unknown> | undefined)[]
 }
 
 const HoliUserAvatar: React.FunctionComponent<AvatarProps> = (props: AvatarProps) => {
@@ -42,7 +42,7 @@ const HoliUserAvatar: React.FunctionComponent<AvatarProps> = (props: AvatarProps
   const hasImage = !!props.imageSrc
 
   return (
-    <View style={[styles.holiUserAvatar, props.style, styles[sizeClass]]} {...props}>
+    <View {...props} style={[styles.holiUserAvatar, props.style, styles[sizeClass]]}>
       {hasImage && <Image source={imageUri} style={{ width: width, height: width }} {...accessibilityProps} />}
       {!props.imageSrc && (
         <HoliText styles={styles.inititals} {...accessibilityProps}>
@@ -96,7 +96,7 @@ const getStyles = (theme: HoliTheme, width: number, defaultColor: string, imageI
       borderColor: theme.colors.softblack,
     },
     inititals: {
-      fontSize: (width / 10) * 6 - 8,
+      fontSize: (width / 10) * 4.5,
       textTransform: 'uppercase',
       fontWeight: 'bold',
       color: tinycolor(defaultColor).isLight() ? theme.colors.fontColorBlack : theme.colors.fontColorWhite,
