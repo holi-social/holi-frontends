@@ -9,6 +9,7 @@ import {
   ViewStyle,
 } from 'react-native'
 
+import { AccessibilityPropsWeb } from '@holi/ui/@types/react-native-web'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -46,7 +47,7 @@ const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
   const { theme } = useTheme()
   const styles = getStyles(theme, inline)
 
-  const accessibilityProps: AccessibilityProps & { accessibilityPressed?: boolean } = {
+  const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),
     accessibilityRole: 'button',
     ...(label ? { accessibilityLabel: label } : {}),

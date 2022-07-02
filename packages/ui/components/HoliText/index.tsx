@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { AccessibilityProps, Platform, Text, TextStyle } from 'react-native'
 
+import { AccessibilityPropsWeb } from '@holi/ui/@types/react-native-web'
 import { getHoliTextStyles as getStyles } from '@holi/ui/components/HoliText/HoliText.styles'
 import { HoliTextType, HoliTextTypes } from '@holi/ui/components/HoliText/HoliText.types'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -24,7 +25,7 @@ const HoliText = ({
   const { theme } = useTheme()
   const styles = getStyles(theme)
 
-  const accessibilityProps = Platform.select({
+  const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = Platform.select({
     web: {
       accessible: isAccessible,
       ...(HoliTextTypes[type].role && { accessibilityRole: HoliTextTypes[type].role }),
