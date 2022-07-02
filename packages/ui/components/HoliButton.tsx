@@ -13,12 +13,15 @@ import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-export type ButtonProps = {
+export const HoliButtonTypes = ['primary', 'secondary']
+export const HoliButtonVariants = ['default', 'small', 'transparent']
+
+export type HoliButtonProps = {
   label: string
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
   inline?: boolean
-  type?: 'primary' | 'secondary'
-  variant?: 'default' | 'small' | 'transparent'
+  type?: typeof HoliButtonTypes[number]
+  variant?: typeof HoliButtonVariants[number]
   disabled?: boolean
   children?: ReactChild | ReactChild[] | ReactChildren | Array<ReactChild> | string
   disableFocusability?: boolean
@@ -27,7 +30,7 @@ export type ButtonProps = {
   testID?: string
 }
 
-const HoliButton: React.FunctionComponent<ButtonProps> = ({
+const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
   label,
   inline = true,
   type = 'primary',
@@ -35,7 +38,7 @@ const HoliButton: React.FunctionComponent<ButtonProps> = ({
   disabled = false,
   disableFocusability = false,
   ...props
-}: ButtonProps) => {
+}: HoliButtonProps) => {
   const isSmall = variant == 'small'
   const isTransparent = variant == 'transparent'
   const isPrimary = type === 'primary'

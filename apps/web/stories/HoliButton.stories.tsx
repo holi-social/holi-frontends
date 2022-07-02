@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
-import HoliButton from '@holi/ui/components/HoliButton'
+import HoliButton, { HoliButtonTypes, HoliButtonVariants } from '@holi/ui/components/HoliButton'
 
 export default {
   title: 'Components/HoliButton',
@@ -23,12 +23,12 @@ Primary.argTypes = {
   children: { description: 'Text / React elements' },
   label: { description: 'Accessibility Label', required: true, control: { type: 'text' } },
   type: {
-    options: ['primary', 'secondary'],
+    options: HoliButtonTypes,
     control: { type: 'select' },
     description: 'primary (default) or secondary',
   },
   variant: {
-    options: ['default', 'small', 'transparent'],
+    options: HoliButtonVariants,
     control: { type: 'select' },
     description: 'default, small or transparent',
   },

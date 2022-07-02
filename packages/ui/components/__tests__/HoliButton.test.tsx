@@ -2,14 +2,14 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import HoliButton from '@holi/ui/components/HoliButton'
+import HoliButton, { HoliButtonProps, HoliButtonTypes, HoliButtonVariants } from '@holi/ui/components/HoliButton'
 import HoliIcon from '@holi/ui/components/HoliIcon'
 import HoliText from '@holi/ui/components/HoliText'
 
 describe('renders correctly', () => {
   const booleanValues = [true, false]
-  const typeValues: ('primary' | 'secondary')[] = ['primary', 'secondary']
-  const variantValues: ('default' | 'small' | 'transparent')[] = ['default', 'small', 'transparent']
+  const typeValues: HoliButtonProps['type'][] = HoliButtonTypes
+  const variantValues: HoliButtonProps['variant'][] = HoliButtonVariants
   booleanValues.forEach((inline) => {
     booleanValues.forEach((disabled) => {
       booleanValues.forEach((disableFocusability) => {

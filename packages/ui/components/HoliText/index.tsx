@@ -24,7 +24,7 @@ const HoliText = ({
   const { theme } = useTheme()
   const styles = getStyles(theme)
 
-  const accessibilityProps: AccessibilityProps = Platform.select({
+  const accessibilityProps = Platform.select({
     web: {
       accessible: isAccessible,
       ...(HoliTextTypes[type].role && { accessibilityRole: HoliTextTypes[type].role }),
