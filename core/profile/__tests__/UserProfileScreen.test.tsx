@@ -7,7 +7,7 @@ import { UserProfileScreen } from '@holi/core/profile/UserProfileScreen'
 describe('renders correctly', () => {
   it('renders profile when logged in', () => {
     const { queryByText } = render(
-      <AuthContext.Provider value={{ username: '', isAuthenticated: true, setSession: jest.fn() }}>
+      <AuthContext.Provider value={{ isAuthenticated: true, setUserLoggedIn: jest.fn(), setUserLoggedOut: jest.fn() }}>
         <UserProfileScreen />
       </AuthContext.Provider>
     )

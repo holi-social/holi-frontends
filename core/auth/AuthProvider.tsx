@@ -4,83 +4,86 @@ import React, { createContext, useEffect, useState } from 'react'
 
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
 
-import { getAuthenticatedSession, killAuthenticatedSession, setAuthenticatedSession } from './helpers/auth'
-import { SessionContext, newKratosSdk } from './helpers/sdk'
+import { getSessionFromStorage, removeSessionFromStorage, setSessionInStorage } from './helpers/auth'
+import { OrySessionContext, OrySessionToken, newKratosSdk } from './helpers/sdk'
 
-interface Context {
-  username: string | undefined
+export interface Context {
   isAuthenticated: boolean
-  setSession: (session: SessionContext) => void
+  setUserLoggedIn: (session: OrySessionContext) => Promise<void>
+  setUserLoggedOut: () => Promise<void>
 }
 
 export const AuthContext = createContext<Context>({
-  username: undefined,
   isAuthenticated: false,
-  setSession: () => {
-    undefined
-  },
+  setUserLoggedIn: () => Promise.resolve(),
+  setUserLoggedOut: () => Promise.resolve(),
 })
 
+type SessionState = 'active' | 'expired' | 'invalid'
+
+const kratosSdk = newKratosSdk()
+
 export const AuthContextProvider: React.FC = ({ children }) => {
-  const [sessionContext, setSessionContext] = useState<SessionContext | undefined>(undefined)
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
   const { displayError } = useErrorHandling()
 
-  const setAuth = (session: SessionContext) => {
-    if (!session) {
-      return killAuthenticatedSession().then(() => setSessionContext(session))
-    }
-
-    setAuthenticatedSession(session).then(() => syncSession(session))
+  const validateSessionWithOry = (orySessionToken: OrySessionToken): Promise<SessionState> => {
+    return (
+      kratosSdk
+        // sends GET request to Ory Clouds `/whoami` endpoint, returning the session belonging to the session_token
+        .toSession(orySessionToken)
+        .then(({ data: session }) => (session.active ? 'active' : 'expired'))
+        .catch((e: AxiosError) => 'invalid')
+    )
   }
 
-  const syncSession = (auth: SessionContext) => {
-    if (!auth) {
-      return setAuth(null)
+  const onSessionLoadedFromStorage = (sessionFromStorage: OrySessionContext | null): Promise<void> => {
+    if (sessionFromStorage === null) {
+      console.debug('[AuthProvider] no session found in storage')
+      return removeSessionFromStorage().then(() => setIsLoggedIn(false))
+    } else {
+      return validateSessionWithOry(sessionFromStorage.session_token).then((sessionState) => {
+        switch (sessionState) {
+          case 'active':
+            console.debug('[AuthProvider] active session found in storage')
+            setIsLoggedIn(true)
+            return Promise.resolve()
+          case 'expired':
+            console.debug('[AuthProvider] expired session found in storage')
+            return removeSessionFromStorage().then(() => setIsLoggedIn(false))
+          case 'invalid':
+            console.debug('[AuthProvider] invalid session found in storage')
+            return removeSessionFromStorage().then(() => setIsLoggedIn(false))
+        }
+      })
     }
-    // Use the session token from the auth session:
-    return (
-      newKratosSdk()
-        // whoami() returns the session belonging to the session_token:
-        .toSession(auth.session_token)
-        .then(({ data: session }) => {
-          if (session.active) {
-            console.info('[AuthProvider.tsx] session still active')
-            setSessionContext({ session, session_token: auth.session_token })
-          } else {
-            console.info('[AuthProvider.tsx] session expired')
-            setAuth(null)
-          }
-          return Promise.resolve()
-        })
-        .catch((err: AxiosError) => {
-          if (err.response?.status === 401) {
-            // The user is no longer logged in (hence 401)
-            console.info('[AuthProvider.tsx] Session is not authenticated:', err)
-            //navigate('/login')
-          }
-          // Remove the session / log the user out.
-          setAuth(null)
-          setSessionContext(null)
-        })
-        .catch((error) => displayError(error, 'Error creating session'))
-    )
   }
 
   // Fetches the authentication session.
   useEffect(() => {
-    getAuthenticatedSession().then(syncSession)
+    getSessionFromStorage()
+      .then(onSessionLoadedFromStorage)
+      .catch((error) => displayError(error, 'Error creating session'))
   }, [])
 
-  if (sessionContext === undefined) {
-    return null
+  // intended to be called from outside the context provider (e.g. login form)
+  const setUserLoggedIn = (session: OrySessionContext): Promise<void> => {
+    console.debug('[AuthProvider] setUserLoggedIn')
+    return setSessionInStorage(session).then(() => setIsLoggedIn(true))
+  }
+
+  // intended to be called from outside the context provider (e.g. logout form)
+  const setUserLoggedOut = (): Promise<void> => {
+    console.debug('[AuthProvider] setUserLoggedOut')
+    return removeSessionFromStorage().then(() => setIsLoggedIn(false))
   }
 
   return (
     <AuthContext.Provider
       value={{
-        username: sessionContext?.session.identity.traits.email,
-        isAuthenticated: Boolean(sessionContext?.session),
-        setSession: setAuth,
+        isAuthenticated: isLoggedIn,
+        setUserLoggedIn,
+        setUserLoggedOut,
       }}
     >
       {children}

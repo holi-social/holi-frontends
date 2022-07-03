@@ -1,6 +1,7 @@
-import { useQuery } from '@apollo/client'
-import React, { createContext } from 'react'
+import { useLazyQuery } from '@apollo/client'
+import React, { createContext, useContext, useEffect } from 'react'
 
+import { AuthContext } from '@holi/core/auth/AuthProvider'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import { AuthenticatedUserResponse, authenticatedUserQuery } from '@holi/core/user/queries'
 import { User } from '@holi/core/user/types'
@@ -16,9 +17,22 @@ export const UserContext = createContext<Context>({
 
 export const UserContextProvider: React.FC = ({ children }) => {
   const { displayError } = useErrorHandling()
-  // TODO implement fetching user context for logged-in user
-  // Later: Possibly retrieve user id from auth context and load user by id here
-  const { loading, error, data } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery)
+  const { isAuthenticated } = useContext(AuthContext)
+
+  const [getAuthenticatedUser, { loading, error, data }] =
+    useLazyQuery<AuthenticatedUserResponse>(authenticatedUserQuery)
+
+  useEffect(() => {
+    // only run when user is authenticated. if he's not authenticated the result
+    // is always null/undefined anyway.
+    if (isAuthenticated) {
+      getAuthenticatedUser()
+    }
+  }, [isAuthenticated])
+
+  if (!isAuthenticated) {
+    return <UserContext.Provider value={{ user: undefined }}>{children}</UserContext.Provider>
+  }
 
   if (loading && !error) {
     return <HoliText>Loading...</HoliText>

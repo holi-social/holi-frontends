@@ -14,7 +14,7 @@ const RootProvider: React.VoidFunctionComponent<{ children: React.ReactElement }
       <ApolloProvider client={client}>
         <AuthContextProvider>
           <UserContextProvider>
-            <NavigationContextProvider>{children}</NavigationContextProvider>
+              <NavigationContextProvider>{children}</NavigationContextProvider>
           </UserContextProvider>
         </AuthContextProvider>
       </ApolloProvider>
