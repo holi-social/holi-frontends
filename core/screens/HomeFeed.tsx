@@ -7,6 +7,7 @@ import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
+import HoliTextInput from '@holi/ui/components/HoliTextInput'
 import Holicon from '@holi/ui/components/holicon'
 
 const HomeFeed: React.VFC = () => {
@@ -28,6 +29,16 @@ const HomeFeed: React.VFC = () => {
       <HoliText type={HoliTextType.super} testID="home-feed-title">
         Home
       </HoliText>
+
+      {/* HoliTextInput Test */}
+      {/* <HoliTextInput
+        label={'Some label'}
+        helperText={'Some helper text'}
+        returnKeyType={'done'}
+        onChange={(text) => {
+          console.log({ text })
+        }}
+      /> */}
 
       {/* Holi Apps */}
       <HoliText type={HoliTextType.heading2}>Apps</HoliText>

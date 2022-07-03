@@ -2,718 +2,774 @@
 
 exports[`renders correctly when disabled 1`] = `
 <View
-  accessible={true}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
   style={
-    Object {
-      "alignSelf": "flex-start",
-      "cursor": "default",
-    }
+    Array [
+      Object {
+        "flexDirection": "row",
+      },
+      Object {
+        "maxWidth": "100%",
+      },
+    ]
   }
 >
-  <Text
-    accessible={true}
+  <View
     style={
       Array [
         Object {
-          "fontFamily": "Circular Std Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 19.2,
+          "minWidth": 190,
         },
         Object {
-          "fontFamily": "Circular Std Book",
-          "fontSize": 14,
-          "fontWeight": "400",
-          "lineHeight": 16.8,
+          "maxWidth": 750,
         },
         Object {
-          "alignSelf": "stretch",
-          "color": "#222326",
+          "maxWidth": "100%",
         },
       ]
     }
-    styles={
-      Object {
-        "alignSelf": "stretch",
-        "color": "#222326",
-      }
-    }
   >
-    Label
-  </Text>
-  <View
-    style={
-      Object {
-        "alignSelf": "flex-start",
-        "backgroundColor": "#F5F5F5",
-        "borderColor": "#1b1d201a",
-        "borderRadius": 4,
-        "borderWidth": 2,
-        "flexDirection": "row",
-        "marginVertical": 6,
-        "paddingHorizontal": 8,
-        "paddingVertical": 13,
-      }
-    }
-  >
-    <TextInput
-      accessibilityLabel="Label"
-      accessible={true}
-      editable={false}
-      keyboardType="default"
-      maxLength={5000}
-      multiline={false}
-      onBlur={[Function]}
-      onChange={[Function]}
-      onContentSizeChange={[Function]}
-      onFocus={[Function]}
-      placeholder="Placeholder"
-      placeholderTextColor="#1b1d201a"
-      returnKeyType="done"
-      style={
-        Array [
-          Object {
-            "alignSelf": "flex-start",
-            "caretColor": "#6267e7",
-            "color": "#222326",
-            "flex": 1,
-            "fontFamily": "Circular Std Book",
-            "fontSize": 16,
-            "fontWeight": "400",
-            "lineHeight": 22.4,
-            "overflow": "scroll",
-          },
-          Object {
-            "height": 22.4,
-          },
-        ]
-      }
-      value=""
-    />
-  </View>
-  <View
-    style={
-      Object {
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-      }
-    }
-  >
-    <Text
-      accessible={true}
-      style={
-        Array [
-          Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
-          },
-          Object {
-            "fontFamily": "Circular Std Book",
-            "fontSize": 12,
-            "fontWeight": "400",
-            "lineHeight": 14.399999999999999,
-          },
-          Object {
-            "color": "#595959",
-          },
-        ]
-      }
-      styles={
-        Object {
-          "color": "#595959",
-        }
-      }
-    >
-      Input disabled
-    </Text>
-  </View>
-</View>
-`;
-
-exports[`renders correctly when errored 1`] = `
-<View
-  accessible={true}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    Object {
-      "alignSelf": "flex-start",
-      "cursor": "default",
-    }
-  }
->
-  <Text
-    accessible={true}
-    style={
-      Array [
-        Object {
-          "fontFamily": "Circular Std Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 19.2,
-        },
-        Object {
-          "fontFamily": "Circular Std Book",
-          "fontSize": 14,
-          "fontWeight": "400",
-          "lineHeight": 16.8,
-        },
-        Object {
-          "alignSelf": "stretch",
-          "color": "#EE0004",
-        },
-      ]
-    }
-    styles={
-      Object {
-        "alignSelf": "stretch",
-        "color": "#EE0004",
-      }
-    }
-  >
-    Label
-  </Text>
-  <View
-    style={
-      Object {
-        "alignSelf": "flex-start",
-        "backgroundColor": "#fff",
-        "borderColor": "#EE0004",
-        "borderRadius": 4,
-        "borderWidth": 2,
-        "flexDirection": "row",
-        "marginVertical": 6,
-        "paddingHorizontal": 8,
-        "paddingVertical": 13,
-      }
-    }
-  >
-    <TextInput
-      accessibilityLabel="Label"
-      accessible={true}
-      editable={true}
-      keyboardType="default"
-      maxLength={5000}
-      multiline={false}
-      onBlur={[Function]}
-      onChange={[Function]}
-      onContentSizeChange={[Function]}
-      onFocus={[Function]}
-      placeholder="Placeholder"
-      placeholderTextColor="#1b1d201a"
-      returnKeyType="done"
-      style={
-        Array [
-          Object {
-            "alignSelf": "flex-start",
-            "caretColor": "#6267e7",
-            "color": "#222326",
-            "flex": 1,
-            "fontFamily": "Circular Std Book",
-            "fontSize": 16,
-            "fontWeight": "400",
-            "lineHeight": 22.4,
-            "overflow": "scroll",
-          },
-          Object {
-            "height": 22.4,
-          },
-        ]
-      }
-      value=""
-    />
     <View
       style={
-        Object {
-          "alignItems": "flex-end",
-          "height": 22,
-          "justifyContent": "center",
-          "width": 22,
+        Array [
+          Object {
+            "marginBottom": 6,
+          },
+          Object {
+            "maxWidth": "100%",
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "fontFamily": "Circular Std Medium",
+              "fontSize": 16,
+              "fontWeight": "500",
+              "lineHeight": 19.2,
+            },
+            Object {
+              "fontFamily": "Circular Std Book",
+              "fontSize": 14,
+              "fontWeight": "400",
+              "lineHeight": 16.8,
+            },
+            Array [
+              Object {
+                "color": "#222326",
+              },
+              Object {},
+              Object {},
+            ],
+          ]
         }
+        styles={
+          Array [
+            Object {
+              "color": "#222326",
+            },
+            Object {},
+            Object {},
+          ]
+        }
+      >
+        Label
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {},
+        ]
       }
     >
       <View
         style={
-          Object {
-            "alignItems": "center",
-            "backgroundColor": "#EE0004",
-            "borderRadius": 6.665,
-            "height": 13.33,
-            "justifyContent": "center",
-            "width": 13.33,
-          }
+          Array [
+            Object {
+              "backgroundColor": "#fff",
+              "borderColor": "#e2e2e4",
+              "borderRadius": 4,
+              "borderWidth": 2,
+              "flexDirection": "row",
+              "paddingLeft": 10,
+              "paddingVertical": 15,
+            },
+            Object {
+              "maxWidth": "100%",
+            },
+            undefined,
+            false,
+            Object {
+              "backgroundColor": "#f5f5f5",
+              "borderColor": "#e2e2e4",
+            },
+            false,
+          ]
         }
       >
-        <Text
+        <TextInput
+          accessibilityLabel="Label"
+          accessible={true}
+          editable={false}
+          maxLength={5000}
+          multiline={false}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onContentSizeChange={[Function]}
+          onFocus={[Function]}
+          placeholder="Placeholder"
+          placeholderTextColor="#1b1d201a"
           style={
-            Object {
-              "color": "#fff",
-              "fontSize": 8,
-            }
+            Array [
+              Object {
+                "color": "#222326",
+                "flex": 1,
+                "fontFamily": "Circular Std Book",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 22.4,
+                "marginRight": 10,
+                "overflow": "scroll",
+              },
+              Object {
+                "maxWidth": "100%",
+              },
+              Object {
+                "height": 22.4,
+              },
+            ]
           }
-        >
-          !
-        </Text>
+          value=""
+        />
       </View>
     </View>
-  </View>
-  <View
-    style={
-      Object {
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-      }
-    }
-  >
-    <Text
-      accessible={true}
+    <View
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "marginTop": 6,
           },
           Object {
-            "fontFamily": "Circular Std Book",
-            "fontSize": 12,
-            "fontWeight": "400",
-            "lineHeight": 14.399999999999999,
-          },
-          Object {
-            "color": "#EE0004",
+            "maxWidth": "100%",
           },
         ]
       }
-      styles={
-        Object {
-          "color": "#EE0004",
-        }
-      }
     >
-      Validation Error Text
-    </Text>
+      <Text
+        style={
+          Array [
+            Object {
+              "fontFamily": "Circular Std Medium",
+              "fontSize": 16,
+              "fontWeight": "500",
+              "lineHeight": 19.2,
+            },
+            Object {
+              "fontFamily": "Circular Std Book",
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 14.399999999999999,
+            },
+            Array [
+              Object {
+                "color": "#595959",
+              },
+              Object {},
+            ],
+          ]
+        }
+        styles={
+          Array [
+            Object {
+              "color": "#595959",
+            },
+            Object {},
+          ]
+        }
+      >
+        Helper Text
+      </Text>
+    </View>
   </View>
 </View>
 `;
 
 exports[`renders correctly when multiline 1`] = `
 <View
-  accessible={true}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
   style={
-    Object {
-      "alignSelf": "flex-start",
-      "cursor": "default",
-    }
+    Array [
+      Object {
+        "flexDirection": "row",
+      },
+      Object {
+        "maxWidth": "100%",
+      },
+    ]
   }
 >
-  <Text
-    accessible={true}
+  <View
     style={
       Array [
         Object {
-          "fontFamily": "Circular Std Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 19.2,
+          "minWidth": 190,
         },
         Object {
-          "fontFamily": "Circular Std Book",
-          "fontSize": 14,
-          "fontWeight": "400",
-          "lineHeight": 16.8,
+          "maxWidth": 750,
         },
         Object {
-          "alignSelf": "stretch",
-          "color": "#222326",
+          "maxWidth": "100%",
         },
       ]
     }
-    styles={
-      Object {
-        "alignSelf": "stretch",
-        "color": "#222326",
-      }
-    }
   >
-    Label
-  </Text>
-  <View
-    style={
-      Object {
-        "alignSelf": "flex-start",
-        "backgroundColor": "#fff",
-        "borderColor": "#1b1d201a",
-        "borderRadius": 4,
-        "borderWidth": 2,
-        "flexDirection": "row",
-        "marginVertical": 6,
-        "paddingHorizontal": 8,
-        "paddingVertical": 13,
-      }
-    }
-  >
-    <TextInput
-      accessibilityLabel="Label"
-      accessible={true}
-      editable={true}
-      keyboardType="default"
-      maxLength={5000}
-      multiline={true}
-      onBlur={[Function]}
-      onChange={[Function]}
-      onContentSizeChange={[Function]}
-      onFocus={[Function]}
-      placeholder="Placeholder"
-      placeholderTextColor="#1b1d201a"
-      returnKeyType="done"
+    <View
       style={
         Array [
           Object {
-            "alignSelf": "flex-start",
-            "caretColor": "#6267e7",
-            "color": "#222326",
-            "flex": 1,
-            "fontFamily": "Circular Std Book",
-            "fontSize": 16,
-            "fontWeight": "400",
-            "lineHeight": 22.4,
-            "overflow": "scroll",
+            "marginBottom": 6,
           },
           Object {
-            "height": 44.8,
+            "maxWidth": "100%",
           },
         ]
-      }
-      value=""
-    />
-  </View>
-  <View
-    style={
-      Object {
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-      }
-    }
-  >
-    <Text
-      accessible={true}
-      style={
-        Array [
-          Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
-          },
-          Object {
-            "fontFamily": "Circular Std Book",
-            "fontSize": 12,
-            "fontWeight": "400",
-            "lineHeight": 14.399999999999999,
-          },
-          Object {
-            "color": "#595959",
-          },
-        ]
-      }
-      styles={
-        Object {
-          "color": "#595959",
-        }
       }
     >
-      Helper Text
-    </Text>
+      <Text
+        style={
+          Array [
+            Object {
+              "fontFamily": "Circular Std Medium",
+              "fontSize": 16,
+              "fontWeight": "500",
+              "lineHeight": 19.2,
+            },
+            Object {
+              "fontFamily": "Circular Std Book",
+              "fontSize": 14,
+              "fontWeight": "400",
+              "lineHeight": 16.8,
+            },
+            Array [
+              Object {
+                "color": "#222326",
+              },
+              Object {},
+              Object {},
+            ],
+          ]
+        }
+        styles={
+          Array [
+            Object {
+              "color": "#222326",
+            },
+            Object {},
+            Object {},
+          ]
+        }
+      >
+        Label
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {},
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "backgroundColor": "#fff",
+              "borderColor": "#e2e2e4",
+              "borderRadius": 4,
+              "borderWidth": 2,
+              "flexDirection": "row",
+              "paddingLeft": 10,
+              "paddingVertical": 15,
+            },
+            Object {
+              "maxWidth": "100%",
+            },
+            undefined,
+            false,
+            undefined,
+            false,
+          ]
+        }
+      >
+        <TextInput
+          accessibilityLabel="Label"
+          accessible={true}
+          editable={true}
+          maxLength={5000}
+          multiline={true}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onContentSizeChange={[Function]}
+          onFocus={[Function]}
+          placeholder="Placeholder"
+          placeholderTextColor="#1b1d201a"
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "flex": 1,
+                "fontFamily": "Circular Std Book",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 22.4,
+                "marginRight": 10,
+                "overflow": "scroll",
+              },
+              Object {
+                "maxWidth": "100%",
+              },
+              Object {
+                "height": 44.8,
+              },
+            ]
+          }
+          value=""
+        />
+      </View>
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "marginTop": 6,
+          },
+          Object {
+            "maxWidth": "100%",
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "fontFamily": "Circular Std Medium",
+              "fontSize": 16,
+              "fontWeight": "500",
+              "lineHeight": 19.2,
+            },
+            Object {
+              "fontFamily": "Circular Std Book",
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 14.399999999999999,
+            },
+            Array [
+              Object {
+                "color": "#595959",
+              },
+              Object {},
+            ],
+          ]
+        }
+        styles={
+          Array [
+            Object {
+              "color": "#595959",
+            },
+            Object {},
+          ]
+        }
+      >
+        Helper Text
+      </Text>
+    </View>
   </View>
 </View>
 `;
 
 exports[`renders correctly with default props 1`] = `
 <View
-  accessible={true}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
   style={
-    Object {
-      "alignSelf": "flex-start",
-      "cursor": "default",
-    }
+    Array [
+      Object {
+        "flexDirection": "row",
+      },
+      Object {
+        "maxWidth": "100%",
+      },
+    ]
   }
 >
-  <Text
-    accessible={true}
+  <View
     style={
       Array [
         Object {
-          "fontFamily": "Circular Std Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 19.2,
+          "minWidth": 190,
         },
         Object {
-          "fontFamily": "Circular Std Book",
-          "fontSize": 14,
-          "fontWeight": "400",
-          "lineHeight": 16.8,
+          "maxWidth": 750,
         },
         Object {
-          "alignSelf": "stretch",
-          "color": "#222326",
+          "maxWidth": "100%",
         },
       ]
     }
-    styles={
-      Object {
-        "alignSelf": "stretch",
-        "color": "#222326",
-      }
-    }
   >
-    Label
-  </Text>
-  <View
-    style={
-      Object {
-        "alignSelf": "flex-start",
-        "backgroundColor": "#fff",
-        "borderColor": "#1b1d201a",
-        "borderRadius": 4,
-        "borderWidth": 2,
-        "flexDirection": "row",
-        "marginVertical": 6,
-        "paddingHorizontal": 8,
-        "paddingVertical": 13,
-      }
-    }
-  >
-    <TextInput
-      accessibilityLabel="Label"
-      accessible={true}
-      editable={true}
-      keyboardType="default"
-      maxLength={50}
-      multiline={false}
-      onBlur={[Function]}
-      onChange={[Function]}
-      onContentSizeChange={[Function]}
-      onFocus={[Function]}
-      placeholder="Placeholder"
-      placeholderTextColor="#1b1d201a"
-      returnKeyType="done"
+    <View
       style={
         Array [
           Object {
-            "alignSelf": "flex-start",
-            "caretColor": "#6267e7",
-            "color": "#222326",
-            "flex": 1,
-            "fontFamily": "Circular Std Book",
-            "fontSize": 16,
-            "fontWeight": "400",
-            "lineHeight": 22.4,
-            "overflow": "scroll",
+            "marginBottom": 6,
           },
           Object {
-            "height": 22.4,
+            "maxWidth": "100%",
           },
         ]
-      }
-      value=""
-    />
-  </View>
-  <View
-    style={
-      Object {
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-      }
-    }
-  >
-    <Text
-      accessible={true}
-      style={
-        Array [
-          Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
-          },
-          Object {
-            "fontFamily": "Circular Std Book",
-            "fontSize": 12,
-            "fontWeight": "400",
-            "lineHeight": 14.399999999999999,
-          },
-          Object {
-            "color": "#595959",
-          },
-        ]
-      }
-      styles={
-        Object {
-          "color": "#595959",
-        }
       }
     >
-      Helper Text
-    </Text>
+      <Text
+        style={
+          Array [
+            Object {
+              "fontFamily": "Circular Std Medium",
+              "fontSize": 16,
+              "fontWeight": "500",
+              "lineHeight": 19.2,
+            },
+            Object {
+              "fontFamily": "Circular Std Book",
+              "fontSize": 14,
+              "fontWeight": "400",
+              "lineHeight": 16.8,
+            },
+            Array [
+              Object {
+                "color": "#222326",
+              },
+              Object {},
+              Object {},
+            ],
+          ]
+        }
+        styles={
+          Array [
+            Object {
+              "color": "#222326",
+            },
+            Object {},
+            Object {},
+          ]
+        }
+      >
+        Label
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {},
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "backgroundColor": "#fff",
+              "borderColor": "#e2e2e4",
+              "borderRadius": 4,
+              "borderWidth": 2,
+              "flexDirection": "row",
+              "paddingLeft": 10,
+              "paddingVertical": 15,
+            },
+            Object {
+              "maxWidth": "100%",
+            },
+            undefined,
+            false,
+            undefined,
+            false,
+          ]
+        }
+      >
+        <TextInput
+          accessibilityLabel="Label"
+          accessible={true}
+          editable={true}
+          maxLength={50}
+          multiline={false}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onContentSizeChange={[Function]}
+          onFocus={[Function]}
+          placeholder="Placeholder"
+          placeholderTextColor="#1b1d201a"
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "flex": 1,
+                "fontFamily": "Circular Std Book",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 22.4,
+                "marginRight": 10,
+                "overflow": "scroll",
+              },
+              Object {
+                "maxWidth": "100%",
+              },
+              Object {
+                "height": 22.4,
+              },
+            ]
+          }
+          value=""
+        />
+      </View>
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "marginTop": 6,
+          },
+          Object {
+            "maxWidth": "100%",
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "fontFamily": "Circular Std Medium",
+              "fontSize": 16,
+              "fontWeight": "500",
+              "lineHeight": 19.2,
+            },
+            Object {
+              "fontFamily": "Circular Std Book",
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 14.399999999999999,
+            },
+            Array [
+              Object {
+                "color": "#595959",
+              },
+              Object {},
+            ],
+          ]
+        }
+        styles={
+          Array [
+            Object {
+              "color": "#595959",
+            },
+            Object {},
+          ]
+        }
+      >
+        Helper Text
+      </Text>
+    </View>
   </View>
 </View>
 `;
 
 exports[`renders correctly without label 1`] = `
 <View
-  accessible={true}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
   style={
-    Object {
-      "alignSelf": "flex-start",
-      "cursor": "default",
-    }
+    Array [
+      Object {
+        "flexDirection": "row",
+      },
+      Object {
+        "maxWidth": "100%",
+      },
+    ]
   }
 >
   <View
     style={
-      Object {
-        "alignSelf": "flex-start",
-        "backgroundColor": "#fff",
-        "borderColor": "#1b1d201a",
-        "borderRadius": 4,
-        "borderWidth": 2,
-        "flexDirection": "row",
-        "marginVertical": 6,
-        "paddingHorizontal": 8,
-        "paddingVertical": 13,
-      }
-    }
-  >
-    <TextInput
-      accessibilityLabel="Label"
-      accessible={true}
-      editable={true}
-      keyboardType="default"
-      maxLength={5000}
-      multiline={false}
-      onBlur={[Function]}
-      onChange={[Function]}
-      onContentSizeChange={[Function]}
-      onFocus={[Function]}
-      placeholder="Placeholder"
-      placeholderTextColor="#1b1d201a"
-      returnKeyType="done"
-      style={
-        Array [
-          Object {
-            "alignSelf": "flex-start",
-            "caretColor": "#6267e7",
-            "color": "#222326",
-            "flex": 1,
-            "fontFamily": "Circular Std Book",
-            "fontSize": 16,
-            "fontWeight": "400",
-            "lineHeight": 22.4,
-            "overflow": "scroll",
-          },
-          Object {
-            "height": 22.4,
-          },
-        ]
-      }
-      value=""
-    />
-  </View>
-  <View
-    style={
-      Object {
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-      }
-    }
-  >
-    <Text
-      accessible={true}
-      style={
-        Array [
-          Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
-          },
-          Object {
-            "fontFamily": "Circular Std Book",
-            "fontSize": 12,
-            "fontWeight": "400",
-            "lineHeight": 14.399999999999999,
-          },
-          Object {
-            "color": "#595959",
-          },
-        ]
-      }
-      styles={
+      Array [
         Object {
-          "color": "#595959",
-        }
+          "minWidth": 190,
+        },
+        Object {
+          "maxWidth": 750,
+        },
+        Object {
+          "maxWidth": "100%",
+        },
+      ]
+    }
+  >
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {},
+        ]
       }
     >
-      Helper Text
-    </Text>
+      <View
+        style={
+          Array [
+            Object {
+              "backgroundColor": "#fff",
+              "borderColor": "#e2e2e4",
+              "borderRadius": 4,
+              "borderWidth": 2,
+              "flexDirection": "row",
+              "paddingLeft": 10,
+              "paddingVertical": 15,
+            },
+            Object {
+              "maxWidth": "100%",
+            },
+            undefined,
+            false,
+            undefined,
+            false,
+          ]
+        }
+      >
+        <TextInput
+          accessibilityLabel="Label"
+          accessible={true}
+          editable={true}
+          maxLength={5000}
+          multiline={false}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onContentSizeChange={[Function]}
+          onFocus={[Function]}
+          placeholder="Placeholder"
+          placeholderTextColor="#1b1d201a"
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "flex": 1,
+                "fontFamily": "Circular Std Book",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 22.4,
+                "marginRight": 10,
+                "overflow": "scroll",
+              },
+              Object {
+                "maxWidth": "100%",
+              },
+              Object {
+                "height": 22.4,
+              },
+            ]
+          }
+          value=""
+        />
+      </View>
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "marginTop": 6,
+          },
+          Object {
+            "maxWidth": "100%",
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "fontFamily": "Circular Std Medium",
+              "fontSize": 16,
+              "fontWeight": "500",
+              "lineHeight": 19.2,
+            },
+            Object {
+              "fontFamily": "Circular Std Book",
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 14.399999999999999,
+            },
+            Array [
+              Object {
+                "color": "#595959",
+              },
+              Object {},
+            ],
+          ]
+        }
+        styles={
+          Array [
+            Object {
+              "color": "#595959",
+            },
+            Object {},
+          ]
+        }
+      >
+        Helper Text
+      </Text>
+    </View>
   </View>
 </View>
 `;

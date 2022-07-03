@@ -76,7 +76,7 @@ const getStyles = (theme: HoliTheme, inline: boolean, transparent: boolean) =>
       borderColor: transparent ? 'transparent' : theme.colors.borderColorBlack,
       borderWidth: 1,
       borderRadius: 10,
-      backgroundColor: transparent ? 'transparent' : theme.colors.backgroundColorWhite,
+      //backgroundColor: transparent ? 'transparent' : theme.colors.backgroundColorWhite,
       paddingVertical: 10,
       paddingHorizontal: 30,
       elevation: 0,

@@ -78,10 +78,10 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "grid": 0,
-        "tags": ["seach"]
+        "tags": ["search"]
       },
       "attrs": [{}],
-      "properties": { "order": 33, "id": 1, "name": "seach", "prevSize": 32, "code": 59652 },
+      "properties": { "order": 33, "id": 1, "name": "search", "prevSize": 32, "code": 59652 },
       "setIdx": 0,
       "setId": 2,
       "iconIdx": 4

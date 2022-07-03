@@ -18,17 +18,18 @@ const HoliText = ({ children, type = HoliTextType.body, isAccessible = true, ...
   const { theme } = useTheme()
   const styles = getStyles(theme)
 
-  const getAccessibilityProps = Platform.select({
-    web: {
-      accessible: isAccessible,
-      ...(HoliTextTypes[type].role && { accessibilityRole: HoliTextTypes[type].role }),
-      ...(!!HoliTextTypes[type].level && { accessibilityLevel: HoliTextTypes[type].level }),
-    },
-    default: {
-      accessible: isAccessible,
-      ...(HoliTextTypes[type].role && { accessibilityRole: HoliTextTypes[type].role }),
-    },
-  })
+  const getAccessibilityProps = () =>
+    Platform.select({
+      web: {
+        accessible: isAccessible,
+        ...(HoliTextTypes[type].role && { accessibilityRole: HoliTextTypes[type].role }),
+        ...(!!HoliTextTypes[type].level && { accessibilityLevel: HoliTextTypes[type].level }),
+      },
+      default: {
+        accessible: isAccessible,
+        ...(HoliTextTypes[type].role && { accessibilityRole: HoliTextTypes[type].role }),
+      },
+    })
 
   return (
     <Text {...getAccessibilityProps} {...props} style={[styles.default, styles[HoliTextType[type]], props?.styles]}>

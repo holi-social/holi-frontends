@@ -1,49 +1,46 @@
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 import { HoliTheme } from '@holi/ui/styles/theme'
 
-interface TextInputStylesProps {
-  theme: HoliTheme
-  isHovered?: boolean
-  isFocused?: boolean
-  hasValidationErrors?: boolean
-  isDisabled?: boolean
-  isInline?: boolean
-}
-
 export const inputLineHeight = 16 * 1.4
 
-export const getHoliTextInputStyles = ({
-  theme,
-  isHovered = false,
-  hasValidationErrors = false,
-  isFocused = false,
-  isDisabled = false,
-  isInline = false,
-}: TextInputStylesProps) =>
+export const getHoliTextInputStyles = (theme: HoliTheme) =>
   StyleSheet.create({
+    wrapper: {
+      flexDirection: 'row',
+    },
+    wrapperContainer: {
+      minWidth: 190,
+    },
+    // @ts-ignore
     pressable: {
-      cursor: 'default',
-      alignSelf: isInline ? 'flex-start' : 'stretch',
+      ...Platform.select({
+        web: {
+          cursor: 'default',
+        },
+      }),
     },
     inputWrapper: {
       flexDirection: 'row',
       borderWidth: 2,
-      borderColor: isDisabled
-        ? theme.colors.softblackTransparent
-        : hasValidationErrors
-        ? theme.colors.errorRed
-        : isFocused
-        ? theme.colors.positivepurple
-        : isHovered
-        ? theme.colors.greyAA
-        : theme.colors.softblackTransparent,
+      borderColor: theme.colors.softblackSolidTransparent,
       borderRadius: 4,
-      paddingHorizontal: 8,
-      marginVertical: 6,
-      paddingVertical: 13,
-      backgroundColor: isDisabled ? theme.colors.lightGrey : theme.colors.white,
-      alignSelf: isInline ? 'flex-start' : 'stretch',
+      paddingLeft: 10,
+      paddingVertical: 15,
+      backgroundColor: theme.colors.white,
+    },
+    inputWrapperFocused: {
+      borderColor: theme.colors.positivepurple,
+    },
+    inputWrapperDisabled: {
+      borderColor: theme.colors.softblackSolidTransparent,
+      backgroundColor: theme.colors.lightGrey,
+    },
+    inputWrapperHasValidationErrors: {
+      borderColor: theme.colors.errorRed,
+    },
+    inputWrapperHovered: {
+      borderColor: theme.colors.greyAA,
     },
     input: {
       flex: 1,
@@ -52,28 +49,64 @@ export const getHoliTextInputStyles = ({
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
       color: theme.colors.softblack,
-      caretColor: theme.colors.positivepurple,
       overflow: 'scroll',
-      alignSelf: isInline ? 'flex-start' : 'stretch',
+      marginRight: 10,
+      ...Platform.select({
+        web: {
+          caretColor: theme.colors.positivepurple,
+        },
+      }),
     },
-    inputCharsText: {
+    inline: {
+      ...Platform.select({
+        web: {
+          alignSelf: 'flex-start',
+          width: 'auto',
+        },
+      }),
+      maxWidth: '100%',
+    },
+    block: {
+      alignSelf: 'stretch',
+      width: '100%',
+    },
+    inputCharsTextWrapper: {
+      backgroundColor: theme.colors.softblackSolidTransparent,
+      borderRadius: 8,
       position: 'absolute',
       paddingHorizontal: 8,
       right: 8,
       bottom: -8,
-      backgroundColor: theme.colors.white,
+    },
+    inputCharsTextWrapperFocused: {
+      backgroundColor: theme.colors.positivepurple,
+    },
+    inputCharsTextWrapperDisabled: {
+      backgroundColor: theme.colors.softblackSolidTransparent,
+    },
+    inputCharsTextWrapperHasValidationErrors: {
+      backgroundColor: theme.colors.errorRed,
+    },
+    inputCharsTextWrapperHovered: {
+      backgroundColor: theme.colors.greyAA,
+    },
+    inputCharsText: {
+      color: theme.colors.white,
+    },
+    labelWrapper: {
+      marginBottom: 6,
     },
     label: {
-      color: hasValidationErrors
-        ? theme.colors.errorRed
-        : isFocused
-        ? theme.colors.positivepurple
-        : theme.colors.softblack,
-      alignSelf: 'stretch',
+      color: theme.colors.softblack,
     },
-    helper: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
+    labelFocused: {
+      color: theme.colors.positivepurple,
+    },
+    labelHasValidationErrors: {
+      color: theme.colors.errorRed,
+    },
+    helperTextWrapper: {
+      marginTop: 6,
     },
     helperText: {
       color: theme.colors.greyAAA,
@@ -81,22 +114,14 @@ export const getHoliTextInputStyles = ({
     validationErrorText: {
       color: theme.colors.errorRed,
     },
-    iconWrapper: {
+    trailingIconWrapper: {
       width: 22,
       height: 22,
       alignItems: 'flex-end',
       justifyContent: 'center',
+      marginRight: 8,
     },
-    errorIcon: {
-      width: 13.33,
-      height: 13.33,
-      backgroundColor: theme.colors.errorRed,
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: 13.33 / 2,
-    },
-    errorText: {
-      color: theme.colors.white,
-      fontSize: 8,
+    trailingIconWrapperHasValidationErrors: {
+      width: 16,
     },
   })

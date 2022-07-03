@@ -1,3 +1,5 @@
+import { themes } from '@storybook/theming';
+
 import '@holi/ui/assets/fonts/CircularStd/style.css';
 import '@holi/web/styles/common.css';
 

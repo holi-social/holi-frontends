@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 
 module.exports = {
+  staticDirs: ['../public'],
   features: {
     interactionsDebugger: true,
   },
