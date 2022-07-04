@@ -53,15 +53,10 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
         Topic Editors
       </HoliButton>
 
-      <HoliReadMore>
-        I enjoy working on community projects during my spare time. This text cannot exceed three lines or else. This
-        text cannot exceed three lines or else. This text cannot exceed three lines or else.
-      </HoliReadMore>
-
       <HoliText type={HoliTextType.heading1} styles={{ paddingBottom: 10 }}>
         {topic.title}
       </HoliText>
-      <HoliText>{topic.text}</HoliText>
+      <HoliReadMore>{topic.text}</HoliReadMore>
       <HoliText type={HoliTextType.heading3}>Posts</HoliText>
       {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
         <HoliButton

@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly renders correctly with long text 1`] = `
+<View>
+  <View>
+    <Text
+      ellipsizeMode="tail"
+      numberOfLines={3}
+      onTextLayout={[Function]}
+    >
+      <Text
+        accessible={true}
+        style={
+          Array [
+            Object {
+              "fontFamily": "Circular Std Medium",
+              "fontSize": 16,
+              "fontWeight": "500",
+              "lineHeight": 19.2,
+            },
+            Object {
+              "fontFamily": "Circular Std Book",
+              "fontWeight": "400",
+              "lineHeight": 22.4,
+            },
+            Array [
+              Object {
+                "color": "#6f7081",
+              },
+            ],
+          ]
+        }
+        styles={
+          Array [
+            Object {
+              "color": "#6f7081",
+            },
+          ]
+        }
+      >
+        I enjoy working on community projects during my spare time. This text cannot exceed three lines or else. This text cannot exceed three lines or else. This text cannot exceed.
+         
+      </Text>
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly with short text 1`] = `
+<View>
+  <View>
+    <Text
+      ellipsizeMode="tail"
+      numberOfLines={3}
+      onTextLayout={[Function]}
+    >
+      <Text
+        accessible={true}
+        style={
+          Array [
+            Object {
+              "fontFamily": "Circular Std Medium",
+              "fontSize": 16,
+              "fontWeight": "500",
+              "lineHeight": 19.2,
+            },
+            Object {
+              "fontFamily": "Circular Std Book",
+              "fontWeight": "400",
+              "lineHeight": 22.4,
+            },
+            Array [
+              Object {
+                "color": "#6f7081",
+              },
+            ],
+          ]
+        }
+        styles={
+          Array [
+            Object {
+              "color": "#6f7081",
+            },
+          ]
+        }
+      >
+        I enjoy working on community projects.
+         
+      </Text>
+    </Text>
+  </View>
+</View>
+`;
