@@ -13,8 +13,9 @@ const useErrorHandling: UseErrorHandling = () => {
     displayError: (error: Error, message?: string) => {
       logError(error, message)
       if (window) {
-        const errorMessage = message || 'Something went wrong'
-        alert(`${errorMessage}: ${error.message}`)
+        const messageHeadline = message || 'Something went wrong'
+        const detailMessage = error ? error.message : ''
+        alert(`${messageHeadline}: ${detailMessage}`)
       }
     },
   }

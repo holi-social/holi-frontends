@@ -314,7 +314,7 @@ export default ProfilePage
 
 #### mobile
 
-- create a route in `apps/mobile/navigation/rootNavigator.tsx` e.g. in the RootStack and use the shared screen component to render
+- create a route in `apps/mobile/navigation/RootNavigator.tsx` e.g. in the RootStack and use the shared screen component to render
 
 ```ts
 <RootStack.Screen name = "Profile" component =  {ProfileScreen} />

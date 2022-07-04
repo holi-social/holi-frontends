@@ -34,7 +34,14 @@ export const All = ({ ...args }) => {
       {iconSelection.icons.map((icon, index) => (
         <div
           key={index}
-          style={{ display: 'inline-flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center', width: '128px', padding: '16px' }}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            width: '128px',
+            padding: '16px',
+          }}
         >
           <div style={{ border: `1px dashed ${theme.colors.fontColorBlack}` }}>
             <Holicon icon={icon?.properties?.name} size={32} color={args.color} />

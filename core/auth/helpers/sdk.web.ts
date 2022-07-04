@@ -17,7 +17,7 @@ export const newKratosSdk = () => {
   return new V0alpha2Api(
     new Configuration({
       ...edgeConfig,
-      baseOptions,
+      ...baseOptions,
     }),
     edgeConfig.basePath,
     // Ensure that we are using the axios client with retry.
