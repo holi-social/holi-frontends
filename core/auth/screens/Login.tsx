@@ -7,23 +7,32 @@ import { SelfServiceFlow } from '@holi/core/auth/components'
 import { initLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
-import { SessionContext } from '@holi/core/auth/helpers/sdk'
+import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliText from '@holi/ui/components/HoliText'
 
 const Login: React.VoidFunctionComponent = () => {
-  const { setSession } = useContext(AuthContext)
+  const { isLoggedIn, setUserLoggedIn } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
   const { navigateBack } = useRouting()
   const { displayError } = useErrorHandling()
+
+  // this should only occur when a logged-in user navigates to /login on web
+  if (isLoggedIn) {
+    return (
+      <AuthLayout>
+        <HoliText>You are already logged in</HoliText>
+      </AuthLayout>
+    )
+  }
 
   const initializeFlow = () => {
     initLoginFlow()
       .then((response) => {
         const { data: flow } = response
         // The flow was initialized successfully, let's set the form data:
-        console.info('[Login.tsx] login flow initialized.')
+        console.info('[Login] login flow initialized.')
         setFlow(flow)
         // TODO: jump into first input element after form is shown
       })
@@ -39,12 +48,13 @@ const Login: React.VoidFunctionComponent = () => {
       ? newKratosSdk()
           .submitSelfServiceLoginFlow(flow.id, undefined, payload)
           .then((response) => {
-            return Promise.resolve(response.data as SessionContext)
+            return Promise.resolve(response.data as OrySessionContext)
           })
           .then((session) => {
-            setSession(session)
-            console.info('[Login.tsx] session created.')
-            navigateBack()
+            return setUserLoggedIn(session).then(() => {
+              console.info('[Login] session created')
+              navigateBack()
+            })
           })
           .catch(handleFormSubmitError(setFlow, initializeFlow))
           .catch((error) => displayError(error, 'Login failed'))

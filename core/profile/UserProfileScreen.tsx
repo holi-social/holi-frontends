@@ -19,13 +19,13 @@ export const UserProfileScreen: React.VFC = () => {
   const [chipChecked, setChipChecked] = useState(false)
   const toggleEditing = () => setEditing(!editing)
 
-  const { isAuthenticated } = useContext(AuthContext)
+  const { isLoggedIn } = useContext(AuthContext)
   const { user } = useContext(UserContext)
 
   const { setNavigationHeader } = useNavigationHeader()
 
   useLayoutEffect(() => {
-    const profileTitle = isAuthenticated && user ? user.firstName : 'Profile'
+    const profileTitle = isLoggedIn && user ? user.firstName : 'Profile'
     setNavigationHeader({
       title: profileTitle,
       titleElement: () => (
@@ -34,7 +34,7 @@ export const UserProfileScreen: React.VFC = () => {
         </HoliText>
       ),
     })
-  }, [isAuthenticated])
+  }, [isLoggedIn])
 
   const loggedOutContent = <HoliText type={HoliTextType.heading1}>Log in to see your profile</HoliText>
   return (
