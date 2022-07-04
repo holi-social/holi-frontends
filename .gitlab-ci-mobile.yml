@@ -83,6 +83,7 @@ mobile_review_publish:
   except:
     - main
     - /^noenv\/.*/
+    - /^nomobile\/.*/
 
 mobile_review_destroy:
   needs: ['mobile_review_publish']
@@ -102,6 +103,7 @@ mobile_review_destroy:
   except:
     - main
     - /^noenv\/.*/
+    - /^nomobile\/.*/
   interruptible: false
 
 mobile_review_build:
@@ -110,6 +112,7 @@ mobile_review_build:
   except:
     - main
     - /^noenv\/.*/
+    - /^nomobile\/.*/
 
 mobile_review_e2e_android:
   extends: .mobile_e2e_android
@@ -117,6 +120,7 @@ mobile_review_e2e_android:
   except:
     - main
     - /^noenv\/.*/
+    - /^nomobile\/.*/
 
 mobile_review_e2e_ios:
   extends: .mobile_e2e_ios
@@ -124,6 +128,7 @@ mobile_review_e2e_ios:
   except:
     - main
     - /^noenv\/.*/
+    - /^nomobile\/.*/
 
 ## staging environment
 
