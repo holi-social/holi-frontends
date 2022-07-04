@@ -63,7 +63,7 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
           key={postId}
           label={topic.posts[postId].text}
           inline
-          transparent
+          variant="transparent"
           style={styles.post}
           onPress={() => navigate(`/topics/${topicId}/posts/${postId}`)}
         >

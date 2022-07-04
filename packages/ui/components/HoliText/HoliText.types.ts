@@ -1,7 +1,9 @@
+import { AccessibilityRole } from 'react-native'
+
 interface HoliTextTypeInfo {
   name: string
   level?: number
-  role?: string
+  role?: AccessibilityRole
 }
 
 export enum HoliTextType {
@@ -10,6 +12,7 @@ export enum HoliTextType {
   heading2 = 'heading2',
   heading3 = 'heading3',
   button = 'button',
+  buttonSmall = 'buttonSmall',
   body = 'body',
   captionLink = 'captionLink',
   caption = 'caption',
@@ -23,6 +26,7 @@ export const HoliTextTypes: Record<HoliTextType, HoliTextTypeInfo> = {
   [HoliTextType.heading2]: { name: HoliTextType.heading2, level: 2, role: 'header' },
   [HoliTextType.heading3]: { name: HoliTextType.heading3, level: 3, role: 'header' },
   [HoliTextType.button]: { name: HoliTextType.button },
+  [HoliTextType.buttonSmall]: { name: HoliTextType.buttonSmall },
   [HoliTextType.body]: { name: HoliTextType.body },
   [HoliTextType.captionLink]: { name: HoliTextType.captionLink },
   [HoliTextType.caption]: { name: HoliTextType.caption },

@@ -5,10 +5,12 @@ import { resilience } from '@holi/core/auth/helpers/axios'
 import { kratosUrl } from '@holi/core/auth/helpers/config'
 import { baseOptions } from '@holi/core/auth/helpers/sharedConfig'
 
-export type SessionContext = {
-  session_token: string
+export type OrySessionToken = string
+
+export type OrySessionContext = {
+  session_token: OrySessionToken
   session: KratosSession
-} | null
+}
 
 const axios = axiosFactory.create()
 resilience(axios) // Adds retry mechanism to axios

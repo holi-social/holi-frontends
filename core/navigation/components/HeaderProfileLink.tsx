@@ -17,8 +17,8 @@ const HeaderProfileLink: React.VoidFunctionComponent<HeaderProfileLinkProps> = (
   const { navigate } = useRouting()
 
   const { user } = useContext(UserContext)
-  const { isAuthenticated } = useContext(AuthContext)
-  const hasUserData = isAuthenticated && user
+  const { isLoggedIn } = useContext(AuthContext)
+  const hasUserData = isLoggedIn && user
 
   // TODO: navigate to user profile!
   const profileUrl = '/profile/danbim'
@@ -31,7 +31,7 @@ const HeaderProfileLink: React.VoidFunctionComponent<HeaderProfileLinkProps> = (
     // TODO: should be generated during user registration process (HOLI-1525)
     const userDefaultColor = '#0f0'
     userAvatar = (
-      <HoliUserAvatar imageSrc={user.image} nameLabel={userImageLabel} defaultColor={userDefaultColor} size="micro" />
+      <HoliUserAvatar imageSrc={user.avatar} nameLabel={userImageLabel} defaultColor={userDefaultColor} size="micro" />
     )
   }
 
@@ -39,7 +39,7 @@ const HeaderProfileLink: React.VoidFunctionComponent<HeaderProfileLinkProps> = (
     <HoliButton
       label="Profile"
       inline
-      transparent
+      variant="transparent"
       onPress={() => navigate(profileUrl)}
       {...props}
       style={props.style}
