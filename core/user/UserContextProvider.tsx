@@ -5,19 +5,22 @@ import { AuthContext } from '@holi/core/auth/AuthProvider'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import { AuthenticatedUserResponse, authenticatedUserQuery } from '@holi/core/user/queries'
 import { User } from '@holi/core/user/types'
-import HoliText from '@holi/ui/components/HoliText'
 
 interface Context {
+  isLoading: boolean
   user: User | undefined
 }
 
-export const UserContext = createContext<Context>({
+const initialState = {
+  isLoading: true,
   user: undefined,
-})
+}
+
+export const UserContext = createContext<Context>(initialState)
 
 export const UserContextProvider: React.FC = ({ children }) => {
   const { displayError } = useErrorHandling()
-  const { isAuthenticated } = useContext(AuthContext)
+  const { isLoggedIn } = useContext(AuthContext)
 
   const [getAuthenticatedUser, { loading, error, data }] =
     useLazyQuery<AuthenticatedUserResponse>(authenticatedUserQuery)
@@ -25,18 +28,10 @@ export const UserContextProvider: React.FC = ({ children }) => {
   useEffect(() => {
     // only run when user is authenticated. if he's not authenticated the result
     // is always null/undefined anyway.
-    if (isAuthenticated) {
+    if (isLoggedIn) {
       getAuthenticatedUser()
     }
-  }, [isAuthenticated])
-
-  if (!isAuthenticated) {
-    return <UserContext.Provider value={{ user: undefined }}>{children}</UserContext.Provider>
-  }
-
-  if (loading && !error) {
-    return <HoliText>Loading...</HoliText>
-  }
+  }, [isLoggedIn])
 
   if (error) {
     displayError(error, 'Error fetching authenticated user')
@@ -44,5 +39,5 @@ export const UserContextProvider: React.FC = ({ children }) => {
 
   const user = data && data?.authenticatedUser
 
-  return <UserContext.Provider value={{ user: user }}>{children}</UserContext.Provider>
+  return <UserContext.Provider value={{ isLoading: loading, user: user }}>{children}</UserContext.Provider>
 }

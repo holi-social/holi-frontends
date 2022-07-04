@@ -8,23 +8,57 @@ import { getSessionFromStorage, removeSessionFromStorage, setSessionInStorage } 
 import { OrySessionContext, OrySessionToken, newKratosSdk } from './helpers/sdk'
 
 export interface Context {
-  isAuthenticated: boolean
+  isLoading: boolean
+  isLoggedIn: boolean
   setUserLoggedIn: (session: OrySessionContext) => Promise<void>
   setUserLoggedOut: () => Promise<void>
 }
 
-export const AuthContext = createContext<Context>({
-  isAuthenticated: false,
+const initialContext: Context = {
+  isLoading: true,
+  isLoggedIn: false,
   setUserLoggedIn: () => Promise.resolve(),
   setUserLoggedOut: () => Promise.resolve(),
-})
+}
+
+export const AuthContext = createContext<Context>(initialContext)
 
 type SessionState = 'active' | 'expired' | 'invalid'
+
+type AuthContextInternalState = {
+  isLoading: boolean
+  isLoggedIn: boolean
+}
 
 const kratosSdk = newKratosSdk()
 
 export const AuthContextProvider: React.FC = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+  // keep isLoading and isLoggedIn together so they can be atomically updated
+  // this should result in only required redraws of child components
+  const [state, setState] = useState<AuthContextInternalState>({ isLoading: true, isLoggedIn: false })
+
+  // intended to be called from outside the context provider (e.g. login form)
+  const setUserLoggedIn = (session: OrySessionContext): Promise<void> => {
+    console.debug('[AuthProvider] setUserLoggedIn')
+    return setSessionInStorage(session).then(() =>
+      setState({
+        isLoading: false,
+        isLoggedIn: true,
+      })
+    )
+  }
+
+  // intended to be called from outside the context provider (e.g. logout form)
+  const setUserLoggedOut = (): Promise<void> => {
+    console.debug('[AuthProvider] setUserLoggedOut')
+    return removeSessionFromStorage().then(() =>
+      setState({
+        isLoading: false,
+        isLoggedIn: false,
+      })
+    )
+  }
+
   const { displayError } = useErrorHandling()
 
   const validateSessionWithOry = (orySessionToken: OrySessionToken): Promise<SessionState> => {
@@ -40,22 +74,45 @@ export const AuthContextProvider: React.FC = ({ children }) => {
   const onSessionLoadedFromStorage = (sessionFromStorage: OrySessionContext | null): Promise<void> => {
     if (sessionFromStorage === null) {
       console.debug('[AuthProvider] no session found in storage')
-      return removeSessionFromStorage().then(() => setIsLoggedIn(false))
-    } else {
-      return validateSessionWithOry(sessionFromStorage.session_token).then((sessionState) => {
-        switch (sessionState) {
-          case 'active':
-            console.debug('[AuthProvider] active session found in storage')
-            setIsLoggedIn(true)
-            return Promise.resolve()
-          case 'expired':
-            console.debug('[AuthProvider] expired session found in storage')
-            return removeSessionFromStorage().then(() => setIsLoggedIn(false))
-          case 'invalid':
-            console.debug('[AuthProvider] invalid session found in storage')
-            return removeSessionFromStorage().then(() => setIsLoggedIn(false))
-        }
+      setState({
+        isLoading: false,
+        isLoggedIn: false,
       })
+      return Promise.resolve()
+    } else {
+      return validateSessionWithOry(sessionFromStorage.session_token)
+        .then((sessionState) => {
+          console.debug(`[AuthProvider] ${sessionState} session found in storage`)
+          switch (sessionState) {
+            case 'active':
+              setState({
+                isLoading: false,
+                isLoggedIn: true,
+              })
+              return Promise.resolve()
+            case 'expired':
+              return removeSessionFromStorage().then(() =>
+                setState({
+                  isLoading: false,
+                  isLoggedIn: false,
+                })
+              )
+            case 'invalid':
+              return removeSessionFromStorage().then(() =>
+                setState({
+                  isLoading: false,
+                  isLoggedIn: false,
+                })
+              )
+          }
+        })
+        .catch((e) => {
+          setState({
+            isLoading: false,
+            isLoggedIn: false,
+          })
+          throw e
+        })
     }
   }
 
@@ -66,24 +123,13 @@ export const AuthContextProvider: React.FC = ({ children }) => {
       .catch((error) => displayError(error, 'Error creating session'))
   }, [])
 
-  // intended to be called from outside the context provider (e.g. login form)
-  const setUserLoggedIn = (session: OrySessionContext): Promise<void> => {
-    console.debug('[AuthProvider] setUserLoggedIn')
-    return setSessionInStorage(session).then(() => setIsLoggedIn(true))
-  }
-
-  // intended to be called from outside the context provider (e.g. logout form)
-  const setUserLoggedOut = (): Promise<void> => {
-    console.debug('[AuthProvider] setUserLoggedOut')
-    return removeSessionFromStorage().then(() => setIsLoggedIn(false))
-  }
-
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated: isLoggedIn,
-        setUserLoggedIn,
-        setUserLoggedOut,
+        isLoading: state.isLoading,
+        isLoggedIn: state.isLoggedIn,
+        setUserLoggedIn: setUserLoggedIn,
+        setUserLoggedOut: setUserLoggedOut,
       }}
     >
       {children}
