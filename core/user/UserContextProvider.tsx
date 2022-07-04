@@ -1,28 +1,37 @@
-import { useQuery } from '@apollo/client'
-import React, { createContext } from 'react'
+import { useLazyQuery } from '@apollo/client'
+import React, { createContext, useContext, useEffect } from 'react'
 
+import { AuthContext } from '@holi/core/auth/AuthProvider'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import { AuthenticatedUserResponse, authenticatedUserQuery } from '@holi/core/user/queries'
 import { User } from '@holi/core/user/types'
-import HoliText from '@holi/ui/components/HoliText'
 
 interface Context {
+  isLoading: boolean
   user: User | undefined
 }
 
-export const UserContext = createContext<Context>({
+const initialState = {
+  isLoading: true,
   user: undefined,
-})
+}
+
+export const UserContext = createContext<Context>(initialState)
 
 export const UserContextProvider: React.FC = ({ children }) => {
   const { displayError } = useErrorHandling()
-  // TODO implement fetching user context for logged-in user
-  // Later: Possibly retrieve user id from auth context and load user by id here
-  const { loading, error, data } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery)
+  const { isLoggedIn } = useContext(AuthContext)
 
-  if (loading && !error) {
-    return <HoliText>Loading...</HoliText>
-  }
+  const [getAuthenticatedUser, { loading, error, data }] =
+    useLazyQuery<AuthenticatedUserResponse>(authenticatedUserQuery)
+
+  useEffect(() => {
+    // only run when user is authenticated. if he's not authenticated the result
+    // is always null/undefined anyway.
+    if (isLoggedIn) {
+      getAuthenticatedUser()
+    }
+  }, [isLoggedIn])
 
   if (error) {
     displayError(error, 'Error fetching authenticated user')
@@ -30,5 +39,5 @@ export const UserContextProvider: React.FC = ({ children }) => {
 
   const user = data && data?.authenticatedUser
 
-  return <UserContext.Provider value={{ user: user }}>{children}</UserContext.Provider>
+  return <UserContext.Provider value={{ isLoading: loading, user: user }}>{children}</UserContext.Provider>
 }
