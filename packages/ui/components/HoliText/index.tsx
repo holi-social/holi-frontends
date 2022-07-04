@@ -1,6 +1,7 @@
 import * as React from 'react'
-import { Platform, Text, TextStyle } from 'react-native'
+import { AccessibilityProps, Platform, Text, TextStyle } from 'react-native'
 
+import { AccessibilityPropsWeb } from '@holi/ui/@types/react-native-web'
 import { getHoliTextStyles as getStyles } from '@holi/ui/components/HoliText/HoliText.styles'
 import { HoliTextType, HoliTextTypes } from '@holi/ui/components/HoliText/HoliText.types'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -10,14 +11,21 @@ export type HoliTextProps = {
   type?: keyof typeof HoliTextTypes
   isAccessible?: boolean
   styles?: TextStyle | TextStyle[]
+  selectable?: boolean
   [x: string]: any
 }
 
-const HoliText = ({ children, type = HoliTextType.body, isAccessible = true, ...props }: HoliTextProps) => {
+const HoliText = ({
+  children,
+  type = HoliTextType.body,
+  isAccessible = true,
+  selectable = true,
+  ...props
+}: HoliTextProps) => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
 
-  const getAccessibilityProps = Platform.select({
+  const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = Platform.select({
     web: {
       accessible: isAccessible,
       ...(HoliTextTypes[type].role && { accessibilityRole: HoliTextTypes[type].role }),
@@ -30,7 +38,12 @@ const HoliText = ({ children, type = HoliTextType.body, isAccessible = true, ...
   })
 
   return (
-    <Text {...getAccessibilityProps} {...props} style={[styles.default, styles[HoliTextType[type]], props?.styles]}>
+    <Text
+      {...accessibilityProps}
+      {...props}
+      selectable={selectable}
+      style={[styles.default, styles[HoliTextType[type]], props?.styles]}
+    >
       {children}
     </Text>
   )

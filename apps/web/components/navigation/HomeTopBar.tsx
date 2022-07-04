@@ -19,11 +19,11 @@ const HomeTopBar: React.VoidFunctionComponent = () => {
       accessibilityLabel="Top Navigation"
     >
       <View style={styles.buttonContainer}>
-        <HeaderNotificationLink />
+        <HeaderNotificationLink style={{ paddingHorizontal: 20, paddingVertical: 10 }} />
 
         <HeaderTitle style={{ paddingTop: 5 }} />
 
-        <HeaderProfileLink />
+        <HeaderProfileLink style={{ paddingHorizontal: 20, paddingVertical: 10 }} />
       </View>
     </View>
   )

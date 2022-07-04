@@ -17,10 +17,10 @@ const HeaderNotificationLink: React.VoidFunctionComponent<HeaderTitleProps> = (p
     <HoliButton
       label="Notifications"
       inline
-      transparent
+      variant="transparent"
       onPress={() => navigate('/notifications')}
       {...props}
-      style={props.style}
+      style={props.style || {}}
     >
       <HoliIcon icon="bell" size={20} />
     </HoliButton>
