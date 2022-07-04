@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { Text } from 'react-native'
 
 import AuthLayout from '@holi/core/auth/AuthLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'

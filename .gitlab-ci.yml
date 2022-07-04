@@ -1,7 +1,7 @@
 # TODO speed up yarn dependency caching https://medium.com/disdj/speed-up-npm-yarn-install-in-gitlab-1434437f9857
 
 # caching strategy follows "Solution 1" taken from https://medium.com/disdj/speed-up-npm-yarn-install-in-gitlab-1434437f9857
-# first job (lint_compile_test) warms the cache (read-write), subsequent jobs only read from it
+# first job (lint_compile_test) warms the cache (read-write), subsequent jobs only read from it, and only if they need the cache
 # cache key corresponds to current branch name ($CI_COMMIT_REF_SLUG)
 cache:
   key: $CI_COMMIT_REF_SLUG

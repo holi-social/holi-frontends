@@ -44,7 +44,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         <HoliButton
           label="Volunteering"
           inline
-          transparent
+          variant="transparent"
           style={styles.appTile}
           onPress={() => navigate('/apps/volunteering')}
           testID="app-tile-volunteering"
@@ -55,7 +55,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         <HoliButton
           label="Donations"
           inline
-          transparent
+          variant="transparent"
           onPress={() => navigate('/apps/volunteering')}
           style={styles.appTile}
         >
