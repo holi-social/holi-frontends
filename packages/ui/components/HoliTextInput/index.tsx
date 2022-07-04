@@ -168,16 +168,14 @@ const HoliTextInput = ({
             </View>
           )}
         </Pressable>
-        {(props?.helperText || props?.validationErrorText) && (
-          <View style={[styles.helperTextWrapper, inline ? styles.inline : styles.block]}>
-            <HoliText
-              type={HoliTextType.label}
-              styles={[styles.helperText, hasValidationErrors ? styles.validationErrorText : {}]}
-            >
-              {hasValidationErrors ? props?.validationErrorText : props?.helperText}
-            </HoliText>
-          </View>
-        )}
+        <View style={[styles.helperTextWrapper, inline ? styles.inline : styles.block]}>
+          <HoliText
+            type={HoliTextType.label}
+            styles={[styles.helperText, hasValidationErrors ? styles.validationErrorText : {}]}
+          >
+            {hasValidationErrors ? props?.validationErrorText : props?.helperText}
+          </HoliText>
+        </View>
       </View>
     </View>
   )

@@ -25,12 +25,6 @@ Primary.args = {
   validationErrorText: 'Validation error Text',
   inline: true,
 }
-Primary.argTypes = {
-  trailingIcon: {
-    type: 'select',
-    options: iconSetRegular.icons.map((icon) => icon?.properties?.name),
-  },
-}
 
 export const NoLabel = ({ ...args }) => (
   <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} {...args} />
@@ -52,4 +46,17 @@ export const Multiline = ({ ...args }) => (
 Multiline.args = {
   noOfLines: 2,
   maxNoOfLines: 5,
+}
+
+export const WithTrailingIcon = ({ ...args }) => (
+  <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} {...args} />
+)
+WithTrailingIcon.args = {
+  trailingIcon: 'search',
+}
+WithTrailingIcon.argsTypes = {
+  trailingIcon: {
+    type: 'select',
+    options: iconSetRegular.icons.map((icon) => icon?.properties?.name),
+  },
 }
