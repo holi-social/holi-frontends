@@ -1,21 +1,31 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { View } from 'react-native'
 
+import type { NativeStackScreenProps } from '@react-navigation/native-stack'
+
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
+import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
-const VolunteeringAppHome: React.VFC = () => {
+type VolunteeringAppHomeProps = NativeStackScreenProps<HomeStackScreens>
+
+const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = ({ navigation }: VolunteeringAppHomeProps) => {
   const { setNavigationHeader } = useNavigationHeader()
   const title = 'Lets Act'
-  setNavigationHeader({
-    title: title,
-    titleElement: () => (
-      <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
-        {title}
-      </HoliText>
-    ),
-  })
+
+  useLayoutEffect(
+    () =>
+      setNavigationHeader({
+        title: title,
+        titleElement: () => (
+          <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
+            {title}
+          </HoliText>
+        ),
+      }),
+    [navigation]
+  )
 
   return (
     <View style={{ padding: 10 }}>

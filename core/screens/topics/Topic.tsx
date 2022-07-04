@@ -1,24 +1,28 @@
-import React, { useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { createParam } from 'solito'
+
+import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import TopicEditors from '@holi/core/screens/topics/components/TopicEditors'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
+import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliModal from '@holi/ui/components/HoliModal'
 import HoliReadMore from '@holi/ui/components/HoliReadMore'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
-const { useParam } = createParam<TopicParams>()
-
 export type TopicParams = {
   topicId: string
 }
+const { useParam } = createParam<TopicParams>()
 
-const Topic: React.VFC = () => {
+type TopicProps = NativeStackScreenProps<HomeStackScreens>
+
+const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
   const [showModal, setShowModal] = useState(false)
   const [topicId = ''] = useParam('topicId')
   const { navigate } = useRouting()
@@ -26,15 +30,18 @@ const Topic: React.VFC = () => {
   if (!topic) return <HoliText>Topic {topicId} not found</HoliText>
 
   const { setNavigationHeader } = useNavigationHeader()
-  const title = `Topic ${topicId}`
-  setNavigationHeader({
-    title: title,
-    titleElement: () => (
-      <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
-        {title}
-      </HoliText>
-    ),
-  })
+
+  useLayoutEffect(() => {
+    const title = `Topic ${topicId}`
+    setNavigationHeader({
+      title: title,
+      titleElement: () => (
+        <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
+          {title}
+        </HoliText>
+      ),
+    })
+  }, [navigation])
 
   return (
     <View style={styles.topicView}>
