@@ -39,5 +39,5 @@ Primary.argTypes = {
 Primary.args = {
   numberOfLines: 3,
   children:
-    'I enjoy working on community projects during my spare time. This text cannot exceed three lines or else. This text cannot exceed three lines or else. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+    'I enjoy working on community projects during my spare time. This text cannot exceed three lines or else. Holi is building a new digital home that makes it easy to come together and do good things for people and planet.',
 }
