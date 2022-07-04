@@ -7,8 +7,8 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliText from '@holi/ui/components/HoliText'
-import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
 export type PostParams = {
   topicId: string
@@ -29,11 +29,7 @@ const Post: React.VFC<PostProps> = ({ navigation }: PostProps) => {
     const title = `Post ${postId} in topic ${topicId}`
     setNavigationHeader({
       title: title,
-      titleElement: () => (
-        <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
-          {title}
-        </HoliText>
-      ),
+      titleElement: () => <HoliText style={{ paddingTop: 5 }}>{title}</HoliText>,
     })
   }, [navigation])
 
@@ -42,15 +38,11 @@ const Post: React.VFC<PostProps> = ({ navigation }: PostProps) => {
 
   return (
     <View style={{ justifyContent: 'center', padding: 10 }}>
-      <HoliText type={HoliTextType.super}>
+      <HoliHeading size="super">
         Topic {topicId} Post {postId}
-      </HoliText>
-      <HoliText type={HoliTextType.body} styles={{ paddingTop: 10 }}>
-        by {fakeTopics.get(topicId).posts[postId].author}
-      </HoliText>
-      <HoliText type={HoliTextType.body} styles={{ paddingTop: 10 }}>
-        {fakeTopics.get(topicId).posts[postId].text}
-      </HoliText>
+      </HoliHeading>
+      <HoliText styles={{ paddingTop: 10 }}>by {fakeTopics.get(topicId).posts[postId].author}</HoliText>
+      <HoliText styles={{ paddingTop: 10 }}>{fakeTopics.get(topicId).posts[postId].text}</HoliText>
     </View>
   )
 }

@@ -8,7 +8,9 @@ import { LoginProtection } from '@holi/core/auth/screens/LoginProtection'
 describe('renders correctly', () => {
   it('renders protected content when logged in', () => {
     const { queryByText } = render(
-      <AuthContext.Provider value={{ isLoading: false, isLoggedIn: true, setUserLoggedIn: jest.fn(), setUserLoggedOut: jest.fn() }}>
+      <AuthContext.Provider
+        value={{ isLoading: false, isLoggedIn: true, setUserLoggedIn: jest.fn(), setUserLoggedOut: jest.fn() }}
+      >
         <LoginProtection>
           <Text>Protected Content</Text>
         </LoginProtection>
