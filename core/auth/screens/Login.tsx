@@ -13,10 +13,15 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliText from '@holi/ui/components/HoliText'
 
 const Login: React.VoidFunctionComponent = () => {
-  const { setSession } = useContext(AuthContext)
+  const { isAuthenticated, setSession } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
   const { navigateBack } = useRouting()
   const { displayError } = useErrorHandling()
+
+  if (isAuthenticated) {
+    //may lead to strange behavior when directly accessing /login
+    navigateBack()
+  }
 
   const initializeFlow = () => {
     initLoginFlow()
