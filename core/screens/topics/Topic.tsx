@@ -8,6 +8,7 @@ import TopicEditors from '@holi/core/screens/topics/components/TopicEditors'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliModal from '@holi/ui/components/HoliModal'
+import HoliReadMore from '@holi/ui/components/HoliReadMore'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
@@ -44,6 +45,11 @@ const Topic: React.VFC = () => {
       <HoliButton label="Topic Editors" inline onPress={() => setShowModal(true)}>
         Topic Editors
       </HoliButton>
+
+      <HoliReadMore>
+        I enjoy working on community projects during my spare time. This text cannot exceed three lines or else. This
+        text cannot exceed three lines or else. This text cannot exceed three lines or else.
+      </HoliReadMore>
 
       <HoliText type={HoliTextType.heading1} styles={{ paddingBottom: 10 }}>
         {topic.title}
