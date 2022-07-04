@@ -29,9 +29,9 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
 
   const submit = async () => {
     const input: UpdateAuthenticatedUserInput = {
-      firstName: firstName !== '' ? firstName : undefined,
-      middleName: middleName !== '' ? middleName : undefined,
-      lastName: lastName !== '' ? lastName : undefined,
+      firstName: firstName,
+      middleName: middleName,
+      lastName: lastName,
     }
     const result = await updateUser({
       variables: {
