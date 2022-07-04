@@ -28,9 +28,12 @@ type ReadMoreProps = HoliTextProps &
  * Most accessibility props are already present in the HoliText component itself.
  */
 const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMoreProps) => {
+  const defaultNumberOfLines = 3
   const [truncatedText, setTruncatedText] = React.useState(props.children || '')
   const [activeButton, setActiveButton] = React.useState<'show' | 'hide' | undefined>(undefined)
-  const [numberOfLines, setNumberOfLines] = React.useState<number | undefined>(props.numberOfLines || 3)
+  const [numberOfLines, setNumberOfLines] = React.useState<number | undefined>(
+    props.numberOfLines || defaultNumberOfLines
+  )
   const isWeb = Platform.OS === 'web'
 
   const buttonAccessibilityProps: AccessibilityProps = {
@@ -44,6 +47,9 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
   // needed for its length calculation
   const showButtonText = 'Read more'
   const { length: showButtonTextLength } = showButtonText
+
+  // buffer text length for last visible line
+  const bufferTextLength = 5
 
   // render a custom ellipsis for the truncated text
   const ellipsis = '... '
@@ -69,11 +75,16 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
         const { text } = line
 
         // if we are in the last visible line, truncate it in case its text is too long (longer or equal to the length of first line minus the button text length)
-        if (numberOfLines - 1 === index && text.length >= firstLineLength - showButtonTextLength - ellipsisLength) {
+        if (
+          numberOfLines - 1 === index &&
+          text.length >= firstLineLength - showButtonTextLength - bufferTextLength - ellipsisLength
+        ) {
           // only display Read More button if truncating was needed
           truncated = true
 
-          return text.substring(0, firstLineLength - showButtonTextLength - ellipsisLength) + ellipsis
+          return (
+            text.substring(0, firstLineLength - showButtonTextLength - bufferTextLength - ellipsisLength) + ellipsis
+          )
         }
 
         // disconsider any lines beyond numberOfLines for the truncated text
@@ -104,7 +115,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
 
     // check if ellipsis is active
     if (target.clientHeight < target.scrollHeight) {
-      setNumberOfLines(props.numberOfLines)
+      setNumberOfLines(props.numberOfLines || defaultNumberOfLines)
       setActiveButton('show')
     } else if (activeButton === 'show') {
       // if ellipsis is not active and the current button is 'show' (window size changed) remove button completely
@@ -118,7 +129,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
       setNumberOfLines(undefined)
       setActiveButton('hide')
     } else {
-      setNumberOfLines(props.numberOfLines)
+      setNumberOfLines(props.numberOfLines || defaultNumberOfLines)
       setActiveButton('show')
     }
   }
