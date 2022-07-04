@@ -6,7 +6,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/HoliText'
-import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
+import HoliHeading from '@holi/ui/components/HoliHeading'
 
 type VolunteeringAppHomeProps = NativeStackScreenProps<HomeStackScreens>
 
@@ -19,7 +19,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = ({ navigation }
       setNavigationHeader({
         title: title,
         titleElement: () => (
-          <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
+          <HoliText style={{ paddingTop: 5 }}>
             {title}
           </HoliText>
         ),
@@ -29,9 +29,9 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = ({ navigation }
 
   return (
     <View style={{ padding: 10 }}>
-      <HoliText type={HoliTextType.super} testID="home-feed-title">
+      <HoliHeading size="super" testID="home-feed-title">
         Volunteering App Home
-      </HoliText>
+      </HoliHeading>
     </View>
   )
 }

@@ -50,21 +50,20 @@ exports[`renders correctly renders correctly when checked 1`] = `
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
-          },
-          Object {
+            "color": "#222326",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
-            "lineHeight": 22.4,
           },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          Object {},
           Array [
             Object {
               "color": "#fff",
@@ -72,7 +71,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
               "fontWeight": "400",
               "lineHeight": 24,
             },
-            undefined,
+            Object {},
           ],
         ]
       }
@@ -84,7 +83,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
             "fontWeight": "400",
             "lineHeight": 24,
           },
-          undefined,
+          Object {},
         ]
       }
     >
@@ -210,21 +209,20 @@ exports[`renders correctly renders correctly when disabled 1`] = `
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
-          },
-          Object {
+            "color": "#222326",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
-            "lineHeight": 22.4,
           },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          Object {},
           Array [
             Object {
               "color": "#6f7081",
@@ -232,7 +230,7 @@ exports[`renders correctly renders correctly when disabled 1`] = `
               "fontWeight": "400",
               "lineHeight": 24,
             },
-            undefined,
+            Object {},
           ],
         ]
       }
@@ -244,7 +242,7 @@ exports[`renders correctly renders correctly when disabled 1`] = `
             "fontWeight": "400",
             "lineHeight": 24,
           },
-          undefined,
+          Object {},
         ]
       }
     >
@@ -299,21 +297,20 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
-          },
-          Object {
+            "color": "#222326",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
-            "lineHeight": 22.4,
           },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          Object {},
           Array [
             Object {
               "color": "#6f7081",
@@ -321,7 +318,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
               "fontWeight": "400",
               "lineHeight": 24,
             },
-            undefined,
+            Object {},
           ],
         ]
       }
@@ -333,7 +330,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
             "fontWeight": "400",
             "lineHeight": 24,
           },
-          undefined,
+          Object {},
         ]
       }
     >

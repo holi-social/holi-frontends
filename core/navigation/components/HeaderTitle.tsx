@@ -15,7 +15,7 @@ const HeaderTitle: React.VoidFunctionComponent<HeaderTitleProps> = (props: Heade
 
   // TODO: no font type for header text
   return (
-    <HoliText type={HoliTextType.body} {...props}>
+    <HoliText {...props}>
       {navigationContext.headerTitle}
     </HoliText>
   )

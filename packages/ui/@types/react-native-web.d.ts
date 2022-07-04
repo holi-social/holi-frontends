@@ -6,6 +6,7 @@ export type AccessibilityRoleWeb = AccessibilityRole | 'main' | 'region' | 'bann
 interface AccessibilityPropsWeb extends AccessibilityProps {
   accessibilityLevel?: number
   accessibilityRole?: AccessibilityRoleWeb
+  accessibilityPressed?: boolean
 }
 
 // include web specific types (https://github.com/necolas/react-native-web/issues/1684)
