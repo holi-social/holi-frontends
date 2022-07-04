@@ -41,8 +41,9 @@ const ReanimatedExample = () => {
           cancel()
           offset.value = Math.random()
         }}
-        title="Move"
-      />
+      >
+        Move
+      </HoliButton>
     </View>
   )
 }

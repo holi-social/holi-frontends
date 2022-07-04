@@ -6,6 +6,10 @@
 // run `yarn workspace @holi/ui run generate-style-vars` on every file change
 // TODO: add to dev-watcher
 
+/*
+This upper section is for main design colors and colors that are used multiple times in the variables below. 
+Any value that is only used in one variable below can be written inline in that variable.
+*/
 $softblack: #222326;
 $softblackTransparent: #1b1d201a;
 $white: #ffffff;
@@ -25,9 +29,15 @@ $tertiary-color: #57d14c;
 
 $border-color: $softblack;
 $border-color-black: $softblack;
+$border-color-black-disabled: $softblackTransparent;
 $border-color-grey: $softblackTransparent;
 
+$shadow-color-black: #000000;
+
 $background-color: $white;
+$background-color-yellow: $impactyellow;
+$background-color-yellow-dark: #dbdb57;
+$background-color-white-dark: #e6e6e6;
 $background-color-white: $white;
 $background-color-grey: $softwhite;
 $background-color-black: $softblack;

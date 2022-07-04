@@ -1,4 +1,4 @@
-import { ApolloClient, HttpLink, InMemoryCache, concat } from '@apollo/client'
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 

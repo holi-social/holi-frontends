@@ -54,7 +54,13 @@ const backButton = () => {
   const { theme } = useTheme()
   const { navigateBack } = useRouting()
   return (
-    <HoliButton label="Go back" inline transparent onPress={() => navigateBack()} style={{ paddingHorizontal: 0 }}>
+    <HoliButton
+      label="Go back"
+      inline
+      variant="transparent"
+      onPress={() => navigateBack()}
+      style={{ paddingHorizontal: 0 }}
+    >
       <Holicon icon="arrow-back" size={30} color={theme.colors.softblack} />
     </HoliButton>
   )
@@ -64,7 +70,13 @@ const downButton = () => {
   const { theme } = useTheme()
   const { navigateBack } = useRouting()
   return (
-    <HoliButton label="Close window" inline transparent onPress={() => navigateBack()} style={{ paddingHorizontal: 0 }}>
+    <HoliButton
+      label="Close window"
+      inline
+      variant="transparent"
+      onPress={() => navigateBack()}
+      style={{ paddingHorizontal: 0 }}
+    >
       <Holicon icon="arrowtip-down" size={30} color={theme.colors.softblack} />
     </HoliButton>
   )

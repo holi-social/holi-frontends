@@ -76,6 +76,7 @@ exports[`React tree renders the users initials, when given image prop is empty 1
     accessibilityLabel="Uschi Meyer"
     accessibilityRole="image"
     accessible={true}
+    selectable={true}
     style={
       Array [
         Object {
