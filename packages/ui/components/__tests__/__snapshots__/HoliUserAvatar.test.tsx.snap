@@ -96,7 +96,7 @@ exports[`React tree renders the users initials, when given image prop is empty 1
           "color": "#fff",
           "fontSize": 55.35,
           "fontWeight": "bold",
-          "textAlignVertical": "center",
+          "lineHeight": 66.42,
           "textTransform": "uppercase",
         },
       ]
@@ -106,7 +106,7 @@ exports[`React tree renders the users initials, when given image prop is empty 1
         "color": "#fff",
         "fontSize": 55.35,
         "fontWeight": "bold",
-        "textAlignVertical": "center",
+        "lineHeight": 66.42,
         "textTransform": "uppercase",
       }
     }
