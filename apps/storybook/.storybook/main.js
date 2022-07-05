@@ -1,6 +1,6 @@
 const webpack = require('webpack')
 
-const storiesDirectory = '../../../packages/ui/components/stories'
+const storiesDirectory = '../../../packages/ui/components/__stories__'
 
 module.exports = {
   features: {
