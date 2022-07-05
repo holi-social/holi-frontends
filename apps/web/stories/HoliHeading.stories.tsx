@@ -15,14 +15,32 @@ export default {
   },
 }
 
-export const Primary = ({ ...args }) => <HoliHeading {...args} />
-Primary.args = {
+export const ByLevel = ({ ...args }) => <HoliHeading {...args} />
+ByLevel.args = {
+  children: 'Text',
+  level: 1,
+  selectable: true,
+}
+ByLevel.argTypes = {
+  children: {
+    description: 'React.ReactChild | React.ReactChild[] | string',
+    control: { type: 'text' },
+  },
+  level: {
+    description: 'determines the accessibilityLevel',
+    control: { type: 'select', options: HoliHeadingLevels },
+  },
+  selectable: { description: 'Should text be selectable?' },
+}
+
+export const ByLevelAndSize = ({ ...args }) => <HoliHeading {...args} />
+ByLevelAndSize.args = {
   children: 'Text',
   size: 'large',
   level: 1,
   selectable: true,
 }
-Primary.argTypes = {
+ByLevelAndSize.argTypes = {
   children: {
     description: 'React.ReactChild | React.ReactChild[] | string',
     control: { type: 'text' },

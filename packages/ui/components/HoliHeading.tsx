@@ -7,25 +7,20 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 type HoliHeadingLevel = 1 | 2 | 3 // for working code completion in vscode
 type HoliHeadingSize = 'super' | 'large' | 'medium' | 'small' // for working code completion in vscode
 
-const HoliHeadings: Record<HoliHeadingSize, { defaultLevel: HoliHeadingLevel }> = {
-  super: {
-    defaultLevel: 1,
+const HoliHeadings: Record<HoliHeadingLevel, { defaultSize: HoliHeadingSize }> = {
+  1: {
+    defaultSize: 'large',
   },
-  large: {
-    defaultLevel: 1,
+  2: {
+    defaultSize: 'medium',
   },
-  medium: {
-    defaultLevel: 2,
-  },
-  small: {
-    defaultLevel: 3,
+  3: {
+    defaultSize: 'small',
   },
 }
 
-export const HoliHeadingSizes: HoliHeadingSize[] = Object.keys(HoliHeadings) as HoliHeadingSize[]
-export const HoliHeadingLevels: HoliHeadingLevel[] = Object.values(HoliHeadings)
-  .map((h) => h.defaultLevel)
-  .filter((value, index, self) => self.indexOf(value) === index)
+export const HoliHeadingLevels: HoliHeadingLevel[] = Object.keys(HoliHeadings) as unknown as HoliHeadingLevel[]
+export const HoliHeadingSizes: HoliHeadingSize[] = ['super', 'large', 'medium', 'small'] // keep in sync with type HoliHeadingSize
 
 export type HoliHeadingProps = {
   children?: React.ReactNode
@@ -38,8 +33,8 @@ export type HoliHeadingProps = {
 
 const HoliHeading = ({
   children,
-  size = 'large',
-  level = HoliHeadings.large.defaultLevel,
+  level = 1,
+  size = HoliHeadings[level].defaultSize,
   selectable = true,
   ...props
 }: HoliHeadingProps) => {
