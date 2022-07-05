@@ -1,27 +1,15 @@
 # Web Testing
 
-This spike uses codeceptjs as a high-level wrapper framework for mobile and web testing.
+This spike uses playwright for web testing.
 
-For testing the web app, start the local dev environment and execute the tests:
+For testing the web app locally, start the local dev environment from the root of the project with
 
-  `yarn install`
+  `yarn web:serve-e2e` 
 
-  `yarn web:dev`
+and execute the tests from this directory:
 
-  Open new terminal tab and run
+  `yarn test:localhost`
 
-  `yarn web:e2e`
+For testing a deployed app, use the following commmand:
 
-  or
-
-  `yarn web:e2e:headless`
-
-## Troubleshooting
-
-### Host system is missing dependencies to run browsers
-
-Try running
-
-```sh
-npx playwright install-deps
-```
+  `BASE_URL=https://staging.web.project-holi.org yarn test`

@@ -6,6 +6,7 @@
     "predev": "yarn workspace @holi/ui run generate-style-vars",
     "prebuild": "yarn workspace @holi/ui run generate-style-vars",
     "dev": "next dev",
+    "serve-e2e": "next dev -H 0.0.0.0",
     "build": "next build",
     "start": "next start",
     "lint": "TIMING=1 next lint",

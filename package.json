@@ -6,8 +6,7 @@
       "apps/*",
       "holi-apps/*",
       "packages/*",
-      "core",
-      "e2e/*"
+      "core"
     ]
   },
   "resolutions": {
@@ -22,14 +21,11 @@
     "mobile:build_android": "yarn workspace @holi/mobile build_android",
     "mobile:build_ios": "yarn workspace @holi/mobile build_ios",
     "mobile:build_ios_sim": "yarn workspace @holi/mobile build_ios_sim",
-    "mobile:e2e:ios": "yarn workspace @holi/e2e-mobile codeceptjs:ios",
-    "mobile:e2e:android": "yarn workspace @holi/e2e-mobile codeceptjs:android",
     "web:dev": "yarn workspace @holi/web dev",
+    "web:serve-e2e": "yarn workspace @holi/web serve-e2e",
     "web:storybook": "yarn workspace @holi/web storybook",
     "web:build": "yarn workspace @holi/web build",
     "web:start": "yarn workspace @holi/web start",
-    "web:e2e": "yarn workspace @holi/e2e-web codeceptjs",
-    "web:e2e:headless": "yarn workspace @holi/e2e-web codeceptjs:headless",
     "ui:generate-style-vars": "yarn workspace @holi/ui run generate-style-vars",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json}\"",

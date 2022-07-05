@@ -2,19 +2,19 @@
   "name": "@holi/e2e-web",
   "version": "0.1.0",
   "private": true,
+  "description": "",
   "scripts": {
-    "codeceptjs": "codeceptjs run-multiple crossbrowser --steps",
-    "codeceptjs:headless": "HEADLESS=true codeceptjs run-multiple crossbrowser --steps",
-    "codeceptjs:ui": "codecept-ui --app",
+    "test": "docker run -v $PWD:/tests -w /tests -e BASE_URL=$BASE_URL --rm -it --ipc=host mcr.microsoft.com/playwright:v1.23.1 yarn run playwright test",
+    "test:headless": "docker run -v $PWD:/tests -w /tests -e BASE_URL=$BASE_URL -e HEADLESS=true --rm -it --ipc=host mcr.microsoft.com/playwright:v1.23.1 yarn run playwright test",
+    "test:localhost": "docker run -v $PWD:/tests -w /tests -e BASE_URL=$BASE_URL -e HEADLESS=true --rm -it --ipc=host --add-host=host.docker.internal:host-gateway --network=host mcr.microsoft.com/playwright:v1.23.1 yarn run playwright test",
     "clean": "rimraf output",
     "clean:all": "yarn clean && rimraf node_modules"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
-    "@codeceptjs/configure": "^0.8.0",
-    "@codeceptjs/examples": "^1.2.1",
-    "@codeceptjs/ui": "^0.4.6",
-    "axe-playwright": "^1.1.11",
-    "codeceptjs": "^3.3.0",
-    "playwright": "^1.19.2"
+    "@playwright/test": "^1.23.1",
+    "axe-playwright": "^1.1.11"
   }
 }

@@ -34,11 +34,14 @@ default:
 .web_e2e:
   image: 'mcr.microsoft.com/playwright:v1.23.1'
   dependencies: [] # explicitly disable artifact usage
+  artifacts:
+    paths:
+      - e2e/web/playwright-report
   script:
     - UI_DOMAIN=`cat $UI_DOMAIN_PATH`
     - terraform/environments/web/scripts/wait-for-ssl.sh "https://${UI_DOMAIN}"
-    - npx playwright install
-    - BASE_URL="https://${UI_DOMAIN}" yarn web:e2e:headless
+    - cd e2e/web
+    - BASE_URL="https://${UI_DOMAIN}" yarn test
   interruptible: true
   allow_failure: true
 
