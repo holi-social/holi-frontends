@@ -50,7 +50,7 @@ export default {
         url: 'https://auth.project-holi.org',
       },
       holi_api: {
-        url: process.env.HOLI_API_URL || 'http://10.0.2.2:4001/graphql',
+        url: 'https://staging.unified.apis.project-holi.org/graphql',
       },
       environment: process.env.ENVIRONMENT_ID,
       sentry: {

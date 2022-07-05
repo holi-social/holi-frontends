@@ -12,17 +12,26 @@ type UserProfileViewProps = {
 }
 
 const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ editUser }) => {
-  const { user } = useContext(UserContext)
+  //const { user } = useContext(UserContext)
+  const user = {
+    avatar: '',
+    firstName: 'Steffen',
+    middleName: 'J.',
+    lastName: 'Brauer',
+    aboutMe: 'Hello, I am Steffen, more text more text more text more text more text more text more text more text more text more text more text more text more text',
+    pronouns: 'he/him',
+    location: 'Hamburg, Deutschland',
+    avatarDefaultColor: 'blue',
+    avatarLabel: 'SB',
+    engagementLevel: 'engaged',
+    interests: ['this', 'that'],
+    sdgs: ['this', 'that'],
+    skills: ['this', 'that'],
+  }
 
   if (!user) {
     return <HoliText>No user fetched</HoliText>
   }
-
-  // TODO: hand over email, when firstName is empty
-  const userImageLabel = user.firstName || 'unnamed user'
-
-  // TODO: should be generated during user registration process (HOLI-1525)
-  const userDefaultColor = '#0f0'
 
   return (
     <>
@@ -32,17 +41,18 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
             <View>
               <HoliUserAvatar
                 imageSrc={user.avatar}
-                nameLabel={userImageLabel}
-                defaultColor={userDefaultColor}
+                nameLabel={user.avatarLabel}
+                defaultColor={user.avatarDefaultColor}
                 size="large"
               />
             </View>
-            <View>
+            <View style={styles.profileNamePronounsLocation}>
               <HoliText type={HoliTextType.heading2}>
                 {user.firstName + ' ' + user.middleName + ' ' + user.lastName}
               </HoliText>
-              <HoliText>{user.pronouns}</HoliText>
-              <HoliText type={HoliTextType.body}>{user.location}</HoliText>
+              <HoliText type={HoliTextType.body}>
+                ({user.pronouns}) {user.location}
+              </HoliText>
             </View>
           </View>
           <HoliText>{user.aboutMe}</HoliText>
@@ -62,10 +72,16 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
 const styles = StyleSheet.create({
   profileHeader: {
     flexDirection: 'column',
+    paddingHorizontal: 16,
+    paddingVertical: 24,
   },
   profileAvatarName: {
     flexDirection: 'row',
   },
+  profileNamePronounsLocation: {
+    paddingHorizontal: 6,
+    paddingVertical: 6,
+  }
 })
 
 export { UserProfileView }
