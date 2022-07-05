@@ -1,0 +1,409 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly renders correctly when size is 'default', bold is 'false', selectable is 'false' 1`] = `
+<Text
+  accessible={false}
+  selectable={false}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Book",
+        "fontWeight": "400",
+      },
+      Object {
+        "fontSize": 16,
+        "lineHeight": 19.2,
+      },
+      Object {},
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'default', bold is 'false', selectable is 'true' 1`] = `
+<Text
+  accessible={false}
+  selectable={true}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Book",
+        "fontWeight": "400",
+      },
+      Object {
+        "fontSize": 16,
+        "lineHeight": 19.2,
+      },
+      Object {},
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'default', bold is 'true', selectable is 'false' 1`] = `
+<Text
+  accessible={false}
+  selectable={false}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Book",
+        "fontWeight": "400",
+      },
+      Object {
+        "fontSize": 16,
+        "lineHeight": 19.2,
+      },
+      Object {
+        "fontFamily": "Circular Std Medium",
+        "fontWeight": "500",
+      },
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'default', bold is 'true', selectable is 'true' 1`] = `
+<Text
+  accessible={false}
+  selectable={true}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Book",
+        "fontWeight": "400",
+      },
+      Object {
+        "fontSize": 16,
+        "lineHeight": 19.2,
+      },
+      Object {
+        "fontFamily": "Circular Std Medium",
+        "fontWeight": "500",
+      },
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'extrasmall', bold is 'false', selectable is 'false' 1`] = `
+<Text
+  accessible={false}
+  selectable={false}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Book",
+        "fontWeight": "400",
+      },
+      Object {
+        "fontSize": 12,
+        "lineHeight": 14.399999999999999,
+      },
+      Object {},
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'extrasmall', bold is 'false', selectable is 'true' 1`] = `
+<Text
+  accessible={false}
+  selectable={true}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Book",
+        "fontWeight": "400",
+      },
+      Object {
+        "fontSize": 12,
+        "lineHeight": 14.399999999999999,
+      },
+      Object {},
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'extrasmall', bold is 'true', selectable is 'false' 1`] = `
+<Text
+  accessible={false}
+  selectable={false}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Book",
+        "fontWeight": "400",
+      },
+      Object {
+        "fontSize": 12,
+        "lineHeight": 14.399999999999999,
+      },
+      Object {
+        "fontFamily": "Circular Std Medium",
+        "fontWeight": "500",
+      },
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'extrasmall', bold is 'true', selectable is 'true' 1`] = `
+<Text
+  accessible={false}
+  selectable={true}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Book",
+        "fontWeight": "400",
+      },
+      Object {
+        "fontSize": 12,
+        "lineHeight": 14.399999999999999,
+      },
+      Object {
+        "fontFamily": "Circular Std Medium",
+        "fontWeight": "500",
+      },
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'large', bold is 'false', selectable is 'false' 1`] = `
+<Text
+  accessible={false}
+  selectable={false}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Book",
+        "fontWeight": "400",
+      },
+      Object {
+        "fontSize": 21,
+        "lineHeight": 25.2,
+      },
+      Object {},
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'large', bold is 'false', selectable is 'true' 1`] = `
+<Text
+  accessible={false}
+  selectable={true}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Book",
+        "fontWeight": "400",
+      },
+      Object {
+        "fontSize": 21,
+        "lineHeight": 25.2,
+      },
+      Object {},
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'large', bold is 'true', selectable is 'false' 1`] = `
+<Text
+  accessible={false}
+  selectable={false}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Book",
+        "fontWeight": "400",
+      },
+      Object {
+        "fontSize": 21,
+        "lineHeight": 25.2,
+      },
+      Object {
+        "fontFamily": "Circular Std Medium",
+        "fontWeight": "500",
+      },
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'large', bold is 'true', selectable is 'true' 1`] = `
+<Text
+  accessible={false}
+  selectable={true}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Book",
+        "fontWeight": "400",
+      },
+      Object {
+        "fontSize": 21,
+        "lineHeight": 25.2,
+      },
+      Object {
+        "fontFamily": "Circular Std Medium",
+        "fontWeight": "500",
+      },
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'small', bold is 'false', selectable is 'false' 1`] = `
+<Text
+  accessible={false}
+  selectable={false}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Book",
+        "fontWeight": "400",
+      },
+      Object {
+        "fontSize": 14,
+        "lineHeight": 16.8,
+      },
+      Object {},
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'small', bold is 'false', selectable is 'true' 1`] = `
+<Text
+  accessible={false}
+  selectable={true}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Book",
+        "fontWeight": "400",
+      },
+      Object {
+        "fontSize": 14,
+        "lineHeight": 16.8,
+      },
+      Object {},
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'small', bold is 'true', selectable is 'false' 1`] = `
+<Text
+  accessible={false}
+  selectable={false}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Book",
+        "fontWeight": "400",
+      },
+      Object {
+        "fontSize": 14,
+        "lineHeight": 16.8,
+      },
+      Object {
+        "fontFamily": "Circular Std Medium",
+        "fontWeight": "500",
+      },
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'small', bold is 'true', selectable is 'true' 1`] = `
+<Text
+  accessible={false}
+  selectable={true}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Book",
+        "fontWeight": "400",
+      },
+      Object {
+        "fontSize": 14,
+        "lineHeight": 16.8,
+      },
+      Object {
+        "fontFamily": "Circular Std Medium",
+        "fontWeight": "500",
+      },
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;

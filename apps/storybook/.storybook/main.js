@@ -1,5 +1,7 @@
 const webpack = require('webpack')
 
+const storiesDirectory = '../../../packages/ui/components/__stories__'
+
 module.exports = {
   features: {
     interactionsDebugger: true,
@@ -8,13 +10,13 @@ module.exports = {
     /*
      * Inline path declarations
      */
-    '../stories/**/*.stories.mdx',
-    '../stories/**/*.stories.@(js|jsx|ts|tsx)',
+    `${storiesDirectory}/**/*.stories.mdx`,
+    `${storiesDirectory}/**/*.stories.@(js|jsx|ts|tsx)`,
     /*
      * Object path declarations
      */
     {
-      directory: '../stories',
+      directory: storiesDirectory,
       files: '*.stories.*',
     },
   ],
