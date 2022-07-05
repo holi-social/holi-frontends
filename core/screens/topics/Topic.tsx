@@ -10,9 +10,9 @@ import TopicEditors from '@holi/core/screens/topics/components/TopicEditors'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliButton from '@holi/ui/components/HoliButton'
+import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliModal from '@holi/ui/components/HoliModal'
 import HoliText from '@holi/ui/components/HoliText'
-import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
 export type TopicParams = {
   topicId: string
@@ -34,29 +34,25 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
     const title = `Topic ${topicId}`
     setNavigationHeader({
       title: title,
-      titleElement: () => (
-        <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
-          {title}
-        </HoliText>
-      ),
+      titleElement: () => <HoliText style={{ paddingTop: 5 }}>{title}</HoliText>,
     })
   }, [navigation])
 
   return (
     <View style={styles.topicView}>
-      <HoliText type={HoliTextType.super} styles={{ alignSelf: 'center' }}>
+      <HoliHeading level="1" size="super" styles={{ alignSelf: 'center' }}>
         Topic topicId={topicId}
-      </HoliText>
+      </HoliHeading>
 
       <HoliButton label="Topic Editors" inline onPress={() => setShowModal(true)}>
         Topic Editors
       </HoliButton>
 
-      <HoliText type={HoliTextType.heading1} styles={{ paddingBottom: 10 }}>
+      <HoliHeading level="1" styles={{ paddingBottom: 10 }}>
         {topic.title}
-      </HoliText>
+      </HoliHeading>
       <HoliText>{topic.text}</HoliText>
-      <HoliText type={HoliTextType.heading3}>Posts</HoliText>
+      <HoliHeading level="3">Posts</HoliHeading>
       {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
         <HoliButton
           key={postId}
