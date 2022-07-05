@@ -21,7 +21,7 @@ exports[`React tree renders correctly 1`] = `
       undefined,
       Object {
         "borderColor": "#222326",
-        "borderWidth": 1,
+        "borderWidth": 2,
         "height": 123,
         "width": 123,
       },
@@ -67,7 +67,7 @@ exports[`React tree renders the users initials, when given image prop is empty 1
       undefined,
       Object {
         "borderColor": "#222326",
-        "borderWidth": 1,
+        "borderWidth": 2,
         "height": 123,
         "width": 123,
       },
