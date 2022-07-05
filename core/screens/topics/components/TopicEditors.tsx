@@ -10,7 +10,7 @@ type TopicEditorsProps = {
 const TopicEditors: React.FunctionComponent<TopicEditorsProps> = ({ topicId }) => {
   return (
     <View style={{ padding: 10 }}>
-      <HoliHeading size="super">{`This week's topic editors for topicId=${topicId}`}</HoliHeading>
+      <HoliHeading level="1" size="super">{`This week's topic editors for topicId=${topicId}`}</HoliHeading>
     </View>
   )
 }

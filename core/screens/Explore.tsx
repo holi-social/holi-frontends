@@ -25,7 +25,9 @@ const Explore: React.VFC<ExploreProps> = ({ navigation }: ExploreProps) => {
 
   return (
     <View style={{ padding: 10, alignItems: 'center' }}>
-      <HoliHeading size="super">Explore</HoliHeading>
+      <HoliHeading level="1" size="super">
+        Explore
+      </HoliHeading>
     </View>
   )
 }

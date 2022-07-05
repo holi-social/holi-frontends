@@ -40,7 +40,7 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
 
   return (
     <View style={styles.topicView}>
-      <HoliHeading size="super" styles={{ alignSelf: 'center' }}>
+      <HoliHeading level="1" size="super" styles={{ alignSelf: 'center' }}>
         Topic topicId={topicId}
       </HoliHeading>
 
@@ -48,11 +48,11 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
         Topic Editors
       </HoliButton>
 
-      <HoliHeading size="large" styles={{ paddingBottom: 10 }}>
+      <HoliHeading level="1" styles={{ paddingBottom: 10 }}>
         {topic.title}
       </HoliHeading>
       <HoliText>{topic.text}</HoliText>
-      <HoliHeading size="small">Posts</HoliHeading>
+      <HoliHeading level="3">Posts</HoliHeading>
       {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
         <HoliButton
           key={postId}

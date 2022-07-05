@@ -36,7 +36,9 @@ export const UserProfileScreen: React.VFC = () => {
   return (
     <LoginProtection loggedOutContent={loggedOutContent}>
       <View style={{ padding: 10, alignItems: 'center' }}>
-        <HoliHeading size="super">Profile</HoliHeading>
+        <HoliHeading level="1" size="super">
+          Profile
+        </HoliHeading>
         {editing ? (
           <UserProfileForm onCancel={toggleEditing} onSubmit={toggleEditing} />
         ) : (

@@ -38,7 +38,7 @@ const Post: React.VFC<PostProps> = ({ navigation }: PostProps) => {
 
   return (
     <View style={{ justifyContent: 'center', padding: 10 }}>
-      <HoliHeading size="super">
+      <HoliHeading level="1" size="super">
         Topic {topicId} Post {postId}
       </HoliHeading>
       <HoliText styles={{ paddingTop: 10 }}>by {fakeTopics.get(topicId).posts[postId].author}</HoliText>

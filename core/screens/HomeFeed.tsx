@@ -30,12 +30,12 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
 
   return (
     <View style={styles.view}>
-      <HoliHeading size="super" testID="home-feed-title">
+      <HoliHeading level="1" size="super" testID="home-feed-title">
         Home
       </HoliHeading>
 
       {/* Holi Apps */}
-      <HoliHeading size="medium">Apps</HoliHeading>
+      <HoliHeading level="2">Apps</HoliHeading>
       <View style={{ flexDirection: 'row' }}>
         <HoliButton
           label="Volunteering"
@@ -61,7 +61,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
       </View>
 
       {/* Weekly Topics */}
-      <HoliHeading size="medium" testID="home-feed-topics">
+      <HoliHeading level="2" testID="home-feed-topics">
         This week’s topics are Immigration, Education and Sustainability
       </HoliHeading>
 

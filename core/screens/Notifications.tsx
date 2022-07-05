@@ -25,7 +25,9 @@ const Notifications: React.VFC<NotificationsProps> = ({ navigation }: Notificati
 
   return (
     <View style={{ padding: 10, alignItems: 'center' }}>
-      <HoliHeading size="super">Notifications</HoliHeading>
+      <HoliHeading level="1" size="super">
+        Notifications
+      </HoliHeading>
     </View>
   )
 }

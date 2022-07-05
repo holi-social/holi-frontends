@@ -25,7 +25,9 @@ const ChatHome: React.VFC<ChatHomeProps> = ({ navigation }: ChatHomeProps) => {
 
   return (
     <View style={{ padding: 10, alignItems: 'center' }}>
-      <HoliHeading size="super">Chat</HoliHeading>
+      <HoliHeading level="1" size="super">
+        Chat
+      </HoliHeading>
     </View>
   )
 }

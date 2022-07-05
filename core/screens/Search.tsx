@@ -25,7 +25,9 @@ const Search: React.VFC<SearchProps> = ({ navigation }: SearchProps) => {
 
   return (
     <View style={{ padding: 10, alignItems: 'center' }}>
-      <HoliHeading size="super">Search</HoliHeading>
+      <HoliHeading level="1" size="super">
+        Search
+      </HoliHeading>
     </View>
   )
 }

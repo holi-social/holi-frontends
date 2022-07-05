@@ -25,7 +25,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = ({ navigation }
 
   return (
     <View style={{ padding: 10 }}>
-      <HoliHeading size="super" testID="home-feed-title">
+      <HoliHeading level="1" size="super" testID="home-feed-title">
         Volunteering App Home
       </HoliHeading>
     </View>

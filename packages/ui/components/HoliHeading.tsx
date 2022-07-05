@@ -4,7 +4,7 @@ import { AccessibilityProps, Platform, StyleSheet, Text, TextStyle } from 'react
 import { AccessibilityPropsWeb } from '@holi/ui/@types/react-native-web'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-type HoliHeadingLevel = 1 | 2 | 3 // for working code completion in vscode
+type HoliHeadingLevel = '1' | '2' | '3' // for working code completion in vscode
 type HoliHeadingSize = 'super' | 'large' | 'medium' | 'small' // for working code completion in vscode
 
 const HoliHeadings: Record<HoliHeadingLevel, { defaultSize: HoliHeadingSize }> = {
@@ -33,7 +33,7 @@ export type HoliHeadingProps = {
 
 const HoliHeading = ({
   children,
-  level = 1,
+  level = '1',
   size = HoliHeadings[level].defaultSize,
   selectable = true,
   ...props
@@ -44,7 +44,7 @@ const HoliHeading = ({
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = Platform.select({
     web: {
       accessibilityRole: 'header',
-      accessibilityLevel: level,
+      accessibilityLevel: level as unknown as number,
     },
     default: {
       role: 'header',
