@@ -53,6 +53,7 @@ export const getHoliTextInputStyles = (theme: HoliTheme) =>
       marginRight: 10,
       ...Platform.select({
         web: {
+          overflowX: 'hidden',
           caretColor: theme.colors.positivepurple,
         },
       }),
