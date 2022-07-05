@@ -55,19 +55,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -140,19 +143,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 14,
             "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -206,19 +212,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -283,19 +292,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -365,19 +377,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 14,
             "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -431,19 +446,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -511,19 +529,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -596,19 +617,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 14,
             "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -662,19 +686,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -739,19 +766,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -821,19 +851,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 14,
             "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -887,19 +920,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -970,19 +1006,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -1064,19 +1103,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 14,
             "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -1136,19 +1178,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -1222,19 +1267,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -1313,19 +1361,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 14,
             "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -1385,19 +1436,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -1474,19 +1528,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -1568,19 +1625,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 14,
             "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -1640,19 +1700,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -1726,19 +1789,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -1817,19 +1883,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 14,
             "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -1889,19 +1958,22 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -1975,19 +2047,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -2060,19 +2135,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 14,
             "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -2126,19 +2204,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -2203,19 +2284,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -2285,19 +2369,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 14,
             "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -2351,19 +2438,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -2431,19 +2521,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -2516,19 +2609,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 14,
             "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -2582,19 +2678,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -2659,19 +2758,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -2741,19 +2843,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 14,
             "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -2807,19 +2912,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {},
         ]
@@ -2890,19 +2998,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -2984,19 +3095,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 14,
             "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -3056,19 +3170,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -3142,19 +3259,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -3233,19 +3353,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 14,
             "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -3305,19 +3428,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -3394,19 +3520,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -3488,19 +3617,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 14,
             "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -3560,19 +3692,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -3646,19 +3781,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -3737,19 +3875,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 14,
             "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",
@@ -3809,19 +3950,22 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     }
   >
     <Text
-      accessible={true}
+      accessible={false}
       selectable={false}
       style={
         Array [
           Object {
-            "fontFamily": "Circular Std Medium",
-            "fontSize": 16,
-            "fontWeight": "500",
-            "lineHeight": 19.2,
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
           Object {
             "fontSize": 21,
             "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
           },
           Object {
             "color": "#6f7081",

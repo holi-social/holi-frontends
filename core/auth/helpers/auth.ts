@@ -16,7 +16,7 @@ const userSessionName = 'user_session'
 //
 // If an error (e.g. network error) occurs, the promise rejects with an error.
 export const getSessionFromStorage = (): Promise<OrySessionContext | null> => {
-  return SecureStore.getItemAsync(userSessionName).then((r) => r ? JSON.parse(r) : null)
+  return SecureStore.getItemAsync(userSessionName).then((r) => (r ? JSON.parse(r) : null))
 }
 
 export const setSessionInStorage = (session: OrySessionContext): Promise<void> => {

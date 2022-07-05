@@ -1,16 +1,15 @@
 @font-face {
   font-family: 'holicons';
-  src:  url('holicons.eot?oubl9w');
-  src:  url('holicons.eot?oubl9w#iefix') format('embedded-opentype'),
-    url('holicons.ttf?oubl9w') format('truetype'),
-    url('holicons.woff?oubl9w') format('woff'),
-    url('holicons.svg?oubl9w#holicons') format('svg');
+  src: url('holicons.eot?oubl9w');
+  src: url('holicons.eot?oubl9w#iefix') format('embedded-opentype'), url('holicons.ttf?oubl9w') format('truetype'),
+    url('holicons.woff?oubl9w') format('woff'), url('holicons.svg?oubl9w#holicons') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^='icon-'],
+[class*=' icon-'] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'holicons' !important;
   speak: never;
@@ -26,245 +25,245 @@
 }
 
 .icon-app-edit:before {
-  content: "\e901";
+  content: '\e901';
 }
 .icon-appstore:before {
-  content: "\e902";
+  content: '\e902';
 }
 .icon-arrow-back:before {
-  content: "\e903";
+  content: '\e903';
 }
 .icon-arrowtip-back:before {
-  content: "\e904";
+  content: '\e904';
 }
 .icon-arrowtip-down:before {
-  content: "\e905";
+  content: '\e905';
 }
 .icon-arrowtip-next:before {
-  content: "\e906";
+  content: '\e906';
 }
 .icon-arrowtip-up:before {
-  content: "\e907";
+  content: '\e907';
 }
 .icon-attachment:before {
-  content: "\e908";
+  content: '\e908';
 }
 .icon-birthday:before {
-  content: "\e909";
+  content: '\e909';
 }
 .icon-block:before {
-  content: "\e90a";
+  content: '\e90a';
 }
 .icon-bookmark-add:before {
-  content: "\e90b";
+  content: '\e90b';
 }
 .icon-bookmarks:before {
-  content: "\e90c";
+  content: '\e90c';
 }
 .icon-calendar:before {
-  content: "\e90d";
+  content: '\e90d';
 }
 .icon-check:before {
-  content: "\e910";
+  content: '\e910';
 }
 .icon-close:before {
-  content: "\e911";
+  content: '\e911';
 }
 .icon-comment:before {
-  content: "\e912";
+  content: '\e912';
 }
 .icon-community:before {
-  content: "\e913";
+  content: '\e913';
 }
 .icon-connections:before {
-  content: "\e914";
+  content: '\e914';
 }
 .icon-customize:before {
-  content: "\e915";
+  content: '\e915';
 }
 .icon-dashboard:before {
-  content: "\e916";
+  content: '\e916';
 }
 .icon-discover:before {
-  content: "\e917";
+  content: '\e917';
 }
 .icon-document:before {
-  content: "\e918";
+  content: '\e918';
 }
 .icon-donate:before {
-  content: "\e919";
+  content: '\e919';
 }
 .icon-edit:before {
-  content: "\e91a";
+  content: '\e91a';
 }
 .icon-events:before {
-  content: "\e91c";
+  content: '\e91c';
 }
 .icon-exit:before {
-  content: "\e91d";
+  content: '\e91d';
 }
 .icon-eye:before {
-  content: "\e91e";
+  content: '\e91e';
 }
 .icon-filter:before {
-  content: "\e91f";
+  content: '\e91f';
 }
 .icon-filters:before {
-  content: "\e920";
+  content: '\e920';
 }
 .icon-folder-open:before {
-  content: "\e921";
+  content: '\e921';
 }
 .icon-folder:before {
-  content: "\e922";
+  content: '\e922';
 }
 .icon-globe:before {
-  content: "\e923";
+  content: '\e923';
 }
 .icon-grid:before {
-  content: "\e924";
+  content: '\e924';
 }
 .icon-hash:before {
-  content: "\e925";
+  content: '\e925';
 }
 .icon-home:before {
-  content: "\e926";
+  content: '\e926';
 }
 .icon-idea:before {
-  content: "\e927";
+  content: '\e927';
 }
 .icon-integration:before {
-  content: "\e929";
+  content: '\e929';
 }
 .icon-interest:before {
-  content: "\e92a";
+  content: '\e92a';
 }
 .icon-invite:before {
-  content: "\e92b";
+  content: '\e92b';
 }
 .icon-join:before {
-  content: "\e92c";
+  content: '\e92c';
 }
 .icon-like:before {
-  content: "\e92d";
+  content: '\e92d';
 }
 .icon-local:before {
-  content: "\e92e";
+  content: '\e92e';
 }
 .icon-location:before {
-  content: "\e92f";
+  content: '\e92f';
 }
 .icon-lock-closed:before {
-  content: "\e930";
+  content: '\e930';
 }
 .icon-lock-open:before {
-  content: "\e931";
+  content: '\e931';
 }
 .icon-map:before {
-  content: "\e932";
+  content: '\e932';
 }
 .icon-message-new:before {
-  content: "\e933";
+  content: '\e933';
 }
 .icon-message-send:before {
-  content: "\e934";
+  content: '\e934';
 }
 .icon-microphone:before {
-  content: "\e935";
+  content: '\e935';
 }
 .icon-moon:before {
-  content: "\e936";
+  content: '\e936';
 }
 .icon-more-horizontal-xs:before {
-  content: "\e937";
+  content: '\e937';
 }
 .icon-more-horizontal:before {
-  content: "\e938";
+  content: '\e938';
 }
 .icon-more-vertical:before {
-  content: "\e939";
+  content: '\e939';
 }
 .icon-notification:before {
-  content: "\e93a";
+  content: '\e93a';
 }
 .icon-participate:before {
-  content: "\e93c";
+  content: '\e93c';
 }
 .icon-people:before {
-  content: "\e93e";
+  content: '\e93e';
 }
 .icon-person:before {
-  content: "\e93f";
+  content: '\e93f';
 }
 .icon-plus:before {
-  content: "\e940";
+  content: '\e940';
 }
 .icon-question:before {
-  content: "\e941";
+  content: '\e941';
 }
 .icon-reload:before {
-  content: "\e942";
+  content: '\e942';
 }
 .icon-search:before {
-  content: "\e943";
+  content: '\e943';
 }
 .icon-security:before {
-  content: "\e944";
+  content: '\e944';
 }
 .icon-settings-bordered:before {
-  content: "\e947";
+  content: '\e947';
 }
 .icon-settings:before {
-  content: "\e948";
+  content: '\e948';
 }
 .icon-share:before {
-  content: "\e949";
+  content: '\e949';
 }
 .icon-spaces:before {
-  content: "\e94a";
+  content: '\e94a';
 }
 .icon-spinner:before {
-  content: "\e94c";
+  content: '\e94c';
 }
 .icon-support:before {
-  content: "\e94d";
+  content: '\e94d';
 }
 .icon-survey:before {
-  content: "\e94e";
+  content: '\e94e';
 }
 .icon-tag:before {
-  content: "\e94f";
+  content: '\e94f';
 }
 .icon-tasks:before {
-  content: "\e950";
+  content: '\e950';
 }
 .icon-team:before {
-  content: "\e951";
+  content: '\e951';
 }
 .icon-toggle-down:before {
-  content: "\e952";
+  content: '\e952';
 }
 .icon-toggle-right:before {
-  content: "\e953";
+  content: '\e953';
 }
 .icon-toggle-up:before {
-  content: "\e954";
+  content: '\e954';
 }
 .icon-trash:before {
-  content: "\e955";
+  content: '\e955';
 }
 .icon-upload:before {
-  content: "\e956";
+  content: '\e956';
 }
 .icon-user:before {
-  content: "\e957";
+  content: '\e957';
 }
 .icon-work:before {
-  content: "\e958";
+  content: '\e958';
 }
 .icon-attachment1:before {
-  content: "\e9cd";
+  content: '\e9cd';
 }
 .icon-smile:before {
-  content: "\e9e1";
+  content: '\e9e1';
 }

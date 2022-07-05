@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
 
-import HoliText from '@holi/ui/components/HoliText'
-import { HoliTextType, HoliTextTypes } from '@holi/ui/components/HoliText/HoliText.types'
+import HoliText, { HoliTextSizes } from '@holi/ui/components/HoliText'
 import theme from '@holi/ui/styles/theme'
 
 export default {
@@ -15,63 +14,55 @@ export default {
   },
 }
 
-export const Primary = ({ ...args }) => <HoliText type={args.type}>{args.children}</HoliText>
+export const Primary = ({ ...args }) => <HoliText {...args} />
 Primary.args = {
   children: 'Text',
-  type: HoliTextType.super,
-  isAccessible: true,
+  size: 'default',
+  bold: false,
+  selectable: true,
 }
 Primary.argTypes = {
   children: {
     description: 'React.ReactChild | React.ReactChild[] | string',
     control: { type: 'text' },
   },
-  type: {
-    description: 'typeof HoliTextType',
-    control: { type: 'select', options: Object.keys(HoliTextType) },
+  size: {
+    description: 'adjusts the size of the text',
+    control: { type: 'select', options: HoliTextSizes },
   },
-  isAccessible: { description: 'boolean', control: { type: 'boolean' } },
+  bold: {
+    description: 'adjusts the boldness of the text',
+  },
+  selectable: { description: 'Should text be selectable?' },
 }
 
 export const Colored = () => (
   <Fragment>
     <div style={{ opacity: 0.2 }}>Colored example</div>
-    <HoliText type={HoliTextType.super} style={{ color: theme.colors.positivepurple }}>
+    <HoliText size="default" styles={{ color: theme.colors.positivepurple }}>
       Positive purple
     </HoliText>
   </Fragment>
 )
 
 export const All = ({ ...args }) => {
-  const types: HoliTextType[] = Object.keys(HoliTextTypes) as HoliTextType[]
-  const samples = types.map((type: HoliTextType) => {
-    return (
-      <div key={type} style={{ marginBottom: '16px' }}>
-        <div style={{ opacity: 0.2 }}>{type}</div>
-        <HoliText
-          type={type as HoliTextType}
-          style={{
-            color: args.color,
-          }}
-        >
-          {args[type]}
-        </HoliText>
-      </div>
-    )
+  const samples = HoliTextSizes.map((size) => {
+    return [true, false].map((bold: boolean) => {
+      return (
+        <div key={size} style={{ marginBottom: '16px' }}>
+          <div style={{ opacity: 0.2 }}>{size}</div>
+          <HoliText
+            size={size}
+            bold={bold}
+            styles={{
+              color: args.color,
+            }}
+          >
+            This is a {size}, {bold ? 'bold' : 'non-bold'} text.
+          </HoliText>
+        </div>
+      )
+    })
   })
   return <div style={{ padding: '16px' }}>{samples}</div>
-}
-
-All.args = {
-  color: theme.colors.fontColorBlack,
-  ...{
-    ...Object.keys(HoliTextTypes).reduce((acc, curr) => {
-      acc[curr] = curr
-      return acc
-    }, {}),
-  },
-}
-
-All.argTypes = {
-  color: { control: { type: 'color' } },
 }
