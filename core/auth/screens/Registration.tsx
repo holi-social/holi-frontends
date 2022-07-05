@@ -1,6 +1,6 @@
 import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } from '@ory/kratos-client'
 import React, { useContext, useEffect, useState } from 'react'
-import { Platform, Text } from 'react-native'
+import { Platform } from 'react-native'
 
 import AuthLayout from '@holi/core/auth/AuthLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
@@ -14,7 +14,7 @@ import HoliText from '@holi/ui/components/HoliText'
 
 const Registration = () => {
   const { navigate } = useRouting()
-  const { setSession } = useContext(AuthContext)
+  const { setUserLoggedIn } = useContext(AuthContext)
   const [flow, setConfig] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
   const { displayError } = useErrorHandling()
 
@@ -52,7 +52,7 @@ const Registration = () => {
             })
           })
           .then((session) => {
-            setSession(session)
+            setUserLoggedIn(session)
             navigate('/')
           })
           .catch(handleFormSubmitError(setConfig, initializeFlow))

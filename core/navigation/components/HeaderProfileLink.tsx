@@ -17,13 +17,14 @@ const HeaderProfileLink: React.VoidFunctionComponent<HeaderProfileLinkProps> = (
   const { navigate } = useRouting()
 
   const { user } = useContext(UserContext)
-  const { isAuthenticated } = useContext(AuthContext)
+  const { isLoggedIn } = useContext(AuthContext)
+  const hasUserData = isLoggedIn && user
 
   // TODO: navigate to user profile!
   const profileUrl = '/profile/danbim'
 
   let userAvatar
-  if (isAuthenticated && user) {
+  if (hasUserData) {
     // TODO: hand over email, when firstName is empty
     const userImageLabel = user.firstName || 'unnamed user'
 
@@ -38,13 +39,13 @@ const HeaderProfileLink: React.VoidFunctionComponent<HeaderProfileLinkProps> = (
     <HoliButton
       label="Profile"
       inline
-      transparent
+      variant="transparent"
       onPress={() => navigate(profileUrl)}
       {...props}
-      style={[{ paddingHorizontal: 0 }, props.style]}
+      style={props.style}
       testID="profile-button"
     >
-      {isAuthenticated && user ? userAvatar : <HoliIcon icon="user-circled" size={20} />}
+      {isLoggedIn && user ? userAvatar : <HoliIcon icon="user-circled" size={20} />}
     </HoliButton>
   )
   //{!isAuthenticated && }

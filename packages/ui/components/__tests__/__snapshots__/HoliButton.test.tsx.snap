@@ -1,0 +1,3841 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'false', type is 'primary', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "backgroundColor": "#f3f360",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'false', type is 'primary', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderRadius": 16,
+        "paddingHorizontal": 16,
+        "paddingVertical": 6,
+      },
+      Object {
+        "backgroundColor": "#f3f360",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'false', type is 'primary', variant is 'transparent' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'false', type is 'secondary', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'false', type is 'secondary', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderRadius": 16,
+        "paddingHorizontal": 16,
+        "paddingVertical": 6,
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'false', type is 'secondary', variant is 'transparent' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'true', type is 'primary', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "backgroundColor": "#f3f360",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'true', type is 'primary', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderRadius": 16,
+        "paddingHorizontal": 16,
+        "paddingVertical": 6,
+      },
+      Object {
+        "backgroundColor": "#f3f360",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'true', type is 'primary', variant is 'transparent' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'true', type is 'secondary', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'true', type is 'secondary', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderRadius": 16,
+        "paddingHorizontal": 16,
+        "paddingVertical": 6,
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'true', type is 'secondary', variant is 'transparent' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'false', type is 'primary', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderColor": "#1b1d201a",
+      },
+      Object {
+        "backgroundColor": "#f7f6f3",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'false', type is 'primary', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderRadius": 16,
+        "paddingHorizontal": 16,
+        "paddingVertical": 6,
+      },
+      Object {
+        "borderColor": "#1b1d201a",
+      },
+      Object {
+        "backgroundColor": "#f7f6f3",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'false', type is 'primary', variant is 'transparent' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'false', type is 'secondary', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderColor": "#1b1d201a",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'false', type is 'secondary', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderRadius": 16,
+        "paddingHorizontal": 16,
+        "paddingVertical": 6,
+      },
+      Object {
+        "borderColor": "#1b1d201a",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'false', type is 'secondary', variant is 'transparent' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'true', type is 'primary', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderColor": "#1b1d201a",
+      },
+      Object {
+        "backgroundColor": "#f7f6f3",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'true', type is 'primary', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderRadius": 16,
+        "paddingHorizontal": 16,
+        "paddingVertical": 6,
+      },
+      Object {
+        "borderColor": "#1b1d201a",
+      },
+      Object {
+        "backgroundColor": "#f7f6f3",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'true', type is 'primary', variant is 'transparent' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'true', type is 'secondary', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderColor": "#1b1d201a",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'true', type is 'secondary', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderRadius": 16,
+        "paddingHorizontal": 16,
+        "paddingVertical": 6,
+      },
+      Object {
+        "borderColor": "#1b1d201a",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'true', type is 'secondary', variant is 'transparent' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "100%",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'false', type is 'primary', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "backgroundColor": "#f3f360",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'false', type is 'primary', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderRadius": 16,
+        "paddingHorizontal": 16,
+        "paddingVertical": 6,
+      },
+      Object {
+        "backgroundColor": "#f3f360",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'false', type is 'primary', variant is 'transparent' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'false', type is 'secondary', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'false', type is 'secondary', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderRadius": 16,
+        "paddingHorizontal": 16,
+        "paddingVertical": 6,
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'false', type is 'secondary', variant is 'transparent' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'true', type is 'primary', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "backgroundColor": "#f3f360",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'true', type is 'primary', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderRadius": 16,
+        "paddingHorizontal": 16,
+        "paddingVertical": 6,
+      },
+      Object {
+        "backgroundColor": "#f3f360",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'true', type is 'primary', variant is 'transparent' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'true', type is 'secondary', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'true', type is 'secondary', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderRadius": 16,
+        "paddingHorizontal": 16,
+        "paddingVertical": 6,
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'true', type is 'secondary', variant is 'transparent' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {},
+        ]
+      }
+      styles={Object {}}
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'false', type is 'primary', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderColor": "#1b1d201a",
+      },
+      Object {
+        "backgroundColor": "#f7f6f3",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'false', type is 'primary', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderRadius": 16,
+        "paddingHorizontal": 16,
+        "paddingVertical": 6,
+      },
+      Object {
+        "borderColor": "#1b1d201a",
+      },
+      Object {
+        "backgroundColor": "#f7f6f3",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'false', type is 'primary', variant is 'transparent' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'false', type is 'secondary', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderColor": "#1b1d201a",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'false', type is 'secondary', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderRadius": 16,
+        "paddingHorizontal": 16,
+        "paddingVertical": 6,
+      },
+      Object {
+        "borderColor": "#1b1d201a",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'false', type is 'secondary', variant is 'transparent' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'true', type is 'primary', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderColor": "#1b1d201a",
+      },
+      Object {
+        "backgroundColor": "#f7f6f3",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'true', type is 'primary', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderRadius": 16,
+        "paddingHorizontal": 16,
+        "paddingVertical": 6,
+      },
+      Object {
+        "borderColor": "#1b1d201a",
+      },
+      Object {
+        "backgroundColor": "#f7f6f3",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'true', type is 'primary', variant is 'transparent' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'true', type is 'secondary', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderColor": "#1b1d201a",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'true', type is 'secondary', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#222326",
+        "borderRadius": 24,
+        "borderWidth": 2,
+        "elevation": 0,
+        "margin": 4,
+        "overflow": "hidden",
+        "paddingHorizontal": 32,
+        "paddingVertical": 13,
+      },
+      Object {
+        "borderRadius": 16,
+        "paddingHorizontal": 16,
+        "paddingVertical": 6,
+      },
+      Object {
+        "borderColor": "#1b1d201a",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'true', type is 'secondary', variant is 'transparent' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "color": "#6f7081",
+        }
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;

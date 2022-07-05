@@ -12,10 +12,10 @@ type LoginProtectionProps = {
 }
 
 const LoginProtection: React.VFC<LoginProtectionProps> = ({ children, loggedOutContent }: LoginProtectionProps) => {
-  const { isAuthenticated } = useContext(AuthContext)
+  const { isLoggedIn } = useContext(AuthContext)
   const { navigate } = useRouting()
 
-  if (isAuthenticated) {
+  if (isLoggedIn) {
     return <>{children}</>
   }
 

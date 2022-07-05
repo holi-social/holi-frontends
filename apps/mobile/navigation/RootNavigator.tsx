@@ -50,6 +50,38 @@ const HomeStack = createNativeStackNavigator<HomeStackScreens>()
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
+const backButton = () => {
+  const { theme } = useTheme()
+  const { navigateBack } = useRouting()
+  return (
+    <HoliButton
+      label="Go back"
+      inline
+      variant="transparent"
+      onPress={() => navigateBack()}
+      style={{ paddingHorizontal: 0 }}
+    >
+      <Holicon icon="arrow-back" size={30} color={theme.colors.softblack} />
+    </HoliButton>
+  )
+}
+
+const downButton = () => {
+  const { theme } = useTheme()
+  const { navigateBack } = useRouting()
+  return (
+    <HoliButton
+      label="Close window"
+      inline
+      variant="transparent"
+      onPress={() => navigateBack()}
+      style={{ paddingHorizontal: 0 }}
+    >
+      <Holicon icon="arrowtip-down" size={30} color={theme.colors.softblack} />
+    </HoliButton>
+  )
+}
+
 export const HomeStackNavigator: React.VFC = () => {
   const { theme } = useTheme()
   return (
@@ -83,61 +115,52 @@ export const HomeStackNavigator: React.VFC = () => {
         name="UserProfile"
         component={UserProfileScreen}
         options={{
-          headerLeft: () => {
-            const { navigate } = useRouting()
-            return (
-              <HoliButton
-                label="Notifications"
-                inline
-                transparent
-                onPress={() => navigate('/')}
-                style={{ paddingHorizontal: 0 }}
-              >
-                <Holicon icon="arrow-back" size={30} color={theme.colors.positivepurple} />
-              </HoliButton>
-            )
-          },
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+          headerLeft: backButton,
+          headerRight: () => (
+            <HeaderProfileLink
+              style={{
+                paddingHorizontal: 0,
+                marginRight: 5,
+              }}
+            />
+          ),
         }}
       />
       <HomeStack.Screen
         name="Topic"
         component={Topic}
         options={{
-          headerLeft: () => {
-            const { navigate } = useRouting()
-            return (
-              <HoliButton
-                label="Notifications"
-                inline
-                transparent
-                onPress={() => navigate('/')}
-                style={{ paddingHorizontal: 0 }}
-              >
-                <Holicon icon="arrow-back" size={30} color={theme.colors.positivepurple} />
-              </HoliButton>
-            )
-          },
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+          headerLeft: backButton,
         }}
       />
-      <HomeStack.Screen name="Post" component={Post} />
+      <HomeStack.Screen
+        name="Post"
+        component={Post}
+        options={{
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+          headerLeft: backButton,
+        }}
+      />
       <HomeStack.Screen
         name="Notifications"
         component={Notifications}
         options={{
-          headerLeft: () => {
-            const { navigate } = useRouting()
-            return (
-              <HoliButton
-                label="Notifications"
-                inline
-                transparent
-                onPress={() => navigate('/')}
-                style={{ paddingHorizontal: 0 }}
-              >
-                <Holicon icon="arrow-back" size={30} color={theme.colors.positivepurple} />
-              </HoliButton>
-            )
-          },
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+          headerLeft: backButton,
+          headerRight: () => (
+            <HeaderProfileLink
+              style={{
+                paddingHorizontal: 0,
+                marginRight: 5,
+              }}
+            />
+          ),
         }}
       />
     </HomeStack.Navigator>
@@ -165,7 +188,7 @@ export const BottomTabsNavigator: React.VFC = () => {
         name="Home"
         component={HomeStackNavigator}
         options={{
-          headerShown: false, // each page sets it's own header, see HomeStackNavigator
+          headerShown: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="home" size={20} filled={focused} style={{ color: iconColor(focused) }} />
@@ -174,7 +197,7 @@ export const BottomTabsNavigator: React.VFC = () => {
       />
       <BottomTabs.Screen
         name="Chat"
-        component={ChatStackNavigator} // chat is complex, probably needs a navigator
+        component={ChatStackNavigator}
         options={{
           headerShown: false,
           tabBarShowLabel: false,
@@ -187,7 +210,7 @@ export const BottomTabsNavigator: React.VFC = () => {
         name="Explore"
         component={Explore}
         options={{
-          headerShown: true, // TODO: replace with custom header
+          headerShown: true,
           headerTitleAlign: 'center',
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
@@ -199,7 +222,7 @@ export const BottomTabsNavigator: React.VFC = () => {
         name="Search"
         component={Search}
         options={{
-          headerShown: true, // TODO: replace with custom header
+          headerShown: true,
           headerTitleAlign: 'center',
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
@@ -226,6 +249,10 @@ const RootNavigator: React.VFC = () => (
         presentation: 'modal',
         animation: 'slide_from_bottom',
         headerShown: true,
+        headerTitleAlign: 'center',
+        headerBackVisible: false,
+        headerBackTitleVisible: false,
+        headerLeft: downButton,
       }}
     >
       <RootStack.Screen
