@@ -41,6 +41,7 @@ default:
     - UI_DOMAIN=`cat $UI_DOMAIN_PATH`
     - terraform/environments/web/scripts/wait-for-ssl.sh "https://${UI_DOMAIN}"
     - cd e2e/web
+    - yarn install
     - BASE_URL="https://${UI_DOMAIN}" yarn run playwright test
   interruptible: true
   allow_failure: true
