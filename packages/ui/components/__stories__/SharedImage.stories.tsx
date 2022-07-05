@@ -1,4 +1,3 @@
-/* eslint-disable import/no-anonymous-default-export */
 import React, { Fragment } from 'react'
 
 import SharedImage from '@holi/ui/components/SharedImage'
@@ -14,7 +13,7 @@ export default {
   },
 }
 
-export const Example = ({ ...args }) => (
+export const Example = () => (
   <Fragment>
     <div style={{ opacity: 0.2 }}>Usage</div>
     <SharedImage
