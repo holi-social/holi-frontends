@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { createParam } from 'solito'
 
@@ -30,7 +30,7 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
 
   const { setNavigationHeader } = useNavigationHeader()
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const title = `Topic ${topicId}`
     setNavigationHeader({
       title: title,
