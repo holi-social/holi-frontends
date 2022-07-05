@@ -31,7 +31,7 @@ export type HoliTextInputProps = {
   /** Number of lines/rows to be displayed on initial render. Min of noOfLines/maxNoOfLines */
   noOfLines?: number
   maxNoOfLines?: number
-  noOfCharacters?: number
+  maxNoOfCharacters?: number
   onChange?: (value: string) => void
   keyboardType?: KeyboardType
   returnKeyType?: ReturnKeyType
@@ -46,7 +46,7 @@ export type HoliTextInputProps = {
 const HoliTextInput = ({
   noOfLines = 1,
   maxNoOfLines = 3,
-  noOfCharacters = 5000,
+  maxNoOfCharacters = 5000,
   inline = true,
   ...props
 }: HoliTextInputProps) => {
@@ -129,7 +129,7 @@ const HoliTextInput = ({
                   setNumberOfLines(clamp(calcNumberOfLines, noOfLines, maxNoOfLines))
                 }}
                 keyboardType={props?.keyboardType}
-                maxLength={noOfCharacters}
+                maxLength={maxNoOfCharacters}
                 editable={!props?.isDisabled}
                 returnKeyType={props?.returnKeyType}
                 {...accessibilityProps}
@@ -150,7 +150,7 @@ const HoliTextInput = ({
                   )}
                 </View>
               )}
-              {inputValue.length > noOfCharacters * 0.8 && (
+              {inputValue.length > maxNoOfCharacters * 0.8 && (
                 <View
                   style={[
                     styles.inputCharsTextWrapper,
@@ -161,7 +161,7 @@ const HoliTextInput = ({
                   ]}
                 >
                   <HoliText type={HoliTextType.label} styles={styles.inputCharsText}>
-                    {`${inputValue.length}/${noOfCharacters}`}
+                    {`${inputValue.length}/${maxNoOfCharacters}`}
                   </HoliText>
                 </View>
               )}

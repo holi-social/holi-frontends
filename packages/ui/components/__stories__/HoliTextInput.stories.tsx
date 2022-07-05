@@ -19,7 +19,7 @@ Primary.args = {
   label: 'Label',
   placeholder: 'Placeholder',
   helperText: 'Helper Text',
-  noOfCharacters: 50,
+  maxNoOfCharacters: 50,
   hasValidationErrors: false,
   validationErrorText: 'Validation error Text',
   inline: true,
@@ -53,7 +53,7 @@ export const WithTrailingIcon = ({ ...args }) => (
 WithTrailingIcon.args = {
   trailingIcon: 'search',
 }
-WithTrailingIcon.argsTypes = {
+WithTrailingIcon.argTypes = {
   trailingIcon: {
     type: 'select',
     options: iconSetRegular.icons.map((icon) => icon?.properties?.name),
