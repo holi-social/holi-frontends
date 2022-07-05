@@ -32,7 +32,7 @@ default:
   interruptible: false
 
 .web_e2e:
-  image: 'codeceptjs/codeceptjs'
+  image: 'mcr.microsoft.com/playwright:v1.23.1'
   dependencies: [] # explicitly disable artifact usage
   script:
     - UI_DOMAIN=`cat $UI_DOMAIN_PATH`

@@ -2091,6 +2091,14 @@
   dependencies:
     axios "^0.21.4"
 
+"@playwright/test@^1.23.1":
+  version "1.23.1"
+  resolved "https://registry.yarnpkg.com/@playwright/test/-/test-1.23.1.tgz#209cceb81c579d1cd2835f15c2bb3a8345103d60"
+  integrity sha512-dKplLPSYPZgnsBk1xxOophhpx3ZVg8DveoNJgLPe096lDCfmaIIreLsYF+4hqzy3PG61IP+aEnG5VAOjC3bhbA==
+  dependencies:
+    "@types/node" "*"
+    playwright-core "1.23.1"
+
 "@pmmmwh/react-refresh-webpack-plugin@^0.5.3":
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/@pmmmwh/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.5.7.tgz#58f8217ba70069cc6a73f5d7e05e85b458c150e2"
@@ -12768,6 +12776,11 @@ pkg-up@^3.1.0:
 playwright-core@1.22.2:
   version "1.22.2"
   resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.22.2.tgz#ed2963d79d71c2a18d5a6fd25b60b9f0a344661a"
+
+playwright-core@1.23.1:
+  version "1.23.1"
+  resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.23.1.tgz#af02bd7568af1017e477433b1b003ba84e1eb312"
+  integrity sha512-9CXsE0gawph4KXl6oUaa0ehHRySZjHvly4TybcBXDvzK3N3o6L/eZ8Q6iVWUiMn0LLS5bRFxo1qEtOETlYJxjw==
 
 playwright@^1.19.2:
   version "1.22.2"
