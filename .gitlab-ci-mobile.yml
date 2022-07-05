@@ -10,6 +10,8 @@
     - cd apps/mobile
     - expo publish --release-channel $ENVIRONMENT_ID
   interruptible: true
+  tags:
+    - holi-big
 
 .mobile_build:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
@@ -145,7 +147,7 @@ mobile_staging_build:
     KEEP_ARTIFACTS: 'true'
   artifacts:
     paths:
-      - artifacts_staging/
+      - apps/mobile/artifacts_staging/
   only:
     - main
 
@@ -188,7 +190,7 @@ mobile_production_build:
     HOLI_API_URL: https://production.unified.apis.project-holi.org/graphql
   artifacts:
     paths:
-      - artifacts_production/
+      - apps/mobile/artifacts_production/
   only:
     - main
 

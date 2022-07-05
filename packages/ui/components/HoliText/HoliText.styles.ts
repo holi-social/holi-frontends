@@ -29,6 +29,10 @@ export const getHoliTextStyles = (theme: HoliTheme) =>
       fontSize: 21,
       lineHeight: 21 * 1.2,
     },
+    buttonSmall: {
+      fontSize: 14,
+      lineHeight: 14 * 1.2,
+    },
     body: {
       lineHeight: 16 * 1.4,
       fontWeight: '400',

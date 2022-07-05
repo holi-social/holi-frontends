@@ -1,7 +1,7 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/axios.tsx
 import { AxiosInstance } from 'axios'
 
-const REQUEST_TIMEOUT_IN_MS = 1000
+const REQUEST_TIMEOUT_IN_MS = 10000
 const RETRY_COUNT = 10
 
 export const resilience = (axios: AxiosInstance) => {

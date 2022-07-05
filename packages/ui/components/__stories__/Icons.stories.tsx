@@ -1,4 +1,3 @@
-/* eslint-disable import/no-anonymous-default-export */
 import React from 'react'
 
 import iconSelection from '@holi/ui/assets/fonts/holicons/selection.json'

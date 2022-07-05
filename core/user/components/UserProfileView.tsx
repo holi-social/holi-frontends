@@ -17,14 +17,20 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
   }
 
   // TODO: hand over email, when firstName is empty
-  const userImageLabel = user.firstName
+  const userImageLabel = user.firstName || 'unnamed user'
 
   // TODO: should be generated during user registration process (HOLI-1525)
   const userDefaultColor = '#0f0'
 
   return (
     <>
-      <HoliUserAvatar imageSrc={user.avatar} nameLabel={userImageLabel} defaultColor={userDefaultColor} size="large" />
+      <HoliUserAvatar
+        imageSrc={user.avatar}
+        nameLabel={userImageLabel}
+        defaultColor={userDefaultColor}
+        initials={userImageLabel.charAt(0)}
+        size="large"
+      />
 
       <HoliText>{user.firstName}</HoliText>
       <HoliText>{user.middleName}</HoliText>

@@ -135,7 +135,7 @@ To give an overview, the project contains the following workspaces (npm packages
 - `apps` - contains platform specific configs, styles and structurally differing code that can not be shared (e.g. the navigation and next.js pages)
   - `mobile` - the mobile ("native" as in React Native) app for iOS and Android, managed by Expo. Contains just the minimal platform-specific code that can not be shared with `web`.
   - `web` - the web (reactive, small and big screen) site, built with React Native for Web and Expo. Contains just the minimal platform-specific code that can not be shared with `mobile`.
-  - `storybook` - app to explore UI components. `stories` should be in `packages/ui/components/stories`
+  - `storybook` - app to explore UI components. `stories` should be in `packages/ui/components/__stories__`
 - `core` - shared code for the core of the HOLI app / site (feature-specific components, screens, ...)
   - `auth` - shared components and helpers for authentication
   - `errors` - shared components and helpers for error handling
@@ -167,15 +167,15 @@ Components in `packages/ui` and `screens` should use the following folder struct
 - `MyComponent.tsx` - example for a component that is the same for both platforms
 - `OtherComponent.tsx` - mobile variant of a component with platform specific variants
 - `OtherComponent.web.tsx` - web variant of `OtherComponent`
+- `__stories__` - stories for storybook
+  - `MyComponent.stories.tsx`
+  - `OtherComponent.stories.tsx`
 - `__tests__` - component tests
   - `MyCompontent.test.tsx`
   - `OtherComponent.test.tsx`
   - `__snapshots__`
     - `MyCompontent.test.tsx.snap`
     - `OtherComponent.test.tsx.snap`
-- `stories` - stories for storybook
-  - `MyComponent.stories.tsx`
-  - `OtherComponent.stories.tsx`
 
 ### Code conventions
 

@@ -1,4 +1,3 @@
-/* eslint-disable import/no-anonymous-default-export */
 import React, { Fragment } from 'react'
 
 import HoliText from '@holi/ui/components/HoliText'

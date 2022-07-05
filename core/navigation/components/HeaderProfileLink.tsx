@@ -17,19 +17,21 @@ const HeaderProfileLink: React.VoidFunctionComponent<HeaderProfileLinkProps> = (
   const { navigate } = useRouting()
 
   const { user } = useContext(UserContext)
-  const { isAuthenticated } = useContext(AuthContext)
+  const { isLoggedIn } = useContext(AuthContext)
+  const hasUserData = isLoggedIn && user
 
   // TODO: navigate to user profile!
   const profileUrl = '/profile/danbim'
 
   let userAvatar
-  if (isAuthenticated && user) {
+  if (hasUserData) {
     // TODO: hand over email, when firstName is empty
-    const userImageLabel = user.firstName
+    const userImageLabel = user.firstName || 'unnamed user'
+
     // TODO: should be generated during user registration process (HOLI-1525)
     const userDefaultColor = '#0f0'
     userAvatar = (
-      <HoliUserAvatar imageSrc={user.image} nameLabel={userImageLabel} defaultColor={userDefaultColor} size="micro" />
+      <HoliUserAvatar imageSrc={user.avatar} nameLabel={userImageLabel} defaultColor={userDefaultColor} size="micro" />
     )
   }
 
@@ -37,14 +39,14 @@ const HeaderProfileLink: React.VoidFunctionComponent<HeaderProfileLinkProps> = (
     <HoliButton
       label="Profile"
       inline
-      transparent
+      variant="transparent"
       onPress={() => navigate(profileUrl)}
       {...props}
-      style={[{ paddingHorizontal: 0 }, props.style]}
+      style={props.style}
       testID="profile-button"
     >
-      {!isAuthenticated && <HoliIcon icon="user-circled" size={20} />}
-      {isAuthenticated && userAvatar}
+      {!hasUserData && <HoliIcon icon="user-circled" size={20} />}
+      {hasUserData && userAvatar}
     </HoliButton>
   )
 }

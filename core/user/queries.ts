@@ -56,10 +56,10 @@ export const updateUserMutation = gql`
   ${userFragment}
 
   mutation UpdateAuthenticatedUser($input: UpdateAuthenticatedUserInput!) {
-      updateAuthenticatedUser(input: $input) {
-          authenticatedUser {
-              ...FullUser
-          }
+    updateAuthenticatedUser(input: $input) {
+      authenticatedUser {
+        ...FullUser
       }
+    }
   }
 `
