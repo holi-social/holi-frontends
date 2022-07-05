@@ -5,8 +5,8 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliText from '@holi/ui/components/HoliText'
-import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
 type NotificationsProps = NativeStackScreenProps<HomeStackScreens>
 
@@ -18,18 +18,16 @@ const Notifications: React.VFC<NotificationsProps> = ({ navigation }: Notificati
     () =>
       setNavigationHeader({
         title: title,
-        titleElement: () => (
-          <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
-            {title}
-          </HoliText>
-        ),
+        titleElement: () => <HoliText style={{ paddingTop: 5 }}>{title}</HoliText>,
       }),
     [navigation, setNavigationHeader]
   )
 
   return (
     <View style={{ padding: 10, alignItems: 'center' }}>
-      <HoliText type={HoliTextType.super}>Notifications</HoliText>
+      <HoliHeading level="1" size="super">
+        Notifications
+      </HoliHeading>
     </View>
   )
 }

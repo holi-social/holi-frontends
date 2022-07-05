@@ -1,8 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 
-import HoliText from '@holi/ui/components/HoliText'
-import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
+import HoliHeading from '@holi/ui/components/HoliHeading'
 
 type TopicEditorsProps = {
   topicId: string
@@ -11,7 +10,7 @@ type TopicEditorsProps = {
 const TopicEditors: React.FunctionComponent<TopicEditorsProps> = ({ topicId }) => {
   return (
     <View style={{ padding: 10 }}>
-      <HoliText type={HoliTextType.super}>{`This week's topic editors for topicId=${topicId}`}</HoliText>
+      <HoliHeading level="1" size="super">{`This week's topic editors for topicId=${topicId}`}</HoliHeading>
     </View>
   )
 }
