@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { createParam } from 'solito'
 
@@ -25,12 +25,9 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
   const [showModal, setShowModal] = useState(false)
   const [topicId = ''] = useParam('topicId')
   const { navigate } = useRouting()
-  const topic = fakeTopics.get(topicId)
-  if (!topic) return <HoliText>Topic {topicId} not found</HoliText>
 
   const { setNavigationHeader } = useNavigationHeader()
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     const title = `Topic ${topicId}`
     setNavigationHeader({
       title: title,
@@ -41,6 +38,12 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
       ),
     })
   }, [navigation])
+
+  // Important: `fakeTopics.get(topicId) should be called after useEffect() or useLayoutEffet()
+  // A hard reload will cause an error.
+  // see here: https://reactjs.org/docs/hooks-rules.html
+  const topic = fakeTopics.get(topicId)
+  if (!topic) return <HoliText>Topic {topicId} not found</HoliText>
 
   return (
     <View style={styles.topicView}>
