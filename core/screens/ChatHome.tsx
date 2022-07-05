@@ -24,7 +24,7 @@ const ChatHome: React.VFC<ChatHomeProps> = ({ navigation }: ChatHomeProps) => {
           </HoliText>
         ),
       }),
-    [navigation]
+    [navigation, setNavigationHeader]
   )
 
   return (

@@ -29,7 +29,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
           </HoliText>
         ),
       }),
-    [navigation]
+    [navigation, setNavigationHeader]
   )
 
   return (

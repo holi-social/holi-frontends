@@ -27,7 +27,7 @@ const Registration = () => {
       .catch((error) => displayError(error, 'Initializing registration flow failed'))
   }
   // When the component is mounted, we initialize a new use login flow:
-  useEffect(() => initializeFlow(), [])
+  useEffect(() => initializeFlow())
 
   // This will update the registration flow with the user provided input:
   const onSubmit = (payload: SubmitSelfServiceRegistrationFlowBody): Promise<void> =>

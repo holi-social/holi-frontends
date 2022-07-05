@@ -24,7 +24,7 @@ const Search: React.VFC<SearchProps> = ({ navigation }: SearchProps) => {
           </HoliText>
         ),
       }),
-    [navigation]
+    [navigation, setNavigationHeader]
   )
 
   return (

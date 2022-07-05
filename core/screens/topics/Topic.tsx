@@ -26,7 +26,6 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
   const [topicId = ''] = useParam('topicId')
   const { navigate } = useRouting()
   const topic = fakeTopics.get(topicId)
-  if (!topic) return <HoliText>Topic {topicId} not found</HoliText>
 
   const { setNavigationHeader } = useNavigationHeader()
 
@@ -40,7 +39,9 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
         </HoliText>
       ),
     })
-  }, [navigation])
+  }, [navigation, setNavigationHeader, topicId])
+
+  if (!topic) return <HoliText>Topic {topicId} not found</HoliText>
 
   return (
     <View style={styles.topicView}>

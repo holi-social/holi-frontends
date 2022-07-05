@@ -50,7 +50,7 @@ const HomeStack = createNativeStackNavigator<HomeStackScreens>()
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
-const backButton = () => {
+const BackButton = () => {
   const { theme } = useTheme()
   const { navigateBack } = useRouting()
   return (
@@ -66,7 +66,7 @@ const backButton = () => {
   )
 }
 
-const downButton = () => {
+const DownButton = () => {
   const { theme } = useTheme()
   const { navigateBack } = useRouting()
   return (
@@ -117,7 +117,7 @@ export const HomeStackNavigator: React.VFC = () => {
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
-          headerLeft: backButton,
+          headerLeft: BackButton,
           headerRight: () => (
             <HeaderProfileLink
               style={{
@@ -134,7 +134,7 @@ export const HomeStackNavigator: React.VFC = () => {
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
-          headerLeft: backButton,
+          headerLeft: BackButton,
         }}
       />
       <HomeStack.Screen
@@ -143,7 +143,7 @@ export const HomeStackNavigator: React.VFC = () => {
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
-          headerLeft: backButton,
+          headerLeft: BackButton,
         }}
       />
       <HomeStack.Screen
@@ -152,7 +152,7 @@ export const HomeStackNavigator: React.VFC = () => {
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
-          headerLeft: backButton,
+          headerLeft: BackButton,
           headerRight: () => (
             <HeaderProfileLink
               style={{
@@ -252,7 +252,7 @@ const RootNavigator: React.VFC = () => (
         headerTitleAlign: 'center',
         headerBackVisible: false,
         headerBackTitleVisible: false,
-        headerLeft: downButton,
+        headerLeft: DownButton,
       }}
     >
       <RootStack.Screen

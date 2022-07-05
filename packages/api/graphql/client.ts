@@ -9,7 +9,7 @@ import authLink from './authLink'
 
 const TIMEOUT_IN_MS = 10000 // 10 second timeout
 
-const { logError } = useErrorHandling()
+const { logError } = useErrorHandling() // eslint-disable-line
 
 const timeoutLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
 const httpLink = new HttpLink({ uri: holiApiUrl })

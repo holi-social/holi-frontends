@@ -63,7 +63,7 @@ export const SelfServiceFlow = <
 
     setValues(values as T)
     setNodes(nodes)
-  }, [flow])
+  }, [flow, only])
 
   if (!flow) {
     return null

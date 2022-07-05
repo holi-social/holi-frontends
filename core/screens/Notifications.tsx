@@ -24,7 +24,7 @@ const Notifications: React.VFC<NotificationsProps> = ({ navigation }: Notificati
           </HoliText>
         ),
       }),
-    [navigation]
+    [navigation, setNavigationHeader]
   )
 
   return (

@@ -24,7 +24,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = ({ navigation }
           </HoliText>
         ),
       }),
-    [navigation]
+    [navigation, setNavigationHeader]
   )
 
   return (

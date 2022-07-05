@@ -31,7 +31,7 @@ const Login: React.VoidFunctionComponent = () => {
   }
 
   // When the component is mounted, we initialize a new use login flow:
-  useEffect(() => initializeFlow(), [])
+  useEffect(() => initializeFlow())
 
   // This will update the login flow with the user provided input:
   const onSubmit = (payload: SubmitSelfServiceLoginFlowBody) =>

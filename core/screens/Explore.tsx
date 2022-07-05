@@ -24,7 +24,7 @@ const Explore: React.VFC<ExploreProps> = ({ navigation }: ExploreProps) => {
           </HoliText>
         ),
       }),
-    [navigation]
+    [navigation, setNavigationHeader]
   )
 
   return (

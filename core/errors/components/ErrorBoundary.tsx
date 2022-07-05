@@ -19,7 +19,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   }
 
   componentDidCatch(error: Error, errorInfo: { componentStack: string }) {
-    const { logError } = useErrorHandling()
+    const { logError } = useErrorHandling() // eslint-disable-line
     logError(error, '[ErrorBoundary.tsx]', errorInfo.componentStack)
     this.setState({ error })
   }

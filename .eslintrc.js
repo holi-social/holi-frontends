@@ -18,9 +18,9 @@ module.exports = {
     ecmaVersion: '6',
     sourceType: 'module',
   },
-  plugins: ['react', 'react-native', '@typescript-eslint', 'prefer-arrow', 'prettier'],
+  plugins: ['react', 'react-native', 'react-hooks', '@typescript-eslint', 'prefer-arrow', 'prettier'],
   rules: {
-    'prettier/prettier': ['warn'],
+    'prettier/prettier': ['error'],
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
@@ -40,5 +40,7 @@ module.exports = {
         patterns: ['..*'],
       },
     ],
+    'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
+    'react-hooks/exhaustive-deps': 'error', // Checks effect dependencies
   },
 }

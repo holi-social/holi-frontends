@@ -35,7 +35,7 @@ const Post: React.VFC<PostProps> = ({ navigation }: PostProps) => {
         </HoliText>
       ),
     })
-  }, [navigation])
+  }, [navigation, postId, topicId, setNavigationHeader])
 
   if (!topicId) return <HoliText>Missing topicId</HoliText>
   if (!postId) return <HoliText>Missing postId</HoliText>

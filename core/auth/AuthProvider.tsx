@@ -121,7 +121,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     getSessionFromStorage()
       .then(onSessionLoadedFromStorage)
       .catch((error) => displayError(error, 'Error creating session'))
-  }, [])
+  })
 
   return (
     <AuthContext.Provider

@@ -34,7 +34,7 @@ export const UserProfileScreen: React.VFC = () => {
         </HoliText>
       ),
     })
-  }, [isLoggedIn])
+  }, [isLoggedIn, setNavigationHeader, user])
 
   const loggedOutContent = <HoliText type={HoliTextType.heading1}>Log in to see your profile</HoliText>
   return (
