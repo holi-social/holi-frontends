@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import { Disabled, Multiline, NoLabel, Primary } from '@holi/web/stories/HoliTextInput.stories'
+import { Disabled, Multiline, NoLabel, Primary } from '@holi/ui/components/__stories__/HoliTextInput.stories'
 
 test('renders correctly with default props', () => {
   const tree = renderer.create(<Primary {...Primary.args} />).toJSON()

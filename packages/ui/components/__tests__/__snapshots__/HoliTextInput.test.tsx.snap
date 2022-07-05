@@ -41,6 +41,8 @@ exports[`renders correctly when disabled 1`] = `
       }
     >
       <Text
+        accessible={true}
+        selectable={true}
         style={
           Array [
             Object {
@@ -170,6 +172,8 @@ exports[`renders correctly when disabled 1`] = `
       }
     >
       <Text
+        accessible={true}
+        selectable={true}
         style={
           Array [
             Object {
@@ -249,6 +253,8 @@ exports[`renders correctly when multiline 1`] = `
       }
     >
       <Text
+        accessible={true}
+        selectable={true}
         style={
           Array [
             Object {
@@ -375,6 +381,8 @@ exports[`renders correctly when multiline 1`] = `
       }
     >
       <Text
+        accessible={true}
+        selectable={true}
         style={
           Array [
             Object {
@@ -454,6 +462,8 @@ exports[`renders correctly with default props 1`] = `
       }
     >
       <Text
+        accessible={true}
+        selectable={true}
         style={
           Array [
             Object {
@@ -580,6 +590,8 @@ exports[`renders correctly with default props 1`] = `
       }
     >
       <Text
+        accessible={true}
+        selectable={true}
         style={
           Array [
             Object {
@@ -736,6 +748,8 @@ exports[`renders correctly without label 1`] = `
       }
     >
       <Text
+        accessible={true}
+        selectable={true}
         style={
           Array [
             Object {
