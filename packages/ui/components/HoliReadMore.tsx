@@ -48,8 +48,8 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
   const showButtonText = 'Read more'
   const { length: showButtonTextLength } = showButtonText
 
-  // buffer text length for last visible line
-  const bufferTextLength = 5
+  // buffer factor to truncate the text for extra space (showButtonTextLength * bufferTextFactor)
+  const bufferTextFactor = 2
 
   // render a custom ellipsis for the truncated text
   const ellipsis = '... '
@@ -77,13 +77,13 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
         // if we are in the last visible line, truncate it in case its text is too long (longer or equal to the length of first line minus the button text length)
         if (
           numberOfLines - 1 === index &&
-          text.length >= firstLineLength - showButtonTextLength - bufferTextLength - ellipsisLength
+          text.length >= firstLineLength - showButtonTextLength * bufferTextFactor - ellipsisLength
         ) {
           // only display Read More button if truncating was needed
           truncated = true
 
           return (
-            text.substring(0, firstLineLength - showButtonTextLength - bufferTextLength - ellipsisLength) + ellipsis
+            text.substring(0, firstLineLength - showButtonTextLength * bufferTextFactor - ellipsisLength) + ellipsis
           )
         }
 
