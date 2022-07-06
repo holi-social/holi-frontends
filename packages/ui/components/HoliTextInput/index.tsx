@@ -8,6 +8,7 @@ import {
   TextInputProps,
   View,
   useWindowDimensions,
+  Platform,
 } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/HoliIcon'
@@ -132,6 +133,7 @@ const HoliTextInput = ({
                 maxLength={maxNoOfCharacters}
                 editable={!props?.isDisabled}
                 returnKeyType={props?.returnKeyType}
+                blurOnSubmit={Platform.OS !== 'web'}
                 {...accessibilityProps}
                 {...props?.inputProps}
               />
