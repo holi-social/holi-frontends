@@ -76,7 +76,6 @@ const HoliTextInput = ({
   const { theme } = useTheme()
   const styles = getStyles(theme)
 
-  console.log('HoliTextInput', props)
   return (
     <View style={[styles.wrapper, inline ? styles.inline : styles.block]}>
       <View style={[styles.wrapperContainer, { maxWidth: dimensions.width }, inline ? styles.inline : styles.block]}>
