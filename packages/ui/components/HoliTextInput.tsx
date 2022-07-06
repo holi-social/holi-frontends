@@ -163,7 +163,10 @@ const HoliTextInput = ({
                     hasValidationErrors && styles.inputCharsTextWrapperHasValidationErrors,
                   ]}
                 >
-                  <HoliText styles={styles.inputCharsText}>{`${inputValue.length}/${maxNoOfCharacters}`}</HoliText>
+                  <HoliText
+                    size="extrasmall"
+                    styles={styles.inputCharsText}
+                  >{`${inputValue.length}/${maxNoOfCharacters}`}</HoliText>
                 </View>
               )}
             </View>
