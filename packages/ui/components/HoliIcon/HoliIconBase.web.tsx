@@ -12,13 +12,22 @@ const HoliconWeb: React.VFC<HoliIconProps> = (props: HoliIconProps) => {
   const cleanedProps = { ...props }
   delete cleanedProps.filled
   cleanedProps.icon = props.icon.replace(/_filled/g, '')
+
   return (
     <>
       {props.filled && (
-        <IcoMoon iconSet={iconSetFilled} style={{ color: theme.colors.fontColorBlack }} {...cleanedProps} />
+        <IcoMoon
+          iconSet={iconSetFilled}
+          style={{ color: props?.color || theme.colors.fontColorBlack }}
+          {...cleanedProps}
+        />
       )}
       {!props.filled && (
-        <IcoMoon iconSet={iconSetRegular} style={{ color: theme.colors.fontColorBlack }} {...cleanedProps} />
+        <IcoMoon
+          iconSet={iconSetRegular}
+          style={{ color: props?.color || theme.colors.fontColorBlack }}
+          {...cleanedProps}
+        />
       )}
     </>
   )
