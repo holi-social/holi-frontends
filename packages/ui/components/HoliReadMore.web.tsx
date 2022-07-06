@@ -13,7 +13,7 @@ import theme, { HoliTheme } from '@holi/ui/styles/theme'
  */
 const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMoreProps) => {
   const defaultNumberOfLines = 3
-  const [activeButton, setActiveButton] = React.useState<'show' | 'hide' | undefined>(undefined)
+  const [buttonType, setButtonType] = React.useState<'show' | 'hide' | undefined>(undefined)
   const [numberOfLines, setNumberOfLines] = React.useState<number | undefined>(
     props.numberOfLines || defaultNumberOfLines
   )
@@ -33,36 +33,36 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
     // check if ellipsis is active
     if (target.clientHeight < target.scrollHeight) {
       setNumberOfLines(props.numberOfLines || defaultNumberOfLines)
-      setActiveButton('show')
-    } else if (activeButton === 'show') {
+      setButtonType('show')
+    } else if (buttonType === 'show') {
       // if ellipsis is not active and the current button is 'show' (window size changed) remove button completely
-      setActiveButton(undefined)
+      setButtonType(undefined)
     }
   }
 
-  const toggleActiveButton = () => {
-    if (activeButton === 'show') {
+  const togglebuttonType = () => {
+    if (buttonType === 'show') {
       setNumberOfLines(undefined)
-      setActiveButton('hide')
+      setButtonType('hide')
     } else {
       setNumberOfLines(props.numberOfLines || defaultNumberOfLines)
-      setActiveButton('show')
+      setButtonType('show')
     }
   }
 
   const ToggleButton = (
     <HoliButton
-      label={activeButton === 'show' ? showButtonText : hideButtonText}
-      onPress={toggleActiveButton}
+      label={buttonType === 'show' ? showButtonText : hideButtonText}
+      onPress={togglebuttonType}
       variant={'transparent'}
       style={[
-        activeButton === 'show' ? styles.buttonReadMoreWeb : {},
-        activeButton === 'hide' ? styles.buttonReadLessWeb : {},
+        buttonType === 'show' ? styles.buttonReadMoreWeb : {},
+        buttonType === 'hide' ? styles.buttonReadLessWeb : {},
       ]}
     >
       <HoliText>
-        {activeButton === 'show' ? '...' : ''}
-        {activeButton === 'show' ? showButtonText : hideButtonText}
+        {buttonType === 'show' ? '...' : ''}
+        {buttonType === 'show' ? showButtonText : hideButtonText}
       </HoliText>
     </HoliButton>
   )
@@ -88,7 +88,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
         </HoliText>
       </Text>
       {/* show button in new line (web only) */}
-      {activeButton && ToggleButton}
+      {buttonType && ToggleButton}
     </View>
   )
 }
