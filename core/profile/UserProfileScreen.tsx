@@ -10,8 +10,8 @@ import { UserProfileForm } from '@holi/core/user/components/UserProfileForm'
 import { UserProfileView } from '@holi/core/user/components/UserProfileView'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliChip from '@holi/ui/components/HoliChip'
+import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliText from '@holi/ui/components/HoliText'
-import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
 export const UserProfileScreen: React.VFC = () => {
   const { navigate } = useRouting()
@@ -28,15 +28,11 @@ export const UserProfileScreen: React.VFC = () => {
     const profileTitle = isLoggedIn && user ? user.firstName : 'Profile'
     setNavigationHeader({
       title: profileTitle,
-      titleElement: () => (
-        <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
-          {profileTitle}
-        </HoliText>
-      ),
+      titleElement: () => <HoliText style={{ paddingTop: 5 }}>{profileTitle}</HoliText>,
     })
   }, [isLoggedIn])
 
-  const loggedOutContent = <HoliText type={HoliTextType.heading1}>Log in to see your profile</HoliText>
+  const loggedOutContent = <HoliHeading>Log in to see your profile</HoliHeading>
   return (
     <LoginProtection loggedOutContent={loggedOutContent}>
       <View style={{ paddingVertical: 24, paddingHorizontal: 16, alignItems: 'center' }}>

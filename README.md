@@ -54,10 +54,14 @@ It is kept in sync with `.nvmrc` (used by `nvm`) by a symbolic link, so please m
 - `yarn mobile:dev` > `a`
 - Note: Pressing `w` to open the web app is not expected to work - use `yarn web:dev` instead
 
-#### iOS simulator
+#### iOS simulator (if you have a Mac)
 
 - Follow the instructions to install [Xcode](https://docs.expo.dev/workflow/ios-simulator/) and setup a simulator
 - `yarn mobile:dev` > `i`
+
+#### Docker (optional)
+
+For running the web e2e tests locally, you need to have Docker installed.
 
 ### Running
 
@@ -84,6 +88,13 @@ We use [snapshot tests](https://jestjs.io/docs/snapshot-testing) which generates
 the test file. The goal with snapshot tests is to "make sure your UI does not change unexpectedly".
 If there is an intentional change to the UI, you can run `yarn test:update` and it will update the snapshots.
 It is recommended to always commit the snapshots folder and keep it in version control.
+
+#### Web e2e tests
+
+The web e2e tests are built with [Playwright](https://playwright.dev/). They are executed in the CI pipeline against
+feature branches and the staging system (before a live deployment).
+
+You can run them locally. You need to have Docker installed. Then, follow the instructions in the [README](./e2e/web/README.md)
 
 ## Monorepo - and why
 
@@ -135,7 +146,7 @@ To give an overview, the project contains the following workspaces (npm packages
 - `apps` - contains platform specific configs, styles and structurally differing code that can not be shared (e.g. the navigation and next.js pages)
   - `mobile` - the mobile ("native" as in React Native) app for iOS and Android, managed by Expo. Contains just the minimal platform-specific code that can not be shared with `web`.
   - `web` - the web (reactive, small and big screen) site, built with React Native for Web and Expo. Contains just the minimal platform-specific code that can not be shared with `mobile`.
-  - `storybook` - app to explore UI components. `stories` should be in `packages/ui/components/stories`
+  - `storybook` - app to explore UI components. `stories` should be in `packages/ui/components/__stories__`
 - `core` - shared code for the core of the HOLI app / site (feature-specific components, screens, ...)
   - `auth` - shared components and helpers for authentication
   - `errors` - shared components and helpers for error handling
@@ -167,15 +178,15 @@ Components in `packages/ui` and `screens` should use the following folder struct
 - `MyComponent.tsx` - example for a component that is the same for both platforms
 - `OtherComponent.tsx` - mobile variant of a component with platform specific variants
 - `OtherComponent.web.tsx` - web variant of `OtherComponent`
+- `__stories__` - stories for storybook
+  - `MyComponent.stories.tsx`
+  - `OtherComponent.stories.tsx`
 - `__tests__` - component tests
   - `MyCompontent.test.tsx`
   - `OtherComponent.test.tsx`
   - `__snapshots__`
     - `MyCompontent.test.tsx.snap`
     - `OtherComponent.test.tsx.snap`
-- `stories` - stories for storybook
-  - `MyComponent.stories.tsx`
-  - `OtherComponent.stories.tsx`
 
 ### Code conventions
 
@@ -369,9 +380,17 @@ When you are working on a story, please create a branch that contains the ticket
 
 When you push this branch, a GitLab CI pipeline is triggered that builds and deploys the code to web (available via https://$BRANCH_NAME.web.project-holi.org) and to mobile (available via expo). Also, E2E tests are executed against all platforms.
 
-### noenv Branches
+### Skipping parts of CI
+
+Sometimes, changes don't need to be verified by the full pipeline, e.g. changes in linting or documentation.
+
+#### noenv Branches
 
 When you prefix your branch name with `noenv/` (e.g. `noenv/my-readme-update`) the pipeline only lints & builds, but does not publish, deploy or run e2e test. This saves quite some time. Obviously, many things go untested so only use this if "you know what you're doing".
+
+#### noweb / nomobile Branches
+
+You can also selectively skip the web part of the pipeline by prefixing your branch name with `noweb/`, and the mobile part by prefixing your branch name with `nomobile/`.
 
 ### Staging and Production Environments
 

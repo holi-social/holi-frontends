@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import React, { useState } from 'react'
+import React from 'react'
 
 import HoliUserAvatar from '@holi/ui/components/HoliUserAvatar'
 
@@ -14,6 +14,7 @@ const Template: ComponentStory<typeof HoliUserAvatar> = ({ ...args }) => {
       nameLabel={args.nameLabel}
       imageSrc={args.imageSrc}
       defaultColor={args.defaultColor}
+      initials={args.initials}
       size={args.size}
     />
   )
@@ -34,6 +35,7 @@ BasicExample.argTypes = {
     type: 'string',
     control: { type: 'text' },
   },
+  initials: { description: 'Initials of user', required: true, control: { type: 'text' } },
   size: {
     description: 'Checked or unchecked state',
     options: ['micro', 'small', 'medium', 'large', 'extralarge'],
@@ -45,5 +47,6 @@ BasicExample.args = {
   nameLabel: 'Uschi Meyer',
   imageSrc: undefined,
   defaultColor: 'pink',
+  initials: 'UM',
   size: 'extralarge',
 }

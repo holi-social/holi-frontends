@@ -13,6 +13,7 @@ import {
 } from 'react-native'
 import tinycolor from 'tinycolor2'
 
+import { AccessibilityPropsWeb } from '@holi/ui/@types/react-native-web'
 import HoliText from '@holi/ui/components/HoliText'
 import Holicon from '@holi/ui/components/holicon'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -31,7 +32,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
   const { theme } = useTheme()
   const styles = getStyles(theme, props.checked, props.disabled)
 
-  const accessibilityProps: AccessibilityProps & { accessibilityPressed?: boolean } = {
+  const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: true,
     accessibilityRole: 'button',
     accessibilityPressed: props.checked,

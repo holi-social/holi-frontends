@@ -18,15 +18,6 @@ const Login: React.VoidFunctionComponent = () => {
   const { navigateBack } = useRouting()
   const { displayError } = useErrorHandling()
 
-  // this should only occur when a logged-in user navigates to /login on web
-  if (isLoggedIn) {
-    return (
-      <AuthLayout>
-        <HoliText>You are already logged in</HoliText>
-      </AuthLayout>
-    )
-  }
-
   const initializeFlow = () => {
     initLoginFlow()
       .then((response) => {
@@ -59,7 +50,13 @@ const Login: React.VoidFunctionComponent = () => {
           .catch(handleFormSubmitError(setFlow, initializeFlow))
           .catch((error) => displayError(error, 'Login failed'))
       : Promise.resolve()
-  return (
+
+  // this should only occur when a logged-in user navigates to /login on web
+  return isLoggedIn ? (
+    <AuthLayout>
+      <HoliText>You are already logged in</HoliText>
+    </AuthLayout>
+  ) : (
     <AuthLayout>
       <HoliText>Sign in to your account</HoliText>
       <SelfServiceFlow flow={flow} onSubmit={onSubmit} />
