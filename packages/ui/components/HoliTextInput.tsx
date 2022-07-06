@@ -2,22 +2,20 @@ import React, { memo, useEffect, useState } from 'react'
 import {
   AccessibilityProps,
   KeyboardType,
+  Platform,
   Pressable,
   ReturnKeyType,
+  StyleSheet,
   TextInput,
   TextInputProps,
   View,
   useWindowDimensions,
-  Platform,
 } from 'react-native'
+import tinycolor from 'tinycolor2'
 
 import HoliIcon from '@holi/ui/components/HoliIcon'
 import HoliText from '@holi/ui/components/HoliText'
-import {
-  getHoliTextInputStyles as getStyles,
-  inputLineHeight,
-} from '@holi/ui/components/HoliTextInput/HoliTextInput.styles'
-import { useTheme } from '@holi/ui/styles/theme'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type HoliTextInputProps = {
   label?: string
@@ -28,6 +26,7 @@ export type HoliTextInputProps = {
   isDisabled?: boolean
   hasValidationErrors?: boolean
   noLabel?: boolean
+  multiline?: boolean
   /** Number of lines/rows to be displayed on initial render. Min of noOfLines/maxNoOfLines */
   noOfLines?: number
   maxNoOfLines?: number
@@ -39,6 +38,7 @@ export type HoliTextInputProps = {
   /** TextInputProps to extend input */
   inputProps?: TextInputProps
   trailingIcon?: string
+  secureTextEntry?:boolean
   // eslint-disable-next-line
   [x: string]: any
 }
@@ -77,6 +77,7 @@ const HoliTextInput = ({
   const { theme } = useTheme()
   const styles = getStyles(theme)
 
+  console.log('HoliTextInput', props)
   return (
     <View style={[styles.wrapper, inline ? styles.inline : styles.block]}>
       <View style={[styles.wrapperContainer, { maxWidth: dimensions.width }, inline ? styles.inline : styles.block]}>
@@ -112,9 +113,9 @@ const HoliTextInput = ({
                 style={[
                   styles.input,
                   inline ? styles.inline : styles.block,
-                  { height: numberOfLines * inputLineHeight },
+                  { height: numberOfLines * inputLineHeight + (props?.multiline ? 1 : 0) },
                 ]}
-                multiline={noOfLines > 1}
+                multiline={!!props?.multiline}
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
                 placeholder={props?.placeholder}
@@ -134,6 +135,7 @@ const HoliTextInput = ({
                 editable={!props?.isDisabled}
                 returnKeyType={props?.returnKeyType}
                 blurOnSubmit={Platform.OS !== 'web'}
+                secureTextEntry={props?.secureTextEntry}
                 {...accessibilityProps}
                 {...props?.inputProps}
               />
@@ -182,3 +184,128 @@ const HoliTextInput = ({
 }
 
 export default memo(HoliTextInput)
+
+const inputLineHeight = 16 * 1.4
+
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    wrapper: {
+      flexDirection: 'row',
+    },
+    wrapperContainer: {
+      minWidth: 190,
+    },
+    // @ts-ignore
+    pressable: {
+      ...Platform.select({
+        web: {
+          cursor: 'default',
+        },
+      }),
+    },
+    inputWrapper: {
+      flexDirection: 'row',
+      borderWidth: 2,
+      borderColor: tinycolor(theme.colors.softblack).lighten(80).toString(),
+      borderRadius: 4,
+      paddingLeft: 10,
+      paddingVertical: 15,
+      backgroundColor: theme.colors.white,
+    },
+    inputWrapperFocused: {
+      borderColor: theme.colors.positivepurple,
+    },
+    inputWrapperDisabled: {
+      borderColor: tinycolor(theme.colors.softblack).lighten(80).toString(),
+      backgroundColor: theme.colors.lightGrey,
+    },
+    inputWrapperHasValidationErrors: {
+      borderColor: theme.colors.errorRed,
+    },
+    inputWrapperHovered: {
+      borderColor: theme.colors.greyAA,
+    },
+    input: {
+      flex: 1,
+      fontSize: 16,
+      lineHeight: inputLineHeight,
+      fontWeight: '400',
+      fontFamily: theme.fontFamily.default('Book'),
+      color: theme.colors.softblack,
+      overflow: 'scroll',
+      marginRight: 10,
+      ...Platform.select({
+        web: {
+          overflowX: 'hidden',
+          caretColor: theme.colors.positivepurple,
+        },
+      }),
+    },
+    inline: {
+      ...Platform.select({
+        web: {
+          alignSelf: 'flex-start',
+          width: 'auto',
+        },
+      }),
+      maxWidth: '100%',
+    },
+    block: {
+      alignSelf: 'stretch',
+      width: '100%',
+    },
+    inputCharsTextWrapper: {
+      backgroundColor: tinycolor(theme.colors.softblack).lighten(80).toString(),
+      borderRadius: 8,
+      position: 'absolute',
+      paddingHorizontal: 8,
+      right: 8,
+      bottom: -8,
+    },
+    inputCharsTextWrapperFocused: {
+      backgroundColor: theme.colors.positivepurple,
+    },
+    inputCharsTextWrapperDisabled: {
+      backgroundColor: theme.colors.softblackSolidTransparent,
+    },
+    inputCharsTextWrapperHasValidationErrors: {
+      backgroundColor: theme.colors.errorRed,
+    },
+    inputCharsTextWrapperHovered: {
+      backgroundColor: theme.colors.greyAA,
+    },
+    inputCharsText: {
+      color: theme.colors.white,
+    },
+    labelWrapper: {
+      marginBottom: 6,
+    },
+    label: {
+      color: theme.colors.softblack,
+    },
+    labelFocused: {
+      color: theme.colors.positivepurple,
+    },
+    labelHasValidationErrors: {
+      color: theme.colors.errorRed,
+    },
+    helperTextWrapper: {
+      marginTop: 6,
+    },
+    helperText: {
+      color: theme.colors.greyAAA,
+    },
+    validationErrorText: {
+      color: theme.colors.errorRed,
+    },
+    trailingIconWrapper: {
+      width: 22,
+      height: 22,
+      alignItems: 'flex-end',
+      justifyContent: 'center',
+      marginRight: 8,
+    },
+    trailingIconWrapperHasValidationErrors: {
+      width: 16,
+    },
+  })

@@ -51,6 +51,16 @@ export const Multiline = ({ ...args }) => (
   <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} {...args} />
 )
 Multiline.args = {
+  multiline: true,
+  noOfLines: 1,
+  maxNoOfLines: 5,
+}
+
+export const MultilineVariant = ({ ...args }) => (
+  <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} {...args} />
+)
+MultilineVariant.args = {
+  multiline: true,
   noOfLines: 2,
   maxNoOfLines: 5,
 }
@@ -66,4 +76,11 @@ WithTrailingIcon.argTypes = {
     type: 'select',
     options: iconSetRegular.icons.map((icon) => icon?.properties?.name),
   },
+}
+
+export const Password = ({ ...args }) => (
+  <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} {...args} />
+)
+Password.args = {
+  secureTextEntry: true,
 }

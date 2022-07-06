@@ -362,7 +362,7 @@ exports[`renders correctly when multiline 1`] = `
                 "maxWidth": "100%",
               },
               Object {
-                "height": 44.8,
+                "height": 23.4,
               },
             ]
           }
@@ -547,6 +547,7 @@ exports[`renders correctly with default props 1`] = `
           accessible={true}
           blurOnSubmit={true}
           editable={true}
+          keyboardType="text"
           maxLength={50}
           multiline={false}
           onBlur={[Function]}
