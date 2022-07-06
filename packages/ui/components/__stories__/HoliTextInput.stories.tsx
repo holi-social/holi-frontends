@@ -23,6 +23,14 @@ Primary.args = {
   hasValidationErrors: false,
   validationErrorText: 'Validation error Text',
   inline: true,
+  keyboardType: 'text',
+}
+Primary.argTypes = {
+  keyboardType: {
+    type: 'select',
+    // storybook can only show web only options
+    options: ['text', 'email', 'number', 'search', 'url', 'tel'],
+  },
 }
 
 export const NoLabel = ({ ...args }) => (
