@@ -2,7 +2,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 import { View } from 'react-native'
 
-import HoliReadMore from '@holi/ui/components/HoliReadMore'
+import HoliReadMore from '@holi/ui/components/HoliReadMore.web'
 import HoliText from '@holi/ui/components/HoliText'
 
 export default {
