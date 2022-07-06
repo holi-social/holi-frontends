@@ -20,17 +20,21 @@ Primary.args = {
   placeholder: 'Placeholder',
   helperText: 'Helper Text',
   maxNoOfCharacters: 50,
-  hasValidationErrors: false,
-  validationErrorText: 'Validation error Text',
   inline: true,
-  keyboardType: 'text',
+  type: 'text',
 }
 Primary.argTypes = {
-  keyboardType: {
+  type: {
     type: 'select',
-    // storybook can only show web only options
-    options: ['text', 'email', 'number', 'search', 'url', 'tel'],
+    options: ['text', 'email', 'number', 'password'],
   },
+}
+
+export const WithError = ({ ...args }) => (
+  <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} {...args} />
+)
+WithError.args = {
+  validationErrorText: 'Validation Error Text',
 }
 
 export const NoLabel = ({ ...args }) => (
@@ -42,7 +46,7 @@ export const Disabled = ({ ...args }) => (
   <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} {...args} />
 )
 Disabled.args = {
-  isDisabled: true,
+  disabled: true,
 }
 
 export const Multiline = ({ ...args }) => (
@@ -78,5 +82,12 @@ export const Password = ({ ...args }) => (
   <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} {...args} />
 )
 Password.args = {
-  secureTextEntry: true,
+  type: 'password',
+}
+
+Password.argTypes = {
+  type: {
+    type: 'select',
+    options: ['password'],
+  },
 }

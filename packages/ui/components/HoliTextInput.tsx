@@ -1,10 +1,8 @@
 import React, { memo, useEffect, useState } from 'react'
 import {
   AccessibilityProps,
-  KeyboardType,
   Platform,
   Pressable,
-  ReturnKeyType,
   StyleSheet,
   TextInput,
   TextInputProps,
@@ -23,28 +21,24 @@ export type HoliTextInputProps = {
   placeholder?: string
   helperText?: string
   validationErrorText?: string
-  isDisabled?: boolean
-  hasValidationErrors?: boolean
-  multiline?: boolean
+  disabled?: boolean
   /** Number of lines/rows to be displayed on initial render. Min of noOfLines/maxNoOfLines */
   noOfLines?: number
   maxNoOfLines?: number
   maxNoOfCharacters?: number
   onChange?: (value: string) => void
-  keyboardType?: KeyboardType
-  returnKeyType?: ReturnKeyType
+  type?: 'text' | 'email' | 'number' | 'password' // Force limited input types
   inline?: boolean
-  /** TextInputProps to extend input */
-  inputProps?: TextInputProps
   trailingIcon?: string
-  secureTextEntry?: boolean
+  /** TextInputProps to extend input e.g ('returnKeytype')*/
+  inputProps?: TextInputProps
   // eslint-disable-next-line
   [x: string]: any
 }
 
 const HoliTextInput = ({
   noOfLines = 1,
-  maxNoOfLines = 3,
+  maxNoOfLines = 1,
   maxNoOfCharacters = 5000,
   inline = true,
   ...props
@@ -54,7 +48,7 @@ const HoliTextInput = ({
 
   const [inputValue, setInputValue] = useState(props?.value || '')
   const [isFocused, setFocused] = useState<boolean>(false)
-  const [hasValidationErrors, setErrored] = useState<boolean>(!!props?.hasValidationErrors ?? false)
+  const hasValidationErrors = !!props?.validationErrorText
 
   const [numberOfLines, setNumberOfLines] = useState<number>(clamp(noOfLines, noOfLines, maxNoOfLines))
 
@@ -63,12 +57,6 @@ const HoliTextInput = ({
     accessibilityLabel: `${props?.label}`,
   }
 
-  useEffect(() => {
-    setErrored(!!props?.hasValidationErrors ?? hasValidationErrors)
-  }, [props?.hasValidationErrors])
-  useEffect(() => {
-    setInputValue(props?.value || inputValue)
-  }, [props?.value])
   useEffect(() => {
     setNumberOfLines(clamp(noOfLines, noOfLines, maxNoOfLines))
   }, [noOfLines, maxNoOfLines])
@@ -102,7 +90,7 @@ const HoliTextInput = ({
                 inline ? styles.inline : styles.block,
                 hovered && styles.inputWrapperHovered,
                 isFocused && styles.inputWrapperFocused,
-                props?.isDisabled && styles.inputWrapperDisabled,
+                props?.disabled && styles.inputWrapperDisabled,
                 hasValidationErrors && styles.inputWrapperHasValidationErrors,
               ]}
             >
@@ -111,15 +99,14 @@ const HoliTextInput = ({
                 style={[
                   styles.input,
                   inline ? styles.inline : styles.block,
-                  { height: numberOfLines * inputLineHeight + (props?.multiline ? 1 : 0) },
+                  { height: numberOfLines * inputLineHeight },
                 ]}
-                multiline={!!props?.multiline}
+                multiline={maxNoOfLines > 1}
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
                 placeholder={props?.placeholder}
                 placeholderTextColor={theme.colors.softblackTransparent}
                 onChange={(event) => {
-                  setErrored(false)
                   setInputValue(event.nativeEvent.text)
                   props?.onChange && props?.onChange(event.nativeEvent.text)
                 }}
@@ -128,12 +115,13 @@ const HoliTextInput = ({
                   const calcNumberOfLines = Math.round(contentSizeHeight / inputLineHeight)
                   setNumberOfLines(clamp(calcNumberOfLines, noOfLines, maxNoOfLines))
                 }}
-                keyboardType={props?.keyboardType}
+                keyboardType={
+                  props?.type === 'email' ? 'email-address' : props?.type === 'number' ? 'numeric' : 'default'
+                }
                 maxLength={maxNoOfCharacters}
-                editable={!props?.isDisabled}
-                returnKeyType={props?.returnKeyType}
+                editable={!props?.disabled}
                 blurOnSubmit={Platform.OS !== 'web'}
-                secureTextEntry={props?.secureTextEntry}
+                secureTextEntry={props?.type === 'password'}
                 {...accessibilityProps}
                 {...props?.inputProps}
               />
@@ -145,7 +133,17 @@ const HoliTextInput = ({
                   ]}
                 >
                   {props?.trailingIcon && !hasValidationErrors && (
-                    <HoliIcon icon={props?.trailingIcon} size={22} color={theme.colors.softblack} />
+                    <HoliIcon
+                      icon={props?.trailingIcon}
+                      size={22}
+                      color={
+                        isFocused
+                          ? theme.colors.positivepurple
+                          : hovered
+                          ? theme.colors.greyAA
+                          : tinycolor(theme.colors.softblack).lighten(80).toString()
+                      }
+                    />
                   )}
                   {hasValidationErrors && (
                     <HoliIcon icon={'error-warning'} size={16} filled color={theme.colors.errorRed} />
@@ -158,7 +156,7 @@ const HoliTextInput = ({
                     styles.inputCharsTextWrapper,
                     hovered && styles.inputCharsTextWrapperHovered,
                     isFocused && styles.inputCharsTextWrapperFocused,
-                    props?.isDisabled && styles.inputCharsTextWrapperDisabled,
+                    props?.disabled && styles.inputCharsTextWrapperDisabled,
                     hasValidationErrors && styles.inputCharsTextWrapperHasValidationErrors,
                   ]}
                 >
@@ -176,7 +174,7 @@ const HoliTextInput = ({
             size="extrasmall"
             styles={[styles.helperText, hasValidationErrors ? styles.validationErrorText : {}]}
           >
-            {hasValidationErrors ? props?.validationErrorText : props?.helperText}
+            {props?.validationErrorText || props?.helperText}
           </HoliText>
         </View>
       </View>
