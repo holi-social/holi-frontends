@@ -7,6 +7,7 @@ import {
   PressableProps,
   StyleProp,
   StyleSheet,
+  TextStyle,
   View,
   ViewStyle,
 } from 'react-native'
@@ -22,6 +23,8 @@ export type ChipProps = PressableProps & {
   checked?: boolean
   disabled?: boolean
   onPress?: null | ((event: GestureResponderEvent) => void)
+  style?: ViewStyle | ViewStyle[]
+  fontStyle?: TextStyle
 }
 
 const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
@@ -41,7 +44,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
       {...props}
       style={({ focused, hovered, pressed }) => [
         styles.holiChip,
-        props.style as StyleProp<ViewStyle>,
+        props.style,
         !props.disabled && props.checked && styles.checked,
         !props.disabled && focused && styles.focused,
         !props.disabled && hovered && styles.hovered,
@@ -51,7 +54,10 @@ const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
       {/* Arrow function to pass Pressable states to its children */}
       {({ hovered }) => (
         <View style={styles.chipContent}>
-          <HoliText selectable={false} styles={[styles.text, hovered && styles.hoveredText]}>
+          <HoliText
+            selectable={false}
+            styles={[styles.text, props.fontStyle || {}, (hovered && styles.hoveredText) || {}]}
+          >
             {props.text}
           </HoliText>
           {!props.disabled && (

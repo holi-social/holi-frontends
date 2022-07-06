@@ -1,3 +1,5 @@
+import HoliChip from '@holi/ui/components/HoliChip'
+import theme from '@holi/ui/styles/theme'
 import React, { useContext } from 'react'
 import { StyleSheet, View } from 'react-native'
 
@@ -18,7 +20,8 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
     firstName: 'Steffen',
     middleName: 'J.',
     lastName: 'Brauer',
-    aboutMe: 'Hello, I am Steffen, more text more text more text more text more text more text more text more text more text more text more text more text more text',
+    aboutMe:
+      'Hello, I am Steffen, more text more text more text more text more text more text more text more text more text more text more text more text more text',
     pronouns: 'he/him',
     location: 'Hamburg, Deutschland',
     avatarDefaultColor: 'blue',
@@ -47,15 +50,30 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
               />
             </View>
             <View style={styles.profileNamePronounsLocation}>
-              <HoliText type={HoliTextType.heading2}>
-                {user.firstName + ' ' + user.middleName + ' ' + user.lastName}
-              </HoliText>
+              <HoliText type={HoliTextType.heading2}>{`${user.firstName} ${user.lastName} ${user.lastName}`}</HoliText>
               <HoliText type={HoliTextType.body}>
                 ({user.pronouns}) {user.location}
               </HoliText>
             </View>
           </View>
-          <HoliText>{user.aboutMe}</HoliText>
+          <HoliText styles={{ marginTop: 16 }}>{user.aboutMe}</HoliText>
+          <View style={{flexDirection: 'row', marginTop: 16}}>
+            <HoliChip
+              text="Connect"
+              label="connect"
+              checked={false}
+              disabled={false}
+              style={{marginRight: 8}}
+              fontStyle={{ color: theme.colors.positivepurple }}
+            ></HoliChip>
+            <HoliChip
+              text="Message"
+              label="connect"
+              checked={false}
+              disabled={true}
+              fontStyle={{ color: theme.colors.positivepurple }}
+            ></HoliChip>
+          </View>
         </View>
       }
       <HoliText>{user.engagementLevel}</HoliText>
@@ -72,16 +90,13 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
 const styles = StyleSheet.create({
   profileHeader: {
     flexDirection: 'column',
-    paddingHorizontal: 16,
-    paddingVertical: 24,
   },
   profileAvatarName: {
     flexDirection: 'row',
   },
   profileNamePronounsLocation: {
-    paddingHorizontal: 6,
-    paddingVertical: 6,
-  }
+    marginLeft: 16,
+  },
 })
 
 export { UserProfileView }
