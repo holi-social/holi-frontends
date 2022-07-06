@@ -1,4 +1,5 @@
 import { Platform, StyleSheet } from 'react-native'
+import tinycolor from 'tinycolor2'
 
 import { HoliTheme } from '@holi/ui/styles/theme'
 
@@ -23,7 +24,7 @@ export const getHoliTextInputStyles = (theme: HoliTheme) =>
     inputWrapper: {
       flexDirection: 'row',
       borderWidth: 2,
-      borderColor: theme.colors.softblackSolidTransparent,
+      borderColor: tinycolor(theme.colors.softblack).lighten(80).toString(),
       borderRadius: 4,
       paddingLeft: 10,
       paddingVertical: 15,
@@ -33,7 +34,7 @@ export const getHoliTextInputStyles = (theme: HoliTheme) =>
       borderColor: theme.colors.positivepurple,
     },
     inputWrapperDisabled: {
-      borderColor: theme.colors.softblackSolidTransparent,
+      borderColor: tinycolor(theme.colors.softblack).lighten(80).toString(),
       backgroundColor: theme.colors.lightGrey,
     },
     inputWrapperHasValidationErrors: {
@@ -72,7 +73,7 @@ export const getHoliTextInputStyles = (theme: HoliTheme) =>
       width: '100%',
     },
     inputCharsTextWrapper: {
-      backgroundColor: theme.colors.softblackSolidTransparent,
+      backgroundColor: tinycolor(theme.colors.softblack).lighten(80).toString(),
       borderRadius: 8,
       position: 'absolute',
       paddingHorizontal: 8,

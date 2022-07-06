@@ -1,7 +1,6 @@
 export default {
   softblack: '#222326',
   softblackTransparent: '#1b1d201a',
-  softblackSolidTransparent: '#e2e2e4',
   white: '#fff',
   softwhite: '#f7f6f3',
   impactyellow: '#f3f360',
