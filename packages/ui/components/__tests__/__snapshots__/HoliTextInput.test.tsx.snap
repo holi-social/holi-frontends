@@ -701,7 +701,7 @@ exports[`renders correctly without label 1`] = `
         }
       >
         <TextInput
-          accessibilityLabel="Label"
+          accessibilityLabel="undefined"
           accessible={true}
           blurOnSubmit={true}
           editable={true}

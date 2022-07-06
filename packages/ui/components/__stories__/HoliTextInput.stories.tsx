@@ -34,11 +34,9 @@ Primary.argTypes = {
 }
 
 export const NoLabel = ({ ...args }) => (
-  <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} {...args} />
+  <HoliTextInput placeholder={'Placeholder'} helperText={'Helper Text'} {...args} />
 )
-NoLabel.args = {
-  noLabel: true,
-}
+NoLabel.args = {}
 
 export const Disabled = ({ ...args }) => (
   <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} {...args} />
@@ -48,19 +46,17 @@ Disabled.args = {
 }
 
 export const Multiline = ({ ...args }) => (
-  <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} {...args} />
+  <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} multiline {...args} />
 )
 Multiline.args = {
-  multiline: true,
   noOfLines: 1,
   maxNoOfLines: 5,
 }
 
 export const MultilineVariant = ({ ...args }) => (
-  <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} {...args} />
+  <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} multiline {...args} />
 )
 MultilineVariant.args = {
-  multiline: true,
   noOfLines: 2,
   maxNoOfLines: 5,
 }

@@ -25,7 +25,6 @@ export type HoliTextInputProps = {
   validationErrorText?: string
   isDisabled?: boolean
   hasValidationErrors?: boolean
-  noLabel?: boolean
   multiline?: boolean
   /** Number of lines/rows to be displayed on initial render. Min of noOfLines/maxNoOfLines */
   noOfLines?: number
@@ -38,7 +37,7 @@ export type HoliTextInputProps = {
   /** TextInputProps to extend input */
   inputProps?: TextInputProps
   trailingIcon?: string
-  secureTextEntry?:boolean
+  secureTextEntry?: boolean
   // eslint-disable-next-line
   [x: string]: any
 }
@@ -81,7 +80,7 @@ const HoliTextInput = ({
   return (
     <View style={[styles.wrapper, inline ? styles.inline : styles.block]}>
       <View style={[styles.wrapperContainer, { maxWidth: dimensions.width }, inline ? styles.inline : styles.block]}>
-        {!props?.noLabel && (
+        {!!props?.label && (
           <View style={[styles.labelWrapper, inline ? styles.inline : styles.block]}>
             <HoliText
               size="small"
