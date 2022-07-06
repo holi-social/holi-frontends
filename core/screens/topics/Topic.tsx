@@ -10,10 +10,10 @@ import TopicEditors from '@holi/core/screens/topics/components/TopicEditors'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliButton from '@holi/ui/components/HoliButton'
+import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliModal from '@holi/ui/components/HoliModal'
 import HoliReadMore from '@holi/ui/components/HoliReadMore'
 import HoliText from '@holi/ui/components/HoliText'
-import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
 export type TopicParams = {
   topicId: string
@@ -26,40 +26,40 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
   const [showModal, setShowModal] = useState(false)
   const [topicId = ''] = useParam('topicId')
   const { navigate } = useRouting()
-  const topic = fakeTopics.get(topicId)
-  if (!topic) return <HoliText>Topic {topicId} not found</HoliText>
 
   const { setNavigationHeader } = useNavigationHeader()
-
   useLayoutEffect(() => {
     const title = `Topic ${topicId}`
     setNavigationHeader({
       title: title,
-      titleElement: () => (
-        <HoliText type={HoliTextType.body} style={{ paddingTop: 5 }}>
-          {title}
-        </HoliText>
-      ),
+      titleElement: () => <HoliText style={{ paddingTop: 5 }}>{title}</HoliText>,
     })
   }, [navigation])
 
+  // Important: `fakeTopics.get(topicId) should be called after useEffect() or useLayoutEffet()
+  // A hard reload will cause an error.
+  // see here: https://reactjs.org/docs/hooks-rules.html
+  const topic = fakeTopics.get(topicId)
+  if (!topic) return <HoliText>Topic {topicId} not found</HoliText>
+
   return (
     <View style={styles.topicView}>
-      <HoliText type={HoliTextType.super} styles={{ alignSelf: 'center' }}>
+      <HoliHeading level="1" size="super" styles={{ alignSelf: 'center' }}>
         Topic topicId={topicId}
-      </HoliText>
+      </HoliHeading>
 
       <HoliButton label="Topic Editors" inline onPress={() => setShowModal(true)}>
         Topic Editors
       </HoliButton>
 
-      <HoliText type={HoliTextType.heading1} styles={{ paddingBottom: 10 }}>
+      <HoliHeading level="1" styles={{ paddingBottom: 10 }}>
         {topic.title}
-      </HoliText>
+      </HoliHeading>
+      {/* <HoliText>{topic.text}</HoliText> */}
       <View style={{ marginBottom: 10 }}>
-        <HoliReadMore>{topic.text}</HoliReadMore>
+        <HoliReadMore numberOfLines={2}>{topic.text}</HoliReadMore>
       </View>
-      <HoliText type={HoliTextType.heading3}>Posts</HoliText>
+      <HoliHeading level="3">Posts</HoliHeading>
       {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
         <HoliButton
           key={postId}

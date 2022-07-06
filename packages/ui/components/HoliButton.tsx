@@ -11,18 +11,19 @@ import {
 
 import { AccessibilityPropsWeb } from '@holi/ui/@types/react-native-web'
 import HoliText from '@holi/ui/components/HoliText'
-import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-export const HoliButtonTypes = ['primary', 'secondary']
-export const HoliButtonVariants = ['default', 'small', 'transparent']
+type HoliButtonType = 'primary' | 'secondary' // for working code completion in vscode
+export const HoliButtonTypes: HoliButtonType[] = ['primary', 'secondary'] // keep in sync with all possible HoliButtonType values
+type HoliButtonVariant = 'default' | 'small' | 'transparent' // for working code completion in vscode
+export const HoliButtonVariants: HoliButtonVariant[] = ['default', 'small', 'transparent'] // keep in sync with all possible HoliButtonVariant values
 
 export type HoliButtonProps = {
   label: string
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
   inline?: boolean
-  type?: typeof HoliButtonTypes[number]
-  variant?: typeof HoliButtonVariants[number]
+  type?: HoliButtonType
+  variant?: HoliButtonVariant
   disabled?: boolean
   children?: ReactChild | ReactChild[] | ReactChildren | Array<ReactChild> | string
   disableFocusability?: boolean
@@ -56,7 +57,8 @@ const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
     typeof props.children === 'string' ? (
       <HoliText
         styles={disabled ? styles.textDisabled : {}}
-        type={isSmall ? HoliTextType.buttonSmall : HoliTextType.button}
+        size={isSmall ? 'small' : 'large'}
+        bold={true}
         selectable={false}
       >
         {props.children}
@@ -97,7 +99,12 @@ const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
         return result
       }}
     >
-      <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }} pointerEvents="none">
+      <View
+        style={{
+          ...(!isTransparent ? { alignItems: 'center', flexDirection: 'row', justifyContent: 'center' } : {}),
+        }}
+        pointerEvents="none"
+      >
         {content}
       </View>
     </Pressable>

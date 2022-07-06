@@ -4,7 +4,6 @@ import { View } from 'react-native'
 
 import HoliReadMore from '@holi/ui/components/HoliReadMore'
 import HoliText from '@holi/ui/components/HoliText'
-import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 
 export default {
   title: 'Components/HoliReadMore',
@@ -14,12 +13,12 @@ export default {
 const Template: ComponentStory<typeof HoliReadMore> = ({ ...args }) => {
   return (
     <View>
-      <HoliText type={HoliTextType.heading1}>Web version (Read more button in new line)</HoliText>
-      <HoliText type={HoliTextType.body} styles={[{ marginTop: 5 }]}>
+      <HoliText>Web version (Read more button in new line)</HoliText>
+      <HoliText styles={[{ marginTop: 5 }]}>
         For web, changing props will only have an effect on the ellipsis (...) after clicking on the Read more / Read
         less button, or after refreshing the page.
       </HoliText>
-      <HoliText type={HoliTextType.body}>
+      <HoliText>
         Please disconsider the border and padding below, those are not part of the HoliReadMore component.
       </HoliText>
       <View style={{ marginTop: 20, padding: 20, width: 500, borderColor: 'black', borderRadius: 5, borderWidth: 1 }}>

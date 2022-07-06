@@ -3,6 +3,7 @@ import {
   AccessibilityProps,
   LayoutChangeEvent,
   Platform,
+  StyleSheet,
   Text,
   TextLayoutEventData,
   TextLayoutLine,
@@ -11,8 +12,9 @@ import {
   View,
 } from 'react-native'
 
+import HoliButton from '@holi/ui/components/HoliButton'
 import HoliText, { HoliTextProps } from '@holi/ui/components/HoliText'
-import theme from '@holi/ui/styles/theme'
+import theme, { HoliTheme } from '@holi/ui/styles/theme'
 
 type ReadMoreProps = HoliTextProps &
   TextProps & {
@@ -34,13 +36,8 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
   const [numberOfLines, setNumberOfLines] = React.useState<number | undefined>(
     props.numberOfLines || defaultNumberOfLines
   )
+  const styles = getStyles(theme)
   const isWeb = Platform.OS === 'web'
-
-  const buttonAccessibilityProps: AccessibilityProps = {
-    accessible: true,
-    accessibilityRole: 'button',
-    accessibilityLabel: `${activeButton === 'show' ? 'Read more' : 'Read less'}`,
-  }
 
   const hideButtonText = 'Read less'
 
@@ -110,7 +107,9 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
   // for web only
   const showWebButtons = (event: LayoutChangeEvent) => {
     // nativeEvent.target is Web only. Cast it as unknown and then as its proper type in this context
-    const nativeEvent = event.nativeEvent as unknown as { target: { clientHeight: number; scrollHeight: number } }
+    const nativeEvent = event.nativeEvent as unknown as {
+      target: { clientHeight: number; scrollHeight: number; offsetHeight: number }
+    }
     const target = nativeEvent.target
 
     // check if ellipsis is active
@@ -124,7 +123,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
   }
 
   // for all platforms
-  const toggleactiveButton = () => {
+  const toggleActiveButton = () => {
     if (activeButton === 'show') {
       setNumberOfLines(undefined)
       setActiveButton('hide')
@@ -135,17 +134,25 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
   }
 
   const ToggleButton = (
-    <HoliText
-      accessibilityProps={buttonAccessibilityProps}
-      onPress={toggleactiveButton}
-      styles={{ color: theme.colors.fontColorBlack }}
+    <HoliButton
+      label={activeButton === 'show' ? showButtonText : hideButtonText}
+      onPress={toggleActiveButton}
+      variant={'transparent'}
+      style={[
+        { margin: -1.5, lineHeight: 16 * 1.2 },
+        isWeb && activeButton === 'show' ? styles.buttonReadMoreWeb : {},
+        isWeb && activeButton === 'hide' ? styles.buttonReadLessWeb : {},
+      ]}
     >
-      {activeButton === 'show' ? showButtonText : hideButtonText}
-    </HoliText>
+      <HoliText>
+        {isWeb && activeButton === 'show' ? '...' : ''}
+        {activeButton === 'show' ? showButtonText : hideButtonText}
+      </HoliText>
+    </HoliButton>
   )
 
   return (
-    <View>
+    <View style={[isWeb && { position: 'relative' }]}>
       {/* Use react-native's Text component to encapsulate HoliText components to avoid applying HoliText default styles
       to both text and button */}
       <Text
@@ -167,7 +174,6 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
         {/* show button inline (mobile only) */}
         {!isWeb && activeButton && ToggleButton}
       </Text>
-
       {/* show button in new line (web only) */}
       {isWeb && activeButton && ToggleButton}
     </View>
@@ -175,3 +181,20 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
 }
 
 export default HoliReadMore
+
+// no usage of StyleSheet.create in these styles, to force the inline styles on Web
+const getStyles = (theme: HoliTheme) => ({
+  button: {
+    margin: -1.5,
+  },
+  buttonReadMoreWeb: {
+    position: 'absolute',
+    right: 0,
+    bottom: 1.5,
+    paddingHorizontal: 20,
+    backgroundImage: `linear-gradient(to right, transparent , ${theme.colors.backgroundColor} 15%)`,
+  },
+  buttonReadLessWeb: {
+    marginTop: 1.5,
+  },
+})

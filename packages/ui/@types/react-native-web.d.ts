@@ -1,11 +1,12 @@
 // https://github.com/paularmstrong/build-tracker/blob/371e54ebf37f935a7efd1240894cdc0a45acf7ac/typings/react-native/index.d.ts#L1578
 import type { AccessibilityProps, AccessibilityRole } from 'react-native'
 
-export type AccessibilityRoleWeb = AccessibilityRole | 'main' | 'region' | 'banner' | 'navigation'
+export type AccessibilityRoleWeb = AccessibilityRole | 'main' | 'region' | 'banner' | 'navigation' | 'heading'
 
 interface AccessibilityPropsWeb extends AccessibilityProps {
   accessibilityLevel?: number
   accessibilityRole?: AccessibilityRoleWeb
+  accessibilityPressed?: boolean
 }
 
 // include web specific types (https://github.com/necolas/react-native-web/issues/1684)
@@ -16,7 +17,7 @@ declare module 'react-native' {
   }
 
   interface ViewStyle {
-    display?: 'flex' | 'none' | 'inline-block' | undefined
+    display?: 'flex' | 'none' | 'inline-block' | 'relative' | undefined
     boxShadow?: string | undefined
   }
 

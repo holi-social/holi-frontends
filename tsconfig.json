@@ -3,6 +3,7 @@
     "baseUrl": ".",
     "paths": {
       "@holi/mobile": ["apps/mobile"],
+      "@holi/storybook": ["apps/storybook"],
       "@holi/web": ["apps/web"],
       "@holi/ui": ["packages/ui"],
       "@holi/api": ["packages/api"],
