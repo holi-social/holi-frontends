@@ -12,7 +12,6 @@ import {
 
 import HoliIcon from '@holi/ui/components/HoliIcon'
 import HoliText from '@holi/ui/components/HoliText'
-import { HoliTextType } from '@holi/ui/components/HoliText/HoliText.types'
 import {
   getHoliTextInputStyles as getStyles,
   inputLineHeight,
@@ -83,7 +82,8 @@ const HoliTextInput = ({
         {!props?.noLabel && (
           <View style={[styles.labelWrapper, inline ? styles.inline : styles.block]}>
             <HoliText
-              type={HoliTextType.caption}
+              size="small"
+              bold
               styles={[
                 styles.label,
                 isFocused ? styles.labelFocused : {},
@@ -160,9 +160,7 @@ const HoliTextInput = ({
                     hasValidationErrors && styles.inputCharsTextWrapperHasValidationErrors,
                   ]}
                 >
-                  <HoliText type={HoliTextType.label} styles={styles.inputCharsText}>
-                    {`${inputValue.length}/${maxNoOfCharacters}`}
-                  </HoliText>
+                  <HoliText styles={styles.inputCharsText}>{`${inputValue.length}/${maxNoOfCharacters}`}</HoliText>
                 </View>
               )}
             </View>
@@ -170,7 +168,7 @@ const HoliTextInput = ({
         </Pressable>
         <View style={[styles.helperTextWrapper, inline ? styles.inline : styles.block]}>
           <HoliText
-            type={HoliTextType.label}
+            size="extrasmall"
             styles={[styles.helperText, hasValidationErrors ? styles.validationErrorText : {}]}
           >
             {hasValidationErrors ? props?.validationErrorText : props?.helperText}
