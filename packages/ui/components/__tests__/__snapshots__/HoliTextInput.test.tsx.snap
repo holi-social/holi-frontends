@@ -127,6 +127,7 @@ exports[`renders correctly when disabled 1`] = `
         <TextInput
           accessibilityLabel="Label"
           accessible={true}
+          blurOnSubmit={true}
           editable={false}
           maxLength={5000}
           multiline={false}
@@ -335,6 +336,7 @@ exports[`renders correctly when multiline 1`] = `
         <TextInput
           accessibilityLabel="Label"
           accessible={true}
+          blurOnSubmit={true}
           editable={true}
           maxLength={5000}
           multiline={true}
@@ -543,6 +545,7 @@ exports[`renders correctly with default props 1`] = `
         <TextInput
           accessibilityLabel="Label"
           accessible={true}
+          blurOnSubmit={true}
           editable={true}
           maxLength={50}
           multiline={false}
@@ -699,6 +702,7 @@ exports[`renders correctly without label 1`] = `
         <TextInput
           accessibilityLabel="Label"
           accessible={true}
+          blurOnSubmit={true}
           editable={true}
           maxLength={5000}
           multiline={false}
