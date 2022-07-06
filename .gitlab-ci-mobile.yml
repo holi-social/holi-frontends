@@ -83,6 +83,7 @@ mobile_review_publish:
   except:
     - main
     - /^noenv\/.*/
+    - /^nomobile\/.*/
 
 mobile_review_destroy:
   needs: ['mobile_review_publish']
@@ -102,6 +103,7 @@ mobile_review_destroy:
   except:
     - main
     - /^noenv\/.*/
+    - /^nomobile\/.*/
   interruptible: false
 
 mobile_review_build:
@@ -110,20 +112,23 @@ mobile_review_build:
   except:
     - main
     - /^noenv\/.*/
+    - /^nomobile\/.*/
 
-mobile_review_e2e_android:
+.mobile_review_e2e_android:
   extends: .mobile_e2e_android
   needs: ['mobile_review_build']
   except:
     - main
     - /^noenv\/.*/
+    - /^nomobile\/.*/
 
-mobile_review_e2e_ios:
+.mobile_review_e2e_ios:
   extends: .mobile_e2e_ios
   needs: ['mobile_review_build']
   except:
     - main
     - /^noenv\/.*/
+    - /^nomobile\/.*/
 
 ## staging environment
 
@@ -151,13 +156,13 @@ mobile_staging_build:
   only:
     - main
 
-mobile_staging_e2e_android:
+.mobile_staging_e2e_android:
   extends: .mobile_e2e_android
   needs: ['mobile_staging_build']
   only:
     - main
 
-mobile_staging_e2e_ios:
+.mobile_staging_e2e_ios:
   extends: .mobile_e2e_ios
   needs: ['mobile_staging_build']
   only:
@@ -165,7 +170,7 @@ mobile_staging_e2e_ios:
 
 ## production environment
 
-mobile_production_publish:
+.mobile_production_publish:
   extends: .mobile_publish
   needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
   when: manual
@@ -179,7 +184,7 @@ mobile_production_publish:
   only:
   - main
 
-mobile_production_build:
+.mobile_production_build:
   extends: .mobile_build
   needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
   when: manual
