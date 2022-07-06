@@ -4,7 +4,7 @@ This spike uses playwright for web testing.
 
 For testing the web app locally, start the local dev environment from the root of the project with
 
-  `yarn web:serve-e2e` 
+  `yarn web:dev` 
 
 and execute the tests from this directory:
 

@@ -22,7 +22,6 @@
     "mobile:build_ios": "yarn workspace @holi/mobile build_ios",
     "mobile:build_ios_sim": "yarn workspace @holi/mobile build_ios_sim",
     "web:dev": "yarn workspace @holi/web dev",
-    "web:serve-e2e": "yarn workspace @holi/web serve-e2e",
     "storybook:dev": "yarn workspace @holi/storybook dev",
     "storybook:build": "yarn workspace @holi/storybook build",
     "web:build": "yarn workspace @holi/web build",
