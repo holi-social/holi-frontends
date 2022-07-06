@@ -1,22 +1,10 @@
 import * as React from 'react'
-import {
-  AccessibilityProps,
-  LayoutChangeEvent,
-  Platform,
-  StyleSheet,
-  Text,
-  TextLayoutEventData,
-  TextLayoutLine,
-  TextProps,
-  TextStyle,
-  View,
-} from 'react-native'
+import { Text, TextLayoutEventData, TextLayoutLine, TextProps, TextStyle, View } from 'react-native'
 
-import HoliButton from '@holi/ui/components/HoliButton'
 import HoliText, { HoliTextProps } from '@holi/ui/components/HoliText'
-import theme, { HoliTheme } from '@holi/ui/styles/theme'
+import theme from '@holi/ui/styles/theme'
 
-type ReadMoreProps = HoliTextProps &
+export type ReadMoreProps = HoliTextProps &
   TextProps & {
     children: string
     numberOfLines?: 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | undefined // 1 line is not supported on Android and in this component
@@ -36,8 +24,6 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
   const [numberOfLines, setNumberOfLines] = React.useState<number | undefined>(
     props.numberOfLines || defaultNumberOfLines
   )
-  const styles = getStyles(theme)
-  const isWeb = Platform.OS === 'web'
 
   const hideButtonText = 'Read less'
 
@@ -104,25 +90,6 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
     setTruncatedText(truncatedText)
   }
 
-  // for web only
-  const showWebButtons = (event: LayoutChangeEvent) => {
-    // nativeEvent.target is Web only. Cast it as unknown and then as its proper type in this context
-    const nativeEvent = event.nativeEvent as unknown as {
-      target: { clientHeight: number; scrollHeight: number; offsetHeight: number }
-    }
-    const target = nativeEvent.target
-
-    // check if ellipsis is active
-    if (target.clientHeight < target.scrollHeight) {
-      setNumberOfLines(props.numberOfLines || defaultNumberOfLines)
-      setActiveButton('show')
-    } else if (activeButton === 'show') {
-      // if ellipsis is not active and the current button is 'show' (window size changed) remove button completely
-      setActiveButton(undefined)
-    }
-  }
-
-  // for all platforms
   const toggleActiveButton = () => {
     if (activeButton === 'show') {
       setNumberOfLines(undefined)
@@ -133,33 +100,30 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
     }
   }
 
+  // using a Text as the button, due to vertical aligning issues on Android https://github.com/facebook/react-native/issues/27549
   const ToggleButton = (
-    <HoliButton
+    <HoliText
       label={activeButton === 'show' ? showButtonText : hideButtonText}
       onPress={toggleActiveButton}
       variant={'transparent'}
-      style={[
-        { margin: -1.5, lineHeight: 16 * 1.2 },
-        isWeb && activeButton === 'show' ? styles.buttonReadMoreWeb : {},
-        isWeb && activeButton === 'hide' ? styles.buttonReadLessWeb : {},
-      ]}
+      accessible={true}
+      accessibilityRole="button"
+      role="button"
+      styles={[]}
     >
-      <HoliText>
-        {isWeb && activeButton === 'show' ? '...' : ''}
-        {activeButton === 'show' ? showButtonText : hideButtonText}
-      </HoliText>
-    </HoliButton>
+      {activeButton === 'show' ? showButtonText : hideButtonText}
+    </HoliText>
   )
 
   return (
-    <View style={[isWeb && { position: 'relative' }]}>
+    <View>
       {/* Use react-native's Text component to encapsulate HoliText components to avoid applying HoliText default styles
       to both text and button */}
       <Text
         onTextLayout={!activeButton ? truncateText : undefined}
-        onLayout={isWeb ? showWebButtons : undefined}
         numberOfLines={numberOfLines}
         ellipsizeMode="tail"
+        style={{ alignContent: 'flex-start', justifyContent: 'center' }}
       >
         {/* The visible text. Any style props are applied here */}
         <HoliText
@@ -168,33 +132,14 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
             ...(props.styles ? (Array.isArray(props.styles) ? props.styles : [props.styles]) : []),
           ]}
         >
-          {numberOfLines && !isWeb ? truncatedText : props.children} {activeButton === 'hide' && !isWeb && ' '}
+          {numberOfLines ? truncatedText : props.children} {activeButton === 'hide' && ' '}
         </HoliText>
 
         {/* show button inline (mobile only) */}
-        {!isWeb && activeButton && ToggleButton}
+        {activeButton && ToggleButton}
       </Text>
-      {/* show button in new line (web only) */}
-      {isWeb && activeButton && ToggleButton}
     </View>
   )
 }
 
 export default HoliReadMore
-
-// no usage of StyleSheet.create in these styles, to force the inline styles on Web
-const getStyles = (theme: HoliTheme) => ({
-  button: {
-    margin: -1.5,
-  },
-  buttonReadMoreWeb: {
-    position: 'absolute',
-    right: 0,
-    bottom: 1.5,
-    paddingHorizontal: 20,
-    backgroundImage: `linear-gradient(to right, transparent , ${theme.colors.backgroundColor} 15%)`,
-  },
-  buttonReadLessWeb: {
-    marginTop: 1.5,
-  },
-})

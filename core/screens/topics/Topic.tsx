@@ -55,10 +55,10 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
       <HoliHeading level="1" styles={{ paddingBottom: 10 }}>
         {topic.title}
       </HoliHeading>
-      {/* <HoliText>{topic.text}</HoliText> */}
-      <View style={{ marginBottom: 10 }}>
+      <HoliText>{topic.text}</HoliText>
+      {/* <View style={{ marginBottom: 10 }}>
         <HoliReadMore numberOfLines={2}>{topic.text}</HoliReadMore>
-      </View>
+      </View> */}
       <HoliHeading level="3">Posts</HoliHeading>
       {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
         <HoliButton

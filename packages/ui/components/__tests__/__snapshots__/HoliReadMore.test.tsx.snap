@@ -7,23 +7,28 @@ exports[`renders correctly renders correctly with long text 1`] = `
       ellipsizeMode="tail"
       numberOfLines={3}
       onTextLayout={[Function]}
+      style={
+        Object {
+          "alignContent": "flex-start",
+          "justifyContent": "center",
+        }
+      }
     >
       <Text
-        accessible={true}
+        accessible={false}
         selectable={true}
         style={
           Array [
             Object {
-              "fontFamily": "Circular Std Medium",
-              "fontSize": 16,
-              "fontWeight": "500",
-              "lineHeight": 19.2,
-            },
-            Object {
+              "color": "#222326",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
-              "lineHeight": 22.4,
             },
+            Object {
+              "fontSize": 16,
+              "lineHeight": 19.2,
+            },
+            Object {},
             Array [
               Object {
                 "color": "#6f7081",
@@ -54,23 +59,28 @@ exports[`renders correctly renders correctly with short text 1`] = `
       ellipsizeMode="tail"
       numberOfLines={3}
       onTextLayout={[Function]}
+      style={
+        Object {
+          "alignContent": "flex-start",
+          "justifyContent": "center",
+        }
+      }
     >
       <Text
-        accessible={true}
+        accessible={false}
         selectable={true}
         style={
           Array [
             Object {
-              "fontFamily": "Circular Std Medium",
-              "fontSize": 16,
-              "fontWeight": "500",
-              "lineHeight": 19.2,
-            },
-            Object {
+              "color": "#222326",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
-              "lineHeight": 22.4,
             },
+            Object {
+              "fontSize": 16,
+              "lineHeight": 19.2,
+            },
+            Object {},
             Array [
               Object {
                 "color": "#6f7081",
