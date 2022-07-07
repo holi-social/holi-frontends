@@ -12,6 +12,7 @@ import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliModal from '@holi/ui/components/HoliModal'
+import HoliReadMore from '@holi/ui/components/HoliReadMore'
 import HoliText from '@holi/ui/components/HoliText'
 
 export type TopicParams = {
@@ -55,6 +56,14 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
         {topic.title}
       </HoliHeading>
       <HoliText>{topic.text}</HoliText>
+
+      {/* Example below with styling for text and button */}
+      {/* <View style={{ marginBottom: 10 }}>
+        <HoliReadMore numberOfLines={2} style={{ color: 'green' }} buttonStyle={{ color: 'red', fontWeight: '800' }}>
+          {topic.text}
+        </HoliReadMore>
+      </View> */}
+
       <HoliHeading level="3">Posts</HoliHeading>
       {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
         <HoliButton
