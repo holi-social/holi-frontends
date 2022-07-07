@@ -13,8 +13,8 @@ export const userFragment = gql`
     aboutMe
     pronouns
     location
-    avatar_default_color
-    avatar_label
+    avatarDefaultColor
+    avatarLabel
     engagementLevel
     interests
     sdgs

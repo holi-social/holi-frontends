@@ -7,8 +7,8 @@ export interface User {
   aboutMe: string
   pronouns: string
   location: string
-  avatar_default_color: string
-  avatar_label: string
+  avatarDefaultColor: string
+  avatarLabel: string
   engagementLevel: string
   interests: [string]
   sdgs: [string]
