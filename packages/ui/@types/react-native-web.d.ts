@@ -17,7 +17,7 @@ declare module 'react-native' {
   }
 
   interface ViewStyle {
-    display?: 'flex' | 'none' | 'inline-block' | 'relative' | undefined
+    display?: 'flex' | 'none' | 'inline-block' | undefined
     boxShadow?: string | undefined
   }
 
