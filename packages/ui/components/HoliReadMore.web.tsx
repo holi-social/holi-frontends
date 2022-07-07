@@ -83,7 +83,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
   )
 
   return (
-    <View style={{ position: 'relative' }}>
+    <View style={[props.style ? props.style : {}, { position: 'relative' }]}>
       {/* Use react-native's Text component to encapsulate HoliText components to avoid applying HoliText default styles
       to both text and button */}
       <Text
@@ -93,7 +93,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
         style={{ alignContent: 'flex-start', justifyContent: 'center' }}
       >
         {/* The visible text. Any style props are applied here */}
-        <HoliText styles={[{ color: theme.colors.fontColorGrey }, props.style || {}]}>{props.children}</HoliText>
+        <HoliText styles={[{ color: theme.colors.fontColorGrey }, props.fontStyle || {}]}>{props.children}</HoliText>
       </Text>
       {/* show button in new line (web only) */}
       {buttonType && ToggleButton}

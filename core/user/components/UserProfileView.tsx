@@ -53,9 +53,7 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
           <HoliText styles={{ color: theme.colors.fontColorGrey }}>{`(${user.pronouns}) ${user.location}`}</HoliText>
         </View>
       </View>
-      <View style={styles.aboutMe}>
-        <HoliReadMore>{user.aboutMe}</HoliReadMore>
-      </View>
+      <HoliReadMore style={styles.aboutMe}>{user.aboutMe}</HoliReadMore>
       <View style={{ flexDirection: 'row', marginTop: 16 }}>
         <HoliChip
           text="Connect"
@@ -92,8 +90,6 @@ const styles = StyleSheet.create({
   },
   aboutMe: {
     marginTop: 16,
-    borderWidth: 1,
-    borderColor: 'red',
   },
 })
 
