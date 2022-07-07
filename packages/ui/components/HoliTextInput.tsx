@@ -107,8 +107,11 @@ const HoliTextInput = ({
                 placeholder={props?.placeholder}
                 placeholderTextColor={theme.colors.softblackTransparent}
                 onChange={(event) => {
-                  setInputValue(event.nativeEvent.text)
-                  props?.onChange && props?.onChange(event.nativeEvent.text)
+                  let text = event.nativeEvent.text
+                  // type doesn't work with RN 'numeric' on web
+                  if (props?.type === 'number') text = text.replace(/[^0-9]/g, '')
+                  setInputValue(text)
+                  props?.onChange && props?.onChange(text)
                 }}
                 onContentSizeChange={(event) => {
                   const contentSizeHeight = event.nativeEvent.contentSize.height
