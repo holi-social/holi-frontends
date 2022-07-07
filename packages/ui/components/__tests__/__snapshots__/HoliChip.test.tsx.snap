@@ -73,6 +73,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
             },
             Object {},
           ],
+          Object {},
         ]
       }
       styles={
@@ -232,6 +233,7 @@ exports[`renders correctly renders correctly when disabled 1`] = `
             },
             Object {},
           ],
+          Object {},
         ]
       }
       styles={
@@ -320,6 +322,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
             },
             Object {},
           ],
+          Object {},
         ]
       }
       styles={

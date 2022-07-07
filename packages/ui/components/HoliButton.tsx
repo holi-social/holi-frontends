@@ -99,7 +99,12 @@ const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
         return result
       }}
     >
-      <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }} pointerEvents="none">
+      <View
+        style={{
+          ...(!isTransparent ? { alignItems: 'center', flexDirection: 'row', justifyContent: 'center' } : {}),
+        }}
+        pointerEvents="none"
+      >
         {content}
       </View>
     </Pressable>
