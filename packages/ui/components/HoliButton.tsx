@@ -5,6 +5,7 @@ import {
   Platform,
   Pressable,
   StyleSheet,
+  TextStyle,
   View,
   ViewStyle,
 } from 'react-native'
@@ -76,7 +77,7 @@ const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
         !disabled && props.onPress && props.onPress(event)
       }}
       style={(state) => {
-        const result = [props.style, styles.base]
+        const result: TextStyle[] = [styles.base]
         if (!isTransparent) {
           result.push(styles.nonTransparent)
           if (isSmall) {
@@ -96,7 +97,7 @@ const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
             }
           }
         }
-        return result
+        return [result, props.style]
       }}
     >
       <View

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Text, TextLayoutEventData, TextLayoutLine, TextProps, TextStyle, View } from 'react-native'
+import { Text, TextLayoutEventData, TextLayoutLine, TextProps, TextStyle, View, ViewStyle } from 'react-native'
 
 import HoliText, { HoliTextProps } from '@holi/ui/components/HoliText'
 import theme from '@holi/ui/styles/theme'
@@ -9,7 +9,12 @@ export type ReadMoreProps = HoliTextProps &
     children: string
     numberOfLines?: 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | undefined // 1 line is not supported on Android and in this component
     label?: string
-    styles?: TextStyle | TextStyle[]
+    style?: TextStyle
+    buttonStyle?:
+      | (ViewStyle | Record<string, unknown>)
+      | (ViewStyle | Record<string, unknown>)[]
+      | (TextStyle | Record<string, unknown>)
+      | (TextStyle | Record<string, unknown>)[]
   }
 
 /**
@@ -109,7 +114,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
       accessible={true}
       accessibilityRole="button"
       role="button"
-      styles={[]}
+      style={props.buttonStyle || {}}
     >
       {buttonType === 'show' ? showButtonText : hideButtonText}
     </HoliText>
@@ -126,12 +131,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
         style={{ alignContent: 'flex-start', justifyContent: 'center' }}
       >
         {/* The visible text. Any style props are applied here */}
-        <HoliText
-          styles={[
-            { color: theme.colors.fontColorGrey },
-            ...(props.styles ? (Array.isArray(props.styles) ? props.styles : [props.styles]) : []),
-          ]}
-        >
+        <HoliText styles={[{ color: theme.colors.fontColorGrey }, props.style || {}]}>
           {numberOfLines ? truncatedText : props.children} {buttonType === 'hide' && ' '}
         </HoliText>
 

@@ -33,7 +33,9 @@ exports[`renders correctly renders correctly with long text 1`] = `
               Object {
                 "color": "#6f7081",
               },
+              Object {},
             ],
+            Object {},
           ]
         }
         styles={
@@ -41,6 +43,7 @@ exports[`renders correctly renders correctly with long text 1`] = `
             Object {
               "color": "#6f7081",
             },
+            Object {},
           ]
         }
       >
@@ -85,7 +88,9 @@ exports[`renders correctly renders correctly with short text 1`] = `
               Object {
                 "color": "#6f7081",
               },
+              Object {},
             ],
+            Object {},
           ]
         }
         styles={
@@ -93,6 +98,7 @@ exports[`renders correctly renders correctly with short text 1`] = `
             Object {
               "color": "#6f7081",
             },
+            Object {},
           ]
         }
       >

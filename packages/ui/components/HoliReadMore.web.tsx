@@ -1,10 +1,10 @@
-import { ReadMoreProps } from 'packages/ui/components/HoliReadMore'
 import * as React from 'react'
 import { LayoutChangeEvent, Text, View } from 'react-native'
 
 import HoliButton from '@holi/ui/components/HoliButton'
+import { ReadMoreProps } from '@holi/ui/components/HoliReadMore'
 import HoliText from '@holi/ui/components/HoliText'
-import theme, { HoliTheme } from '@holi/ui/styles/theme'
+import theme from '@holi/ui/styles/theme'
 
 /**
  *
@@ -17,7 +17,6 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
   const [numberOfLines, setNumberOfLines] = React.useState<number | undefined>(
     props.numberOfLines || defaultNumberOfLines
   )
-  const styles = getStyles(theme)
 
   const hideButtonText = 'Read less'
 
@@ -51,20 +50,39 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
   }
 
   const ToggleButton = (
-    <HoliButton
-      label={buttonType === 'show' ? showButtonText : hideButtonText}
-      onPress={togglebuttonType}
-      variant={'transparent'}
-      style={[
-        buttonType === 'show' ? styles.buttonReadMoreWeb : {},
-        buttonType === 'hide' ? styles.buttonReadLessWeb : {},
-      ]}
+    <View
+      style={{
+        ...(buttonType === 'show'
+          ? {
+              position: 'absolute',
+              right: 0,
+              bottom: 0,
+              paddingHorizontal: 20,
+              backgroundImage: `linear-gradient(to right, transparent , ${theme.colors.backgroundColor} 15%)`,
+            }
+          : {}),
+        ...(buttonType === 'hide'
+          ? {
+              width: 'fit-content',
+              marginTop: 1.5,
+            }
+          : {}),
+      }}
     >
-      <HoliText>
-        {buttonType === 'show' ? '...' : ''}
-        {buttonType === 'show' ? showButtonText : hideButtonText}
-      </HoliText>
-    </HoliButton>
+      <HoliButton
+        label={buttonType === 'show' ? showButtonText : hideButtonText}
+        onPress={togglebuttonType}
+        variant={'transparent'}
+        style={{
+          ...(props.buttonStyle || {}),
+        }}
+      >
+        <HoliText style={props.buttonStyle || {}}>
+          {buttonType === 'show' ? '...' : ''}
+          {buttonType === 'show' ? showButtonText : hideButtonText}
+        </HoliText>
+      </HoliButton>
+    </View>
   )
 
   return (
@@ -78,14 +96,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
         style={{ alignContent: 'flex-start', justifyContent: 'center' }}
       >
         {/* The visible text. Any style props are applied here */}
-        <HoliText
-          styles={[
-            { color: theme.colors.fontColorGrey },
-            ...(props.styles ? (Array.isArray(props.styles) ? props.styles : [props.styles]) : []),
-          ]}
-        >
-          {props.children}
-        </HoliText>
+        <HoliText styles={[{ color: theme.colors.fontColorGrey }, props.style || {}]}>{props.children}</HoliText>
       </Text>
       {/* show button in new line (web only) */}
       {buttonType && ToggleButton}
@@ -94,17 +105,3 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
 }
 
 export default HoliReadMore
-
-// no usage of StyleSheet.create in these styles, to force the inline styles on Web
-const getStyles = (theme: HoliTheme) => ({
-  buttonReadMoreWeb: {
-    position: 'absolute',
-    right: 0,
-    bottom: 1.5,
-    paddingHorizontal: 20,
-    backgroundImage: `linear-gradient(to right, transparent , ${theme.colors.backgroundColor} 15%)`,
-  },
-  buttonReadLessWeb: {
-    marginTop: 1.5,
-  },
-})
