@@ -2,12 +2,11 @@ import React, { useContext } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { UserContext } from '@holi/core/user/UserContextProvider'
-import HoliButton from '@holi/ui/components/HoliButton'
 import HoliChip from '@holi/ui/components/HoliChip'
+import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliText from '@holi/ui/components/HoliText'
 import HoliUserAvatar from '@holi/ui/components/HoliUserAvatar'
 import theme from '@holi/ui/styles/theme'
-import HoliHeading from '@holi/ui/components/HoliHeading'
 
 type UserProfileViewProps = {
   editUser: () => void
@@ -17,14 +16,14 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
   //const { user } = useContext(UserContext)
   const user = {
     avatar: '',
-    firstName: 'Steffen',
-    middleName: 'J.',
-    lastName: 'Brauer',
+    firstName: 'Steffen Steffen Steffen',
+    middleName: 'J. asfasf asdfasdf',
+    lastName: 'Brauer Brauer Brauer',
     aboutMe:
       'Hello, I am Steffen, more text more text more text more text more text more text more text more text more text more text more text more text more text',
     pronouns: 'he/him',
-    location: 'Hamburg, Deutschland',
-    avatarDefaultColor: 'blue',
+    location: 'Hamburg Hamburg Hamburg, Deutschland, Welt, Milchstraße aweiorhaw hioaweriowahr aiowheroiwahre',
+    avatarDefaultColor: theme.colors.secondaryColor,
     avatarLabel: 'SB',
     engagementLevel: 'engaged',
     interests: ['this', 'that'],
@@ -37,25 +36,23 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
   }
 
   return (
-    <View style={styles.profileHeader}>
-      <View style={styles.profileAvatarName}>
+    <View style={styles.header}>
+      <View style={styles.avatarName}>
         <View>
           <HoliUserAvatar
             imageSrc={user.avatar}
-            nameLabel={user.avatarLabel}
+            nameLabel={user.firstName}
             initials={user.avatarLabel}
             defaultColor={user.avatarDefaultColor}
             size="large"
           />
         </View>
-        <View style={styles.profileNamePronounsLocation}>
-          <HoliHeading>{`${user.firstName} ${user.lastName} ${user.lastName}`}</HoliHeading>
-          <HoliText>
-            ({user.pronouns}) {user.location}
-          </HoliText>
+        <View style={styles.nameContainer}>
+          <HoliHeading>{`${user.firstName} ${user.middleName} ${user.lastName}`}</HoliHeading>
+          <HoliText styles={{ color: theme.colors.fontColorGrey }}>{`(${user.pronouns}) ${user.location}`}</HoliText>
         </View>
       </View>
-      <HoliText styles={{ marginTop: 16 }}>{user.aboutMe}</HoliText>
+      <HoliText styles={styles.aboutMe}>{user.aboutMe}</HoliText>
       <View style={{ flexDirection: 'row', marginTop: 16 }}>
         <HoliChip
           text="Connect"
@@ -78,14 +75,21 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
 }
 
 const styles = StyleSheet.create({
-  profileHeader: {
+  header: {
     flexDirection: 'column',
   },
-  profileAvatarName: {
+  avatarName: {
     flexDirection: 'row',
   },
-  profileNamePronounsLocation: {
+  nameContainer: {
+    marginTop: 8,
     marginLeft: 16,
+    flexShrink: 1,
+    flex: 1,
+  },
+  aboutMe: {
+    marginTop: 16,
+    color: theme.colors.fontColorGrey,
   },
 })
 
