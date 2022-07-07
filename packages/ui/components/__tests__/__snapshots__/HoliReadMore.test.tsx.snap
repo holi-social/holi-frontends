@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly renders correctly with long text 1`] = `
+<View>
+  <View>
+    <Text
+      ellipsizeMode="tail"
+      numberOfLines={3}
+      onTextLayout={[Function]}
+      style={
+        Object {
+          "alignContent": "flex-start",
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Text
+        accessible={false}
+        selectable={true}
+        style={
+          Array [
+            Object {
+              "color": "#222326",
+              "fontFamily": "Circular Std Book",
+              "fontWeight": "400",
+            },
+            Object {
+              "fontSize": 16,
+              "lineHeight": 19.2,
+            },
+            Object {},
+            Array [
+              Object {
+                "color": "#6f7081",
+              },
+              Object {},
+            ],
+            Object {},
+          ]
+        }
+        styles={
+          Array [
+            Object {
+              "color": "#6f7081",
+            },
+            Object {},
+          ]
+        }
+      >
+        I enjoy working on community projects during my spare time. This text cannot exceed three lines or else. This text cannot exceed three lines or else. This text cannot exceed.
+         
+      </Text>
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly with short text 1`] = `
+<View>
+  <View>
+    <Text
+      ellipsizeMode="tail"
+      numberOfLines={3}
+      onTextLayout={[Function]}
+      style={
+        Object {
+          "alignContent": "flex-start",
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Text
+        accessible={false}
+        selectable={true}
+        style={
+          Array [
+            Object {
+              "color": "#222326",
+              "fontFamily": "Circular Std Book",
+              "fontWeight": "400",
+            },
+            Object {
+              "fontSize": 16,
+              "lineHeight": 19.2,
+            },
+            Object {},
+            Array [
+              Object {
+                "color": "#6f7081",
+              },
+              Object {},
+            ],
+            Object {},
+          ]
+        }
+        styles={
+          Array [
+            Object {
+              "color": "#6f7081",
+            },
+            Object {},
+          ]
+        }
+      >
+        I enjoy working on community projects.
+         
+      </Text>
+    </Text>
+  </View>
+</View>
+`;

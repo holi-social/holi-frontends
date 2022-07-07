@@ -73,6 +73,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "500",
           },
           Object {},
+          Object {},
         ]
       }
       styles={Object {}}
@@ -161,6 +162,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "500",
           },
           Object {},
+          Object {},
         ]
       }
       styles={Object {}}
@@ -203,13 +205,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
 >
   <View
     pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
+    style={Object {}}
   >
     <Text
       accessible={false}
@@ -229,6 +225,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
+          Object {},
           Object {},
         ]
       }
@@ -309,6 +306,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
+          Object {},
           Object {},
         ]
       }
@@ -395,6 +393,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "500",
           },
           Object {},
+          Object {},
         ]
       }
       styles={Object {}}
@@ -437,13 +436,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
 >
   <View
     pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
+    style={Object {}}
   >
     <Text
       accessible={false}
@@ -463,6 +456,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
+          Object {},
           Object {},
         ]
       }
@@ -546,6 +540,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
+          Object {},
           Object {},
         ]
       }
@@ -635,6 +630,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "500",
           },
           Object {},
+          Object {},
         ]
       }
       styles={Object {}}
@@ -677,13 +673,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
 >
   <View
     pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
+    style={Object {}}
   >
     <Text
       accessible={false}
@@ -703,6 +693,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
+          Object {},
           Object {},
         ]
       }
@@ -783,6 +774,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
+          Object {},
           Object {},
         ]
       }
@@ -869,6 +861,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "500",
           },
           Object {},
+          Object {},
         ]
       }
       styles={Object {}}
@@ -911,13 +904,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
 >
   <View
     pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
+    style={Object {}}
   >
     <Text
       accessible={false}
@@ -937,6 +924,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
+          Object {},
           Object {},
         ]
       }
@@ -1026,6 +1014,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -1123,6 +1112,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -1169,13 +1159,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
 >
   <View
     pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
+    style={Object {}}
   >
     <Text
       accessible={false}
@@ -1198,6 +1182,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -1287,6 +1272,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -1381,6 +1367,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -1427,13 +1414,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
 >
   <View
     pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
+    style={Object {}}
   >
     <Text
       accessible={false}
@@ -1456,6 +1437,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -1548,6 +1530,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -1645,6 +1628,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -1691,13 +1675,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
 >
   <View
     pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
+    style={Object {}}
   >
     <Text
       accessible={false}
@@ -1720,6 +1698,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -1809,6 +1788,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -1903,6 +1883,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -1949,13 +1930,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
 >
   <View
     pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
+    style={Object {}}
   >
     <Text
       accessible={false}
@@ -1978,6 +1953,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -2064,6 +2040,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
+          Object {},
           Object {},
         ]
       }
@@ -2153,6 +2130,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "500",
           },
           Object {},
+          Object {},
         ]
       }
       styles={Object {}}
@@ -2195,13 +2173,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
 >
   <View
     pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
+    style={Object {}}
   >
     <Text
       accessible={false}
@@ -2221,6 +2193,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
+          Object {},
           Object {},
         ]
       }
@@ -2301,6 +2274,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
+          Object {},
           Object {},
         ]
       }
@@ -2387,6 +2361,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "500",
           },
           Object {},
+          Object {},
         ]
       }
       styles={Object {}}
@@ -2429,13 +2404,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
 >
   <View
     pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
+    style={Object {}}
   >
     <Text
       accessible={false}
@@ -2455,6 +2424,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
+          Object {},
           Object {},
         ]
       }
@@ -2538,6 +2508,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
+          Object {},
           Object {},
         ]
       }
@@ -2627,6 +2598,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "500",
           },
           Object {},
+          Object {},
         ]
       }
       styles={Object {}}
@@ -2669,13 +2641,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
 >
   <View
     pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
+    style={Object {}}
   >
     <Text
       accessible={false}
@@ -2695,6 +2661,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
+          Object {},
           Object {},
         ]
       }
@@ -2775,6 +2742,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
+          Object {},
           Object {},
         ]
       }
@@ -2861,6 +2829,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "500",
           },
           Object {},
+          Object {},
         ]
       }
       styles={Object {}}
@@ -2903,13 +2872,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
 >
   <View
     pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
+    style={Object {}}
   >
     <Text
       accessible={false}
@@ -2929,6 +2892,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
+          Object {},
           Object {},
         ]
       }
@@ -3018,6 +2982,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -3115,6 +3080,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -3161,13 +3127,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
 >
   <View
     pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
+    style={Object {}}
   >
     <Text
       accessible={false}
@@ -3190,6 +3150,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -3279,6 +3240,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -3373,6 +3335,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -3419,13 +3382,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
 >
   <View
     pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
+    style={Object {}}
   >
     <Text
       accessible={false}
@@ -3448,6 +3405,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -3540,6 +3498,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -3637,6 +3596,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -3683,13 +3643,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
 >
   <View
     pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
+    style={Object {}}
   >
     <Text
       accessible={false}
@@ -3712,6 +3666,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -3801,6 +3756,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -3895,6 +3851,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={
@@ -3941,13 +3898,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
 >
   <View
     pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
+    style={Object {}}
   >
     <Text
       accessible={false}
@@ -3970,6 +3921,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           Object {
             "color": "#6f7081",
           },
+          Object {},
         ]
       }
       styles={

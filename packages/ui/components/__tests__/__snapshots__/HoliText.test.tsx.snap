@@ -17,6 +17,7 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'fa
       },
       Object {},
       undefined,
+      Object {},
     ]
   }
 >
@@ -41,6 +42,7 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'fa
       },
       Object {},
       undefined,
+      Object {},
     ]
   }
 >
@@ -68,6 +70,7 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'tr
         "fontWeight": "500",
       },
       undefined,
+      Object {},
     ]
   }
 >
@@ -95,6 +98,7 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'tr
         "fontWeight": "500",
       },
       undefined,
+      Object {},
     ]
   }
 >
@@ -119,6 +123,7 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
       },
       Object {},
       undefined,
+      Object {},
     ]
   }
 >
@@ -143,6 +148,7 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
       },
       Object {},
       undefined,
+      Object {},
     ]
   }
 >
@@ -170,6 +176,7 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
         "fontWeight": "500",
       },
       undefined,
+      Object {},
     ]
   }
 >
@@ -197,6 +204,7 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
         "fontWeight": "500",
       },
       undefined,
+      Object {},
     ]
   }
 >
@@ -221,6 +229,7 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'fals
       },
       Object {},
       undefined,
+      Object {},
     ]
   }
 >
@@ -245,6 +254,7 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'fals
       },
       Object {},
       undefined,
+      Object {},
     ]
   }
 >
@@ -272,6 +282,7 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'true
         "fontWeight": "500",
       },
       undefined,
+      Object {},
     ]
   }
 >
@@ -299,6 +310,7 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'true
         "fontWeight": "500",
       },
       undefined,
+      Object {},
     ]
   }
 >
@@ -323,6 +335,7 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'fals
       },
       Object {},
       undefined,
+      Object {},
     ]
   }
 >
@@ -347,6 +360,7 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'fals
       },
       Object {},
       undefined,
+      Object {},
     ]
   }
 >
@@ -374,6 +388,7 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'true
         "fontWeight": "500",
       },
       undefined,
+      Object {},
     ]
   }
 >
@@ -401,6 +416,7 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'true
         "fontWeight": "500",
       },
       undefined,
+      Object {},
     ]
   }
 >

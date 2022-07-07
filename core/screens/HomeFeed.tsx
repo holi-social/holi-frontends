@@ -34,6 +34,16 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         Home
       </HoliHeading>
 
+      {/* HoliTextInput Test */}
+      {/* <HoliTextInput
+        label={'Some label'}
+        helperText={'Some helper text'}
+        returnKeyType={'done'}
+        onChange={(text) => {
+          console.log({ text })
+        }}
+      /> */}
+
       {/* Holi Apps */}
       <HoliHeading level="2">Apps</HoliHeading>
       <View style={{ flexDirection: 'row' }}>
