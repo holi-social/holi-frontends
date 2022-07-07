@@ -10,11 +10,7 @@ export type ReadMoreProps = HoliTextProps &
     numberOfLines?: 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | undefined // 1 line is not supported on Android and in this component
     label?: string
     style?: TextStyle
-    buttonStyle?:
-      | (ViewStyle | Record<string, unknown>)
-      | (ViewStyle | Record<string, unknown>)[]
-      | (TextStyle | Record<string, unknown>)
-      | (TextStyle | Record<string, unknown>)[]
+    buttonStyle?: TextStyle | Record<string, unknown>
   }
 
 /**

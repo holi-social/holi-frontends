@@ -73,9 +73,6 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
         label={buttonType === 'show' ? showButtonText : hideButtonText}
         onPress={togglebuttonType}
         variant={'transparent'}
-        style={{
-          ...(props.buttonStyle || {}),
-        }}
       >
         <HoliText style={props.buttonStyle || {}}>
           {buttonType === 'show' ? '...' : ''}
