@@ -92,8 +92,6 @@ const styles = StyleSheet.create({
   },
   aboutMe: {
     marginTop: 16,
-    borderWidth: 1,
-    borderColor: 'red',
   },
 })
 
