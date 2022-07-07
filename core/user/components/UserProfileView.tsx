@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native'
 import { UserContext } from '@holi/core/user/UserContextProvider'
 import HoliChip from '@holi/ui/components/HoliChip'
 import HoliHeading from '@holi/ui/components/HoliHeading'
+import HoliReadMore from '@holi/ui/components/HoliReadMore'
 import HoliText from '@holi/ui/components/HoliText'
 import HoliUserAvatar from '@holi/ui/components/HoliUserAvatar'
 import theme from '@holi/ui/styles/theme'
@@ -16,13 +17,13 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
   //const { user } = useContext(UserContext)
   const user = {
     avatar: '',
-    firstName: 'Steffen Steffen Steffen',
-    middleName: 'J. asfasf asdfasdf',
-    lastName: 'Brauer Brauer Brauer',
+    firstName: 'Steffen',
+    middleName: 'J.',
+    lastName: 'Brauer',
     aboutMe:
-      'Hello, I am Steffen, more text more text more text more text more text more text more text more text more text more text more text more text more text',
+      'Hello, I am Steffen, more texttext more text more text more text more text more text more text more text more text more text more text more text more text more text more text more text more text more text more text more text text more text more text more text more text more text more text more text more text more text more texttext more text more text more text more text more text more text more text more text more text more texttext more text more text more text more text more text more text more text more text more text more texttext more text more text more text more text more text more text more text more text more text more texttext more text more text more text more text more text more text more text more text more text more text',
     pronouns: 'he/him',
-    location: 'Hamburg Hamburg Hamburg, Deutschland, Welt, Milchstraße aweiorhaw hioaweriowahr aiowheroiwahre',
+    location: 'Hamburg, Germany',
     avatarDefaultColor: theme.colors.secondaryColor,
     avatarLabel: 'SB',
     engagementLevel: 'engaged',
@@ -52,7 +53,9 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
           <HoliText styles={{ color: theme.colors.fontColorGrey }}>{`(${user.pronouns}) ${user.location}`}</HoliText>
         </View>
       </View>
-      <HoliText styles={styles.aboutMe}>{user.aboutMe}</HoliText>
+      <View style={styles.aboutMe}>
+        <HoliReadMore>{user.aboutMe}</HoliReadMore>
+      </View>
       <View style={{ flexDirection: 'row', marginTop: 16 }}>
         <HoliChip
           text="Connect"
@@ -89,7 +92,8 @@ const styles = StyleSheet.create({
   },
   aboutMe: {
     marginTop: 16,
-    color: theme.colors.fontColorGrey,
+    borderWidth: 1,
+    borderColor: 'red',
   },
 })
 
