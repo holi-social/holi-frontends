@@ -21,7 +21,7 @@ const HoliIconMobile: React.VFC<HoliIconProps> = (props: HoliIconProps) => {
           SvgComponent={Svg}
           PathComponent={Path}
           iconSet={iconSetFilled}
-          style={{ color: theme.colors.fontColorBlack }}
+          style={{ color: props?.color || theme.colors.fontColorBlack }}
           {...cleanedProps}
         />
       )}
@@ -31,7 +31,7 @@ const HoliIconMobile: React.VFC<HoliIconProps> = (props: HoliIconProps) => {
           SvgComponent={Svg}
           PathComponent={Path}
           iconSet={iconSetRegular}
-          style={{ color: theme.colors.fontColorBlack }}
+          style={{ color: props?.color || theme.colors.fontColorBlack }}
           {...cleanedProps}
         />
       )}
