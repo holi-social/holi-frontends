@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const storiesDirectory = '../../../packages/ui/components/__stories__'
 
 module.exports = {
+  staticDirs: ['../../web/public'],
   features: {
     interactionsDebugger: true,
   },

@@ -16,15 +16,18 @@ export default {
 }
 
 export const Primary = ({ ...args }) => <Holicon icon={args.icon} size={args.size} color={args.color} />
-Primary.args = {}
+Primary.args = {
+  icon: 'app-edit',
+  size: 32,
+  color: theme.colors.fontColorBlack,
+}
 Primary.argTypes = {
-  color: { defaultValue: theme.colors.fontColorBlack, control: { type: 'color' } },
+  color: { control: { type: 'color' } },
   icon: {
     type: 'select',
-    defaultValue: 'app-edit',
     options: iconSelection.icons.map((icon) => icon?.properties?.name),
   },
-  size: { defaultValue: 32, control: { type: 'number' } },
+  size: { control: { type: 'number' } },
 }
 
 export const All = ({ ...args }) => {
@@ -51,7 +54,9 @@ export const All = ({ ...args }) => {
     </div>
   )
 }
-
+All.args = {
+  color: theme.colors.fontColorBlack,
+}
 All.argTypes = {
-  color: { defaultValue: theme.colors.fontColorBlack, control: { type: 'color' } },
+  color: { control: { type: 'color' } },
 }
