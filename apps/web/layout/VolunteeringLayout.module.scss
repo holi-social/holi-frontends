@@ -20,8 +20,10 @@
   width: 100%;
   min-height: calc(100vh - #{$top-bar-height}px);
   display: flex;
+  flex-direction: column;
   padding-bottom: #{$bottom-bar-height}px;
   margin-top: #{$top-bar-height}px;
+  background-color: pink;
 }
 
 .footer {

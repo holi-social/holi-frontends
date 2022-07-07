@@ -5,7 +5,7 @@ import 'raf/polyfill'
 import React, { ReactElement, ReactNode } from 'react'
 
 import RootProvider from '@holi/core/RootProvider'
-import DefaultLayout from '@holi/web/layout/DefaultLayout'
+import PageLayout from '@holi/web/layout/PageLayout'
 import '@holi/web/styles/globals.scss'
 
 export type NextPageWithLayout = NextPage & {
@@ -21,7 +21,7 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
 
   // taken from https://nextjs.org/docs/basic-features/layouts#with-typescript
   // Use the layout defined at the page level, if available
-  const getLayout = Component.getLayout ?? ((page) => <DefaultLayout>{page}</DefaultLayout>)
+  const getLayout = Component.getLayout ?? ((page) => <PageLayout>{page}</PageLayout>)
   return <RootProvider>{getLayout(<Component {...pageProps} />)}</RootProvider>
 }
 

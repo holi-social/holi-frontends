@@ -8,7 +8,7 @@ import Holicon from '@holi/ui/components/holicon'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme/theme'
 import HomeTopBar from '@holi/web/components/navigation/HomeTopBar'
 
-import defaultStyles from './DefaultLayout.module.scss'
+import volunteeringLayoutStyles from './VolunteeringLayout.module.scss'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildren<any>) => {
@@ -27,13 +27,13 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
         Docu: https://www.w3.org/WAI/WCAG21/Techniques/aria/ARIA11.html
         Rule: https://dequeuniversity.com/rules/axe/4.4/region
       */}
-      <header className={defaultStyles.header}>
+      <header className={volunteeringLayoutStyles.header}>
         <HomeTopBar />
       </header>
 
-      <main className={defaultStyles.main}>{children}</main>
+      <main className={volunteeringLayoutStyles.main}>{children}</main>
 
-      <footer className={defaultStyles.footer}>
+      <footer className={volunteeringLayoutStyles.footer}>
         <View
           style={styles.appNav}
           accessible={true}
