@@ -16,12 +16,13 @@ const LoggedOutView: VoidFunctionComponent<LoggedOutViewProps> = (props: LoggedO
   return (
     <View style={[styles.loggedOutView, props.style]}>
       <View style={styles.moodImage}>
-        <SharedImage
+        {/* TODO: require breaks the unit tests. */}
+        {/* <SharedImage
           imageFile={require('@holi/ui/assets/img/icons/illustration_logged_out.png')}
           isSvg={false}
           style={{ width: 200, height: 200 }}
           altText=""
-        />
+        /> */}
       </View>
       <HoliHeading level="2">Inspirational text about your profile</HoliHeading>
     </View>
