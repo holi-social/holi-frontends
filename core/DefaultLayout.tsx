@@ -1,5 +1,5 @@
 import React, { ReactChild, ReactChildren, ReactNode } from 'react'
-import { Platform, ScrollView, StyleSheet, ViewStyle } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -17,9 +17,11 @@ const DefaultLayout: React.FunctionComponent<LayoutProps> = (props: LayoutProps)
   const { theme } = useTheme()
   const styles = getStyles(theme)
   return Platform.OS === 'web' ? (
-    <>{props.children}</>
+    <View style={styles.screenLayout}>{props.children}</View>
   ) : (
-    <ScrollView contentContainerStyle={[styles.layout, props.style]}>{props.children}</ScrollView>
+    <ScrollView contentContainerStyle={[styles.scrollLayout, props.style]}>
+      <View style={styles.screenLayout}>{props.children}</View>
+    </ScrollView>
   )
 }
 
@@ -27,12 +29,16 @@ export default DefaultLayout
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    layout: {
+    scrollLayout: {
       minHeight: '100%',
       width: '100%',
       justifyContent: 'flex-start',
-      backgroundColor: theme.colors.backgroundColorWhite,
+
       paddingBottom: 50,
+    },
+    screenLayout: {
+      backgroundColor: theme.colors.backgroundColorWhite,
+      minHeight: '100%',
     },
     container: {
       flex: 1,

@@ -8,7 +8,7 @@ import Holicon from '@holi/ui/components/holicon'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme/theme'
 import HomeTopBar from '@holi/web/components/navigation/HomeTopBar'
 
-import volunteeringLayoutStyles from './VolunteeringLayout.module.scss'
+import volunteeringLayoutStyles from './NavigationLayoutVolunteeringApp.module.scss'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildren<any>) => {

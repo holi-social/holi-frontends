@@ -13,6 +13,8 @@
   right: 0;
   z-index: 1000;
   opacity: 0.8;
+  height: #{$top-bar-height}px;
+  max-height: #{$top-bar-height}px;
   border-bottom: solid 1px $background-color-white;
 }
 
@@ -23,7 +25,7 @@
   flex-direction: column;
   padding-bottom: #{$bottom-bar-height}px;
   margin-top: #{$top-bar-height}px;
-  background-color: pink;
+  background-color: $background-color-white;
 }
 
 .footer {
@@ -31,4 +33,6 @@
   bottom: 0;
   width: 100%;
   z-index: 1000;
+  height: #{$bottom-bar-height}px;
+  max-height: #{$bottom-bar-height}px;
 }

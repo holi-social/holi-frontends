@@ -4,7 +4,7 @@ import React from 'react'
 import HomeButtonBar from '@holi/web/components/navigation/HomeBottomBar'
 import HomeTopBar from '@holi/web/components/navigation/HomeTopBar'
 
-import pageLayoutStyles from './PageLayout.module.scss'
+import pageLayoutStyles from './NavigationLayoutRoot.module.scss'
 
 const DefaultLayout: React.FunctionComponent = ({ children }) => {
   return (
