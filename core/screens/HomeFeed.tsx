@@ -1,4 +1,6 @@
+import moment from 'moment'
 import React, { useLayoutEffect } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -17,7 +19,8 @@ type HomeFeedProps = NativeStackScreenProps<HomeStackScreens>
 const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   const { navigate } = useRouting()
   const { setNavigationHeader } = useNavigationHeader()
-  const title = 'Topic of the day'
+  const { t } = useTranslation()
+  const title = t('homeFeed.title')
 
   useLayoutEffect(
     () =>
@@ -68,6 +71,16 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
           <Holicon icon="support" size={20} />
           <HoliText>Donations</HoliText>
         </HoliButton>
+      </View>
+
+      {/* I18n Showcase */}
+      <View style={{ flexDirection: 'column' }}>
+        <HoliText>
+          <Trans t={t} i18nKey="textWithLink">
+            <HoliText styles={{ fontWeight: 'bold' }}>this is ignored</HoliText>
+          </Trans>
+        </HoliText>
+        <HoliText>{t('currentDate', { date: t('date', { date: moment() }) })}</HoliText>
       </View>
 
       {/* Weekly Topics */}
