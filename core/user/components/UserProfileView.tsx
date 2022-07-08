@@ -33,7 +33,6 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
       />
 
       <HoliText>{user.firstName}</HoliText>
-      <HoliText>{user.middleName}</HoliText>
       <HoliText>{user.lastName}</HoliText>
       <HoliText>{user.pronouns}</HoliText>
       <HoliText>{user.aboutMe}</HoliText>
