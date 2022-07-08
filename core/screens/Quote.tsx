@@ -62,7 +62,14 @@ const Quote: React.VFC<QuoteProps> = ({ navigation, ssr, data }: QuoteProps) => 
     }
   }
 
-  if (!quote) return <HoliText>Quote {quoteId} not found</HoliText>
+  if (!quote)
+    return (
+      <View style={styles.QuoteView}>
+        <HoliHeading level="1" styles={{ marginTop: 30, padding: 20, textAlign: 'center' }}>
+          Quote {quoteId} not found
+        </HoliHeading>
+      </View>
+    )
 
   return (
     <View style={styles.QuoteView}>
