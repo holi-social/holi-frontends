@@ -76,9 +76,10 @@ export const NodeInput = ({ node, value, onChange, disabled, textInputOverride }
   const title = getNodeTitle(node)
 
   return (
-    <View testID={`field/${name}`}>
+    <View>
       <Text>{title}</Text>
       <TextInput
+        testID={`field/${name}`}
         style={styles.input}
         onChange={onChange}
         value={value ? String(value) : ''}

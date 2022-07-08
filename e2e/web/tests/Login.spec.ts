@@ -9,7 +9,10 @@ test.beforeEach(async ({ page }) => {
 test.describe('Login', () => {
   test('should work', async ({ page }) => {
     await page.waitForSelector('text="Home"')
-    page.locator(selectorByTestId('profile-button')).click()
+    await page.locator(selectorByTestId('profile-button')).click()
     await page.waitForSelector('text="Login"')
+    await page.locator(selectorByTestId('data-testid="field/identifer"')).fill('e2etest@holistic.foundation')
+    await page.fill('input[data-testid="field/password"]', 'projectholi2022')
+    await page.click('text=Submit')
   })
 })
