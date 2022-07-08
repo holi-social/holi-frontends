@@ -48,8 +48,7 @@ const HeaderProfileLink: React.VoidFunctionComponent<HeaderProfileLinkProps> = (
       {isLoggedIn && user ? userAvatar : <HoliIcon icon="user-circled" size={20} />}
     </HoliButton>
   )
-  //{!isAuthenticated && }
-  //{isAuthenticated && userAvatar}
+  // {isAuthenticated && userAvatar}
 }
 
 export default HeaderProfileLink
