@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
 const Children: React.VFC<{ children: React.ReactElement }> = ({ children }) => {
   const authContext = useContext(AuthContext)
   const userContext = useContext(UserContext)
+
   return authContext.isLoading || userContext.isLoading ? (
     <SafeArea style={styles.loadingContainer}>
       <HoliText styles={{ textAlign: 'center' }}>

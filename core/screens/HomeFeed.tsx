@@ -70,6 +70,29 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         </HoliButton>
       </View>
 
+      {/* Weekly Quotes */}
+      <View style={{ marginVertical: 20 }}>
+        <HoliHeading level="2" testID="home-feed-quotes">
+          This week quotes
+        </HoliHeading>
+
+        <HoliButton key={'1'} label={'1'} inline onPress={() => navigate('/quotes/1')}>
+          Quote #1
+        </HoliButton>
+
+        <HoliButton key={'2'} label={'2'} inline onPress={() => navigate('/quotes/2')}>
+          Quote #2
+        </HoliButton>
+
+        <HoliButton key={'3'} label={'3'} inline onPress={() => navigate('/quotes/3')}>
+          Quote #3
+        </HoliButton>
+
+        <HoliButton key={'4'} label={'4'} inline onPress={() => navigate('/quotes/4')}>
+          Quote #4
+        </HoliButton>
+      </View>
+
       {/* Weekly Topics */}
       <HoliHeading level="2" testID="home-feed-topics">
         This week’s topics are Immigration, Education and Sustainability
