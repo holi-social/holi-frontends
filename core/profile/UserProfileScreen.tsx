@@ -1,5 +1,6 @@
 import React, { useContext, useLayoutEffect, useState } from 'react'
-import { ScrollView, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
@@ -20,6 +21,7 @@ export const UserProfileScreen: React.VFC = () => {
   const [editing, setEditing] = useState(false)
   const [chipChecked, setChipChecked] = useState(false)
   const toggleEditing = () => setEditing(!editing)
+  const { t } = useTranslation()
 
   const { isLoggedIn } = useContext(AuthContext)
   const { user } = useContext(UserContext)
@@ -27,7 +29,7 @@ export const UserProfileScreen: React.VFC = () => {
   const { setNavigationHeader } = useNavigationHeader()
 
   useLayoutEffect(() => {
-    const profileTitle = isLoggedIn && user ? user.firstName : 'Profile'
+    const profileTitle = isLoggedIn && user ? user.firstName : t('profile.title')
     setNavigationHeader({
       title: profileTitle,
       titleElement: () => <HoliText style={{ paddingTop: 5 }}>{profileTitle}</HoliText>,
@@ -39,7 +41,7 @@ export const UserProfileScreen: React.VFC = () => {
       <LoginProtection loggedOutContent={<LoggedOutView />}>
         <View style={{ paddingVertical: 24, paddingHorizontal: 16, alignItems: 'center' }}>
           <HoliHeading level="1" size="super">
-            Profile
+            {t('profile.title')}
           </HoliHeading>
           {editing ? (
             <UserProfileForm onCancel={toggleEditing} onSubmit={toggleEditing} />
@@ -48,14 +50,14 @@ export const UserProfileScreen: React.VFC = () => {
           )}
           <View style={{ marginVertical: 10 }}>
             <HoliChip
-              label="Nothing to do here"
+              label={t('profile.exampleInterest')}
               onPress={() => setChipChecked(!chipChecked)}
               checked={chipChecked}
-              text="Example Interest"
+              text={t('profile.exampleInterest')}
             />
           </View>
-          <HoliButton label="Logout" inline onPress={() => navigate('/logout')}>
-            Logout
+          <HoliButton label={t('profile.logout')} inline onPress={() => navigate('/logout')}>
+            {t('profile.logout')}
           </HoliButton>
         </View>
       </LoginProtection>

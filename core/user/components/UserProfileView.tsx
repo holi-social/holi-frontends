@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import HoliChip from '@holi/ui/components/HoliChip'
@@ -13,6 +14,8 @@ type UserProfileViewProps = {
 }
 
 const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ editUser }) => {
+  const { t } = useTranslation()
+
   //const { user } = useContext(UserContext)
   const user = {
     avatar: '',
@@ -32,7 +35,7 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
   }
 
   if (!user) {
-    return <HoliText>No user fetched</HoliText>
+    return <HoliText>{t('user.profileView.noUser')}</HoliText>
   }
 
   return (
@@ -55,16 +58,16 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
       <HoliReadMore style={styles.aboutMe}>{user.aboutMe}</HoliReadMore>
       <View style={{ flexDirection: 'row', marginTop: 16 }}>
         <HoliChip
-          text="Connect"
-          label="connect"
+          text={t('user.profileView.connect')}
+          label={t('user.profileView.connect')}
           checked={false}
           disabled={false}
           style={{ marginRight: 8 }}
           fontStyle={{ color: theme.colors.positivepurple }}
         />
         <HoliChip
-          text="Message"
-          label="connect"
+          text={t('user.profileView.message')}
+          label={t('user.profileView.message')}
           checked={false}
           disabled={true}
           fontStyle={{ color: theme.colors.positivepurple }}

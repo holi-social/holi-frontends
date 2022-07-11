@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -20,6 +21,7 @@ const VolunteeringAppStack = createNativeStackNavigator<VolunteeringAppScreensLi
 export const AppNavigation: React.FC = ({ children }) => {
   const { theme } = useTheme()
   const { navigate } = useRouting()
+  const { t } = useTranslation()
   return (
     <SafeArea
       style={{
@@ -31,10 +33,16 @@ export const AppNavigation: React.FC = ({ children }) => {
       }}
     >
       <View style={{ flexDirection: 'row', padding: 20 }}>
-        <HoliButton label="Home" inline transparent onPress={() => navigate('/')} testID="nav-button-home">
+        <HoliButton
+          label={t('volunteering.navigation.home')}
+          inline
+          transparent
+          onPress={() => navigate('/')}
+          testID="nav-button-home"
+        >
           <Holicon icon="home" size={30} color={theme.colors.fontColorBlack} />
         </HoliButton>
-        <HoliButton label="Search" inline transparent onPress={() => navigate('/search')}>
+        <HoliButton label={t('volunteering.navigation.search')} inline transparent onPress={() => navigate('/search')}>
           <Holicon icon="search" size={30} color={theme.colors.fontColorBlack} />
         </HoliButton>
       </View>

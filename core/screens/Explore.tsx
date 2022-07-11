@@ -1,4 +1,5 @@
 import React, { useLayoutEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -12,7 +13,8 @@ type ExploreProps = NativeStackScreenProps<HomeStackScreens>
 
 const Explore: React.VFC<ExploreProps> = ({ navigation }: ExploreProps) => {
   const { setNavigationHeader } = useNavigationHeader()
-  const title = 'Explore Holi'
+  const { t } = useTranslation()
+  const title = t('explore.title')
 
   useLayoutEffect(
     () =>
@@ -26,7 +28,7 @@ const Explore: React.VFC<ExploreProps> = ({ navigation }: ExploreProps) => {
   return (
     <DefaultLayout>
       <HoliHeading level="1" size="super">
-        Explore
+        {title}
       </HoliHeading>
     </DefaultLayout>
   )

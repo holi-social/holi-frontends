@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -53,9 +54,10 @@ const RootStack = createNativeStackNavigator<RootStackScreens>()
 const backButton = () => {
   const { theme } = useTheme()
   const { navigateBack } = useRouting()
+  const { t } = useTranslation()
   return (
     <HoliButton
-      label="Go back"
+      label={t('navigation.headerLeft.back')}
       inline
       variant="transparent"
       onPress={() => navigateBack()}
@@ -71,7 +73,7 @@ const downButton = () => {
   const { navigateBack } = useRouting()
   return (
     <HoliButton
-      label="Close window"
+      label={t('navigation.closeWindow')}
       inline
       variant="transparent"
       onPress={() => navigateBack()}
