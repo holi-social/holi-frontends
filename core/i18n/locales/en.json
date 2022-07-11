@@ -1,0 +1,6 @@
+{
+  "currentDate": "Current date: {{date}}",
+  "date": "{{date, MMM, D}}",
+  "homeFeed.title": "Topic of the day",
+  "textWithLink": "A sentence including <0>bold text</0> in the middle!"
+}

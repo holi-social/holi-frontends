@@ -1,0 +1,6 @@
+{
+  "currentDate": "Aktuelles Datum: {{date}}",
+  "date": "{{date, D. MMM}}",
+  "homeFeed.title": "Thema des Tages",
+  "textWithLink": "Ein Satz, der <0>Fettdruck</0> enthält!"
+}

@@ -5,3 +5,4 @@ node_modules
 apps/mobile/.expo
 apps/web/.next
 apps/web/build
+apps/storybook/storybook-static
