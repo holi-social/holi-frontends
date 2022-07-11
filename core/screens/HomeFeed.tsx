@@ -85,6 +85,11 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
           <HoliText>{t('currentDate', { date: t('date', { date: moment() }) })}</HoliText>
         </View>
 
+        {/* Weekly Topics */}
+        <HoliHeading level="2" testID="home-feed-topics">
+          This week’s topics are Immigration, Education and Sustainability
+        </HoliHeading>
+
         {[...fakeTopics.keys()].map((topicId) => (
           <HoliButton
             key={topicId}
