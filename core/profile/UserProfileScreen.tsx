@@ -35,7 +35,7 @@ export const UserProfileScreen: React.VFC = () => {
   const loggedOutContent = <HoliHeading>Log in to see your profile</HoliHeading>
   return (
     <LoginProtection loggedOutContent={loggedOutContent}>
-      <ScrollView contentContainerStyle={{ paddingVertical: 24, paddingHorizontal: 16, alignItems: 'center' }}>
+      <View style={{ paddingVertical: 24, paddingHorizontal: 16, alignItems: 'center' }}>
         {editing ? (
           <UserProfileForm onCancel={toggleEditing} onSubmit={toggleEditing} />
         ) : (
@@ -52,7 +52,7 @@ export const UserProfileScreen: React.VFC = () => {
         <HoliButton label="Logout" inline onPress={() => navigate('/logout')}>
           Logout
         </HoliButton>
-      </ScrollView>
+      </View>
     </LoginProtection>
   )
 }

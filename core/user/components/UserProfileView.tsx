@@ -61,14 +61,14 @@ const UserProfileView: React.VoidFunctionComponent<UserProfileViewProps> = ({ ed
           disabled={false}
           style={{ marginRight: 8 }}
           fontStyle={{ color: theme.colors.positivepurple }}
-        ></HoliChip>
+        />
         <HoliChip
           text="Message"
           label="connect"
           checked={false}
           disabled={true}
           fontStyle={{ color: theme.colors.positivepurple }}
-        ></HoliChip>
+        />
       </View>
     </View>
   )
