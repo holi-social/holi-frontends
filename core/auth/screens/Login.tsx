@@ -72,7 +72,7 @@ const Login: React.VoidFunctionComponent = () => {
         ) : (
           <>
             <HoliHeading level="1" size="super" style={{ marginTop: 50 }}>
-              sign in to your account
+              Sign in to your account
             </HoliHeading>
             <SelfServiceFlow flow={flow} onSubmit={onSubmit} style={{ marginTop: 20 }} />
           </>
