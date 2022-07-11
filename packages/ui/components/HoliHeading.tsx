@@ -26,7 +26,7 @@ export type HoliHeadingProps = {
   children?: React.ReactNode
   size?: HoliHeadingSize
   level?: HoliHeadingLevel
-  styles?: TextStyle | TextStyle[]
+  style?: TextStyle | TextStyle[]
   selectable?: boolean
   testID?: string
 }
@@ -55,7 +55,7 @@ const HoliHeading = ({
     <Text
       {...accessibilityProps}
       selectable={selectable}
-      style={[styles.default, styles[size as keyof typeof styles], props?.styles]}
+      style={[styles.default, styles[size as keyof typeof styles], props?.style]}
       {...(props.testID && { testID: props.testID })}
     >
       {children}

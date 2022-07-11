@@ -9,6 +9,7 @@ import {
   UiNode,
 } from '@ory/kratos-client'
 import React, { useEffect, useState } from 'react'
+import { View, ViewStyle } from 'react-native'
 
 import { TextInputOverride } from '@holi/core/auth/components/Input'
 import Messages from '@holi/core/auth/components/Messages'
@@ -20,6 +21,7 @@ interface Props<T> {
   onSubmit: (payload: T) => Promise<void>
   only?: 'password' | 'profile' | 'totp' | 'lookup_secret'
   textInputOverride?: TextInputOverride
+  style?: ViewStyle | ViewStyle[] | Record<string, unknown>
 }
 
 export const SelfServiceFlow = <
@@ -29,6 +31,7 @@ export const SelfServiceFlow = <
   only,
   onSubmit,
   textInputOverride,
+  style,
 }: Props<T>) => {
   const [values, setValues] = useState<T>({} as T)
   const [nodes, setNodes] = useState<Array<UiNode>>([])
@@ -85,7 +88,7 @@ export const SelfServiceFlow = <
   }
 
   return (
-    <>
+    <View style={style}>
       <Messages messages={flow.ui.messages} />
       {nodes.map((node: UiNode, k) => {
         const name = getNodeId(node)
@@ -100,6 +103,6 @@ export const SelfServiceFlow = <
           />
         )
       })}
-    </>
+    </View>
   )
 }

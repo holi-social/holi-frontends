@@ -4,7 +4,7 @@ import React from 'react'
 import HomeButtonBar from '@holi/web/components/navigation/HomeBottomBar'
 import HomeTopBar from '@holi/web/components/navigation/HomeTopBar'
 
-import defaultStyles from './DefaultLayout.module.scss'
+import navigationLayoutRootStyles from './NavigationLayoutRoot.module.scss'
 
 const DefaultLayout: React.FunctionComponent = ({ children }) => {
   return (
@@ -18,13 +18,13 @@ const DefaultLayout: React.FunctionComponent = ({ children }) => {
         Docu: https://www.w3.org/WAI/WCAG21/Techniques/aria/ARIA11.html
         Rule: https://dequeuniversity.com/rules/axe/4.4/region
       */}
-      <header className={defaultStyles.header}>
+      <header className={navigationLayoutRootStyles.header}>
         <HomeTopBar />
       </header>
 
-      <main className={defaultStyles.main}>{children}</main>
+      <main className={navigationLayoutRootStyles.main}>{children}</main>
 
-      <footer className={defaultStyles.footer}>
+      <footer className={navigationLayoutRootStyles.footer}>
         <HomeButtonBar />
       </footer>
     </>
