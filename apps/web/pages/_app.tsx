@@ -10,7 +10,7 @@ import RootProvider from '@holi/core/RootProvider'
 import i18n, { initI18n } from '@holi/core/i18n'
 import HoliText from '@holi/ui/components/HoliText'
 import SafeArea from '@holi/ui/components/SafeArea'
-import DefaultLayout from '@holi/web/layout/DefaultLayout'
+import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
 import '@holi/web/styles/globals.scss'
 
 export type NextPageWithLayout = NextPage & {
@@ -44,7 +44,7 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
 
   // taken from https://nextjs.org/docs/basic-features/layouts#with-typescript
   // Use the layout defined at the page level, if available
-  const getLayout = Component.getLayout ?? ((page) => <DefaultLayout>{page}</DefaultLayout>)
+  const getLayout = Component.getLayout ?? ((page) => <NavigationLayoutRoot>{page}</NavigationLayoutRoot>)
 
   const children = translationsLoaded ? (
     <I18nextProvider i18n={i18n}>{getLayout(<Component {...pageProps} />)}</I18nextProvider>

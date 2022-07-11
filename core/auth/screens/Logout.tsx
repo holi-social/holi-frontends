@@ -1,9 +1,10 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
-import AuthLayout from '@holi/core/auth/AuthLayout'
+import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
+import { useNavigationContext } from '@holi/core/navigation/context'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliText from '@holi/ui/components/HoliText'
@@ -11,7 +12,13 @@ import HoliText from '@holi/ui/components/HoliText'
 const Logout: React.VoidFunctionComponent = () => {
   const { navigateBack } = useRouting()
   const { setUserLoggedOut } = useContext(AuthContext)
+  const { setShowBackLink } = useNavigationContext()
   const { displayError } = useErrorHandling()
+
+  useEffect(() => {
+    setShowBackLink(true)
+    return () => setShowBackLink(false)
+  }, [])
 
   const onSubmit = () => {
     getSessionFromStorage()
@@ -31,12 +38,12 @@ const Logout: React.VoidFunctionComponent = () => {
       .catch((error) => displayError(error, 'Logout failed'))
   }
   return (
-    <AuthLayout>
+    <DefaultLayout>
       <HoliText>Do you want to log out?</HoliText>
       <HoliButton label="" onPress={() => onSubmit()}>
         Log out
       </HoliButton>
-    </AuthLayout>
+    </DefaultLayout>
   )
 }
 
