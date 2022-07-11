@@ -12,6 +12,8 @@ export const userFragment = gql`
     aboutMe
     pronouns
     location
+    avatarDefaultColor
+    avatarLabel
     engagementLevel
     interests
     sdgs

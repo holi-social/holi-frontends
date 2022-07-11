@@ -72,6 +72,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
               "lineHeight": 24,
             },
             Object {},
+            Object {},
           ],
           Object {},
         ]
@@ -84,6 +85,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
             "fontWeight": "400",
             "lineHeight": 24,
           },
+          Object {},
           Object {},
         ]
       }
@@ -232,6 +234,7 @@ exports[`renders correctly renders correctly when disabled 1`] = `
               "lineHeight": 24,
             },
             Object {},
+            Object {},
           ],
           Object {},
         ]
@@ -244,6 +247,7 @@ exports[`renders correctly renders correctly when disabled 1`] = `
             "fontWeight": "400",
             "lineHeight": 24,
           },
+          Object {},
           Object {},
         ]
       }
@@ -321,6 +325,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
               "lineHeight": 24,
             },
             Object {},
+            Object {},
           ],
           Object {},
         ]
@@ -333,6 +338,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
             "fontWeight": "400",
             "lineHeight": 24,
           },
+          Object {},
           Object {},
         ]
       }
