@@ -28,16 +28,8 @@ export const initI18n = (): Promise<TFunction> => {
           },
           compatibilityJSON: 'v3',
           detection: {
-            order: [
-              'navigator',
-              'querystring',
-              'cookie',
-              'localStorage',
-              'sessionStorage',
-              'htmlTag',
-              'path',
-              'subdomain',
-            ],
+            // Use browser language to determine the language
+            order: ['navigator'],
           },
         },
         (error, result) => {
