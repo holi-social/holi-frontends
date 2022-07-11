@@ -422,6 +422,146 @@ t('message.interpolation', { value: 'example' })
 [i18n-ally](https://marketplace.visualstudio.com/items?itemName=lokalise.i18n-ally) is a VS code extension that facilitates
 translating the app with features like code completion, directly adding new or editing existing keys as well as displaying translations inside the code and as tooltips.
 
+## Creating NextJS SSR and SSG pages
+
+### Understanding NextJS data fetching strategies
+
+NextJS supports client side rendering (CSR), server side rendering (SSR) and static-site generation (SSG). You can create pages for the web app (`apps/web`) following the same rules as described in the [NextJS docs](https://nextjs.org/docs/basic-features/data-fetching/overview).
+
+### Creating reusable pages for web and mobile and allowing SSR or SSG on web
+
+To be able to use the same page/screen for both web and mobile, it is necessary to create the page/screen component with the rendering strategy in mind. For client side rendering, the data will be fetched in the page/screen component itself, without the need to configure anything for the web app. However, when creating an SSR or SSG page, it is necessary to follow the steps below:
+
+#### In the web app, in the file corresponding to the page using SSR or SSG:
+- Include the `ssr` and `data` props in the page/screen component. Set `ssr` to `true` and pass the `data` as a prop to the component. If CSR, there is no need to do anything.
+- Include the corresponding pre-rendering methods as described in the [NextJS docs](https://nextjs.org/docs/basic-features/data-fetching/overview).
+- Done, the data fetched will be passed to the page/screen component as a prop.
+
+#### Configure the page/screen component to use SSR or SSG:
+- As described in the steps above, the data will be passed to the page/screen component as a prop, as well as the `ssr` prop will be set to `true`.
+- If there is any data fetching method running on the component initialization (`useEffect`, e.g.), avoid running it if `ssr` is set to `true`. We already have the data as a prop.
+- Use the prop `data` instead of calling the API within the component.
+
+Please note that `ssr` will only be set to true when decided to use SSR in the web app. Never in the mobile app.
+
+#### Example SSR page
+
+Say you want to create a new page for the web app, and you want it to use SSR. You also want the same page/screen component to be used both for the mobile and the web apps.
+
+The first step to take would be creating the page/screen component that will be used both for the mobile and web apps. Let's call it `Quote` component and all it does is display a famous quote in the page.
+
+##### `core/screens/Quote.tsx`
+```
+import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { createParam } from 'solito'
+import HoliText from '@holi/ui/components/HoliText'
+
+type QuoteProps = {
+  ssr?: boolean
+  data?: QuoteType
+}
+
+const { useParam } = createParam<QuoteParams>()
+
+const Quote: React.VFC<QuoteProps> = ({ ssr, data }: QuoteProps) => {
+  const [quote, setQuote] = useState<QuoteType | undefined>(undefined)
+  const [quoteId = ''] = useParam('quoteId')
+
+  useEffect(() => {
+    if (!ssr) {
+      getQuote()
+    } else {
+      setQuote(data)
+    }
+  }, [quoteId])
+
+  const getQuote = async () => {
+    try {
+      if (!quoteId || typeof window === 'undefined') {
+        return
+      }
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: `query {
+          post(id: ${quoteId}) {
+            id
+            title
+            body
+          }
+        }`,
+        }),
+      })
+      const data = await res.json()
+      setQuote(data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  if (!quote)
+    return (
+      <View style={styles.QuoteView}>
+        <HoliText level="1" styles={{ marginTop: 30, padding: 20, textAlign: 'center' }}>
+          Quote {quoteId} not found
+        </HoliText>
+      </View>
+    )
+
+  return (
+    <View style={styles.QuoteView}>
+      <HoliText level="1" styles={{ marginTop: 30, padding: 20, textAlign: 'center' }}>
+        {quote.title}
+      </HoliText>
+      <HoliText styles={{ padding: 20, textAlign: 'center' }}>{quote.body}</HoliText>
+    </View>
+  )
+}
+```
+
+As you can see above, the page/screen component Quote receives a `ssr` and a `data` prop. If the `ssr` prop is set to true, it will not call the `getQuote` method on the `useEffect`, and instead it will simply use the `data` prop to set its state.
+
+Now this component is ready to be used on the mobile app. However, we still need to configure the NextJS page for that component, and use SSR to get the data:
+
+##### `apps/web/pages/quotes/[quoteId]/index.tsx`
+```
+import { NextPage } from 'next'
+
+import Quote, { QuoteType } from '@holi/core/screens/Quote'
+
+const QuotesPage: NextPage = ({ data }) => <Quote ssr={true} data={data} />
+
+export const getServerSideProps = async ({ query }) => {
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query: `query {
+      post(id: ${query.quoteId}) {
+        id
+        title
+        body
+      }
+    }`,
+    }),
+  })
+  const { data } = await res.json()
+
+  return { props: { data: data.post } }
+}
+
+export default QuotesPage
+```
+
+Notice that inside `getServerSideProps` we call the api and return the props sent to the page/screen component. The `QuotesPage` component has a `ssr` set to `true` and now the `data` prop with the data fetched server side.
+
+This is it, now specifically for this NextJS page, the data will be fetched and rendered server side. To use SSG, it is the same process, but with its corresponding NextJS data fetching methods (`getStaticProps` and `getStaticPaths` e.g.).
+
 ## Continuous Integration and Deployment
 
 ### Feature Branches & Environments
