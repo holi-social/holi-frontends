@@ -21,6 +21,7 @@ const ChatStackNavigator: React.VFC = () => {
           backgroundColor: theme.colors.backgroundColorWhite,
         },
         headerTitleAlign: 'center',
+        headerShadowVisible: false,
       }}
     >
       <ChatStack.Screen name="ChatHome" component={ChatHome} />
