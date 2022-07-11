@@ -6,6 +6,8 @@ export interface User {
   aboutMe: string
   pronouns: string
   location: string
+  avatarDefaultColor: string
+  avatarLabel: string
   engagementLevel: string
   interests: [string]
   sdgs: [string]

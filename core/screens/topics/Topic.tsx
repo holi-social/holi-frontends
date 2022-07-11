@@ -51,16 +51,13 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
     <DefaultLayout>
       <View style={styles.topicView}>
         <HoliHeading level="1" size="super" style={{ alignSelf: 'center' }}>
-          Topic topicId={topicId}
+          {topic.title} (ID: {topicId})
         </HoliHeading>
 
         <HoliButton label="Topic Editors" inline onPress={() => setShowModal(true)}>
           Topic Editors
         </HoliButton>
 
-        <HoliHeading level="1" style={{ paddingBottom: 10 }}>
-          {topic.title}
-        </HoliHeading>
         <HoliText>{topic.text}</HoliText>
 
         {/* Example below with styling for text and button */}
