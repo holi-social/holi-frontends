@@ -1,5 +1,5 @@
 import React, { useContext, useLayoutEffect, useState } from 'react'
-import { View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import { LoginProtection } from '@holi/core/auth/screens/LoginProtection'
@@ -35,10 +35,7 @@ export const UserProfileScreen: React.VFC = () => {
   const loggedOutContent = <HoliHeading>Log in to see your profile</HoliHeading>
   return (
     <LoginProtection loggedOutContent={loggedOutContent}>
-      <View style={{ padding: 10, alignItems: 'center' }}>
-        <HoliHeading level="1" size="super">
-          Profile
-        </HoliHeading>
+      <View style={{ paddingVertical: 24, paddingHorizontal: 16, alignItems: 'center' }}>
         {editing ? (
           <UserProfileForm onCancel={toggleEditing} onSubmit={toggleEditing} />
         ) : (
