@@ -22,6 +22,9 @@
     - [mobile](#mobile)
     - [conclusion](#conclusion)
     - [notes](#notes)
+  - [I18n](#i18n)
+    - [Usage example](#usage-example)
+    - [VS Code extension](#vs-code-extension)
 - [Authentication Proxy](#authentication-proxy)
 - [Continuous Integration and Deployment](#continuous-integration-and-deployment)
   - [Feature Branches & Environments](#feature-branches--environments)
@@ -150,6 +153,8 @@ To give an overview, the project contains the following workspaces (npm packages
 - `core` - shared code for the core of the HOLI app / site (feature-specific components, screens, ...)
   - `auth` - shared components and helpers for authentication
   - `errors` - shared components and helpers for error handling
+  - `i18n` - shared configuration for internationalization
+    - `locales` - translations
   - `navigation` - shared components and helpers for navigation
   - `RootProvider.tsx` - shared root provider
   - `screens` - all screens used in the core app
@@ -371,6 +376,51 @@ It may be configured at different places, but over all it must be unique.
 <SpacesDrawer.Screen name="AppStore" component={AppStoreScreen} />
 <CommunityBottomNav.Screen name="Board" component={BoardScreen} />
 ```
+
+### I18n (Internationalization)
+
+We use [i18next](https://www.i18next.com/) as framework for internationalization with [react-i18next](https://react.i18next.com/) for React/React Native support and [momentjs](https://momentjs.com/) for date formatting.
+
+You can find more documentation in [confluence](https://holi.atlassian.net/wiki/spaces/HOLI/pages/181174275/I18n+Internationalization).
+
+The translations can be found in `core/i18n/locales`.
+Message keys should include prefixes for grouping translations e.g. by screen and be represented in a flat JSON structure.
+
+#### Usage example
+
+Example translations
+
+```JSON
+{
+  "message.simple": "Simple translation",
+  "message.interpolation": "Interpolation {{value}}",
+  "message.nestedComponent": "Translation with a <0>nested component<0>"
+}
+```
+
+Usage in components
+
+```tsx
+import { Trans, useTranslation } from 'react-i18next'
+
+const { t } = useTranslation()
+
+// results in: Simple translation
+t('message.key')
+
+// results in: Interpolation example
+t('message.interpolation', { value: 'example' })
+
+// results in: Translation with a <HoliText styles={{ fontWeight: 'bold' }}>nested component</HoliText>
+<Trans t={t} i18nKey="message.nestedComponent">
+  <HoliText styles={{ fontWeight: 'bold' }}>this is ignored</HoliText>
+</Trans>
+```
+
+#### VS Code extension
+
+[i18n-ally](https://marketplace.visualstudio.com/items?itemName=lokalise.i18n-ally) is a VS code extension that facilitates
+translating the app with features like code completion, directly adding new or editing existing keys as well as displaying translations inside the code and as tooltips.
 
 ## Continuous Integration and Deployment
 
