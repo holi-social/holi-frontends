@@ -15,15 +15,15 @@ describe('renders correctly', () => {
     )
 
     expect(queryByText('Profile')).toBeTruthy()
-    expect(queryByText('Log in to see your profile')).toBeFalsy()
-    expect(queryByText('Login')).toBeFalsy()
+    expect(queryByText('Inspirational text about your profile')).toBeFalsy()
+    expect(queryByText('Log in')).toBeFalsy()
   })
 
   it('renders login hint when logged out', () => {
     const { queryByText } = render(<UserProfileScreen />)
 
-    expect(queryByText('Log in to see your profile')).toBeTruthy()
-    expect(queryByText('Login')).toBeTruthy()
+    expect(queryByText('Inspirational text about your profile')).toBeTruthy()
+    expect(queryByText('Log in')).toBeTruthy()
     expect(queryByText('Profile')).toBeFalsy()
   })
 })

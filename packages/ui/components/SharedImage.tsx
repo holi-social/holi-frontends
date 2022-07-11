@@ -23,7 +23,7 @@ interface SharedImageProps {
 // TODO: use this implementation to distinguish between require() and {uri: 'http:someImageurl'}
 // https://gist.github.com/cryser29/9320f782562af06fb06082b1fce29094
 const SharedImage: React.VoidFunctionComponent<SharedImageProps> = (props: SharedImageProps) => {
-  const imageComponent = () => <Image {...props} source={props.imageFile as number} />
+  const imageComponent = () => <Image {...props} source={props.imageFile as number} style={{ overflow: 'visible' }} />
 
   const svgComponent = () => (
     <WithLocalSvg

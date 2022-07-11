@@ -5,6 +5,8 @@ export type NavigationContextType = {
   setPathname: (path: string) => void
   headerTitle: string
   setHeaderTitle: (title: string) => void
+  showBackLink: boolean
+  setShowBackLink: (showIt: boolean) => void
 }
 
 const NavigationContext = createContext<NavigationContextType>({
@@ -12,14 +14,19 @@ const NavigationContext = createContext<NavigationContextType>({
   setPathname: () => null,
   headerTitle: '',
   setHeaderTitle: () => null,
+  showBackLink: false,
+  setShowBackLink: () => null,
 })
 export const useNavigationContext = () => useContext(NavigationContext)
 
 export const NavigationContextProvider: React.FC = ({ children }) => {
   const [pathname, setPathname] = useState('/')
   const [headerTitle, setHeaderTitle] = useState('')
+  const [showBackLink, setShowBackLink] = useState(false)
   return (
-    <NavigationContext.Provider value={{ pathname, setPathname, headerTitle, setHeaderTitle }}>
+    <NavigationContext.Provider
+      value={{ pathname, setPathname, headerTitle, setHeaderTitle, showBackLink, setShowBackLink }}
+    >
       {children}
     </NavigationContext.Provider>
   )

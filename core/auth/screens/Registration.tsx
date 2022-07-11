@@ -2,18 +2,20 @@ import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } fr
 import React, { useContext, useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
-import AuthLayout from '@holi/core/auth/AuthLayout'
+import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import { SelfServiceFlow } from '@holi/core/auth/components'
 import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { getNodeId, handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
+import { useNavigationContext } from '@holi/core/navigation/context'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliText from '@holi/ui/components/HoliText'
 
 const Registration = () => {
   const { navigate } = useRouting()
+  const { setShowBackLink } = useNavigationContext()
   const { setUserLoggedIn } = useContext(AuthContext)
   const [flow, setConfig] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
   const { displayError } = useErrorHandling()
@@ -28,6 +30,11 @@ const Registration = () => {
   }
   // When the component is mounted, we initialize a new use login flow:
   useEffect(() => initializeFlow(), [])
+
+  useEffect(() => {
+    setShowBackLink(true)
+    return () => setShowBackLink(false)
+  }, [])
 
   // This will update the registration flow with the user provided input:
   const onSubmit = (payload: SubmitSelfServiceRegistrationFlowBody): Promise<void> =>
@@ -60,7 +67,7 @@ const Registration = () => {
       : Promise.resolve()
 
   return (
-    <AuthLayout>
+    <DefaultLayout>
       <HoliText>Create an account</HoliText>
       <SelfServiceFlow
         textInputOverride={(field, props) => {
@@ -84,7 +91,7 @@ const Registration = () => {
         flow={flow}
         onSubmit={onSubmit}
       />
-    </AuthLayout>
+    </DefaultLayout>
   )
 }
 
