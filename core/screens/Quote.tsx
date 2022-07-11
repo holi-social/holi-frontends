@@ -14,9 +14,9 @@ export type QuoteParams = {
 }
 
 export type QuoteType = {
-  id: number
-  quote: string
-  author: string
+  id?: number
+  title?: string
+  body?: string
 }
 
 const { useParam } = createParam<QuoteParams>()
@@ -74,9 +74,9 @@ const Quote: React.VFC<QuoteProps> = ({ navigation, ssr, data }: QuoteProps) => 
   return (
     <View style={styles.QuoteView}>
       <HoliHeading level="1" styles={{ marginTop: 30, padding: 20, textAlign: 'center' }}>
-        {quote.quote}
+        {quote.title}
       </HoliHeading>
-      <HoliText styles={{ padding: 20, textAlign: 'center' }}>{quote.author}</HoliText>
+      <HoliText styles={{ padding: 20, textAlign: 'center' }}>{quote.body}</HoliText>
     </View>
   )
 }
