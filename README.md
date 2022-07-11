@@ -405,13 +405,13 @@ import { Trans, useTranslation } from 'react-i18next'
 
 const { t } = useTranslation()
 
-// -> Simple translation
+// results in: Simple translation
 t('message.key')
 
-// -> Interpolation example
+// results in: Interpolation example
 t('message.interpolation', { value: 'example' })
 
-// -> Translation with a nested component
+// results in: Translation with a <HoliText styles={{ fontWeight: 'bold' }}>nested component</HoliText>
 <Trans t={t} i18nKey="message.nestedComponent">
   <HoliText styles={{ fontWeight: 'bold' }}>this is ignored</HoliText>
 </Trans>
