@@ -1,7 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { UserContext } from '@holi/core/user/UserContextProvider'
 import HoliChip from '@holi/ui/components/HoliChip'
 import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliReadMore from '@holi/ui/components/HoliReadMore'

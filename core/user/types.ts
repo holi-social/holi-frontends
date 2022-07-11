@@ -2,7 +2,6 @@ export interface User {
   id: string
   avatar: string
   firstName: string
-  middleName: string
   lastName: string
   aboutMe: string
   pronouns: string

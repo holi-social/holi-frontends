@@ -23,14 +23,12 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
   const { user } = useContext(UserContext)
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const [firstName, setFirstName] = useState(user?.firstName || '')
-  const [middleName, setMiddleName] = useState(user?.middleName || '')
   const [lastName, setLastName] = useState(user?.lastName || '')
   const { displayError } = useErrorHandling()
 
   const submit = async () => {
     const input: UpdateAuthenticatedUserInput = {
       firstName: firstName,
-      middleName: middleName,
       lastName: lastName,
     }
     const result = await updateUser({
@@ -60,7 +58,6 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
     <>
       <HoliText>Name:</HoliText>
       <TextInput value={firstName} onChangeText={setFirstName} />
-      <TextInput value={middleName} onChangeText={setMiddleName} />
       <TextInput value={lastName} onChangeText={setLastName} />
       <HoliButton label="Profile data" onPress={onCancel}>
         Cancel
