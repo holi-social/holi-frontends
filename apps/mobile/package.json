@@ -2,6 +2,9 @@
   "name": "@holi/mobile",
   "version": "1.0.0",
   "main": "index.js",
+  "resolutions": {
+    "**/@storybook/react-docgen-typescript-plugin": "1.0.1"
+  },
   "scripts": {
     "prestart": "yarn workspace @holi/ui run generate-style-vars",
     "preandroid": "yarn workspace @holi/ui run generate-style-vars",
@@ -39,12 +42,16 @@
     "expo-constants": "~13.1.1",
     "expo-device": "~4.2.0",
     "expo-linking": "~3.1.0",
+    "expo-localization": "~13.0.0",
     "expo-secure-store": "~11.2.0",
     "expo-splash-screen": "^0.15.1",
     "expo-status-bar": "~1.3.0",
     "expo-updates": "~0.13.1",
     "graphql": "^16.3.0",
+    "i18next": "^21.8.13",
+    "moment": "^2.29.3",
     "react": "17.0.2",
+    "react-i18next": "^11.18.0",
     "react-icomoon": "^2.4.9",
     "react-native": "0.68.2",
     "react-native-card-stack-swiper": "^1.2.5",

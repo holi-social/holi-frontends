@@ -1,8 +1,8 @@
 import React from 'react'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import HeaderNotificationLink from '@holi/core/navigation/components/HeaderNotificationLink'
-import HeaderProfileLink from '@holi/core/navigation/components/HeaderProfileLink'
+import HeaderLeft from '@holi/core/navigation/components/HeaderLeft'
+import HeaderRight from '@holi/core/navigation/components/HeaderRight'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme/theme'
 
@@ -19,11 +19,11 @@ const HomeTopBar: React.VoidFunctionComponent = () => {
       accessibilityLabel="Top Navigation"
     >
       <View style={styles.buttonContainer}>
-        <HeaderNotificationLink style={{ paddingHorizontal: 20, paddingVertical: 10 }} />
+        <HeaderLeft style={{ paddingHorizontal: 20, paddingVertical: 10 }} />
 
         <HeaderTitle style={{ paddingTop: 5 }} />
 
-        <HeaderProfileLink style={{ paddingHorizontal: 20, paddingVertical: 10 }} />
+        <HeaderRight style={{ paddingHorizontal: 20, paddingVertical: 10 }} />
       </View>
     </View>
   )
@@ -37,7 +37,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       alignItems: 'center',
       backgroundColor: theme.colors.backgroundColorWhite,
       paddingHorizontal: screenWidth > theme.vars.breakpointL ? 20 : 10,
-      height: theme.vars.bottomBarHeight,
+      maxHeight: theme.vars.topBarHeight,
     },
     buttonContainer: {
       flex: 1,

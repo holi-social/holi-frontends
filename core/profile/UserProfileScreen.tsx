@@ -1,10 +1,12 @@
 import React, { useContext, useLayoutEffect, useState } from 'react'
-import { View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 
+import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
-import { LoginProtection } from '@holi/core/auth/screens/LoginProtection'
+import { LoginProtection } from '@holi/core/auth/components/LoginProtection'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import LoggedOutView from '@holi/core/profile/LoggedOutView'
 import { UserContext } from '@holi/core/user/UserContextProvider'
 import { UserProfileForm } from '@holi/core/user/components/UserProfileForm'
 import { UserProfileView } from '@holi/core/user/components/UserProfileView'
@@ -32,30 +34,31 @@ export const UserProfileScreen: React.VFC = () => {
     })
   }, [isLoggedIn])
 
-  const loggedOutContent = <HoliHeading>Log in to see your profile</HoliHeading>
   return (
-    <LoginProtection loggedOutContent={loggedOutContent}>
-      <View style={{ padding: 10, alignItems: 'center' }}>
-        <HoliHeading level="1" size="super">
-          Profile
-        </HoliHeading>
-        {editing ? (
-          <UserProfileForm onCancel={toggleEditing} onSubmit={toggleEditing} />
-        ) : (
-          <UserProfileView editUser={() => toggleEditing()} />
-        )}
-        <View style={{ marginVertical: 10 }}>
-          <HoliChip
-            label="Nothing to do here"
-            onPress={() => setChipChecked(!chipChecked)}
-            checked={chipChecked}
-            text="Example Interest"
-          />
+    <DefaultLayout>
+      <LoginProtection loggedOutContent={<LoggedOutView />}>
+        <View style={{ paddingVertical: 24, paddingHorizontal: 16, alignItems: 'center' }}>
+          <HoliHeading level="1" size="super">
+            Profile
+          </HoliHeading>
+          {editing ? (
+            <UserProfileForm onCancel={toggleEditing} onSubmit={toggleEditing} />
+          ) : (
+            <UserProfileView editUser={() => toggleEditing()} />
+          )}
+          <View style={{ marginVertical: 10 }}>
+            <HoliChip
+              label="Nothing to do here"
+              onPress={() => setChipChecked(!chipChecked)}
+              checked={chipChecked}
+              text="Example Interest"
+            />
+          </View>
+          <HoliButton label="Logout" inline onPress={() => navigate('/logout')}>
+            Logout
+          </HoliButton>
         </View>
-        <HoliButton label="Logout" inline onPress={() => navigate('/logout')}>
-          Logout
-        </HoliButton>
-      </View>
-    </LoginProtection>
+      </LoginProtection>
+    </DefaultLayout>
   )
 }

@@ -6,8 +6,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { Login } from '@holi/core/auth/screens/Login'
 import { Logout } from '@holi/core/auth/screens/Logout'
-import HeaderNotificationLink from '@holi/core/navigation/components/HeaderNotificationLink'
-import HeaderProfileLink from '@holi/core/navigation/components/HeaderProfileLink'
+import HeaderLeft from '@holi/core/navigation/components/HeaderLeft'
+import HeaderRight from '@holi/core/navigation/components/HeaderRight'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserProfileScreen } from '@holi/core/profile/UserProfileScreen'
@@ -95,6 +95,7 @@ export const HomeStackNavigator: React.VFC = () => {
           backgroundColor: theme.colors.backgroundColorWhite,
         },
         headerTitleAlign: 'center',
+        headerShadowVisible: false,
       }}
     >
       <HomeStack.Screen
@@ -102,9 +103,9 @@ export const HomeStackNavigator: React.VFC = () => {
         component={HomeFeed}
         options={{
           headerTitle: () => <HeaderTitle style={{ paddingTop: 5 }} />,
-          headerLeft: () => <HeaderNotificationLink style={{ paddingHorizontal: 0, marginLeft: 5 }} />,
+          headerLeft: () => <HeaderLeft style={{ paddingHorizontal: 0, marginLeft: 5 }} />,
           headerRight: () => (
-            <HeaderProfileLink
+            <HeaderRight
               style={{
                 paddingHorizontal: 0,
                 marginRight: 5,
@@ -121,7 +122,7 @@ export const HomeStackNavigator: React.VFC = () => {
           headerBackVisible: false,
           headerLeft: backButton,
           headerRight: () => (
-            <HeaderProfileLink
+            <HeaderRight
               style={{
                 paddingHorizontal: 0,
                 marginRight: 5,
@@ -165,7 +166,7 @@ export const HomeStackNavigator: React.VFC = () => {
           headerBackVisible: false,
           headerLeft: backButton,
           headerRight: () => (
-            <HeaderProfileLink
+            <HeaderRight
               style={{
                 paddingHorizontal: 0,
                 marginRight: 5,
@@ -223,6 +224,7 @@ export const BottomTabsNavigator: React.VFC = () => {
         options={{
           headerShown: true,
           headerTitleAlign: 'center',
+          headerShadowVisible: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="explore" size={20} filled={focused} style={{ color: iconColor(focused) }} />
@@ -235,6 +237,7 @@ export const BottomTabsNavigator: React.VFC = () => {
         options={{
           headerShown: true,
           headerTitleAlign: 'center',
+          headerShadowVisible: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="search" size={20} filled={focused} style={{ color: iconColor(focused) }} />

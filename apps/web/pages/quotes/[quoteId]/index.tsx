@@ -29,42 +29,4 @@ export const getServerSideProps = async ({ query }) => {
   return { props: { data: data.post } }
 }
 
-// export async function getStaticPaths() {
-//   return {
-//     paths: [
-//       {
-//         params: {
-//           quoteId: '1',
-//         },
-//       },
-//       {
-//         params: {
-//           quoteId: '2',
-//         },
-//       },
-//       {
-//         params: {
-//           quoteId: '3',
-//         },
-//       },
-//       {
-//         params: {
-//           quoteId: '4',
-//         },
-//       },
-//     ],
-//     fallback: 'blocking',
-//   }
-// }
-
-// export const getStaticProps = async ({ params }) => {
-//   // Fetch data from external API
-//   const res = await fetch(`https://dummyjson.com/quotes/${params.quoteId}`)
-//   const data: QuoteType = await res.json()
-//   console.log('SERVER SIDE DATA FETCHING =>', data)
-
-//   // Pass data to the page via props
-//   return { props: { data } }
-// }
-
 export default QuotesPage
