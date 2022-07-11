@@ -36,7 +36,7 @@ const Post: React.VFC<PostProps> = ({ navigation }: PostProps) => {
     })
     setShowBackLink(true)
     return () => setShowBackLink(false)
-  }, [navigation])
+  }, [navigation, topicId, postId])
 
   if (!topicId) return <HoliText>Missing topicId</HoliText>
   if (!postId) return <HoliText>Missing postId</HoliText>

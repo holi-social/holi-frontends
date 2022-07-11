@@ -39,7 +39,7 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
     })
     setShowBackLink(true)
     return () => setShowBackLink(false)
-  }, [navigation])
+  }, [navigation, topicId])
 
   // Important: `fakeTopics.get(topicId) should be called after useEffect() or useLayoutEffet()
   // A hard reload will cause an error.
