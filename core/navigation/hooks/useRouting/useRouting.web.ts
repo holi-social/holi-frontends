@@ -9,7 +9,7 @@ const useRouting: UseRouting = <T extends Record<string, string>>() => {
   return {
     navigate,
     navigateBack: (fallbackRouteName = '/') => {
-      if (window.history.length && document.referrer) {
+      if (window.history.length) {
         router.back()
       } else {
         navigate(fallbackRouteName)
