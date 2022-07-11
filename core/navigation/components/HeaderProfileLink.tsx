@@ -45,10 +45,10 @@ const HeaderProfileLink: React.VoidFunctionComponent<HeaderProfileLinkProps> = (
       style={props.style}
       testID="profile-button"
     >
-      {!hasUserData && <HoliIcon icon="user-circled" size={20} />}
-      {hasUserData && userAvatar}
+      {hasUserData ? userAvatar : <HoliIcon icon="user-circled" size={20} />}
     </HoliButton>
   )
+  // {isAuthenticated && userAvatar}
 }
 
 export default HeaderProfileLink

@@ -2,7 +2,9 @@
 
 exports[`renders correctly renders correctly with long text 1`] = `
 <View>
-  <View>
+  <View
+    style={Object {}}
+  >
     <Text
       ellipsizeMode="tail"
       numberOfLines={3}
@@ -57,7 +59,9 @@ exports[`renders correctly renders correctly with long text 1`] = `
 
 exports[`renders correctly renders correctly with short text 1`] = `
 <View>
-  <View>
+  <View
+    style={Object {}}
+  >
     <Text
       ellipsizeMode="tail"
       numberOfLines={3}
