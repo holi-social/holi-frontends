@@ -1,8 +1,8 @@
 import React, { useLayoutEffect } from 'react'
-import { View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
+import DefaultLayout from '@holi/core/DefaultLayout'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/HoliHeading'
@@ -24,11 +24,11 @@ const Explore: React.VFC<ExploreProps> = ({ navigation }: ExploreProps) => {
   )
 
   return (
-    <View style={{ padding: 10, alignItems: 'center' }}>
+    <DefaultLayout>
       <HoliHeading level="1" size="super">
         Explore
       </HoliHeading>
-    </View>
+    </DefaultLayout>
   )
 }
 

@@ -1,4 +1,4 @@
-import React, { ReactChild, ReactChildren } from 'react'
+import React, { ReactChild, ReactChildren, ReactNode } from 'react'
 import {
   AccessibilityProps,
   GestureResponderEvent,
@@ -25,7 +25,7 @@ export type HoliButtonProps = {
   type?: HoliButtonType
   variant?: HoliButtonVariant
   disabled?: boolean
-  children?: ReactChild | ReactChild[] | ReactChildren | Array<ReactChild> | string
+  children: ReactChild | ReactChildren | ReactNode | Element
   disableFocusability?: boolean
   // only for TS (props are added by {...props})
   onPress?: null | ((event: GestureResponderEvent) => void)
