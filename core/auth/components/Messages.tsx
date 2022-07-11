@@ -10,7 +10,9 @@ interface Props {
 const Messages = (props: Props) => (
   <View>
     {props.messages?.map(({ text, id }, k) => (
-      <Text key={`${id}${k}`}>{text}</Text>
+      <Text key={`${id}${k}`} testID={`message/${id}`}>
+        {text}
+      </Text>
     ))}
   </View>
 )
