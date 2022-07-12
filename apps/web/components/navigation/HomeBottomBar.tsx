@@ -89,7 +89,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
     buttonContainer: {
       flex: 1,
       width: '100%',
-      maxWidth: 1200,
+      maxWidth: `${theme.vars.maxScreenwidth}px`,
       flexDirection: 'row',
       justifyContent: 'space-between',
       height: `${theme.vars.bottomBarHeight}px`,

@@ -45,7 +45,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       flex: 1,
       alignItems: 'center',
       width: '100%',
-      maxWidth: 1200,
+      maxWidth: `${theme.vars.maxScreenwidth}px`,
       flexDirection: 'row',
       justifyContent: 'space-between',
     },
