@@ -24,7 +24,7 @@ test.describe('Accessibility', () => {
     await checkAccessibility(page)
 
     await page.locator(selectorByTestId('profile-button')).click()
-    await page.waitForSelector('h1')
+    await page.waitForSelector('h2')
     await checkAccessibility(page)
 
     await page.locator(selectorByTestId('nav-button-home')).click()
