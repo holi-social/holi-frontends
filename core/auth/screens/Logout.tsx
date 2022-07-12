@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
@@ -14,6 +15,12 @@ const Logout: React.VoidFunctionComponent = () => {
   const { setUserLoggedOut } = useContext(AuthContext)
   const { setShowBackLink } = useNavigationContext()
   const { displayError } = useErrorHandling()
+  const { t } = useTranslation()
+
+  useEffect(() => {
+    setShowBackLink(true)
+    return () => setShowBackLink(false)
+  }, [])
 
   useEffect(() => {
     setShowBackLink(true)
@@ -35,13 +42,13 @@ const Logout: React.VoidFunctionComponent = () => {
         throw e // will be sent to Sentry so we're aware of it
         // not displaying an user-facing error messages as with the removal from the storage logout should be done
       })
-      .catch((error) => displayError(error, 'Logout failed'))
+      .catch((error) => displayError(error, t('auth.logout.error')))
   }
   return (
     <DefaultLayout>
-      <HoliText>Do you want to log out?</HoliText>
-      <HoliButton label="" onPress={() => onSubmit()}>
-        Log out
+      <HoliText>{t('auth.logout.heading')}</HoliText>
+      <HoliButton label={t('auth.logout.button')} onPress={() => onSubmit()}>
+        {t('auth.logout.button')}
       </HoliButton>
     </DefaultLayout>
   )

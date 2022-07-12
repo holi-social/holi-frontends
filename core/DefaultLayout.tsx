@@ -4,8 +4,10 @@ import { Platform, ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 /**
- * This is the default mobile layout. It ensures scrolling.
- * The web layout is defined here: `core/DefaultLayout.tsx`
+ * This is the default screen layout.
+ * Scrolling works differently in mobile and web:
+ * Mobile is done via `ScrollView` within this file.
+ * Web scrolling is done here: `core/DefaultLayout.tsx`
  */
 
 export type LayoutProps = {
@@ -16,12 +18,13 @@ export type LayoutProps = {
 const DefaultLayout: React.FunctionComponent<LayoutProps> = (props: LayoutProps) => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
+
+  const screenView = <View style={styles.screenLayout}>{props.children}</View>
+
   return Platform.OS === 'web' ? (
-    <View style={styles.screenLayout}>{props.children}</View>
+    screenView
   ) : (
-    <ScrollView contentContainerStyle={[styles.scrollLayout, props.style]}>
-      <View style={styles.screenLayout}>{props.children}</View>
-    </ScrollView>
+    <ScrollView contentContainerStyle={[styles.scrollLayout, props.style]}>{screenView}</ScrollView>
   )
 }
 
@@ -33,7 +36,6 @@ const getStyles = (theme: HoliTheme) =>
       minHeight: '100%',
       width: '100%',
       justifyContent: 'flex-start',
-
       paddingBottom: 50,
     },
     screenLayout: {

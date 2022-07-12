@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import HeaderLeft from '@holi/core/navigation/components/HeaderLeft'
@@ -9,6 +10,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme/theme'
 const HomeTopBar: React.VoidFunctionComponent = () => {
   const { theme } = useTheme()
   const { width } = useWindowDimensions()
+  const { t } = useTranslation()
   const styles = getStyles(theme, width)
 
   return (
@@ -16,7 +18,7 @@ const HomeTopBar: React.VoidFunctionComponent = () => {
       style={styles.fullWidthContainer}
       accessible={true}
       accessibilityRole="navigation"
-      accessibilityLabel="Top Navigation"
+      accessibilityLabel={t('navigation.topNavigation')}
     >
       <View style={styles.buttonContainer}>
         <HeaderLeft style={{ paddingHorizontal: 20, paddingVertical: 10 }} />

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { ViewStyle } from 'react-native'
 
 import { useNavigationContext } from '@holi/core/navigation/context'
@@ -17,11 +18,12 @@ const HeaderLeft: React.VoidFunctionComponent<HeaderTitleProps> = (props: Header
   const { navigate, navigateBack } = useRouting()
   const { showBackLink } = useNavigationContext()
   const { theme } = useTheme()
+  const { t } = useTranslation()
 
   if (showBackLink) {
     return (
       <HoliButton
-        label="Go back"
+        label={t('navigation.headerLeft.back')}
         inline
         variant="transparent"
         onPress={() => navigateBack()}
@@ -34,7 +36,7 @@ const HeaderLeft: React.VoidFunctionComponent<HeaderTitleProps> = (props: Header
 
   return (
     <HoliButton
-      label="Notifications"
+      label={t('notifications.title')}
       inline
       variant="transparent"
       onPress={() => navigate('/notifications')}

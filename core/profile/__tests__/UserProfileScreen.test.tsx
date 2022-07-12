@@ -14,7 +14,6 @@ describe('renders correctly', () => {
       </AuthContext.Provider>
     )
 
-    expect(queryByText('Profile')).toBeTruthy()
     expect(queryByText('Inspirational text about your profile')).toBeFalsy()
     expect(queryByText('Log in')).toBeFalsy()
   })
@@ -24,6 +23,5 @@ describe('renders correctly', () => {
 
     expect(queryByText('Inspirational text about your profile')).toBeTruthy()
     expect(queryByText('Log in')).toBeTruthy()
-    expect(queryByText('Profile')).toBeFalsy()
   })
 })

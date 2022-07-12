@@ -1,4 +1,6 @@
+import moment from 'moment'
 import React, { useLayoutEffect } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -18,7 +20,8 @@ type HomeFeedProps = NativeStackScreenProps<HomeStackScreens>
 const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   const { navigate } = useRouting()
   const { setNavigationHeader } = useNavigationHeader()
-  const title = 'Topic of the day'
+  const { t } = useTranslation()
+  const title = t('homeFeed.title')
 
   useLayoutEffect(
     () =>
@@ -36,21 +39,11 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
           Home
         </HoliHeading>
 
-        {/* HoliTextInput Test */}
-        {/* <HoliTextInput
-        label={'Some label'}
-        helperText={'Some helper text'}
-        returnKeyType={'done'}
-        onChange={(text) => {
-          console.log({ text })
-        }}
-      /> */}
-
         {/* Holi Apps */}
-        <HoliHeading level="2">Apps</HoliHeading>
+        <HoliHeading level="2">{t('homeFeed.apps')}</HoliHeading>
         <View style={{ flexDirection: 'row' }}>
           <HoliButton
-            label="Volunteering"
+            label={t('homeFeed.volunteering')}
             inline
             variant="transparent"
             style={styles.appTile}
@@ -58,23 +51,35 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
             testID="app-tile-volunteering"
           >
             <Holicon icon="work" size={20} />
-            <HoliText>Volunteering</HoliText>
+            <HoliText>{t('homeFeed.volunteering')}</HoliText>
           </HoliButton>
+
           <HoliButton
-            label="Donations"
+            label={t('homeFeed.donations')}
             inline
             variant="transparent"
-            onPress={() => navigate('/apps/volunteering')}
             style={styles.appTile}
+            onPress={() => navigate('/apps/volunteering')}
+            testID="app-tile-volunteering"
           >
             <Holicon icon="support" size={20} />
-            <HoliText>Donations</HoliText>
+            <HoliText>{t('homeFeed.donations')}</HoliText>
           </HoliButton>
+        </View>
+
+        {/* I18n Showcase */}
+        <View style={{ flexDirection: 'column' }}>
+          <HoliText>
+            <Trans t={t} i18nKey="homeFeed.textWithLink">
+              <HoliText styles={{ fontWeight: 'bold' }}>this is ignored</HoliText>
+            </Trans>
+          </HoliText>
+          <HoliText>{t('homeFeed.currentDate', { date: t('date', { date: moment() }) })}</HoliText>
         </View>
 
         {/* Weekly Topics */}
         <HoliHeading level="2" testID="home-feed-topics">
-          This week’s topics are Immigration, Education and Sustainability
+          {t('homeFeed.heading')}
         </HoliHeading>
 
         {[...fakeTopics.keys()].map((topicId) => (

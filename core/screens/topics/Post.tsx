@@ -1,4 +1,5 @@
 import React, { useLayoutEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 import { createParam } from 'solito'
 
@@ -27,27 +28,30 @@ const Post: React.VFC<PostProps> = ({ navigation }: PostProps) => {
 
   const { setNavigationHeader } = useNavigationHeader()
   const { setShowBackLink } = useNavigationContext()
+  const { t } = useTranslation()
+  const title = t('topics.post.title', { topicId, postId })
 
   useLayoutEffect(() => {
-    const title = `Post ${postId} in topic ${topicId}`
     setNavigationHeader({
       title: title,
       titleElement: () => <HoliText style={{ paddingTop: 5 }}>{title}</HoliText>,
     })
     setShowBackLink(true)
     return () => setShowBackLink(false)
-  }, [navigation])
+  }, [navigation, topicId, postId])
 
-  if (!topicId) return <HoliText>Missing topicId</HoliText>
-  if (!postId) return <HoliText>Missing postId</HoliText>
+  if (!topicId) return <HoliText>{t('topics.post.missingTopicId')}</HoliText>
+  if (!postId) return <HoliText>{t('topics.post.missingPostId')}</HoliText>
 
   return (
     <DefaultLayout>
       <View style={{ justifyContent: 'center', padding: 10 }}>
         <HoliHeading level="1" size="super">
-          Topic {topicId} Post {postId}
+          {title}
         </HoliHeading>
-        <HoliText styles={{ paddingTop: 10 }}>by {fakeTopics.get(topicId).posts[postId].author}</HoliText>
+        <HoliText styles={{ paddingTop: 10 }}>
+          {t('topics.post.author', { author: fakeTopics.get(topicId).posts[postId].author })}
+        </HoliText>
         <HoliText styles={{ paddingTop: 10 }}>{fakeTopics.get(topicId).posts[postId].text}</HoliText>
       </View>
     </DefaultLayout>

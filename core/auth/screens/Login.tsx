@@ -1,5 +1,6 @@
 import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/kratos-client'
 import React, { useContext, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
@@ -22,6 +23,7 @@ const Login: React.VoidFunctionComponent = () => {
   const { navigateBack } = useRouting()
   const { setShowBackLink } = useNavigationContext()
   const { displayError } = useErrorHandling()
+  const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = getStyles(theme)
 
@@ -34,7 +36,7 @@ const Login: React.VoidFunctionComponent = () => {
         setFlow(flow)
         // TODO: jump into first input element after form is shown
       })
-      .catch((error) => displayError(error, 'Initializing login flow failed'))
+      .catch((error) => displayError(error, t('auth.login.error.initialization')))
   }
 
   // When the component is mounted, we initialize a new use login flow:
@@ -60,7 +62,7 @@ const Login: React.VoidFunctionComponent = () => {
             })
           })
           .catch(handleFormSubmitError(setFlow, initializeFlow))
-          .catch((error) => displayError(error, 'Login failed'))
+          .catch((error) => displayError(error, t('auth.login.error.login')))
       : Promise.resolve()
 
   // this should only occur when a logged-in user navigates to /login on web
@@ -68,11 +70,11 @@ const Login: React.VoidFunctionComponent = () => {
     <DefaultLayout>
       <View style={styles.login}>
         {isLoggedIn ? (
-          <HoliText>You are already logged in</HoliText>
+          <HoliText>{t('auth.login.alreadyLoggedIn')}</HoliText>
         ) : (
           <>
             <HoliHeading level="1" size="super" style={{ marginTop: 50 }}>
-              sign in to your account
+              {t('auth.login.heading')}
             </HoliHeading>
             <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} />
           </>

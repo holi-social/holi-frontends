@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { createParam } from 'solito'
 
@@ -14,7 +15,6 @@ import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliModal from '@holi/ui/components/HoliModal'
-import HoliReadMore from '@holi/ui/components/HoliReadMore'
 import HoliText from '@holi/ui/components/HoliText'
 
 export type TopicParams = {
@@ -29,38 +29,36 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
   const [topicId = ''] = useParam('topicId')
   const { navigate } = useRouting()
   const { setShowBackLink } = useNavigationContext()
+  const { t } = useTranslation()
 
   const { setNavigationHeader } = useNavigationHeader()
   useLayoutEffect(() => {
-    const title = `Topic ${topicId}`
+    const title = t('topics.topic.title', { topicId })
     setNavigationHeader({
       title: title,
       titleElement: () => <HoliText style={{ paddingTop: 5 }}>{title}</HoliText>,
     })
     setShowBackLink(true)
     return () => setShowBackLink(false)
-  }, [navigation])
+  }, [navigation, topicId])
 
   // Important: `fakeTopics.get(topicId) should be called after useEffect() or useLayoutEffet()
   // A hard reload will cause an error.
   // see here: https://reactjs.org/docs/hooks-rules.html
   const topic = fakeTopics.get(topicId)
-  if (!topic) return <HoliText>Topic {topicId} not found</HoliText>
+  if (!topic) return <HoliText>{t('topics.topic.notFound', { topicId })}</HoliText>
 
   return (
     <DefaultLayout>
       <View style={styles.topicView}>
         <HoliHeading level="1" size="super" style={{ alignSelf: 'center' }}>
-          Topic topicId={topicId}
+          {t('topics.topic.heading', { title: topic.title, topicId })}
         </HoliHeading>
 
-        <HoliButton label="Topic Editors" inline onPress={() => setShowModal(true)}>
-          Topic Editors
+        <HoliButton label={t('topics.topic.topicEditors')} inline onPress={() => setShowModal(true)}>
+          {t('topics.topic.topicEditors')}
         </HoliButton>
 
-        <HoliHeading level="1" style={{ paddingBottom: 10 }}>
-          {topic.title}
-        </HoliHeading>
         <HoliText>{topic.text}</HoliText>
 
         {/* Example below with styling for text and button */}
@@ -70,7 +68,7 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
           </HoliReadMore>
         </View> */}
 
-        <HoliHeading level="3">Posts</HoliHeading>
+        <HoliHeading level="3">{t('topics.topic.posts')}</HoliHeading>
 
         {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
           <HoliButton
