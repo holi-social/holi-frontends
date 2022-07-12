@@ -13,7 +13,6 @@ import { UserProfileForm } from '@holi/core/user/components/UserProfileForm'
 import { UserProfileView } from '@holi/core/user/components/UserProfileView'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliChip from '@holi/ui/components/HoliChip'
-import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliText from '@holi/ui/components/HoliText'
 
 export const UserProfileScreen: React.VFC = () => {
@@ -40,13 +39,15 @@ export const UserProfileScreen: React.VFC = () => {
     <DefaultLayout>
       <LoginProtection loggedOutContent={<LoggedOutView />}>
         <View style={{ paddingVertical: 24, paddingHorizontal: 16, alignItems: 'center' }}>
-          <HoliHeading level="1" size="super">
-            {t('profile.title')}
-          </HoliHeading>
           {editing ? (
             <UserProfileForm onCancel={toggleEditing} onSubmit={toggleEditing} />
           ) : (
-            <UserProfileView editUser={() => toggleEditing()} />
+            <>
+              <UserProfileView />
+              <HoliButton label={t('profile.edit')} onPress={() => toggleEditing()}>
+                {t('profile.edit')}
+              </HoliButton>
+            </>
           )}
           <View style={{ marginVertical: 10 }}>
             <HoliChip
@@ -56,7 +57,7 @@ export const UserProfileScreen: React.VFC = () => {
               text={t('profile.exampleInterest')}
             />
           </View>
-          <HoliButton label={t('profile.logout')} inline onPress={() => navigate('/logout')}>
+          <HoliButton label={t('profile.logout')} inline onPress={() => navigate('/logout')} testID="logout-button">
             {t('profile.logout')}
           </HoliButton>
         </View>
