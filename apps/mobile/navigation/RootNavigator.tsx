@@ -71,6 +71,7 @@ const backButton = () => {
 const downButton = () => {
   const { theme } = useTheme()
   const { navigateBack } = useRouting()
+  const { t } = useTranslation()
   return (
     <HoliButton
       label={t('navigation.closeWindow')}
