@@ -14,6 +14,7 @@ import { UserProfileScreen } from '@holi/core/profile/UserProfileScreen'
 import Explore from '@holi/core/screens/Explore'
 import HomeFeed from '@holi/core/screens/HomeFeed'
 import Notifications from '@holi/core/screens/Notifications'
+import Quote, { QuoteParams } from '@holi/core/screens/Quote'
 import Search from '@holi/core/screens/Search'
 import Post, { PostParams } from '@holi/core/screens/topics/Post'
 import Topic, { TopicParams } from '@holi/core/screens/topics/Topic'
@@ -27,6 +28,7 @@ import { useTheme } from '@holi/ui/styles/theme/theme'
 export type HomeStackScreens = {
   HomeFeed: undefined
   Topic: TopicParams
+  Quote: QuoteParams
   Post: PostParams
   UserProfile: undefined
   Notifications: undefined
@@ -132,6 +134,15 @@ export const HomeStackNavigator: React.VFC = () => {
       <HomeStack.Screen
         name="Topic"
         component={Topic}
+        options={{
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+          headerLeft: backButton,
+        }}
+      />
+      <HomeStack.Screen
+        name="Quote"
+        component={Quote}
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,

@@ -34,6 +34,7 @@ const rootLinkingConfig: LinkingOptions<RootStackScreensList> = {
             screens: {
               HomeFeed: '',
               Topic: 'topics/:topicId',
+              Quote: 'quotes/:quoteId',
               Post: 'topics/:topicId/posts/:postId',
               UserProfile: 'profile/:userId',
               Notifications: 'notifications',
