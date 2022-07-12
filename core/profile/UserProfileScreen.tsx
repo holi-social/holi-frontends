@@ -1,4 +1,5 @@
 import React, { useContext, useLayoutEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
@@ -12,7 +13,6 @@ import { UserProfileForm } from '@holi/core/user/components/UserProfileForm'
 import { UserProfileView } from '@holi/core/user/components/UserProfileView'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliChip from '@holi/ui/components/HoliChip'
-import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliText from '@holi/ui/components/HoliText'
 
 export const UserProfileScreen: React.VFC = () => {
@@ -20,6 +20,7 @@ export const UserProfileScreen: React.VFC = () => {
   const [editing, setEditing] = useState(false)
   const [chipChecked, setChipChecked] = useState(false)
   const toggleEditing = () => setEditing(!editing)
+  const { t } = useTranslation()
 
   const { isLoggedIn } = useContext(AuthContext)
   const { user } = useContext(UserContext)
@@ -27,7 +28,7 @@ export const UserProfileScreen: React.VFC = () => {
   const { setNavigationHeader } = useNavigationHeader()
 
   useLayoutEffect(() => {
-    const profileTitle = isLoggedIn && user ? user.firstName : 'Profile'
+    const profileTitle = isLoggedIn && user ? user.firstName : t('profile.title')
     setNavigationHeader({
       title: profileTitle,
       titleElement: () => <HoliText style={{ paddingTop: 5 }}>{profileTitle}</HoliText>,
@@ -43,19 +44,21 @@ export const UserProfileScreen: React.VFC = () => {
           ) : (
             <>
               <UserProfileView />
-              <HoliButton label="Edit User Profile" onPress={() => toggleEditing()}>Edit</HoliButton>
+              <HoliButton label={t('profile.edit')} onPress={() => toggleEditing()}>
+                {t('profile.edit')}
+              </HoliButton>
             </>
           )}
           <View style={{ marginVertical: 10 }}>
             <HoliChip
-              label="Nothing to do here"
+              label={t('profile.exampleInterest')}
               onPress={() => setChipChecked(!chipChecked)}
               checked={chipChecked}
-              text="Example Interest"
+              text={t('profile.exampleInterest')}
             />
           </View>
-          <HoliButton label="Logout" inline onPress={() => navigate('/logout')} testID="logout-button">
-            Logout
+          <HoliButton label={t('profile.logout')} inline onPress={() => navigate('/logout')} testID="logout-button">
+            {t('profile.logout')}
           </HoliButton>
         </View>
       </LoginProtection>

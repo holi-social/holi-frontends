@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/client'
 import React, { useContext, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { TextInput } from 'react-native'
 
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
@@ -25,6 +26,7 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
   const [firstName, setFirstName] = useState(user?.firstName || '')
   const [lastName, setLastName] = useState(user?.lastName || '')
   const { displayError } = useErrorHandling()
+  const { t } = useTranslation()
 
   const submit = async () => {
     const input: UpdateAuthenticatedUserInput = {
@@ -42,28 +44,28 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
   }
 
   if (!user) {
-    return <HoliText>No user fetched</HoliText>
+    return <HoliText>{t('user.profileView.noUser')}</HoliText>
   }
 
   if (loading) {
-    return <HoliText>Saving...</HoliText>
+    return <HoliText>{t('user.profileForm.saving')}</HoliText>
   }
 
   if (error) {
-    displayError(error, 'Error updating user')
+    displayError(error, t('user.profileForm.error.saving'))
   }
 
   // Later: possibly use form tag for web
   return (
     <>
-      <HoliText>Name:</HoliText>
+      <HoliText>{t('user.profileForm.name')}</HoliText>
       <TextInput value={firstName} onChangeText={setFirstName} />
       <TextInput value={lastName} onChangeText={setLastName} />
-      <HoliButton label="Profile data" onPress={onCancel}>
-        Cancel
+      <HoliButton label={t('user.profileForm.cancel')} onPress={onCancel}>
+        {t('user.profileForm.cancel')}
       </HoliButton>
-      <HoliButton label="Profile data" onPress={submit}>
-        Save
+      <HoliButton label={t('user.profileForm.save')} onPress={submit}>
+        {t('user.profileForm.save')}
       </HoliButton>
     </>
   )

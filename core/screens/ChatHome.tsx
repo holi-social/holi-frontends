@@ -1,4 +1,5 @@
 import React, { useLayoutEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -12,7 +13,8 @@ type ChatHomeProps = NativeStackScreenProps<HomeStackScreens>
 
 const ChatHome: React.VFC<ChatHomeProps> = ({ navigation }: ChatHomeProps) => {
   const { setNavigationHeader } = useNavigationHeader()
-  const title = 'Chat'
+  const { t } = useTranslation()
+  const title = t('chat.title')
 
   useLayoutEffect(
     () =>
@@ -26,7 +28,7 @@ const ChatHome: React.VFC<ChatHomeProps> = ({ navigation }: ChatHomeProps) => {
   return (
     <DefaultLayout>
       <HoliHeading level="1" size="super">
-        Chat
+        {title}
       </HoliHeading>
     </DefaultLayout>
   )

@@ -46,15 +46,15 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => <NavigationLayoutRoot>{page}</NavigationLayoutRoot>)
 
-  const children = translationsLoaded ? (
-    <I18nextProvider i18n={i18n}>{getLayout(<Component {...pageProps} />)}</I18nextProvider>
+  return translationsLoaded ? (
+    <I18nextProvider i18n={i18n}>
+      <RootProvider>{getLayout(<Component {...pageProps} />)}</RootProvider>
+    </I18nextProvider>
   ) : (
     <SafeArea style={styles.loadingContainer}>
       <HoliText styles={{ textAlign: 'center' }}>Loading translations...</HoliText>
     </SafeArea>
   )
-
-  return <RootProvider>{children}</RootProvider>
 }
 
 export default MyApp
