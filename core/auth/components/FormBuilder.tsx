@@ -1,4 +1,4 @@
-// Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/Ory/Ui/SelfServiceFlow.tsx
+// Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/Ory/Ui/FormBuilder.tsx
 import {
   SelfServiceLoginFlow,
   SelfServiceRegistrationFlow,
@@ -9,12 +9,12 @@ import {
   UiNode,
 } from '@ory/kratos-client'
 import React, { useEffect, useState } from 'react'
-import { View, ViewStyle } from 'react-native'
+import { StyleSheet, View, ViewStyle } from 'react-native'
 
-import { TextInputOverride } from '@holi/core/auth/components/Input'
-import Messages from '@holi/core/auth/components/Messages'
-import { Node } from '@holi/core/auth/components/Node'
-import { getNodeId, isUiNodeInputAttributes } from '@holi/core/auth/helpers/form'
+import { TextInputOverride } from '@holi/core/auth/components/FormInputField'
+import FormMessages from '@holi/core/auth/components/FormMessages'
+import { FormNode } from '@holi/core/auth/components/FormNode'
+import { getNodeId, oryNodeIsInput } from '@holi/core/auth/helpers/form'
 
 interface Props<T> {
   flow?: SelfServiceLoginFlow | SelfServiceRegistrationFlow | SelfServiceSettingsFlow
@@ -24,7 +24,7 @@ interface Props<T> {
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
 }
 
-export const SelfServiceFlow = <
+export const FormBuilder = <
   T extends SubmitSelfServiceSettingsFlowBody | SubmitSelfServiceLoginFlowBody | SubmitSelfServiceRegistrationFlowBody
 >({
   flow,
@@ -40,7 +40,6 @@ export const SelfServiceFlow = <
     if (!flow) {
       return
     }
-
     const nodes = flow.ui.nodes.filter(({ group }) => {
       if (only) {
         return group === only || group === 'default'
@@ -51,9 +50,8 @@ export const SelfServiceFlow = <
     const values: Partial<T> = {}
     nodes.forEach((node: UiNode) => {
       const name = getNodeId(node)
-
       const key = name as keyof T
-      if (isUiNodeInputAttributes(node.attributes)) {
+      if (oryNodeIsInput(node.attributes)) {
         if (node.attributes.type === 'button' || node.attributes.type === 'submit') {
           // In order to mimic real HTML forms, we need to skip setting the value
           // for buttons as the button value will (in normal HTML forms) only trigger
@@ -63,7 +61,6 @@ export const SelfServiceFlow = <
         values[key] = node.attributes.value
       }
     })
-
     setValues(values as T)
     setNodes(nodes)
   }, [flow])
@@ -89,11 +86,11 @@ export const SelfServiceFlow = <
 
   return (
     <View style={style}>
-      <Messages messages={flow.ui.messages} />
+      <FormMessages messages={flow.ui.messages} />
       {nodes.map((node: UiNode, k) => {
         const name = getNodeId(node)
         return (
-          <Node
+          <FormNode
             key={`form-field-${flow.ui.action || ''}-${name}-${k}`}
             textInputOverride={textInputOverride}
             value={getValue(name)}
@@ -106,3 +103,10 @@ export const SelfServiceFlow = <
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  bordered: {
+    borderWidth: 1,
+    borderColor: '#0f0',
+  },
+})

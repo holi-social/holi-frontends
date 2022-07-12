@@ -81,7 +81,8 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       borderTopWidth: 1,
       borderTopColor: theme.colors.borderColorGrey,
       paddingHorizontal: screenWidth > theme.vars.breakpointL ? 20 : 10,
-      maxHeight: theme.vars.bottomBarHeight,
+      height: `${theme.vars.bottomBarHeight}px`,
+      maxHeight: `${theme.vars.bottomBarHeight}px`,
     },
     buttonContainer: {
       flex: 1,
@@ -89,6 +90,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       maxWidth: 1200,
       flexDirection: 'row',
       justifyContent: 'space-between',
-      maxHeight: theme.vars.bottomBarHeight,
+      height: `${theme.vars.bottomBarHeight}px`,
+      maxHeight: `${theme.vars.bottomBarHeight}px`,
     },
   })

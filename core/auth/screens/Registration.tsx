@@ -4,7 +4,7 @@ import { Platform } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
-import { SelfServiceFlow } from '@holi/core/auth/components'
+import { FormBuilder } from '@holi/core/auth/components'
 import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { getNodeId, handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
@@ -69,7 +69,7 @@ const Registration = () => {
   return (
     <DefaultLayout>
       <HoliText>Create an account</HoliText>
-      <SelfServiceFlow
+      <FormBuilder
         textInputOverride={(field, props) => {
           const iOS12Plus = Platform.OS === 'ios' && parseInt(String(Platform.Version), 10) >= 12
           switch (getNodeId(field)) {

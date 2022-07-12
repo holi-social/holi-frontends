@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
-import { SelfServiceFlow } from '@holi/core/auth/components'
+import { FormBuilder } from '@holi/core/auth/components'
 import { initLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
@@ -74,7 +74,7 @@ const Login: React.VoidFunctionComponent = () => {
             <HoliHeading level="1" size="super" style={{ marginTop: 50 }}>
               sign in to your account
             </HoliHeading>
-            <SelfServiceFlow flow={flow} onSubmit={onSubmit} style={{ marginTop: 20 }} />
+            <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} />
           </>
         )}
       </View>
@@ -92,9 +92,12 @@ const getStyles = (theme: HoliTheme) =>
       alignItems: 'center',
       justifyContent: 'flex-start',
     },
-    loginButton: {
-      marginTop: 50,
-      width: '80%',
-      alignSelf: 'center',
+    loginForm: {
+      marginTop: 20,
+      borderWidth: 1,
+      borderColor: 'red',
+      width: '100%',
+      paddingHorizontal: 20,
+      maxWidth: 500,
     },
   })

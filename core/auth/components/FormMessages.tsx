@@ -7,7 +7,7 @@ interface Props {
   messages?: Array<UiText>
 }
 
-const Messages = (props: Props) => (
+const FormMessages = (props: Props) => (
   <View>
     {props.messages?.map(({ text, id }, k) => (
       <Text key={`${id}${k}`}>{text}</Text>
@@ -15,4 +15,4 @@ const Messages = (props: Props) => (
   </View>
 )
 
-export default Messages
+export default FormMessages

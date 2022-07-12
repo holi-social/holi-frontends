@@ -37,7 +37,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       alignItems: 'center',
       backgroundColor: theme.colors.backgroundColorWhite,
       paddingHorizontal: screenWidth > theme.vars.breakpointL ? 20 : 10,
-      maxHeight: theme.vars.topBarHeight,
+      maxHeight: `${theme.vars.topBarHeight}px`,
     },
     buttonContainer: {
       flex: 1,

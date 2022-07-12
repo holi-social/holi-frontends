@@ -1,1 +1,1 @@
-export * from './SelfServiceFlow'
+export * from './FormBuilder'
