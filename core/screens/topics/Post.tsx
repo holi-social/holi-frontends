@@ -49,10 +49,10 @@ const Post: React.VFC<PostProps> = ({ navigation }: PostProps) => {
         <HoliHeading level="1" size="super">
           {title}
         </HoliHeading>
-        <HoliText styles={{ paddingTop: 10 }}>
+        <HoliText style={{ paddingTop: 10 }}>
           {t('topics.post.author', { author: fakeTopics.get(topicId).posts[postId].author })}
         </HoliText>
-        <HoliText styles={{ paddingTop: 10 }}>{fakeTopics.get(topicId).posts[postId].text}</HoliText>
+        <HoliText style={{ paddingTop: 10 }}>{fakeTopics.get(topicId).posts[postId].text}</HoliText>
       </View>
     </DefaultLayout>
   )

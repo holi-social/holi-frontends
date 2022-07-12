@@ -25,7 +25,7 @@ const HeaderLeft: React.VoidFunctionComponent<HeaderTitleProps> = (props: Header
       <HoliButton
         label={t('navigation.headerLeft.back')}
         inline
-        variant="transparent"
+        transparent
         onPress={() => navigateBack()}
         style={{ paddingHorizontal: 0 }}
       >
@@ -38,7 +38,7 @@ const HeaderLeft: React.VoidFunctionComponent<HeaderTitleProps> = (props: Header
     <HoliButton
       label={t('notifications.title')}
       inline
-      variant="transparent"
+      transparent
       onPress={() => navigate('/notifications')}
       {...props}
       style={props.style || {}}

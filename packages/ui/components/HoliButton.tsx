@@ -15,8 +15,8 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type HoliButtonType = 'primary' | 'secondary' // for working code completion in vscode
 export const HoliButtonTypes: HoliButtonType[] = ['primary', 'secondary'] // keep in sync with all possible HoliButtonType values
-type HoliButtonVariant = 'default' | 'small' | 'transparent' // for working code completion in vscode
-export const HoliButtonVariants: HoliButtonVariant[] = ['default', 'small', 'transparent'] // keep in sync with all possible HoliButtonVariant values
+type HoliButtonVariant = 'default' | 'small' // for working code completion in vscode
+export const HoliButtonVariants: HoliButtonVariant[] = ['default', 'small'] // keep in sync with all possible HoliButtonVariant values
 
 export type HoliButtonProps = {
   label: string
@@ -24,6 +24,7 @@ export type HoliButtonProps = {
   inline?: boolean
   type?: HoliButtonType
   variant?: HoliButtonVariant
+  transparent?: boolean
   disabled?: boolean
   children: ReactChild | ReactChildren | ReactNode | Element
   disableFocusability?: boolean
@@ -34,19 +35,22 @@ export type HoliButtonProps = {
 
 const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
   label,
-  inline = true,
+  inline = false,
   type = 'primary',
   variant = 'default',
+  transparent = false,
   disabled = false,
   disableFocusability = false,
   ...props
 }: HoliButtonProps) => {
   const isSmall = variant == 'small'
-  const isTransparent = variant == 'transparent'
+  const isTransparent = transparent
   const isPrimary = type === 'primary'
 
   const { theme } = useTheme()
   const styles = getStyles(theme, inline)
+
+  console.log('button', label, ' is inline: ', inline)
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),
@@ -56,7 +60,7 @@ const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
   const content =
     typeof props.children === 'string' ? (
       <HoliText
-        styles={disabled ? styles.textDisabled : {}}
+        style={disabled ? styles.textDisabled : {}}
         size={isSmall ? 'small' : 'large'}
         bold={true}
         selectable={false}
@@ -122,6 +126,7 @@ const getStyles = (theme: HoliTheme, inline: boolean) =>
         },
       }),
       width: inline ? 'auto' : '100%',
+      // alignSelf: inline ? 'flex-start' : 'auto',
     },
     nonTransparent: {
       borderColor: theme.colors.borderColorBlack,

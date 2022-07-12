@@ -1,8 +1,10 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/Ory/Ui/Node/Node.tsx
 import { UiNode } from '@ory/kratos-client'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { ViewStyle } from 'react-native'
 
-import { InputProps, NodeInput } from '@holi/core/auth/components/FormInputField'
+import FormInputField, { InputProps } from '@holi/core/auth/components/FormInputField'
 import {
   getNodeId,
   getNodeTitle,
@@ -17,32 +19,35 @@ import HoliText from '@holi/ui/components/HoliText'
 interface Props extends InputProps {
   node: UiNode
   onSubmitPress: (key: string, value: any) => void
+  style?: ViewStyle | Record<string, unknown>
 }
 
 export const FormNode = (props: Props) => {
+  const { t } = useTranslation()
   const { node } = props
 
   if (oryNodeIsText(node.attributes)) {
     const metaText = props.node.meta.label?.text ? `${props.node.meta.label?.text} ` : ''
     const text = `${metaText} ${node.attributes.text.text}`
-    return <HoliText>{text}</HoliText>
+    return <HoliText style={[props.style || {}]}>{text}</HoliText>
   }
 
   if (oryNodeIsInput(node.attributes)) {
-    return <NodeInput {...props} attributes={node.attributes} />
+    return <FormInputField {...props} attributes={node.attributes} style={[props.style || {}, { marginTop: 10 }]} />
   }
 
   if (oryNodeIsSubmit(node.attributes)) {
-    const name = getNodeId(node)
-    const title = getNodeTitle(node)
+    const fieldName = getNodeId(node)
+    const fieldLabel = t(`auth.login.input.label-${getNodeTitle(node)}`)
     const value = getNodeValue(node)
     return (
       <HoliButton
-        label=""
-        onPress={() => props.onSubmitPress(name, value)}
-        testID={`oryField-${name}/${node.attributes.value}`}
+        label={fieldLabel}
+        style={props.style || {}}
+        onPress={() => props.onSubmitPress(fieldName, value)}
+        testID={`oryField-${fieldName}/${node.attributes.value}`}
       >
-        {title}
+        {fieldLabel}
       </HoliButton>
     )
   }

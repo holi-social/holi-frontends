@@ -4,15 +4,12 @@ import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliHeading from '@holi/ui/components/HoliHeading'
 import SharedImage from '@holi/ui/components/SharedImage'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type LoggedOutViewProps = {
   style?: ViewStyle | Record<string, unknown>
 }
 
 const LoggedOutView: VoidFunctionComponent<LoggedOutViewProps> = (props: LoggedOutViewProps) => {
-  const { theme } = useTheme()
-  const styles = getStyles(theme)
   const { t } = useTranslation()
 
   return (
@@ -26,26 +23,24 @@ const LoggedOutView: VoidFunctionComponent<LoggedOutViewProps> = (props: LoggedO
           altText={t('profile.loggedOut.image')}
         />
       </View>
-      <HoliHeading level="2">{t('profile.loggedOut.heading')}</HoliHeading>
+      <HoliHeading level="2" style={styles.text}>
+        {t('profile.loggedOut.heading')}
+      </HoliHeading>
     </View>
   )
 }
 
 export default LoggedOutView
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    loggedOutView: {
-      marginTop: 100,
-      maxWidth: '70%',
-      flex: 1,
-    },
-    moodImage: {
-      alignItems: 'center',
-    },
-    textNode: {
-      marginTop: 45,
-      textAlign: 'center',
-      flex: 1,
-    },
-  })
+const styles = StyleSheet.create({
+  loggedOutView: {
+    marginTop: 100,
+  },
+  moodImage: {
+    alignItems: 'center',
+  },
+  text: {
+    textAlign: 'center',
+    marginTop: 45,
+  },
+})

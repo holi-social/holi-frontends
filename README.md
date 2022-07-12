@@ -413,7 +413,7 @@ t('message.interpolation', { value: 'example' })
 
 // results in: Translation with a <HoliText styles={{ fontWeight: 'bold' }}>nested component</HoliText>
 <Trans t={t} i18nKey="message.nestedComponent">
-  <HoliText styles={{ fontWeight: 'bold' }}>this is ignored</HoliText>
+  <HoliText style={{ fontWeight: 'bold' }}>this is ignored</HoliText>
 </Trans>
 ```
 

@@ -52,7 +52,7 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
     </I18nextProvider>
   ) : (
     <SafeArea style={styles.loadingContainer}>
-      <HoliText styles={{ textAlign: 'center' }}>Loading translations...</HoliText>
+      <HoliText styls={{ textAlign: 'center' }}>Loading translations...</HoliText>
     </SafeArea>
   )
 }

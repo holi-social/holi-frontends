@@ -74,8 +74,7 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
           <HoliButton
             key={postId}
             label={topic.posts[postId].text}
-            inline
-            variant="transparent"
+            transparent
             style={styles.post}
             onPress={() => navigate(`/topics/${topicId}/posts/${postId}`)}
           >

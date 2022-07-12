@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
@@ -46,12 +47,26 @@ const Logout: React.VoidFunctionComponent = () => {
   }
   return (
     <DefaultLayout>
-      <HoliText>{t('auth.logout.heading')}</HoliText>
-      <HoliButton label={t('auth.logout.button')} onPress={() => onSubmit()}>
-        {t('auth.logout.button')}
-      </HoliButton>
+      <View style={styles.container}>
+        <HoliText>{t('auth.logout.heading')}</HoliText>
+        <HoliButton label={t('auth.logout.button')} onPress={() => onSubmit()} style={styles.button}>
+          {t('auth.logout.button')}
+        </HoliButton>
+      </View>
     </DefaultLayout>
   )
 }
 
 export { Logout }
+
+const styles = StyleSheet.create({
+  container: {
+    marginHorizontal: 34,
+    minHeight: '100%',
+    paddingTop: 60,
+    alignItems: 'center',
+  },
+  button: {
+    maxWidth: 300,
+  },
+})

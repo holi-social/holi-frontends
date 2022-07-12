@@ -1,14 +1,16 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/Ory/Ui/Node/Input.tsx
-import { UiNode, UiNodeInputAttributes, UIText  } from '@ory/kratos-client'
+import { UiNode, UiNodeInputAttributes } from '@ory/kratos-client'
 import React from 'react'
-import { StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { TextInputProps, ViewStyle } from 'react-native'
 
 import { getNodeId, getNodeTitle, oryNodeIsInput } from '@holi/core/auth/helpers/form'
-import HoliTextInput from '@holi/ui/components/HoliTextInput'
+import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/HoliTextInput'
 
 interface Props extends InputProps {
   node: UiNode
   attributes: UiNodeInputAttributes
+  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
 
 export interface InputProps {
@@ -45,31 +47,37 @@ const guessVariant = ({ attributes }: UiNode) => {
   }
 }
 
-export const NodeInput = ({ node, value, onChange, disabled, textInputOverride }: Props) => {
+const FormInputField = ({ node, value, onChange, disabled, textInputOverride, style }: Props) => {
+  const { t } = useTranslation()
+
   const variant = guessVariant(node)
   if (!variant) {
     return null
   }
 
-  // let extraProps: TextInputProps = {}
-  // switch (variant) {
-  //   case 'email':
-  //     extraProps.autoCompleteType = 'email'
-  //     extraProps.keyboardType = 'email-address'
-  //     extraProps.textContentType = 'emailAddress'
-  //     extraProps.autoCapitalize = 'none'
-  //     extraProps.autoCorrect = false
-  //     break
-  //   case 'password':
-  //     extraProps.autoCompleteType = 'password'
-  //     extraProps.textContentType = 'password'
-  //     extraProps.autoCapitalize = 'none'
-  //     extraProps.secureTextEntry = true
-  //     extraProps.autoCorrect = false
-  //     break
-  // }
+  let extraProps: any = {}
+  switch (variant) {
+    case 'email':
+      extraProps.autoCompleteType = 'email'
+      extraProps.keyboardType = 'email-address'
+      extraProps.textContentType = 'emailAddress'
+      extraProps.autoCapitalize = 'none'
+      extraProps.autoCorrect = false
+      break
+    case 'password':
+      extraProps.autoCompleteType = 'password'
+      extraProps.textContentType = 'password'
+      extraProps.autoCapitalize = 'none'
+      extraProps.secureTextEntry = true
+      extraProps.autoCorrect = false
+      break
+  }
 
-  let inputType = 'text'
+  if (textInputOverride) {
+    extraProps = textInputOverride(node, extraProps)
+  }
+
+  let inputType: HoliTextInputProps['type'] = 'text'
   switch (variant) {
     case 'email':
       inputType = 'email'
@@ -79,18 +87,14 @@ export const NodeInput = ({ node, value, onChange, disabled, textInputOverride }
       break
   }
 
-  // if (textInputOverride) {
-  //   extraProps = textInputOverride(node, extraProps)
-  // }
-
-  const name = getNodeId(node)
-  const title = getNodeTitle(node)
+  const fieldName = getNodeId(node)
+  const fieldLabel = getNodeTitle(node)
 
   return (
     <HoliTextInput
-      label={title}
+      label={t(`auth.login.input.label-${fieldLabel}`)}
+      placeholder={t(`auth.login.input.placeholder-${fieldLabel}`)}
       value={value ? String(value) : ''}
-      // placeholder?: string
       validationErrorText={node.messages && node.messages[0] ? node.messages[0].text : ''}
       disabled={disabled}
       noOfLines={1}
@@ -98,30 +102,13 @@ export const NodeInput = ({ node, value, onChange, disabled, textInputOverride }
       maxNoOfCharacters={30}
       onChange={onChange}
       type={inputType}
-      inline={false}
+      style={style}
       // /** TextInputProps to extend input e.g ('returnKeytype')*/
       // inputProps?: TextInputProps
-      testID={`oryField-${name}`}
+      testID={`oryField-${fieldName}`}
+      {...extraProps}
     />
-
   )
-
-  // return (
-  //   <View testID={`oryField-${name}`}>
-  //     <Text>{title}</Text>
-  //     <TextInput
-  //       style={styles.input}
-  //       onChange={onChange}
-  //       value={value ? String(value) : ''}
-  //       editable={!disabled}
-  //       onChangeText={onChange}
-  //       {...extraProps}
-  //     />
-  //     <>
-  //       {node.messages?.map(({ text, id }, k) => (
-  //         <Text key={`${id}${k}`}>{text}</Text>
-  //       ))}
-  //     </>
-  //   </View>
-  // )
 }
+
+export default FormInputField

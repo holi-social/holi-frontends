@@ -9,7 +9,7 @@ import {
   UiNode,
 } from '@ory/kratos-client'
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, ViewStyle } from 'react-native'
+import { View, ViewStyle } from 'react-native'
 
 import { TextInputOverride } from '@holi/core/auth/components/FormInputField'
 import FormMessages from '@holi/core/auth/components/FormMessages'
@@ -26,23 +26,19 @@ interface Props<T> {
 
 export const FormBuilder = <
   T extends SubmitSelfServiceSettingsFlowBody | SubmitSelfServiceLoginFlowBody | SubmitSelfServiceRegistrationFlowBody
->({
-  flow,
-  only,
-  onSubmit,
-  textInputOverride,
-  style,
-}: Props<T>) => {
+>(
+  props: Props<T>
+) => {
   const [values, setValues] = useState<T>({} as T)
   const [nodes, setNodes] = useState<Array<UiNode>>([])
 
   useEffect(() => {
-    if (!flow) {
+    if (!props.flow) {
       return
     }
-    const nodes = flow.ui.nodes.filter(({ group }) => {
-      if (only) {
-        return group === only || group === 'default'
+    const nodes = props.flow.ui.nodes.filter(({ group }) => {
+      if (props.only) {
+        return group === props.only || group === 'default'
       }
       return true
     })
@@ -63,11 +59,7 @@ export const FormBuilder = <
     })
     setValues(values as T)
     setNodes(nodes)
-  }, [flow])
-
-  if (!flow) {
-    return null
-  }
+  }, [props.flow])
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onChange = (name: string) => (value: any) => {
@@ -81,32 +73,29 @@ export const FormBuilder = <
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onPress = (key: string, value: any) => {
-    onSubmit({ ...values, [key]: value })
+    props.onSubmit({ ...values, [key]: value })
   }
 
   return (
-    <View style={style}>
-      <FormMessages messages={flow.ui.messages} />
-      {nodes.map((node: UiNode, k) => {
-        const name = getNodeId(node)
-        return (
-          <FormNode
-            key={`form-field-${flow.ui.action || ''}-${name}-${k}`}
-            textInputOverride={textInputOverride}
-            value={getValue(name)}
-            onChange={onChange(name)}
-            node={node}
-            onSubmitPress={onPress}
-          />
-        )
-      })}
+    <View style={props.style}>
+      {props.flow && <FormMessages messages={props.flow.ui.messages} />}
+      {props.flow &&
+        nodes.map((node: UiNode, k) => {
+          const name = getNodeId(node)
+
+          // TODO: submit on enter !!!!
+          return (
+            <FormNode
+              key={`form-field-${props.flow.ui.action || ''}-${name}-${k}`}
+              textInputOverride={props.textInputOverride}
+              value={getValue(name)}
+              onChange={onChange(name)}
+              node={node}
+              onSubmitPress={onPress}
+              style={{ marginTop: 30 }}
+            />
+          )
+        })}
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  bordered: {
-    borderWidth: 1,
-    borderColor: '#0f0',
-  },
-})

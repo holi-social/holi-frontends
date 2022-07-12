@@ -1,7 +1,7 @@
 import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/kratos-client'
 import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
@@ -13,9 +13,9 @@ import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import { useNavigationContext } from '@holi/core/navigation/context'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import HoliButton from '@holi/ui/components/HoliButton'
 import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliText from '@holi/ui/components/HoliText'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const Login: React.VoidFunctionComponent = () => {
   const { isLoggedIn, setUserLoggedIn } = useContext(AuthContext)
@@ -24,8 +24,6 @@ const Login: React.VoidFunctionComponent = () => {
   const { setShowBackLink } = useNavigationContext()
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
-  const { theme } = useTheme()
-  const styles = getStyles(theme)
 
   const initializeFlow = () => {
     initLoginFlow()
@@ -68,16 +66,22 @@ const Login: React.VoidFunctionComponent = () => {
   // this should only occur when a logged-in user navigates to /login on web
   return (
     <DefaultLayout>
-      <View style={styles.login}>
+      <View style={styles.container}>
         {isLoggedIn ? (
           <HoliText>{t('auth.login.alreadyLoggedIn')}</HoliText>
         ) : (
-          <>
-            <HoliHeading level="1" size="super" style={{ marginTop: 50 }}>
-              {t('auth.login.heading')}
-            </HoliHeading>
+          <View style={styles.formContainer}>
             <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} />
-          </>
+            <HoliButton transparent inline label="some label" variant="small" style={styles.button}>
+              {t('auth.login.link.forgotPassword')}
+            </HoliButton>
+            <HoliHeading level="2" style={styles.headline2}>
+              {t('auth.login.signUp.link.headline')}
+            </HoliHeading>
+            <HoliButton label="" type="secondary" style={styles.button}>
+              {t('auth.login.signUp.link.button')}
+            </HoliButton>
+          </View>
         )}
       </View>
     </DefaultLayout>
@@ -86,20 +90,33 @@ const Login: React.VoidFunctionComponent = () => {
 
 export { Login }
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    login: {
-      paddingBottom: 50,
-      marginBottom: 50,
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-    },
-    loginForm: {
-      marginTop: 20,
-      borderWidth: 1,
-      borderColor: 'red',
-      width: '100%',
-      paddingHorizontal: 20,
-      maxWidth: 500,
-    },
-  })
+const styles = StyleSheet.create({
+  container: {
+    marginHorizontal: 34,
+    ...Platform.select({
+      native: {
+        // enables scroll up when keyboard overlaps submit button
+        marginBottom: 500,
+      },
+    }),
+    minHeight: '100%',
+    paddingTop: 60,
+    alignItems: 'center',
+  },
+  formContainer: {
+    maxWidth: 500,
+    width: '100%',
+    alignItems: 'center',
+  },
+  loginForm: {
+    // reserves space for inputs plus submit until ory flow is done
+    minHeight: 235,
+    width: '100%',
+  },
+  button: {
+    marginTop: 20,
+  },
+  headline2: {
+    marginTop: 40,
+  },
+})

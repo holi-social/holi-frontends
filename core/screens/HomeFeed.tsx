@@ -44,8 +44,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         <View style={{ flexDirection: 'row' }}>
           <HoliButton
             label={t('homeFeed.volunteering')}
-            inline
-            variant="transparent"
+            transparent
             style={styles.appTile}
             onPress={() => navigate('/apps/volunteering')}
             testID="app-tile-volunteering"
@@ -56,8 +55,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
 
           <HoliButton
             label={t('homeFeed.donations')}
-            inline
-            variant="transparent"
+            transparent
             style={styles.appTile}
             onPress={() => navigate('/apps/volunteering')}
             testID="app-tile-volunteering"
@@ -71,7 +69,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         <View style={{ flexDirection: 'column' }}>
           <HoliText>
             <Trans t={t} i18nKey="homeFeed.textWithLink">
-              <HoliText styles={{ fontWeight: 'bold' }}>this is ignored</HoliText>
+              <HoliText style={{ fontWeight: 'bold' }}>this is ignored</HoliText>
             </Trans>
           </HoliText>
           <HoliText>{t('homeFeed.currentDate', { date: t('date', { date: moment() }) })}</HoliText>

@@ -34,7 +34,7 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
         <HoliButton
           label={t('navigation.home')}
           inline
-          variant="transparent"
+          transparent
           onPress={() => navigate('/')}
           testID="nav-button-home"
           style={{ paddingHorizontal: 20, paddingVertical: 10 }}
@@ -44,7 +44,7 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
         <HoliButton
           label={t('chat.title')}
           inline
-          variant="transparent"
+          transparent
           onPress={() => navigate('/chat')}
           style={{ paddingHorizontal: 20, paddingVertical: 10 }}
         >
@@ -53,7 +53,7 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
         <HoliButton
           label={t('explore.title')}
           inline
-          variant="transparent"
+          transparent
           onPress={() => navigate('/explore')}
           style={{ paddingHorizontal: 20, paddingVertical: 10 }}
         >
@@ -62,7 +62,7 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
         <HoliButton
           label={t('search.title')}
           inline
-          variant="transparent"
+          transparent
           onPress={() => navigate('/search')}
           style={{ paddingHorizontal: 20, paddingVertical: 10 }}
         >
