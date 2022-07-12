@@ -1,5 +1,5 @@
 import React, { useContext, useLayoutEffect, useState } from 'react'
-import { ScrollView, View } from 'react-native'
+import { View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
@@ -38,13 +38,13 @@ export const UserProfileScreen: React.VFC = () => {
     <DefaultLayout>
       <LoginProtection loggedOutContent={<LoggedOutView />}>
         <View style={{ paddingVertical: 24, paddingHorizontal: 16, alignItems: 'center' }}>
-          <HoliHeading level="1" size="super">
-            Profile
-          </HoliHeading>
           {editing ? (
             <UserProfileForm onCancel={toggleEditing} onSubmit={toggleEditing} />
           ) : (
-            <UserProfileView editUser={() => toggleEditing()} />
+            <>
+              <UserProfileView />
+              <HoliButton label="Edit User Profile" onPress={() => toggleEditing()}>Edit</HoliButton>
+            </>
           )}
           <View style={{ marginVertical: 10 }}>
             <HoliChip
@@ -54,7 +54,7 @@ export const UserProfileScreen: React.VFC = () => {
               text="Example Interest"
             />
           </View>
-          <HoliButton label="Logout" inline onPress={() => navigate('/logout')}>
+          <HoliButton label="Logout" inline onPress={() => navigate('/logout')} testID="logout-button">
             Logout
           </HoliButton>
         </View>
