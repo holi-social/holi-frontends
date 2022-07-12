@@ -451,7 +451,7 @@ Say you want to create a new page for the web app, and you want it to use SSR. Y
 The first step to take would be creating the page/screen component that will be used both for the mobile and web apps. Let's call it `Quote` component and all it does is display a famous quote in the page.
 
 ##### `core/screens/Quote.tsx`
-```
+```tsx
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { createParam } from 'solito'
 import HoliText from '@holi/ui/components/HoliText'
@@ -527,7 +527,7 @@ As you can see above, the page/screen component Quote receives a `ssr` and a `da
 Now this component is ready to be used on the mobile app. However, we still need to configure the NextJS page for that component, and use SSR to get the data:
 
 ##### `apps/web/pages/quotes/[quoteId]/index.tsx`
-```
+```tsx
 import { NextPage } from 'next'
 
 import Quote, { QuoteType } from '@holi/core/screens/Quote'
