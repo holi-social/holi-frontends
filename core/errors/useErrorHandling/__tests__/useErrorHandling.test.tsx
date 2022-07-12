@@ -2,7 +2,7 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Alert, Text } from 'react-native'
 
-import useErrorHandling from '@holi/core/errors/useErrorHandling'
+import useErrorHandling, { logError } from '@holi/core/errors/useErrorHandling'
 
 jest.spyOn(Alert, 'alert')
 
@@ -15,8 +15,6 @@ const ErrorComponent: React.VFC = () => {
 
 describe('handles errors correctly', () => {
   it('logs and tracks error with sentry', () => {
-    const { logError } = useErrorHandling()
-
     logError(new Error('Test'), 'some message', 'some stack')
 
     expect(console.error).toHaveBeenCalledWith('[useErrorHandling.ts] some message:', new Error('Test'), 'some stack')

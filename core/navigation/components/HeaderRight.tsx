@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ViewStyle } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
@@ -19,6 +20,7 @@ const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: Heade
   const { user } = useContext(UserContext)
   const { isLoggedIn } = useContext(AuthContext)
   const hasUserData = isLoggedIn && user
+  const { t } = useTranslation()
 
   // TODO: navigate to user profile!
   const profileUrl = '/profile/danbim'
@@ -26,7 +28,7 @@ const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: Heade
   let userAvatar
   if (hasUserData) {
     // TODO: hand over email, when firstName is empty
-    const userImageLabel = user.firstName || 'unnamed user'
+    const userImageLabel = user.firstName || t('navigation.headerRight.avatarFallbackLabel')
 
     // TODO: should be generated during user registration process (HOLI-1525)
     const userDefaultColor = '#0f0'
@@ -44,7 +46,7 @@ const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: Heade
 
   return (
     <HoliButton
-      label="Profile"
+      label={t('profile.title')}
       inline
       variant="transparent"
       onPress={() => navigate(profileUrl)}
@@ -55,7 +57,6 @@ const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: Heade
       {hasUserData ? userAvatar : <HoliIcon icon="user-circled" size={20} />}
     </HoliButton>
   )
-  // {isAuthenticated && userAvatar}
 }
 
 export default HeaderRight

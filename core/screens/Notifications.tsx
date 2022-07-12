@@ -1,4 +1,5 @@
 import React, { useLayoutEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -12,7 +13,8 @@ type NotificationsProps = NativeStackScreenProps<HomeStackScreens>
 
 const Notifications: React.VFC<NotificationsProps> = ({ navigation }: NotificationsProps) => {
   const { setNavigationHeader } = useNavigationHeader()
-  const title = 'Your Notifications'
+  const { t } = useTranslation()
+  const title = t('notifications.title')
 
   useLayoutEffect(
     () =>
@@ -26,7 +28,7 @@ const Notifications: React.VFC<NotificationsProps> = ({ navigation }: Notificati
   return (
     <DefaultLayout>
       <HoliHeading level="1" size="super">
-        Notifications
+        {title}
       </HoliHeading>
     </DefaultLayout>
   )

@@ -36,7 +36,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
     <DefaultLayout>
       <View style={styles.view}>
         <HoliHeading level="1" size="super" testID="home-feed-title">
-          Home
+          {title}
         </HoliHeading>
 
         {/* HoliTextInput Test */}
@@ -50,10 +50,10 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         /> */}
 
         {/* Holi Apps */}
-        <HoliHeading level="2">Apps</HoliHeading>
+        <HoliHeading level="2">{t('homeFeed.apps')}</HoliHeading>
         <View style={{ flexDirection: 'row' }}>
           <HoliButton
-            label="Volunteering"
+            label={t('homeFeed.volunteering')}
             inline
             variant="transparent"
             style={styles.appTile}
@@ -61,33 +61,33 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
             testID="app-tile-volunteering"
           >
             <Holicon icon="work" size={20} />
-            <HoliText>Volunteering</HoliText>
+            <HoliText>{t('homeFeed.volunteering')}</HoliText>
           </HoliButton>
           <HoliButton
-            label="Donations"
+            label={t('homeFeed.donations')}
             inline
             variant="transparent"
             onPress={() => navigate('/apps/volunteering')}
             style={styles.appTile}
           >
             <Holicon icon="support" size={20} />
-            <HoliText>Donations</HoliText>
+            <HoliText>{t('homeFeed.donations')}</HoliText>
           </HoliButton>
         </View>
 
         {/* I18n Showcase */}
         <View style={{ flexDirection: 'column' }}>
           <HoliText>
-            <Trans t={t} i18nKey="textWithLink">
+            <Trans t={t} i18nKey="homeFeed.textWithLink">
               <HoliText styles={{ fontWeight: 'bold' }}>this is ignored</HoliText>
             </Trans>
           </HoliText>
-          <HoliText>{t('currentDate', { date: t('date', { date: moment() }) })}</HoliText>
+          <HoliText>{t('homeFeed.currentDate', { date: t('date', { date: moment() }) })}</HoliText>
         </View>
 
         {/* Weekly Topics */}
         <HoliHeading level="2" testID="home-feed-topics">
-          This week’s topics are Immigration, Education and Sustainability
+          {t('homeFeed.heading')}
         </HoliHeading>
 
         {[...fakeTopics.keys()].map((topicId) => (

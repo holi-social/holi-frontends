@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -11,6 +12,7 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
   const { width } = useWindowDimensions()
   const styles = getStyles(theme, width)
   const { navigate, pathname } = useRouting()
+  const { t } = useTranslation()
 
   const isNotifications = pathname.startsWith('/notifications')
   const isProfile = pathname.startsWith('/profile')
@@ -26,11 +28,11 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
       style={styles.fullWidthContainer}
       accessible={true}
       accessibilityRole="navigation"
-      accessibilityLabel="Bottom Navigation"
+      accessibilityLabel={t('navigation.bottomNavigation')}
     >
       <View style={styles.buttonContainer}>
         <HoliButton
-          label="Home"
+          label={t('navigation.home')}
           inline
           variant="transparent"
           onPress={() => navigate('/')}
@@ -40,7 +42,7 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
           <HoliIcon icon="home" size={20} filled={isHome} style={{ color: iconColor(isHome) }} />
         </HoliButton>
         <HoliButton
-          label="Chat"
+          label={t('chat.title')}
           inline
           variant="transparent"
           onPress={() => navigate('/chat')}
@@ -49,7 +51,7 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
           <HoliIcon icon="chat" size={20} filled={isChat} style={{ color: iconColor(isChat) }} />
         </HoliButton>
         <HoliButton
-          label="Explore initiatives"
+          label={t('explore.title')}
           inline
           variant="transparent"
           onPress={() => navigate('/explore')}
@@ -58,7 +60,7 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
           <HoliIcon icon="explore" size={20} filled={isExplore} style={{ color: iconColor(isExplore) }} />
         </HoliButton>
         <HoliButton
-          label="Search"
+          label={t('search.title')}
           inline
           variant="transparent"
           onPress={() => navigate('/search')}
