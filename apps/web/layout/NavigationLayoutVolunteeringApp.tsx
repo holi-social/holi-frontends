@@ -21,7 +21,7 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
   return (
     <>
       <Head>
-        <title>Holi Project</title>
+        <title>{t('navigation.title')}</title>
       </Head>
 
       {/*
