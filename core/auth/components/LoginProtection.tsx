@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliButton from '@holi/ui/components/HoliButton'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type LoginProtectionProps = {
   children?: React.ReactChild | React.ReactChildren
@@ -14,9 +14,9 @@ type LoginProtectionProps = {
 const LoginProtection: React.VFC<LoginProtectionProps> = ({ children, loggedOutContent }: LoginProtectionProps) => {
   const { isLoggedIn } = useContext(AuthContext)
   const { navigate } = useRouting()
+  const { t } = useTranslation()
 
-  const { theme } = useTheme()
-  const styles = getStyles(theme)
+  const styles = getStyles()
 
   if (isLoggedIn) {
     return <>{children}</>
@@ -24,9 +24,9 @@ const LoginProtection: React.VFC<LoginProtectionProps> = ({ children, loggedOutC
 
   return (
     <View style={styles.loginProtection}>
-      {loggedOutContent || <Text>You’re not logged in</Text>}
-      <HoliButton label="Open login form" onPress={() => navigate('/login')} style={styles.loginButton}>
-        Log in
+      {loggedOutContent || <Text>{t('auth.loginProtection.loggedOut')}</Text>}
+      <HoliButton label={t('auth.loginProtection.login')} onPress={() => navigate('/login')} style={styles.loginButton}>
+        {t('auth.loginProtection.login')}
       </HoliButton>
     </View>
   )
@@ -34,7 +34,7 @@ const LoginProtection: React.VFC<LoginProtectionProps> = ({ children, loggedOutC
 
 export { LoginProtection }
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = () =>
   StyleSheet.create({
     loginProtection: {
       paddingBottom: 50,

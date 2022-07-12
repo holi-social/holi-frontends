@@ -1,1 +1,1 @@
-export { default } from './useErrorHandling'
+export { default, logError } from './useErrorHandling'
