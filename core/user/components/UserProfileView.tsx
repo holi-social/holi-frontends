@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { UserContext } from '@holi/core/user/UserContextProvider'
@@ -47,10 +48,12 @@ const userWorkaroundUntilHoli1421 = (user: User): User => {
 }
 
 const UserProfileView: React.VFC = () => {
+  const { t } = useTranslation()
+
   let { user } = useContext(UserContext)
 
   if (!user) {
-    return <HoliText>No user fetched</HoliText>
+    return <HoliText>{t('user.profileView.noUser')}</HoliText>
   }
 
   user = userWorkaroundUntilHoli1421(user)
@@ -76,16 +79,16 @@ const UserProfileView: React.VFC = () => {
       {user.aboutMe && <HoliReadMore style={styles.aboutMe}>{user.aboutMe}</HoliReadMore>}
       <View style={{ flexDirection: 'row', marginTop: 16 }}>
         <HoliChip
-          text="Connect"
-          label="connect"
+          text={t('user.profileView.connect')}
+          label={t('user.profileView.connect')}
           checked={false}
           disabled={false}
           style={{ marginRight: 8 }}
           fontStyle={{ color: theme.colors.positivepurple }}
         />
         <HoliChip
-          text="Message"
-          label="connect"
+          text={t('user.profileView.message')}
+          label={t('user.profileView.message')}
           checked={false}
           disabled={true}
           fontStyle={{ color: theme.colors.positivepurple }}

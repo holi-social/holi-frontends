@@ -1,3 +1,8 @@
+import { initReactI18next } from 'react-i18next'
+
+import i18n from '@holi/core/i18n'
+import en from '@holi/core/i18n/locales/en.json'
+
 global.mockLinkTo = jest.fn()
 global.captureSentryException = jest.fn()
 global.console = {
@@ -24,5 +29,22 @@ jest.mock('@react-navigation/native', () => {
 jest.mock('@sentry/react-native', () => ({
   captureException: global.captureSentryException,
 }))
+
+i18n.use(initReactI18next).init({
+  lng: 'en',
+  fallbackLng: 'en',
+
+  // test execution requires namespace
+  ns: ['test'],
+  defaultNS: 'test',
+
+  interpolation: {
+    escapeValue: false,
+    // TODO: add date formatting
+  },
+  compatibilityJSON: 'v3',
+
+  resources: { en: { test: en } },
+})
 
 export default {}
