@@ -1,53 +1,13 @@
 import * as React from 'react'
-import { Image, NativeScrollEvent, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { NativeScrollEvent, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Dimensions } from 'react-native'
-
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
-
-export const cardPerSlide = 1
-
-const movies = [
-  { text: 'Slide 1', color: 'red' },
-  { text: 'Slide 2', color: 'green' },
-  { text: 'Slide 3', color: 'blue' },
-  { text: 'Slide 4', color: 'pink' },
-  { text: 'Slide 5', color: 'cyan' },
-  { text: 'Slide 6', color: 'rgb(21,212,212)' },
-  { text: 'Slide 7', color: 'rgb(21,22,212)' },
-  { text: 'Slide 8', color: 'rgb(21,212,2)' },
-  { text: 'Slide 9', color: 'rgb(21,222,222)' },
-  { text: 'Slide 10', color: 'rgb(210,22,212)' },
-]
-
-export type CarouselSlideProps = {
-  card: { text: string; color: string }
-  key: number
-}
-
-const CarouselSlide: React.FunctionComponent<CarouselSlideProps> = ({ card, key }) => {
-  const styles = StyleSheet.create({
-    slide: {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      width: screenWidth,
-      height: '100%',
-      backgroundColor: card.color,
-    },
-  })
-  return (
-    <View style={styles.slide}>
-      <Text style={{ color: 'yellow' }}>{card.text}</Text>
-    </View>
-  )
-}
 
 export type HoliTabsProps = {
   tabs: { title: string; children: React.ReactNode }[]
 }
 
 const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs }: HoliTabsProps) => {
-  const [totalSlides, setTotalSlides] = React.useState(Math.ceil(movies.length))
+  const [totalSlides, setTotalSlides] = React.useState(tabs.length)
   const [currentSlide, setCurrentSlide] = React.useState(1)
 
   const stepCarousel = React.useRef<ScrollView | null>(null)
@@ -132,7 +92,14 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs }: HoliTabsProp
           }}
         >
           {[...Array(totalSlides)].map((_, i) => (
-            <CarouselSlide key={i} card={movies[i]} />
+            <View
+              style={{
+                width: screenWidth,
+              }}
+              key={i}
+            >
+              {tabs[i].children}
+            </View>
           ))}
         </View>
       </ScrollView>
@@ -188,7 +155,6 @@ const getStyles = () =>
       alignContent: 'center',
       justifyContent: 'center',
       alignItems: 'center',
-      // height: imageHeight,
     },
     buttonContainer: {
       flexDirection: 'row',
