@@ -50,8 +50,6 @@ const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
   const { theme } = useTheme()
   const styles = getStyles(theme, inline)
 
-  console.log('button', label, ' is inline: ', inline)
-
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),
     accessibilityRole: 'button',
