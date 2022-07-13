@@ -24,7 +24,9 @@ const LoggedOutView: VoidFunctionComponent<LoggedOutViewProps> = (props: LoggedO
           altText={t('profile.loggedOut.image')}
         />
       </View>
-      <HoliHeading level="2">{t('profile.loggedOut.heading')}</HoliHeading>
+      <HoliHeading level="1" size="medium">
+        {t('profile.loggedOut.heading')}
+      </HoliHeading>
     </View>
   )
 }
