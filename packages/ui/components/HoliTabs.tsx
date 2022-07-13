@@ -8,7 +8,7 @@ export type HoliTabsProps = {
 
 const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs }: HoliTabsProps) => {
   const [totalSlides, setTotalSlides] = React.useState(tabs.length)
-  const [currentSlide, setCurrentSlide] = React.useState(1)
+  const [currentSlide, setCurrentSlide] = React.useState(0)
 
   const stepCarousel = React.useRef<ScrollView | null>(null)
 
@@ -32,19 +32,18 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs }: HoliTabsProp
     }
 
     if (nativeEvent.contentOffset.x === 0) {
-      setCurrentSlide(1)
+      setCurrentSlide(0)
     } else {
       const approxCurrentSlide = nativeEvent.contentOffset.x / screenWidth
-      setCurrentSlide(Math.ceil(+approxCurrentSlide.toFixed(2)) + 1)
+      setCurrentSlide(Math.ceil(+approxCurrentSlide.toFixed(2)))
     }
   }
 
   const goToNext = () => {
     if (stepCarousel && stepCarousel.current) {
-      const scrollPoint = currentSlide * screenWidth
+      const scrollPoint = (currentSlide + 1) * screenWidth
       stepCarousel.current.scrollTo({ x: scrollPoint, y: 0, animated: true })
-      // following condition is for android only because in android onMomentumScrollEnd doesn't
-      // call when we scrollContent with scroll view reference.
+
       if (Platform.OS === 'android') {
         handleScrollEnd({ nativeEvent: { contentOffset: { y: 0, x: scrollPoint } } } as {
           nativeEvent: NativeScrollEvent
@@ -55,7 +54,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs }: HoliTabsProp
 
   const goToPrevious = () => {
     if (stepCarousel && stepCarousel.current) {
-      const pageToGo = currentSlide - 2
+      const pageToGo = currentSlide - 1
       const scrollPoint = pageToGo * screenWidth
       stepCarousel.current.scrollTo({ x: scrollPoint, y: 0, animated: true })
       // following condition is for android only because in android onMomentumScrollEnd doesn't
@@ -71,7 +70,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs }: HoliTabsProp
   return (
     <View style={styles.container}>
       <View style={styles.navBar}>
-        <Text style={styles.navBarTitle}>MOVIES</Text>
+        <Text style={styles.navBarTitle}>{tabs[currentSlide].title}</Text>
       </View>
       <ScrollView
         ref={stepCarousel}
@@ -109,16 +108,16 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs }: HoliTabsProp
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          style={[styles.button, currentSlide === 1 && styles.disable]}
+          style={[styles.button, !currentSlide && styles.disable]}
           onPress={goToPrevious}
-          disabled={currentSlide === 1}
+          disabled={!currentSlide}
         >
           <Text style={styles.buttonText}>Prev</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.button, currentSlide === totalSlides && styles.disable]}
+          style={[styles.button, currentSlide === totalSlides - 1 && styles.disable]}
           onPress={goToNext}
-          disabled={currentSlide === totalSlides}
+          disabled={currentSlide === totalSlides - 1}
         >
           <Text style={styles.buttonText}>Next</Text>
         </TouchableOpacity>

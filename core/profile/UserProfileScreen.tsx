@@ -67,7 +67,7 @@ export const UserProfileScreen: React.VFC = () => {
             tabs={[
               { title: 'Profile', children: <HoliText>Hello Profile</HoliText> },
               {
-                title: 'Profile',
+                title: 'Topics',
                 children: (
                   <View
                     style={{
