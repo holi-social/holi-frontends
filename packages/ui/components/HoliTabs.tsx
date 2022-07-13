@@ -106,7 +106,7 @@ const HoliTabs: React.FunctionComponent = (_props) => {
     }
     // const { nativeEvent } = e
     if (nativeEvent && nativeEvent.contentOffset) {
-      let currentSlide = 1
+      //   let currentSlide = 1
       if (nativeEvent.contentOffset.x === 0) {
         setCurrentSlide(currentSlide)
       } else {
