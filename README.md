@@ -454,18 +454,45 @@ The first step to take would be creating the page/screen component that will be 
 ```tsx
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { createParam } from 'solito'
+import { useLazyQuery } from "@apollo/client"
 import HoliText from '@holi/ui/components/HoliText'
+
+type QuoteType = {
+  id: number
+  title: string
+  body: string
+}
 
 type QuoteProps = {
   ssr?: boolean
   data?: QuoteType
 }
 
+type QuoteResponse = {
+  quote: QuoteType
+}
+
+const quoteQuery = gql`
+  fragment FullQuote on Quote {
+    id
+    title
+    body
+  }
+
+  query Quote {
+    quote {
+      ...FullQuote
+    }
+  }
+`
+
 const { useParam } = createParam<QuoteParams>()
 
 const Quote: React.VFC<QuoteProps> = ({ ssr, data }: QuoteProps) => {
   const [quote, setQuote] = useState<QuoteType | undefined>(undefined)
   const [quoteId = ''] = useParam('quoteId')
+  const [getQuote, { loading, error, data }] =
+    useLazyQuery<QuoteResponse>(QuoteQuery)
 
   useEffect(() => {
     if (!ssr) {
@@ -476,30 +503,12 @@ const Quote: React.VFC<QuoteProps> = ({ ssr, data }: QuoteProps) => {
   }, [quoteId])
 
   const getQuote = async () => {
-    try {
-      if (!quoteId || typeof window === 'undefined') {
-        return
-      }
-      const res = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          query: `query {
-          post(id: ${quoteId}) {
-            id
-            title
-            body
-          }
-        }`,
-        }),
-      })
-      const data = await res.json()
-      setQuote(data)
-    } catch (err) {
-      console.log(err)
+    if (!quoteId || typeof window === 'undefined') {
+      return
     }
+    getQuote().then(result => {
+      setQuote(result.data?.quote)
+    })
   }
 
   if (!quote)
@@ -542,7 +551,7 @@ export const getServerSideProps = async ({ query }) => {
     },
     body: JSON.stringify({
       query: `query {
-      post(id: ${query.quoteId}) {
+      quote(id: ${query.quoteId}) {
         id
         title
         body
