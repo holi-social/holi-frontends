@@ -5,11 +5,7 @@ import { Dimensions } from 'react-native'
 const { width: screenWidth } = Dimensions.get('window')
 
 export const cardPerSlide = 1
-export const cardPadding = 0
-export const paddingAround = cardPadding * 2 // slide horizontal padding
-export const cardBetweenPadding = cardPadding * (cardPerSlide - 1)
-export const totalPadding = paddingAround + cardBetweenPadding
-export const imageWidth = (screenWidth - totalPadding) / cardPerSlide
+export const imageWidth = screenWidth / cardPerSlide
 export const imageHeight = imageWidth / (2 / 3)
 
 const movies = [
@@ -35,7 +31,6 @@ const CarouselSlide: React.FunctionComponent<CarouselSlideProps> = ({ cards }) =
       flexDirection: 'row',
       justifyContent: 'space-between',
       width: screenWidth,
-      paddingHorizontal: cardPadding,
     },
     imageCard: {
       width: imageWidth,
@@ -52,13 +47,12 @@ const CarouselSlide: React.FunctionComponent<CarouselSlideProps> = ({ cards }) =
 }
 
 const HoliTabs: React.FunctionComponent = (_props) => {
-  const [totalSlides, setTotalSlides] = React.useState(0)
+  const [totalSlides, setTotalSlides] = React.useState(Math.ceil(movies.length / cardPerSlide))
   const [currentSlide, setCurrentSlide] = React.useState(1)
 
   const stepCarousel = React.useRef<ScrollView | null>(null)
 
   const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
-  const noOfSlides = Math.ceil(movies.length / cardPerSlide)
 
   const styles = getStyles()
 
@@ -124,16 +118,17 @@ const HoliTabs: React.FunctionComponent = (_props) => {
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        decelerationRate={0}
+        decelerationRate={1}
         snapToAlignment={'center'}
         onContentSizeChange={recalculateTotalSlides}
         onMomentumScrollEnd={handleScrollEnd}
       >
-        {[...Array(noOfSlides)].map((_, i) => {
+        {[...Array(totalSlides)].map((_, i) => {
           const startIndex = i + 1
           const startPosition = startIndex + (startIndex - 1) - 1
           const endPosition = startIndex * 2
           return <CarouselSlide key={i} cards={movies.slice(startPosition, endPosition)} />
+          // return <CarouselSlide key={i} cards={[movies[currentSlide - 1]]} />
         })}
       </ScrollView>
       <View style={styles.cardCountContainer}>
