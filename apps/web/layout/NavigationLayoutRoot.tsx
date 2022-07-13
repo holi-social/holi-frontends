@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 import HomeButtonBar from '@holi/web/components/navigation/HomeBottomBar'
 import HomeTopBar from '@holi/web/components/navigation/HomeTopBar'
@@ -7,10 +8,12 @@ import HomeTopBar from '@holi/web/components/navigation/HomeTopBar'
 import navigationLayoutRootStyles from './NavigationLayoutRoot.module.scss'
 
 const DefaultLayout: React.FunctionComponent = ({ children }) => {
+  const { t } = useTranslation()
+
   return (
     <>
       <Head>
-        <title>Holi Project</title>
+        <title>{t('navigation.title')}</title>
       </Head>
 
       {/*
