@@ -63,7 +63,7 @@ export const UserProfileScreen: React.VFC = () => {
               {t('profile.logout')}
             </HoliButton>
           </View>
-          <HoliTabs></HoliTabs>
+          <HoliTabs tabs={[{ title: 'Profile', children: <HoliText>Hello Profile</HoliText> }]}></HoliTabs>
         </View>
       </LoginProtection>
     </DefaultLayout>

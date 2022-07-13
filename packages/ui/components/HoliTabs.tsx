@@ -2,52 +2,52 @@ import * as React from 'react'
 import { Image, NativeScrollEvent, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Dimensions } from 'react-native'
 
-const { width: screenWidth } = Dimensions.get('window')
+const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
 
 export const cardPerSlide = 1
-export const imageWidth = screenWidth / cardPerSlide
-export const imageHeight = imageWidth / (2 / 3)
 
 const movies = [
-  { url: 'https://image.tmdb.org/t/p/w1280/xBHvZcjRiWyobQ9kxBhO6B2dtRI.jpg' },
-  { url: 'https://image.tmdb.org/t/p/w1280/z7FCF54Jvzv9Anxyf82QeqFXXOO.jpg' },
-  { url: 'https://image.tmdb.org/t/p/w1280/3Nt3v1uzUgfSuVARD1AnI9g9Zl9.jpg' },
-  { url: 'https://image.tmdb.org/t/p/w1280/pThyQovXQrw2m0s9x82twj48Jq4.jpg' },
-  { url: 'https://image.tmdb.org/t/p/w1280/tgcrYiyG75iDcyk3en9NzZis0dh.jpg' },
-  { url: 'https://image.tmdb.org/t/p/w1280/y95lQLnuNKdPAzw9F9Ab8kJ80c3.jpg' },
-  { url: 'https://image.tmdb.org/t/p/w1280/h6Wi81XNXCjTAcdstiCLRykN3Pa.jpg' },
-  { url: 'https://image.tmdb.org/t/p/w1280/d9PhCnofBEeQGR3lwywTjWKBiXj.jpg' },
-  { url: 'https://image.tmdb.org/t/p/w1280/qR2sOAnLcdysU1be1PO6Y0pfuR5.jpg' },
-  { url: 'https://image.tmdb.org/t/p/w1280/yTIsWzMUsrKdNngIEf15Iz1n3SS.jpg' },
+  { text: 'Slide 1', color: 'red' },
+  { text: 'Slide 2', color: 'green' },
+  { text: 'Slide 3', color: 'blue' },
+  { text: 'Slide 4', color: 'pink' },
+  { text: 'Slide 5', color: 'cyan' },
+  { text: 'Slide 6', color: 'rgb(21,212,212)' },
+  { text: 'Slide 7', color: 'rgb(21,22,212)' },
+  { text: 'Slide 8', color: 'rgb(21,212,2)' },
+  { text: 'Slide 9', color: 'rgb(21,222,222)' },
+  { text: 'Slide 10', color: 'rgb(210,22,212)' },
 ]
 
 export type CarouselSlideProps = {
-  cards: { url: string }[]
+  card: { text: string; color: string }
+  key: number
 }
 
-const CarouselSlide: React.FunctionComponent<CarouselSlideProps> = ({ cards }) => {
+const CarouselSlide: React.FunctionComponent<CarouselSlideProps> = ({ card, key }) => {
   const styles = StyleSheet.create({
     slide: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
       width: screenWidth,
-    },
-    imageCard: {
-      width: imageWidth,
-      height: imageHeight,
+      height: '100%',
+      backgroundColor: card.color,
     },
   })
   return (
     <View style={styles.slide}>
-      {cards.map((card, index) => {
-        return <Image source={{ uri: card.url }} style={styles.imageCard} key={index} />
-      })}
+      <Text style={{ color: 'yellow' }}>{card.text}</Text>
     </View>
   )
 }
 
-const HoliTabs: React.FunctionComponent = (_props) => {
-  const [totalSlides, setTotalSlides] = React.useState(Math.ceil(movies.length / cardPerSlide))
+export type HoliTabsProps = {
+  tabs: { title: string; children: React.ReactNode }[]
+}
+
+const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs }: HoliTabsProps) => {
+  const [totalSlides, setTotalSlides] = React.useState(Math.ceil(movies.length))
   const [currentSlide, setCurrentSlide] = React.useState(1)
 
   const stepCarousel = React.useRef<ScrollView | null>(null)
@@ -57,6 +57,7 @@ const HoliTabs: React.FunctionComponent = (_props) => {
   const styles = getStyles()
 
   const recalculateTotalSlides = (contentWidth: number) => {
+    console.log(contentWidth, screenWidth)
     if (contentWidth !== 0) {
       const approxSlide = contentWidth / screenWidth
       if (totalSlides !== approxSlide) {
@@ -118,18 +119,22 @@ const HoliTabs: React.FunctionComponent = (_props) => {
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        decelerationRate={1}
+        decelerationRate={'fast'}
         snapToAlignment={'center'}
         onContentSizeChange={recalculateTotalSlides}
         onMomentumScrollEnd={handleScrollEnd}
       >
-        {[...Array(totalSlides)].map((_, i) => {
-          const startIndex = i + 1
-          const startPosition = startIndex + (startIndex - 1) - 1
-          const endPosition = startIndex * 2
-          return <CarouselSlide key={i} cards={movies.slice(startPosition, endPosition)} />
-          // return <CarouselSlide key={i} cards={[movies[currentSlide - 1]]} />
-        })}
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            height: screenHeight * 0.6,
+          }}
+        >
+          {[...Array(totalSlides)].map((_, i) => (
+            <CarouselSlide key={i} card={movies[i]} />
+          ))}
+        </View>
       </ScrollView>
       <View style={styles.cardCountContainer}>
         <Text style={styles.countText}>Total Slides : {totalSlides}</Text>
@@ -183,7 +188,7 @@ const getStyles = () =>
       alignContent: 'center',
       justifyContent: 'center',
       alignItems: 'center',
-      height: imageHeight + 50,
+      // height: imageHeight,
     },
     buttonContainer: {
       flexDirection: 'row',
