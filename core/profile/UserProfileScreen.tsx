@@ -39,29 +39,30 @@ export const UserProfileScreen: React.VFC = () => {
   return (
     <DefaultLayout>
       <LoginProtection loggedOutContent={<LoggedOutView />}>
-        <View style={{ paddingVertical: 24, paddingHorizontal: 16, alignItems: 'center' }}>
-          {editing ? (
-            <UserProfileForm onCancel={toggleEditing} onSubmit={toggleEditing} />
-          ) : (
-            <>
-              <UserProfileView />
-              <HoliButton label={t('profile.edit')} onPress={() => toggleEditing()}>
-                {t('profile.edit')}
-              </HoliButton>
-            </>
-          )}
-          <View style={{ marginVertical: 10 }}>
-            <HoliChip
-              label={t('profile.exampleInterest')}
-              onPress={() => setChipChecked(!chipChecked)}
-              checked={chipChecked}
-              text={t('profile.exampleInterest')}
-            />
+        <View>
+          <View style={{ paddingVertical: 24, paddingHorizontal: 16, alignItems: 'center' }}>
+            {editing ? (
+              <UserProfileForm onCancel={toggleEditing} onSubmit={toggleEditing} />
+            ) : (
+              <>
+                <UserProfileView />
+                <HoliButton label={t('profile.edit')} onPress={() => toggleEditing()}>
+                  {t('profile.edit')}
+                </HoliButton>
+              </>
+            )}
+            <View style={{ marginVertical: 10 }}>
+              <HoliChip
+                label={t('profile.exampleInterest')}
+                onPress={() => setChipChecked(!chipChecked)}
+                checked={chipChecked}
+                text={t('profile.exampleInterest')}
+              />
+            </View>
+            <HoliButton label={t('profile.logout')} inline onPress={() => navigate('/logout')} testID="logout-button">
+              {t('profile.logout')}
+            </HoliButton>
           </View>
-          <HoliButton label={t('profile.logout')} inline onPress={() => navigate('/logout')} testID="logout-button">
-            {t('profile.logout')}
-          </HoliButton>
-
           <HoliTabs></HoliTabs>
         </View>
       </LoginProtection>

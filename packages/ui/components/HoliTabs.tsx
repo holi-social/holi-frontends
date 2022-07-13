@@ -1,28 +1,11 @@
 import * as React from 'react'
-import {
-  Image,
-  NativeScrollEvent,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextLayoutEventData,
-  TextLayoutLine,
-  TextProps,
-  TextStyle,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native'
+import { Image, NativeScrollEvent, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Dimensions } from 'react-native'
-
-import HoliText, { HoliTextProps } from '@holi/ui/components/HoliText'
-import theme from '@holi/ui/styles/theme'
 
 const { width: screenWidth } = Dimensions.get('window')
 
-export const cardPerSlide = 2
-export const cardPadding = 15
+export const cardPerSlide = 1
+export const cardPadding = 0
 export const paddingAround = cardPadding * 2 // slide horizontal padding
 export const cardBetweenPadding = cardPadding * (cardPerSlide - 1)
 export const totalPadding = paddingAround + cardBetweenPadding
@@ -68,16 +51,9 @@ const CarouselSlide: React.FunctionComponent<CarouselSlideProps> = ({ cards }) =
   )
 }
 
-/**
- *
- * This component returns a View which encapsulates HoliText components.
- * Most accessibility props are already present in the HoliText component itself.
- */
 const HoliTabs: React.FunctionComponent = (_props) => {
-  const [totalSlide, setTotalSlide] = React.useState(0)
+  const [totalSlides, setTotalSlides] = React.useState(0)
   const [currentSlide, setCurrentSlide] = React.useState(1)
-  const [isNext, setIsNext] = React.useState(false)
-  const [isPrev, setIsPrev] = React.useState(false)
 
   const stepCarousel = React.useRef<ScrollView | null>(null)
 
@@ -86,35 +62,25 @@ const HoliTabs: React.FunctionComponent = (_props) => {
 
   const styles = getStyles()
 
-  // function will find out total no of slide and set to state
-  const setTotalSlides = (contentWidth: number) => {
-    // contentWidth received from onContentSizeChange
+  const recalculateTotalSlides = (contentWidth: number) => {
     if (contentWidth !== 0) {
       const approxSlide = contentWidth / screenWidth
-      if (totalSlide !== approxSlide) {
-        setTotalSlide(Math.ceil(+approxSlide.toFixed(2)))
-        calculateNextPrev(approxSlide, currentSlide)
+      if (totalSlides !== approxSlide) {
+        setTotalSlides(Math.ceil(+approxSlide.toFixed(2)))
       }
     }
   }
 
-  // function will identify current slide visible on screen
-  // Also maintaining current slide on carousel swipe.
   const handleScrollEnd = ({ nativeEvent }: { nativeEvent: NativeScrollEvent }) => {
-    if (!nativeEvent) {
+    if (!nativeEvent || !nativeEvent.contentOffset) {
       return
     }
-    // const { nativeEvent } = e
-    if (nativeEvent && nativeEvent.contentOffset) {
-      //   let currentSlide = 1
-      if (nativeEvent.contentOffset.x === 0) {
-        setCurrentSlide(currentSlide)
-      } else {
-        const approxCurrentSlide = nativeEvent.contentOffset.x / screenWidth
 
-        setCurrentSlide(Math.ceil(+approxCurrentSlide.toFixed(2)) + 1)
-      }
-      calculateNextPrev(totalSlide, currentSlide)
+    if (nativeEvent.contentOffset.x === 0) {
+      setCurrentSlide(1)
+    } else {
+      const approxCurrentSlide = nativeEvent.contentOffset.x / screenWidth
+      setCurrentSlide(Math.ceil(+approxCurrentSlide.toFixed(2)) + 1)
     }
   }
 
@@ -132,7 +98,7 @@ const HoliTabs: React.FunctionComponent = (_props) => {
     }
   }
 
-  const goToPrev = () => {
+  const goToPrevious = () => {
     if (stepCarousel && stepCarousel.current) {
       const pageToGo = currentSlide - 2
       const scrollPoint = pageToGo * screenWidth
@@ -144,21 +110,6 @@ const HoliTabs: React.FunctionComponent = (_props) => {
           nativeEvent: NativeScrollEvent
         })
       }
-    }
-  }
-
-  const calculateNextPrev = (totalPage: number, currentPage: number) => {
-    if (totalPage > currentPage) {
-      setIsNext(true)
-    }
-    if (currentPage === 1) {
-      setIsPrev(false)
-    }
-    if (currentPage === totalPage) {
-      setIsNext(false)
-    }
-    if (currentPage > 1) {
-      setIsPrev(true)
     }
   }
 
@@ -175,7 +126,7 @@ const HoliTabs: React.FunctionComponent = (_props) => {
         showsHorizontalScrollIndicator={false}
         decelerationRate={0}
         snapToAlignment={'center'}
-        onContentSizeChange={setTotalSlides}
+        onContentSizeChange={recalculateTotalSlides}
         onMomentumScrollEnd={handleScrollEnd}
       >
         {[...Array(noOfSlides)].map((_, i) => {
@@ -186,14 +137,22 @@ const HoliTabs: React.FunctionComponent = (_props) => {
         })}
       </ScrollView>
       <View style={styles.cardCountContainer}>
-        <Text style={styles.countText}>Total Slides : {totalSlide}</Text>
+        <Text style={styles.countText}>Total Slides : {totalSlides}</Text>
         <Text style={styles.countText}>Current Slide : {currentSlide}</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.button, !isPrev && styles.disable]} onPress={goToPrev} disabled={!isPrev}>
+        <TouchableOpacity
+          style={[styles.button, currentSlide === 1 && styles.disable]}
+          onPress={goToPrevious}
+          disabled={currentSlide === 1}
+        >
           <Text style={styles.buttonText}>Prev</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, !isNext && styles.disable]} onPress={goToNext} disabled={!isNext}>
+        <TouchableOpacity
+          style={[styles.button, currentSlide === totalSlides && styles.disable]}
+          onPress={goToNext}
+          disabled={currentSlide === totalSlides}
+        >
           <Text style={styles.buttonText}>Next</Text>
         </TouchableOpacity>
       </View>
