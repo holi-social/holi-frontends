@@ -43,7 +43,7 @@ const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
   disableFocusability = false,
   ...props
 }: HoliButtonProps) => {
-  const isSmall = variant == 'small'
+  const isSmall = variant === 'small'
   const isTransparent = transparent
   const isPrimary = type === 'primary'
 
@@ -124,7 +124,6 @@ const getStyles = (theme: HoliTheme, inline: boolean) =>
         },
       }),
       width: inline ? 'auto' : '100%',
-      // alignSelf: inline ? 'flex-start' : 'auto',
     },
     nonTransparent: {
       borderColor: theme.colors.borderColorBlack,

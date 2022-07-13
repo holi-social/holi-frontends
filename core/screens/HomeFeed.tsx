@@ -36,7 +36,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
     <DefaultLayout>
       <View style={styles.view}>
         <HoliHeading level="1" size="super" testID="home-feed-title">
-          Home
+          {title}
         </HoliHeading>
 
         {/* Holi Apps */}
@@ -44,6 +44,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         <View style={{ flexDirection: 'row' }}>
           <HoliButton
             label={t('homeFeed.volunteering')}
+            inline
             transparent
             style={styles.appTile}
             onPress={() => navigate('/apps/volunteering')}
@@ -55,6 +56,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
 
           <HoliButton
             label={t('homeFeed.donations')}
+            inline
             transparent
             style={styles.appTile}
             onPress={() => navigate('/apps/volunteering')}
