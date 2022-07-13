@@ -13,6 +13,7 @@ import { UserProfileForm } from '@holi/core/user/components/UserProfileForm'
 import { UserProfileView } from '@holi/core/user/components/UserProfileView'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliChip from '@holi/ui/components/HoliChip'
+import HoliTabs from '@holi/ui/components/HoliTabs'
 import HoliText from '@holi/ui/components/HoliText'
 
 export const UserProfileScreen: React.VFC = () => {
@@ -60,6 +61,8 @@ export const UserProfileScreen: React.VFC = () => {
           <HoliButton label={t('profile.logout')} inline onPress={() => navigate('/logout')} testID="logout-button">
             {t('profile.logout')}
           </HoliButton>
+
+          <HoliTabs></HoliTabs>
         </View>
       </LoginProtection>
     </DefaultLayout>
