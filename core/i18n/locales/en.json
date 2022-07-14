@@ -8,7 +8,7 @@
   "auth.login.input.label-Sign in": "Sign in",
   "auth.login.input.placeholder-ID" : "Email ...",
   "auth.login.input.placeholder-Password" : "Password ...",
-  "auth.login.input.placeholder-Sign in": "Sign in login",
+  "auth.login.input.placeholder-Sign in": "Sign in",
   "auth.login.link.forgotPassword": "Forgot password",
   "auth.login.signUp.link.button": "Sign up",
   "auth.login.signUp.link.headline": "No account yet?",
