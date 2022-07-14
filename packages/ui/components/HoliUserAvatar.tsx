@@ -87,6 +87,8 @@ const getStyles = (theme: HoliTheme, width: number, defaultColor: string, imageI
     large: {
       width: width,
       height: width,
+      borderWidth: 2,
+      borderColor: theme.colors.softblack,
     },
     extralarge: {
       width: width,
