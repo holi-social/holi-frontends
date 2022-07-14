@@ -28,7 +28,7 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
   const [showModal, setShowModal] = useState(false)
   const [topicId = ''] = useParam('topicId')
   const { navigate } = useRouting()
-  const { setShowBackLink } = useNavigationContext()
+  const { setBackLink, clearBackLinks } = useNavigationContext()
   const { t } = useTranslation()
 
   const { setNavigationHeader } = useNavigationHeader()
@@ -38,8 +38,8 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
       title: title,
       titleElement: () => <HoliText style={{ paddingTop: 5 }}>{title}</HoliText>,
     })
-    setShowBackLink(true)
-    return () => setShowBackLink(false)
+    setBackLink('left')
+    return () => clearBackLinks()
   }, [navigation, topicId])
 
   // Important: `fakeTopics.get(topicId) should be called after useEffect() or useLayoutEffet()
@@ -74,8 +74,7 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
           <HoliButton
             key={postId}
             label={topic.posts[postId].text}
-            inline
-            variant="transparent"
+            transparent
             style={styles.post}
             onPress={() => navigate(`/topics/${topicId}/posts/${postId}`)}
           >

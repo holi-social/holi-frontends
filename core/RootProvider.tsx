@@ -33,7 +33,7 @@ const Children: React.VFC<{ children: React.ReactElement | React.ReactNode }> = 
 
   return authContext.isLoading || userContext.isLoading ? (
     <SafeArea style={styles.loadingContainer}>
-      <HoliText styles={{ textAlign: 'center' }}>
+      <HoliText style={{ textAlign: 'center' }}>
         {/* TODO put loading spinner or something even nicer */}
         {authContext.isLoading && t('rootProvider.loading.login')}
         {userContext.isLoading && t('rootProvider.loading.profile')}

@@ -42,6 +42,7 @@ Primary.args = {
   label: 'Label',
   type: 'primary',
   variant: 'default',
+  transparent: false,
   disabled: false,
   inline: true,
   disableFocusability: false,
