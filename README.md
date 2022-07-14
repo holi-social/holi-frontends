@@ -474,28 +474,28 @@ Please note that `ssr` will only be set to true when decided to use SSR in the w
 import { NextPage } from 'next'
 
 import Quote, { QuoteType } from '@holi/core/screens/Quote'
+import { gql } from "@apollo/client";
+import { ApolloClient } from "@apollo/client";
+
+const client = new ApolloClient({
+    uri: API_URL
+});
 
 const QuotesPage: NextPage = ({ ssrData }) => <Quote ssr={true} ssrData={ssrData} />
 
 export const getServerSideProps = async () => {
-  const res = await fetch(API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      query: `query {
-      quote {
-        id
-        title
-        body
+  const { data } = await client.query({
+    query: gql`
+      query Quote {
+        quote {
+          title
+          author
+        }
       }
-    }`,
-    }),
-  })
-  const { data } = await res.json()
+    `,
+  });
 
-  return { props: { ssrData: data.post } }
+  return { props: { ssrData: data } }
 }
 
 export default QuotesPage
