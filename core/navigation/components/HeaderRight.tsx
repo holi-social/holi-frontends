@@ -44,7 +44,7 @@ const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: Heade
     <HoliButton
       label={t('profile.title')}
       inline
-      variant="transparent"
+      transparent
       onPress={() => navigate(profileUrl)}
       {...props}
       style={props.style}

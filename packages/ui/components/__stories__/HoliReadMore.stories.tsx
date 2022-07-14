@@ -14,7 +14,7 @@ const Template: ComponentStory<typeof HoliReadMore> = ({ ...args }) => {
   return (
     <View>
       <HoliText>Web version</HoliText>
-      <HoliText styles={[{ marginTop: 5 }]}>
+      <HoliText style={{ marginTop: 5 }}>
         For web, changing props will only have an effect on the ellipsis (...) after clicking on the Read more / Read
         less button, or after refreshing the page.
       </HoliText>

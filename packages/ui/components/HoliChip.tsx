@@ -56,7 +56,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
         <View style={styles.chipContent}>
           <HoliText
             selectable={false}
-            styles={[styles.text, props.fontStyle || {}, (hovered && styles.hoveredText) || {}]}
+            style={[styles.text, props.fontStyle || {}, (hovered && styles.hoveredText) || {}]}
           >
             {props.text}
           </HoliText>
@@ -84,6 +84,7 @@ const getStyles = (theme: HoliTheme, checked = false, disabled = false) =>
       backgroundColor: theme.colors.backgroundColorGrey,
       paddingVertical: 8,
       paddingHorizontal: 14,
+      alignSelf: 'flex-start',
       overflow: 'hidden',
       ...Platform.select({
         web: {

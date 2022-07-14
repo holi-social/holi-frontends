@@ -20,6 +20,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
   style={
     Array [
       Object {
+        "alignSelf": "flex-start",
         "backgroundColor": "#f7f6f3",
         "borderRadius": 8,
         "overflow": "hidden",
@@ -74,19 +75,6 @@ exports[`renders correctly renders correctly when checked 1`] = `
             Object {},
             Object {},
           ],
-          Object {},
-        ]
-      }
-      styles={
-        Array [
-          Object {
-            "color": "#fff",
-            "fontSize": 14,
-            "fontWeight": "400",
-            "lineHeight": 24,
-          },
-          Object {},
-          Object {},
         ]
       }
     >
@@ -185,6 +173,7 @@ exports[`renders correctly renders correctly when disabled 1`] = `
   style={
     Array [
       Object {
+        "alignSelf": "flex-start",
         "backgroundColor": "#f7f6f3",
         "borderRadius": 8,
         "overflow": "hidden",
@@ -236,19 +225,6 @@ exports[`renders correctly renders correctly when disabled 1`] = `
             Object {},
             Object {},
           ],
-          Object {},
-        ]
-      }
-      styles={
-        Array [
-          Object {
-            "color": "#6f7081",
-            "fontSize": 14,
-            "fontWeight": "400",
-            "lineHeight": 24,
-          },
-          Object {},
-          Object {},
         ]
       }
     >
@@ -276,6 +252,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
   style={
     Array [
       Object {
+        "alignSelf": "flex-start",
         "backgroundColor": "#f7f6f3",
         "borderRadius": 8,
         "overflow": "hidden",
@@ -327,19 +304,6 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
             Object {},
             Object {},
           ],
-          Object {},
-        ]
-      }
-      styles={
-        Array [
-          Object {
-            "color": "#6f7081",
-            "fontSize": 14,
-            "fontWeight": "400",
-            "lineHeight": 24,
-          },
-          Object {},
-          Object {},
         ]
       }
     >

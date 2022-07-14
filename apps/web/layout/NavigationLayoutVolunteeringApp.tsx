@@ -45,7 +45,7 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
           <HoliButton
             label={t('volunteering.navigation.home')}
             inline
-            variant="transparent"
+            transparent
             onPress={() => navigate('/')}
             testID="nav-button-home"
           >
@@ -54,7 +54,7 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
           <HoliButton
             label={t('volunteering.navigation.search')}
             inline
-            variant="transparent"
+            transparent
             onPress={() => navigate('/search')}
           >
             <Holicon icon="search" size={35} color={theme.colors.fontColorBlack} />

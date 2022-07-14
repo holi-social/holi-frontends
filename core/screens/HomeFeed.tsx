@@ -39,23 +39,13 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
           {title}
         </HoliHeading>
 
-        {/* HoliTextInput Test */}
-        {/* <HoliTextInput
-          label={'Some label'}
-          helperText={'Some helper text'}
-          returnKeyType={'done'}
-          onChange={(text) => {
-            console.log({ text })
-          }}
-        /> */}
-
         {/* Holi Apps */}
         <HoliHeading level="2">{t('homeFeed.apps')}</HoliHeading>
         <View style={{ flexDirection: 'row' }}>
           <HoliButton
             label={t('homeFeed.volunteering')}
             inline
-            variant="transparent"
+            transparent
             style={styles.appTile}
             onPress={() => navigate('/apps/volunteering')}
             testID="app-tile-volunteering"
@@ -63,12 +53,13 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
             <Holicon icon="work" size={20} />
             <HoliText>{t('homeFeed.volunteering')}</HoliText>
           </HoliButton>
+
           <HoliButton
             label={t('homeFeed.donations')}
             inline
-            variant="transparent"
-            onPress={() => navigate('/apps/volunteering')}
+            transparent
             style={styles.appTile}
+            onPress={() => navigate('/apps/volunteering')}
           >
             <Holicon icon="support" size={20} />
             <HoliText>{t('homeFeed.donations')}</HoliText>
@@ -79,7 +70,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         <View style={{ flexDirection: 'column' }}>
           <HoliText>
             <Trans t={t} i18nKey="homeFeed.textWithLink">
-              <HoliText styles={{ fontWeight: 'bold' }}>this is ignored</HoliText>
+              <HoliText style={{ fontWeight: 'bold' }}>this is ignored</HoliText>
             </Trans>
           </HoliText>
           <HoliText>{t('homeFeed.currentDate', { date: t('date', { date: moment() }) })}</HoliText>
