@@ -14,18 +14,13 @@ import HoliText from '@holi/ui/components/HoliText'
 const Logout: React.VoidFunctionComponent = () => {
   const { navigateBack } = useRouting()
   const { setUserLoggedOut } = useContext(AuthContext)
-  const { setShowBackLink } = useNavigationContext()
+  const { setBackLink, clearBackLinks } = useNavigationContext()
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
 
   useEffect(() => {
-    setShowBackLink(true)
-    return () => setShowBackLink(false)
-  }, [])
-
-  useEffect(() => {
-    setShowBackLink(true)
-    return () => setShowBackLink(false)
+    setBackLink('down')
+    return () => clearBackLinks()
   }, [])
 
   const onSubmit = () => {

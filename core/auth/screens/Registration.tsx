@@ -16,7 +16,7 @@ import HoliText from '@holi/ui/components/HoliText'
 
 const Registration = () => {
   const { navigate } = useRouting()
-  const { setShowBackLink } = useNavigationContext()
+  const { setBackLink, clearBackLinks } = useNavigationContext()
   const { setUserLoggedIn } = useContext(AuthContext)
   const [flow, setConfig] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
   const { displayError } = useErrorHandling()
@@ -34,8 +34,8 @@ const Registration = () => {
   useEffect(() => initializeFlow(), [])
 
   useEffect(() => {
-    setShowBackLink(true)
-    return () => setShowBackLink(false)
+    setBackLink('down')
+    return () => clearBackLinks()
   }, [])
 
   // This will update the registration flow with the user provided input:

@@ -16,11 +16,16 @@ export type HeaderTitleProps = {
 
 const HeaderLeft: React.VoidFunctionComponent<HeaderTitleProps> = (props: HeaderTitleProps) => {
   const { navigate, navigateBack } = useRouting()
-  const { showBackLink } = useNavigationContext()
+  const { showBackLink, showDownLink } = useNavigationContext()
   const { theme } = useTheme()
   const { t } = useTranslation()
 
-  if (showBackLink) {
+  const getLinkIcon = () => {
+    if (showDownLink) return 'arrowtip-down'
+    return 'arrow-back'
+  }
+
+  if (showBackLink || showDownLink) {
     return (
       <HoliButton
         label={t('navigation.headerLeft.back')}
@@ -29,7 +34,7 @@ const HeaderLeft: React.VoidFunctionComponent<HeaderTitleProps> = (props: Header
         onPress={() => navigateBack()}
         style={{ paddingHorizontal: 0 }}
       >
-        <Holicon icon="arrow-back" size={30} color={theme.colors.softblack} />
+        <Holicon icon={getLinkIcon()} size={30} color={theme.colors.softblack} />
       </HoliButton>
     )
   }

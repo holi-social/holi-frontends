@@ -21,7 +21,7 @@ const Login: React.VoidFunctionComponent = () => {
   const { isLoggedIn, setUserLoggedIn } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
   const { navigateBack } = useRouting()
-  const { setShowBackLink } = useNavigationContext()
+  const { setBackLink, clearBackLinks } = useNavigationContext()
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
 
@@ -41,8 +41,8 @@ const Login: React.VoidFunctionComponent = () => {
   useEffect(() => initializeFlow(), [])
 
   useEffect(() => {
-    setShowBackLink(true)
-    return () => setShowBackLink(false)
+    setBackLink('down')
+    return () => clearBackLinks()
   }, [])
 
   // This will update the login flow with the user provided input:
