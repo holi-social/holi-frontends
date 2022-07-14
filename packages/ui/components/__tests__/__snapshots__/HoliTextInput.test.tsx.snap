@@ -11,7 +11,7 @@ exports[`renders correctly when disabled 1`] = `
         "alignSelf": "stretch",
         "width": "100%",
       },
-      undefined,
+      Object {},
     ]
   }
 >
@@ -69,16 +69,6 @@ exports[`renders correctly when disabled 1`] = `
               Object {},
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#222326",
-            },
-            Object {},
-            Object {},
           ]
         }
       >
@@ -204,15 +194,6 @@ exports[`renders correctly when disabled 1`] = `
               },
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#595959",
-            },
-            Object {},
           ]
         }
       >
@@ -234,7 +215,7 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
         "alignSelf": "stretch",
         "width": "100%",
       },
-      undefined,
+      Object {},
     ]
   }
 >
@@ -292,16 +273,6 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
               Object {},
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#222326",
-            },
-            Object {},
-            Object {},
           ]
         }
       >
@@ -424,15 +395,6 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
               },
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#595959",
-            },
-            Object {},
           ]
         }
       >
@@ -454,7 +416,7 @@ exports[`renders correctly when multiline starting with one line 1`] = `
         "alignSelf": "stretch",
         "width": "100%",
       },
-      undefined,
+      Object {},
     ]
   }
 >
@@ -512,16 +474,6 @@ exports[`renders correctly when multiline starting with one line 1`] = `
               Object {},
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#222326",
-            },
-            Object {},
-            Object {},
           ]
         }
       >
@@ -644,15 +596,6 @@ exports[`renders correctly when multiline starting with one line 1`] = `
               },
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#595959",
-            },
-            Object {},
           ]
         }
       >
@@ -673,7 +616,7 @@ exports[`renders correctly with default props 1`] = `
       Object {
         "maxWidth": "100%",
       },
-      undefined,
+      Object {},
     ]
   }
 >
@@ -729,16 +672,6 @@ exports[`renders correctly with default props 1`] = `
               Object {},
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#222326",
-            },
-            Object {},
-            Object {},
           ]
         }
       >
@@ -858,15 +791,6 @@ exports[`renders correctly with default props 1`] = `
               },
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#595959",
-            },
-            Object {},
           ]
         }
       >
@@ -888,7 +812,7 @@ exports[`renders correctly with error 1`] = `
         "alignSelf": "stretch",
         "width": "100%",
       },
-      undefined,
+      Object {},
     ]
   }
 >
@@ -948,18 +872,6 @@ exports[`renders correctly with error 1`] = `
                 "color": "#ee0004",
               },
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#222326",
-            },
-            Object {},
-            Object {
-              "color": "#ee0004",
-            },
           ]
         }
       >
@@ -1162,17 +1074,6 @@ exports[`renders correctly with error 1`] = `
                 "color": "#ee0004",
               },
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#595959",
-            },
-            Object {
-              "color": "#ee0004",
-            },
           ]
         }
       >
@@ -1194,7 +1095,7 @@ exports[`renders correctly with trailing icon 1`] = `
         "alignSelf": "stretch",
         "width": "100%",
       },
-      undefined,
+      Object {},
     ]
   }
 >
@@ -1252,16 +1153,6 @@ exports[`renders correctly with trailing icon 1`] = `
               Object {},
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#222326",
-            },
-            Object {},
-            Object {},
           ]
         }
       >
@@ -1458,15 +1349,6 @@ exports[`renders correctly with trailing icon 1`] = `
               },
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#595959",
-            },
-            Object {},
           ]
         }
       >
@@ -1488,7 +1370,7 @@ exports[`renders correctly with type password 1`] = `
         "alignSelf": "stretch",
         "width": "100%",
       },
-      undefined,
+      Object {},
     ]
   }
 >
@@ -1546,16 +1428,6 @@ exports[`renders correctly with type password 1`] = `
               Object {},
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#222326",
-            },
-            Object {},
-            Object {},
           ]
         }
       >
@@ -1678,15 +1550,6 @@ exports[`renders correctly with type password 1`] = `
               },
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#595959",
-            },
-            Object {},
           ]
         }
       >
@@ -1708,7 +1571,7 @@ exports[`renders correctly without label 1`] = `
         "alignSelf": "stretch",
         "width": "100%",
       },
-      undefined,
+      Object {},
     ]
   }
 >
@@ -1844,15 +1707,6 @@ exports[`renders correctly without label 1`] = `
               },
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#595959",
-            },
-            Object {},
           ]
         }
       >

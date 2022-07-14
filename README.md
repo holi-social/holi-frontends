@@ -25,7 +25,7 @@
   - [I18n](#i18n)
     - [Usage example](#usage-example)
     - [VS Code extension](#vs-code-extension)
-- [Authentication Proxy](#authentication-proxy)
+- [Authentication](#authentication)
 - [Continuous Integration and Deployment](#continuous-integration-and-deployment)
   - [Feature Branches & Environments](#feature-branches--environments)
   - [noenv Branches](#noenv-branches)
@@ -413,7 +413,7 @@ t('message.interpolation', { value: 'example' })
 
 // results in: Translation with a <HoliText styles={{ fontWeight: 'bold' }}>nested component</HoliText>
 <Trans t={t} i18nKey="message.nestedComponent">
-  <HoliText styles={{ fontWeight: 'bold' }}>this is ignored</HoliText>
+  <HoliText style={{ fontWeight: 'bold' }}>this is ignored</HoliText>
 </Trans>
 ```
 
@@ -421,6 +421,135 @@ t('message.interpolation', { value: 'example' })
 
 [i18n-ally](https://marketplace.visualstudio.com/items?itemName=lokalise.i18n-ally) is a VS code extension that facilitates
 translating the app with features like code completion, directly adding new or editing existing keys as well as displaying translations inside the code and as tooltips.
+
+## Creating NextJS SSR and SSG pages
+
+### Understanding NextJS data fetching strategies
+
+NextJS supports client side rendering (CSR), server side rendering (SSR) and static-site generation (SSG). You can create pages for the web app (`apps/web`) following the same rules as described in the [NextJS docs](https://nextjs.org/docs/basic-features/data-fetching/overview).
+
+### Creating reusable pages for web and mobile and allowing SSR or SSG on web
+
+To be able to use the same page/screen for both web and mobile, it is necessary to create the page/screen component with the rendering strategy in mind. For client side rendering, the data will be fetched in the page/screen component itself, without the need to configure anything for the web app. However, when creating an SSR or SSG page, it is necessary to follow the steps below:
+
+#### Configure the page/screen component to use SSR or SSG:
+Say you want to create a new page for the web app, and you want it to use SSR. You also want the same page/screen component to be used both for the mobile and the web apps.
+
+The first step to take would be creating the page/screen component that will be used both for the mobile and web apps. Let's call it `Quote` component and all it does is display a famous quote in the page.
+##### `core/screens/Quote.tsx`
+```tsx
+type QuoteProps = {
+  ssr: boolean
+  ssrData: T // whatever T is needed for the component
+}
+
+const Quote: React.VFC<QuoteProps> = ({ ssr, ssrData }: QuoteProps) => {
+  // make sure to use useLazyQuery, so that you can choose when to fetchData
+  const [fetchData, { loading, error, data }] = useLazyQuery<T>(quoteQuery)
+
+  useEffect(() => {
+    if (!ssr) {
+      fetchData()
+    }
+  }, [])
+
+  if (loading) return <HoliText>Loading...</HoliText>
+  if (error) return <HoliText>Error...</HoliText>
+  
+  const myData = ssr ? ssrData : data
+  return <HoliText>My Data: {JSON.stringify(myData)}</HoliText>
+}
+
+export default Quote
+```
+- The `ssrData` will be passed to the page/screen component as a prop, as well as the `ssr` prop will be `true`.
+- If there is any data fetching method running on the component initialization (`useEffect`, e.g.), avoid running it if `ssr` is `true`. We already have the `ssrData` as a prop.
+- We are using ApolloClient for data fetching, and for SSR usage, make sure to use `useLazyQuery` instead of `useQuery`, to avoid fetching data from the client side as well when using SSR. Read more about these methods on the [Apollo Docs](https://www.apollographql.com/docs/react/api/react/hooks/).
+
+Please note that `ssr` will only be set to true when decided to use SSR in the web app. Never in the mobile app.
+
+#### In the web app, in the file corresponding to the page using SSR or SSG:
+##### `apps/web/pages/quote.tsx`
+```tsx
+import { NextPage } from 'next'
+
+import Quote, { QuoteType } from '@holi/core/screens/Quote'
+import { ApolloClient, gql } from "@apollo/client";
+
+const client = new ApolloClient({
+    uri: API_URL
+});
+
+const QuotesPage: NextPage = ({ ssrData }) => <Quote ssr={true} ssrData={ssrData} />
+
+export const getServerSideProps = async () => {
+  const { data } = await client.query({
+    query: gql`
+      query Quote {
+        quote {
+          title
+          author
+        }
+      }
+    `,
+  });
+
+  return { props: { ssrData: data } }
+}
+
+export default QuotesPage
+```
+
+- Include the `ssr` and `ssrData` props in the page/screen component. Set `ssr` to `true` and pass the `ssrData` as a prop to the component. If it's client side rendering, no need to use any data fetching strategy from NextJS (no `getServerSideProps` in this example).
+- Include the corresponding pre-rendering methods (`getServerSideProps` and `getStaticProps`) as described in the [NextJS docs](https://nextjs.org/docs/basic-features/data-fetching/overview).
+- The data fetched will be passed to the page/screen component as a prop.
+
+## Authentication
+
+Authentication works differently for Web and Mobile (following the best practices of our identity provider
+[Ory](https://www.ory.sh)):
+
+### Mobile
+
+The session token that is retrieved during login is stored in the phones `SecureStore` (from `expo-secure-store`). Every
+request that is sent to the backend (our `holi-unified-api` GraphQL API) receives an HTTP
+request header `Authorization: Bearer $TOKEN`.
+
+### Web
+
+During login, Ory (respectively the Ory API bridge, see `apps/web/pages/api/.ory/[...paths].js`) sets an HTTP-only
+secure cookie with domain-wide validity that includes a session token. This cookie is then sent with every request to
+the backend (which is reverse-proxied on Next.JS server side, see `apps/web/pages/api/graphql.js`).
+
+## Exploring the GraphQL API (via graphiql)
+
+For exploring our GraphQL API we have a running instance
+of [graphiql](https://graphql-dotnet.github.io/docs/getting-started/graphiql/) at https://staging.web.project-holi.org/
+
+If all your requests don't need user authentication you can do them right away. Currently we don't have any GraphQL
+queries that work without authentication but there will be some in the future.
+
+If you need authentication (example for staging):
+
+1. Go to our [web deployment](https://staging.web.project-holi.org/)) and log in with your user.
+2. From the network view of the Browser, check the request that went to the GraphQL API
+   (`https://staging.web.project-holi.org/api/graphql`) and copy the value from the Cookie request header.
+3. Go to the [staging graphiql instance](https://staging.unified.apis.project-holi.org/graphql), open the "Request
+   Headers" tab in the lower left and add the previously copied cookie values like so:
+
+```json
+{
+  "Cookie": "<Cookies-Value-Previously-Copied>"
+}
+```
+
+4. Write and submit your queries.
+
+As an alternative to using the `Cookie` header (as used by Browsers) you can also use the session token (as used by
+Mobile) to authenticate a user. To do this you need e.g. to enable inspection within the Expo Go app of your
+simulator/emulator and inspect outgoing requests to the GraphQL API after logging in. You should see an `Authentication:
+Bearer <some-token-here>` header in the request. This header can also be added within graphiql's UI as an
+alternative.
 
 ## Continuous Integration and Deployment
 

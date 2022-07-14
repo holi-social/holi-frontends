@@ -98,17 +98,7 @@ exports[`React tree renders the users initials, when given image prop is empty 1
           "lineHeight": 66.42,
           "textTransform": "uppercase",
         },
-        Object {},
       ]
-    }
-    styles={
-      Object {
-        "color": "#fff",
-        "fontSize": 55.35,
-        "fontWeight": "bold",
-        "lineHeight": 66.42,
-        "textTransform": "uppercase",
-      }
     }
   >
     UM

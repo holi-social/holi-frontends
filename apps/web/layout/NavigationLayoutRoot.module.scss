@@ -20,11 +20,12 @@
 
 .main {
   width: 100%;
+  max-width: #{$max-screen-width}px;
   min-height: calc(100vh - #{$top-bar-height}px);
   display: flex;
   flex-direction: column;
   padding-bottom: #{$bottom-bar-height}px;
-  margin-top: #{$top-bar-height}px;
+  margin: #{$top-bar-height}px auto auto auto;
   background-color: $background-color-white;
 }
 

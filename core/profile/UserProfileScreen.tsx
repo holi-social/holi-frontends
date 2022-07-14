@@ -1,6 +1,6 @@
 import React, { useContext, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
@@ -38,33 +38,42 @@ export const UserProfileScreen: React.VFC = () => {
 
   return (
     <DefaultLayout>
-      <LoginProtection loggedOutContent={<LoggedOutView />}>
-        <View style={{ paddingVertical: 24, paddingHorizontal: 16, alignItems: 'center' }}>
-          <HoliModal
-            show={editing}
-            onDismiss={() => {
-              toggleEditing()
-            }}
-          >
-            <UserProfileForm onCancel={toggleEditing} onSubmit={toggleEditing} />
-          </HoliModal>
-          <UserProfileView />
-          <HoliButton label={t('profile.edit')} onPress={() => toggleEditing()} inline>
-            {t('profile.edit')}
-          </HoliButton>
-          <View style={{ marginVertical: 10 }}>
-            <HoliChip
-              label={t('profile.exampleInterest')}
-              onPress={() => setChipChecked(!chipChecked)}
-              checked={chipChecked}
-              text={t('profile.exampleInterest')}
-            />
-          </View>
-          <HoliButton label={t('profile.logout')} inline onPress={() => navigate('/logout')} testID="logout-button">
-            {t('profile.logout')}
-          </HoliButton>
-        </View>
-      </LoginProtection>
+      <View style={styles.container}>
+        <LoginProtection loggedOutContent={<LoggedOutView />}>
+          <>
+            <HoliModal
+              show={editing}
+              onDismiss={() => {
+                toggleEditing()
+              }}
+            >
+              <UserProfileForm onCancel={toggleEditing} onSubmit={toggleEditing} />
+            </HoliModal>
+            <UserProfileView />
+            <HoliButton label={t('profile.edit')} onPress={() => toggleEditing()} inline>
+              {t('profile.edit')}
+            </HoliButton>
+            <View style={{ marginVertical: 10 }}>
+              <HoliChip
+                label={t('profile.exampleInterest')}
+                onPress={() => setChipChecked(!chipChecked)}
+                checked={chipChecked}
+                text={t('profile.exampleInterest')}
+              />
+            </View>
+            <HoliButton label={t('profile.logout')} inline onPress={() => navigate('/logout')} testID="logout-button">
+              {t('profile.logout')}
+            </HoliButton>
+          </>
+        </LoginProtection>
+      </View>
     </DefaultLayout>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    marginHorizontal: 34,
+    alignItems: 'baseline',
+  },
+})

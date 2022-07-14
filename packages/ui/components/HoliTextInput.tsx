@@ -31,9 +31,9 @@ export type HoliTextInputProps = {
   type?: 'text' | 'email' | 'number' | 'password' // Force limited input types
   inline?: boolean
   trailingIcon?: string
+  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
   /** TextInputProps to extend input e.g ('returnKeytype')*/
   inputProps?: TextInputProps
-  styleWrapper?: ViewStyle
   // eslint-disable-next-line
   [x: string]: any
 }
@@ -43,6 +43,7 @@ const HoliTextInput = ({
   maxNoOfLines = 1,
   maxNoOfCharacters = 5000,
   inline = false,
+  style = {},
   ...props
 }: HoliTextInputProps) => {
   const dimensions = useWindowDimensions()
@@ -67,14 +68,14 @@ const HoliTextInput = ({
   const styles = getStyles(theme)
 
   return (
-    <View style={[styles.wrapper, inline ? styles.inline : styles.block, props?.styleWrapper]}>
+    <View style={[styles.wrapper, inline ? styles.inline : styles.block, style]}>
       <View style={[styles.wrapperContainer, { maxWidth: dimensions.width }, inline ? styles.inline : styles.block]}>
         {!!props?.label && (
           <View style={[styles.labelWrapper, inline ? styles.inline : styles.block]}>
             <HoliText
               size="small"
               bold
-              styles={[
+              style={[
                 styles.label,
                 isFocused ? styles.labelFocused : {},
                 hasValidationErrors ? styles.labelHasValidationErrors : {},
@@ -167,7 +168,7 @@ const HoliTextInput = ({
                 >
                   <HoliText
                     size="extrasmall"
-                    styles={styles.inputCharsText}
+                    style={styles.inputCharsText}
                   >{`${inputValue.length}/${maxNoOfCharacters}`}</HoliText>
                 </View>
               )}

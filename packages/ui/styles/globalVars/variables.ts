@@ -31,6 +31,7 @@ export default {
   backgroundColorBlack: '#222326',
   fontFamilyWeb: 'Circular Std,Helvetica,Arial,sans-serif',
   fontFamilyMobile: 'Circular Std',
+  maxScreenWidth: '1200',
   topBarHeight: '52',
   bottomBarHeight: '52',
   breakpointS: '576',
