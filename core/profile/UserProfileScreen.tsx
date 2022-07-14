@@ -65,20 +65,38 @@ export const UserProfileScreen: React.VFC = () => {
           </View>
           <HoliTabs
             tabs={[
-              { title: 'Profile', children: <HoliText>Hello Profile</HoliText> },
+              {
+                title: 'Profile',
+                children: (
+                  <View
+                    style={{
+                      height: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      alignContent: 'center',
+                      padding: 56,
+                    }}
+                  >
+                    <HoliText>Hello Profile</HoliText>
+                  </View>
+                ),
+              },
               {
                 title: 'Topics',
                 children: (
                   <View
                     style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      backgroundColor: 'green',
                       height: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: 56,
                     }}
                   >
-                    <HoliText>Hello Profile</HoliText>
+                    <HoliText style={{ textAlign: 'center', color: '#6F7081' }}>
+                      This user has not shared much about themselves yet.
+                    </HoliText>
                   </View>
                 ),
               },
