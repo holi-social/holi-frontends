@@ -7,6 +7,7 @@ import {
   TextInput,
   TextInputProps,
   View,
+  ViewStyle,
   useWindowDimensions,
 } from 'react-native'
 import tinycolor from 'tinycolor2'
@@ -32,6 +33,7 @@ export type HoliTextInputProps = {
   trailingIcon?: string
   /** TextInputProps to extend input e.g ('returnKeytype')*/
   inputProps?: TextInputProps
+  styleWrapper?: ViewStyle
   // eslint-disable-next-line
   [x: string]: any
 }
@@ -40,7 +42,7 @@ const HoliTextInput = ({
   noOfLines = 1,
   maxNoOfLines = 1,
   maxNoOfCharacters = 5000,
-  inline = true,
+  inline = false,
   ...props
 }: HoliTextInputProps) => {
   const dimensions = useWindowDimensions()
@@ -65,7 +67,7 @@ const HoliTextInput = ({
   const styles = getStyles(theme)
 
   return (
-    <View style={[styles.wrapper, inline ? styles.inline : styles.block]}>
+    <View style={[styles.wrapper, inline ? styles.inline : styles.block, props?.styleWrapper]}>
       <View style={[styles.wrapperContainer, { maxWidth: dimensions.width }, inline ? styles.inline : styles.block]}>
         {!!props?.label && (
           <View style={[styles.labelWrapper, inline ? styles.inline : styles.block]}>
@@ -172,14 +174,16 @@ const HoliTextInput = ({
             </View>
           )}
         </Pressable>
-        <View style={[styles.helperTextWrapper, inline ? styles.inline : styles.block]}>
-          <HoliText
-            size="extrasmall"
-            styles={[styles.helperText, hasValidationErrors ? styles.validationErrorText : {}]}
-          >
-            {props?.validationErrorText || props?.helperText}
-          </HoliText>
-        </View>
+        {(props?.validationErrorText || props?.helperText) && (
+          <View style={[styles.helperTextWrapper, inline ? styles.inline : styles.block]}>
+            <HoliText
+              size="extrasmall"
+              styles={[styles.helperText, hasValidationErrors ? styles.validationErrorText : {}]}
+            >
+              {props?.validationErrorText || props?.helperText}
+            </HoliText>
+          </View>
+        )}
       </View>
     </View>
   )

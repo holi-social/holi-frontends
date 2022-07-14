@@ -13,6 +13,7 @@ import { UserProfileForm } from '@holi/core/user/components/UserProfileForm'
 import { UserProfileView } from '@holi/core/user/components/UserProfileView'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliChip from '@holi/ui/components/HoliChip'
+import HoliModal from '@holi/ui/components/HoliModal'
 import HoliText from '@holi/ui/components/HoliText'
 
 export const UserProfileScreen: React.VFC = () => {
@@ -39,16 +40,18 @@ export const UserProfileScreen: React.VFC = () => {
     <DefaultLayout>
       <LoginProtection loggedOutContent={<LoggedOutView />}>
         <View style={{ paddingVertical: 24, paddingHorizontal: 16, alignItems: 'center' }}>
-          {editing ? (
+          <HoliModal
+            show={editing}
+            onDismiss={() => {
+              toggleEditing()
+            }}
+          >
             <UserProfileForm onCancel={toggleEditing} onSubmit={toggleEditing} />
-          ) : (
-            <>
-              <UserProfileView />
-              <HoliButton label={t('profile.edit')} onPress={() => toggleEditing()}>
-                {t('profile.edit')}
-              </HoliButton>
-            </>
-          )}
+          </HoliModal>
+          <UserProfileView />
+          <HoliButton label={t('profile.edit')} onPress={() => toggleEditing()} inline>
+            {t('profile.edit')}
+          </HoliButton>
           <View style={{ marginVertical: 10 }}>
             <HoliChip
               label={t('profile.exampleInterest')}

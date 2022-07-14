@@ -34,7 +34,7 @@ export type HoliButtonProps = {
 
 const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
   label,
-  inline = true,
+  inline = false,
   type = 'primary',
   variant = 'default',
   disabled = false,
