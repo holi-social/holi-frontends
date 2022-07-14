@@ -27,12 +27,12 @@ const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: Heade
 
   let userAvatar
   if (hasUserData) {
-    const avatarLabel = `${user.firstName || ''} ${user.lastName || ''}`.trim()
+    const nameLabel = `${user.firstName || ''} ${user.lastName || ''}`.trim()
 
     userAvatar = (
       <HoliUserAvatar
         imageSrc={user.avatar}
-        nameLabel={avatarLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : avatarLabel}
+        nameLabel={nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
         initials={user.avatarLabel}
         defaultColor={user.avatarDefaultColor}
         size="micro"
