@@ -474,8 +474,7 @@ Please note that `ssr` will only be set to true when decided to use SSR in the w
 import { NextPage } from 'next'
 
 import Quote, { QuoteType } from '@holi/core/screens/Quote'
-import { gql } from "@apollo/client";
-import { ApolloClient } from "@apollo/client";
+import { ApolloClient, gql } from "@apollo/client";
 
 const client = new ApolloClient({
     uri: API_URL
