@@ -1,6 +1,7 @@
 import React from 'react'
 
-import useErrorHandling from '@holi/core/errors/useErrorHandling'
+import { logError } from '@holi/core/errors/useErrorHandling'
+import i18n from '@holi/core/i18n'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliText from '@holi/ui/components/HoliText'
 import SafeArea from '@holi/ui/components/SafeArea'
@@ -19,18 +20,19 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   }
 
   componentDidCatch(error: Error, errorInfo: { componentStack: string }) {
-    const { logError } = useErrorHandling()
     logError(error, '[ErrorBoundary.tsx]', errorInfo.componentStack)
     this.setState({ error })
   }
 
   render() {
+    const { t } = i18n
+
     if (this.state.error) {
       return (
         <SafeArea style={{ padding: 10, alignItems: 'center' }}>
-          <HoliText>Something went wrong</HoliText>
-          <HoliButton label="Try again?" inline onPress={() => this.setState({ error: null })}>
-            <HoliText>Try again?</HoliText>
+          <HoliText>{t('error.errorBoundary.heading')}</HoliText>
+          <HoliButton label={t('error.errorBoundary.retry')} inline onPress={() => this.setState({ error: null })}>
+            <HoliText>{t('error.errorBoundary.retry')}</HoliText>
           </HoliButton>
         </SafeArea>
       )

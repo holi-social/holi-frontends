@@ -1,5 +1,6 @@
 import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } from '@ory/kratos-client'
 import React, { useContext, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Platform } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
@@ -19,6 +20,7 @@ const Registration = () => {
   const { setUserLoggedIn } = useContext(AuthContext)
   const [flow, setConfig] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
   const { displayError } = useErrorHandling()
+  const { t } = useTranslation()
 
   const initializeFlow = () => {
     initRegistrationFlow()
@@ -26,7 +28,7 @@ const Registration = () => {
       .then(({ data: flow }) => {
         setConfig(flow)
       })
-      .catch((error) => displayError(error, 'Initializing registration flow failed'))
+      .catch((error) => displayError(error, t('auth.registration.error.initialization')))
   }
   // When the component is mounted, we initialize a new use login flow:
   useEffect(() => initializeFlow(), [])
@@ -63,12 +65,12 @@ const Registration = () => {
             navigate('/')
           })
           .catch(handleFormSubmitError(setConfig, initializeFlow))
-          .catch((error) => displayError(error, 'Registration failed'))
+          .catch((error) => displayError(error, t('auth.registration.error.registration')))
       : Promise.resolve()
 
   return (
     <DefaultLayout>
-      <HoliText>Create an account</HoliText>
+      <HoliText>{t('auth.registration.heading')}</HoliText>
       <SelfServiceFlow
         textInputOverride={(field, props) => {
           const iOS12Plus = Platform.OS === 'ios' && parseInt(String(Platform.Version), 10) >= 12

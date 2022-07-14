@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
 import HoliHeading from '@holi/ui/components/HoliHeading'
@@ -8,9 +9,13 @@ type TopicEditorsProps = {
 }
 
 const TopicEditors: React.FunctionComponent<TopicEditorsProps> = ({ topicId }) => {
+  const { t } = useTranslation()
+
   return (
     <View style={{ padding: 10 }}>
-      <HoliHeading level="1" size="super">{`This week's topic editors for topicId=${topicId}`}</HoliHeading>
+      <HoliHeading level="1" size="super">
+        {t('topics.topicEditors.title', { topicId })}
+      </HoliHeading>
     </View>
   )
 }

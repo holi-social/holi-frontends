@@ -1,11 +1,12 @@
 import Head from 'next/head'
 import React, { PropsWithChildren } from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliButton from '@holi/ui/components/HoliButton'
 import Holicon from '@holi/ui/components/holicon'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme/theme'
+import { useTheme } from '@holi/ui/styles/theme/theme'
 import HomeTopBar from '@holi/web/components/navigation/HomeTopBar'
 
 import volunteeringLayoutStyles from './NavigationLayoutVolunteeringApp.module.scss'
@@ -14,12 +15,13 @@ import volunteeringLayoutStyles from './NavigationLayoutVolunteeringApp.module.s
 export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildren<any>) => {
   const { navigate } = useRouting()
   const { theme } = useTheme()
-  const styles = getStyles(theme)
+  const styles = getStyles()
+  const { t } = useTranslation()
 
   return (
     <>
       <Head>
-        <title>Holi Project</title>
+        <title>{t('navigation.title')}</title>
       </Head>
 
       {/*
@@ -38,12 +40,23 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
           style={styles.appNav}
           accessible={true}
           accessibilityRole="navigation"
-          accessibilityLabel="Bottom Navigation"
+          accessibilityLabel={t('navigation.bottomNavigation')}
         >
-          <HoliButton label="Home" inline variant="transparent" onPress={() => navigate('/')} testID="nav-button-home">
+          <HoliButton
+            label={t('volunteering.navigation.home')}
+            inline
+            variant="transparent"
+            onPress={() => navigate('/')}
+            testID="nav-button-home"
+          >
             <Holicon icon="home" size={35} color={theme.colors.fontColorBlack} />
           </HoliButton>
-          <HoliButton label="Seach" inline variant="transparent" onPress={() => navigate('/search')}>
+          <HoliButton
+            label={t('volunteering.navigation.search')}
+            inline
+            variant="transparent"
+            onPress={() => navigate('/search')}
+          >
             <Holicon icon="search" size={35} color={theme.colors.fontColorBlack} />
           </HoliButton>
         </View>
@@ -52,7 +65,7 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
   )
 }
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = () =>
   StyleSheet.create({
     appNav: {
       margin: 5,

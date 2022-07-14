@@ -1,4 +1,5 @@
 import React, { useLayoutEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -12,7 +13,8 @@ type SearchProps = NativeStackScreenProps<HomeStackScreens>
 
 const Search: React.VFC<SearchProps> = ({ navigation }: SearchProps) => {
   const { setNavigationHeader } = useNavigationHeader()
-  const title = 'Search Result'
+  const { t } = useTranslation()
+  const title = t('search.title')
 
   useLayoutEffect(
     () =>
@@ -26,7 +28,7 @@ const Search: React.VFC<SearchProps> = ({ navigation }: SearchProps) => {
   return (
     <DefaultLayout>
       <HoliHeading level="1" size="super">
-        Search
+        {title}
       </HoliHeading>
     </DefaultLayout>
   )
