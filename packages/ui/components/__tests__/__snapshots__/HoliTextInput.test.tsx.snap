@@ -188,12 +188,15 @@ exports[`renders correctly when disabled 1`] = `
               "lineHeight": 14.399999999999999,
             },
             Object {},
-            Array [
-              Object {
-                "color": "#595959",
-              },
-              Object {},
-            ],
+            Object {},
+          ]
+        }
+        styles={
+          Array [
+            Object {
+              "color": "#595959",
+            },
+            Object {},
           ]
         }
       >
@@ -389,12 +392,15 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
               "lineHeight": 14.399999999999999,
             },
             Object {},
-            Array [
-              Object {
-                "color": "#595959",
-              },
-              Object {},
-            ],
+            Object {},
+          ]
+        }
+        styles={
+          Array [
+            Object {
+              "color": "#595959",
+            },
+            Object {},
           ]
         }
       >
@@ -590,12 +596,15 @@ exports[`renders correctly when multiline starting with one line 1`] = `
               "lineHeight": 14.399999999999999,
             },
             Object {},
-            Array [
-              Object {
-                "color": "#595959",
-              },
-              Object {},
-            ],
+            Object {},
+          ]
+        }
+        styles={
+          Array [
+            Object {
+              "color": "#595959",
+            },
+            Object {},
           ]
         }
       >
@@ -785,12 +794,15 @@ exports[`renders correctly with default props 1`] = `
               "lineHeight": 14.399999999999999,
             },
             Object {},
-            Array [
-              Object {
-                "color": "#595959",
-              },
-              Object {},
-            ],
+            Object {},
+          ]
+        }
+        styles={
+          Array [
+            Object {
+              "color": "#595959",
+            },
+            Object {},
           ]
         }
       >
@@ -1066,14 +1078,17 @@ exports[`renders correctly with error 1`] = `
               "lineHeight": 14.399999999999999,
             },
             Object {},
-            Array [
-              Object {
-                "color": "#595959",
-              },
-              Object {
-                "color": "#ee0004",
-              },
-            ],
+            Object {},
+          ]
+        }
+        styles={
+          Array [
+            Object {
+              "color": "#595959",
+            },
+            Object {
+              "color": "#ee0004",
+            },
           ]
         }
       >
@@ -1343,12 +1358,15 @@ exports[`renders correctly with trailing icon 1`] = `
               "lineHeight": 14.399999999999999,
             },
             Object {},
-            Array [
-              Object {
-                "color": "#595959",
-              },
-              Object {},
-            ],
+            Object {},
+          ]
+        }
+        styles={
+          Array [
+            Object {
+              "color": "#595959",
+            },
+            Object {},
           ]
         }
       >
@@ -1544,12 +1562,15 @@ exports[`renders correctly with type password 1`] = `
               "lineHeight": 14.399999999999999,
             },
             Object {},
-            Array [
-              Object {
-                "color": "#595959",
-              },
-              Object {},
-            ],
+            Object {},
+          ]
+        }
+        styles={
+          Array [
+            Object {
+              "color": "#595959",
+            },
+            Object {},
           ]
         }
       >
@@ -1701,12 +1722,15 @@ exports[`renders correctly without label 1`] = `
               "lineHeight": 14.399999999999999,
             },
             Object {},
-            Array [
-              Object {
-                "color": "#595959",
-              },
-              Object {},
-            ],
+            Object {},
+          ]
+        }
+        styles={
+          Array [
+            Object {
+              "color": "#595959",
+            },
+            Object {},
           ]
         }
       >

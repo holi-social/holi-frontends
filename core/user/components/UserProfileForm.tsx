@@ -40,8 +40,8 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
 
   const submit = async () => {
     const input: UpdateAuthenticatedUserInput = {
-      firstName,
-      lastName,
+      ...(firstName && { firstName }),
+      ...(lastName && { lastName }),
       ...(aboutMe && { aboutMe }),
       ...(pronouns && { pronouns }),
       ...(location && { location }),
@@ -94,14 +94,14 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
           label={t('user.profileForm.firstName')}
           placeholder={t('user.profileForm.firstNamePlaceholder')}
           onChange={(text) => setFirstName(text)}
-          styleWrapper={styles.inputWrapper}
+          style={styles.inputWrapper}
         />
         <HoliTextInput
           value={user.lastName}
           label={t('user.profileForm.lastName')}
           placeholder={t('user.profileForm.lastNamePlaceholder')}
           onChange={(text) => setLastName(text)}
-          styleWrapper={styles.inputWrapper}
+          style={styles.inputWrapper}
         />
         <HoliTextInput
           value={user?.aboutMe}
@@ -110,21 +110,21 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
           onChange={(text) => setAboutMe(text)}
           noOfLines={3}
           maxNoOfLines={3}
-          styleWrapper={styles.inputWrapper}
+          style={styles.inputWrapper}
         />
         <HoliTextInput
           value={user?.pronouns}
           label={t('user.profileForm.pronouns')}
           placeholder={t('user.profileForm.pronounsPlaceholder')}
           onChange={(text) => setPronouns(text)}
-          styleWrapper={styles.inputWrapper}
+          style={styles.inputWrapper}
         />
         <HoliTextInput
           value={user?.location}
           label={t('user.profileForm.location')}
           placeholder={t('user.profileForm.locationPlaceholder')}
           onChange={(text) => setLocation(text)}
-          styleWrapper={styles.inputWrapper}
+          style={styles.inputWrapper}
         />
       </ScrollView>
       <HoliButton label={t('user.profileForm.save')} onPress={submit}>
