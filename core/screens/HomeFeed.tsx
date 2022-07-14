@@ -1,7 +1,7 @@
 import moment from 'moment'
 import React, { useLayoutEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -12,8 +12,116 @@ import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliHeading from '@holi/ui/components/HoliHeading'
+import HoliIcon from '@holi/ui/components/HoliIcon'
 import HoliText from '@holi/ui/components/HoliText'
-import Holicon from '@holi/ui/components/holicon'
+import { styleVars } from '@holi/ui/styles/globalVars'
+
+const appsSwiperDummyApps = [
+  {
+    icon: 'chat',
+    nameKey: 'apps.volunteering.name',
+    path: '/apps/volunteering',
+    testID: 'app-title-volunteering',
+    newContent: true,
+  },
+  {
+    icon: 'explore',
+    nameKey: 'apps.donations.name',
+    path: '/apps/volunteering',
+    testID: 'app-title-donations',
+    newContent: false,
+  },
+  {
+    icon: 'home',
+    nameKey: 'apps.goodNews.name',
+    path: '/apps/volunteering',
+    testID: 'app-title-goodNews',
+    newContent: true,
+  },
+  {
+    icon: 'search',
+    nameKey: 'apps.adsForGood.name',
+    path: '/apps/volunteering',
+    testID: 'app-title-adsForGood',
+    newContent: true,
+  },
+  {
+    icon: 'user-circled',
+    nameKey: 'apps.factCheck.name',
+    path: '/apps/volunteering',
+    testID: 'app-title-factCheck',
+    newContent: false,
+  },
+]
+
+const appsSwiperStyles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    width: '100%',
+    paddingLeft: 15,
+    paddingRight: 15,
+  },
+  tileContainer: {
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  tileIconContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 64,
+    height: 64,
+  },
+  tileIconContainerNewContent: {
+    borderStyle: 'solid',
+    borderColor: styleVars.colors.positivepurple,
+    borderWidth: 2,
+    borderRadius: 16,
+  },
+  tileIconContainerNoNewContent: {},
+  tileIcon: {
+    alignSelf: 'center',
+    width: 48,
+    height: 48,
+  },
+  tileName: {
+    paddingTop: 10,
+    alignSelf: 'center',
+    fontSize: 14,
+    fontWeight: '400',
+  },
+})
+
+const AppsSwiper: React.VFC = () => {
+  const { navigate } = useRouting()
+  const { t } = useTranslation()
+  return (
+    <ScrollView horizontal={true} style={appsSwiperStyles.container}>
+      {appsSwiperDummyApps.map((app) => (
+        <HoliButton
+          key={app.nameKey}
+          label={t(app.nameKey)}
+          inline
+          transparent
+          style={[appsSwiperStyles.tileContainer]}
+          onPress={() => navigate(app.path)}
+          testID={app.testID}
+        >
+          <View
+            style={[
+              appsSwiperStyles.tileIconContainer,
+              app.newContent
+                ? appsSwiperStyles.tileIconContainerNewContent
+                : appsSwiperStyles.tileIconContainerNoNewContent,
+            ]}
+          >
+            <HoliIcon icon={app.icon} size={56} style={appsSwiperStyles.tileIcon} />
+          </View>
+          <HoliText style={appsSwiperStyles.tileName}>{t(app.nameKey)}</HoliText>
+        </HoliButton>
+      ))}
+    </ScrollView>
+  )
+}
 
 type HomeFeedProps = NativeStackScreenProps<HomeStackScreens>
 
@@ -29,7 +137,6 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   const { navigate } = useRouting()
   const { setNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
-  const title = t('homeFeed.title')
   const headerTitle = temporalGreeting(moment().hours(), t)
 
   useLayoutEffect(
@@ -44,39 +151,11 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   return (
     <DefaultLayout>
       <View style={styles.view}>
-        <HoliHeading level="1" size="super" testID="home-feed-title">
-          {title}
-        </HoliHeading>
-
         {/* Holi Apps */}
-        <HoliHeading level="2">{t('homeFeed.apps')}</HoliHeading>
-        <View style={{ flexDirection: 'row' }}>
-          <HoliButton
-            label={t('homeFeed.volunteering')}
-            inline
-            transparent
-            style={styles.appTile}
-            onPress={() => navigate('/apps/volunteering')}
-            testID="app-tile-volunteering"
-          >
-            <Holicon icon="work" size={20} />
-            <HoliText>{t('homeFeed.volunteering')}</HoliText>
-          </HoliButton>
-
-          <HoliButton
-            label={t('homeFeed.donations')}
-            inline
-            transparent
-            style={styles.appTile}
-            onPress={() => navigate('/apps/volunteering')}
-          >
-            <Holicon icon="support" size={20} />
-            <HoliText>{t('homeFeed.donations')}</HoliText>
-          </HoliButton>
-        </View>
+        <AppsSwiper />
 
         {/* I18n Showcase */}
-        <View style={{ flexDirection: 'column' }}>
+        <View style={{ flexDirection: 'column', paddingTop: 20, paddingBottom: 20 }}>
           <HoliText>
             <Trans t={t} i18nKey="homeFeed.textWithLink">
               <HoliText style={{ fontWeight: 'bold' }}>this is ignored</HoliText>
@@ -109,10 +188,7 @@ const styles = StyleSheet.create({
   view: {
     alignItems: 'center',
     maxWidth: '100%',
-    marginTop: 50,
-  },
-  appTile: {
-    paddingRight: 10,
+    marginTop: 5,
   },
 })
 

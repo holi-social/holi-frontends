@@ -14,7 +14,7 @@ type VolunteeringAppHomeProps = NativeStackScreenProps<HomeStackScreens>
 const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = ({ navigation }: VolunteeringAppHomeProps) => {
   const { setNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
-  const title = t('volunteering.title')
+  const title = t('apps.volunteering.name')
 
   useLayoutEffect(
     () =>
@@ -27,7 +27,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = ({ navigation }
 
   return (
     <View style={{ padding: 10 }}>
-      <HoliHeading level="1" size="super" testID="home-feed-title">
+      <HoliHeading level="1" size="super" testID="apps-volunteering-title">
         {title}
       </HoliHeading>
     </View>
