@@ -60,7 +60,6 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
             transparent
             style={styles.appTile}
             onPress={() => navigate('/apps/volunteering')}
-            testID="app-tile-volunteering"
           >
             <Holicon icon="support" size={20} />
             <HoliText>{t('homeFeed.donations')}</HoliText>
