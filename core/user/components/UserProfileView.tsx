@@ -34,9 +34,9 @@ const userWorkaroundUntilHoli1421 = (user: User): User => {
     avatar: user.avatar || patch.avatar,
     firstName: user.firstName || patch.firstName,
     lastName: user.lastName || patch.lastName,
-    aboutMe: user.aboutMe || patch.aboutMe,
     pronouns: user.pronouns || patch.pronouns,
     location: user.location || patch.location,
+    aboutMe: user.aboutMe || patch.aboutMe,
     avatarDefaultColor: user.avatarDefaultColor || patch.avatarDefaultColor,
     avatarLabel: user.avatarLabel || patch.avatarLabel,
     engagementLevel: user.engagementLevel || patch.engagementLevel,
@@ -55,22 +55,28 @@ const UserProfileView: React.VFC = () => {
 
   user = userWorkaroundUntilHoli1421(user)
 
-  // TODO HOLI-1813 properly handle nullable fields
+  const fullName = `${user.firstName ? user.firstName : ''}${user.lastName && user.firstName ? ' ' : ''}${
+    user.lastName ? user.lastName : ''
+  }`
+
   return (
     <View style={styles.header}>
       <View style={styles.avatarName}>
         <View>
           <HoliUserAvatar
             imageSrc={user.avatar}
-            nameLabel={user.firstName || ''} // TODO HOLI-1813 properly handle nullable field
-            initials={user.avatarLabel || ''} // TODO HOLI-1813 properly handle nullable field
-            defaultColor={user.avatarDefaultColor || '#FFAE86'} // TODO HOLI-1813 properly handle nullable field
+            nameLabel={fullName}
+            initials={user.avatarLabel}
+            defaultColor={user.avatarDefaultColor}
             size="large"
           />
         </View>
         <View style={styles.nameContainer}>
-          <HoliHeading>{`${user.firstName} ${user.lastName}`}</HoliHeading>
-          <HoliText styles={{ color: theme.colors.fontColorGrey }}>{`(${user.pronouns}) ${user.location}`}</HoliText>
+          <HoliHeading>{fullName}</HoliHeading>
+          <HoliText styles={{ color: theme.colors.fontColorGrey }}>
+            {user.pronouns && `(${user.pronouns}) `}
+            {user.location && `${user.location}`}
+          </HoliText>
         </View>
       </View>
       {user.aboutMe && <HoliReadMore style={styles.aboutMe}>{user.aboutMe}</HoliReadMore>}
@@ -98,6 +104,7 @@ const UserProfileView: React.VFC = () => {
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'column',
+    minWidth: 250,
   },
   avatarName: {
     flexDirection: 'row',
