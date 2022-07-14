@@ -55,37 +55,40 @@ const FormInputField = ({ node, value, onChange, disabled, textInputOverride, st
     return null
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let extraProps: any = {}
-  switch (variant) {
-    case 'email':
-      extraProps.autoCompleteType = 'email'
-      extraProps.keyboardType = 'email-address'
-      extraProps.textContentType = 'emailAddress'
-      extraProps.autoCapitalize = 'none'
-      extraProps.autoCorrect = false
-      break
-    case 'password':
-      extraProps.autoCompleteType = 'password'
-      extraProps.textContentType = 'password'
-      extraProps.autoCapitalize = 'none'
-      extraProps.secureTextEntry = true
-      extraProps.autoCorrect = false
-      break
-  }
+  const getInputProps = (): TextInputProps => {
+    switch (variant) {
+      case 'email':
+        return {
+          // autoCompleteType: 'email',
+          keyboardType: 'email-address',
+          textContentType: 'emailAddress',
+          autoCapitalize: 'none',
+          autoCorrect: false,
+        }
+      case 'password':
+        return {
+          // autoCompleteType: 'password',
+          textContentType: 'password',
+          autoCapitalize: 'none',
+          secureTextEntry: true,
+          autoCorrect: false,
+        }
 
-  if (textInputOverride) {
-    extraProps = textInputOverride(node, extraProps)
+      default:
+        return {}
+    }
   }
+  const inputProps = getInputProps()
 
-  let inputType: HoliTextInputProps['type'] = 'text'
-  switch (variant) {
-    case 'email':
-      inputType = 'email'
-      break
-    case 'password':
-      inputType = 'password'
-      break
+  const getInputType = (): HoliTextInputProps['type'] => {
+    switch (variant) {
+      case 'email':
+        return 'email'
+      case 'password':
+        return 'password'
+      default:
+        return 'text'
+    }
   }
 
   const fieldName = getNodeId(node)
@@ -102,12 +105,10 @@ const FormInputField = ({ node, value, onChange, disabled, textInputOverride, st
       maxNoOfLines={1}
       maxNoOfCharacters={30}
       onChange={onChange}
-      type={inputType}
+      type={getInputType()}
+      inputProps={textInputOverride ? textInputOverride(node, inputProps) : inputProps}
       style={style}
-      // /** TextInputProps to extend input e.g ('returnKeytype')*/
-      // inputProps?: TextInputProps
       testID={`oryField-${fieldName}`}
-      {...extraProps}
     />
   )
 }
