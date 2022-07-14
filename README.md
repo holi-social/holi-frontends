@@ -436,7 +436,7 @@ To be able to use the same page/screen for both web and mobile, it is necessary 
 Say you want to create a new page for the web app, and you want it to use SSR. You also want the same page/screen component to be used both for the mobile and the web apps.
 
 The first step to take would be creating the page/screen component that will be used both for the mobile and web apps. Let's call it `Quote` component and all it does is display a famous quote in the page.
-`core/screens/Quote.tsx`
+##### `core/screens/Quote.tsx`
 ```tsx
 type QuoteProps = {
   ssr: boolean
@@ -469,7 +469,7 @@ export default Quote
 Please note that `ssr` will only be set to true when decided to use SSR in the web app. Never in the mobile app.
 
 #### In the web app, in the file corresponding to the page using SSR or SSG:
-`apps/web/pages/quote.tsx`
+##### `apps/web/pages/quote.tsx`
 ```tsx
 import { NextPage } from 'next'
 
