@@ -2,7 +2,7 @@
 import { UiNode, UiNodeInputAttributes } from '@ory/kratos-client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, TextInputProps, ViewStyle } from 'react-native'
+import { NativeSyntheticEvent, Platform, TextInputKeyPressEventData, TextInputProps, ViewStyle } from 'react-native'
 
 import { getNodeId, getNodeTitle, oryNodeIsInput } from '@holi/core/auth/helpers/form'
 import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/HoliTextInput'
@@ -17,6 +17,7 @@ interface Props extends InputProps {
 export interface InputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange: (value: any) => void
+  onEnterPress: () => void
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any
   disabled?: boolean
@@ -46,12 +47,27 @@ const guessVariant = ({ attributes }: UiNode) => {
   }
 }
 
-const FormInputField = ({ node, value, onChange, disabled, textInputOverride, autofocus, style }: Props) => {
+const FormInputField = ({
+  node,
+  value,
+  onChange = () => null,
+  onEnterPress = () => null,
+  disabled,
+  textInputOverride,
+  autofocus,
+  style,
+}: Props) => {
   const { t } = useTranslation()
 
   const variant = guessVariant(node)
   if (!variant) {
     return null
+  }
+
+  const handleKeyDown = (event: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+    if (event.nativeEvent.key === 'Enter') {
+      onEnterPress()
+    }
   }
 
   const getInputProps = (): TextInputProps => {
@@ -62,6 +78,7 @@ const FormInputField = ({ node, value, onChange, disabled, textInputOverride, au
           textContentType: Platform.OS === 'ios' ? 'username' : 'emailAddress',
           autoCapitalize: 'none',
           autoCorrect: false,
+          onKeyPress: handleKeyDown,
         }
       case 'password':
         return {
@@ -69,6 +86,7 @@ const FormInputField = ({ node, value, onChange, disabled, textInputOverride, au
           textContentType: 'password',
           autoCapitalize: 'none',
           autoCorrect: false,
+          onKeyPress: handleKeyDown,
         }
       default:
         return {}
@@ -105,7 +123,7 @@ const FormInputField = ({ node, value, onChange, disabled, textInputOverride, au
       type={getInputType()}
       inputProps={textInputOverride ? textInputOverride(node, inputProps) : inputProps}
       style={style}
-      testID={`oryField-${fieldName}`}
+      testID={`ory-input-${fieldName}`}
     />
   )
 }

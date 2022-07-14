@@ -35,7 +35,16 @@ const FormNode = (props: Props) => {
   }
 
   if (oryNodeIsInput(node.attributes)) {
-    return <FormInputField {...props} attributes={node.attributes} style={[props.style || {}, { marginTop: 10 }]} />
+    const fieldName = getNodeId(node)
+    const value = getNodeValue(node)
+    return (
+      <FormInputField
+        {...props}
+        attributes={node.attributes}
+        onEnterPress={() => props.onSubmitPress(fieldName, value)}
+        style={[props.style || {}, { marginTop: 10 }]}
+      />
+    )
   }
 
   if (oryNodeIsSubmit(node.attributes)) {
@@ -47,7 +56,7 @@ const FormNode = (props: Props) => {
         label={fieldLabel}
         style={props.style || {}}
         onPress={() => props.onSubmitPress(fieldName, value)}
-        testID={`oryField-${fieldName}/${node.attributes.value}`}
+        testID={`ory-submit-${fieldName}`}
       >
         {fieldLabel}
       </HoliButton>
