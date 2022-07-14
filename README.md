@@ -25,7 +25,7 @@
   - [I18n](#i18n)
     - [Usage example](#usage-example)
     - [VS Code extension](#vs-code-extension)
-- [Authentication Proxy](#authentication-proxy)
+- [Authentication](#authentication)
 - [Continuous Integration and Deployment](#continuous-integration-and-deployment)
   - [Feature Branches & Environments](#feature-branches--environments)
   - [noenv Branches](#noenv-branches)
@@ -504,6 +504,53 @@ export default QuotesPage
 - Include the `ssr` and `ssrData` props in the page/screen component. Set `ssr` to `true` and pass the `ssrData` as a prop to the component. If it's client side rendering, no need to use any data fetching strategy from NextJS (no `getServerSideProps` in this example).
 - Include the corresponding pre-rendering methods (`getServerSideProps` and `getStaticProps`) as described in the [NextJS docs](https://nextjs.org/docs/basic-features/data-fetching/overview).
 - The data fetched will be passed to the page/screen component as a prop.
+
+## Authentication
+
+Authentication works differently for Web and Mobile (following the best practices of our identity provider
+[Ory](https://www.ory.sh)):
+
+### Mobile
+
+The session token that is retrieved during login is stored in the phones `SecureStore` (from `expo-secure-store`). Every
+request that is sent to the backend (our `holi-unified-api` GraphQL API) receives an HTTP
+request header `Authorization: Bearer $TOKEN`.
+
+### Web
+
+During login, Ory (respectively the Ory API bridge, see `apps/web/pages/api/.ory/[...paths].js`) sets an HTTP-only
+secure cookie with domain-wide validity that includes a session token. This cookie is then sent with every request to
+the backend (which is reverse-proxied on Next.JS server side, see `apps/web/pages/api/graphql.js`).
+
+## Exploring the GraphQL API (via graphiql)
+
+For exploring our GraphQL API we have a running instance
+of [graphiql](https://graphql-dotnet.github.io/docs/getting-started/graphiql/) at https://staging.web.project-holi.org/
+
+If all your requests don't need user authentication you can do them right away. Currently we don't have any GraphQL
+queries that work without authentication but there will be some in the future.
+
+If you need authentication (example for staging):
+
+1. Go to our [web deployment](https://staging.web.project-holi.org/)) and log in with your user.
+2. From the network view of the Browser, check the request that went to the GraphQL API
+   (`https://staging.web.project-holi.org/api/graphql`) and copy the value from the Cookie request header.
+3. Go to the [staging graphiql instance](https://staging.unified.apis.project-holi.org/graphql), open the "Request
+   Headers" tab in the lower left and add the previously copied cookie values like so:
+
+```json
+{
+  "Cookie": "<Cookies-Value-Previously-Copied>"
+}
+```
+
+4. Write and submit your queries.
+
+As an alternative to using the `Cookie` header (as used by Browsers) you can also use the session token (as used by
+Mobile) to authenticate a user. To do this you need e.g. to enable inspection within the Expo Go app of your
+simulator/emulator and inspect outgoing requests to the GraphQL API after logging in. You should see an `Authentication:
+Bearer <some-token-here>` header in the request. This header can also be added within graphiql's UI as an
+alternative.
 
 ## Continuous Integration and Deployment
 
