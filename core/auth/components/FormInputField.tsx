@@ -55,6 +55,7 @@ const FormInputField = ({ node, value, onChange, disabled, textInputOverride, st
     return null
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let extraProps: any = {}
   switch (variant) {
     case 'email':

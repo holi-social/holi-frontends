@@ -72,13 +72,13 @@ const Login: React.VoidFunctionComponent = () => {
         ) : (
           <View style={styles.formContainer}>
             <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} />
-            <HoliButton transparent inline label="some label" variant="small" style={styles.button}>
+            <HoliButton disabled transparent inline label="some label" variant="small" style={styles.button}>
               {t('auth.login.link.forgotPassword')}
             </HoliButton>
             <HoliHeading level="2" style={styles.headline2}>
               {t('auth.login.signUp.link.headline')}
             </HoliHeading>
-            <HoliButton label="" type="secondary" style={styles.button}>
+            <HoliButton disabled label="" type="secondary" style={styles.button}>
               {t('auth.login.signUp.link.button')}
             </HoliButton>
           </View>

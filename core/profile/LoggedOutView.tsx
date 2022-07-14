@@ -15,7 +15,6 @@ const LoggedOutView: VoidFunctionComponent<LoggedOutViewProps> = (props: LoggedO
   return (
     <View style={[styles.loggedOutView, props.style]}>
       <View style={styles.moodImage}>
-        {/* TODO: require breaks the unit tests. */}
         <SharedImage
           imageFile={require('@holi/ui/assets/img/icons/illustration_logged_out.png')}
           isSvg={false}
