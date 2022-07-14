@@ -1,5 +1,6 @@
 import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/kratos-client'
 import React, { useContext, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
@@ -14,7 +15,6 @@ import { useNavigationContext } from '@holi/core/navigation/context'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliText from '@holi/ui/components/HoliText'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const Login: React.VoidFunctionComponent = () => {
   const { isLoggedIn, setUserLoggedIn } = useContext(AuthContext)
@@ -22,8 +22,8 @@ const Login: React.VoidFunctionComponent = () => {
   const { navigateBack } = useRouting()
   const { setShowBackLink } = useNavigationContext()
   const { displayError } = useErrorHandling()
-  const { theme } = useTheme()
-  const styles = getStyles(theme)
+  const { t } = useTranslation()
+  const styles = getStyles()
 
   const initializeFlow = () => {
     initLoginFlow()
@@ -34,7 +34,7 @@ const Login: React.VoidFunctionComponent = () => {
         setFlow(flow)
         // TODO: jump into first input element after form is shown
       })
-      .catch((error) => displayError(error, 'Initializing login flow failed'))
+      .catch((error) => displayError(error, t('auth.login.error.initialization')))
   }
 
   // When the component is mounted, we initialize a new use login flow:
@@ -60,7 +60,7 @@ const Login: React.VoidFunctionComponent = () => {
             })
           })
           .catch(handleFormSubmitError(setFlow, initializeFlow))
-          .catch((error) => displayError(error, 'Login failed'))
+          .catch((error) => displayError(error, t('auth.login.error.login')))
       : Promise.resolve()
 
   // this should only occur when a logged-in user navigates to /login on web
@@ -68,11 +68,11 @@ const Login: React.VoidFunctionComponent = () => {
     <DefaultLayout>
       <View style={styles.login}>
         {isLoggedIn ? (
-          <HoliText>You are already logged in</HoliText>
+          <HoliText>{t('auth.login.alreadyLoggedIn')}</HoliText>
         ) : (
           <>
             <HoliHeading level="1" size="super" style={{ marginTop: 50 }}>
-              Sign in to your account
+              {t('auth.login.heading')}
             </HoliHeading>
             <SelfServiceFlow flow={flow} onSubmit={onSubmit} style={{ marginTop: 20 }} />
           </>
@@ -84,7 +84,7 @@ const Login: React.VoidFunctionComponent = () => {
 
 export { Login }
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = () =>
   StyleSheet.create({
     login: {
       paddingBottom: 50,

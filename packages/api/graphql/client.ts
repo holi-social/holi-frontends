@@ -3,13 +3,11 @@ import { onError } from '@apollo/client/link/error'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 
 import { holiApiUrl } from '@holi/api/config'
-import useErrorHandling from '@holi/core/errors/useErrorHandling'
+import { logError } from '@holi/core/errors/useErrorHandling'
 
 import authLink from './authLink'
 
 const TIMEOUT_IN_MS = 10000 // 10 second timeout
-
-const { logError } = useErrorHandling()
 
 const timeoutLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
 const httpLink = new HttpLink({ uri: holiApiUrl })

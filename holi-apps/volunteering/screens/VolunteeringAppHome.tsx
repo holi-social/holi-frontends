@@ -1,4 +1,5 @@
 import React, { useLayoutEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -12,7 +13,8 @@ type VolunteeringAppHomeProps = NativeStackScreenProps<HomeStackScreens>
 
 const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = ({ navigation }: VolunteeringAppHomeProps) => {
   const { setNavigationHeader } = useNavigationHeader()
-  const title = 'Lets Act'
+  const { t } = useTranslation()
+  const title = t('volunteering.title')
 
   useLayoutEffect(
     () =>
@@ -26,7 +28,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = ({ navigation }
   return (
     <View style={{ padding: 10 }}>
       <HoliHeading level="1" size="super" testID="home-feed-title">
-        Volunteering App Home
+        {title}
       </HoliHeading>
     </View>
   )

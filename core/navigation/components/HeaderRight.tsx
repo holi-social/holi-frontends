@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ViewStyle } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
@@ -19,16 +20,19 @@ const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: Heade
   const { user } = useContext(UserContext)
   const { isLoggedIn } = useContext(AuthContext)
   const hasUserData = isLoggedIn && user
+  const { t } = useTranslation()
 
   // TODO: navigate to user profile!
   const profileUrl = '/profile/danbim'
 
   let userAvatar
   if (hasUserData) {
+    const avatarLabel = `${user.firstName || ''} ${user.lastName || ''}`.trim()
+
     userAvatar = (
       <HoliUserAvatar
         imageSrc={user.avatar}
-        nameLabel={`${user.firstName || ''} ${user.lastName || ''}`.trim()}
+        nameLabel={avatarLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : avatarLabel}
         initials={user.avatarLabel}
         defaultColor={user.avatarDefaultColor}
         size="micro"
@@ -38,7 +42,7 @@ const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: Heade
 
   return (
     <HoliButton
-      label="Profile"
+      label={t('profile.title')}
       inline
       variant="transparent"
       onPress={() => navigate(profileUrl)}

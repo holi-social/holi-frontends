@@ -1,5 +1,6 @@
 import { ApolloProvider } from '@apollo/client'
 import React, { useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import client from '@holi/api/graphql/client'
@@ -25,15 +26,17 @@ const styles = StyleSheet.create({
 // need to put this into separate component so it is wrapped with
 // AuthContextProvider & UserContextProvider. it it's not wrapped
 // useContext would not receive updates on context updates
-const Children: React.VFC<{ children: React.ReactElement }> = ({ children }) => {
+const Children: React.VFC<{ children: React.ReactElement | React.ReactNode }> = ({ children }) => {
   const authContext = useContext(AuthContext)
   const userContext = useContext(UserContext)
+  const { t } = useTranslation()
+
   return authContext.isLoading || userContext.isLoading ? (
     <SafeArea style={styles.loadingContainer}>
       <HoliText styles={{ textAlign: 'center' }}>
         {/* TODO put loading spinner or something even nicer */}
-        {authContext.isLoading && 'Verifying login...'}
-        {userContext.isLoading && 'Loading user profile...'}
+        {authContext.isLoading && t('rootProvider.loading.login')}
+        {userContext.isLoading && t('rootProvider.loading.profile')}
       </HoliText>
     </SafeArea>
   ) : (
@@ -41,7 +44,9 @@ const Children: React.VFC<{ children: React.ReactElement }> = ({ children }) => 
   )
 }
 
-const RootProvider: React.VoidFunctionComponent<{ children: React.ReactElement }> = ({ children }) => {
+const RootProvider: React.VoidFunctionComponent<{ children: React.ReactElement | React.ReactNode }> = ({
+  children,
+}) => {
   return (
     <ThemeProvider theme={defaultHoliTheme}>
       <ErrorBoundary>
