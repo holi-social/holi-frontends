@@ -94,14 +94,14 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
           label={t('user.profileForm.firstName')}
           placeholder={t('user.profileForm.firstNamePlaceholder')}
           onChange={(text) => setFirstName(text)}
-          style={styles.inputWrapper}
+          style={styles.input}
         />
         <HoliTextInput
           value={user.lastName}
           label={t('user.profileForm.lastName')}
           placeholder={t('user.profileForm.lastNamePlaceholder')}
           onChange={(text) => setLastName(text)}
-          style={styles.inputWrapper}
+          style={styles.input}
         />
         <HoliTextInput
           value={user?.aboutMe}
@@ -110,21 +110,21 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
           onChange={(text) => setAboutMe(text)}
           noOfLines={3}
           maxNoOfLines={3}
-          style={styles.inputWrapper}
+          style={styles.input}
         />
         <HoliTextInput
           value={user?.pronouns}
           label={t('user.profileForm.pronouns')}
           placeholder={t('user.profileForm.pronounsPlaceholder')}
           onChange={(text) => setPronouns(text)}
-          style={styles.inputWrapper}
+          style={styles.input}
         />
         <HoliTextInput
           value={user?.location}
           label={t('user.profileForm.location')}
           placeholder={t('user.profileForm.locationPlaceholder')}
           onChange={(text) => setLocation(text)}
-          style={styles.inputWrapper}
+          style={styles.input}
         />
       </ScrollView>
       <HoliButton label={t('user.profileForm.save')} onPress={submit}>
@@ -138,27 +138,29 @@ export { UserProfileForm }
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    wrapper: {
-      alignItems: 'center',
-      paddingHorizontal: 24,
-      paddingBottom: 24,
-      flex: 1,
-      width: '100%',
+    addImage: {
+      flexDirection: 'row',
+      marginTop: 16,
     },
     avatar: {
       borderColor: theme.colors.softblack,
       borderWidth: 2,
     },
-    addImage: {
-      marginTop: 16,
-      flexDirection: 'row',
+    input: {
+      marginBottom: 16,
     },
     scrollView: {
       marginVertical: 24,
       flex: 1,
       width: '100%',
     },
-    inputWrapper: {
-      marginBottom: 16,
+    wrapper: {
+      alignItems: 'center',
+      alignSelf: 'center',
+      flex: 1,
+      maxWidth: 500,
+      paddingHorizontal: 24,
+      paddingBottom: 24,
+      width: '100%',
     },
   })

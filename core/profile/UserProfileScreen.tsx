@@ -46,6 +46,7 @@ export const UserProfileScreen: React.VFC = () => {
               onDismiss={() => {
                 toggleEditing()
               }}
+              relativeHeight={0.95}
             >
               <UserProfileForm onCancel={toggleEditing} onSubmit={toggleEditing} />
             </HoliModal>

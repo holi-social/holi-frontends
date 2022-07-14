@@ -179,7 +179,7 @@ const HoliTextInput = ({
           <View style={[styles.helperTextWrapper, inline ? styles.inline : styles.block]}>
             <HoliText
               size="extrasmall"
-              styles={[styles.helperText, hasValidationErrors ? styles.validationErrorText : {}]}
+              style={[styles.helperText, hasValidationErrors ? styles.validationErrorText : {}]}
             >
               {props?.validationErrorText || props?.helperText}
             </HoliText>
