@@ -18,6 +18,7 @@ import HoliText from '@holi/ui/components/HoliText'
 
 interface Props extends InputProps {
   node: UiNode
+  autofocus: boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSubmitPress: (key: string, value: any) => void
   style?: ViewStyle | Record<string, unknown>

@@ -77,7 +77,7 @@ const FormBuilder = <
   }
 
   return (
-    <View style={props.style}>
+    <View accessibilityRole="form" style={props.style}>
       {props.flow && <FormMessages messages={props.flow.ui.messages} />}
       {props.flow &&
         nodes.map((node: UiNode, k) => {
@@ -92,6 +92,7 @@ const FormBuilder = <
               onChange={onChange(name)}
               node={node}
               onSubmitPress={onPress}
+              autofocus={name === 'identifier'} // email field
               style={{ marginTop: 30 }}
             />
           )

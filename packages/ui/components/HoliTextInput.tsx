@@ -12,6 +12,7 @@ import {
 } from 'react-native'
 import tinycolor from 'tinycolor2'
 
+import { AccessibilityPropsWeb } from '@holi/ui/@types/react-native-web'
 import HoliIcon from '@holi/ui/components/HoliIcon'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -55,9 +56,10 @@ const HoliTextInput = ({
 
   const [numberOfLines, setNumberOfLines] = useState<number>(clamp(noOfLines, noOfLines, maxNoOfLines))
 
-  const accessibilityProps: AccessibilityProps = {
+  const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: true,
     accessibilityLabel: `${props?.label}`,
+    accessibilityAutoComplete: true,
   }
 
   useEffect(() => {
@@ -129,6 +131,7 @@ const HoliTextInput = ({
                 blurOnSubmit={Platform.OS !== 'web'}
                 secureTextEntry={props?.type === 'password'}
                 {...accessibilityProps}
+                autoCapitalize="none"
                 {...props?.inputProps}
               />
               {(hasValidationErrors || props?.trailingIcon) && (

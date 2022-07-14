@@ -2,7 +2,7 @@
 import { UiNode, UiNodeInputAttributes } from '@ory/kratos-client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { TextInputProps, ViewStyle } from 'react-native'
+import { Platform, TextInputProps, ViewStyle } from 'react-native'
 
 import { getNodeId, getNodeTitle, oryNodeIsInput } from '@holi/core/auth/helpers/form'
 import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/HoliTextInput'
@@ -10,6 +10,7 @@ import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/HoliTextI
 interface Props extends InputProps {
   node: UiNode
   attributes: UiNodeInputAttributes
+  autofocus: boolean
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
 
@@ -38,8 +39,6 @@ const guessVariant = ({ attributes }: UiNode) => {
       return null
     case 'email':
       return 'email'
-    case 'submit':
-      return 'button'
     case 'password':
       return 'password'
     default:
@@ -47,7 +46,7 @@ const guessVariant = ({ attributes }: UiNode) => {
   }
 }
 
-const FormInputField = ({ node, value, onChange, disabled, textInputOverride, style }: Props) => {
+const FormInputField = ({ node, value, onChange, disabled, textInputOverride, autofocus, style }: Props) => {
   const { t } = useTranslation()
 
   const variant = guessVariant(node)
@@ -59,26 +58,24 @@ const FormInputField = ({ node, value, onChange, disabled, textInputOverride, st
     switch (variant) {
       case 'email':
         return {
-          // autoCompleteType: 'email',
-          keyboardType: 'email-address',
-          textContentType: 'emailAddress',
+          autoComplete: 'email',
+          textContentType: Platform.OS === 'ios' ? 'username' : 'emailAddress',
           autoCapitalize: 'none',
           autoCorrect: false,
         }
       case 'password':
         return {
-          // autoCompleteType: 'password',
+          autoComplete: 'password',
           textContentType: 'password',
           autoCapitalize: 'none',
-          secureTextEntry: true,
           autoCorrect: false,
         }
-
       default:
         return {}
     }
   }
   const inputProps = getInputProps()
+  inputProps.autoFocus = autofocus
 
   const getInputType = (): HoliTextInputProps['type'] => {
     switch (variant) {
