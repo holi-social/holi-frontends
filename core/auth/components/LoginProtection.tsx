@@ -12,11 +12,10 @@ type LoginProtectionProps = {
 }
 
 const LoginProtection: React.VFC<LoginProtectionProps> = ({ children, loggedOutContent }: LoginProtectionProps) => {
-  const { isLoggedIn } = useContext(AuthContext)
-  const { navigate } = useRouting()
   const { t } = useTranslation()
 
-  const styles = getStyles()
+  const { isLoggedIn } = useContext(AuthContext)
+  const { navigate } = useRouting()
 
   if (isLoggedIn) {
     return <>{children}</>
@@ -24,8 +23,12 @@ const LoginProtection: React.VFC<LoginProtectionProps> = ({ children, loggedOutC
 
   return (
     <View style={styles.loginProtection}>
-      {loggedOutContent || <Text>{t('auth.loginProtection.loggedOut')}</Text>}
-      <HoliButton label={t('auth.loginProtection.login')} onPress={() => navigate('/login')} style={styles.loginButton}>
+      {loggedOutContent || <Text>{t('auth.loginProtection.text')}</Text>}
+      <HoliButton
+        label={t('auth.loginProtection.loginLabel')}
+        onPress={() => navigate('/login')}
+        style={styles.loginButton}
+      >
         {t('auth.loginProtection.login')}
       </HoliButton>
     </View>
@@ -34,17 +37,13 @@ const LoginProtection: React.VFC<LoginProtectionProps> = ({ children, loggedOutC
 
 export { LoginProtection }
 
-const getStyles = () =>
-  StyleSheet.create({
-    loginProtection: {
-      paddingBottom: 50,
-      marginBottom: 50,
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-    },
-    loginButton: {
-      marginTop: 50,
-      width: '80%',
-      alignSelf: 'center',
-    },
-  })
+const styles = StyleSheet.create({
+  loginProtection: {
+    alignItems: 'center',
+    width: '100%',
+  },
+  loginButton: {
+    marginTop: 25,
+    maxWidth: 300,
+  },
+})

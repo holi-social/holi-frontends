@@ -59,7 +59,7 @@ const backButton = () => {
     <HoliButton
       label={t('navigation.headerLeft.back')}
       inline
-      variant="transparent"
+      transparent
       onPress={() => navigateBack()}
       style={{ paddingHorizontal: 0 }}
     >
@@ -76,7 +76,7 @@ const downButton = () => {
     <HoliButton
       label={t('navigation.closeWindow')}
       inline
-      variant="transparent"
+      transparent
       onPress={() => navigateBack()}
       style={{ paddingHorizontal: 0 }}
     >
