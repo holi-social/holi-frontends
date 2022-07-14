@@ -28,7 +28,7 @@ const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: Heade
     userAvatar = (
       <HoliUserAvatar
         imageSrc={user.avatar}
-        nameLabel={`${user.firstName || ''} ${user.lastName || ''}`}
+        nameLabel={`${user.firstName || ''}${user.lastName ? ' ' + user.lastName : ''}`}
         initials={user.avatarLabel}
         defaultColor={user.avatarDefaultColor}
         size="micro"
@@ -49,7 +49,6 @@ const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: Heade
       {hasUserData ? userAvatar : <HoliIcon icon="user-circled" size={20} />}
     </HoliButton>
   )
-  // {isAuthenticated && userAvatar}
 }
 
 export default HeaderRight
