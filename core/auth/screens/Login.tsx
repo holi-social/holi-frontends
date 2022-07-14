@@ -5,7 +5,7 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
-import { FormBuilder } from '@holi/core/auth/components'
+import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { initLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'

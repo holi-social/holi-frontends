@@ -23,7 +23,7 @@ interface Props extends InputProps {
   style?: ViewStyle | Record<string, unknown>
 }
 
-export const FormNode = (props: Props) => {
+const FormNode = (props: Props) => {
   const { t } = useTranslation()
   const { node } = props
 
@@ -55,3 +55,5 @@ export const FormNode = (props: Props) => {
 
   return <>Unknown Element: {node.type}</>
 }
+
+export default FormNode

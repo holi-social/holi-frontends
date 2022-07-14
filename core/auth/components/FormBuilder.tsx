@@ -11,9 +11,9 @@ import {
 import React, { useEffect, useState } from 'react'
 import { View, ViewStyle } from 'react-native'
 
-import { TextInputOverride } from '@holi/core/auth/components/FormInputField'
+import type { TextInputOverride } from '@holi/core/auth/components/FormInputField'
 import FormMessages from '@holi/core/auth/components/FormMessages'
-import { FormNode } from '@holi/core/auth/components/FormNode'
+import FormNode from '@holi/core/auth/components/FormNode'
 import { getNodeId, oryNodeIsInput } from '@holi/core/auth/helpers/form'
 
 interface Props<T> {
@@ -24,7 +24,7 @@ interface Props<T> {
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
 }
 
-export const FormBuilder = <
+const FormBuilder = <
   T extends SubmitSelfServiceSettingsFlowBody | SubmitSelfServiceLoginFlowBody | SubmitSelfServiceRegistrationFlowBody
 >(
   props: Props<T>
@@ -99,3 +99,5 @@ export const FormBuilder = <
     </View>
   )
 }
+
+export default FormBuilder

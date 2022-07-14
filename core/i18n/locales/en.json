@@ -14,6 +14,8 @@
   "auth.login.signUp.link.headline": "No account yet?",
   "auth.loginProtection.loggedOut": "You’re not logged in",
   "auth.loginProtection.login": "Log in",
+  "auth.loginProtection.loginLabel": "Open login form",
+  "auth.loginProtection.text": "You’re not logged in",
   "auth.logout.button": "Log out",
   "auth.logout.error": "Logout failed",
   "auth.logout.heading": "Do you want to log out?",

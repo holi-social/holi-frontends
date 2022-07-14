@@ -44,7 +44,6 @@ const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
   ...props
 }: HoliButtonProps) => {
   const isSmall = variant === 'small'
-  const isTransparent = transparent
   const isPrimary = type === 'primary'
 
   const { theme } = useTheme()
@@ -79,7 +78,7 @@ const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
       }}
       style={(state) => {
         const result = [props.style, styles.base]
-        if (!isTransparent) {
+        if (!transparent) {
           result.push(styles.nonTransparent)
           if (isSmall) {
             result.push(styles.small)
@@ -103,7 +102,7 @@ const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
     >
       <View
         style={{
-          ...(!isTransparent ? { alignItems: 'center', flexDirection: 'row', justifyContent: 'center' } : {}),
+          ...(!transparent ? { alignItems: 'center', flexDirection: 'row', justifyContent: 'center' } : {}),
         }}
         pointerEvents="none"
       >
