@@ -27,18 +27,14 @@ const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: Heade
 
   let userAvatar
   if (hasUserData) {
-    // TODO: hand over email, when firstName is empty
-    const userImageLabel = user.firstName || t('navigation.headerRight.avatarFallbackLabel')
-
-    // TODO: should be generated during user registration process (HOLI-1525)
-    const userDefaultColor = '#0f0'
+    const nameLabel = `${user.firstName || ''} ${user.lastName || ''}`.trim()
 
     userAvatar = (
       <HoliUserAvatar
         imageSrc={user.avatar}
-        nameLabel={userImageLabel}
-        initials={userImageLabel.charAt(0)}
-        defaultColor={userDefaultColor}
+        nameLabel={nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
+        initials={user.avatarLabel}
+        defaultColor={user.avatarDefaultColor}
         size="micro"
       />
     )
