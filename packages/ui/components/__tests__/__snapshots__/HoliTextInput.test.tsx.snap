@@ -121,8 +121,10 @@ exports[`renders correctly when disabled 1`] = `
         }
       >
         <TextInput
+          accessibilityAutoComplete={true}
           accessibilityLabel="Label"
           accessible={true}
+          autoCapitalize="none"
           blurOnSubmit={true}
           editable={false}
           keyboardType="default"
@@ -322,8 +324,10 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
         }
       >
         <TextInput
+          accessibilityAutoComplete={true}
           accessibilityLabel="Label"
           accessible={true}
+          autoCapitalize="none"
           blurOnSubmit={true}
           editable={true}
           keyboardType="default"
@@ -523,8 +527,10 @@ exports[`renders correctly when multiline starting with one line 1`] = `
         }
       >
         <TextInput
+          accessibilityAutoComplete={true}
           accessibilityLabel="Label"
           accessible={true}
+          autoCapitalize="none"
           blurOnSubmit={true}
           editable={true}
           keyboardType="default"
@@ -720,8 +726,10 @@ exports[`renders correctly with default props 1`] = `
         }
       >
         <TextInput
+          accessibilityAutoComplete={true}
           accessibilityLabel="Label"
           accessible={true}
+          autoCapitalize="none"
           blurOnSubmit={true}
           editable={true}
           keyboardType="default"
@@ -923,8 +931,10 @@ exports[`renders correctly with error 1`] = `
         }
       >
         <TextInput
+          accessibilityAutoComplete={true}
           accessibilityLabel="Label"
           accessible={true}
+          autoCapitalize="none"
           blurOnSubmit={true}
           editable={true}
           keyboardType="default"
@@ -1202,8 +1212,10 @@ exports[`renders correctly with trailing icon 1`] = `
         }
       >
         <TextInput
+          accessibilityAutoComplete={true}
           accessibilityLabel="Label"
           accessible={true}
+          autoCapitalize="none"
           blurOnSubmit={true}
           editable={true}
           keyboardType="default"
@@ -1477,8 +1489,10 @@ exports[`renders correctly with type password 1`] = `
         }
       >
         <TextInput
+          accessibilityAutoComplete={true}
           accessibilityLabel="Label"
           accessible={true}
+          autoCapitalize="none"
           blurOnSubmit={true}
           editable={true}
           keyboardType="default"
@@ -1634,8 +1648,10 @@ exports[`renders correctly without label 1`] = `
         }
       >
         <TextInput
+          accessibilityAutoComplete={true}
           accessibilityLabel="undefined"
           accessible={true}
+          autoCapitalize="none"
           blurOnSubmit={true}
           editable={true}
           keyboardType="default"
