@@ -13,7 +13,6 @@ import { UserProfileForm } from '@holi/core/user/components/UserProfileForm'
 import { UserProfileView } from '@holi/core/user/components/UserProfileView'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliChip from '@holi/ui/components/HoliChip'
-import HoliTabs from '@holi/ui/components/HoliTabs'
 import HoliText from '@holi/ui/components/HoliText'
 
 export const UserProfileScreen: React.VFC = () => {
@@ -63,45 +62,6 @@ export const UserProfileScreen: React.VFC = () => {
               {t('profile.logout')}
             </HoliButton>
           </View>
-          <HoliTabs
-            tabs={[
-              {
-                title: 'Profile',
-                children: (
-                  <View
-                    style={{
-                      height: '100%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      alignContent: 'center',
-                      padding: 56,
-                    }}
-                  >
-                    <HoliText>Hello Profile</HoliText>
-                  </View>
-                ),
-              },
-              {
-                title: 'Topics',
-                children: (
-                  <View
-                    style={{
-                      height: '100%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      padding: 56,
-                    }}
-                  >
-                    <HoliText style={{ textAlign: 'center', color: '#6F7081' }}>
-                      This user has not shared much about themselves yet.
-                    </HoliText>
-                  </View>
-                ),
-              },
-            ]}
-          ></HoliTabs>
         </View>
       </LoginProtection>
     </DefaultLayout>
