@@ -422,6 +422,88 @@ t('message.interpolation', { value: 'example' })
 [i18n-ally](https://marketplace.visualstudio.com/items?itemName=lokalise.i18n-ally) is a VS code extension that facilitates
 translating the app with features like code completion, directly adding new or editing existing keys as well as displaying translations inside the code and as tooltips.
 
+## Creating NextJS SSR and SSG pages
+
+### Understanding NextJS data fetching strategies
+
+NextJS supports client side rendering (CSR), server side rendering (SSR) and static-site generation (SSG). You can create pages for the web app (`apps/web`) following the same rules as described in the [NextJS docs](https://nextjs.org/docs/basic-features/data-fetching/overview).
+
+### Creating reusable pages for web and mobile and allowing SSR or SSG on web
+
+To be able to use the same page/screen for both web and mobile, it is necessary to create the page/screen component with the rendering strategy in mind. For client side rendering, the data will be fetched in the page/screen component itself, without the need to configure anything for the web app. However, when creating an SSR or SSG page, it is necessary to follow the steps below:
+
+#### Configure the page/screen component to use SSR or SSG:
+Say you want to create a new page for the web app, and you want it to use SSR. You also want the same page/screen component to be used both for the mobile and the web apps.
+
+The first step to take would be creating the page/screen component that will be used both for the mobile and web apps. Let's call it `Quote` component and all it does is display a famous quote in the page.
+##### `core/screens/Quote.tsx`
+```tsx
+type QuoteProps = {
+  ssr: boolean
+  ssrData: T // whatever T is needed for the component
+}
+
+const Quote: React.VFC<QuoteProps> = ({ ssr, ssrData }: QuoteProps) => {
+  // make sure to use useLazyQuery, so that you can choose when to fetchData
+  const [fetchData, { loading, error, data }] = useLazyQuery<T>(quoteQuery)
+
+  useEffect(() => {
+    if (!ssr) {
+      fetchData()
+    }
+  }, [])
+
+  if (loading) return <HoliText>Loading...</HoliText>
+  if (error) return <HoliText>Error...</HoliText>
+  
+  const myData = ssr ? ssrData : data
+  return <HoliText>My Data: {JSON.stringify(myData)}</HoliText>
+}
+
+export default Quote
+```
+- The `ssrData` will be passed to the page/screen component as a prop, as well as the `ssr` prop will be `true`.
+- If there is any data fetching method running on the component initialization (`useEffect`, e.g.), avoid running it if `ssr` is `true`. We already have the `ssrData` as a prop.
+- We are using ApolloClient for data fetching, and for SSR usage, make sure to use `useLazyQuery` instead of `useQuery`, to avoid fetching data from the client side as well when using SSR. Read more about these methods on the [Apollo Docs](https://www.apollographql.com/docs/react/api/react/hooks/).
+
+Please note that `ssr` will only be set to true when decided to use SSR in the web app. Never in the mobile app.
+
+#### In the web app, in the file corresponding to the page using SSR or SSG:
+##### `apps/web/pages/quote.tsx`
+```tsx
+import { NextPage } from 'next'
+
+import Quote, { QuoteType } from '@holi/core/screens/Quote'
+import { ApolloClient, gql } from "@apollo/client";
+
+const client = new ApolloClient({
+    uri: API_URL
+});
+
+const QuotesPage: NextPage = ({ ssrData }) => <Quote ssr={true} ssrData={ssrData} />
+
+export const getServerSideProps = async () => {
+  const { data } = await client.query({
+    query: gql`
+      query Quote {
+        quote {
+          title
+          author
+        }
+      }
+    `,
+  });
+
+  return { props: { ssrData: data } }
+}
+
+export default QuotesPage
+```
+
+- Include the `ssr` and `ssrData` props in the page/screen component. Set `ssr` to `true` and pass the `ssrData` as a prop to the component. If it's client side rendering, no need to use any data fetching strategy from NextJS (no `getServerSideProps` in this example).
+- Include the corresponding pre-rendering methods (`getServerSideProps` and `getStaticProps`) as described in the [NextJS docs](https://nextjs.org/docs/basic-features/data-fetching/overview).
+- The data fetched will be passed to the page/screen component as a prop.
+
 ## Authentication
 
 Authentication works differently for Web and Mobile (following the best practices of our identity provider
