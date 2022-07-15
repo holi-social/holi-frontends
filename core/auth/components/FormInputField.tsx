@@ -17,7 +17,8 @@ interface Props extends InputProps {
 export interface InputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange?: (value: any) => void
-  onEnterPress?: () => void
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onEnterPress?: (value: any) => void
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any
   disabled?: boolean
@@ -77,9 +78,12 @@ const FormInputField = ({
 
   const fieldName = getNodeId(node)
   const fieldLabel = getNodeTitle(node)
-  const handleKeyDown = (event: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
-    if (event.nativeEvent.key === 'Enter') {
-      onEnterPress()
+  const handleKeyDown = (event: NativeSyntheticEvent<TextInputKeyPressEventData | TextInputProps>) => {
+    const nativeElement = event.nativeEvent as TextInputKeyPressEventData
+    if (nativeElement.key === 'Enter') {
+      const element = event.target as TextInputProps
+      onChange(element.value)
+      onEnterPress(element.value)
     }
   }
   const inputProps: TextInputProps = {
