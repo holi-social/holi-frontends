@@ -41,6 +41,8 @@ const getStyles = (theme: HoliTheme) =>
     screenLayout: {
       backgroundColor: theme.colors.backgroundColorWhite,
       minHeight: '100%',
+      maxWidth: '100%',
+      overflow: 'hidden',
     },
     container: {
       flex: 1,

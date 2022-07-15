@@ -5,7 +5,7 @@ import { Platform } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
-import { SelfServiceFlow } from '@holi/core/auth/components'
+import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { getNodeId, handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
@@ -16,7 +16,7 @@ import HoliText from '@holi/ui/components/HoliText'
 
 const Registration = () => {
   const { navigate } = useRouting()
-  const { setShowBackLink } = useNavigationContext()
+  const { setBackLink, clearBackLinks } = useNavigationContext()
   const { setUserLoggedIn } = useContext(AuthContext)
   const [flow, setConfig] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
   const { displayError } = useErrorHandling()
@@ -34,8 +34,8 @@ const Registration = () => {
   useEffect(() => initializeFlow(), [])
 
   useEffect(() => {
-    setShowBackLink(true)
-    return () => setShowBackLink(false)
+    setBackLink('down')
+    return () => clearBackLinks()
   }, [])
 
   // This will update the registration flow with the user provided input:
@@ -71,7 +71,7 @@ const Registration = () => {
   return (
     <DefaultLayout>
       <HoliText>{t('auth.registration.heading')}</HoliText>
-      <SelfServiceFlow
+      <FormBuilder
         textInputOverride={(field, props) => {
           const iOS12Plus = Platform.OS === 'ios' && parseInt(String(Platform.Version), 10) >= 12
           switch (getNodeId(field)) {

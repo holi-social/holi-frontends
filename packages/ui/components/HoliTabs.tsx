@@ -1,6 +1,5 @@
 import * as React from 'react'
-import { NativeScrollEvent, Platform, ScrollView, Text, View, ViewStyle } from 'react-native'
-import { Dimensions } from 'react-native'
+import { NativeScrollEvent, Platform, ScrollView, Text, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import HoliButton from '@holi/ui/components/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -14,7 +13,8 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, relativeHeight
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const carousel = React.useRef<ScrollView | null>(null)
 
-  const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
+  const { width: screenWidth, height: screenHeight } = useWindowDimensions()
+
   const { theme } = useTheme()
   const styles = getStyles(theme, screenHeight, relativeHeight)
   const isWeb = Platform.OS === 'web'
@@ -47,7 +47,8 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, relativeHeight
         {tabs.map((tab, index) => (
           <HoliButton
             label={tab.title}
-            variant="transparent"
+            transparent
+            inline
             style={{ ...styles.tabButton, ...(currentSlide === index ? styles.activeTabButton : {}) }}
             onPress={() => goToIndex(index)}
             disabled={currentSlide === index}
@@ -127,6 +128,7 @@ const getStyles = (theme: HoliTheme, screenHeight: number, relativeHeight: numbe
     paddingVertical: 12,
     justifyContent: 'center',
     alignItems: 'center',
+    width: 'auto',
     borderBottomWidth: 2,
     top: 2, // must be the same value as the tabButtonsContainer borderWidth
     borderBottomColor: 'transparent',
