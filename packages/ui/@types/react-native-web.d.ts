@@ -23,6 +23,7 @@ declare module 'react-native' {
 
   interface ViewProps extends ViewProps {
     accessibilityRole?: string
+    accessibilityOrientation?: 'horizontal' | 'vertical'
   }
 
   interface TextStyle {
