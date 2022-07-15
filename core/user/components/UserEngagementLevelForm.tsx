@@ -98,45 +98,52 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
   return (
     <View style={styles.wrapper}>
       <HoliText style={styles.title}>{t('user.engagementLevel.form.question')}</HoliText>
-      <View style={styles.buttonsContainer}>
-        <View style={styles.buttonContainer}>
-          {engagementLevel === 'interested' && ActiveButtonIcon}
-          <HoliButton
-            label={t('user.engagementLevel.title.interested')}
-            transparent
-            onPress={() => setEngagementLevel('interested')}
-          >
-            <View style={[styles.button, ...(engagementLevel === 'interested' ? [styles.activeButton] : [])]}></View>
-          </HoliButton>
+      <View style={deviceHeight < 600 ? styles.rowButtonDescription : styles.columnButtonDescription}>
+        <View style={styles.buttonsContainer}>
+          <View style={styles.buttonContainer}>
+            {engagementLevel === 'interested' && ActiveButtonIcon}
+            <HoliButton
+              label={t('user.engagementLevel.title.interested')}
+              transparent
+              onPress={() => setEngagementLevel('interested')}
+            >
+              <View style={[styles.button, ...(engagementLevel === 'interested' ? [styles.activeButton] : [])]}></View>
+            </HoliButton>
+          </View>
+          <View style={[styles.buttonContainer, { marginHorizontal: 10 }]}>
+            {engagementLevel === 'engaged' && ActiveButtonIcon}
+            <HoliButton
+              label={t('user.engagementLevel.title.engaged')}
+              transparent
+              onPress={() => setEngagementLevel('engaged')}
+            >
+              <View
+                style={[styles.button, styles.button2, ...(engagementLevel === 'engaged' ? [styles.activeButton] : [])]}
+              ></View>
+            </HoliButton>
+          </View>
+          <View style={styles.buttonContainer}>
+            {engagementLevel === 'initiator' && ActiveButtonIcon}
+            <HoliButton
+              label={t('user.engagementLevel.title.initiator')}
+              transparent
+              onPress={() => setEngagementLevel('initiator')}
+            >
+              <View
+                style={[
+                  styles.button,
+                  styles.button3,
+                  ...(engagementLevel === 'initiator' ? [styles.activeButton] : []),
+                ]}
+              ></View>
+            </HoliButton>
+          </View>
         </View>
-        <View style={[styles.buttonContainer, { marginHorizontal: 10 }]}>
-          {engagementLevel === 'engaged' && ActiveButtonIcon}
-          <HoliButton
-            label={t('user.engagementLevel.title.engaged')}
-            transparent
-            onPress={() => setEngagementLevel('engaged')}
-          >
-            <View
-              style={[styles.button, styles.button2, ...(engagementLevel === 'engaged' ? [styles.activeButton] : [])]}
-            ></View>
-          </HoliButton>
+        <View style={{ marginTop: 32, width: '100%' }}>
+          <HoliText style={{ textAlign: 'center', paddingHorizontal: 32 }}>
+            {t(`user.engagementLevel.description.${engagementLevel}`)}
+          </HoliText>
         </View>
-        <View style={styles.buttonContainer}>
-          {engagementLevel === 'initiator' && ActiveButtonIcon}
-          <HoliButton
-            style={{ height: '100%' }}
-            label={t('user.engagementLevel.title.initiator')}
-            transparent
-            onPress={() => setEngagementLevel('initiator')}
-          >
-            <View
-              style={[styles.button, styles.button3, ...(engagementLevel === 'initiator' ? [styles.activeButton] : [])]}
-            ></View>
-          </HoliButton>
-        </View>
-      </View>
-      <View style={{ marginTop: 32 }}>
-        <HoliText style={{ textAlign: 'center' }}>{t(`user.engagementLevel.description.${engagementLevel}`)}</HoliText>
       </View>
       <HoliButton style={styles.saveButton} label={t('user.profileForm.save')} onPress={submit}>
         {t('user.profileForm.save')}
@@ -191,4 +198,13 @@ const getStyles = (theme: HoliTheme, buttonsContainerHeight: number) =>
       height: buttonsContainerHeight,
     },
     saveButton: { marginHorizontal: 80, bottom: '13%', position: 'absolute' },
+    rowButtonDescription: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    columnButtonDescription: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
   })

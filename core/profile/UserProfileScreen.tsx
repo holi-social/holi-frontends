@@ -18,6 +18,7 @@ import HoliChipRow from '@holi/ui/components/HoliChipRow'
 import HoliModal from '@holi/ui/components/HoliModal'
 import HoliTabs from '@holi/ui/components/HoliTabs'
 import HoliText from '@holi/ui/components/HoliText'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export const UserProfileScreen: React.VFC = () => {
   const { navigate } = useRouting()
@@ -33,6 +34,8 @@ export const UserProfileScreen: React.VFC = () => {
   const { user } = useContext(UserContext)
 
   const { setNavigationHeader } = useNavigationHeader()
+
+  const { theme } = useTheme()
 
   useLayoutEffect(() => {
     const profileTitle = isLoggedIn && user ? user.firstName : t('profile.title')
@@ -92,7 +95,7 @@ export const UserProfileScreen: React.VFC = () => {
                   title: t('profile.tabs.profile'),
                   children: (
                     <HoliChipRow
-                      editable={!user?.engagementLevel}
+                      editable
                       title={t('profile.tabs.profile.engagementLevel')}
                       onPressEdit={() => {
                         toggleModal()
@@ -127,7 +130,9 @@ export const UserProfileScreen: React.VFC = () => {
                         paddingVertical: 72,
                       }}
                     >
-                      <HoliText style={{ textAlign: 'center' }}>{t('profile.tabs.topics.empty')}</HoliText>
+                      <HoliText style={{ textAlign: 'center', color: theme.colors.fontColorGrey }}>
+                        {t('profile.tabs.topics.empty')}
+                      </HoliText>
                     </View>
                   ),
                 },
