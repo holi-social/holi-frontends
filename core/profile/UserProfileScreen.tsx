@@ -13,6 +13,7 @@ import { UserProfileForm } from '@holi/core/user/components/UserProfileForm'
 import { UserProfileView } from '@holi/core/user/components/UserProfileView'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliChip from '@holi/ui/components/HoliChip'
+import HoliChipRow from '@holi/ui/components/HoliChipRow'
 import HoliTabs from '@holi/ui/components/HoliTabs'
 import HoliText from '@holi/ui/components/HoliText'
 
@@ -68,6 +69,17 @@ export const UserProfileScreen: React.VFC = () => {
       <View style={{ marginTop: 24, marginHorizontal: Platform.OS === 'web' ? 24 : 0 }}>
         <HoliTabs
           tabs={[
+            {
+              title: t('profile.tabs.profile'),
+              children: (
+                <HoliChipRow editable title={t('profile.tabs.profile.engagementLevel')}>
+                  {user?.engagementLevel && (
+                    <HoliChip text={t('profile.tabs.profile.engagementLevel')} disabled></HoliChip>
+                  )}
+                  {!user?.engagementLevel && <HoliChip text={t('profile.tabs.profile.engagementLevel')}></HoliChip>}
+                </HoliChipRow>
+              ),
+            },
             {
               title: t('profile.tabs.profile'),
               children: (

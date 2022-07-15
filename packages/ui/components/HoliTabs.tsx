@@ -148,5 +148,6 @@ const getStyles = (theme: HoliTheme, screenHeight: number, relativeHeight: numbe
     display: 'flex',
     flexDirection: 'row',
     height: screenHeight * relativeHeight,
+    width: '100%',
   },
 })
