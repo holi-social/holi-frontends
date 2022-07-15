@@ -72,7 +72,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
       <HoliButton
         label={buttonType === 'show' ? showButtonText : hideButtonText}
         onPress={togglebuttonType}
-        variant={'transparent'}
+        transparent
       >
         <HoliText style={props.buttonStyle || {}}>
           {buttonType === 'show' ? '...' : ''}
@@ -93,7 +93,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
         style={{ alignContent: 'flex-start', justifyContent: 'center' }}
       >
         {/* The visible text. Any style props are applied here */}
-        <HoliText styles={[{ color: theme.colors.fontColorGrey }, props.fontStyle || {}]}>{props.children}</HoliText>
+        <HoliText style={[{ color: theme.colors.fontColorGrey }, props.fontStyle || {}]}>{props.children}</HoliText>
       </Text>
       {/* show button in new line (web only) */}
       {buttonType && ToggleButton}

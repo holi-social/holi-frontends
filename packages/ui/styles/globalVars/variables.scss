@@ -7,7 +7,7 @@
 // TODO: add to dev-watcher
 
 /*
-This upper section is for main design colors and colors that are used multiple times in the variables below. 
+This upper section is for main design colors and colors that are used multiple times in the variables below.
 Any value that is only used in one variable below can be written inline in that variable.
 */
 $softblack: #222326;
@@ -49,6 +49,7 @@ $background-color-black: $softblack;
 $font-family-web: Circular Std, Helvetica, Arial, sans-serif;
 $font-family-mobile: Circular Std;
 
+$max-screen-width: 1200;
 $top-bar-height: 52;
 $bottom-bar-height: 52;
 

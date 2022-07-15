@@ -27,7 +27,7 @@ const Post: React.VFC<PostProps> = ({ navigation }: PostProps) => {
   const [postId] = useParam('postId')
 
   const { setNavigationHeader } = useNavigationHeader()
-  const { setShowBackLink } = useNavigationContext()
+  const { setBackLink, clearBackLinks } = useNavigationContext()
   const { t } = useTranslation()
   const title = t('topics.post.title', { topicId, postId })
 
@@ -36,8 +36,8 @@ const Post: React.VFC<PostProps> = ({ navigation }: PostProps) => {
       title: title,
       titleElement: () => <HoliText style={{ paddingTop: 5 }}>{title}</HoliText>,
     })
-    setShowBackLink(true)
-    return () => setShowBackLink(false)
+    setBackLink('left')
+    return () => clearBackLinks()
   }, [navigation, topicId, postId])
 
   if (!topicId) return <HoliText>{t('topics.post.missingTopicId')}</HoliText>
@@ -49,10 +49,10 @@ const Post: React.VFC<PostProps> = ({ navigation }: PostProps) => {
         <HoliHeading level="1" size="super">
           {title}
         </HoliHeading>
-        <HoliText styles={{ paddingTop: 10 }}>
+        <HoliText style={{ paddingTop: 10 }}>
           {t('topics.post.author', { author: fakeTopics.get(topicId).posts[postId].author })}
         </HoliText>
-        <HoliText styles={{ paddingTop: 10 }}>{fakeTopics.get(topicId).posts[postId].text}</HoliText>
+        <HoliText style={{ paddingTop: 10 }}>{fakeTopics.get(topicId).posts[postId].text}</HoliText>
       </View>
     </DefaultLayout>
   )

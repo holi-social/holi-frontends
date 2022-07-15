@@ -1,6 +1,6 @@
 import React, { useContext, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
@@ -45,7 +45,7 @@ export const UserProfileScreen: React.VFC = () => {
             ) : (
               <>
                 <UserProfileView />
-                <HoliButton label={t('profile.edit')} onPress={() => toggleEditing()}>
+                <HoliButton label={t('profile.edit')} inline onPress={() => toggleEditing()}>
                   {t('profile.edit')}
                 </HoliButton>
               </>
@@ -67,3 +67,10 @@ export const UserProfileScreen: React.VFC = () => {
     </DefaultLayout>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    marginHorizontal: 34,
+    alignItems: 'baseline',
+  },
+})

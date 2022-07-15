@@ -73,7 +73,7 @@ const UserProfileView: React.VFC = () => {
         </View>
         <View style={styles.nameContainer}>
           <HoliHeading>{`${user.firstName} ${user.lastName}`}</HoliHeading>
-          <HoliText styles={{ color: theme.colors.fontColorGrey }}>{`(${user.pronouns}) ${user.location}`}</HoliText>
+          <HoliText style={{ color: theme.colors.fontColorGrey }}>{`(${user.pronouns}) ${user.location}`}</HoliText>
         </View>
       </View>
       {user.aboutMe && <HoliReadMore style={styles.aboutMe}>{user.aboutMe}</HoliReadMore>}
