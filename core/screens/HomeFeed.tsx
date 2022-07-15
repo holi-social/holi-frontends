@@ -12,7 +12,6 @@ import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliHeading from '@holi/ui/components/HoliHeading'
-import HoliIcon from '@holi/ui/components/HoliIcon'
 import HoliText from '@holi/ui/components/HoliText'
 import { styleVars } from '@holi/ui/styles/globalVars'
 
@@ -58,30 +57,35 @@ const appsSwiperStyles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     width: '100%',
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingHorizontal: 15,
   },
   tileContainer: {
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingHorizontal: 10,
+    minWidth: 110,
+    maxWidth: 110,
+    overflow: 'hidden',
   },
   tileIconContainer: {
-    alignItems: 'center',
     justifyContent: 'center',
+    alignSelf: 'center',
     width: 64,
     height: 64,
+    padding: 2,
+    borderColor: styleVars.colors.softblackTransparent,
+    borderWidth: 2,
+    borderRadius: 16,
   },
   tileIconContainerNewContent: {
-    borderStyle: 'solid',
     borderColor: styleVars.colors.positivepurple,
     borderWidth: 2,
     borderRadius: 16,
   },
-  tileIconContainerNoNewContent: {},
   tileIcon: {
+    backgroundColor: 'blue',
+    borderRadius: 12,
     alignSelf: 'center',
-    width: 48,
-    height: 48,
+    width: '100%',
+    height: '100%',
   },
   tileName: {
     paddingTop: 10,
@@ -91,11 +95,14 @@ const appsSwiperStyles = StyleSheet.create({
   },
 })
 
+// TODO multiple inner bg-color
+// TODO align center in web
+// TODO style prop (???)
 const AppsSwiper: React.VFC = () => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
   return (
-    <ScrollView horizontal={true} style={appsSwiperStyles.container}>
+    <ScrollView horizontal={true} contentContainerStyle={appsSwiperStyles.container}>
       {appsSwiperDummyApps.map((app) => (
         <HoliButton
           key={app.nameKey}
@@ -107,14 +114,9 @@ const AppsSwiper: React.VFC = () => {
           testID={app.testID}
         >
           <View
-            style={[
-              appsSwiperStyles.tileIconContainer,
-              app.newContent
-                ? appsSwiperStyles.tileIconContainerNewContent
-                : appsSwiperStyles.tileIconContainerNoNewContent,
-            ]}
+            style={[appsSwiperStyles.tileIconContainer, app.newContent && appsSwiperStyles.tileIconContainerNewContent]}
           >
-            <HoliIcon icon={app.icon} size={56} style={appsSwiperStyles.tileIcon} />
+            <View style={appsSwiperStyles.tileIcon} />
           </View>
           <HoliText style={appsSwiperStyles.tileName}>{t(app.nameKey)}</HoliText>
         </HoliButton>
