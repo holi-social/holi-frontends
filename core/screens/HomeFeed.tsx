@@ -17,17 +17,26 @@ import Holicon from '@holi/ui/components/holicon'
 
 type HomeFeedProps = NativeStackScreenProps<HomeStackScreens>
 
+const temporalGreeting = (hours: number, t: (key: string) => string) => {
+  if (hours >= 5 && hours < 11) return t('homeFeed.headerTitle.goodMorning')
+  else if (hours >= 11 && hours < 14) return t('homeFeed.headerTitle.goodDay')
+  else if (hours >= 14 && hours < 18) return t('homeFeed.headerTitle.goodAfternoon')
+  else if (hours >= 18 && hours < 23) return t('homeFeed.headerTitle.goodEvening')
+  else return t('homeFeed.headerTitle.goodNight')
+}
+
 const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   const { navigate } = useRouting()
   const { setNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
   const title = t('homeFeed.title')
+  const headerTitle = temporalGreeting(moment().hours(), t)
 
   useLayoutEffect(
     () =>
       setNavigationHeader({
-        title: title,
-        titleElement: () => <HoliText style={{ paddingTop: 5 }}>{title}</HoliText>,
+        title: headerTitle,
+        titleElement: () => <HoliText style={{ paddingTop: 5 }}>{headerTitle}</HoliText>,
       }),
     [navigation]
   )
