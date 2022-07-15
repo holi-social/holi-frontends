@@ -1,13 +1,12 @@
 import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } from '@ory/kratos-client'
 import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
-import { getNodeId, handleFormSubmitError } from '@holi/core/auth/helpers/form'
+import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import { useNavigationContext } from '@holi/core/navigation/context'
@@ -71,28 +70,7 @@ const Registration = () => {
   return (
     <DefaultLayout>
       <HoliText>{t('auth.registration.heading')}</HoliText>
-      <FormBuilder
-        textInputOverride={(field, props) => {
-          const iOS12Plus = Platform.OS === 'ios' && parseInt(String(Platform.Version), 10) >= 12
-          switch (getNodeId(field)) {
-            case 'traits.email':
-              return {
-                autoCapitalize: 'none',
-                autoCompleteType: 'email',
-                textContentType: 'username',
-                autoCorrect: false,
-              }
-            case 'password':
-              return {
-                textContentType: iOS12Plus ? 'newPassword' : 'password',
-                secureTextEntry: true,
-              }
-          }
-          return props
-        }}
-        flow={flow}
-        onSubmit={onSubmit}
-      />
+      <FormBuilder flow={flow} onSubmit={onSubmit} />
     </DefaultLayout>
   )
 }
