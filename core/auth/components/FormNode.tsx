@@ -36,12 +36,11 @@ const FormNode = (props: Props) => {
 
   if (oryNodeIsInput(node.attributes)) {
     const fieldName = getNodeId(node)
-    const value = getNodeValue(node)
     return (
       <FormInputField
         {...props}
         attributes={node.attributes}
-        onEnterPress={() => props.onSubmitPress(fieldName, value)}
+        onEnterPress={(value) => props.onSubmitPress(fieldName, value)}
         style={[props.style || {}, { marginTop: 10 }]}
       />
     )
