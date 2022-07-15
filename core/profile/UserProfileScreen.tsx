@@ -1,6 +1,6 @@
 import React, { useContext, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
@@ -65,7 +65,7 @@ export const UserProfileScreen: React.VFC = () => {
           </>
         </LoginProtection>
       </View>
-      <View style={{ marginTop: 34, marginHorizontal: 34 }}>
+      <View style={{ marginTop: 24, marginHorizontal: Platform.OS === 'web' ? 24 : 0 }}>
         <HoliTabs
           tabs={[
             {
@@ -110,6 +110,6 @@ export const UserProfileScreen: React.VFC = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'baseline',
-    marginHorizontal: 34,
+    marginHorizontal: 24,
   },
 })
