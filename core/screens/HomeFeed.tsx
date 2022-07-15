@@ -57,7 +57,7 @@ const appsSwiperStyles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     width: '100%',
-    paddingHorizontal: 15,
+    paddingRight: 15,
   },
   tileContainer: {
     paddingHorizontal: 10,
@@ -97,7 +97,8 @@ const appsSwiperStyles = StyleSheet.create({
 
 // TODO multiple inner bg-color
 // TODO align center in web
-// TODO style prop (???)
+// TODO style prop (for margins)
+// TODO scrollview hängt
 const AppsSwiper: React.VFC = () => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
