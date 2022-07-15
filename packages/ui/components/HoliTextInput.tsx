@@ -1,10 +1,13 @@
 import React, { memo, useEffect, useState } from 'react'
 import {
   AccessibilityProps,
+  KeyboardTypeOptions,
   Platform,
   Pressable,
   StyleSheet,
   TextInput,
+  TextInputAndroidProps,
+  TextInputIOSProps,
   TextInputProps,
   View,
   ViewStyle,
@@ -24,24 +27,23 @@ export type HoliTextInputProps = {
   helperText?: string
   validationErrorText?: string
   disabled?: boolean
-  /** Number of lines/rows to be displayed on initial render. Min of noOfLines/maxNoOfLines */
-  noOfLines?: number
-  maxNoOfLines?: number
+  noOfVisibleLines?: number
+  maxNoOfVisibleLines?: number
   maxNoOfCharacters?: number
   onChange?: (value: string) => void
   type?: 'text' | 'email' | 'number' | 'password' // Force limited input types
   inline?: boolean
   trailingIcon?: string
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
-  /** TextInputProps to extend input e.g ('returnKeytype')*/
+  /** TextInputProps to extend input e.g with'returnKeytype' or 'autofocus' */
   inputProps?: TextInputProps
   // eslint-disable-next-line
   [x: string]: any
 }
 
 const HoliTextInput = ({
-  noOfLines = 1,
-  maxNoOfLines = 1,
+  noOfVisibleLines = 1,
+  maxNoOfVisibleLines = 1,
   maxNoOfCharacters = 5000,
   inline = false,
   style = {},
@@ -54,7 +56,9 @@ const HoliTextInput = ({
   const [isFocused, setFocused] = useState<boolean>(false)
   const hasValidationErrors = !!props?.validationErrorText
 
-  const [numberOfLines, setNumberOfLines] = useState<number>(clamp(noOfLines, noOfLines, maxNoOfLines))
+  const [numberOfLines, setNumberOfLines] = useState<number>(
+    clamp(noOfVisibleLines, noOfVisibleLines, maxNoOfVisibleLines)
+  )
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: true,
@@ -63,11 +67,28 @@ const HoliTextInput = ({
   }
 
   useEffect(() => {
-    setNumberOfLines(clamp(noOfLines, noOfLines, maxNoOfLines))
-  }, [noOfLines, maxNoOfLines])
+    setNumberOfLines(clamp(noOfVisibleLines, noOfVisibleLines, maxNoOfVisibleLines))
+  }, [noOfVisibleLines, maxNoOfVisibleLines])
 
   const { theme } = useTheme()
   const styles = getStyles(theme)
+
+  const keyboardType: KeyboardTypeOptions = (() => {
+    if (props?.type === 'email') return 'email-address'
+    if (props?.type === 'number') return 'numeric'
+    return 'default'
+  })()
+
+  const textContentType: TextInputIOSProps['textContentType'] = (() => {
+    if (props?.type === 'password') return 'password'
+    if (props?.type === 'email') return Platform.OS === 'ios' ? 'username' : 'emailAddress'
+  })()
+
+  const autocomplete: TextInputAndroidProps['autoComplete'] = (() => {
+    if (props?.type === 'password') return 'password'
+    if (props?.type === 'email') return 'email'
+    return 'off'
+  })()
 
   return (
     <View style={[styles.wrapper, inline ? styles.inline : styles.block, style]}>
@@ -106,7 +127,7 @@ const HoliTextInput = ({
                   inline ? styles.inline : styles.block,
                   { height: numberOfLines * inputLineHeight },
                 ]}
-                multiline={maxNoOfLines > 1}
+                multiline={maxNoOfVisibleLines > 1}
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
                 placeholder={props?.placeholder}
@@ -121,17 +142,18 @@ const HoliTextInput = ({
                 onContentSizeChange={(event) => {
                   const contentSizeHeight = event.nativeEvent.contentSize.height
                   const calcNumberOfLines = Math.round(contentSizeHeight / inputLineHeight)
-                  setNumberOfLines(clamp(calcNumberOfLines, noOfLines, maxNoOfLines))
+                  setNumberOfLines(clamp(calcNumberOfLines, noOfVisibleLines, maxNoOfVisibleLines))
                 }}
-                keyboardType={
-                  props?.type === 'email' ? 'email-address' : props?.type === 'number' ? 'numeric' : 'default'
-                }
+                keyboardType={keyboardType}
+                textContentType={textContentType}
                 maxLength={maxNoOfCharacters}
                 editable={!props?.disabled}
                 blurOnSubmit={Platform.OS !== 'web'}
                 secureTextEntry={props?.type === 'password'}
-                {...accessibilityProps}
+                autoComplete={autocomplete}
                 autoCapitalize="none"
+                autoCorrect={false}
+                {...accessibilityProps}
                 {...props?.inputProps}
               />
               {(hasValidationErrors || props?.trailingIcon) && (

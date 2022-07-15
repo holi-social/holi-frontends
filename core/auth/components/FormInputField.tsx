@@ -2,7 +2,7 @@
 import { UiNode, UiNodeInputAttributes } from '@ory/kratos-client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { NativeSyntheticEvent, Platform, TextInputKeyPressEventData, TextInputProps, ViewStyle } from 'react-native'
+import { NativeSyntheticEvent, TextInputKeyPressEventData, TextInputProps, ViewStyle } from 'react-native'
 
 import { getNodeId, getNodeTitle, oryNodeIsInput } from '@holi/core/auth/helpers/form'
 import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/HoliTextInput'
@@ -64,38 +64,7 @@ const FormInputField = ({
     return null
   }
 
-  const handleKeyDown = (event: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
-    if (event.nativeEvent.key === 'Enter') {
-      onEnterPress()
-    }
-  }
-
-  const getInputProps = (): TextInputProps => {
-    switch (variant) {
-      case 'email':
-        return {
-          autoComplete: 'email',
-          textContentType: Platform.OS === 'ios' ? 'username' : 'emailAddress',
-          autoCapitalize: 'none',
-          autoCorrect: false,
-          onKeyPress: handleKeyDown,
-        }
-      case 'password':
-        return {
-          autoComplete: 'password',
-          textContentType: 'password',
-          autoCapitalize: 'none',
-          autoCorrect: false,
-          onKeyPress: handleKeyDown,
-        }
-      default:
-        return {}
-    }
-  }
-  const inputProps = getInputProps()
-  inputProps.autoFocus = autofocus
-
-  const getInputType = (): HoliTextInputProps['type'] => {
+  const inputType = ((): HoliTextInputProps['type'] => {
     switch (variant) {
       case 'email':
         return 'email'
@@ -104,10 +73,19 @@ const FormInputField = ({
       default:
         return 'text'
     }
-  }
+  })()
 
   const fieldName = getNodeId(node)
   const fieldLabel = getNodeTitle(node)
+  const handleKeyDown = (event: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+    if (event.nativeEvent.key === 'Enter') {
+      onEnterPress()
+    }
+  }
+  const inputProps: TextInputProps = {
+    onKeyPress: handleKeyDown,
+    autoFocus: autofocus,
+  }
 
   return (
     <HoliTextInput
@@ -116,11 +94,11 @@ const FormInputField = ({
       value={value ? String(value) : ''}
       validationErrorText={node.messages && node.messages[0] ? node.messages[0].text : ''}
       disabled={disabled}
-      noOfLines={1}
-      maxNoOfLines={1}
+      noOfVisibleLines={1}
+      maxNoOfVisibleLines={1}
       maxNoOfCharacters={200}
       onChange={onChange}
-      type={getInputType()}
+      type={inputType}
       inputProps={textInputOverride ? textInputOverride(node, inputProps) : inputProps}
       style={style}
       testID={`ory-input-${fieldName}`}
