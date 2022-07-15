@@ -58,9 +58,7 @@ const UserProfileView: React.VFC = () => {
 
   user = userWorkaroundUntilHoli1421(user)
 
-  const fullName = `${user.firstName ? user.firstName : ''}${user.lastName && user.firstName ? ' ' : ''}${
-    user.lastName ? user.lastName : ''
-  }`
+  const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim()
 
   return (
     <View style={styles.header}>

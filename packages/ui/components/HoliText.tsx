@@ -10,8 +10,7 @@ export type HoliTextProps = {
   children?: React.ReactNode
   size?: HoliTextSize
   bold?: boolean
-  styles?: TextStyle | TextStyle[]
-  style?: TextStyle
+  style?: TextStyle | TextStyle[]
   selectable?: boolean
   [x: string]: any
 }
@@ -25,13 +24,7 @@ const HoliText = ({ children, size = 'default', bold = false, selectable = true,
       accessible={false}
       {...props}
       selectable={selectable}
-      style={[
-        styles.base,
-        styles[size as keyof typeof styles],
-        bold ? styles.bold : {},
-        props?.styles,
-        props.style || {},
-      ]}
+      style={[styles.base, styles[size as keyof typeof styles], bold ? styles.bold : {}, props.style || {}]}
     >
       {children}
     </Text>

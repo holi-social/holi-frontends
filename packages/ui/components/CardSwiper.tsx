@@ -72,7 +72,7 @@ const CardSwiper = () => {
       <CardStack
         style={styles.cardContainer}
         renderNoMoreCards={() => (
-          <HoliText styles={{ fontWeight: '700', fontSize: 18, color: theme.colors.fontColorGrey }}>
+          <HoliText style={{ fontWeight: '700', fontSize: 18, color: theme.colors.fontColorGrey }}>
             No more cards :(
           </HoliText>
         )}
@@ -90,11 +90,11 @@ const CardSwiper = () => {
             <View style={styles.textContainer}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Holicon style={{ marginRight: 6 }} icon="community" size={25} color={theme.colors.fontColorWhite} />
-                <HoliText styles={styles.text}>{card.provider}</HoliText>
+                <HoliText style={styles.text}>{card.provider}</HoliText>
               </View>
               <View>
-                <HoliText styles={[styles.text, styles.textBig]}>{card.title}</HoliText>
-                <HoliText styles={[styles.text, { marginTop: 10 }]}>{card.date}</HoliText>
+                <HoliText style={[styles.text, styles.textBig]}>{card.title}</HoliText>
+                <HoliText style={[styles.text, { marginTop: 10 }]}>{card.date}</HoliText>
               </View>
             </View>
           </Card>

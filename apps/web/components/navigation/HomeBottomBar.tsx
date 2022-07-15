@@ -34,7 +34,7 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
         <HoliButton
           label={t('navigation.home')}
           inline
-          variant="transparent"
+          transparent
           onPress={() => navigate('/')}
           testID="nav-button-home"
           style={{ paddingHorizontal: 20, paddingVertical: 10 }}
@@ -44,7 +44,7 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
         <HoliButton
           label={t('chat.title')}
           inline
-          variant="transparent"
+          transparent
           onPress={() => navigate('/chat')}
           style={{ paddingHorizontal: 20, paddingVertical: 10 }}
         >
@@ -53,7 +53,7 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
         <HoliButton
           label={t('explore.title')}
           inline
-          variant="transparent"
+          transparent
           onPress={() => navigate('/explore')}
           style={{ paddingHorizontal: 20, paddingVertical: 10 }}
         >
@@ -62,7 +62,7 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
         <HoliButton
           label={t('search.title')}
           inline
-          variant="transparent"
+          transparent
           onPress={() => navigate('/search')}
           style={{ paddingHorizontal: 20, paddingVertical: 10 }}
         >
@@ -83,14 +83,16 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       borderTopWidth: 1,
       borderTopColor: theme.colors.borderColorGrey,
       paddingHorizontal: screenWidth > theme.vars.breakpointL ? 20 : 10,
-      maxHeight: theme.vars.bottomBarHeight,
+      height: `${theme.vars.bottomBarHeight}px`,
+      maxHeight: `${theme.vars.bottomBarHeight}px`,
     },
     buttonContainer: {
       flex: 1,
       width: '100%',
-      maxWidth: 1200,
+      maxWidth: `${theme.vars.maxScreenwidth}px`,
       flexDirection: 'row',
       justifyContent: 'space-between',
-      maxHeight: theme.vars.bottomBarHeight,
+      height: `${theme.vars.bottomBarHeight}px`,
+      maxHeight: `${theme.vars.bottomBarHeight}px`,
     },
   })

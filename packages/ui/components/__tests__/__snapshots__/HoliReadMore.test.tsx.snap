@@ -37,15 +37,6 @@ exports[`renders correctly renders correctly with long text 1`] = `
               },
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#6f7081",
-            },
-            Object {},
           ]
         }
       >
@@ -94,15 +85,6 @@ exports[`renders correctly renders correctly with short text 1`] = `
               },
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#6f7081",
-            },
-            Object {},
           ]
         }
       >

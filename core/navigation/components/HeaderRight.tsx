@@ -27,10 +27,12 @@ const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: Heade
 
   let userAvatar
   if (hasUserData) {
+    const nameLabel = `${user.firstName || ''} ${user.lastName || ''}`.trim()
+
     userAvatar = (
       <HoliUserAvatar
         imageSrc={user.avatar}
-        nameLabel={`${user.firstName || ''} ${user.lastName || ''}`}
+        nameLabel={nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
         initials={user.avatarLabel}
         defaultColor={user.avatarDefaultColor}
         size="micro"
@@ -42,7 +44,7 @@ const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: Heade
     <HoliButton
       label={t('profile.title')}
       inline
-      variant="transparent"
+      transparent
       onPress={() => navigate(profileUrl)}
       {...props}
       style={props.style}
