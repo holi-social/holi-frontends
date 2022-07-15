@@ -63,5 +63,6 @@ const styles = StyleSheet.create({
   },
   button: {
     maxWidth: 300,
+    marginTop: 30,
   },
 })
