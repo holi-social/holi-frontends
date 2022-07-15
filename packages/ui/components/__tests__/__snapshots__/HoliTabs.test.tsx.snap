@@ -12,6 +12,8 @@ exports[`renders correctly renders correctly when open 1`] = `
   }
 >
   <View
+    accessibilityOrientation="horizontal"
+    accessibilityRole="tablist"
     style={
       Object {
         "borderBottomColor": "#1b1d201a",
@@ -22,11 +24,12 @@ exports[`renders correctly renders correctly when open 1`] = `
     }
   >
     <View
-      accessibilityLabel="Profile"
-      accessibilityRole="button"
+      accessibilityLabel="0"
+      accessibilityRole="tab"
+      accessibilitySelected={true}
       accessibilityState={
         Object {
-          "disabled": true,
+          "disabled": false,
         }
       }
       accessible={true}
@@ -43,21 +46,27 @@ exports[`renders correctly renders correctly when open 1`] = `
       onStartShouldSetResponder={[Function]}
       style={
         Array [
-          Object {
-            "alignItems": "center",
-            "borderBottomColor": "#222326",
-            "borderBottomWidth": 2,
-            "justifyContent": "center",
-            "marginHorizontal": 16,
-            "paddingVertical": 12,
-            "top": 2,
-            "width": "auto",
-          },
+          Array [
+            Object {
+              "alignItems": "center",
+              "borderBottomColor": "transparent",
+              "borderBottomWidth": 2,
+              "justifyContent": "center",
+              "marginHorizontal": 16,
+              "paddingVertical": 12,
+              "top": 2,
+              "width": "auto",
+            },
+            Object {
+              "borderBottomColor": "#222326",
+            },
+          ],
           Object {
             "width": "auto",
           },
         ]
       }
+      testID="active-tab"
     >
       <View
         pointerEvents="none"
@@ -82,8 +91,9 @@ exports[`renders correctly renders correctly when open 1`] = `
       </View>
     </View>
     <View
-      accessibilityLabel="Topics"
-      accessibilityRole="button"
+      accessibilityLabel="1"
+      accessibilityRole="tab"
+      accessibilitySelected={false}
       accessibilityState={
         Object {
           "disabled": false,
@@ -103,21 +113,25 @@ exports[`renders correctly renders correctly when open 1`] = `
       onStartShouldSetResponder={[Function]}
       style={
         Array [
-          Object {
-            "alignItems": "center",
-            "borderBottomColor": "transparent",
-            "borderBottomWidth": 2,
-            "justifyContent": "center",
-            "marginHorizontal": 16,
-            "paddingVertical": 12,
-            "top": 2,
-            "width": "auto",
-          },
+          Array [
+            Object {
+              "alignItems": "center",
+              "borderBottomColor": "transparent",
+              "borderBottomWidth": 2,
+              "justifyContent": "center",
+              "marginHorizontal": 16,
+              "paddingVertical": 12,
+              "top": 2,
+              "width": "auto",
+            },
+            Object {},
+          ],
           Object {
             "width": "auto",
           },
         ]
       }
+      testID="inactive-tab"
     >
       <View
         pointerEvents="none"
