@@ -43,9 +43,14 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, relativeHeight
 
   return (
     <View style={styles.container as ViewStyle}>
-      <View style={styles.tabButtonsContainer as ViewStyle} accessibilityRole="tablist">
+      <View
+        style={styles.tabButtonsContainer as ViewStyle}
+        accessibilityRole="tablist"
+        accessibilityOrientation="horizontal"
+      >
         {tabs.map((tab, index) => (
           <HoliButton
+            testID="hello"
             label={tab.title}
             transparent
             inline
@@ -53,6 +58,8 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, relativeHeight
             onPress={() => goToIndex(index)}
             key={index}
             accessibilityRole="tab"
+            accessibilitySelected={currentSlide === index}
+            accessibilityLabel={'' + index}
           >
             <Text
               style={[styles.tabButtonText, currentSlide === index ? (styles.activeTabButtonText as ViewStyle) : {}]}
