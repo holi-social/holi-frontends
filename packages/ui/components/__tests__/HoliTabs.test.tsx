@@ -42,13 +42,13 @@ describe('displays the tab buttons correctly', () => {
     expect(buttonInstances.length).toBe(tabs.length)
   })
 
-  it('initializes with the first tab button disabled (active)', () => {
+  it('initializes with the first tab button active', () => {
     const testRenderer = renderer.create(<HoliTabs tabs={tabs} />)
     const holiTabsInstance = testRenderer.root
     const buttonInstances = holiTabsInstance.findAllByType(HoliButton)
 
-    expect(buttonInstances[0].props.disabled).toBeTruthy()
-    expect(buttonInstances[1].props.disabled).toBeFalsy()
+    expect(buttonInstances[0].props.testID).toBe('active-tab')
+    expect(buttonInstances[1].props.testID).toBe('inactive-tab')
   })
 
   it('activates the correct tab button upon click', () => {
@@ -58,7 +58,7 @@ describe('displays the tab buttons correctly', () => {
 
     fireEvent.press(buttonInstances[1])
 
-    expect(buttonInstances[0].props.disabled).toBeFalsy()
-    expect(buttonInstances[1].props.disabled).toBeTruthy()
+    expect(buttonInstances[0].props.testID).toBe('inactive-tab')
+    expect(buttonInstances[1].props.testID).toBe('active-tab')
   })
 })

@@ -30,6 +30,8 @@ export type HoliButtonProps = {
   children: ReactChild | ReactChildren | ReactNode | Element
   disableFocusability?: boolean
   accessibilityRole?: AccessibilityRole
+  accessibilitySelected?: boolean
+  accessibilityLabel?: string
   tabIndex?: number
   // only for TS (props are added by {...props})
   onPress?: null | ((event: GestureResponderEvent) => void)
