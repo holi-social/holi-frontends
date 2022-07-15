@@ -80,7 +80,8 @@ const HoliTextInput = ({
   })()
 
   const textContentType: TextInputIOSProps['textContentType'] = (() => {
-    if (props?.type === 'password') return 'password'
+    const iOS12Plus = Platform.OS === 'ios' && parseInt(String(Platform.Version), 10) >= 12
+    if (props?.type === 'password') return iOS12Plus ? 'newPassword' : 'password'
     if (props?.type === 'email') return Platform.OS === 'ios' ? 'username' : 'emailAddress'
   })()
 
