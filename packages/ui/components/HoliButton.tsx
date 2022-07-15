@@ -1,4 +1,4 @@
-import React, { ReactChild, ReactChildren } from 'react'
+import React, { ReactChild, ReactChildren, ReactNode } from 'react'
 import {
   AccessibilityProps,
   GestureResponderEvent,
@@ -15,8 +15,8 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type HoliButtonType = 'primary' | 'secondary' // for working code completion in vscode
 export const HoliButtonTypes: HoliButtonType[] = ['primary', 'secondary'] // keep in sync with all possible HoliButtonType values
-type HoliButtonVariant = 'default' | 'small' | 'transparent' // for working code completion in vscode
-export const HoliButtonVariants: HoliButtonVariant[] = ['default', 'small', 'transparent'] // keep in sync with all possible HoliButtonVariant values
+type HoliButtonVariant = 'default' | 'small' // for working code completion in vscode
+export const HoliButtonVariants: HoliButtonVariant[] = ['default', 'small'] // keep in sync with all possible HoliButtonVariant values
 
 export type HoliButtonProps = {
   label: string
@@ -24,8 +24,9 @@ export type HoliButtonProps = {
   inline?: boolean
   type?: HoliButtonType
   variant?: HoliButtonVariant
+  transparent?: boolean
   disabled?: boolean
-  children?: ReactChild | ReactChild[] | ReactChildren | Array<ReactChild> | string
+  children: ReactChild | ReactChildren | ReactNode | Element
   disableFocusability?: boolean
   // only for TS (props are added by {...props})
   onPress?: null | ((event: GestureResponderEvent) => void)
@@ -34,15 +35,15 @@ export type HoliButtonProps = {
 
 const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
   label,
-  inline = true,
+  inline = false,
   type = 'primary',
   variant = 'default',
+  transparent = false,
   disabled = false,
   disableFocusability = false,
   ...props
 }: HoliButtonProps) => {
-  const isSmall = variant == 'small'
-  const isTransparent = variant == 'transparent'
+  const isSmall = variant === 'small'
   const isPrimary = type === 'primary'
 
   const { theme } = useTheme()
@@ -56,7 +57,7 @@ const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
   const content =
     typeof props.children === 'string' ? (
       <HoliText
-        styles={disabled ? styles.textDisabled : {}}
+        style={disabled ? styles.textDisabled : {}}
         size={isSmall ? 'small' : 'large'}
         bold={true}
         selectable={false}
@@ -77,7 +78,7 @@ const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
       }}
       style={(state) => {
         const result = [props.style, styles.base]
-        if (!isTransparent) {
+        if (!transparent) {
           result.push(styles.nonTransparent)
           if (isSmall) {
             result.push(styles.small)
@@ -101,7 +102,7 @@ const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
     >
       <View
         style={{
-          ...(!isTransparent ? { alignItems: 'center', flexDirection: 'row', justifyContent: 'center' } : {}),
+          ...(!transparent ? { alignItems: 'center', flexDirection: 'row', justifyContent: 'center' } : {}),
         }}
         pointerEvents="none"
       >

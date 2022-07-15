@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ViewStyle } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
@@ -8,47 +9,50 @@ import HoliButton from '@holi/ui/components/HoliButton'
 import HoliIcon from '@holi/ui/components/HoliIcon'
 import HoliUserAvatar from '@holi/ui/components/HoliUserAvatar'
 
-export type HeaderProfileLinkProps = {
+export type HeaderRightProps = {
   style?: ViewStyle | Record<string, unknown>
   testID?: string
 }
 
-const HeaderProfileLink: React.VoidFunctionComponent<HeaderProfileLinkProps> = (props: HeaderProfileLinkProps) => {
+const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: HeaderRightProps) => {
   const { navigate } = useRouting()
 
   const { user } = useContext(UserContext)
   const { isLoggedIn } = useContext(AuthContext)
   const hasUserData = isLoggedIn && user
+  const { t } = useTranslation()
 
   // TODO: navigate to user profile!
   const profileUrl = '/profile/danbim'
 
   let userAvatar
   if (hasUserData) {
-    // TODO: hand over email, when firstName is empty
-    const userImageLabel = user.firstName || 'unnamed user'
+    const nameLabel = `${user.firstName || ''} ${user.lastName || ''}`.trim()
 
-    // TODO: should be generated during user registration process (HOLI-1525)
-    const userDefaultColor = '#0f0'
     userAvatar = (
-      <HoliUserAvatar imageSrc={user.avatar} nameLabel={userImageLabel} defaultColor={userDefaultColor} size="micro" />
+      <HoliUserAvatar
+        imageSrc={user.avatar}
+        nameLabel={nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
+        initials={user.avatarLabel}
+        defaultColor={user.avatarDefaultColor}
+        size="micro"
+      />
     )
   }
 
   return (
     <HoliButton
-      label="Profile"
+      label={t('profile.title')}
       inline
-      variant="transparent"
+      transparent
       onPress={() => navigate(profileUrl)}
       {...props}
       style={props.style}
       testID="profile-button"
     >
-      {!hasUserData && <HoliIcon icon="user-circled" size={20} />}
-      {hasUserData && userAvatar}
+      {hasUserData ? userAvatar : <HoliIcon icon="user-circled" size={20} />}
     </HoliButton>
   )
 }
 
-export default HeaderProfileLink
+export default HeaderRight

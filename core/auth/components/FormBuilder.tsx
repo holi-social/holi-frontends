@@ -9,38 +9,36 @@ import {
   UiNode,
 } from '@ory/kratos-client'
 import React, { useEffect, useState } from 'react'
+import { View, ViewStyle } from 'react-native'
 
-import { TextInputOverride } from '@holi/core/auth/components/Input'
-import Messages from '@holi/core/auth/components/Messages'
-import { Node } from '@holi/core/auth/components/Node'
-import { getNodeId, isUiNodeInputAttributes } from '@holi/core/auth/helpers/form'
+import type { TextInputOverride } from '@holi/core/auth/components/FormInputField'
+import FormMessages from '@holi/core/auth/components/FormMessages'
+import FormNode from '@holi/core/auth/components/FormNode'
+import { getNodeId, oryNodeIsInput } from '@holi/core/auth/helpers/form'
 
 interface Props<T> {
   flow?: SelfServiceLoginFlow | SelfServiceRegistrationFlow | SelfServiceSettingsFlow
   onSubmit: (payload: T) => Promise<void>
   only?: 'password' | 'profile' | 'totp' | 'lookup_secret'
   textInputOverride?: TextInputOverride
+  style?: ViewStyle | ViewStyle[] | Record<string, unknown>
 }
 
-export const SelfServiceFlow = <
+const FormBuilder = <
   T extends SubmitSelfServiceSettingsFlowBody | SubmitSelfServiceLoginFlowBody | SubmitSelfServiceRegistrationFlowBody
->({
-  flow,
-  only,
-  onSubmit,
-  textInputOverride,
-}: Props<T>) => {
+>(
+  props: Props<T>
+) => {
   const [values, setValues] = useState<T>({} as T)
   const [nodes, setNodes] = useState<Array<UiNode>>([])
 
   useEffect(() => {
-    if (!flow) {
+    if (!props.flow) {
       return
     }
-
-    const nodes = flow.ui.nodes.filter(({ group }) => {
-      if (only) {
-        return group === only || group === 'default'
+    const nodes = props.flow.ui.nodes.filter(({ group }) => {
+      if (props.only) {
+        return group === props.only || group === 'default'
       }
       return true
     })
@@ -48,9 +46,8 @@ export const SelfServiceFlow = <
     const values: Partial<T> = {}
     nodes.forEach((node: UiNode) => {
       const name = getNodeId(node)
-
       const key = name as keyof T
-      if (isUiNodeInputAttributes(node.attributes)) {
+      if (oryNodeIsInput(node.attributes)) {
         if (node.attributes.type === 'button' || node.attributes.type === 'submit') {
           // In order to mimic real HTML forms, we need to skip setting the value
           // for buttons as the button value will (in normal HTML forms) only trigger
@@ -60,14 +57,9 @@ export const SelfServiceFlow = <
         values[key] = node.attributes.value
       }
     })
-
     setValues(values as T)
     setNodes(nodes)
-  }, [flow])
-
-  if (!flow) {
-    return null
-  }
+  }, [props.flow])
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onChange = (name: string) => (value: any) => {
@@ -81,25 +73,31 @@ export const SelfServiceFlow = <
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onPress = (key: string, value: any) => {
-    onSubmit({ ...values, [key]: value })
+    props.onSubmit({ ...values, [key]: value })
   }
 
   return (
-    <>
-      <Messages messages={flow.ui.messages} />
-      {nodes.map((node: UiNode, k) => {
-        const name = getNodeId(node)
-        return (
-          <Node
-            key={`form-field-${flow.ui.action || ''}-${name}-${k}`}
-            textInputOverride={textInputOverride}
-            value={getValue(name)}
-            onChange={onChange(name)}
-            node={node}
-            onSubmitPress={onPress}
-          />
-        )
-      })}
-    </>
+    <View style={props.style}>
+      {props.flow && <FormMessages messages={props.flow.ui.messages} />}
+      {props.flow &&
+        nodes.map((node: UiNode, k) => {
+          const name = getNodeId(node)
+
+          // TODO: submit on enter !!!!
+          return (
+            <FormNode
+              key={`form-field-${props.flow.ui.action || ''}-${name}-${k}`}
+              textInputOverride={props.textInputOverride}
+              value={getValue(name)}
+              onChange={onChange(name)}
+              node={node}
+              onSubmitPress={onPress}
+              style={{ marginTop: 30 }}
+            />
+          )
+        })}
+    </View>
   )
 }
+
+export default FormBuilder

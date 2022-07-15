@@ -2,6 +2,9 @@
   "name": "@holi/web",
   "version": "1.0.0",
   "private": true,
+  "resolutions": {
+    "**/@storybook/react-docgen-typescript-plugin": "1.0.1"
+  },
   "scripts": {
     "predev": "yarn workspace @holi/ui run generate-style-vars",
     "prebuild": "yarn workspace @holi/ui run generate-style-vars",
@@ -21,6 +24,7 @@
     "babel-plugin-react-native-web": "^0.17.7",
     "cookies": "^0.8.0",
     "http-proxy": "^1.18.1",
+    "i18next-browser-languagedetector": "^6.1.4",
     "next": "12.0.10",
     "next-compose-plugins": "^2.2.1",
     "next-http-proxy-middleware": "^1.2.4",

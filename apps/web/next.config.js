@@ -25,6 +25,11 @@ const nextConfig = {
     outputStandalone: true,
     outputFileTracingRoot: path.join(__dirname, '../../'),
   },
+  i18n: {
+    locales: ['en', 'de'],
+    defaultLocale: 'en',
+    localeDetection: false,
+  },
 }
 
 const sentryWebpackPluginOptions = {

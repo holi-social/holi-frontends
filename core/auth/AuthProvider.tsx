@@ -1,6 +1,7 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/AuthProvider.tsx
 import { AxiosError } from 'axios'
 import React, { createContext, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
 
@@ -36,6 +37,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
   // keep isLoading and isLoggedIn together so they can be atomically updated
   // this should result in only required redraws of child components
   const [state, setState] = useState<AuthContextInternalState>({ isLoading: true, isLoggedIn: false })
+  const { t } = useTranslation()
 
   // intended to be called from outside the context provider (e.g. login form)
   const setUserLoggedIn = (session: OrySessionContext): Promise<void> => {
@@ -120,7 +122,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
   useEffect(() => {
     getSessionFromStorage()
       .then(onSessionLoadedFromStorage)
-      .catch((error) => displayError(error, 'Error creating session'))
+      .catch((error) => displayError(error, t('auth.authProvider.error.sessionCreation')))
   }, [])
 
   return (

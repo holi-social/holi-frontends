@@ -8,8 +8,10 @@ exports[`renders correctly when disabled 1`] = `
         "flexDirection": "row",
       },
       Object {
-        "maxWidth": "100%",
+        "alignSelf": "stretch",
+        "width": "100%",
       },
+      Object {},
     ]
   }
 >
@@ -23,7 +25,8 @@ exports[`renders correctly when disabled 1`] = `
           "maxWidth": 750,
         },
         Object {
-          "maxWidth": "100%",
+          "alignSelf": "stretch",
+          "width": "100%",
         },
       ]
     }
@@ -35,7 +38,8 @@ exports[`renders correctly when disabled 1`] = `
             "marginBottom": 6,
           },
           Object {
-            "maxWidth": "100%",
+            "alignSelf": "stretch",
+            "width": "100%",
           },
         ]
       }
@@ -65,16 +69,6 @@ exports[`renders correctly when disabled 1`] = `
               Object {},
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#222326",
-            },
-            Object {},
-            Object {},
           ]
         }
       >
@@ -113,7 +107,8 @@ exports[`renders correctly when disabled 1`] = `
               "paddingVertical": 15,
             },
             Object {
-              "maxWidth": "100%",
+              "alignSelf": "stretch",
+              "width": "100%",
             },
             undefined,
             false,
@@ -153,7 +148,8 @@ exports[`renders correctly when disabled 1`] = `
                 "overflow": "scroll",
               },
               Object {
-                "maxWidth": "100%",
+                "alignSelf": "stretch",
+                "width": "100%",
               },
               Object {
                 "height": 22.4,
@@ -171,7 +167,8 @@ exports[`renders correctly when disabled 1`] = `
             "marginTop": 6,
           },
           Object {
-            "maxWidth": "100%",
+            "alignSelf": "stretch",
+            "width": "100%",
           },
         ]
       }
@@ -197,15 +194,6 @@ exports[`renders correctly when disabled 1`] = `
               },
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#595959",
-            },
-            Object {},
           ]
         }
       >
@@ -224,8 +212,10 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
         "flexDirection": "row",
       },
       Object {
-        "maxWidth": "100%",
+        "alignSelf": "stretch",
+        "width": "100%",
       },
+      Object {},
     ]
   }
 >
@@ -239,7 +229,8 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
           "maxWidth": 750,
         },
         Object {
-          "maxWidth": "100%",
+          "alignSelf": "stretch",
+          "width": "100%",
         },
       ]
     }
@@ -251,7 +242,8 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
             "marginBottom": 6,
           },
           Object {
-            "maxWidth": "100%",
+            "alignSelf": "stretch",
+            "width": "100%",
           },
         ]
       }
@@ -281,16 +273,6 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
               Object {},
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#222326",
-            },
-            Object {},
-            Object {},
           ]
         }
       >
@@ -329,7 +311,8 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
               "paddingVertical": 15,
             },
             Object {
-              "maxWidth": "100%",
+              "alignSelf": "stretch",
+              "width": "100%",
             },
             undefined,
             false,
@@ -366,7 +349,8 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
                 "overflow": "scroll",
               },
               Object {
-                "maxWidth": "100%",
+                "alignSelf": "stretch",
+                "width": "100%",
               },
               Object {
                 "height": 44.8,
@@ -384,7 +368,8 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
             "marginTop": 6,
           },
           Object {
-            "maxWidth": "100%",
+            "alignSelf": "stretch",
+            "width": "100%",
           },
         ]
       }
@@ -410,15 +395,6 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
               },
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#595959",
-            },
-            Object {},
           ]
         }
       >
@@ -437,8 +413,10 @@ exports[`renders correctly when multiline starting with one line 1`] = `
         "flexDirection": "row",
       },
       Object {
-        "maxWidth": "100%",
+        "alignSelf": "stretch",
+        "width": "100%",
       },
+      Object {},
     ]
   }
 >
@@ -452,7 +430,8 @@ exports[`renders correctly when multiline starting with one line 1`] = `
           "maxWidth": 750,
         },
         Object {
-          "maxWidth": "100%",
+          "alignSelf": "stretch",
+          "width": "100%",
         },
       ]
     }
@@ -464,7 +443,8 @@ exports[`renders correctly when multiline starting with one line 1`] = `
             "marginBottom": 6,
           },
           Object {
-            "maxWidth": "100%",
+            "alignSelf": "stretch",
+            "width": "100%",
           },
         ]
       }
@@ -494,16 +474,6 @@ exports[`renders correctly when multiline starting with one line 1`] = `
               Object {},
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#222326",
-            },
-            Object {},
-            Object {},
           ]
         }
       >
@@ -542,7 +512,8 @@ exports[`renders correctly when multiline starting with one line 1`] = `
               "paddingVertical": 15,
             },
             Object {
-              "maxWidth": "100%",
+              "alignSelf": "stretch",
+              "width": "100%",
             },
             undefined,
             false,
@@ -579,7 +550,8 @@ exports[`renders correctly when multiline starting with one line 1`] = `
                 "overflow": "scroll",
               },
               Object {
-                "maxWidth": "100%",
+                "alignSelf": "stretch",
+                "width": "100%",
               },
               Object {
                 "height": 22.4,
@@ -597,7 +569,8 @@ exports[`renders correctly when multiline starting with one line 1`] = `
             "marginTop": 6,
           },
           Object {
-            "maxWidth": "100%",
+            "alignSelf": "stretch",
+            "width": "100%",
           },
         ]
       }
@@ -623,15 +596,6 @@ exports[`renders correctly when multiline starting with one line 1`] = `
               },
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#595959",
-            },
-            Object {},
           ]
         }
       >
@@ -652,6 +616,7 @@ exports[`renders correctly with default props 1`] = `
       Object {
         "maxWidth": "100%",
       },
+      Object {},
     ]
   }
 >
@@ -707,16 +672,6 @@ exports[`renders correctly with default props 1`] = `
               Object {},
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#222326",
-            },
-            Object {},
-            Object {},
           ]
         }
       >
@@ -836,15 +791,6 @@ exports[`renders correctly with default props 1`] = `
               },
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#595959",
-            },
-            Object {},
           ]
         }
       >
@@ -863,8 +809,10 @@ exports[`renders correctly with error 1`] = `
         "flexDirection": "row",
       },
       Object {
-        "maxWidth": "100%",
+        "alignSelf": "stretch",
+        "width": "100%",
       },
+      Object {},
     ]
   }
 >
@@ -878,7 +826,8 @@ exports[`renders correctly with error 1`] = `
           "maxWidth": 750,
         },
         Object {
-          "maxWidth": "100%",
+          "alignSelf": "stretch",
+          "width": "100%",
         },
       ]
     }
@@ -890,7 +839,8 @@ exports[`renders correctly with error 1`] = `
             "marginBottom": 6,
           },
           Object {
-            "maxWidth": "100%",
+            "alignSelf": "stretch",
+            "width": "100%",
           },
         ]
       }
@@ -922,18 +872,6 @@ exports[`renders correctly with error 1`] = `
                 "color": "#ee0004",
               },
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#222326",
-            },
-            Object {},
-            Object {
-              "color": "#ee0004",
-            },
           ]
         }
       >
@@ -972,7 +910,8 @@ exports[`renders correctly with error 1`] = `
               "paddingVertical": 15,
             },
             Object {
-              "maxWidth": "100%",
+              "alignSelf": "stretch",
+              "width": "100%",
             },
             undefined,
             false,
@@ -1011,7 +950,8 @@ exports[`renders correctly with error 1`] = `
                 "overflow": "scroll",
               },
               Object {
-                "maxWidth": "100%",
+                "alignSelf": "stretch",
+                "width": "100%",
               },
               Object {
                 "height": 22.4,
@@ -1105,7 +1045,8 @@ exports[`renders correctly with error 1`] = `
             "marginTop": 6,
           },
           Object {
-            "maxWidth": "100%",
+            "alignSelf": "stretch",
+            "width": "100%",
           },
         ]
       }
@@ -1133,17 +1074,6 @@ exports[`renders correctly with error 1`] = `
                 "color": "#ee0004",
               },
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#595959",
-            },
-            Object {
-              "color": "#ee0004",
-            },
           ]
         }
       >
@@ -1162,8 +1092,10 @@ exports[`renders correctly with trailing icon 1`] = `
         "flexDirection": "row",
       },
       Object {
-        "maxWidth": "100%",
+        "alignSelf": "stretch",
+        "width": "100%",
       },
+      Object {},
     ]
   }
 >
@@ -1177,7 +1109,8 @@ exports[`renders correctly with trailing icon 1`] = `
           "maxWidth": 750,
         },
         Object {
-          "maxWidth": "100%",
+          "alignSelf": "stretch",
+          "width": "100%",
         },
       ]
     }
@@ -1189,7 +1122,8 @@ exports[`renders correctly with trailing icon 1`] = `
             "marginBottom": 6,
           },
           Object {
-            "maxWidth": "100%",
+            "alignSelf": "stretch",
+            "width": "100%",
           },
         ]
       }
@@ -1219,16 +1153,6 @@ exports[`renders correctly with trailing icon 1`] = `
               Object {},
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#222326",
-            },
-            Object {},
-            Object {},
           ]
         }
       >
@@ -1267,7 +1191,8 @@ exports[`renders correctly with trailing icon 1`] = `
               "paddingVertical": 15,
             },
             Object {
-              "maxWidth": "100%",
+              "alignSelf": "stretch",
+              "width": "100%",
             },
             undefined,
             false,
@@ -1304,7 +1229,8 @@ exports[`renders correctly with trailing icon 1`] = `
                 "overflow": "scroll",
               },
               Object {
-                "maxWidth": "100%",
+                "alignSelf": "stretch",
+                "width": "100%",
               },
               Object {
                 "height": 22.4,
@@ -1396,7 +1322,8 @@ exports[`renders correctly with trailing icon 1`] = `
             "marginTop": 6,
           },
           Object {
-            "maxWidth": "100%",
+            "alignSelf": "stretch",
+            "width": "100%",
           },
         ]
       }
@@ -1422,15 +1349,6 @@ exports[`renders correctly with trailing icon 1`] = `
               },
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#595959",
-            },
-            Object {},
           ]
         }
       >
@@ -1449,8 +1367,10 @@ exports[`renders correctly with type password 1`] = `
         "flexDirection": "row",
       },
       Object {
-        "maxWidth": "100%",
+        "alignSelf": "stretch",
+        "width": "100%",
       },
+      Object {},
     ]
   }
 >
@@ -1464,7 +1384,8 @@ exports[`renders correctly with type password 1`] = `
           "maxWidth": 750,
         },
         Object {
-          "maxWidth": "100%",
+          "alignSelf": "stretch",
+          "width": "100%",
         },
       ]
     }
@@ -1476,7 +1397,8 @@ exports[`renders correctly with type password 1`] = `
             "marginBottom": 6,
           },
           Object {
-            "maxWidth": "100%",
+            "alignSelf": "stretch",
+            "width": "100%",
           },
         ]
       }
@@ -1506,16 +1428,6 @@ exports[`renders correctly with type password 1`] = `
               Object {},
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#222326",
-            },
-            Object {},
-            Object {},
           ]
         }
       >
@@ -1554,7 +1466,8 @@ exports[`renders correctly with type password 1`] = `
               "paddingVertical": 15,
             },
             Object {
-              "maxWidth": "100%",
+              "alignSelf": "stretch",
+              "width": "100%",
             },
             undefined,
             false,
@@ -1591,7 +1504,8 @@ exports[`renders correctly with type password 1`] = `
                 "overflow": "scroll",
               },
               Object {
-                "maxWidth": "100%",
+                "alignSelf": "stretch",
+                "width": "100%",
               },
               Object {
                 "height": 22.4,
@@ -1609,7 +1523,8 @@ exports[`renders correctly with type password 1`] = `
             "marginTop": 6,
           },
           Object {
-            "maxWidth": "100%",
+            "alignSelf": "stretch",
+            "width": "100%",
           },
         ]
       }
@@ -1635,15 +1550,6 @@ exports[`renders correctly with type password 1`] = `
               },
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#595959",
-            },
-            Object {},
           ]
         }
       >
@@ -1662,8 +1568,10 @@ exports[`renders correctly without label 1`] = `
         "flexDirection": "row",
       },
       Object {
-        "maxWidth": "100%",
+        "alignSelf": "stretch",
+        "width": "100%",
       },
+      Object {},
     ]
   }
 >
@@ -1677,7 +1585,8 @@ exports[`renders correctly without label 1`] = `
           "maxWidth": 750,
         },
         Object {
-          "maxWidth": "100%",
+          "alignSelf": "stretch",
+          "width": "100%",
         },
       ]
     }
@@ -1714,7 +1623,8 @@ exports[`renders correctly without label 1`] = `
               "paddingVertical": 15,
             },
             Object {
-              "maxWidth": "100%",
+              "alignSelf": "stretch",
+              "width": "100%",
             },
             undefined,
             false,
@@ -1751,7 +1661,8 @@ exports[`renders correctly without label 1`] = `
                 "overflow": "scroll",
               },
               Object {
-                "maxWidth": "100%",
+                "alignSelf": "stretch",
+                "width": "100%",
               },
               Object {
                 "height": 22.4,
@@ -1769,7 +1680,8 @@ exports[`renders correctly without label 1`] = `
             "marginTop": 6,
           },
           Object {
-            "maxWidth": "100%",
+            "alignSelf": "stretch",
+            "width": "100%",
           },
         ]
       }
@@ -1795,15 +1707,6 @@ exports[`renders correctly without label 1`] = `
               },
               Object {},
             ],
-            Object {},
-          ]
-        }
-        styles={
-          Array [
-            Object {
-              "color": "#595959",
-            },
-            Object {},
           ]
         }
       >

@@ -9,7 +9,8 @@ export type ReadMoreProps = HoliTextProps &
     children: string
     numberOfLines?: 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | undefined // 1 line is not supported on Android and in this component
     label?: string
-    style?: TextStyle
+    style?: ViewStyle
+    fontStyle?: TextStyle
     buttonStyle?: TextStyle | Record<string, unknown>
   }
 
@@ -106,7 +107,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
     <HoliText
       label={buttonType === 'show' ? showButtonText : hideButtonText}
       onPress={togglebuttonType}
-      variant={'transparent'}
+      transparent
       accessible={true}
       accessibilityRole="button"
       role="button"
@@ -117,7 +118,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
   )
 
   return (
-    <View>
+    <View style={props.style || {}}>
       {/* Use react-native's Text component to encapsulate HoliText components to avoid applying HoliText default styles
       to both text and button */}
       <Text
@@ -127,7 +128,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
         style={{ alignContent: 'flex-start', justifyContent: 'center' }}
       >
         {/* The visible text. Any style props are applied here */}
-        <HoliText styles={[{ color: theme.colors.fontColorGrey }, props.style || {}]}>
+        <HoliText style={[{ color: theme.colors.fontColorGrey }, props.fontStyle || {}]}>
           {numberOfLines ? truncatedText : props.children} {buttonType === 'hide' && ' '}
         </HoliText>
 
