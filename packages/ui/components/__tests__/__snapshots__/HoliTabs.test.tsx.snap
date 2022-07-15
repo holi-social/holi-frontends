@@ -51,6 +51,7 @@ exports[`renders correctly renders correctly when open 1`] = `
             "marginHorizontal": 16,
             "paddingVertical": 12,
             "top": 2,
+            "width": "auto",
           },
           Object {
             "width": "auto",
@@ -110,6 +111,7 @@ exports[`renders correctly renders correctly when open 1`] = `
             "marginHorizontal": 16,
             "paddingVertical": 12,
             "top": 2,
+            "width": "auto",
           },
           Object {
             "width": "auto",
@@ -185,7 +187,6 @@ exports[`renders correctly renders correctly when open 1`] = `
                     "lineHeight": 19.2,
                   },
                   Object {},
-                  undefined,
                   Object {},
                 ]
               }
@@ -218,7 +219,6 @@ exports[`renders correctly renders correctly when open 1`] = `
                     "lineHeight": 19.2,
                   },
                   Object {},
-                  undefined,
                   Object {},
                 ]
               }

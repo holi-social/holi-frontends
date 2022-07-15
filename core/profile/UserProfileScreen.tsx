@@ -13,6 +13,7 @@ import { UserProfileForm } from '@holi/core/user/components/UserProfileForm'
 import { UserProfileView } from '@holi/core/user/components/UserProfileView'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliChip from '@holi/ui/components/HoliChip'
+import HoliTabs from '@holi/ui/components/HoliTabs'
 import HoliText from '@holi/ui/components/HoliText'
 
 export const UserProfileScreen: React.VFC = () => {
@@ -37,9 +38,9 @@ export const UserProfileScreen: React.VFC = () => {
 
   return (
     <DefaultLayout>
-      <LoginProtection loggedOutContent={<LoggedOutView />}>
-        <View>
-          <View style={{ paddingVertical: 24, paddingHorizontal: 16, alignItems: 'center' }}>
+      <View style={styles.container}>
+        <LoginProtection loggedOutContent={<LoggedOutView />}>
+          <>
             {editing ? (
               <UserProfileForm onCancel={toggleEditing} onSubmit={toggleEditing} />
             ) : (
@@ -61,16 +62,54 @@ export const UserProfileScreen: React.VFC = () => {
             <HoliButton label={t('profile.logout')} inline onPress={() => navigate('/logout')} testID="logout-button">
               {t('profile.logout')}
             </HoliButton>
-          </View>
-        </View>
-      </LoginProtection>
+          </>
+        </LoginProtection>
+      </View>
+      <View style={{ marginTop: 34, marginHorizontal: 34 }}>
+        <HoliTabs
+          tabs={[
+            {
+              title: t('profile.tabs.profile'),
+              children: (
+                <View
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    paddingHorizontal: 56,
+                    paddingVertical: 72,
+                  }}
+                >
+                  <HoliText style={{ textAlign: 'center' }}>{t('profile.tabs.profile.empty')}</HoliText>
+                </View>
+              ),
+            },
+            {
+              title: t('profile.tabs.topics'),
+              children: (
+                <View
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    paddingHorizontal: 56,
+                    paddingVertical: 72,
+                  }}
+                >
+                  <HoliText style={{ textAlign: 'center' }}>{t('profile.tabs.topics.empty')}</HoliText>
+                </View>
+              ),
+            },
+          ]}
+        ></HoliTabs>
+      </View>
     </DefaultLayout>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 34,
     alignItems: 'baseline',
+    marginHorizontal: 34,
   },
 })
