@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TextInput } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import { UserContext } from '@holi/core/user/UserContextProvider'
@@ -12,7 +12,11 @@ import {
 } from '@holi/core/user/queries'
 import { User } from '@holi/core/user/types'
 import HoliButton from '@holi/ui/components/HoliButton'
+import HoliIcon from '@holi/ui/components/HoliIcon'
 import HoliText from '@holi/ui/components/HoliText'
+import HoliTextInput from '@holi/ui/components/HoliTextInput'
+import HoliUserAvatar from '@holi/ui/components/HoliUserAvatar'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type UserProfileFormProps = {
   children?: React.ReactChildren
@@ -25,30 +29,44 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const [firstName, setFirstName] = useState(user?.firstName || '')
   const [lastName, setLastName] = useState(user?.lastName || '')
+  const [aboutMe, setAboutMe] = useState(user?.aboutMe || '')
+  const [pronouns, setPronouns] = useState(user?.pronouns || '')
+  const [location, setLocation] = useState(user?.location || '')
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
 
+  const { theme } = useTheme()
+  const styles = getStyles(theme)
+
   const submit = async () => {
     const input: UpdateAuthenticatedUserInput = {
-      firstName: firstName,
-      lastName: lastName,
+      ...(firstName && { firstName }),
+      ...(lastName && { lastName }),
+      ...(aboutMe && { aboutMe }),
+      ...(pronouns && { pronouns }),
+      ...(location && { location }),
     }
-    const result = await updateUser({
-      variables: {
-        input: input,
-      },
-    })
+
+    const result = await updateUser({ variables: { input } })
     if (!error && result.data && onSubmit) {
       onSubmit(result.data.authenticatedUser)
     }
   }
 
   if (!user) {
-    return <HoliText>{t('user.profileView.noUser')}</HoliText>
+    return (
+      <View style={styles.wrapper}>
+        <HoliText>{t('user.profileView.noUser')}</HoliText>
+      </View>
+    )
   }
 
   if (loading) {
-    return <HoliText>{t('user.profileForm.saving')}</HoliText>
+    return (
+      <View style={styles.wrapper}>
+        <HoliText>{t('user.profileForm.saving')}</HoliText>
+      </View>
+    )
   }
 
   if (error) {
@@ -57,18 +75,92 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
 
   // Later: possibly use form tag for web
   return (
-    <>
-      <HoliText>{t('user.profileForm.name')}</HoliText>
-      <TextInput value={firstName} onChangeText={setFirstName} />
-      <TextInput value={lastName} onChangeText={setLastName} />
-      <HoliButton label={t('user.profileForm.cancel')} onPress={onCancel}>
-        {t('user.profileForm.cancel')}
-      </HoliButton>
+    <View style={styles.wrapper}>
+      <HoliUserAvatar
+        imageSrc={user.avatar}
+        nameLabel={user.firstName || ''}
+        initials={user.avatarLabel || ''}
+        defaultColor={user.avatarDefaultColor || '#FFAE86'}
+        size="medium"
+        style={styles.avatar}
+      />
+      <View style={styles.addImage}>
+        <HoliText style={{ marginRight: 13 }}>Add a profile image</HoliText>
+        <HoliIcon icon={'image'} color={theme.colors.grey} />
+      </View>
+      <ScrollView style={styles.scrollView}>
+        <HoliTextInput
+          value={user.firstName}
+          label={t('user.profileForm.firstName')}
+          placeholder={t('user.profileForm.firstNamePlaceholder')}
+          onChange={(text) => setFirstName(text)}
+          style={styles.input}
+        />
+        <HoliTextInput
+          value={user.lastName}
+          label={t('user.profileForm.lastName')}
+          placeholder={t('user.profileForm.lastNamePlaceholder')}
+          onChange={(text) => setLastName(text)}
+          style={styles.input}
+        />
+        <HoliTextInput
+          value={user?.aboutMe}
+          label={t('user.profileForm.aboutMe')}
+          placeholder={t('user.profileForm.aboutMePlaceholder')}
+          onChange={(text) => setAboutMe(text)}
+          noOfLines={3}
+          maxNoOfLines={3}
+          style={styles.input}
+        />
+        <HoliTextInput
+          value={user?.pronouns}
+          label={t('user.profileForm.pronouns')}
+          placeholder={t('user.profileForm.pronounsPlaceholder')}
+          onChange={(text) => setPronouns(text)}
+          style={styles.input}
+        />
+        <HoliTextInput
+          value={user?.location}
+          label={t('user.profileForm.location')}
+          placeholder={t('user.profileForm.locationPlaceholder')}
+          onChange={(text) => setLocation(text)}
+          style={styles.input}
+        />
+      </ScrollView>
       <HoliButton label={t('user.profileForm.save')} onPress={submit}>
         {t('user.profileForm.save')}
       </HoliButton>
-    </>
+    </View>
   )
 }
 
 export { UserProfileForm }
+
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    addImage: {
+      flexDirection: 'row',
+      marginTop: 16,
+    },
+    avatar: {
+      borderColor: theme.colors.softblack,
+      borderWidth: 2,
+    },
+    input: {
+      marginBottom: 16,
+    },
+    scrollView: {
+      marginVertical: 24,
+      flex: 1,
+      width: '100%',
+    },
+    wrapper: {
+      alignItems: 'center',
+      alignSelf: 'center',
+      flex: 1,
+      maxWidth: 500,
+      paddingHorizontal: 24,
+      paddingBottom: 24,
+      width: '100%',
+    },
+  })

@@ -9,19 +9,24 @@ import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import LoggedOutView from '@holi/core/profile/LoggedOutView'
 import { UserContext } from '@holi/core/user/UserContextProvider'
+import { UserEngagementLevelForm } from '@holi/core/user/components/UserEngagementLevelForm'
 import { UserProfileForm } from '@holi/core/user/components/UserProfileForm'
 import { UserProfileView } from '@holi/core/user/components/UserProfileView'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliChip from '@holi/ui/components/HoliChip'
 import HoliChipRow from '@holi/ui/components/HoliChipRow'
+import HoliModal from '@holi/ui/components/HoliModal'
 import HoliTabs from '@holi/ui/components/HoliTabs'
 import HoliText from '@holi/ui/components/HoliText'
 
 export const UserProfileScreen: React.VFC = () => {
   const { navigate } = useRouting()
-  const [editing, setEditing] = useState(false)
+  const [showModal, setShowModal] = useState(false)
+  const [editMode, setEditMode] = useState<'edit' | 'levelOfEngagement' | null>(null)
   const [chipChecked, setChipChecked] = useState(false)
-  const toggleEditing = () => setEditing(!editing)
+  const toggleModal = () => {
+    setShowModal(!showModal)
+  }
   const { t } = useTranslation()
 
   const { isLoggedIn } = useContext(AuthContext)
@@ -39,82 +44,98 @@ export const UserProfileScreen: React.VFC = () => {
 
   return (
     <DefaultLayout>
-      <View style={styles.container}>
-        <LoginProtection loggedOutContent={<LoggedOutView />}>
-          <>
-            {editing ? (
-              <UserProfileForm onCancel={toggleEditing} onSubmit={toggleEditing} />
-            ) : (
-              <>
-                <UserProfileView />
-                <HoliButton label={t('profile.edit')} inline onPress={() => toggleEditing()}>
-                  {t('profile.edit')}
-                </HoliButton>
-              </>
-            )}
-            <View style={{ marginVertical: 10 }}>
-              <HoliChip
-                label={t('profile.exampleInterest')}
-                onPress={() => setChipChecked(!chipChecked)}
-                checked={chipChecked}
-                text={t('profile.exampleInterest')}
-              />
-            </View>
-            <HoliButton label={t('profile.logout')} inline onPress={() => navigate('/logout')} testID="logout-button">
-              {t('profile.logout')}
-            </HoliButton>
-          </>
-        </LoginProtection>
-      </View>
-      <View style={{ marginTop: 24, marginHorizontal: Platform.OS === 'web' ? 24 : 0 }}>
-        <HoliTabs
-          tabs={[
-            {
-              title: t('profile.tabs.profile'),
-              children: (
-                <HoliChipRow editable title={t('profile.tabs.profile.engagementLevel')}>
-                  {user?.engagementLevel && (
-                    <HoliChip text={t('profile.tabs.profile.engagementLevel')} disabled></HoliChip>
-                  )}
-                  {!user?.engagementLevel && <HoliChip text={t('profile.tabs.profile.engagementLevel')}></HoliChip>}
-                </HoliChipRow>
-              ),
-            },
-            {
-              title: t('profile.tabs.profile'),
-              children: (
-                <View
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    paddingHorizontal: 56,
-                    paddingVertical: 72,
-                  }}
-                >
-                  <HoliText style={{ textAlign: 'center' }}>{t('profile.tabs.profile.empty')}</HoliText>
-                </View>
-              ),
-            },
-            {
-              title: t('profile.tabs.topics'),
-              children: (
-                <View
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    paddingHorizontal: 56,
-                    paddingVertical: 72,
-                  }}
-                >
-                  <HoliText style={{ textAlign: 'center' }}>{t('profile.tabs.topics.empty')}</HoliText>
-                </View>
-              ),
-            },
-          ]}
-        ></HoliTabs>
-      </View>
+      <LoginProtection loggedOutContent={<LoggedOutView style={styles.container} />}>
+        <>
+          <View style={styles.container}>
+            <>
+              <HoliModal
+                show={showModal}
+                onDismiss={() => {
+                  toggleModal()
+                }}
+                relativeHeight={0.95}
+              >
+                {editMode === 'edit' ? (
+                  <UserProfileForm onCancel={toggleModal} onSubmit={toggleModal} />
+                ) : (
+                  <UserEngagementLevelForm onCancel={toggleModal} onSubmit={toggleModal}></UserEngagementLevelForm>
+                )}
+              </HoliModal>
+              <UserProfileView />
+              <HoliButton
+                label={t('profile.edit')}
+                onPress={() => {
+                  setEditMode('edit')
+                  toggleModal()
+                }}
+                inline
+              >
+                {t('profile.edit')}
+              </HoliButton>
+              <View style={{ marginVertical: 10 }}>
+                <HoliChip
+                  label={t('profile.exampleInterest')}
+                  onPress={() => setChipChecked(!chipChecked)}
+                  checked={chipChecked}
+                  text={t('profile.exampleInterest')}
+                />
+              </View>
+              <HoliButton label={t('profile.logout')} inline onPress={() => navigate('/logout')} testID="logout-button">
+                {t('profile.logout')}
+              </HoliButton>
+            </>
+          </View>
+          <View style={{ marginTop: 24, marginHorizontal: Platform.OS === 'web' ? 24 : 0 }}>
+            <HoliTabs
+              tabs={[
+                {
+                  title: t('profile.tabs.profile'),
+                  children: (
+                    <HoliChipRow
+                      editable={!user?.engagementLevel}
+                      title={t('profile.tabs.profile.engagementLevel')}
+                      onPressEdit={() => {
+                        toggleModal()
+                        setEditMode('levelOfEngagement')
+                      }}
+                    >
+                      {user?.engagementLevel && (
+                        <HoliChip text={t(`user.engagementLevel.title.${user.engagementLevel}`)} disabled></HoliChip>
+                      )}
+                      {!user?.engagementLevel && (
+                        <HoliChip
+                          text={t('profile.tabs.profile.engagementLevel')}
+                          onPress={() => {
+                            toggleModal()
+                            setEditMode('levelOfEngagement')
+                          }}
+                          accessibilityLabel={t('profile.tabs.profile.engagementLevel.add')}
+                        ></HoliChip>
+                      )}
+                    </HoliChipRow>
+                  ),
+                },
+                {
+                  title: t('profile.tabs.topics'),
+                  children: (
+                    <View
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        paddingHorizontal: 56,
+                        paddingVertical: 72,
+                      }}
+                    >
+                      <HoliText style={{ textAlign: 'center' }}>{t('profile.tabs.topics.empty')}</HoliText>
+                    </View>
+                  ),
+                },
+              ]}
+            ></HoliTabs>
+          </View>
+        </>
+      </LoginProtection>
     </DefaultLayout>
   )
 }

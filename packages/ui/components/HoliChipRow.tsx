@@ -19,14 +19,14 @@ export type HoliChipRowProps = {
   title?: string
   editable?: boolean
   children?: React.ReactChild | React.ReactChildren | React.ReactNode | Element
-  onEdit?: () => void
+  onPressEdit?: () => void
 }
 
 const HoliChipRow: React.FunctionComponent<HoliChipRowProps> = ({
   title,
   editable,
   children,
-  onEdit,
+  onPressEdit,
 }: HoliChipRowProps) => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
@@ -41,7 +41,7 @@ const HoliChipRow: React.FunctionComponent<HoliChipRowProps> = ({
             transparent
             inline
             style={{ width: 'fit-content' }}
-            onPress={onEdit}
+            onPress={onPressEdit}
           >
             <HoliText style={styles.editButton}>{t('profile.tabs.edit')}</HoliText>
           </HoliButton>
