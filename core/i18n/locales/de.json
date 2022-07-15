@@ -1,4 +1,9 @@
 {
+  "apps.volunteering.name": "Volunteering",
+  "apps.donations.name": "Donations",
+  "apps.goodNews.name": "Good News",
+  "apps.adsForGood.name": "Ads for Good",
+  "apps.factCheck.name": "FactCheck",
   "auth.authProvider.error.sessionCreation": "Fehler beim Erstellen der Session",
   "auth.login.alreadyLoggedIn": "Du bist bereits eingeloggt",
   "auth.login.error.initialization": "Initialisierung der Anmeldung ist fehlgeschlagen.",
