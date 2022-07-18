@@ -87,8 +87,7 @@ export const UserProfileScreen: React.VFC = () => {
                   title: t('profile.tabs.profile'),
                   children: (
                     <HoliChipRow
-                      // editable={!user?.engagementLevel}
-                      editable
+                      editable={!user?.engagementLevel}
                       title={t('profile.tabs.profile.engagementLevel')}
                       onPressEdit={() => {
                         toggleModal()
