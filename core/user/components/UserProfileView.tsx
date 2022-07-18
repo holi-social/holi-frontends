@@ -66,6 +66,7 @@ const UserProfileView: React.VFC = () => {
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'column',
+    width: '100%',
     minWidth: 250,
   },
   avatarName: {
