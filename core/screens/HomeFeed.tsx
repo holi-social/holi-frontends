@@ -22,6 +22,7 @@ const appsSwiperDummyApps = [
     path: '/apps/volunteering',
     testID: 'app-title-volunteering',
     newContent: true,
+    backgroundColor: styleVars.colors.impactyellow,
   },
   {
     icon: 'explore',
@@ -29,6 +30,7 @@ const appsSwiperDummyApps = [
     path: '/apps/volunteering',
     testID: 'app-title-donations',
     newContent: false,
+    backgroundColor: styleVars.colors.positivepurple,
   },
   {
     icon: 'home',
@@ -36,6 +38,7 @@ const appsSwiperDummyApps = [
     path: '/apps/volunteering',
     testID: 'app-title-goodNews',
     newContent: true,
+    backgroundColor: styleVars.colors.lightGrey,
   },
   {
     icon: 'search',
@@ -43,6 +46,7 @@ const appsSwiperDummyApps = [
     path: '/apps/volunteering',
     testID: 'app-title-adsForGood',
     newContent: true,
+    backgroundColor: styleVars.colors.impactyellow,
   },
   {
     icon: 'user-circled',
@@ -50,6 +54,7 @@ const appsSwiperDummyApps = [
     path: '/apps/volunteering',
     testID: 'app-title-factCheck',
     newContent: false,
+    backgroundColor: styleVars.colors.greyAA,
   },
 ]
 
@@ -81,7 +86,6 @@ const appsSwiperStyles = StyleSheet.create({
     borderRadius: 16,
   },
   tileIcon: {
-    backgroundColor: 'blue',
     borderRadius: 12,
     alignSelf: 'center',
     width: '100%',
@@ -95,8 +99,6 @@ const appsSwiperStyles = StyleSheet.create({
   },
 })
 
-// TODO multiple inner bg-color
-// TODO align center in web
 // TODO style prop (for margins)
 // TODO scrollview hängt
 const AppsSwiper: React.VFC = () => {
@@ -117,7 +119,7 @@ const AppsSwiper: React.VFC = () => {
           <View
             style={[appsSwiperStyles.tileIconContainer, app.newContent && appsSwiperStyles.tileIconContainerNewContent]}
           >
-            <View style={appsSwiperStyles.tileIcon} />
+            <View style={[appsSwiperStyles.tileIcon, { backgroundColor: app.backgroundColor }]} />
           </View>
           <HoliText style={appsSwiperStyles.tileName}>{t(app.nameKey)}</HoliText>
         </HoliButton>
