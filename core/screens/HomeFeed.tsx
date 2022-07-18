@@ -1,7 +1,7 @@
 import moment from 'moment'
 import React, { useLayoutEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
+import { ScrollView, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -14,6 +14,7 @@ import HoliButton from '@holi/ui/components/HoliButton'
 import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliText from '@holi/ui/components/HoliText'
 import { styleVars } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const appsSwiperDummyApps = [
   {
@@ -58,41 +59,46 @@ const appsSwiperDummyApps = [
   },
 ]
 
-const appsSwiperStyles = StyleSheet.create({
-  container: {
-    width: '100%',
-  },
-  tile: {
-    minWidth: 110,
-    maxWidth: 110,
-    overflow: 'hidden',
-  },
-  iconContainer: {
-    alignSelf: 'center',
-    width: 64,
-    height: 64,
-    padding: 2,
-    borderWidth: 2,
-    borderRadius: 16,
-    borderColor: styleVars.colors.softblackTransparent,
-  },
-  icon: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 12,
-  },
-  iconWithUpdates: {
-    borderWidth: 2,
-    borderRadius: 16,
-    borderColor: styleVars.colors.positivepurple,
-  },
-  appName: {
-    paddingTop: 4,
-    alignSelf: 'center',
-    fontSize: 14,
-    fontWeight: '400',
-  },
-})
+const appsSwiperStyles = (theme: HoliTheme, screenWidth: number) =>
+  StyleSheet.create({
+    container: {
+      width: '100%',
+    },
+    containerContent: {
+      width: screenWidth > theme.vars.breakpointS ? '100%' : 'auto',
+      justifyContent: 'center',
+    },
+    tile: {
+      minWidth: 110,
+      maxWidth: 110,
+      overflow: 'hidden',
+    },
+    iconContainer: {
+      alignSelf: 'center',
+      width: 64,
+      height: 64,
+      padding: 2,
+      borderWidth: 2,
+      borderRadius: 16,
+      borderColor: styleVars.colors.softblackTransparent,
+    },
+    icon: {
+      width: '100%',
+      height: '100%',
+      borderRadius: 12,
+    },
+    iconWithUpdates: {
+      borderWidth: 2,
+      borderRadius: 16,
+      borderColor: styleVars.colors.positivepurple,
+    },
+    appName: {
+      paddingTop: 4,
+      alignSelf: 'center',
+      fontSize: 14,
+      fontWeight: '400',
+    },
+  })
 
 type AppsSwiperProps = {
   style?: ViewStyle | ViewStyle[]
@@ -101,22 +107,25 @@ type AppsSwiperProps = {
 const AppsSwiper: React.VFC<AppsSwiperProps> = ({ style }) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
+  const { width } = useWindowDimensions()
+  const { theme } = useTheme()
+  const styles = appsSwiperStyles(theme, width)
   return (
-    <ScrollView horizontal={true} style={[appsSwiperStyles.container, style]}>
+    <ScrollView horizontal={true} contentContainerStyle={styles.containerContent} style={[styles.container, style]}>
       {appsSwiperDummyApps.map((app) => (
         <HoliButton
           key={app.nameKey}
           label={t(app.nameKey)}
           inline
           transparent
-          style={[appsSwiperStyles.tile]}
+          style={[styles.tile]}
           onPress={() => navigate(app.path)}
           testID={app.testID}
         >
-          <View style={[appsSwiperStyles.iconContainer, app.hasUpdates && appsSwiperStyles.iconWithUpdates]}>
-            <View style={[appsSwiperStyles.icon, { backgroundColor: app.backgroundColor }]} />
+          <View style={[styles.iconContainer, app.hasUpdates && styles.iconWithUpdates]}>
+            <View style={[styles.icon, { backgroundColor: app.backgroundColor }]} />
           </View>
-          <HoliText style={appsSwiperStyles.appName}>{t(app.nameKey)}</HoliText>
+          <HoliText style={styles.appName}>{t(app.nameKey)}</HoliText>
         </HoliButton>
       ))}
     </ScrollView>
