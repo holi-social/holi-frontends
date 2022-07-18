@@ -30,9 +30,7 @@ const Login: React.VoidFunctionComponent = () => {
       .then((response) => {
         const { data: flow } = response
         // The flow was initialized successfully, let's set the form data:
-        console.info('[Login] login flow initialized.')
         setFlow(flow)
-        // TODO: jump into first input element after form is shown
       })
       .catch((error) => displayError(error, t('auth.login.error.initialization')))
   }
