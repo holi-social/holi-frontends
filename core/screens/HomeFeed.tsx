@@ -59,6 +59,9 @@ const appsSwiperDummyApps = [
 ]
 
 const appsSwiperStyles = StyleSheet.create({
+  container: {
+    width: '100%',
+  },
   tile: {
     minWidth: 110,
     maxWidth: 110,
@@ -99,7 +102,7 @@ const AppsSwiper: React.VFC<AppsSwiperProps> = ({ style }) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
   return (
-    <ScrollView horizontal={true} style={style}>
+    <ScrollView horizontal={true} style={[appsSwiperStyles.container, style]}>
       {appsSwiperDummyApps.map((app) => (
         <HoliButton
           key={app.nameKey}
