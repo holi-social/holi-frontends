@@ -124,10 +124,10 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
           label={t('user.profileForm.location')}
           placeholder={t('user.profileForm.locationPlaceholder')}
           onChange={(text) => setLocation(text)}
-          style={styles.input}
+          style={[styles.input, { paddingBottom: 100 }]}
         />
       </ScrollView>
-      <HoliButton label={t('user.profileForm.save')} onPress={submit}>
+      <HoliButton style={styles.saveButton} label={t('user.profileForm.save')} onPress={submit}>
         {t('user.profileForm.save')}
       </HoliButton>
     </View>
@@ -150,7 +150,8 @@ const getStyles = (theme: HoliTheme) =>
       marginBottom: 16,
     },
     scrollView: {
-      marginVertical: 24,
+      marginTop: 24,
+      paddingHorizontal: 8,
       flex: 1,
       width: '100%',
     },
@@ -159,8 +160,15 @@ const getStyles = (theme: HoliTheme) =>
       alignSelf: 'center',
       flex: 1,
       maxWidth: 500,
-      paddingHorizontal: 24,
+      paddingHorizontal: 16,
       paddingBottom: 24,
       width: '100%',
+    },
+    saveButton: {
+      bottom: 30,
+      position: 'absolute',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
   })
