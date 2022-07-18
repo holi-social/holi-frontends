@@ -9,7 +9,7 @@ import {
   UiNode,
 } from '@ory/kratos-client'
 import React, { useEffect, useState } from 'react'
-import { View, ViewStyle } from 'react-native'
+import { Platform, View, ViewStyle } from 'react-native'
 
 import type { TextInputOverride } from '@holi/core/auth/components/FormInputField'
 import FormMessages from '@holi/core/auth/components/FormMessages'
@@ -76,14 +76,14 @@ const FormBuilder = <
     props.onSubmit({ ...values, [key]: value })
   }
 
+  const accessibilityProps = Platform.OS === 'web' ? { accessibilityRole: 'form' } : {}
+
   return (
-    <View style={props.style}>
+    <View {...accessibilityProps} style={props.style}>
       {props.flow && <FormMessages messages={props.flow.ui.messages} />}
       {props.flow &&
         nodes.map((node: UiNode, k) => {
           const name = getNodeId(node)
-
-          // TODO: submit on enter !!!!
           return (
             <FormNode
               key={`form-field-${props.flow.ui.action || ''}-${name}-${k}`}
@@ -92,7 +92,9 @@ const FormBuilder = <
               onChange={onChange(name)}
               node={node}
               onSubmitPress={onPress}
+              autofocus={name === 'identifier'} // email field
               style={{ marginTop: 30 }}
+              {...accessibilityProps}
             />
           )
         })}

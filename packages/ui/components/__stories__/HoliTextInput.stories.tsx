@@ -53,16 +53,16 @@ export const Multiline = ({ ...args }) => (
   <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} multiline {...args} />
 )
 Multiline.args = {
-  noOfLines: 1,
-  maxNoOfLines: 5,
+  noOfVisibleLines: 1,
+  maxNoOfVisibleLines: 5,
 }
 
 export const MultilineVariant = ({ ...args }) => (
   <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} multiline {...args} />
 )
 MultilineVariant.args = {
-  noOfLines: 2,
-  maxNoOfLines: 5,
+  noOfVisibleLines: 2,
+  maxNoOfVisibleLines: 5,
 }
 
 export const WithTrailingIcon = ({ ...args }) => (
