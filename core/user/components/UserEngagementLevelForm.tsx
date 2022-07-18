@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import { ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import { UserContext } from '@holi/core/user/UserContextProvider'
@@ -97,8 +97,8 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
 
   return (
     <View style={styles.wrapper}>
-      <HoliText style={styles.title}>{t('user.engagementLevel.form.question')}</HoliText>
-      <View style={deviceHeight < 600 ? styles.rowButtonDescription : styles.columnButtonDescription}>
+      <ScrollView contentContainerStyle={styles.scrollView}>
+        <HoliText style={styles.title}>{t('user.engagementLevel.form.question')}</HoliText>
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonContainer}>
             {engagementLevel === 'interested' && ActiveButtonIcon}
@@ -140,11 +140,11 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
           </View>
         </View>
         <View style={{ marginTop: 32, width: '100%' }}>
-          <HoliText style={{ textAlign: 'center', paddingHorizontal: 32 }}>
+          <HoliText style={{ textAlign: 'center' }}>
             {t(`user.engagementLevel.description.${engagementLevel}`)}
           </HoliText>
         </View>
-      </View>
+      </ScrollView>
       <HoliButton style={styles.saveButton} label={t('user.profileForm.save')} onPress={submit}>
         {t('user.profileForm.save')}
       </HoliButton>
@@ -159,12 +159,20 @@ const getStyles = (theme: HoliTheme, buttonsContainerHeight: number) =>
     wrapper: {
       alignItems: 'center',
       flexDirection: 'column',
-      maxWidth: 500,
-      padding: 32,
+      maxWidth: 600,
+      padding: 16,
       paddingTop: 0,
       width: '100%',
       height: '100%',
       alignSelf: 'center',
+    },
+    scrollView: {
+      paddingHorizontal: 16,
+      alignItems: 'center',
+      display: 'flex',
+      flexDirection: 'column',
+      width: '100%',
+      paddingBottom: 150,
     },
     title: {
       fontSize: 28,
@@ -197,14 +205,11 @@ const getStyles = (theme: HoliTheme, buttonsContainerHeight: number) =>
     button3: {
       height: buttonsContainerHeight,
     },
-    saveButton: { marginHorizontal: 80, bottom: '13%', position: 'absolute' },
-    rowButtonDescription: {
+    saveButton: {
+      bottom: 70,
+      position: 'absolute',
       display: 'flex',
-      flexDirection: 'row',
       alignItems: 'center',
-    },
-    columnButtonDescription: {
-      display: 'flex',
-      flexDirection: 'column',
+      justifyContent: 'center',
     },
   })

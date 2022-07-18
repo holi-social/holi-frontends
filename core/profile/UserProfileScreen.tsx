@@ -75,14 +75,6 @@ export const UserProfileScreen: React.VFC = () => {
               >
                 {t('profile.edit')}
               </HoliButton>
-              <View style={{ marginVertical: 10 }}>
-                <HoliChip
-                  label={t('profile.exampleInterest')}
-                  onPress={() => setChipChecked(!chipChecked)}
-                  checked={chipChecked}
-                  text={t('profile.exampleInterest')}
-                />
-              </View>
               <HoliButton label={t('profile.logout')} inline onPress={() => navigate('/logout')} testID="logout-button">
                 {t('profile.logout')}
               </HoliButton>
