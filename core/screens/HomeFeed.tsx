@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
@@ -16,7 +16,17 @@ import HoliText from '@holi/ui/components/HoliText'
 import { styleVars } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-const appsSwiperDummyApps = [
+type DummyApp = {
+  icon: string
+  nameKey: string
+  path: string
+  testID: string
+  hasUpdates: boolean
+  backgroundColor: string
+}
+
+// if you add more dummy apps, also add the nameKey to focusedApps within the component
+const appsSwiperDummyApps: DummyApp[] = [
   {
     icon: 'chat',
     nameKey: 'apps.volunteering.name',
@@ -69,9 +79,14 @@ const appsSwiperStyles = (theme: HoliTheme, screenWidth: number) =>
       justifyContent: 'center',
     },
     tile: {
+      margin: 3,
       minWidth: 110,
       maxWidth: 110,
       overflow: 'hidden',
+    },
+    tileFocused: {
+      borderWidth: 1,
+      borderColor: styleVars.colors.positivepurple,
     },
     iconContainer: {
       alignSelf: 'center',
@@ -110,6 +125,13 @@ const AppsSwiper: React.VFC<AppsSwiperProps> = ({ style }) => {
   const { width } = useWindowDimensions()
   const { theme } = useTheme()
   const styles = appsSwiperStyles(theme, width)
+  const focusedStates = {
+    'apps.volunteering.name': useState(false),
+    'apps.donations.name': useState(false),
+    'apps.goodNews.name': useState(false),
+    'apps.adsForGood.name': useState(false),
+    'apps.factCheck.name': useState(false),
+  }
   return (
     <ScrollView horizontal={true} contentContainerStyle={styles.containerContent} style={[styles.container, style]}>
       {appsSwiperDummyApps.map((app) => (
@@ -118,8 +140,20 @@ const AppsSwiper: React.VFC<AppsSwiperProps> = ({ style }) => {
           label={t(app.nameKey)}
           inline
           transparent
-          style={[styles.tile]}
           onPress={() => navigate(app.path)}
+          onFocus={() => {
+            // @ts-ignore
+            focusedStates[app.nameKey][1](true)
+          }}
+          onBlur={() => {
+            // @ts-ignore
+            focusedStates[app.nameKey][1](false)
+          }}
+          style={[
+            // @ts-ignore
+            focusedStates[app.nameKey][0] && styles.tileFocused,
+            styles.tile,
+          ]}
           testID={app.testID}
         >
           <View style={[styles.iconContainer, app.hasUpdates && styles.iconWithUpdates]}>
