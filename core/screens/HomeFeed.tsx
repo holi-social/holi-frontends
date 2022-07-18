@@ -1,7 +1,7 @@
 import moment from 'moment'
 import React, { useLayoutEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -21,7 +21,7 @@ const appsSwiperDummyApps = [
     nameKey: 'apps.volunteering.name',
     path: '/apps/volunteering',
     testID: 'app-title-volunteering',
-    newContent: true,
+    hasUpdates: true,
     backgroundColor: styleVars.colors.impactyellow,
   },
   {
@@ -29,7 +29,7 @@ const appsSwiperDummyApps = [
     nameKey: 'apps.donations.name',
     path: '/apps/volunteering',
     testID: 'app-title-donations',
-    newContent: false,
+    hasUpdates: false,
     backgroundColor: styleVars.colors.positivepurple,
   },
   {
@@ -37,7 +37,7 @@ const appsSwiperDummyApps = [
     nameKey: 'apps.goodNews.name',
     path: '/apps/volunteering',
     testID: 'app-title-goodNews',
-    newContent: true,
+    hasUpdates: true,
     backgroundColor: styleVars.colors.lightGrey,
   },
   {
@@ -45,7 +45,7 @@ const appsSwiperDummyApps = [
     nameKey: 'apps.adsForGood.name',
     path: '/apps/volunteering',
     testID: 'app-title-adsForGood',
-    newContent: true,
+    hasUpdates: true,
     backgroundColor: styleVars.colors.impactyellow,
   },
   {
@@ -53,75 +53,71 @@ const appsSwiperDummyApps = [
     nameKey: 'apps.factCheck.name',
     path: '/apps/volunteering',
     testID: 'app-title-factCheck',
-    newContent: false,
+    hasUpdates: false,
     backgroundColor: styleVars.colors.greyAA,
   },
 ]
 
 const appsSwiperStyles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
     width: '100%',
-    paddingRight: 15,
   },
-  tileContainer: {
-    paddingHorizontal: 10,
+  tile: {
     minWidth: 110,
     maxWidth: 110,
     overflow: 'hidden',
   },
-  tileIconContainer: {
-    justifyContent: 'center',
+  iconContainer: {
     alignSelf: 'center',
     width: 64,
     height: 64,
     padding: 2,
+    borderWidth: 2,
+    borderRadius: 16,
     borderColor: styleVars.colors.softblackTransparent,
-    borderWidth: 2,
-    borderRadius: 16,
   },
-  tileIconContainerNewContent: {
-    borderColor: styleVars.colors.positivepurple,
-    borderWidth: 2,
-    borderRadius: 16,
-  },
-  tileIcon: {
-    borderRadius: 12,
-    alignSelf: 'center',
+  icon: {
     width: '100%',
     height: '100%',
+    borderRadius: 12,
   },
-  tileName: {
-    paddingTop: 10,
+  iconWithUpdates: {
+    borderWidth: 2,
+    borderRadius: 16,
+    borderColor: styleVars.colors.positivepurple,
+  },
+  appName: {
+    paddingTop: 4,
     alignSelf: 'center',
     fontSize: 14,
     fontWeight: '400',
   },
 })
 
-// TODO style prop (for margins)
+type AppsSwiperProps = {
+  style?: ViewStyle | ViewStyle[]
+}
+
 // TODO scrollview hängt
-const AppsSwiper: React.VFC = () => {
+const AppsSwiper: React.VFC<AppsSwiperProps> = ({ style }) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
   return (
-    <ScrollView horizontal={true} contentContainerStyle={appsSwiperStyles.container}>
+    <ScrollView horizontal={true} contentContainerStyle={appsSwiperStyles.container} style={style}>
       {appsSwiperDummyApps.map((app) => (
         <HoliButton
           key={app.nameKey}
           label={t(app.nameKey)}
           inline
           transparent
-          style={[appsSwiperStyles.tileContainer]}
+          style={[appsSwiperStyles.tile]}
           onPress={() => navigate(app.path)}
           testID={app.testID}
         >
-          <View
-            style={[appsSwiperStyles.tileIconContainer, app.newContent && appsSwiperStyles.tileIconContainerNewContent]}
-          >
-            <View style={[appsSwiperStyles.tileIcon, { backgroundColor: app.backgroundColor }]} />
+          <View style={[appsSwiperStyles.iconContainer, app.hasUpdates && appsSwiperStyles.iconWithUpdates]}>
+            <View style={[appsSwiperStyles.icon, { backgroundColor: app.backgroundColor }]} />
           </View>
-          <HoliText style={appsSwiperStyles.tileName}>{t(app.nameKey)}</HoliText>
+          <HoliText style={appsSwiperStyles.appName}>{t(app.nameKey)}</HoliText>
         </HoliButton>
       ))}
     </ScrollView>
