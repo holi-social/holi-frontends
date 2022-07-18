@@ -59,9 +59,6 @@ const appsSwiperDummyApps = [
 ]
 
 const appsSwiperStyles = StyleSheet.create({
-  container: {
-    width: '100%',
-  },
   tile: {
     minWidth: 110,
     maxWidth: 110,
@@ -98,12 +95,11 @@ type AppsSwiperProps = {
   style?: ViewStyle | ViewStyle[]
 }
 
-// TODO scrollview hängt
 const AppsSwiper: React.VFC<AppsSwiperProps> = ({ style }) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
   return (
-    <ScrollView horizontal={true} contentContainerStyle={appsSwiperStyles.container} style={style}>
+    <ScrollView horizontal={true} style={style}>
       {appsSwiperDummyApps.map((app) => (
         <HoliButton
           key={app.nameKey}
