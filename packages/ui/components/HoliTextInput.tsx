@@ -34,6 +34,7 @@ export type HoliTextInputProps = {
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
   /** TextInputProps to extend input e.g ('returnKeytype')*/
   inputProps?: TextInputProps
+  testID?: string
   // eslint-disable-next-line
   [x: string]: any
 }
@@ -130,6 +131,7 @@ const HoliTextInput = ({
                 secureTextEntry={props?.type === 'password'}
                 {...accessibilityProps}
                 {...props?.inputProps}
+                testID={`${props?.testID}-input`}
               />
               {(hasValidationErrors || props?.trailingIcon) && (
                 <View
@@ -177,6 +179,7 @@ const HoliTextInput = ({
         </Pressable>
         <View style={[styles.helperTextWrapper, inline ? styles.inline : styles.block]}>
           <HoliText
+            testID={`${props?.testID}-message`}
             size="extrasmall"
             style={[styles.helperText, hasValidationErrors ? styles.validationErrorText : {}]}
           >

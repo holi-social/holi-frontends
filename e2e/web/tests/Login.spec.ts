@@ -8,28 +8,26 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Login', () => {
   test('should work with valid credentials', async ({ page }) => {
-    await page.waitForSelector('text="Home"')
+    await page.locator(selectorByTestId('profile-button')).waitFor()
     await page.locator(selectorByTestId('profile-button')).click()
-    await page.waitForSelector('text="Login"')
-    await page.locator('text="Login"').click()
-    await page.waitForSelector('text="ID"')
-    await page.waitForSelector('data-testid=field/identifier')
-    await page.locator('data-testid=field/identifier').fill(process.env.E2E_USER_USERNAME || '')
-    await page.locator('data-testid=field/password').fill(process.env.E2E_USER_PASSWORD || '')
-    await page.click('text=Sign in')
+    await page.waitForSelector(selectorByTestId('login-button'))
+    await page.locator(selectorByTestId('login-button')).click()
+    await page.waitForSelector(selectorByTestId('oryField-identifier-input'))
+    await page.locator(selectorByTestId('oryField-identifier-input')).fill(process.env.E2E_USER_USERNAME || '')
+    await page.locator(selectorByTestId('oryField-password-input')).fill(process.env.E2E_USER_PASSWORD || '')
+    await page.locator(selectorByTestId('oryField-method/password')).click()
     await page.waitForSelector('text="Profile"')
   })
 
   test('should not work with invalid credentials', async ({ page }) => {
-    await page.waitForSelector('text="Home"')
+    await page.locator(selectorByTestId('profile-button')).waitFor()
     await page.locator(selectorByTestId('profile-button')).click()
-    await page.waitForSelector('text="Login"')
-    await page.locator('text="Login"').click()
-    await page.waitForSelector('text="ID"')
-    await page.waitForSelector('data-testid=field/identifier')
-    await page.locator('data-testid=field/identifier').fill('asdf@asdf.asdf')
-    await page.locator('data-testid=field/password').fill('asdf')
-    await page.click('text=Sign in')
+    await page.waitForSelector(selectorByTestId('login-button'))
+    await page.locator(selectorByTestId('login-button')).click()
+    await page.waitForSelector(selectorByTestId('oryField-identifier-input'))
+    await page.locator(selectorByTestId('oryField-identifier-input')).fill('asfd@asdf.de')
+    await page.locator(selectorByTestId('oryField-password-input')).fill('1234')
+    await page.locator(selectorByTestId('oryField-method/password')).click()
     // see https://www.ory.sh/docs/kratos/concepts/ui-user-interface#ui-error-codes
     // for more ory error codes
     await page.locator('data-testid=message/4000006').waitFor
