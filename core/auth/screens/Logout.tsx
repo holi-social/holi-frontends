@@ -44,7 +44,12 @@ const Logout: React.VoidFunctionComponent = () => {
     <DefaultLayout>
       <View style={styles.container}>
         <HoliText>{t('auth.logout.heading')}</HoliText>
-        <HoliButton label={t('auth.logout.button')} onPress={() => onSubmit()} style={styles.button}>
+        <HoliButton
+          label={t('auth.logout.button')}
+          onPress={() => onSubmit()}
+          style={styles.button}
+          testID="confirm-logout-button"
+        >
           {t('auth.logout.button')}
         </HoliButton>
       </View>

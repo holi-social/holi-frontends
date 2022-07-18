@@ -46,7 +46,7 @@ export const UserProfileScreen: React.VFC = () => {
             ) : (
               <>
                 <UserProfileView />
-                <HoliButton label={t('profile.edit')} inline onPress={() => toggleEditing()}>
+                <HoliButton label={t('profile.edit')} inline onPress={() => toggleEditing()} testID="edit-button">
                   {t('profile.edit')}
                 </HoliButton>
               </>

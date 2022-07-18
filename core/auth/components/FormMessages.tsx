@@ -16,7 +16,11 @@ const FormMessages = (props: Props) => {
   return (
     <>
       {props.messages?.map(({ text, id }, k) => (
-        <HoliText key={`${id}${k}`} style={[props.style || {}, { marginBottom: 10, color: theme.colors.errorRed }]}>
+        <HoliText
+          key={`${id}${k}`}
+          testID={`ory-message-${id}`}
+          style={[props.style || {}, { marginBottom: 10, color: theme.colors.errorRed }]}
+        >
           {text}
         </HoliText>
       ))}
