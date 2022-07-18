@@ -22,15 +22,18 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
 
   const showButtonText = 'Read more'
 
+  // buffer for comparing scrollHeight and clientHeight - clientHeight may differ +/- 1px
+  const marginBuffer = 1
+
   const showButton = (event: LayoutChangeEvent) => {
     // nativeEvent.target is Web only. Cast it as unknown and then as its proper type in this context
     const nativeEvent = event.nativeEvent as unknown as {
-      target: { clientHeight: number; scrollHeight: number; offsetHeight: number }
+      target: { clientHeight: number; scrollHeight: number }
     }
     const target = nativeEvent.target
 
     // check if ellipsis is active
-    if (target.clientHeight < target.scrollHeight) {
+    if (target.clientHeight < target.scrollHeight - marginBuffer) {
       setNumberOfLines(props.numberOfLines || defaultNumberOfLines)
       setButtonType('show')
     } else if (buttonType === 'show') {
