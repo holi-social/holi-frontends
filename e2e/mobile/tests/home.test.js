@@ -8,7 +8,6 @@ Scenario('test something', ({ I }) => {
   // I.seeAppIsInstalled('foundation.holistic.projectholi')
 
   // I.see() without selector takes much more time and may time out
-  I.seeTextWithTestId('Home', 'home-feed-title')
   I.seeTextWithTestId('This week’s topics are Immigration, Education and Sustainability', 'home-feed-topics')
 
   I.tapOnElementWithTestId('app-tile-volunteering')
