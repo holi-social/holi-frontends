@@ -137,7 +137,7 @@ const AppsSwiper: React.VFC<AppsSwiperProps> = ({ style }) => {
       {appsSwiperDummyApps.map((app) => (
         <HoliButton
           key={app.nameKey}
-          label={t(app.nameKey)}
+          label={t(app.nameKey) + ' App'}
           inline
           transparent
           onPress={() => navigate(app.path)}
