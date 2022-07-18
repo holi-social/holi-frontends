@@ -2,7 +2,7 @@
 import { UiNode, UiNodeInputAttributes } from '@ory/kratos-client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { TextInputProps, ViewStyle } from 'react-native'
+import { NativeSyntheticEvent, TextInputKeyPressEventData, TextInputProps, ViewStyle } from 'react-native'
 
 import { getNodeId, getNodeTitle, oryNodeIsInput } from '@holi/core/auth/helpers/form'
 import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/HoliTextInput'
@@ -10,12 +10,15 @@ import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/HoliTextI
 interface Props extends InputProps {
   node: UiNode
   attributes: UiNodeInputAttributes
+  autofocus: boolean
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
 
 export interface InputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onChange: (value: any) => void
+  onChange?: (value: any) => void
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onEnterPress?: (value: any) => void
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any
   disabled?: boolean
@@ -38,8 +41,6 @@ const guessVariant = ({ attributes }: UiNode) => {
       return null
     case 'email':
       return 'email'
-    case 'submit':
-      return 'button'
     case 'password':
       return 'password'
     default:
@@ -47,7 +48,16 @@ const guessVariant = ({ attributes }: UiNode) => {
   }
 }
 
-const FormInputField = ({ node, value, onChange, disabled, textInputOverride, style }: Props) => {
+const FormInputField = ({
+  node,
+  value,
+  onChange = () => null,
+  onEnterPress = () => null,
+  disabled,
+  textInputOverride,
+  autofocus,
+  style,
+}: Props) => {
   const { t } = useTranslation()
 
   const variant = guessVariant(node)
@@ -55,32 +65,7 @@ const FormInputField = ({ node, value, onChange, disabled, textInputOverride, st
     return null
   }
 
-  const getInputProps = (): TextInputProps => {
-    switch (variant) {
-      case 'email':
-        return {
-          // autoCompleteType: 'email',
-          keyboardType: 'email-address',
-          textContentType: 'emailAddress',
-          autoCapitalize: 'none',
-          autoCorrect: false,
-        }
-      case 'password':
-        return {
-          // autoCompleteType: 'password',
-          textContentType: 'password',
-          autoCapitalize: 'none',
-          secureTextEntry: true,
-          autoCorrect: false,
-        }
-
-      default:
-        return {}
-    }
-  }
-  const inputProps = getInputProps()
-
-  const getInputType = (): HoliTextInputProps['type'] => {
+  const inputType = ((): HoliTextInputProps['type'] => {
     switch (variant) {
       case 'email':
         return 'email'
@@ -89,10 +74,22 @@ const FormInputField = ({ node, value, onChange, disabled, textInputOverride, st
       default:
         return 'text'
     }
-  }
+  })()
 
   const fieldName = getNodeId(node)
   const fieldLabel = getNodeTitle(node)
+  const handleKeyDown = (event: NativeSyntheticEvent<TextInputKeyPressEventData | TextInputProps>) => {
+    const nativeElement = event.nativeEvent as TextInputKeyPressEventData
+    if (nativeElement.key === 'Enter') {
+      const element = event.target as TextInputProps
+      onChange(element.value)
+      onEnterPress(element.value)
+    }
+  }
+  const inputProps: TextInputProps = {
+    onKeyPress: handleKeyDown,
+    autoFocus: autofocus,
+  }
 
   return (
     <HoliTextInput
@@ -101,14 +98,14 @@ const FormInputField = ({ node, value, onChange, disabled, textInputOverride, st
       value={value ? String(value) : ''}
       validationErrorText={node.messages && node.messages[0] ? node.messages[0].text : ''}
       disabled={disabled}
-      noOfLines={1}
-      maxNoOfLines={1}
+      noOfVisibleLines={1}
+      maxNoOfVisibleLines={1}
       maxNoOfCharacters={200}
       onChange={onChange}
-      type={getInputType()}
+      type={inputType}
       inputProps={textInputOverride ? textInputOverride(node, inputProps) : inputProps}
       style={style}
-      testID={`oryField-${fieldName}`}
+      testID={`ory-input-${fieldName}`}
     />
   )
 }

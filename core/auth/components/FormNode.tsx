@@ -18,6 +18,7 @@ import HoliText from '@holi/ui/components/HoliText'
 
 interface Props extends InputProps {
   node: UiNode
+  autofocus: boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSubmitPress: (key: string, value: any) => void
   style?: ViewStyle | Record<string, unknown>
@@ -34,7 +35,15 @@ const FormNode = (props: Props) => {
   }
 
   if (oryNodeIsInput(node.attributes)) {
-    return <FormInputField {...props} attributes={node.attributes} style={[props.style || {}, { marginTop: 10 }]} />
+    const fieldName = getNodeId(node)
+    return (
+      <FormInputField
+        {...props}
+        attributes={node.attributes}
+        onEnterPress={(value) => props.onSubmitPress(fieldName, value)}
+        style={[props.style || {}, { marginTop: 10 }]}
+      />
+    )
   }
 
   if (oryNodeIsSubmit(node.attributes)) {
@@ -46,7 +55,7 @@ const FormNode = (props: Props) => {
         label={fieldLabel}
         style={props.style || {}}
         onPress={() => props.onSubmitPress(fieldName, value)}
-        testID={`oryField-${fieldName}/${node.attributes.value}`}
+        testID={`ory-submit-${fieldName}`}
       >
         {fieldLabel}
       </HoliButton>

@@ -1,6 +1,7 @@
 import React, { ReactChild, ReactChildren, ReactNode } from 'react'
 import {
   AccessibilityProps,
+  AccessibilityRole,
   GestureResponderEvent,
   Platform,
   Pressable,
@@ -28,6 +29,10 @@ export type HoliButtonProps = {
   disabled?: boolean
   children: ReactChild | ReactChildren | ReactNode | Element
   disableFocusability?: boolean
+  accessibilityRole?: AccessibilityRole
+  accessibilitySelected?: boolean
+  accessibilityLabel?: string
+  tabIndex?: number
   // only for TS (props are added by {...props})
   onPress?: null | ((event: GestureResponderEvent) => void)
   testID?: string

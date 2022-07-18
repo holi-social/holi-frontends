@@ -1,6 +1,6 @@
 import React, { useContext, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
@@ -14,6 +14,7 @@ import { UserProfileView } from '@holi/core/user/components/UserProfileView'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliChip from '@holi/ui/components/HoliChip'
 import HoliModal from '@holi/ui/components/HoliModal'
+import HoliTabs from '@holi/ui/components/HoliTabs'
 import HoliText from '@holi/ui/components/HoliText'
 
 export const UserProfileScreen: React.VFC = () => {
@@ -68,13 +69,51 @@ export const UserProfileScreen: React.VFC = () => {
           </>
         </LoginProtection>
       </View>
+      <View style={{ marginTop: 24, marginHorizontal: Platform.OS === 'web' ? 24 : 0 }}>
+        <HoliTabs
+          tabs={[
+            {
+              title: t('profile.tabs.profile'),
+              children: (
+                <View
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    paddingHorizontal: 56,
+                    paddingVertical: 72,
+                  }}
+                >
+                  <HoliText style={{ textAlign: 'center' }}>{t('profile.tabs.profile.empty')}</HoliText>
+                </View>
+              ),
+            },
+            {
+              title: t('profile.tabs.topics'),
+              children: (
+                <View
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    paddingHorizontal: 56,
+                    paddingVertical: 72,
+                  }}
+                >
+                  <HoliText style={{ textAlign: 'center' }}>{t('profile.tabs.topics.empty')}</HoliText>
+                </View>
+              ),
+            },
+          ]}
+        ></HoliTabs>
+      </View>
     </DefaultLayout>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 34,
     alignItems: 'baseline',
+    marginHorizontal: 24,
   },
 })

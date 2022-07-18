@@ -11,6 +11,10 @@ type varsType = {
   [x: string]: string | number
 }
 
+const correctType = (value: string) => {
+  const number = parseFloat(value)
+  return isNaN(number) ? value : number
+}
 const otherVars: varsType = {}
 const colors = Object.keys(sassVars)
   .map((key) => {
@@ -18,7 +22,7 @@ const colors = Object.keys(sassVars)
       return { [key]: sassVars[key] }
     }
     if (!/^#[0-9A-F]{3,8}$/i.test(sassVars[key]) && sassVars[key]) {
-      otherVars[key] = sassVars[key]
+      otherVars[key] = correctType(sassVars[key])
     }
     return false
   })
