@@ -24,7 +24,7 @@ export const UserProfileScreen: React.VFC = () => {
   const { navigate } = useRouting()
   const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState<'edit' | 'levelOfEngagement' | null>(null)
-  const [chipChecked, setChipChecked] = useState(false)
+  //const [chipChecked, setChipChecked] = useState(false)
   const toggleModal = () => {
     setShowModal(!showModal)
   }

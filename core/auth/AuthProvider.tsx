@@ -1,5 +1,4 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/AuthProvider.tsx
-import { AxiosError } from 'axios'
 import React, { createContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -69,7 +68,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
         // sends GET request to Ory Clouds `/whoami` endpoint, returning the session belonging to the session_token
         .toSession(orySessionToken)
         .then(({ data: session }) => (session.active ? 'active' : 'expired'))
-        .catch((e: AxiosError) => 'invalid')
+        .catch((/*e: AxiosError*/) => 'invalid')
     )
   }
 
