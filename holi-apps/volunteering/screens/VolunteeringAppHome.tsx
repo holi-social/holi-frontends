@@ -22,7 +22,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = ({ navigation }
         title: title,
         titleElement: () => <HoliText style={{ paddingTop: 5 }}>{title}</HoliText>,
       }),
-    [navigation]
+    [navigation, setNavigationHeader, title]
   )
 
   return (

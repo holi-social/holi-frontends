@@ -55,7 +55,7 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
         setVisible(false)
       })
     }
-  }, [show])
+  }, [show, bottom, modalHeight])
 
   return (
     <Modal visible={visible} transparent={true}>

@@ -38,7 +38,7 @@ const Post: React.VFC<PostProps> = ({ navigation }: PostProps) => {
     })
     setBackLink('left')
     return () => clearBackLinks()
-  }, [navigation, topicId, postId])
+  }, [navigation, topicId, postId, title, clearBackLinks, setBackLink, setNavigationHeader])
 
   if (!topicId) return <HoliText>{t('topics.post.missingTopicId')}</HoliText>
   if (!postId) return <HoliText>{t('topics.post.missingPostId')}</HoliText>
