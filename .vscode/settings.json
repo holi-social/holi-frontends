@@ -3,5 +3,23 @@
     "javascript.preferences.importModuleSpecifierEnding": "minimal",
     "typescript.preferences.importModuleSpecifier": "non-relative",
     "typescript.preferences.importModuleSpecifierEnding": "minimal",
-    "typescript.tsdk": "node_modules/typescript/lib"
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true,
+        "**/node_modules": true
+    },
+    "i18n-ally.localesPaths": "core/i18n/locales",
+    "i18n-ally.enabledFrameworks": ["react"],
+    "i18n-ally.dirStructure": "file",
+    "i18n-ally.keystyle": "flat",
+    "i18n-ally.displayLanguage": "en"
 }

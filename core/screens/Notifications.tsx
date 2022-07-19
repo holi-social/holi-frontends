@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
-import { View } from 'react-native'
+import React, { useLayoutEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
+import DefaultLayout from '@holi/core/DefaultLayout'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/HoliHeading'
@@ -12,23 +13,24 @@ type NotificationsProps = NativeStackScreenProps<HomeStackScreens>
 
 const Notifications: React.VFC<NotificationsProps> = ({ navigation }: NotificationsProps) => {
   const { setNavigationHeader } = useNavigationHeader()
-  const title = 'Your Notifications'
+  const { t } = useTranslation()
+  const title = t('notifications.title')
 
-  useEffect(
+  useLayoutEffect(
     () =>
       setNavigationHeader({
         title: title,
         titleElement: () => <HoliText style={{ paddingTop: 5 }}>{title}</HoliText>,
       }),
-    [navigation, setNavigationHeader]
+    [navigation, setNavigationHeader, title]
   )
 
   return (
-    <View style={{ padding: 10, alignItems: 'center' }}>
+    <DefaultLayout>
       <HoliHeading level="1" size="super">
-        Notifications
+        {title}
       </HoliHeading>
-    </View>
+    </DefaultLayout>
   )
 }
 

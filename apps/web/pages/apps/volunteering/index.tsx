@@ -1,6 +1,6 @@
 import { ReactElement } from 'react'
 
-import { AppLayout } from '@holi/web/layout/AppLayout'
+import { AppLayout } from '@holi/web/layout/NavigationLayoutVolunteeringApp'
 import type { NextPageWithLayout } from '@holi/web/pages/_app'
 
 import VolunteeringAppHome from '@holi-apps/volunteering/screens/VolunteeringAppHome'

@@ -7,7 +7,7 @@
 // TODO: add to dev-watcher
 
 /*
-This upper section is for main design colors and colors that are used multiple times in the variables below. 
+This upper section is for main design colors and colors that are used multiple times in the variables below.
 Any value that is only used in one variable below can be written inline in that variable.
 */
 $softblack: #222326;
@@ -17,6 +17,10 @@ $softwhite: #f7f6f3;
 $impactyellow: #f3f360;
 $positivepurple: #6267e7;
 $grey: #6f7081;
+$lightGrey: #F5F5F5;
+$greyAA: #767676;
+$greyAAA: #595959;
+$errorRed: #ee0004;
 
 $font-color: $softblack;
 $font-color-black: $font-color;
@@ -45,6 +49,7 @@ $background-color-black: $softblack;
 $font-family-web: Circular Std, Helvetica, Arial, sans-serif;
 $font-family-mobile: Circular Std;
 
+$max-screen-width: 1200;
 $top-bar-height: 52;
 $bottom-bar-height: 52;
 

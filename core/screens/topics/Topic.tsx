@@ -1,9 +1,12 @@
 import React, { useLayoutEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { createParam } from 'solito'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
+import DefaultLayout from '@holi/core/DefaultLayout'
+import { useNavigationContext } from '@holi/core/navigation/context'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import TopicEditors from '@holi/core/screens/topics/components/TopicEditors'
@@ -25,60 +28,70 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
   const [showModal, setShowModal] = useState(false)
   const [topicId = ''] = useParam('topicId')
   const { navigate } = useRouting()
+  const { setBackLink, clearBackLinks } = useNavigationContext()
+  const { t } = useTranslation()
 
   const { setNavigationHeader } = useNavigationHeader()
   useLayoutEffect(() => {
-    const title = `Topic ${topicId}`
+    const title = t('topics.topic.title', { topicId })
     setNavigationHeader({
       title: title,
       titleElement: () => <HoliText style={{ paddingTop: 5 }}>{title}</HoliText>,
     })
-  }, [navigation, setNavigationHeader, topicId])
-
-  if (!topic) return <HoliText>Topic {topicId} not found</HoliText>
+    setBackLink('left')
+    return () => clearBackLinks()
+  }, [navigation, topicId, t, clearBackLinks, setBackLink, setNavigationHeader])
 
   // Important: `fakeTopics.get(topicId) should be called after useEffect() or useLayoutEffet()
   // A hard reload will cause an error.
   // see here: https://reactjs.org/docs/hooks-rules.html
   const topic = fakeTopics.get(topicId)
-  if (!topic) return <HoliText>Topic {topicId} not found</HoliText>
+  if (!topic) return <HoliText>{t('topics.topic.notFound', { topicId })}</HoliText>
 
   return (
-    <View style={styles.topicView}>
-      <HoliHeading level="1" size="super" styles={{ alignSelf: 'center' }}>
-        Topic topicId={topicId}
-      </HoliHeading>
+    <DefaultLayout>
+      <View style={styles.topicView}>
+        <HoliHeading level="1" size="super" style={{ alignSelf: 'center' }}>
+          {t('topics.topic.heading', { title: topic.title, topicId })}
+        </HoliHeading>
 
-      <HoliButton label="Topic Editors" inline onPress={() => setShowModal(true)}>
-        Topic Editors
-      </HoliButton>
-
-      <HoliHeading level="1" styles={{ paddingBottom: 10 }}>
-        {topic.title}
-      </HoliHeading>
-      <HoliText>{topic.text}</HoliText>
-      <HoliHeading level="3">Posts</HoliHeading>
-      {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
-        <HoliButton
-          key={postId}
-          label={topic.posts[postId].text}
-          inline
-          variant="transparent"
-          style={styles.post}
-          onPress={() => navigate(`/topics/${topicId}/posts/${postId}`)}
-        >
-          <HoliText>{topic.posts[postId].text}</HoliText>
+        <HoliButton label={t('topics.topic.topicEditors')} inline onPress={() => setShowModal(true)}>
+          {t('topics.topic.topicEditors')}
         </HoliButton>
-      ))}
-      <HoliModal
-        show={showModal}
-        onDismiss={() => {
-          setShowModal(false)
-        }}
-      >
-        <TopicEditors topicId={topicId || ''}></TopicEditors>
-      </HoliModal>
-    </View>
+
+        <HoliText>{topic.text}</HoliText>
+
+        {/* Example below with styling for text and button */}
+        {/* <View style={{ marginBottom: 10 }}>
+          <HoliReadMore numberOfLines={2} style={{ color: 'green' }} buttonStyle={{ color: 'red', fontWeight: '800' }}>
+            {topic.text}
+          </HoliReadMore>
+        </View> */}
+
+        <HoliHeading level="3">{t('topics.topic.posts')}</HoliHeading>
+
+        {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
+          <HoliButton
+            key={postId}
+            label={topic.posts[postId].text}
+            transparent
+            style={styles.post}
+            onPress={() => navigate(`/topics/${topicId}/posts/${postId}`)}
+          >
+            <HoliText>{topic.posts[postId].text}</HoliText>
+          </HoliButton>
+        ))}
+
+        <HoliModal
+          show={showModal}
+          onDismiss={() => {
+            setShowModal(false)
+          }}
+        >
+          <TopicEditors topicId={topicId || ''}></TopicEditors>
+        </HoliModal>
+      </View>
+    </DefaultLayout>
   )
 }
 

@@ -7,6 +7,7 @@ interface AccessibilityPropsWeb extends AccessibilityProps {
   accessibilityLevel?: number
   accessibilityRole?: AccessibilityRoleWeb
   accessibilityPressed?: boolean
+  accessibilityAutoComplete?: boolean
 }
 
 // include web specific types (https://github.com/necolas/react-native-web/issues/1684)
@@ -23,6 +24,7 @@ declare module 'react-native' {
 
   interface ViewProps extends ViewProps {
     accessibilityRole?: string
+    accessibilityOrientation?: 'horizontal' | 'vertical'
   }
 
   interface TextStyle {

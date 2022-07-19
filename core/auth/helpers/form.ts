@@ -9,24 +9,32 @@ import {
 } from '@ory/kratos-client'
 import { AxiosError } from 'axios'
 
-export const isUiNodeAnchorAttributes = (pet: UiNodeAttributes): pet is UiNodeAnchorAttributes => {
+export const oryNodeIsLink = (pet: UiNodeAttributes): pet is UiNodeAnchorAttributes => {
   return (pet as UiNodeAnchorAttributes).href !== undefined
 }
 
-export const isUiNodeImageAttributes = (pet: UiNodeAttributes): pet is UiNodeImageAttributes => {
+export const oryNodeIsImage = (pet: UiNodeAttributes): pet is UiNodeImageAttributes => {
   return (pet as UiNodeImageAttributes).src !== undefined
 }
 
-export const isUiNodeInputAttributes = (pet: UiNodeAttributes): pet is UiNodeInputAttributes => {
-  return (pet as UiNodeInputAttributes).name !== undefined
+export const oryNodeIsInput = (pet: UiNodeAttributes): pet is UiNodeInputAttributes => {
+  return (pet as UiNodeInputAttributes).name !== undefined && (pet as UiNodeInputAttributes).type !== 'submit'
 }
 
-export const isUiNodeTextAttributes = (pet: UiNodeAttributes): pet is UiNodeTextAttributes => {
+export const oryNodeIsSubmit = (pet: UiNodeAttributes): pet is UiNodeInputAttributes => {
+  return (pet as UiNodeInputAttributes).name !== undefined && (pet as UiNodeInputAttributes).type === 'submit'
+}
+
+export const oryNodeIsButton = (pet: UiNodeAttributes): pet is UiNodeInputAttributes => {
+  return (pet as UiNodeInputAttributes).name !== undefined && (pet as UiNodeInputAttributes).type === 'button'
+}
+
+export const oryNodeIsText = (pet: UiNodeAttributes): pet is UiNodeTextAttributes => {
   return (pet as UiNodeTextAttributes).text !== undefined
 }
 
 export const getNodeId = ({ attributes }: UiNode) => {
-  if (isUiNodeInputAttributes(attributes)) {
+  if (oryNodeIsInput(attributes) || oryNodeIsSubmit(attributes) || oryNodeIsButton(attributes)) {
     return attributes.name
   } else {
     return attributes.id
@@ -34,13 +42,13 @@ export const getNodeId = ({ attributes }: UiNode) => {
 }
 
 export const getNodeValue = ({ attributes }: UiNode) => {
-  if (isUiNodeInputAttributes(attributes)) {
+  if (oryNodeIsInput(attributes) || oryNodeIsSubmit(attributes)) {
     return attributes.value
   }
 }
 
 export const getNodeTitle = ({ attributes, meta }: UiNode): string => {
-  if (isUiNodeInputAttributes(attributes)) {
+  if (oryNodeIsInput(attributes) || oryNodeIsSubmit(attributes)) {
     if (meta?.label?.text) {
       return meta.label.text
     }

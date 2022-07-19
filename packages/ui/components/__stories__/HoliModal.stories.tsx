@@ -12,7 +12,7 @@ export default {
 const Template: ComponentStory<typeof HoliModal> = ({ ...args }) => {
   return (
     <HoliModal {...args}>
-      <HoliText styles={{ textAlign: 'center' }}>Holi modal content</HoliText>
+      <HoliText style={{ textAlign: 'center' }}>Holi modal content</HoliText>
     </HoliModal>
   )
 }

@@ -8,11 +8,12 @@ export const userFragment = gql`
     id
     avatar
     firstName
-    middleName
     lastName
     aboutMe
     pronouns
     location
+    avatarDefaultColor
+    avatarLabel
     engagementLevel
     interests
     sdgs
@@ -37,7 +38,6 @@ export type AuthenticatedUserResponse = {
 export type UpdateAuthenticatedUserInput = {
   avatar?: string
   firstName?: string
-  middleName?: string
   lastName?: string
   aboutMe?: string
   pronouns?: string

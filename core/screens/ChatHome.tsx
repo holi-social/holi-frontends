@@ -1,8 +1,9 @@
 import React, { useLayoutEffect } from 'react'
-import { View } from 'react-native'
+import { useTranslation } from 'react-i18next'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
+import DefaultLayout from '@holi/core/DefaultLayout'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/HoliHeading'
@@ -12,7 +13,8 @@ type ChatHomeProps = NativeStackScreenProps<HomeStackScreens>
 
 const ChatHome: React.VFC<ChatHomeProps> = ({ navigation }: ChatHomeProps) => {
   const { setNavigationHeader } = useNavigationHeader()
-  const title = 'Chat'
+  const { t } = useTranslation()
+  const title = t('chat.title')
 
   useLayoutEffect(
     () =>
@@ -20,15 +22,15 @@ const ChatHome: React.VFC<ChatHomeProps> = ({ navigation }: ChatHomeProps) => {
         title: title,
         titleElement: () => <HoliText style={{ paddingTop: 5 }}>{title}</HoliText>,
       }),
-    [navigation, setNavigationHeader]
+    [navigation, setNavigationHeader, title]
   )
 
   return (
-    <View style={{ padding: 10, alignItems: 'center' }}>
+    <DefaultLayout>
       <HoliHeading level="1" size="super">
-        Chat
+        {title}
       </HoliHeading>
-    </View>
+    </DefaultLayout>
   )
 }
 

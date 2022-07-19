@@ -1,22 +1,25 @@
 import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } from '@ory/kratos-client'
 import React, { useContext, useEffect, useState } from 'react'
-import { Platform } from 'react-native'
+import { useTranslation } from 'react-i18next'
 
-import AuthLayout from '@holi/core/auth/AuthLayout'
+import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
-import { SelfServiceFlow } from '@holi/core/auth/components'
+import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
-import { getNodeId, handleFormSubmitError } from '@holi/core/auth/helpers/form'
+import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
+import { useNavigationContext } from '@holi/core/navigation/context'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliText from '@holi/ui/components/HoliText'
 
 const Registration = () => {
   const { navigate } = useRouting()
+  const { setBackLink, clearBackLinks } = useNavigationContext()
   const { setUserLoggedIn } = useContext(AuthContext)
   const [flow, setConfig] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
   const { displayError } = useErrorHandling()
+  const { t } = useTranslation()
 
   const initializeFlow = () => {
     initRegistrationFlow()
@@ -24,10 +27,15 @@ const Registration = () => {
       .then(({ data: flow }) => {
         setConfig(flow)
       })
-      .catch((error) => displayError(error, 'Initializing registration flow failed'))
+      .catch((error) => displayError(error, t('auth.registration.error.initialization')))
   }
   // When the component is mounted, we initialize a new use login flow:
   useEffect(() => initializeFlow())
+
+  useEffect(() => {
+    setBackLink('down')
+    return () => clearBackLinks()
+  }, [clearBackLinks, setBackLink])
 
   // This will update the registration flow with the user provided input:
   const onSubmit = (payload: SubmitSelfServiceRegistrationFlowBody): Promise<void> =>
@@ -56,35 +64,14 @@ const Registration = () => {
             navigate('/')
           })
           .catch(handleFormSubmitError(setConfig, initializeFlow))
-          .catch((error) => displayError(error, 'Registration failed'))
+          .catch((error) => displayError(error, t('auth.registration.error.registration')))
       : Promise.resolve()
 
   return (
-    <AuthLayout>
-      <HoliText>Create an account</HoliText>
-      <SelfServiceFlow
-        textInputOverride={(field, props) => {
-          const iOS12Plus = Platform.OS === 'ios' && parseInt(String(Platform.Version), 10) >= 12
-          switch (getNodeId(field)) {
-            case 'traits.email':
-              return {
-                autoCapitalize: 'none',
-                autoCompleteType: 'email',
-                textContentType: 'username',
-                autoCorrect: false,
-              }
-            case 'password':
-              return {
-                textContentType: iOS12Plus ? 'newPassword' : 'password',
-                secureTextEntry: true,
-              }
-          }
-          return props
-        }}
-        flow={flow}
-        onSubmit={onSubmit}
-      />
-    </AuthLayout>
+    <DefaultLayout>
+      <HoliText>{t('auth.registration.heading')}</HoliText>
+      <FormBuilder flow={flow} onSubmit={onSubmit} />
+    </DefaultLayout>
   )
 }
 

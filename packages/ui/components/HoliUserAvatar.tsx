@@ -45,7 +45,7 @@ const HoliUserAvatar: React.FunctionComponent<AvatarProps> = (props: AvatarProps
     <View {...props} style={[styles.holiUserAvatar, props.style, styles[sizeClass]]}>
       {hasImage && <Image source={imageUri} style={{ width: width, height: width }} {...accessibilityProps} />}
       {!props.imageSrc && (
-        <HoliText styles={styles.inititals} {...accessibilityProps}>
+        <HoliText style={styles.inititals} {...accessibilityProps}>
           {initials}
         </HoliText>
       )}
@@ -55,8 +55,9 @@ const HoliUserAvatar: React.FunctionComponent<AvatarProps> = (props: AvatarProps
 
 export default HoliUserAvatar
 
-const getStyles = (theme: HoliTheme, width: number, defaultColor: string, imageIsAvailable: boolean) =>
-  StyleSheet.create({
+const getStyles = (theme: HoliTheme, width: number, defaultColor: string, imageIsAvailable: boolean) => {
+  const initialsFontSize = (width / 10) * 4.5
+  return StyleSheet.create({
     holiUserAvatar: {
       ...Platform.select({
         web: {
@@ -86,6 +87,8 @@ const getStyles = (theme: HoliTheme, width: number, defaultColor: string, imageI
     large: {
       width: width,
       height: width,
+      borderWidth: 2,
+      borderColor: theme.colors.softblack,
     },
     extralarge: {
       width: width,
@@ -94,10 +97,11 @@ const getStyles = (theme: HoliTheme, width: number, defaultColor: string, imageI
       borderColor: theme.colors.softblack,
     },
     inititals: {
-      fontSize: (width / 10) * 4.5,
+      fontSize: initialsFontSize,
       textTransform: 'uppercase',
       fontWeight: 'bold',
       color: tinycolor(defaultColor).isLight() ? theme.colors.fontColorBlack : theme.colors.fontColorWhite,
-      textAlignVertical: 'center',
+      lineHeight: initialsFontSize * 1.2,
     },
   })
+}

@@ -43,3 +43,6 @@
 .icon-user-circled:before {
   content: '\e904';
 }
+.icon-user-circled:before {
+  content: "\e905";
+}

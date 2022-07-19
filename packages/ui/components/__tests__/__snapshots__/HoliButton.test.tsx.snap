@@ -75,7 +75,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           Object {},
         ]
       }
-      styles={Object {}}
     >
       Test
     </Text>
@@ -163,76 +162,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           Object {},
         ]
       }
-      styles={Object {}}
-    >
-      Test
-    </Text>
-  </View>
-</View>
-`;
-
-exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'false', type is 'primary', variant is 'transparent' 1`] = `
-<View
-  accessibilityLabel="test"
-  accessibilityRole="button"
-  accessibilityState={
-    Object {
-      "disabled": false,
-    }
-  }
-  accessible={true}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    Array [
-      undefined,
-      Object {
-        "width": "100%",
-      },
-    ]
-  }
->
-  <View
-    pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
-  >
-    <Text
-      accessible={false}
-      selectable={false}
-      style={
-        Array [
-          Object {
-            "color": "#222326",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
-          },
-          Object {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          Object {},
-        ]
-      }
-      styles={Object {}}
     >
       Test
     </Text>
@@ -312,7 +241,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           Object {},
         ]
       }
-      styles={Object {}}
     >
       Test
     </Text>
@@ -397,76 +325,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           Object {},
         ]
       }
-      styles={Object {}}
-    >
-      Test
-    </Text>
-  </View>
-</View>
-`;
-
-exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'false', type is 'secondary', variant is 'transparent' 1`] = `
-<View
-  accessibilityLabel="test"
-  accessibilityRole="button"
-  accessibilityState={
-    Object {
-      "disabled": false,
-    }
-  }
-  accessible={true}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    Array [
-      undefined,
-      Object {
-        "width": "100%",
-      },
-    ]
-  }
->
-  <View
-    pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
-  >
-    <Text
-      accessible={false}
-      selectable={false}
-      style={
-        Array [
-          Object {
-            "color": "#222326",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
-          },
-          Object {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          Object {},
-        ]
-      }
-      styles={Object {}}
     >
       Test
     </Text>
@@ -549,7 +407,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           Object {},
         ]
       }
-      styles={Object {}}
     >
       Test
     </Text>
@@ -637,76 +494,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           Object {},
         ]
       }
-      styles={Object {}}
-    >
-      Test
-    </Text>
-  </View>
-</View>
-`;
-
-exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'true', type is 'primary', variant is 'transparent' 1`] = `
-<View
-  accessibilityLabel="test"
-  accessibilityRole="button"
-  accessibilityState={
-    Object {
-      "disabled": false,
-    }
-  }
-  accessible={false}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    Array [
-      undefined,
-      Object {
-        "width": "100%",
-      },
-    ]
-  }
->
-  <View
-    pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
-  >
-    <Text
-      accessible={false}
-      selectable={false}
-      style={
-        Array [
-          Object {
-            "color": "#222326",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
-          },
-          Object {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          Object {},
-        ]
-      }
-      styles={Object {}}
     >
       Test
     </Text>
@@ -786,7 +573,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           Object {},
         ]
       }
-      styles={Object {}}
     >
       Test
     </Text>
@@ -871,76 +657,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           Object {},
         ]
       }
-      styles={Object {}}
-    >
-      Test
-    </Text>
-  </View>
-</View>
-`;
-
-exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'true', type is 'secondary', variant is 'transparent' 1`] = `
-<View
-  accessibilityLabel="test"
-  accessibilityRole="button"
-  accessibilityState={
-    Object {
-      "disabled": false,
-    }
-  }
-  accessible={false}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    Array [
-      undefined,
-      Object {
-        "width": "100%",
-      },
-    ]
-  }
->
-  <View
-    pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
-  >
-    <Text
-      accessible={false}
-      selectable={false}
-      style={
-        Array [
-          Object {
-            "color": "#222326",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
-          },
-          Object {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          Object {},
-        ]
-      }
-      styles={Object {}}
     >
       Test
     </Text>
@@ -1027,11 +743,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "color": "#6f7081",
           },
         ]
-      }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
       }
     >
       Test
@@ -1125,86 +836,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           },
         ]
       }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
-      }
-    >
-      Test
-    </Text>
-  </View>
-</View>
-`;
-
-exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'false', type is 'primary', variant is 'transparent' 1`] = `
-<View
-  accessibilityLabel="test"
-  accessibilityRole="button"
-  accessibilityState={
-    Object {
-      "disabled": true,
-    }
-  }
-  accessible={true}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    Array [
-      undefined,
-      Object {
-        "width": "100%",
-      },
-    ]
-  }
->
-  <View
-    pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
-  >
-    <Text
-      accessible={false}
-      selectable={false}
-      style={
-        Array [
-          Object {
-            "color": "#222326",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
-          },
-          Object {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          Object {
-            "color": "#6f7081",
-          },
-        ]
-      }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
-      }
     >
       Test
     </Text>
@@ -1288,11 +919,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "color": "#6f7081",
           },
         ]
-      }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
       }
     >
       Test
@@ -1383,86 +1009,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           },
         ]
       }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
-      }
-    >
-      Test
-    </Text>
-  </View>
-</View>
-`;
-
-exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'false', type is 'secondary', variant is 'transparent' 1`] = `
-<View
-  accessibilityLabel="test"
-  accessibilityRole="button"
-  accessibilityState={
-    Object {
-      "disabled": true,
-    }
-  }
-  accessible={true}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    Array [
-      undefined,
-      Object {
-        "width": "100%",
-      },
-    ]
-  }
->
-  <View
-    pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
-  >
-    <Text
-      accessible={false}
-      selectable={false}
-      style={
-        Array [
-          Object {
-            "color": "#222326",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
-          },
-          Object {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          Object {
-            "color": "#6f7081",
-          },
-        ]
-      }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
-      }
     >
       Test
     </Text>
@@ -1549,11 +1095,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "color": "#6f7081",
           },
         ]
-      }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
       }
     >
       Test
@@ -1647,86 +1188,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           },
         ]
       }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
-      }
-    >
-      Test
-    </Text>
-  </View>
-</View>
-`;
-
-exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'true', type is 'primary', variant is 'transparent' 1`] = `
-<View
-  accessibilityLabel="test"
-  accessibilityRole="button"
-  accessibilityState={
-    Object {
-      "disabled": true,
-    }
-  }
-  accessible={false}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    Array [
-      undefined,
-      Object {
-        "width": "100%",
-      },
-    ]
-  }
->
-  <View
-    pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
-  >
-    <Text
-      accessible={false}
-      selectable={false}
-      style={
-        Array [
-          Object {
-            "color": "#222326",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
-          },
-          Object {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          Object {
-            "color": "#6f7081",
-          },
-        ]
-      }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
-      }
     >
       Test
     </Text>
@@ -1810,11 +1271,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "color": "#6f7081",
           },
         ]
-      }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
       }
     >
       Test
@@ -1905,86 +1361,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           },
         ]
       }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
-      }
-    >
-      Test
-    </Text>
-  </View>
-</View>
-`;
-
-exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'true', type is 'secondary', variant is 'transparent' 1`] = `
-<View
-  accessibilityLabel="test"
-  accessibilityRole="button"
-  accessibilityState={
-    Object {
-      "disabled": true,
-    }
-  }
-  accessible={false}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    Array [
-      undefined,
-      Object {
-        "width": "100%",
-      },
-    ]
-  }
->
-  <View
-    pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
-  >
-    <Text
-      accessible={false}
-      selectable={false}
-      style={
-        Array [
-          Object {
-            "color": "#222326",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
-          },
-          Object {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          Object {
-            "color": "#6f7081",
-          },
-        ]
-      }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
-      }
     >
       Test
     </Text>
@@ -2067,7 +1443,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           Object {},
         ]
       }
-      styles={Object {}}
     >
       Test
     </Text>
@@ -2155,76 +1530,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           Object {},
         ]
       }
-      styles={Object {}}
-    >
-      Test
-    </Text>
-  </View>
-</View>
-`;
-
-exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'false', type is 'primary', variant is 'transparent' 1`] = `
-<View
-  accessibilityLabel="test"
-  accessibilityRole="button"
-  accessibilityState={
-    Object {
-      "disabled": false,
-    }
-  }
-  accessible={true}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    Array [
-      undefined,
-      Object {
-        "width": "auto",
-      },
-    ]
-  }
->
-  <View
-    pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
-  >
-    <Text
-      accessible={false}
-      selectable={false}
-      style={
-        Array [
-          Object {
-            "color": "#222326",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
-          },
-          Object {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          Object {},
-        ]
-      }
-      styles={Object {}}
     >
       Test
     </Text>
@@ -2304,7 +1609,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           Object {},
         ]
       }
-      styles={Object {}}
     >
       Test
     </Text>
@@ -2389,76 +1693,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           Object {},
         ]
       }
-      styles={Object {}}
-    >
-      Test
-    </Text>
-  </View>
-</View>
-`;
-
-exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'false', type is 'secondary', variant is 'transparent' 1`] = `
-<View
-  accessibilityLabel="test"
-  accessibilityRole="button"
-  accessibilityState={
-    Object {
-      "disabled": false,
-    }
-  }
-  accessible={true}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    Array [
-      undefined,
-      Object {
-        "width": "auto",
-      },
-    ]
-  }
->
-  <View
-    pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
-  >
-    <Text
-      accessible={false}
-      selectable={false}
-      style={
-        Array [
-          Object {
-            "color": "#222326",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
-          },
-          Object {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          Object {},
-        ]
-      }
-      styles={Object {}}
     >
       Test
     </Text>
@@ -2541,7 +1775,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           Object {},
         ]
       }
-      styles={Object {}}
     >
       Test
     </Text>
@@ -2629,76 +1862,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           Object {},
         ]
       }
-      styles={Object {}}
-    >
-      Test
-    </Text>
-  </View>
-</View>
-`;
-
-exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'true', type is 'primary', variant is 'transparent' 1`] = `
-<View
-  accessibilityLabel="test"
-  accessibilityRole="button"
-  accessibilityState={
-    Object {
-      "disabled": false,
-    }
-  }
-  accessible={false}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    Array [
-      undefined,
-      Object {
-        "width": "auto",
-      },
-    ]
-  }
->
-  <View
-    pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
-  >
-    <Text
-      accessible={false}
-      selectable={false}
-      style={
-        Array [
-          Object {
-            "color": "#222326",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
-          },
-          Object {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          Object {},
-        ]
-      }
-      styles={Object {}}
     >
       Test
     </Text>
@@ -2778,7 +1941,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           Object {},
         ]
       }
-      styles={Object {}}
     >
       Test
     </Text>
@@ -2863,76 +2025,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           Object {},
         ]
       }
-      styles={Object {}}
-    >
-      Test
-    </Text>
-  </View>
-</View>
-`;
-
-exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'true', type is 'secondary', variant is 'transparent' 1`] = `
-<View
-  accessibilityLabel="test"
-  accessibilityRole="button"
-  accessibilityState={
-    Object {
-      "disabled": false,
-    }
-  }
-  accessible={false}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    Array [
-      undefined,
-      Object {
-        "width": "auto",
-      },
-    ]
-  }
->
-  <View
-    pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
-  >
-    <Text
-      accessible={false}
-      selectable={false}
-      style={
-        Array [
-          Object {
-            "color": "#222326",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
-          },
-          Object {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          Object {},
-        ]
-      }
-      styles={Object {}}
     >
       Test
     </Text>
@@ -3019,11 +2111,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "color": "#6f7081",
           },
         ]
-      }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
       }
     >
       Test
@@ -3117,86 +2204,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           },
         ]
       }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
-      }
-    >
-      Test
-    </Text>
-  </View>
-</View>
-`;
-
-exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'false', type is 'primary', variant is 'transparent' 1`] = `
-<View
-  accessibilityLabel="test"
-  accessibilityRole="button"
-  accessibilityState={
-    Object {
-      "disabled": true,
-    }
-  }
-  accessible={true}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    Array [
-      undefined,
-      Object {
-        "width": "auto",
-      },
-    ]
-  }
->
-  <View
-    pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
-  >
-    <Text
-      accessible={false}
-      selectable={false}
-      style={
-        Array [
-          Object {
-            "color": "#222326",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
-          },
-          Object {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          Object {
-            "color": "#6f7081",
-          },
-        ]
-      }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
-      }
     >
       Test
     </Text>
@@ -3280,11 +2287,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "color": "#6f7081",
           },
         ]
-      }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
       }
     >
       Test
@@ -3375,86 +2377,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           },
         ]
       }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
-      }
-    >
-      Test
-    </Text>
-  </View>
-</View>
-`;
-
-exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'false', type is 'secondary', variant is 'transparent' 1`] = `
-<View
-  accessibilityLabel="test"
-  accessibilityRole="button"
-  accessibilityState={
-    Object {
-      "disabled": true,
-    }
-  }
-  accessible={true}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    Array [
-      undefined,
-      Object {
-        "width": "auto",
-      },
-    ]
-  }
->
-  <View
-    pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
-  >
-    <Text
-      accessible={false}
-      selectable={false}
-      style={
-        Array [
-          Object {
-            "color": "#222326",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
-          },
-          Object {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          Object {
-            "color": "#6f7081",
-          },
-        ]
-      }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
-      }
     >
       Test
     </Text>
@@ -3541,11 +2463,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "color": "#6f7081",
           },
         ]
-      }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
       }
     >
       Test
@@ -3639,86 +2556,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           },
         ]
       }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
-      }
-    >
-      Test
-    </Text>
-  </View>
-</View>
-`;
-
-exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'true', type is 'primary', variant is 'transparent' 1`] = `
-<View
-  accessibilityLabel="test"
-  accessibilityRole="button"
-  accessibilityState={
-    Object {
-      "disabled": true,
-    }
-  }
-  accessible={false}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    Array [
-      undefined,
-      Object {
-        "width": "auto",
-      },
-    ]
-  }
->
-  <View
-    pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
-  >
-    <Text
-      accessible={false}
-      selectable={false}
-      style={
-        Array [
-          Object {
-            "color": "#222326",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
-          },
-          Object {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          Object {
-            "color": "#6f7081",
-          },
-        ]
-      }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
-      }
     >
       Test
     </Text>
@@ -3802,11 +2639,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "color": "#6f7081",
           },
         ]
-      }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
       }
     >
       Test
@@ -3896,86 +2728,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "color": "#6f7081",
           },
         ]
-      }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
-      }
-    >
-      Test
-    </Text>
-  </View>
-</View>
-`;
-
-exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'true', type is 'secondary', variant is 'transparent' 1`] = `
-<View
-  accessibilityLabel="test"
-  accessibilityRole="button"
-  accessibilityState={
-    Object {
-      "disabled": true,
-    }
-  }
-  accessible={false}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    Array [
-      undefined,
-      Object {
-        "width": "auto",
-      },
-    ]
-  }
->
-  <View
-    pointerEvents="none"
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
-  >
-    <Text
-      accessible={false}
-      selectable={false}
-      style={
-        Array [
-          Object {
-            "color": "#222326",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
-          },
-          Object {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
-          Object {
-            "color": "#6f7081",
-          },
-        ]
-      }
-      styles={
-        Object {
-          "color": "#6f7081",
-        }
       }
     >
       Test

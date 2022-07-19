@@ -1,0 +1,250 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly renders correctly when open 1`] = `
+<View
+  style={
+    Object {
+      "alignContent": "center",
+      "alignItems": "center",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <View
+    accessibilityOrientation="horizontal"
+    accessibilityRole="tablist"
+    style={
+      Object {
+        "borderBottomColor": "#1b1d201a",
+        "borderBottomWidth": 2,
+        "flexDirection": "row",
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      accessibilityLabel="0"
+      accessibilityRole="tab"
+      accessibilitySelected={true}
+      accessibilityState={
+        Object {
+          "disabled": false,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Array [
+            Object {
+              "alignItems": "center",
+              "borderBottomColor": "transparent",
+              "borderBottomWidth": 2,
+              "justifyContent": "center",
+              "marginHorizontal": 16,
+              "paddingVertical": 12,
+              "top": 2,
+              "width": "auto",
+            },
+            Object {
+              "borderBottomColor": "#222326",
+            },
+          ],
+          Object {
+            "width": "auto",
+          },
+        ]
+      }
+      testID="active-tab"
+    >
+      <View
+        pointerEvents="none"
+        style={Object {}}
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#6f7081",
+                "fontSize": 16,
+              },
+              Object {
+                "color": "#222326",
+                "fontWeight": "500",
+              },
+            ]
+          }
+        >
+          Profile
+        </Text>
+      </View>
+    </View>
+    <View
+      accessibilityLabel="1"
+      accessibilityRole="tab"
+      accessibilitySelected={false}
+      accessibilityState={
+        Object {
+          "disabled": false,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Array [
+            Object {
+              "alignItems": "center",
+              "borderBottomColor": "transparent",
+              "borderBottomWidth": 2,
+              "justifyContent": "center",
+              "marginHorizontal": 16,
+              "paddingVertical": 12,
+              "top": 2,
+              "width": "auto",
+            },
+            Object {},
+          ],
+          Object {
+            "width": "auto",
+          },
+        ]
+      }
+      testID="inactive-tab"
+    >
+      <View
+        pointerEvents="none"
+        style={Object {}}
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#6f7081",
+                "fontSize": 16,
+              },
+              Object {},
+            ]
+          }
+        >
+          Topics
+        </Text>
+      </View>
+    </View>
+  </View>
+  <RCTScrollView
+    contentContainerStyle={
+      Object {
+        "alignContent": "center",
+        "alignItems": "center",
+        "justifyContent": "center",
+      }
+    }
+    decelerationRate={0}
+    horizontal={true}
+    onMomentumScrollEnd={[Function]}
+    pagingEnabled={true}
+    showsHorizontalScrollIndicator={false}
+    snapToAlignment="center"
+  >
+    <View>
+      <View
+        style={
+          Object {
+            "display": "flex",
+            "flexDirection": "row",
+            "height": 800.4,
+            "width": "100%",
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "width": 750,
+            }
+          }
+        >
+          <View>
+            <Text
+              accessible={false}
+              selectable={true}
+              style={
+                Array [
+                  Object {
+                    "color": "#222326",
+                    "fontFamily": "Circular Std Book",
+                    "fontWeight": "400",
+                  },
+                  Object {
+                    "fontSize": 16,
+                    "lineHeight": 19.2,
+                  },
+                  Object {},
+                  Object {},
+                ]
+              }
+              testID="profileTab"
+            >
+              This is my profile.
+            </Text>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "width": 750,
+            }
+          }
+        >
+          <View>
+            <Text
+              accessible={false}
+              selectable={true}
+              style={
+                Array [
+                  Object {
+                    "color": "#222326",
+                    "fontFamily": "Circular Std Book",
+                    "fontWeight": "400",
+                  },
+                  Object {
+                    "fontSize": 16,
+                    "lineHeight": 19.2,
+                  },
+                  Object {},
+                  Object {},
+                ]
+              }
+              testID="topicsTab"
+            >
+              These are my topics.
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</View>
+`;

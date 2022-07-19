@@ -1,5 +1,6 @@
 import { useLazyQuery } from '@apollo/client'
 import React, { createContext, useContext, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
@@ -21,6 +22,7 @@ export const UserContext = createContext<Context>(initialState)
 export const UserContextProvider: React.FC = ({ children }) => {
   const { displayError } = useErrorHandling()
   const { isLoggedIn } = useContext(AuthContext)
+  const { t } = useTranslation()
 
   const [getAuthenticatedUser, { loading, error, data }] =
     useLazyQuery<AuthenticatedUserResponse>(authenticatedUserQuery)
@@ -34,7 +36,7 @@ export const UserContextProvider: React.FC = ({ children }) => {
   }, [isLoggedIn, getAuthenticatedUser])
 
   if (error) {
-    displayError(error, 'Error fetching authenticated user')
+    displayError(error, t('user.userContext.error.fetching'))
   }
 
   const user = data && data?.authenticatedUser
