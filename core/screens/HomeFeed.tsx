@@ -154,7 +154,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         title: headerTitle,
         titleElement: () => <HoliText style={{ paddingTop: 5 }}>{headerTitle}</HoliText>,
       }),
-    [navigation]
+    [navigation, setNavigationHeader, headerTitle]
   )
 
   return (

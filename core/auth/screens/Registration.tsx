@@ -30,12 +30,12 @@ const Registration = () => {
       .catch((error) => displayError(error, t('auth.registration.error.initialization')))
   }
   // When the component is mounted, we initialize a new use login flow:
-  useEffect(() => initializeFlow(), [])
+  useEffect(() => initializeFlow())
 
   useEffect(() => {
     setBackLink('down')
     return () => clearBackLinks()
-  }, [])
+  }, [clearBackLinks, setBackLink])
 
   // This will update the registration flow with the user provided input:
   const onSubmit = (payload: SubmitSelfServiceRegistrationFlowBody): Promise<void> =>

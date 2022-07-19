@@ -33,7 +33,7 @@ export const UserContextProvider: React.FC = ({ children }) => {
     if (isLoggedIn) {
       getAuthenticatedUser()
     }
-  }, [isLoggedIn])
+  }, [isLoggedIn, getAuthenticatedUser])
 
   if (error) {
     displayError(error, t('user.userContext.error.fetching'))

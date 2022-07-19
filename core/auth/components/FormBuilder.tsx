@@ -67,7 +67,7 @@ const FormBuilder = <
     })
     setValues(values as T)
     setNodes(nodes)
-  }, [props.flow])
+  }, [props.flow, props.only])
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onChange = (name: string) => (value: any) => {
