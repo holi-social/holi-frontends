@@ -135,7 +135,7 @@ const AppsSwiper: React.VFC<AppsSwiperProps> = ({ style }) => {
           <View style={[styles.iconContainer, app.hasUpdates && styles.iconWithUpdates]}>
             <View style={[styles.icon, { backgroundColor: app.backgroundColor }]} />
           </View>
-          <HoliText style={styles.appName}>{t(app.nameKey)}</HoliText>
+          <HoliText selectable={false} style={styles.appName}>{t(app.nameKey)}</HoliText>
         </HoliButton>
       ))}
     </ScrollView>
