@@ -123,7 +123,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     getSessionFromStorage()
       .then(onSessionLoadedFromStorage)
       .catch((error) => displayError(error, t('auth.authProvider.error.sessionCreation')))
-  }, [])
+  })
 
   return (
     <AuthContext.Provider

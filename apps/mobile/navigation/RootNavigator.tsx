@@ -51,7 +51,7 @@ const HomeStack = createNativeStackNavigator<HomeStackScreens>()
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
-const backButton = () => {
+const BackButton = () => {
   const { theme } = useTheme()
   const { navigateBack } = useRouting()
   const { t } = useTranslation()
@@ -68,7 +68,7 @@ const backButton = () => {
   )
 }
 
-const downButton = () => {
+const DownButton = () => {
   const { theme } = useTheme()
   const { navigateBack } = useRouting()
   const { t } = useTranslation()
@@ -121,7 +121,7 @@ export const HomeStackNavigator: React.VFC = () => {
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
-          headerLeft: backButton,
+          headerLeft: BackButton,
           headerRight: () => (
             <HeaderRight
               style={{
@@ -138,7 +138,7 @@ export const HomeStackNavigator: React.VFC = () => {
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
-          headerLeft: backButton,
+          headerLeft: BackButton,
         }}
       />
       <HomeStack.Screen
@@ -147,7 +147,7 @@ export const HomeStackNavigator: React.VFC = () => {
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
-          headerLeft: backButton,
+          headerLeft: BackButton,
         }}
       />
       <HomeStack.Screen
@@ -156,7 +156,7 @@ export const HomeStackNavigator: React.VFC = () => {
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
-          headerLeft: backButton,
+          headerLeft: BackButton,
           headerRight: () => (
             <HeaderRight
               style={{
@@ -258,7 +258,7 @@ const RootNavigator: React.VFC = () => (
         headerTitleAlign: 'center',
         headerBackVisible: false,
         headerBackTitleVisible: false,
-        headerLeft: downButton,
+        headerLeft: DownButton,
       }}
     >
       <RootStack.Screen
