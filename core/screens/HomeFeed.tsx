@@ -31,7 +31,7 @@ const appsSwiperDummyApps: DummyApp[] = [
     icon: 'chat',
     nameKey: 'apps.volunteering.name',
     path: '/apps/volunteering',
-    testID: 'app-title-volunteering',
+    testID: 'app-tile-volunteering',
     hasUpdates: true,
     backgroundColor: styleVars.colors.impactyellow,
   },
@@ -39,7 +39,7 @@ const appsSwiperDummyApps: DummyApp[] = [
     icon: 'explore',
     nameKey: 'apps.donations.name',
     path: '/apps/volunteering',
-    testID: 'app-title-donations',
+    testID: 'app-tile-donations',
     hasUpdates: false,
     backgroundColor: styleVars.colors.positivepurple,
   },
@@ -47,7 +47,7 @@ const appsSwiperDummyApps: DummyApp[] = [
     icon: 'home',
     nameKey: 'apps.goodNews.name',
     path: '/apps/volunteering',
-    testID: 'app-title-goodNews',
+    testID: 'app-tile-goodNews',
     hasUpdates: true,
     backgroundColor: styleVars.colors.lightGrey,
   },
@@ -55,7 +55,7 @@ const appsSwiperDummyApps: DummyApp[] = [
     icon: 'search',
     nameKey: 'apps.adsForGood.name',
     path: '/apps/volunteering',
-    testID: 'app-title-adsForGood',
+    testID: 'app-tile-adsForGood',
     hasUpdates: true,
     backgroundColor: styleVars.colors.impactyellow,
   },
@@ -63,7 +63,7 @@ const appsSwiperDummyApps: DummyApp[] = [
     icon: 'user-circled',
     nameKey: 'apps.factCheck.name',
     path: '/apps/volunteering',
-    testID: 'app-title-factCheck',
+    testID: 'app-tile-factCheck',
     hasUpdates: false,
     backgroundColor: styleVars.colors.greyAA,
   },
@@ -208,7 +208,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         </View>
 
         {/* Weekly Topics */}
-        <HoliHeading level="2" testID="home-feed-topics">
+        <HoliHeading level="1" size="medium" testID="home-feed-topics-heading">
           {t('homeFeed.heading')}
         </HoliHeading>
 
