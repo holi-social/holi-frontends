@@ -15,6 +15,12 @@ import HoliButton from '@holi/ui/components/HoliButton'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
+enum ENGAGEMENT_LEVELS {
+  INTERESTED = 'INTERESTED',
+  ENGAGED = 'ENGAGED',
+  INITIATOR = 'INITIATOR',
+}
+
 type UserEngagementLevelFormProps = {
   onCancel?: () => void
   onSubmit?: (user: User) => void
@@ -28,7 +34,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
 }) => {
   const { user } = useContext(UserContext)
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
-  const [engagementLevel, setEngagementLevel] = useState(user?.engagementLevel || 'interested')
+  const [engagementLevel, setEngagementLevel] = useState(user?.engagementLevel || ENGAGEMENT_LEVELS.INTERESTED)
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
 
@@ -101,39 +107,48 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
         <HoliText style={styles.title}>{t('user.engagementLevel.form.question')}</HoliText>
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonContainer}>
-            {engagementLevel === 'interested' && ActiveButtonIcon}
+            {engagementLevel === ENGAGEMENT_LEVELS.INTERESTED && ActiveButtonIcon}
             <HoliButton
               label={t('user.engagementLevel.title.interested')}
               transparent
-              onPress={() => setEngagementLevel('interested')}
+              onPress={() => setEngagementLevel(ENGAGEMENT_LEVELS.INTERESTED)}
             >
-              <View style={[styles.button, ...(engagementLevel === 'interested' ? [styles.activeButton] : [])]}></View>
+              <View
+                style={[
+                  styles.button,
+                  ...(engagementLevel === ENGAGEMENT_LEVELS.INTERESTED ? [styles.activeButton] : []),
+                ]}
+              ></View>
             </HoliButton>
           </View>
           <View style={[styles.buttonContainer, { marginHorizontal: 10 }]}>
-            {engagementLevel === 'engaged' && ActiveButtonIcon}
+            {engagementLevel === ENGAGEMENT_LEVELS.ENGAGED && ActiveButtonIcon}
             <HoliButton
               label={t('user.engagementLevel.title.engaged')}
               transparent
-              onPress={() => setEngagementLevel('engaged')}
+              onPress={() => setEngagementLevel(ENGAGEMENT_LEVELS.ENGAGED)}
             >
               <View
-                style={[styles.button, styles.button2, ...(engagementLevel === 'engaged' ? [styles.activeButton] : [])]}
+                style={[
+                  styles.button,
+                  styles.button2,
+                  ...(engagementLevel === ENGAGEMENT_LEVELS.ENGAGED ? [styles.activeButton] : []),
+                ]}
               ></View>
             </HoliButton>
           </View>
           <View style={styles.buttonContainer}>
-            {engagementLevel === 'initiator' && ActiveButtonIcon}
+            {engagementLevel === ENGAGEMENT_LEVELS.INITIATOR && ActiveButtonIcon}
             <HoliButton
               label={t('user.engagementLevel.title.initiator')}
               transparent
-              onPress={() => setEngagementLevel('initiator')}
+              onPress={() => setEngagementLevel(ENGAGEMENT_LEVELS.INITIATOR)}
             >
               <View
                 style={[
                   styles.button,
                   styles.button3,
-                  ...(engagementLevel === 'initiator' ? [styles.activeButton] : []),
+                  ...(engagementLevel === ENGAGEMENT_LEVELS.INITIATOR ? [styles.activeButton] : []),
                 ]}
               ></View>
             </HoliButton>
