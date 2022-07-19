@@ -3,11 +3,9 @@ import {
   AccessibilityProps,
   AccessibilityRole,
   GestureResponderEvent,
-  NativeSyntheticEvent,
   Platform,
   Pressable,
   StyleSheet,
-  TargetedEvent,
   View,
   ViewStyle,
 } from 'react-native'
@@ -36,9 +34,7 @@ export type HoliButtonProps = {
   accessibilityLabel?: string
   tabIndex?: number
   // only for TS (props are added by {...props})
-  onPress?: (event: GestureResponderEvent) => void
-  onFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void
-  onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void
+  onPress?: null | ((event: GestureResponderEvent) => void)
   testID?: string
 }
 
@@ -84,12 +80,6 @@ const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
       disabled={disabled}
       onPress={(event) => {
         !disabled && props.onPress && props.onPress(event)
-      }}
-      onFocus={(event) => {
-        !disabled && props.onFocus && props.onFocus(event)
-      }}
-      onBlur={(event) => {
-        !disabled && props.onBlur && props.onBlur(event)
       }}
       style={(state) => {
         const result = [props.style, styles.base]
@@ -167,7 +157,6 @@ const getStyles = (theme: HoliTheme, inline: boolean) =>
       borderWidth: 4,
       paddingHorizontal: 30,
       paddingVertical: 11,
-      borderColor: theme.colors.positivepurple,
     },
     pressedPrimary: {
       backgroundColor: theme.colors.backgroundColorYellowDark,

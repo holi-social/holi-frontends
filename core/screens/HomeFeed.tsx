@@ -79,14 +79,9 @@ const appsSwiperStyles = (theme: HoliTheme, screenWidth: number) =>
       justifyContent: 'center',
     },
     tile: {
-      margin: 3,
       minWidth: 110,
       maxWidth: 110,
       overflow: 'hidden',
-    },
-    tileFocused: {
-      borderWidth: 1,
-      borderColor: styleVars.colors.positivepurple,
     },
     iconContainer: {
       alignSelf: 'center',
@@ -125,13 +120,6 @@ const AppsSwiper: React.VFC<AppsSwiperProps> = ({ style }) => {
   const { width } = useWindowDimensions()
   const { theme } = useTheme()
   const styles = appsSwiperStyles(theme, width)
-  const focusedStates = {
-    'apps.volunteering.name': useState(false),
-    'apps.donations.name': useState(false),
-    'apps.goodNews.name': useState(false),
-    'apps.adsForGood.name': useState(false),
-    'apps.factCheck.name': useState(false),
-  }
   return (
     <ScrollView horizontal={true} contentContainerStyle={styles.containerContent} style={[styles.container, style]}>
       {appsSwiperDummyApps.map((app) => (
@@ -141,19 +129,7 @@ const AppsSwiper: React.VFC<AppsSwiperProps> = ({ style }) => {
           inline
           transparent
           onPress={() => navigate(app.path)}
-          onFocus={() => {
-            // @ts-ignore
-            focusedStates[app.nameKey][1](true)
-          }}
-          onBlur={() => {
-            // @ts-ignore
-            focusedStates[app.nameKey][1](false)
-          }}
-          style={[
-            // @ts-ignore
-            focusedStates[app.nameKey][0] && styles.tileFocused,
-            styles.tile,
-          ]}
+          style={[styles.tile]}
           testID={app.testID}
         >
           <View style={[styles.iconContainer, app.hasUpdates && styles.iconWithUpdates]}>
@@ -208,6 +184,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         </View>
 
         {/* Weekly Topics */}
+        {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
         <HoliHeading level="1" size="medium" testID="home-feed-topics-heading">
           {t('homeFeed.heading')}
         </HoliHeading>
