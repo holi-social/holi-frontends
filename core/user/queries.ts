@@ -44,7 +44,7 @@ export const UpdateAuthenticatedUserInputSchema = z.object({
    * @minimum 3
    */
   firstName: z.string().min(3).optional(),
-  lastName: z.string().optional(),
+  lastName: z.string().min(3).optional(),
   aboutMe: z.string().optional(),
   pronouns: z.string().optional(),
   location: z.string().optional(),

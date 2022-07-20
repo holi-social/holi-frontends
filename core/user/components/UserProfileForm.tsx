@@ -102,7 +102,7 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
           placeholder={t('user.profileForm.firstNamePlaceholder')}
           onChange={(text) => {
             setFirstName(text)
-            setFieldErrors({ fieldErrors: { firstName: null } })
+            setFieldErrors({ ...fieldErrors, ...{ firstName: null } })
           }}
           style={styles.input}
           validationErrorText={fieldErrors?.firstName}
@@ -111,8 +111,12 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
           value={user.lastName}
           label={t('user.profileForm.lastName')}
           placeholder={t('user.profileForm.lastNamePlaceholder')}
-          onChange={(text) => setLastName(text)}
+          onChange={(text) => {
+            setLastName(text)
+            setFieldErrors({ ...fieldErrors, ...{ lastName: null } })
+          }}
           style={styles.input}
+          validationErrorText={fieldErrors?.lastName}
         />
         <HoliTextInput
           value={user?.aboutMe}
