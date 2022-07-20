@@ -7,6 +7,7 @@ import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import { UserContext } from '@holi/core/user/UserContextProvider'
 import {
   UpdateAuthenticatedUserInput,
+  UpdateAuthenticatedUserInputSchema,
   UpdateAuthenticatedUserResponse,
   updateUserMutation,
 } from '@holi/core/user/queries'
@@ -32,6 +33,7 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
   const [aboutMe, setAboutMe] = useState(user?.aboutMe || '')
   const [pronouns, setPronouns] = useState(user?.pronouns || '')
   const [location, setLocation] = useState(user?.location || '')
+  const [fieldErrors, setFieldErrors] = useState<{ [x: string]: any }>({})
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
 
@@ -47,6 +49,11 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
       ...(location && { location }),
     }
 
+    const resultSchema = UpdateAuthenticatedUserInputSchema.safeParse(input)
+    if (!resultSchema.success) {
+      setFieldErrors(resultSchema.error.flatten().fieldErrors)
+      return
+    }
     const result = await updateUser({ variables: { input } })
     if (!error && result.data && onSubmit) {
       onSubmit(result.data.authenticatedUser)
@@ -93,8 +100,12 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
           value={user.firstName}
           label={t('user.profileForm.firstName')}
           placeholder={t('user.profileForm.firstNamePlaceholder')}
-          onChange={(text) => setFirstName(text)}
+          onChange={(text) => {
+            setFirstName(text)
+            setFieldErrors({ fieldErrors: { firstName: null } })
+          }}
           style={styles.input}
+          validationErrorText={fieldErrors?.firstName}
         />
         <HoliTextInput
           value={user.lastName}
