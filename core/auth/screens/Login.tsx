@@ -36,7 +36,8 @@ const Login: React.VoidFunctionComponent = () => {
   }
 
   // When the component is mounted, we initialize a new use login flow:
-  useEffect(() => initializeFlow())
+  // eslint-disable-next-line
+  useEffect(() => initializeFlow(), [])
 
   useEffect(() => {
     setBackLink('down')
