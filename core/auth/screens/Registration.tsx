@@ -30,7 +30,8 @@ const Registration = () => {
       .catch((error) => displayError(error, t('auth.registration.error.initialization')))
   }
   // When the component is mounted, we initialize a new use login flow:
-  useEffect(() => initializeFlow())
+  // eslint-disable-next-line
+  useEffect(() => initializeFlow(), [])
 
   useEffect(() => {
     setBackLink('down')
