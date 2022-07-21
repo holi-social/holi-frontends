@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
-import { AuthenticatedUserResponse, authenticatedUserQuery } from '@holi/core/user/queries'
-import { User } from '@holi/core/user/types'
+import { AuthenticatedUserResponse, authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
+import type { User } from '@holi/core/screens/userprofile/types'
 
 interface Context {
   isLoading: boolean
