@@ -1,6 +1,6 @@
 const Helper = require('@codeceptjs/helper')
 
-const selectorByTestId = (testID, platform) => (platform === 'ios' ? `~${testID}` : `#${testID}`)
+const byTestId = (testID, platform) => (platform === 'ios' ? `~${testID}` : `#${testID}`)
 
 /**
  * Codecepts Appium Helper
@@ -9,7 +9,7 @@ const selectorByTestId = (testID, platform) => (platform === 'ios' ? `~${testID}
 class SelectorHelper extends Helper {
   async seeTextWithTestId(expectedText, testId) {
     const { Appium } = this.helpers
-    const elementSelector = selectorByTestId(testId, Appium.platform)
+    const elementSelector = byTestId(testId, Appium.platform)
 
     await Appium.waitForElement(elementSelector)
     await Appium.see(expectedText, elementSelector)
@@ -17,7 +17,7 @@ class SelectorHelper extends Helper {
 
   async tapOnElementWithTestId(testId) {
     const { Appium } = this.helpers
-    const elementSelector = selectorByTestId(testId, Appium.platform)
+    const elementSelector = byTestId(testId, Appium.platform)
 
     await Appium.waitForElement(elementSelector)
     await Appium.tap(elementSelector)
