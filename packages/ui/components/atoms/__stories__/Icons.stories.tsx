@@ -5,7 +5,7 @@ import Holicon from '@holi/ui/components/holicon'
 import theme from '@holi/ui/styles/theme'
 
 export default {
-  title: 'Components/Icons',
+  title: 'Atoms/Icons',
   parameters: {
     docs: {
       description: {

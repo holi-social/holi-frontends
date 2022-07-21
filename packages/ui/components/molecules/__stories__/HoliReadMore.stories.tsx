@@ -6,7 +6,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore.web'
 
 export default {
-  title: 'Components/HoliReadMore',
+  title: 'Molecules/HoliReadMore',
   component: HoliReadMore,
 } as ComponentMeta<typeof HoliReadMore>
 

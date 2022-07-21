@@ -4,7 +4,7 @@ import React from 'react'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 
 export default {
-  title: 'Components/HoliUserAvatar',
+  title: 'Molecules/HoliUserAvatar',
   component: HoliUserAvatar,
 } as ComponentMeta<typeof HoliUserAvatar>
 

@@ -5,7 +5,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 
 export default {
-  title: 'Components/HoliModal',
+  title: 'Molecules/HoliModal',
   component: HoliModal,
 } as ComponentMeta<typeof HoliModal>
 

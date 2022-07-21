@@ -4,7 +4,7 @@ import HoliText, { HoliTextSizes } from '@holi/ui/components/atoms/HoliText'
 import theme from '@holi/ui/styles/theme'
 
 export default {
-  title: 'Components/HoliText',
+  title: 'Atoms/HoliText',
   parameters: {
     docs: {
       description: {

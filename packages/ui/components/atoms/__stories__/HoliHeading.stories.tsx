@@ -4,7 +4,7 @@ import HoliHeading, { HoliHeadingLevels, HoliHeadingSizes } from '@holi/ui/compo
 import theme from '@holi/ui/styles/theme'
 
 export default {
-  title: 'Components/HoliHeading',
+  title: 'Atoms/HoliHeading',
   parameters: {
     docs: {
       description: {

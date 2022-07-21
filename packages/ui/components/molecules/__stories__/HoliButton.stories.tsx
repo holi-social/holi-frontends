@@ -4,7 +4,7 @@ import React from 'react'
 import HoliButton, { HoliButtonTypes, HoliButtonVariants } from '@holi/ui/components/molecules/HoliButton'
 
 export default {
-  title: 'Components/HoliButton',
+  title: 'Molecules/HoliButton',
   parameters: {
     docs: {
       description: {

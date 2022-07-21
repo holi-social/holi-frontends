@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 
 export default {
-  title: 'Components/HoliChip',
+  title: 'Molecules/HoliChip',
   component: HoliChip,
 } as ComponentMeta<typeof HoliChip>
 

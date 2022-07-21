@@ -39,7 +39,7 @@ const tabs = [
 ]
 
 export default {
-  title: 'Components/HoliTabs',
+  title: 'Organisms/HoliTabs',
   component: HoliTabs,
 } as ComponentMeta<typeof HoliTabs>
 

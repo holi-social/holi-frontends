@@ -3,7 +3,7 @@ import React, { Fragment } from 'react'
 import SharedImage from '@holi/ui/components/atoms/SharedImage'
 
 export default {
-  title: 'Components/SharedImage',
+  title: 'Atoms/SharedImage',
   parameters: {
     docs: {
       description: {

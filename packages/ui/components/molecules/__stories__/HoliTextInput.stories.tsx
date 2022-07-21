@@ -4,7 +4,7 @@ import iconSetRegular from '@holi/ui/assets/fonts/HoliIcons/filled/selection.jso
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 
 export default {
-  title: 'Components/HoliTextInput',
+  title: 'Molecules/HoliTextInput',
   parameters: {
     docs: {
       description: {
