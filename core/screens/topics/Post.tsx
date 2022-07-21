@@ -10,8 +10,8 @@ import { useNavigationContext } from '@holi/core/navigation/context'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
-import HoliHeading from '@holi/ui/components/HoliHeading'
-import HoliText from '@holi/ui/components/HoliText'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 
 export type PostParams = {
   topicId: string
@@ -38,7 +38,7 @@ const Post: React.VFC<PostProps> = ({ navigation }: PostProps) => {
     })
     setBackLink('left')
     return () => clearBackLinks()
-  }, [navigation, topicId, postId])
+  }, [navigation, topicId, postId, title, clearBackLinks, setBackLink, setNavigationHeader])
 
   if (!topicId) return <HoliText>{t('topics.post.missingTopicId')}</HoliText>
   if (!postId) return <HoliText>{t('topics.post.missingPostId')}</HoliText>

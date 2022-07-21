@@ -13,9 +13,9 @@ import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import { useNavigationContext } from '@holi/core/navigation/context'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import HoliButton from '@holi/ui/components/HoliButton'
-import HoliHeading from '@holi/ui/components/HoliHeading'
-import HoliText from '@holi/ui/components/HoliText'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 const Login: React.VoidFunctionComponent = () => {
   const { isLoggedIn, setUserLoggedIn } = useContext(AuthContext)
@@ -36,12 +36,13 @@ const Login: React.VoidFunctionComponent = () => {
   }
 
   // When the component is mounted, we initialize a new use login flow:
+  // eslint-disable-next-line
   useEffect(() => initializeFlow(), [])
 
   useEffect(() => {
     setBackLink('down')
     return () => clearBackLinks()
-  }, [])
+  }, [clearBackLinks, setBackLink])
 
   // This will update the login flow with the user provided input:
   const onSubmit = (payload: SubmitSelfServiceLoginFlowBody) =>

@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 
-import { UserProfileScreen } from '@holi/core/profile/UserProfileScreen'
+import UserProfile from '@holi/core/screens/userprofile/UserProfile'
 
-const UserProfilePage: NextPage = () => <UserProfileScreen />
+const UserProfilePage: NextPage = () => <UserProfile />
 
 export default UserProfilePage

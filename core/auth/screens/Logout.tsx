@@ -8,8 +8,8 @@ import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import { useNavigationContext } from '@holi/core/navigation/context'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import HoliButton from '@holi/ui/components/HoliButton'
-import HoliText from '@holi/ui/components/HoliText'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 const Logout: React.VoidFunctionComponent = () => {
   const { navigateBack } = useRouting()
@@ -21,7 +21,7 @@ const Logout: React.VoidFunctionComponent = () => {
   useEffect(() => {
     setBackLink('down')
     return () => clearBackLinks()
-  }, [])
+  }, [clearBackLinks, setBackLink])
 
   const onSubmit = () => {
     getSessionFromStorage()

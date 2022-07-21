@@ -7,7 +7,8 @@ import { logError } from '@holi/core/errors/useErrorHandling'
 
 import authLink from './authLink'
 
-const TIMEOUT_IN_MS = 10000 // 10 second timeout
+// The HOLI backend needs ~35s for a cold boot (which it does on a regular basis as we scale to zero), timeout respects that
+const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
 
 const timeoutLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
 const httpLink = new HttpLink({ uri: holiApiUrl })

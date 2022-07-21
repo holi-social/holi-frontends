@@ -67,7 +67,7 @@ const FormBuilder = <
     })
     setValues(values as T)
     setNodes(nodes)
-  }, [props.flow])
+  }, [props.flow, props.only])
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onChange = (name: string) => (value: any) => {
@@ -89,7 +89,7 @@ const FormBuilder = <
           const name = getNodeId(node)
           return (
             <FormNode
-              key={`form-field-${props.flow.ui.action || ''}-${name}-${k}`}
+              key={`form-field-${props.flow?.ui.action || ''}-${name}-${k}`}
               textInputOverride={props.textInputOverride}
               value={getValue(name)}
               onChange={onChange(name)}

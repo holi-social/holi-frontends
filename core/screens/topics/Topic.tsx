@@ -12,10 +12,10 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import TopicEditors from '@holi/core/screens/topics/components/TopicEditors'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
-import HoliButton from '@holi/ui/components/HoliButton'
-import HoliHeading from '@holi/ui/components/HoliHeading'
-import HoliModal from '@holi/ui/components/HoliModal'
-import HoliText from '@holi/ui/components/HoliText'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
 
 export type TopicParams = {
   topicId: string
@@ -40,7 +40,7 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
     })
     setBackLink('left')
     return () => clearBackLinks()
-  }, [navigation, topicId])
+  }, [navigation, topicId, t, clearBackLinks, setBackLink, setNavigationHeader])
 
   // Important: `fakeTopics.get(topicId) should be called after useEffect() or useLayoutEffet()
   // A hard reload will cause an error.

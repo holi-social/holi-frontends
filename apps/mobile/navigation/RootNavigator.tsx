@@ -11,18 +11,18 @@ import HeaderLeft from '@holi/core/navigation/components/HeaderLeft'
 import HeaderRight from '@holi/core/navigation/components/HeaderRight'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { UserProfileScreen } from '@holi/core/profile/UserProfileScreen'
 import Explore from '@holi/core/screens/Explore'
 import HomeFeed from '@holi/core/screens/HomeFeed'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
 import Post, { PostParams } from '@holi/core/screens/topics/Post'
 import Topic, { TopicParams } from '@holi/core/screens/topics/Topic'
+import UserProfile from '@holi/core/screens/userprofile/UserProfile'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
-import HoliButton from '@holi/ui/components/HoliButton'
 import HoliIcon from '@holi/ui/components/HoliIcon'
 import Holicon from '@holi/ui/components/holicon'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useTheme } from '@holi/ui/styles/theme/theme'
 
 export type HomeStackScreens = {
@@ -51,7 +51,7 @@ const HomeStack = createNativeStackNavigator<HomeStackScreens>()
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
-const backButton = () => {
+const BackButton = () => {
   const { theme } = useTheme()
   const { navigateBack } = useRouting()
   const { t } = useTranslation()
@@ -68,7 +68,7 @@ const backButton = () => {
   )
 }
 
-const downButton = () => {
+const DownButton = () => {
   const { theme } = useTheme()
   const { navigateBack } = useRouting()
   const { t } = useTranslation()
@@ -117,11 +117,11 @@ export const HomeStackNavigator: React.VFC = () => {
       />
       <HomeStack.Screen
         name="UserProfile"
-        component={UserProfileScreen}
+        component={UserProfile}
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
-          headerLeft: backButton,
+          headerLeft: BackButton,
           headerRight: () => (
             <HeaderRight
               style={{
@@ -138,7 +138,7 @@ export const HomeStackNavigator: React.VFC = () => {
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
-          headerLeft: backButton,
+          headerLeft: BackButton,
         }}
       />
       <HomeStack.Screen
@@ -147,7 +147,7 @@ export const HomeStackNavigator: React.VFC = () => {
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
-          headerLeft: backButton,
+          headerLeft: BackButton,
         }}
       />
       <HomeStack.Screen
@@ -156,7 +156,7 @@ export const HomeStackNavigator: React.VFC = () => {
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
-          headerLeft: backButton,
+          headerLeft: BackButton,
           headerRight: () => (
             <HeaderRight
               style={{
@@ -258,7 +258,7 @@ const RootNavigator: React.VFC = () => (
         headerTitleAlign: 'center',
         headerBackVisible: false,
         headerBackTitleVisible: false,
-        headerLeft: downButton,
+        headerLeft: DownButton,
       }}
     >
       <RootStack.Screen

@@ -1,6 +1,6 @@
 const webpack = require('webpack')
 
-const storiesDirectory = '../../../packages/ui/components/__stories__'
+const storiesDirectory = '../../../packages/ui/components'
 
 module.exports = {
   staticDirs: ['../../web/public'],
@@ -11,8 +11,8 @@ module.exports = {
     /*
      * Inline path declarations
      */
-    `${storiesDirectory}/**/*.stories.mdx`,
-    `${storiesDirectory}/**/*.stories.@(js|jsx|ts|tsx)`,
+    `${storiesDirectory}/**/__stories__/**/*.stories.mdx`,
+    `${storiesDirectory}/**/__stories__/**/*.stories.@(js|jsx|ts|tsx)`,
     /*
      * Object path declarations
      */

@@ -1,35 +1,52 @@
 # holi-frontends
 
+<!-- TOC -->
 - [Development](#development)
   - [Prerequisites](#prerequisites)
-    - [Android Emulator](#android-emulator)
-    - [iOS Simulator](#ios-simulator)
+    - [Android emulator](#android-emulator)
+    - [iOS simulator (if you have a Mac)](#ios-simulator-if-you-have-a-mac)
+    - [Docker (optional)](#docker-optional)
   - [Running](#running)
-  - [Testing](#testing)
-- [Monorepo (and why)](#monorepo---and-why)
+  - [Automated Testing](#automated-testing)
+    - [Web e2e tests](#web-e2e-tests)
+- [Monorepo - and why](#monorepo---and-why)
   - [Yarn Workspaces](#yarn-workspaces)
   - [Workspaces / Package Structure](#workspaces--package-structure)
   - [Code conventions](#code-conventions)
     - [Code style](#code-style)
   - [Dependencies](#dependencies)
-    - [Dependencies and Yarn Workspaces](#adding-dependencies-and-yarn-workspaces)
-    - [Rules for Adding Dependencies](#rules-for-adding-dependencies)
+    - [Dependencies and Yarn Workspaces](#dependencies-and-yarn-workspaces)
+  - [Rules for Adding Dependencies](#rules-for-adding-dependencies)
   - [Clean up](#clean-up)
   - [How to Reproduce (Built this from scratch)](#how-to-reproduce-built-this-from-scratch)
   - [Navigation](#navigation)
-    - [shared](#shared)
+    - [core](#core)
     - [web](#web)
     - [mobile](#mobile)
     - [conclusion](#conclusion)
     - [notes](#notes)
-  - [I18n](#i18n)
+  - [I18n (Internationalization)](#i18n-internationalization)
     - [Usage example](#usage-example)
     - [VS Code extension](#vs-code-extension)
+- [Creating NextJS SSR and SSG pages](#creating-nextjs-ssr-and-ssg-pages)
+  - [Understanding NextJS data fetching strategies](#understanding-nextjs-data-fetching-strategies)
+  - [Creating reusable pages for web and mobile and allowing SSR or SSG on web](#creating-reusable-pages-for-web-and-mobile-and-allowing-ssr-or-ssg-on-web)
+    - [Configure the page/screen component to use SSR or SSG:](#configure-the-pagescreen-component-to-use-ssr-or-ssg)
+      - [`core/screens/Quote.tsx`](#corescreensquotetsx)
+    - [In the web app, in the file corresponding to the page using SSR or SSG:](#in-the-web-app-in-the-file-corresponding-to-the-page-using-ssr-or-ssg)
+      - [`apps/web/pages/quote.tsx`](#appswebpagesquotetsx)
 - [Authentication](#authentication)
+  - [Mobile](#mobile)
+  - [Web](#web)
+- [Exploring the GraphQL API (via graphiql)](#exploring-the-graphql-api-via-graphiql)
 - [Continuous Integration and Deployment](#continuous-integration-and-deployment)
   - [Feature Branches & Environments](#feature-branches--environments)
-  - [noenv Branches](#noenv-branches)
+  - [Skipping parts of CI](#skipping-parts-of-ci)
+    - [noenv Branches](#noenv-branches)
+    - [noweb / nomobile Branches](#noweb--nomobile-branches)
   - [Staging and Production Environments](#staging-and-production-environments)
+- [sentry.io logging/tracing](#sentryio-loggingtracing)
+<!-- /TOC -->
 
 ## Development
 
@@ -71,12 +88,17 @@ For running the web e2e tests locally, you need to have Docker installed.
 Best way to run a dev environment is to checkout [holi-meta](https://gitlab.com/holisticfoundation/holi-meta) and use
 it to quickly start a complete environment.
 
-Locally in this repository, you can run `yarn mobile:dev` for mobile and `yarn web:dev` for web.
-You will need a running instance of [holi-unified-api](https://gitlab.com/holisticfoundation/holi-unified-api/) for this.
+Locally in this repository, you can run `yarn mobile:dev` for mobile and `yarn web:dev` for web. These will connect
+to Staging APIs by default. You can let them connect to other deployments of 
+[holi-unified-api](https://gitlab.com/holisticfoundation/holi-unified-api/) by providing the environment variable
+HOLI_API_URL (see [holi-meta](https://gitlab.com/holisticfoundation/holi-meta)).
 
-We are using [Expo](https://docs.expo.dev/) to build the app for both mobile app variants.
+We are using [Expo](https://docs.expo.dev/) to build the app for both mobile app variants. After starting the mobile
+dev environment (e.g. via [holi-meta](https://gitlab.com/holisticfoundation/holi-meta)), you can start the emulators
+with keyboard shortcuts and/or scan the QR code from the console log with the Expo Go App for testing/debugging on your
+phone.
 
-### Testing
+### Automated Testing
 
 The unit tests are written with [jest](https://jestjs.io/) and [@testing-library/react-native](https://callstack.github.io/react-native-testing-library/).
 
@@ -574,3 +596,7 @@ You can also selectively skip the web part of the pipeline by prefixing your bra
 ### Staging and Production Environments
 
 When a branch is merged to the main branch, the pipeline deploys to the staging environment and runs e2e tests against it. After these are successful, you can manually trigger a deployment of a specific commit to production via GitLab CI.
+
+## sentry.io logging/tracing
+
+For staging and production deployments, we are reporting logs and errors to sentry.io. Among others, we have a project for [mobile](https://sentry.io/organizations/holistic-foundation/issues/?project=6377191) and another one for [web](https://sentry.io/organizations/holistic-foundation/issues/?project=6396737). Check them out from time to time.
