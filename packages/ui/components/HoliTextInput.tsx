@@ -15,7 +15,7 @@ import {
 } from 'react-native'
 import tinycolor from 'tinycolor2'
 
-import { AccessibilityPropsWeb } from '@holi/ui/@types/react-native-web'
+import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliIcon from '@holi/ui/components/HoliIcon'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'

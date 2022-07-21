@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { AccessibilityProps, Platform, StyleSheet, Text, TextStyle } from 'react-native'
 
-import { AccessibilityPropsWeb } from '@holi/ui/@types/react-native-web'
+import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type HoliHeadingLevel = '1' | '2' | '3' // for working code completion in vscode

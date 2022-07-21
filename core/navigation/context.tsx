@@ -24,7 +24,7 @@ const NavigationContext = createContext<NavigationContextType>({
 })
 export const useNavigationContext = () => useContext(NavigationContext)
 
-export const NavigationContextProvider: React.FC = ({ children }) => {
+const NavigationContextProvider: React.FC = ({ children }) => {
   const [pathname, setPathname] = useState('/')
   const [headerTitle, setHeaderTitle] = useState('')
   const [showBackLink, setShowBackLink] = useState(false)
@@ -63,3 +63,5 @@ export const NavigationContextProvider: React.FC = ({ children }) => {
     </NavigationContext.Provider>
   )
 }
+
+export default NavigationContextProvider

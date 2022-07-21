@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react-native'
 import React from 'react'
 
-import { AuthContext } from '@holi/core/auth/AuthProvider'
+import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import UserProfile from '@holi/core/screens/userprofile/UserProfile'
 
 describe('renders correctly', () => {

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { AuthContext } from '@holi/core/auth/AuthProvider'
+import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import { useNavigationContext } from '@holi/core/navigation/context'

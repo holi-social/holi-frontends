@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import client from '@holi/api/graphql/client'
-import { AuthContext, AuthContextProvider } from '@holi/core/auth/AuthProvider'
+import { AuthContext, AuthContextProvider } from '@holi/core/auth/AuthContextProvider'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { NavigationContextProvider } from '@holi/core/navigation/context'
 import { UserContext, UserContextProvider } from '@holi/core/screens/userprofile/UserContextProvider'

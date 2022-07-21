@@ -4,7 +4,7 @@
   "apps.goodNews.name": "Good News",
   "apps.adsForGood.name": "Ads for Good",
   "apps.factCheck.name": "FactCheck",
-  "auth.authProvider.error.sessionCreation": "Error creating session",
+  "auth.authContextProvider.error.sessionCreation": "Error creating session",
   "auth.login.alreadyLoggedIn": "You are already logged in",
   "auth.login.error.initialization": "Initializing login flow failed",
   "auth.login.error.login": "Login failed",
