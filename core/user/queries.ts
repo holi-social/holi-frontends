@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client/core'
+import { z } from 'zod'
 
 import { User } from '@holi/core/user/types'
 
@@ -35,18 +36,20 @@ export type AuthenticatedUserResponse = {
   authenticatedUser: User
 }
 
-export type UpdateAuthenticatedUserInput = {
-  avatar?: string
-  firstName?: string
-  lastName?: string
-  aboutMe?: string
-  pronouns?: string
-  location?: string
-  engagementLevel?: string
-  interests?: [string]
-  sdgs?: [string]
-  skills?: [string]
-}
+export const UpdateAuthenticatedUserInputSchema = z.object({
+  avatar: z.string().optional(),
+  firstName: z.string().min(2, { message: 'Should be at least 2 characters' }).optional(),
+  lastName: z.string().min(2).optional(),
+  aboutMe: z.string().optional(),
+  pronouns: z.string().optional(),
+  location: z.string().optional(),
+  engagementLevel: z.string().optional(),
+  interests: z.array(z.string()).optional(),
+  sdgs: z.array(z.string()).optional(),
+  skills: z.array(z.string()).optional(),
+})
+
+export type UpdateAuthenticatedUserInput = z.infer<typeof UpdateAuthenticatedUserInputSchema>
 
 export type UpdateAuthenticatedUserResponse = {
   authenticatedUser: User
