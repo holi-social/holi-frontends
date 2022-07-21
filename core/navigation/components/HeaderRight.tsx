@@ -4,7 +4,7 @@ import { ViewStyle } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { UserContext } from '@holi/core/user/UserContextProvider'
+import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliIcon from '@holi/ui/components/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'

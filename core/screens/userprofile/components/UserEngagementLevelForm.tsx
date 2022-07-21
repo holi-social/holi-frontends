@@ -4,13 +4,13 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
-import { UserContext } from '@holi/core/user/UserContextProvider'
+import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserResponse,
   updateUserMutation,
-} from '@holi/core/user/queries'
-import { User } from '@holi/core/user/types'
+} from '@holi/core/screens/userprofile/queries'
+import type { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -22,7 +22,6 @@ type UserEngagementLevelFormProps = {
 }
 
 const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFormProps> = ({
-  onCancel,
   onSubmit,
   buttonsRelativeHeight = 0.35,
 }) => {
@@ -152,8 +151,6 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
   )
 }
 
-export { UserEngagementLevelForm }
-
 const getStyles = (theme: HoliTheme, buttonsContainerHeight: number) =>
   StyleSheet.create({
     wrapper: {
@@ -213,3 +210,5 @@ const getStyles = (theme: HoliTheme, buttonsContainerHeight: number) =>
       justifyContent: 'center',
     },
   })
+
+export default UserEngagementLevelForm

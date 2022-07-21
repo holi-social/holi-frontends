@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { UserContext } from '@holi/core/user/UserContextProvider'
+import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
@@ -34,7 +34,7 @@ const UserProfileView: React.VFC = () => {
           />
         </View>
         <View style={styles.nameContainer}>
-          <HoliHeading>{fullName}</HoliHeading>
+          <HoliHeading testID="user-profile-full-name">{fullName}</HoliHeading>
           <HoliText styles={{ color: theme.colors.fontColorGrey }}>
             {user.pronouns && `(${user.pronouns}) `}
             {user.location && `${user.location}`}
@@ -83,4 +83,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export { UserProfileView }
+export default UserProfileView

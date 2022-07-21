@@ -7,11 +7,11 @@ import { AuthContext } from '@holi/core/auth/AuthProvider'
 import { LoginProtection } from '@holi/core/auth/components/LoginProtection'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import LoggedOutView from '@holi/core/profile/LoggedOutView'
-import { UserContext } from '@holi/core/user/UserContextProvider'
-import { UserEngagementLevelForm } from '@holi/core/user/components/UserEngagementLevelForm'
-import { UserProfileForm } from '@holi/core/user/components/UserProfileForm'
-import { UserProfileView } from '@holi/core/user/components/UserProfileView'
+import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
+import LoggedOutView from '@holi/core/screens/userprofile/components/LoggedOutView'
+import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
+import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
+import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
@@ -20,11 +20,10 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { useTheme } from '@holi/ui/styles/theme'
 
-export const UserProfileScreen: React.VFC = () => {
+const UserProfile: React.VFC = () => {
   const { navigate } = useRouting()
   const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState<'edit' | 'levelOfEngagement' | null>(null)
-  const [chipChecked, setChipChecked] = useState(false)
   const toggleModal = () => {
     setShowModal(!showModal)
   }
@@ -143,3 +142,5 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
   },
 })
+
+export default UserProfile

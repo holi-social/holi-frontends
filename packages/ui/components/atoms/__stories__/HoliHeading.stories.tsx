@@ -64,7 +64,7 @@ export const Colored = () => (
   </Fragment>
 )
 
-export const All = ({ ...args }) => {
+export const All = () => {
   const sizes = HoliHeadingSizes
   const samples = sizes.map((size) => {
     return (

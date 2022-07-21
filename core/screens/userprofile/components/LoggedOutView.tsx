@@ -22,14 +22,12 @@ const LoggedOutView: VoidFunctionComponent<LoggedOutViewProps> = (props: LoggedO
           altText={t('profile.loggedOut.image')}
         />
       </View>
-      <HoliHeading level="1" size="medium" style={styles.text}>
+      <HoliHeading level="1" size="medium" style={styles.text} testID="user-profile-logged-out-heading">
         {t('profile.loggedOut.heading')}
       </HoliHeading>
     </View>
   )
 }
-
-export default LoggedOutView
 
 const styles = StyleSheet.create({
   loggedOutView: {
@@ -43,3 +41,5 @@ const styles = StyleSheet.create({
     marginTop: 45,
   },
 })
+
+export default LoggedOutView
