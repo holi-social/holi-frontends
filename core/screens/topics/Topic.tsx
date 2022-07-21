@@ -40,7 +40,7 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
     })
     setBackLink('left')
     return () => clearBackLinks()
-  }, [navigation, topicId])
+  }, [navigation, topicId, t, clearBackLinks, setBackLink, setNavigationHeader])
 
   // Important: `fakeTopics.get(topicId) should be called after useEffect() or useLayoutEffet()
   // A hard reload will cause an error.

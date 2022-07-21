@@ -22,7 +22,7 @@ const ChatHome: React.VFC<ChatHomeProps> = ({ navigation }: ChatHomeProps) => {
         title: title,
         titleElement: () => <HoliText style={{ paddingTop: 5 }}>{title}</HoliText>,
       }),
-    [navigation]
+    [navigation, setNavigationHeader, title]
   )
 
   return (

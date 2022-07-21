@@ -22,12 +22,12 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = ({ navigation }
         title: title,
         titleElement: () => <HoliText style={{ paddingTop: 5 }}>{title}</HoliText>,
       }),
-    [navigation]
+    [navigation, setNavigationHeader, title]
   )
 
   return (
     <View style={{ padding: 10 }}>
-      <HoliHeading level="1" size="super" testID="apps-volunteering-title">
+      <HoliHeading level="1" size="super" testID="apps-volunteering-heading">
         {title}
       </HoliHeading>
     </View>

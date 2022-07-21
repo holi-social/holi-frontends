@@ -21,7 +21,7 @@ const Logout: React.VoidFunctionComponent = () => {
   useEffect(() => {
     setBackLink('down')
     return () => clearBackLinks()
-  }, [])
+  }, [clearBackLinks, setBackLink])
 
   const onSubmit = () => {
     getSessionFromStorage()

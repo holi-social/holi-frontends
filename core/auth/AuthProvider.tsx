@@ -122,6 +122,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     getSessionFromStorage()
       .then(onSessionLoadedFromStorage)
       .catch((error) => displayError(error, t('auth.authProvider.error.sessionCreation')))
+    // eslint-disable-next-line
   }, [])
 
   return (

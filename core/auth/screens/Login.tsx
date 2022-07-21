@@ -36,12 +36,13 @@ const Login: React.VoidFunctionComponent = () => {
   }
 
   // When the component is mounted, we initialize a new use login flow:
+  // eslint-disable-next-line
   useEffect(() => initializeFlow(), [])
 
   useEffect(() => {
     setBackLink('down')
     return () => clearBackLinks()
-  }, [])
+  }, [clearBackLinks, setBackLink])
 
   // This will update the login flow with the user provided input:
   const onSubmit = (payload: SubmitSelfServiceLoginFlowBody) =>

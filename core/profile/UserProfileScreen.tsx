@@ -42,7 +42,7 @@ export const UserProfileScreen: React.VFC = () => {
       title: profileTitle,
       titleElement: () => <HoliText style={{ paddingTop: 5 }}>{profileTitle}</HoliText>,
     })
-  }, [isLoggedIn])
+  }, [isLoggedIn, setNavigationHeader, user, t])
 
   return (
     <DefaultLayout>

@@ -22,7 +22,7 @@ const Search: React.VFC<SearchProps> = ({ navigation }: SearchProps) => {
         title: title,
         titleElement: () => <HoliText style={{ paddingTop: 5 }}>{title}</HoliText>,
       }),
-    [navigation]
+    [navigation, setNavigationHeader, title]
   )
 
   return (
