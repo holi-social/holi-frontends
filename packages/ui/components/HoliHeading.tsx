@@ -31,20 +31,21 @@ export type HoliHeadingProps = {
   testID?: string
 }
 
-const HoliHeading = ({
+const HoliHeading: React.FC<HoliHeadingProps> = ({
   children,
   level = '1',
   size = HoliHeadings[level].defaultSize,
   selectable = true,
+  testID,
   ...props
-}: HoliHeadingProps) => {
+}) => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = Platform.select({
     web: {
       accessibilityRole: 'header',
-      accessibilityLevel: level as unknown as number,
+      accessibilityLevel: Number(level),
     },
     default: {
       role: 'header',
@@ -56,7 +57,7 @@ const HoliHeading = ({
       {...accessibilityProps}
       selectable={selectable}
       style={[styles.default, styles[size as keyof typeof styles], props?.style]}
-      {...(props.testID && { testID: props.testID })}
+      testID={testID}
     >
       {children}
     </Text>
@@ -65,6 +66,14 @@ const HoliHeading = ({
 
 export default HoliHeading
 
+class FontStyle {
+  constructor(public fontSize: number) {}
+
+  get lineHeight() {
+    return this.fontSize * 1.2
+  }
+}
+
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     default: {
@@ -72,20 +81,8 @@ const getStyles = (theme: HoliTheme) =>
       fontFamily: theme.fontFamily.default('Medium'),
       color: theme.colors.softblack,
     },
-    super: {
-      fontSize: 36,
-      lineHeight: 36 * 1.2,
-    },
-    large: {
-      fontSize: 28,
-      lineHeight: 28 * 1.2,
-    },
-    medium: {
-      fontSize: 21,
-      lineHeight: 21 * 1.2,
-    },
-    small: {
-      fontSize: 16,
-      lineHeight: 16 * 1.4,
-    },
+    super: new FontStyle(36),
+    large: new FontStyle(28),
+    medium: new FontStyle(21),
+    small: new FontStyle(16),
   })
