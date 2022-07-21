@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Animated, Modal, ModalProps, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
-import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler'
+import {
+  GestureEvent,
+  GestureHandlerRootView,
+  HandlerStateChangeEvent,
+  PanGestureHandler,
+} from 'react-native-gesture-handler'
 
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -22,15 +27,15 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
   const [visible, setVisible] = useState(show)
   const bottom = useRef(new Animated.Value(-modalHeight)).current
 
-  const onGesture = (event: any) => {
-    if (event.nativeEvent.translationY > 0) {
+  const onGesture = (event: GestureEvent) => {
+    if (typeof event.nativeEvent.translationY == 'number' && event.nativeEvent.translationY > 0) {
       bottom.setValue(-event.nativeEvent.translationY)
     }
   }
 
-  const onGestureEnd = (event: any) => {
+  const onGestureEnd = (event: HandlerStateChangeEvent) => {
     // if dragged more than half of the height down, dismiss the modal
-    if (event.nativeEvent.translationY > modalHeight / 2) {
+    if (typeof event.nativeEvent.translationY == 'number' && event.nativeEvent.translationY > modalHeight / 2) {
       onDismiss()
     } else {
       bottom.setValue(0)

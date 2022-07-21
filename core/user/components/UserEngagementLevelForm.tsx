@@ -22,7 +22,6 @@ type UserEngagementLevelFormProps = {
 }
 
 const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFormProps> = ({
-  onCancel,
   onSubmit,
   buttonsRelativeHeight = 0.35,
 }) => {
