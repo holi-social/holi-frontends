@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { UserContext } from '@holi/core/user/UserContextProvider'
+import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliChip from '@holi/ui/components/HoliChip'
 import HoliHeading from '@holi/ui/components/HoliHeading'
 import HoliReadMore from '@holi/ui/components/HoliReadMore'
@@ -83,4 +83,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export { UserProfileView }
+export default UserProfileView

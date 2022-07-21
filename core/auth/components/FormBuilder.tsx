@@ -89,7 +89,7 @@ const FormBuilder = <
           const name = getNodeId(node)
           return (
             <FormNode
-              key={`form-field-${props.flow.ui.action || ''}-${name}-${k}`}
+              key={`form-field-${props.flow ? props.flow.ui.action : ''}-${name}-${k}`}
               textInputOverride={props.textInputOverride}
               value={getValue(name)}
               onChange={onChange(name)}

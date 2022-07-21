@@ -2,7 +2,7 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
-import { UserProfileScreen } from '@holi/core/profile/UserProfileScreen'
+import { UserProfileScreen } from '@holi/core/screens/userprofile/UserProfile'
 
 describe('renders correctly', () => {
   it('renders profile when logged in', () => {
