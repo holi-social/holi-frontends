@@ -7,8 +7,8 @@ import { AuthContext } from '@holi/core/auth/AuthProvider'
 import { LoginProtection } from '@holi/core/auth/components/LoginProtection'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import LoggedOut from '@holi/core/screens/userprofile/LoggedOut'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
+import LoggedOutView from '@holi/core/screens/userprofile/components/LoggedOutView'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
@@ -47,7 +47,7 @@ const UserProfile: React.VFC = () => {
 
   return (
     <DefaultLayout>
-      <LoginProtection loggedOutContent={<LoggedOut style={styles.container} />}>
+      <LoginProtection loggedOutContent={<LoggedOutView style={styles.container} />}>
         <>
           <View style={styles.container}>
             <>

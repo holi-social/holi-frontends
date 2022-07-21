@@ -5,15 +5,15 @@ import { StyleSheet, View, ViewStyle } from 'react-native'
 import HoliHeading from '@holi/ui/components/HoliHeading'
 import SharedImage from '@holi/ui/components/SharedImage'
 
-export type LoggedOutProps = {
+export type LoggedOutViewProps = {
   style?: ViewStyle | Record<string, unknown>
 }
 
-const LoggedOut: VoidFunctionComponent<LoggedOutProps> = (props: LoggedOutProps) => {
+const LoggedOutView: VoidFunctionComponent<LoggedOutViewProps> = (props: LoggedOutViewProps) => {
   const { t } = useTranslation()
 
   return (
-    <View style={[styles.loggedOut, props.style]}>
+    <View style={[styles.loggedOutView, props.style]}>
       <View style={styles.moodImage}>
         <SharedImage
           imageFile={require('@holi/ui/assets/img/icons/illustration_logged_out.png')}
@@ -30,7 +30,7 @@ const LoggedOut: VoidFunctionComponent<LoggedOutProps> = (props: LoggedOutProps)
 }
 
 const styles = StyleSheet.create({
-  loggedOut: {
+  loggedOutView: {
     marginTop: 100,
   },
   moodImage: {
@@ -42,4 +42,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default LoggedOut
+export default LoggedOutView
