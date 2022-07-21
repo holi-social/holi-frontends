@@ -33,7 +33,7 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
   const [aboutMe, setAboutMe] = useState(user?.aboutMe || '')
   const [pronouns, setPronouns] = useState(user?.pronouns || '')
   const [location, setLocation] = useState(user?.location || '')
-  const [fieldErrors, setFieldErrors] = useState<{ [x: string]: any }>({})
+  const [fieldErrors, setFieldErrors] = useState<{ [x: string]: string[] | undefined }>({})
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
 
@@ -102,10 +102,10 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
           placeholder={t('user.profileForm.firstNamePlaceholder')}
           onChange={(text) => {
             setFirstName(text)
-            setFieldErrors({ ...fieldErrors, ...{ firstName: null } })
+            setFieldErrors({ ...fieldErrors, ...{ firstName: undefined } })
           }}
           style={styles.input}
-          validationErrorText={fieldErrors?.firstName}
+          validationErrorText={fieldErrors?.firstName?.join()}
         />
         <HoliTextInput
           value={user.lastName}
@@ -113,10 +113,10 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
           placeholder={t('user.profileForm.lastNamePlaceholder')}
           onChange={(text) => {
             setLastName(text)
-            setFieldErrors({ ...fieldErrors, ...{ lastName: null } })
+            setFieldErrors({ ...fieldErrors, ...{ lastName: undefined } })
           }}
           style={styles.input}
-          validationErrorText={fieldErrors?.lastName}
+          validationErrorText={fieldErrors?.lastName?.join()}
         />
         <HoliTextInput
           value={user?.aboutMe}
