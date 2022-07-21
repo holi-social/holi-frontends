@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client/core'
-import { User } from 'core/screens/userprofile/types'
 import { z } from 'zod'
+
+import type { User } from '@holi/core/screens/userprofile/types'
 
 // TODO: user needs also default color (HOLI-1525)
 export const userFragment = gql`

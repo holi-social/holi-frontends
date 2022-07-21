@@ -2,7 +2,7 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
-import { UserProfileScreen } from '@holi/core/screens/userprofile/UserProfile'
+import UserProfile from '@holi/core/screens/userprofile/UserProfile'
 
 describe('renders correctly', () => {
   it('renders profile when logged in', () => {
@@ -10,7 +10,7 @@ describe('renders correctly', () => {
       <AuthContext.Provider
         value={{ isLoading: false, isLoggedIn: true, setUserLoggedIn: jest.fn(), setUserLoggedOut: jest.fn() }}
       >
-        <UserProfileScreen />
+        <UserProfile />
       </AuthContext.Provider>
     )
 
@@ -19,7 +19,7 @@ describe('renders correctly', () => {
   })
 
   it('renders login hint when logged out', () => {
-    const { queryByText } = render(<UserProfileScreen />)
+    const { queryByText } = render(<UserProfile />)
 
     expect(queryByText('Inspirational text about your profile')).toBeTruthy()
     expect(queryByText('Log in')).toBeTruthy()

@@ -7,7 +7,7 @@ import { AuthContext } from '@holi/core/auth/AuthProvider'
 import { LoginProtection } from '@holi/core/auth/components/LoginProtection'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import LoggedOutView from '@holi/core/screens/userprofile/LoggedOut'
+import LoggedOut from '@holi/core/screens/userprofile/LoggedOut'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
@@ -20,7 +20,7 @@ import HoliTabs from '@holi/ui/components/HoliTabs'
 import HoliText from '@holi/ui/components/HoliText'
 import { useTheme } from '@holi/ui/styles/theme'
 
-export const UserProfileScreen: React.VFC = () => {
+const UserProfile: React.VFC = () => {
   const { navigate } = useRouting()
   const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState<'edit' | 'levelOfEngagement' | null>(null)
@@ -47,7 +47,7 @@ export const UserProfileScreen: React.VFC = () => {
 
   return (
     <DefaultLayout>
-      <LoginProtection loggedOutContent={<LoggedOutView style={styles.container} />}>
+      <LoginProtection loggedOutContent={<LoggedOut style={styles.container} />}>
         <>
           <View style={styles.container}>
             <>
@@ -143,3 +143,5 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
   },
 })
+
+export default UserProfile

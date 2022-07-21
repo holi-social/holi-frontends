@@ -1,5 +1,4 @@
 import { useMutation } from '@apollo/client'
-import { User } from 'core/screens/userprofile/types'
 import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View } from 'react-native'
@@ -12,6 +11,7 @@ import {
   UpdateAuthenticatedUserResponse,
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
+import type { User } from '@holi/core/screens/userprofile/types'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliIcon from '@holi/ui/components/HoliIcon'
 import HoliText from '@holi/ui/components/HoliText'
