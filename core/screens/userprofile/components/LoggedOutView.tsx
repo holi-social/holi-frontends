@@ -2,8 +2,8 @@ import React, { VoidFunctionComponent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
-import HoliHeading from '@holi/ui/components/HoliHeading'
-import SharedImage from '@holi/ui/components/SharedImage'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import SharedImage from '@holi/ui/components/atoms/SharedImage'
 
 export type LoggedOutViewProps = {
   style?: ViewStyle | Record<string, unknown>
