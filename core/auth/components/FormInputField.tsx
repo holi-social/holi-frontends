@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { NativeSyntheticEvent, TextInputKeyPressEventData, TextInputProps, ViewStyle } from 'react-native'
 
 import { getNodeId, getNodeTitle, oryNodeIsInput } from '@holi/core/auth/helpers/form'
-import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/HoliTextInput'
+import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
 
 interface Props extends InputProps {
   node: UiNode

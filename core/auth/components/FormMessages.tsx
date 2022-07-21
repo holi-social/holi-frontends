@@ -3,7 +3,7 @@ import { UiText } from '@ory/kratos-client'
 import React from 'react'
 import { ViewStyle } from 'react-native'
 
-import HoliText from '@holi/ui/components/HoliText'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useTheme } from '@holi/ui/styles/theme'
 
 interface Props {

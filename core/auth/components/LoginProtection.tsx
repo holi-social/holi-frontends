@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import HoliButton from '@holi/ui/components/HoliButton'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 type LoginProtectionProps = {
   children?: React.ReactChild | React.ReactChildren

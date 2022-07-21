@@ -8,8 +8,8 @@ import { StyleSheet } from 'react-native'
 
 import RootProvider from '@holi/core/RootProvider'
 import i18n, { initI18n } from '@holi/core/i18n'
-import HoliText from '@holi/ui/components/HoliText'
-import SafeArea from '@holi/ui/components/SafeArea'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
 import '@holi/web/styles/globals.scss'
 
