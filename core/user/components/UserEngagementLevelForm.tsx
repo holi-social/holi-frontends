@@ -11,8 +11,8 @@ import {
   updateUserMutation,
 } from '@holi/core/user/queries'
 import { User } from '@holi/core/user/types'
-import HoliButton from '@holi/ui/components/HoliButton'
-import HoliText from '@holi/ui/components/HoliText'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type UserEngagementLevelFormProps = {

@@ -5,9 +5,9 @@ import { ViewStyle } from 'react-native'
 import { AuthContext } from '@holi/core/auth/AuthProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserContext } from '@holi/core/user/UserContextProvider'
-import HoliButton from '@holi/ui/components/HoliButton'
 import HoliIcon from '@holi/ui/components/HoliIcon'
-import HoliUserAvatar from '@holi/ui/components/HoliUserAvatar'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 
 export type HeaderRightProps = {
   style?: ViewStyle | Record<string, unknown>

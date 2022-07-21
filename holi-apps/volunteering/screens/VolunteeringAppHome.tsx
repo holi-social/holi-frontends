@@ -6,8 +6,8 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
-import HoliHeading from '@holi/ui/components/HoliHeading'
-import HoliText from '@holi/ui/components/HoliText'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 
 type VolunteeringAppHomeProps = NativeStackScreenProps<HomeStackScreens>
 

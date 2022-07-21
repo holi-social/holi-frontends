@@ -5,9 +5,9 @@ import { View } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import HoliButton from '@holi/ui/components/HoliButton'
-import SafeArea from '@holi/ui/components/SafeArea'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import Holicon from '@holi/ui/components/holicon'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useTheme } from '@holi/ui/styles/theme/theme'
 
 import VolunteeringAppHome from '@holi-apps/volunteering/screens/VolunteeringAppHome'
