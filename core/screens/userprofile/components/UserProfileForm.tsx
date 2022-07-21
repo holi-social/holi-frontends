@@ -4,14 +4,14 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View } from 'react-native'
 
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
-import { UserContext } from '@holi/core/user/UserContextProvider'
+import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserInputSchema,
   UpdateAuthenticatedUserResponse,
   updateUserMutation,
-} from '@holi/core/user/queries'
-import { User } from '@holi/core/user/types'
+} from '@holi/core/screens/userprofile/queries'
+import type { User } from '@holi/core/screens/userprofile/types'
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliIcon from '@holi/ui/components/HoliIcon'
 import HoliText from '@holi/ui/components/HoliText'
@@ -149,8 +149,6 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
   )
 }
 
-export { UserProfileForm }
-
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     addImage: {
@@ -187,3 +185,5 @@ const getStyles = (theme: HoliTheme) =>
       justifyContent: 'center',
     },
   })
+
+export default UserProfileForm

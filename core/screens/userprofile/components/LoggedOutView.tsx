@@ -29,8 +29,6 @@ const LoggedOutView: VoidFunctionComponent<LoggedOutViewProps> = (props: LoggedO
   )
 }
 
-export default LoggedOutView
-
 const styles = StyleSheet.create({
   loggedOutView: {
     marginTop: 100,
@@ -43,3 +41,5 @@ const styles = StyleSheet.create({
     marginTop: 45,
   },
 })
+
+export default LoggedOutView

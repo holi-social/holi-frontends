@@ -11,13 +11,13 @@ import HeaderLeft from '@holi/core/navigation/components/HeaderLeft'
 import HeaderRight from '@holi/core/navigation/components/HeaderRight'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { UserProfileScreen } from '@holi/core/profile/UserProfileScreen'
 import Explore from '@holi/core/screens/Explore'
 import HomeFeed from '@holi/core/screens/HomeFeed'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
 import Post, { PostParams } from '@holi/core/screens/topics/Post'
 import Topic, { TopicParams } from '@holi/core/screens/topics/Topic'
+import UserProfile from '@holi/core/screens/userprofile/UserProfile'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliButton from '@holi/ui/components/HoliButton'
@@ -117,7 +117,7 @@ export const HomeStackNavigator: React.VFC = () => {
       />
       <HomeStack.Screen
         name="UserProfile"
-        component={UserProfileScreen}
+        component={UserProfile}
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
