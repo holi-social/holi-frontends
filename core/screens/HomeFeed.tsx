@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
