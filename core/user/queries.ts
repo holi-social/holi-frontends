@@ -41,9 +41,14 @@ export const UpdateAuthenticatedUserInputSchema = z.object({
   /**
    * First name of the user.
    *
-   * @minimum 3
+   * @minimum 2
    */
   firstName: z.string().min(2, { message: 'Should be at least 2 characters' }).optional(),
+  /**
+   * Last name of the user.
+   *
+   * @minimum 2
+   */
   lastName: z.string().min(2).optional(),
   aboutMe: z.string().optional(),
   pronouns: z.string().optional(),
