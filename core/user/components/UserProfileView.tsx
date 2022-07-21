@@ -34,7 +34,7 @@ const UserProfileView: React.VFC = () => {
           />
         </View>
         <View style={styles.nameContainer}>
-          <HoliHeading>{fullName}</HoliHeading>
+          <HoliHeading testID="user-profile-full-name">{fullName}</HoliHeading>
           <HoliText styles={{ color: theme.colors.fontColorGrey }}>
             {user.pronouns && `(${user.pronouns}) `}
             {user.location && `${user.location}`}
