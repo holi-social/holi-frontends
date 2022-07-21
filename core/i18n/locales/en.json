@@ -5,7 +5,6 @@
   "apps.goodNews.name": "Good News",
   "apps.volunteering.name": "Volunteering",
   "auth.authContextProvider.error.sessionCreation": "Error creating session",
-  "auth.authProvider.error.sessionCreation": "Error creating session",
   "auth.login.alreadyLoggedIn": "You are already logged in",
   "auth.login.error.initialization": "Initializing login flow failed",
   "auth.login.error.login": "Login failed",
