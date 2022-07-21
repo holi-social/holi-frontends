@@ -33,7 +33,7 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
   const [aboutMe, setAboutMe] = useState(user?.aboutMe || '')
   const [pronouns, setPronouns] = useState(user?.pronouns || '')
   const [location, setLocation] = useState(user?.location || '')
-  const [fieldErrors, setFieldErrors] = useState<{ [x: string]: any }>({})
+  const [fieldErrors, setFieldErrors] = useState<{ [x: string]: string[] }>({})
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
 
