@@ -1,15 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  NativeScrollEvent,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-  useWindowDimensions,
-} from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import HoliButton from '@holi/ui/components/HoliButton'
 import HoliText from '@holi/ui/components/HoliText'
