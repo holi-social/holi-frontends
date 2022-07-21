@@ -46,7 +46,7 @@ const UserProfile: React.VFC = () => {
 
   return (
     <DefaultLayout>
-      <LoginProtection loggedOutContent={<LoggedOutView style={styles.container} />}>
+      <LoginProtection loggedOutContent={<LoggedOutView style={styles.loggedOut} />}>
         <>
           <View style={styles.container}>
             <>
@@ -139,6 +139,9 @@ const UserProfile: React.VFC = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'baseline',
+    marginHorizontal: 24,
+  },
+  loggedOut: {
     marginHorizontal: 24,
   },
 })

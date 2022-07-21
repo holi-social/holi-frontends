@@ -18,14 +18,14 @@ describe('renders correctly', () => {
     )
 
     expect(queryByText('Protected Content')).toBeTruthy()
-    expect(queryByText('You’re not logged in')).toBeFalsy()
+    expect(queryByText("You're not logged in")).toBeFalsy()
     expect(queryByText('Log in')).toBeFalsy()
   })
 
   it('renders fallback content when logged out and no other content was provided', () => {
     const { queryByText } = render(<LoginProtection>Protected Content</LoginProtection>)
 
-    expect(queryByText('You’re not logged in')).toBeTruthy()
+    expect(queryByText("You're not logged in")).toBeTruthy()
     expect(queryByText('Log in')).toBeTruthy()
     expect(queryByText('Protected Content')).toBeFalsy()
   })
@@ -37,7 +37,7 @@ describe('renders correctly', () => {
 
     expect(queryByText('Fallback content')).toBeTruthy()
     expect(queryByText('Log in')).toBeTruthy()
-    expect(queryByText('You’re not logged in')).toBeFalsy()
+    expect(queryByText("You're not logged in")).toBeFalsy()
     expect(queryByText('Protected Content')).toBeFalsy()
   })
 })
