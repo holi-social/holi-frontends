@@ -12,6 +12,7 @@ import {
 } from '@holi/core/user/queries'
 import { User } from '@holi/core/user/types'
 import HoliButton from '@holi/ui/components/HoliButton'
+import HoliIcon from '@holi/ui/components/HoliIcon'
 import HoliText from '@holi/ui/components/HoliText'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -82,22 +83,15 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
         borderRadius: 100,
         backgroundColor: theme.colors.backgroundColorYellow,
         position: 'relative',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         alignSelf: 'flex-end',
         marginRight: 8,
         bottom: -2,
       }}
     >
-      <HoliText
-        style={{
-          fontSize: 20,
-          position: 'absolute',
-          top: 12,
-          right: 14,
-          transform: [{ rotate: '80deg' }],
-        }}
-      >
-        : )
-      </HoliText>
+      <HoliIcon icon="smiley" size={20}></HoliIcon>
     </View>
   )
 
