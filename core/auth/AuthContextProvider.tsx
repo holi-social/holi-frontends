@@ -32,7 +32,7 @@ type AuthContextInternalState = {
 
 const kratosSdk = newKratosSdk()
 
-export const AuthContextProvider: React.FC = ({ children }) => {
+const AuthContextProvider: React.FC = ({ children }) => {
   // keep isLoading and isLoggedIn together so they can be atomically updated
   // this should result in only required redraws of child components
   const [state, setState] = useState<AuthContextInternalState>({ isLoading: true, isLoggedIn: false })
@@ -40,7 +40,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
 
   // intended to be called from outside the context provider (e.g. login form)
   const setUserLoggedIn = (session: OrySessionContext): Promise<void> => {
-    console.debug('[AuthProvider] setUserLoggedIn')
+    console.debug('[AuthContextProvider] setUserLoggedIn')
     return setSessionInStorage(session).then(() =>
       setState({
         isLoading: false,
@@ -51,7 +51,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
 
   // intended to be called from outside the context provider (e.g. logout form)
   const setUserLoggedOut = (): Promise<void> => {
-    console.debug('[AuthProvider] setUserLoggedOut')
+    console.debug('[AuthContextProvider] setUserLoggedOut')
     return removeSessionFromStorage().then(() =>
       setState({
         isLoading: false,
@@ -74,7 +74,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
 
   const onSessionLoadedFromStorage = (sessionFromStorage: OrySessionContext | null): Promise<void> => {
     if (sessionFromStorage === null) {
-      console.debug('[AuthProvider] no session found in storage')
+      console.debug('[AuthContextProvider] no session found in storage')
       setState({
         isLoading: false,
         isLoggedIn: false,
@@ -83,7 +83,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     } else {
       return validateSessionWithOry(sessionFromStorage.session_token)
         .then((sessionState) => {
-          console.debug(`[AuthProvider] ${sessionState} session found in storage`)
+          console.debug(`[AuthContextProvider] ${sessionState} session found in storage`)
           switch (sessionState) {
             case 'active':
               setState({
@@ -121,7 +121,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
   useEffect(() => {
     getSessionFromStorage()
       .then(onSessionLoadedFromStorage)
-      .catch((error) => displayError(error, t('auth.authProvider.error.sessionCreation')))
+      .catch((error) => displayError(error, t('auth.authContextProvider.error.sessionCreation')))
     // eslint-disable-next-line
   }, [])
 
@@ -138,3 +138,5 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     </AuthContext.Provider>
   )
 }
+
+export default AuthContextProvider
