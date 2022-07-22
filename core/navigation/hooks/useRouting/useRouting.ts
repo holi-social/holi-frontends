@@ -1,6 +1,6 @@
 import { useLinkTo, useNavigation } from '@react-navigation/native'
 
-import { useNavigationContext } from '@holi/core/navigation/context'
+import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
 
 import { UseRouting } from './types'
 
