@@ -1,7 +1,7 @@
 import React from 'react'
 import { ViewStyle } from 'react-native'
 
-import { useNavigationContext } from '@holi/core/navigation/context'
+import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
 export type HeaderTitleProps = {
