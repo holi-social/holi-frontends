@@ -11,9 +11,8 @@ exports[`renders correctly renders correctly when size is 'large', level is '1',
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 28,
-        "lineHeight": 33.6,
       },
       undefined,
     ]
@@ -34,9 +33,8 @@ exports[`renders correctly renders correctly when size is 'large', level is '1',
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 28,
-        "lineHeight": 33.6,
       },
       undefined,
     ]
@@ -57,9 +55,8 @@ exports[`renders correctly renders correctly when size is 'large', level is '2',
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 28,
-        "lineHeight": 33.6,
       },
       undefined,
     ]
@@ -80,9 +77,8 @@ exports[`renders correctly renders correctly when size is 'large', level is '2',
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 28,
-        "lineHeight": 33.6,
       },
       undefined,
     ]
@@ -103,9 +99,8 @@ exports[`renders correctly renders correctly when size is 'large', level is '3',
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 28,
-        "lineHeight": 33.6,
       },
       undefined,
     ]
@@ -126,9 +121,8 @@ exports[`renders correctly renders correctly when size is 'large', level is '3',
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 28,
-        "lineHeight": 33.6,
       },
       undefined,
     ]
@@ -149,9 +143,8 @@ exports[`renders correctly renders correctly when size is 'medium', level is '1'
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 21,
-        "lineHeight": 25.2,
       },
       undefined,
     ]
@@ -172,9 +165,8 @@ exports[`renders correctly renders correctly when size is 'medium', level is '1'
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 21,
-        "lineHeight": 25.2,
       },
       undefined,
     ]
@@ -195,9 +187,8 @@ exports[`renders correctly renders correctly when size is 'medium', level is '2'
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 21,
-        "lineHeight": 25.2,
       },
       undefined,
     ]
@@ -218,9 +209,8 @@ exports[`renders correctly renders correctly when size is 'medium', level is '2'
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 21,
-        "lineHeight": 25.2,
       },
       undefined,
     ]
@@ -241,9 +231,8 @@ exports[`renders correctly renders correctly when size is 'medium', level is '3'
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 21,
-        "lineHeight": 25.2,
       },
       undefined,
     ]
@@ -264,9 +253,8 @@ exports[`renders correctly renders correctly when size is 'medium', level is '3'
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 21,
-        "lineHeight": 25.2,
       },
       undefined,
     ]
@@ -287,9 +275,8 @@ exports[`renders correctly renders correctly when size is 'small', level is '1',
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 16,
-        "lineHeight": 22.4,
       },
       undefined,
     ]
@@ -310,9 +297,8 @@ exports[`renders correctly renders correctly when size is 'small', level is '1',
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 16,
-        "lineHeight": 22.4,
       },
       undefined,
     ]
@@ -333,9 +319,8 @@ exports[`renders correctly renders correctly when size is 'small', level is '2',
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 16,
-        "lineHeight": 22.4,
       },
       undefined,
     ]
@@ -356,9 +341,8 @@ exports[`renders correctly renders correctly when size is 'small', level is '2',
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 16,
-        "lineHeight": 22.4,
       },
       undefined,
     ]
@@ -379,9 +363,8 @@ exports[`renders correctly renders correctly when size is 'small', level is '3',
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 16,
-        "lineHeight": 22.4,
       },
       undefined,
     ]
@@ -402,9 +385,8 @@ exports[`renders correctly renders correctly when size is 'small', level is '3',
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 16,
-        "lineHeight": 22.4,
       },
       undefined,
     ]
@@ -425,9 +407,8 @@ exports[`renders correctly renders correctly when size is 'super', level is '1',
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 36,
-        "lineHeight": 43.199999999999996,
       },
       undefined,
     ]
@@ -448,9 +429,8 @@ exports[`renders correctly renders correctly when size is 'super', level is '1',
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 36,
-        "lineHeight": 43.199999999999996,
       },
       undefined,
     ]
@@ -471,9 +451,8 @@ exports[`renders correctly renders correctly when size is 'super', level is '2',
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 36,
-        "lineHeight": 43.199999999999996,
       },
       undefined,
     ]
@@ -494,9 +473,8 @@ exports[`renders correctly renders correctly when size is 'super', level is '2',
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 36,
-        "lineHeight": 43.199999999999996,
       },
       undefined,
     ]
@@ -517,9 +495,8 @@ exports[`renders correctly renders correctly when size is 'super', level is '3',
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 36,
-        "lineHeight": 43.199999999999996,
       },
       undefined,
     ]
@@ -540,9 +517,8 @@ exports[`renders correctly renders correctly when size is 'super', level is '3',
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {
+      FontStyle {
         "fontSize": 36,
-        "lineHeight": 43.199999999999996,
       },
       undefined,
     ]
