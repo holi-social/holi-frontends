@@ -1,7 +1,7 @@
-import { themes } from '@storybook/theming';
+import { themes } from '@storybook/theming'
 
-import '@holi/ui/assets/fonts/CircularStd/style.css';
-import '@holi/web/styles/common.css';
+import '@holi/ui/assets/fonts/CircularStd/style.css'
+import '@holi/web/styles/common.css'
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
