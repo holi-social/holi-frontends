@@ -190,7 +190,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
 
         {/* Weekly Topics */}
         {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
-        <HoliHeading level="1" size="medium" testID="home-feed-topics-heading"></HoliHeading>
+        <HoliHeading level="1" size="medium" testID="home-feed-topics-heading">
           {t('homeFeed.heading', { count: dummyTopics.length })}{' '}
           <HoliSeparatedList>
             {dummyTopics.map((v, idx) => (
