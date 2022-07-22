@@ -66,14 +66,6 @@ const HoliHeading: React.FC<HoliHeadingProps> = ({
 
 export default HoliHeading
 
-class FontStyle {
-  constructor(public fontSize: number) {}
-
-  get lineHeight() {
-    return this.fontSize * 1.2
-  }
-}
-
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     default: {
@@ -81,8 +73,20 @@ const getStyles = (theme: HoliTheme) =>
       fontFamily: theme.fontFamily.default('Medium'),
       color: theme.colors.softblack,
     },
-    super: new FontStyle(36),
-    large: new FontStyle(28),
-    medium: new FontStyle(21),
-    small: new FontStyle(16),
+    super: {
+      fontSize: 36,
+      lineHeight: 36 * 1.2,
+    },
+    large: {
+      fontSize: 28,
+      lineHeight: 28 * 1.2,
+    },
+    medium: {
+      fontSize: 21,
+      lineHeight: 21 * 1.2,
+    },
+    small: {
+      fontSize: 16,
+      lineHeight: 16 * 1.4,
+    },
   })
