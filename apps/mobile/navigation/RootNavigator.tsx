@@ -20,9 +20,9 @@ import Topic, { TopicParams } from '@holi/core/screens/topics/Topic'
 import UserProfile from '@holi/core/screens/userprofile/UserProfile'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
-import HoliButton from '@holi/ui/components/HoliButton'
 import HoliIcon from '@holi/ui/components/HoliIcon'
 import Holicon from '@holi/ui/components/holicon'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useTheme } from '@holi/ui/styles/theme/theme'
 
 export type HomeStackScreens = {

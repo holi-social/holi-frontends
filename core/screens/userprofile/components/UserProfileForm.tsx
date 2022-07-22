@@ -12,11 +12,11 @@ import {
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
-import HoliButton from '@holi/ui/components/HoliButton'
 import HoliIcon from '@holi/ui/components/HoliIcon'
-import HoliText from '@holi/ui/components/HoliText'
-import HoliTextInput from '@holi/ui/components/HoliTextInput'
-import HoliUserAvatar from '@holi/ui/components/HoliUserAvatar'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type UserProfileFormProps = {

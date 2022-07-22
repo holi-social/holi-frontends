@@ -12,12 +12,12 @@ import LoggedOutView from '@holi/core/screens/userprofile/components/LoggedOutVi
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
-import HoliButton from '@holi/ui/components/HoliButton'
-import HoliChip from '@holi/ui/components/HoliChip'
-import HoliChipRow from '@holi/ui/components/HoliChipRow'
-import HoliModal from '@holi/ui/components/HoliModal'
-import HoliTabs from '@holi/ui/components/HoliTabs'
-import HoliText from '@holi/ui/components/HoliText'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliChip from '@holi/ui/components/molecules/HoliChip'
+import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { useTheme } from '@holi/ui/styles/theme'
 
 const UserProfile: React.VFC = () => {
@@ -46,7 +46,7 @@ const UserProfile: React.VFC = () => {
 
   return (
     <DefaultLayout>
-      <LoginProtection loggedOutContent={<LoggedOutView style={styles.container} />}>
+      <LoginProtection loggedOutContent={<LoggedOutView style={styles.loggedOut} />}>
         <>
           <View style={styles.container}>
             <>
@@ -139,6 +139,9 @@ const UserProfile: React.VFC = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'baseline',
+    marginHorizontal: 24,
+  },
+  loggedOut: {
     marginHorizontal: 24,
   },
 })

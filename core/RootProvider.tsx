@@ -8,8 +8,8 @@ import AuthContextProvider, { AuthContext } from '@holi/core/auth/AuthContextPro
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import NavigationContextProvider from '@holi/core/navigation/NavigationContextProvider'
 import { UserContext, UserContextProvider } from '@holi/core/screens/userprofile/UserContextProvider'
-import HoliText from '@holi/ui/components/HoliText'
-import SafeArea from '@holi/ui/components/SafeArea'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 
 const styles = StyleSheet.create({

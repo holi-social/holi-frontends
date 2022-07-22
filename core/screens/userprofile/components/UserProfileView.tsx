@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
-import HoliChip from '@holi/ui/components/HoliChip'
-import HoliHeading from '@holi/ui/components/HoliHeading'
-import HoliReadMore from '@holi/ui/components/HoliReadMore'
-import HoliText from '@holi/ui/components/HoliText'
-import HoliUserAvatar from '@holi/ui/components/HoliUserAvatar'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliChip from '@holi/ui/components/molecules/HoliChip'
+import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
+import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import theme from '@holi/ui/styles/theme'
 
 const UserProfileView: React.VFC = () => {

@@ -46,6 +46,7 @@
     - [noweb / nomobile Branches](#noweb--nomobile-branches)
   - [Staging and Production Environments](#staging-and-production-environments)
 - [sentry.io logging/tracing](#sentryio-loggingtracing)
+- [Accessibility testing](#accessibility-testing)
 <!-- /TOC -->
 
 ## Development
@@ -68,6 +69,7 @@ It is kept in sync with `.nvmrc` (used by `nvm`) by a symbolic link, so please m
 
 - Follow the instructions to install [Android studio](https://docs.expo.dev/workflow/android-studio-emulator/)
 - Create an adb device using the Virtual Device Manager from Android Studio
+  - In order to test accessibility features you need to have the [Android Accessibility Suite](https://holi.atlassian.net/wiki/spaces/HOLI/pages/167280654/Screenreader+Support#Setup-TalkBack-on-an-Android-emulator) installed
 - Add `<path-to-android-sdk>/emulator` to your `PATH` environment variable
 - Start the emulator using `emulator @<device-name>`
 - Run `adb devices`: Make sure the adb daemon could be started and the emulator is listed
@@ -601,3 +603,13 @@ When a branch is merged to the main branch, the pipeline deploys to the staging 
 ## sentry.io logging/tracing
 
 For staging and production deployments, we are reporting logs and errors to sentry.io. Among others, we have a project for [mobile](https://sentry.io/organizations/holistic-foundation/issues/?project=6377191) and another one for [web](https://sentry.io/organizations/holistic-foundation/issues/?project=6396737). Check them out from time to time.
+
+## Accessibility testing
+
+In order to test the output of screen readers on the different platforms, you can use the following tools
+
+- [Screen reader](https://chrome.google.com/webstore/detail/screen-reader/kgejglhpjiefppelpmljglcjbhoiplfn) on web (Chrome)
+- [TalkBack / Android Accessibility Suite](https://play.google.com/store/apps/details?id=com.google.android.marvin.talkback) on Android
+  - [Installation on emulators](https://holi.atlassian.net/wiki/spaces/HOLI/pages/167280654/Screenreader+Support#Setup-TalkBack-on-an-Android-emulator)
+- [VoiceOver](https://support.apple.com/en-us/guide/iphone/turn-on-and-practice-voiceover-iph3e2e415f/ios) on iOS
+- [Accessibility Inspector](https://developer.apple.com/library/archive/documentation/Accessibility/Conceptual/AccessibilityMacOSX/OSXAXTestingApps.html) (preinstalled on MacOS): It let's you inspect and e.g. read out loud all accessibilty props on all applications, including our application running within the iOS simulator
