@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 import tinycolor from 'tinycolor2'
 
-import { AccessibilityPropsWeb } from '@holi/ui/@types/react-native-web'
+import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import Holicon from '@holi/ui/components/holicon'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'

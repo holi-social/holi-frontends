@@ -2,8 +2,8 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Text } from 'react-native'
 
-import { AuthContext } from '@holi/core/auth/AuthProvider'
-import { LoginProtection } from '@holi/core/auth/components/LoginProtection'
+import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import LoginProtection from '@holi/core/auth/components/LoginProtection'
 
 describe('renders correctly', () => {
   it('renders protected content when logged in', () => {

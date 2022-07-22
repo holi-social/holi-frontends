@@ -221,6 +221,7 @@ Components in `packages/ui` and `screens` should use the following folder struct
 
 - File names: camelCase
 - File and folder names for components (basically all `.tsx` files except for `index.tsx`, including screens and tests): PascalCase
+  - `.tsx files` in `apps/web` follow the nextjs convention (routing derived from filenames) and therefore are lowercase and might start with an underscore.
 - Default instead of named exports, esp. for components. I.e. every file should typically only export one component or function, exceptions might be e.g. collections of util functions. If it necessary to export prop types as well, they may be exported in the same file as the component
   - E.g.
 

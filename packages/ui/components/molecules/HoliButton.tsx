@@ -10,7 +10,7 @@ import {
   ViewStyle,
 } from 'react-native'
 
-import { AccessibilityPropsWeb } from '@holi/ui/@types/react-native-web'
+import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
