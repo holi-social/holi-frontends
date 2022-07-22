@@ -19,6 +19,10 @@ and execute the tests from this directory:
 
   `yarn test:localhost`
 
+if E2E_USER vars are not loaded you can try this
+  
+  `E2E_USER_USERNAME=... E2E_USER_PASSWORD=... yarn test:localhost`
+
 For testing a deployed app, use the following commmand:
 
   `BASE_URL=https://staging.web.project-holi.org yarn test`
