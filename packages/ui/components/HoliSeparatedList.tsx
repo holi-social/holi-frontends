@@ -12,9 +12,22 @@ const HoliSeparatedList: React.FC = ({ children }) => {
     <>
       {childrenArr.reduce<React.ReactNode[]>((acc, node, idx) => {
         if (0 < idx && idx < childrenArr.length - 1) {
-          return [...acc, <Text key={`${idx}-comma`}>, </Text>, node]
+          return [
+            ...acc,
+            <Text key={`${idx}-comma`} testID="comma-sprtr">
+              ,{' '}
+            </Text>,
+            node,
+          ]
         } else if (length > 1 && idx === length - 1) {
-          return [...acc, <Text key={`${idx}-and`}> {t('general.and')} </Text>, node]
+          return [
+            ...acc,
+            <Text key={`${idx}-and`} testID="and-sprtr">
+              {' '}
+              {t('general.and')}{' '}
+            </Text>,
+            node,
+          ]
         } else {
           return [...acc, node]
         }
