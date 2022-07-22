@@ -26,18 +26,18 @@ type SharedImageProps = {
   style?: { width: number; height: number }
 }
 
-const SharedImage: React.VoidFunctionComponent<SharedImageProps> = (props: SharedImageProps) => {
-  const pathFromRequire = props.imageFile && props.imageFile.src
-  const pathFromImport = props.imageFile && props.imageFile.default && props.imageFile.default.src
+const SharedImage: React.VoidFunctionComponent<SharedImageProps> = ({
+  imageFile,
+  style,
+  altText,
+}: SharedImageProps) => {
+  const pathFromRequire = imageFile.src
+  const pathFromImport = imageFile.default?.src
   const path = pathFromRequire || pathFromImport
-
-  const styles = StyleSheet.flatten(props.style)
-
-  const width = styles && styles.width ? styles.width : 50
-  const height = styles && styles.height ? styles.height : 50
+  const { width = 50, height = 50 } = StyleSheet.flatten(style)
 
   // https://github.com/vercel/next.js/discussions/18312
-  return <Image src={path as string} alt={props.altText} width={width} height={height} />
+  return <Image src={path as string} alt={altText} width={width} height={height} />
 }
 
 export default SharedImage
