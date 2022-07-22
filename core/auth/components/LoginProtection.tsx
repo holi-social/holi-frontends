@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 
-import { AuthContext } from '@holi/core/auth/AuthProvider'
+import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
@@ -35,8 +35,6 @@ const LoginProtection: React.VFC<LoginProtectionProps> = ({ children, loggedOutC
   )
 }
 
-export { LoginProtection }
-
 const styles = StyleSheet.create({
   loginProtection: {
     alignItems: 'center',
@@ -47,3 +45,5 @@ const styles = StyleSheet.create({
     maxWidth: 300,
   },
 })
+
+export default LoginProtection

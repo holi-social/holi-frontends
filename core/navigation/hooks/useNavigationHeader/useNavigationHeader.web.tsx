@@ -1,4 +1,4 @@
-import { useNavigationContext } from '@holi/core/navigation/context'
+import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
 
 import { HeaderProps } from './index'
 
