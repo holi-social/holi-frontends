@@ -1,7 +1,7 @@
 import moment from 'moment'
 import React, { useLayoutEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { ScrollView, StyleSheet, Text, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -11,10 +11,13 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliSeparatedList from '@holi/ui/components/atoms/HoliSeparatedList'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { styleVars } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+
+const dummyTopics = ['Immigration', 'Education', 'Sustainability', 'Something']
 
 type DummyApp = {
   icon: string
@@ -187,8 +190,15 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
 
         {/* Weekly Topics */}
         {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
-        <HoliHeading level="1" size="medium" testID="home-feed-topics-heading">
-          {t('homeFeed.heading')}
+        <HoliHeading level="1" size="medium" testID="home-feed-topics-heading"></HoliHeading>
+          {t('homeFeed.heading', { count: dummyTopics.length })}{' '}
+          <HoliSeparatedList>
+            {dummyTopics.map((v, idx) => (
+              <Text key={idx} style={{ color: styleVars.colors.positivepurple }}>
+                {v}
+              </Text>
+            ))}
+          </HoliSeparatedList>
         </HoliHeading>
 
         {[...fakeTopics.keys()].map((topicId) => (
