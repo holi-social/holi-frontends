@@ -97,11 +97,11 @@ exports.config = {
   helpers: {
     Appium: appiumConfig,
     SelectorHelper: {
-      require: './helpers/element-selector.js',
+      require: './helpers/elementSelector.js',
     },
   },
   include: {
-    I: './steps_file.js',
+    I: './stepsFile.js',
   },
   bootstrap: null,
   mocha: {},

@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { AuthContext } from '@holi/core/auth/AuthProvider'
-import { LoginProtection } from '@holi/core/auth/components/LoginProtection'
+import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
@@ -46,7 +46,7 @@ const UserProfile: React.VFC = () => {
 
   return (
     <DefaultLayout>
-      <LoginProtection loggedOutContent={<LoggedOutView style={styles.container} />}>
+      <LoginProtection loggedOutContent={<LoggedOutView style={styles.loggedOut} />}>
         <>
           <View style={styles.container}>
             <>
@@ -139,6 +139,9 @@ const UserProfile: React.VFC = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'baseline',
+    marginHorizontal: 24,
+  },
+  loggedOut: {
     marginHorizontal: 24,
   },
 })
