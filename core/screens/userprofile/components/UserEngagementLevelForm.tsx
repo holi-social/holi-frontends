@@ -74,23 +74,8 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
   }
 
   const ActiveButtonIcon = (
-    <View
-      style={{
-        width: 50,
-        height: 50,
-        borderWidth: 2,
-        borderRadius: 100,
-        backgroundColor: theme.colors.backgroundColorYellow,
-        position: 'relative',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        alignSelf: 'flex-end',
-        marginRight: 8,
-        bottom: -2,
-      }}
-    >
-      <HoliIcon icon="smiley" size={20}></HoliIcon>
+    <View style={styles.activeButtonIcon}>
+      <HoliIcon icon="smiley" size={20} filled></HoliIcon>
     </View>
   )
 
@@ -217,6 +202,20 @@ const getStyles = (theme: HoliTheme, buttonsContainerHeight: number) =>
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
+    },
+    activeButtonIcon: {
+      width: 50,
+      height: 50,
+      borderWidth: 2,
+      borderRadius: 100,
+      backgroundColor: theme.colors.backgroundColorYellow,
+      position: 'relative',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      alignSelf: 'flex-end',
+      marginRight: 8,
+      bottom: -2,
     },
   })
 
