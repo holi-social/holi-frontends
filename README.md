@@ -69,7 +69,7 @@ It is kept in sync with `.nvmrc` (used by `nvm`) by a symbolic link, so please m
 
 - Follow the instructions to install [Android studio](https://docs.expo.dev/workflow/android-studio-emulator/)
 - Create an adb device using the Virtual Device Manager from Android Studio
-  - If order to test accessibility features you need to have the [Android Accessibility Suite](https://holi.atlassian.net/wiki/spaces/HOLI/pages/167280654/Screenreader+Support#Setup-TalkBack-on-an-Android-emulator) installed
+  - In order to test accessibility features you need to have the [Android Accessibility Suite](https://holi.atlassian.net/wiki/spaces/HOLI/pages/167280654/Screenreader+Support#Setup-TalkBack-on-an-Android-emulator) installed
 - Add `<path-to-android-sdk>/emulator` to your `PATH` environment variable
 - Start the emulator using `emulator @<device-name>`
 - Run `adb devices`: Make sure the adb daemon could be started and the emulator is listed
