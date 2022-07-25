@@ -1,7 +1,7 @@
 import moment from 'moment'
 import React, { useLayoutEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { ScrollView, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -192,11 +192,16 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
         <HoliHeading level="1" size="medium" testID="home-feed-topics-heading">
           {t('homeFeed.heading', { count: dummyTopics.length })}{' '}
-          <HoliSeparatedList>
+          <HoliSeparatedList size="large" bold>
             {dummyTopics.map((v, idx) => (
-              <Text key={idx} style={{ color: styleVars.colors.positivepurple }}>
-                {v}
-              </Text>
+              <HoliText key={idx} style={{ display: 'inline-block' }}>
+                {/* Negative marginBottom is used to solve Pressable bug inside an inline Text component */}
+                <HoliButton transparent label={v} style={{ marginBottom: -3 }}>
+                  <HoliText size="large" bold style={{ color: styleVars.colors.positivepurple }}>
+                    {v}
+                  </HoliText>
+                </HoliButton>
+              </HoliText>
             ))}
           </HoliSeparatedList>
         </HoliHeading>
