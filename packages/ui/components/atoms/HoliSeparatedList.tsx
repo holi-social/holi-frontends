@@ -1,11 +1,16 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Text } from 'react-native'
 
-const HoliSeparatedList: React.FC = ({ children }) => {
-  if (!children) throw new Error('HoliSeparatedList component expects at least one child component')
+import HoliText, { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
 
+const HoliSeparatedList: React.VFC<HoliTextProps> = ({ children, ...props }) => {
   const { t } = useTranslation()
+
+  if (!children) {
+    console.warn('HoliSeparatedList component expects at least one child component')
+    return null
+  }
+
   const childrenArr = React.Children.toArray(children)
   const { length } = childrenArr
   return (
@@ -14,18 +19,18 @@ const HoliSeparatedList: React.FC = ({ children }) => {
         if (0 < idx && idx < childrenArr.length - 1) {
           return [
             ...acc,
-            <Text key={`${idx}-comma`} testID="comma-sprtr">
+            <HoliText key={`${idx}-comma`} {...props} testID="comma-sprtr">
               ,{' '}
-            </Text>,
+            </HoliText>,
             node,
           ]
         } else if (length > 1 && idx === length - 1) {
           return [
             ...acc,
-            <Text key={`${idx}-and`} testID="and-sprtr">
+            <HoliText key={`${idx}-and`} {...props} testID="and-sprtr">
               {' '}
               {t('general.and')}{' '}
-            </Text>,
+            </HoliText>,
             node,
           ]
         } else {
