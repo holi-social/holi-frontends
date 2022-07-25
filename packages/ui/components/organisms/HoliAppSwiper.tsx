@@ -52,6 +52,8 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
     appName: {
       paddingTop: 4,
       alignSelf: 'center',
+      textAlign: 'center',
+      wordBreak: 'break-word',
     },
     moreApps: {
       marginLeft: 8,
