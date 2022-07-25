@@ -44,6 +44,7 @@ fakeTopics.set('abc', {
     ],
     count: faker.random.numeric(2),
   },
+  category: 'Education',
 })
 fakeTopics.set('bca', {
   title: 'How can we stop a climate catastrophe?',
@@ -79,6 +80,7 @@ fakeTopics.set('bca', {
     ],
     count: faker.random.numeric(1),
   },
+  category: 'Education',
 })
 
 export default fakeTopics
