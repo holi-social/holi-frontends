@@ -98,23 +98,25 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
 
   return (
     <DefaultLayout>
-      <View style={styles.view}>
-        {/* Holi Apps */}
-        <HoliAppSwiper
-          style={styles.appSwiper}
-          apps={appSwiperDummyApps.map((app) => {
-            const name = t(app.nameKey)
-            return {
-              ...app,
-              name,
-              onPress: () => navigate(app.path),
-              label: t('homeFeed.apps.appLabel', { name }),
-            }
-          })}
-          onPressMoreApps={() => navigate('/apps/volunteering')}
-          moreAppsLabel={t('homeFeed.apps.moreApps')}
-        />
+      {/* Holi Apps */}
+      <HoliAppSwiper
+        style={[theme.mixins.container, styles.appSwiper]}
+        apps={appSwiperDummyApps.map((app) => {
+          const name = t(app.nameKey)
+          return {
+            ...app,
+            name,
+            onPress: () => navigate(app.path),
+            label: t('homeFeed.apps.appLabel', { name }),
+          }
+        })}
+        onPressMoreApps={() => navigate('/apps/volunteering')}
+        moreAppsLabel={t('homeFeed.apps.moreApps')}
+      />
 
+      <View style={styles.divider} />
+
+      <View style={[theme.mixins.container, styles.feed]}>
         {/* I18n Showcase */}
         <View style={{ flexDirection: 'column', paddingTop: 20, paddingBottom: 20 }}>
           <HoliText>
@@ -148,15 +150,13 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    view: {
-      alignItems: 'center',
-      maxWidth: '100%',
-      marginTop: 5,
+    divider: {
+      marginTop: 12,
+      borderBottomColor: theme.colors.borderColorGrey,
+      borderBottomWidth: 1,
     },
     appSwiper: {
-      paddingBottom: 12,
-      borderBottomWidth: 1,
-      borderBottomColor: theme.colors.borderColorGrey,
+      flexGrow: 0,
     },
   })
 
