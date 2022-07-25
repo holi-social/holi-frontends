@@ -48,7 +48,6 @@ default:
     - yarn install
     - BASE_URL="https://${UI_DOMAIN}" yarn run playwright test
   interruptible: true
-  allow_failure: true
 
 # end job templates
 

@@ -18,13 +18,15 @@ module.exports = {
     ecmaVersion: '6',
     sourceType: 'module',
   },
-  plugins: ['react', 'react-native', '@typescript-eslint', 'prefer-arrow', 'prettier'],
+  plugins: ['react', 'react-native', 'react-hooks', '@typescript-eslint', 'prefer-arrow', 'prettier'],
   rules: {
-    'prettier/prettier': ['warn'],
+    'prettier/prettier': ['error'],
     'linebreak-style': ['error', 'unix'],
-    quotes: ['error', 'single'],
+    quotes: ['error', 'single', { avoidEscape: true }],
     semi: ['error', 'never'],
     '@typescript-eslint/ban-ts-comment': 'off',
+    '@typescript-eslint/no-unused-vars': ['error'],
+    '@typescript-eslint/no-explicit-any': ['error'],
     'prefer-arrow/prefer-arrow-functions': [
       'error',
       {
@@ -40,5 +42,7 @@ module.exports = {
         patterns: ['..*'],
       },
     ],
+    'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
+    'react-hooks/exhaustive-deps': 'error', // Checks effect dependencies
   },
 }

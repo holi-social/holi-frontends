@@ -2,11 +2,11 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ViewStyle } from 'react-native'
 
-import { useNavigationContext } from '@holi/core/navigation/context'
+import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import HoliButton from '@holi/ui/components/HoliButton'
 import HoliIcon from '@holi/ui/components/HoliIcon'
 import Holicon from '@holi/ui/components/holicon'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useTheme } from '@holi/ui/styles/theme/theme'
 
 export type HeaderTitleProps = {

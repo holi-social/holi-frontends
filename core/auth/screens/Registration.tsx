@@ -3,15 +3,15 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { AuthContext } from '@holi/core/auth/AuthProvider'
+import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
-import { useNavigationContext } from '@holi/core/navigation/context'
+import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import HoliText from '@holi/ui/components/HoliText'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 
 const Registration = () => {
   const { navigate } = useRouting()
@@ -30,12 +30,13 @@ const Registration = () => {
       .catch((error) => displayError(error, t('auth.registration.error.initialization')))
   }
   // When the component is mounted, we initialize a new use login flow:
+  // eslint-disable-next-line
   useEffect(() => initializeFlow(), [])
 
   useEffect(() => {
     setBackLink('down')
     return () => clearBackLinks()
-  }, [])
+  }, [clearBackLinks, setBackLink])
 
   // This will update the registration flow with the user provided input:
   const onSubmit = (payload: SubmitSelfServiceRegistrationFlowBody): Promise<void> =>

@@ -4,18 +4,18 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { AuthContext } from '@holi/core/auth/AuthProvider'
+import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { initLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
-import { useNavigationContext } from '@holi/core/navigation/context'
+import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import HoliButton from '@holi/ui/components/HoliButton'
-import HoliHeading from '@holi/ui/components/HoliHeading'
-import HoliText from '@holi/ui/components/HoliText'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 const Login: React.VoidFunctionComponent = () => {
   const { isLoggedIn, setUserLoggedIn } = useContext(AuthContext)
@@ -30,20 +30,19 @@ const Login: React.VoidFunctionComponent = () => {
       .then((response) => {
         const { data: flow } = response
         // The flow was initialized successfully, let's set the form data:
-        console.info('[Login] login flow initialized.')
         setFlow(flow)
-        // TODO: jump into first input element after form is shown
       })
       .catch((error) => displayError(error, t('auth.login.error.initialization')))
   }
 
   // When the component is mounted, we initialize a new use login flow:
+  // eslint-disable-next-line
   useEffect(() => initializeFlow(), [])
 
   useEffect(() => {
     setBackLink('down')
     return () => clearBackLinks()
-  }, [])
+  }, [clearBackLinks, setBackLink])
 
   // This will update the login flow with the user provided input:
   const onSubmit = (payload: SubmitSelfServiceLoginFlowBody) =>

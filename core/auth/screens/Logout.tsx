@@ -3,13 +3,13 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { AuthContext } from '@holi/core/auth/AuthProvider'
+import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
-import { useNavigationContext } from '@holi/core/navigation/context'
+import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import HoliButton from '@holi/ui/components/HoliButton'
-import HoliText from '@holi/ui/components/HoliText'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 const Logout: React.VoidFunctionComponent = () => {
   const { navigateBack } = useRouting()
@@ -21,7 +21,7 @@ const Logout: React.VoidFunctionComponent = () => {
   useEffect(() => {
     setBackLink('down')
     return () => clearBackLinks()
-  }, [])
+  }, [clearBackLinks, setBackLink])
 
   const onSubmit = () => {
     getSessionFromStorage()
@@ -68,5 +68,6 @@ const styles = StyleSheet.create({
   },
   button: {
     maxWidth: 300,
+    marginTop: 30,
   },
 })

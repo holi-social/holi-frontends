@@ -13,8 +13,8 @@ import {
   oryNodeIsSubmit,
   oryNodeIsText,
 } from '@holi/core/auth/helpers/form'
-import HoliButton from '@holi/ui/components/HoliButton'
-import HoliText from '@holi/ui/components/HoliText'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 interface Props extends InputProps {
   node: UiNode
@@ -36,12 +36,11 @@ const FormNode = (props: Props) => {
 
   if (oryNodeIsInput(node.attributes)) {
     const fieldName = getNodeId(node)
-    const value = getNodeValue(node)
     return (
       <FormInputField
         {...props}
         attributes={node.attributes}
-        onEnterPress={() => props.onSubmitPress(fieldName, value)}
+        onEnterPress={(value) => props.onSubmitPress(fieldName, value)}
         style={[props.style || {}, { marginTop: 10 }]}
       />
     )

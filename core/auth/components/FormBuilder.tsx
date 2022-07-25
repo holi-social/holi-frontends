@@ -14,7 +14,7 @@ import { Platform, View, ViewStyle } from 'react-native'
 import type { TextInputOverride } from '@holi/core/auth/components/FormInputField'
 import FormMessages from '@holi/core/auth/components/FormMessages'
 import FormNode from '@holi/core/auth/components/FormNode'
-import { getNodeId, oryNodeIsInput } from '@holi/core/auth/helpers/form'
+import { getNodeId, oryNodeIsInput, oryNodeIsSubmit } from '@holi/core/auth/helpers/form'
 
 interface Props<T> {
   flow?: SelfServiceLoginFlow | SelfServiceRegistrationFlow | SelfServiceSettingsFlow
@@ -31,6 +31,7 @@ const FormBuilder = <
 ) => {
   const [values, setValues] = useState<T>({} as T)
   const [nodes, setNodes] = useState<Array<UiNode>>([])
+  const [submitType, setSubmitType] = useState<Record<string, unknown>>()
 
   useEffect(() => {
     if (!props.flow) {
@@ -47,6 +48,13 @@ const FormBuilder = <
     nodes.forEach((node: UiNode) => {
       const name = getNodeId(node)
       const key = name as keyof T
+
+      if (oryNodeIsSubmit(node.attributes)) {
+        const submitType: Record<string, unknown> = {}
+        submitType[node.attributes.name] = node.attributes.value
+        setSubmitType(submitType)
+      }
+
       if (oryNodeIsInput(node.attributes)) {
         if (node.attributes.type === 'button' || node.attributes.type === 'submit') {
           // In order to mimic real HTML forms, we need to skip setting the value
@@ -59,7 +67,7 @@ const FormBuilder = <
     })
     setValues(values as T)
     setNodes(nodes)
-  }, [props.flow])
+  }, [props.flow, props.only])
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onChange = (name: string) => (value: any) => {
@@ -71,11 +79,6 @@ const FormBuilder = <
 
   const getValue = (name: string) => values[name as keyof T]
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onPress = (key: string, value: any) => {
-    props.onSubmit({ ...values, [key]: value })
-  }
-
   const accessibilityProps = Platform.OS === 'web' ? { accessibilityRole: 'form' } : {}
 
   return (
@@ -86,12 +89,12 @@ const FormBuilder = <
           const name = getNodeId(node)
           return (
             <FormNode
-              key={`form-field-${props.flow.ui.action || ''}-${name}-${k}`}
+              key={`form-field-${props.flow?.ui.action || ''}-${name}-${k}`}
               textInputOverride={props.textInputOverride}
               value={getValue(name)}
               onChange={onChange(name)}
               node={node}
-              onSubmitPress={onPress}
+              onSubmitPress={() => props.onSubmit({ ...values, ...submitType })}
               autofocus={name === 'identifier'} // email field
               style={{ marginTop: 30 }}
               {...accessibilityProps}
