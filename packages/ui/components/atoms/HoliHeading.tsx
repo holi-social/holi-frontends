@@ -31,20 +31,21 @@ export type HoliHeadingProps = {
   testID?: string
 }
 
-const HoliHeading = ({
+const HoliHeading: React.FC<HoliHeadingProps> = ({
   children,
   level = '1',
   size = HoliHeadings[level].defaultSize,
   selectable = true,
+  testID,
   ...props
-}: HoliHeadingProps) => {
+}) => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = Platform.select({
     web: {
       accessibilityRole: 'header',
-      accessibilityLevel: level as unknown as number,
+      accessibilityLevel: Number(level),
     },
     default: {
       role: 'header',
@@ -56,7 +57,7 @@ const HoliHeading = ({
       {...accessibilityProps}
       selectable={selectable}
       style={[styles.default, styles[size as keyof typeof styles], props?.style]}
-      {...(props.testID && { testID: props.testID })}
+      testID={testID}
     >
       {children}
     </Text>
