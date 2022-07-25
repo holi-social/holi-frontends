@@ -8,6 +8,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import TopicPreviewBox from '@holi/core/screens/topics/TopicPreviewBox'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -83,7 +84,7 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
 }
 
 const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
-  const { navigate } = useRouting()
+  // const { navigate } = useRouting()
   const { setNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -121,7 +122,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
 
       <View style={[theme.mixins.container]}>
         {/* I18n Showcase */}
-        <View style={{ flexDirection: 'column', paddingTop: 20, paddingBottom: 20 }}>
+        <View style={{ flexDirection: 'column', paddingVertical: 20 }}>
           <HoliText>
             <Trans t={t} i18nKey="homeFeed.textWithLink">
               <HoliText style={{ fontWeight: 'bold' }}>this is ignored</HoliText>
@@ -131,33 +132,36 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         </View>
 
         {/* Weekly Topics */}
-        {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
-        <HoliHeading level="1" size="medium" testID="home-feed-topics-heading">
-          {t('homeFeed.heading', { count: dummyTopics.length })}{' '}
-          <HoliSeparatedList size="large" bold>
-            {dummyTopics.map((v, idx) => (
-              <HoliText key={idx} style={{ display: 'inline-block' }}>
-                {/* Negative marginBottom is used to solve Pressable bug inside an inline Text component */}
-                <HoliButton transparent label={v} style={{ marginBottom: -3 }}>
-                  <HoliText size="large" bold style={{ color: styleVars.colors.positivepurple }}>
-                    {v}
-                  </HoliText>
-                </HoliButton>
-              </HoliText>
-            ))}
-          </HoliSeparatedList>
-        </HoliHeading>
+        <View style={{ paddingHorizontal: 20 }}>
+          {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
+          <HoliHeading level="1" size="medium" style={{ paddingBottom: 40 }} testID="home-feed-topics-heading">
+            {t('homeFeed.heading', { count: dummyTopics.length })}{' '}
+            <HoliSeparatedList size="large" bold>
+              {dummyTopics.map((v, idx) => (
+                <HoliText key={idx} style={{ display: 'inline-block' }}>
+                  {/* Negative marginBottom is used to solve Pressable bug inside an inline Text component */}
+                  <HoliButton transparent label={v} style={{ marginBottom: -3 }}>
+                    <HoliText size="large" bold style={{ color: styleVars.colors.positivepurple }}>
+                      {v}
+                    </HoliText>
+                  </HoliButton>
+                </HoliText>
+              ))}
+            </HoliSeparatedList>
+          </HoliHeading>
 
-        {[...fakeTopics.keys()].map((topicId) => (
-          <HoliButton
-            key={topicId}
-            label={fakeTopics.get(topicId).title}
-            inline
-            onPress={() => navigate(`/topics/${topicId}`)}
-          >
-            {fakeTopics.get(topicId).title}
-          </HoliButton>
-        ))}
+          {[...fakeTopics.keys()].map((topicId) => (
+            // <HoliButton
+            //   key={topicId}
+            //   label={fakeTopics.get(topicId).title}
+            //   inline
+            //   onPress={() => navigate(`/topics/${topicId}`)}
+            // >
+            //   {fakeTopics.get(topicId).title}
+            // </HoliButton>
+            <TopicPreviewBox key={topicId} {...fakeTopics.get(topicId)} style={{ paddingBottom: 40 }} />
+          ))}
+        </View>
       </View>
     </DefaultLayout>
   )
