@@ -12,6 +12,7 @@ import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type PostParams = {
   topicId: string
@@ -30,6 +31,7 @@ const Post: React.VFC<PostProps> = ({ navigation }: PostProps) => {
   const { setBackLink, clearBackLinks } = useNavigationContext()
   const { t } = useTranslation()
   const title = t('topics.post.title', { topicId, postId })
+  const { theme } = useTheme()
 
   useLayoutEffect(() => {
     setNavigationHeader({
@@ -45,7 +47,7 @@ const Post: React.VFC<PostProps> = ({ navigation }: PostProps) => {
 
   return (
     <DefaultLayout>
-      <View style={{ justifyContent: 'center', padding: 10 }}>
+      <View style={[theme.mixins.container, { justifyContent: 'center', padding: 10 }]}>
         <HoliHeading level="1" size="super">
           {title}
         </HoliHeading>

@@ -8,6 +8,7 @@ import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { useTheme } from '@holi/ui/styles/theme'
 
 type VolunteeringAppHomeProps = NativeStackScreenProps<HomeStackScreens>
 
@@ -15,6 +16,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = ({ navigation }
   const { setNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
   const title = t('apps.volunteering.name')
+  const { theme } = useTheme()
 
   useLayoutEffect(
     () =>
@@ -26,7 +28,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = ({ navigation }
   )
 
   return (
-    <View style={{ padding: 10 }}>
+    <View style={[theme.mixins.container, { padding: 10 }]}>
       <HoliHeading level="1" size="super" testID="apps-volunteering-heading">
         {title}
       </HoliHeading>
