@@ -42,6 +42,8 @@
   "homeFeed.apps.appLabel": "{{name}} App",
   "homeFeed.apps.moreApps": "More apps...",
   "homeFeed.currentDate": "Current date: {{date}}",
+  "homeFeed.discussing": "discussing",
+  "homeFeed.donations": "Donations",
   "homeFeed.headerTitle.goodAfternoon": "Good afternoon",
   "homeFeed.headerTitle.goodDay": "Good day",
   "homeFeed.headerTitle.goodEvening": "Good evening",
