@@ -9,12 +9,14 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 export type HoliChipRowProps = {
   title?: string
   editable?: boolean
+  editButtonText?: string
   children?: React.ReactChild | React.ReactChildren | React.ReactNode | Element
   onPressEdit?: () => void
 }
 
 const HoliChipRow: React.FunctionComponent<HoliChipRowProps> = ({
   title,
+  editButtonText,
   editable,
   children,
   onPressEdit,
@@ -34,7 +36,7 @@ const HoliChipRow: React.FunctionComponent<HoliChipRowProps> = ({
             style={{ width: 'fit-content' }}
             onPress={onPressEdit}
           >
-            <HoliText style={styles.editButton}>{t('profile.tabs.edit')}</HoliText>
+            <HoliText style={styles.editButton}>{editButtonText || t('profile.tabs.edit')}</HoliText>
           </HoliButton>
         )}
       </View>
@@ -68,6 +70,10 @@ const getStyles = (theme: HoliTheme) =>
       fontWeight: '500',
     },
     chipsContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      flexShrink: 1,
       marginTop: 8,
     },
   })
