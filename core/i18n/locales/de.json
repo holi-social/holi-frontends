@@ -40,6 +40,8 @@
   "explore.title": "Erkunden",
   "general.and": "und",
   "homeFeed.currentDate": "Aktuelles Datum: {{date}}",
+  "homeFeed.discussing": "besprechen",
+  "homeFeed.donations": "Spenden",
   "homeFeed.headerTitle.goodAfternoon": "Guten Nachmittag",
   "homeFeed.headerTitle.goodDay": "Guten Tag",
   "homeFeed.headerTitle.goodEvening": "Guten Abend",
