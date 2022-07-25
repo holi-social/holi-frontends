@@ -1,7 +1,7 @@
 import moment from 'moment'
 import React, { useLayoutEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -18,7 +18,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { styleVars } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-const dummyTopics = ['Immigration', 'Education', 'Sustainability', 'Something']
+const dummyTopics = ['Immigration', 'Education', 'Sustainability']
 
 type DummyApp = {
   icon: string
@@ -159,10 +159,12 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
 }
 
 const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
-  // const { navigate } = useRouting()
+  const { width } = useWindowDimensions()
+  const { theme } = useTheme()
   const { setNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(moment().hours(), t)
+  const styles = homeFeedStyles(theme, width)
 
   useLayoutEffect(
     () =>
@@ -190,47 +192,76 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         </View>
 
         {/* Weekly Topics */}
-        <View style={{ paddingHorizontal: 20 }}>
+        <View style={styles.feedContainer}>
           {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
-          <HoliHeading level="1" size="medium" style={{ paddingBottom: 40 }} testID="home-feed-topics-heading">
+          <HoliHeading level="1" size="medium" style={styles.feedHeadline} testID="home-feed-topics-heading">
             {t('homeFeed.heading', { count: dummyTopics.length })}{' '}
             <HoliSeparatedList size="large" bold>
               {dummyTopics.map((v, idx) => (
-                <HoliText key={idx} style={{ display: 'inline-block' }}>
+                <View key={idx}>
                   {/* Negative marginBottom is used to solve Pressable bug inside an inline Text component */}
-                  <HoliButton transparent label={v} style={{ marginBottom: -3 }}>
+                  <HoliButton transparent label={v} inline style={styles.feedHeadlineLink}>
                     <HoliText size="large" bold style={{ color: styleVars.colors.positivepurple }}>
                       {v}
                     </HoliText>
                   </HoliButton>
-                </HoliText>
+                </View>
               ))}
             </HoliSeparatedList>
           </HoliHeading>
 
-          {[...fakeTopics.keys()].map((topicId) => (
-            // <HoliButton
-            //   key={topicId}
-            //   label={fakeTopics.get(topicId).title}
-            //   inline
-            //   onPress={() => navigate(`/topics/${topicId}`)}
-            // >
-            //   {fakeTopics.get(topicId).title}
-            // </HoliButton>
-            <TopicPreviewBox key={topicId} {...fakeTopics.get(topicId)} style={{ paddingBottom: 40 }} />
-          ))}
+          <View style={styles.feedTopicGrid}>
+            {[...fakeTopics.keys()].map((topicId) => (
+              <TopicPreviewBox key={topicId} id={topicId} {...fakeTopics.get(topicId)} style={styles.feedTopicItem} />
+            ))}
+          </View>
         </View>
       </View>
     </DefaultLayout>
   )
 }
 
-const styles = StyleSheet.create({
-  view: {
-    alignItems: 'center',
-    maxWidth: '100%',
-    marginTop: 5,
-  },
-})
+const homeFeedStyles = (theme: HoliTheme, screenWidth: number) =>
+  StyleSheet.create({
+    view: {
+      alignItems: 'center',
+      maxWidth: '100%',
+      marginTop: 5,
+    },
+    feedContainer: {
+      paddingHorizontal: 20,
+      width: '100%',
+    },
+    feedHeadline: {
+      paddingBottom: 40,
+    },
+    feedHeadlineLink: {
+      // TODO: Move this fix to shader styles
+      ...Platform.select({
+        ios: {
+          marginBottom: -3,
+        },
+        android: {
+          marginBottom: -5,
+        },
+      }),
+    },
+    feedTopicGrid: {
+      ...Platform.select({
+        web: {
+          ...(screenWidth > theme.vars.breakpointM
+            ? {
+                flexDirection: 'row',
+                gap: 24,
+              }
+            : {}),
+        },
+      }),
+    },
+    feedTopicItem: {
+      paddingBottom: 40,
+      flex: 1,
+    },
+  })
 
 export default HomeFeed
