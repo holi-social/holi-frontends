@@ -1,6 +1,6 @@
 import React from 'react'
-// import { useTranslation } from 'react-i18next'
-import { Image, StyleSheet, View, ViewStyle } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { Image, Platform, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -20,22 +20,43 @@ interface TopicPreviewBoxProps {
     count: number
   }
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
+  category: string
 }
 
-const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({ id, title, image, author, contributors, ...props }) => {
+const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
+  id,
+  title,
+  image,
+  author,
+  contributors,
+  category,
+  ...props
+}) => {
   const { navigate } = useRouting()
   const styles = getStyles()
+  const { t } = useTranslation()
 
   return (
     <View {...props}>
-      <Image source={{ uri: image.src }} style={styles.mainImage} />
+      <HoliButton label={title} transparent onPress={() => navigate(`/topics/${id}`)}>
+        <Image source={{ uri: image.src }} style={styles.mainImage} />
+      </HoliButton>
 
       <HoliButton label={title} transparent style={styles.title} onPress={() => navigate(`/topics/${id}`)}>
         {title}
       </HoliButton>
 
-      {/* TODO: i18n + what is #Education */}
-      <HoliText style={[styles.author, styles.textGrey]}>by {author} in #Education</HoliText>
+      <HoliText style={[styles.author, styles.textGrey]}>
+        by {author} in{' '}
+        <View>
+          {/* Negative marginBottom is used to solve Pressable bug inside an inline Text component */}
+          <HoliButton transparent label={category} inline style={[styles.textGrey]}>
+            <HoliText bold style={[styles.textGrey, styles.categoryLink]}>
+              #{category}
+            </HoliText>
+          </HoliButton>
+        </View>
+      </HoliText>
 
       {contributors.avatars && (
         <HoliButton label={' '} transparent onPress={() => navigate(`/topics/${id}`)}>
@@ -49,8 +70,7 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({ id, title, image, au
               />
             ))}
             <HoliText size="small" style={[styles.contributorsCounter, styles.textGrey]}>
-              {/* TODO: i18n */}
-              {contributors.count} discussing
+              {contributors.count} {t('homeFeed.discussing')}
             </HoliText>
           </View>
         </HoliButton>
@@ -89,6 +109,16 @@ const getStyles = () =>
     },
     contributorsCounter: {
       marginLeft: 8,
+    },
+    categoryLink: {
+      ...Platform.select({
+        ios: {
+          marginBottom: -3,
+        },
+        android: {
+          marginBottom: -4,
+        },
+      }),
     },
     textGrey: {
       color: styleVars.colors.grey,
