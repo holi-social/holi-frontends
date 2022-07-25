@@ -9,8 +9,9 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/')
 })
 
-test.describe('Login', () => {
-  test('should work with valid credentials', async ({ page }) => {
+test.describe('Paths', () => {
+  test('Login - Logout', async ({ page }) => {
+    // Login
     await page.locator(byTestId('profile-button')).waitFor()
     await page.locator(byTestId('profile-button')).click()
     await page.waitForSelector(byTestId('login-button'))
@@ -21,9 +22,14 @@ test.describe('Login', () => {
     await page.locator(byTestId('ory-submit-method')).click()
     await page.waitForSelector(byTestId('logout-button'))
     await page.waitForSelector(byTestId('edit-button'))
+    //Logout
+    await page.locator(byTestId('logout-button')).click()
+    await page.waitForSelector(byTestId('confirm-logout-button'))
+    await page.locator(byTestId('confirm-logout-button')).click()
+    await page.waitForSelector(byTestId('login-button'))
   })
 
-  test('should not work with invalid credentials', async ({ page }) => {
+  test('for invalid credentials', async ({ page }) => {
     await page.locator(byTestId('profile-button')).waitFor()
     await page.locator(byTestId('profile-button')).click()
     await page.waitForSelector(byTestId('login-button'))
