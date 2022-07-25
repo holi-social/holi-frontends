@@ -26,3 +26,7 @@ if E2E_USER vars are not loaded you can try this
 For testing a deployed app, use the following commmand:
 
   `BASE_URL=https://staging.web.project-holi.org yarn test`
+
+In order to debug failing tests, you can have a look at the trace that playwright saves for every test. The local command is:
+
+`npx playwright show-trace test-results/Login-Login-should-not-work-with-invalid-credentials-chromium/trace.zip `
