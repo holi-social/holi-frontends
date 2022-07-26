@@ -39,6 +39,7 @@
   "error.errorBoundary.retry": "Try again?",
   "explore.title": "Explore",
   "general.and": "and",
+  "general.in": "in",
   "homeFeed.currentDate": "Current date: {{date}}",
   "homeFeed.discussing": "discussing",
   "homeFeed.donations": "Donations",

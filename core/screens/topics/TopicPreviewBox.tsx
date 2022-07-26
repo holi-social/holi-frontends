@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, Platform, StyleSheet, View, ViewStyle } from 'react-native'
+import { Image, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -47,7 +47,9 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
       </HoliButton>
 
       <View style={styles.authorCategoryContainer}>
-        <HoliText style={[styles.author, styles.textGrey]}>by {author} in </HoliText>
+        <HoliText style={[styles.author, styles.textGrey]}>
+          {t('topics.post.author', { author })} {t('general.in')}{' '}
+        </HoliText>
         <HoliButton label={category} transparent inline>
           <HoliText bold style={[styles.textGrey]}>
             #{category}
