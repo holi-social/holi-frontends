@@ -28,6 +28,7 @@ const LoginProtection: React.VFC<LoginProtectionProps> = ({ children, loggedOutC
         label={t('auth.loginProtection.loginLabel')}
         onPress={() => navigate('/login')}
         style={styles.loginButton}
+        testID="login-button"
       >
         {t('auth.loginProtection.login')}
       </HoliButton>

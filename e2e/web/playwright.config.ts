@@ -39,7 +39,7 @@ const config: PlaywrightTestConfig = {
     baseURL: process.env.BASE_URL || 'https://staging.web.project-holi.org',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: 'on',
     screenshot: 'only-on-failure',
     video: 'on-first-retry',
     headless: process.env.CI ? true : !!process.env.HEADLESS || true,
