@@ -48,7 +48,7 @@ const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: Heade
       onPress={() => navigate(profileUrl)}
       {...props}
       style={props.style}
-      testID="profile-button"
+      testID="btn-to-profile-view"
     >
       {hasUserData ? userAvatar : <HoliIcon icon="user-circled" size={20} />}
     </HoliButton>

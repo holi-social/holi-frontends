@@ -23,7 +23,7 @@ test.describe('Accessibility', () => {
     await page.waitForSelector(byTestId('home-feed-topics-heading'))
     await checkAccessibility(page)
 
-    await page.locator(byTestId('profile-button')).click()
+    await page.locator(byTestId('btn-to-profile-view')).click()
     await page.waitForSelector(byTestId('user-profile-logged-out-heading'))
     await checkAccessibility(page)
 
