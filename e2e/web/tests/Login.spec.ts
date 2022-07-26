@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
 test.describe('Paths', () => {
   test('Login - Logout', async ({ page }) => {
     // Login
-    await page.locator(byTestId('profile-button')).waitFor()
+    await page.waitForSelector(byTestId('profile-button'))
     await page.locator(byTestId('profile-button')).click()
     await page.waitForSelector(byTestId('login-button'))
     await page.locator(byTestId('login-button')).click()
@@ -30,7 +30,7 @@ test.describe('Paths', () => {
   })
 
   test('for invalid credentials', async ({ page }) => {
-    await page.locator(byTestId('profile-button')).waitFor()
+    await page.waitForSelector(byTestId('profile-button'))
     await page.locator(byTestId('profile-button')).click()
     await page.waitForSelector(byTestId('login-button'))
     await page.locator(byTestId('login-button')).click()
