@@ -160,6 +160,7 @@ exports[`renders correctly when disabled 1`] = `
               },
             ]
           }
+          testID="undefined-input"
           value=""
         />
       </View>
@@ -200,6 +201,7 @@ exports[`renders correctly when disabled 1`] = `
             ],
           ]
         }
+        testID="undefined-message"
       >
         Helper Text
       </Text>
@@ -365,6 +367,7 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
               },
             ]
           }
+          testID="undefined-input"
           value=""
         />
       </View>
@@ -405,6 +408,7 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
             ],
           ]
         }
+        testID="undefined-message"
       >
         Helper Text
       </Text>
@@ -570,6 +574,7 @@ exports[`renders correctly when multiline starting with one line 1`] = `
               },
             ]
           }
+          testID="undefined-input"
           value=""
         />
       </View>
@@ -610,6 +615,7 @@ exports[`renders correctly when multiline starting with one line 1`] = `
             ],
           ]
         }
+        testID="undefined-message"
       >
         Helper Text
       </Text>
@@ -770,6 +776,7 @@ exports[`renders correctly with default props 1`] = `
               },
             ]
           }
+          testID="undefined-input"
           value=""
         />
       </View>
@@ -809,6 +816,7 @@ exports[`renders correctly with default props 1`] = `
             ],
           ]
         }
+        testID="undefined-message"
       >
         Helper Text
       </Text>
@@ -978,6 +986,7 @@ exports[`renders correctly with error 1`] = `
               },
             ]
           }
+          testID="undefined-input"
           value=""
         />
         <View
@@ -1096,6 +1105,7 @@ exports[`renders correctly with error 1`] = `
             ],
           ]
         }
+        testID="undefined-message"
       >
         Validation Error Text
       </Text>
@@ -1261,6 +1271,7 @@ exports[`renders correctly with trailing icon 1`] = `
               },
             ]
           }
+          testID="undefined-input"
           value=""
         />
         <View
@@ -1375,6 +1386,7 @@ exports[`renders correctly with trailing icon 1`] = `
             ],
           ]
         }
+        testID="undefined-message"
       >
         Helper Text
       </Text>
@@ -1540,6 +1552,7 @@ exports[`renders correctly with type password 1`] = `
               },
             ]
           }
+          testID="undefined-input"
           textContentType="password"
           value=""
         />
@@ -1581,6 +1594,7 @@ exports[`renders correctly with type password 1`] = `
             ],
           ]
         }
+        testID="undefined-message"
       >
         Helper Text
       </Text>
@@ -1702,6 +1716,7 @@ exports[`renders correctly without label 1`] = `
               },
             ]
           }
+          testID="undefined-input"
           value=""
         />
       </View>
@@ -1742,6 +1757,7 @@ exports[`renders correctly without label 1`] = `
             ],
           ]
         }
+        testID="undefined-message"
       >
         Helper Text
       </Text>

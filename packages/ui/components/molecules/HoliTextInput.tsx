@@ -37,6 +37,7 @@ export type HoliTextInputProps = {
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
   /** TextInputProps to extend input e.g with'returnKeytype' or 'autofocus' */
   inputProps?: TextInputProps
+  testID?: string
   // eslint-disable-next-line
   [x: string]: any
 }
@@ -156,6 +157,7 @@ const HoliTextInput = ({
                 autoCorrect={false}
                 {...accessibilityProps}
                 {...props?.inputProps}
+                testID={`${props?.testID}-input`}
               />
               {(hasValidationErrors || props?.trailingIcon) && (
                 <View
@@ -206,6 +208,7 @@ const HoliTextInput = ({
             <HoliText
               size="extrasmall"
               style={[styles.helperText, hasValidationErrors ? styles.validationErrorText : {}]}
+              testID={`${props?.testID}-message`}
             >
               {props?.validationErrorText || props?.helperText}
             </HoliText>

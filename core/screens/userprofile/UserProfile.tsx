@@ -71,6 +71,7 @@ const UserProfile: React.VFC = () => {
                   toggleModal()
                 }}
                 inline
+                testID="edit-button"
               >
                 {t('profile.edit')}
               </HoliButton>
