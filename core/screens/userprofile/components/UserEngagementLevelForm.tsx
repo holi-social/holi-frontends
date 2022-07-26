@@ -11,9 +11,16 @@ import {
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
+import HoliIcon from '@holi/ui/components/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+
+enum EngagementLevel {
+  INTERESTED = 'INTERESTED',
+  ENGAGED = 'ENGAGED',
+  INITIATOR = 'INITIATOR',
+}
 
 type UserEngagementLevelFormProps = {
   onCancel?: () => void
@@ -27,7 +34,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
 }) => {
   const { user } = useContext(UserContext)
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
-  const [engagementLevel, setEngagementLevel] = useState(user?.engagementLevel || 'interested')
+  const [engagementLevel, setEngagementLevel] = useState(user?.engagementLevel || EngagementLevel.INTERESTED)
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
 
@@ -67,30 +74,8 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
   }
 
   const ActiveButtonIcon = (
-    <View
-      style={{
-        width: 50,
-        height: 50,
-        borderWidth: 2,
-        borderRadius: 100,
-        backgroundColor: theme.colors.backgroundColorYellow,
-        position: 'relative',
-        alignSelf: 'flex-end',
-        marginRight: 8,
-        bottom: -2,
-      }}
-    >
-      <HoliText
-        style={{
-          fontSize: 20,
-          position: 'absolute',
-          top: 12,
-          right: 14,
-          transform: [{ rotate: '80deg' }],
-        }}
-      >
-        : )
-      </HoliText>
+    <View style={styles.activeButtonIcon}>
+      <HoliIcon icon="smiley" size={20}></HoliIcon>
     </View>
   )
 
@@ -100,39 +85,48 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
         <HoliText style={styles.title}>{t('user.engagementLevel.form.question')}</HoliText>
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonContainer}>
-            {engagementLevel === 'interested' && ActiveButtonIcon}
+            {engagementLevel === EngagementLevel.INTERESTED && ActiveButtonIcon}
             <HoliButton
               label={t('user.engagementLevel.title.interested')}
               transparent
-              onPress={() => setEngagementLevel('interested')}
+              onPress={() => setEngagementLevel(EngagementLevel.INTERESTED)}
             >
-              <View style={[styles.button, ...(engagementLevel === 'interested' ? [styles.activeButton] : [])]}></View>
+              <View
+                style={[
+                  styles.button,
+                  ...(engagementLevel === EngagementLevel.INTERESTED ? [styles.activeButton] : []),
+                ]}
+              ></View>
             </HoliButton>
           </View>
           <View style={[styles.buttonContainer, { marginHorizontal: 10 }]}>
-            {engagementLevel === 'engaged' && ActiveButtonIcon}
+            {engagementLevel === EngagementLevel.ENGAGED && ActiveButtonIcon}
             <HoliButton
               label={t('user.engagementLevel.title.engaged')}
               transparent
-              onPress={() => setEngagementLevel('engaged')}
+              onPress={() => setEngagementLevel(EngagementLevel.ENGAGED)}
             >
               <View
-                style={[styles.button, styles.button2, ...(engagementLevel === 'engaged' ? [styles.activeButton] : [])]}
+                style={[
+                  styles.button,
+                  styles.button2,
+                  ...(engagementLevel === EngagementLevel.ENGAGED ? [styles.activeButton] : []),
+                ]}
               ></View>
             </HoliButton>
           </View>
           <View style={styles.buttonContainer}>
-            {engagementLevel === 'initiator' && ActiveButtonIcon}
+            {engagementLevel === EngagementLevel.INITIATOR && ActiveButtonIcon}
             <HoliButton
               label={t('user.engagementLevel.title.initiator')}
               transparent
-              onPress={() => setEngagementLevel('initiator')}
+              onPress={() => setEngagementLevel(EngagementLevel.INITIATOR)}
             >
               <View
                 style={[
                   styles.button,
                   styles.button3,
-                  ...(engagementLevel === 'initiator' ? [styles.activeButton] : []),
+                  ...(engagementLevel === EngagementLevel.INITIATOR ? [styles.activeButton] : []),
                 ]}
               ></View>
             </HoliButton>
@@ -208,6 +202,20 @@ const getStyles = (theme: HoliTheme, buttonsContainerHeight: number) =>
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
+    },
+    activeButtonIcon: {
+      width: 50,
+      height: 50,
+      borderWidth: 2,
+      borderRadius: 100,
+      backgroundColor: theme.colors.backgroundColorYellow,
+      position: 'relative',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      alignSelf: 'flex-end',
+      marginRight: 8,
+      bottom: -2,
     },
   })
 
