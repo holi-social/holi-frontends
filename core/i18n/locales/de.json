@@ -39,6 +39,7 @@
   "error.errorBoundary.retry": "Erneut versuchen?",
   "explore.title": "Erkunden",
   "general.and": "und",
+  "general.in": "in",
   "homeFeed.currentDate": "Aktuelles Datum: {{date}}",
   "homeFeed.donations": "Spenden",
   "homeFeed.headerTitle.goodAfternoon": "Guten Nachmittag",
