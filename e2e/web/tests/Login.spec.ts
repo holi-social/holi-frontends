@@ -29,8 +29,8 @@ test.describe('Paths', () => {
     await page.waitForSelector(byTestId('btn-to-login-form'))
   })
 
-  test('for invalid credentials', async ({ page }) => {
-    await page.waitForSelector(byTestId('btn-to-profile-view'))
+  test('should not work with invalid credentials', async ({ page }) => {
+    await page.locator(byTestId('btn-to-profile-view')).waitFor()
     await page.locator(byTestId('btn-to-profile-view')).click()
     await page.waitForSelector(byTestId('btn-to-login-form'))
     await page.locator(byTestId('btn-to-login-form')).click()

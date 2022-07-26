@@ -48,7 +48,7 @@ const UserProfile: React.VFC = () => {
     <DefaultLayout>
       <LoginProtection loggedOutContent={<LoggedOutView style={styles.loggedOut} />}>
         <>
-          <View style={styles.container}>
+          <View style={[theme.mixins.container, styles.container]}>
             <>
               <HoliModal
                 show={showModal}
@@ -80,7 +80,7 @@ const UserProfile: React.VFC = () => {
               </HoliButton>
             </>
           </View>
-          <View style={{ marginTop: 24, marginHorizontal: Platform.OS === 'web' ? 24 : 0 }}>
+          <View style={[theme.mixins.container, { marginTop: 24, marginHorizontal: Platform.OS === 'web' ? 24 : 0 }]}>
             <HoliTabs
               tabs={[
                 {
