@@ -198,14 +198,11 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
             {t('homeFeed.heading', { count: dummyTopics.length })}{' '}
             <HoliSeparatedList size="large" bold>
               {dummyTopics.map((v, idx) => (
-                <View key={idx}>
-                  {/* Negative marginBottom is used to solve Pressable bug inside an inline Text component */}
-                  <HoliButton transparent label={v} inline style={styles.feedHeadlineLink}>
-                    <HoliText size="large" bold style={{ color: styleVars.colors.positivepurple }}>
-                      {v}
-                    </HoliText>
-                  </HoliButton>
-                </View>
+                <HoliButton key={idx} label={v} transparent inline style={styles.feedHeadlineLink}>
+                  <HoliText size="large" bold style={{ color: styleVars.colors.positivepurple }}>
+                    {v}
+                  </HoliText>
+                </HoliButton>
               ))}
             </HoliSeparatedList>
           </HoliHeading>
@@ -236,13 +233,13 @@ const homeFeedStyles = (theme: HoliTheme, screenWidth: number) =>
       paddingBottom: 40,
     },
     feedHeadlineLink: {
-      // TODO: Move this fix to shader styles
+      // TODO: Move this fix to shared styles
       ...Platform.select({
         ios: {
-          marginBottom: -3,
+          transform: [{ translateY: 3 }],
         },
         android: {
-          marginBottom: -5,
+          transform: [{ translateY: 5 }],
         },
       }),
     },
