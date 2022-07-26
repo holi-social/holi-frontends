@@ -39,6 +39,7 @@
   "error.errorBoundary.retry": "Try again?",
   "explore.title": "Explore",
   "general.and": "and",
+  "general.in": "in",
   "homeFeed.apps.appLabel": "{{name}} App",
   "homeFeed.apps.moreApps": "More apps...",
   "homeFeed.currentDate": "Current date: {{date}}",
