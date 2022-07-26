@@ -31,6 +31,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       minWidth: 80,
       maxWidth: 80,
       overflow: 'hidden',
+      wordBreak: 'break-word',
     },
     iconContainer: {
       alignSelf: 'center',
@@ -53,7 +54,6 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       paddingTop: 4,
       alignSelf: 'center',
       textAlign: 'center',
-      wordBreak: 'break-word',
     },
     moreApps: {
       marginLeft: 8,
