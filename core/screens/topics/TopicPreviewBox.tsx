@@ -46,17 +46,14 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
         {title}
       </HoliButton>
 
-      <HoliText style={[styles.author, styles.textGrey]}>
-        by {author} in{' '}
-        <View>
-          {/* Negative marginBottom is used to solve Pressable bug inside an inline Text component */}
-          <HoliButton transparent label={category} inline style={[styles.textGrey]}>
-            <HoliText bold style={[styles.textGrey, styles.categoryLink]}>
-              #{category}
-            </HoliText>
-          </HoliButton>
-        </View>
-      </HoliText>
+      <View style={styles.authorCategoryContainer}>
+        <HoliText style={[styles.author, styles.textGrey]}>by {author} in </HoliText>
+        <HoliButton label={category} transparent inline>
+          <HoliText bold style={[styles.textGrey]}>
+            #{category}
+          </HoliText>
+        </HoliButton>
+      </View>
 
       {contributors.avatars && (
         <HoliButton label={' '} transparent onPress={() => navigate(`/topics/${id}`)}>
@@ -92,6 +89,9 @@ const getStyles = () =>
     title: {
       marginBottom: 16,
     },
+    authorCategoryContainer: {
+      flexDirection: 'row',
+    },
     author: {
       marginBottom: 8,
     },
@@ -103,22 +103,11 @@ const getStyles = () =>
       width: 24,
     },
     contributorsContainer: {
-      display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
     },
     contributorsCounter: {
       marginLeft: 8,
-    },
-    categoryLink: {
-      ...Platform.select({
-        ios: {
-          marginBottom: -3,
-        },
-        android: {
-          marginBottom: -4,
-        },
-      }),
     },
     textGrey: {
       color: styleVars.colors.grey,
