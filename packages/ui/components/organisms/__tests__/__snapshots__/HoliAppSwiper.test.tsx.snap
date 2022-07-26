@@ -48,6 +48,7 @@ exports[`HoliAppSwiper renders correctly 1`] = `
               "maxWidth": 80,
               "minWidth": 80,
               "overflow": "hidden",
+              "wordBreak": "break-word",
             },
           ],
           Object {
@@ -112,7 +113,6 @@ exports[`HoliAppSwiper renders correctly 1`] = `
                 "alignSelf": "center",
                 "paddingTop": 4,
                 "textAlign": "center",
-                "wordBreak": "break-word",
               },
             ]
           }
@@ -148,6 +148,7 @@ exports[`HoliAppSwiper renders correctly 1`] = `
               "maxWidth": 80,
               "minWidth": 80,
               "overflow": "hidden",
+              "wordBreak": "break-word",
             },
           ],
           Object {
@@ -210,7 +211,6 @@ exports[`HoliAppSwiper renders correctly 1`] = `
                 "alignSelf": "center",
                 "paddingTop": 4,
                 "textAlign": "center",
-                "wordBreak": "break-word",
               },
             ]
           }
@@ -246,6 +246,7 @@ exports[`HoliAppSwiper renders correctly 1`] = `
               "maxWidth": 80,
               "minWidth": 80,
               "overflow": "hidden",
+              "wordBreak": "break-word",
             },
           ],
           Object {
@@ -310,7 +311,6 @@ exports[`HoliAppSwiper renders correctly 1`] = `
                 "alignSelf": "center",
                 "paddingTop": 4,
                 "textAlign": "center",
-                "wordBreak": "break-word",
               },
             ]
           }
@@ -346,6 +346,7 @@ exports[`HoliAppSwiper renders correctly 1`] = `
               "maxWidth": 80,
               "minWidth": 80,
               "overflow": "hidden",
+              "wordBreak": "break-word",
             },
           ],
           Object {
@@ -410,7 +411,6 @@ exports[`HoliAppSwiper renders correctly 1`] = `
                 "alignSelf": "center",
                 "paddingTop": 4,
                 "textAlign": "center",
-                "wordBreak": "break-word",
               },
             ]
           }
@@ -446,6 +446,7 @@ exports[`HoliAppSwiper renders correctly 1`] = `
               "maxWidth": 80,
               "minWidth": 80,
               "overflow": "hidden",
+              "wordBreak": "break-word",
             },
           ],
           Object {
@@ -508,7 +509,6 @@ exports[`HoliAppSwiper renders correctly 1`] = `
                 "alignSelf": "center",
                 "paddingTop": 4,
                 "textAlign": "center",
-                "wordBreak": "break-word",
               },
             ]
           }
