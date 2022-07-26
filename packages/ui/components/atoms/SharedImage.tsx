@@ -26,9 +26,9 @@ const SharedImage: React.VoidFunctionComponent<SharedImageProps> = (props: Share
   const { imageFile, style: { width = 50, height = 50 } = {}, isSvg } = props
 
   return isSvg ? (
-    <Image {...props} source={imageFile as number} style={{ overflow: 'visible' }} />
-  ) : (
     <WithLocalSvg {...props} asset={imageFile} width={width} height={height} />
+  ) : (
+    <Image {...props} source={imageFile} style={{ overflow: 'visible' }} />
   )
 }
 
