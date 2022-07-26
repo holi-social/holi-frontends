@@ -157,7 +157,7 @@ const HoliTextInput = ({
                 autoCorrect={false}
                 {...accessibilityProps}
                 {...props?.inputProps}
-                testID={`${props?.testID}-input`}
+                testID={`${props?.testID || 'holi-text-input'}-input`}
               />
               {(hasValidationErrors || props?.trailingIcon) && (
                 <View
@@ -208,7 +208,7 @@ const HoliTextInput = ({
             <HoliText
               size="extrasmall"
               style={[styles.helperText, hasValidationErrors ? styles.validationErrorText : {}]}
-              testID={`${props?.testID}-message`}
+              testID={`${props?.testID || 'holi-text-input'}-message`}
             >
               {props?.validationErrorText || props?.helperText}
             </HoliText>

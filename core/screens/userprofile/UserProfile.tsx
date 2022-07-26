@@ -71,11 +71,11 @@ const UserProfile: React.VFC = () => {
                   toggleModal()
                 }}
                 inline
-                testID="edit-button"
+                testID="btn-open-profile-edit-view"
               >
                 {t('profile.edit')}
               </HoliButton>
-              <HoliButton label={t('profile.logout')} inline onPress={() => navigate('/logout')} testID="logout-button">
+              <HoliButton label={t('profile.logout')} inline onPress={() => navigate('/logout')} testID="btn-to-logout">
                 {t('profile.logout')}
               </HoliButton>
             </>
