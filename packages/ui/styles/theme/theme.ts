@@ -1,5 +1,5 @@
 import React from 'react'
-import { Platform } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 import { styleVars } from '@holi/ui/styles/globalVars'
 
@@ -18,6 +18,13 @@ const defaultTheme = {
         default: variant.length > 0 ? `${styleVars.vars.fontFamilyMobile} ${variant}` : styleVars.vars.fontFamilyMobile,
       }) as string,
   },
+  mixins: StyleSheet.create({
+    container: {
+      alignSelf: 'center',
+      maxWidth: styleVars.vars.maxScreenWidth,
+      width: '100%',
+    },
+  }),
 }
 
 export type HoliTheme = typeof defaultTheme

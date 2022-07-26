@@ -16,6 +16,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type TopicParams = {
   topicId: string
@@ -30,6 +31,7 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
   const { navigate } = useRouting()
   const { setBackLink, clearBackLinks } = useNavigationContext()
   const { t } = useTranslation()
+  const { theme } = useTheme()
 
   const { setNavigationHeader } = useNavigationHeader()
   useLayoutEffect(() => {
@@ -50,7 +52,7 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
 
   return (
     <DefaultLayout>
-      <View style={styles.topicView}>
+      <View style={[theme.mixins.container, styles.topicView]}>
         <HoliHeading level="1" size="super" style={{ alignSelf: 'center' }}>
           {t('topics.topic.heading', { title: topic.title, topicId })}
         </HoliHeading>

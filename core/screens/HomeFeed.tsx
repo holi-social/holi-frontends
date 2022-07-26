@@ -1,7 +1,7 @@
 import moment from 'moment'
 import React, { useLayoutEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -13,6 +13,7 @@ import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliAppSwiper from '@holi/ui/components/organisms/HoliAppSwiper'
 import { styleVars } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -25,8 +26,7 @@ type DummyApp = {
   backgroundColor: string
 }
 
-// if you add more dummy apps, also add the nameKey to focusedApps within the component
-const appsSwiperDummyApps: DummyApp[] = [
+const appSwiperDummyApps: DummyApp[] = [
   {
     icon: 'chat',
     nameKey: 'apps.volunteering.name',
@@ -69,81 +69,6 @@ const appsSwiperDummyApps: DummyApp[] = [
   },
 ]
 
-const appsSwiperStyles = (theme: HoliTheme, screenWidth: number) =>
-  StyleSheet.create({
-    container: {
-      width: '100%',
-    },
-    containerContent: {
-      width: screenWidth > theme.vars.breakpointS ? '100%' : 'auto',
-      justifyContent: 'center',
-    },
-    tile: {
-      minWidth: 110,
-      maxWidth: 110,
-      overflow: 'hidden',
-    },
-    iconContainer: {
-      alignSelf: 'center',
-      width: 64,
-      height: 64,
-      padding: 2,
-      borderWidth: 2,
-      borderRadius: 16,
-      borderColor: styleVars.colors.softblackTransparent,
-    },
-    icon: {
-      width: '100%',
-      height: '100%',
-      borderRadius: 12,
-    },
-    iconWithUpdates: {
-      borderWidth: 2,
-      borderRadius: 16,
-      borderColor: styleVars.colors.positivepurple,
-    },
-    appName: {
-      paddingTop: 4,
-      alignSelf: 'center',
-      fontSize: 14,
-      fontWeight: '400',
-    },
-  })
-
-type AppsSwiperProps = {
-  style?: ViewStyle | ViewStyle[]
-}
-
-const AppsSwiper: React.VFC<AppsSwiperProps> = ({ style }) => {
-  const { navigate } = useRouting()
-  const { t } = useTranslation()
-  const { width } = useWindowDimensions()
-  const { theme } = useTheme()
-  const styles = appsSwiperStyles(theme, width)
-  return (
-    <ScrollView horizontal={true} contentContainerStyle={styles.containerContent} style={[styles.container, style]}>
-      {appsSwiperDummyApps.map((app) => (
-        <HoliButton
-          key={app.nameKey}
-          label={t(app.nameKey) + ' App'}
-          inline
-          transparent
-          onPress={() => navigate(app.path)}
-          style={[styles.tile]}
-          testID={app.testID}
-        >
-          <View style={[styles.iconContainer, app.hasUpdates && styles.iconWithUpdates]}>
-            <View style={[styles.icon, { backgroundColor: app.backgroundColor }]} />
-          </View>
-          <HoliText selectable={false} style={styles.appName}>
-            {t(app.nameKey)}
-          </HoliText>
-        </HoliButton>
-      ))}
-    </ScrollView>
-  )
-}
-
 type HomeFeedProps = NativeStackScreenProps<HomeStackScreens>
 
 const temporalGreeting = (hours: number, t: (key: string) => string) => {
@@ -158,6 +83,8 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   const { navigate } = useRouting()
   const { setNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = getStyles(theme)
   const headerTitle = temporalGreeting(moment().hours(), t)
 
   useLayoutEffect(
@@ -171,10 +98,25 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
 
   return (
     <DefaultLayout>
-      <View style={styles.view}>
-        {/* Holi Apps */}
-        <AppsSwiper />
+      {/* Holi Apps */}
+      <HoliAppSwiper
+        style={[theme.mixins.container, styles.appSwiper]}
+        apps={appSwiperDummyApps.map((app) => {
+          const name = t(app.nameKey)
+          return {
+            ...app,
+            name,
+            onPress: () => navigate(app.path),
+            label: t('homeFeed.apps.appLabel', { name }),
+          }
+        })}
+        onPressMoreApps={() => navigate('/apps/volunteering')}
+        moreAppsLabel={t('homeFeed.apps.moreApps')}
+      />
 
+      <View style={styles.divider} />
+
+      <View style={[theme.mixins.container, styles.feed]}>
         {/* I18n Showcase */}
         <View style={{ flexDirection: 'column', paddingTop: 20, paddingBottom: 20 }}>
           <HoliText>
@@ -206,12 +148,16 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   )
 }
 
-const styles = StyleSheet.create({
-  view: {
-    alignItems: 'center',
-    maxWidth: '100%',
-    marginTop: 5,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    divider: {
+      marginTop: 12,
+      borderBottomColor: theme.colors.borderColorGrey,
+      borderBottomWidth: 1,
+    },
+    appSwiper: {
+      flexGrow: 0,
+    },
+  })
 
 export default HomeFeed

@@ -20,7 +20,6 @@
 
 .main {
   width: 100%;
-  max-width: #{$max-screen-width}px;
   min-height: calc(100vh - #{$top-bar-height}px);
   display: flex;
   flex-direction: column;
