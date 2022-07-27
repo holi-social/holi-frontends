@@ -69,7 +69,7 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
               />
             ))}
             <HoliText size="small" style={[styles.contributorsCounter, styles.textGrey]}>
-              {contributors.count} {t('homeFeed.discussing')}
+              {t('topics.contributors.discussing', { count: contributors.count })}
             </HoliText>
           </View>
         </HoliButton>
