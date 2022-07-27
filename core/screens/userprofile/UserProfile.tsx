@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from 'react'
+import React, { memo, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -30,7 +30,7 @@ const UserProfile: React.VFC = () => {
   const { t } = useTranslation()
 
   const { isLoggedIn } = useContext(AuthContext)
-  const { user } = useContext(UserContext)
+  const { user, isEditing, setEditing } = useContext(UserContext)
 
   const { setNavigationHeader } = useNavigationHeader()
 
@@ -43,6 +43,20 @@ const UserProfile: React.VFC = () => {
       titleElement: () => <HoliText style={{ paddingTop: 5 }}>{profileTitle}</HoliText>,
     })
   }, [isLoggedIn, setNavigationHeader, user, t])
+
+  useEffect(() => {
+    if (isEditing) {
+      setShowModal(true)
+      setEditMode('edit')
+    }
+  }, [isEditing])
+
+  useEffect(() => {
+    if (!showModal) {
+      setEditMode(null)
+      setEditing(false)
+    }
+  }, [setEditing, showModal])
 
   return (
     <DefaultLayout>
@@ -64,17 +78,6 @@ const UserProfile: React.VFC = () => {
                 )}
               </HoliModal>
               <UserProfileView />
-              <HoliButton
-                label={t('profile.edit')}
-                onPress={() => {
-                  setEditMode('edit')
-                  toggleModal()
-                }}
-                inline
-                testID="btn-open-profile-edit-view"
-              >
-                {t('profile.edit')}
-              </HoliButton>
               <HoliButton label={t('profile.logout')} inline onPress={() => navigate('/logout')} testID="btn-to-logout">
                 {t('profile.logout')}
               </HoliButton>
@@ -143,4 +146,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default UserProfile
+export default memo(UserProfile)

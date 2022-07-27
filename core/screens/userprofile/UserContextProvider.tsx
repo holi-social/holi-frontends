@@ -1,5 +1,5 @@
 import { useLazyQuery } from '@apollo/client'
-import React, { createContext, useContext, useEffect } from 'react'
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
@@ -10,11 +10,15 @@ import type { User } from '@holi/core/screens/userprofile/types'
 interface Context {
   isLoading: boolean
   user: User | undefined
+  isEditing: boolean
+  setEditing: (state: Context['isEditing']) => void
 }
 
 const initialState = {
   isLoading: true,
   user: undefined,
+  isEditing: false,
+  setEditing: () => null,
 }
 
 export const UserContext = createContext<Context>(initialState)
@@ -41,5 +45,16 @@ export const UserContextProvider: React.FC = ({ children }) => {
 
   const user = data && data?.authenticatedUser
 
-  return <UserContext.Provider value={{ isLoading: loading, user: user }}>{children}</UserContext.Provider>
+  const [editing, setEditing] = useState<Context['isEditing']>(initialState.isEditing)
+
+  const contextValue: Context = useMemo(
+    () => ({
+      isLoading: loading,
+      user: user,
+      isEditing: editing,
+      setEditing,
+    }),
+    [loading, user, editing, setEditing]
+  )
+  return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
 }

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ViewStyle } from 'react-native'
 
@@ -6,6 +6,7 @@ import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliIcon from '@holi/ui/components/HoliIcon'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 
@@ -15,9 +16,9 @@ export type HeaderRightProps = {
 }
 
 const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: HeaderRightProps) => {
-  const { navigate } = useRouting()
+  const { navigate, pathname } = useRouting()
 
-  const { user } = useContext(UserContext)
+  const { user, setEditing } = useContext(UserContext)
   const { isLoggedIn } = useContext(AuthContext)
   const hasUserData = isLoggedIn && user
   const { t } = useTranslation()
@@ -40,7 +41,23 @@ const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: Heade
     )
   }
 
-  return (
+  useEffect(() => {
+    pathname.indexOf('/profile') !== 0 && setEditing(false)
+  }, [pathname, setEditing])
+
+  return pathname.indexOf('/profile') === 0 ? (
+    <HoliButton
+      label={t('profile.edit')}
+      onPress={() => {
+        setEditing(true)
+      }}
+      inline
+      transparent
+      testID="btn-open-profile-edit-view"
+    >
+      <HoliText size="small">{t('profile.edit')}</HoliText>
+    </HoliButton>
+  ) : (
     <HoliButton
       label={t('profile.title')}
       inline
