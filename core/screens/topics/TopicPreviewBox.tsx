@@ -45,7 +45,6 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
         transparent
         onPress={() => navigate(`/topics/${id}`)}
         style={styles.mainImageContainer}
-        accessibilityRole="link"
       >
         <Image source={{ uri: image.src }} style={styles.mainImage} />
 
@@ -60,7 +59,7 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
         style={styles.authorCategoryContainer}
       >
         <HoliText style={styles.textGrey}>{t('topics.post.author', { author, category: '' })}</HoliText>
-        <HoliButton label={t('topics.topic.category', { category })} transparent inline accessibilityRole="link">
+        <HoliButton label={t('topics.topic.category', { category })} transparent inline>
           <HoliText bold style={[styles.textGrey]}>
             #{category}
           </HoliText>
