@@ -47,7 +47,7 @@ test.describe('@Profile', () => {
     await page.locator(byTestId('btn-user-profile-edit-form-save')).click()
     await page.waitForSelector(byTestId('user-profile-full-name'))
     await page.locator(byTestId('user-profile-edit-saved')).waitFor()
-    expect(await page.textContent(byTestId('user-profile-full-name'))).toBe(`${firstNameEdited} ${lastName}`)
+    expect(await page.textContent(byTestId('user-profile-full-name'))).toBe(`${firstNameEdited} ${lastName}`.trim())
   })
 
   test('validation should block save', async ({ page }) => {
