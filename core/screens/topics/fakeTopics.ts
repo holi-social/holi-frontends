@@ -42,7 +42,7 @@ fakeTopics.set('abc', {
         label: getRandomName(),
       },
     ],
-    count: faker.random.numeric(2),
+    count: +faker.random.numeric(2),
   },
   category: 'Education',
 })
@@ -78,7 +78,7 @@ fakeTopics.set('bca', {
         label: getRandomName(),
       },
     ],
-    count: faker.random.numeric(1),
+    count: +faker.random.numeric(1),
   },
   category: 'Education',
 })
