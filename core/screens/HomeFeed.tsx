@@ -123,7 +123,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
 
       <View style={[theme.mixins.container]}>
         {/* Weekly Topics */}
-        <View style={styles.feedContainer}>
+        <View>
           {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
           <HoliHeading level="1" size="medium" style={styles.feedHeadline} testID="home-feed-topics-heading">
             {t('homeFeed.heading', { count: dummyTopics.length })}{' '}
@@ -164,10 +164,6 @@ const homeFeedStyles = (theme: HoliTheme, screenWidth: number) =>
     },
     appSwiper: {
       flexGrow: 0,
-    },
-    feedContainer: {
-      paddingHorizontal: 20,
-      width: '100%',
     },
     feedHeadline: {
       marginBottom: 40,
