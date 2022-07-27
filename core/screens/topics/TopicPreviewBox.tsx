@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { styleVars } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 // TODO: adjust this dummy interface to real props
 interface TopicPreviewBoxProps {
@@ -33,23 +34,22 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
   ...props
 }) => {
   const { navigate } = useRouting()
-  const styles = getStyles()
+  const { theme } = useTheme()
+  const styles = topicPreviewBoxStyles(theme)
   const { t } = useTranslation()
 
   return (
     <View {...props}>
-      <HoliButton label={title} transparent onPress={() => navigate(`/topics/${id}`)}>
+      <HoliButton label={title} transparent onPress={() => navigate(`/topics/${id}`)} style={styles.mainImageContainer}>
         <Image source={{ uri: image.src }} style={styles.mainImage} />
-      </HoliButton>
 
-      <HoliButton label={title} transparent style={styles.title} onPress={() => navigate(`/topics/${id}`)}>
-        {title}
+        <HoliHeading level="2" selectable={true}>
+          {title}
+        </HoliHeading>
       </HoliButton>
 
       <View style={styles.authorCategoryContainer}>
-        <HoliText style={[styles.author, styles.textGrey]}>
-          {t('topics.post.author', { author })} {t('general.in')}{' '}
-        </HoliText>
+        <HoliText style={styles.textGrey}>{t('topics.post.author', { author, category: '' })}</HoliText>
         <HoliButton label={category} transparent inline>
           <HoliText bold style={[styles.textGrey]}>
             #{category}
@@ -58,14 +58,14 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
       </View>
 
       {contributors.avatars && (
-        <HoliButton label={' '} transparent onPress={() => navigate(`/topics/${id}`)}>
+        <HoliButton label={t('topics.topic.topicEditors')} transparent onPress={() => navigate(`/topics/${id}`)}>
           <View style={styles.contributorsContainer}>
-            {contributors.avatars.map(({ uri, label }, idx) => (
+            {contributors.avatars.map(({ uri }, idx) => (
               <Image
                 key={uri}
                 source={{ uri }}
                 style={[styles.avatar, { marginLeft: idx ? -10 : 0, zIndex: idx * -1 }]}
-                accessibilityLabel={label}
+                accessible={false}
               />
             ))}
             <HoliText size="small" style={[styles.contributorsCounter, styles.textGrey]}>
@@ -80,25 +80,23 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
 
 export default TopicPreviewBox
 
-const getStyles = () =>
+const topicPreviewBoxStyles = (theme: HoliTheme) =>
   StyleSheet.create({
+    mainImageContainer: {
+      marginBottom: 16,
+    },
     mainImage: {
       aspectRatio: 344 / 218,
       borderRadius: 18,
       marginBottom: 16,
       width: '100%',
     },
-    title: {
-      marginBottom: 16,
-    },
     authorCategoryContainer: {
       flexDirection: 'row',
-    },
-    author: {
       marginBottom: 8,
     },
     avatar: {
-      borderColor: styleVars.colors.white,
+      borderColor: theme.colors.white,
       borderRadius: 24,
       borderWidth: 2,
       height: 24,
@@ -112,6 +110,6 @@ const getStyles = () =>
       marginLeft: 8,
     },
     textGrey: {
-      color: styleVars.colors.grey,
+      color: theme.colors.fontColorGrey,
     },
   })
