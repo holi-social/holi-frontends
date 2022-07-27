@@ -23,7 +23,7 @@ import { useTheme } from '@holi/ui/styles/theme'
 const UserProfile: React.VFC = () => {
   const { navigate } = useRouting()
   const [showModal, setShowModal] = useState(false)
-  const [editMode, setEditMode] = useState<'edit' | 'levelOfEngagement' | null>(null)
+  const [editMode, setEditMode] = useState<'edit' | 'levelOfEngagement' | 'saved' | 'cancelled' | null>(null)
   const toggleModal = () => {
     setShowModal(!showModal)
   }
@@ -48,7 +48,7 @@ const UserProfile: React.VFC = () => {
     <DefaultLayout>
       <LoginProtection loggedOutContent={<LoggedOutView style={styles.loggedOut} />}>
         <>
-          <View style={[theme.mixins.container, styles.container]}>
+          <View style={[theme.mixins.container, styles.container]} testID={`user-profile-edit-${editMode}`}>
             <>
               <HoliModal
                 show={showModal}
@@ -58,7 +58,13 @@ const UserProfile: React.VFC = () => {
                 relativeHeight={0.95}
               >
                 {editMode === 'edit' ? (
-                  <UserProfileForm onCancel={toggleModal} onSubmit={toggleModal} />
+                  <UserProfileForm
+                    onCancel={toggleModal}
+                    onSubmit={() => {
+                      toggleModal()
+                      setEditMode('saved')
+                    }}
+                  />
                 ) : (
                   <UserEngagementLevelForm onCancel={toggleModal} onSubmit={toggleModal}></UserEngagementLevelForm>
                 )}
