@@ -82,6 +82,7 @@
   "topics.post.missingPostId": "PostId fehlt",
   "topics.post.missingTopicId": "TopicId fehlt",
   "topics.post.title": "Beitrag {{postId}} zu Thema {{topicId}}",
+  "topics.topic.category": "Ein Thema der Kategorie {{category}}",
   "topics.topic.heading": "{{title}} (ID: {{topicId}})",
   "topics.topic.notFound": "Thema {{topicId}} nicht gefunden",
   "topics.topic.posts": "Beiträge",

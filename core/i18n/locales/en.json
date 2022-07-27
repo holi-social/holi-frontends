@@ -81,6 +81,7 @@
   "topics.post.missingPostId": "Missing postId",
   "topics.post.missingTopicId": "Missing topicId",
   "topics.post.title": "Post {{postId}} in topic {{topicId}}",
+  "topics.topic.category": "Topic of category {{category}}",
   "topics.topic.heading": "{{title}} (ID: {{topicId}})",
   "topics.topic.notFound": "Topic {{topicId}} not found",
   "topics.topic.posts": "Posts",
