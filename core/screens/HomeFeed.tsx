@@ -123,26 +123,24 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
 
       <View style={[theme.mixins.container]}>
         {/* Weekly Topics */}
-        <View>
-          {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
-          <HoliHeading level="1" size="medium" style={styles.feedHeadline} testID="home-feed-topics-heading">
-            {t('homeFeed.heading', { count: dummyTopics.length })}{' '}
-            <HoliSeparatedList size="large" bold>
-              {dummyTopics.map((v, idx) => (
-                <HoliButton key={idx} label={v} transparent inline style={styles.feedHeadlineLink}>
-                  <HoliText size="large" bold style={{ color: theme.colors.positivepurple }}>
-                    {v}
-                  </HoliText>
-                </HoliButton>
-              ))}
-            </HoliSeparatedList>
-          </HoliHeading>
-
-          <View style={styles.feedTopicGrid}>
-            {[...fakeTopics.keys()].map((topicId) => (
-              <TopicPreviewBox key={topicId} id={topicId} {...fakeTopics.get(topicId)} style={styles.feedTopicItem} />
+        {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
+        <HoliHeading level="1" size="medium" style={styles.feedHeadline} testID="home-feed-topics-heading">
+          {t('homeFeed.heading', { count: dummyTopics.length })}{' '}
+          <HoliSeparatedList size="large" bold>
+            {dummyTopics.map((v, idx) => (
+              <HoliButton key={idx} label={v} transparent inline style={styles.feedHeadlineLink}>
+                <HoliText size="large" bold style={{ color: theme.colors.positivepurple }}>
+                  {v}
+                </HoliText>
+              </HoliButton>
             ))}
-          </View>
+          </HoliSeparatedList>
+        </HoliHeading>
+
+        <View style={styles.feedTopicGrid}>
+          {[...fakeTopics.keys()].map((topicId) => (
+            <TopicPreviewBox key={topicId} id={topicId} {...fakeTopics.get(topicId)} style={styles.feedTopicItem} />
+          ))}
         </View>
       </View>
     </DefaultLayout>
