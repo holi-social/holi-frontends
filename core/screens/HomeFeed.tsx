@@ -1,6 +1,6 @@
 import moment from 'moment'
 import React, { useLayoutEffect } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -122,16 +122,6 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
       <View style={styles.divider} />
 
       <View style={[theme.mixins.container]}>
-        {/* I18n Showcase */}
-        <View style={{ flexDirection: 'column', paddingVertical: 20 }}>
-          <HoliText>
-            <Trans t={t} i18nKey="homeFeed.textWithLink">
-              <HoliText style={{ fontWeight: 'bold' }}>this is ignored</HoliText>
-            </Trans>
-          </HoliText>
-          <HoliText>{t('homeFeed.currentDate', { date: t('date', { date: moment() }) })}</HoliText>
-        </View>
-
         {/* Weekly Topics */}
         <View style={styles.feedContainer}>
           {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
@@ -168,6 +158,7 @@ const homeFeedStyles = (theme: HoliTheme, screenWidth: number) =>
     },
     divider: {
       marginTop: 12,
+      marginBottom: 40,
       borderBottomColor: theme.colors.borderColorGrey,
       borderBottomWidth: 1,
     },
