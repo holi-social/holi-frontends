@@ -36,7 +36,7 @@ const profileEditModalSteps = async (page: Page) => {
 
 test.describe('@Profile', () => {
   test('edit should work', async ({ page }) => {
-    await defaultLoginSteps(page)
+    await defaultLoginSteps({ page })
     await profileEditModalSteps(page)
     const firstName = await page.inputValue(byTestId('first-name-input'))
     const editedIndex = firstName.indexOf('~%')
