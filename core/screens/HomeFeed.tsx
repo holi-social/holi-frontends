@@ -1,21 +1,25 @@
 import moment from 'moment'
 import React, { useLayoutEffect } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import TopicPreviewBox from '@holi/core/screens/topics/components/TopicPreviewBox'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliSeparatedList from '@holi/ui/components/atoms/HoliSeparatedList'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliAppSwiper from '@holi/ui/components/organisms/HoliAppSwiper'
 import { styleVars } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+
+const dummyTopics = ['Immigration', 'Education', 'Sustainability']
 
 type DummyApp = {
   icon: string
@@ -80,12 +84,13 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
 }
 
 const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
+  const { theme } = useTheme()
   const { navigate } = useRouting()
+  const { width } = useWindowDimensions()
   const { setNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
-  const { theme } = useTheme()
-  const styles = getStyles(theme)
   const headerTitle = temporalGreeting(moment().hours(), t)
+  const styles = homeFeedStyles(theme, width)
 
   useLayoutEffect(
     () =>
@@ -117,46 +122,78 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
       <View style={styles.divider} />
 
       <View style={[theme.mixins.container]}>
-        {/* I18n Showcase */}
-        <View style={{ flexDirection: 'column', paddingTop: 20, paddingBottom: 20 }}>
-          <HoliText>
-            <Trans t={t} i18nKey="homeFeed.textWithLink">
-              <HoliText style={{ fontWeight: 'bold' }}>this is ignored</HoliText>
-            </Trans>
-          </HoliText>
-          <HoliText>{t('homeFeed.currentDate', { date: t('date', { date: moment() }) })}</HoliText>
-        </View>
-
         {/* Weekly Topics */}
-        {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
-        <HoliHeading level="1" size="medium" testID="home-feed-topics-heading">
-          {t('homeFeed.heading')}
-        </HoliHeading>
+        <View>
+          {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
+          <HoliHeading level="1" size="medium" style={styles.feedHeadline} testID="home-feed-topics-heading">
+            {t('homeFeed.heading', { count: dummyTopics.length })}{' '}
+            <HoliSeparatedList size="large" bold>
+              {dummyTopics.map((v, idx) => (
+                <HoliButton key={idx} label={v} transparent inline style={styles.feedHeadlineLink}>
+                  <HoliText size="large" bold style={{ color: theme.colors.positivepurple }}>
+                    {v}
+                  </HoliText>
+                </HoliButton>
+              ))}
+            </HoliSeparatedList>
+          </HoliHeading>
 
-        {[...fakeTopics.keys()].map((topicId) => (
-          <HoliButton
-            key={topicId}
-            label={fakeTopics.get(topicId).title}
-            inline
-            onPress={() => navigate(`/topics/${topicId}`)}
-          >
-            {fakeTopics.get(topicId).title}
-          </HoliButton>
-        ))}
+          <View style={styles.feedTopicGrid}>
+            {[...fakeTopics.keys()].map((topicId) => (
+              <TopicPreviewBox key={topicId} id={topicId} {...fakeTopics.get(topicId)} style={styles.feedTopicItem} />
+            ))}
+          </View>
+        </View>
       </View>
     </DefaultLayout>
   )
 }
 
-const getStyles = (theme: HoliTheme) =>
+const homeFeedStyles = (theme: HoliTheme, screenWidth: number) =>
   StyleSheet.create({
+    view: {
+      alignItems: 'center',
+      maxWidth: '100%',
+      marginTop: 5,
+    },
     divider: {
       marginTop: 12,
+      marginBottom: 40,
       borderBottomColor: theme.colors.borderColorGrey,
       borderBottomWidth: 1,
     },
     appSwiper: {
       flexGrow: 0,
+    },
+    feedHeadline: {
+      marginBottom: 40,
+    },
+    feedHeadlineLink: {
+      // TODO: Move this fix to shared styles
+      ...Platform.select({
+        ios: {
+          transform: [{ translateY: 3 }],
+        },
+        android: {
+          transform: [{ translateY: 5 }],
+        },
+      }),
+    },
+    feedTopicGrid: {
+      ...Platform.select({
+        web: {
+          ...(screenWidth > theme.vars.breakpointM
+            ? {
+                flexDirection: 'row',
+                gap: 24,
+              }
+            : {}),
+        },
+      }),
+    },
+    feedTopicItem: {
+      marginBottom: 40,
+      flex: 1,
     },
   })
 

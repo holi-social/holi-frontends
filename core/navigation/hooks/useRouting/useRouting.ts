@@ -5,13 +5,13 @@ import { useNavigationContext } from '@holi/core/navigation/NavigationContextPro
 import { UseRouting } from './types'
 
 const useRouting: UseRouting = <T extends Record<string, string>>() => {
-  const navigationContext = useNavigationContext()
+  const { setPathname, pathname } = useNavigationContext()
   const linkTo = useLinkTo()
   const navigation = useNavigation()
   const currentRoute = navigation.getState().routes[navigation.getState().index]
 
   const navigate = (routeName: string) => {
-    navigationContext.setPathname(routeName)
+    setPathname(routeName)
     return linkTo(routeName)
   }
 
@@ -25,7 +25,7 @@ const useRouting: UseRouting = <T extends Record<string, string>>() => {
       }
     },
     query: currentRoute.params as T,
-    pathname: navigationContext.pathname,
+    pathname,
   }
 }
 
