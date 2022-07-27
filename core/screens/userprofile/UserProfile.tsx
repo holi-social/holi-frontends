@@ -1,6 +1,6 @@
 import React, { useContext, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
@@ -46,7 +46,7 @@ const UserProfile: React.VFC = () => {
 
   return (
     <DefaultLayout>
-      <LoginProtection loggedOutContent={<LoggedOutView style={styles.loggedOut} />}>
+      <LoginProtection loggedOutContent={<LoggedOutView />}>
         <>
           <View style={[theme.mixins.container, styles.container]}>
             <>
@@ -80,7 +80,7 @@ const UserProfile: React.VFC = () => {
               </HoliButton>
             </>
           </View>
-          <View style={[theme.mixins.container, { marginTop: 24, marginHorizontal: Platform.OS === 'web' ? 24 : 0 }]}>
+          <View style={[theme.mixins.container, { marginTop: 24 }]}>
             <HoliTabs
               tabs={[
                 {
@@ -140,10 +140,6 @@ const UserProfile: React.VFC = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'baseline',
-    marginHorizontal: 24,
-  },
-  loggedOut: {
-    marginHorizontal: 24,
   },
 })
 
