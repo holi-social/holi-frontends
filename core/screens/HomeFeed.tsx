@@ -140,7 +140,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
             <HoliSeparatedList size="large" bold>
               {dummyTopics.map((v, idx) => (
                 <HoliButton key={idx} label={v} transparent inline style={styles.feedHeadlineLink}>
-                  <HoliText size="large" bold style={{ color: styleVars.colors.positivepurple }}>
+                  <HoliText size="large" bold style={{ color: theme.colors.positivepurple }}>
                     {v}
                   </HoliText>
                 </HoliButton>
@@ -179,7 +179,7 @@ const homeFeedStyles = (theme: HoliTheme, screenWidth: number) =>
       width: '100%',
     },
     feedHeadline: {
-      paddingBottom: 40,
+      marginBottom: 40,
     },
     feedHeadlineLink: {
       // TODO: Move this fix to shared styles
@@ -205,7 +205,7 @@ const homeFeedStyles = (theme: HoliTheme, screenWidth: number) =>
       }),
     },
     feedTopicItem: {
-      paddingBottom: 40,
+      marginBottom: 40,
       flex: 1,
     },
   })
