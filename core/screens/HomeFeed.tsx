@@ -116,7 +116,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
 
       <View style={styles.divider} />
 
-      <View style={[theme.mixins.container, styles.feed]}>
+      <View style={[theme.mixins.container]}>
         {/* I18n Showcase */}
         <View style={{ flexDirection: 'column', paddingTop: 20, paddingBottom: 20 }}>
           <HoliText>

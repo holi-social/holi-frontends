@@ -9,7 +9,7 @@ const getMixins = (theme: HoliTheme, screenWidth: number) =>
       alignSelf: 'center',
       width: '100%',
       maxWidth: styleVars.vars.maxScreenWidth,
-      padding: screenWidth > theme.vars.breakpointXl ? 0 : 20,
+      paddingHorizontal: screenWidth > theme.vars.breakpointXl ? 0 : 20,
     },
   })
 

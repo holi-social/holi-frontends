@@ -1,5 +1,5 @@
 import React from 'react'
-import { Platform } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 import { styleVars } from '@holi/ui/styles/globalVars'
 
@@ -19,7 +19,7 @@ const defaultTheme = {
       }) as string,
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  mixins: {} as any,
+  mixins: {} as StyleSheet.NamedStyles<any>,
 }
 
 export type HoliTheme = typeof defaultTheme
