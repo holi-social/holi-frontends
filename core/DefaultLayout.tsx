@@ -37,9 +37,9 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
       justifyContent: 'flex-start',
       paddingBottom: 50,
+      backgroundColor: theme.colors.backgroundColorWhite,
     },
     screenLayout: {
-      backgroundColor: theme.colors.backgroundColorWhite,
       minHeight: '100%',
       maxWidth: '100%',
       overflow: 'hidden',
