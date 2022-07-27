@@ -1,6 +1,6 @@
 import moment from 'moment'
 import React, { useLayoutEffect } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -179,17 +179,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
     <DefaultLayout>
       <View style={styles.view}>
         {/* Holi Apps */}
-        <AppsSwiper />
-
-        {/* I18n Showcase */}
-        <View style={{ flexDirection: 'column', paddingVertical: 20 }}>
-          <HoliText>
-            <Trans t={t} i18nKey="homeFeed.textWithLink">
-              <HoliText style={{ fontWeight: 'bold' }}>this is ignored</HoliText>
-            </Trans>
-          </HoliText>
-          <HoliText>{t('homeFeed.currentDate', { date: t('date', { date: moment() }) })}</HoliText>
-        </View>
+        <AppsSwiper style={styles.appsSwiper} />
 
         {/* Weekly Topics */}
         <View style={styles.feedContainer}>
@@ -199,7 +189,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
             <HoliSeparatedList size="large" bold>
               {dummyTopics.map((v, idx) => (
                 <HoliButton key={idx} label={v} transparent inline style={styles.feedHeadlineLink}>
-                  <HoliText size="large" bold style={{ color: styleVars.colors.positivepurple }}>
+                  <HoliText size="large" bold style={{ color: theme.colors.positivepurple }}>
                     {v}
                   </HoliText>
                 </HoliButton>
@@ -225,12 +215,15 @@ const homeFeedStyles = (theme: HoliTheme, screenWidth: number) =>
       maxWidth: '100%',
       marginTop: 5,
     },
+    appsSwiper: {
+      marginBottom: 40,
+    },
     feedContainer: {
       paddingHorizontal: 20,
       width: '100%',
     },
     feedHeadline: {
-      paddingBottom: 40,
+      marginBottom: 40,
     },
     feedHeadlineLink: {
       // TODO: Move this fix to shared styles
@@ -256,7 +249,7 @@ const homeFeedStyles = (theme: HoliTheme, screenWidth: number) =>
       }),
     },
     feedTopicItem: {
-      paddingBottom: 40,
+      marginBottom: 40,
       flex: 1,
     },
   })
