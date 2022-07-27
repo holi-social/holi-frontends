@@ -78,7 +78,14 @@ const UserProfile: React.VFC = () => {
                 )}
               </HoliModal>
               <UserProfileView />
-              <HoliButton label={t('profile.logout')} inline onPress={() => navigate('/logout')} testID="btn-to-logout">
+              <HoliButton
+                label={t('profile.logout')}
+                inline
+                onPress={() => navigate('/logout')}
+                transparent
+                style={styles.logoutButton}
+                testID="btn-to-logout"
+              >
                 {t('profile.logout')}
               </HoliButton>
             </>
@@ -143,6 +150,11 @@ const UserProfile: React.VFC = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'baseline',
+  },
+  logoutButton: {
+    marginTop: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 8,
   },
 })
 
