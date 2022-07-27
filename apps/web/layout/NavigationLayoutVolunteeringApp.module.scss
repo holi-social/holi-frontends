@@ -12,10 +12,9 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  opacity: 0.8;
+  opacity: 0.9;
   height: #{$top-bar-height}px;
   max-height: #{$top-bar-height}px;
-  border-bottom: solid 1px $background-color-white;
 }
 
 .main {
@@ -23,7 +22,7 @@
   min-height: calc(100vh - #{$top-bar-height}px);
   display: flex;
   flex-direction: column;
-  padding-bottom: #{$bottom-bar-height}px;
+  padding-bottom: #{$bottom-bar-height + 50}px;
   margin: #{$top-bar-height}px auto auto auto;
   background-color: $background-color-white;
 }

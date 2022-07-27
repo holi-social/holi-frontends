@@ -71,7 +71,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
 
 type HoliAppSwiperProps = {
   apps: HoliApp[]
-  style?: ViewStyle
+  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
   onPressMoreApps?: null | ((event: GestureResponderEvent) => void)
   moreAppsLabel: string
 }
