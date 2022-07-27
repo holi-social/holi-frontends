@@ -27,6 +27,7 @@ export const defaultLoginSteps = async ({ page, username, password }: DefaultLog
 }
 
 const profileEditModalSteps = async (page: Page) => {
+  await delay(1)
   await page.waitForSelector(byTestId('btn-open-profile-edit-view'))
   await delay(1)
   await page.locator(byTestId('btn-open-profile-edit-view')).click()
