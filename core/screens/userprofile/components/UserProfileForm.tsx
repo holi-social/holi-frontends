@@ -42,11 +42,11 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
 
   const submit = async () => {
     const input: UpdateAuthenticatedUserInput = {
-      ...(firstName && { firstName }),
-      ...(lastName && { lastName }),
-      ...(aboutMe && { aboutMe }),
-      ...(pronouns && { pronouns }),
-      ...(location && { location }),
+      ...(typeof firstName === 'string' && { firstName }),
+      ...(typeof lastName === 'string' && { lastName }),
+      ...(typeof aboutMe === 'string' && { aboutMe }),
+      ...(typeof pronouns === 'string' && { pronouns }),
+      ...(typeof location === 'string' && { location }),
     }
 
     const resultSchema = UpdateAuthenticatedUserInputSchema.safeParse(input)
