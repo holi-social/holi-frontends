@@ -74,6 +74,8 @@
   "rootProvider.loading.login": "Überprüfe Login...",
   "rootProvider.loading.profile": "Lädt Benutzerprofil...",
   "search.title": "Suche",
+  "checkbox.select": "{{label}} auswählen",
+  "checkbox.deselect": "{{label}} abwählen",
   "topics.post.author": "von {{author}}",
   "topics.post.missingPostId": "PostId fehlt",
   "topics.post.missingTopicId": "TopicId fehlt",

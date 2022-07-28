@@ -74,6 +74,8 @@
   "rootProvider.loading.login": "Verifying login...",
   "rootProvider.loading.profile": "Loading user profile...",
   "search.title": "Search",
+  "checkbox.select": "Select {{label}}",
+  "checkbox.deselect": "Deselect {{label}}",
   "topics.post.author": "by {{author}}",
   "topics.post.missingPostId": "Missing postId",
   "topics.post.missingTopicId": "Missing topicId",
