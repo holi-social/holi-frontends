@@ -192,6 +192,10 @@ const styles = StyleSheet.create({
     marginRight: 8,
     marginBottom: 8,
   },
+  chip: {
+    marginRight: 8,
+    marginBottom: 8,
+  },
 })
 
 export default UserProfile
