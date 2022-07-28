@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
@@ -106,6 +106,7 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
           }}
           style={styles.input}
           validationErrorText={fieldErrors?.firstName?.join()}
+          inputProps={{ autoFocus: Platform.OS === 'web' }}
         />
         <HoliTextInput
           value={user.lastName}
