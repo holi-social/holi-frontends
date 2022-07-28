@@ -139,8 +139,8 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         </HoliHeading>
 
         <View style={styles.feedTopicGrid}>
-          {[...fakeTopics.keys()].map((topicId) => (
-            <TopicPreviewBox key={topicId} id={topicId} {...fakeTopics.get(topicId)} style={styles.feedTopicItem} />
+          {[...fakeTopics.entries()].map(([topicId, topic]) => (
+            <TopicPreviewBox key={topicId} id={topicId} {...topic} style={styles.feedTopicItem} />
           ))}
         </View>
       </View>
