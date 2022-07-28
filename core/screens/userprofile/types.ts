@@ -71,3 +71,17 @@ export const UserInterests: UserInterest[] = [
   'TRAVEL',
   'WATER_OCEAN',
 ]
+
+type Guard<T> = (x: any) => x is T // eslint-disable-line @typescript-eslint/no-explicit-any
+
+export type UserChipGeneric<T> = {
+  isOfType: Guard<T>
+  allValues: T[]
+  keyInUserObject: string
+}
+
+export const UserChipInterest: UserChipGeneric<UserInterest> = {
+  allValues: UserInterests,
+  keyInUserObject: 'interests',
+  isOfType: (x: any): x is UserInterest => UserChipInterest.allValues.includes(x), // eslint-disable-line @typescript-eslint/no-explicit-any
+}

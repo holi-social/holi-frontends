@@ -10,26 +10,30 @@ import {
   UpdateAuthenticatedUserResponse,
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
-import type { User, UserInterest } from '@holi/core/screens/userprofile/types'
+import type { User, UserChipGeneric } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 
+import { toValuesWithTranslation } from './userChipHelper'
+
 type UserChipFormProps = {
   onCancel?: () => void
   onSubmit?: (user: User) => void
-  allInterests: UserInterest[]
+  typeMetadata: UserChipGeneric<any> // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-type InterestWithTranslation = { name: UserInterest; t: string }
+type ChipValueWithTranslation = { name: string; t: string }
 
-const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({ onSubmit, allInterests }) => {
+const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({ onSubmit, typeMetadata }) => {
   const { user } = useContext(UserContext)
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
-  const [interests, setInterests] = useState(user?.interests || [])
-  const [orderedInterests, setOrderedInterests] = useState<InterestWithTranslation[]>([])
+  const [values, setValues] = useState(
+    user ? (user[typeMetadata.keyInUserObject as keyof typeof user] as string[]) : []
+  )
+  const [orderedValues, setOrderedValues] = useState<ChipValueWithTranslation[]>([])
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
   useEffect(() => {
@@ -39,18 +43,18 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({ onSubmit
     * currently unselected items go below, alphabetically sorted by translation
     This order is kept until the selection process is done and the layer is closed.
     */
-    const toInterestWithTranslation = (interests: UserInterest[]) =>
-      interests.map((i) => ({ name: i, t: t(`user.interests.${i}`) })).sort((a, b) => a.t.localeCompare(b.t))
-    const unselectedInterests = allInterests.filter((value) => !interests.includes(value as UserInterest))
-    setOrderedInterests([...toInterestWithTranslation(interests), ...toInterestWithTranslation(unselectedInterests)])
+    const unselectedValues = typeMetadata.allValues.filter((value) => !values.includes(value))
+    setOrderedValues([
+      ...toValuesWithTranslation(typeMetadata.keyInUserObject, values, t),
+      ...toValuesWithTranslation(typeMetadata.keyInUserObject, unselectedValues, t),
+    ])
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const styles = getStyles()
 
   const submit = async () => {
-    const input: UpdateAuthenticatedUserInput = {
-      ...(interests && { interests }),
-    }
+    const input: UpdateAuthenticatedUserInput = {} as UpdateAuthenticatedUserInput
+    ;(input as any)[typeMetadata.keyInUserObject] = values // eslint-disable-line @typescript-eslint/no-explicit-any
 
     const result = await updateUser({ variables: { input } })
     if (!error && result.data && onSubmit) {
@@ -78,27 +82,27 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({ onSubmit
     displayError(error, t('user.profileForm.error.saving'))
   }
 
-  const updateInterests = (interest: UserInterest) => {
-    if (interests.includes(interest)) {
-      // remove the interest
-      setInterests((previous) => previous.filter((previousName) => previousName !== interest))
+  const updateValues = (value: string) => {
+    if (values.includes(value)) {
+      // remove the value
+      setValues((previous) => previous.filter((previousName) => previousName !== value))
     } else {
-      // add the interest
-      setInterests((previous) => [...previous, interest])
+      // add the value
+      setValues((previous) => [...previous, value])
     }
   }
   return (
     <View style={styles.wrapper}>
       <ScrollView contentContainerStyle={styles.scrollView}>
-        <HoliHeading style={styles.headline}>{t('user.interests.form.headline')}</HoliHeading>
-        <HoliText style={styles.subline}>{t('user.interests.form.subline')}</HoliText>
+        <HoliHeading style={styles.headline}>{t(`user.${typeMetadata.keyInUserObject}.form.headline`)}</HoliHeading>
+        <HoliText style={styles.subline}>{t(`user.${typeMetadata.keyInUserObject}.form.subline`)}</HoliText>
         <HoliChipRow editable={false}>
-          {orderedInterests.map(({ name, t }) => {
+          {orderedValues.map(({ name, t }) => {
             return (
               <HoliChip
                 key={name}
-                checked={interests.includes(name)}
-                onPress={() => updateInterests(name)}
+                checked={values.includes(name)}
+                onPress={() => updateValues(name)}
                 text={t}
                 style={styles.chip}
               ></HoliChip>
