@@ -1,6 +1,6 @@
 import moment from 'moment'
 import React, { useLayoutEffect } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -125,16 +125,17 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         {/* Weekly Topics */}
         {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
         <HoliHeading level="1" size="medium" style={styles.feedHeadline} testID="home-feed-topics-heading">
-          {t('homeFeed.heading', { count: dummyTopics.length })}{' '}
-          <HoliSeparatedList size="large" bold>
-            {dummyTopics.map((v, idx) => (
-              <HoliButton key={idx} label={v} transparent inline style={styles.feedHeadlineLink}>
-                <HoliText size="large" bold style={{ color: theme.colors.positivepurple }}>
-                  {v}
-                </HoliText>
-              </HoliButton>
-            ))}
-          </HoliSeparatedList>
+          <Trans t={t} i18nKey="homeFeed.heading" values={{ count: dummyTopics.length }}>
+            <HoliSeparatedList size="large" bold>
+              {dummyTopics.map((v, idx) => (
+                <HoliButton key={idx} label={v} transparent inline style={styles.feedHeadlineLink}>
+                  <HoliText size="large" bold style={{ color: theme.colors.positivepurple }}>
+                    {v}
+                  </HoliText>
+                </HoliButton>
+              ))}
+            </HoliSeparatedList>
+          </Trans>
         </HoliHeading>
 
         <View style={styles.feedTopicGrid}>
