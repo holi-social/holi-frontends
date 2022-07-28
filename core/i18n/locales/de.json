@@ -5,7 +5,6 @@
   "apps.goodNews.name": "Good News",
   "apps.volunteering.name": "Volunteering",
   "auth.authContextProvider.error.sessionCreation": "Fehler beim Erstellen der Session",
-  "auth.authProvider.error.sessionCreation": "Fehler beim Erstellen der Session",
   "auth.login.alreadyLoggedIn": "Du bist bereits eingeloggt",
   "auth.login.error.initialization": "Initialisierung der Anmeldung ist fehlgeschlagen.",
   "auth.login.error.login": "Die Anmeldung ist fehlgeschlagen",
