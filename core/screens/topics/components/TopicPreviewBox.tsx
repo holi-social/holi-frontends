@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { Image, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -40,7 +40,12 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
 
   return (
     <View {...props}>
-      <HoliButton label={title} transparent onPress={() => navigate(`/topics/${id}`)} style={styles.mainImageContainer}>
+      <HoliButton
+        label={t('topics.topic.title', { title })}
+        transparent
+        onPress={() => navigate(`/topics/${id}`)}
+        style={styles.mainImageContainer}
+      >
         <Image source={{ uri: image.src }} style={styles.mainImage} />
 
         <HoliHeading level="2" selectable={true}>
@@ -49,7 +54,9 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
       </HoliButton>
 
       <View style={styles.authorCategoryContainer}>
-        <HoliText style={styles.textGrey}>{t('topics.post.author', { author, category: '' })}</HoliText>
+        <HoliText style={styles.textGrey}>
+          <Trans i18nKey="topics.post.author" values={{ author, category: '' }} />
+        </HoliText>
         <HoliButton label={category} transparent inline>
           <HoliText bold style={[styles.textGrey]}>
             #{category}
@@ -58,7 +65,11 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
       </View>
 
       {contributors.avatars && (
-        <HoliButton label={t('topics.topic.topicEditors')} transparent onPress={() => navigate(`/topics/${id}`)}>
+        <HoliButton
+          label={t('topics.topic.topicEditors', { title })}
+          transparent
+          onPress={() => navigate(`/topics/${id}`)}
+        >
           <View style={styles.contributorsContainer}>
             {contributors.avatars.map(({ uri }, idx) => (
               <Image
