@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { NativeScrollEvent, Platform, ScrollView, Text, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { NativeScrollEvent, Platform, ScrollView, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -12,10 +12,10 @@ const HoliCarousel: React.FunctionComponent<HoliCarouselProps> = ({ slides }: Ho
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const carousel = React.useRef<ScrollView | null>(null)
 
-  const { width: screenWidth, height: screenHeight } = useWindowDimensions()
+  const { width: screenWidth } = useWindowDimensions()
 
   const { theme } = useTheme()
-  const styles = getStyles(theme, screenHeight)
+  const styles = getStyles(theme)
   const isWeb = Platform.OS === 'web'
 
   const marginHorizontal = 24 // margin between slide and device screen
@@ -114,7 +114,7 @@ const HoliCarousel: React.FunctionComponent<HoliCarouselProps> = ({ slides }: Ho
 
 export default HoliCarousel
 
-const getStyles = (theme: HoliTheme, screenHeight: number) => ({
+const getStyles = (theme: HoliTheme) => ({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
