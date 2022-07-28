@@ -69,7 +69,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, relativeHeight
           </HoliButton>
         ))}
       </View>
-      {Platform.OS !== 'web' && (
+      {!isWeb && (
         <ScrollView
           ref={carousel}
           contentContainerStyle={styles.scrollViewContainerStyle as ViewStyle}
@@ -95,7 +95,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, relativeHeight
         </ScrollView>
       )}
 
-      {Platform.OS === 'web' && (
+      {isWeb && (
         <View
           style={[styles.tabContainer as ViewStyle, { width: '100%' }]}
           accessibilityRole="tabpanel"

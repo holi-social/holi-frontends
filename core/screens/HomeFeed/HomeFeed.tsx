@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -8,11 +8,14 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import TopicEditorsModalContent from '@holi/core/screens/HomeFeed/components/TopicEditorsModalContent'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
+import { User } from '@holi/core/screens/userprofile/types'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliAppSwiper from '@holi/ui/components/organisms/HoliAppSwiper'
 import { styleVars } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -69,6 +72,47 @@ const appSwiperDummyApps: DummyApp[] = [
   },
 ]
 
+const topicEditorDummyUsers: User[] = [
+  {
+    id: '0',
+    firstName: 'Lise',
+    lastName: 'Leitner',
+    avatar:
+      'https://i.discogs.com/yvfRqqcyhFMU1l5ecUr312EHni0OIr9ELCqCl7Ult_Y/rs:fit/g:sm/q:40/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTQ1NzQ2/OC0xNjA2MzMzMDQ4/LTg0NzEuanBlZw.jpeg',
+    aboutMe:
+      'Lise Meitner is a leading Austrian-Swedish physicist who was one of those responsible for the discovery of the element protactinium and nuclear fission.',
+    avatarLabel: 'John',
+    avatarDefaultColor: '#ff0fff',
+  },
+  {
+    id: '1',
+    firstName: 'Uschi',
+    lastName: 'Meyer',
+    avatar: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
+    aboutMe: 'Hello I am Uschi, I would like to help with social initiatives.',
+    avatarLabel: 'Uschi',
+    avatarDefaultColor: '#ff00ff',
+  },
+  {
+    id: '2',
+    firstName: 'John',
+    lastName: 'Travolta',
+    avatar: 'https://image.gala.de/20519938/t/3w/v23/w960/r0.6667/-/john-travolta-ge--6389478-.jpg',
+    aboutMe: 'Hello I am John, I am an actor.',
+    avatarLabel: 'Travolta',
+    avatarDefaultColor: '#00ff00',
+  },
+  {
+    id: '3',
+    firstName: 'Joan',
+    lastName: 'Jett',
+    avatar: 'https://upload.wikimedia.org/wikipedia/commons/5/50/Joan_Jett_2013.jpg',
+    aboutMe: 'Hello I am Joan, I would like to help with social initiatives.',
+    avatarLabel: 'Joan',
+    avatarDefaultColor: '#f0fff0',
+  },
+]
+
 type HomeFeedProps = NativeStackScreenProps<HomeStackScreens>
 
 const temporalGreeting = (hours: number, t: (key: string) => string) => {
@@ -86,6 +130,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
   const headerTitle = temporalGreeting(moment().hours(), t)
+  const [showModal, setShowModal] = useState(false)
 
   useLayoutEffect(
     () =>
@@ -144,6 +189,12 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
           </HoliButton>
         ))}
       </View>
+      <HoliButton label="open" onPress={() => setShowModal(true)}>
+        Open
+      </HoliButton>
+      <HoliModal show={showModal} relativeHeight={0.8} onDismiss={() => setShowModal(false)}>
+        <TopicEditorsModalContent users={topicEditorDummyUsers}></TopicEditorsModalContent>
+      </HoliModal>
     </DefaultLayout>
   )
 }
