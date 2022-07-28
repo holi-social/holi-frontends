@@ -19,7 +19,7 @@ import HoliAppSwiper from '@holi/ui/components/organisms/HoliAppSwiper'
 import { styleVars } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-const dummyTopics = ['Immigration', 'Education', 'Sustainability']
+const dummyTopicCategories = ['Immigration', 'Education', 'Sustainability']
 
 type DummyApp = {
   icon: string
@@ -125,12 +125,12 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         {/* Weekly Topics */}
         {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
         <HoliHeading level="1" size="medium" style={styles.feedHeadline} testID="home-feed-topics-heading">
-          <Trans t={t} i18nKey="homeFeed.heading" values={{ count: dummyTopics.length }}>
+          <Trans t={t} i18nKey="homeFeed.heading" values={{ count: dummyTopicCategories.length }}>
             <HoliSeparatedList size="large" bold>
-              {dummyTopics.map((v, idx) => (
-                <HoliButton key={idx} label={v} transparent inline style={styles.feedHeadlineLink}>
+              {dummyTopicCategories.map((category, idx) => (
+                <HoliButton key={idx} label={category} transparent inline style={styles.feedHeadlineLink}>
                   <HoliText size="large" bold style={{ color: theme.colors.positivepurple }}>
-                    {v}
+                    {category}
                   </HoliText>
                 </HoliButton>
               ))}
