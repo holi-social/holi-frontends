@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   AccessibilityProps,
   GestureResponderEvent,
@@ -30,12 +31,20 @@ export type ChipProps = PressableProps & {
 const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
   const { theme } = useTheme()
   const styles = getStyles(theme, props.checked, props.disabled)
+  const { t } = useTranslation()
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
-    accessible: true,
-    accessibilityRole: 'button',
-    accessibilityPressed: props.checked,
-    ...(props.label ? { accessibilityLabel: props.label } : {}),
+    accessible: !props.disabled,
+    accessibilityRole: !props.disabled ? 'checkbox' : 'none',
+    ...(!props.disabled
+      ? {
+          // since this component gets rerendered on every state change, we don't need an internal state, but can use the checked prop
+          accessibilityState: { checked: props.checked },
+          // we need a label when not disabled, so we take the text as a default
+          accessibilityLabel:
+            props.label || t(props.checked ? 'chechbox.deselect' : 'chechbox.select', { label: props.text }),
+        }
+      : {}),
   }
 
   return (
