@@ -32,13 +32,11 @@ exports[`renders correctly renders correctly when there is a title, is editable 
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 16,
-            "lineHeight": 19.2,
+            "fontSize": 14,
+            "lineHeight": 16.8,
           },
           Object {},
-          Object {
-            "fontSize": 14,
-          },
+          Object {},
         ]
       }
     >
@@ -81,7 +79,7 @@ exports[`renders correctly renders correctly when there is a title, is editable 
       >
         <Text
           accessible={false}
-          selectable={true}
+          selectable={false}
           style={
             Array [
               Object {
@@ -90,14 +88,15 @@ exports[`renders correctly renders correctly when there is a title, is editable 
                 "fontWeight": "400",
               },
               Object {
-                "fontSize": 16,
-                "lineHeight": 19.2,
+                "fontSize": 14,
+                "lineHeight": 16.8,
               },
-              Object {},
+              Object {
+                "fontFamily": "Circular Std Medium",
+                "fontWeight": "500",
+              },
               Object {
                 "color": "#6f7081",
-                "fontSize": 14,
-                "fontWeight": "500",
               },
             ]
           }
@@ -175,13 +174,11 @@ exports[`renders correctly renders correctly when there is no title, not editabl
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 16,
-            "lineHeight": 19.2,
+            "fontSize": 14,
+            "lineHeight": 16.8,
           },
           Object {},
-          Object {
-            "fontSize": 14,
-          },
+          Object {},
         ]
       }
     />

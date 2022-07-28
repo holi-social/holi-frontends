@@ -27,7 +27,7 @@ const HoliChipRow: React.FunctionComponent<HoliChipRowProps> = ({
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <HoliText style={styles.title}>{title}</HoliText>
+        <HoliText size="small">{title}</HoliText>
         {editable && (
           <HoliButton
             label={t('profile.tabs.edit')}
@@ -36,7 +36,9 @@ const HoliChipRow: React.FunctionComponent<HoliChipRowProps> = ({
             style={{ width: 'fit-content' }}
             onPress={onPressEdit}
           >
-            <HoliText style={styles.editButton}>{editButtonText || t('profile.tabs.edit')}</HoliText>
+            <HoliText selectable={false} size="small" bold style={styles.editButton}>
+              {editButtonText || t('profile.tabs.edit')}
+            </HoliText>
           </HoliButton>
         )}
       </View>
@@ -61,13 +63,8 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
       justifyContent: 'space-between',
     },
-    title: {
-      fontSize: 14,
-    },
     editButton: {
       color: theme.colors.grey,
-      fontSize: 14,
-      fontWeight: '500',
     },
     chipsContainer: {
       display: 'flex',
