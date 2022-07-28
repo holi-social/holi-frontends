@@ -2,8 +2,13 @@
 
 exports[`renders correctly renders correctly when checked 1`] = `
 <View
-  accessibilityPressed={true}
-  accessibilityRole="button"
+  accessibilityLabel="Test"
+  accessibilityRole="checkbox"
+  accessibilityState={
+    Object {
+      "checked": true,
+    }
+  }
   accessible={true}
   checked={true}
   collapsable={false}
@@ -152,13 +157,13 @@ exports[`renders correctly renders correctly when checked 1`] = `
 
 exports[`renders correctly renders correctly when disabled 1`] = `
 <View
-  accessibilityRole="button"
+  accessibilityRole="none"
   accessibilityState={
     Object {
       "disabled": true,
     }
   }
-  accessible={true}
+  accessible={false}
   collapsable={false}
   focusable={true}
   onBlur={[Function]}
@@ -236,7 +241,13 @@ exports[`renders correctly renders correctly when disabled 1`] = `
 
 exports[`renders correctly renders correctly when unchecked 1`] = `
 <View
-  accessibilityRole="button"
+  accessibilityLabel="Test"
+  accessibilityRole="checkbox"
+  accessibilityState={
+    Object {
+      "checked": undefined,
+    }
+  }
   accessible={true}
   collapsable={false}
   focusable={true}
