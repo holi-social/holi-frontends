@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useContext, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -24,9 +24,9 @@ const UserProfile: React.VFC = () => {
   const { navigate } = useRouting()
   const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState<'edit' | 'levelOfEngagement' | null>(null)
-  const toggleModal = () => {
+  const toggleModal = useCallback(() => {
     setShowModal(!showModal)
-  }
+  }, [showModal])
   const { t } = useTranslation()
 
   const { isLoggedIn } = useContext(AuthContext)
@@ -41,8 +41,23 @@ const UserProfile: React.VFC = () => {
     setNavigationHeader({
       title: profileTitle,
       titleElement: () => <HoliText style={{ paddingTop: 5 }}>{profileTitle}</HoliText>,
+      rightElement: () =>
+        isLoggedIn && (
+          <HoliButton
+            inline
+            transparent
+            label={t('profile.edit')}
+            onPress={() => {
+              setEditMode('edit')
+              toggleModal()
+            }}
+            testID="btn-open-profile-edit-view"
+          >
+            <HoliText size="small">{t('profile.edit')}</HoliText>
+          </HoliButton>
+        ),
     })
-  }, [isLoggedIn, setNavigationHeader, user, t])
+  }, [isLoggedIn, setNavigationHeader, user, t, toggleModal])
 
   return (
     <DefaultLayout>
@@ -70,12 +85,21 @@ const UserProfile: React.VFC = () => {
                   setEditMode('edit')
                   toggleModal()
                 }}
+                transparent
+                style={styles.logoutButton}
                 inline
                 testID="btn-open-profile-edit-view"
               >
                 {t('profile.edit')}
               </HoliButton>
-              <HoliButton label={t('profile.logout')} inline onPress={() => navigate('/logout')} testID="btn-to-logout">
+              <HoliButton
+                label={t('profile.logout')}
+                inline
+                onPress={() => navigate('/logout')}
+                transparent
+                style={styles.logoutButton}
+                testID="btn-to-logout"
+              >
                 {t('profile.logout')}
               </HoliButton>
             </>
@@ -141,6 +165,11 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'baseline',
   },
+  logoutButton: {
+    marginTop: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 8,
+  },
 })
 
-export default UserProfile
+export default memo(UserProfile)
