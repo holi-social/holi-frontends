@@ -5,6 +5,7 @@ This spike uses [Playwright](https://playwright.dev/) for web testing.
 ## Dependencies
 
 You need to have Docker installed, because Playwright only supports Ubuntu.
+You allso need to install npm dependencies. Just run  `yarn install` from this directory.
 
 ## Credentials
 The test for the login require working credentials. Please provide them in the .envrc.local file. The variable names are already there.
