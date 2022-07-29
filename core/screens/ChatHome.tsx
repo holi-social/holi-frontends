@@ -14,18 +14,26 @@ import { useTheme } from '@holi/ui/styles/theme'
 type ChatHomeProps = NativeStackScreenProps<HomeStackScreens>
 
 const ChatHome: React.VFC<ChatHomeProps> = ({ navigation }: ChatHomeProps) => {
-  const { setNavigationHeader } = useNavigationHeader()
+  const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
   const title = t('chat.title')
   const { theme } = useTheme()
 
   useLayoutEffect(
-    () =>
+    () => {
       setNavigationHeader({
         title: title,
-        titleElement: () => <HoliText style={{ paddingTop: 5 }}>{title}</HoliText>,
-      }),
-    [navigation, setNavigationHeader, title]
+        titleElement: () => (
+          <HoliText bold style={{ paddingTop: 5 }}>
+            {title}
+          </HoliText>
+        ),
+      })
+      return clearNavigationHeader
+    },
+    // setNavigationHeader would cause endless loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [navigation, title]
   )
 
   return (

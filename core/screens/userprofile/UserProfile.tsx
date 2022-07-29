@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useContext, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -26,25 +26,53 @@ const UserProfile: React.VFC = () => {
   const { navigate } = useRouting()
   const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState<'edit' | 'levelOfEngagement' | 'interests' | null>(null)
-  const toggleModal = () => {
+  const toggleModal = useCallback(() => {
     setShowModal(!showModal)
-  }
+  }, [showModal])
   const { t } = useTranslation()
 
   const { isLoggedIn } = useContext(AuthContext)
   const { user } = useContext(UserContext)
 
-  const { setNavigationHeader } = useNavigationHeader()
+  const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
 
   const { theme } = useTheme()
 
-  useLayoutEffect(() => {
-    const profileTitle = isLoggedIn && user ? user.firstName : t('profile.title')
-    setNavigationHeader({
-      title: profileTitle,
-      titleElement: () => <HoliText style={{ paddingTop: 5 }}>{profileTitle}</HoliText>,
-    })
-  }, [isLoggedIn, setNavigationHeader, user, t])
+  useLayoutEffect(
+    () => {
+      const profileTitle = isLoggedIn && user ? user.firstName : t('profile.title')
+      setNavigationHeader({
+        title: profileTitle,
+        titleElement: () => (
+          <HoliText bold style={{ paddingTop: 5 }}>
+            {profileTitle}
+          </HoliText>
+        ),
+        headerRight: () =>
+          isLoggedIn && (
+            <HoliButton
+              inline
+              transparent
+              label={t('profile.edit')}
+              onPress={() => {
+                setEditMode('edit')
+                toggleModal()
+              }}
+              style={{ marginRight: 24 }}
+              testID="btn-open-profile-edit-view"
+            >
+              <HoliText size="small" bold style={{ color: theme.colors.fontColorGrey }}>
+                {t('profile.edit')}
+              </HoliText>
+            </HoliButton>
+          ),
+      })
+      return clearNavigationHeader
+    },
+    // setNavigationHeader would cause endless loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isLoggedIn, user, t]
+  )
 
   return (
     <DefaultLayout>
@@ -77,12 +105,19 @@ const UserProfile: React.VFC = () => {
                   setEditMode('edit')
                   toggleModal()
                 }}
+                transparent
                 inline
                 testID="btn-open-profile-edit-view"
               >
                 {t('profile.edit')}
               </HoliButton>
-              <HoliButton label={t('profile.logout')} inline onPress={() => navigate('/logout')} testID="btn-to-logout">
+              <HoliButton
+                label={t('profile.logout')}
+                inline
+                onPress={() => navigate('/logout')}
+                transparent
+                testID="btn-to-logout"
+              >
                 {t('profile.logout')}
               </HoliButton>
             </>
@@ -198,4 +233,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default UserProfile
+export default memo(UserProfile)
