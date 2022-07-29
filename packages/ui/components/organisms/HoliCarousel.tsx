@@ -13,10 +13,11 @@ const HoliCarousel: React.FunctionComponent<HoliCarouselProps> = ({ slides, styl
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const carousel = React.useRef<ScrollView | null>(null)
 
+  const isWeb = Platform.OS === 'web'
+
   const { width: screenWidth } = useWindowDimensions()
 
   const { theme } = useTheme()
-  const isWeb = Platform.OS === 'web'
 
   const marginHorizontal = 24 // margin between slide and device screen
   const marginBetweenSlides = 8 // margin between slides
@@ -33,10 +34,6 @@ const HoliCarousel: React.FunctionComponent<HoliCarouselProps> = ({ slides, styl
   }
 
   const goToIndex = (index: number) => {
-    if (isWeb) {
-      setCurrentSlide(index)
-      return
-    }
     if (!carousel || !carousel.current) {
       return
     }
@@ -48,48 +45,69 @@ const HoliCarousel: React.FunctionComponent<HoliCarouselProps> = ({ slides, styl
 
   return (
     <View style={[styles.container, style]}>
-      <ScrollView
-        ref={carousel}
-        contentContainerStyle={styles.scrollViewContainerStyle}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        snapToInterval={scrollingOffset}
-        decelerationRate={0}
-        onMomentumScrollEnd={handleScrollEnd}
-      >
-        {slides.map((slide, i) => (
-          <View
-            style={[
-              styles.slideContainer,
-              i === 0 ? styles.firstSlideContainer : {},
-              i === slides.length - 1 ? styles.lastSlideContainer : {},
-            ]}
-            key={i}
-          >
-            {slide.children}
-          </View>
-        ))}
-      </ScrollView>
+      {!isWeb && (
+        <ScrollView
+          ref={carousel}
+          contentContainerStyle={styles.scrollViewContainerStyle}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          snapToInterval={scrollingOffset}
+          decelerationRate={0}
+          onMomentumScrollEnd={handleScrollEnd}
+        >
+          {slides.map((slide, i) => (
+            <View
+              style={[
+                styles.slideContainer,
+                i === 0 ? styles.firstSlideContainer : {},
+                i === slides.length - 1 ? styles.lastSlideContainer : {},
+              ]}
+              key={i}
+            >
+              {slide.children}
+            </View>
+          ))}
+        </ScrollView>
+      )}
 
-      <View style={styles.slideButtonsContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
-        {slides.map((slide, index) => (
-          <HoliButton
-            label={slide.title || ''}
-            transparent
-            inline
-            style={styles.slideButton}
-            onPress={() => goToIndex(index)}
-            key={index}
-            accessibilityRole="tab"
-            accessibilitySelected={currentSlide === index}
-            accessibilityLabel={'' + index}
-            testID={currentSlide === index ? 'active-tab' : 'inactive-tab'}
-          >
-            <View style={[styles.slideButtonIcon, currentSlide === index ? styles.activeSlideButtonIcon : {}]}></View>
-          </HoliButton>
-        ))}
-      </View>
+      {!isWeb && (
+        <View style={styles.slideButtonsContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
+          {slides.map((slide, index) => (
+            <HoliButton
+              label={slide.title || ''}
+              transparent
+              inline
+              style={styles.slideButton}
+              onPress={() => goToIndex(index)}
+              key={index}
+              accessibilityRole="tab"
+              accessibilitySelected={currentSlide === index}
+              accessibilityLabel={'' + index}
+              testID={currentSlide === index ? 'active-tab' : 'inactive-tab'}
+            >
+              <View style={[styles.slideButtonIcon, currentSlide === index ? styles.activeSlideButtonIcon : {}]}></View>
+            </HoliButton>
+          ))}
+        </View>
+      )}
+
+      {isWeb && (
+        <View style={styles.webView}>
+          {slides.map((slide, i) => (
+            <View
+              style={[
+                styles.webSlideContainer,
+                i === 0 ? styles.firstSlideWeb : {},
+                i === slides.length - 1 ? styles.lastSlideContainer : {},
+              ]}
+              key={i}
+            >
+              {slide.children}
+            </View>
+          ))}
+        </View>
+      )}
     </View>
   )
 }
@@ -144,5 +162,23 @@ const getStyles = (theme: HoliTheme, screenWidth: number, marginHorizontal: numb
     activeSlideButtonIcon: {
       backgroundColor: theme.colors.fontColor,
       opacity: 1,
+    },
+    webView: {
+      overflowX: 'scroll',
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'row',
+      scrollSnapType: screenWidth < 600 ? 'x mandatory' : 'none',
+    },
+    webSlideContainer: {
+      scrollSnapAlign: 'start',
+      display: 'flex',
+      flexDirection: 'row',
+      width: screenWidth < 600 ? screenWidth - marginHorizontal * 2 : 350,
+      paddingLeft: marginBetweenSlides,
+      paddingRight: 0,
+    },
+    firstSlideWeb: {
+      paddingLeft: marginHorizontal + marginBetweenSlides,
     },
   })

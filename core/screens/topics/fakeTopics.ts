@@ -6,12 +6,12 @@ const loremIpsum =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio eget metus, est mauris viverra orci rhoncus quis ' +
   'eu. Ultricies pellentesque et tincidunt vitae etiam turpis at vulputate.'
 
-const getRandomName = () => `${faker.name.firstName()} ${faker.name.firstName()}`
+const getRandomName = () => `${faker.name.firstName()} ${faker.name.lastName()}`
 
 const getRandomUser = (id: string): User => ({
   id,
-  firstName: getRandomName(),
-  lastName: getRandomName(),
+  firstName: faker.name.firstName(),
+  lastName: faker.name.lastName(),
   avatar: faker.image.avatar(),
   aboutMe: faker.lorem.sentence(),
   avatarLabel: getRandomName(),

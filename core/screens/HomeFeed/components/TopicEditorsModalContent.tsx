@@ -1,12 +1,13 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, View, ViewStyle } from 'react-native'
 
 import TopicEditorCard from '@holi/core/screens/HomeFeed/components/TopicEditorCard'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
+import theme from '@holi/ui/styles/theme'
 
 export type TopicEditorsModalContentProps = {
   users: User[]
@@ -23,12 +24,13 @@ const TopicEditorsModalContent: React.FunctionComponent<TopicEditorsModalContent
 }: TopicEditorsModalContentProps) => {
   const styles = getStyles()
   const { t } = useTranslation()
+  const isWeb = Platform.OS === 'web'
 
   if (!users) {
     return <View style={[styles.container, style]}></View>
   }
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, isWeb ? theme.mixins.container : {}, style]}>
       <HoliHeading style={styles.title} size="large">
         {t('topics.contributors.modal.title')}
       </HoliHeading>
@@ -38,14 +40,12 @@ const TopicEditorsModalContent: React.FunctionComponent<TopicEditorsModalContent
           children: <TopicEditorCard style={styles.topicEditorCard} user={user} category={category}></TopicEditorCard>,
         }))}
       ></HoliCarousel>
-      <HoliButton
-        style={styles.buttonContainer}
-        label={t('topics.contributors.modal.close')}
-        inline
-        onPress={onDismiss}
-      >
-        {t('topics.contributors.modal.close')}
-      </HoliButton>
+
+      <View style={[styles.buttonContainer, isWeb ? styles.buttonContainerWeb : {}]}>
+        <HoliButton label={t('topics.contributors.modal.close')} inline onPress={onDismiss}>
+          {t('topics.contributors.modal.close')}
+        </HoliButton>
+      </View>
     </View>
   )
 }
@@ -72,5 +72,9 @@ const getStyles = () =>
     buttonContainer: {
       marginTop: 24,
       marginHorizontal: 24,
+    },
+    buttonContainerWeb: {
+      alignSelf: 'center',
+      width: 400,
     },
   })
