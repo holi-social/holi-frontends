@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ViewStyle } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliIcon from '@holi/ui/components/HoliIcon'
@@ -16,7 +17,7 @@ export type HeaderRightProps = {
 
 const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: HeaderRightProps) => {
   const { navigate } = useRouting()
-
+  const navigationContext = useNavigationContext()
   const { user } = useContext(UserContext)
   const { isLoggedIn } = useContext(AuthContext)
   const hasUserData = isLoggedIn && user
@@ -24,6 +25,8 @@ const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: Heade
 
   // TODO: navigate to user profile!
   const profileUrl = '/profile/danbim'
+
+  if (navigationContext.headerRight) return navigationContext.headerRight
 
   let userAvatar
   if (hasUserData) {
@@ -39,7 +42,6 @@ const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: Heade
       />
     )
   }
-
   return (
     <HoliButton
       label={t('profile.title')}
