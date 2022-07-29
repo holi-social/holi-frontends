@@ -51,7 +51,6 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     container: {
       width: '100%',
-      paddingHorizontal: 24,
       paddingTop: 24,
       paddingBottom: 0,
     },
