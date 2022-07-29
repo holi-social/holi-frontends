@@ -75,6 +75,8 @@
   "search.title": "Suche",
   "topics.contributors.discussing": "{{count}} bespricht",
   "topics.contributors.discussing_plural": "{{count}} besprechen",
+  "topics.contributors.modal.close": "Ich habs",
+  "topics.contributors.modal.title": "Die Themenredakteure dieser Woche",
   "topics.post.author": "von {{author}} in <0>{{category}}</0>",
   "topics.post.missingPostId": "PostId fehlt",
   "topics.post.missingTopicId": "TopicId fehlt",

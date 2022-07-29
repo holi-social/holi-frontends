@@ -1,57 +1,76 @@
 import * as React from 'react'
-// import { useTranslation } from 'react-i18next'
-import { TextStyle, View, ViewStyle } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import TopicEditorCard from '@holi/core/screens/HomeFeed/components/TopicEditorCard'
 import { User } from '@holi/core/screens/userprofile/types'
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
-
-// import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type TopicEditorsModalContentProps = {
   users: User[]
+  category: string
+  onDismiss: () => void
+  style?: (ViewStyle | Record<string, unknown> | undefined) | (ViewStyle | Record<string, unknown> | undefined)[]
 }
 
 const TopicEditorsModalContent: React.FunctionComponent<TopicEditorsModalContentProps> = ({
   users,
+  category,
+  onDismiss,
+  style,
 }: TopicEditorsModalContentProps) => {
-  // const { theme } = useTheme()
   const styles = getStyles()
-  // const { t } = useTranslation()
+  const { t } = useTranslation()
 
   if (!users) {
-    return <View style={styles.container as ViewStyle}></View>
+    return <View style={[styles.container, style]}></View>
   }
   return (
-    <View style={styles.container as ViewStyle}>
-      <HoliText style={styles.title as TextStyle}>This week&apos;s topic editors</HoliText>
-      <View style={styles.carouselContainer}>
-        <HoliCarousel
-          slides={users.map((user) => ({
-            children: <TopicEditorCard user={user}></TopicEditorCard>,
-          }))}
-        ></HoliCarousel>
-      </View>
+    <View style={[styles.container, style]}>
+      <HoliHeading style={styles.title} size="large">
+        {t('topics.contributors.modal.title')}
+      </HoliHeading>
+      <HoliCarousel
+        style={styles.carouselContainer}
+        slides={users.map((user) => ({
+          children: <TopicEditorCard style={styles.topicEditorCard} user={user} category={category}></TopicEditorCard>,
+        }))}
+      ></HoliCarousel>
+      <HoliButton
+        style={styles.buttonContainer}
+        label={t('topics.contributors.modal.close')}
+        inline
+        onPress={onDismiss}
+      >
+        {t('topics.contributors.modal.close')}
+      </HoliButton>
     </View>
   )
 }
 
 export default TopicEditorsModalContent
 
-const getStyles = () => ({
-  container: {
-    width: '100%',
-    height: '100%',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    lineHeight: 28 * 1.2,
-    textAlign: 'center',
-    paddingHorizontal: 24,
-  },
-  carouselContainer: {
-    marginTop: 24,
-  },
-})
+const getStyles = () =>
+  StyleSheet.create({
+    container: {
+      display: 'flex',
+      height: '100%',
+    },
+    title: {
+      paddingHorizontal: 24,
+      textAlign: 'center',
+    },
+    carouselContainer: {
+      marginTop: 24,
+      display: 'flex',
+    },
+    topicEditorCard: {
+      width: '100%',
+    },
+    buttonContainer: {
+      marginTop: 24,
+      marginHorizontal: 24,
+    },
+  })

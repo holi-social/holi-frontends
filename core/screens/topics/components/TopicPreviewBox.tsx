@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Image, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import TopicEditorsModalContent from '@holi/core/screens/HomeFeed/components/TopicEditorsModalContent'
+import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 // TODO: adjust this dummy interface to real props
@@ -16,10 +19,7 @@ interface TopicPreviewBoxProps {
   image: {
     src: string
   }
-  contributors: {
-    avatars: { uri: string; label: string }[]
-    count: number
-  }
+  contributors: User[]
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
   category: string
 }
@@ -33,6 +33,7 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
   category,
   ...props
 }) => {
+  const [showCurators, setShowCurators] = useState(false)
   const { navigate } = useRouting()
   const { theme } = useTheme()
   const styles = topicPreviewBoxStyles(theme)
@@ -64,27 +65,30 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
         </HoliButton>
       </View>
 
-      {contributors.avatars && (
-        <HoliButton
-          label={t('topics.topic.topicEditors', { title })}
-          transparent
-          onPress={() => navigate(`/topics/${id}`)}
-        >
+      {contributors.length && (
+        <HoliButton label={t('topics.topic.topicEditors', { title })} transparent onPress={() => setShowCurators(true)}>
           <View style={styles.contributorsContainer}>
-            {contributors.avatars.map(({ uri }, idx) => (
+            {contributors.map(({ avatar }, idx) => (
               <Image
-                key={uri}
-                source={{ uri }}
+                key={avatar}
+                source={{ uri: avatar }}
                 style={[styles.avatar, { marginLeft: idx ? -10 : 0, zIndex: idx * -1 }]}
                 accessible={false}
               />
             ))}
             <HoliText size="small" style={[styles.contributorsCounter, styles.textGrey]}>
-              {t('topics.contributors.discussing', { count: contributors.count })}
+              {t('topics.contributors.discussing', { count: contributors.length })}
             </HoliText>
           </View>
         </HoliButton>
       )}
+      <HoliModal relativeHeight={0.85} show={showCurators} onDismiss={() => setShowCurators(false)}>
+        <TopicEditorsModalContent
+          users={contributors}
+          category={category}
+          onDismiss={() => setShowCurators(false)}
+        ></TopicEditorsModalContent>
+      </HoliModal>
     </View>
   )
 }

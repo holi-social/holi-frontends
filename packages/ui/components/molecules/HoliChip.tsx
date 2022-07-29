@@ -22,6 +22,7 @@ export type ChipProps = PressableProps & {
   label?: string
   checked?: boolean
   disabled?: boolean
+  hideIcon?: boolean
   onPress?: null | ((event: GestureResponderEvent) => void)
   style?: ViewStyle | ViewStyle[]
   fontStyle?: TextStyle
@@ -60,7 +61,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
           >
             {props.text}
           </HoliText>
-          {!props.disabled && (
+          {!props.disabled && !props.hideIcon && (
             <View style={styles.iconView}>
               <Holicon
                 size={15}
