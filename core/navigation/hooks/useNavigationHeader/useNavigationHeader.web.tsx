@@ -6,11 +6,18 @@ const useNavigationHeader = () => {
   const navigationContext = useNavigationContext()
 
   return {
-    setNavigationHeader: (props: HeaderProps) => {
-      console.log('########## useNavigationHeader props: ', props.headerRight)
-      const title = props.title || ''
-      if (title) navigationContext.setHeaderTitle(title)
-      if (props.headerRight) navigationContext.setHeaderRight(props.headerRight)
+    setNavigationHeader: (headerProps: HeaderProps) => {
+      const title = headerProps.title || ''
+      navigationContext.setHeaderTitle(title)
+      if (headerProps.titleElement) navigationContext.setTitleElement(headerProps.titleElement)
+      if (headerProps.headerRight) navigationContext.setHeaderRight(headerProps.headerRight)
+      if (headerProps.headerLeft) navigationContext.setHeaderLeft(headerProps.headerLeft)
+    },
+    clearNavigationHeader: () => {
+      navigationContext.clearBackLinks()
+      navigationContext.setTitleElement(undefined)
+      navigationContext.setHeaderRight(undefined)
+      navigationContext.setHeaderLeft(undefined)
     },
   }
 }

@@ -32,33 +32,45 @@ const UserProfile: React.VFC = () => {
   const { isLoggedIn } = useContext(AuthContext)
   const { user } = useContext(UserContext)
 
-  const { setNavigationHeader } = useNavigationHeader()
+  const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
 
   const { theme } = useTheme()
 
-  useLayoutEffect(() => {
-    const profileTitle = isLoggedIn && user ? user.firstName : t('profile.title')
-    setNavigationHeader({
-      title: profileTitle,
-      titleElement: () => <HoliText style={{ paddingTop: 5 }}>{profileTitle}</HoliText>,
-      headerRight: () =>
-        isLoggedIn && (
-          <HoliButton
-            inline
-            transparent
-            label={t('profile.edit')}
-            onPress={() => {
-              setEditMode('edit')
-              toggleModal()
-            }}
-            testID="btn-open-profile-edit-view"
-          >
-            <HoliText size="small">{t('profile.edit')}</HoliText>
-          </HoliButton>
+  useLayoutEffect(
+    () => {
+      const profileTitle = isLoggedIn && user ? user.firstName : t('profile.title')
+      setNavigationHeader({
+        title: profileTitle,
+        titleElement: () => (
+          <HoliText bold style={{ paddingTop: 5 }}>
+            {profileTitle}
+          </HoliText>
         ),
-    })
+        headerRight: () =>
+          isLoggedIn && (
+            <HoliButton
+              inline
+              transparent
+              label={t('profile.edit')}
+              onPress={() => {
+                setEditMode('edit')
+                toggleModal()
+              }}
+              style={{ marginRight: 24 }}
+              testID="btn-open-profile-edit-view"
+            >
+              <HoliText size="small" bold style={{ color: theme.colors.fontColorGrey }}>
+                {t('profile.edit')}
+              </HoliText>
+            </HoliButton>
+          ),
+      })
+      return clearNavigationHeader
+    },
+    // setNavigationHeader would cause endless loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoggedIn, user, t])
+    [isLoggedIn, user, t]
+  )
 
   return (
     <DefaultLayout>

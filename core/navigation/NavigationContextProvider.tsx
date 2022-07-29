@@ -8,9 +8,11 @@ export type NavigationContextType = {
   setHeaderTitle: (title: string) => void
   showBackLink: boolean
   showDownLink: boolean
-  setBackLink: (direction: linkDirection) => void
   clearBackLinks: () => void
-
+  titleElement: () => ReactNode | undefined
+  setTitleElement: (node: ReactNode) => void
+  headerLeft: () => ReactNode | undefined
+  setHeaderLeft: (node: ReactNode) => void
   headerRight: () => ReactNode | undefined
   setHeaderRight: (node: ReactNode) => void
 }
@@ -22,11 +24,13 @@ const NavigationContext = createContext<NavigationContextType>({
   setHeaderTitle: () => null,
   showBackLink: false,
   showDownLink: false,
-  setBackLink: () => null,
   clearBackLinks: () => null,
-
-  headerRight: () => undefined,
-  setHeaderRight: () => undefined,
+  titleElement: () => null,
+  setTitleElement: () => null,
+  headerLeft: () => null,
+  setHeaderLeft: () => null,
+  headerRight: () => null,
+  setHeaderRight: () => null,
 })
 export const useNavigationContext = () => useContext(NavigationContext)
 
@@ -35,23 +39,17 @@ const NavigationContextProvider: React.FC = ({ children }) => {
   const [headerTitle, setHeaderTitle] = useState('')
   const [showBackLink, setShowBackLink] = useState(false)
   const [showDownLink, setShowDownLink] = useState(false)
-
-  const [headerRight, setHeaderRight] = useState(undefined)
-
-  const setBackLink = (direction: linkDirection) => {
-    switch (direction) {
-      case 'left':
-        setShowBackLink(true)
-        break
-      case 'down':
-        setShowDownLink(true)
-        break
-    }
-  }
+  const [titleElement, setTitleElement] = useState(null)
+  const [headerLeft, setHeaderLeft] = useState(null)
+  const [headerRight, setHeaderRight] = useState(null)
 
   const clearBackLinks = () => {
     setShowBackLink(false)
     setShowDownLink(false)
+    setHeaderTitle('')
+    setTitleElement(null)
+    setHeaderLeft(null)
+    setHeaderRight(null)
   }
 
   return (
@@ -63,8 +61,11 @@ const NavigationContextProvider: React.FC = ({ children }) => {
         setHeaderTitle,
         showBackLink,
         showDownLink,
-        setBackLink,
         clearBackLinks,
+        titleElement,
+        setTitleElement,
+        headerLeft,
+        setHeaderLeft,
         headerRight,
         setHeaderRight,
       }}

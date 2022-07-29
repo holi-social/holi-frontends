@@ -12,6 +12,8 @@ export type HeaderTitleProps = {
 const HeaderTitle: React.VoidFunctionComponent<HeaderTitleProps> = (props: HeaderTitleProps) => {
   const navigationContext = useNavigationContext()
 
+  if (navigationContext.titleElement) return navigationContext.titleElement
+
   return (
     <HoliText bold {...props}>
       {navigationContext.headerTitle}
