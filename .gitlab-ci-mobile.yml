@@ -4,7 +4,7 @@
   image: 'alpine'
   dependencies: [] # explicitly disable artifact usage
   script:
-    - true
+    - "true"
   interruptible: true
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
