@@ -34,6 +34,8 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({ onSubmit
     user ? (user[typeMetadata.keyInUserObject as keyof typeof user] as string[]) : []
   )
   const [orderedValues, setOrderedValues] = useState<ChipValueWithTranslation[]>([])
+  const [saved, setSaved] = useState(false)
+
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
   useEffect(() => {
@@ -57,8 +59,9 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({ onSubmit
     ;(input as any)[typeMetadata.keyInUserObject] = values // eslint-disable-line @typescript-eslint/no-explicit-any
 
     const result = await updateUser({ variables: { input } })
-    if (!error && result.data && onSubmit) {
-      onSubmit(result.data.authenticatedUser)
+    if (!error && result.data) {
+      setSaved(true)
+      onSubmit && onSubmit(result.data.authenticatedUser)
     }
   }
 
@@ -70,7 +73,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({ onSubmit
     )
   }
 
-  if (loading) {
+  if (loading || saved) {
     return (
       <View style={styles.wrapper}>
         <HoliText>{t('user.profileForm.saving')}</HoliText>
