@@ -18,15 +18,16 @@ export type AvatarProps = {
   style?: (ViewStyle | Record<string, unknown> | undefined) | (ViewStyle | Record<string, unknown> | undefined)[]
 }
 
-const HoliUserAvatar: React.FunctionComponent<AvatarProps> = (props: AvatarProps) => {
-  const { theme } = useTheme()
-  const sizes = {
+export const sizes = {
     micro: 25,
     small: 50,
     medium: 65,
     large: 80,
     extralarge: 123,
   }
+
+const HoliUserAvatar: React.FunctionComponent<AvatarProps> = (props: AvatarProps) => {
+  const { theme } = useTheme()
   const width = sizes[props.size || 'medium']
   const styles = getStyles(theme, width, props.defaultColor, !!props.imageSrc)
   const imageUri: ImageSourcePropType = { uri: props.imageSrc }
