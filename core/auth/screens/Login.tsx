@@ -11,17 +11,18 @@ import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
-import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
+import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import Holicon from '@holi/ui/components/holicon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 const Login: React.VoidFunctionComponent = () => {
   const { isLoggedIn, setUserLoggedIn } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
   const { navigateBack } = useRouting()
-  const { setBackLink, clearBackLinks } = useNavigationContext()
+  const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
 
@@ -39,10 +40,27 @@ const Login: React.VoidFunctionComponent = () => {
   // eslint-disable-next-line
   useEffect(() => initializeFlow(), [])
 
-  useEffect(() => {
-    setBackLink('down')
-    return () => clearBackLinks()
-  }, [clearBackLinks, setBackLink])
+  useEffect(
+    () => {
+      setNavigationHeader({
+        headerLeft: () => (
+          <HoliButton
+            label={t('navigation.headerLeft.back')}
+            inline
+            transparent
+            onPress={() => navigateBack()}
+            style={{ paddingHorizontal: 0 }}
+          >
+            <Holicon icon="arrowtip-down" size={30} />
+          </HoliButton>
+        ),
+      })
+      return clearNavigationHeader
+    },
+    // setNavigationHeader would cause endless loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
 
   // This will update the login flow with the user provided input:
   const onSubmit = (payload: SubmitSelfServiceLoginFlowBody) =>
