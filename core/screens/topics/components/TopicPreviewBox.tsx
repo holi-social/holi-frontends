@@ -69,7 +69,7 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
         onPress={() => navigate(`/topics/${id}`)}
         testID="feed-topic-contributors-link"
       >
-        <HoliUserAvatarPile users={contributors} counter />
+        <HoliUserAvatarPile users={contributors} counter collapse />
       </HoliButton>
     </View>
   )

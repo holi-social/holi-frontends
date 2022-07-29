@@ -20,7 +20,7 @@ const HoliUserAvatarPile: React.FC<HoliUserAvatarPileProps> = ({
   users,
   usersToShow = 5,
   size = 'micro',
-  collapse = true,
+  collapse = false,
   counter = false,
 }) => {
   const { t } = useTranslation()
@@ -30,6 +30,7 @@ const HoliUserAvatarPile: React.FC<HoliUserAvatarPileProps> = ({
       <View style={styles.container}>
         {users.slice(0, usersToShow).map((user, idx) => {
           const nameLabel = `${user.firstName || ''} ${user.lastName || ''}`.trim()
+          const collapseDistance = collapse ? avatarSizes[size] / -2.4 : -4
 
           return (
             <HoliUserAvatar
@@ -39,7 +40,7 @@ const HoliUserAvatarPile: React.FC<HoliUserAvatarPileProps> = ({
               initials={user.avatarLabel}
               defaultColor={user.avatarDefaultColor}
               size={size}
-              style={[styles.avatar, collapse && { marginLeft: idx ? avatarSizes[size] / -2.4 : 0, zIndex: idx * -1 }]}
+              style={[styles.avatar, { marginLeft: idx ? collapseDistance : 0, zIndex: idx * -1 }]}
             />
           )
         })}

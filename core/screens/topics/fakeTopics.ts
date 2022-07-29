@@ -8,6 +8,7 @@ const fakeAvatars = [
   'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/065/197/crop_original_bp1658330879_mikhail-rakityanskiy-415620-unsplash.jpg',
   'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/049/288/crop_original_bp1658348823_Pluto6.jpg',
   'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/014/520/crop_original_bp1658247307_IMG_7565.JPG',
+  undefined,
   'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/075/106/crop_original_bp1658367232_IMG_2655w.jpg',
   undefined,
 ]
@@ -22,7 +23,7 @@ const getRandomUserBase = () => {
     firstName,
     lastName,
     avatarLabel: firstName[0],
-    avatarDefaultColor: faker.color.human(),
+    avatarDefaultColor: faker.color.rgb(),
   }
 }
 
