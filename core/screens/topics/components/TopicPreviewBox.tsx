@@ -3,9 +3,11 @@ import { Trans, useTranslation } from 'react-i18next'
 import { Image, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 // TODO: adjust this dummy interface to real props
@@ -16,10 +18,7 @@ interface TopicPreviewBoxProps {
   image: {
     src: string
   }
-  contributors: {
-    avatars: { uri: string; label: string }[]
-    count: number
-  }
+  contributors: User[]
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
   category: string
 }
@@ -64,27 +63,14 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
         </HoliButton>
       </View>
 
-      {contributors.avatars && (
-        <HoliButton
-          label={t('topics.topic.topicEditors', { title })}
-          transparent
-          onPress={() => navigate(`/topics/${id}`)}
-        >
-          <View style={styles.contributorsContainer}>
-            {contributors.avatars.map(({ uri }, idx) => (
-              <Image
-                key={uri}
-                source={{ uri }}
-                style={[styles.avatar, { marginLeft: idx ? -10 : 0, zIndex: idx * -1 }]}
-                accessible={false}
-              />
-            ))}
-            <HoliText size="small" style={[styles.contributorsCounter, styles.textGrey]}>
-              {t('topics.contributors.discussing', { count: contributors.count })}
-            </HoliText>
-          </View>
-        </HoliButton>
-      )}
+      <HoliButton
+        label={t('topics.topic.topicEditors', { title })}
+        transparent
+        onPress={() => navigate(`/topics/${id}`)}
+        testID="feed-topic-contributors-link"
+      >
+        <HoliUserAvatarPile users={contributors} counter />
+      </HoliButton>
     </View>
   )
 }
