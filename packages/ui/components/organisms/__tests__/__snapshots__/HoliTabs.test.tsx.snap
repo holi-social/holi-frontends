@@ -3,12 +3,15 @@
 exports[`renders correctly renders correctly when open 1`] = `
 <View
   style={
-    Object {
-      "alignContent": "center",
-      "alignItems": "center",
-      "flex": 1,
-      "justifyContent": "center",
-    }
+    Array [
+      Object {
+        "alignContent": "center",
+        "alignItems": "center",
+        "flex": 1,
+        "justifyContent": "center",
+      },
+      undefined,
+    ]
   }
 >
   <View
@@ -18,138 +21,148 @@ exports[`renders correctly renders correctly when open 1`] = `
       Object {
         "borderBottomColor": "#1b1d201a",
         "borderBottomWidth": 2,
-        "flexDirection": "row",
         "width": "100%",
       }
     }
   >
     <View
-      accessibilityLabel="0"
-      accessibilityRole="tab"
-      accessibilitySelected={true}
-      accessibilityState={
-        Object {
-          "disabled": false,
-        }
-      }
-      accessible={true}
-      collapsable={false}
-      focusable={true}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         Array [
-          Array [
-            Object {
-              "alignItems": "center",
-              "borderBottomColor": "transparent",
-              "borderBottomWidth": 2,
-              "justifyContent": "center",
-              "marginHorizontal": 16,
-              "paddingVertical": 12,
-              "top": 2,
-              "width": "auto",
-            },
-            Object {
-              "borderBottomColor": "#222326",
-            },
-          ],
+          undefined,
           Object {
-            "width": "auto",
+            "flexDirection": "row",
           },
         ]
       }
-      testID="active-tab"
     >
       <View
-        pointerEvents="none"
-        style={Object {}}
-      >
-        <Text
-          style={
-            Array [
-              Object {
-                "color": "#6f7081",
-                "fontSize": 16,
-              },
-              Object {
-                "color": "#222326",
-                "fontWeight": "500",
-              },
-            ]
+        accessibilityLabel="0"
+        accessibilityRole="tab"
+        accessibilitySelected={true}
+        accessibilityState={
+          Object {
+            "disabled": false,
           }
-        >
-          Profile
-        </Text>
-      </View>
-    </View>
-    <View
-      accessibilityLabel="1"
-      accessibilityRole="tab"
-      accessibilitySelected={false}
-      accessibilityState={
-        Object {
-          "disabled": false,
         }
-      }
-      accessible={true}
-      collapsable={false}
-      focusable={true}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        Array [
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
           Array [
-            Object {
-              "alignItems": "center",
-              "borderBottomColor": "transparent",
-              "borderBottomWidth": 2,
-              "justifyContent": "center",
-              "marginHorizontal": 16,
-              "paddingVertical": 12,
-              "top": 2,
-              "width": "auto",
-            },
-            Object {},
-          ],
-          Object {
-            "width": "auto",
-          },
-        ]
-      }
-      testID="inactive-tab"
-    >
-      <View
-        pointerEvents="none"
-        style={Object {}}
-      >
-        <Text
-          style={
             Array [
               Object {
-                "color": "#6f7081",
-                "fontSize": 16,
+                "alignItems": "center",
+                "borderBottomColor": "transparent",
+                "borderBottomWidth": 2,
+                "justifyContent": "center",
+                "marginRight": 20,
+                "paddingVertical": 12,
+                "top": 2,
+                "width": "auto",
+              },
+              Object {
+                "borderBottomColor": "#222326",
+              },
+            ],
+            Object {
+              "width": "auto",
+            },
+          ]
+        }
+        testID="active-tab"
+      >
+        <View
+          pointerEvents="none"
+          style={Object {}}
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#6f7081",
+                  "fontSize": 16,
+                },
+                Object {
+                  "color": "#222326",
+                  "fontWeight": "500",
+                },
+              ]
+            }
+          >
+            Profile
+          </Text>
+        </View>
+      </View>
+      <View
+        accessibilityLabel="1"
+        accessibilityRole="tab"
+        accessibilitySelected={false}
+        accessibilityState={
+          Object {
+            "disabled": false,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Array [
+            Array [
+              Object {
+                "alignItems": "center",
+                "borderBottomColor": "transparent",
+                "borderBottomWidth": 2,
+                "justifyContent": "center",
+                "marginRight": 20,
+                "paddingVertical": 12,
+                "top": 2,
+                "width": "auto",
               },
               Object {},
-            ]
-          }
+            ],
+            Object {
+              "width": "auto",
+            },
+          ]
+        }
+        testID="inactive-tab"
+      >
+        <View
+          pointerEvents="none"
+          style={Object {}}
         >
-          Topics
-        </Text>
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#6f7081",
+                  "fontSize": 16,
+                },
+                Object {},
+              ]
+            }
+          >
+            Topics
+          </Text>
+        </View>
       </View>
     </View>
   </View>

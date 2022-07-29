@@ -53,7 +53,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, relativeHeight
 
   return (
     <View style={[styles.container, style]}>
-      <View style={styles.borderedContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
+      <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
         <View style={[theme.mixins.container, styles.tabButtonsContainer]}>
           {tabs.map((tab, index) => (
             <HoliButton
@@ -130,10 +130,8 @@ const getStyles = (theme: HoliTheme, screenHeight: number, relativeHeight: numbe
       alignContent: 'center',
       justifyContent: 'center',
       alignItems: 'center',
-      borderBottomColor: theme.colors.borderColorGrey,
-      borderBottomWidth: 2,
     },
-    borderedContainer: {
+    headerContainer: {
       width: '100%',
       borderBottomColor: theme.colors.borderColorGrey,
       borderBottomWidth: 2,

@@ -93,7 +93,7 @@ const UserProfile: React.VFC = () => {
               {
                 title: t('profile.tabs.profile'),
                 children: [
-                  <View style={theme.mixins.container} key="engagementLevel">
+                  <View style={[theme.mixins.container, styles.chipRowContainer]} key="engagementLevel">
                     <HoliChipRow
                       editable={!user?.engagementLevel}
                       title={t('profile.tabs.profile.engagementLevel')}
@@ -122,7 +122,7 @@ const UserProfile: React.VFC = () => {
                       )}
                     </HoliChipRow>
                   </View>,
-                  <View style={theme.mixins.container} key="interests">
+                  <View style={[theme.mixins.container, styles.chipRowContainer]} key="interests">
                     <HoliChipRow
                       editable
                       title={t('profile.tabs.profile.interests')}
@@ -188,6 +188,9 @@ const UserProfile: React.VFC = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'baseline',
+  },
+  chipRowContainer: {
+    marginTop: 24,
   },
   chip: {
     marginRight: 8,
