@@ -54,7 +54,7 @@ export const All = ({ ...args }) => {
           <HoliText
             size={size}
             bold={bold}
-            styles={{
+            style={{
               color: args.color,
             }}
           >

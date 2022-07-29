@@ -90,12 +90,13 @@ const UserProfile: React.VFC = () => {
               </HoliButton>
             </>
           </View>
-          <View style={[theme.mixins.container, { marginTop: 24 }]}>
-            <HoliTabs
-              tabs={[
-                {
-                  title: t('profile.tabs.profile'),
-                  children: [
+          <HoliTabs
+            style={{ marginTop: 24 }}
+            tabs={[
+              {
+                title: t('profile.tabs.profile'),
+                children: [
+                  <View style={[theme.mixins.container, styles.chipRowContainer]} key="engagementLevel">
                     <HoliChipRow
                       key="engagementLevel"
                       editable={!user?.engagementLevel}
@@ -123,7 +124,9 @@ const UserProfile: React.VFC = () => {
                           style={styles.chip}
                         ></HoliChip>
                       )}
-                    </HoliChipRow>,
+                    </HoliChipRow>
+                  </View>,
+                  <View style={[theme.mixins.container, styles.chipRowContainer]} key="interests">
                     <UserChipRow
                       key={'interests'}
                       typeMetadata={UserChipInterest}
@@ -131,30 +134,30 @@ const UserProfile: React.VFC = () => {
                         toggleModal()
                         setEditMode('interests')
                       }}
-                    />,
-                  ],
-                },
-                {
-                  title: t('profile.tabs.topics'),
-                  children: (
-                    <View
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        paddingHorizontal: 56,
-                        paddingVertical: 72,
-                      }}
-                    >
-                      <HoliText style={{ textAlign: 'center', color: theme.colors.fontColorGrey }}>
-                        {t('profile.tabs.topics.empty')}
-                      </HoliText>
-                    </View>
-                  ),
-                },
-              ]}
-            ></HoliTabs>
-          </View>
+                    />
+                  </View>,
+                ],
+              },
+              {
+                title: t('profile.tabs.topics'),
+                children: (
+                  <View
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      paddingHorizontal: 56,
+                      paddingVertical: 72,
+                    }}
+                  >
+                    <HoliText style={{ textAlign: 'center', color: theme.colors.fontColorGrey }}>
+                      {t('profile.tabs.topics.empty')}
+                    </HoliText>
+                  </View>
+                ),
+              },
+            ]}
+          ></HoliTabs>
         </>
       </LoginProtection>
     </DefaultLayout>
@@ -164,6 +167,9 @@ const UserProfile: React.VFC = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'baseline',
+  },
+  chipRowContainer: {
+    marginTop: 24,
   },
   chip: {
     marginRight: 8,
