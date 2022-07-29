@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { ReactNode, createContext, useContext, useState } from 'react'
 
 export type linkDirection = 'left' | 'down'
 export type NavigationContextType = {
@@ -10,6 +10,9 @@ export type NavigationContextType = {
   showDownLink: boolean
   setBackLink: (direction: linkDirection) => void
   clearBackLinks: () => void
+
+  headerRight: () => ReactNode | undefined
+  setHeaderRight: (node: ReactNode) => void
 }
 
 const NavigationContext = createContext<NavigationContextType>({
@@ -21,6 +24,9 @@ const NavigationContext = createContext<NavigationContextType>({
   showDownLink: false,
   setBackLink: () => null,
   clearBackLinks: () => null,
+
+  headerRight: () => undefined,
+  setHeaderRight: () => undefined,
 })
 export const useNavigationContext = () => useContext(NavigationContext)
 
@@ -29,6 +35,8 @@ const NavigationContextProvider: React.FC = ({ children }) => {
   const [headerTitle, setHeaderTitle] = useState('')
   const [showBackLink, setShowBackLink] = useState(false)
   const [showDownLink, setShowDownLink] = useState(false)
+
+  const [headerRight, setHeaderRight] = useState(undefined)
 
   const setBackLink = (direction: linkDirection) => {
     switch (direction) {
@@ -57,6 +65,8 @@ const NavigationContextProvider: React.FC = ({ children }) => {
         showDownLink,
         setBackLink,
         clearBackLinks,
+        headerRight,
+        setHeaderRight,
       }}
     >
       {children}

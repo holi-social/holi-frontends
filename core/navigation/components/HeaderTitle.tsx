@@ -12,8 +12,11 @@ export type HeaderTitleProps = {
 const HeaderTitle: React.VoidFunctionComponent<HeaderTitleProps> = (props: HeaderTitleProps) => {
   const navigationContext = useNavigationContext()
 
-  // TODO: no font type for header text
-  return <HoliText {...props}>{navigationContext.headerTitle}</HoliText>
+  return (
+    <HoliText bold {...props}>
+      {navigationContext.headerTitle}
+    </HoliText>
+  )
 }
 
 export default HeaderTitle
