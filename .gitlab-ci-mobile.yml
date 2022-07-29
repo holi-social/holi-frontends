@@ -1,17 +1,5 @@
 # job templates
 
-.mobile_gate:
-  image: 'alpine'
-  dependencies: [] # explicitly disable artifact usage
-  script:
-    - "true"
-  interruptible: true
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-      when: always
-    - when: manual
-
-
 .mobile_publish:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   variables:
@@ -85,8 +73,17 @@
 ## only for review environments
 
 mobile_review_gate:
-  extends: .mobile_gate
+  image: 'alpine'
   needs: ['lint_compile_test']
+  dependencies: [] # explicitly disable artifact usage
+  script:
+    - "true"
+  interruptible: true
+  except:
+    - main
+    - /^noenv\/.*/
+    - /^nomobile\/.*/
+  when: manual
 
 mobile_review_publish:
   extends: .mobile_publish
@@ -147,10 +144,6 @@ mobile_review_build:
     - /^nomobile\/.*/
 
 ## staging environment
-
-mobile_staging_gate:
-  extends: .mobile_gate
-  needs: ['lint_compile_test']
 
 mobile_staging_publish:
   extends: .mobile_publish
