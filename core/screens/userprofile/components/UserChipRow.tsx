@@ -22,21 +22,17 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({ typeMetada
   const styles = getStyles()
 
   return (
-    <HoliChipRow
-      editable
-      title={t(`profile.tabs.profile.${typeMetadata.keyInUserObject}`)}
-      onPressEdit={() => onPressEdit()}
-    >
+    <HoliChipRow editable title={t(`profile.${typeMetadata.keyInUserObject}`)} onPressEdit={() => onPressEdit()}>
       {values.length > 0 &&
-        toValuesWithTranslation(typeMetadata.keyInUserObject, values, t).map((interest) => {
-          return <HoliChip key={interest.name} text={interest.t} disabled style={styles.chip}></HoliChip>
+        toValuesWithTranslation(typeMetadata.keyInUserObject, values, t).map((valueWithT) => {
+          return <HoliChip key={valueWithT.value} text={valueWithT.t} disabled style={styles.chip}></HoliChip>
         })}
       {values.length === 0 && (
         <HoliChip
           text={''}
           key="edit"
           onPress={() => onPressEdit()}
-          accessibilityLabel={t('profile.tabs.profile.interests.add')}
+          accessibilityLabel={t(`profile.${typeMetadata.keyInUserObject}.add`)}
           style={styles.chip}
         ></HoliChip>
       )}

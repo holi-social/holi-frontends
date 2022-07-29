@@ -17,15 +17,13 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 
-import { toValuesWithTranslation } from './userChipHelper'
+import { ChipValueWithTranslation, toValuesWithTranslation } from './userChipHelper'
 
 type UserChipFormProps = {
   onCancel?: () => void
   onSubmit?: (user: User) => void
   typeMetadata: UserChipGeneric<any> // eslint-disable-line @typescript-eslint/no-explicit-any
 }
-
-type ChipValueWithTranslation = { name: string; t: string }
 
 const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({ onSubmit, typeMetadata }) => {
   const { user } = useContext(UserContext)
@@ -100,12 +98,12 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({ onSubmit
         <HoliHeading style={styles.headline}>{t(`user.${typeMetadata.keyInUserObject}.form.headline`)}</HoliHeading>
         <HoliText style={styles.subline}>{t(`user.${typeMetadata.keyInUserObject}.form.subline`)}</HoliText>
         <HoliChipRow editable={false}>
-          {orderedValues.map(({ name, t }) => {
+          {orderedValues.map(({ value, t }) => {
             return (
               <HoliChip
-                key={name}
-                checked={values.includes(name)}
-                onPress={() => updateValues(name)}
+                key={value}
+                checked={values.includes(value)}
+                onPress={() => updateValues(value)}
                 text={t}
                 style={styles.chip}
               ></HoliChip>

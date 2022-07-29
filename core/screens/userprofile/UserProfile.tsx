@@ -100,7 +100,7 @@ const UserProfile: React.VFC = () => {
                     <HoliChipRow
                       key="engagementLevel"
                       editable={!user?.engagementLevel}
-                      title={t('profile.tabs.profile.engagementLevel')}
+                      title={t('profile.engagementLevel')}
                       onPressEdit={() => {
                         toggleModal()
                         setEditMode('levelOfEngagement')
@@ -115,12 +115,12 @@ const UserProfile: React.VFC = () => {
                       )}
                       {!user?.engagementLevel && (
                         <HoliChip
-                          text={t('profile.tabs.profile.engagementLevel')}
+                          text={t('profile.engagementLevel')}
                           onPress={() => {
                             toggleModal()
                             setEditMode('levelOfEngagement')
                           }}
-                          accessibilityLabel={t('profile.tabs.profile.engagementLevel.add')}
+                          accessibilityLabel={t('profile.engagementLevel.add')}
                           style={styles.chip}
                         ></HoliChip>
                       )}
