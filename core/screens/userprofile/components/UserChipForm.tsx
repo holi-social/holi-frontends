@@ -119,7 +119,6 @@ const getStyles = () =>
       alignItems: 'center',
       flexDirection: 'column',
       maxWidth: 600,
-      padding: 16,
       paddingTop: 0,
       width: '100%',
       height: '100%',

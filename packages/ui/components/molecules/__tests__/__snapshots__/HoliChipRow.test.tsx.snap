@@ -3,12 +3,13 @@
 exports[`renders correctly renders correctly when there is a title, is editable and has children 1`] = `
 <View
   style={
-    Object {
-      "paddingBottom": 0,
-      "paddingHorizontal": 24,
-      "paddingTop": 24,
-      "width": "100%",
-    }
+    Array [
+      Object {
+        "paddingBottom": 0,
+        "width": "100%",
+      },
+      undefined,
+    ]
   }
 >
   <View
@@ -145,12 +146,13 @@ exports[`renders correctly renders correctly when there is a title, is editable 
 exports[`renders correctly renders correctly when there is no title, not editable and has no children 1`] = `
 <View
   style={
-    Object {
-      "paddingBottom": 0,
-      "paddingHorizontal": 24,
-      "paddingTop": 24,
-      "width": "100%",
-    }
+    Array [
+      Object {
+        "paddingBottom": 0,
+        "width": "100%",
+      },
+      undefined,
+    ]
   }
 >
   <View

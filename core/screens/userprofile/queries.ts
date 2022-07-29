@@ -39,7 +39,7 @@ export type AuthenticatedUserResponse = {
 export const UpdateAuthenticatedUserInputSchema = z.object({
   avatar: z.string().optional(),
   firstName: z.string().min(2, { message: 'Should be at least 2 characters' }).optional(),
-  lastName: z.string().min(2).optional(),
+  lastName: z.string().optional(),
   aboutMe: z.string().optional(),
   pronouns: z.string().optional(),
   location: z.string().optional(),

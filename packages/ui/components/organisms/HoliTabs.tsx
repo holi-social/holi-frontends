@@ -1,5 +1,14 @@
 import * as React from 'react'
-import { NativeScrollEvent, Platform, ScrollView, Text, View, ViewStyle, useWindowDimensions } from 'react-native'
+import {
+  NativeScrollEvent,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+  useWindowDimensions,
+} from 'react-native'
 
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -7,9 +16,10 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 export type HoliTabsProps = {
   tabs: { title: string; children: React.ReactNode }[]
   relativeHeight?: number
+  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
 
-const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, relativeHeight = 0.6 }: HoliTabsProps) => {
+const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, relativeHeight = 0.6, style }: HoliTabsProps) => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const carousel = React.useRef<ScrollView | null>(null)
 
@@ -42,37 +52,33 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, relativeHeight
   }
 
   return (
-    <View style={styles.container as ViewStyle}>
-      <View
-        style={styles.tabButtonsContainer as ViewStyle}
-        accessibilityRole="tablist"
-        accessibilityOrientation="horizontal"
-      >
-        {tabs.map((tab, index) => (
-          <HoliButton
-            label={tab.title}
-            transparent
-            inline
-            style={[styles.tabButton, currentSlide === index ? styles.activeTabButton : {}]}
-            onPress={() => goToIndex(index)}
-            key={index}
-            accessibilityRole="tab"
-            accessibilitySelected={currentSlide === index}
-            accessibilityLabel={'' + index}
-            testID={currentSlide === index ? 'active-tab' : 'inactive-tab'}
-          >
-            <Text
-              style={[styles.tabButtonText, currentSlide === index ? (styles.activeTabButtonText as ViewStyle) : {}]}
+    <View style={[styles.container, style]}>
+      <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
+        <View style={[theme.mixins.container, styles.tabButtonsContainer]}>
+          {tabs.map((tab, index) => (
+            <HoliButton
+              label={tab.title}
+              transparent
+              inline
+              style={[styles.tabButton, currentSlide === index ? styles.activeTabButton : {}]}
+              onPress={() => goToIndex(index)}
+              key={index}
+              accessibilityRole="tab"
+              accessibilitySelected={currentSlide === index}
+              accessibilityLabel={'' + index}
+              testID={currentSlide === index ? 'active-tab' : 'inactive-tab'}
             >
-              {tab.title}
-            </Text>
-          </HoliButton>
-        ))}
+              <Text style={[styles.tabButtonText, currentSlide === index ? styles.activeTabButtonText : {}]}>
+                {tab.title}
+              </Text>
+            </HoliButton>
+          ))}
+        </View>
       </View>
       {Platform.OS !== 'web' && (
         <ScrollView
           ref={carousel}
-          contentContainerStyle={styles.scrollViewContainerStyle as ViewStyle}
+          contentContainerStyle={styles.scrollViewContainerStyle}
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}
@@ -80,7 +86,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, relativeHeight
           decelerationRate={0}
           onMomentumScrollEnd={handleScrollEnd}
         >
-          <View style={styles.tabContainer as ViewStyle}>
+          <View style={styles.tabContainer}>
             {tabs.map((tab, i) => (
               <View
                 style={{
@@ -96,11 +102,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, relativeHeight
       )}
 
       {Platform.OS === 'web' && (
-        <View
-          style={[styles.tabContainer as ViewStyle, { width: '100%' }]}
-          accessibilityRole="tabpanel"
-          focusable={true}
-        >
+        <View style={[styles.tabContainer, { width: '100%' }]} accessibilityRole="tabpanel" focusable={true}>
           <View
             style={{
               width: '100%',
@@ -116,49 +118,52 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, relativeHeight
 
 export default HoliTabs
 
-const getStyles = (theme: HoliTheme, screenHeight: number, relativeHeight: number) => ({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignContent: 'center',
-  },
-  scrollViewContainerStyle: {
-    alignContent: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  tabButtonsContainer: {
-    flexDirection: 'row',
-    width: '100%',
-    borderBottomColor: theme.colors.borderColorGrey,
-    borderBottomWidth: 2,
-  },
-  tabButton: {
-    marginHorizontal: 16,
-    paddingVertical: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 'auto',
-    borderBottomWidth: 2,
-    top: 2, // must be the same value as the tabButtonsContainer borderWidth
-    borderBottomColor: 'transparent',
-  },
-  tabButtonText: {
-    fontSize: 16,
-    color: theme.colors.fontColorGrey,
-  },
-  activeTabButton: {
-    borderBottomColor: theme.colors.fontColor,
-  },
-  activeTabButtonText: {
-    color: theme.colors.fontColor,
-    fontWeight: '500',
-  },
-  tabContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    height: screenHeight * relativeHeight,
-    width: '100%',
-  },
-})
+const getStyles = (theme: HoliTheme, screenHeight: number, relativeHeight: number) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      alignContent: 'center',
+    },
+    scrollViewContainerStyle: {
+      alignContent: 'center',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    headerContainer: {
+      width: '100%',
+      borderBottomColor: theme.colors.borderColorGrey,
+      borderBottomWidth: 2,
+    },
+    tabButtonsContainer: {
+      flexDirection: 'row',
+    },
+    tabButton: {
+      paddingVertical: 12,
+      marginRight: 20,
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: 'auto',
+      borderBottomWidth: 2,
+      top: 2, // must be the same value as the tabButtonsContainer borderWidth
+      borderBottomColor: 'transparent',
+    },
+    tabButtonText: {
+      fontSize: 16,
+      color: theme.colors.fontColorGrey,
+    },
+    activeTabButton: {
+      borderBottomColor: theme.colors.fontColor,
+    },
+    activeTabButtonText: {
+      color: theme.colors.fontColor,
+      fontWeight: '500',
+    },
+    tabContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      height: screenHeight * relativeHeight,
+      width: '100%',
+    },
+  })

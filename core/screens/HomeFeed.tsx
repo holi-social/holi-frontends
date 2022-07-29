@@ -1,6 +1,6 @@
 import moment from 'moment'
 import React, { useLayoutEffect } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -19,7 +19,7 @@ import HoliAppSwiper from '@holi/ui/components/organisms/HoliAppSwiper'
 import { styleVars } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-const dummyTopics = ['Immigration', 'Education', 'Sustainability']
+const dummyTopicCategories = ['Immigration', 'Education', 'Sustainability']
 
 type DummyApp = {
   icon: string
@@ -123,26 +123,25 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
 
       <View style={[theme.mixins.container]}>
         {/* Weekly Topics */}
-        <View>
-          {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
-          <HoliHeading level="1" size="medium" style={styles.feedHeadline} testID="home-feed-topics-heading">
-            {t('homeFeed.heading', { count: dummyTopics.length })}{' '}
+        {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
+        <HoliHeading level="1" size="medium" style={styles.feedHeadline} testID="home-feed-topics-heading">
+          <Trans t={t} i18nKey="homeFeed.heading" values={{ count: dummyTopicCategories.length }}>
             <HoliSeparatedList size="large" bold>
-              {dummyTopics.map((v, idx) => (
-                <HoliButton key={idx} label={v} transparent inline style={styles.feedHeadlineLink}>
+              {dummyTopicCategories.map((category, idx) => (
+                <HoliButton key={idx} label={category} transparent inline style={styles.feedHeadlineLink}>
                   <HoliText size="large" bold style={{ color: theme.colors.positivepurple }}>
-                    {v}
+                    {category}
                   </HoliText>
                 </HoliButton>
               ))}
             </HoliSeparatedList>
-          </HoliHeading>
+          </Trans>
+        </HoliHeading>
 
-          <View style={styles.feedTopicGrid}>
-            {[...fakeTopics.keys()].map((topicId) => (
-              <TopicPreviewBox key={topicId} id={topicId} {...fakeTopics.get(topicId)} style={styles.feedTopicItem} />
-            ))}
-          </View>
+        <View style={styles.feedTopicGrid}>
+          {[...fakeTopics.entries()].map(([topicId, topic]) => (
+            <TopicPreviewBox key={topicId} id={topicId} {...topic} style={styles.feedTopicItem} />
+          ))}
         </View>
       </View>
     </DefaultLayout>

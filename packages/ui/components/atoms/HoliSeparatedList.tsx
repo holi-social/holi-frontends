@@ -19,17 +19,16 @@ const HoliSeparatedList: React.VFC<HoliTextProps> = ({ children, ...props }) => 
         if (0 < idx && idx < childrenArr.length - 1) {
           return [
             ...acc,
-            <HoliText key={`${idx}-comma`} {...props} testID="comma-sprtr">
-              ,{' '}
+            <HoliText key={`${idx}-comma`} {...props}>
+              {', '}
             </HoliText>,
             node,
           ]
         } else if (length > 1 && idx === length - 1) {
           return [
             ...acc,
-            <HoliText key={`${idx}-and`} {...props} testID="and-sprtr">
-              {' '}
-              {t('general.and')}{' '}
+            <HoliText key={`${idx}-and`} {...props}>
+              {' ' + t('general.and') + ' '}
             </HoliText>,
             node,
           ]

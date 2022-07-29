@@ -35,7 +35,7 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
 
   const { setNavigationHeader } = useNavigationHeader()
   useLayoutEffect(() => {
-    const title = t('topics.topic.title', { topicId })
+    const title = t('topics.topic.title', { title: topicId })
     setNavigationHeader({
       title: title,
       titleElement: () => <HoliText style={{ paddingTop: 5 }}>{title}</HoliText>,
@@ -57,18 +57,15 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
           {t('topics.topic.heading', { title: topic.title, topicId })}
         </HoliHeading>
 
-        <HoliButton label={t('topics.topic.topicEditors')} inline onPress={() => setShowModal(true)}>
-          {t('topics.topic.topicEditors')}
+        <HoliButton
+          label={t('topics.topic.topicEditors', { title: topicId })}
+          inline
+          onPress={() => setShowModal(true)}
+        >
+          {t('topics.topic.topicEditors', { title: topicId })}
         </HoliButton>
 
         <HoliText>{topic.text}</HoliText>
-
-        {/* Example below with styling for text and button */}
-        {/* <View style={{ marginBottom: 10 }}>
-          <HoliReadMore numberOfLines={2} style={{ color: 'green' }} buttonStyle={{ color: 'red', fontWeight: '800' }}>
-            {topic.text}
-          </HoliReadMore>
-        </View> */}
 
         <HoliHeading level="3">{t('topics.topic.posts')}</HoliHeading>
 
