@@ -1,5 +1,17 @@
 # job templates
 
+.mobile_gate:
+  image: 'alpine'
+  dependencies: [] # explicitly disable artifact usage
+  script:
+    - true
+  interruptible: true
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: always
+    - when: manual
+
+
 .mobile_publish:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   variables:
@@ -72,9 +84,13 @@
 
 ## only for review environments
 
+mobile_review_gate:
+  extends: .mobile_gate
+  needs: ['lint_compile_test']
+
 mobile_review_publish:
   extends: .mobile_publish
-  needs: ['lint_compile_test']
+  needs: ['mobile_review_gate']
   environment:
     name: review/$CI_COMMIT_REF_SLUG-mobile
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=$CI_COMMIT_REF_SLUG
@@ -108,7 +124,7 @@ mobile_review_destroy:
 
 mobile_review_build:
   extends: .mobile_build
-  needs: ['lint_compile_test']
+  needs: ['mobile_review_gate']
   except:
     - main
     - /^noenv\/.*/
@@ -132,9 +148,13 @@ mobile_review_build:
 
 ## staging environment
 
+mobile_staging_gate:
+  extends: .mobile_gate
+  needs: ['lint_compile_test']
+
 mobile_staging_publish:
   extends: .mobile_publish
-  needs: ['lint_compile_test']
+  needs: ['mobile_staging_gate']
   environment:
     name: mobile-staging
     deployment_tier: staging
@@ -146,7 +166,7 @@ mobile_staging_publish:
 
 mobile_staging_build:
   extends: .mobile_build
-  needs: ['lint_compile_test']
+  needs: ['mobile_staging_gate']
   variables:
     ENVIRONMENT_ID: staging
     KEEP_ARTIFACTS: 'true'
