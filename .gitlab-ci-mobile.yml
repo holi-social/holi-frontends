@@ -147,7 +147,7 @@ mobile_review_build:
 
 mobile_staging_publish:
   extends: .mobile_publish
-  needs: ['mobile_staging_gate']
+  needs: ['lint_compile_test']
   environment:
     name: mobile-staging
     deployment_tier: staging
@@ -159,7 +159,7 @@ mobile_staging_publish:
 
 mobile_staging_build:
   extends: .mobile_build
-  needs: ['mobile_staging_gate']
+  needs: ['lint_compile_test']
   variables:
     ENVIRONMENT_ID: staging
     KEEP_ARTIFACTS: 'true'
