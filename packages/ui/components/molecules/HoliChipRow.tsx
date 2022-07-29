@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -12,6 +12,7 @@ export type HoliChipRowProps = {
   editButtonText?: string
   children?: React.ReactChild | React.ReactChildren | React.ReactNode | Element
   onPressEdit?: () => void
+  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
 
 const HoliChipRow: React.FunctionComponent<HoliChipRowProps> = ({
@@ -20,14 +21,15 @@ const HoliChipRow: React.FunctionComponent<HoliChipRowProps> = ({
   editable,
   children,
   onPressEdit,
+  style,
 }: HoliChipRowProps) => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
   const { t } = useTranslation()
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <View style={styles.header}>
-        <HoliText style={styles.title}>{title}</HoliText>
+        <HoliText size="small">{title}</HoliText>
         {editable && (
           <HoliButton
             label={t('profile.tabs.edit')}
@@ -36,7 +38,9 @@ const HoliChipRow: React.FunctionComponent<HoliChipRowProps> = ({
             style={{ width: 'fit-content' }}
             onPress={onPressEdit}
           >
-            <HoliText style={styles.editButton}>{editButtonText || t('profile.tabs.edit')}</HoliText>
+            <HoliText size="small" bold style={styles.editButton}>
+              {editButtonText || t('profile.tabs.edit')}
+            </HoliText>
           </HoliButton>
         )}
       </View>
@@ -51,8 +55,7 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     container: {
       width: '100%',
-      paddingHorizontal: 24,
-      paddingTop: 24,
+      // paddingTop: 24,
       paddingBottom: 0,
     },
     header: {
@@ -61,13 +64,8 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
       justifyContent: 'space-between',
     },
-    title: {
-      fontSize: 14,
-    },
     editButton: {
       color: theme.colors.grey,
-      fontSize: 14,
-      fontWeight: '500',
     },
     chipsContainer: {
       display: 'flex',

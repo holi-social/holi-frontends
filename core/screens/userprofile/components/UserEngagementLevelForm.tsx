@@ -12,6 +12,7 @@ import {
 } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliIcon from '@holi/ui/components/HoliIcon'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -82,7 +83,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
   return (
     <View style={styles.wrapper}>
       <ScrollView contentContainerStyle={styles.scrollView}>
-        <HoliText style={styles.title}>{t('user.engagementLevel.form.question')}</HoliText>
+        <HoliHeading size="large">{t('user.engagementLevel.form.question')}</HoliHeading>
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonContainer}>
             {engagementLevel === EngagementLevel.INTERESTED && ActiveButtonIcon}
@@ -164,11 +165,6 @@ const getStyles = (theme: HoliTheme, buttonsContainerHeight: number) =>
       flexDirection: 'column',
       width: '100%',
       paddingBottom: 150,
-    },
-    title: {
-      fontSize: 28,
-      fontWeight: '500',
-      lineHeight: 34,
     },
     buttonsContainer: {
       marginTop: 60,

@@ -85,13 +85,6 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
 
         <HoliText>{topic.text}</HoliText>
 
-        {/* Example below with styling for text and button */}
-        {/* <View style={{ marginBottom: 10 }}>
-          <HoliReadMore numberOfLines={2} style={{ color: 'green' }} buttonStyle={{ color: 'red', fontWeight: '800' }}>
-            {topic.text}
-          </HoliReadMore>
-        </View> */}
-
         <HoliHeading level="3">{t('topics.topic.posts')}</HoliHeading>
 
         {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (

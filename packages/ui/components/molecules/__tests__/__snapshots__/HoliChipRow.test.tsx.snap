@@ -3,12 +3,13 @@
 exports[`renders correctly renders correctly when there is a title, is editable and has children 1`] = `
 <View
   style={
-    Object {
-      "paddingBottom": 0,
-      "paddingHorizontal": 24,
-      "paddingTop": 24,
-      "width": "100%",
-    }
+    Array [
+      Object {
+        "paddingBottom": 0,
+        "width": "100%",
+      },
+      undefined,
+    ]
   }
 >
   <View
@@ -32,13 +33,11 @@ exports[`renders correctly renders correctly when there is a title, is editable 
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 16,
-            "lineHeight": 19.2,
+            "fontSize": 14,
+            "lineHeight": 16.8,
           },
           Object {},
-          Object {
-            "fontSize": 14,
-          },
+          Object {},
         ]
       }
     >
@@ -90,14 +89,15 @@ exports[`renders correctly renders correctly when there is a title, is editable 
                 "fontWeight": "400",
               },
               Object {
-                "fontSize": 16,
-                "lineHeight": 19.2,
+                "fontSize": 14,
+                "lineHeight": 16.8,
               },
-              Object {},
+              Object {
+                "fontFamily": "Circular Std Medium",
+                "fontWeight": "500",
+              },
               Object {
                 "color": "#6f7081",
-                "fontSize": 14,
-                "fontWeight": "500",
               },
             ]
           }
@@ -146,12 +146,13 @@ exports[`renders correctly renders correctly when there is a title, is editable 
 exports[`renders correctly renders correctly when there is no title, not editable and has no children 1`] = `
 <View
   style={
-    Object {
-      "paddingBottom": 0,
-      "paddingHorizontal": 24,
-      "paddingTop": 24,
-      "width": "100%",
-    }
+    Array [
+      Object {
+        "paddingBottom": 0,
+        "width": "100%",
+      },
+      undefined,
+    ]
   }
 >
   <View
@@ -175,13 +176,11 @@ exports[`renders correctly renders correctly when there is no title, not editabl
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 16,
-            "lineHeight": 19.2,
+            "fontSize": 14,
+            "lineHeight": 16.8,
           },
           Object {},
-          Object {
-            "fontSize": 14,
-          },
+          Object {},
         ]
       }
     />
