@@ -42,7 +42,7 @@ const TopicEditorsModalContent: React.FunctionComponent<TopicEditorsModalContent
       ></HoliCarousel>
 
       <View style={[styles.buttonContainer, isWeb ? styles.buttonContainerWeb : {}]}>
-        <HoliButton label={t('topics.contributors.modal.close')} inline onPress={onDismiss}>
+        <HoliButton label={t('topics.contributors.modal.close')} onPress={onDismiss}>
           {t('topics.contributors.modal.close')}
         </HoliButton>
       </View>
@@ -70,8 +70,13 @@ const getStyles = () =>
       width: '100%',
     },
     buttonContainer: {
-      marginTop: 24,
-      marginHorizontal: 24,
+      paddingHorizontal: 24,
+      bottom: 70,
+      position: 'absolute',
+      display: 'flex',
+      width: '100%',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     buttonContainerWeb: {
       alignSelf: 'center',
