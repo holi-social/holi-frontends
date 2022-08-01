@@ -8,15 +8,19 @@ const loremIpsum =
 
 const getRandomName = () => `${faker.name.firstName()} ${faker.name.lastName()}`
 
-const getRandomUser = (id: string): User => ({
-  id,
-  firstName: faker.name.firstName(),
-  lastName: faker.name.lastName(),
-  avatar: faker.image.avatar(),
-  aboutMe: faker.lorem.sentence(),
-  avatarLabel: getRandomName(),
-  avatarDefaultColor: faker.color.rgb(),
-})
+const getRandomUser = (hasAvatar = false): User => {
+  const firstName = faker.name.firstName()
+  const lastName = faker.name.lastName()
+  return {
+    id: faker.random.alphaNumeric(10),
+    firstName,
+    lastName,
+    avatar: hasAvatar ? faker.image.avatar() : undefined,
+    aboutMe: faker.lorem.sentence(),
+    avatarLabel: firstName[0],
+    avatarDefaultColor: faker.color.rgb(),
+  }
+}
 
 const fakeTopics = new Map()
 fakeTopics.set('abc', {
@@ -35,7 +39,7 @@ fakeTopics.set('abc', {
     src: 'https://image.geo.de/30657478/t/5W/v6/w960/r1.5/-/wer-hat-den-foehn-picture-1238735191.jpg',
   },
   author: getRandomName(),
-  contributors: ['id_0', 'id_1', 'id_2', 'id_3'].map((id) => getRandomUser(id)),
+  contributors: Array(...new Array(4)).map((_, index) => getRandomUser(index % 2 === 0)),
   category: 'Education',
 })
 fakeTopics.set('bca', {
@@ -51,7 +55,7 @@ fakeTopics.set('bca', {
     src: 'https://image.geo.de/30137764/t/r8/v4/w960/r1.5/-/die-welt-von-gestern-in-farbe-02-jpg--78318-.jpg',
   },
   author: getRandomName(),
-  contributors: ['id_0', 'id_1', 'id_2', 'id_3', 'id_4'].map((id) => getRandomUser(id)),
+  contributors: Array(...new Array(5)).map((_, index) => getRandomUser(index % 2 === 0)),
   category: 'Education',
 })
 

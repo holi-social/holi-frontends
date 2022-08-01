@@ -9,6 +9,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 // TODO: adjust this dummy interface to real props
@@ -66,20 +67,13 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
       </View>
 
       {contributors.length && (
-        <HoliButton label={t('topics.topic.topicEditors', { title })} transparent onPress={() => setShowCurators(true)}>
-          <View style={styles.contributorsContainer}>
-            {contributors.map(({ avatar }, idx) => (
-              <Image
-                key={avatar}
-                source={{ uri: avatar }}
-                style={[styles.avatar, { marginLeft: idx ? -10 : 0, zIndex: idx * -1 }]}
-                accessible={false}
-              />
-            ))}
-            <HoliText size="small" style={[styles.contributorsCounter, styles.textGrey]}>
-              {t('topics.contributors.discussing', { count: contributors.length })}
-            </HoliText>
-          </View>
+        <HoliButton
+          label={t('topics.topic.topicEditors', { title })}
+          transparent
+          onPress={() => setShowCurators(true)}
+          testID="feed-topic-contributors-link"
+        >
+          <HoliUserAvatarPile users={contributors} counter collapse />
         </HoliButton>
       )}
       <HoliModal relativeHeight={0.85} show={showCurators} onDismiss={() => setShowCurators(false)}>
