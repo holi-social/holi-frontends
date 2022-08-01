@@ -6,22 +6,40 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
-import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
+import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import Holicon from '@holi/ui/components/holicon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 const Logout: React.VoidFunctionComponent = () => {
   const { navigateBack } = useRouting()
   const { setUserLoggedOut } = useContext(AuthContext)
-  const { setBackLink, clearBackLinks } = useNavigationContext()
+  const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
 
-  useEffect(() => {
-    setBackLink('down')
-    return () => clearBackLinks()
-  }, [clearBackLinks, setBackLink])
+  useEffect(
+    () => {
+      setNavigationHeader({
+        headerLeft: () => (
+          <HoliButton
+            label={t('navigation.headerLeft.back')}
+            inline
+            transparent
+            onPress={() => navigateBack()}
+            style={{ paddingHorizontal: 0 }}
+          >
+            <Holicon icon="arrowtip-down" size={30} />
+          </HoliButton>
+        ),
+      })
+      return clearNavigationHeader
+    },
+    // setNavigationHeader would cause endless loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
 
   const onSubmit = () => {
     getSessionFromStorage()
