@@ -32,14 +32,14 @@ const HoliChipRow: React.FunctionComponent<HoliChipRowProps> = ({
         <HoliText size="small">{title}</HoliText>
         {editable && (
           <HoliButton
-            label={t('profile.tabs.edit')}
+            label={t('components.holiChipRow.edit')}
             transparent
             inline
             style={{ width: 'fit-content' }}
             onPress={onPressEdit}
           >
-            <HoliText size="small" bold style={styles.editButton}>
-              {editButtonText || t('profile.tabs.edit')}
+            <HoliText selectable={false} size="small" bold style={styles.editButton}>
+              {editButtonText || t('components.holiChipRow.edit')}
             </HoliText>
           </HoliButton>
         )}

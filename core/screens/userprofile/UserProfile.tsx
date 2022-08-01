@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useContext, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -10,10 +10,11 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import LoggedOutView from '@holi/core/screens/userprofile/components/LoggedOutView'
 import UserChipForm from '@holi/core/screens/userprofile/components/UserChipForm'
+import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
-import { UserInterests } from '@holi/core/screens/userprofile/types'
+import { UserChipInterest } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
@@ -25,32 +26,61 @@ import { useTheme } from '@holi/ui/styles/theme'
 const UserProfile: React.VFC = () => {
   const { navigate } = useRouting()
   const [showModal, setShowModal] = useState(false)
-  const [editMode, setEditMode] = useState<'edit' | 'levelOfEngagement' | 'interests' | null>(null)
-  const toggleModal = () => {
+  const [editMode, setEditMode] = useState<
+    'profile' | 'levelOfEngagement' | 'interests' | 'saved' | 'cancelled' | null
+  >(null)
+  const toggleModal = useCallback(() => {
     setShowModal(!showModal)
-  }
+  }, [showModal])
   const { t } = useTranslation()
 
   const { isLoggedIn } = useContext(AuthContext)
   const { user } = useContext(UserContext)
 
-  const { setNavigationHeader } = useNavigationHeader()
+  const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
 
   const { theme } = useTheme()
 
-  useLayoutEffect(() => {
-    const profileTitle = isLoggedIn && user ? user.firstName : t('profile.title')
-    setNavigationHeader({
-      title: profileTitle,
-      titleElement: () => <HoliText style={{ paddingTop: 5 }}>{profileTitle}</HoliText>,
-    })
-  }, [isLoggedIn, setNavigationHeader, user, t])
+  useLayoutEffect(
+    () => {
+      const profileTitle = isLoggedIn && user ? user.firstName : t('profile.title')
+      setNavigationHeader({
+        title: profileTitle,
+        titleElement: () => (
+          <HoliText bold style={{ paddingTop: 5 }}>
+            {profileTitle}
+          </HoliText>
+        ),
+        headerRight: () =>
+          isLoggedIn && (
+            <HoliButton
+              inline
+              transparent
+              label={t('profile.edit')}
+              onPress={() => {
+                setEditMode('profile')
+                toggleModal()
+              }}
+              style={{ marginRight: 24 }}
+            >
+              <HoliText size="small" bold style={{ color: theme.colors.fontColorGrey }}>
+                {t('profile.edit')}
+              </HoliText>
+            </HoliButton>
+          ),
+      })
+      return clearNavigationHeader
+    },
+    // setNavigationHeader would cause endless loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isLoggedIn, user, t]
+  )
 
   return (
     <DefaultLayout>
       <LoginProtection loggedOutContent={<LoggedOutView />}>
         <>
-          <View style={[theme.mixins.container, styles.container]}>
+          <View style={[theme.mixins.container, styles.container]} testID={`user-profile-edit-${editMode}`}>
             <>
               <HoliModal
                 show={showModal}
@@ -61,12 +91,22 @@ const UserProfile: React.VFC = () => {
               >
                 {(() => {
                   switch (editMode) {
-                    case 'edit':
-                      return <UserProfileForm onCancel={toggleModal} onSubmit={toggleModal} />
+                    case 'profile':
+                      return (
+                        <UserProfileForm
+                          onCancel={toggleModal}
+                          onSubmit={() => {
+                            toggleModal()
+                            setEditMode('saved')
+                          }}
+                        />
+                      )
                     case 'levelOfEngagement':
                       return <UserEngagementLevelForm onCancel={toggleModal} onSubmit={toggleModal} />
                     case 'interests':
-                      return <UserChipForm allInterests={UserInterests} onCancel={toggleModal} onSubmit={toggleModal} />
+                      return (
+                        <UserChipForm typeMetadata={UserChipInterest} onCancel={toggleModal} onSubmit={toggleModal} />
+                      )
                   }
                 })()}
               </HoliModal>
@@ -74,15 +114,22 @@ const UserProfile: React.VFC = () => {
               <HoliButton
                 label={t('profile.edit')}
                 onPress={() => {
-                  setEditMode('edit')
+                  setEditMode('profile')
                   toggleModal()
                 }}
+                transparent
                 inline
                 testID="btn-open-profile-edit-view"
               >
                 {t('profile.edit')}
               </HoliButton>
-              <HoliButton label={t('profile.logout')} inline onPress={() => navigate('/logout')} testID="btn-to-logout">
+              <HoliButton
+                label={t('profile.logout')}
+                inline
+                onPress={() => navigate('/logout')}
+                transparent
+                testID="btn-to-logout"
+              >
                 {t('profile.logout')}
               </HoliButton>
             </>
@@ -95,8 +142,9 @@ const UserProfile: React.VFC = () => {
                 children: [
                   <View style={[theme.mixins.container, styles.chipRowContainer]} key="engagementLevel">
                     <HoliChipRow
+                      key="engagementLevel"
                       editable={!user?.engagementLevel}
-                      title={t('profile.tabs.profile.engagementLevel')}
+                      title={t('profile.engagementLevel')}
                       onPressEdit={() => {
                         toggleModal()
                         setEditMode('levelOfEngagement')
@@ -111,51 +159,26 @@ const UserProfile: React.VFC = () => {
                       )}
                       {!user?.engagementLevel && (
                         <HoliChip
-                          text={t('profile.tabs.profile.engagementLevel')}
+                          text={t('profile.engagementLevel')}
                           onPress={() => {
                             toggleModal()
                             setEditMode('levelOfEngagement')
                           }}
-                          accessibilityLabel={t('profile.tabs.profile.engagementLevel.add')}
+                          accessibilityLabel={t('profile.engagementLevel.add')}
                           style={styles.chip}
                         ></HoliChip>
                       )}
                     </HoliChipRow>
                   </View>,
                   <View style={[theme.mixins.container, styles.chipRowContainer]} key="interests">
-                    <HoliChipRow
-                      editable
-                      title={t('profile.tabs.profile.interests')}
+                    <UserChipRow
+                      key={'interests'}
+                      typeMetadata={UserChipInterest}
                       onPressEdit={() => {
                         toggleModal()
                         setEditMode('interests')
                       }}
-                    >
-                      {user?.interests &&
-                        user.interests.length > 0 &&
-                        user.interests.map((interest, index) => {
-                          return (
-                            <HoliChip
-                              key={index}
-                              text={t(`user.interests.${interest}`)}
-                              disabled
-                              style={styles.chip}
-                            ></HoliChip>
-                          )
-                        })}
-                      {!user?.interests ||
-                        (user.interests.length === 0 && (
-                          <HoliChip
-                            text={''}
-                            onPress={() => {
-                              toggleModal()
-                              setEditMode('interests')
-                            }}
-                            accessibilityLabel={t('profile.tabs.profile.interests.add')}
-                            style={styles.chip}
-                          ></HoliChip>
-                        ))}
-                    </HoliChipRow>
+                    />
                   </View>,
                 ],
               },
@@ -198,4 +221,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default UserProfile
+export default memo(UserProfile)

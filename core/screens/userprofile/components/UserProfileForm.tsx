@@ -23,9 +23,10 @@ type UserProfileFormProps = {
   children?: React.ReactChildren
   onCancel?: () => void
   onSubmit?: (user: User) => void
+  testId?: string
 }
 
-const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ onSubmit }) => {
+const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ onSubmit, ...props }) => {
   const { user } = useContext(UserContext)
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const [firstName, setFirstName] = useState(user?.firstName || '')
@@ -82,7 +83,7 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
 
   // Later: possibly use form tag for web
   return (
-    <View style={styles.wrapper}>
+    <View style={styles.wrapper} testID={props?.testId || 'user-profile-edit-form'}>
       <HoliUserAvatar
         imageSrc={user.avatar}
         nameLabel={user.firstName || ''}
@@ -106,6 +107,7 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
           }}
           style={styles.input}
           validationErrorText={fieldErrors?.firstName?.join()}
+          testID={'first-name'}
           inputProps={{ autoFocus: Platform.OS === 'web' }}
         />
         <HoliTextInput
@@ -118,6 +120,7 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
           }}
           style={styles.input}
           validationErrorText={fieldErrors?.lastName?.join()}
+          testID={'last-name'}
         />
         <HoliTextInput
           value={user?.aboutMe}
@@ -143,7 +146,12 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
           style={[styles.input, { paddingBottom: 100 }]}
         />
       </ScrollView>
-      <HoliButton style={styles.saveButton} label={t('user.profileForm.save')} onPress={submit}>
+      <HoliButton
+        style={styles.saveButton}
+        label={t('user.profileForm.save')}
+        onPress={submit}
+        testID={`btn-${props?.testId || 'user-profile-edit-form'}-save`}
+      >
         {t('user.profileForm.save')}
       </HoliButton>
     </View>

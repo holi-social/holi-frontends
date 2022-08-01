@@ -87,18 +87,26 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   const { theme } = useTheme()
   const { navigate } = useRouting()
   const { width } = useWindowDimensions()
-  const { setNavigationHeader } = useNavigationHeader()
+  const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(moment().hours(), t)
   const styles = homeFeedStyles(theme, width)
 
   useLayoutEffect(
-    () =>
+    () => {
       setNavigationHeader({
         title: headerTitle,
-        titleElement: () => <HoliText style={{ paddingTop: 5 }}>{headerTitle}</HoliText>,
-      }),
-    [navigation, setNavigationHeader, headerTitle]
+        titleElement: () => (
+          <HoliText bold style={{ paddingTop: 5 }}>
+            {headerTitle}
+          </HoliText>
+        ),
+      })
+      return clearNavigationHeader
+    },
+    // setNavigationHeader would cause endless loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [navigation, headerTitle]
   )
 
   return (

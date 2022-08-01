@@ -80,7 +80,7 @@ exports[`renders correctly renders correctly when there is a title, is editable 
       >
         <Text
           accessible={false}
-          selectable={true}
+          selectable={false}
           style={
             Array [
               Object {

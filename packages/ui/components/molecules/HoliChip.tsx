@@ -28,45 +28,58 @@ export type ChipProps = PressableProps & {
   fontStyle?: TextStyle
 }
 
-const HoliChip: React.FunctionComponent<ChipProps> = (props: ChipProps) => {
+const HoliChip: React.FunctionComponent<ChipProps> = ({
+  text,
+  label,
+  checked = false,
+  disabled = false,
+  hideIcon = false,
+  onPress = () => null,
+  style,
+  fontStyle,
+}: ChipProps) => {
   const { theme } = useTheme()
-  const styles = getStyles(theme, props.checked, props.disabled)
+  const styles = getStyles(theme, checked, disabled)
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
-    accessible: true,
-    accessibilityRole: 'button',
-    accessibilityPressed: props.checked,
-    ...(props.label ? { accessibilityLabel: props.label } : {}),
+    accessible: !disabled,
+    accessibilityRole: !disabled ? 'checkbox' : 'none',
+    ...(!disabled
+      ? {
+          // since this component gets rerendered on every state change, we don't need an internal state, but can use the checked prop
+          accessibilityState: { checked: checked },
+          // we need a label when not disabled, so we take the text as a default
+          accessibilityLabel: label || text,
+        }
+      : {}),
   }
 
   return (
     <Pressable
       {...accessibilityProps}
-      {...props}
+      {...(disabled ? { disabled } : {})}
+      onPress={(e) => onPress && onPress(e)}
       style={({ focused, hovered, pressed }) => [
         styles.holiChip,
-        props.style,
-        !props.disabled && props.checked && styles.checked,
-        !props.disabled && focused && styles.focused,
-        !props.disabled && hovered && styles.hovered,
-        !props.disabled && pressed && styles.pressed,
+        style,
+        !disabled && checked && styles.checked,
+        !disabled && focused && styles.focused,
+        !disabled && hovered && styles.hovered,
+        !disabled && pressed && styles.pressed,
       ]}
     >
       {/* Arrow function to pass Pressable states to its children */}
       {({ hovered }) => (
         <View style={styles.chipContent}>
-          <HoliText
-            selectable={false}
-            style={[styles.text, props.fontStyle || {}, (hovered && styles.hoveredText) || {}]}
-          >
-            {props.text}
+          <HoliText selectable={false} style={[styles.text, fontStyle || {}, (hovered && styles.hoveredText) || {}]}>
+            {text}
           </HoliText>
-          {!props.disabled && !props.hideIcon && (
+          {!disabled && !hideIcon && (
             <View style={styles.iconView}>
               <Holicon
                 size={15}
-                color={props.checked ? theme.colors.fontColorWhite : theme.colors.fontColorGrey}
-                icon={props.checked ? 'check' : 'plus'}
+                color={checked ? theme.colors.fontColorWhite : theme.colors.fontColorGrey}
+                icon={checked ? 'check' : 'plus'}
               />
             </View>
           )}
