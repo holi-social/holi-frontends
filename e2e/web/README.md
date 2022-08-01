@@ -30,3 +30,12 @@ For testing a deployed app, use the following commmand:
 In order to debug failing tests, you can have a look at the trace that playwright saves for every test. The local command is:
 
 `npx playwright show-trace test-results/Login-Login-should-not-work-with-invalid-credentials-chromium/trace.zip `
+
+Selective testing for building tests can be done by using the `--grep @...` flag.
+
+Selecting Profile tests only: `yarn test:localhost --grep @Profile`
+
+Or invert selective tests `--grep-invert @...`
+
+### Troubleshooting
+- Playwright can be really fast with clicks, when using animated views it might run into issues - it is recommended to add delay between steps.

@@ -26,7 +26,9 @@ import { useTheme } from '@holi/ui/styles/theme'
 const UserProfile: React.VFC = () => {
   const { navigate } = useRouting()
   const [showModal, setShowModal] = useState(false)
-  const [editMode, setEditMode] = useState<'edit' | 'levelOfEngagement' | 'interests' | null>(null)
+  const [editMode, setEditMode] = useState<
+    'profile' | 'levelOfEngagement' | 'interests' | 'saved' | 'cancelled' | null
+  >(null)
   const toggleModal = useCallback(() => {
     setShowModal(!showModal)
   }, [showModal])
@@ -56,11 +58,10 @@ const UserProfile: React.VFC = () => {
               transparent
               label={t('profile.edit')}
               onPress={() => {
-                setEditMode('edit')
+                setEditMode('profile')
                 toggleModal()
               }}
               style={{ marginRight: 24 }}
-              testID="btn-open-profile-edit-view"
             >
               <HoliText size="small" bold style={{ color: theme.colors.fontColorGrey }}>
                 {t('profile.edit')}
@@ -79,7 +80,7 @@ const UserProfile: React.VFC = () => {
     <DefaultLayout>
       <LoginProtection loggedOutContent={<LoggedOutView />}>
         <>
-          <View style={[theme.mixins.container, styles.container]}>
+          <View style={[theme.mixins.container, styles.container]} testID={`user-profile-edit-${editMode}`}>
             <>
               <HoliModal
                 show={showModal}
@@ -90,8 +91,16 @@ const UserProfile: React.VFC = () => {
               >
                 {(() => {
                   switch (editMode) {
-                    case 'edit':
-                      return <UserProfileForm onCancel={toggleModal} onSubmit={toggleModal} />
+                    case 'profile':
+                      return (
+                        <UserProfileForm
+                          onCancel={toggleModal}
+                          onSubmit={() => {
+                            toggleModal()
+                            setEditMode('saved')
+                          }}
+                        />
+                      )
                     case 'levelOfEngagement':
                       return <UserEngagementLevelForm onCancel={toggleModal} onSubmit={toggleModal} />
                     case 'interests':
@@ -105,7 +114,7 @@ const UserProfile: React.VFC = () => {
               <HoliButton
                 label={t('profile.edit')}
                 onPress={() => {
-                  setEditMode('edit')
+                  setEditMode('profile')
                   toggleModal()
                 }}
                 transparent

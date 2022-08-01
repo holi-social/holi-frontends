@@ -160,7 +160,7 @@ exports[`renders correctly when disabled 1`] = `
               },
             ]
           }
-          testID="holi-text-input-input"
+          testID="holi-text-input"
           value=""
         />
       </View>
@@ -201,7 +201,7 @@ exports[`renders correctly when disabled 1`] = `
             ],
           ]
         }
-        testID="holi-text-input-message"
+        testID="holi-text-inputfalse-message"
       >
         Helper Text
       </Text>
@@ -367,7 +367,7 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
               },
             ]
           }
-          testID="holi-text-input-input"
+          testID="holi-text-input"
           value=""
         />
       </View>
@@ -408,7 +408,7 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
             ],
           ]
         }
-        testID="holi-text-input-message"
+        testID="holi-text-inputfalse-message"
       >
         Helper Text
       </Text>
@@ -574,7 +574,7 @@ exports[`renders correctly when multiline starting with one line 1`] = `
               },
             ]
           }
-          testID="holi-text-input-input"
+          testID="holi-text-input"
           value=""
         />
       </View>
@@ -615,7 +615,7 @@ exports[`renders correctly when multiline starting with one line 1`] = `
             ],
           ]
         }
-        testID="holi-text-input-message"
+        testID="holi-text-inputfalse-message"
       >
         Helper Text
       </Text>
@@ -776,7 +776,7 @@ exports[`renders correctly with default props 1`] = `
               },
             ]
           }
-          testID="holi-text-input-input"
+          testID="holi-text-input"
           value=""
         />
       </View>
@@ -816,7 +816,7 @@ exports[`renders correctly with default props 1`] = `
             ],
           ]
         }
-        testID="holi-text-input-message"
+        testID="holi-text-inputfalse-message"
       >
         Helper Text
       </Text>
@@ -986,7 +986,7 @@ exports[`renders correctly with error 1`] = `
               },
             ]
           }
-          testID="holi-text-input-input"
+          testID="holi-text-input"
           value=""
         />
         <View
@@ -1105,7 +1105,7 @@ exports[`renders correctly with error 1`] = `
             ],
           ]
         }
-        testID="holi-text-input-message"
+        testID="holi-text-input-error-message"
       >
         Validation Error Text
       </Text>
@@ -1271,7 +1271,7 @@ exports[`renders correctly with trailing icon 1`] = `
               },
             ]
           }
-          testID="holi-text-input-input"
+          testID="holi-text-input"
           value=""
         />
         <View
@@ -1392,7 +1392,7 @@ exports[`renders correctly with trailing icon 1`] = `
             ],
           ]
         }
-        testID="holi-text-input-message"
+        testID="holi-text-inputfalse-message"
       >
         Helper Text
       </Text>
@@ -1558,7 +1558,7 @@ exports[`renders correctly with type password 1`] = `
               },
             ]
           }
-          testID="holi-text-input-input"
+          testID="holi-text-input"
           textContentType="password"
           value=""
         />
@@ -1600,7 +1600,7 @@ exports[`renders correctly with type password 1`] = `
             ],
           ]
         }
-        testID="holi-text-input-message"
+        testID="holi-text-inputfalse-message"
       >
         Helper Text
       </Text>
@@ -1722,7 +1722,7 @@ exports[`renders correctly without label 1`] = `
               },
             ]
           }
-          testID="holi-text-input-input"
+          testID="holi-text-input"
           value=""
         />
       </View>
@@ -1763,7 +1763,7 @@ exports[`renders correctly without label 1`] = `
             ],
           ]
         }
-        testID="holi-text-input-message"
+        testID="holi-text-inputfalse-message"
       >
         Helper Text
       </Text>
