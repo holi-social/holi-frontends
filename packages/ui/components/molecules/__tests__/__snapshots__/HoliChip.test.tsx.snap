@@ -2,10 +2,14 @@
 
 exports[`renders correctly renders correctly when checked 1`] = `
 <View
-  accessibilityPressed={true}
-  accessibilityRole="button"
+  accessibilityLabel="Test"
+  accessibilityRole="checkbox"
+  accessibilityState={
+    Object {
+      "checked": true,
+    }
+  }
   accessible={true}
-  checked={true}
   collapsable={false}
   focusable={true}
   onBlur={[Function]}
@@ -37,7 +41,6 @@ exports[`renders correctly renders correctly when checked 1`] = `
       false,
     ]
   }
-  text="Test"
 >
   <View
     style={
@@ -152,13 +155,13 @@ exports[`renders correctly renders correctly when checked 1`] = `
 
 exports[`renders correctly renders correctly when disabled 1`] = `
 <View
-  accessibilityRole="button"
+  accessibilityRole="none"
   accessibilityState={
     Object {
       "disabled": true,
     }
   }
-  accessible={true}
+  accessible={false}
   collapsable={false}
   focusable={true}
   onBlur={[Function]}
@@ -187,7 +190,6 @@ exports[`renders correctly renders correctly when disabled 1`] = `
       false,
     ]
   }
-  text="Test"
 >
   <View
     style={
@@ -236,7 +238,13 @@ exports[`renders correctly renders correctly when disabled 1`] = `
 
 exports[`renders correctly renders correctly when unchecked 1`] = `
 <View
-  accessibilityRole="button"
+  accessibilityLabel="Test"
+  accessibilityRole="checkbox"
+  accessibilityState={
+    Object {
+      "checked": false,
+    }
+  }
   accessible={true}
   collapsable={false}
   focusable={true}
@@ -260,13 +268,12 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
         "paddingVertical": 8,
       },
       undefined,
-      undefined,
+      false,
       undefined,
       undefined,
       false,
     ]
   }
-  text="Test"
 >
   <View
     style={
