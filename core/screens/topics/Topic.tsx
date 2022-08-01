@@ -6,7 +6,6 @@ import { createParam } from 'solito'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import TopicEditors from '@holi/core/screens/topics/components/TopicEditors'
@@ -14,6 +13,7 @@ import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import Holicon from '@holi/ui/components/holicon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -28,21 +28,39 @@ type TopicProps = NativeStackScreenProps<HomeStackScreens>
 const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
   const [showModal, setShowModal] = useState(false)
   const [topicId = ''] = useParam('topicId')
-  const { navigate } = useRouting()
-  const { setBackLink, clearBackLinks } = useNavigationContext()
+  const { navigate, navigateBack } = useRouting()
+  const navigationHeader = useNavigationHeader()
   const { t } = useTranslation()
   const { theme } = useTheme()
 
-  const { setNavigationHeader } = useNavigationHeader()
-  useLayoutEffect(() => {
-    const title = t('topics.topic.title', { topicId })
-    setNavigationHeader({
-      title: title,
-      titleElement: () => <HoliText style={{ paddingTop: 5 }}>{title}</HoliText>,
-    })
-    setBackLink('left')
-    return () => clearBackLinks()
-  }, [navigation, topicId, t, clearBackLinks, setBackLink, setNavigationHeader])
+  useLayoutEffect(
+    () => {
+      const title = t('topics.topic.title', { title: topicId })
+      navigationHeader.setNavigationHeader({
+        title: title,
+        titleElement: () => (
+          <HoliText bold style={{ paddingTop: 5 }}>
+            {title}
+          </HoliText>
+        ),
+        headerLeft: () => (
+          <HoliButton
+            label={t('navigation.headerLeft.back')}
+            inline
+            transparent
+            onPress={() => navigateBack()}
+            style={{ paddingHorizontal: 0 }}
+          >
+            <Holicon icon="arrow-back" size={30} />
+          </HoliButton>
+        ),
+      })
+      return navigationHeader.clearNavigationHeader
+    },
+    // setNavigationHeader would cause endless loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [navigation, topicId, t]
+  )
 
   // Important: `fakeTopics.get(topicId) should be called after useEffect() or useLayoutEffet()
   // A hard reload will cause an error.
@@ -57,18 +75,15 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
           {t('topics.topic.heading', { title: topic.title, topicId })}
         </HoliHeading>
 
-        <HoliButton label={t('topics.topic.topicEditors')} inline onPress={() => setShowModal(true)}>
-          {t('topics.topic.topicEditors')}
+        <HoliButton
+          label={t('topics.topic.topicEditors', { title: topicId })}
+          inline
+          onPress={() => setShowModal(true)}
+        >
+          {t('topics.topic.topicEditors', { title: topicId })}
         </HoliButton>
 
         <HoliText>{topic.text}</HoliText>
-
-        {/* Example below with styling for text and button */}
-        {/* <View style={{ marginBottom: 10 }}>
-          <HoliReadMore numberOfLines={2} style={{ color: 'green' }} buttonStyle={{ color: 'red', fontWeight: '800' }}>
-            {topic.text}
-          </HoliReadMore>
-        </View> */}
 
         <HoliHeading level="3">{t('topics.topic.posts')}</HoliHeading>
 

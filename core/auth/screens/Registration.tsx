@@ -9,13 +9,15 @@ import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
-import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
+import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import Holicon from '@holi/ui/components/holicon'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 const Registration = () => {
-  const { navigate } = useRouting()
-  const { setBackLink, clearBackLinks } = useNavigationContext()
+  const { navigate, navigateBack } = useRouting()
+  const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { setUserLoggedIn } = useContext(AuthContext)
   const [flow, setConfig] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
   const { displayError } = useErrorHandling()
@@ -33,10 +35,27 @@ const Registration = () => {
   // eslint-disable-next-line
   useEffect(() => initializeFlow(), [])
 
-  useEffect(() => {
-    setBackLink('down')
-    return () => clearBackLinks()
-  }, [clearBackLinks, setBackLink])
+  useEffect(
+    () => {
+      setNavigationHeader({
+        headerLeft: () => (
+          <HoliButton
+            label={t('navigation.headerLeft.back')}
+            inline
+            transparent
+            onPress={() => navigateBack()}
+            style={{ paddingHorizontal: 0 }}
+          >
+            <Holicon icon="arrowtip-down" size={30} />
+          </HoliButton>
+        ),
+      })
+      return clearNavigationHeader
+    },
+    // setNavigationHeader would cause endless loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
 
   // This will update the registration flow with the user provided input:
   const onSubmit = (payload: SubmitSelfServiceRegistrationFlowBody): Promise<void> =>

@@ -18,13 +18,8 @@ const defaultTheme = {
         default: variant.length > 0 ? `${styleVars.vars.fontFamilyMobile} ${variant}` : styleVars.vars.fontFamilyMobile,
       }) as string,
   },
-  mixins: StyleSheet.create({
-    container: {
-      alignSelf: 'center',
-      maxWidth: styleVars.vars.maxScreenWidth,
-      width: '100%',
-    },
-  }),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  mixins: {} as StyleSheet.NamedStyles<any>,
 }
 
 export type HoliTheme = typeof defaultTheme

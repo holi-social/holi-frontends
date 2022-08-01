@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
@@ -43,11 +43,11 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
 
   const submit = async () => {
     const input: UpdateAuthenticatedUserInput = {
-      ...(firstName && { firstName }),
-      ...(lastName && { lastName }),
-      ...(aboutMe && { aboutMe }),
-      ...(pronouns && { pronouns }),
-      ...(location && { location }),
+      ...(typeof firstName === 'string' && { firstName }),
+      ...(typeof lastName === 'string' && { lastName }),
+      ...(typeof aboutMe === 'string' && { aboutMe }),
+      ...(typeof pronouns === 'string' && { pronouns }),
+      ...(typeof location === 'string' && { location }),
     }
 
     const resultSchema = UpdateAuthenticatedUserInputSchema.safeParse(input)
@@ -108,6 +108,7 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
           style={styles.input}
           validationErrorText={fieldErrors?.firstName?.join()}
           testID={'first-name'}
+          inputProps={{ autoFocus: Platform.OS === 'web' }}
         />
         <HoliTextInput
           value={user.lastName}
