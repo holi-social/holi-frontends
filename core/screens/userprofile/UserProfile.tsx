@@ -61,7 +61,6 @@ const UserProfile: React.VFC = () => {
                 toggleModal()
               }}
               style={{ marginRight: 24 }}
-              testID="btn-open-profile-edit-view"
             >
               <HoliText size="small" bold style={{ color: theme.colors.fontColorGrey }}>
                 {t('profile.edit')}
