@@ -39,7 +39,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
   fontStyle,
 }: ChipProps) => {
   const { theme } = useTheme()
-  const styles = getStyles(theme, checked, disabled)
+  const styles = getStyles(theme, checked)
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: !disabled,
@@ -47,7 +47,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
     ...(!disabled
       ? {
           // since this component gets rerendered on every state change, we don't need an internal state, but can use the checked prop
-          accessibilityState: { checked: checked },
+          accessibilityState: { checked },
           // we need a label when not disabled, so we take the text as a default
           accessibilityLabel: label || text,
         }
@@ -62,7 +62,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
       style={({ focused, hovered, pressed }) => [
         styles.holiChip,
         style,
-        !disabled && checked && styles.checked,
+        checked && styles.checked,
         !disabled && focused && styles.focused,
         !disabled && hovered && styles.hovered,
         !disabled && pressed && styles.pressed,
@@ -91,7 +91,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
 
 export default HoliChip
 
-const getStyles = (theme: HoliTheme, checked = false, disabled = false) =>
+const getStyles = (theme: HoliTheme, checked = false) =>
   StyleSheet.create({
     holiChip: {
       borderRadius: 8,
@@ -116,7 +116,7 @@ const getStyles = (theme: HoliTheme, checked = false, disabled = false) =>
     text: {
       fontWeight: '400',
       fontSize: 14,
-      color: checked && !disabled ? theme.colors.fontColorWhite : theme.colors.fontColorGrey,
+      color: checked ? theme.colors.fontColorWhite : theme.colors.fontColorGrey,
       lineHeight: 24,
     },
     iconView: {

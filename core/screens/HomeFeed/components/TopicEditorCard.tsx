@@ -29,7 +29,7 @@ const TopicEditorCard: React.FunctionComponent<TopicEditorCardProps> = ({
 
   const nameLabel = `${user.firstName || ''} ${user.lastName || ''}`.trim()
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, style]} accessible>
       <HoliUserAvatar
         imageSrc={user.avatar}
         nameLabel={nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
@@ -40,7 +40,7 @@ const TopicEditorCard: React.FunctionComponent<TopicEditorCardProps> = ({
       <HoliText style={styles.textStyle} bold>
         {nameLabel}
       </HoliText>
-      <HoliChip style={styles.chip} text={category} checked hideIcon></HoliChip>
+      <HoliChip style={styles.chip} text={category} checked hideIcon disabled></HoliChip>
       <View style={styles.textStyleAboutMe}>
         <HoliText style={styles.textStyle}>{user.aboutMe}</HoliText>
       </View>
