@@ -10,10 +10,11 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import LoggedOutView from '@holi/core/screens/userprofile/components/LoggedOutView'
 import UserChipForm from '@holi/core/screens/userprofile/components/UserChipForm'
+import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
-import { UserInterests } from '@holi/core/screens/userprofile/types'
+import { UserChipInterest } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
@@ -94,7 +95,9 @@ const UserProfile: React.VFC = () => {
                     case 'levelOfEngagement':
                       return <UserEngagementLevelForm onCancel={toggleModal} onSubmit={toggleModal} />
                     case 'interests':
-                      return <UserChipForm allInterests={UserInterests} onCancel={toggleModal} onSubmit={toggleModal} />
+                      return (
+                        <UserChipForm typeMetadata={UserChipInterest} onCancel={toggleModal} onSubmit={toggleModal} />
+                      )
                   }
                 })()}
               </HoliModal>
@@ -130,8 +133,9 @@ const UserProfile: React.VFC = () => {
                 children: [
                   <View style={[theme.mixins.container, styles.chipRowContainer]} key="engagementLevel">
                     <HoliChipRow
+                      key="engagementLevel"
                       editable={!user?.engagementLevel}
-                      title={t('profile.tabs.profile.engagementLevel')}
+                      title={t('profile.engagementLevel')}
                       onPressEdit={() => {
                         toggleModal()
                         setEditMode('levelOfEngagement')
@@ -146,51 +150,26 @@ const UserProfile: React.VFC = () => {
                       )}
                       {!user?.engagementLevel && (
                         <HoliChip
-                          text={t('profile.tabs.profile.engagementLevel')}
+                          text={t('profile.engagementLevel')}
                           onPress={() => {
                             toggleModal()
                             setEditMode('levelOfEngagement')
                           }}
-                          accessibilityLabel={t('profile.tabs.profile.engagementLevel.add')}
+                          accessibilityLabel={t('profile.engagementLevel.add')}
                           style={styles.chip}
                         ></HoliChip>
                       )}
                     </HoliChipRow>
                   </View>,
                   <View style={[theme.mixins.container, styles.chipRowContainer]} key="interests">
-                    <HoliChipRow
-                      editable
-                      title={t('profile.tabs.profile.interests')}
+                    <UserChipRow
+                      key={'interests'}
+                      typeMetadata={UserChipInterest}
                       onPressEdit={() => {
                         toggleModal()
                         setEditMode('interests')
                       }}
-                    >
-                      {user?.interests &&
-                        user.interests.length > 0 &&
-                        user.interests.map((interest, index) => {
-                          return (
-                            <HoliChip
-                              key={index}
-                              text={t(`user.interests.${interest}`)}
-                              disabled
-                              style={styles.chip}
-                            ></HoliChip>
-                          )
-                        })}
-                      {!user?.interests ||
-                        (user.interests.length === 0 && (
-                          <HoliChip
-                            text={''}
-                            onPress={() => {
-                              toggleModal()
-                              setEditMode('interests')
-                            }}
-                            accessibilityLabel={t('profile.tabs.profile.interests.add')}
-                            style={styles.chip}
-                          ></HoliChip>
-                        ))}
-                    </HoliChipRow>
+                    />
                   </View>,
                 ],
               },
