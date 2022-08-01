@@ -88,6 +88,7 @@ const UserProfile: React.VFC = () => {
                   toggleModal()
                 }}
                 relativeHeight={0.95}
+                testID="user-profile-modal"
               >
                 {(() => {
                   switch (editMode) {
