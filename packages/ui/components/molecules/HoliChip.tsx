@@ -55,7 +55,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
   return (
     <Pressable
       {...accessibilityProps}
-      disabled={disabled}
+      {...(disabled ? { disabled } : {})}
       onPress={(e) => onPress && onPress(e)}
       style={({ focused, hovered, pressed }) => [
         styles.holiChip,

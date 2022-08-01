@@ -10,7 +10,6 @@ exports[`renders correctly renders correctly when checked 1`] = `
     }
   }
   accessible={true}
-  checked={true}
   collapsable={false}
   focusable={true}
   onBlur={[Function]}
@@ -42,7 +41,6 @@ exports[`renders correctly renders correctly when checked 1`] = `
       false,
     ]
   }
-  text="Test"
 >
   <View
     style={
@@ -192,7 +190,6 @@ exports[`renders correctly renders correctly when disabled 1`] = `
       false,
     ]
   }
-  text="Test"
 >
   <View
     style={
@@ -245,7 +242,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
   accessibilityRole="checkbox"
   accessibilityState={
     Object {
-      "checked": undefined,
+      "checked": false,
     }
   }
   accessible={true}
@@ -271,13 +268,12 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
         "paddingVertical": 8,
       },
       undefined,
-      undefined,
+      false,
       undefined,
       undefined,
       false,
     ]
   }
-  text="Test"
 >
   <View
     style={
