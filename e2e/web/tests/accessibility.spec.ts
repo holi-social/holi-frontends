@@ -15,10 +15,7 @@ const checkAccessibility = async (page: Page) => {
     },
   }
 
-  if ('axe' in window === false) {
-    await injectAxe(page)
-  }
-
+  await injectAxe(page)
   await checkA11y(page, options)
 }
 
