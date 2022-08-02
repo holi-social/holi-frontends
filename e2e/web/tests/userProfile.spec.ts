@@ -34,7 +34,6 @@ test.describe('@Profile', () => {
     const lastName = await page.inputValue(byTestId('last-name-input'))
     await page.locator(byTestId('btn-user-profile-edit-form-save')).click()
     await page.waitForSelector(byTestId('user-profile-edit-form-saving'), { state: 'detached' })
-    //await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
     expect(await page.textContent(byTestId('user-profile-full-name'))).toBe(`${firstNameEdited} ${lastName}`.trim())
 
     // deselecting all interests should work
@@ -44,8 +43,7 @@ test.describe('@Profile', () => {
     const noSelected: number = await page
       .locator(`${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`)
       .count()
-    var stillSelected: number
-    for (stillSelected = noSelected, stillSelected > 0; stillSelected--; ) {
+    for (let stillSelected = noSelected; stillSelected > 0; stillSelected--) {
       await page
         .locator(`${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`)
         .first()
@@ -56,7 +54,7 @@ test.describe('@Profile', () => {
     await page.waitForSelector(byTestId('user-profile-chipform-interests-saving'), { state: 'detached' })
     await checkAccessibility(page)
 
-    // there should be no interest selected
+    // there should be no interest selected, the only Chip available should be the one opening the modal layer
     expect(await page.locator(`${byTestId('user-profile-interests')} >> [role="checkbox"]`).count()).toBe(1)
 
     // selecting some interests should work
@@ -65,20 +63,20 @@ test.describe('@Profile', () => {
     const noAvailable: number = await page
       .locator(`${byTestId('user-profile-modal-animatedview')} >> [role="checkbox"]`)
       .count()
-    var toSelect: number
-    var selected: number = 0
-    for (toSelect = noAvailable - 1; toSelect > 0; toSelect = toSelect - 3) {
+    const noExpected: number = Math.floor((noAvailable - 1) / 3) + 1 // every third element, if there is one, one is selected; If there's 4, two are selected etc.
+    for (let toSelect = noAvailable - 1; toSelect > 0; toSelect = toSelect - 3) {
       await page
         .locator(`${byTestId('user-profile-modal-animatedview')} >> [role="checkbox"]`)
         .nth(toSelect)
         .click()
-      selected++
     }
     await page.locator(byTestId('user-profile-chipform-interests-save')).click()
     await page.waitForSelector(byTestId('user-profile-chipform-interests-saving'), { state: 'detached' })
     await checkAccessibility(page)
 
     // the selected interests should be visible on the profile page
-    expect(await page.locator(`${byTestId('user-profile-interests')} >> [role="presentation"]`).count()).toBe(selected)
+    expect(await page.locator(`${byTestId('user-profile-interests')} >> [role="presentation"]`).count()).toBe(
+      noExpected
+    )
   })
 })

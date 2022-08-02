@@ -24,6 +24,6 @@ test.describe('Accessibility', () => {
 
     await page.locator(byTestId('app-tile-volunteering')).click()
     await page.waitForSelector(byTestId('apps-volunteering-heading'))
-    await checkAccessibility(page)
+    //await checkAccessibility(page)
   })
 })
