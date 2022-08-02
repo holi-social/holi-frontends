@@ -20,13 +20,13 @@ test.describe('The Home Screen', () => {
   })
 
   test('has feed topic items and clicking them leads to overview page.', async ({ page }) => {
-    await page.locator(byTestId('feed-topic-image-link')).first().click()
+    await page.click(byTestId('feed-topic-image-link'))
     await page.waitForNavigation()
     expect(page.url()).toContain('/topics/')
 
     await page.goto('/')
 
-    await page.locator(byTestId('feed-topic-contributors-link')).first().click()
+    await page.click(byTestId('feed-topic-contributors-link'))
     await page.waitForNavigation()
     expect(page.url()).toContain('/topics/')
   })
