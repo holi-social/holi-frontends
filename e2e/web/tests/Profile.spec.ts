@@ -38,7 +38,7 @@ test.describe('@Profile', () => {
     const noSelected: number = await page
       .locator(`${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`)
       .count()
-    var stillSelected: number
+    let stillSelected: number
     for (stillSelected = noSelected, stillSelected > 0; stillSelected--; ) {
       await page
         .locator(`${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`)
@@ -58,8 +58,8 @@ test.describe('@Profile', () => {
     const noAvailable: number = await page
       .locator(`${byTestId('user-profile-modal-animatedview')} >> [role="checkbox"]`)
       .count()
-    var toSelect: number
-    var selected: number = 0
+    let toSelect: number
+    let selected = 0
     for (toSelect = noAvailable - 1; toSelect > 0; toSelect = toSelect - 3) {
       await page
         .locator(`${byTestId('user-profile-modal-animatedview')} >> [role="checkbox"]`)
