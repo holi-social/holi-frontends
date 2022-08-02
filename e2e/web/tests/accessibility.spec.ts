@@ -1,20 +1,21 @@
-import { type Page, test } from '@playwright/test'
-import { byTestId } from './helpers'
- 
-const { checkA11y, injectAxe } = require('axe-playwright')
+import { Page, test } from '@playwright/test'
+import { checkA11y, injectAxe } from 'axe-playwright'
 
+import { byTestId } from './helpers'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
   await injectAxe(page)
 })
 
-async function checkAccessibility(page: Page) {
+const checkAccessibility = async (page: Page) => {
   const options = {
     rules: {
       region: { enabled: true }, // https://dequeuniversity.com/rules/axe/4.4/region
     },
   }
+
+  await injectAxe(page)
   await checkA11y(page, options)
 }
 

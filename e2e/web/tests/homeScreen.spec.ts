@@ -1,4 +1,5 @@
-import { test } from '@playwright/test'
+import { expect, test } from '@playwright/test'
+
 import { byTestId } from './helpers'
 
 test.beforeEach(async ({ page }) => {
@@ -12,8 +13,21 @@ test.describe('The Home Screen', () => {
 
     await page.waitForSelector('text="Volunteering"')
     await page.locator(byTestId('nav-button-home')).click()
+  })
 
+  test('has feed topic headline', async ({ page }) => {
     await page.waitForSelector(byTestId('home-feed-topics-heading'))
   })
-})
 
+  test('has feed topic items and clicking them leads to overview page.', async ({ page }) => {
+    await page.click(byTestId('feed-topic-image-link'))
+    await page.waitForNavigation()
+    expect(page.url()).toContain('/topics/')
+
+    await page.goto('/')
+
+    await page.click(byTestId('feed-topic-contributors-link'))
+    await page.waitForNavigation()
+    expect(page.url()).toContain('/topics/')
+  })
+})

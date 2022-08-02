@@ -73,7 +73,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({ onSubmit
 
   if (loading || saved) {
     return (
-      <View style={styles.wrapper}>
+      <View style={styles.wrapper} testID={['user-profile-chipform', typeMetadata.keyInUserObject, 'saving'].join('-')}>
         <HoliText>{t('user.profileForm.saving')}</HoliText>
       </View>
     )
@@ -111,7 +111,12 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({ onSubmit
           })}
         </HoliChipRow>
       </ScrollView>
-      <HoliButton style={styles.saveButton} label={t('user.profileForm.save')} onPress={submit}>
+      <HoliButton
+        style={styles.saveButton}
+        label={t('user.profileForm.save')}
+        onPress={submit}
+        testID={['user-profile-chipform', typeMetadata.keyInUserObject, 'save'].join('-')}
+      >
         {t('user.profileForm.save')}
       </HoliButton>
     </View>

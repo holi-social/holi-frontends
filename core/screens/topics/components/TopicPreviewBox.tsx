@@ -45,6 +45,7 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
         transparent
         onPress={() => navigate(`/topics/${id}`)}
         style={styles.mainImageContainer}
+        testID="feed-topic-image-link"
       >
         <Image source={{ uri: image.src }} style={styles.mainImage} />
 
@@ -57,7 +58,7 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
         <HoliText style={styles.textGrey}>
           <Trans i18nKey="topics.post.author" values={{ author, category: '' }} />
         </HoliText>
-        <HoliButton label={category} transparent inline>
+        <HoliButton label={t('topics.topic.category', { category })} transparent inline>
           <HoliText bold style={[styles.textGrey]}>
             #{category}
           </HoliText>
@@ -69,6 +70,7 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
           label={t('topics.topic.topicEditors', { title })}
           transparent
           onPress={() => navigate(`/topics/${id}`)}
+          testID="feed-topic-contributors-link"
         >
           <View style={styles.contributorsContainer}>
             {contributors.avatars.map(({ uri }, idx) => (
