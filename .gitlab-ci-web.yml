@@ -32,7 +32,7 @@ default:
   interruptible: false
 
 .web_e2e:
-  image: 'mcr.microsoft.com/playwright:v1.23.1'
+  image: 'mcr.microsoft.com/playwright:v1.24.0'
   dependencies: [] # explicitly disable artifact usage
   artifacts:
     name: 'web e2e test report'
@@ -40,6 +40,7 @@ default:
     expire_in: 1 month
     paths:
       - e2e/web/playwright-report
+      - e2e/web/test-results
     when: on_failure
   script:
     - UI_DOMAIN=`cat $UI_DOMAIN_PATH`
@@ -48,6 +49,8 @@ default:
     - yarn install
     - BASE_URL="https://${UI_DOMAIN}" yarn run playwright test
   interruptible: true
+  tags:
+    - holi-big
 
 # end job templates
 

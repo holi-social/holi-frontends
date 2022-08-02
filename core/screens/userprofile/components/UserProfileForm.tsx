@@ -71,7 +71,7 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
 
   if (loading) {
     return (
-      <View style={styles.wrapper}>
+      <View style={styles.wrapper} testID="user-profile-edit-form-saving">
         <HoliText>{t('user.profileForm.saving')}</HoliText>
       </View>
     )
