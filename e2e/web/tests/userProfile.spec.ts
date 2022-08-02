@@ -1,12 +1,14 @@
 import { expect, test } from '@playwright/test'
+import { injectAxe } from 'axe-playwright'
 
-import { byTestId, defaultLoginSteps, delay, waitForAnimationEnd } from './helpers'
+import { byTestId, checkAccessibility, defaultLoginSteps, delay, waitForAnimationEnd } from './helpers'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
+  await injectAxe(page)
 })
 
 test.describe('@Profile', () => {
@@ -14,14 +16,17 @@ test.describe('@Profile', () => {
     // go to profile edit modal
     await defaultLoginSteps({ page })
     await page.waitForSelector(byTestId('btn-open-profile-edit-view'))
-    await delay(0.5) // TODO source of flakyness and delay. Why do we need this here? Component is there, but click does not work when done too early.
+    await checkAccessibility(page)
+    await delay(0.5) // source of flakyness and delay. Why do we need this here? Component is there, but click does not work when done too early.
     await page.locator(byTestId('btn-open-profile-edit-view')).click()
     await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
+    await checkAccessibility(page)
 
     // validation should block save
     await page.locator(byTestId('first-name-input')).fill('a')
     await page.locator(byTestId('btn-user-profile-edit-form-save')).click()
     await page.locator(byTestId('first-name-input-error-message')).waitFor()
+    await checkAccessibility(page)
 
     // edit firstName should work
     const firstNameEdited = `e2etest ${Date.now()}`
@@ -34,6 +39,7 @@ test.describe('@Profile', () => {
     // deselecting all interests should work
     await page.locator(byTestId('user-profile-interests-edit')).click()
     await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
+    await checkAccessibility(page)
     const noSelected: number = await page
       .locator(`${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`)
       .count()
@@ -46,6 +52,7 @@ test.describe('@Profile', () => {
     expect(await page.locator(`${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`).count()).toBe(0)
     await page.locator(byTestId('user-profile-chipform-interests-save')).click()
     await page.waitForSelector(byTestId('user-profile-chipform-interests-saving'), { state: 'detached' })
+    await checkAccessibility(page)
 
     // there should be no interest selected, the only Chip available should be the one opening the modal layer
     expect(await page.locator(`${byTestId('user-profile-interests')} >> [role="checkbox"]`).count()).toBe(1)
@@ -65,6 +72,7 @@ test.describe('@Profile', () => {
     }
     await page.locator(byTestId('user-profile-chipform-interests-save')).click()
     await page.waitForSelector(byTestId('user-profile-chipform-interests-saving'), { state: 'detached' })
+    await checkAccessibility(page)
 
     // the selected interests should be visible on the profile page
     expect(await page.locator(`${byTestId('user-profile-interests')} >> [role="presentation"]`).count()).toBe(
