@@ -1,4 +1,5 @@
 import { Locator, Page } from '@playwright/test'
+import { checkA11y } from 'axe-playwright'
 
 // see https://playwright.dev/docs/selectors#id-data-testid-data-test-id-data-test-selectors
 export const byTestId = (testId: string) => `[data-testid=${testId}]`
@@ -23,3 +24,12 @@ export const defaultLoginSteps = async ({ page, username, password }: DefaultLog
   await page.locator(byTestId('ory-submit-method')).click()
 }
 
+export async function checkAccessibility(page: Page) {
+  const axeOptions = {
+    rules: {
+      region: { enabled: true }, // https://dequeuniversity.com/rules/axe/4.4/region
+    },
+  }
+  // set skipFailures to true for now, so we can fix the issues in a planned task
+  await checkA11y(page, undefined, { axeOptions: axeOptions }, true)
+}
