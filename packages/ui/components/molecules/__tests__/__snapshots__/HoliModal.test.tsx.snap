@@ -69,6 +69,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           "zIndex": 100,
         }
       }
+      testID="animatedview"
     >
       <View
         collapsable={false}

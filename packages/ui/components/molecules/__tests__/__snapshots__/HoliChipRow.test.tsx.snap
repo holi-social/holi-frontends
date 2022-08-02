@@ -73,6 +73,7 @@ exports[`renders correctly renders correctly when there is a title, is editable 
           },
         ]
       }
+      testID="edit"
     >
       <View
         pointerEvents="none"
