@@ -10,11 +10,6 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
   }
 >
   <View
-    defaultColor="green"
-    imageSrc="avatar-1"
-    initials="D"
-    nameLabel="Dima Rosmait"
-    size="micro"
     style={
       Array [
         Object {
@@ -62,10 +57,6 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
     />
   </View>
   <View
-    defaultColor="red"
-    initials="M"
-    nameLabel="Max Mustermann"
-    size="micro"
     style={
       Array [
         Object {
@@ -126,11 +117,6 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
     </Text>
   </View>
   <View
-    defaultColor="blue"
-    imageSrc="avatar-2"
-    initials="T"
-    nameLabel="Thomas Mueller"
-    size="micro"
     style={
       Array [
         Object {
@@ -178,10 +164,6 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
     />
   </View>
   <View
-    defaultColor="yellow"
-    initials="S"
-    nameLabel="Sandra Kasandra"
-    size="micro"
     style={
       Array [
         Object {
@@ -242,11 +224,6 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
     </Text>
   </View>
   <View
-    defaultColor="grey"
-    imageSrc="avatar-3"
-    initials="P"
-    nameLabel="Peter Pan"
-    size="micro"
     style={
       Array [
         Object {
