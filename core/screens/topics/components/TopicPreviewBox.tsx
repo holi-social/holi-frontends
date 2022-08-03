@@ -1,6 +1,6 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Image, StyleSheet, View, ViewStyle } from 'react-native'
+import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -19,7 +19,7 @@ interface TopicPreviewBoxProps {
     src: string
   }
   contributors: User[]
-  style?: ViewStyle | ViewStyle[] | Record<string, unknown>
+  style?: StyleProp<ViewStyle>
   category: string
 }
 

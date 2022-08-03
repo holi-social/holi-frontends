@@ -41,6 +41,7 @@ const HoliUserAvatarPile: React.FC<HoliUserAvatarPileProps> = ({
               defaultColor={user.avatarDefaultColor}
               size={size}
               style={[styles.avatar, { marginLeft: idx ? collapseDistance : 0, zIndex: idx * -1 }]}
+              testID="pile-avatar"
             />
           )
         })}
