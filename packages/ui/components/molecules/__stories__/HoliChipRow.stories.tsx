@@ -34,5 +34,5 @@ Primary.argTypes = {
 Primary.args = {
   title: 'Hobbies',
   editable: true,
-  editButtonText: 'Edit',
+  editButtonText: '',
 }
