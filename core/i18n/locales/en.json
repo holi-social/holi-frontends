@@ -76,6 +76,8 @@
   "rootProvider.loading.profile": "Loading user profile...",
   "search.title": "Search",
   "topics.contributors.discussing": "{{count}} discussing",
+  "topics.contributors.modal.close": "Got it",
+  "topics.contributors.modal.title": "This week's topic editors",
   "topics.post.author": "by {{author}} in <0>{{category}}</0>",
   "topics.post.missingPostId": "Missing postId",
   "topics.post.missingTopicId": "Missing topicId",
