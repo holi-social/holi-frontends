@@ -24,7 +24,7 @@ export type AvatarProps = {
   initials: string
   size?: 'micro' | 'small' | 'medium' | 'large' | 'extralarge'
   testID?: string
-  style?: StyleProp<ViewStyle | ViewStyle[] | Record<string, unknown>>
+  style?: StyleProp<ViewStyle>
 }
 
 export const sizes = {

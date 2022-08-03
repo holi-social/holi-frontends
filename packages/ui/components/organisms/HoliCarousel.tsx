@@ -1,12 +1,21 @@
 import * as React from 'react'
-import { NativeScrollEvent, Platform, ScrollView, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import {
+  NativeScrollEvent,
+  Platform,
+  ScrollView,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+  useWindowDimensions,
+} from 'react-native'
 
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type HoliCarouselProps = {
   slides: { title?: string; children: React.ReactNode }[]
-  style?: (ViewStyle | Record<string, unknown> | undefined) | (ViewStyle | Record<string, unknown> | undefined)[]
+  style?: StyleProp<ViewStyle>
 }
 
 const HoliCarousel: React.FunctionComponent<HoliCarouselProps> = ({ slides, style }: HoliCarouselProps) => {
@@ -22,25 +31,33 @@ const HoliCarousel: React.FunctionComponent<HoliCarouselProps> = ({ slides, styl
   const marginHorizontal = 24 // margin between slide and device screen
   const marginBetweenSlides = 8 // margin between slides
   const scrollingOffset = screenWidth - (marginHorizontal * 2 - marginBetweenSlides)
+  const defaultSlideWidth = 350
+  const horizontalScrollMinWidth = 600
 
-  const styles = getStyles(theme, screenWidth, marginHorizontal, marginBetweenSlides)
+  const styles = getStyles(
+    theme,
+    screenWidth,
+    marginHorizontal,
+    marginBetweenSlides,
+    defaultSlideWidth,
+    horizontalScrollMinWidth
+  )
 
   const handleScrollEnd = ({ nativeEvent }: { nativeEvent: NativeScrollEvent }) => {
-    if (!nativeEvent || !nativeEvent.contentOffset) {
-      return
-    }
+    if (!nativeEvent?.contentOffset) return
+
     // Using Math.round means that when scrolling more than half of the slide width, it will move slides
     setCurrentSlide(Math.round(nativeEvent.contentOffset.x / scrollingOffset))
   }
 
-  const goToIndex = (index: number) => {
+  const goToSlide = (slide: number) => {
     if (!carousel || !carousel.current) {
       return
     }
 
-    const scrollPoint = index * scrollingOffset
+    const scrollPoint = slide * scrollingOffset
     carousel.current.scrollTo({ x: scrollPoint, y: 0, animated: true })
-    setCurrentSlide(index)
+    setCurrentSlide(slide)
   }
 
   return (
@@ -73,20 +90,20 @@ const HoliCarousel: React.FunctionComponent<HoliCarouselProps> = ({ slides, styl
 
       {!isWeb && (
         <View style={styles.slideButtonsContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
-          {slides.map((slide, index) => (
+          {slides.map((slide, slideIndex) => (
             <HoliButton
               label={slide.title || ''}
               transparent
               inline
               style={styles.slideButton}
-              onPress={() => goToIndex(index)}
-              key={index}
+              onPress={() => goToSlide(slideIndex)}
+              key={slideIndex}
               accessibilityRole="tab"
-              accessibilitySelected={currentSlide === index}
-              accessibilityLabel={'' + index}
-              testID={currentSlide === index ? 'active-tab' : 'inactive-tab'}
+              accessibilitySelected={slideIndex === currentSlide}
+              accessibilityLabel={'' + slideIndex}
+              testID={slideIndex === slideIndex ? 'active-tab' : 'inactive-tab'}
             >
-              <View style={[styles.slideButtonIcon, currentSlide === index ? styles.activeSlideButtonIcon : {}]}></View>
+              <View style={[styles.slideButtonIcon, slideIndex === currentSlide ? styles.activeSlideButtonIcon : {}]} />
             </HoliButton>
           ))}
         </View>
@@ -114,7 +131,14 @@ const HoliCarousel: React.FunctionComponent<HoliCarouselProps> = ({ slides, styl
 
 export default HoliCarousel
 
-const getStyles = (theme: HoliTheme, screenWidth: number, marginHorizontal: number, marginBetweenSlides: number) =>
+const getStyles = (
+  theme: HoliTheme,
+  screenWidth: number,
+  marginHorizontal: number,
+  marginBetweenSlides: number,
+  defaultSlideWidth: number,
+  horizontalScrollMinWidth: number
+) =>
   StyleSheet.create({
     container: {
       justifyContent: 'center',
@@ -168,13 +192,13 @@ const getStyles = (theme: HoliTheme, screenWidth: number, marginHorizontal: numb
       width: '100%',
       display: 'flex',
       flexDirection: 'row',
-      scrollSnapType: screenWidth < 600 ? 'x mandatory' : 'none',
+      scrollSnapType: screenWidth < horizontalScrollMinWidth ? 'x mandatory' : 'none',
     },
     webSlideContainer: {
       scrollSnapAlign: 'start',
       display: 'flex',
       flexDirection: 'row',
-      width: screenWidth < 600 ? screenWidth - marginHorizontal * 2 : 350,
+      width: screenWidth < horizontalScrollMinWidth ? screenWidth - marginHorizontal * 2 : defaultSlideWidth,
       paddingLeft: marginBetweenSlides,
       paddingRight: 0,
     },

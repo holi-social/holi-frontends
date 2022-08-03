@@ -1,0 +1,297 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flexDirection": "row",
+    }
+  }
+>
+  <View
+    defaultColor="green"
+    imageSrc="avatar-1"
+    initials="D"
+    nameLabel="Dima Rosmait"
+    size="micro"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#f7f6f3",
+          "borderColor": "transparent",
+          "borderRadius": 12.5,
+          "borderWidth": 1,
+          "justifyContent": "center",
+          "overflow": "hidden",
+        },
+        Array [
+          Object {
+            "borderColor": "#fff",
+            "borderWidth": 2,
+          },
+          Object {
+            "marginLeft": 0,
+            "zIndex": -0,
+          },
+        ],
+        Object {
+          "height": 25,
+          "width": 25,
+        },
+      ]
+    }
+    testID="pile-avatar"
+  >
+    <Image
+      accessibilityLabel="Dima Rosmait"
+      accessibilityRole="image"
+      accessible={true}
+      source={
+        Object {
+          "uri": "avatar-1",
+        }
+      }
+      style={
+        Object {
+          "height": 25,
+          "width": 25,
+        }
+      }
+    />
+  </View>
+  <View
+    defaultColor="red"
+    initials="M"
+    nameLabel="Max Mustermann"
+    size="micro"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "red",
+          "borderColor": "transparent",
+          "borderRadius": 12.5,
+          "borderWidth": 1,
+          "justifyContent": "center",
+          "overflow": "hidden",
+        },
+        Array [
+          Object {
+            "borderColor": "#fff",
+            "borderWidth": 2,
+          },
+          Object {
+            "marginLeft": -4,
+            "zIndex": -1,
+          },
+        ],
+        Object {
+          "height": 25,
+          "width": 25,
+        },
+      ]
+    }
+    testID="pile-avatar"
+  >
+    <Text
+      accessibilityLabel="Max Mustermann"
+      accessibilityRole="image"
+      accessible={true}
+      selectable={true}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          Object {},
+          Object {
+            "color": "#fff",
+            "fontSize": 11.25,
+            "fontWeight": "bold",
+            "lineHeight": 13.5,
+            "textTransform": "uppercase",
+          },
+        ]
+      }
+    >
+      M
+    </Text>
+  </View>
+  <View
+    defaultColor="blue"
+    imageSrc="avatar-2"
+    initials="T"
+    nameLabel="Thomas Mueller"
+    size="micro"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#f7f6f3",
+          "borderColor": "transparent",
+          "borderRadius": 12.5,
+          "borderWidth": 1,
+          "justifyContent": "center",
+          "overflow": "hidden",
+        },
+        Array [
+          Object {
+            "borderColor": "#fff",
+            "borderWidth": 2,
+          },
+          Object {
+            "marginLeft": -4,
+            "zIndex": -2,
+          },
+        ],
+        Object {
+          "height": 25,
+          "width": 25,
+        },
+      ]
+    }
+    testID="pile-avatar"
+  >
+    <Image
+      accessibilityLabel="Thomas Mueller"
+      accessibilityRole="image"
+      accessible={true}
+      source={
+        Object {
+          "uri": "avatar-2",
+        }
+      }
+      style={
+        Object {
+          "height": 25,
+          "width": 25,
+        }
+      }
+    />
+  </View>
+  <View
+    defaultColor="yellow"
+    initials="S"
+    nameLabel="Sandra Kasandra"
+    size="micro"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "yellow",
+          "borderColor": "transparent",
+          "borderRadius": 12.5,
+          "borderWidth": 1,
+          "justifyContent": "center",
+          "overflow": "hidden",
+        },
+        Array [
+          Object {
+            "borderColor": "#fff",
+            "borderWidth": 2,
+          },
+          Object {
+            "marginLeft": -4,
+            "zIndex": -3,
+          },
+        ],
+        Object {
+          "height": 25,
+          "width": 25,
+        },
+      ]
+    }
+    testID="pile-avatar"
+  >
+    <Text
+      accessibilityLabel="Sandra Kasandra"
+      accessibilityRole="image"
+      accessible={true}
+      selectable={true}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          Object {},
+          Object {
+            "color": "#222326",
+            "fontSize": 11.25,
+            "fontWeight": "bold",
+            "lineHeight": 13.5,
+            "textTransform": "uppercase",
+          },
+        ]
+      }
+    >
+      S
+    </Text>
+  </View>
+  <View
+    defaultColor="grey"
+    imageSrc="avatar-3"
+    initials="P"
+    nameLabel="Peter Pan"
+    size="micro"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#f7f6f3",
+          "borderColor": "transparent",
+          "borderRadius": 12.5,
+          "borderWidth": 1,
+          "justifyContent": "center",
+          "overflow": "hidden",
+        },
+        Array [
+          Object {
+            "borderColor": "#fff",
+            "borderWidth": 2,
+          },
+          Object {
+            "marginLeft": -4,
+            "zIndex": -4,
+          },
+        ],
+        Object {
+          "height": 25,
+          "width": 25,
+        },
+      ]
+    }
+    testID="pile-avatar"
+  >
+    <Image
+      accessibilityLabel="Peter Pan"
+      accessibilityRole="image"
+      accessible={true}
+      source={
+        Object {
+          "uri": "avatar-3",
+        }
+      }
+      style={
+        Object {
+          "height": 25,
+          "width": 25,
+        }
+      }
+    />
+  </View>
+</View>
+`;

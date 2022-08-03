@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Image, StyleSheet, View, ViewStyle } from 'react-native'
+import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import TopicEditorsModalContent from '@holi/core/screens/HomeFeed/components/TopicEditorsModalContent'
@@ -21,7 +21,7 @@ interface TopicPreviewBoxProps {
     src: string
   }
   contributors: User[]
-  style?: ViewStyle | ViewStyle[] | Record<string, unknown>
+  style?: StyleProp<ViewStyle>
   category: string
 }
 
@@ -67,22 +67,24 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
       </View>
 
       {contributors.length && (
-        <HoliButton
-          label={t('topics.topic.topicEditors', { title })}
-          transparent
-          onPress={() => setShowCurators(true)}
-          testID="feed-topic-contributors-link"
-        >
-          <HoliUserAvatarPile users={contributors} counter collapse />
-        </HoliButton>
+        <>
+          <HoliButton
+            label={t('topics.topic.topicEditors', { title })}
+            transparent
+            onPress={() => setShowCurators(true)}
+            testID="feed-topic-contributors-link"
+          >
+            <HoliUserAvatarPile users={contributors} counter collapse />
+          </HoliButton>
+          <HoliModal relativeHeight={0.85} show={showCurators} onDismiss={() => setShowCurators(false)}>
+            <TopicEditorsModalContent
+              users={contributors}
+              category={category}
+              onDismiss={() => setShowCurators(false)}
+            ></TopicEditorsModalContent>
+          </HoliModal>
+        </>
       )}
-      <HoliModal relativeHeight={0.85} show={showCurators} onDismiss={() => setShowCurators(false)}>
-        <TopicEditorsModalContent
-          users={contributors}
-          category={category}
-          onDismiss={() => setShowCurators(false)}
-        ></TopicEditorsModalContent>
-      </HoliModal>
     </View>
   )
 }

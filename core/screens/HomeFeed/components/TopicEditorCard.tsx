@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -11,7 +11,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 export type TopicEditorCardProps = {
   user: User
   category: string
-  style?: (ViewStyle | Record<string, unknown> | undefined) | (ViewStyle | Record<string, unknown> | undefined)[]
+  style?: StyleProp<ViewStyle>
 }
 
 const TopicEditorCard: React.FunctionComponent<TopicEditorCardProps> = ({
@@ -27,22 +27,24 @@ const TopicEditorCard: React.FunctionComponent<TopicEditorCardProps> = ({
     return <View style={[styles.container, style]}></View>
   }
 
-  const nameLabel = `${user.firstName || ''} ${user.lastName || ''}`.trim()
+  const { firstName, lastName, avatar, avatarLabel, avatarDefaultColor, aboutMe } = user
+
+  const nameLabel = `${firstName || ''} ${lastName || ''}`.trim()
   return (
     <View style={[styles.container, style]} accessible>
       <HoliUserAvatar
-        imageSrc={user.avatar}
+        imageSrc={avatar}
         nameLabel={nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
-        initials={user.avatarLabel}
-        defaultColor={user.avatarDefaultColor}
+        initials={avatarLabel}
+        defaultColor={avatarDefaultColor}
         size="extralarge"
-      ></HoliUserAvatar>
+      />
       <HoliText style={styles.textStyle} bold>
         {nameLabel}
       </HoliText>
-      <HoliChip style={styles.chip} text={category} checked hideIcon disabled></HoliChip>
+      <HoliChip style={styles.chip} text={category} checked hideIcon disabled />
       <View style={styles.textStyleAboutMe}>
-        <HoliText style={styles.textStyle}>{user.aboutMe}</HoliText>
+        <HoliText style={styles.textStyle}>{aboutMe}</HoliText>
       </View>
     </View>
   )

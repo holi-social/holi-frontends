@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import TopicEditorCard from '@holi/core/screens/HomeFeed/components/TopicEditorCard'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -13,10 +13,10 @@ export type TopicEditorsModalContentProps = {
   users: User[]
   category: string
   onDismiss: () => void
-  style?: (ViewStyle | Record<string, unknown> | undefined) | (ViewStyle | Record<string, unknown> | undefined)[]
+  style?: StyleProp<ViewStyle>
 }
 
-const TopicEditorsModalContent: React.FunctionComponent<TopicEditorsModalContentProps> = ({
+const TopicEditorsModalContent: React.VFC<TopicEditorsModalContentProps> = ({
   users,
   category,
   onDismiss,
@@ -24,13 +24,9 @@ const TopicEditorsModalContent: React.FunctionComponent<TopicEditorsModalContent
 }: TopicEditorsModalContentProps) => {
   const styles = getStyles()
   const { t } = useTranslation()
-  const isWeb = Platform.OS === 'web'
 
-  if (!users) {
-    return <View style={[styles.container, style]}></View>
-  }
   return (
-    <View style={[styles.container, isWeb ? theme.mixins.container : {}, style]}>
+    <View style={[styles.container, style]}>
       <HoliHeading style={styles.title} size="large">
         {t('topics.contributors.modal.title')}
       </HoliHeading>
@@ -39,9 +35,9 @@ const TopicEditorsModalContent: React.FunctionComponent<TopicEditorsModalContent
         slides={users.map((user) => ({
           children: <TopicEditorCard style={styles.topicEditorCard} user={user} category={category}></TopicEditorCard>,
         }))}
-      ></HoliCarousel>
+      />
 
-      <View style={[styles.buttonContainer, isWeb ? styles.buttonContainerWeb : {}]}>
+      <View style={styles.buttonContainer}>
         <HoliButton label={t('topics.contributors.modal.close')} onPress={onDismiss}>
           {t('topics.contributors.modal.close')}
         </HoliButton>
@@ -57,6 +53,7 @@ const getStyles = () =>
     container: {
       display: 'flex',
       height: '100%',
+      ...(Platform.OS === 'web' ? theme.mixins.container : {}),
     },
     title: {
       paddingHorizontal: 24,
@@ -77,9 +74,16 @@ const getStyles = () =>
       width: '100%',
       alignItems: 'center',
       justifyContent: 'center',
+      ...(Platform.OS === 'web'
+        ? {
+            alignSelf: 'center',
+            width: 400,
+          }
+        : {}),
     },
-    buttonContainerWeb: {
-      alignSelf: 'center',
-      width: 400,
-    },
+
+    // buttonContainerWeb: {
+    //   alignSelf: 'center',
+    //   width: 400,
+    // },
   })

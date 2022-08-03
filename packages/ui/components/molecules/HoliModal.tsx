@@ -14,6 +14,7 @@ export type HoliModalProps = ModalProps & {
   onDismiss: () => void
   relativeHeight?: number
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild>
+  testID?: string
 }
 
 const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProps) => {
@@ -63,7 +64,7 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
   }, [show, bottom, modalHeight])
 
   return (
-    <Modal visible={visible} transparent={true}>
+    <Modal visible={visible} transparent={true} testID={props.testID}>
       <GestureHandlerRootView style={styles.rootView}>
         <Pressable onPress={onDismiss} style={styles.backDrop} testID="backDrop" />
 
@@ -80,6 +81,7 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
             },
             styles.common,
           ]}
+          testID={[props.testID, 'animatedview'].filter((e) => e).join('-')}
         >
           <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
             <View style={[styles.header, styles.common, styles.panView]}>

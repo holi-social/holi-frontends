@@ -13,6 +13,7 @@ export type HoliChipRowProps = {
   children?: React.ReactChild | React.ReactChildren | React.ReactNode | Element
   onPressEdit?: () => void
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
+  testID?: string
 }
 
 const HoliChipRow: React.FunctionComponent<HoliChipRowProps> = ({
@@ -22,12 +23,13 @@ const HoliChipRow: React.FunctionComponent<HoliChipRowProps> = ({
   children,
   onPressEdit,
   style,
+  testID = undefined,
 }: HoliChipRowProps) => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
   const { t } = useTranslation()
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, style]} testID={testID}>
       <View style={styles.header}>
         <HoliText size="small">{title}</HoliText>
         {editable && (
@@ -37,6 +39,7 @@ const HoliChipRow: React.FunctionComponent<HoliChipRowProps> = ({
             inline
             style={{ width: 'fit-content' }}
             onPress={onPressEdit}
+            testID={[testID, 'edit'].filter((e) => e).join('-')}
           >
             <HoliText selectable={false} size="small" bold style={styles.editButton}>
               {editButtonText || t('components.holiChipRow.edit')}
