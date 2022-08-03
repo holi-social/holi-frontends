@@ -81,9 +81,4 @@ const getStyles = () =>
           }
         : {}),
     },
-
-    // buttonContainerWeb: {
-    //   alignSelf: 'center',
-    //   width: 400,
-    // },
   })

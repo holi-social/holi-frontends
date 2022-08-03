@@ -31,7 +31,7 @@ const TopicEditorCard: React.FunctionComponent<TopicEditorCardProps> = ({
 
   const nameLabel = `${firstName || ''} ${lastName || ''}`.trim()
   return (
-    <View style={[styles.container, style]} accessible>
+    <View style={[styles.container, style]} accessible testID="topic-editor-card">
       <HoliUserAvatar
         imageSrc={avatar}
         nameLabel={nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
