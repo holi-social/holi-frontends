@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import TopicEditorsModalContent from '@holi/core/screens/HomeFeed/components/TopicEditorsModalContent'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -32,6 +34,7 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
   category,
   ...props
 }) => {
+  const [showCurators, setShowCurators] = useState(false)
   const { navigate } = useRouting()
   const { theme } = useTheme()
   const styles = topicPreviewBoxStyles(theme)
@@ -63,14 +66,25 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
         </HoliButton>
       </View>
 
-      <HoliButton
-        label={t('topics.topic.topicEditors', { title })}
-        transparent
-        onPress={() => navigate(`/topics/${id}`)}
-        testID="feed-topic-contributors-link"
-      >
-        <HoliUserAvatarPile users={contributors} counter collapse />
-      </HoliButton>
+      {contributors.length && (
+        <>
+          <HoliButton
+            label={t('topics.topic.topicEditors', { title })}
+            transparent
+            onPress={() => setShowCurators(true)}
+            testID="feed-topic-contributors-link"
+          >
+            <HoliUserAvatarPile users={contributors} counter collapse />
+          </HoliButton>
+          <HoliModal relativeHeight={0.85} show={showCurators} onDismiss={() => setShowCurators(false)}>
+            <TopicEditorsModalContent
+              users={contributors}
+              category={category}
+              onDismiss={() => setShowCurators(false)}
+            ></TopicEditorsModalContent>
+          </HoliModal>
+        </>
+      )}
     </View>
   )
 }

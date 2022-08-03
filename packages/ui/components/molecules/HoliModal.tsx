@@ -22,7 +22,7 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
   const { show = false, relativeHeight = 0.75, onDismiss, children } = props
   const { theme } = useTheme()
   const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
-  const styles = getStyles(theme)
+  const styles = getStyles(theme, deviceWidth)
 
   const modalHeight = deviceHeight * relativeHeight
   const [visible, setVisible] = useState(show)
@@ -65,7 +65,7 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
 
   return (
     <Modal visible={visible} transparent={true} testID={props.testID}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
+      <GestureHandlerRootView style={styles.rootView}>
         <Pressable onPress={onDismiss} style={styles.backDrop} testID="backDrop" />
 
         <Animated.View
@@ -84,19 +84,7 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
           testID={[props.testID, 'animatedview'].filter((e) => e).join('-')}
         >
           <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
-            <View
-              style={[
-                styles.header,
-                styles.common,
-                {
-                  position: 'relative',
-                  shadowOffset: {
-                    width: deviceWidth,
-                    height: 3,
-                  },
-                },
-              ]}
-            >
+            <View style={[styles.header, styles.common, styles.panView]}>
               <View style={[styles.handle]} />
             </View>
           </PanGestureHandler>
@@ -109,8 +97,9 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
 
 export default HoliModal
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = (theme: HoliTheme, deviceWidth: number) =>
   StyleSheet.create({
+    rootView: { flex: 1 },
     root: {
       position: 'absolute',
       left: 0,
@@ -142,6 +131,13 @@ const getStyles = (theme: HoliTheme) =>
       shadowOffset: {
         width: 0,
         height: 0,
+      },
+    },
+    panView: {
+      position: 'relative',
+      shadowOffset: {
+        width: deviceWidth,
+        height: 3,
       },
     },
     closeIcon: {
