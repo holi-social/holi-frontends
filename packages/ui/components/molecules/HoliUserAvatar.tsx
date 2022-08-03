@@ -1,5 +1,14 @@
 import * as React from 'react'
-import { AccessibilityProps, Image, ImageSourcePropType, Platform, StyleSheet, View, ViewStyle } from 'react-native'
+import {
+  AccessibilityProps,
+  Image,
+  ImageSourcePropType,
+  Platform,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from 'react-native'
 import tinycolor from 'tinycolor2'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -15,18 +24,19 @@ export type AvatarProps = {
   initials: string
   size?: 'micro' | 'small' | 'medium' | 'large' | 'extralarge'
   testID?: string
-  style?: (ViewStyle | Record<string, unknown> | undefined) | (ViewStyle | Record<string, unknown> | undefined)[]
+  style?: StyleProp<ViewStyle | ViewStyle[] | Record<string, unknown>>
+}
+
+export const sizes = {
+  micro: 25,
+  small: 50,
+  medium: 65,
+  large: 80,
+  extralarge: 123,
 }
 
 const HoliUserAvatar: React.FunctionComponent<AvatarProps> = (props: AvatarProps) => {
   const { theme } = useTheme()
-  const sizes = {
-    micro: 25,
-    small: 50,
-    medium: 65,
-    large: 80,
-    extralarge: 123,
-  }
   const width = sizes[props.size || 'medium']
   const styles = getStyles(theme, width, props.defaultColor, !!props.imageSrc)
   const imageUri: ImageSourcePropType = { uri: props.imageSrc }
