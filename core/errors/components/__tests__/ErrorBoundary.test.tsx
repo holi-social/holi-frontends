@@ -38,8 +38,8 @@ describe('renders correctly', () => {
     )
 
     expect(queryByText('Child Content')).toBeTruthy()
-    expect(queryByText('Something went wrong')).toBeFalsy()
-    expect(queryByText('Try again?')).toBeFalsy()
+    expect(queryByText('error.errorBoundary.heading')).toBeFalsy()
+    expect(queryByText('error.errorBoundary.retry')).toBeFalsy()
   })
 
   it('renders fallback content when rendering child content failed', () => {
@@ -49,8 +49,8 @@ describe('renders correctly', () => {
       </ErrorBoundary>
     )
 
-    expect(queryByText('Something went wrong')).toBeTruthy()
-    expect(queryByText('Try again?')).toBeTruthy()
+    expect(queryByText('error.errorBoundary.heading')).toBeTruthy()
+    expect(queryByText('error.errorBoundary.retry')).toBeTruthy()
     expect(queryByText('Child Content')).toBeFalsy()
   })
 
@@ -72,10 +72,10 @@ describe('renders correctly', () => {
   it('resets error to retry rendering', () => {
     const { getByText, queryByText } = render(<ErrorOnFirstRenderComponent />)
 
-    fireEvent.press(getByText('Try again?'))
+    fireEvent.press(getByText('error.errorBoundary.retry'))
 
     expect(queryByText('Child Content')).toBeTruthy()
-    expect(queryByText('Something went wrong')).toBeFalsy()
-    expect(queryByText('Try again?')).toBeFalsy()
+    expect(queryByText('error.errorBoundary.heading')).toBeFalsy()
+    expect(queryByText('error.errorBoundary.retry')).toBeFalsy()
   })
 })

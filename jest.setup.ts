@@ -1,7 +1,6 @@
 import { initReactI18next } from 'react-i18next'
 
 import i18n from '@holi/core/i18n'
-import en from '@holi/core/i18n/locales/en.json'
 
 global.mockLinkTo = jest.fn()
 global.captureSentryException = jest.fn()
@@ -40,11 +39,10 @@ i18n.use(initReactI18next).init({
 
   interpolation: {
     escapeValue: false,
-    // TODO: add date formatting
   },
   compatibilityJSON: 'v3',
 
-  resources: { en: { test: en } },
+  resources: {},
 })
 
 export default {}
