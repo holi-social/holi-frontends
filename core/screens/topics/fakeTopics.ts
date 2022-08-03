@@ -1,27 +1,22 @@
 import { faker } from '@faker-js/faker'
 
+import { User } from '@holi/core/screens/userprofile/types'
+
 const loremIpsum =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio eget metus, est mauris viverra orci rhoncus quis ' +
   'eu. Ultricies pellentesque et tincidunt vitae etiam turpis at vulputate.'
 
-const fakeAvatars = [
-  'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/065/197/crop_original_bp1658330879_mikhail-rakityanskiy-415620-unsplash.jpg',
-  'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/049/288/crop_original_bp1658348823_Pluto6.jpg',
-  'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/014/520/crop_original_bp1658247307_IMG_7565.JPG',
-  undefined,
-  'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/075/106/crop_original_bp1658367232_IMG_2655w.jpg',
-  undefined,
-]
+const getRandomName = () => `${faker.name.firstName()} ${faker.name.lastName()}`
 
-const getRandomName = () => `${faker.name.firstName()} ${faker.name.firstName()}`
-const getRandomUserBase = () => {
+const getRandomUser = (hasAvatar = false): User => {
   const firstName = faker.name.firstName()
   const lastName = faker.name.lastName()
-
   return {
     id: faker.random.alphaNumeric(10),
     firstName,
     lastName,
+    avatar: hasAvatar ? faker.image.avatar() : undefined,
+    aboutMe: faker.lorem.sentence(),
     avatarLabel: firstName[0],
     avatarDefaultColor: faker.color.rgb(),
   }
@@ -44,10 +39,7 @@ fakeTopics.set('abc', {
     src: 'https://image.geo.de/30657478/t/5W/v6/w960/r1.5/-/wer-hat-den-foehn-picture-1238735191.jpg',
   },
   author: getRandomName(),
-  contributors: fakeAvatars.map((avatar) => ({
-    avatar,
-    ...getRandomUserBase(),
-  })),
+  contributors: Array(...new Array(4)).map((_, index) => getRandomUser(index % 2 === 0)),
   category: 'Education',
 })
 fakeTopics.set('bca', {
@@ -63,10 +55,7 @@ fakeTopics.set('bca', {
     src: 'https://image.geo.de/30137764/t/r8/v4/w960/r1.5/-/die-welt-von-gestern-in-farbe-02-jpg--78318-.jpg',
   },
   author: getRandomName(),
-  contributors: fakeAvatars.map((avatar) => ({
-    avatar,
-    ...getRandomUserBase(),
-  })),
+  contributors: Array(...new Array(5)).map((_, index) => getRandomUser(index % 2 === 0)),
   category: 'Education',
 })
 
