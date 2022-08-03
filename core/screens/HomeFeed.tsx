@@ -224,6 +224,9 @@ const homeFeedStyles = (theme: HoliTheme, screenWidth: number) =>
         },
       }),
     },
+    feedHeadlineEditorsText: {
+      marginBottom: 8,
+    },
     feedTopicGrid: {
       ...Platform.select({
         web: {
