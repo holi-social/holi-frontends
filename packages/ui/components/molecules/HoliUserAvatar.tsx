@@ -17,6 +17,8 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 // See accessibility hints: https://www.w3.org/WAI/tutorials/images/informative/
 // https://usability.yale.edu/web-accessibility/articles/images#image-guidelines
 
+type AccessibleComponentProps<T> = AccessibilityProps & T
+
 export type AvatarProps = {
   imageSrc: string | undefined
   nameLabel: string
@@ -24,7 +26,7 @@ export type AvatarProps = {
   initials: string
   size?: 'micro' | 'small' | 'medium' | 'large' | 'extralarge'
   testID?: string
-  style?: StyleProp<ViewStyle | ViewStyle[] | Record<string, unknown>>
+  style?: StyleProp<ViewStyle>
 }
 
 export const sizes = {
@@ -35,26 +37,36 @@ export const sizes = {
   extralarge: 123,
 }
 
-const HoliUserAvatar: React.FunctionComponent<AvatarProps> = (props: AvatarProps) => {
+const HoliUserAvatar: React.VFC<AccessibleComponentProps<AvatarProps>> = ({
+  size = 'medium',
+  defaultColor,
+  imageSrc,
+  initials,
+  nameLabel,
+  style,
+  accessible = true,
+  accessibilityLabel,
+  accessibilityRole = 'image',
+  ...props
+}) => {
   const { theme } = useTheme()
-  const width = sizes[props.size || 'medium']
-  const styles = getStyles(theme, width, props.defaultColor, !!props.imageSrc)
-  const imageUri: ImageSourcePropType = { uri: props.imageSrc }
-  const sizeClass = props.size || 'medium'
-  const initials = props.initials
+  const width = sizes[size || 'medium']
+  const hasImage = !!imageSrc
+  const styles = getStyles(theme, width, defaultColor, hasImage)
+  const imageUri: ImageSourcePropType = { uri: imageSrc }
+  const sizeClass = size || 'medium'
 
   const accessibilityProps: AccessibilityProps & { accessibilityPressed?: boolean } = {
-    accessible: true,
-    accessibilityLabel: props.nameLabel,
-    accessibilityRole: 'image',
+    accessibilityLabel: accessibilityLabel || nameLabel,
+    accessible,
+    accessibilityRole,
   }
 
-  const hasImage = !!props.imageSrc
-
   return (
-    <View {...props} style={[styles.holiUserAvatar, props.style, styles[sizeClass]]}>
-      {hasImage && <Image source={imageUri} style={{ width: width, height: width }} {...accessibilityProps} />}
-      {!props.imageSrc && (
+    <View {...props} style={[styles.holiUserAvatar, style, styles[sizeClass]]}>
+      {hasImage ? (
+        <Image source={imageUri} style={{ width: width, height: width }} {...accessibilityProps} />
+      ) : (
         <HoliText style={styles.inititals} {...accessibilityProps}>
           {initials}
         </HoliText>
@@ -69,18 +81,13 @@ const getStyles = (theme: HoliTheme, width: number, defaultColor: string, imageI
   const initialsFontSize = (width / 10) * 4.5
   return StyleSheet.create({
     holiUserAvatar: {
-      ...Platform.select({
-        web: {
-          display: 'inline-flex',
-        },
-      }),
       borderRadius: width / 2,
       borderWidth: 1,
       borderColor: 'transparent',
       backgroundColor: imageIsAvailable ? theme.colors.backgroundColorGrey : defaultColor,
+      overflow: 'hidden',
       alignItems: 'center',
       justifyContent: 'center',
-      overflow: 'hidden',
     },
     micro: {
       width: width,
@@ -111,7 +118,7 @@ const getStyles = (theme: HoliTheme, width: number, defaultColor: string, imageI
       textTransform: 'uppercase',
       fontWeight: 'bold',
       color: tinycolor(defaultColor).isLight() ? theme.colors.fontColorBlack : theme.colors.fontColorWhite,
-      lineHeight: initialsFontSize * 1.2,
+      lineHeight: Platform.OS === 'web' ? 0 : initialsFontSize * 1.2,
     },
   })
 }
