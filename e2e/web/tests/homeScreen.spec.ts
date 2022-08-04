@@ -39,19 +39,4 @@ test.describe('@HomeScreen', () => {
     await page.locator(byTestId('topic-contributors-modal'))
     await page.locator(byTestId('topic-editor-card'))
   })
-
-  test('opens curators list upon clicking in avatar pile and correctly closes it upon clicking the modal close button.', async ({
-    page,
-  }) => {
-    await page.waitForSelector(byTestId('feed-topic-contributors-link'))
-    await page.locator(byTestId('feed-topic-contributors-link')).first().click()
-
-    await delay(0.5) // wait for modal to open
-    await page.locator(byTestId('topic-contributors-modal'))
-    const closeModalButton = await page.waitForSelector(byTestId('topic-contributors-modal-close'))
-    await closeModalButton.click()
-
-    await delay(0.5) // wait for modal to close
-    expect(await page.locator(byTestId('topic-contributors-modal-close'))).not.toBeVisible()
-  })
 })
