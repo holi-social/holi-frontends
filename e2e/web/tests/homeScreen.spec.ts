@@ -35,8 +35,8 @@ test.describe('@HomeScreen', () => {
     await page.waitForSelector(byTestId('feed-topic-contributors-link'))
     await page.locator(byTestId('feed-topic-contributors-link')).first().click()
 
+    await delay(0.5) // wait for modal to open
     await page.locator(byTestId('topic-contributors-modal'))
-
     await page.waitForSelector(byTestId('topic-editor-card'))
   })
 
