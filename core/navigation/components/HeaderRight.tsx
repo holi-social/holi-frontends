@@ -15,7 +15,7 @@ export type HeaderRightProps = {
   testID?: string
 }
 
-const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: HeaderRightProps) => {
+const HeaderRight: React.VFC<HeaderRightProps> = (props) => {
   const { navigate } = useRouting()
   const navigationContext = useNavigationContext()
   const { user } = useContext(UserContext)
@@ -39,6 +39,7 @@ const HeaderRight: React.VoidFunctionComponent<HeaderRightProps> = (props: Heade
         initials={user.avatarLabel}
         defaultColor={user.avatarDefaultColor}
         size="micro"
+        accessible={false}
       />
     )
   }
