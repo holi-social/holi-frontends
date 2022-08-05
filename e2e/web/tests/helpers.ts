@@ -6,7 +6,23 @@ export const byTestId = (testId: string) => `[data-testid=${testId}]`
 
 export const delay = (time: number) => new Promise((resolve) => setTimeout(resolve, time * 1000))
 
-export const waitForAnimationEnd = (locator: Locator) => {
+export const waitForElementByTestId = async (page: Page, testId: string) => {
+  const selector = byTestId(testId)
+  await page.waitForSelector(selector)
+  return selector
+}
+
+export const locateElementByTestId = async (page: Page, testId: string) => {
+  const selector = await waitForElementByTestId(page, testId)
+  return page.locator(selector)
+}
+
+export const clickElementByTestId = async (page: Page, testId: string) => {
+  const button = await locateElementByTestId(page, testId)
+  await button.click()
+}
+
+export const waitForAnimationEnd = async (locator: Locator) => {
   return locator.evaluate((element) => Promise.all(element.getAnimations().map((animation) => animation.finished)))
 }
 
@@ -17,14 +33,19 @@ type DefaultLoginStepsProps = {
 }
 
 export const defaultLoginSteps = async ({ page, username, password }: DefaultLoginStepsProps) => {
-  await page.locator(byTestId('btn-to-profile-view')).click()
-  await page.locator(byTestId('btn-to-login-form')).click()
-  await page.locator(byTestId('ory-input-identifier-input')).fill(username || process.env.E2E_USER_USERNAME || 'empty')
-  await page.locator(byTestId('ory-input-password-input')).fill(password || process.env.E2E_USER_PASSWORD || 'empty')
-  await page.locator(byTestId('ory-submit-method')).click()
+  await clickElementByTestId(page, 'btn-to-profile-view')
+  await clickElementByTestId(page, 'btn-to-login-form')
+
+  const emailInput = await locateElementByTestId(page, 'ory-input-identifier-input')
+  await emailInput.fill(username || process.env.E2E_USER_USERNAME || 'empty')
+
+  const passwordInput = await locateElementByTestId(page, 'ory-input-password-input')
+  await passwordInput.fill(password || process.env.E2E_USER_PASSWORD || 'empty')
+
+  await clickElementByTestId(page, 'ory-submit-method')
 }
 
-export async function checkAccessibility(page: Page) {
+export const checkAccessibility = async (page: Page) => {
   const axeOptions = {
     rules: {
       region: { enabled: true }, // https://dequeuniversity.com/rules/axe/4.4/region
