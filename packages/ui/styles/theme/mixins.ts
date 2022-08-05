@@ -1,16 +1,26 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, useWindowDimensions } from 'react-native'
 
-import { styleVars } from '@holi/ui/styles/globalVars'
-import { HoliTheme } from '@holi/ui/styles/theme/theme'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
-const getMixins = (theme: HoliTheme, screenWidth: number) =>
-  StyleSheet.create({
+const staticStyles = StyleSheet.create({
+  textGrey: {
+    color: colors.grey,
+  },
+})
+
+const useStyleMixins = () => {
+  const { width: screenWidth } = useWindowDimensions()
+
+  const dynamicStyles = StyleSheet.create({
     container: {
       alignSelf: 'center',
       width: '100%',
-      maxWidth: styleVars.vars.maxScreenWidth,
-      paddingHorizontal: screenWidth > theme.vars.breakpointXl ? 0 : 20,
+      maxWidth: vars.maxScreenWidth,
+      paddingHorizontal: screenWidth > parseInt(vars.breakpointXl, 10) ? 0 : 20,
     },
   })
 
-export { getMixins }
+  return { staticStyles, dynamicStyles }
+}
+
+export { useStyleMixins }

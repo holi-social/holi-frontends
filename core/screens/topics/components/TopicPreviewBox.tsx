@@ -9,6 +9,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface TopicPreviewBoxProps {
   id: string
@@ -35,6 +36,7 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
   const { theme } = useTheme()
   const styles = topicPreviewBoxStyles(theme)
   const { t } = useTranslation()
+  const mixins = useStyleMixins()
 
   return (
     <View {...props}>
