@@ -17,8 +17,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliAppSwiper from '@holi/ui/components/organisms/HoliAppSwiper'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
-import { styleVars } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { colors, vars } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 const dummyTopicCategories = ['Immigration', 'Education', 'Sustainability']
 
@@ -38,7 +38,7 @@ const appSwiperDummyApps: DummyApp[] = [
     path: '/apps/volunteering',
     testID: 'app-tile-volunteering',
     hasUpdates: true,
-    backgroundColor: styleVars.colors.impactyellow,
+    backgroundColor: colors.impactyellow,
   },
   {
     icon: 'explore',
@@ -46,7 +46,7 @@ const appSwiperDummyApps: DummyApp[] = [
     path: '/apps/volunteering',
     testID: 'app-tile-donations',
     hasUpdates: false,
-    backgroundColor: styleVars.colors.positivepurple,
+    backgroundColor: colors.positivepurple,
   },
   {
     icon: 'home',
@@ -54,7 +54,7 @@ const appSwiperDummyApps: DummyApp[] = [
     path: '/apps/volunteering',
     testID: 'app-tile-goodNews',
     hasUpdates: true,
-    backgroundColor: styleVars.colors.lightGrey,
+    backgroundColor: colors.lightGrey,
   },
   {
     icon: 'search',
@@ -62,7 +62,7 @@ const appSwiperDummyApps: DummyApp[] = [
     path: '/apps/volunteering',
     testID: 'app-tile-adsForGood',
     hasUpdates: true,
-    backgroundColor: styleVars.colors.impactyellow,
+    backgroundColor: colors.impactyellow,
   },
   {
     icon: 'user-circled',
@@ -70,7 +70,7 @@ const appSwiperDummyApps: DummyApp[] = [
     path: '/apps/volunteering',
     testID: 'app-tile-factCheck',
     hasUpdates: false,
-    backgroundColor: styleVars.colors.greyAA,
+    backgroundColor: colors.greyAA,
   },
 ]
 
@@ -91,7 +91,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(moment().hours(), t)
-  const styles = homeFeedStyles(theme, width)
+  const styles = homeFeedStyles(width)
 
   useLayoutEffect(
     () => {
@@ -139,7 +139,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
               <HoliSeparatedList size="large" bold>
                 {dummyTopicCategories.map((category, idx) => (
                   <HoliButton key={idx} label={category} transparent inline style={styles.feedHeadlineLink}>
-                    <HoliText size="large" bold style={{ color: theme.colors.positivepurple }}>
+                    <HoliText size="large" bold style={{ color: colors.positivepurple }}>
                       {category}
                     </HoliText>
                   </HoliButton>
@@ -170,7 +170,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   )
 }
 
-const homeFeedStyles = (theme: HoliTheme, screenWidth: number) =>
+const homeFeedStyles = (screenWidth: number) =>
   StyleSheet.create({
     view: {
       alignItems: 'center',
@@ -179,7 +179,7 @@ const homeFeedStyles = (theme: HoliTheme, screenWidth: number) =>
     },
     borderBottom: {
       marginBottom: 40,
-      borderBottomColor: theme.colors.borderColorGrey,
+      borderBottomColor: colors.borderColorGrey,
       borderBottomWidth: 1,
     },
     divider: {
@@ -211,7 +211,7 @@ const homeFeedStyles = (theme: HoliTheme, screenWidth: number) =>
     feedTopicGrid: {
       ...Platform.select({
         web: {
-          ...(screenWidth > theme.vars.breakpointM
+          ...(screenWidth > +vars.breakpointM
             ? {
                 flexDirection: 'row',
                 gap: 24,
