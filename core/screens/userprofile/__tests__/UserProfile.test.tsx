@@ -14,14 +14,14 @@ describe('renders correctly', () => {
       </AuthContext.Provider>
     )
 
-    expect(queryByText('Inspirational text about your profile')).toBeFalsy()
-    expect(queryByText('Log in')).toBeFalsy()
+    expect(queryByText('profile.loggedOut.heading')).toBeFalsy()
+    expect(queryByText('auth.loginProtection.login')).toBeFalsy()
   })
 
   it('renders login hint when logged out', () => {
     const { queryByText } = render(<UserProfile />)
 
-    expect(queryByText('Inspirational text about your profile')).toBeTruthy()
-    expect(queryByText('Log in')).toBeTruthy()
+    expect(queryByText('profile.loggedOut.heading')).toBeTruthy()
+    expect(queryByText('auth.loginProtection.login')).toBeTruthy()
   })
 })
