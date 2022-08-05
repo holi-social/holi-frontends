@@ -138,7 +138,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
             <Trans t={t} i18nKey="homeFeed.heading" values={{ count: dummyTopicCategories.length }}>
               <HoliSeparatedList size="large" bold>
                 {dummyTopicCategories.map((category, idx) => (
-                  <HoliButton key={idx} label={category} transparent inline style={styles.feedHeadlineLink}>
+                  <HoliButton key={idx} label={category} transparent inline style={mixins.inlineButtonFixMedium}>
                     <HoliText size="large" bold style={{ color: colors.positivepurple }}>
                       {category}
                     </HoliText>
@@ -193,17 +193,6 @@ const homeFeedStyles = (screenWidth: number) =>
     },
     feedHeadline: {
       marginBottom: 16,
-    },
-    feedHeadlineLink: {
-      // TODO: Move this fix to shared styles
-      ...Platform.select({
-        ios: {
-          transform: [{ translateY: 3 }],
-        },
-        android: {
-          transform: [{ translateY: 5 }],
-        },
-      }),
     },
     feedHeadlineEditorsText: {
       marginBottom: 8,

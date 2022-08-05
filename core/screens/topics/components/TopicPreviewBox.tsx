@@ -11,6 +11,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 // TODO: adjust this dummy interface to real props
 interface TopicPreviewBoxProps {
@@ -37,6 +38,7 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
   const [showCurators, setShowCurators] = useState(false)
   const { navigate } = useRouting()
   const { t } = useTranslation()
+  const mixins = useStyleMixins()
 
   return (
     <View {...props}>
@@ -57,12 +59,17 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
       <View style={styles.authorCategoryContainer}>
         <HoliText style={styles.textGrey}>
           <Trans i18nKey="topics.post.author" values={{ author, category: '' }} />
+          <HoliButton
+            label={t('topics.topic.category', { category })}
+            transparent
+            inline
+            style={mixins.inlineButtonFixDefault}
+          >
+            <HoliText bold style={[styles.textGrey]}>
+              #{category}
+            </HoliText>
+          </HoliButton>
         </HoliText>
-        <HoliButton label={t('topics.topic.category', { category })} transparent inline>
-          <HoliText bold style={[styles.textGrey]}>
-            #{category}
-          </HoliText>
-        </HoliButton>
       </View>
 
       {contributors.length && (

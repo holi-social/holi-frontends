@@ -1,10 +1,13 @@
-import { StyleSheet, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { vars } from '@holi/ui/styles/globalVars'
 
 const staticStyles = StyleSheet.create({
-  textGrey: {
-    color: colors.grey,
+  inlineButtonFixDefault: {
+    transform: [{ translateY: Platform.select({ ios: 3, android: 4, default: 0 }) }],
+  },
+  inlineButtonFixMedium: {
+    transform: [{ translateY: Platform.select({ ios: 3, android: 5, default: 0 }) }],
   },
 })
 
