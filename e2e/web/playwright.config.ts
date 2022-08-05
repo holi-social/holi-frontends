@@ -26,7 +26,7 @@ const config: PlaywrightTestConfig = {
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI leads to us devs not fixing flaky tests, therefore deactivated */
-  retries: 0,
+  retries: 1,
   /* Opt out of parallel tests on CI. */
   //workers: process.env.CI ? 1 : undefined,
   // parallel tests cause flakiness
@@ -43,7 +43,7 @@ const config: PlaywrightTestConfig = {
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on',
     screenshot: 'only-on-failure',
-    video: 'on-first-retry',
+    video: 'off',
     headless: process.env.CI ? true : !!process.env.HEADLESS || true,
   },
 
