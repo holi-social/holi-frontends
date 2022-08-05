@@ -6,7 +6,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/')
 })
 
-test.describe('@Home', () => {
+test.describe('@HomeScreen', () => {
   test('should work', async ({ page }) => {
     await waitForElementByTestId(page, 'home-feed-topics-heading')
     await clickElementByTestId(page, 'app-tile-volunteering')
