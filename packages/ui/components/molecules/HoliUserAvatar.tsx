@@ -1,14 +1,5 @@
 import * as React from 'react'
-import {
-  AccessibilityProps,
-  Image,
-  ImageSourcePropType,
-  Platform,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from 'react-native'
+import { AccessibilityProps, Image, ImageSourcePropType, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import tinycolor from 'tinycolor2'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -64,7 +55,7 @@ const HoliUserAvatar: React.VFC<AccessibleComponentProps<AvatarProps>> = ({
   return (
     <View {...props} style={[styles.holiUserAvatar, style, styles[sizeClass]]}>
       {hasImage ? (
-        <Image source={imageUri} style={{ width: width, height: width }} {...accessibilityProps} />
+        <Image source={imageUri} style={styles.image} {...accessibilityProps} />
       ) : (
         <HoliText style={styles.inititals} {...accessibilityProps}>
           {initials}
@@ -86,30 +77,35 @@ const getStyles = (width: number, defaultColor: string, imageIsAvailable: boolea
       backgroundColor: imageIsAvailable ? colors.backgroundColorGrey : defaultColor,
       alignItems: 'center',
       justifyContent: 'center',
+      overflow: 'hidden',
     },
     micro: {
-      width: width,
+      width,
       height: width,
     },
     small: {
-      width: width,
+      width,
       height: width,
     },
     medium: {
-      width: width,
+      width,
       height: width,
     },
     large: {
-      width: width,
+      width,
       height: width,
       borderWidth: 2,
       borderColor: colors.softblack,
     },
     extralarge: {
-      width: width,
+      width,
       height: width,
       borderWidth: 2,
       borderColor: colors.softblack,
+    },
+    image: {
+      height: '100%',
+      width: '100%',
     },
     inititals: {
       fontSize: initialsFontSize,
