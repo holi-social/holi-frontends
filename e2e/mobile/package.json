@@ -9,7 +9,8 @@
     "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
     "codeceptjs:ui": "codecept-ui --app",
     "clean": "rimraf output",
-    "clean:all": "yarn clean && rimraf node_modules"
+    "clean:all": "yarn clean && rimraf node_modules",
+    "prepare:android": "./scripts/run_android.sh"
   },
   "dependencies": {
     "codeceptjs": "^3.3.4",
