@@ -20,4 +20,6 @@ export const parameters = {
   },
 }
 
-export const loaders = [awaitI18nInitialization]
+export const loaders = [
+  async () => await awaitI18nInitialization
+]
