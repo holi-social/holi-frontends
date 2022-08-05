@@ -27,6 +27,7 @@ module.exports = {
     '@storybook/addon-interactions',
     '@storybook/addon-a11y',
     '@storybook/addon-storysource',
+    'storybook-react-i18next',
   ],
   framework: '@storybook/react',
   core: {
