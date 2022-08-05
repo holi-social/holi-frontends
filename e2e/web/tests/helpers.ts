@@ -19,7 +19,8 @@ export const locateElementByTestId = async (page: Page, testId: string) => {
 
 export const clickElementByTestId = async (page: Page, testId: string) => {
   const button = await locateElementByTestId(page, testId)
-  await button.click()
+  // Only click the first element if there are multiple matches
+  await button.first().click()
 }
 
 export const waitForAnimationEnd = async (locator: Locator) => {
