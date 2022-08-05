@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useMemo } from 'react'
 import {
   AccessibilityProps,
   GestureResponderEvent,
@@ -15,7 +16,7 @@ import tinycolor from 'tinycolor2'
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import Holicon from '@holi/ui/components/holicon'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type ChipProps = PressableProps & {
   text: string
@@ -38,8 +39,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
   style,
   fontStyle,
 }: ChipProps) => {
-  const { theme } = useTheme()
-  const styles = getStyles(theme, checked)
+  const styles = useMemo(() => getStyles(checked), [checked])
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: !disabled,
@@ -78,7 +78,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
             <View style={styles.iconView}>
               <Holicon
                 size={15}
-                color={checked ? theme.colors.fontColorWhite : theme.colors.fontColorGrey}
+                color={checked ? colors.fontColorWhite : colors.fontColorGrey}
                 icon={checked ? 'check' : 'plus'}
               />
             </View>
@@ -91,11 +91,11 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
 
 export default HoliChip
 
-const getStyles = (theme: HoliTheme, checked = false) =>
+const getStyles = (checked = false) =>
   StyleSheet.create({
     holiChip: {
       borderRadius: 8,
-      backgroundColor: theme.colors.backgroundColorGrey,
+      backgroundColor: colors.backgroundColorGrey,
       paddingVertical: 8,
       paddingHorizontal: 14,
       alignSelf: 'flex-start',
@@ -116,35 +116,35 @@ const getStyles = (theme: HoliTheme, checked = false) =>
     text: {
       fontWeight: '400',
       fontSize: 14,
-      color: checked ? theme.colors.fontColorWhite : theme.colors.fontColorGrey,
+      color: checked ? colors.fontColorWhite : colors.fontColorGrey,
       lineHeight: 24,
     },
     iconView: {
       marginLeft: 1.5,
     },
     hovered: {
-      backgroundColor: tinycolor(checked ? theme.colors.secondaryColor : theme.colors.backgroundColorGrey)
+      backgroundColor: tinycolor(checked ? colors.secondaryColor : colors.backgroundColorGrey)
         .darken(3)
         .toString(),
     },
     hoveredText: {
-      color: checked ? theme.colors.fontColorWhite : theme.colors.secondaryColor,
+      color: checked ? colors.fontColorWhite : colors.secondaryColor,
     },
     focused: {
-      outlineColor: theme.colors.secondaryColor,
+      outlineColor: colors.secondaryColor,
       ...Platform.select({
         web: {
-          boxShadow: `0px 0px 0.7px 0.7px ${checked ? theme.colors.secondaryColor : theme.colors.backgroundColorGrey}`,
+          boxShadow: `0px 0px 0.7px 0.7px ${checked ? colors.secondaryColor : colors.backgroundColorGrey}`,
         },
       }),
     },
     pressed: {
-      backgroundColor: tinycolor(checked ? theme.colors.secondaryColor : theme.colors.backgroundColorGrey)
+      backgroundColor: tinycolor(checked ? colors.secondaryColor : colors.backgroundColorGrey)
         .lighten(3)
         .toString(),
     },
     checked: {
-      backgroundColor: theme.colors.secondaryColor,
+      backgroundColor: colors.secondaryColor,
       borderRadius: 24,
     },
   })

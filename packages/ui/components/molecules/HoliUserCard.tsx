@@ -6,7 +6,7 @@ import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type HoliUserCardProps = {
   user: User
@@ -14,9 +14,11 @@ export type HoliUserCardProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const HoliUserCard: React.FunctionComponent<HoliUserCardProps> = ({ user, category, style }: HoliUserCardProps) => {
-  const { theme } = useTheme()
-  const styles = getStyles(theme)
+const TopicEditorCard: React.FunctionComponent<TopicEditorCardProps> = ({
+  user,
+  category,
+  style,
+}: TopicEditorCardProps) => {
   const { t } = useTranslation()
 
   if (!user) {
@@ -48,25 +50,24 @@ const HoliUserCard: React.FunctionComponent<HoliUserCardProps> = ({ user, catego
 
 export default HoliUserCard
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    container: {
-      display: 'flex',
-      alignItems: 'center',
-      alignContent: 'center',
-      backgroundColor: theme.colors.softwhite,
-      padding: 24,
-      borderRadius: 16,
-    },
-    chip: {
-      marginVertical: 8,
-      alignSelf: 'center',
-    },
-    textStyle: {
-      marginTop: 8,
-      textAlign: 'center',
-    },
-    textStyleAboutMe: {
-      justifyContent: 'center',
-    },
-  })
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+    alignContent: 'center',
+    backgroundColor: colors.softwhite,
+    padding: 24,
+    borderRadius: 16,
+  },
+  chip: {
+    marginVertical: 8,
+    alignSelf: 'center',
+  },
+  textStyle: {
+    marginTop: 8,
+    textAlign: 'center',
+  },
+  textStyleAboutMe: {
+    justifyContent: 'center',
+  },
+})

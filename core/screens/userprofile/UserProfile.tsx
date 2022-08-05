@@ -21,6 +21,7 @@ import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 
 const UserProfile: React.VFC = () => {
@@ -61,7 +62,7 @@ const UserProfile: React.VFC = () => {
               }}
               style={{ marginRight: 24 }}
             >
-              <HoliText size="small" bold style={{ color: theme.colors.fontColorGrey }}>
+              <HoliText size="small" bold style={{ color: colors.fontColorGrey }}>
                 {t('profile.edit')}
               </HoliText>
             </HoliButton>
@@ -196,7 +197,7 @@ const UserProfile: React.VFC = () => {
                       paddingVertical: 72,
                     }}
                   >
-                    <HoliText style={{ textAlign: 'center', color: theme.colors.fontColorGrey }}>
+                    <HoliText style={{ textAlign: 'center', color: colors.fontColorGrey }}>
                       {t('profile.tabs.topics.empty')}
                     </HoliText>
                   </View>

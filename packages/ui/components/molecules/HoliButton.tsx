@@ -12,7 +12,7 @@ import {
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
 
 type HoliButtonType = 'primary' | 'secondary' // for working code completion in vscode
 export const HoliButtonTypes: HoliButtonType[] = ['primary', 'secondary'] // keep in sync with all possible HoliButtonType values
@@ -51,8 +51,7 @@ const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
   const isSmall = variant === 'small'
   const isPrimary = type === 'primary'
 
-  const { theme } = useTheme()
-  const styles = getStyles(theme, inline)
+  const styles = getStyles(inline)
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),
@@ -119,7 +118,7 @@ const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
 
 export default HoliButton
 
-const getStyles = (theme: HoliTheme, inline: boolean) =>
+const getStyles = (inline: boolean) =>
   StyleSheet.create({
     base: {
       ...Platform.select({
@@ -130,10 +129,10 @@ const getStyles = (theme: HoliTheme, inline: boolean) =>
       width: inline ? 'auto' : '100%',
     },
     nonTransparent: {
-      borderColor: theme.colors.borderColorBlack,
+      borderColor: colors.borderColorBlack,
       borderWidth: 2,
       borderRadius: 24,
-      backgroundColor: theme.colors.backgroundColorWhite,
+      backgroundColor: colors.backgroundColorWhite,
       paddingHorizontal: 32,
       paddingVertical: 13,
       margin: 4, // make the drop shadow not overlap onto other components
@@ -141,10 +140,10 @@ const getStyles = (theme: HoliTheme, inline: boolean) =>
       overflow: 'hidden',
     },
     textDisabled: {
-      color: theme.colors.fontColorGrey,
+      color: colors.fontColorGrey,
     },
     hovered: {
-      shadowColor: theme.colors.shadowColorBlack,
+      shadowColor: colors.shadowColorBlack,
       shadowOffset: {
         width: 4,
         height: 4,
@@ -159,10 +158,10 @@ const getStyles = (theme: HoliTheme, inline: boolean) =>
       paddingVertical: 11,
     },
     pressedPrimary: {
-      backgroundColor: theme.colors.backgroundColorYellowDark,
+      backgroundColor: colors.backgroundColorYellowDark,
     },
     pressedSecondary: {
-      backgroundColor: theme.colors.backgroundColorWhiteDark,
+      backgroundColor: colors.backgroundColorWhiteDark,
     },
     small: {
       borderRadius: 16,
@@ -173,12 +172,12 @@ const getStyles = (theme: HoliTheme, inline: boolean) =>
       fontSize: 14,
     },
     disabled: {
-      borderColor: theme.colors.borderColorBlackDisabled,
+      borderColor: colors.borderColorBlackDisabled,
     },
     primary: {
-      backgroundColor: theme.colors.primaryColor,
+      backgroundColor: colors.primaryColor,
     },
     primaryDisabled: {
-      backgroundColor: theme.colors.backgroundColorGrey,
+      backgroundColor: colors.backgroundColorGrey,
     },
   })

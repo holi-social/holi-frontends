@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliUserAvatar, { sizes as avatarSizes } from '@holi/ui/components/molecules/HoliUserAvatar'
-import variables from '@holi/ui/styles/globalVars/variables'
+import { colors } from '@holi/ui/styles/globalVars'
 
 interface HoliUserAvatarPileProps {
   users: User[]
@@ -67,10 +67,10 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   avatar: {
-    borderColor: variables.white,
+    borderColor: colors.white,
     borderWidth: 2,
   },
   textGrey: {
-    color: variables.fontColorGrey,
+    color: colors.fontColorGrey,
   },
 })
