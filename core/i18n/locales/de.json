@@ -19,7 +19,6 @@
   "auth.login.message.4000006": "Die Anmeldedaten sind ungültig, bitte das Passwort oder die Email-Adresse auf Tippfehler prüfen.",
   "auth.login.signUp.link.button": "Registrieren",
   "auth.login.signUp.link.headline": "Du hast noch kein Benutzerkonto?",
-  "auth.loginProtection.loggedOut": "Du bist nicht eingeloggt",
   "auth.loginProtection.login": "Anmelden",
   "auth.loginProtection.loginLabel": "Anmeldeformular öffnen",
   "auth.loginProtection.text": "Du bist nicht angemeldet.",
