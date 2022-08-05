@@ -50,8 +50,8 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
       }
       style={
         Object {
-          "height": 25,
-          "width": 25,
+          "height": "100%",
+          "width": "100%",
         }
       }
     />
@@ -157,8 +157,8 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
       }
       style={
         Object {
-          "height": 25,
-          "width": 25,
+          "height": "100%",
+          "width": "100%",
         }
       }
     />
@@ -264,8 +264,8 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
       }
       style={
         Object {
-          "height": 25,
-          "width": 25,
+          "height": "100%",
+          "width": "100%",
         }
       }
     />

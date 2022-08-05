@@ -28,7 +28,12 @@ exports[`renders correctly renders correctly when open 1`] = `
     <View
       style={
         Array [
-          undefined,
+          Object {
+            "alignSelf": "center",
+            "maxWidth": 1200,
+            "paddingHorizontal": 20,
+            "width": "100%",
+          },
           Object {
             "flexDirection": "row",
           },
