@@ -1,29 +1,31 @@
-import { type Page, test } from '@playwright/test'
-import { byTestId, checkAccessibility } from './helpers'
- 
-const { checkA11y, injectAxe } = require('axe-playwright')
+import { test } from '@playwright/test'
+import { injectAxe } from 'axe-playwright'
 
+import { checkAccessibility, locateElementByTestId, waitForElementByTestId } from './helpers'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
   await injectAxe(page)
 })
 
-test.describe('Accessibility', () => {
+test.describe('@Accessibility', () => {
   test('should work', async ({ page }) => {
-    await page.waitForSelector(byTestId('home-feed-topics-heading'))
+    await waitForElementByTestId(page, 'home-feed-topics-heading')
     await checkAccessibility(page)
 
-    await page.locator(byTestId('btn-to-profile-view')).click()
-    await page.waitForSelector(byTestId('user-profile-logged-out-heading'))
+    const profileButton = await locateElementByTestId(page, 'btn-to-profile-view')
+    await profileButton.click()
+    await waitForElementByTestId(page, 'user-profile-logged-out-heading')
     await checkAccessibility(page)
 
-    await page.locator(byTestId('nav-button-home')).click()
-    await page.waitForSelector(byTestId('home-feed-topics-heading')) // this weeks topics
+    const homeButton = await locateElementByTestId(page, 'nav-button-home')
+    await homeButton.click()
+    await waitForElementByTestId(page, 'home-feed-topics-heading') // this weeks topics
     await checkAccessibility(page)
 
-    await page.locator(byTestId('app-tile-volunteering')).click()
-    await page.waitForSelector(byTestId('apps-volunteering-heading'))
-    //await checkAccessibility(page)
+    const volunteeringAppButton = await locateElementByTestId(page, 'app-tile-volunteering')
+    await volunteeringAppButton.click()
+    await waitForElementByTestId(page, 'apps-volunteering-heading')
+    await checkAccessibility(page)
   })
 })
