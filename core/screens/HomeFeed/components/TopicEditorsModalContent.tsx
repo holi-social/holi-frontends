@@ -27,7 +27,7 @@ const TopicEditorsModalContent: React.VFC<TopicEditorsModalContentProps> = ({
 
   return (
     <View style={[styles.container, style]}>
-      <HoliHeading style={styles.title} size="large">
+      <HoliHeading style={styles.title} size="large" testID="feed-topic-editors-headline">
         {t('topics.contributors.modal.title')}
       </HoliHeading>
       <HoliCarousel
