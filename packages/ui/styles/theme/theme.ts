@@ -1,19 +1,17 @@
 import React from 'react'
-import { Platform, StyleSheet } from 'react-native'
+import { Platform } from 'react-native'
 
 import { vars } from '@holi/ui/styles/globalVars'
 
 const defaultTheme = {
   dark: false,
   fontFamily: {
-    default: (variant = '') =>
+    default: (variant?: string) =>
       Platform.select({
         web: vars.fontFamilyWeb,
-        default: variant.length > 0 ? `${vars.fontFamilyMobile} ${variant}` : vars.fontFamilyMobile,
+        default: variant ? `${vars.fontFamilyMobile} ${variant}` : vars.fontFamilyMobile,
       }) as string,
   },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  mixins: {} as StyleSheet.NamedStyles<any>,
 }
 
 export type HoliTheme = typeof defaultTheme

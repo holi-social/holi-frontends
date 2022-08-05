@@ -1,3 +1,4 @@
+
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
@@ -7,7 +8,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
-import theme from '@holi/ui/styles/theme'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type HoliUserCardsModalContentProps = {
   users: User[]
@@ -26,9 +27,11 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
 }: HoliUserCardsModalContentProps) => {
   const styles = getStyles()
   const { t } = useTranslation()
+  const isWeb = Platform.OS === 'web'
+  const mixins = useStyleMixins()
 
   return (
-    <View style={[styles.container, style]} testID="user-cards-modal-content">
+    <View style={[styles.container, style]}>
       <HoliHeading style={styles.title} size="large">
         {title || t('user.cards.modal.title')}
       </HoliHeading>
@@ -55,7 +58,6 @@ const getStyles = () =>
     container: {
       display: 'flex',
       height: '100%',
-      ...(Platform.OS === 'web' ? theme.mixins.container : {}),
     },
     title: {
       paddingHorizontal: 24,
@@ -76,12 +78,9 @@ const getStyles = () =>
       width: '100%',
       alignItems: 'center',
       justifyContent: 'center',
-      ...(Platform.OS === 'web'
-        ? {
-            alignSelf: 'center',
-            width: '90%',
-            maxWidth: 400,
-          }
-        : {}),
+    },
+    buttonContainerWeb: {
+      alignSelf: 'center',
+      width: 400,
     },
   })

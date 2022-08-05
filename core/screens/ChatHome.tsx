@@ -9,7 +9,7 @@ import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { useTheme } from '@holi/ui/styles/theme'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type ChatHomeProps = NativeStackScreenProps<HomeStackScreens>
 
@@ -17,7 +17,7 @@ const ChatHome: React.VFC<ChatHomeProps> = ({ navigation }: ChatHomeProps) => {
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
   const title = t('chat.title')
-  const { theme } = useTheme()
+  const mixins = useStyleMixins()
 
   useLayoutEffect(
     () => {
@@ -38,7 +38,7 @@ const ChatHome: React.VFC<ChatHomeProps> = ({ navigation }: ChatHomeProps) => {
 
   return (
     <DefaultLayout>
-      <View style={theme.mixins.container}>
+      <View style={mixins.container}>
         <HoliHeading level="1" size="super">
           {title}
         </HoliHeading>
