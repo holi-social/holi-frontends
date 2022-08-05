@@ -35,4 +35,12 @@ import vars from './variables'
 //   colors: { ...colors },
 // }
 
-export { vars, colors }
+const parsedVars = Object.entries(vars).reduce(
+  (acc, [key, value]) => ({
+    ...acc,
+    [key]: !isNaN(+value) && isFinite(+value) ? +value : value,
+  }),
+  {} as typeof vars
+)
+
+export { parsedVars as vars, colors }

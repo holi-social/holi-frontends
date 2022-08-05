@@ -7,7 +7,7 @@ import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
-import theme from '@holi/ui/styles/theme'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type TopicEditorsModalContentProps = {
   users: User[]
@@ -24,9 +24,11 @@ const TopicEditorsModalContent: React.VFC<TopicEditorsModalContentProps> = ({
 }: TopicEditorsModalContentProps) => {
   const styles = getStyles()
   const { t } = useTranslation()
+  const isWeb = Platform.OS === 'web'
+  const mixins = useStyleMixins()
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, isWeb && mixins.container, style]}>
       <HoliHeading style={styles.title} size="large">
         {t('topics.contributors.modal.title')}
       </HoliHeading>
@@ -37,7 +39,7 @@ const TopicEditorsModalContent: React.VFC<TopicEditorsModalContentProps> = ({
         }))}
       />
 
-      <View style={styles.buttonContainer}>
+      <View style={[styles.buttonContainer, isWeb && styles.buttonContainerWeb]}>
         <HoliButton label={t('topics.contributors.modal.close')} onPress={onDismiss}>
           {t('topics.contributors.modal.close')}
         </HoliButton>
@@ -53,7 +55,6 @@ const getStyles = () =>
     container: {
       display: 'flex',
       height: '100%',
-      ...(Platform.OS === 'web' ? theme.mixins.container : {}),
     },
     title: {
       paddingHorizontal: 24,
@@ -74,16 +75,9 @@ const getStyles = () =>
       width: '100%',
       alignItems: 'center',
       justifyContent: 'center',
-      ...(Platform.OS === 'web'
-        ? {
-            alignSelf: 'center',
-            width: 400,
-          }
-        : {}),
     },
-
-    // buttonContainerWeb: {
-    //   alignSelf: 'center',
-    //   width: 400,
-    // },
+    buttonContainerWeb: {
+      alignSelf: 'center',
+      width: 400,
+    },
   })

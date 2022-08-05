@@ -12,7 +12,7 @@ import {
 
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
-import { useTheme } from '@holi/ui/styles/theme'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type HoliTabsProps = {
   tabs: { title: string; children: React.ReactNode }[]
@@ -26,7 +26,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, relativeHeight
 
   const { width: screenWidth, height: screenHeight } = useWindowDimensions()
 
-  const { theme } = useTheme()
+  const mixins = useStyleMixins()
   const styles = getStyles(screenHeight, relativeHeight)
   const isWeb = Platform.OS === 'web'
 
@@ -55,7 +55,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, relativeHeight
   return (
     <View style={[styles.container, style]}>
       <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
-        <View style={[theme.mixins.container, styles.tabButtonsContainer]}>
+        <View style={[mixins.container, styles.tabButtonsContainer]}>
           {tabs.map((tab, index) => (
             <HoliButton
               label={tab.title}

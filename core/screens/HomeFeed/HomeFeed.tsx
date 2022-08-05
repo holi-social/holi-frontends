@@ -18,7 +18,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliAppSwiper from '@holi/ui/components/organisms/HoliAppSwiper'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { colors, vars } from '@holi/ui/styles/globalVars'
-import { useTheme } from '@holi/ui/styles/theme'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const dummyTopicCategories = ['Immigration', 'Education', 'Sustainability']
 
@@ -85,13 +85,13 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
 }
 
 const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
-  const { theme } = useTheme()
   const { navigate } = useRouting()
   const { width } = useWindowDimensions()
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(moment().hours(), t)
   const styles = homeFeedStyles(width)
+  const mixins = useStyleMixins()
 
   useLayoutEffect(
     () => {
@@ -114,7 +114,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
     <DefaultLayout>
       {/* Holi Apps */}
       <HoliAppSwiper
-        style={[theme.mixins.container, styles.appSwiper]}
+        style={[mixins.container, styles.appSwiper]}
         apps={appSwiperDummyApps.map((app) => {
           const name = t(app.nameKey)
           return {
@@ -130,7 +130,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
 
       <View style={[styles.divider, styles.borderBottom]} />
 
-      <View style={[theme.mixins.container]}>
+      <View style={[mixins.container]}>
         {/* Weekly Topics */}
         <View style={[styles.feedHeadlineContainer, styles.borderBottom]}>
           {/* Accessibility requires level 1 heading, design requires level 2 heading size */}

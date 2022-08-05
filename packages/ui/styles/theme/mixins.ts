@@ -20,7 +20,7 @@ const useStyleMixins = () => {
     },
   })
 
-  return { staticStyles, dynamicStyles }
+  return { ...staticStyles, ...dynamicStyles }
 }
 
 export { useStyleMixins }
