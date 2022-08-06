@@ -28,6 +28,7 @@ test.describe('@HomeScreen', () => {
 
     await page.goBack()
 
+    await waitForElementByTestId(page, 'feed-topic-contributors-link')
     await clickElementByTestId(page, 'feed-topic-contributors-link')
     await waitForElementByTestId(page, 'feed-topic-editors-headline')
   })
