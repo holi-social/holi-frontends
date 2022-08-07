@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-import { clickElementByTestId, waitForElementByTestId } from './helpers'
+import { byTestId, clickElementByTestId, delay, waitForElementByTestId } from './helpers'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
@@ -28,8 +28,14 @@ test.describe('@HomeScreen', () => {
 
     await page.goBack()
 
-    await waitForElementByTestId(page, 'feed-topic-contributors-link')
-    await clickElementByTestId(page, 'feed-topic-contributors-link')
-    await waitForElementByTestId(page, 'feed-topic-editors-headline')
+    const editorsLinkId = 'feed-topic-contributors-link'
+    const editorsHeadlineId = 'feed-topic-editors-headline'
+    await clickElementByTestId(page, editorsLinkId)
+    // Await modal animation > improve!
+    await delay(0.5)
+    if (!(await page.isVisible(byTestId(editorsHeadlineId)))) {
+      await clickElementByTestId(page, editorsLinkId)
+    }
+    await waitForElementByTestId(page, editorsHeadlineId)
   })
 })
