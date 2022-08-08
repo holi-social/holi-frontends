@@ -26,7 +26,7 @@ const TopicEditorsModalContent: React.VFC<TopicEditorsModalContentProps> = ({
   const { t } = useTranslation()
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, style]} testID="topic-contributors-modal">
       <HoliHeading style={styles.title} size="large">
         {t('topics.contributors.modal.title')}
       </HoliHeading>
@@ -38,7 +38,11 @@ const TopicEditorsModalContent: React.VFC<TopicEditorsModalContentProps> = ({
       />
 
       <View style={styles.buttonContainer}>
-        <HoliButton label={t('topics.contributors.modal.close')} onPress={onDismiss}>
+        <HoliButton
+          label={t('topics.contributors.modal.close')}
+          onPress={onDismiss}
+          testID="topic-contributors-modal-close"
+        >
           {t('topics.contributors.modal.close')}
         </HoliButton>
       </View>
@@ -81,9 +85,4 @@ const getStyles = () =>
           }
         : {}),
     },
-
-    // buttonContainerWeb: {
-    //   alignSelf: 'center',
-    //   width: 400,
-    // },
   })
