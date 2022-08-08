@@ -31,7 +31,7 @@ export type AvatarProps = {
 
 export const sizes = {
   micro: 25,
-  small: 50,
+  small: 40,
   medium: 65,
   large: 80,
   extralarge: 123,
