@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -15,8 +15,10 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliSeparatedList from '@holi/ui/components/atoms/HoliSeparatedList'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliAppSwiper from '@holi/ui/components/organisms/HoliAppSwiper'
-import HoliUserAvatarPileWithModal from '@holi/ui/components/organisms/HoliUserAvatarPileWithModal'
+import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
+import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import { styleVars } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -87,6 +89,7 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
 }
 
 const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
+  const [showEditorsModal, setShowEditorsModal] = useState(false)
   const { theme } = useTheme()
   const { navigate } = useRouting()
   const { width } = useWindowDimensions()
@@ -150,12 +153,25 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
             </Trans>
           </HoliHeading>
 
-          <HoliUserAvatarPileWithModal
-            users={dummyUsers}
-            avatarsTitle={t('topics.editors.editedBy')}
-            modalTitle={t('topics.editors.modal.title')}
-            avatarSize="small"
-          />
+          <HoliButton
+            label={t('topics.editors.modal.title')}
+            transparent
+            onPress={() => setShowEditorsModal(true)}
+            testID="avatar-pile-open-modal-button"
+          >
+            <HoliText size="small" style={styles.avatarsTopTitle} testID="avatars-top-title">
+              {t('topics.editors.editedBy')}
+            </HoliText>
+            <HoliUserAvatarPile users={dummyUsers} size="small" collapse />
+          </HoliButton>
+
+          <HoliModal relativeHeight={0.85} show={showEditorsModal} onDismiss={() => setShowEditorsModal(false)}>
+            <HoliUserCardsModalContent
+              title={t('topics.editors.modal.title')}
+              users={dummyUsers}
+              onDismiss={() => setShowEditorsModal(false)}
+            />
+          </HoliModal>
         </View>
 
         <View style={styles.feedTopicGrid}>
@@ -191,6 +207,9 @@ const homeFeedStyles = (theme: HoliTheme, screenWidth: number) =>
     },
     feedHeadline: {
       marginBottom: 16,
+    },
+    avatarsTopTitle: {
+      marginBottom: 8,
     },
     feedHeadlineLink: {
       // TODO: Move this fix to shared styles
