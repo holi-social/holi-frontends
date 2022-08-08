@@ -79,7 +79,7 @@ describe('HoliUserAvatarPile.tsx', () => {
   it('has optional counter text in the end', () => {
     const { getByText } = render(<HoliUserAvatarPile users={users} counter />)
 
-    expect(getByText(i18next.t('topics.contributors.discussing', { count: users.length }))).not.toBeNull()
+    expect(getByText(i18next.t('topics.editors.discussing', { count: users.length }))).not.toBeNull()
   })
 
   it('has optional children of counter text', () => {

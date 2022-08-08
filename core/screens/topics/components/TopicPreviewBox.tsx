@@ -1,15 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import TopicEditorsModalContent from '@holi/core/screens/HomeFeed/components/TopicEditorsModalContent'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
+import HoliUserAvatarPileWithModal from '@holi/ui/components/organisms/HoliUserAvatarPileWithModal'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 // TODO: adjust this dummy interface to real props
@@ -20,7 +18,7 @@ interface TopicPreviewBoxProps {
   image: {
     src: string
   }
-  contributors: User[]
+  editors: User[]
   style?: StyleProp<ViewStyle>
   category: string
 }
@@ -30,11 +28,10 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
   title,
   image,
   author,
-  contributors,
+  editors,
   category,
   ...props
 }) => {
-  const [showCurators, setShowCurators] = useState(false)
   const { navigate } = useRouting()
   const { theme } = useTheme()
   const styles = topicPreviewBoxStyles(theme)
@@ -61,30 +58,14 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
           <Trans i18nKey="topics.post.author" values={{ author, category: '' }} />
         </HoliText>
         <HoliButton label={t('topics.topic.category', { category })} transparent inline>
-          <HoliText bold style={[styles.textGrey]}>
+          <HoliText bold style={styles.textGrey}>
             #{category}
           </HoliText>
         </HoliButton>
       </View>
 
-      {contributors.length && (
-        <>
-          <HoliButton
-            label={t('topics.topic.topicEditors', { title })}
-            transparent
-            onPress={() => setShowCurators(true)}
-            testID="feed-topic-contributors-link"
-          >
-            <HoliUserAvatarPile users={contributors} counter collapse />
-          </HoliButton>
-          <HoliModal relativeHeight={0.85} show={showCurators} onDismiss={() => setShowCurators(false)}>
-            <TopicEditorsModalContent
-              users={contributors}
-              category={category}
-              onDismiss={() => setShowCurators(false)}
-            ></TopicEditorsModalContent>
-          </HoliModal>
-        </>
+      {editors.length && (
+        <HoliUserAvatarPileWithModal users={editors} category={category} title={t('topics.editors.modal.title')} />
       )}
     </View>
   )
@@ -106,20 +87,6 @@ const topicPreviewBoxStyles = (theme: HoliTheme) =>
     authorCategoryContainer: {
       flexDirection: 'row',
       marginBottom: 8,
-    },
-    avatar: {
-      borderColor: theme.colors.white,
-      borderRadius: 24,
-      borderWidth: 2,
-      height: 24,
-      width: 24,
-    },
-    contributorsContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    contributorsCounter: {
-      marginLeft: 8,
     },
     textGrey: {
       color: theme.colors.fontColorGrey,

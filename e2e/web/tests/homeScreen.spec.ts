@@ -26,17 +26,17 @@ test.describe('@HomeScreen', () => {
     expect(page.url()).toContain('topics/')
   })
 
-  test('has feed topic curators avatar pile.', async ({ page }) => {
+  test('has feed topic editors avatar pile.', async ({ page }) => {
     // make sure the feed contains the corresponding avatar pile for its editors
-    await page.waitForSelector(byTestId('feed-topic-contributors-link'))
+    await page.waitForSelector(byTestId('avatar-pile-open-modal-button'))
   })
 
-  test('opens curators list upon clicking in avatar pile and shows topic editor cards.', async ({ page }) => {
-    await page.waitForSelector(byTestId('feed-topic-contributors-link'))
-    await page.locator(byTestId('feed-topic-contributors-link')).first().click()
+  test('opens editors list upon clicking in avatar pile and shows topic editor cards.', async ({ page }) => {
+    await page.waitForSelector(byTestId('avatar-pile-open-modal-button'))
+    await page.locator(byTestId('avatar-pile-open-modal-button')).first().click()
 
     await delay(0.5) // wait for modal to open
-    await page.locator(byTestId('topic-contributors-modal'))
-    await page.locator(byTestId('topic-editor-card'))
+    await page.locator(byTestId('user-cards-modal-content'))
+    await page.locator(byTestId('user-card'))
   })
 })

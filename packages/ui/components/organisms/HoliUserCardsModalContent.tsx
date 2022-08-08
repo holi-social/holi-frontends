@@ -2,55 +2,53 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import TopicEditorCard from '@holi/core/screens/HomeFeed/components/TopicEditorCard'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import theme from '@holi/ui/styles/theme'
 
-export type TopicEditorsModalContentProps = {
+export type HoliUserCardsModalContentProps = {
   users: User[]
-  category: string
   onDismiss: () => void
+  category?: string // optional string for the text in the chip inside the HoliUserCard
+  title?: string
   style?: StyleProp<ViewStyle>
 }
 
-const TopicEditorsModalContent: React.VFC<TopicEditorsModalContentProps> = ({
+const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
   users,
-  category,
   onDismiss,
+  category,
+  title,
   style,
-}: TopicEditorsModalContentProps) => {
+}: HoliUserCardsModalContentProps) => {
   const styles = getStyles()
   const { t } = useTranslation()
 
   return (
-    <View style={[styles.container, style]} testID="topic-contributors-modal">
+    <View style={[styles.container, style]} testID="user-cards-modal-content">
       <HoliHeading style={styles.title} size="large">
-        {t('topics.contributors.modal.title')}
+        {title || t('user.cards.modal.title')}
       </HoliHeading>
       <HoliCarousel
         style={styles.carouselContainer}
         slides={users.map((user) => ({
-          children: <TopicEditorCard style={styles.topicEditorCard} user={user} category={category}></TopicEditorCard>,
+          children: <HoliUserCard style={styles.UserCard} user={user} category={category}></HoliUserCard>,
         }))}
       />
 
       <View style={styles.buttonContainer}>
-        <HoliButton
-          label={t('topics.contributors.modal.close')}
-          onPress={onDismiss}
-          testID="topic-contributors-modal-close"
-        >
-          {t('topics.contributors.modal.close')}
+        <HoliButton label={t('user.cards.modal.close')} onPress={onDismiss} testID="user-cards-modal-content-close">
+          {t('user.cards.modal.close')}
         </HoliButton>
       </View>
     </View>
   )
 }
 
-export default TopicEditorsModalContent
+export default HoliUserCardsModalContent
 
 const getStyles = () =>
   StyleSheet.create({
@@ -67,7 +65,7 @@ const getStyles = () =>
       marginTop: 24,
       display: 'flex',
     },
-    topicEditorCard: {
+    UserCard: {
       width: '100%',
     },
     buttonContainer: {
