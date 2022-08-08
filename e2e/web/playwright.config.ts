@@ -75,7 +75,9 @@ const config: PlaywrightTestConfig = {
     {
       name: 'Mobile Chrome',
       use: {
-        ...devices['Pixel 5'],
+        // ...devices['Pixel 5'],
+        ...devices['Desktop Chrome'],
+        viewport: { width: 393, height: 851 },
       },
     },
     {
