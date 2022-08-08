@@ -7,7 +7,6 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
-import { HoliTheme } from '@holi/ui/styles/theme'
 
 interface HoliUserAvatarPileWithModalProps {
   users: User[]

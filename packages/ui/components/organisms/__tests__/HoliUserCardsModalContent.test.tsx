@@ -63,12 +63,12 @@ const users: User[] = [
 
 describe('HoliUserCardsModalContent', () => {
   it('renders correct snapshot', () => {
-    const tree = renderer.create(<HoliUserCardsModalContent users={users} onDismiss={() => {}} />).toJSON()
+    const tree = renderer.create(<HoliUserCardsModalContent users={users} onDismiss={() => 'test'} />).toJSON()
     expect(tree).toMatchSnapshot()
   })
 
   it('has correct number of user cards', () => {
-    const { getAllByTestId } = render(<HoliUserCardsModalContent users={users} onDismiss={() => {}} />)
+    const { getAllByTestId } = render(<HoliUserCardsModalContent users={users} onDismiss={() => 'test'} />)
 
     expect(getAllByTestId('user-card').length).toEqual(users.length)
   })
