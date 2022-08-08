@@ -215,6 +215,7 @@ const homeFeedStyles = (screenWidth: number) =>
     },
     feedHeadlineEditorsText: {
       marginBottom: 8,
+      color: colors.grey,
     },
     feedTopicGrid: {
       ...Platform.select({
