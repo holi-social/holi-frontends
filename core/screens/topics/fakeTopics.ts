@@ -8,7 +8,7 @@ const loremIpsum =
 
 const getRandomName = () => `${faker.name.firstName()} ${faker.name.lastName()}`
 
-const getRandomUser = (hasAvatar = false): User => {
+export const getRandomUser = (hasAvatar = false): User => {
   const firstName = faker.name.firstName()
   const lastName = faker.name.lastName()
   return {

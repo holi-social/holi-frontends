@@ -64,7 +64,7 @@ const users: User[] = [
   },
 ]
 
-describe('HoliUserAvatarPile.tsx', () => {
+describe('HoliUserAvatarPile', () => {
   it('renders correct snapshot', () => {
     const tree = renderer.create(<HoliUserAvatarPile users={users} />).toJSON()
     expect(tree).toMatchSnapshot()

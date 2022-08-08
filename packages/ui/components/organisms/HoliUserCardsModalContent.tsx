@@ -79,7 +79,8 @@ const getStyles = () =>
       ...(Platform.OS === 'web'
         ? {
             alignSelf: 'center',
-            width: 400,
+            width: '90%',
+            maxWidth: 400,
           }
         : {}),
     },

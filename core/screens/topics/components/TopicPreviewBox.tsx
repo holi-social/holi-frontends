@@ -7,10 +7,9 @@ import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliUserAvatarPileWithModal from '@holi/ui/components/organisms/HoliUserAvatarPileWithModal'
+import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-// TODO: adjust this dummy interface to real props
 interface TopicPreviewBoxProps {
   id: string
   title: string
@@ -64,9 +63,7 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
         </HoliButton>
       </View>
 
-      {editors.length && (
-        <HoliUserAvatarPileWithModal users={editors} category={category} title={t('topics.editors.modal.title')} />
-      )}
+      {editors.length && <HoliUserAvatarPile users={editors} counter collapse />}
     </View>
   )
 }

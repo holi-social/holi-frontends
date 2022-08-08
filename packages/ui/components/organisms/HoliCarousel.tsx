@@ -195,12 +195,14 @@ const getStyles = (
       scrollSnapType: screenWidth < horizontalScrollMinWidth ? 'x mandatory' : 'none',
     },
     webSlideContainer: {
-      scrollSnapAlign: 'start',
+      scrollSnapAlign: 'center',
       display: 'flex',
       flexDirection: 'row',
       width: screenWidth < horizontalScrollMinWidth ? screenWidth - marginHorizontal * 2 : defaultSlideWidth,
       paddingLeft: marginBetweenSlides,
       paddingRight: 0,
+      '-ms-overflow-style': 'none',
+      'scrollbar-width': 'none',
     },
     firstSlideWeb: {
       paddingLeft: marginHorizontal + marginBetweenSlides,
