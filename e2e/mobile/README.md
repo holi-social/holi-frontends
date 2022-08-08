@@ -57,6 +57,10 @@ The short manual is roughly (not replayed / reproduced on other machines):
 
 ### Local Test Execution Against Expo Dev Mode
 
+Find more documentation [here](https://codecept.io/mobile/#setting-up)
+
+#### iOS
+
 1. Make sure the application is running and on the "home screen" (i.e. where it goes right after start)
 2. (iOs) grab simulator Id with this command (in new tab):
 
@@ -64,9 +68,24 @@ The short manual is roughly (not replayed / reproduced on other machines):
 
     and add field `udid` to file `e2e/mobile/codecept.conf.js`
 3. run `yarn run mobile:e2e:ios`
-4. run `yarn run mobile:e2e:android`
 
-Find more docu [here](https://codecept.io/mobile/#setting-up)
+#### Android
+
+(run in this directory)
+
+1. Configure environment variables `AVD_E2E` and `ANDROID_HOME` (see .envrc.local.template, maybe `ANDROID_HOME` is already set up globally)
+
+   You can use an emulator of your own by using its name as value of `AVD_E2E`.
+2. run `yarn prepare:android`
+
+   This script starts and maybe creates an emulator if necessary, runs `appium` and starts the mobile application locally.
+
+   If the emulator is run for the first time, Expo Go might open some onboarding layer that should be clicked away.
+
+   If the app was running before, maybe close and reopen it (making sure the newest version is used and the HomeScreen is visible).
+3. run `yarn run codeceptjs:android`
+
+   This starts the actual test execution.
 
 ### Local Test Execution Against Binary
 
@@ -144,7 +163,7 @@ Please make sure Selenium Server is running and accessible
 you might need to add Androids `tools` and `platform-tools` to `PATH`, too:
 
 ```sh
-export ANDROID_HOME=/home/$(whoami)/Android/sdk
+export ANDROID_HOME=/home/$(whoami)/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$ANDROID_HOME/tools
 ```

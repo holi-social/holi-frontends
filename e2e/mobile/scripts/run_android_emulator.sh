@@ -7,10 +7,10 @@
 #   - Android SDK Build-Tools
 #   - Android SDK Platform-Tools
 #   - Android SDK Tools
-# - Setup ANDROID_SDK_PATH in .envrc.local (example in .envrc.local.template)
+# - Setup ANDROID_HOME in .envrc.local (example in .envrc.local.template)
 # - If you want to use your own emulator, adjust AVD_E2E accordingly (in .envrc.local)
 
-PATH=$ANDROID_SDK_PATH/cmdline-tools/latest/bin:$ANDROID_SDK_PATH/platform-tools:$ANDROID_SDK_PATH/emulator:$ANDROID_SDK_PATH/tools:$PATH
+PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$PATH
 export PATH
 
 # Android PIE (9.0) API 28
