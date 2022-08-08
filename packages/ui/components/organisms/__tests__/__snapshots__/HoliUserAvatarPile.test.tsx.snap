@@ -16,7 +16,7 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
           "alignItems": "center",
           "backgroundColor": "#f7f6f3",
           "borderColor": "transparent",
-          "borderRadius": 12.5,
+          "borderRadius": 12,
           "borderWidth": 1,
           "justifyContent": "center",
           "overflow": "hidden",
@@ -32,8 +32,8 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
           },
         ],
         Object {
-          "height": 25,
-          "width": 25,
+          "height": 24,
+          "width": 24,
         },
       ]
     }
@@ -50,8 +50,8 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
       }
       style={
         Object {
-          "height": 25,
-          "width": 25,
+          "height": 24,
+          "width": 24,
         }
       }
     />
@@ -63,7 +63,7 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
           "alignItems": "center",
           "backgroundColor": "red",
           "borderColor": "transparent",
-          "borderRadius": 12.5,
+          "borderRadius": 12,
           "borderWidth": 1,
           "justifyContent": "center",
           "overflow": "hidden",
@@ -79,8 +79,8 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
           },
         ],
         Object {
-          "height": 25,
-          "width": 25,
+          "height": 24,
+          "width": 24,
         },
       ]
     }
@@ -105,9 +105,9 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
           Object {},
           Object {
             "color": "#fff",
-            "fontSize": 11.25,
+            "fontSize": 10.799999999999999,
             "fontWeight": "bold",
-            "lineHeight": 13.5,
+            "lineHeight": 12.959999999999999,
             "textTransform": "uppercase",
           },
         ]
@@ -123,7 +123,7 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
           "alignItems": "center",
           "backgroundColor": "#f7f6f3",
           "borderColor": "transparent",
-          "borderRadius": 12.5,
+          "borderRadius": 12,
           "borderWidth": 1,
           "justifyContent": "center",
           "overflow": "hidden",
@@ -139,8 +139,8 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
           },
         ],
         Object {
-          "height": 25,
-          "width": 25,
+          "height": 24,
+          "width": 24,
         },
       ]
     }
@@ -157,8 +157,8 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
       }
       style={
         Object {
-          "height": 25,
-          "width": 25,
+          "height": 24,
+          "width": 24,
         }
       }
     />
@@ -170,7 +170,7 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
           "alignItems": "center",
           "backgroundColor": "yellow",
           "borderColor": "transparent",
-          "borderRadius": 12.5,
+          "borderRadius": 12,
           "borderWidth": 1,
           "justifyContent": "center",
           "overflow": "hidden",
@@ -186,8 +186,8 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
           },
         ],
         Object {
-          "height": 25,
-          "width": 25,
+          "height": 24,
+          "width": 24,
         },
       ]
     }
@@ -212,9 +212,9 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
           Object {},
           Object {
             "color": "#222326",
-            "fontSize": 11.25,
+            "fontSize": 10.799999999999999,
             "fontWeight": "bold",
-            "lineHeight": 13.5,
+            "lineHeight": 12.959999999999999,
             "textTransform": "uppercase",
           },
         ]
@@ -230,7 +230,7 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
           "alignItems": "center",
           "backgroundColor": "#f7f6f3",
           "borderColor": "transparent",
-          "borderRadius": 12.5,
+          "borderRadius": 12,
           "borderWidth": 1,
           "justifyContent": "center",
           "overflow": "hidden",
@@ -246,8 +246,8 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
           },
         ],
         Object {
-          "height": 25,
-          "width": 25,
+          "height": 24,
+          "width": 24,
         },
       ]
     }
@@ -264,8 +264,8 @@ exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
       }
       style={
         Object {
-          "height": 25,
-          "width": 25,
+          "height": 24,
+          "width": 24,
         }
       }
     />
