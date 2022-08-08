@@ -14,7 +14,7 @@ const user: User = {
   avatar: 'avatar-1',
 }
 
-describe('React tree', () => {
+describe('HoliUserCard', () => {
   it('renders correctly', () => {
     const tree = renderer.create(<HoliUserCard user={user} />).toJSON()
     expect(tree).toMatchSnapshot()
