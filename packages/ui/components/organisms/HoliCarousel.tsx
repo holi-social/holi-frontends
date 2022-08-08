@@ -201,8 +201,6 @@ const getStyles = (
       width: screenWidth < horizontalScrollMinWidth ? screenWidth - marginHorizontal * 2 : defaultSlideWidth,
       paddingLeft: marginBetweenSlides,
       paddingRight: 0,
-      '-ms-overflow-style': 'none',
-      'scrollbar-width': 'none',
     },
     firstSlideWeb: {
       paddingLeft: marginHorizontal + marginBetweenSlides,
