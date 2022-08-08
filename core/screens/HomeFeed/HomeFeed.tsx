@@ -152,6 +152,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
             <HoliText size="small" style={styles.feedHeadlineEditorsText}>
               {t('topics.contributors.editedBy')}
             </HoliText>
+
             <HoliUserAvatarPile
               users={Array.from(' '.repeat(6), (_, idx) => getRandomUser(!(idx % 2)))}
               size="small"
@@ -196,6 +197,7 @@ const homeFeedStyles = (screenWidth: number) =>
     },
     feedHeadlineEditorsText: {
       marginBottom: 8,
+      color: colors.grey,
     },
     feedTopicGrid: {
       ...Platform.select({
