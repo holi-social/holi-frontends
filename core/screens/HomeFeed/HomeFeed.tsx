@@ -9,13 +9,14 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import TopicPreviewBox from '@holi/core/screens/topics/components/TopicPreviewBox'
-import fakeTopics from '@holi/core/screens/topics/fakeTopics'
+import fakeTopics, { getRandomUser } from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliSeparatedList from '@holi/ui/components/atoms/HoliSeparatedList'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliAppSwiper from '@holi/ui/components/organisms/HoliAppSwiper'
+import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { styleVars } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -127,24 +128,37 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         moreAppsLabel={t('homeFeed.apps.moreApps')}
       />
 
-      <View style={styles.divider} />
+      <View style={[styles.divider, styles.borderBottom]} />
 
       <View style={[theme.mixins.container]}>
         {/* Weekly Topics */}
-        {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
-        <HoliHeading level="1" size="medium" style={styles.feedHeadline} testID="home-feed-topics-heading">
-          <Trans t={t} i18nKey="homeFeed.heading" values={{ count: dummyTopicCategories.length }}>
-            <HoliSeparatedList size="large" bold>
-              {dummyTopicCategories.map((category, idx) => (
-                <HoliButton key={idx} label={category} transparent inline style={styles.feedHeadlineLink}>
-                  <HoliText size="large" bold style={{ color: theme.colors.positivepurple }}>
-                    {category}
-                  </HoliText>
-                </HoliButton>
-              ))}
-            </HoliSeparatedList>
-          </Trans>
-        </HoliHeading>
+        <View style={[styles.feedHeadlineContainer, styles.borderBottom]}>
+          {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
+          <HoliHeading level="1" size="medium" style={styles.feedHeadline} testID="home-feed-topics-heading">
+            <Trans t={t} i18nKey="homeFeed.heading" values={{ count: dummyTopicCategories.length }}>
+              <HoliSeparatedList size="large" bold>
+                {dummyTopicCategories.map((category, idx) => (
+                  <HoliButton key={idx} label={category} transparent inline style={styles.feedHeadlineLink}>
+                    <HoliText size="large" bold style={{ color: theme.colors.positivepurple }}>
+                      {category}
+                    </HoliText>
+                  </HoliButton>
+                ))}
+              </HoliSeparatedList>
+            </Trans>
+          </HoliHeading>
+
+          <View>
+            <HoliText size="small" style={styles.feedHeadlineEditorsText}>
+              {t('topics.contributors.editedBy')}
+            </HoliText>
+            <HoliUserAvatarPile
+              users={Array.from(' '.repeat(6), (_, idx) => getRandomUser(!(idx % 2)))}
+              size="small"
+              collapse
+            />
+          </View>
+        </View>
 
         <View style={styles.feedTopicGrid}>
           {[...fakeTopics.entries()].map(([topicId, topic]) => (
@@ -163,17 +177,22 @@ const homeFeedStyles = (theme: HoliTheme, screenWidth: number) =>
       maxWidth: '100%',
       marginTop: 5,
     },
-    divider: {
-      marginTop: 12,
+    borderBottom: {
       marginBottom: 40,
       borderBottomColor: theme.colors.borderColorGrey,
       borderBottomWidth: 1,
     },
+    divider: {
+      marginTop: 12,
+    },
     appSwiper: {
       flexGrow: 0,
     },
+    feedHeadlineContainer: {
+      paddingBottom: 40,
+    },
     feedHeadline: {
-      marginBottom: 40,
+      marginBottom: 16,
     },
     feedHeadlineLink: {
       // TODO: Move this fix to shared styles
@@ -185,6 +204,9 @@ const homeFeedStyles = (theme: HoliTheme, screenWidth: number) =>
           transform: [{ translateY: 5 }],
         },
       }),
+    },
+    feedHeadlineEditorsText: {
+      marginBottom: 8,
     },
     feedTopicGrid: {
       ...Platform.select({
