@@ -42,7 +42,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
     <Image
       accessibilityLabel="Dima Rosmait"
       accessibilityRole="image"
-      accessible={true}
+      accessible={false}
       source={
         Object {
           "uri": "avatar-1",
@@ -89,7 +89,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
     <Text
       accessibilityLabel="Max Mustermann"
       accessibilityRole="image"
-      accessible={true}
+      accessible={false}
       selectable={true}
       style={
         Array [
@@ -149,7 +149,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
     <Image
       accessibilityLabel="Thomas Mueller"
       accessibilityRole="image"
-      accessible={true}
+      accessible={false}
       source={
         Object {
           "uri": "avatar-2",
@@ -196,7 +196,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
     <Text
       accessibilityLabel="Sandra Kasandra"
       accessibilityRole="image"
-      accessible={true}
+      accessible={false}
       selectable={true}
       style={
         Array [
@@ -256,7 +256,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
     <Image
       accessibilityLabel="Peter Pan"
       accessibilityRole="image"
-      accessible={true}
+      accessible={false}
       source={
         Object {
           "uri": "avatar-3",
