@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import * as React from 'react'
 import {
   NativeScrollEvent,
   Platform,
@@ -32,9 +32,12 @@ const HoliCarousel: React.FunctionComponent<HoliCarouselProps> = ({ slides, styl
   const defaultSlideWidth = 350
   const horizontalScrollMinWidth = 600
 
-  const styles = useMemo(
-    () => getStyles(screenWidth, marginHorizontal, marginBetweenSlides, defaultSlideWidth, horizontalScrollMinWidth),
-    [screenWidth, marginHorizontal, marginBetweenSlides, defaultSlideWidth, horizontalScrollMinWidth]
+  const styles = getStyles(
+    screenWidth,
+    marginHorizontal,
+    marginBetweenSlides,
+    defaultSlideWidth,
+    horizontalScrollMinWidth
   )
 
   const handleScrollEnd = ({ nativeEvent }: { nativeEvent: NativeScrollEvent }) => {

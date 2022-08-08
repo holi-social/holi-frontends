@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext, useMemo, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -41,7 +41,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
 
   const { height: deviceHeight } = useWindowDimensions()
   const buttonsContainerHeight = buttonsRelativeHeight * deviceHeight
-  const styles = useMemo(() => getStyles(buttonsContainerHeight), [buttonsContainerHeight])
+  const styles = getStyles(buttonsContainerHeight)
 
   const submit = async () => {
     const input: UpdateAuthenticatedUserInput = {

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Animated, Modal, ModalProps, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
 import {
   GestureEvent,
@@ -21,7 +21,7 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
   // default height is 75% of screen size
   const { show = false, relativeHeight = 0.75, onDismiss, children } = props
   const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
-  const styles = useMemo(() => getStyles(deviceWidth), [deviceWidth])
+  const styles = getStyles(deviceWidth)
 
   const modalHeight = deviceHeight * relativeHeight
   const [visible, setVisible] = useState(show)

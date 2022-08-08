@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useMemo } from 'react'
 import {
   AccessibilityProps,
   GestureResponderEvent,
@@ -39,7 +38,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
   style,
   fontStyle,
 }: ChipProps) => {
-  const styles = useMemo(() => getStyles(checked), [checked])
+  const styles = getStyles(checked)
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: !disabled,
