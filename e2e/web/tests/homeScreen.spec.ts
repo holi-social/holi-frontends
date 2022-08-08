@@ -35,7 +35,7 @@ test.describe('@HomeScreen', () => {
   test('opens curators list upon clicking in avatar pile and shows topic editor cards.', async ({ page }) => {
     await clickElementByTestId(page, 'feed-topic-contributors-link')
 
-    await delay(0.5) // wait for modal to open
+    await delay(1) // wait for modal to open
     await waitForElementByTestId(page, 'topic-contributors-modal')
     await waitForElementByTestId(page, 'topic-editor-card')
   })
