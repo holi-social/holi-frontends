@@ -3,6 +3,7 @@
 exports[`renders correctly renders correctly when closed 1`] = `
 <Modal
   hardwareAccelerated={false}
+  onRequestClose={[Function]}
   transparent={true}
   visible={false}
 />
@@ -11,6 +12,7 @@ exports[`renders correctly renders correctly when closed 1`] = `
 exports[`renders correctly renders correctly when open 1`] = `
 <Modal
   hardwareAccelerated={false}
+  onRequestClose={[Function]}
   transparent={true}
   visible={true}
 >

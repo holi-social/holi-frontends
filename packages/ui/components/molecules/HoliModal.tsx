@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Animated, Modal, ModalProps, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Animated, Modal, ModalProps, Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
 import {
   GestureEvent,
   GestureHandlerRootView,
@@ -23,6 +23,7 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
   const { theme } = useTheme()
   const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
   const styles = getStyles(theme, deviceWidth)
+  const isWeb = Platform.OS === 'web'
 
   const modalHeight = deviceHeight * relativeHeight
   const [visible, setVisible] = useState(show)
@@ -64,9 +65,10 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
   }, [show, bottom, modalHeight])
 
   return (
-    <Modal visible={visible} transparent={true} testID={props.testID}>
+    <Modal onRequestClose={onDismiss} visible={visible} transparent={true} testID={props.testID}>
       <GestureHandlerRootView style={styles.rootView}>
-        <Pressable onPress={onDismiss} style={styles.backDrop} testID="backDrop" />
+        {!isWeb && <Pressable onPress={onDismiss} style={styles.backDrop} testID="backDrop" />}
+        {isWeb && <View onAccessibilityEscape={onDismiss} style={styles.backDrop} testID="backDrop" />}
 
         <Animated.View
           style={[

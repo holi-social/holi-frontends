@@ -88,7 +88,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
           <View style={styles.buttonContainer}>
             {engagementLevel === EngagementLevel.INTERESTED && ActiveButtonIcon}
             <HoliButton
-              label={t('user.engagementLevel.title.interested')}
+              label={t('user.engagementLevel.title.INTERESTED')}
               transparent
               onPress={() => setEngagementLevel(EngagementLevel.INTERESTED)}
             >
@@ -103,7 +103,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
           <View style={[styles.buttonContainer, { marginHorizontal: 10 }]}>
             {engagementLevel === EngagementLevel.ENGAGED && ActiveButtonIcon}
             <HoliButton
-              label={t('user.engagementLevel.title.engaged')}
+              label={t('user.engagementLevel.title.ENGAGED')}
               transparent
               onPress={() => setEngagementLevel(EngagementLevel.ENGAGED)}
             >
@@ -119,7 +119,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
           <View style={styles.buttonContainer}>
             {engagementLevel === EngagementLevel.INITIATOR && ActiveButtonIcon}
             <HoliButton
-              label={t('user.engagementLevel.title.initiator')}
+              label={t('user.engagementLevel.title.INITIATOR')}
               transparent
               onPress={() => setEngagementLevel(EngagementLevel.INITIATOR)}
             >
