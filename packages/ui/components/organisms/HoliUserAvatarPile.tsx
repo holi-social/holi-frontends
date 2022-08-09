@@ -48,7 +48,7 @@ const HoliUserAvatarPile: React.FC<HoliUserAvatarPileProps> = ({
 
         {(children || counter) && (
           <HoliText size="small" style={[styles.counter, styles.textGrey]}>
-            {children || t('topics.contributors.discussing', { count: users.length })}
+            {children || t('topics.editors.discussing', { count: users.length })}
           </HoliText>
         )}
       </View>

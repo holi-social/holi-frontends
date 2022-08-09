@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`HoliUserAvatarPile.tsx renders correct snapshot 1`] = `
+exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
 <View
   style={
     Object {
