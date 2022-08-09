@@ -110,7 +110,11 @@ const HoliCarousel: React.FunctionComponent<HoliCarouselProps> = ({ slides, styl
       )}
 
       {isWeb && (
-        <View style={styles.webView}>
+        <ScrollView
+          style={styles.webView}
+          horizontal
+          showsHorizontalScrollIndicator={screenWidth >= horizontalScrollMinWidth}
+        >
           {slides.map((slide, i) => (
             <View
               style={[
@@ -123,7 +127,7 @@ const HoliCarousel: React.FunctionComponent<HoliCarouselProps> = ({ slides, styl
               {slide.children}
             </View>
           ))}
-        </View>
+        </ScrollView>
       )}
     </View>
   )
