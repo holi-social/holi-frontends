@@ -1,0 +1,118 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HoliUserCard renders correctly 1`] = `
+<View
+  accessible={true}
+  style={
+    Array [
+      Object {
+        "alignContent": "center",
+        "alignItems": "center",
+        "backgroundColor": "#f7f6f3",
+        "borderRadius": 16,
+        "display": "flex",
+        "padding": 24,
+      },
+      undefined,
+    ]
+  }
+  testID="user-card"
+>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#f7f6f3",
+          "borderColor": "transparent",
+          "borderRadius": 61.5,
+          "borderWidth": 1,
+          "justifyContent": "center",
+          "overflow": "hidden",
+        },
+        undefined,
+        Object {
+          "borderColor": "#222326",
+          "borderWidth": 2,
+          "height": 123,
+          "width": 123,
+        },
+      ]
+    }
+  >
+    <Image
+      accessibilityLabel="Dima Rosmait"
+      accessibilityRole="image"
+      accessible={true}
+      source={
+        Object {
+          "uri": "avatar-1",
+        }
+      }
+      style={
+        Object {
+          "height": 123,
+          "width": 123,
+        }
+      }
+    />
+  </View>
+  <Text
+    accessible={false}
+    selectable={true}
+    style={
+      Array [
+        Object {
+          "color": "#222326",
+          "fontFamily": "Circular Std Book",
+          "fontWeight": "400",
+        },
+        Object {
+          "fontSize": 16,
+          "lineHeight": 19.2,
+        },
+        Object {
+          "fontFamily": "Circular Std Medium",
+          "fontWeight": "500",
+        },
+        Object {
+          "marginTop": 8,
+          "textAlign": "center",
+        },
+      ]
+    }
+  >
+    Dima Rosmait
+  </Text>
+  <View
+    style={
+      Object {
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={true}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          Object {},
+          Object {
+            "marginTop": 8,
+            "textAlign": "center",
+          },
+        ]
+      }
+    />
+  </View>
+</View>
+`;

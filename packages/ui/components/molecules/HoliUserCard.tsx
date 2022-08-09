@@ -8,17 +8,13 @@ import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-export type TopicEditorCardProps = {
+export type HoliUserCardProps = {
   user: User
-  category: string
+  category?: string
   style?: StyleProp<ViewStyle>
 }
 
-const TopicEditorCard: React.FunctionComponent<TopicEditorCardProps> = ({
-  user,
-  category,
-  style,
-}: TopicEditorCardProps) => {
+const HoliUserCard: React.FunctionComponent<HoliUserCardProps> = ({ user, category, style }: HoliUserCardProps) => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
   const { t } = useTranslation()
@@ -31,7 +27,7 @@ const TopicEditorCard: React.FunctionComponent<TopicEditorCardProps> = ({
 
   const nameLabel = `${firstName || ''} ${lastName || ''}`.trim()
   return (
-    <View style={[styles.container, style]} accessible testID="topic-editor-card">
+    <View style={[styles.container, style]} accessible testID="user-card">
       <HoliUserAvatar
         imageSrc={avatar}
         nameLabel={nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
@@ -42,7 +38,7 @@ const TopicEditorCard: React.FunctionComponent<TopicEditorCardProps> = ({
       <HoliText style={styles.textStyle} bold>
         {nameLabel}
       </HoliText>
-      <HoliChip style={styles.chip} text={category} checked hideIcon disabled />
+      {category && <HoliChip style={styles.chip} text={category} checked hideIcon disabled />}
       <View style={styles.textStyleAboutMe}>
         <HoliText style={styles.textStyle}>{aboutMe}</HoliText>
       </View>
@@ -50,7 +46,7 @@ const TopicEditorCard: React.FunctionComponent<TopicEditorCardProps> = ({
   )
 }
 
-export default TopicEditorCard
+export default HoliUserCard
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
