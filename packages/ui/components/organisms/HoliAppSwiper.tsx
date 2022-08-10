@@ -3,8 +3,7 @@ import { GestureResponderEvent, ScrollView, StyleSheet, View, ViewStyle, useWind
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { styleVars } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 export type HoliApp = {
   icon?: string
@@ -16,13 +15,13 @@ export type HoliApp = {
   backgroundColor: string
 }
 
-const getStyles = (theme: HoliTheme, screenWidth: number) =>
+const getStyles = (screenWidth: number) =>
   StyleSheet.create({
     container: {
       width: '100%',
     },
     containerContent: {
-      width: screenWidth > theme.vars.breakpointS ? '100%' : 'auto',
+      width: screenWidth > +vars.breakpointS ? '100%' : 'auto',
       justifyContent: 'center',
       paddingRight: 8,
       paddingLeft: 8,
@@ -40,7 +39,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       padding: 2,
       borderWidth: 2,
       borderRadius: 16,
-      borderColor: styleVars.colors.softblackTransparent,
+      borderColor: colors.softblackTransparent,
     },
     icon: {
       width: '100%',
@@ -48,7 +47,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       borderRadius: 13,
     },
     iconWithUpdates: {
-      borderColor: styleVars.colors.positivepurple,
+      borderColor: colors.positivepurple,
     },
     appName: {
       paddingTop: 4,
@@ -65,7 +64,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       justifyContent: 'center',
     },
     moreAppsLabel: {
-      color: styleVars.colors.positivepurple,
+      color: colors.positivepurple,
     },
   })
 
@@ -78,8 +77,8 @@ type HoliAppSwiperProps = {
 
 const HoliAppSwiper: React.VFC<HoliAppSwiperProps> = ({ apps, style, onPressMoreApps, moreAppsLabel }) => {
   const { width } = useWindowDimensions()
-  const { theme } = useTheme()
-  const styles = getStyles(theme, width)
+  const styles = getStyles(width)
+
   return (
     <ScrollView horizontal={true} contentContainerStyle={styles.containerContent} style={[styles.container, style]}>
       {apps.map((app, index) => (

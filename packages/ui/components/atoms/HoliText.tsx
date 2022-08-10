@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { StyleSheet, Text, TextStyle } from 'react-native'
 
+import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type HoliTextSize = 'large' | 'default' | 'small' | 'extrasmall' // for working code completion in vscode
@@ -39,7 +40,7 @@ const getStyles = (theme: HoliTheme) =>
     base: {
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
-      color: theme.colors.softblack,
+      color: colors.softblack,
     },
     large: {
       fontSize: 21,
