@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Text, TextLayoutEventData, TextLayoutLine, TextProps, TextStyle, View, ViewStyle } from 'react-native'
 
 import HoliText, { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
-import theme from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type ReadMoreProps = HoliTextProps &
   TextProps & {
@@ -128,7 +128,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
         style={{ alignContent: 'flex-start', justifyContent: 'center' }}
       >
         {/* The visible text. Any style props are applied here */}
-        <HoliText style={[{ color: theme.colors.fontColorGrey }, props.fontStyle || {}]}>
+        <HoliText style={[{ color: colors.fontColorGrey }, props.fontStyle || {}]}>
           {numberOfLines ? truncatedText : props.children} {buttonType === 'hide' && ' '}
         </HoliText>
 

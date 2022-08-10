@@ -7,7 +7,7 @@ import {
   PanGestureHandler,
 } from 'react-native-gesture-handler'
 
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type HoliModalProps = ModalProps & {
   show: boolean
@@ -20,9 +20,8 @@ export type HoliModalProps = ModalProps & {
 const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProps) => {
   // default height is 75% of screen size
   const { show = false, relativeHeight = 0.75, onDismiss, children } = props
-  const { theme } = useTheme()
   const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
-  const styles = getStyles(theme, deviceWidth)
+  const styles = getStyles(deviceWidth)
 
   const modalHeight = deviceHeight * relativeHeight
   const [visible, setVisible] = useState(show)
@@ -97,7 +96,7 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
 
 export default HoliModal
 
-const getStyles = (theme: HoliTheme, deviceWidth: number) =>
+const getStyles = (deviceWidth: number) =>
   StyleSheet.create({
     rootView: { flex: 1 },
     root: {
@@ -105,14 +104,14 @@ const getStyles = (theme: HoliTheme, deviceWidth: number) =>
       left: 0,
       right: 0,
       zIndex: 100,
-      backgroundColor: theme.colors.backgroundColorWhite,
+      backgroundColor: colors.backgroundColorWhite,
       borderTopLeftRadius: 24,
       borderTopRightRadius: 24,
       overflow: 'hidden',
     },
     header: {
       height: 44,
-      backgroundColor: theme.colors.backgroundColorWhite,
+      backgroundColor: colors.backgroundColorWhite,
       justifyContent: 'center',
       alignItems: 'center',
     },
@@ -123,7 +122,7 @@ const getStyles = (theme: HoliTheme, deviceWidth: number) =>
       position: 'absolute',
       top: 10,
       zIndex: 10,
-      backgroundColor: theme.colors.softblack,
+      backgroundColor: colors.softblack,
       opacity: 0.3,
     },
     common: {
@@ -150,6 +149,6 @@ const getStyles = (theme: HoliTheme, deviceWidth: number) =>
       ...StyleSheet.absoluteFillObject,
       zIndex: 80,
       opacity: 0.4,
-      backgroundColor: theme.colors.softblack,
+      backgroundColor: colors.softblack,
     },
   })

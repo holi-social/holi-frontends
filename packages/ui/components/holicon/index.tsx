@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useTheme } from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
 
 import HoliconBase from './holicon'
 
@@ -12,8 +12,7 @@ export type HoliconProps = {
 }
 
 const Holicon: React.VoidFunctionComponent<HoliconProps> = (props) => {
-  const { theme } = useTheme()
-  return <HoliconBase color={theme.colors.fontColorBlack} size={20} {...props} />
+  return <HoliconBase color={colors.fontColorBlack} size={20} {...props} />
 }
 
 export default Holicon

@@ -8,7 +8,8 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface TopicPreviewBoxProps {
   id: string
@@ -32,9 +33,8 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
   ...props
 }) => {
   const { navigate } = useRouting()
-  const { theme } = useTheme()
-  const styles = topicPreviewBoxStyles(theme)
   const { t } = useTranslation()
+  const mixins = useStyleMixins()
 
   return (
     <View {...props}>
@@ -55,12 +55,17 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
       <View style={styles.authorCategoryContainer}>
         <HoliText style={styles.textGrey}>
           <Trans i18nKey="topics.post.author" values={{ author, category: '' }} />
+          <HoliButton
+            label={t('topics.topic.category', { category })}
+            transparent
+            inline
+            style={mixins.inlineButtonFixDefault}
+          >
+            <HoliText bold style={styles.textGrey}>
+              #{category}
+            </HoliText>
+          </HoliButton>
         </HoliText>
-        <HoliButton label={t('topics.topic.category', { category })} transparent inline>
-          <HoliText bold style={styles.textGrey}>
-            #{category}
-          </HoliText>
-        </HoliButton>
       </View>
 
       {editors.length && <HoliUserAvatarPile users={editors} counter collapse />}
@@ -70,22 +75,35 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
 
 export default TopicPreviewBox
 
-const topicPreviewBoxStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    mainImageContainer: {
-      marginBottom: 16,
-    },
-    mainImage: {
-      aspectRatio: 344 / 218,
-      borderRadius: 18,
-      marginBottom: 16,
-      width: '100%',
-    },
-    authorCategoryContainer: {
-      flexDirection: 'row',
-      marginBottom: 8,
-    },
-    textGrey: {
-      color: theme.colors.fontColorGrey,
-    },
-  })
+const styles = StyleSheet.create({
+  mainImageContainer: {
+    marginBottom: 16,
+  },
+  mainImage: {
+    aspectRatio: 344 / 218,
+    borderRadius: 18,
+    marginBottom: 16,
+    width: '100%',
+  },
+  authorCategoryContainer: {
+    flexDirection: 'row',
+    marginBottom: 8,
+  },
+  avatar: {
+    borderColor: colors.white,
+    borderRadius: 24,
+    borderWidth: 2,
+    height: 24,
+    width: 24,
+  },
+  contributorsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  contributorsCounter: {
+    marginLeft: 8,
+  },
+  textGrey: {
+    color: colors.fontColorGrey,
+  },
+})

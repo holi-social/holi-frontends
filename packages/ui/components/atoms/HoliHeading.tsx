@@ -2,6 +2,7 @@ import * as React from 'react'
 import { AccessibilityProps, Platform, StyleSheet, Text, TextStyle } from 'react-native'
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
+import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type HoliHeadingLevel = '1' | '2' | '3' // for working code completion in vscode
@@ -41,7 +42,6 @@ const HoliHeading: React.FC<HoliHeadingProps> = ({
 }) => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
-
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = Platform.select({
     web: {
       accessibilityRole: 'header',
@@ -71,7 +71,7 @@ const getStyles = (theme: HoliTheme) =>
     default: {
       fontWeight: '500',
       fontFamily: theme.fontFamily.default('Medium'),
-      color: theme.colors.softblack,
+      color: colors.softblack,
     },
     super: {
       fontSize: 36,
