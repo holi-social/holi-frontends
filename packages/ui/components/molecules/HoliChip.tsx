@@ -18,7 +18,7 @@ import Holicon from '@holi/ui/components/holicon'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type ChipProps = PressableProps & {
-  text: string
+  text?: string
   label?: string
   checked?: boolean
   disabled?: boolean
