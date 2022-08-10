@@ -14,11 +14,7 @@ export type HoliUserCardProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const TopicEditorCard: React.FunctionComponent<TopicEditorCardProps> = ({
-  user,
-  category,
-  style,
-}: TopicEditorCardProps) => {
+const HoliUserCard: React.FunctionComponent<HoliUserCardProps> = ({ user, category, style }: HoliUserCardProps) => {
   const { t } = useTranslation()
 
   if (!user) {

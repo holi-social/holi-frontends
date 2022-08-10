@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
@@ -31,7 +30,7 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
   const mixins = useStyleMixins()
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, isWeb && mixins.container, style]}>
       <HoliHeading style={styles.title} size="large">
         {title || t('user.cards.modal.title')}
       </HoliHeading>
@@ -42,7 +41,7 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
         }))}
       />
 
-      <View style={styles.buttonContainer}>
+      <View style={[styles.buttonContainer, isWeb && styles.buttonContainerWeb]}>
         <HoliButton label={t('user.cards.modal.close')} onPress={onDismiss} testID="user-cards-modal-content-close">
           {t('user.cards.modal.close')}
         </HoliButton>
