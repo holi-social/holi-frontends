@@ -2,7 +2,7 @@ import React from 'react'
 
 import iconSelection from '@holi/ui/assets/fonts/holicons/selection.json'
 import Holicon from '@holi/ui/components/holicon'
-import theme from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export default {
   title: 'Atoms/Icons',
@@ -19,7 +19,7 @@ export const Primary = ({ ...args }) => <Holicon icon={args.icon} size={args.siz
 Primary.args = {
   icon: 'app-edit',
   size: 32,
-  color: theme.colors.fontColorBlack,
+  color: colors.fontColorBlack,
 }
 Primary.argTypes = {
   color: { control: { type: 'color' } },
@@ -45,7 +45,7 @@ export const All = ({ ...args }) => {
             padding: '16px',
           }}
         >
-          <div style={{ border: `1px dashed ${theme.colors.fontColorBlack}` }}>
+          <div style={{ border: `1px dashed ${colors.fontColorBlack}` }}>
             <Holicon icon={icon?.properties?.name} size={32} color={args.color} />
           </div>
           <div style={{ fontSize: '16px', marginTop: '16px', wordBreak: 'break-all' }}>{icon?.properties?.name}</div>
@@ -55,7 +55,7 @@ export const All = ({ ...args }) => {
   )
 }
 All.args = {
-  color: theme.colors.fontColorBlack,
+  color: colors.fontColorBlack,
 }
 All.argTypes = {
   color: { control: { type: 'color' } },

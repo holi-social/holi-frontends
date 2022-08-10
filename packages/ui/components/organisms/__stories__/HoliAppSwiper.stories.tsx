@@ -2,33 +2,33 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
 import HoliAppSwiper from '@holi/ui/components/organisms/HoliAppSwiper'
-import { styleVars } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 
 const apps = [
   {
     name: 'Volunteering',
     hasUpdates: true,
-    backgroundColor: styleVars.colors.impactyellow,
+    backgroundColor: colors.impactyellow,
   },
   {
     name: 'Donations',
     hasUpdates: false,
-    backgroundColor: styleVars.colors.positivepurple,
+    backgroundColor: colors.positivepurple,
   },
   {
     name: 'Good News',
     hasUpdates: true,
-    backgroundColor: styleVars.colors.lightGrey,
+    backgroundColor: colors.lightGrey,
   },
   {
     name: 'Ads for Good',
     hasUpdates: true,
-    backgroundColor: styleVars.colors.impactyellow,
+    backgroundColor: colors.impactyellow,
   },
   {
     name: 'FactCheck',
     hasUpdates: false,
-    backgroundColor: styleVars.colors.greyAA,
+    backgroundColor: colors.greyAA,
   },
 ]
 

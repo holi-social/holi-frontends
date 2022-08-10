@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native'
 import Animated, { cancelAnimation, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import theme from '@holi/ui/styles/theme/theme'
+import { colors } from '@holi/ui/styles/globalVars'
 
 const ReanimatedExample = () => {
   const offset = useSharedValue(0)
@@ -54,13 +54,13 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     borderWidth: 1,
-    borderColor: theme.colors.secondaryColor,
+    borderColor: colors.secondaryColor,
     borderStyle: 'solid',
   },
   box: {
     width: 100,
     height: 100,
-    backgroundColor: theme.colors.secondaryColor,
+    backgroundColor: colors.secondaryColor,
     borderRadius: 10,
     marginBottom: 10,
   },

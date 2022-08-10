@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 
 import HoliHeading, { HoliHeadingLevels, HoliHeadingSizes } from '@holi/ui/components/atoms/HoliHeading'
-import theme from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export default {
   title: 'Atoms/HoliHeading',
@@ -58,7 +58,7 @@ ByLevelAndSize.argTypes = {
 export const Colored = () => (
   <Fragment>
     <div style={{ opacity: 0.2 }}>Colored example</div>
-    <HoliHeading size="large" style={{ color: theme.colors.positivepurple }}>
+    <HoliHeading size="large" style={{ color: colors.positivepurple }}>
       Positive purple
     </HoliHeading>
   </Fragment>
