@@ -51,8 +51,8 @@ exports[`HoliUserCard renders correctly 1`] = `
       }
       style={
         Object {
-          "height": 123,
-          "width": 123,
+          "height": "100%",
+          "width": "100%",
         }
       }
     />
