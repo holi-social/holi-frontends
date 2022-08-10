@@ -73,7 +73,7 @@ export default {
   component: HoliCarousel,
 } as ComponentMeta<typeof HoliCarousel>
 
-const Template: ComponentStory<typeof HoliCarousel> = ({ ...args }) => <HoliCarousel {...args} />
+const Template: ComponentStory<typeof HoliCarousel> = (props) => <HoliCarousel {...props} />
 
 export const Example: ComponentStory<typeof HoliCarousel> = Template.bind({})
 

@@ -11,8 +11,8 @@ export default {
   component: HoliUserCardsModalContent,
 } as ComponentMeta<typeof HoliUserCardsModalContent>
 
-const Template: ComponentStory<typeof HoliUserCardsModalContent> = ({ ...args }) => (
-  <HoliUserCardsModalContent style={{ minHeight: 550 }} {...args} />
+const Template: ComponentStory<typeof HoliUserCardsModalContent> = (props) => (
+  <HoliUserCardsModalContent style={{ minHeight: 550 }} {...props} />
 )
 
 export const Example: ComponentStory<typeof HoliUserCardsModalContent> = Template.bind({})
