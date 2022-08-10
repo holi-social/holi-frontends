@@ -184,7 +184,7 @@ const UserProfile: React.VFC = () => {
                       }}
                     />
                   </View>,
-                  <View style={[theme.mixins.container, styles.chipRowContainer]} key="skills">
+                  <View style={[mixins.container, styles.chipRowContainer]} key="skills">
                     <UserChipRow
                       key={'skills'}
                       typeMetadata={UserChipSkill}
