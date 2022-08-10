@@ -4,7 +4,7 @@ import { LayoutChangeEvent, Text, View } from 'react-native'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { ReadMoreProps } from '@holi/ui/components/molecules/HoliReadMore'
-import theme from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
 
 /**
  *
@@ -61,7 +61,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
               right: 0,
               bottom: 0,
               paddingHorizontal: 20,
-              backgroundImage: `linear-gradient(to right, transparent , ${theme.colors.backgroundColor} 15%)`,
+              backgroundImage: `linear-gradient(to right, transparent , ${colors.backgroundColor} 15%)`,
             }
           : {}),
         ...(buttonType === 'hide'
@@ -96,7 +96,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
         style={{ alignContent: 'flex-start', justifyContent: 'center' }}
       >
         {/* The visible text. Any style props are applied here */}
-        <HoliText style={[{ color: theme.colors.fontColorGrey }, props.fontStyle || {}]}>{props.children}</HoliText>
+        <HoliText style={[{ color: colors.fontColorGrey }, props.fontStyle || {}]}>{props.children}</HoliText>
       </Text>
       {/* show button in new line (web only) */}
       {buttonType && ToggleButton}

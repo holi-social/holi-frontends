@@ -17,7 +17,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
 
 type UserProfileFormProps = {
   children?: React.ReactChildren
@@ -37,9 +37,6 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
   const [fieldErrors, setFieldErrors] = useState<{ [x: string]: string[] | undefined }>({})
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
-
-  const { theme } = useTheme()
-  const styles = getStyles(theme)
 
   const submit = async () => {
     const input: UpdateAuthenticatedUserInput = {
@@ -94,7 +91,7 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
       />
       <View style={styles.addImage}>
         <HoliText style={{ marginRight: 13 }}>Add a profile image</HoliText>
-        <HoliIcon icon={'image'} color={theme.colors.grey} />
+        <HoliIcon icon={'image'} color={colors.grey} />
       </View>
       <ScrollView style={styles.scrollView}>
         <HoliTextInput
@@ -158,41 +155,40 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
   )
 }
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    addImage: {
-      flexDirection: 'row',
-      marginTop: 16,
-    },
-    avatar: {
-      borderColor: theme.colors.softblack,
-      borderWidth: 2,
-    },
-    input: {
-      marginBottom: 16,
-    },
-    scrollView: {
-      marginTop: 24,
-      paddingHorizontal: 8,
-      flex: 1,
-      width: '100%',
-    },
-    wrapper: {
-      alignItems: 'center',
-      alignSelf: 'center',
-      flex: 1,
-      maxWidth: 500,
-      paddingHorizontal: 16,
-      paddingBottom: 24,
-      width: '100%',
-    },
-    saveButton: {
-      bottom: 30,
-      position: 'absolute',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  })
+const styles = StyleSheet.create({
+  addImage: {
+    flexDirection: 'row',
+    marginTop: 16,
+  },
+  avatar: {
+    borderColor: colors.softblack,
+    borderWidth: 2,
+  },
+  input: {
+    marginBottom: 16,
+  },
+  scrollView: {
+    marginTop: 24,
+    paddingHorizontal: 8,
+    flex: 1,
+    width: '100%',
+  },
+  wrapper: {
+    alignItems: 'center',
+    alignSelf: 'center',
+    flex: 1,
+    maxWidth: 500,
+    paddingHorizontal: 16,
+    paddingBottom: 24,
+    width: '100%',
+  },
+  saveButton: {
+    bottom: 30,
+    position: 'absolute',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+})
 
 export default UserProfileForm

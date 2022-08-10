@@ -15,7 +15,7 @@ import HoliIcon from '@holi/ui/components/HoliIcon'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
 
 enum EngagementLevel {
   INTERESTED = 'INTERESTED',
@@ -40,8 +40,8 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
   const { t } = useTranslation()
 
   const { height: deviceHeight } = useWindowDimensions()
-  const { theme } = useTheme()
-  const styles = getStyles(theme, buttonsRelativeHeight * deviceHeight)
+  const buttonsContainerHeight = buttonsRelativeHeight * deviceHeight
+  const styles = getStyles(buttonsContainerHeight)
 
   const submit = async () => {
     const input: UpdateAuthenticatedUserInput = {
@@ -146,7 +146,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
   )
 }
 
-const getStyles = (theme: HoliTheme, buttonsContainerHeight: number) =>
+const getStyles = (buttonsContainerHeight: number) =>
   StyleSheet.create({
     wrapper: {
       alignItems: 'center',
@@ -179,7 +179,7 @@ const getStyles = (theme: HoliTheme, buttonsContainerHeight: number) =>
       flex: 1,
     },
     activeButton: {
-      backgroundColor: theme.colors.backgroundColorYellow,
+      backgroundColor: colors.backgroundColorYellow,
     },
     button: {
       borderWidth: 2,
@@ -204,7 +204,7 @@ const getStyles = (theme: HoliTheme, buttonsContainerHeight: number) =>
       height: 50,
       borderWidth: 2,
       borderRadius: 100,
-      backgroundColor: theme.colors.backgroundColorYellow,
+      backgroundColor: colors.backgroundColorYellow,
       position: 'relative',
       display: 'flex',
       alignItems: 'center',

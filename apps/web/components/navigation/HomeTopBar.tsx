@@ -5,13 +5,12 @@ import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import HeaderLeft from '@holi/core/navigation/components/HeaderLeft'
 import HeaderRight from '@holi/core/navigation/components/HeaderRight'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme/theme'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 const HomeTopBar: React.VoidFunctionComponent = () => {
-  const { theme } = useTheme()
   const { width } = useWindowDimensions()
   const { t } = useTranslation()
-  const styles = getStyles(theme, width)
+  const styles = getStyles(width)
 
   return (
     <View
@@ -33,20 +32,20 @@ const HomeTopBar: React.VoidFunctionComponent = () => {
 
 export default HomeTopBar
 
-const getStyles = (theme: HoliTheme, screenWidth: number) =>
+const getStyles = (screenWidth: number) =>
   StyleSheet.create({
     fullWidthContainer: {
       alignItems: 'center',
-      backgroundColor: theme.colors.backgroundColorWhite,
-      paddingHorizontal: screenWidth > theme.vars.breakpointL ? 20 : 10,
-      height: theme.vars.topBarHeight,
-      maxHeight: theme.vars.topBarHeight,
+      backgroundColor: colors.backgroundColorWhite,
+      paddingHorizontal: screenWidth > +vars.breakpointL ? 20 : 10,
+      height: vars.topBarHeight,
+      maxHeight: vars.topBarHeight,
     },
     buttonContainer: {
       flex: 1,
       alignItems: 'center',
       width: '100%',
-      maxWidth: theme.vars.maxScreenWidth,
+      maxWidth: vars.maxScreenWidth,
       flexDirection: 'row',
       justifyContent: 'space-between',
     },

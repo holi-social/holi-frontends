@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type HoliCarouselProps = {
   slides: { title?: string; children: React.ReactNode }[]
@@ -26,8 +26,6 @@ const HoliCarousel: React.FunctionComponent<HoliCarouselProps> = ({ slides, styl
 
   const { width: screenWidth } = useWindowDimensions()
 
-  const { theme } = useTheme()
-
   const marginHorizontal = 24 // margin between slide and device screen
   const marginBetweenSlides = 8 // margin between slides
   const scrollingOffset = screenWidth - (marginHorizontal * 2 - marginBetweenSlides)
@@ -35,7 +33,6 @@ const HoliCarousel: React.FunctionComponent<HoliCarouselProps> = ({ slides, styl
   const horizontalScrollMinWidth = 600
 
   const styles = getStyles(
-    theme,
     screenWidth,
     marginHorizontal,
     marginBetweenSlides,
@@ -136,7 +133,6 @@ const HoliCarousel: React.FunctionComponent<HoliCarouselProps> = ({ slides, styl
 export default HoliCarousel
 
 const getStyles = (
-  theme: HoliTheme,
   screenWidth: number,
   marginHorizontal: number,
   marginBetweenSlides: number,
@@ -183,12 +179,12 @@ const getStyles = (
     slideButtonIcon: {
       width: 8,
       height: 8,
-      backgroundColor: theme.colors.softblack,
+      backgroundColor: colors.softblack,
       opacity: 0.3,
       borderRadius: 50,
     },
     activeSlideButtonIcon: {
-      backgroundColor: theme.colors.fontColor,
+      backgroundColor: colors.fontColor,
       opacity: 1,
     },
     webView: {
