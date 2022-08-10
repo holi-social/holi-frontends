@@ -8,7 +8,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
-import theme from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
 
 const UserProfileView: React.VFC = () => {
   const { t } = useTranslation()
@@ -35,7 +35,7 @@ const UserProfileView: React.VFC = () => {
         </View>
         <View style={styles.nameContainer}>
           <HoliHeading testID="user-profile-full-name">{fullName}</HoliHeading>
-          <HoliText style={{ color: theme.colors.fontColorGrey }}>
+          <HoliText style={{ color: colors.fontColorGrey }}>
             {user.pronouns && `(${user.pronouns}) `}
             {user.location && `${user.location}`}
           </HoliText>
@@ -49,14 +49,14 @@ const UserProfileView: React.VFC = () => {
           checked={false}
           disabled={false}
           style={{ marginRight: 8 }}
-          fontStyle={{ color: theme.colors.positivepurple }}
+          fontStyle={{ color: colors.positivepurple }}
         />
         <HoliChip
           text={t('user.profileView.message')}
           label={t('user.profileView.message')}
           checked={false}
           disabled={true}
-          fontStyle={{ color: theme.colors.positivepurple }}
+          fontStyle={{ color: colors.positivepurple }}
         />
       </View>
     </View>

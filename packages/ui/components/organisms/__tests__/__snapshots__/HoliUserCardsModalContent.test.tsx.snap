@@ -8,10 +8,10 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
         "display": "flex",
         "height": "100%",
       },
+      false,
       undefined,
     ]
   }
-  testID="user-cards-modal-content"
 >
   <Text
     role="header"
@@ -137,8 +137,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 }
                 style={
                   Object {
-                    "height": 123,
-                    "width": 123,
+                    "height": "100%",
+                    "width": "100%",
                   }
                 }
               />
@@ -416,8 +416,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 }
                 style={
                   Object {
-                    "height": 123,
-                    "width": 123,
+                    "height": "100%",
+                    "width": "100%",
                   }
                 }
               />
@@ -695,8 +695,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 }
                 style={
                   Object {
-                    "height": 123,
-                    "width": 123,
+                    "height": "100%",
+                    "width": "100%",
                   }
                 }
               />
@@ -976,8 +976,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 }
                 style={
                   Object {
-                    "height": 123,
-                    "width": 123,
+                    "height": "100%",
+                    "width": "100%",
                   }
                 }
               />
@@ -1448,15 +1448,18 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
   </View>
   <View
     style={
-      Object {
-        "alignItems": "center",
-        "bottom": 70,
-        "display": "flex",
-        "justifyContent": "center",
-        "paddingHorizontal": 24,
-        "position": "absolute",
-        "width": "100%",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "bottom": 70,
+          "display": "flex",
+          "justifyContent": "center",
+          "paddingHorizontal": 24,
+          "position": "absolute",
+          "width": "100%",
+        },
+        false,
+      ]
     }
   >
     <View

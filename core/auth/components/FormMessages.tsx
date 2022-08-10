@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { ViewStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { useTheme } from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
 
 interface Props {
   messages?: Array<UiText>
@@ -13,7 +13,6 @@ interface Props {
 }
 
 const FormMessages = (props: Props) => {
-  const { theme } = useTheme()
   const { t, i18n } = useTranslation()
 
   return (
@@ -23,7 +22,7 @@ const FormMessages = (props: Props) => {
         return (
           <HoliText
             key={`${id}${k}`}
-            style={[props.style || {}, { marginBottom: 10, color: theme.colors.errorRed }]}
+            style={[props.style || {}, { marginBottom: 10, color: colors.errorRed }]}
             testID={`ory-message-${id}`}
           >
             {i18n.exists(messageKey) ? t(messageKey) : text}

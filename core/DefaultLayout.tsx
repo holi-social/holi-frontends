@@ -1,7 +1,7 @@
 import React, { ReactChild, ReactChildren, ReactNode } from 'react'
 import { Platform, ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
 
 /**
  * This is the default screen layout.
@@ -16,9 +16,6 @@ export type LayoutProps = {
 }
 
 const DefaultLayout: React.FunctionComponent<LayoutProps> = (props: LayoutProps) => {
-  const { theme } = useTheme()
-  const styles = getStyles(theme)
-
   const screenView = <View style={styles.screenLayout}>{props.children}</View>
 
   return Platform.OS === 'web' ? (
@@ -30,22 +27,21 @@ const DefaultLayout: React.FunctionComponent<LayoutProps> = (props: LayoutProps)
 
 export default DefaultLayout
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    scrollLayout: {
-      minHeight: '100%',
-      width: '100%',
-      justifyContent: 'flex-start',
-      paddingBottom: 50,
-      backgroundColor: theme.colors.backgroundColorWhite,
-    },
-    screenLayout: {
-      minHeight: '100%',
-      maxWidth: '100%',
-      overflow: 'hidden',
-    },
-    container: {
-      flex: 1,
-      alignItems: 'center',
-    },
-  })
+const styles = StyleSheet.create({
+  scrollLayout: {
+    minHeight: '100%',
+    width: '100%',
+    justifyContent: 'flex-start',
+    paddingBottom: 50,
+    backgroundColor: colors.backgroundColorWhite,
+  },
+  screenLayout: {
+    minHeight: '100%',
+    maxWidth: '100%',
+    overflow: 'hidden',
+  },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+  },
+})
