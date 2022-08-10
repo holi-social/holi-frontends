@@ -77,6 +77,7 @@
   "rootProvider.loading.profile": "Loading user profile...",
   "search.title": "Search",
   "topics.editors.discussing": "{{count}} discussing",
+  "topics.editors.discussing_plural": "{{count}} discussing",
   "topics.editors.modal.title": "This week's topic editors",
   "topics.editors.editedBy": "Edited by",
   "topics.post.author": "by {{author}} in <0>{{category}}</0>",
