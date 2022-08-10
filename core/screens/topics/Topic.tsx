@@ -75,12 +75,8 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
           {t('topics.topic.heading', { title: topic.title, topicId })}
         </HoliHeading>
 
-        <HoliButton
-          label={t('topics.topic.topicEditors', { title: topicId })}
-          inline
-          onPress={() => setShowModal(true)}
-        >
-          {t('topics.topic.topicEditors', { title: topicId })}
+        <HoliButton label={t('topics.topic.editors', { title: topicId })} inline onPress={() => setShowModal(true)}>
+          {t('topics.topic.editors', { title: topicId })}
         </HoliButton>
 
         <HoliText>{topic.text}</HoliText>
