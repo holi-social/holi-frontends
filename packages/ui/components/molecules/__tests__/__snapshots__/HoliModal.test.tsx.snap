@@ -24,7 +24,14 @@ exports[`renders correctly renders correctly when open 1`] = `
     }
   >
     <View
-      accessible={true}
+      accessibilityLabel="modal.backdrop"
+      accessibilityRole="button"
+      accessibilityState={
+        Object {
+          "disabled": false,
+        }
+      }
+      accessible={false}
       collapsable={false}
       focusable={true}
       onBlur={[Function]}
@@ -37,19 +44,45 @@ exports[`renders correctly renders correctly when open 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Object {
-          "backgroundColor": "#222326",
-          "bottom": 0,
-          "left": 0,
-          "opacity": 0.4,
-          "position": "absolute",
-          "right": 0,
-          "top": 0,
-          "zIndex": 80,
-        }
+        Array [
+          Object {
+            "backgroundColor": "#222326",
+            "bottom": 0,
+            "left": 0,
+            "opacity": 0.4,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+            "zIndex": 0,
+          },
+          Object {
+            "width": "100%",
+          },
+        ]
       }
-      testID="backDrop"
-    />
+    >
+      <View
+        pointerEvents="none"
+        style={Object {}}
+      >
+        <View
+          onAccessibilityEscape={[Function]}
+          style={
+            Object {
+              "backgroundColor": "#222326",
+              "bottom": 0,
+              "left": 0,
+              "opacity": 0.4,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+              "zIndex": 0,
+            }
+          }
+          testID="backdrop"
+        />
+      </View>
+    </View>
     <View
       collapsable={false}
       style={

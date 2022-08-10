@@ -49,6 +49,7 @@
   "homeFeed.heading": "This week’s topic is <1/>",
   "homeFeed.heading_plural": "This week’s topics are <0/>",
   "homeFeed.volunteering": "Volunteering",
+  "modal.backdrop": "Close dialog",
   "navigation.bottomNavigation": "Bottom Navigation",
   "navigation.closeWindow": "Close window",
   "navigation.headerLeft.back": "Go back",
