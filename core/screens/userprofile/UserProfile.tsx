@@ -155,13 +155,12 @@ const UserProfile: React.VFC = () => {
                       {user?.engagementLevel && (
                         <HoliChip
                           text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
-                          disabled
                           style={styles.chip}
+                          disabled
                         ></HoliChip>
                       )}
                       {!user?.engagementLevel && (
                         <HoliChip
-                          text={t('profile.engagementLevel')}
                           onPress={() => {
                             toggleModal()
                             setEditMode('levelOfEngagement')
