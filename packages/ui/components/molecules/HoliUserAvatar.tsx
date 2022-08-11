@@ -21,11 +21,11 @@ export type AvatarProps = {
 }
 
 export const sizes = {
-  micro: 25,
+  micro: 24,
   small: 40,
-  medium: 65,
-  large: 80,
-  extralarge: 123,
+  medium: 52,
+  large: 64,
+  extralarge: 128,
 }
 
 const HoliUserAvatar: React.VFC<AccessibleComponentProps<AvatarProps>> = ({
