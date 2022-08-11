@@ -7,7 +7,7 @@ interface AccessibilityPropsWeb extends AccessibilityProps {
   accessibilityLevel?: number
   accessibilityRole?: AccessibilityRoleWeb
   accessibilityPressed?: boolean
-  accessibilityAutoComplete?: boolean
+  accessibilityAutoComplete?: 'none' | 'inline' | 'list' | 'both'
 }
 
 // include web specific types (https://github.com/necolas/react-native-web/issues/1684)
@@ -25,6 +25,10 @@ declare module 'react-native' {
   interface ViewProps extends ViewProps {
     accessibilityRole?: string
     accessibilityOrientation?: 'horizontal' | 'vertical'
+  }
+
+  interface TextInputProps {
+    autoComplete?: TextInputProps['autoComplete'] | 'current-password' // reference https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
   }
 
   interface TextStyle {
