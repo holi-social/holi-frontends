@@ -16,7 +16,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import Holicon from '@holi/ui/components/holicon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { useTheme } from '@holi/ui/styles/theme'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type TopicParams = {
   topicId: string
@@ -31,7 +31,7 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
   const { navigate, navigateBack } = useRouting()
   const navigationHeader = useNavigationHeader()
   const { t } = useTranslation()
-  const { theme } = useTheme()
+  const mixins = useStyleMixins()
 
   useLayoutEffect(
     () => {
@@ -70,17 +70,13 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
 
   return (
     <DefaultLayout>
-      <View style={[theme.mixins.container, styles.topicView]}>
+      <View style={[mixins.container, styles.topicView]}>
         <HoliHeading level="1" size="super" style={{ alignSelf: 'center' }}>
           {t('topics.topic.heading', { title: topic.title, topicId })}
         </HoliHeading>
 
-        <HoliButton
-          label={t('topics.topic.topicEditors', { title: topicId })}
-          inline
-          onPress={() => setShowModal(true)}
-        >
-          {t('topics.topic.topicEditors', { title: topicId })}
+        <HoliButton label={t('topics.topic.editors', { title: topicId })} inline onPress={() => setShowModal(true)}>
+          {t('topics.topic.editors', { title: topicId })}
         </HoliButton>
 
         <HoliText>{topic.text}</HoliText>

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 
 import HoliText, { HoliTextSizes } from '@holi/ui/components/atoms/HoliText'
-import theme from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export default {
   title: 'Atoms/HoliText',
@@ -39,7 +39,7 @@ Primary.argTypes = {
 export const Colored = () => (
   <Fragment>
     <div style={{ opacity: 0.2 }}>Colored example</div>
-    <HoliText size="default" style={{ color: theme.colors.positivepurple }}>
+    <HoliText size="default" style={{ color: colors.positivepurple }}>
       Positive purple
     </HoliText>
   </Fragment>

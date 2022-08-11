@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -15,10 +15,12 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliSeparatedList from '@holi/ui/components/atoms/HoliSeparatedList'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliAppSwiper from '@holi/ui/components/organisms/HoliAppSwiper'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
-import { styleVars } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
+import { colors, vars } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const dummyTopicCategories = ['Immigration', 'Education', 'Sustainability']
 
@@ -38,7 +40,7 @@ const appSwiperDummyApps: DummyApp[] = [
     path: '/apps/volunteering',
     testID: 'app-tile-volunteering',
     hasUpdates: true,
-    backgroundColor: styleVars.colors.impactyellow,
+    backgroundColor: colors.impactyellow,
   },
   {
     icon: 'explore',
@@ -46,7 +48,7 @@ const appSwiperDummyApps: DummyApp[] = [
     path: '/apps/volunteering',
     testID: 'app-tile-donations',
     hasUpdates: false,
-    backgroundColor: styleVars.colors.positivepurple,
+    backgroundColor: colors.positivepurple,
   },
   {
     icon: 'home',
@@ -54,7 +56,7 @@ const appSwiperDummyApps: DummyApp[] = [
     path: '/apps/volunteering',
     testID: 'app-tile-goodNews',
     hasUpdates: true,
-    backgroundColor: styleVars.colors.lightGrey,
+    backgroundColor: colors.lightGrey,
   },
   {
     icon: 'search',
@@ -62,7 +64,7 @@ const appSwiperDummyApps: DummyApp[] = [
     path: '/apps/volunteering',
     testID: 'app-tile-adsForGood',
     hasUpdates: true,
-    backgroundColor: styleVars.colors.impactyellow,
+    backgroundColor: colors.impactyellow,
   },
   {
     icon: 'user-circled',
@@ -70,9 +72,11 @@ const appSwiperDummyApps: DummyApp[] = [
     path: '/apps/volunteering',
     testID: 'app-tile-factCheck',
     hasUpdates: false,
-    backgroundColor: styleVars.colors.greyAA,
+    backgroundColor: colors.greyAA,
   },
 ]
+
+const dummyUsers = Array.from(' '.repeat(6), (_, idx) => getRandomUser(!(idx % 2)))
 
 type HomeFeedProps = NativeStackScreenProps<HomeStackScreens>
 
@@ -85,13 +89,14 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
 }
 
 const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
-  const { theme } = useTheme()
+  const [showEditorsModal, setShowEditorsModal] = useState(false)
   const { navigate } = useRouting()
   const { width } = useWindowDimensions()
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(moment().hours(), t)
-  const styles = homeFeedStyles(theme, width)
+  const styles = homeFeedStyles(width)
+  const mixins = useStyleMixins()
 
   useLayoutEffect(
     () => {
@@ -114,7 +119,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
     <DefaultLayout>
       {/* Holi Apps */}
       <HoliAppSwiper
-        style={[theme.mixins.container, styles.appSwiper]}
+        style={[mixins.container, styles.appSwiper]}
         apps={appSwiperDummyApps.map((app) => {
           const name = t(app.nameKey)
           return {
@@ -130,7 +135,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
 
       <View style={[styles.divider, styles.borderBottom]} />
 
-      <View style={[theme.mixins.container]}>
+      <View style={[mixins.container]}>
         {/* Weekly Topics */}
         <View style={[styles.feedHeadlineContainer, styles.borderBottom]}>
           {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
@@ -138,8 +143,8 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
             <Trans t={t} i18nKey="homeFeed.heading" values={{ count: dummyTopicCategories.length }}>
               <HoliSeparatedList size="large" bold>
                 {dummyTopicCategories.map((category, idx) => (
-                  <HoliButton key={idx} label={category} transparent inline style={styles.feedHeadlineLink}>
-                    <HoliText size="large" bold style={{ color: theme.colors.positivepurple }}>
+                  <HoliButton key={idx} label={category} transparent inline style={mixins.inlineButtonFixMedium}>
+                    <HoliText size="large" bold style={{ color: colors.positivepurple }}>
                       {category}
                     </HoliText>
                   </HoliButton>
@@ -148,16 +153,27 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
             </Trans>
           </HoliHeading>
 
-          <View>
-            <HoliText size="small" style={styles.feedHeadlineEditorsText}>
-              {t('topics.contributors.editedBy')}
-            </HoliText>
-            <HoliUserAvatarPile
-              users={Array.from(' '.repeat(6), (_, idx) => getRandomUser(!(idx % 2)))}
-              size="small"
-              collapse
+          <HoliText size="small" style={styles.avatarsTopTitle} testID="avatars-top-title">
+            {t('topics.editors.editedBy')}
+          </HoliText>
+          <HoliButton
+            label={t('topics.editors.modal.title')}
+            transparent
+            onPress={() => setShowEditorsModal(true)}
+            testID="avatar-pile-open-modal-button"
+            style={styles.topicEditorsModalButton}
+            inline
+          >
+            <HoliUserAvatarPile users={dummyUsers} size="small" collapse />
+          </HoliButton>
+
+          <HoliModal relativeHeight={0.85} show={showEditorsModal} onDismiss={() => setShowEditorsModal(false)}>
+            <HoliUserCardsModalContent
+              title={t('topics.editors.modal.title')}
+              users={dummyUsers}
+              onDismiss={() => setShowEditorsModal(false)}
             />
-          </View>
+          </HoliModal>
         </View>
 
         <View style={styles.feedTopicGrid}>
@@ -170,7 +186,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   )
 }
 
-const homeFeedStyles = (theme: HoliTheme, screenWidth: number) =>
+const homeFeedStyles = (screenWidth: number) =>
   StyleSheet.create({
     view: {
       alignItems: 'center',
@@ -179,7 +195,7 @@ const homeFeedStyles = (theme: HoliTheme, screenWidth: number) =>
     },
     borderBottom: {
       marginBottom: 40,
-      borderBottomColor: theme.colors.borderColorGrey,
+      borderBottomColor: colors.borderColorGrey,
       borderBottomWidth: 1,
     },
     divider: {
@@ -194,24 +210,17 @@ const homeFeedStyles = (theme: HoliTheme, screenWidth: number) =>
     feedHeadline: {
       marginBottom: 16,
     },
-    feedHeadlineLink: {
-      // TODO: Move this fix to shared styles
-      ...Platform.select({
-        ios: {
-          transform: [{ translateY: 3 }],
-        },
-        android: {
-          transform: [{ translateY: 5 }],
-        },
-      }),
+    avatarsTopTitle: {
+      marginBottom: 8,
     },
     feedHeadlineEditorsText: {
       marginBottom: 8,
+      color: colors.grey,
     },
     feedTopicGrid: {
       ...Platform.select({
         web: {
-          ...(screenWidth > theme.vars.breakpointM
+          ...(screenWidth > +vars.breakpointM
             ? {
                 flexDirection: 'row',
                 gap: 24,
@@ -223,6 +232,9 @@ const homeFeedStyles = (theme: HoliTheme, screenWidth: number) =>
     feedTopicItem: {
       marginBottom: 40,
       flex: 1,
+    },
+    topicEditorsModalButton: {
+      width: 'fit-content',
     },
   })
 

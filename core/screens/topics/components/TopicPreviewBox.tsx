@@ -1,18 +1,16 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import TopicEditorsModalContent from '@holi/core/screens/HomeFeed/components/TopicEditorsModalContent'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-// TODO: adjust this dummy interface to real props
 interface TopicPreviewBoxProps {
   id: string
   title: string
@@ -20,7 +18,7 @@ interface TopicPreviewBoxProps {
   image: {
     src: string
   }
-  contributors: User[]
+  editors: User[]
   style?: StyleProp<ViewStyle>
   category: string
 }
@@ -30,15 +28,13 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
   title,
   image,
   author,
-  contributors,
+  editors,
   category,
   ...props
 }) => {
-  const [showCurators, setShowCurators] = useState(false)
   const { navigate } = useRouting()
-  const { theme } = useTheme()
-  const styles = topicPreviewBoxStyles(theme)
   const { t } = useTranslation()
+  const mixins = useStyleMixins()
 
   return (
     <View {...props}>
@@ -59,69 +55,55 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
       <View style={styles.authorCategoryContainer}>
         <HoliText style={styles.textGrey}>
           <Trans i18nKey="topics.post.author" values={{ author, category: '' }} />
+          <HoliButton
+            label={t('topics.topic.category', { category })}
+            transparent
+            inline
+            style={mixins.inlineButtonFixDefault}
+          >
+            <HoliText bold style={styles.textGrey}>
+              #{category}
+            </HoliText>
+          </HoliButton>
         </HoliText>
-        <HoliButton label={t('topics.topic.category', { category })} transparent inline>
-          <HoliText bold style={[styles.textGrey]}>
-            #{category}
-          </HoliText>
-        </HoliButton>
       </View>
 
-      {contributors.length && (
-        <>
-          <HoliButton
-            label={t('topics.topic.topicEditors', { title })}
-            transparent
-            onPress={() => setShowCurators(true)}
-            testID="feed-topic-contributors-link"
-          >
-            <HoliUserAvatarPile users={contributors} counter collapse />
-          </HoliButton>
-          <HoliModal relativeHeight={0.85} show={showCurators} onDismiss={() => setShowCurators(false)}>
-            <TopicEditorsModalContent
-              users={contributors}
-              category={category}
-              onDismiss={() => setShowCurators(false)}
-            ></TopicEditorsModalContent>
-          </HoliModal>
-        </>
-      )}
+      {editors.length && <HoliUserAvatarPile users={editors} counter collapse />}
     </View>
   )
 }
 
 export default TopicPreviewBox
 
-const topicPreviewBoxStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    mainImageContainer: {
-      marginBottom: 16,
-    },
-    mainImage: {
-      aspectRatio: 344 / 218,
-      borderRadius: 18,
-      marginBottom: 16,
-      width: '100%',
-    },
-    authorCategoryContainer: {
-      flexDirection: 'row',
-      marginBottom: 8,
-    },
-    avatar: {
-      borderColor: theme.colors.white,
-      borderRadius: 24,
-      borderWidth: 2,
-      height: 24,
-      width: 24,
-    },
-    contributorsContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    contributorsCounter: {
-      marginLeft: 8,
-    },
-    textGrey: {
-      color: theme.colors.fontColorGrey,
-    },
-  })
+const styles = StyleSheet.create({
+  mainImageContainer: {
+    marginBottom: 16,
+  },
+  mainImage: {
+    aspectRatio: 344 / 218,
+    borderRadius: 18,
+    marginBottom: 16,
+    width: '100%',
+  },
+  authorCategoryContainer: {
+    flexDirection: 'row',
+    marginBottom: 8,
+  },
+  avatar: {
+    borderColor: colors.white,
+    borderRadius: 24,
+    borderWidth: 2,
+    height: 24,
+    width: 24,
+  },
+  contributorsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  contributorsCounter: {
+    marginLeft: 8,
+  },
+  textGrey: {
+    color: colors.fontColorGrey,
+  },
+})

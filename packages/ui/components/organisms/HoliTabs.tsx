@@ -11,7 +11,8 @@ import {
 } from 'react-native'
 
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type HoliTabsProps = {
   tabs: { title: string; children: React.ReactNode }[]
@@ -25,8 +26,8 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, relativeHeight
 
   const { width: screenWidth, height: screenHeight } = useWindowDimensions()
 
-  const { theme } = useTheme()
-  const styles = getStyles(theme, screenHeight, relativeHeight)
+  const mixins = useStyleMixins()
+  const styles = getStyles(screenHeight, relativeHeight)
   const isWeb = Platform.OS === 'web'
 
   const handleScrollEnd = ({ nativeEvent }: { nativeEvent: NativeScrollEvent }) => {
@@ -54,7 +55,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, relativeHeight
   return (
     <View style={[styles.container, style]}>
       <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
-        <View style={[theme.mixins.container, styles.tabButtonsContainer]}>
+        <View style={[mixins.container, styles.tabButtonsContainer]}>
           {tabs.map((tab, index) => (
             <HoliButton
               label={tab.title}
@@ -118,7 +119,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, relativeHeight
 
 export default HoliTabs
 
-const getStyles = (theme: HoliTheme, screenHeight: number, relativeHeight: number) =>
+const getStyles = (screenHeight: number, relativeHeight: number) =>
   StyleSheet.create({
     container: {
       flex: 1,
@@ -133,7 +134,7 @@ const getStyles = (theme: HoliTheme, screenHeight: number, relativeHeight: numbe
     },
     headerContainer: {
       width: '100%',
-      borderBottomColor: theme.colors.borderColorGrey,
+      borderBottomColor: colors.borderColorGrey,
       borderBottomWidth: 2,
     },
     tabButtonsContainer: {
@@ -151,13 +152,13 @@ const getStyles = (theme: HoliTheme, screenHeight: number, relativeHeight: numbe
     },
     tabButtonText: {
       fontSize: 16,
-      color: theme.colors.fontColorGrey,
+      color: colors.fontColorGrey,
     },
     activeTabButton: {
-      borderBottomColor: theme.colors.fontColor,
+      borderBottomColor: colors.fontColor,
     },
     activeTabButtonText: {
-      color: theme.colors.fontColor,
+      color: colors.fontColor,
       fontWeight: '500',
     },
     tabContainer: {

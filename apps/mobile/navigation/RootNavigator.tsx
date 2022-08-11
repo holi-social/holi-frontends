@@ -12,7 +12,7 @@ import HeaderRight from '@holi/core/navigation/components/HeaderRight'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import Explore from '@holi/core/screens/Explore'
-import HomeFeed from '@holi/core/screens/HomeFeed/HomeFeed'
+import HomeFeed from '@holi/core/screens/HomeFeed'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
 import Post, { PostParams } from '@holi/core/screens/topics/Post'
@@ -23,7 +23,7 @@ import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNav
 import HoliIcon from '@holi/ui/components/HoliIcon'
 import Holicon from '@holi/ui/components/holicon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { useTheme } from '@holi/ui/styles/theme/theme'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type HomeStackScreens = {
   HomeFeed: undefined
@@ -52,7 +52,6 @@ const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
 const BackButton = () => {
-  const { theme } = useTheme()
   const { navigateBack } = useRouting()
   const { t } = useTranslation()
   return (
@@ -63,13 +62,12 @@ const BackButton = () => {
       onPress={() => navigateBack()}
       style={{ paddingHorizontal: 0 }}
     >
-      <Holicon icon="arrow-back" size={30} color={theme.colors.softblack} />
+      <Holicon icon="arrow-back" size={30} color={colors.softblack} />
     </HoliButton>
   )
 }
 
 const DownButton = () => {
-  const { theme } = useTheme()
   const { navigateBack } = useRouting()
   const { t } = useTranslation()
   return (
@@ -80,20 +78,19 @@ const DownButton = () => {
       onPress={() => navigateBack()}
       style={{ paddingHorizontal: 0 }}
     >
-      <Holicon icon="arrowtip-down" size={30} color={theme.colors.softblack} />
+      <Holicon icon="arrowtip-down" size={30} color={colors.softblack} />
     </HoliButton>
   )
 }
 
 export const HomeStackNavigator: React.VFC = () => {
-  const { theme } = useTheme()
   return (
     <HomeStack.Navigator
       initialRouteName="HomeFeed"
       screenOptions={{
         headerShown: true,
         headerStyle: {
-          backgroundColor: theme.colors.backgroundColorWhite,
+          backgroundColor: colors.backgroundColorWhite,
         },
         headerTitleAlign: 'center',
         headerShadowVisible: false,
@@ -172,19 +169,17 @@ export const HomeStackNavigator: React.VFC = () => {
 }
 
 export const BottomTabsNavigator: React.VFC = () => {
-  const { theme } = useTheme()
-
-  const iconColor = (isActive: boolean) => (isActive ? theme.colors.fontColorBlack : theme.colors.fontColorGrey)
+  const iconColor = (isActive: boolean) => (isActive ? colors.fontColorBlack : colors.fontColorGrey)
 
   return (
     <BottomTabs.Navigator
       initialRouteName="Home"
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: theme.colors.backgroundColorWhite,
+          backgroundColor: colors.backgroundColorWhite,
           paddingHorizontal: 0,
           borderTopWidth: StyleSheet.hairlineWidth,
-          borderTopColor: theme.colors.fontColorGrey,
+          borderTopColor: colors.fontColorGrey,
         },
       }}
     >

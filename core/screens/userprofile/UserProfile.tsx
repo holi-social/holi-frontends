@@ -21,7 +21,8 @@ import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { useTheme } from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const UserProfile: React.VFC = () => {
   const { navigate } = useRouting()
@@ -36,8 +37,7 @@ const UserProfile: React.VFC = () => {
   const { user } = useContext(UserContext)
 
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
-
-  const { theme } = useTheme()
+  const mixins = useStyleMixins()
 
   useLayoutEffect(
     () => {
@@ -61,7 +61,7 @@ const UserProfile: React.VFC = () => {
               }}
               style={{ marginRight: 24 }}
             >
-              <HoliText size="small" bold style={{ color: theme.colors.fontColorGrey }}>
+              <HoliText size="small" bold style={{ color: colors.fontColorGrey }}>
                 {t('profile.edit')}
               </HoliText>
             </HoliButton>
@@ -79,7 +79,7 @@ const UserProfile: React.VFC = () => {
       <LoginProtection loggedOutContent={<LoggedOutView />}>
         <>
           <View
-            style={[theme.mixins.container, styles.container]}
+            style={[mixins.container, styles.container]}
             testID={['user-profile-edit', editMode].filter((e) => e).join('-')}
           >
             <>
@@ -142,7 +142,7 @@ const UserProfile: React.VFC = () => {
               {
                 title: t('profile.tabs.profile'),
                 children: [
-                  <View style={[theme.mixins.container, styles.chipRowContainer]} key="engagementLevel">
+                  <View style={[mixins.container, styles.chipRowContainer]} key="engagementLevel">
                     <HoliChipRow
                       key="engagementLevel"
                       editable={!user?.engagementLevel}
@@ -155,13 +155,12 @@ const UserProfile: React.VFC = () => {
                       {user?.engagementLevel && (
                         <HoliChip
                           text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
-                          disabled
                           style={styles.chip}
+                          disabled
                         ></HoliChip>
                       )}
                       {!user?.engagementLevel && (
                         <HoliChip
-                          text={t('profile.engagementLevel')}
                           onPress={() => {
                             toggleModal()
                             setEditMode('levelOfEngagement')
@@ -172,7 +171,7 @@ const UserProfile: React.VFC = () => {
                       )}
                     </HoliChipRow>
                   </View>,
-                  <View style={[theme.mixins.container, styles.chipRowContainer]} key="interests">
+                  <View style={[mixins.container, styles.chipRowContainer]} key="interests">
                     <UserChipRow
                       key={'interests'}
                       typeMetadata={UserChipInterest}
@@ -196,7 +195,7 @@ const UserProfile: React.VFC = () => {
                       paddingVertical: 72,
                     }}
                   >
-                    <HoliText style={{ textAlign: 'center', color: theme.colors.fontColorGrey }}>
+                    <HoliText style={{ textAlign: 'center', color: colors.fontColorGrey }}>
                       {t('profile.tabs.topics.empty')}
                     </HoliText>
                   </View>

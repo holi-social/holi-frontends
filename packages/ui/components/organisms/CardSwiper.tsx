@@ -4,7 +4,7 @@ import CardStack, { Card } from 'react-native-card-stack-swiper'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import Holicon from '@holi/ui/components/holicon'
-import theme from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
 
 import data from './dummy_data.json'
 
@@ -72,9 +72,7 @@ const CardSwiper = () => {
       <CardStack
         style={styles.cardContainer}
         renderNoMoreCards={() => (
-          <HoliText style={{ fontWeight: '700', fontSize: 18, color: theme.colors.fontColorGrey }}>
-            No more cards :(
-          </HoliText>
+          <HoliText style={{ fontWeight: '700', fontSize: 18, color: colors.fontColorGrey }}>No more cards :(</HoliText>
         )}
         ref={swiper}
         loop={true}
@@ -89,7 +87,7 @@ const CardSwiper = () => {
             <Image style={styles.cardImg} source={{ uri: `${imgUri}${card.image}` }} />
             <View style={styles.textContainer}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Holicon style={{ marginRight: 6 }} icon="community" size={25} color={theme.colors.fontColorWhite} />
+                <Holicon style={{ marginRight: 6 }} icon="community" size={25} color={colors.fontColorWhite} />
                 <HoliText style={styles.text}>{card.provider}</HoliText>
               </View>
               <View>
@@ -163,7 +161,7 @@ const styles = StyleSheet.create({
     borderRadius: 13,
   },
   text: {
-    color: theme.colors.fontColorWhite,
+    color: colors.fontColorWhite,
     fontSize: 16,
   },
   textBig: {
@@ -188,7 +186,7 @@ const styles = StyleSheet.create({
       height: 1,
     },
     shadowOpacity: 0.5,
-    backgroundColor: theme.colors.backgroundColorWhite,
+    backgroundColor: colors.backgroundColorWhite,
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 0,
@@ -197,24 +195,24 @@ const styles = StyleSheet.create({
     width: 55,
     height: 55,
     borderWidth: 6,
-    borderColor: theme.colors.primaryColor,
+    borderColor: colors.primaryColor,
     borderRadius: 55,
     marginTop: -15,
   },
   green: {
     width: 75,
     height: 75,
-    backgroundColor: theme.colors.tertiaryColor,
+    backgroundColor: colors.tertiaryColor,
     borderRadius: 75,
     borderWidth: 6,
-    borderColor: theme.colors.tertiaryColor,
+    borderColor: colors.tertiaryColor,
   },
   red: {
     width: 75,
     height: 75,
-    backgroundColor: theme.colors.secondaryColor,
+    backgroundColor: colors.secondaryColor,
     borderRadius: 75,
     borderWidth: 6,
-    borderColor: theme.colors.secondaryColor,
+    borderColor: colors.secondaryColor,
   },
 })

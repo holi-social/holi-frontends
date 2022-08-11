@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Animated, Modal, ModalProps, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { Animated, Modal, ModalProps, StyleSheet, View, useWindowDimensions } from 'react-native'
 import {
   GestureEvent,
   GestureHandlerRootView,
@@ -7,7 +8,8 @@ import {
   PanGestureHandler,
 } from 'react-native-gesture-handler'
 
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type HoliModalProps = ModalProps & {
   show: boolean
@@ -20,9 +22,10 @@ export type HoliModalProps = ModalProps & {
 const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProps) => {
   // default height is 75% of screen size
   const { show = false, relativeHeight = 0.75, onDismiss, children } = props
-  const { theme } = useTheme()
   const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
-  const styles = getStyles(theme, deviceWidth)
+
+  const styles = getStyles(deviceWidth)
+  const { t } = useTranslation()
 
   const modalHeight = deviceHeight * relativeHeight
   const [visible, setVisible] = useState(show)
@@ -64,40 +67,49 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
   }, [show, bottom, modalHeight])
 
   return (
-    <Modal visible={visible} transparent={true} testID={props.testID}>
-      <GestureHandlerRootView style={styles.rootView}>
-        <Pressable onPress={onDismiss} style={styles.backDrop} testID="backDrop" />
-
-        <Animated.View
-          style={[
-            styles.root,
-            {
-              height: modalHeight,
-              bottom: bottom,
-              shadowOffset: {
-                width: deviceWidth,
-                height: -3,
+    <>
+      <Modal onRequestClose={onDismiss} visible={visible} transparent={true} testID={props.testID}>
+        <GestureHandlerRootView style={styles.rootView}>
+          <HoliButton
+            label={t('modal.backdrop')}
+            onPress={onDismiss}
+            style={styles.backdrop}
+            transparent
+            disableFocusability
+          >
+            <View onAccessibilityEscape={onDismiss} style={styles.backdrop} testID="backdrop" />
+          </HoliButton>
+          <Animated.View
+            style={[
+              styles.root,
+              {
+                height: modalHeight,
+                bottom: bottom,
+                shadowOffset: {
+                  width: deviceWidth,
+                  height: -3,
+                },
               },
-            },
-            styles.common,
-          ]}
-          testID={[props.testID, 'animatedview'].filter((e) => e).join('-')}
-        >
-          <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
-            <View style={[styles.header, styles.common, styles.panView]}>
-              <View style={[styles.handle]} />
-            </View>
-          </PanGestureHandler>
-          {children}
-        </Animated.View>
-      </GestureHandlerRootView>
-    </Modal>
+              styles.common,
+            ]}
+            testID={[props.testID, 'animatedview'].filter((e) => e).join('-')}
+          >
+            <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
+              <View style={[styles.header, styles.common, styles.panView]}>
+                <View style={[styles.handle]} />
+              </View>
+            </PanGestureHandler>
+            {children}
+          </Animated.View>
+        </GestureHandlerRootView>
+      </Modal>
+    </>
   )
 }
 
 export default HoliModal
 
-const getStyles = (theme: HoliTheme, deviceWidth: number) =>
+const getStyles = (deviceWidth: number) =>
   StyleSheet.create({
     rootView: { flex: 1 },
     root: {
@@ -105,14 +117,14 @@ const getStyles = (theme: HoliTheme, deviceWidth: number) =>
       left: 0,
       right: 0,
       zIndex: 100,
-      backgroundColor: theme.colors.backgroundColorWhite,
+      backgroundColor: colors.backgroundColorWhite,
       borderTopLeftRadius: 24,
       borderTopRightRadius: 24,
       overflow: 'hidden',
     },
     header: {
       height: 44,
-      backgroundColor: theme.colors.backgroundColorWhite,
+      backgroundColor: colors.backgroundColorWhite,
       justifyContent: 'center',
       alignItems: 'center',
     },
@@ -123,7 +135,7 @@ const getStyles = (theme: HoliTheme, deviceWidth: number) =>
       position: 'absolute',
       top: 10,
       zIndex: 10,
-      backgroundColor: theme.colors.softblack,
+      backgroundColor: colors.softblack,
       opacity: 0.3,
     },
     common: {
@@ -146,10 +158,10 @@ const getStyles = (theme: HoliTheme, deviceWidth: number) =>
       top: 0,
       zIndex: 10,
     },
-    backDrop: {
+    backdrop: {
       ...StyleSheet.absoluteFillObject,
-      zIndex: 80,
+      zIndex: 0,
       opacity: 0.4,
-      backgroundColor: theme.colors.softblack,
+      backgroundColor: colors.softblack,
     },
   })

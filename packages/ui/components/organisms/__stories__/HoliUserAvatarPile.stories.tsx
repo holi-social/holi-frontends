@@ -4,7 +4,7 @@ import React from 'react'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 
-const users = fakeTopics.get('abc').contributors
+const users = fakeTopics.get('abc').editors
 
 export default {
   title: 'Organisms/HoliUserAvatarPile',

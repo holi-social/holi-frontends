@@ -14,7 +14,7 @@ const TopicEditors: React.FunctionComponent<TopicEditorsProps> = ({ topicId }) =
   return (
     <View style={{ padding: 10 }}>
       <HoliHeading level="1" size="super">
-        {t('topics.topicEditors.title', { topicId })}
+        {t('topics.topic.editors.title', { topicId })}
       </HoliHeading>
     </View>
   )

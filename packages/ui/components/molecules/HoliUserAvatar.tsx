@@ -1,18 +1,9 @@
 import * as React from 'react'
-import {
-  AccessibilityProps,
-  Image,
-  ImageSourcePropType,
-  Platform,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from 'react-native'
+import { AccessibilityProps, Image, ImageSourcePropType, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import tinycolor from 'tinycolor2'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { colors } from '@holi/ui/styles/globalVars'
 
 // See accessibility hints: https://www.w3.org/WAI/tutorials/images/informative/
 // https://usability.yale.edu/web-accessibility/articles/images#image-guidelines
@@ -49,10 +40,9 @@ const HoliUserAvatar: React.VFC<AccessibleComponentProps<AvatarProps>> = ({
   accessibilityRole = 'image',
   ...props
 }) => {
-  const { theme } = useTheme()
   const width = sizes[size || 'medium']
   const hasImage = !!imageSrc
-  const styles = getStyles(theme, width, defaultColor, hasImage)
+  const styles = getStyles(width, defaultColor, hasImage)
   const imageUri: ImageSourcePropType = { uri: imageSrc }
   const sizeClass = size || 'medium'
 
@@ -65,7 +55,7 @@ const HoliUserAvatar: React.VFC<AccessibleComponentProps<AvatarProps>> = ({
   return (
     <View {...props} style={[styles.holiUserAvatar, style, styles[sizeClass]]}>
       {hasImage ? (
-        <Image source={imageUri} style={{ width: width, height: width }} {...accessibilityProps} />
+        <Image source={imageUri} style={styles.image} {...accessibilityProps} />
       ) : (
         <HoliText style={styles.inititals} {...accessibilityProps}>
           {initials}
@@ -77,48 +67,52 @@ const HoliUserAvatar: React.VFC<AccessibleComponentProps<AvatarProps>> = ({
 
 export default HoliUserAvatar
 
-const getStyles = (theme: HoliTheme, width: number, defaultColor: string, imageIsAvailable: boolean) => {
+const getStyles = (width: number, defaultColor: string, imageIsAvailable: boolean) => {
   const initialsFontSize = (width / 10) * 4.5
   return StyleSheet.create({
     holiUserAvatar: {
       borderRadius: width / 2,
       borderWidth: 1,
       borderColor: 'transparent',
-      backgroundColor: imageIsAvailable ? theme.colors.backgroundColorGrey : defaultColor,
-      overflow: 'hidden',
+      backgroundColor: imageIsAvailable ? colors.backgroundColorGrey : defaultColor,
       alignItems: 'center',
       justifyContent: 'center',
+      overflow: 'hidden',
     },
     micro: {
-      width: width,
+      width,
       height: width,
     },
     small: {
-      width: width,
+      width,
       height: width,
     },
     medium: {
-      width: width,
+      width,
       height: width,
     },
     large: {
-      width: width,
+      width,
       height: width,
       borderWidth: 2,
-      borderColor: theme.colors.softblack,
+      borderColor: colors.softblack,
     },
     extralarge: {
-      width: width,
+      width,
       height: width,
       borderWidth: 2,
-      borderColor: theme.colors.softblack,
+      borderColor: colors.softblack,
+    },
+    image: {
+      height: '100%',
+      width: '100%',
     },
     inititals: {
       fontSize: initialsFontSize,
       textTransform: 'uppercase',
       fontWeight: 'bold',
-      color: tinycolor(defaultColor).isLight() ? theme.colors.fontColorBlack : theme.colors.fontColorWhite,
-      lineHeight: Platform.OS === 'web' ? 0 : initialsFontSize * 1.2,
+      color: tinycolor(defaultColor).isLight() ? colors.fontColorBlack : colors.fontColorWhite,
+      lineHeight: initialsFontSize * 1.2,
     },
   })
 }
