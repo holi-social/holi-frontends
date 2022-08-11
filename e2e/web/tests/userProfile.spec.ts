@@ -29,7 +29,7 @@ test.describe('@Profile', () => {
     await checkAccessibility(page)
 
     // edit firstName should work
-    const firstNameEdited = `e2etest ${Date.now()}`
+    const firstNameEdited = 'Text User Name'
     await page.locator(byTestId('first-name-input')).fill(firstNameEdited)
     const lastName = await page.inputValue(byTestId('last-name-input'))
     await page.locator(byTestId('btn-user-profile-edit-form-save')).click()
