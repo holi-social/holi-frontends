@@ -111,7 +111,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "alignItems": "center",
                     "backgroundColor": "#f7f6f3",
                     "borderColor": "transparent",
-                    "borderRadius": 61.5,
+                    "borderRadius": 64,
                     "borderWidth": 1,
                     "justifyContent": "center",
                     "overflow": "hidden",
@@ -120,8 +120,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   Object {
                     "borderColor": "#222326",
                     "borderWidth": 2,
-                    "height": 123,
-                    "width": 123,
+                    "height": 128,
+                    "width": 128,
                   },
                 ]
               }
@@ -244,7 +244,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "alignItems": "center",
                     "backgroundColor": "red",
                     "borderColor": "transparent",
-                    "borderRadius": 61.5,
+                    "borderRadius": 64,
                     "borderWidth": 1,
                     "justifyContent": "center",
                     "overflow": "hidden",
@@ -253,8 +253,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   Object {
                     "borderColor": "#222326",
                     "borderWidth": 2,
-                    "height": 123,
-                    "width": 123,
+                    "height": 128,
+                    "width": 128,
                   },
                 ]
               }
@@ -278,9 +278,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     Object {},
                     Object {
                       "color": "#fff",
-                      "fontSize": 55.35,
+                      "fontSize": 57.6,
                       "fontWeight": "bold",
-                      "lineHeight": 66.42,
+                      "lineHeight": 69.12,
                       "textTransform": "uppercase",
                     },
                   ]
@@ -390,7 +390,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "alignItems": "center",
                     "backgroundColor": "#f7f6f3",
                     "borderColor": "transparent",
-                    "borderRadius": 61.5,
+                    "borderRadius": 64,
                     "borderWidth": 1,
                     "justifyContent": "center",
                     "overflow": "hidden",
@@ -399,8 +399,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   Object {
                     "borderColor": "#222326",
                     "borderWidth": 2,
-                    "height": 123,
-                    "width": 123,
+                    "height": 128,
+                    "width": 128,
                   },
                 ]
               }
@@ -523,7 +523,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "alignItems": "center",
                     "backgroundColor": "yellow",
                     "borderColor": "transparent",
-                    "borderRadius": 61.5,
+                    "borderRadius": 64,
                     "borderWidth": 1,
                     "justifyContent": "center",
                     "overflow": "hidden",
@@ -532,8 +532,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   Object {
                     "borderColor": "#222326",
                     "borderWidth": 2,
-                    "height": 123,
-                    "width": 123,
+                    "height": 128,
+                    "width": 128,
                   },
                 ]
               }
@@ -557,9 +557,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     Object {},
                     Object {
                       "color": "#222326",
-                      "fontSize": 55.35,
+                      "fontSize": 57.6,
                       "fontWeight": "bold",
-                      "lineHeight": 66.42,
+                      "lineHeight": 69.12,
                       "textTransform": "uppercase",
                     },
                   ]
@@ -669,7 +669,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "alignItems": "center",
                     "backgroundColor": "#f7f6f3",
                     "borderColor": "transparent",
-                    "borderRadius": 61.5,
+                    "borderRadius": 64,
                     "borderWidth": 1,
                     "justifyContent": "center",
                     "overflow": "hidden",
@@ -678,8 +678,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   Object {
                     "borderColor": "#222326",
                     "borderWidth": 2,
-                    "height": 123,
-                    "width": 123,
+                    "height": 128,
+                    "width": 128,
                   },
                 ]
               }
@@ -802,7 +802,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "alignItems": "center",
                     "backgroundColor": "purple",
                     "borderColor": "transparent",
-                    "borderRadius": 61.5,
+                    "borderRadius": 64,
                     "borderWidth": 1,
                     "justifyContent": "center",
                     "overflow": "hidden",
@@ -811,8 +811,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   Object {
                     "borderColor": "#222326",
                     "borderWidth": 2,
-                    "height": 123,
-                    "width": 123,
+                    "height": 128,
+                    "width": 128,
                   },
                 ]
               }
@@ -836,9 +836,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     Object {},
                     Object {
                       "color": "#fff",
-                      "fontSize": 55.35,
+                      "fontSize": 57.6,
                       "fontWeight": "bold",
-                      "lineHeight": 66.42,
+                      "lineHeight": 69.12,
                       "textTransform": "uppercase",
                     },
                   ]
@@ -950,7 +950,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "alignItems": "center",
                     "backgroundColor": "#f7f6f3",
                     "borderColor": "transparent",
-                    "borderRadius": 61.5,
+                    "borderRadius": 64,
                     "borderWidth": 1,
                     "justifyContent": "center",
                     "overflow": "hidden",
@@ -959,8 +959,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   Object {
                     "borderColor": "#222326",
                     "borderWidth": 2,
-                    "height": 123,
-                    "width": 123,
+                    "height": 128,
+                    "width": 128,
                   },
                 ]
               }
