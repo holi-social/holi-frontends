@@ -48,7 +48,7 @@ export const UserInterests = [
 export type UserInterest = typeof UserInterests[number]
 
 export const UserSkills = [
-  'ABILITY_TO_SELF-REFLECT',
+  'ABILITY_TO_SELF_REFLECT',
   'ADAPTABILITY',
   'ANALYSIS_ABILITY',
   'ASSERTIVENESS',
@@ -82,9 +82,9 @@ export const UserSkills = [
   'RELATIONSHIP_COMPETENCE',
   'RELIABILITY',
   'RESILIENCE',
-  'SELF-CONFIDENT_APPEARANCE',
+  'SELF_CONFIDENT_APPEARANCE',
   'SENSE_OF_RESPONSIBILITY',
-  'SOLUTION-ORIENTED',
+  'SOLUTION_ORIENTED',
   'TEAMWORK',
   'TIME_MANAGEMENT',
   'TRANSFERABILITY',
