@@ -9,11 +9,15 @@
     "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
     "codeceptjs:ui": "codecept-ui --app",
     "clean": "rimraf output",
-    "clean:all": "yarn clean && rimraf node_modules"
+    "clean:all": "yarn clean && rimraf node_modules",
+    "prepare:android": "./scripts/run_android.sh"
   },
   "dependencies": {
-    "codeceptjs": "^3.3.0",
+    "codeceptjs": "^3.3.4",
     "wd": "^1.14.0",
     "webdriverio": "^7.16.16"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1"
   }
 }

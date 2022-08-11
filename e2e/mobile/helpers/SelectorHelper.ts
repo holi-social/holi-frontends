@@ -1,13 +1,18 @@
-const Helper = require('@codeceptjs/helper')
+import Helper from '@codeceptjs/helper'
 
-const byTestId = (testID, platform) => (platform === 'ios' ? `~${testID}` : `#${testID}`)
+const byTestId = (testID: string, platform: string) => (platform === 'ios' ? `~${testID}` : `#${testID}`)
 
 /**
  * Codecepts Appium Helper
  * https://github.com/codeceptjs/CodeceptJS/blob/master/lib/helper/Appium.js
  */
 class SelectorHelper extends Helper {
-  async seeTextWithTestId(expectedText, testId) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  constructor(config: any) {
+    super(config)
+  }
+
+  async seeTextWithTestId(expectedText: string, testId: string) {
     const { Appium } = this.helpers
     const elementSelector = byTestId(testId, Appium.platform)
 
@@ -15,7 +20,7 @@ class SelectorHelper extends Helper {
     await Appium.see(expectedText, elementSelector)
   }
 
-  async tapOnElementWithTestId(testId) {
+  async tapOnElementWithTestId(testId: string) {
     const { Appium } = this.helpers
     const elementSelector = byTestId(testId, Appium.platform)
 
@@ -31,4 +36,4 @@ class SelectorHelper extends Helper {
   }
 }
 
-module.exports = SelectorHelper
+export = SelectorHelper
