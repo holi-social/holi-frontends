@@ -14,7 +14,7 @@ import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
-import { UserChipInterest } from '@holi/core/screens/userprofile/types'
+import { UserChipInterest, UserChipSkill } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
@@ -27,7 +27,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 const UserProfile: React.VFC = () => {
   const { navigate } = useRouting()
   const [showModal, setShowModal] = useState(false)
-  const [editMode, setEditMode] = useState<'profile' | 'levelOfEngagement' | 'interests' | null>(null)
+  const [editMode, setEditMode] = useState<'profile' | 'levelOfEngagement' | 'interests' | 'skills' | null>(null)
   const toggleModal = useCallback(() => {
     setShowModal(!showModal)
   }, [showModal])
@@ -109,6 +109,8 @@ const UserProfile: React.VFC = () => {
                       return (
                         <UserChipForm typeMetadata={UserChipInterest} onCancel={toggleModal} onSubmit={toggleModal} />
                       )
+                    case 'skills':
+                      return <UserChipForm typeMetadata={UserChipSkill} onCancel={toggleModal} onSubmit={toggleModal} />
                   }
                 })()}
               </HoliModal>
@@ -178,6 +180,16 @@ const UserProfile: React.VFC = () => {
                       onPressEdit={() => {
                         toggleModal()
                         setEditMode('interests')
+                      }}
+                    />
+                  </View>,
+                  <View style={[mixins.container, styles.chipRowContainer]} key="skills">
+                    <UserChipRow
+                      key={'skills'}
+                      typeMetadata={UserChipSkill}
+                      onPressEdit={() => {
+                        toggleModal()
+                        setEditMode('skills')
                       }}
                     />
                   </View>,
