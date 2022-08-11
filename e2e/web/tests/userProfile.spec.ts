@@ -42,7 +42,7 @@ test.describe('@Profile', () => {
 })
 
 const checkChipRow = async (page: Page, what: string) => {
-  const testid = byTestId(`user-profile-${what}`)
+  const userProfileTestId = byTestId(`user-profile-${what}`)
 
   // deselecting all chips should work
   await page.locator(byTestId(`user-profile-${what}-edit`)).click()
@@ -62,10 +62,9 @@ const checkChipRow = async (page: Page, what: string) => {
   await checkAccessibility(page)
 
   // there should be no chip selected, the only chip available should be the one opening the modal layer
-  expect(await page.locator(`${testid} >> [role="checkbox"]`).count()).toBe(1)
+  expect(await page.locator(`${userProfileTestId} >> [role="checkbox"]`).count()).toBe(1)
 
-  console.log(testid)
-  await page.locator(`${testid} >> [role="checkbox"]`).click()
+  await page.locator(`${userProfileTestId} >> [role="checkbox"]`).click()
   await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
   const noAvailable: number = await page
     .locator(`${byTestId('user-profile-modal-animatedview')} >> [role="checkbox"]`)
@@ -81,7 +80,7 @@ const checkChipRow = async (page: Page, what: string) => {
   await checkAccessibility(page)
 
   // the selected chips should be visible on the profile page
-  expect(await page.locator(`${testid} >> [role="presentation"]`).count()).toBe(noExpected)
+  expect(await page.locator(`${userProfileTestId} >> [role="presentation"]`).count()).toBe(noExpected)
 }
 
 const save = async (page: Page, what: string) => {
