@@ -153,7 +153,7 @@ const HoliTextInput = ({
                 editable={!props?.disabled}
                 blurOnSubmit={Platform.OS !== 'web'}
                 secureTextEntry={type === 'password'}
-                autoCompleteType={autocomplete}
+                autoComplete={autocomplete}
                 autoCapitalize="none"
                 autoCorrect={false}
                 {...accessibilityProps}
