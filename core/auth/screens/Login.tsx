@@ -88,6 +88,7 @@ const Login: React.VoidFunctionComponent = () => {
           <HoliText>{t('auth.login.alreadyLoggedIn')}</HoliText>
         ) : (
           <View style={styles.formContainer}>
+            {Platform.OS === 'web' && <HoliHeading>{t('auth.login')}</HoliHeading>}
             <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} />
             <HoliButton disabled transparent inline label="some label" variant="small" style={styles.button}>
               {t('auth.login.link.forgotPassword')}

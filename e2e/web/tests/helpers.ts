@@ -53,5 +53,5 @@ export const checkAccessibility = async (page: Page) => {
     },
   }
   // set skipFailures to true for now, so we can fix the issues in a planned task
-  await checkA11y(page, undefined, { axeOptions: axeOptions }, true)
+  await checkA11y(page, undefined, { axeOptions, detailedReport: true, detailedReportOptions: { html: true } }, true)
 }

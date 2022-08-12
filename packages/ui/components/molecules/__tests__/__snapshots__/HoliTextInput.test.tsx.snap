@@ -121,7 +121,7 @@ exports[`renders correctly when disabled 1`] = `
         }
       >
         <TextInput
-          accessibilityAutoComplete={true}
+          accessibilityAutoComplete="inline"
           accessibilityLabel="Label"
           accessible={true}
           autoCapitalize="none"
@@ -328,7 +328,7 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
         }
       >
         <TextInput
-          accessibilityAutoComplete={true}
+          accessibilityAutoComplete="inline"
           accessibilityLabel="Label"
           accessible={true}
           autoCapitalize="none"
@@ -535,7 +535,7 @@ exports[`renders correctly when multiline starting with one line 1`] = `
         }
       >
         <TextInput
-          accessibilityAutoComplete={true}
+          accessibilityAutoComplete="inline"
           accessibilityLabel="Label"
           accessible={true}
           autoCapitalize="none"
@@ -738,7 +738,7 @@ exports[`renders correctly with default props 1`] = `
         }
       >
         <TextInput
-          accessibilityAutoComplete={true}
+          accessibilityAutoComplete="inline"
           accessibilityLabel="Label"
           accessible={true}
           autoCapitalize="none"
@@ -947,7 +947,7 @@ exports[`renders correctly with error 1`] = `
         }
       >
         <TextInput
-          accessibilityAutoComplete={true}
+          accessibilityAutoComplete="inline"
           accessibilityLabel="Label"
           accessible={true}
           autoCapitalize="none"
@@ -1232,7 +1232,7 @@ exports[`renders correctly with trailing icon 1`] = `
         }
       >
         <TextInput
-          accessibilityAutoComplete={true}
+          accessibilityAutoComplete="inline"
           accessibilityLabel="Label"
           accessible={true}
           autoCapitalize="none"
@@ -1519,11 +1519,11 @@ exports[`renders correctly with type password 1`] = `
         }
       >
         <TextInput
-          accessibilityAutoComplete={true}
+          accessibilityAutoComplete="inline"
           accessibilityLabel="Label"
           accessible={true}
           autoCapitalize="none"
-          autoComplete="password"
+          autoComplete="current-password"
           autoCorrect={false}
           blurOnSubmit={true}
           editable={true}
@@ -1683,7 +1683,7 @@ exports[`renders correctly without label 1`] = `
         }
       >
         <TextInput
-          accessibilityAutoComplete={true}
+          accessibilityAutoComplete="inline"
           accessibilityLabel="undefined"
           accessible={true}
           autoCapitalize="none"
