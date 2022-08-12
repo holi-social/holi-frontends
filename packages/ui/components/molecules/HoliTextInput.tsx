@@ -88,7 +88,7 @@ const HoliTextInput = ({
   })()
 
   const autocomplete: TextInputProps['autoComplete'] = (() => {
-    if (type === 'password') return 'current-password'
+    if (type === 'password') return 'password'
     if (type === 'email') return 'email'
     return 'off'
   })()
@@ -153,7 +153,7 @@ const HoliTextInput = ({
                 editable={!props?.disabled}
                 blurOnSubmit={Platform.OS !== 'web'}
                 secureTextEntry={type === 'password'}
-                autoComplete={autocomplete}
+                autoCompleteType={autocomplete}
                 autoCapitalize="none"
                 autoCorrect={false}
                 {...accessibilityProps}
