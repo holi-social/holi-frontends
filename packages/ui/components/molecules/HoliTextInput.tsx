@@ -6,7 +6,6 @@ import {
   Pressable,
   StyleSheet,
   TextInput,
-  TextInputAndroidProps,
   TextInputIOSProps,
   TextInputProps,
   View,
@@ -49,6 +48,7 @@ const HoliTextInput = ({
   maxNoOfCharacters = 5000,
   inline = false,
   style = {},
+  type,
   value,
   ...props
 }: HoliTextInputProps) => {
@@ -65,7 +65,7 @@ const HoliTextInput = ({
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: true,
     accessibilityLabel: `${props?.label}`,
-    accessibilityAutoComplete: true,
+    accessibilityAutoComplete: 'inline',
   }
 
   useEffect(() => {
@@ -76,20 +76,20 @@ const HoliTextInput = ({
   const styles = getStyles(theme)
 
   const keyboardType: KeyboardTypeOptions = (() => {
-    if (props?.type === 'email') return 'email-address'
-    if (props?.type === 'number') return 'numeric'
+    if (type === 'email') return 'email-address'
+    if (type === 'number') return 'numeric'
     return 'default'
   })()
 
   const textContentType: TextInputIOSProps['textContentType'] = (() => {
     const iOS12Plus = Platform.OS === 'ios' && parseInt(String(Platform.Version), 10) >= 12
-    if (props?.type === 'password') return iOS12Plus ? 'newPassword' : 'password'
-    if (props?.type === 'email') return Platform.OS === 'ios' ? 'username' : 'emailAddress'
+    if (type === 'password') return iOS12Plus ? 'newPassword' : 'password'
+    if (type === 'email') return Platform.OS === 'ios' ? 'username' : 'emailAddress'
   })()
 
-  const autocomplete: TextInputAndroidProps['autoComplete'] = (() => {
-    if (props?.type === 'password') return 'password'
-    if (props?.type === 'email') return 'email'
+  const autocomplete: TextInputProps['autoComplete'] = (() => {
+    if (type === 'password') return 'current-password'
+    if (type === 'email') return 'email'
     return 'off'
   })()
 
@@ -139,7 +139,7 @@ const HoliTextInput = ({
                 onChange={(event) => {
                   let text = event.nativeEvent.text
                   // type doesn't work with RN 'numeric' on web
-                  if (props?.type === 'number') text = text.replace(/[^0-9]/g, '')
+                  if (type === 'number') text = text.replace(/[^0-9]/g, '')
                   props.onChange?.(text)
                 }}
                 onContentSizeChange={(event) => {
@@ -152,7 +152,7 @@ const HoliTextInput = ({
                 maxLength={maxNoOfCharacters}
                 editable={!props?.disabled}
                 blurOnSubmit={Platform.OS !== 'web'}
-                secureTextEntry={props?.type === 'password'}
+                secureTextEntry={type === 'password'}
                 autoComplete={autocomplete}
                 autoCapitalize="none"
                 autoCorrect={false}
