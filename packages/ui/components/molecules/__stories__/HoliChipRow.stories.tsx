@@ -12,7 +12,7 @@ export default {
 const Template: ComponentStory<typeof HoliChipRow> = ({ ...args }) => {
   return (
     <HoliChipRow {...args}>
-      <HoliChip text=" Books" disabled style={{ marginRight: 5, marginTop: 5 }}></HoliChip>
+      <HoliChip text="Books" disabled style={{ marginRight: 5, marginTop: 5 }}></HoliChip>
       <HoliChip text="Sports" disabled style={{ marginRight: 5, marginTop: 5 }}></HoliChip>
       <HoliChip text="Movies" disabled style={{ marginRight: 5, marginTop: 5 }}></HoliChip>
       <HoliChip text="Hiking" disabled style={{ marginRight: 5, marginTop: 5 }}></HoliChip>

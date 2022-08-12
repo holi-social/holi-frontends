@@ -45,7 +45,6 @@ const UserProfileView: React.VFC = () => {
       <View style={{ flexDirection: 'row', marginTop: 16 }}>
         <HoliChip
           text={t('user.profileView.connect')}
-          label={t('user.profileView.connect')}
           checked={false}
           disabled={false}
           style={{ marginRight: 8 }}
@@ -53,7 +52,6 @@ const UserProfileView: React.VFC = () => {
         />
         <HoliChip
           text={t('user.profileView.message')}
-          label={t('user.profileView.message')}
           checked={false}
           disabled={true}
           fontStyle={{ color: colors.positivepurple }}

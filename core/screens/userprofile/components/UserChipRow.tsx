@@ -37,7 +37,7 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({ typeMetada
           text={''}
           key="edit"
           onPress={() => onPressEdit()}
-          accessibilityLabel={t(`profile.${typeMetadata.keyInUserObject}.add`)}
+          label={t(`profile.${typeMetadata.keyInUserObject}.add`)}
           style={styles.chip}
         ></HoliChip>
       )}

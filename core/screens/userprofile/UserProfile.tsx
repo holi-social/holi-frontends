@@ -167,7 +167,7 @@ const UserProfile: React.VFC = () => {
                             toggleModal()
                             setEditMode('levelOfEngagement')
                           }}
-                          accessibilityLabel={t('profile.engagementLevel.add')}
+                          label={t('profile.engagementLevel.add')}
                           style={styles.chip}
                         ></HoliChip>
                       )}
