@@ -16,8 +16,8 @@ const useNavigationHeader = () => {
       const title = headerProps.title || ''
       navigationContext.setHeaderTitle(title)
       if (headerProps.titleElement) headerOptions.titleElement = headerProps.titleElement
-      if (headerProps.leftElement) headerOptions.headerLeft = headerProps.leftElement
-      if (headerProps.rightElement) headerOptions.headerRight = headerProps.rightElement
+      if (headerProps.headerLeft) headerOptions.headerLeft = headerProps.headerLeft
+      if (headerProps.headerRight) headerOptions.headerRight = headerProps.headerRight
       navigation.setOptions && navigation.setOptions(headerOptions)
     },
     clearNavigationHeader: () => {

@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useContext, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
@@ -59,7 +59,7 @@ const UserProfile: React.VFC = () => {
                 setEditMode('profile')
                 toggleModal()
               }}
-              style={{ marginRight: 24 }}
+              style={styles.headerEditButton}
             >
               <HoliText size="small" bold style={{ color: colors.fontColorGrey }}>
                 {t('profile.edit')}
@@ -231,6 +231,10 @@ const styles = StyleSheet.create({
   chip: {
     marginRight: 8,
     marginBottom: 8,
+  },
+  headerEditButton: {
+    marginLeft: 24,
+    marginRight: Platform.OS === 'web' ? 24 : 0,
   },
 })
 
