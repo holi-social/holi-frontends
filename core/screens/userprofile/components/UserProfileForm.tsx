@@ -20,31 +20,32 @@ import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type UserProfileFormProps = {
-  children?: React.ReactChildren
-  onCancel?: () => void
-  onSubmit?: (user: User) => void
+  onCancel: () => void
+  onSubmit: (user: User) => void
   testId?: string
 }
 
-const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ onSubmit, ...props }) => {
+const onlyLettersAndSpaces = (str: string) => str.replace(/[^\p{L}\s]/gu, '')
+
+const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }) => {
   const { user } = useContext(UserContext)
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
-  const [firstName, setFirstName] = useState(user?.firstName || '')
-  const [lastName, setLastName] = useState(user?.lastName || '')
-  const [aboutMe, setAboutMe] = useState(user?.aboutMe || '')
-  const [pronouns, setPronouns] = useState(user?.pronouns || '')
-  const [location, setLocation] = useState(user?.location || '')
+  const [firstName, setFirstName] = useState(user?.firstName ?? '')
+  const [lastName, setLastName] = useState(user?.lastName ?? '')
+  const [aboutMe, setAboutMe] = useState(user?.aboutMe ?? '')
+  const [pronouns, setPronouns] = useState(user?.pronouns ?? '')
+  const [location, setLocation] = useState(user?.location ?? '')
   const [fieldErrors, setFieldErrors] = useState<{ [x: string]: string[] | undefined }>({})
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
 
   const submit = async () => {
     const input: UpdateAuthenticatedUserInput = {
-      ...(typeof firstName === 'string' && { firstName }),
-      ...(typeof lastName === 'string' && { lastName }),
-      ...(typeof aboutMe === 'string' && { aboutMe }),
-      ...(typeof pronouns === 'string' && { pronouns }),
-      ...(typeof location === 'string' && { location }),
+      firstName,
+      lastName,
+      aboutMe,
+      pronouns,
+      location,
     }
 
     const resultSchema = UpdateAuthenticatedUserInputSchema.safeParse(input)
@@ -95,12 +96,13 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
       </View>
       <ScrollView style={styles.scrollView}>
         <HoliTextInput
-          value={user.firstName}
+          value={firstName}
           label={t('user.profileForm.firstName')}
           placeholder={t('user.profileForm.firstNamePlaceholder')}
+          maxNoOfCharacters={30}
           onChange={(text) => {
-            setFirstName(text)
-            setFieldErrors({ ...fieldErrors, ...{ firstName: undefined } })
+            setFirstName(onlyLettersAndSpaces(text))
+            setFieldErrors((currentErrors) => ({ ...currentErrors, ...{ firstName: undefined } }))
           }}
           style={styles.input}
           validationErrorText={fieldErrors?.firstName?.join()}
@@ -108,35 +110,37 @@ const UserProfileForm: React.VoidFunctionComponent<UserProfileFormProps> = ({ on
           inputProps={{ autoFocus: Platform.OS === 'web' }}
         />
         <HoliTextInput
-          value={user.lastName}
+          value={lastName}
           label={t('user.profileForm.lastName')}
           placeholder={t('user.profileForm.lastNamePlaceholder')}
+          maxNoOfCharacters={30}
           onChange={(text) => {
-            setLastName(text)
-            setFieldErrors({ ...fieldErrors, ...{ lastName: undefined } })
+            setLastName(onlyLettersAndSpaces(text))
+            setFieldErrors((currentErrors) => ({ ...currentErrors, ...{ lastName: undefined } }))
           }}
           style={styles.input}
           validationErrorText={fieldErrors?.lastName?.join()}
           testID={'last-name'}
         />
         <HoliTextInput
-          value={user?.aboutMe}
+          value={aboutMe}
           label={t('user.profileForm.aboutMe')}
           placeholder={t('user.profileForm.aboutMePlaceholder')}
           onChange={(text) => setAboutMe(text)}
-          noOfLines={3}
-          maxNoOfLines={3}
+          noOfVisibleLines={5}
+          maxNoOfVisibleLines={10}
+          maxNoOfCharacters={3000}
           style={styles.input}
         />
         <HoliTextInput
-          value={user?.pronouns}
+          value={pronouns}
           label={t('user.profileForm.pronouns')}
           placeholder={t('user.profileForm.pronounsPlaceholder')}
           onChange={(text) => setPronouns(text)}
           style={styles.input}
         />
         <HoliTextInput
-          value={user?.location}
+          value={location}
           label={t('user.profileForm.location')}
           placeholder={t('user.profileForm.locationPlaceholder')}
           onChange={(text) => setLocation(text)}

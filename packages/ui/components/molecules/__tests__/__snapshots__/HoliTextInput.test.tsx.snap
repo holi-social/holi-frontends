@@ -132,6 +132,7 @@ exports[`renders correctly when disabled 1`] = `
           keyboardType="default"
           maxLength={5000}
           multiline={false}
+          numberOfLines={1}
           onBlur={[Function]}
           onChange={[Function]}
           onContentSizeChange={[Function]}
@@ -161,7 +162,6 @@ exports[`renders correctly when disabled 1`] = `
             ]
           }
           testID="holi-text-input"
-          value=""
         />
       </View>
     </View>
@@ -339,6 +339,7 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
           keyboardType="default"
           maxLength={5000}
           multiline={true}
+          numberOfLines={2}
           onBlur={[Function]}
           onChange={[Function]}
           onContentSizeChange={[Function]}
@@ -368,7 +369,6 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
             ]
           }
           testID="holi-text-input"
-          value=""
         />
       </View>
     </View>
@@ -546,6 +546,7 @@ exports[`renders correctly when multiline starting with one line 1`] = `
           keyboardType="default"
           maxLength={5000}
           multiline={true}
+          numberOfLines={1}
           onBlur={[Function]}
           onChange={[Function]}
           onContentSizeChange={[Function]}
@@ -575,7 +576,6 @@ exports[`renders correctly when multiline starting with one line 1`] = `
             ]
           }
           testID="holi-text-input"
-          value=""
         />
       </View>
     </View>
@@ -749,6 +749,7 @@ exports[`renders correctly with default props 1`] = `
           keyboardType="default"
           maxLength={50}
           multiline={false}
+          numberOfLines={1}
           onBlur={[Function]}
           onChange={[Function]}
           onContentSizeChange={[Function]}
@@ -777,7 +778,6 @@ exports[`renders correctly with default props 1`] = `
             ]
           }
           testID="holi-text-input"
-          value=""
         />
       </View>
     </View>
@@ -958,6 +958,7 @@ exports[`renders correctly with error 1`] = `
           keyboardType="default"
           maxLength={5000}
           multiline={false}
+          numberOfLines={1}
           onBlur={[Function]}
           onChange={[Function]}
           onContentSizeChange={[Function]}
@@ -987,7 +988,6 @@ exports[`renders correctly with error 1`] = `
             ]
           }
           testID="holi-text-input"
-          value=""
         />
         <View
           style={
@@ -1243,6 +1243,7 @@ exports[`renders correctly with trailing icon 1`] = `
           keyboardType="default"
           maxLength={5000}
           multiline={false}
+          numberOfLines={1}
           onBlur={[Function]}
           onChange={[Function]}
           onContentSizeChange={[Function]}
@@ -1272,7 +1273,6 @@ exports[`renders correctly with trailing icon 1`] = `
             ]
           }
           testID="holi-text-input"
-          value=""
         />
         <View
           style={
@@ -1530,6 +1530,7 @@ exports[`renders correctly with type password 1`] = `
           keyboardType="default"
           maxLength={5000}
           multiline={false}
+          numberOfLines={1}
           onBlur={[Function]}
           onChange={[Function]}
           onContentSizeChange={[Function]}
@@ -1560,7 +1561,6 @@ exports[`renders correctly with type password 1`] = `
           }
           testID="holi-text-input"
           textContentType="password"
-          value=""
         />
       </View>
     </View>
@@ -1694,6 +1694,7 @@ exports[`renders correctly without label 1`] = `
           keyboardType="default"
           maxLength={5000}
           multiline={false}
+          numberOfLines={1}
           onBlur={[Function]}
           onChange={[Function]}
           onContentSizeChange={[Function]}
@@ -1723,7 +1724,6 @@ exports[`renders correctly without label 1`] = `
             ]
           }
           testID="holi-text-input"
-          value=""
         />
       </View>
     </View>

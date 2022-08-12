@@ -49,12 +49,12 @@ const HoliTextInput = ({
   inline = false,
   style = {},
   type,
+  value,
   ...props
 }: HoliTextInputProps) => {
   const dimensions = useWindowDimensions()
   const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max)
 
-  const [inputValue, setInputValue] = useState(props?.value || '')
   const [isFocused, setFocused] = useState<boolean>(false)
   const hasValidationErrors = !!props?.validationErrorText
 
@@ -124,12 +124,13 @@ const HoliTextInput = ({
               ]}
             >
               <TextInput
-                value={inputValue}
+                value={value}
                 style={[
                   styles.input,
                   inline ? styles.inline : styles.block,
                   { height: numberOfLines * inputLineHeight },
                 ]}
+                numberOfLines={noOfVisibleLines}
                 multiline={maxNoOfVisibleLines > 1}
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
@@ -139,8 +140,7 @@ const HoliTextInput = ({
                   let text = event.nativeEvent.text
                   // type doesn't work with RN 'numeric' on web
                   if (type === 'number') text = text.replace(/[^0-9]/g, '')
-                  setInputValue(text)
-                  props?.onChange && props?.onChange(text)
+                  props.onChange?.(text)
                 }}
                 onContentSizeChange={(event) => {
                   const contentSizeHeight = event.nativeEvent.contentSize.height
@@ -183,7 +183,7 @@ const HoliTextInput = ({
                   {hasValidationErrors && <HoliIcon icon={'error-warning'} size={16} filled color={colors.errorRed} />}
                 </View>
               )}
-              {inputValue.length > maxNoOfCharacters * 0.8 && (
+              {(value?.length ?? 0) > maxNoOfCharacters * 0.8 && (
                 <View
                   style={[
                     styles.inputCharsTextWrapper,
@@ -196,7 +196,7 @@ const HoliTextInput = ({
                   <HoliText
                     size="extrasmall"
                     style={styles.inputCharsText}
-                  >{`${inputValue.length}/${maxNoOfCharacters}`}</HoliText>
+                  >{`${value?.length}/${maxNoOfCharacters}`}</HoliText>
                 </View>
               )}
             </View>
