@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-import { byTestId, clickElementByTestId, delay, waitForElementByTestId } from './helpers'
+import { byTestId, clickElementByTestId, waitForElementByTestId } from './helpers'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
@@ -22,9 +22,11 @@ test.describe('@HomeScreen', () => {
   })
 
   test('has feed topic items and clicking them leads to overview page.', async ({ page }) => {
-    await clickElementByTestId(page, 'feed-topic-image-link')
-    await page.waitForNavigation()
-    expect(page.url()).toContain('topics/')
+    await Promise.all([
+      page.waitForNavigation({ url: '**/topics/**' }),
+      clickElementByTestId(page, 'feed-topic-image-link'),
+    ])
+    expect(page.url()).toContain('/topics/')
   })
 
   test('has feed topic editors avatar pile.', async ({ page }) => {
