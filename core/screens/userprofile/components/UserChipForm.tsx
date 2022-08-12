@@ -129,6 +129,7 @@ const getStyles = () =>
       alignItems: 'center',
       flexDirection: 'column',
       maxWidth: 600,
+      paddingHorizontal: 16,
       paddingTop: 0,
       width: '100%',
       height: '100%',
@@ -154,7 +155,6 @@ const getStyles = () =>
     },
     saveButton: {
       bottom: 70,
-      position: 'absolute',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
