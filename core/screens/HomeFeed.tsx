@@ -156,16 +156,17 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
           <HoliText size="small" style={styles.avatarsTopTitle} testID="avatars-top-title">
             {t('topics.editors.editedBy')}
           </HoliText>
-          <HoliButton
-            label={t('topics.editors.modal.title')}
-            transparent
-            onPress={() => setShowEditorsModal(true)}
-            testID="avatar-pile-open-modal-button"
-            style={styles.topicEditorsModalButton}
-            inline
-          >
-            <HoliUserAvatarPile users={dummyUsers} size="small" collapse />
-          </HoliButton>
+          <View style={styles.topicEditorsModalButton}>
+            <HoliButton
+              label={t('topics.editors.modal.title')}
+              transparent
+              onPress={() => setShowEditorsModal(true)}
+              testID="avatar-pile-open-modal-button"
+              inline
+            >
+              <HoliUserAvatarPile users={dummyUsers} size="small" collapse />
+            </HoliButton>
+          </View>
 
           <HoliModal relativeHeight={0.85} show={showEditorsModal} onDismiss={() => setShowEditorsModal(false)}>
             <HoliUserCardsModalContent
@@ -234,7 +235,11 @@ const homeFeedStyles = (screenWidth: number) =>
       flex: 1,
     },
     topicEditorsModalButton: {
-      width: 'fit-content',
+      ...Platform.select({
+        web: {
+          width: 'fit-content',
+        },
+      }),
     },
   })
 
