@@ -92,6 +92,27 @@ export const UserSkills = [
 ]
 export type UserSkill = typeof UserSkills[number]
 
+export const UserSDGs = [
+  '1_NO_POVERTY',
+  '2_ZERO_HUNGER',
+  '3_HEALTH_WELLBEING',
+  '4_QUALITY_EDUCATION',
+  '5_GENDER_EQUALITY',
+  '6_WATER_SANITATION',
+  '7_AFFORDABLE_CLEAN_ENERGY',
+  '8_DECENT_WORK_ECO_GROWTH',
+  '9_INDUSTRY_INNOVATION_INFRASTRUCTURE',
+  '10_REDUCED_INEQUALITY',
+  '11_SUSTAINABLE_CITIES_COMMUNITIES',
+  '12_RESPONSIBLE_CONSUMPTION_PRODUCTION',
+  '13_CLIMATE_ACTION',
+  '14_LIFE_BELOW_WATER',
+  '15_LIFE_ON_LAND',
+  '16_PEACE_JUSTICE_INSTITUTIONS',
+  '17_PARTNERSHIPS',
+]
+export type UserSDG = typeof UserSDGs[number]
+
 type Guard<T> = (x: any) => x is T // eslint-disable-line @typescript-eslint/no-explicit-any
 
 export type UserChipGeneric<T> = {
@@ -110,4 +131,10 @@ export const UserChipSkill: UserChipGeneric<UserSkill> = {
   allValues: UserSkills,
   keyInUserObject: 'skills',
   isOfType: (x: any): x is UserSkill => UserChipSkill.allValues.includes(x), // eslint-disable-line @typescript-eslint/no-explicit-any
+}
+
+export const UserChipSDG: UserChipGeneric<UserSDG> = {
+  allValues: UserSDGs,
+  keyInUserObject: 'sdgs',
+  isOfType: (x: any): x is UserSDG => UserChipSDG.allValues.includes(x), // eslint-disable-line @typescript-eslint/no-explicit-any
 }

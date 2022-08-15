@@ -14,7 +14,7 @@ import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
-import { UserChipInterest, UserChipSkill } from '@holi/core/screens/userprofile/types'
+import { UserChipInterest, UserChipSDG, UserChipSkill } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
@@ -24,10 +24,12 @@ import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+type editModeState = 'profile' | 'levelOfEngagement' | 'interests' | 'skills' | 'sdgs' | null
+
 const UserProfile: React.VFC = () => {
   const { navigate } = useRouting()
   const [showModal, setShowModal] = useState(false)
-  const [editMode, setEditMode] = useState<'profile' | 'levelOfEngagement' | 'interests' | 'skills' | null>(null)
+  const [editMode, setEditMode] = useState<editModeState>(null)
   const toggleModal = useCallback(() => {
     setShowModal(!showModal)
   }, [showModal])
@@ -111,6 +113,15 @@ const UserProfile: React.VFC = () => {
                       )
                     case 'skills':
                       return <UserChipForm typeMetadata={UserChipSkill} onCancel={toggleModal} onSubmit={toggleModal} />
+                    case 'sdgs':
+                      return (
+                        <UserChipForm
+                          typeMetadata={UserChipSDG}
+                          onCancel={toggleModal}
+                          onSubmit={toggleModal}
+                          sortByTranslation={false}
+                        />
+                      )
                   }
                 })()}
               </HoliModal>
@@ -190,6 +201,17 @@ const UserProfile: React.VFC = () => {
                       onPressEdit={() => {
                         toggleModal()
                         setEditMode('skills')
+                      }}
+                    />
+                  </View>,
+                  <View style={[mixins.container, styles.chipRowContainer]} key="sdgs">
+                    <UserChipRow
+                      key={'sdgs'}
+                      typeMetadata={UserChipSDG}
+                      sortByTranslation={false}
+                      onPressEdit={() => {
+                        toggleModal()
+                        setEditMode('sdgs')
                       }}
                     />
                   </View>,
