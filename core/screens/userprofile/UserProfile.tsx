@@ -181,6 +181,7 @@ const UserProfile: React.VFC = () => {
                         toggleModal()
                         setEditMode('interests')
                       }}
+                      numberOfLines={1}
                     />
                   </View>,
                   <View style={[mixins.container, styles.chipRowContainer]} key="skills">
@@ -191,6 +192,7 @@ const UserProfile: React.VFC = () => {
                         toggleModal()
                         setEditMode('skills')
                       }}
+                      numberOfLines={1}
                     />
                   </View>,
                 ],
