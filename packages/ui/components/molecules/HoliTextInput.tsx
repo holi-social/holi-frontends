@@ -88,7 +88,7 @@ const HoliTextInput = ({
   })()
 
   const autocomplete: TextInputProps['autoComplete'] = (() => {
-    if (type === 'password') return 'current-password'
+    if (type === 'password') return Platform.OS === 'android' ? 'password' : 'current-password'
     if (type === 'email') return 'email'
     return 'off'
   })()
