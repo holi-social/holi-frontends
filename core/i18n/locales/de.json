@@ -217,6 +217,5 @@
   "user.skills.form.subline": "Deine Fähigkeiten erlauben es anderen Nutzer*innen, Dich besser kennenzulernen, und uns, unser Angebot auf Dich zuzuschneiden.",
   "user.userContext.error.fetching": "Laden des eingeloggten Nutzers ist fehlgeschlagen",
   "volunteering.navigation.home": "Home",
-  "volunteering.navigation.search": "Suche",
-  "volunteering.title": "Lets Act"
+  "volunteering.navigation.search": "Suche"
 }

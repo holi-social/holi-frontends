@@ -3,21 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "codeceptjs": "codeceptjs run --steps",
-    "codeceptjs:ios": "CODECEPT_TARGET=local CODECEPT_PLATFORM=ios codeceptjs run --steps",
-    "codeceptjs:android": "CODECEPT_TARGET=local CODECEPT_PLATFORM=android codeceptjs run --steps",
-    "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
-    "codeceptjs:ui": "codecept-ui --app",
+    "test": "jest",
+    "test:ios": "TARGET=local PLATFORM=ios npm run test",
+    "test:android": "TARGET=local PLATFORM=android npm run test",
+    "lint": "TIMING=1 eslint .",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json}\"",
     "clean": "rimraf output",
     "clean:all": "yarn clean && rimraf node_modules",
     "prepare:android": "./scripts/run_android.sh"
   },
   "dependencies": {
-    "codeceptjs": "^3.3.4",
-    "wd": "^1.14.0",
     "webdriverio": "^7.16.16"
-  },
-  "devDependencies": {
-    "ts-node": "^10.9.1"
   }
 }
