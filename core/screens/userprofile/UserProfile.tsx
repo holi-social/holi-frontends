@@ -215,6 +215,7 @@ const UserProfile: React.VFC = () => {
                         toggleModal()
                         setEditMode('sdgs')
                       }}
+                      numberOfLines={1}
                     />
                   </View>,
                 ],
