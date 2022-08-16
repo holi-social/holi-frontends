@@ -12,19 +12,32 @@ class SelectorHelper extends Helper {
     super(config)
   }
 
-  async seeTextWithTestId(expectedText: string, testId: string) {
+  async waitForElement(elementSelector: string, seconds = 10) {
+    const { Appium } = this.helpers
+    // Default waiting time is just one seconds, which just isn't long enough
+    await Appium.waitForElement(elementSelector, seconds)
+  }
+
+  async seeElementWithTestId(testId: string, seconds = 10) {
     const { Appium } = this.helpers
     const elementSelector = byTestId(testId, Appium.platform)
 
-    await Appium.waitForElement(elementSelector)
+    await this.waitForElement(elementSelector, seconds)
+  }
+
+  async seeTextWithTestId(expectedText: string, testId: string, seconds = 10) {
+    const { Appium } = this.helpers
+    const elementSelector = byTestId(testId, Appium.platform)
+
+    await this.waitForElement(elementSelector, seconds)
     await Appium.see(expectedText, elementSelector)
   }
 
-  async tapOnElementWithTestId(testId: string) {
+  async tapOnElementWithTestId(testId: string, seconds = 10) {
     const { Appium } = this.helpers
     const elementSelector = byTestId(testId, Appium.platform)
 
-    await Appium.waitForElement(elementSelector)
+    await this.waitForElement(elementSelector, seconds)
     await Appium.tap(elementSelector)
 
     // ios with native Appium functions:
@@ -33,6 +46,17 @@ class SelectorHelper extends Helper {
     // if (ele.error)
     //   throw new Error(`[e2e mobile: SelectorHelper] Could not find element with selector "${elementSelector}"`)
     // await ele.touchAction('tap')
+  }
+
+  async fillFieldByTestId(testId: string, value: string) {
+    const { Appium } = this.helpers
+
+    // await this.tapOnElementWithTestId(testId)
+    // await Appium.type(value)
+
+    const elementSelector = byTestId(testId, Appium.platform)
+    await this.waitForElement(elementSelector)
+    await Appium.fillField(elementSelector, value)
   }
 }
 

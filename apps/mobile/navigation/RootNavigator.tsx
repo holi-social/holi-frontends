@@ -63,6 +63,7 @@ const BackButton = () => {
       transparent
       onPress={() => navigateBack()}
       style={{ paddingHorizontal: 0 }}
+      testID="nav-button-back"
     >
       <Holicon icon="arrow-back" size={30} color={colors.softblack} />
     </HoliButton>
@@ -79,6 +80,7 @@ const DownButton = () => {
       transparent
       onPress={() => navigateBack()}
       style={{ paddingHorizontal: 0 }}
+      testID="nav-button-back"
     >
       <Holicon icon="arrowtip-down" size={30} color={colors.softblack} />
     </HoliButton>

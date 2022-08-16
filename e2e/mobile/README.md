@@ -87,6 +87,16 @@ Find more documentation [here](https://codecept.io/mobile/#setting-up)
 
    This starts the actual test execution.
 
+#### Single test execution
+
+Single tests can be executed using
+
+```sh
+yarn run codeceptjs:android --grep "@Login"
+# resp.
+yarn run codeceptjs:ios --grep "@Login"
+```
+
 ### Local Test Execution Against Binary
 
 #### iOS Simulator
