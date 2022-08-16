@@ -192,7 +192,6 @@ exports[`renders correctly renders correctly when open 1`] = `
           Object {
             "display": "flex",
             "flexDirection": "row",
-            "height": 800.4,
             "width": "100%",
           }
         }
