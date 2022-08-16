@@ -194,7 +194,6 @@ const getStyles = (buttonsContainerHeight: number) =>
     },
     saveButton: {
       bottom: 70,
-      position: 'absolute',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',

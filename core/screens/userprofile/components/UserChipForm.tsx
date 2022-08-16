@@ -94,7 +94,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({ onSubmit
   }
   return (
     <View style={styles.wrapper}>
-      <ScrollView contentContainerStyle={styles.scrollView}>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <HoliHeading style={styles.headline}>{t(`user.${typeMetadata.keyInUserObject}.form.headline`)}</HoliHeading>
         <HoliText style={styles.subline}>{t(`user.${typeMetadata.keyInUserObject}.form.subline`)}</HoliText>
         <HoliChipRow editable={false}>
@@ -129,12 +129,13 @@ const getStyles = () =>
       alignItems: 'center',
       flexDirection: 'column',
       maxWidth: 600,
+      paddingHorizontal: 16,
       paddingTop: 0,
       width: '100%',
       height: '100%',
       alignSelf: 'center',
     },
-    scrollView: {
+    scrollViewContent: {
       paddingHorizontal: 16,
       alignItems: 'center',
       display: 'flex',
@@ -154,7 +155,6 @@ const getStyles = () =>
     },
     saveButton: {
       bottom: 70,
-      position: 'absolute',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',

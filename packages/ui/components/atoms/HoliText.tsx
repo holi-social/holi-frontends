@@ -14,6 +14,7 @@ export type HoliTextProps = {
   style?: TextStyle | TextStyle[]
   selectable?: boolean
   testID?: string
+  numberOfLines?: number
 }
 
 const HoliText = ({ children, size = 'default', bold = false, selectable = true, ...props }: HoliTextProps) => {
