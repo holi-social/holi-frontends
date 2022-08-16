@@ -13,7 +13,7 @@ import { devices } from '@playwright/test'
 const config: PlaywrightTestConfig = {
   testDir: './tests',
   /* Maximum time one test can run for. */
-  timeout: 60 * 1000,
+  timeout: 10 * 1000,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
@@ -28,7 +28,7 @@ const config: PlaywrightTestConfig = {
   /* Retry on CI leads to us devs not fixing flaky tests, therefore deactivated */
   retries: 1,
   /* Opt out of parallel tests on CI. */
-  //workers: process.env.CI ? 1 : undefined,
+  // workers: process.env.CI ? 1 : undefined,
   // parallel tests cause flakiness
   workers: 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
