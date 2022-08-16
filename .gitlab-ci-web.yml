@@ -1,5 +1,5 @@
 variables:
-  UI_DOMAIN_PATH: "$CI_PROJECT_DIR/ui_domain"
+  UI_DOMAIN_PATH: '$CI_PROJECT_DIR/ui_domain'
 
 default:
   before_script:
@@ -9,20 +9,20 @@ default:
 # job templates
 
 .web_deploy:
-  image: 
+  image:
     name: 'hashicorp/terraform:1.1.9'
     # default entrypoint is terraform command, but we want to run shell scripts
-    entrypoint: ["/bin/sh", "-c"]
+    entrypoint: ['/bin/sh', '-c']
   variables:
     ENVIRONMENT_ID: $CI_ENVIRONMENT_SLUG
   cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   artifacts:
     paths:
-      - "terraform/environments/web/scripts/crash.log" # optional, only available in case of a crash/panic
-      - "terraform/environments/web/scripts/terraform-*.log" # separate log for every step/command
+      - 'terraform/environments/web/scripts/crash.log' # optional, only available in case of a crash/panic
+      - 'terraform/environments/web/scripts/terraform-*.log' # separate log for every step/command
       - $UI_DOMAIN_PATH
-    name: "${CI_JOB_NAME}_${CI_JOB_ID}"
+    name: '${CI_JOB_NAME}_${CI_JOB_ID}'
     #when: on_failure
   script:
     - export GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_CLOUD_SERVICE_ACCOUNT}
@@ -32,7 +32,7 @@ default:
   interruptible: false
 
 .web_e2e:
-  image: 'mcr.microsoft.com/playwright:v1.5.0-focal'
+  image: 'mcr.microsoft.com/playwright:v1.25.0-focal'
   dependencies: [] # explicitly disable artifact usage
   artifacts:
     name: 'web e2e test report'
@@ -72,7 +72,6 @@ web_build:
   except:
     - /^noweb\/.*/
 
-
 web_build_docker:
   needs: ['web_build']
   image: docker:20.10
@@ -85,7 +84,7 @@ web_build_docker:
     # this could be fetched via terraform output ("gcr_location" in infra project), but then we would need an extra job for terraform
     GCR_IMAGE: eu.gcr.io/holi-shared/holi-frontends-web
     # https://about.gitlab.com/blog/2019/07/31/docker-in-docker-with-docker-19-dot-03/
-    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_TLS_CERTDIR: '/certs'
   before_script:
     - cat $GOOGLE_CLOUD_SERVICE_ACCOUNT | docker login -u _json_key --password-stdin https://eu.gcr.io
   script:
@@ -129,7 +128,7 @@ web_review_destroy:
   image:
     name: 'hashicorp/terraform:1.1.9'
     # default entrypoint is terraform command, but we want to run shell scripts
-    entrypoint: ["/bin/sh", "-c"]
+    entrypoint: ['/bin/sh', '-c']
   variables:
     # has to be set to none for auto stop
     GIT_STRATEGY: none
@@ -190,4 +189,3 @@ web_production_deploy:
     ENVIRONMENT_ID: production
   only:
     - main
-
