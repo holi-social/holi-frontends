@@ -52,7 +52,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
           // we need a label when not disabled, so we take the text as a default
           accessibilityLabel: label || text,
         }
-      : {}),
+      : { accessibilityLabel: text }),
   }
 
   return (
