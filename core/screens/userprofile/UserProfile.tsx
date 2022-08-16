@@ -24,12 +24,12 @@ import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-type editModeState = 'profile' | 'levelOfEngagement' | 'interests' | 'skills' | 'sdgs' | null
+type editModeState = 'Profile' | 'LevelOfEngagement' | 'Interests' | 'Skills' | 'SDGs'
 
 const UserProfile: React.VFC = () => {
   const { navigate } = useRouting()
   const [showModal, setShowModal] = useState(false)
-  const [editMode, setEditMode] = useState<editModeState>(null)
+  const [editMode, setEditMode] = useState<editModeState>()
   const toggleModal = useCallback(() => {
     setShowModal(!showModal)
   }, [showModal])
@@ -58,7 +58,7 @@ const UserProfile: React.VFC = () => {
               transparent
               label={t('profile.edit')}
               onPress={() => {
-                setEditMode('profile')
+                setEditMode('Profile')
                 toggleModal()
               }}
               style={styles.headerEditButton}
@@ -85,35 +85,20 @@ const UserProfile: React.VFC = () => {
             testID={['user-profile-edit', editMode].filter((e) => e).join('-')}
           >
             <>
-              <HoliModal
-                show={showModal}
-                onDismiss={() => {
-                  toggleModal()
-                }}
-                relativeHeight={0.95}
-                testID="user-profile-modal"
-              >
+              <HoliModal show={showModal} onDismiss={toggleModal} relativeHeight={0.95} testID="user-profile-modal">
                 {(() => {
                   switch (editMode) {
-                    case 'profile':
-                      return (
-                        <UserProfileForm
-                          onCancel={toggleModal}
-                          onSubmit={() => {
-                            toggleModal()
-                            setEditMode(null)
-                          }}
-                        />
-                      )
-                    case 'levelOfEngagement':
+                    case 'Profile':
+                      return <UserProfileForm onCancel={toggleModal} onSubmit={toggleModal} />
+                    case 'LevelOfEngagement':
                       return <UserEngagementLevelForm onCancel={toggleModal} onSubmit={toggleModal} />
-                    case 'interests':
+                    case 'Interests':
                       return (
                         <UserChipForm typeMetadata={UserChipInterest} onCancel={toggleModal} onSubmit={toggleModal} />
                       )
-                    case 'skills':
+                    case 'Skills':
                       return <UserChipForm typeMetadata={UserChipSkill} onCancel={toggleModal} onSubmit={toggleModal} />
-                    case 'sdgs':
+                    case 'SDGs':
                       return (
                         <UserChipForm
                           typeMetadata={UserChipSDG}
@@ -129,7 +114,7 @@ const UserProfile: React.VFC = () => {
               <HoliButton
                 label={t('profile.edit')}
                 onPress={() => {
-                  setEditMode('profile')
+                  setEditMode('Profile')
                   toggleModal()
                 }}
                 transparent
@@ -162,7 +147,7 @@ const UserProfile: React.VFC = () => {
                       title={t('profile.engagementLevel')}
                       onPressEdit={() => {
                         toggleModal()
-                        setEditMode('levelOfEngagement')
+                        setEditMode('LevelOfEngagement')
                       }}
                     >
                       {user?.engagementLevel && (
@@ -176,7 +161,7 @@ const UserProfile: React.VFC = () => {
                         <HoliChip
                           onPress={() => {
                             toggleModal()
-                            setEditMode('levelOfEngagement')
+                            setEditMode('LevelOfEngagement')
                           }}
                           label={t('profile.engagementLevel.add')}
                           style={styles.chip}
@@ -190,7 +175,7 @@ const UserProfile: React.VFC = () => {
                       typeMetadata={UserChipInterest}
                       onPressEdit={() => {
                         toggleModal()
-                        setEditMode('interests')
+                        setEditMode('Interests')
                       }}
                       numberOfLines={1}
                     />
@@ -201,7 +186,7 @@ const UserProfile: React.VFC = () => {
                       typeMetadata={UserChipSkill}
                       onPressEdit={() => {
                         toggleModal()
-                        setEditMode('skills')
+                        setEditMode('Skills')
                       }}
                       numberOfLines={1}
                     />
@@ -213,7 +198,7 @@ const UserProfile: React.VFC = () => {
                       sortByTranslation={false}
                       onPressEdit={() => {
                         toggleModal()
-                        setEditMode('sdgs')
+                        setEditMode('SDGs')
                       }}
                       numberOfLines={1}
                     />
