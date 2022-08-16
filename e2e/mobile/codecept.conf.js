@@ -101,6 +101,12 @@ exports.config = {
     SelectorHelper: {
       require: './helpers/SelectorHelper.ts',
     },
+    LoginHelper: {
+      require: './helpers/LoginHelper.ts',
+    },
+    NavigationHelper: {
+      require: './helpers/NavigationHelper.ts',
+    },
   },
   include: {
     I: './stepsFile.ts',
