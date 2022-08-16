@@ -13,9 +13,15 @@ type UserChipRowProps = {
   typeMetadata: UserChipGeneric<any> // eslint-disable-line @typescript-eslint/no-explicit-any
   onPressEdit: () => void
   numberOfLines?: number
+  sortByTranslation?: boolean
 }
 
-const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({ typeMetadata, onPressEdit, numberOfLines }) => {
+const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
+  typeMetadata,
+  onPressEdit,
+  numberOfLines,
+  sortByTranslation = true,
+}) => {
   const { user } = useContext(UserContext)
   const values = user ? (user[typeMetadata.keyInUserObject as keyof typeof user] as string[]) : []
   const { t } = useTranslation()
@@ -30,7 +36,7 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({ typeMetada
       testID={`user-profile-${typeMetadata.keyInUserObject}`}
     >
       {values.length > 0 ? (
-        toValuesWithTranslation(typeMetadata.keyInUserObject, values, t).map((valueWithT) => (
+        toValuesWithTranslation(typeMetadata, values, t, sortByTranslation).map((valueWithT) => (
           <HoliChip
             numberOfLines={numberOfLines}
             key={valueWithT.value}

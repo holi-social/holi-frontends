@@ -23,9 +23,14 @@ type UserChipFormProps = {
   onCancel?: () => void
   onSubmit?: (user: User) => void
   typeMetadata: UserChipGeneric<any> // eslint-disable-line @typescript-eslint/no-explicit-any
+  sortByTranslation?: boolean
 }
 
-const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({ onSubmit, typeMetadata }) => {
+const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
+  onSubmit,
+  typeMetadata,
+  sortByTranslation = true,
+}) => {
   const { user } = useContext(UserContext)
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const [values, setValues] = useState(
@@ -45,8 +50,8 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({ onSubmit
     */
     const unselectedValues = typeMetadata.allValues.filter((value) => !values.includes(value))
     setOrderedValues([
-      ...toValuesWithTranslation(typeMetadata.keyInUserObject, values, t),
-      ...toValuesWithTranslation(typeMetadata.keyInUserObject, unselectedValues, t),
+      ...toValuesWithTranslation(typeMetadata, values, t, sortByTranslation),
+      ...toValuesWithTranslation(typeMetadata, unselectedValues, t, sortByTranslation),
     ])
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
