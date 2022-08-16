@@ -2,27 +2,11 @@
 
 exports[`renders correctly renders correctly when checked 1`] = `
 <View
-  accessibilityLabel="Test"
-  accessibilityRole="checkbox"
-  accessibilityState={
-    Object {
-      "checked": true,
-    }
-  }
-  accessible={true}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Object {
+        "maxWidth": "100%",
+      },
       Object {
         "alignSelf": "flex-start",
         "backgroundColor": "#f7f6f3",
@@ -36,21 +20,41 @@ exports[`renders correctly renders correctly when checked 1`] = `
         "backgroundColor": "#6267e7",
         "borderRadius": 24,
       },
-      undefined,
-      undefined,
-      false,
     ]
   }
 >
   <View
-    style={
+    accessibilityLabel="Test"
+    accessibilityRole="checkbox"
+    accessibilityState={
       Object {
-        "alignItems": "center",
-        "alignSelf": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "center",
+        "checked": true,
       }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "alignSelf": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+        undefined,
+        false,
+      ]
     }
   >
     <Text
@@ -155,26 +159,11 @@ exports[`renders correctly renders correctly when checked 1`] = `
 
 exports[`renders correctly renders correctly when disabled 1`] = `
 <View
-  accessibilityRole="none"
-  accessibilityState={
-    Object {
-      "disabled": true,
-    }
-  }
-  accessible={false}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Object {
+        "maxWidth": "100%",
+      },
       Object {
         "alignSelf": "flex-start",
         "backgroundColor": "#f7f6f3",
@@ -185,21 +174,40 @@ exports[`renders correctly renders correctly when disabled 1`] = `
       },
       undefined,
       false,
-      false,
-      false,
-      false,
     ]
   }
 >
   <View
-    style={
+    accessibilityRole="none"
+    accessibilityState={
       Object {
-        "alignItems": "center",
-        "alignSelf": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "center",
+        "disabled": true,
       }
+    }
+    accessible={false}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "alignSelf": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        false,
+        false,
+        false,
+      ]
     }
   >
     <Text
@@ -238,27 +246,11 @@ exports[`renders correctly renders correctly when disabled 1`] = `
 
 exports[`renders correctly renders correctly when unchecked 1`] = `
 <View
-  accessibilityLabel="Test"
-  accessibilityRole="checkbox"
-  accessibilityState={
-    Object {
-      "checked": false,
-    }
-  }
-  accessible={true}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Object {
+        "maxWidth": "100%",
+      },
       Object {
         "alignSelf": "flex-start",
         "backgroundColor": "#f7f6f3",
@@ -269,21 +261,41 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
       },
       undefined,
       false,
-      undefined,
-      undefined,
-      false,
     ]
   }
 >
   <View
-    style={
+    accessibilityLabel="Test"
+    accessibilityRole="checkbox"
+    accessibilityState={
       Object {
-        "alignItems": "center",
-        "alignSelf": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "center",
+        "checked": false,
       }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "alignSelf": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+        undefined,
+        false,
+      ]
     }
   >
     <Text
