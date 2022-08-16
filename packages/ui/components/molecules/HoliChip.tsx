@@ -26,6 +26,7 @@ export type ChipProps = PressableProps & {
   onPress?: null | ((event: GestureResponderEvent) => void)
   style?: ViewStyle | ViewStyle[]
   fontStyle?: TextStyle
+  numberOfLines?: number
 }
 
 const HoliChip: React.FunctionComponent<ChipProps> = ({
@@ -37,6 +38,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
   onPress = () => null,
   style,
   fontStyle,
+  numberOfLines,
 }: ChipProps) => {
   const styles = getStyles(checked)
 
@@ -54,37 +56,41 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
   }
 
   return (
-    <Pressable
-      {...accessibilityProps}
-      {...(disabled ? { disabled } : {})}
-      onPress={(e) => onPress && onPress(e)}
-      style={({ focused, hovered, pressed }) => [
-        styles.holiChip,
-        style,
-        checked && styles.checked,
-        !disabled && focused && styles.focused,
-        !disabled && hovered && styles.hovered,
-        !disabled && pressed && styles.pressed,
-      ]}
-    >
-      {/* Arrow function to pass Pressable states to its children */}
-      {({ hovered }) => (
-        <View style={styles.chipContent}>
-          <HoliText selectable={false} style={[styles.text, fontStyle || {}, (hovered && styles.hoveredText) || {}]}>
-            {text}
-          </HoliText>
-          {!disabled && !hideIcon && (
-            <View style={styles.iconView}>
-              <Holicon
-                size={15}
-                color={checked ? colors.fontColorWhite : colors.fontColorGrey}
-                icon={checked ? 'check' : 'plus'}
-              />
-            </View>
-          )}
-        </View>
-      )}
-    </Pressable>
+    <View style={[styles.chipContent, styles.holiChip, style, checked && styles.checked]}>
+      <Pressable
+        {...accessibilityProps}
+        {...(disabled ? { disabled } : {})}
+        onPress={(e) => onPress && onPress(e)}
+        style={({ focused, hovered, pressed }) => [
+          styles.pressable,
+          !disabled && focused && styles.focused,
+          !disabled && hovered && styles.hovered,
+          !disabled && pressed && styles.pressed,
+        ]}
+      >
+        {/* Arrow function to pass Pressable states to its children */}
+        {({ hovered }) => (
+          <>
+            <HoliText
+              numberOfLines={numberOfLines}
+              selectable={false}
+              style={[styles.text, fontStyle || {}, (hovered && styles.hoveredText) || {}]}
+            >
+              {text}
+            </HoliText>
+            {!disabled && !hideIcon && (
+              <View style={styles.iconView}>
+                <Holicon
+                  size={15}
+                  color={checked ? colors.fontColorWhite : colors.fontColorGrey}
+                  icon={checked ? 'check' : 'plus'}
+                />
+              </View>
+            )}
+          </>
+        )}
+      </Pressable>
+    </View>
   )
 }
 
@@ -106,7 +112,9 @@ const getStyles = (checked = false) =>
       }),
     },
     chipContent: {
-      display: 'flex',
+      maxWidth: '100%',
+    },
+    pressable: {
       flexDirection: 'row',
       alignSelf: 'center',
       alignItems: 'center',

@@ -20,14 +20,14 @@ export type HoliTabsProps = {
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
 
-const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, relativeHeight = 0.6, style }: HoliTabsProps) => {
+const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, style }: HoliTabsProps) => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const carousel = React.useRef<ScrollView | null>(null)
 
-  const { width: screenWidth, height: screenHeight } = useWindowDimensions()
+  const { width: screenWidth } = useWindowDimensions()
 
   const mixins = useStyleMixins()
-  const styles = getStyles(screenHeight, relativeHeight)
+  const styles = getStyles()
   const isWeb = Platform.OS === 'web'
 
   const handleScrollEnd = ({ nativeEvent }: { nativeEvent: NativeScrollEvent }) => {
@@ -119,7 +119,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, relativeHeight
 
 export default HoliTabs
 
-const getStyles = (screenHeight: number, relativeHeight: number) =>
+const getStyles = () =>
   StyleSheet.create({
     container: {
       flex: 1,
@@ -164,7 +164,6 @@ const getStyles = (screenHeight: number, relativeHeight: number) =>
     tabContainer: {
       display: 'flex',
       flexDirection: 'row',
-      height: screenHeight * relativeHeight,
       width: '100%',
     },
   })
