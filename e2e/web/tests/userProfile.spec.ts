@@ -38,6 +38,7 @@ test.describe('@Profile', () => {
 
     await checkChipRow(page, 'interests')
     await checkChipRow(page, 'skills')
+    await checkChipRow(page, 'sdgs')
   })
 })
 
