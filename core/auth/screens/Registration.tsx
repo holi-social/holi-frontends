@@ -4,14 +4,13 @@ import { useTranslation } from 'react-i18next'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
-import FormBuilder from '@holi/core/auth/components/FormBuilder'
+import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import Holicon from '@holi/ui/components/holicon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
@@ -19,7 +18,7 @@ const Registration = () => {
   const { navigate, navigateBack } = useRouting()
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { setUserLoggedIn } = useContext(AuthContext)
-  const [flow, setConfig] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
+  const [flow, setFlow] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
 
@@ -27,7 +26,7 @@ const Registration = () => {
     initRegistrationFlow()
       // The flow was initialized successfully, let's set the form data:
       .then(({ data: flow }) => {
-        setConfig(flow)
+        setFlow(flow)
       })
       .catch((error) => displayError(error, t('auth.registration.error.initialization')))
   }
@@ -63,6 +62,7 @@ const Registration = () => {
       ? newKratosSdk()
           .submitSelfServiceRegistrationFlow(flow.id, payload)
           .then(({ data }) => {
+            console.log(data)
             // ORY Kratos can be configured in such a way that it requires a login after
             // registration. You could handle that case by navigating to the Login screen
             // but for simplicity we'll just print an error here:
@@ -83,14 +83,13 @@ const Registration = () => {
             setUserLoggedIn(session)
             navigate('/')
           })
-          .catch(handleFormSubmitError(setConfig, initializeFlow))
+          .catch(handleFormSubmitError(setFlow, initializeFlow))
           .catch((error) => displayError(error, t('auth.registration.error.registration')))
       : Promise.resolve()
 
   return (
     <DefaultLayout>
-      <HoliText>{t('auth.registration.heading')}</HoliText>
-      <FormBuilder flow={flow} onSubmit={onSubmit} />
+      <LoginRegistrationContainer flow={flow} onSubmit={onSubmit} mode="registration"></LoginRegistrationContainer>
     </DefaultLayout>
   )
 }
