@@ -12,12 +12,14 @@ import { toValuesWithTranslation } from './userChipHelper'
 type UserChipRowProps = {
   typeMetadata: UserChipGeneric<any> // eslint-disable-line @typescript-eslint/no-explicit-any
   onPressEdit: () => void
+  numberOfLines?: number
   sortByTranslation?: boolean
 }
 
 const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
   typeMetadata,
   onPressEdit,
+  numberOfLines,
   sortByTranslation = true,
 }) => {
   const { user } = useContext(UserContext)
@@ -33,18 +35,24 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
       onPressEdit={() => onPressEdit()}
       testID={`user-profile-${typeMetadata.keyInUserObject}`}
     >
-      {values.length > 0 &&
-        toValuesWithTranslation(typeMetadata, values, t, sortByTranslation).map((valueWithT) => {
-          return <HoliChip key={valueWithT.value} text={valueWithT.t} disabled style={styles.chip}></HoliChip>
-        })}
-      {values.length === 0 && (
+      {values.length > 0 ? (
+        toValuesWithTranslation(typeMetadata, values, t, sortByTranslation).map((valueWithT) => (
+          <HoliChip
+            numberOfLines={numberOfLines}
+            key={valueWithT.value}
+            text={valueWithT.t}
+            disabled
+            style={styles.chip}
+          />
+        ))
+      ) : (
         <HoliChip
           text={''}
           key="edit"
           onPress={() => onPressEdit()}
-          accessibilityLabel={t(`profile.${typeMetadata.keyInUserObject}.add`)}
+          label={t(`profile.${typeMetadata.keyInUserObject}.add`)}
           style={styles.chip}
-        ></HoliChip>
+        />
       )}
     </HoliChipRow>
   )

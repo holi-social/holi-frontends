@@ -178,7 +178,7 @@ const UserProfile: React.VFC = () => {
                             toggleModal()
                             setEditMode('levelOfEngagement')
                           }}
-                          accessibilityLabel={t('profile.engagementLevel.add')}
+                          label={t('profile.engagementLevel.add')}
                           style={styles.chip}
                         ></HoliChip>
                       )}
@@ -192,6 +192,7 @@ const UserProfile: React.VFC = () => {
                         toggleModal()
                         setEditMode('interests')
                       }}
+                      numberOfLines={1}
                     />
                   </View>,
                   <View style={[mixins.container, styles.chipRowContainer]} key="skills">
@@ -202,6 +203,7 @@ const UserProfile: React.VFC = () => {
                         toggleModal()
                         setEditMode('skills')
                       }}
+                      numberOfLines={1}
                     />
                   </View>,
                   <View style={[mixins.container, styles.chipRowContainer]} key="sdgs">
