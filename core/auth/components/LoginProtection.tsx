@@ -25,13 +25,24 @@ const LoginProtection: React.VFC<LoginProtectionProps> = ({ children, loggedOutC
   return (
     <View style={[mixins.container, styles.loginProtection]}>
       {loggedOutContent || <Text>{t('auth.loginProtection.text')}</Text>}
+
       <HoliButton
         label={t('auth.loginProtection.loginLabel')}
         onPress={() => navigate('/login')}
-        style={styles.loginButton}
+        style={[styles.button, styles.loginButton]}
         testID="btn-to-login-form"
       >
         {t('auth.loginProtection.login')}
+      </HoliButton>
+
+      <HoliButton
+        label={t('auth.loginProtection.registrationLabel')}
+        onPress={() => navigate('/registration')}
+        style={[styles.button, styles.registrationButton]}
+        type="secondary"
+        testID="btn-to-login-form"
+      >
+        {t('auth.loginProtection.registration')}
       </HoliButton>
     </View>
   )
@@ -42,9 +53,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 50,
   },
-  loginButton: {
-    marginTop: 25,
+  button: {
     maxWidth: 300,
+  },
+  loginButton: {
+    marginTop: 24,
+  },
+  registrationButton: {
+    marginTop: 16,
   },
 })
 
