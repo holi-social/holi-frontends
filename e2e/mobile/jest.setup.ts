@@ -3,6 +3,7 @@ import { navigateBackToHomeScreen } from './helpers/navigation'
 
 // TODO(SF) why is import not working?
 // import webdriverio from 'webdriverio'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const webdriverio = require('webdriverio')
 
 global.platform = appiumConfig.platform
