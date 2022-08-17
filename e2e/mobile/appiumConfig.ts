@@ -68,7 +68,7 @@ const localIOSSimulator = {
     // TODO(SF) see https://github.com/appium/appium/tree/1.x/sample-code/javascript-webdriverio#troubleshooting
     platformVersion: process.env.IOS_PLATFORM_VERSION || '15.4',
     deviceName: process.env.IOS_DEVICE_NAME || 'iPhone XS',
-    // TODO(SF) udid: '1FB640B2-C94D-4F8E-93B2-41D6D20E0FF1', // get it with `xcrun simctl list | grep Booted`
+    udid: requireEnvVar('LOCAL_IOS_SIMULATOR_UDID'), // get it with `xcrun simctl list | grep Booted`
     // //bundleId: 'foundation.holistic.projectholi',
     showIOSLog: true,
   },
@@ -102,10 +102,5 @@ const localCapabilities = () => {
 const appiumConfig = target === 'local' ? localCapabilities() : browserStackCapabilities()
 
 console.debug('running e2e tests with config', appiumConfig)
-
-/*
-exports.iosTestApp = path.resolve(__dirname, '..', '..', 'apps', 'TestApp.app.zip');
-exports.androidApiDemos = path.resolve(__dirname, '..', '..', 'apps', 'ApiDemos-debug.apk');
-*/
 
 export default appiumConfig
