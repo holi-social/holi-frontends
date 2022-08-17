@@ -1,5 +1,5 @@
 import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } from '@ory/kratos-client'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
@@ -9,32 +9,37 @@ import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
+import { useSafeDispatch } from '@holi/core/helpers'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import Holicon from '@holi/ui/components/holicon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
-const Registration = () => {
+const Registration: React.VFC = () => {
   const { navigate, navigateBack } = useRouting()
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { setUserLoggedIn } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
+  // use safe versions of this function to prevent updating state of destroyed component
+  const safeSetFlow = useSafeDispatch(setFlow)
+  const safeDisplayError = useSafeDispatch(displayError)
 
-  const initializeFlow = () => {
+  const initializeFlow = useCallback(() => {
     initRegistrationFlow()
       // The flow was initialized successfully, let's set the form data:
       .then(({ data: flow }) => {
-        setFlow(flow)
+        safeSetFlow(flow)
       })
-      .catch((error) => displayError(error, t('auth.registration.error.initialization')))
-  }
-  // When the component is mounted, we initialize a new use login flow:
-  // eslint-disable-next-line
-  useEffect(() => initializeFlow(), [])
+      .catch((error) => safeDisplayError(error, t('auth.registration.error.initialization')))
+  }, [safeDisplayError, safeSetFlow, t])
 
-  useEffect(
+  // When the component is mounted, we initialize a new use login flow:
+  useLayoutEffect(() => initializeFlow(), [initializeFlow])
+
+  // update header
+  useLayoutEffect(
     () => {
       setNavigationHeader({
         headerLeft: () => (
@@ -62,7 +67,6 @@ const Registration = () => {
       ? newKratosSdk()
           .submitSelfServiceRegistrationFlow(flow.id, payload)
           .then(({ data }) => {
-            console.log(data)
             // ORY Kratos can be configured in such a way that it requires a login after
             // registration. You could handle that case by navigating to the Login screen
             // but for simplicity we'll just print an error here:
