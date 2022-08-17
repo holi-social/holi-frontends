@@ -6,7 +6,8 @@
       "apps/*",
       "holi-apps/*",
       "packages/*",
-      "core"
+      "core",
+      "e2e/mobile"
     ]
   },
   "resolutions": {
