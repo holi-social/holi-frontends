@@ -12,31 +12,34 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('@Profile', () => {
-  // test('journey', async ({ page }) => {
-  //   // go to profile edit modal
-  //   await defaultLoginSteps({ page })
-  //   await page.waitForSelector(byTestId('btn-open-profile-edit-view'))
-  //   await checkAccessibility(page)
-  //   await delay(0.5) // source of flakyness and delay. Why do we need this here? Component is there, but click does not work when done too early.
-  //   await page.locator(byTestId('btn-open-profile-edit-view')).click()
-  //   await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
-  //   await checkAccessibility(page)
-  //   // validation should block save
-  //   await page.locator(byTestId('first-name-input')).fill('a')
-  //   await page.locator(byTestId('btn-user-profile-edit-form-save')).click()
-  //   await page.locator(byTestId('first-name-input-error-message')).waitFor()
-  //   await checkAccessibility(page)
-  //   // edit firstName should work
-  //   const firstNameEdited = 'Text User Name'
-  //   await page.locator(byTestId('first-name-input')).fill(firstNameEdited)
-  //   const lastName = await page.inputValue(byTestId('last-name-input'))
-  //   await page.locator(byTestId('btn-user-profile-edit-form-save')).click()
-  //   await page.waitForSelector(byTestId('user-profile-edit-form-saving'), { state: 'detached' })
-  //   expect(await page.textContent(byTestId('user-profile-full-name'))).toBe(`${firstNameEdited} ${lastName}`.trim())
-  //   await checkChipRow(page, 'interests')
-  //   await checkChipRow(page, 'skills')
-  //   await checkChipRow(page, 'sdgs')
-  // })
+  test('journey', async ({ context, page }) => {
+    // go to profile edit modal
+    await defaultLoginSteps({ context, page })
+    await page.waitForSelector(byTestId('btn-open-profile-edit-view'))
+    await checkAccessibility(page)
+    await delay(0.5) // source of flakyness and delay. Why do we need this here? Component is there, but click does not work when done too early.
+    await page.locator(byTestId('btn-open-profile-edit-view')).click()
+    await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
+    await checkAccessibility(page)
+
+    // validation should block save
+    await page.locator(byTestId('first-name-input')).fill('a')
+    await page.locator(byTestId('btn-user-profile-edit-form-save')).click()
+    await page.locator(byTestId('first-name-input-error-message')).waitFor()
+    await checkAccessibility(page)
+
+    // edit firstName should work
+    const firstNameEdited = 'Text User Name'
+    await page.locator(byTestId('first-name-input')).fill(firstNameEdited)
+    const lastName = await page.inputValue(byTestId('last-name-input'))
+    await page.locator(byTestId('btn-user-profile-edit-form-save')).click()
+    await page.waitForSelector(byTestId('user-profile-edit-form-saving'), { state: 'detached' })
+
+    expect(await page.textContent(byTestId('user-profile-full-name'))).toBe(`${firstNameEdited} ${lastName}`.trim())
+    await checkChipRow(page, 'interests')
+    await checkChipRow(page, 'skills')
+    await checkChipRow(page, 'sdgs')
+  })
 })
 
 const checkChipRow = async (page: Page, what: string) => {

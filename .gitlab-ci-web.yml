@@ -48,7 +48,6 @@ default:
     - cd e2e/web
     - yarn install
     - BASE_URL="https://${UI_DOMAIN}" yarn run playwright test
-    # - BASE_URL="https://${UI_DOMAIN}" E2E_USER_USERNAME=$E2E_USER_USERNAME E2E_USER_PASSWORD=$E2E_USER_PASSWORD yarn run playwright test
   interruptible: true
   tags:
     - holi-big
