@@ -1,26 +1,20 @@
-Feature('@Login')
+import { defaultLoginSteps } from '../helpers/login'
+import { tapOnElementWithTestId, waitForElementWithTestId } from '../helpers/selectors'
 
-BeforeSuite(({ I }) => {
-  I.navigateBackToHomeScreen()
-})
+describe('@Login', () => {
+  // it('should not work with invalid credentials', async () => {
+  //   await defaultLoginSteps({ username: 'asfd@asdf.de', password: '1234' })
+  //   // see https://www.ory.sh/docs/kratos/concepts/ui-user-interface#ui-error-codes
+  //   // for more ory error codes
+  //   await waitForElementWithTestId('ory-message-4000006')
+  // })
 
-After(({ I }) => {
-  I.navigateBackToHomeScreen()
-})
-
-Scenario('Login - Logout', ({ I }) => {
-  // should not work with invalid credentials
-  I.defaultLoginSteps({ username: 'asfd@asdf.de', password: '1234' })
-  // see https://www.ory.sh/docs/kratos/concepts/ui-user-interface#ui-error-codes
-  // for more ory error codes
-  I.seeElementWithTestId('ory-message-4000006')
-  I.navigateBackToHomeScreen()
-
-  // should work with valid credentials
-  // Login
-  I.defaultLoginSteps()
-  // Logout
-  I.tapOnElementWithTestId('btn-to-logout')
-  I.tapOnElementWithTestId('confirm-logout-button')
-  I.seeElementWithTestId('btn-to-login-form')
+  it('should work with valid credentials', async () => {
+    // Login
+    await defaultLoginSteps()
+    // Logout
+    await tapOnElementWithTestId('btn-to-logout')
+    await tapOnElementWithTestId('confirm-logout-button')
+    await waitForElementWithTestId('btn-to-login-form')
+  })
 })

@@ -23,13 +23,11 @@ export const tapOnElementWithTestId = async (testId: string, timeout?: number) =
   const element = await waitForElementWithTestId(testId, timeout)
   // https://webdriver.io/docs/api/element/touchAction
   await Appium.touchAction({ element, action: 'tap' })
+  return element
 }
 
 export const fillFieldByTestId = async (testId: string, value: string) => {
-  // await this.tapOnElementWithTestId(testId)
-  // await Appium.type(value)
-
-  const elementSelector = byTestId(testId)
-  await waitForElement(elementSelector)
-  await Appium.fillField(elementSelector, value)
+  const element = await tapOnElementWithTestId(testId)
+  // https://webdriver.io/docs/api/element/setValue
+  await element.setValue(value)
 }
