@@ -6,6 +6,7 @@ import { createParam } from 'solito'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import TopicEditors from '@holi/core/screens/topics/components/TopicEditors'
@@ -13,7 +14,6 @@ import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import Holicon from '@holi/ui/components/holicon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -28,7 +28,7 @@ type TopicProps = NativeStackScreenProps<HomeStackScreens>
 const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
   const [showModal, setShowModal] = useState(false)
   const [topicId = ''] = useParam('topicId')
-  const { navigate, navigateBack } = useRouting()
+  const { navigate } = useRouting()
   const navigationHeader = useNavigationHeader()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -43,17 +43,7 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
             {title}
           </HoliText>
         ),
-        headerLeft: () => (
-          <HoliButton
-            label={t('navigation.headerLeft.back')}
-            inline
-            transparent
-            onPress={() => navigateBack()}
-            style={{ paddingHorizontal: 0 }}
-          >
-            <Holicon icon="arrow-back" size={30} />
-          </HoliButton>
-        ),
+        headerLeft: () => <BackButton />,
       })
       return navigationHeader.clearNavigationHeader
     },
