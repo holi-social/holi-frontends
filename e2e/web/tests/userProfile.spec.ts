@@ -38,7 +38,7 @@ test.describe('@Profile', () => {
     expect(await page.textContent(byTestId('user-profile-full-name'))).toBe(`${firstNameEdited} ${lastName}`.trim())
     await checkChipRow(page, 'interests')
     await checkChipRow(page, 'skills')
-    // await checkChipRow(page, 'sdgs')
+    await checkChipRow(page, 'sdgs')
   })
 })
 
@@ -47,6 +47,7 @@ const checkChipRow = async (page: Page, what: string) => {
 
   // deselecting all chips should work
   await page.locator(byTestId(`user-profile-${what}-edit`)).click()
+  await delay(0.5)
   await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
   await checkAccessibility(page)
   const noSelected: number = await page
