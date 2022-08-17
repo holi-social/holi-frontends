@@ -1,19 +1,16 @@
-import appiumConfig from './appiumConfig'
-import { navigateBackToHomeScreen } from './helpers/navigation'
+import * as webdriverio from 'webdriverio'
 
-// TODO(SF) why is import not working?
-// import webdriverio from 'webdriverio'
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const webdriverio = require('webdriverio')
+import appiumConfig, { timeouts } from './appiumConfig'
+import { navigateBackToHomeScreen } from './helpers/navigation'
 
 global.platform = appiumConfig.platform
 
 beforeEach(async () => {
-  // TOOD(SF) rename?
   global.Appium = await webdriverio.remote(appiumConfig)
-  global.Appium.setTimeout(appiumConfig.timeouts)
+  // Navigate back to the home screen before each test
   await navigateBackToHomeScreen()
-}, 30000) // TODO(SF) improve
+  global.Appium.setTimeout(timeouts)
+}, 60000) // TODO(SF) improve, move to jest config?
 
 afterEach(() => {
   global.Appium?.deleteSession()
