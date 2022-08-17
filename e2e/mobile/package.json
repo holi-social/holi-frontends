@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "test": "jest",
-    "test:ios": "TARGET=local PLATFORM=ios npm run test",
+    "test:ios": "TARGET=local PLATFORM=ios LOCAL_IOS_SIMULATOR_UDID=$(xcrun simctl list devices | grep \"(Booted)\" | grep -E -o -i \"([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})\") npm run test",
     "test:android": "TARGET=local PLATFORM=android npm run test",
     "lint": "TIMING=1 eslint .",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json}\"",
