@@ -9,14 +9,13 @@ import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
+import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import Holicon from '@holi/ui/components/holicon'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 const Registration = () => {
-  const { navigate, navigateBack } = useRouting()
+  const { navigate } = useRouting()
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { setUserLoggedIn } = useContext(AuthContext)
   const [flow, setConfig] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
@@ -38,17 +37,7 @@ const Registration = () => {
   useEffect(
     () => {
       setNavigationHeader({
-        headerLeft: () => (
-          <HoliButton
-            label={t('navigation.headerLeft.back')}
-            inline
-            transparent
-            onPress={() => navigateBack()}
-            style={{ paddingHorizontal: 0 }}
-          >
-            <Holicon icon="arrowtip-down" size={30} />
-          </HoliButton>
-        ),
+        headerLeft: () => <BackButton icon="arrowtip-down" />,
       })
       return clearNavigationHeader
     },
@@ -95,4 +84,4 @@ const Registration = () => {
   )
 }
 
-export { Registration }
+export default Registration

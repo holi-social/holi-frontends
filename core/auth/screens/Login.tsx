@@ -11,11 +11,11 @@ import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
+import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import Holicon from '@holi/ui/components/holicon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 const Login: React.VoidFunctionComponent = () => {
@@ -43,17 +43,7 @@ const Login: React.VoidFunctionComponent = () => {
   useEffect(
     () => {
       setNavigationHeader({
-        headerLeft: () => (
-          <HoliButton
-            label={t('navigation.headerLeft.back')}
-            inline
-            transparent
-            onPress={() => navigateBack()}
-            style={{ paddingHorizontal: 0 }}
-          >
-            <Holicon icon="arrowtip-down" size={30} />
-          </HoliButton>
-        ),
+        headerLeft: () => <BackButton icon="arrowtip-down" />,
       })
       return clearNavigationHeader
     },
@@ -106,7 +96,7 @@ const Login: React.VoidFunctionComponent = () => {
   )
 }
 
-export { Login }
+export default Login
 
 const styles = StyleSheet.create({
   container: {

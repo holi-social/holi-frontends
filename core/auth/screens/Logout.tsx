@@ -6,10 +6,10 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
 import useErrorHandling from '@holi/core/errors/useErrorHandling'
+import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import Holicon from '@holi/ui/components/holicon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 const Logout: React.VoidFunctionComponent = () => {
@@ -22,17 +22,7 @@ const Logout: React.VoidFunctionComponent = () => {
   useEffect(
     () => {
       setNavigationHeader({
-        headerLeft: () => (
-          <HoliButton
-            label={t('navigation.headerLeft.back')}
-            inline
-            transparent
-            onPress={() => navigateBack()}
-            style={{ paddingHorizontal: 0 }}
-          >
-            <Holicon icon="arrowtip-down" size={30} />
-          </HoliButton>
-        ),
+        headerLeft: () => <BackButton icon="arrowtip-down" />,
       })
       return clearNavigationHeader
     },
@@ -75,7 +65,7 @@ const Logout: React.VoidFunctionComponent = () => {
   )
 }
 
-export { Logout }
+export default Logout
 
 const styles = StyleSheet.create({
   container: {
