@@ -196,6 +196,7 @@ export const BottomTabsNavigator: React.VFC = () => {
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="home" size={20} filled={focused} style={{ color: iconColor(focused) }} />
           },
+          tabBarTestID: 'nav-button-home',
         }}
       />
       <BottomTabs.Screen
