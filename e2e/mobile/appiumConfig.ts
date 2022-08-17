@@ -1,3 +1,5 @@
+import { Capabilities, Options } from '@wdio/types'
+
 const requireEnvVar = (varName: string, validValues?: Array<string>, defaultValue?: string) => {
   if (!process.env[varName]) {
     if (!defaultValue) {
@@ -37,6 +39,7 @@ const browserStackCapabilities = () => ({
   host: 'hub-cloud.browserstack.com',
   port: 4444,
   platform: platform,
+  capabilities: {},
   ...browserStackDevice,
 })
 
@@ -52,14 +55,13 @@ const localAndroidEmulator = {
     platformName: 'Android',
     automationName: 'UiAutomator2',
     deviceName: 'Android Emulator',
-    showGradleLog: true,
     //TODO(SF) appPackage: process.env.CODECEPT_APP_PATH ? undefined : 'foundation.holistic.projectholi',
   },
 }
 
 // see https://appium.io/docs/en/writing-running-appium/caps/#ios-only
 // see https://github.com/appium/appium-xcuitest-driver#desired-capabilities
-const localIOSSimulator = {
+const localIOSSimulator = () => ({
   platform: 'ios',
   device: 'simulator',
   capabilities: {
@@ -72,21 +74,22 @@ const localIOSSimulator = {
     // //bundleId: 'foundation.holistic.projectholi',
     showIOSLog: true,
   },
+})
+
+export const timeouts: Partial<Capabilities.Timeouts> = {
+  implicit: 5000, // ms
 }
 
-const serverConfig = {
+const serverConfig: Partial<Options.WebdriverIO> = {
   path: '/wd/hub',
-  host: process.env.APPIUM_HOST || 'localhost',
-  port: process.env.APPIUM_PORT || 4723,
+  hostname: process.env.APPIUM_HOST || 'localhost',
+  port: parseInt(process.env.APPIUM_PORT || '') || 4723,
   logLevel: 'error',
   waitforTimeout: 5000, // ms
-  timeouts: {
-    implicit: 5000, // ms
-  },
 }
 
 const localCapabilities = () => {
-  const platformConfig = platform === 'android' ? localAndroidEmulator : localIOSSimulator
+  const platformConfig = platform === 'android' ? localAndroidEmulator : localIOSSimulator()
   return {
     ...platformConfig,
     capabilities: {

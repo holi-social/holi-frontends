@@ -1,22 +1,21 @@
-import { seeElementWithTestId, tapOnElementWithTestId } from './selectors'
+import { tapOnElementWithTestId, waitForElementWithTestId } from './selectors'
 
 export const navigateBackToHomeScreen = async () => {
   let homeScreenReached = false
+  let firstRun = true
   while (!homeScreenReached) {
     try {
-      // TODO(SF) improve, make quicker
-      await seeElementWithTestId('home-feed-topics-heading', 0)
-      console.log('#### home!')
+      await waitForElementWithTestId('home-feed-topics-heading', firstRun ? 0 : 2000)
       homeScreenReached = true
     } catch (e) {
-      console.log('not home', e)
+      if (firstRun) {
+        firstRun = false
+        console.debug('navigating back to home screen')
+      }
       try {
-        await tapOnElementWithTestId('nav-button-home')
-        console.log('tapped home')
+        await tapOnElementWithTestId('nav-button-home', 0)
       } catch (e) {
-        console.log('could not tap home', e)
-        await tapOnElementWithTestId('nav-button-back')
-        console.log('tapped back')
+        await tapOnElementWithTestId('nav-button-back', 0)
       }
     }
   }
