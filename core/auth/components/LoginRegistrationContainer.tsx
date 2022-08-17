@@ -20,22 +20,24 @@ interface LoginRegistrationContainerProps {
 const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = ({ flow, mode = 'login', onSubmit }) => {
   const { isLoggedIn } = useContext(AuthContext)
   const { t } = useTranslation()
-  const { navigate } = useRouting()
+  const { navigate, navigateBack } = useRouting()
   const isLogin = mode === 'login'
+  const isWeb = Platform.OS === 'web'
 
   const toggleLoginRegistration = () => {
-    navigate(isLogin ? '/registration' : '/login')
+    const toggle = () => navigate(isLogin ? '/registration' : '/login')
+
+    if (isWeb) {
+      toggle()
+    } else {
+      navigateBack()
+      setTimeout(toggle, 250)
+    }
   }
 
   useLayoutEffect(() => {
-    console.log(isLoggedIn)
     isLoggedIn && navigate('/')
   }, [isLoggedIn, navigate])
-
-  const texts = {
-    healine: isLogin ? t('auth.login') : t('auth.registration.heading'),
-    toggleButton: isLogin ? t('auth.loginProtection.registration') : t('auth.login'),
-  }
 
   return (
     <View style={styles.container}>
@@ -43,7 +45,9 @@ const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = (
         <HoliText>{t('auth.login.alreadyLoggedIn')}</HoliText>
       ) : (
         <View style={styles.formContainer}>
-          {Platform.OS === 'web' && <HoliHeading>{texts.healine}</HoliHeading>}
+          {Platform.OS === 'web' && (
+            <HoliHeading>{isLogin ? t('auth.login') : t('auth.registration.heading')}</HoliHeading>
+          )}
           <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} />
 
           {isLogin ? (
@@ -63,21 +67,21 @@ const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = (
               </HoliHeading>
               <HoliButton
                 onPress={toggleLoginRegistration}
-                label={texts.toggleButton}
+                label={t('auth.loginProtection.registration')}
                 type="secondary"
                 style={styles.button}
               >
-                {texts.toggleButton}
+                {t('auth.loginProtection.registration')}
               </HoliButton>
             </>
           ) : (
             <HoliButton
               onPress={toggleLoginRegistration}
-              label={texts.toggleButton}
+              label={t('auth.login')}
               type="secondary"
               style={styles.button}
             >
-              {texts.toggleButton}
+              {t('auth.login')}
             </HoliButton>
           )}
         </View>
