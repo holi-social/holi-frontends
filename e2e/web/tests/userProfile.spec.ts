@@ -38,7 +38,7 @@ test.describe('@Profile', () => {
     expect(await page.textContent(byTestId('user-profile-full-name'))).toBe(`${firstNameEdited} ${lastName}`.trim())
     await checkChipRow(page, 'interests')
     await checkChipRow(page, 'skills')
-    await checkChipRow(page, 'sdgs')
+    // await checkChipRow(page, 'sdgs')
   })
 })
 
