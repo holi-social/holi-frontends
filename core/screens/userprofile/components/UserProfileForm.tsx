@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
-import useErrorHandling from '@holi/core/errors/useErrorHandling'
+import { displayError } from '@holi/core/errors/helpers'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import {
   UpdateAuthenticatedUserInput,
@@ -36,7 +36,6 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
   const [pronouns, setPronouns] = useState(user?.pronouns ?? '')
   const [location, setLocation] = useState(user?.location ?? '')
   const [fieldErrors, setFieldErrors] = useState<{ [x: string]: string[] | undefined }>({})
-  const { displayError } = useErrorHandling()
   const { t } = useTranslation()
 
   const submit = async () => {

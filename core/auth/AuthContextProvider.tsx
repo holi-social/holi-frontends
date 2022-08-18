@@ -2,7 +2,7 @@
 import React, { createContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import useErrorHandling from '@holi/core/errors/useErrorHandling'
+import { displayError } from '@holi/core/errors/helpers'
 
 import { getSessionFromStorage, removeSessionFromStorage, setSessionInStorage } from './helpers/auth'
 import { OrySessionContext, OrySessionToken, newKratosSdk } from './helpers/sdk'
@@ -59,8 +59,6 @@ const AuthContextProvider: React.FC = ({ children }) => {
       })
     )
   }
-
-  const { displayError } = useErrorHandling()
 
   const validateSessionWithOry = (orySessionToken: OrySessionToken): Promise<SessionState> => {
     return (

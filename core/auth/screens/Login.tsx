@@ -9,7 +9,7 @@ import { initLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
-import useErrorHandling from '@holi/core/errors/useErrorHandling'
+import { displayError } from '@holi/core/errors/helpers'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import Holicon from '@holi/ui/components/holicon'
@@ -20,7 +20,6 @@ const Login: React.VoidFunctionComponent = () => {
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
   const { navigateBack } = useRouting()
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
-  const { displayError } = useErrorHandling()
   const { t } = useTranslation()
 
   const initializeFlow = () => {

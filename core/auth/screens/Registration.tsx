@@ -8,7 +8,7 @@ import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistra
 import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
-import useErrorHandling from '@holi/core/errors/useErrorHandling'
+import { displayError } from '@holi/core/errors/helpers'
 import { useSafeDispatch } from '@holi/core/helpers'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -20,20 +20,23 @@ const Registration: React.VFC = () => {
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { setUserLoggedIn } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
-  const { displayError } = useErrorHandling()
   const { t } = useTranslation()
   // use safe versions of this function to prevent updating state of destroyed component
   const safeSetFlow = useSafeDispatch(setFlow)
-  const safeDisplayError = useSafeDispatch(displayError)
 
-  const initializeFlow = useCallback(() => {
-    initRegistrationFlow()
-      // The flow was initialized successfully, let's set the form data:
-      .then(({ data: flow }) => {
-        safeSetFlow(flow)
-      })
-      .catch((error) => safeDisplayError(error, t('auth.registration.error.initialization')))
-  }, [safeDisplayError, safeSetFlow, t])
+  const initializeFlow = useCallback(
+    () => {
+      initRegistrationFlow()
+        // The flow was initialized successfully, let's set the form data:
+        .then(({ data: flow }) => {
+          safeSetFlow(flow)
+        })
+        .catch((error) => displayError(error, t('auth.registration.error.initialization')))
+    },
+    // [safeDisplayError, safeSetFlow, t]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [safeSetFlow]
+  )
 
   // When the component is mounted, we initialize a new use login flow:
   useLayoutEffect(() => initializeFlow(), [initializeFlow])
