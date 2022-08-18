@@ -78,12 +78,18 @@ const config: PlaywrightTestConfig = {
         ...devices['Pixel 5'],
       },
     },
-    {
-      name: 'Mobile Safari',
-      use: {
-        ...devices['iPhone 12'],
-      },
-    },
+
+    /**
+     * Mobile Safari has an issue when running on Playwright's official docker image and
+     * is leading to flakiness, with a problem debugging/tracing it:
+     * https://github.com/microsoft/playwright/issues/11812
+     */
+    // {
+    //   name: 'Mobile Safari',
+    //   use: {
+    //     ...devices['iPhone 12'],
+    //   },
+    // },
     {
       name: 'Mobile Firefox',
       use: {
