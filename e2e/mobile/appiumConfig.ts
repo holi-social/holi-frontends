@@ -1,4 +1,4 @@
-import { Capabilities, Options } from '@wdio/types'
+import { Options } from '@wdio/types'
 
 const requireEnvVar = (varName: string, validValues?: Array<string>, defaultValue?: string) => {
   if (!process.env[varName]) {
@@ -19,10 +19,11 @@ const requireEnvVar = (varName: string, validValues?: Array<string>, defaultValu
   return process.env[varName]
 }
 
-const target = requireEnvVar('TARGET', ['local', 'browserstack'], 'browserstack')
-const platform = requireEnvVar('PLATFORM', ['android', 'ios'])
+export const target = requireEnvVar('APPIUM_TARGET', ['local', 'browserstack'], 'browserstack')
+const platform = requireEnvVar('APPIUM_PLATFORM', ['android', 'ios'])
 const platformName = platform === 'android' ? 'Android' : 'iOS'
 const appId = 'foundation.holistic.projectholi'
+export const waitingTimeout = 5000 // ms
 
 //////////////////////////////////////////
 // remote testing on BrowserStack cloud //
@@ -34,11 +35,15 @@ const iphone_xs_13 = { deviceName: 'iPhone XS', os: 'ios', os_version: '13' }
 
 const browserStackDevice = platform === 'android' ? google_pixel_5_11 : iphone_xs_13
 
+const defaultConfig: Partial<Options.WebdriverIO> = {
+  logLevel: 'error',
+  waitforTimeout: waitingTimeout, // ms
+}
+
 const browserStackCapabilities = () => ({
+  ...defaultConfig,
   user: requireEnvVar('BROWSERSTACK_USERNAME'),
   key: requireEnvVar('BROWSERSTACK_ACCESS_KEY'),
-  host: 'hub-cloud.browserstack.com',
-  port: 4444,
   platform,
   capabilities: {
     platformName,
@@ -79,16 +84,11 @@ const localIOSSimulator = () => ({
   },
 })
 
-export const timeouts: Partial<Capabilities.Timeouts> = {
-  implicit: 5000, // ms
-}
-
 const serverConfig: Partial<Options.WebdriverIO> = {
+  ...defaultConfig,
   path: '/wd/hub',
   hostname: process.env.APPIUM_HOST || 'localhost',
   port: parseInt(process.env.APPIUM_PORT || '') || 4723,
-  logLevel: 'error',
-  waitforTimeout: 5000, // ms
 }
 
 const localCapabilities = () => {
