@@ -97,6 +97,8 @@ Single tests can be executed by passing an argument with the name of the spec to
 yarn e2e:android -t HomeScreen
 # resp.
 yarn e2e:ios -t HomeScreen
+# or even
+yarn e2e:android -t 'Login should work with valid credentials'
 ```
 
 See the documentation of the [Jest CLI](https://jestjs.io/docs/cli#--testnamepatternregex) for more options.
@@ -126,11 +128,10 @@ export BROWSERSTACK_APP_URL=<yourappurl>
 export BROWSERSTACK_USERNAME=<yourusername>
 export BROWSERSTACK_ACCESS_KEY=<youraccesskey>
 
-export TARGET='browserstack' # optional, as this is the default setting
+export APPIUM_TARGET='browserstack' # optional, as this is the default setting
+export APPIUM_PLATFORM='ios' # or 'android'
 
-yarn e2e:android
-# resp.
-yarn e2e:ios
+yarn workspace @holi/e2e-mobile test
 ```
 
 Alternatively, add your Browserstack credentials to `.envrc.local` and have them automatically exported via `direnv`.
