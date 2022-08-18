@@ -6,5 +6,11 @@ nodenv install -s $(cat .node-version)
 # alternative using nvm
 # . ~/.nvm/nvm.sh # load nvm command
 # nvm use
+
+# e2e tests
 export E2E_USER_USERNAME=
 export E2E_USER_PASSWORD=
+export BROWSERSTACK_USERNAME=
+export BROWSERSTACK_ACCESS_KEY=
+export AVD_E2E="e2e_avd"
+export ANDROID_HOME="$HOME/Android/Sdk"
