@@ -11,8 +11,8 @@ import {
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
-import HoliIcon from '@holi/ui/components/HoliIcon'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -76,7 +76,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
 
   const ActiveButtonIcon = (
     <View style={styles.activeButtonIcon}>
-      <HoliIcon icon="smiley" size={20}></HoliIcon>
+      <HoliIcon icon="account-circle" size={20}></HoliIcon>
     </View>
   )
 

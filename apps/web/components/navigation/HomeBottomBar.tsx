@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import HoliIcon from '@holi/ui/components/HoliIcon'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
@@ -38,7 +38,7 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
           testID="nav-button-home"
           style={{ paddingHorizontal: 20, paddingVertical: 10 }}
         >
-          <HoliIcon icon="home" size={20} filled={isHome} style={{ color: iconColor(isHome) }} />
+          <HoliIcon icon="home-smile-2" size={24} filled={isHome} style={{ color: iconColor(isHome) }} />
         </HoliButton>
         <HoliButton
           label={t('chat.title')}
@@ -47,7 +47,7 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
           onPress={() => navigate('/chat')}
           style={{ paddingHorizontal: 20, paddingVertical: 10 }}
         >
-          <HoliIcon icon="chat" size={20} filled={isChat} style={{ color: iconColor(isChat) }} />
+          <HoliIcon icon="chat-3" size={24} filled={isChat} style={{ color: iconColor(isChat) }} />
         </HoliButton>
         <HoliButton
           label={t('explore.title')}
@@ -56,7 +56,7 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
           onPress={() => navigate('/explore')}
           style={{ paddingHorizontal: 20, paddingVertical: 10 }}
         >
-          <HoliIcon icon="explore" size={20} filled={isExplore} style={{ color: iconColor(isExplore) }} />
+          <HoliIcon icon="loader" size={24} filled={isExplore} style={{ color: iconColor(isExplore) }} />
         </HoliButton>
         <HoliButton
           label={t('search.title')}
@@ -65,7 +65,7 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
           onPress={() => navigate('/search')}
           style={{ paddingHorizontal: 20, paddingVertical: 10 }}
         >
-          <HoliIcon icon="search" size={20} filled={isSearch} style={{ color: iconColor(isSearch) }} />
+          <HoliIcon icon="search" size={24} filled={isSearch} style={{ color: iconColor(isSearch) }} />
         </HoliButton>
       </View>
     </View>
