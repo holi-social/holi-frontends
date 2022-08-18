@@ -1,6 +1,7 @@
 import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } from '@ory/kratos-client'
 import React, { useCallback, useContext, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Platform } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
@@ -24,19 +25,14 @@ const Registration: React.VFC = () => {
   // use safe versions of this function to prevent updating state of destroyed component
   const safeSetFlow = useSafeDispatch(setFlow)
 
-  const initializeFlow = useCallback(
-    () => {
-      initRegistrationFlow()
-        // The flow was initialized successfully, let's set the form data:
-        .then(({ data: flow }) => {
-          safeSetFlow(flow)
-        })
-        .catch((error) => displayError(error, t('auth.registration.error.initialization')))
-    },
-    // [safeDisplayError, safeSetFlow, t]
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [safeSetFlow]
-  )
+  const initializeFlow = useCallback(() => {
+    initRegistrationFlow()
+      // The flow was initialized successfully, let's set the form data:
+      .then(({ data: flow }) => {
+        safeSetFlow(flow)
+      })
+      .catch((error) => displayError(error, t('auth.registration.error.initialization')))
+  }, [safeSetFlow, t])
 
   // When the component is mounted, we initialize a new use login flow:
   useLayoutEffect(() => initializeFlow(), [initializeFlow])
@@ -73,7 +69,7 @@ const Registration: React.VFC = () => {
             // ORY Kratos can be configured in such a way that it requires a login after
             // registration. You could handle that case by navigating to the Login screen
             // but for simplicity we'll just print an error here:
-            if (!data.session_token || !data.session) {
+            if (Platform.OS === 'web' ? !data.session : !data.session_token) {
               const err = new Error(
                 'It looks like you configured ORY Kratos to not issue a session automatically after registration. This edge-case is currently not supported in this example app. You can find more information on enabling this feature here: https://www.ory.sh/kratos/docs/next/self-service/flows/user-registration#successful-registration'
               )
