@@ -14,5 +14,6 @@ export const defaultLoginSteps = async ({ username, password }: DefaultLoginStep
 
   await Appium.hideKeyboard('tapOutside')
   await tapOnElementWithTestId('ory-submit-method')
+  // TODO(SF) why twice??
   await tapOnElementWithTestId('ory-submit-method')
 }
