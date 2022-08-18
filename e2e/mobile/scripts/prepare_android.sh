@@ -9,4 +9,4 @@ echo 'starting appium...'
 npx appium &
 
 echo 'starting local env...'
-cd ../../apps/mobile && HOLI_API_URL=https://staging.unified.apis.project-holi.org/graphql yarn android
+HOLI_API_URL=https://staging.unified.apis.project-holi.org/graphql yarn workspace @holi/mobile android

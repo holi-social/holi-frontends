@@ -36,7 +36,9 @@
     "test": "jest",
     "test:update": "jest -u",
     "test:watch": "jest --watch",
-    "test:watchAll": "jest --watchAll"
+    "test:watchAll": "jest --watchAll",
+    "e2e:android": "yarn workspace @holi/e2e-mobile test:android",
+    "e2e:ios": "yarn workspace @holi/e2e-mobile test:ios"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.3.0",
