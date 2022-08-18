@@ -63,7 +63,7 @@ You need to install [Appium](https://appium.io/docs/en/about-appium/getting-star
 
 ### Local Test Execution Against Expo Dev Mode
 
-Executing the e2e tests locally requires the mobile application to be running on a device and `appium` to be started. Currently we also expect the user to be logged out initially.
+Executing the e2e tests locally requires the mobile application to be running on a device and `appium` to be started. We also expect the user to be logged out initially.
 
 For [Android](#android) there is a script that takes care of starting the application and an emulator if necessary.
 
@@ -107,13 +107,13 @@ See the documentation of the [Jest CLI](https://jestjs.io/docs/cli#--testnamepat
 
 `APP_PATH=/path/to/application.app yarn e2e:ios`
 
-You need to use the simulator build here.
+You need to use the simulator build here (i.e. `yarn mobile:build_ios_sim`).
 
 #### Android Emulator
 
-`APP_PATH=/path/to/application.app yarn e2e:android`
+`APP_PATH=/path/to/application.apk yarn e2e:android`
 
-You need to use the APK build here.
+You need to use the APK build here (i.e. `yarn mobile:build_android_apk`).
 
 ## Remote Test Execution on [BrowserStack](https://www.browserstack.com)
 
@@ -141,13 +141,13 @@ If you feel like automating this process by writing a script, take a look at `.g
 
 ### Assumptions
 
-As it is not as easy to instantly navigate to a specific screen on mobile devices as it is on web using URLs, we expect every test to be started on the home screen and make sure to navigate there before each test using the helper function `navigateBackToHomeScreen` (defined in `e2e/mobile/helpers/navigation.ts`) during setup (`e2e/mobile/jest.setup.ts`).
+As it is not as easy to instantly navigate to a specific screen on mobile devices as it is on web using URLs, we expect every test to be started on the home screen. When testing using a specific binary (e.g. during CI), this is ensured by starting the app anew before each test. When running the tests locally against the Expo Dev Mode, we keep the same app instance running all the time and make sure to navigate back to the home screen before each test using the helper function `navigateBackToHomeScreen` (defined in `e2e/mobile/helpers/navigation.ts`) during setup (`e2e/mobile/jest.setup.ts`).
 
-Currently we also assume the user to be logged out initially.
+We also assume the user to be logged out initially.
 
 ### API docs
 
-As we use [WebdriverIO](https://webdriver.io/) as Node.JS client for Appium, see the [webdriver.io API docs](https://webdriver.io/docs/api) for available commands.
+As we use [WebdriverIO](https://webdriver.io/) as Node.JS client for Appium, see the [webdriver.io API docs](https://webdriver.io/docs/api) for available commands as well as [Appium specific commands](https://webdriver.io/docs/api/appium).
 You can also take a look into the [Appium API docs](https://appium.io/docs/en/about-appium/api/) - keep in mind that we are using `webdriver.io` instead of `wd` and we are using the `UiAutomator2` driver for Android and `XCUITest` for iOS.
 
 There already are some helper functions, e.g. to locate and interact with elements or to perform a login with the e2e user, which you can find in the `e2e/mobile/helpers` directory.
