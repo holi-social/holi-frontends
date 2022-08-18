@@ -1,11 +1,14 @@
 import { tapOnElementWithTestId, waitForElementWithTestId } from './selectors'
 
+export const waitForHomeScreen = async (timeout?: number) =>
+  waitForElementWithTestId('home-feed-topics-heading', timeout)
+
 export const navigateBackToHomeScreen = async () => {
   let homeScreenReached = false
   let firstRun = true
   while (!homeScreenReached) {
     try {
-      await waitForElementWithTestId('home-feed-topics-heading', firstRun ? 0 : 2000)
+      await waitForHomeScreen(firstRun ? 0 : 2000)
       homeScreenReached = true
     } catch (e) {
       if (firstRun) {

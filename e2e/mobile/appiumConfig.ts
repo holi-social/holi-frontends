@@ -22,6 +22,7 @@ const requireEnvVar = (varName: string, validValues?: Array<string>, defaultValu
 const target = requireEnvVar('TARGET', ['local', 'browserstack'], 'browserstack')
 const platform = requireEnvVar('PLATFORM', ['android', 'ios'])
 const platformName = platform === 'android' ? 'Android' : 'iOS'
+const appId = 'foundation.holistic.projectholi'
 
 //////////////////////////////////////////
 // remote testing on BrowserStack cloud //
@@ -58,7 +59,7 @@ const localAndroidEmulator = {
     platformName: 'Android',
     automationName: 'UiAutomator2',
     deviceName: 'Android Emulator',
-    //TODO(SF) appPackage: process.env.APP_PATH ? undefined : 'foundation.holistic.projectholi',
+    appPackage: process.env.APP_PATH ? undefined : appId,
   },
 }
 
@@ -73,7 +74,7 @@ const localIOSSimulator = () => ({
     platformVersion: process.env.IOS_PLATFORM_VERSION || '15.4',
     deviceName: process.env.IOS_DEVICE_NAME || 'iPhone XS',
     udid: requireEnvVar('LOCAL_IOS_SIMULATOR_UDID'), // get it with `xcrun simctl list | grep Booted`
-    //bundleId: 'foundation.holistic.projectholi',
+    //bundleId: process.env.APP_PATH ? undefined : appId,
     showIOSLog: true,
   },
 })
