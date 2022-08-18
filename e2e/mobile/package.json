@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "test": "jest --runInBand",
-    "test:ios": "TARGET=local PLATFORM=ios LOCAL_IOS_SIMULATOR_UDID=$(xcrun simctl list devices | grep \"(Booted)\" | grep -E -o -i \"([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})\") yarn run test",
-    "test:android": "TARGET=local PLATFORM=android yarn run test",
+    "test:ios": "APPIUM_TARGET=local APPIUM_PLATFORM=ios LOCAL_IOS_SIMULATOR_UDID=$(xcrun simctl list devices | grep \"(Booted)\" | grep -E -o -i \"([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})\") yarn run test",
+    "test:android": "APPIUM_TARGET=local APPIUM_PLATFORM=android yarn run test",
     "lint": "TIMING=1 eslint .",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json}\"",
     "clean": "rimraf output",
