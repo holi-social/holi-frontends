@@ -12,6 +12,6 @@ beforeEach(async () => {
   global.Appium.setTimeout(timeouts)
 }, 60000) // TODO(SF) improve, move to jest config?
 
-afterEach(() => {
-  global.Appium?.deleteSession()
+afterEach(async () => {
+  await global.Appium?.deleteSession()
 })

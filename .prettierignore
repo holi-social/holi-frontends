@@ -6,3 +6,4 @@ apps/mobile/.expo
 apps/web/.next
 apps/web/build
 apps/storybook/storybook-static
+e2e/web/playwright-report

@@ -58,7 +58,7 @@ const localAndroidEmulator = {
     platformName: 'Android',
     automationName: 'UiAutomator2',
     deviceName: 'Android Emulator',
-    //TODO(SF) appPackage: process.env.CODECEPT_APP_PATH ? undefined : 'foundation.holistic.projectholi',
+    //TODO(SF) appPackage: process.env.APP_PATH ? undefined : 'foundation.holistic.projectholi',
   },
 }
 
@@ -70,11 +70,10 @@ const localIOSSimulator = () => ({
   capabilities: {
     platformName: 'iOS',
     automationName: 'XCUITest',
-    // TODO(SF) see https://github.com/appium/appium/tree/1.x/sample-code/javascript-webdriverio#troubleshooting
     platformVersion: process.env.IOS_PLATFORM_VERSION || '15.4',
     deviceName: process.env.IOS_DEVICE_NAME || 'iPhone XS',
     udid: requireEnvVar('LOCAL_IOS_SIMULATOR_UDID'), // get it with `xcrun simctl list | grep Booted`
-    // //bundleId: 'foundation.holistic.projectholi',
+    //bundleId: 'foundation.holistic.projectholi',
     showIOSLog: true,
   },
 })
