@@ -46,7 +46,7 @@
     - yarn install
     - export BROWSERSTACK_UPLOAD_RESPONSE=$(curl -s -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@${EAS_APK_FILE}")
     - export BROWSERSTACK_APP_URL=$(echo "${BROWSERSTACK_UPLOAD_RESPONSE}" | jq -r '.app_url')
-    - CODECEPT_PLATFORM=android yarn run codeceptjs
+    - PLATFORM=android yarn run test
   allow_failure: true
   interruptible: true
 
@@ -62,7 +62,7 @@
     - yarn install
     - export BROWSERSTACK_UPLOAD_RESPONSE=$(curl -s -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@${EAS_IPA_FILE}")
     - export BROWSERSTACK_APP_URL=$(echo "${BROWSERSTACK_UPLOAD_RESPONSE}" | jq -r '.app_url')
-    - CODECEPT_PLATFORM=ios yarn run codeceptjs
+    - PLATFORM=ios yarn run test
   allow_failure: true
   interruptible: true
 
