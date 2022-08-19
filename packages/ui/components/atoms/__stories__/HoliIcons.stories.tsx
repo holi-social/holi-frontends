@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import iconSelection from '@holi/ui/assets/fonts/HoliIcons/regular/selection.json'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -35,38 +35,34 @@ Primary.argTypes = {
 }
 
 export const All = () => {
+  const [filteredIcons, setFilteredIcons] = useState(iconSelection.icons)
+
+  const filter = (event) => {
+    const iconList = iconSelection.icons || []
+    const filterString = event.target.value
+    if (!filterString || filterString.length <= 3) {
+      setFilteredIcons(iconList)
+    }
+    const filteredItems = iconList.filter((icon) => icon?.properties?.name?.indexOf(filterString) >= 0)
+    setFilteredIcons(filteredItems)
+  }
+
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-      {iconSelection.icons.map((icon, index) => (
-        <div
-          key={index}
-          className="svg-preview"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            width: '128px',
-            padding: 0,
-          }}
-        >
-          <a style={{ display: 'flex', border: `1px dashed ${colors.softblackTransparent}`, padding: 8 }}>
-            <HoliIcon icon={icon?.properties?.name} size={32} />
-          </a>
-          <div
-            style={{
-              fontFamily: 'sans-serif',
-              fontSize: '14px',
-              color: colors.fontColorGrey,
-              marginTop: '10px',
-              marginBottom: '20px',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            {icon?.properties?.name}
+    <div className="svg-preview">
+      <label>
+        Filter:
+        <input type="text" onChange={filter} />
+      </label>
+      <div className="icons">
+        {filteredIcons.map((icon, index) => (
+          <div key={index} className="icon-container">
+            <a>
+              <HoliIcon icon={icon?.properties?.name} size={32} />
+            </a>
+            <div>{icon?.properties?.name}</div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }
