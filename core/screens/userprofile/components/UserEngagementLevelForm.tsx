@@ -76,7 +76,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
 
   const ActiveButtonIcon = (
     <View style={styles.activeButtonIcon}>
-      <HoliIcon icon="account-circle" size={20}></HoliIcon>
+      <HoliIcon icon="smiley" size={20}></HoliIcon>
     </View>
   )
 
