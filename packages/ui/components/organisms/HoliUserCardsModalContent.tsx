@@ -7,7 +7,6 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type HoliUserCardsModalContentProps = {
   users: User[]
@@ -27,11 +26,10 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
   const styles = getStyles()
   const { t } = useTranslation()
   const isWeb = Platform.OS === 'web'
-  const mixins = useStyleMixins()
 
   return (
-    <View style={[styles.container, isWeb && mixins.container, style]}>
-      <HoliHeading style={styles.title} size="large">
+    <View style={[styles.container, style]}>
+      <HoliHeading style={[styles.title]} size="large">
         {title || t('user.cards.modal.title')}
       </HoliHeading>
       <HoliCarousel
@@ -80,6 +78,6 @@ const getStyles = () =>
     },
     buttonContainerWeb: {
       alignSelf: 'center',
-      width: 400,
+      maxWidth: 450,
     },
   })

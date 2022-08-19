@@ -106,17 +106,22 @@ const HoliCarousel: React.FunctionComponent<HoliCarouselProps> = ({ slides, styl
         </View>
       )}
 
+      {/* 
+        Web scrollview uses simple scrolling.
+        When screenWidth < horizontalScrollMinWidth, it uses snap and hides the horizontal scrollbar.
+        The slide buttons underneath are not displayed on Web for now.
+      */}
       {isWeb && (
         <ScrollView
-          style={styles.webView}
+          style={styles.scrollViewStyle}
           horizontal
           showsHorizontalScrollIndicator={screenWidth >= horizontalScrollMinWidth}
         >
           {slides.map((slide, i) => (
             <View
               style={[
-                styles.webSlideContainer,
-                i === 0 ? styles.firstSlideWeb : {},
+                styles.slideContainer,
+                i === 0 ? styles.firstSlideContainer : {},
                 i === slides.length - 1 ? styles.lastSlideContainer : {},
               ]}
               key={i}
@@ -150,6 +155,13 @@ const getStyles = (
       justifyContent: 'center',
       alignItems: 'center',
     },
+    scrollViewStyle: {
+      overflowX: 'scroll',
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'row',
+      scrollSnapType: screenWidth < horizontalScrollMinWidth ? 'x mandatory' : 'none',
+    },
     slideContainer: {
       display: 'flex',
       flexDirection: 'row',
@@ -157,6 +169,13 @@ const getStyles = (
       width: screenWidth - marginHorizontal * 2,
       marginLeft: marginBetweenSlides,
       marginRight: 0,
+      ...Platform.select({
+        web: {
+          scrollSnapAlign: 'center',
+          width: screenWidth < horizontalScrollMinWidth ? screenWidth - marginHorizontal * 2 : defaultSlideWidth,
+          paddingRight: 0,
+        },
+      }),
     },
     firstSlideContainer: {
       marginLeft: marginHorizontal,
@@ -186,23 +205,5 @@ const getStyles = (
     activeSlideButtonIcon: {
       backgroundColor: colors.fontColor,
       opacity: 1,
-    },
-    webView: {
-      overflowX: 'scroll',
-      width: '100%',
-      display: 'flex',
-      flexDirection: 'row',
-      scrollSnapType: screenWidth < horizontalScrollMinWidth ? 'x mandatory' : 'none',
-    },
-    webSlideContainer: {
-      scrollSnapAlign: 'center',
-      display: 'flex',
-      flexDirection: 'row',
-      width: screenWidth < horizontalScrollMinWidth ? screenWidth - marginHorizontal * 2 : defaultSlideWidth,
-      paddingLeft: marginBetweenSlides,
-      paddingRight: 0,
-    },
-    firstSlideWeb: {
-      paddingLeft: marginHorizontal + marginBetweenSlides,
     },
   })
