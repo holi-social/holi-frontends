@@ -1,0 +1,9 @@
+
+.svg-preview:hover > div {
+  color: #6267e7 !important;
+}
+
+.svg-preview:hover svg {
+  color: #6267e7 !important;
+}
+

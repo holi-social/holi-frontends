@@ -18,7 +18,7 @@ const HoliIcon: React.VoidFunctionComponent<HoliIconProps> = (props: HoliIconPro
   const cleanedProps = { ...props }
   delete cleanedProps.filled
   cleanedProps.icon = props.icon.replace(/_filled/g, '')
-  cleanedProps.size = props.size !== undefined ? 24 : props.size
+  cleanedProps.size = props.size !== undefined ? props.size : 24
 
   const iconSet = props?.filled
     ? require('@holi/ui/assets/fonts/HoliIcons/filled/selection.json')
