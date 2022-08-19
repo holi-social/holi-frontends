@@ -31,27 +31,26 @@ export type HoliLocalImageProps = {
    */
   label: string
   /**
+   * The width of the image. Required since without dimensions, there is no way to achieve the same behaviour on web and mobile.
+   */
+  width: string | number
+  /**
+   * The height of the image. Required since without dimensions, there is no way to achieve the same behaviour on web and mobile.
+   */
+  height: string | number
+  /**
    * The style to apply to the image.
-   * IMPORTANT: you must EITHER set a width AND height in the style OR (untested) you must wrap the component in a sized container so it fills the container.
    */
   style?: StyleProp<ImageStyle>
 }
 
-export const processStyle = (
-  style?: StyleProp<ImageStyle>
-): { width: string | number | undefined; height: string | number | undefined; processed: ImageStyle } => {
+export const setDefaultResizeMode = (style?: StyleProp<ImageStyle>): ImageStyle => {
   const flattenedStyle = StyleSheet.flatten(style || {}) // style=undefined leads to error, safeguard with default empty object
-  // extract width and height for the corresponding attributes
-  const { width, height } = flattenedStyle
   // use the same resizeMode for web and mobile as default for same behaviour
   if (!flattenedStyle.resizeMode) {
-    flattenedStyle.resizeMode = 'stretch'
+    flattenedStyle.resizeMode = 'cover'
   }
-  return {
-    width,
-    height,
-    processed: flattenedStyle,
-  }
+  return flattenedStyle
 }
 
 // TODO: use this implementation to distinguish between require() and {uri: 'http:someImageurl'}
@@ -60,6 +59,8 @@ const HoliLocalImage: React.VoidFunctionComponent<HoliLocalImageProps> = ({
   imageSource,
   isSvg = false,
   label,
+  width,
+  height,
   style,
 }: HoliLocalImageProps) => {
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
@@ -68,12 +69,18 @@ const HoliLocalImage: React.VoidFunctionComponent<HoliLocalImageProps> = ({
     accessibilityLabel: label,
   }
 
-  const { width, height, processed } = processStyle(style)
+  const styleWithResizeMode = setDefaultResizeMode(style)
 
   return isSvg ? (
-    <WithLocalSvg {...accessibilityProps} asset={imageSource} width={width} height={height} style={processed} />
+    <WithLocalSvg
+      {...accessibilityProps}
+      asset={imageSource}
+      width={width}
+      height={height}
+      style={styleWithResizeMode}
+    />
   ) : (
-    <Image {...accessibilityProps} source={imageSource} style={[{ overflow: 'visible' }, processed]} />
+    <Image {...accessibilityProps} source={imageSource} style={[{ overflow: 'visible' }, styleWithResizeMode]} />
   )
 }
 

@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-import { ImageStyle } from 'react-native'
 
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage.web'
 
@@ -13,23 +12,38 @@ export default {
     },
   },
 }
+export const Example = () => (
+  <Fragment>
+    <div style={{ opacity: 0.2 }}>Usage</div>
+    <HoliLocalImage
+      imageSource={require('@holi/ui/assets/img/logo/logo.svg')}
+      isSvg={true}
+      width={30}
+      height={30}
+      label="Holi logo"
+    />
+  </Fragment>
+)
+Example.args = {}
+Example.argTypes = {}
 
+/*
 const allSources = [
   { src: require('@holi/ui/assets/img/logo/logo.svg'), svg: true },
   { src: require('@holi/ui/assets/img/logo/Logo_img.png'), svg: false },
 ]
-
 export const Primary = ({ ...args }) => (
   <HoliLocalImage
     imageSource={args.imageSource.src}
     isSvg={args.imageSource.svg}
-    altText={args.altText}
-    style={{ width: args.width, height: args.height }}
+    width={args.width}
+    height={args.height}
+    label={args.label}
   />
 )
 Primary.args = {
   imageSource: allSources[0],
-  altText: 'an alternative Text',
+  label: 'an alternative Text',
   width: 50,
   height: 50,
 }
@@ -43,7 +57,7 @@ Primary.argTypes = {
       labels: allSources.map((s) => s.src),
     },
   },
-  altText: {
+  label: {
     description: 'the alt text to set (leave empty for no alt text)',
   },
   width: {
@@ -60,18 +74,25 @@ export const All = () => {
     { source: require('@holi/ui/assets/img/logo/Logo_img.png'), isSvg: false },
   ]
   const altTexts: string[] = ['', 'An alternative label/description/text']
-  const styles: ImageStyle[] = [
-    { width: 30, height: 30 },
-    { width: 100, height: 20 },
+  const sizes: [number, number][] = [
+    [30, 30],
+    [100, 20],
   ]
   let i = 0
   const samples = images.map(({ source, isSvg }) => {
     return altTexts.map((altText) => {
-      return styles.map((style, styleIndex) => {
+      return sizes.map(([width, height], styleIndex) => {
         return (
           <div key={i++}>
             <h4>{`${isSvg ? 'SVG' : 'PNG'}, ${altText ? 'with' : 'without'} ALT TEXT, style No. ${styleIndex}`}</h4>
-            <HoliLocalImage key={i++} altText={altText} imageSource={{ src: source }} isSvg={isSvg} style={style} />
+            <HoliLocalImage
+              key={i++}
+              width={width}
+              height={height}
+              label={altText}
+              imageSource={{ src: source }}
+              isSvg={isSvg}
+            />
           </div>
         )
       })
@@ -85,3 +106,4 @@ export const All = () => {
 }
 All.args = {}
 All.argTypes = {}
+*/
