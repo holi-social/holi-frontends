@@ -1,4 +1,4 @@
-import { logError } from '@holi/core/errors/helpers'
+import { logError } from '@holi/core/errors/helpers/logError'
 import i18next from '@holi/core/i18n'
 
 export const displayError = (error: Error, message?: string) => {
