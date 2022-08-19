@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -29,15 +29,17 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
 
   return (
     <View style={[styles.container, style]}>
-      <HoliHeading style={[styles.title]} size="large">
-        {title || t('user.cards.modal.title')}
-      </HoliHeading>
-      <HoliCarousel
-        style={styles.carouselContainer}
-        slides={users.map((user) => ({
-          children: <HoliUserCard style={styles.UserCard} user={user} category={category}></HoliUserCard>,
-        }))}
-      />
+      <ScrollView>
+        <HoliHeading style={[styles.title]} size="large">
+          {title || t('user.cards.modal.title')}
+        </HoliHeading>
+        <HoliCarousel
+          style={styles.carouselContainer}
+          slides={users.map((user) => ({
+            children: <HoliUserCard style={styles.UserCard} user={user} category={category}></HoliUserCard>,
+          }))}
+        />
+      </ScrollView>
 
       <View style={[styles.buttonContainer, isWeb && styles.buttonContainerWeb]}>
         <HoliButton label={t('user.cards.modal.close')} onPress={onDismiss} testID="user-cards-modal-content-close">
@@ -63,6 +65,7 @@ const getStyles = () =>
     carouselContainer: {
       marginTop: 24,
       display: 'flex',
+      paddingBottom: 180,
     },
     UserCard: {
       width: '100%',
