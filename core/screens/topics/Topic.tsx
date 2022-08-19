@@ -12,8 +12,8 @@ import TopicEditors from '@holi/core/screens/topics/components/TopicEditors'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import Holicon from '@holi/ui/components/holicon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -51,7 +51,7 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
             onPress={() => navigateBack()}
             style={{ paddingHorizontal: 0 }}
           >
-            <Holicon icon="arrow-back" size={30} />
+            <HoliIcon icon="arrow-left-s" size={30} />
           </HoliButton>
         ),
       })
