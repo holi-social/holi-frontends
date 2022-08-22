@@ -178,6 +178,7 @@ exports[`renders correctly renders correctly when disabled 1`] = `
   }
 >
   <View
+    accessibilityLabel="Test"
     accessibilityRole="none"
     accessibilityState={
       Object {
