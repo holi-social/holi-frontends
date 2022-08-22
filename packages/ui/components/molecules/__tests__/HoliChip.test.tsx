@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import Holicon from '@holi/ui/components/holicon'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 
 describe('renders correctly', () => {
@@ -43,25 +43,25 @@ describe('displays icons correctly', () => {
     const testRenderer = renderer.create(<HoliChip text="Test" checked={true} />)
     const holiChipInstance = testRenderer.root
 
-    const iconInstance = holiChipInstance.findByType(Holicon)
+    const iconInstance = holiChipInstance.findByType(HoliIcon)
 
     expect(iconInstance.props.icon).toBe('check')
   })
 
-  it('shows plus icon when unchecked', () => {
+  it('shows add icon when unchecked', () => {
     const testRenderer = renderer.create(<HoliChip text="Test" checked={false} />)
     const holiChipInstance = testRenderer.root
 
-    const iconInstance = holiChipInstance.findByType(Holicon)
+    const iconInstance = holiChipInstance.findByType(HoliIcon)
 
-    expect(iconInstance.props.icon).toBe('plus')
+    expect(iconInstance.props.icon).toBe('add')
   })
 
   it('shows no icons when disabled', () => {
     const testRenderer = renderer.create(<HoliChip text="Test" checked={false} disabled={true} />)
     const holiChipInstance = testRenderer.root
 
-    const iconInstances = holiChipInstance.findAllByType(Holicon)
+    const iconInstances = holiChipInstance.findAllByType(HoliIcon)
 
     expect(iconInstances.length).toBe(0)
   })
