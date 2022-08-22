@@ -12,9 +12,9 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('@Login', () => {
-  test('Login - Logout', async ({ page }) => {
+  test('Login - Logout', async ({ context, page }) => {
     // should not work with invalid credentials
-    await defaultLoginSteps({ page, username: 'asfd@asdf.de', password: '1234' })
+    await defaultLoginSteps({ context, page, username: 'asfd@asdf.de', password: '1234' })
     // see https://www.ory.sh/docs/kratos/concepts/ui-user-interface#ui-error-codes
     // for more ory error codes
     await waitForElementByTestId(page, 'ory-message-4000006')
@@ -23,7 +23,7 @@ test.describe('@Login', () => {
 
     // should work with valid credentials
     // Login
-    await defaultLoginSteps({ page })
+    await defaultLoginSteps({ context, page })
     // Logout
     await clickElementByTestId(page, 'btn-to-logout')
     await clickElementByTestId(page, 'confirm-logout-button')
