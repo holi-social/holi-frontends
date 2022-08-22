@@ -33,7 +33,6 @@ exports[`renders correctly renders correctly when open 1`] = `
         style={
           Array [
             Object {
-              "display": "flex",
               "flexDirection": "row",
               "height": "100%",
               "marginLeft": 8,
@@ -170,7 +169,6 @@ exports[`renders correctly renders correctly when open 1`] = `
         style={
           Array [
             Object {
-              "display": "flex",
               "flexDirection": "row",
               "height": "100%",
               "marginLeft": 8,
@@ -318,7 +316,6 @@ exports[`renders correctly renders correctly when open 1`] = `
         style={
           Array [
             Object {
-              "display": "flex",
               "flexDirection": "row",
               "height": "100%",
               "marginLeft": 8,
@@ -453,7 +450,6 @@ exports[`renders correctly renders correctly when open 1`] = `
         style={
           Array [
             Object {
-              "display": "flex",
               "flexDirection": "row",
               "height": "100%",
               "marginLeft": 8,
@@ -601,7 +597,6 @@ exports[`renders correctly renders correctly when open 1`] = `
         style={
           Array [
             Object {
-              "display": "flex",
               "flexDirection": "row",
               "height": "100%",
               "marginLeft": 8,
@@ -736,7 +731,6 @@ exports[`renders correctly renders correctly when open 1`] = `
         style={
           Array [
             Object {
-              "display": "flex",
               "flexDirection": "row",
               "height": "100%",
               "marginLeft": 8,
@@ -884,7 +878,6 @@ exports[`renders correctly renders correctly when open 1`] = `
         style={
           Array [
             Object {
-              "display": "flex",
               "flexDirection": "row",
               "height": "100%",
               "marginLeft": 8,
