@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View } from 'react-native'
 
-import useErrorHandling from '@holi/core/errors/useErrorHandling'
+import { displayError } from '@holi/core/errors/helpers'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import {
   UpdateAuthenticatedUserInput,
@@ -39,7 +39,6 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
   const [orderedValues, setOrderedValues] = useState<ChipValueWithTranslation[]>([])
   const [saved, setSaved] = useState(false)
 
-  const { displayError } = useErrorHandling()
   const { t } = useTranslation()
   useEffect(() => {
     /*

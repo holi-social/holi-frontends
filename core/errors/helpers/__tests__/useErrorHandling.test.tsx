@@ -2,12 +2,11 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Alert, Text } from 'react-native'
 
-import useErrorHandling, { logError } from '@holi/core/errors/useErrorHandling'
+import { displayError, logError } from '@holi/core/errors/helpers'
 
 jest.spyOn(Alert, 'alert')
 
 const ErrorComponent: React.VFC = () => {
-  const { displayError } = useErrorHandling()
   displayError(new Error('Test'), 'An error occurred')
 
   return <Text>Child Content</Text>
