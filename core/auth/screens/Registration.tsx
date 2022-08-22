@@ -8,7 +8,7 @@ import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
+import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { displayError } from '@holi/core/errors/helpers'
 import { useSafeDispatch } from '@holi/core/helpers'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
@@ -17,7 +17,7 @@ import Holicon from '@holi/ui/components/holicon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 const Registration: React.VFC = () => {
-  const { navigate, navigateBack } = useRouting()
+  const { navigateBack } = useRouting()
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { setUserLoggedIn } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
@@ -76,15 +76,10 @@ const Registration: React.VFC = () => {
               return Promise.reject(err)
             }
             console.info('[Registration.tsx] registration was successful.')
-            // Looks like we got a session!
-            return Promise.resolve({
+            setUserLoggedIn({
               session: data.session,
               session_token: data.session_token,
-            })
-          })
-          .then((session) => {
-            setUserLoggedIn(session)
-            navigate('/')
+            } as OrySessionContext)
           })
           .catch(handleFormSubmitError(setFlow, initializeFlow))
           .catch((error) => displayError(error, t('auth.registration.error.registration')))

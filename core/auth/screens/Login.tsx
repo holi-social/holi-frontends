@@ -63,14 +63,11 @@ const Login: React.VoidFunctionComponent = () => {
     flow
       ? newKratosSdk()
           .submitSelfServiceLoginFlow(flow.id, undefined, payload)
-          .then((response) => {
-            return Promise.resolve(response.data as OrySessionContext)
+          .then(({ data }) => {
+            setUserLoggedIn(data as OrySessionContext)
           })
-          .then((session) => {
-            return setUserLoggedIn(session).then(() => {
-              console.info('[Login] session created')
-              navigateBack()
-            })
+          .then(() => {
+            console.info('[Login] session created')
           })
           .catch(handleFormSubmitError(setFlow, initializeFlow))
           .catch((error) => displayError(error, t('auth.login.error.login')))
