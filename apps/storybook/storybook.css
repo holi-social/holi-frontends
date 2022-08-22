@@ -1,0 +1,61 @@
+
+.svg-preview .icons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  min-height: 500px;
+}
+
+.svg-preview label {
+  display: block;
+  margin-bottom: 50px;
+  font-family: sans-serif;
+  font-size:14px;
+  font-weight: bold;
+}
+.svg-preview input {
+  margin-left: 20px;
+  padding: 5px 10px;
+  min-width: 200px;
+  border-color: #bbb;
+  border-radius: 6px;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.svg-preview .icon-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 128px;
+  padding: 0;
+}
+
+.svg-preview .icon-container a {
+  display: flex;
+  padding: 8px;
+  border: 1px dashed #bbb;
+}
+
+.svg-preview .icon-container > div {
+  font-family: sans-serif;
+  font-size:14px;
+  color: #bbb;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  white-space: nowrap;
+}
+
+.svg-preview .icon-container:hover > div {
+  color: #6267e7 !important;
+}
+
+.svg-preview .icon-container svg {
+  color: #bbb !important;
+}
+
+.svg-preview .icon-container:hover svg {
+  color: #6267e7 !important;
+}
+

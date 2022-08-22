@@ -13,8 +13,8 @@ import {
 import tinycolor from 'tinycolor2'
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import Holicon from '@holi/ui/components/holicon'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type ChipProps = PressableProps & {
@@ -79,10 +79,10 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
             </HoliText>
             {!disabled && !hideIcon && (
               <View style={styles.iconView}>
-                <Holicon
+                <HoliIcon
                   size={15}
                   color={checked ? colors.fontColorWhite : colors.fontColorGrey}
-                  icon={checked ? 'check' : 'plus'}
+                  icon={checked ? 'check' : 'add'}
                 />
               </View>
             )}

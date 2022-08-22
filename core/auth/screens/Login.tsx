@@ -14,8 +14,8 @@ import useErrorHandling from '@holi/core/errors/useErrorHandling'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import Holicon from '@holi/ui/components/holicon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 const Login: React.VoidFunctionComponent = () => {
@@ -51,7 +51,7 @@ const Login: React.VoidFunctionComponent = () => {
             onPress={() => navigateBack()}
             style={{ paddingHorizontal: 0 }}
           >
-            <Holicon icon="arrowtip-down" size={30} />
+            <HoliIcon icon="arrow-down-s" size={30} />
           </HoliButton>
         ),
       })

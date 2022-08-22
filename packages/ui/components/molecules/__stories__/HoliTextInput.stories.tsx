@@ -73,7 +73,7 @@ WithTrailingIcon.args = {
 }
 WithTrailingIcon.argTypes = {
   trailingIcon: {
-    type: 'select',
+    type: 'edit',
     options: iconSetRegular.icons.map((icon) => icon?.properties?.name),
   },
 }
