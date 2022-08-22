@@ -53,7 +53,7 @@ const HeaderRight: React.VFC<HeaderRightProps> = (props) => {
       style={props.style}
       testID="btn-to-profile-view"
     >
-      {hasUserData ? userAvatar : <HoliIcon icon="account-circle" size={20} />}
+      {hasUserData ? userAvatar : <HoliIcon icon="account-circle" size={24} />}
     </HoliButton>
   )
 }

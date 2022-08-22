@@ -28,7 +28,7 @@ const HeaderLeft: React.VoidFunctionComponent<HeaderTitleProps> = (props: Header
       {...props}
       style={props.style || {}}
     >
-      <HoliIcon icon="notification-2" size={20} />
+      <HoliIcon icon="notification-2" size={24} />
     </HoliButton>
   )
 }
