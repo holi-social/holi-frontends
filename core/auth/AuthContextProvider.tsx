@@ -8,6 +8,7 @@ import { getSessionFromStorage, removeSessionFromStorage, setSessionInStorage } 
 import { OrySessionContext, OrySessionToken, newKratosSdk } from './helpers/sdk'
 
 export interface Context {
+  userId: string | null
   isLoading: boolean
   isLoggedIn: boolean
   setUserLoggedIn: (session: OrySessionContext) => Promise<void>
@@ -15,6 +16,7 @@ export interface Context {
 }
 
 const initialContext: Context = {
+  userId: null,
   isLoading: true,
   isLoggedIn: false,
   setUserLoggedIn: () => Promise.resolve(),
@@ -26,6 +28,7 @@ export const AuthContext = createContext<Context>(initialContext)
 type SessionState = 'active' | 'expired' | 'invalid'
 
 type AuthContextInternalState = {
+  userId: string | null
   isLoading: boolean
   isLoggedIn: boolean
 }
@@ -35,7 +38,7 @@ const kratosSdk = newKratosSdk()
 const AuthContextProvider: React.FC = ({ children }) => {
   // keep isLoading and isLoggedIn together so they can be atomically updated
   // this should result in only required redraws of child components
-  const [state, setState] = useState<AuthContextInternalState>({ isLoading: true, isLoggedIn: false })
+  const [state, setState] = useState<AuthContextInternalState>({ userId: null, isLoading: true, isLoggedIn: false })
   const { t } = useTranslation()
 
   // intended to be called from outside the context provider (e.g. login form)
@@ -43,6 +46,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
     console.debug('[AuthContextProvider] setUserLoggedIn')
     return setSessionInStorage(session).then(() =>
       setState({
+        userId: session.session.identity.id,
         isLoading: false,
         isLoggedIn: true,
       })
@@ -54,6 +58,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
     console.debug('[AuthContextProvider] setUserLoggedOut')
     return removeSessionFromStorage().then(() =>
       setState({
+        userId: null,
         isLoading: false,
         isLoggedIn: false,
       })
@@ -74,6 +79,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
     if (sessionFromStorage === null) {
       console.debug('[AuthContextProvider] no session found in storage')
       setState({
+        userId: null,
         isLoading: false,
         isLoggedIn: false,
       })
@@ -85,6 +91,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
           switch (sessionState) {
             case 'active':
               setState({
+                userId: sessionFromStorage.session.identity.id,
                 isLoading: false,
                 isLoggedIn: true,
               })
@@ -92,6 +99,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
             case 'expired':
               return removeSessionFromStorage().then(() =>
                 setState({
+                  userId: null,
                   isLoading: false,
                   isLoggedIn: false,
                 })
@@ -99,6 +107,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
             case 'invalid':
               return removeSessionFromStorage().then(() =>
                 setState({
+                  userId: null,
                   isLoading: false,
                   isLoggedIn: false,
                 })
@@ -107,6 +116,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
         })
         .catch((e) => {
           setState({
+            userId: null,
             isLoading: false,
             isLoggedIn: false,
           })
@@ -126,6 +136,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
+        userId: state.userId,
         isLoading: state.isLoading,
         isLoggedIn: state.isLoggedIn,
         setUserLoggedIn: setUserLoggedIn,
