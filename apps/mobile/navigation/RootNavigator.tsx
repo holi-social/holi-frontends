@@ -21,7 +21,6 @@ import UserProfile from '@holi/core/screens/userprofile/UserProfile'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import Holicon from '@holi/ui/components/holicon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -78,7 +77,7 @@ const DownButton = () => {
       onPress={() => navigateBack()}
       style={{ paddingHorizontal: 0 }}
     >
-      <Holicon icon="arrowtip-down" size={30} color={colors.softblack} />
+      <HoliIcon icon="arrow-down-s" size={30} color={colors.softblack} />
     </HoliButton>
   )
 }
