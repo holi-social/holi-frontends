@@ -110,7 +110,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
                 onPress={() => updateValues(value)}
                 text={t}
                 style={styles.chip}
-              ></HoliChip>
+              />
             )
           })}
         </HoliChipRow>

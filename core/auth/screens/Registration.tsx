@@ -87,7 +87,7 @@ const Registration: React.VFC = () => {
 
   return (
     <DefaultLayout>
-      <LoginRegistrationContainer flow={flow} onSubmit={onSubmit} mode="registration"></LoginRegistrationContainer>
+      <LoginRegistrationContainer flow={flow} onSubmit={onSubmit} mode="registration" />
     </DefaultLayout>
   )
 }

@@ -83,6 +83,6 @@ Example.argTypes = {
 
 Example.args = {
   slides: users.map((user) => ({
-    children: <HoliUserCard style={{ width: '100%' }} user={user}></HoliUserCard>,
+    children: <HoliUserCard style={{ width: '100%' }} user={user} />,
   })),
 }

@@ -75,7 +75,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
 
   const ActiveButtonIcon = (
     <View style={styles.activeButtonIcon}>
-      <HoliIcon icon="smiley" size={20}></HoliIcon>
+      <HoliIcon icon="smiley" size={20} />
     </View>
   )
 
@@ -96,7 +96,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
                   styles.button,
                   ...(engagementLevel === EngagementLevel.INTERESTED ? [styles.activeButton] : []),
                 ]}
-              ></View>
+              />
             </HoliButton>
           </View>
           <View style={[styles.buttonContainer, { marginHorizontal: 10 }]}>
@@ -112,7 +112,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
                   styles.button2,
                   ...(engagementLevel === EngagementLevel.ENGAGED ? [styles.activeButton] : []),
                 ]}
-              ></View>
+              />
             </HoliButton>
           </View>
           <View style={styles.buttonContainer}>
@@ -128,7 +128,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
                   styles.button3,
                   ...(engagementLevel === EngagementLevel.INITIATOR ? [styles.activeButton] : []),
                 ]}
-              ></View>
+              />
             </HoliButton>
           </View>
         </View>
