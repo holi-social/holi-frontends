@@ -100,6 +100,7 @@ const FormBuilder = <
       {flow &&
         nodes.map((node: UiNode, k) => {
           const name = getNodeId(node)
+          console.log(name)
           return (
             <FormNode
               key={`form-field-${flow?.ui.action || ''}-${name}-${k}`}
@@ -108,7 +109,7 @@ const FormBuilder = <
               onChange={onChange(name)}
               node={node}
               onSubmitPress={() => onSubmit({ ...values, ...submitType })}
-              autofocus={name === 'identifier'} // email field
+              autofocus={name === 'identifier' || name === 'traits.email'} // email field
               style={{ marginTop: 30 }}
             />
           )
