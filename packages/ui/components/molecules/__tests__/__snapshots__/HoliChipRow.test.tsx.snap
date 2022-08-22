@@ -44,7 +44,7 @@ exports[`renders correctly renders correctly when there is a title, is editable 
       Test
     </Text>
     <View
-      accessibilityLabel="components.holiChipRow.edit"
+      accessibilityLabel="Edit Label"
       accessibilityRole="button"
       accessibilityState={
         Object {
@@ -103,7 +103,7 @@ exports[`renders correctly renders correctly when there is a title, is editable 
             ]
           }
         >
-          components.holiChipRow.edit
+          general.edit
         </Text>
       </View>
     </View>
