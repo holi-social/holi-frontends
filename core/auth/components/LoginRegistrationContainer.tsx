@@ -18,7 +18,7 @@ interface LoginRegistrationContainerProps {
 }
 
 const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = ({ flow, mode = 'login', onSubmit }) => {
-  const { isLoggedIn } = useContext(AuthContext)
+  const { userId, isLoggedIn } = useContext(AuthContext)
   const { t } = useTranslation()
   const { navigate, navigateBack } = useRouting()
   const isLogin = mode === 'login'
@@ -36,8 +36,8 @@ const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = (
   }
 
   useLayoutEffect(() => {
-    isLoggedIn && navigate('/profile')
-  }, [isLoggedIn, navigate])
+    isLoggedIn && navigate(`/profile/${userId}`)
+  }, [isLoggedIn, navigate, userId])
 
   return (
     <View style={styles.container}>
