@@ -150,6 +150,7 @@ const UserProfile: React.VFC = () => {
                   <View style={[mixins.container, styles.chipRowContainer]} key="engagementLevel">
                     <HoliChipRow
                       key="engagementLevel"
+                      editButtonLabel={t('profile.engagementLevel.edit')}
                       editable={!user?.engagementLevel}
                       title={t('profile.engagementLevel')}
                       onPressEdit={() => {

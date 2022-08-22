@@ -8,13 +8,13 @@ import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 
 describe('renders correctly', () => {
   it('renders correctly when there is no title, not editable and has no children', () => {
-    const tree = renderer.create(<HoliChipRow />).toJSON()
+    const tree = renderer.create(<HoliChipRow editButtonLabel="" />).toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('renders correctly when there is a title, is editable and has children', () => {
     const tree = renderer
       .create(
-        <HoliChipRow title="Test" editable>
+        <HoliChipRow title="Test" editable editButtonLabel="Edit Label">
           <HoliText>Testing</HoliText>
         </HoliChipRow>
       )
@@ -26,7 +26,9 @@ describe('renders correctly', () => {
 describe('calls onPressEdit prop function correctly', () => {
   it('calls onPressEdit prop when not disabled', () => {
     const mockFn = jest.fn()
-    const { getByText } = render(<HoliChipRow title="Test" onPressEdit={mockFn} editButtonText="Edit" editable />)
+    const { getByText } = render(
+      <HoliChipRow title="Test" onPressEdit={mockFn} editButtonText="Edit" editButtonLabel="Edit Label" editable />
+    )
 
     fireEvent.press(getByText('Edit'))
     expect(mockFn).toBeCalledTimes(1)
@@ -34,7 +36,9 @@ describe('calls onPressEdit prop function correctly', () => {
 
   it('does not display edit button when not editable', () => {
     const mockFn = jest.fn()
-    const testRenderer = renderer.create(<HoliChipRow title="Test" onPressEdit={mockFn} editButtonText="Edit" />)
+    const testRenderer = renderer.create(
+      <HoliChipRow title="Test" onPressEdit={mockFn} editButtonText="Edit" editButtonLabel="Edit Label" />
+    )
 
     const HoliChipRowInstance = testRenderer.root
     const editButtonInstance = HoliChipRowInstance.findAllByType(HoliButton)

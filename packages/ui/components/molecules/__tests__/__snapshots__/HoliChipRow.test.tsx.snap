@@ -44,7 +44,7 @@ exports[`renders correctly renders correctly when there is a title, is editable 
       Test
     </Text>
     <View
-      accessibilityLabel="general.edit Test"
+      accessibilityLabel="Edit Label"
       accessibilityRole="button"
       accessibilityState={
         Object {
