@@ -5,7 +5,6 @@ import { StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import Holicon from '@holi/ui/components/holicon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 import HomeTopBar from '@holi/web/components/navigation/HomeTopBar'
