@@ -8,7 +8,7 @@ import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 
 describe('renders correctly', () => {
   it('renders correctly when there is no title, not editable and has no children', () => {
-    const tree = renderer.create(<HoliChipRow></HoliChipRow>).toJSON()
+    const tree = renderer.create(<HoliChipRow />).toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('renders correctly when there is a title, is editable and has children', () => {

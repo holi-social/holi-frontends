@@ -18,7 +18,7 @@ const HoliUserCard: React.FunctionComponent<HoliUserCardProps> = ({ user, catego
   const { t } = useTranslation()
 
   if (!user) {
-    return <View style={[styles.container, style]}></View>
+    return <View style={[styles.container, style]} />
   }
 
   const { firstName, lastName, avatar, avatarLabel, avatarDefaultColor, aboutMe } = user

@@ -155,7 +155,7 @@ const UserProfile: React.VFC = () => {
                           text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
                           style={styles.chip}
                           disabled
-                        ></HoliChip>
+                        />
                       )}
                       {!user?.engagementLevel && (
                         <HoliChip
@@ -165,7 +165,7 @@ const UserProfile: React.VFC = () => {
                           }}
                           label={t('profile.engagementLevel.add')}
                           style={styles.chip}
-                        ></HoliChip>
+                        />
                       )}
                     </HoliChipRow>
                   </View>,
@@ -224,7 +224,7 @@ const UserProfile: React.VFC = () => {
                 ),
               },
             ]}
-          ></HoliTabs>
+          />
         </>
       </LoginProtection>
     </DefaultLayout>
