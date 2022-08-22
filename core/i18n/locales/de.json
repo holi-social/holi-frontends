@@ -23,6 +23,7 @@
   "auth.loginProtection.login": "Anmelden",
   "auth.loginProtection.loginLabel": "Anmeldeformular öffnen",
   "auth.loginProtection.text": "Du bist nicht angemeldet.",
+  "auth.logout": "Abmelden",
   "auth.logout.button": "Abmelden",
   "auth.logout.error": "Abmelden fehlgeschlagen",
   "auth.logout.heading": "Willst du dich abmelden?",

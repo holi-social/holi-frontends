@@ -238,43 +238,47 @@ export const BottomTabsNavigator: React.VFC = () => {
   )
 }
 
-const RootNavigator: React.VFC = () => (
-  <RootStack.Navigator
-    initialRouteName="Core"
-    screenOptions={{
-      headerShown: false,
-    }}
-  >
-    <RootStack.Screen name="Core" component={BottomTabsNavigator} />
-    <RootStack.Screen name="VolunteeringApp" component={VolunteeringAppNavigator} />
-    {/* modals are only correctly rendered on android when in root navigator */}
-    <RootStack.Group
+const RootNavigator: React.VFC = () => {
+  const { t } = useTranslation()
+
+  return (
+    <RootStack.Navigator
+      initialRouteName="Core"
       screenOptions={{
-        presentation: 'modal',
-        animation: 'slide_from_bottom',
-        headerShown: true,
-        headerTitleAlign: 'center',
-        headerBackVisible: false,
-        headerBackTitleVisible: false,
-        headerLeft: DownButton,
+        headerShown: false,
       }}
     >
-      <RootStack.Screen
-        name="Login"
-        component={Login}
-        options={{
-          title: 'Login',
+      <RootStack.Screen name="Core" component={BottomTabsNavigator} />
+      <RootStack.Screen name="VolunteeringApp" component={VolunteeringAppNavigator} />
+      {/* modals are only correctly rendered on android when in root navigator */}
+      <RootStack.Group
+        screenOptions={{
+          presentation: 'modal',
+          animation: 'slide_from_bottom',
+          headerShown: true,
+          headerTitleAlign: 'center',
+          headerBackVisible: false,
+          headerBackTitleVisible: false,
+          headerLeft: DownButton,
         }}
-      />
-      <RootStack.Screen
-        name="Logout"
-        component={Logout}
-        options={{
-          title: 'Logout',
-        }}
-      />
-    </RootStack.Group>
-  </RootStack.Navigator>
-)
+      >
+        <RootStack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            title: t('auth.login'),
+          }}
+        />
+        <RootStack.Screen
+          name="Logout"
+          component={Logout}
+          options={{
+            title: t('auth.logout'),
+          }}
+        />
+      </RootStack.Group>
+    </RootStack.Navigator>
+  )
+}
 
 export default RootNavigator
