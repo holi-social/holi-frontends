@@ -49,6 +49,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
       ? {
           // since this component gets rerendered on every state change, we don't need an internal state, but can use the checked prop
           accessibilityState: { checked },
+          accessibilityChecked: checked,
           // we need a label when not disabled, so we take the text as a default
           accessibilityLabel: label || text,
         }

@@ -24,6 +24,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
   }
 >
   <View
+    accessibilityChecked={true}
     accessibilityLabel="Test"
     accessibilityRole="checkbox"
     accessibilityState={
@@ -265,6 +266,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
   }
 >
   <View
+    accessibilityChecked={false}
     accessibilityLabel="Test"
     accessibilityRole="checkbox"
     accessibilityState={

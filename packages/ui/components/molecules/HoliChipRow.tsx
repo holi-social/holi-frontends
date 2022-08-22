@@ -10,6 +10,7 @@ export type HoliChipRowProps = {
   title?: string
   editable?: boolean
   editButtonText?: string
+  editButtonLabel?: string
   children?: React.ReactChild | React.ReactChildren | React.ReactNode | Element
   onPressEdit?: () => void
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
@@ -19,6 +20,7 @@ export type HoliChipRowProps = {
 const HoliChipRow: React.FunctionComponent<HoliChipRowProps> = ({
   title,
   editButtonText,
+  editButtonLabel,
   editable,
   children,
   onPressEdit,
@@ -32,7 +34,7 @@ const HoliChipRow: React.FunctionComponent<HoliChipRowProps> = ({
         <HoliText size="small">{title}</HoliText>
         {editable && (
           <HoliButton
-            label={t('components.holiChipRow.edit')}
+            label={editButtonLabel ? editButtonLabel : t('general.edit') + ' ' + title}
             transparent
             inline
             style={{ width: 'fit-content' }}
@@ -40,7 +42,7 @@ const HoliChipRow: React.FunctionComponent<HoliChipRowProps> = ({
             testID={[testID, 'edit'].filter((e) => e).join('-')}
           >
             <HoliText selectable={false} size="small" bold style={styles.editButton}>
-              {editButtonText || t('components.holiChipRow.edit')}
+              {editButtonText || t('general.edit')}
             </HoliText>
           </HoliButton>
         )}

@@ -32,6 +32,7 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
     <HoliChipRow
       editable
       title={t(`profile.${typeMetadata.keyInUserObject}`)}
+      editButtonLabel={t(`profile.${typeMetadata.keyInUserObject}.edit`)}
       onPressEdit={() => onPressEdit()}
       testID={`user-profile-${typeMetadata.keyInUserObject}`}
     >

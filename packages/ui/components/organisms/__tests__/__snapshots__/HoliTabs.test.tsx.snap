@@ -41,7 +41,7 @@ exports[`renders correctly renders correctly when open 1`] = `
       }
     >
       <View
-        accessibilityLabel="0"
+        accessibilityLabel="Profile"
         accessibilityRole="tab"
         accessibilitySelected={true}
         accessibilityState={
@@ -108,7 +108,7 @@ exports[`renders correctly renders correctly when open 1`] = `
         </View>
       </View>
       <View
-        accessibilityLabel="1"
+        accessibilityLabel="Topics"
         accessibilityRole="tab"
         accessibilitySelected={false}
         accessibilityState={
@@ -190,9 +190,7 @@ exports[`renders correctly renders correctly when open 1`] = `
       <View
         style={
           Object {
-            "display": "flex",
-            "flexDirection": "row",
-            "width": "100%",
+            "flex": 1,
           }
         }
       >
