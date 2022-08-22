@@ -3,7 +3,7 @@ import React, { createContext, useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
-import useErrorHandling from '@holi/core/errors/useErrorHandling'
+import { displayError } from '@holi/core/errors/helpers'
 import { AuthenticatedUserResponse, authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 
@@ -20,7 +20,6 @@ const initialState = {
 export const UserContext = createContext<Context>(initialState)
 
 export const UserContextProvider: React.FC = ({ children }) => {
-  const { displayError } = useErrorHandling()
   const { isLoggedIn } = useContext(AuthContext)
   const { t } = useTranslation()
 

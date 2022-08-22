@@ -101,7 +101,7 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
             setShowModal(false)
           }}
         >
-          <TopicEditors topicId={topicId || ''}></TopicEditors>
+          <TopicEditors topicId={topicId || ''} />
         </HoliModal>
       </View>
     </DefaultLayout>
