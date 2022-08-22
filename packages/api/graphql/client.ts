@@ -3,7 +3,7 @@ import { onError } from '@apollo/client/link/error'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 
 import { holiApiUrl } from '@holi/api/config'
-import { logError } from '@holi/core/errors/useErrorHandling'
+import { logError } from '@holi/core/errors/helpers'
 
 import authLink from './authLink'
 
