@@ -5,7 +5,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
   style={
     Array [
       Object {
-        "display": "flex",
         "height": "100%",
       },
       undefined,
@@ -28,12 +27,10 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               "fontSize": 28,
               "lineHeight": 33.6,
             },
-            Array [
-              Object {
-                "paddingHorizontal": 24,
-                "textAlign": "center",
-              },
-            ],
+            Object {
+              "paddingHorizontal": 24,
+              "textAlign": "center",
+            },
           ]
         }
       >
@@ -48,7 +45,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               "justifyContent": "center",
             },
             Object {
-              "display": "flex",
               "marginTop": 24,
               "paddingBottom": 180,
             },
@@ -75,7 +71,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               style={
                 Array [
                   Object {
-                    "display": "flex",
                     "flexDirection": "row",
                     "height": "100%",
                     "marginLeft": 8,
@@ -210,7 +205,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               style={
                 Array [
                   Object {
-                    "display": "flex",
                     "flexDirection": "row",
                     "height": "100%",
                     "marginLeft": 8,
@@ -356,7 +350,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               style={
                 Array [
                   Object {
-                    "display": "flex",
                     "flexDirection": "row",
                     "height": "100%",
                     "marginLeft": 8,
@@ -489,7 +482,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               style={
                 Array [
                   Object {
-                    "display": "flex",
                     "flexDirection": "row",
                     "height": "100%",
                     "marginLeft": 8,
@@ -635,7 +627,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               style={
                 Array [
                   Object {
-                    "display": "flex",
                     "flexDirection": "row",
                     "height": "100%",
                     "marginLeft": 8,
@@ -768,7 +759,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               style={
                 Array [
                   Object {
-                    "display": "flex",
                     "flexDirection": "row",
                     "height": "100%",
                     "marginLeft": 8,
@@ -914,7 +904,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               style={
                 Array [
                   Object {
-                    "display": "flex",
                     "flexDirection": "row",
                     "height": "100%",
                     "marginLeft": 8,
@@ -1458,7 +1447,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
         Object {
           "alignItems": "center",
           "bottom": 70,
-          "display": "flex",
           "justifyContent": "center",
           "paddingHorizontal": 24,
           "position": "absolute",
