@@ -266,14 +266,13 @@ const getStyles = (theme: HoliTheme, inputPaddingVertical: number) =>
     input: {
       flex: 1,
       fontSize: 16,
-      paddingLeft: 10,
+      paddingHorizontal: 10,
       paddingVertical: inputPaddingVertical,
       lineHeight: inputLineHeight,
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
       color: colors.softblack,
       overflow: 'scroll',
-      marginRight: 10,
       ...Platform.select({
         web: {
           overflowX: 'hidden',
