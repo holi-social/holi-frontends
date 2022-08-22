@@ -158,12 +158,10 @@ const getStyles = (
     scrollViewStyle: {
       overflowX: 'scroll',
       width: '100%',
-      display: 'flex',
       flexDirection: 'row',
       scrollSnapType: screenWidth < horizontalScrollMinWidth ? 'x mandatory' : 'none',
     },
     slideContainer: {
-      display: 'flex',
       flexDirection: 'row',
       height: '100%',
       width: screenWidth - marginHorizontal * 2,

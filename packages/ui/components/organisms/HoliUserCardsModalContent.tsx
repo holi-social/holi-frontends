@@ -30,13 +30,13 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
   return (
     <View style={[styles.container, style]}>
       <ScrollView>
-        <HoliHeading style={[styles.title]} size="large">
+        <HoliHeading style={styles.title} size="large">
           {title || t('user.cards.modal.title')}
         </HoliHeading>
         <HoliCarousel
           style={styles.carouselContainer}
           slides={users.map((user) => ({
-            children: <HoliUserCard style={styles.UserCard} user={user} category={category}></HoliUserCard>,
+            children: <HoliUserCard style={styles.UserCard} user={user} category={category} />,
           }))}
         />
       </ScrollView>
@@ -55,7 +55,6 @@ export default HoliUserCardsModalContent
 const getStyles = () =>
   StyleSheet.create({
     container: {
-      display: 'flex',
       height: '100%',
     },
     title: {
@@ -64,7 +63,6 @@ const getStyles = () =>
     },
     carouselContainer: {
       marginTop: 24,
-      display: 'flex',
       paddingBottom: 180,
     },
     UserCard: {
@@ -74,7 +72,6 @@ const getStyles = () =>
       paddingHorizontal: 24,
       bottom: 70,
       position: 'absolute',
-      display: 'flex',
       width: '100%',
       alignItems: 'center',
       justifyContent: 'center',
