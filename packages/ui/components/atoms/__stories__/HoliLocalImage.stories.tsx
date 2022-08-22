@@ -27,7 +27,6 @@ export const Example = () => (
 Example.args = {}
 Example.argTypes = {}
 
-/*
 const allSources = [
   { src: require('@holi/ui/assets/img/logo/logo.svg'), svg: true },
   { src: require('@holi/ui/assets/img/logo/Logo_img.png'), svg: false },
@@ -90,7 +89,7 @@ export const All = () => {
               width={width}
               height={height}
               label={altText}
-              imageSource={{ src: source }}
+              imageSource={{ src: source, height: height, width: width }}
               isSvg={isSvg}
             />
           </div>
@@ -106,4 +105,3 @@ export const All = () => {
 }
 All.args = {}
 All.argTypes = {}
-*/
