@@ -77,7 +77,7 @@ const HoliTextInput = ({
   }, [noOfVisibleLines, maxNoOfVisibleLines])
 
   const { theme } = useTheme()
-  const styles = getStyles(theme)
+  const styles = getStyles(theme, inputPaddingVertical)
 
   const keyboardType: KeyboardTypeOptions = (() => {
     if (type === 'email') return 'email-address'
@@ -226,7 +226,7 @@ export default memo(HoliTextInput)
 
 const inputLineHeight = 16 * 1.4
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = (theme: HoliTheme, inputPaddingVertical: number) =>
   StyleSheet.create({
     wrapper: {
       flexDirection: 'row',
@@ -267,7 +267,7 @@ const getStyles = (theme: HoliTheme) =>
       flex: 1,
       fontSize: 16,
       paddingLeft: 10,
-      paddingVertical: 15,
+      paddingVertical: inputPaddingVertical,
       lineHeight: inputLineHeight,
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
