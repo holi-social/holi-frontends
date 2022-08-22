@@ -24,6 +24,7 @@ import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+// these constants are lower case, because they are used as translation keys
 type editModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'sdgs'
 
 const UserProfile: React.VFC = () => {
