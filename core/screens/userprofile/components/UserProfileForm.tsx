@@ -12,7 +12,7 @@ import {
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
-import HoliIcon from '@holi/ui/components/HoliIcon'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -92,7 +92,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
       />
       <View style={styles.addImage}>
         <HoliText style={{ marginRight: 13 }}>Add a profile image</HoliText>
-        <HoliIcon icon={'image'} color={colors.grey} />
+        <HoliIcon icon="image" color={colors.grey} />
       </View>
       <ScrollView style={styles.scrollView}>
         <HoliTextInput
@@ -162,6 +162,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
 const styles = StyleSheet.create({
   addImage: {
     flexDirection: 'row',
+    alignItems: 'center',
     marginTop: 16,
   },
   avatar: {

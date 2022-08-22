@@ -20,7 +20,7 @@ import Topic, { TopicParams } from '@holi/core/screens/topics/Topic'
 import UserProfile from '@holi/core/screens/userprofile/UserProfile'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
-import HoliIcon from '@holi/ui/components/HoliIcon'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import Holicon from '@holi/ui/components/holicon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -62,7 +62,7 @@ const BackButton = () => {
       onPress={() => navigateBack()}
       style={{ paddingHorizontal: 0 }}
     >
-      <Holicon icon="arrow-back" size={30} color={colors.softblack} />
+      <HoliIcon icon="arrow-left-s" size={30} color={colors.softblack} />
     </HoliButton>
   )
 }
@@ -190,7 +190,7 @@ export const BottomTabsNavigator: React.VFC = () => {
           headerShown: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="home" size={20} filled={focused} style={{ color: iconColor(focused) }} />
+            return <HoliIcon icon="home-smile-2" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
         }}
       />
@@ -201,7 +201,7 @@ export const BottomTabsNavigator: React.VFC = () => {
           headerShown: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="chat" size={20} filled={focused} style={{ color: iconColor(focused) }} />
+            return <HoliIcon icon="chat-3" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
         }}
       />
@@ -214,7 +214,7 @@ export const BottomTabsNavigator: React.VFC = () => {
           headerShadowVisible: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="explore" size={20} filled={focused} style={{ color: iconColor(focused) }} />
+            return <HoliIcon icon="loader" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
         }}
       />
@@ -227,7 +227,7 @@ export const BottomTabsNavigator: React.VFC = () => {
           headerShadowVisible: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="search" size={20} filled={focused} style={{ color: iconColor(focused) }} />
+            return <HoliIcon icon="search" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
         }}
       />

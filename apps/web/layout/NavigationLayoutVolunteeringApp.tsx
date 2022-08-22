@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import Holicon from '@holi/ui/components/holicon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -48,7 +49,7 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
             onPress={() => navigate('/')}
             testID="nav-button-home"
           >
-            <Holicon icon="home" size={35} color={colors.fontColorBlack} />
+            <HoliIcon icon="home-smile-2" size={35} color={colors.fontColorBlack} />
           </HoliButton>
           <HoliButton
             label={t('volunteering.navigation.search')}
@@ -56,7 +57,7 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
             transparent
             onPress={() => navigate('/search')}
           >
-            <Holicon icon="search" size={35} color={colors.fontColorBlack} />
+            <HoliIcon icon="search" size={35} color={colors.fontColorBlack} />
           </HoliButton>
         </View>
       </footer>
