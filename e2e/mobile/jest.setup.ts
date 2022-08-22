@@ -1,6 +1,6 @@
 import * as webdriverio from 'webdriverio'
 
-import appiumConfig, { waitingTimeout } from './appiumConfig'
+import appiumConfig, { target, waitingTimeout } from './appiumConfig'
 import { navigateBackToHomeScreen, waitForHomeScreen } from './helpers/navigation'
 
 global.platform = appiumConfig.platform
@@ -9,10 +9,12 @@ beforeEach(async () => {
   global.Appium = await webdriverio.remote(appiumConfig)
   if (appiumConfig.capabilities.app) {
     let appRunning = false
+    // Installing and starting the app on local emulator might take very long
+    const homeScreenTimeout = target === 'local' ? 60000 : 2000
     while (!appRunning) {
       // Wait for the app to start
       try {
-        await waitForHomeScreen(2000)
+        await waitForHomeScreen(homeScreenTimeout)
         appRunning = true
       } catch (e) {
         console.debug('app not fully running yet')
