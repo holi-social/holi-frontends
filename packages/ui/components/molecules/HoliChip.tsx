@@ -100,8 +100,6 @@ const getStyles = (checked = false) =>
     holiChip: {
       borderRadius: 8,
       backgroundColor: colors.backgroundColorGrey,
-      paddingVertical: 8,
-      paddingHorizontal: 14,
       alignSelf: 'flex-start',
       overflow: 'hidden',
       ...Platform.select({
@@ -114,6 +112,8 @@ const getStyles = (checked = false) =>
       maxWidth: '100%',
     },
     pressable: {
+      paddingVertical: 8,
+      paddingHorizontal: 14,
       flexDirection: 'row',
       alignSelf: 'center',
       alignItems: 'center',
