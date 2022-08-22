@@ -64,7 +64,7 @@ const localAndroidEmulator = {
     platformName: 'Android',
     automationName: 'UiAutomator2',
     deviceName: 'Android Emulator',
-    appPackage: process.env.APP_PATH ? undefined : appId,
+    appPackage: process.env.APP_PATH ? appId : undefined,
   },
 }
 
@@ -79,7 +79,7 @@ const localIOSSimulator = () => ({
     platformVersion: process.env.IOS_PLATFORM_VERSION || '15.4',
     deviceName: process.env.IOS_DEVICE_NAME || 'iPhone XS',
     udid: requireEnvVar('LOCAL_IOS_SIMULATOR_UDID'), // get it with `xcrun simctl list | grep Booted`
-    //bundleId: process.env.APP_PATH ? undefined : appId,
+    //bundleId: process.env.APP_PATH ? appId : undefined,
     showIOSLog: true,
   },
 })
