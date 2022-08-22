@@ -17,6 +17,7 @@ export type HoliModalProps = ModalProps & {
   relativeHeight?: number
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild>
   testID?: string
+  label: string
 }
 
 const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProps) => {
@@ -68,7 +69,13 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
 
   return (
     <>
-      <Modal onRequestClose={onDismiss} visible={visible} transparent={true} testID={props.testID}>
+      <Modal
+        onRequestClose={onDismiss}
+        visible={visible}
+        transparent={true}
+        testID={props.testID}
+        accessibilityLabel={props.label}
+      >
         <GestureHandlerRootView style={styles.rootView}>
           <HoliButton
             label={t('modal.backdrop')}
