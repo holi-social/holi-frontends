@@ -58,9 +58,13 @@ const HoliTextInput = ({
   const [isFocused, setFocused] = useState<boolean>(false)
   const hasValidationErrors = !!props?.validationErrorText
 
+  // numberOfLines values is only used for auto-sizing the textarea when there is new text input
   const [numberOfLines, setNumberOfLines] = useState<number>(
     clamp(noOfVisibleLines, noOfVisibleLines, maxNoOfVisibleLines)
   )
+
+  // used for calculating the height of a textArea with auto-sizing
+  const inputPaddingVertical = 15
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: true,
@@ -73,7 +77,7 @@ const HoliTextInput = ({
   }, [noOfVisibleLines, maxNoOfVisibleLines])
 
   const { theme } = useTheme()
-  const styles = getStyles(theme)
+  const styles = getStyles(theme, inputPaddingVertical)
 
   const keyboardType: KeyboardTypeOptions = (() => {
     if (type === 'email') return 'email-address'
@@ -128,7 +132,7 @@ const HoliTextInput = ({
                 style={[
                   styles.input,
                   inline ? styles.inline : styles.block,
-                  { height: numberOfLines * inputLineHeight },
+                  { height: numberOfLines * inputLineHeight + 2 * inputPaddingVertical },
                 ]}
                 numberOfLines={noOfVisibleLines}
                 multiline={maxNoOfVisibleLines > 1}
@@ -222,7 +226,7 @@ export default memo(HoliTextInput)
 
 const inputLineHeight = 16 * 1.4
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = (theme: HoliTheme, inputPaddingVertical: number) =>
   StyleSheet.create({
     wrapper: {
       flexDirection: 'row',
@@ -239,12 +243,11 @@ const getStyles = (theme: HoliTheme) =>
       }),
     },
     inputWrapper: {
+      alignItems: 'center',
       flexDirection: 'row',
       borderWidth: 2,
       borderColor: tinycolor(colors.softblack).lighten(80).toString(),
       borderRadius: 4,
-      paddingLeft: 10,
-      paddingVertical: 15,
       backgroundColor: colors.white,
     },
     inputWrapperFocused: {
@@ -263,6 +266,8 @@ const getStyles = (theme: HoliTheme) =>
     input: {
       flex: 1,
       fontSize: 16,
+      paddingLeft: 10,
+      paddingVertical: inputPaddingVertical,
       lineHeight: inputLineHeight,
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
@@ -336,9 +341,8 @@ const getStyles = (theme: HoliTheme) =>
     trailingIconWrapper: {
       width: 22,
       height: 22,
-      alignItems: 'flex-end',
       justifyContent: 'center',
-      marginRight: 8,
+      marginRight: 12,
     },
     trailingIconWrapperHasValidationErrors: {
       width: 16,
