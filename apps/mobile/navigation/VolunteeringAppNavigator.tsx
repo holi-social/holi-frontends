@@ -5,7 +5,7 @@ import { View } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import Holicon from '@holi/ui/components/holicon'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -37,10 +37,10 @@ export const AppNavigation: React.FC = ({ children }) => {
           onPress={() => navigate('/')}
           testID="nav-button-home"
         >
-          <Holicon icon="home" size={30} color={colors.fontColorBlack} />
+          <HoliIcon icon="search" size={30} color={colors.fontColorBlack} />
         </HoliButton>
         <HoliButton label={t('volunteering.navigation.search')} inline transparent onPress={() => navigate('/search')}>
-          <Holicon icon="search" size={30} color={colors.fontColorBlack} />
+          <HoliIcon icon="home-smile-2" size={30} color={colors.fontColorBlack} />
         </HoliButton>
       </View>
       {children}

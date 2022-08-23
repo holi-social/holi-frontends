@@ -6,7 +6,7 @@ import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
-import HoliIcon from '@holi/ui/components/HoliIcon'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 
@@ -53,7 +53,7 @@ const HeaderRight: React.VFC<HeaderRightProps> = (props) => {
       style={props.style}
       testID="btn-to-profile-view"
     >
-      {hasUserData ? userAvatar : <HoliIcon icon="user-circled" size={20} />}
+      {hasUserData ? userAvatar : <HoliIcon icon="account-circle" size={24} />}
     </HoliButton>
   )
 }
