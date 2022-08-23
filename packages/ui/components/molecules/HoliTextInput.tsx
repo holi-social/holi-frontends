@@ -15,7 +15,7 @@ import {
 import tinycolor from 'tinycolor2'
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
-import HoliIcon from '@holi/ui/components/HoliIcon'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -184,7 +184,7 @@ const HoliTextInput = ({
                       }
                     />
                   )}
-                  {hasValidationErrors && <HoliIcon icon={'error-warning'} size={16} filled color={colors.errorRed} />}
+                  {hasValidationErrors && <HoliIcon icon="error-warning" size={16} filled color={colors.errorRed} />}
                 </View>
               )}
               {(value?.length ?? 0) > maxNoOfCharacters * 0.8 && (

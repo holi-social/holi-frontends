@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?liran7');
-  src:  url('fonts/icomoon.eot?liran7#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?liran7') format('truetype'),
-    url('fonts/icomoon.woff?liran7') format('woff'),
-    url('fonts/icomoon.svg?liran7#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?fjz27y');
+  src:  url('fonts/icomoon.eot?fjz27y#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?fjz27y') format('truetype'),
+    url('fonts/icomoon.woff?fjz27y') format('woff'),
+    url('fonts/icomoon.svg?fjz27y#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,31 +25,42 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-arrow-back:before {
+.icon-account-circle:before {
   content: "\e900";
 }
-.icon-bell:before {
+.icon-add:before {
   content: "\e901";
 }
-.icon-chat:before {
+.icon-arrow-down-s:before {
   content: "\e902";
-  color: #6f7081;
 }
-.icon-explore:before {
+.icon-arrow-left-s:before {
   content: "\e903";
-  color: #6f7081;
 }
-.icon-home:before {
+.icon-chat-3:before {
   content: "\e904";
-  color: #6f7081;
 }
-.icon-search:before {
+.icon-check:before {
   content: "\e905";
-  color: #6f7081;
 }
-.icon-smiley:before {
+.icon-error-warning:before {
   content: "\e906";
 }
-.icon-user-circled:before {
+.icon-home-smile-2:before {
   content: "\e907";
+}
+.icon-image:before {
+  content: "\e908";
+}
+.icon-loader:before {
+  content: "\e909";
+}
+.icon-notification-2:before {
+  content: "\e90a";
+}
+.icon-search:before {
+  content: "\e90b";
+}
+.icon-smiley:before {
+  content: "\e90c";
 }
