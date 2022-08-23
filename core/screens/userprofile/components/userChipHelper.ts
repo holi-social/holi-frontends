@@ -1,4 +1,4 @@
-import { UserChipGeneric } from 'core/screens/userprofile/types'
+import { UserChipGeneric } from '@holi/core/screens/userprofile/types'
 
 export type ChipValueWithTranslation = { value: string; t: string }
 

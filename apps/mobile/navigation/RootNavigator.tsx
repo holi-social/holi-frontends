@@ -8,10 +8,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Login from '@holi/core/auth/screens/Login'
 import Logout from '@holi/core/auth/screens/Logout'
 import Registration from '@holi/core/auth/screens/Registration'
+import BackButton from '@holi/core/navigation/components/BackButton'
 import HeaderLeft from '@holi/core/navigation/components/HeaderLeft'
 import HeaderRight from '@holi/core/navigation/components/HeaderRight'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import Explore from '@holi/core/screens/Explore'
 import HomeFeed from '@holi/core/screens/HomeFeed'
 import Notifications from '@holi/core/screens/Notifications'
@@ -22,8 +22,6 @@ import UserProfile from '@holi/core/screens/userprofile/UserProfile'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliIcon from '@holi/ui/components/HoliIcon'
-import Holicon from '@holi/ui/components/holicon'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type HomeStackScreens = {
@@ -53,38 +51,9 @@ const HomeStack = createNativeStackNavigator<HomeStackScreens>()
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
-const BackButton = () => {
-  const { navigateBack } = useRouting()
-  const { t } = useTranslation()
-  return (
-    <HoliButton
-      label={t('navigation.headerLeft.back')}
-      inline
-      transparent
-      onPress={() => navigateBack()}
-      style={{ paddingHorizontal: 0 }}
-      testID="nav-button-back"
-    >
-      <Holicon icon="arrow-back" size={30} color={colors.softblack} />
-    </HoliButton>
-  )
-}
-
 const DownButton = () => {
-  const { navigateBack } = useRouting()
   const { t } = useTranslation()
-  return (
-    <HoliButton
-      label={t('navigation.closeWindow')}
-      inline
-      transparent
-      onPress={() => navigateBack()}
-      style={{ paddingHorizontal: 0 }}
-      testID="nav-button-back"
-    >
-      <Holicon icon="arrowtip-down" size={30} color={colors.softblack} />
-    </HoliButton>
-  )
+  return <BackButton label={t('navigation.closeWindow')} icon="arrowtip-down" />
 }
 
 export const HomeStackNavigator: React.VFC = () => {
