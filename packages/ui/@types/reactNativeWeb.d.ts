@@ -8,6 +8,7 @@ interface AccessibilityPropsWeb extends AccessibilityProps {
   accessibilityRole?: AccessibilityRoleWeb
   accessibilityPressed?: boolean
   accessibilityAutoComplete?: 'none' | 'inline' | 'list' | 'both'
+  accessibilityChecked?: boolean | 'mixed'
 }
 
 // include web specific types (https://github.com/necolas/react-native-web/issues/1684)

@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import useErrorHandling from '@holi/core/errors/useErrorHandling'
+import { displayError } from '@holi/core/errors/helpers'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import {
   UpdateAuthenticatedUserInput,
@@ -36,7 +36,6 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
   const { user } = useContext(UserContext)
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const [engagementLevel, setEngagementLevel] = useState(user?.engagementLevel || EngagementLevel.INTERESTED)
-  const { displayError } = useErrorHandling()
   const { t } = useTranslation()
 
   const { height: deviceHeight } = useWindowDimensions()
@@ -76,7 +75,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
 
   const ActiveButtonIcon = (
     <View style={styles.activeButtonIcon}>
-      <HoliIcon icon="smiley" size={24}></HoliIcon>
+      <HoliIcon icon="smiley" size={24} />
     </View>
   )
 
@@ -97,7 +96,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
                   styles.button,
                   ...(engagementLevel === EngagementLevel.INTERESTED ? [styles.activeButton] : []),
                 ]}
-              ></View>
+              />
             </HoliButton>
           </View>
           <View style={[styles.buttonContainer, { marginHorizontal: 10 }]}>
@@ -113,7 +112,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
                   styles.button2,
                   ...(engagementLevel === EngagementLevel.ENGAGED ? [styles.activeButton] : []),
                 ]}
-              ></View>
+              />
             </HoliButton>
           </View>
           <View style={styles.buttonContainer}>
@@ -129,7 +128,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
                   styles.button3,
                   ...(engagementLevel === EngagementLevel.INITIATOR ? [styles.activeButton] : []),
                 ]}
-              ></View>
+              />
             </HoliButton>
           </View>
         </View>

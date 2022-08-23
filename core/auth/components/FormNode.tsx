@@ -5,14 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { ViewStyle } from 'react-native'
 
 import FormInputField, { InputProps } from '@holi/core/auth/components/FormInputField'
-import {
-  getNodeId,
-  getNodeTitle,
-  getNodeValue,
-  oryNodeIsInput,
-  oryNodeIsSubmit,
-  oryNodeIsText,
-} from '@holi/core/auth/helpers/form'
+import { getNodeId, getNodeTitle, oryNodeIsInput, oryNodeIsSubmit, oryNodeIsText } from '@holi/core/auth/helpers/form'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
@@ -20,7 +13,7 @@ interface Props extends InputProps {
   node: UiNode
   autofocus: boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onSubmitPress: (key: string, value: any) => void
+  onSubmitPress: () => void
   style?: ViewStyle | Record<string, unknown>
 }
 
@@ -35,12 +28,11 @@ const FormNode = (props: Props) => {
   }
 
   if (oryNodeIsInput(node.attributes)) {
-    const fieldName = getNodeId(node)
     return (
       <FormInputField
         {...props}
         attributes={node.attributes}
-        onEnterPress={(value) => props.onSubmitPress(fieldName, value)}
+        onEnterPress={props.onSubmitPress}
         style={[props.style || {}, { marginTop: 10 }]}
       />
     )
@@ -49,12 +41,11 @@ const FormNode = (props: Props) => {
   if (oryNodeIsSubmit(node.attributes)) {
     const fieldName = getNodeId(node)
     const fieldLabel = t(`auth.login.input.label-${getNodeTitle(node)}`)
-    const value = getNodeValue(node)
     return (
       <HoliButton
         label={fieldLabel}
         style={props.style || {}}
-        onPress={() => props.onSubmitPress(fieldName, value)}
+        onPress={props.onSubmitPress}
         testID={`ory-submit-${fieldName}`}
       >
         {fieldLabel}

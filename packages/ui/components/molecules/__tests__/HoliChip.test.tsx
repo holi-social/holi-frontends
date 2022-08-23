@@ -7,15 +7,15 @@ import HoliChip from '@holi/ui/components/molecules/HoliChip'
 
 describe('renders correctly', () => {
   it('renders correctly when checked', () => {
-    const tree = renderer.create(<HoliChip text="Test" checked></HoliChip>).toJSON()
+    const tree = renderer.create(<HoliChip text="Test" checked />).toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('renders correctly when unchecked', () => {
-    const tree = renderer.create(<HoliChip text="Test"></HoliChip>).toJSON()
+    const tree = renderer.create(<HoliChip text="Test" />).toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('renders correctly when disabled', () => {
-    const tree = renderer.create(<HoliChip text="Test" disabled></HoliChip>).toJSON()
+    const tree = renderer.create(<HoliChip text="Test" disabled />).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })

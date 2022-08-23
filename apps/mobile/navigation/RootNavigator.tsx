@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { Login } from '@holi/core/auth/screens/Login'
 import { Logout } from '@holi/core/auth/screens/Logout'
+import { Registration } from '@holi/core/auth/screens/Registration'
 import HeaderLeft from '@holi/core/navigation/components/HeaderLeft'
 import HeaderRight from '@holi/core/navigation/components/HeaderRight'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
@@ -44,6 +45,7 @@ export type RootStackScreens = {
   VolunteeringApp: undefined
   Login: undefined
   Logout: undefined
+  Registration: undefined
 }
 
 const HomeStack = createNativeStackNavigator<HomeStackScreens>()
@@ -267,6 +269,13 @@ const RootNavigator: React.VFC = () => (
         component={Logout}
         options={{
           title: 'Logout',
+        }}
+      />
+      <RootStack.Screen
+        name="Registration"
+        component={Registration}
+        options={{
+          title: 'Registration',
         }}
       />
     </RootStack.Group>

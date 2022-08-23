@@ -66,7 +66,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, style }: HoliT
               key={index}
               accessibilityRole="tab"
               accessibilitySelected={currentSlide === index}
-              accessibilityLabel={'' + index}
+              accessibilityLabel={tab.title}
               testID={currentSlide === index ? 'active-tab' : 'inactive-tab'}
             >
               <Text style={[styles.tabButtonText, currentSlide === index ? styles.activeTabButtonText : {}]}>
@@ -103,15 +103,9 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, style }: HoliT
       )}
 
       {isWeb && (
-        <View style={[styles.tabContainer, { width: '100%' }]} accessibilityRole="tabpanel" focusable={true}>
-          <View
-            style={{
-              width: '100%',
-            }}
-          >
-            {tabs[currentSlide].children}
-          </View>
-        </View>
+        <ScrollView style={styles.tabContainer} accessibilityRole="tabpanel" focusable={true}>
+          {tabs[currentSlide].children}
+        </ScrollView>
       )}
     </View>
   )
@@ -162,8 +156,6 @@ const getStyles = () =>
       fontWeight: '500',
     },
     tabContainer: {
-      display: 'flex',
-      flexDirection: 'row',
-      width: '100%',
+      flex: 1,
     },
   })
