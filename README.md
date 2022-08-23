@@ -45,6 +45,11 @@
     - [noenv Branches](#noenv-branches)
     - [noweb / nomobile Branches](#noweb--nomobile-branches)
   - [Staging and Production Environments](#staging-and-production-environments)
+  - [Environment variables](#environment-variables)
+    - [Local execution and general usage](#local-execution-and-general-usage)
+    - [Configuration for web deployment](#configuration-for-web-deployment)
+    - [Usage for mobile](#usage-for-mobile)
+    - [Configuration for mobile builds](#configuration-for-mobile-builds)
 - [sentry.io logging/tracing](#sentryio-loggingtracing)
 - [Accessibility testing](#accessibility-testing)
 <!-- /TOC -->
@@ -599,6 +604,35 @@ You can also selectively skip the web part of the pipeline by prefixing your bra
 ### Staging and Production Environments
 
 When a branch is merged to the main branch, the pipeline deploys to the staging environment and runs e2e tests against it. After these are successful, you can manually trigger a deployment of a specific commit to production via GitLab CI.
+
+### Environment variables
+
+Setting environment specific configurations using environment variables works differently for web and mobile: for web it is sufficient to provide environment variables during runtime, while for mobile these variables have to be avaiable at build time, so they are included in the app bundles.
+
+#### Local execution and general usage
+
+For local execution environment variables can usually be provided (both for web and to some extend mobile, see [below](#usage-for-mobile)) by defining the variables in `.envrc` or `.envrc.local` or by passing them directly before issuing a command, e.g. `HOLI_API_URL=foobar yarn web:dev`.
+
+They can be accessed via `process.env` (e.g. `process.env.HOLI_API_URL`).
+
+#### Configuration for web deployment
+
+For web deployment it is necessary to include environment variables in the terraform configuration: see `terraform/environments/web/vars.tf` for definitions of variables and `terraform/environments/web/deployment.tf` on how to pass them to the container.
+
+#### Usage for mobile
+
+For mobile development, environment variables can only be used at build time. We use [`expo-constants`](https://docs.expo.dev/versions/latest/sdk/constants/) for this, which provides configuration values defined in `apps/mobile/app.config.js` (here environment variables can be used) as constants to the apps:
+
+```ts
+import Constants from 'expo-constants'
+
+export const holiApiUrl = Constants.manifest?.extra?.holi_api.url
+```
+
+#### Configuration for mobile builds
+
+For app builds generated using the [`EAS command line tool`](https://github.com/expo/eas-cli) (which is used in the pipelines), environment variables have be set for each build profile in `apps/mobile/eas.json` (see [documentation](https://docs.expo.dev/build/eas-json/#environment-variables)).
+You should see such variables listed as `Project environment variables` in the EAS build logs.
 
 ## sentry.io logging/tracing
 

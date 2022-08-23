@@ -19,7 +19,6 @@
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
     BUILD_PROFILE: preview
     KEEP_ARTIFACTS: 'false'
-    HOLI_API_URL: https://staging.unified.apis.project-holi.org/graphql
   dependencies: [] # explicitly disable artifact usage
   script:
     - 'cd apps/mobile'
@@ -205,7 +204,6 @@ mobile_staging_build:
     ENVIRONMENT_ID: production
     KEEP_ARTIFACTS: 'true'
     BUILD_PROFILE: production
-    HOLI_API_URL: https://production.unified.apis.project-holi.org/graphql
   artifacts:
     paths:
       - apps/mobile/artifacts_production/
