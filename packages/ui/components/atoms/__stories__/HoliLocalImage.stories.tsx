@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 
+import { ResizeModes } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage.web'
 
 export default {
@@ -12,20 +13,6 @@ export default {
     },
   },
 }
-export const Example = () => (
-  <Fragment>
-    <div style={{ opacity: 0.2 }}>Usage</div>
-    <HoliLocalImage
-      imageSource={require('@holi/ui/assets/img/logo/logo.svg')}
-      isSvg={true}
-      width={30}
-      height={30}
-      label="Holi logo"
-    />
-  </Fragment>
-)
-Example.args = {}
-Example.argTypes = {}
 
 const allSources = [
   { src: require('@holi/ui/assets/img/logo/logo.svg'), svg: true },
@@ -38,6 +25,7 @@ export const Primary = ({ ...args }) => (
     width={args.width}
     height={args.height}
     label={args.label}
+    resizeMode={args.resizeMode}
   />
 )
 Primary.args = {
@@ -45,6 +33,7 @@ Primary.args = {
   label: 'an alternative Text',
   width: 50,
   height: 50,
+  resizeMode: 'cover',
 }
 Primary.argTypes = {
   imageSource: {
@@ -65,6 +54,15 @@ Primary.argTypes = {
   height: {
     description: 'the height of the image',
   },
+  resizeMode: {
+    description: 'the resizeMode for the image',
+    //    options: ResizeModes, // An array of serializable values
+    //  mapping: ResizeModes, // Maps serializable option values to complex arg values
+    control: {
+      type: 'select',
+      options: ResizeModes,
+    },
+  },
 }
 
 export const All = () => {
@@ -80,10 +78,12 @@ export const All = () => {
   let i = 0
   const samples = images.map(({ source, isSvg }) => {
     return altTexts.map((altText) => {
-      return sizes.map(([width, height], styleIndex) => {
+      return sizes.map(([width, height]) => {
         return (
           <div key={i++}>
-            <h4>{`${isSvg ? 'SVG' : 'PNG'}, ${altText ? 'with' : 'without'} ALT TEXT, style No. ${styleIndex}`}</h4>
+            <h4>{`${isSvg ? 'SVG' : 'PNG'}, ${
+              altText ? 'with' : 'without'
+            } ALT TEXT, width/height ${width}/${height}`}</h4>
             <HoliLocalImage
               key={i++}
               width={width}

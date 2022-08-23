@@ -10,6 +10,17 @@ type StaticImageData = {
   default?: { src: string }
 }
 
+/**
+ * These modes work the same across web and mobile and therefore are the only ones we allow.
+ */
+export const ResizeModes: ('cover' | 'contain' | 'stretch')[] = [
+  'cover',
+  'contain',
+  'stretch', // fill in web
+  // center and repeat have no web equivalent
+]
+export type ResizeMode = typeof ResizeModes[number]
+
 export type HoliLocalImageProps = {
   imageSource: StaticImageData
   // we need the hint if the image source is an svg because for images defined via require()-calls,
@@ -32,4 +43,8 @@ export type HoliLocalImageProps = {
    * The style to apply to the image.
    */
   style?: StyleProp<ImageStyle>
+  /**
+   * The resizeMode to apply to the image. Default 'cover'. Using the React Native values and mapping them to corresponding object-fit values for web.
+   */
+  resizeMode?: ResizeMode
 }
