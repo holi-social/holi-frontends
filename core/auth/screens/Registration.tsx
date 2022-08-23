@@ -38,7 +38,7 @@ const Registration: React.VFC = () => {
   useLayoutEffect(
     () => {
       setNavigationHeader({
-        headerLeft: () => <BackButton icon="arrowtip-down" />,
+        headerLeft: () => <BackButton icon="arrow-down-s" />,
       })
       return clearNavigationHeader
     },

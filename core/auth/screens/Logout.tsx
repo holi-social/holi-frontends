@@ -21,7 +21,7 @@ const Logout: React.VoidFunctionComponent = () => {
   useEffect(
     () => {
       setNavigationHeader({
-        headerLeft: () => <BackButton icon="arrowtip-down" />,
+        headerLeft: () => <BackButton icon="arrow-down-s" />,
       })
       return clearNavigationHeader
     },
