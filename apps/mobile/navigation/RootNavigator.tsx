@@ -7,23 +7,23 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { Login } from '@holi/core/auth/screens/Login'
 import { Logout } from '@holi/core/auth/screens/Logout'
+import { Registration } from '@holi/core/auth/screens/Registration'
 import HeaderLeft from '@holi/core/navigation/components/HeaderLeft'
 import HeaderRight from '@holi/core/navigation/components/HeaderRight'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { UserProfileScreen } from '@holi/core/profile/UserProfileScreen'
 import Explore from '@holi/core/screens/Explore'
 import HomeFeed from '@holi/core/screens/HomeFeed'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
 import Post, { PostParams } from '@holi/core/screens/topics/Post'
 import Topic, { TopicParams } from '@holi/core/screens/topics/Topic'
+import UserProfile from '@holi/core/screens/userprofile/UserProfile'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
-import HoliButton from '@holi/ui/components/HoliButton'
-import HoliIcon from '@holi/ui/components/HoliIcon'
-import Holicon from '@holi/ui/components/holicon'
-import { useTheme } from '@holi/ui/styles/theme/theme'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type HomeStackScreens = {
   HomeFeed: undefined
@@ -45,6 +45,7 @@ export type RootStackScreens = {
   VolunteeringApp: undefined
   Login: undefined
   Logout: undefined
+  Registration: undefined
 }
 
 const HomeStack = createNativeStackNavigator<HomeStackScreens>()
@@ -52,7 +53,6 @@ const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
 const BackButton = () => {
-  const { theme } = useTheme()
   const { navigateBack } = useRouting()
   const { t } = useTranslation()
   return (
@@ -63,13 +63,12 @@ const BackButton = () => {
       onPress={() => navigateBack()}
       style={{ paddingHorizontal: 0 }}
     >
-      <Holicon icon="arrow-back" size={30} color={theme.colors.softblack} />
+      <HoliIcon icon="arrow-left-s" size={30} color={colors.softblack} />
     </HoliButton>
   )
 }
 
 const DownButton = () => {
-  const { theme } = useTheme()
   const { navigateBack } = useRouting()
   const { t } = useTranslation()
   return (
@@ -80,20 +79,19 @@ const DownButton = () => {
       onPress={() => navigateBack()}
       style={{ paddingHorizontal: 0 }}
     >
-      <Holicon icon="arrowtip-down" size={30} color={theme.colors.softblack} />
+      <HoliIcon icon="arrow-down-s" size={30} color={colors.softblack} />
     </HoliButton>
   )
 }
 
 export const HomeStackNavigator: React.VFC = () => {
-  const { theme } = useTheme()
   return (
     <HomeStack.Navigator
       initialRouteName="HomeFeed"
       screenOptions={{
         headerShown: true,
         headerStyle: {
-          backgroundColor: theme.colors.backgroundColorWhite,
+          backgroundColor: colors.backgroundColorWhite,
         },
         headerTitleAlign: 'center',
         headerShadowVisible: false,
@@ -117,7 +115,7 @@ export const HomeStackNavigator: React.VFC = () => {
       />
       <HomeStack.Screen
         name="UserProfile"
-        component={UserProfileScreen}
+        component={UserProfile}
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
@@ -172,19 +170,17 @@ export const HomeStackNavigator: React.VFC = () => {
 }
 
 export const BottomTabsNavigator: React.VFC = () => {
-  const { theme } = useTheme()
-
-  const iconColor = (isActive: boolean) => (isActive ? theme.colors.fontColorBlack : theme.colors.fontColorGrey)
+  const iconColor = (isActive: boolean) => (isActive ? colors.fontColorBlack : colors.fontColorGrey)
 
   return (
     <BottomTabs.Navigator
       initialRouteName="Home"
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: theme.colors.backgroundColorWhite,
+          backgroundColor: colors.backgroundColorWhite,
           paddingHorizontal: 0,
           borderTopWidth: StyleSheet.hairlineWidth,
-          borderTopColor: theme.colors.fontColorGrey,
+          borderTopColor: colors.fontColorGrey,
         },
       }}
     >
@@ -195,7 +191,7 @@ export const BottomTabsNavigator: React.VFC = () => {
           headerShown: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="home" size={20} filled={focused} style={{ color: iconColor(focused) }} />
+            return <HoliIcon icon="home-smile-2" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
         }}
       />
@@ -206,7 +202,7 @@ export const BottomTabsNavigator: React.VFC = () => {
           headerShown: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="chat" size={20} filled={focused} style={{ color: iconColor(focused) }} />
+            return <HoliIcon icon="chat-3" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
         }}
       />
@@ -219,7 +215,7 @@ export const BottomTabsNavigator: React.VFC = () => {
           headerShadowVisible: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="explore" size={20} filled={focused} style={{ color: iconColor(focused) }} />
+            return <HoliIcon icon="loader" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
         }}
       />
@@ -232,7 +228,7 @@ export const BottomTabsNavigator: React.VFC = () => {
           headerShadowVisible: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="search" size={20} filled={focused} style={{ color: iconColor(focused) }} />
+            return <HoliIcon icon="search" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
         }}
       />
@@ -273,6 +269,13 @@ const RootNavigator: React.VFC = () => (
         component={Logout}
         options={{
           title: 'Logout',
+        }}
+      />
+      <RootStack.Screen
+        name="Registration"
+        component={Registration}
+        options={{
+          title: 'Registration',
         }}
       />
     </RootStack.Group>

@@ -1,3 +1,5 @@
+require('ts-node/register')
+
 const requireEnvVar = (varName, validValues, defaultValue) => {
   if (!process.env[varName]) {
     if (!defaultValue) {
@@ -92,16 +94,16 @@ const appiumConfig = target === 'local' ? localCapabilities() : browserStackCapa
 console.info('Starting codecept via Appium with config=', appiumConfig)
 
 exports.config = {
-  tests: './**/*.test.js',
+  tests: './**/*.test.ts',
   output: './output',
   helpers: {
     Appium: appiumConfig,
     SelectorHelper: {
-      require: './helpers/element-selector.js',
+      require: './helpers/SelectorHelper.ts',
     },
   },
   include: {
-    I: './steps_file.js',
+    I: './stepsFile.ts',
   },
   bootstrap: null,
   mocha: {},

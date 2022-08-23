@@ -3,25 +3,42 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { AuthContext } from '@holi/core/auth/AuthProvider'
+import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
-import useErrorHandling from '@holi/core/errors/useErrorHandling'
-import { useNavigationContext } from '@holi/core/navigation/context'
+import { displayError } from '@holi/core/errors/helpers'
+import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import HoliButton from '@holi/ui/components/HoliButton'
-import HoliText from '@holi/ui/components/HoliText'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 const Logout: React.VoidFunctionComponent = () => {
   const { navigateBack } = useRouting()
   const { setUserLoggedOut } = useContext(AuthContext)
-  const { setBackLink, clearBackLinks } = useNavigationContext()
-  const { displayError } = useErrorHandling()
+  const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
 
-  useEffect(() => {
-    setBackLink('down')
-    return () => clearBackLinks()
-  }, [clearBackLinks, setBackLink])
+  useEffect(
+    () => {
+      setNavigationHeader({
+        headerLeft: () => (
+          <HoliButton
+            label={t('navigation.headerLeft.back')}
+            inline
+            transparent
+            onPress={() => navigateBack()}
+            style={{ paddingHorizontal: 0 }}
+          >
+            <HoliIcon icon="arrow-down-s" size={30} />
+          </HoliButton>
+        ),
+      })
+      return clearNavigationHeader
+    },
+    // setNavigationHeader would cause endless loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
 
   const onSubmit = () => {
     getSessionFromStorage()
@@ -44,7 +61,12 @@ const Logout: React.VoidFunctionComponent = () => {
     <DefaultLayout>
       <View style={styles.container}>
         <HoliText>{t('auth.logout.heading')}</HoliText>
-        <HoliButton label={t('auth.logout.button')} onPress={() => onSubmit()} style={styles.button}>
+        <HoliButton
+          label={t('auth.logout.button')}
+          onPress={() => onSubmit()}
+          style={styles.button}
+          testID="confirm-logout-button"
+        >
           {t('auth.logout.button')}
         </HoliButton>
       </View>

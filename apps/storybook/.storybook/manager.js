@@ -1,5 +1,5 @@
-import { addons } from '@storybook/addons';
-import { create } from '@storybook/theming';
+import { addons } from '@storybook/addons'
+import { create } from '@storybook/theming'
 
 addons.setConfig({
   theme: create({
@@ -9,4 +9,4 @@ addons.setConfig({
     brandImage: './images/project-holi.webp',
     brandTarget: '_blank',
   }),
-});
+})

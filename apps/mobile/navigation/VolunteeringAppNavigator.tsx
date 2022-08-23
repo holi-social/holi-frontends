@@ -5,10 +5,9 @@ import { View } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import HoliButton from '@holi/ui/components/HoliButton'
-import SafeArea from '@holi/ui/components/SafeArea'
-import Holicon from '@holi/ui/components/holicon'
-import { useTheme } from '@holi/ui/styles/theme/theme'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { colors } from '@holi/ui/styles/globalVars'
 
 import VolunteeringAppHome from '@holi-apps/volunteering/screens/VolunteeringAppHome'
 
@@ -19,17 +18,15 @@ export type VolunteeringAppScreensList = {
 const VolunteeringAppStack = createNativeStackNavigator<VolunteeringAppScreensList>()
 
 export const AppNavigation: React.FC = ({ children }) => {
-  const { theme } = useTheme()
   const { navigate } = useRouting()
   const { t } = useTranslation()
   return (
-    <SafeArea
+    <View
       style={{
-        padding: 10,
         position: 'absolute',
-        bottom: 10,
-        right: 10,
-        backgroundColor: theme.colors.backgroundColorWhite,
+        bottom: 0,
+        right: 0,
+        backgroundColor: colors.backgroundColorWhite,
       }}
     >
       <View style={{ flexDirection: 'row', padding: 20 }}>
@@ -40,27 +37,26 @@ export const AppNavigation: React.FC = ({ children }) => {
           onPress={() => navigate('/')}
           testID="nav-button-home"
         >
-          <Holicon icon="home" size={30} color={theme.colors.fontColorBlack} />
+          <HoliIcon icon="search" size={30} color={colors.fontColorBlack} />
         </HoliButton>
         <HoliButton label={t('volunteering.navigation.search')} inline transparent onPress={() => navigate('/search')}>
-          <Holicon icon="search" size={30} color={theme.colors.fontColorBlack} />
+          <HoliIcon icon="home-smile-2" size={30} color={colors.fontColorBlack} />
         </HoliButton>
       </View>
       {children}
-    </SafeArea>
+    </View>
   )
 }
 
 const VolunteeringAppNavigator: React.VFC = () => {
-  const { theme } = useTheme()
   return (
-    <SafeArea style={{ padding: 10, height: '100%' }}>
+    <View style={{ height: '100%' }}>
       <VolunteeringAppStack.Navigator
         initialRouteName="VolunteeringAppHome"
         screenOptions={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: theme.colors.backgroundColorWhite,
+            backgroundColor: colors.backgroundColorWhite,
           },
           headerTitleAlign: 'center',
         }}
@@ -68,7 +64,7 @@ const VolunteeringAppNavigator: React.VFC = () => {
         <VolunteeringAppStack.Screen name="VolunteeringAppHome" component={VolunteeringAppHome} />
       </VolunteeringAppStack.Navigator>
       <AppNavigation />
-    </SafeArea>
+    </View>
   )
 }
 

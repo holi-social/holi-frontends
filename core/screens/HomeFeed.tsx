@@ -1,136 +1,82 @@
 import moment from 'moment'
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import fakeTopics from '@holi/core/screens/topics/fakeTopics'
+import TopicPreviewBox from '@holi/core/screens/topics/components/TopicPreviewBox'
+import fakeTopics, { getRandomUser } from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
-import HoliButton from '@holi/ui/components/HoliButton'
-import HoliHeading from '@holi/ui/components/HoliHeading'
-import HoliText from '@holi/ui/components/HoliText'
-import { styleVars } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliSeparatedList from '@holi/ui/components/atoms/HoliSeparatedList'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import HoliAppSwiper from '@holi/ui/components/organisms/HoliAppSwiper'
+import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
+import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
+import { colors, vars } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const appsSwiperDummyApps = [
+const dummyTopicCategories = ['Immigration', 'Education', 'Sustainability']
+
+type DummyApp = {
+  icon: string
+  nameKey: string
+  path: string
+  testID: string
+  hasUpdates: boolean
+  backgroundColor: string
+}
+
+const appSwiperDummyApps: DummyApp[] = [
   {
     icon: 'chat',
     nameKey: 'apps.volunteering.name',
     path: '/apps/volunteering',
-    testID: 'app-title-volunteering',
+    testID: 'app-tile-volunteering',
     hasUpdates: true,
-    backgroundColor: styleVars.colors.impactyellow,
+    backgroundColor: colors.impactyellow,
   },
   {
-    icon: 'explore',
+    icon: 'loader',
     nameKey: 'apps.donations.name',
     path: '/apps/volunteering',
-    testID: 'app-title-donations',
+    testID: 'app-tile-donations',
     hasUpdates: false,
-    backgroundColor: styleVars.colors.positivepurple,
+    backgroundColor: colors.positivepurple,
   },
   {
-    icon: 'home',
+    icon: 'home-smile-2',
     nameKey: 'apps.goodNews.name',
     path: '/apps/volunteering',
-    testID: 'app-title-goodNews',
+    testID: 'app-tile-goodNews',
     hasUpdates: true,
-    backgroundColor: styleVars.colors.lightGrey,
+    backgroundColor: colors.lightGrey,
   },
   {
     icon: 'search',
     nameKey: 'apps.adsForGood.name',
     path: '/apps/volunteering',
-    testID: 'app-title-adsForGood',
+    testID: 'app-tile-adsForGood',
     hasUpdates: true,
-    backgroundColor: styleVars.colors.impactyellow,
+    backgroundColor: colors.impactyellow,
   },
   {
     icon: 'user-circled',
     nameKey: 'apps.factCheck.name',
     path: '/apps/volunteering',
-    testID: 'app-title-factCheck',
+    testID: 'app-tile-factCheck',
     hasUpdates: false,
-    backgroundColor: styleVars.colors.greyAA,
+    backgroundColor: colors.greyAA,
   },
 ]
 
-const appsSwiperStyles = (theme: HoliTheme, screenWidth: number) =>
-  StyleSheet.create({
-    container: {
-      width: '100%',
-    },
-    containerContent: {
-      width: screenWidth > theme.vars.breakpointS ? '100%' : 'auto',
-      justifyContent: 'center',
-    },
-    tile: {
-      minWidth: 110,
-      maxWidth: 110,
-      overflow: 'hidden',
-    },
-    iconContainer: {
-      alignSelf: 'center',
-      width: 64,
-      height: 64,
-      padding: 2,
-      borderWidth: 2,
-      borderRadius: 16,
-      borderColor: styleVars.colors.softblackTransparent,
-    },
-    icon: {
-      width: '100%',
-      height: '100%',
-      borderRadius: 12,
-    },
-    iconWithUpdates: {
-      borderWidth: 2,
-      borderRadius: 16,
-      borderColor: styleVars.colors.positivepurple,
-    },
-    appName: {
-      paddingTop: 4,
-      alignSelf: 'center',
-      fontSize: 14,
-      fontWeight: '400',
-    },
-  })
-
-type AppsSwiperProps = {
-  style?: ViewStyle | ViewStyle[]
-}
-
-const AppsSwiper: React.VFC<AppsSwiperProps> = ({ style }) => {
-  const { navigate } = useRouting()
-  const { t } = useTranslation()
-  const { width } = useWindowDimensions()
-  const { theme } = useTheme()
-  const styles = appsSwiperStyles(theme, width)
-  return (
-    <ScrollView horizontal={true} contentContainerStyle={styles.containerContent} style={[styles.container, style]}>
-      {appsSwiperDummyApps.map((app) => (
-        <HoliButton
-          key={app.nameKey}
-          label={t(app.nameKey)}
-          inline
-          transparent
-          style={[styles.tile]}
-          onPress={() => navigate(app.path)}
-          testID={app.testID}
-        >
-          <View style={[styles.iconContainer, app.hasUpdates && styles.iconWithUpdates]}>
-            <View style={[styles.icon, { backgroundColor: app.backgroundColor }]} />
-          </View>
-          <HoliText style={styles.appName}>{t(app.nameKey)}</HoliText>
-        </HoliButton>
-      ))}
-    </ScrollView>
-  )
-}
+const dummyUsers = Array.from(' '.repeat(6), (_, idx) => getRandomUser(!(idx % 2)))
 
 type HomeFeedProps = NativeStackScreenProps<HomeStackScreens>
 
@@ -143,62 +89,158 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
 }
 
 const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
+  const [showEditorsModal, setShowEditorsModal] = useState(false)
   const { navigate } = useRouting()
-  const { setNavigationHeader } = useNavigationHeader()
+  const { width } = useWindowDimensions()
+  const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(moment().hours(), t)
+  const styles = homeFeedStyles(width)
+  const mixins = useStyleMixins()
 
   useLayoutEffect(
-    () =>
+    () => {
       setNavigationHeader({
         title: headerTitle,
-        titleElement: () => <HoliText style={{ paddingTop: 5 }}>{headerTitle}</HoliText>,
-      }),
-    [navigation, setNavigationHeader, headerTitle]
+        titleElement: () => (
+          <HoliText bold style={{ paddingTop: 5 }}>
+            {headerTitle}
+          </HoliText>
+        ),
+      })
+      return clearNavigationHeader
+    },
+    // setNavigationHeader would cause endless loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [navigation, headerTitle]
   )
 
   return (
     <DefaultLayout>
-      <View style={styles.view}>
-        {/* Holi Apps */}
-        <AppsSwiper />
+      {/* Holi Apps */}
+      <HoliAppSwiper
+        style={[mixins.container, styles.appSwiper]}
+        apps={appSwiperDummyApps.map((app) => {
+          const name = t(app.nameKey)
+          return {
+            ...app,
+            name,
+            onPress: () => navigate(app.path),
+            label: t('homeFeed.apps.appLabel', { name }),
+          }
+        })}
+        onPressMoreApps={() => navigate('/apps/volunteering')}
+        moreAppsLabel={t('homeFeed.apps.moreApps')}
+      />
 
-        {/* I18n Showcase */}
-        <View style={{ flexDirection: 'column', paddingTop: 20, paddingBottom: 20 }}>
-          <HoliText>
-            <Trans t={t} i18nKey="homeFeed.textWithLink">
-              <HoliText style={{ fontWeight: 'bold' }}>this is ignored</HoliText>
+      <View style={[styles.divider, styles.borderBottom]} />
+
+      <View style={[mixins.container]}>
+        {/* Weekly Topics */}
+        <View style={[styles.feedHeadlineContainer, styles.borderBottom]}>
+          {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
+          <HoliHeading level="1" size="medium" style={styles.feedHeadline} testID="home-feed-topics-heading">
+            <Trans t={t} i18nKey="homeFeed.heading" values={{ count: dummyTopicCategories.length }}>
+              <HoliSeparatedList size="large" bold>
+                {dummyTopicCategories.map((category, idx) => (
+                  <HoliButton key={idx} label={category} transparent inline style={mixins.inlineButtonFixMedium}>
+                    <HoliText size="large" bold style={{ color: colors.positivepurple }}>
+                      {category}
+                    </HoliText>
+                  </HoliButton>
+                ))}
+              </HoliSeparatedList>
             </Trans>
+          </HoliHeading>
+
+          <HoliText size="small" style={styles.avatarsTopTitle} testID="avatars-top-title">
+            {t('topics.editors.editedBy')}
           </HoliText>
-          <HoliText>{t('homeFeed.currentDate', { date: t('date', { date: moment() }) })}</HoliText>
+          <View style={styles.topicEditorsModalButton}>
+            <HoliButton
+              label={t('topics.editors.modal.title')}
+              transparent
+              onPress={() => setShowEditorsModal(true)}
+              testID="avatar-pile-open-modal-button"
+              inline
+            >
+              <HoliUserAvatarPile users={dummyUsers} size="small" collapse />
+            </HoliButton>
+          </View>
+
+          <HoliModal relativeHeight={0.85} show={showEditorsModal} onDismiss={() => setShowEditorsModal(false)}>
+            <HoliUserCardsModalContent
+              title={t('topics.editors.modal.title')}
+              users={dummyUsers}
+              onDismiss={() => setShowEditorsModal(false)}
+            />
+          </HoliModal>
         </View>
 
-        {/* Weekly Topics */}
-        <HoliHeading level="2" testID="home-feed-topics">
-          {t('homeFeed.heading')}
-        </HoliHeading>
-
-        {[...fakeTopics.keys()].map((topicId) => (
-          <HoliButton
-            key={topicId}
-            label={fakeTopics.get(topicId).title}
-            inline
-            onPress={() => navigate(`/topics/${topicId}`)}
-          >
-            {fakeTopics.get(topicId).title}
-          </HoliButton>
-        ))}
+        <View style={styles.feedTopicGrid}>
+          {[...fakeTopics.entries()].map(([topicId, topic]) => (
+            <TopicPreviewBox key={topicId} id={topicId} {...topic} style={styles.feedTopicItem} />
+          ))}
+        </View>
       </View>
     </DefaultLayout>
   )
 }
 
-const styles = StyleSheet.create({
-  view: {
-    alignItems: 'center',
-    maxWidth: '100%',
-    marginTop: 5,
-  },
-})
+const homeFeedStyles = (screenWidth: number) =>
+  StyleSheet.create({
+    view: {
+      alignItems: 'center',
+      maxWidth: '100%',
+      marginTop: 5,
+    },
+    borderBottom: {
+      marginBottom: 40,
+      borderBottomColor: colors.borderColorGrey,
+      borderBottomWidth: 1,
+    },
+    divider: {
+      marginTop: 12,
+    },
+    appSwiper: {
+      flexGrow: 0,
+    },
+    feedHeadlineContainer: {
+      paddingBottom: 40,
+    },
+    feedHeadline: {
+      marginBottom: 16,
+    },
+    avatarsTopTitle: {
+      marginBottom: 8,
+    },
+    feedHeadlineEditorsText: {
+      marginBottom: 8,
+      color: colors.grey,
+    },
+    feedTopicGrid: {
+      ...Platform.select({
+        web: {
+          ...(screenWidth > +vars.breakpointM
+            ? {
+                flexDirection: 'row',
+                gap: 24,
+              }
+            : {}),
+        },
+      }),
+    },
+    feedTopicItem: {
+      marginBottom: 40,
+      flex: 1,
+    },
+    topicEditorsModalButton: {
+      ...Platform.select({
+        web: {
+          width: 'fit-content',
+        },
+      }),
+    },
+  })
 
 export default HomeFeed

@@ -1,0 +1,404 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly renders correctly when checked 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "maxWidth": "100%",
+      },
+      Object {
+        "alignSelf": "flex-start",
+        "backgroundColor": "#f7f6f3",
+        "borderRadius": 8,
+        "overflow": "hidden",
+      },
+      undefined,
+      Object {
+        "backgroundColor": "#6267e7",
+        "borderRadius": 24,
+      },
+    ]
+  }
+>
+  <View
+    accessibilityChecked={true}
+    accessibilityLabel="Test"
+    accessibilityRole="checkbox"
+    accessibilityState={
+      Object {
+        "checked": true,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "alignSelf": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "paddingHorizontal": 14,
+          "paddingVertical": 8,
+        },
+        undefined,
+        undefined,
+        false,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          Object {},
+          Array [
+            Object {
+              "color": "#fff",
+              "fontSize": 14,
+              "fontWeight": "400",
+              "lineHeight": 24,
+            },
+            Object {},
+            Object {},
+          ],
+        ]
+      }
+    >
+      Test
+    </Text>
+    <View
+      style={
+        Object {
+          "marginLeft": 1.5,
+        }
+      }
+    >
+      <RNSVGSvgView
+        align="xMidYMid"
+        bbHeight={15}
+        bbWidth={15}
+        color={4294967295}
+        focusable={false}
+        meetOrSlice={0}
+        minX={0}
+        minY={0}
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "borderWidth": 0,
+            },
+            Object {
+              "color": "#fff",
+              "display": "flex",
+              "fill": "currentColor",
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "height": 15,
+              "stroke": "currentColor",
+              "width": 15,
+            },
+            Object {
+              "flex": 0,
+              "height": 15,
+              "width": 15,
+            },
+          ]
+        }
+        tintColor={4294967295}
+        vbHeight={1024}
+        vbWidth={1024}
+      >
+        <RNSVGGroup
+          fill={
+            Array [
+              2,
+            ]
+          }
+          propList={
+            Array [
+              "fill",
+              "stroke",
+            ]
+          }
+          stroke={
+            Array [
+              2,
+            ]
+          }
+        >
+          <RNSVGPath
+            d="M426.697 647.339l392.192-392.235 60.373 60.331-452.565 452.565-271.53-271.531 60.331-60.331 211.199 211.2z"
+          />
+        </RNSVGGroup>
+      </RNSVGSvgView>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when disabled 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "maxWidth": "100%",
+      },
+      Object {
+        "alignSelf": "flex-start",
+        "backgroundColor": "#f7f6f3",
+        "borderRadius": 8,
+        "overflow": "hidden",
+      },
+      undefined,
+      false,
+    ]
+  }
+>
+  <View
+    accessibilityLabel="Test"
+    accessibilityRole="none"
+    accessibilityState={
+      Object {
+        "disabled": true,
+      }
+    }
+    accessible={false}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "alignSelf": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "paddingHorizontal": 14,
+          "paddingVertical": 8,
+        },
+        false,
+        false,
+        false,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          Object {},
+          Array [
+            Object {
+              "color": "#6f7081",
+              "fontSize": 14,
+              "fontWeight": "400",
+              "lineHeight": 24,
+            },
+            Object {},
+            Object {},
+          ],
+        ]
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when unchecked 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "maxWidth": "100%",
+      },
+      Object {
+        "alignSelf": "flex-start",
+        "backgroundColor": "#f7f6f3",
+        "borderRadius": 8,
+        "overflow": "hidden",
+      },
+      undefined,
+      false,
+    ]
+  }
+>
+  <View
+    accessibilityChecked={false}
+    accessibilityLabel="Test"
+    accessibilityRole="checkbox"
+    accessibilityState={
+      Object {
+        "checked": false,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "alignSelf": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "paddingHorizontal": 14,
+          "paddingVertical": 8,
+        },
+        undefined,
+        undefined,
+        false,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          Object {},
+          Array [
+            Object {
+              "color": "#6f7081",
+              "fontSize": 14,
+              "fontWeight": "400",
+              "lineHeight": 24,
+            },
+            Object {},
+            Object {},
+          ],
+        ]
+      }
+    >
+      Test
+    </Text>
+    <View
+      style={
+        Object {
+          "marginLeft": 1.5,
+        }
+      }
+    >
+      <RNSVGSvgView
+        align="xMidYMid"
+        bbHeight={15}
+        bbWidth={15}
+        color={4285493377}
+        focusable={false}
+        meetOrSlice={0}
+        minX={0}
+        minY={0}
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "borderWidth": 0,
+            },
+            Object {
+              "color": "#6f7081",
+              "display": "flex",
+              "fill": "currentColor",
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "height": 15,
+              "stroke": "currentColor",
+              "width": 15,
+            },
+            Object {
+              "flex": 0,
+              "height": 15,
+              "width": 15,
+            },
+          ]
+        }
+        tintColor={4285493377}
+        vbHeight={1024}
+        vbWidth={1024}
+      >
+        <RNSVGGroup
+          fill={
+            Array [
+              2,
+            ]
+          }
+          propList={
+            Array [
+              "fill",
+              "stroke",
+            ]
+          }
+          stroke={
+            Array [
+              2,
+            ]
+          }
+        >
+          <RNSVGPath
+            d="M469.333 469.333v-256h85.333v256h256v85.333h-256v256h-85.333v-256h-256v-85.333h256z"
+          />
+        </RNSVGGroup>
+      </RNSVGSvgView>
+    </View>
+  </View>
+</View>
+`;

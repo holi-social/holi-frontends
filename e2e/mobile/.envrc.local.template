@@ -1,2 +1,4 @@
 export BROWSERSTACK_USERNAME=
 export BROWSERSTACK_ACCESS_KEY=
+export AVD_E2E="e2e_avd"
+export ANDROID_HOME="$HOME/Android/Sdk"

@@ -9,7 +9,7 @@ import {
   UiNode,
 } from '@ory/kratos-client'
 import React, { useEffect, useState } from 'react'
-import { Platform, View, ViewStyle } from 'react-native'
+import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import type { TextInputOverride } from '@holi/core/auth/components/FormInputField'
 import FormMessages from '@holi/core/auth/components/FormMessages'
@@ -24,80 +24,93 @@ interface Props<T> {
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
 }
 
+interface FlowData<T> {
+  nodes: UiNode[]
+  values: T
+  submitType: Record<string, unknown>
+}
+
 const FormBuilder = <
   T extends SubmitSelfServiceSettingsFlowBody | SubmitSelfServiceLoginFlowBody | SubmitSelfServiceRegistrationFlowBody
->(
-  props: Props<T>
-) => {
-  const [values, setValues] = useState<T>({} as T)
-  const [nodes, setNodes] = useState<Array<UiNode>>([])
-  const [submitType, setSubmitType] = useState<Record<string, unknown>>()
+>({
+  flow,
+  onSubmit,
+  only,
+  textInputOverride,
+  style,
+}: Props<T>) => {
+  const [{ nodes, values, submitType }, setFlowData] = useState<FlowData<T>>({
+    nodes: [],
+    values: {} as T,
+    submitType: {},
+  })
 
   useEffect(() => {
-    if (!props.flow) {
+    if (!flow) {
       return
     }
-    const nodes = props.flow.ui.nodes.filter(({ group }) => {
-      if (props.only) {
-        return group === props.only || group === 'default'
-      }
-      return true
-    })
 
-    const values: Partial<T> = {}
-    nodes.forEach((node: UiNode) => {
-      const name = getNodeId(node)
-      const key = name as keyof T
+    const { nodes, values, submitType } = flow.ui.nodes.reduce(
+      (store, node) => {
+        const name = getNodeId(node) as keyof T
 
-      if (oryNodeIsSubmit(node.attributes)) {
-        const submitType: Record<string, unknown> = {}
-        submitType[node.attributes.name] = node.attributes.value
-        setSubmitType(submitType)
-      }
+        if (oryNodeIsSubmit(node.attributes)) {
+          store.submitType[node.attributes.name] = node.attributes.value
+        }
 
-      if (oryNodeIsInput(node.attributes)) {
-        if (node.attributes.type === 'button' || node.attributes.type === 'submit') {
+        if (oryNodeIsInput(node.attributes) && node.attributes.type !== 'button' && node.attributes.type !== 'submit') {
           // In order to mimic real HTML forms, we need to skip setting the value
           // for buttons as the button value will (in normal HTML forms) only trigger
           // if the user clicks it.
-          return
+          store.values[name] = node.attributes.value
         }
-        values[key] = node.attributes.value
-      }
-    })
-    setValues(values as T)
-    setNodes(nodes)
-  }, [props.flow, props.only])
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onChange = (name: string) => (value: any) => {
-    setValues((values) => ({
-      ...values,
-      [name]: value,
+        if (!only || node.group === only || node.group === 'default') {
+          store.nodes.push(node)
+        }
+
+        return store
+      },
+      // initial store
+      { nodes: [] as UiNode[], values: {} as T, submitType: {} as Record<string, unknown> }
+    )
+
+    setFlowData({
+      nodes,
+      values,
+      submitType,
+    })
+  }, [flow, only])
+
+  const onChange = (name: string) => (value: string) => {
+    setFlowData((currFlowData) => ({
+      ...currFlowData,
+      values: {
+        ...currFlowData.values,
+        [name]: value,
+      },
     }))
   }
 
   const getValue = (name: string) => values[name as keyof T]
 
-  const accessibilityProps = Platform.OS === 'web' ? { accessibilityRole: 'form' } : {}
-
   return (
-    <View {...accessibilityProps} style={props.style}>
-      {props.flow && <FormMessages messages={props.flow.ui.messages} />}
-      {props.flow &&
+    <View style={style}>
+      {flow && <FormMessages messages={flow.ui.messages} style={styles.formMessages} />}
+      {flow &&
         nodes.map((node: UiNode, k) => {
           const name = getNodeId(node)
+          console.log(name)
           return (
             <FormNode
-              key={`form-field-${props.flow.ui.action || ''}-${name}-${k}`}
-              textInputOverride={props.textInputOverride}
+              key={`form-field-${flow?.ui.action || ''}-${name}-${k}`}
+              textInputOverride={textInputOverride}
               value={getValue(name)}
               onChange={onChange(name)}
               node={node}
-              onSubmitPress={() => props.onSubmit({ ...values, ...submitType })}
-              autofocus={name === 'identifier'} // email field
+              onSubmitPress={() => onSubmit({ ...values, ...submitType })}
+              autofocus={name === 'identifier' || name === 'traits.email'} // email field
               style={{ marginTop: 30 }}
-              {...accessibilityProps}
             />
           )
         })}
@@ -106,3 +119,9 @@ const FormBuilder = <
 }
 
 export default FormBuilder
+
+const styles = StyleSheet.create({
+  formMessages: {
+    marginVertical: 10,
+  },
+})

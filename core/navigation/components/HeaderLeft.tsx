@@ -2,12 +2,10 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ViewStyle } from 'react-native'
 
-import { useNavigationContext } from '@holi/core/navigation/context'
+import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import HoliButton from '@holi/ui/components/HoliButton'
-import HoliIcon from '@holi/ui/components/HoliIcon'
-import Holicon from '@holi/ui/components/holicon'
-import { useTheme } from '@holi/ui/styles/theme/theme'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 export type HeaderTitleProps = {
   style?: ViewStyle | Record<string, unknown>
@@ -15,29 +13,11 @@ export type HeaderTitleProps = {
 }
 
 const HeaderLeft: React.VoidFunctionComponent<HeaderTitleProps> = (props: HeaderTitleProps) => {
-  const { navigate, navigateBack } = useRouting()
-  const { showBackLink, showDownLink } = useNavigationContext()
-  const { theme } = useTheme()
+  const { navigate } = useRouting()
+  const navigationContext = useNavigationContext()
   const { t } = useTranslation()
 
-  const getLinkIcon = () => {
-    if (showDownLink) return 'arrowtip-down'
-    return 'arrow-back'
-  }
-
-  if (showBackLink || showDownLink) {
-    return (
-      <HoliButton
-        label={t('navigation.headerLeft.back')}
-        inline
-        transparent
-        onPress={() => navigateBack()}
-        style={{ paddingHorizontal: 0 }}
-      >
-        <Holicon icon={getLinkIcon()} size={30} color={theme.colors.softblack} />
-      </HoliButton>
-    )
-  }
+  if (navigationContext.headerLeft) return navigationContext.headerLeft
 
   return (
     <HoliButton
@@ -48,7 +28,7 @@ const HeaderLeft: React.VoidFunctionComponent<HeaderTitleProps> = (props: Header
       {...props}
       style={props.style || {}}
     >
-      <HoliIcon icon="bell" size={20} />
+      <HoliIcon icon="notification-2" size={24} />
     </HoliButton>
   )
 }

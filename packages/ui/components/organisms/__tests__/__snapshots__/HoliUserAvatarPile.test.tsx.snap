@@ -1,0 +1,274 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flexDirection": "row",
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#f7f6f3",
+          "borderColor": "transparent",
+          "borderRadius": 12,
+          "borderWidth": 1,
+          "justifyContent": "center",
+          "overflow": "hidden",
+        },
+        Array [
+          Object {
+            "borderColor": "#fff",
+            "borderWidth": 2,
+          },
+          Object {
+            "marginLeft": 0,
+            "zIndex": -0,
+          },
+        ],
+        Object {
+          "height": 24,
+          "width": 24,
+        },
+      ]
+    }
+    testID="pile-avatar"
+  >
+    <Image
+      accessibilityLabel="Dima Rosmait"
+      accessibilityRole="image"
+      accessible={false}
+      source={
+        Object {
+          "uri": "avatar-1",
+        }
+      }
+      style={
+        Object {
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "red",
+          "borderColor": "transparent",
+          "borderRadius": 12,
+          "borderWidth": 1,
+          "justifyContent": "center",
+          "overflow": "hidden",
+        },
+        Array [
+          Object {
+            "borderColor": "#fff",
+            "borderWidth": 2,
+          },
+          Object {
+            "marginLeft": -4,
+            "zIndex": -1,
+          },
+        ],
+        Object {
+          "height": 24,
+          "width": 24,
+        },
+      ]
+    }
+    testID="pile-avatar"
+  >
+    <Text
+      accessibilityLabel="Max Mustermann"
+      accessibilityRole="image"
+      accessible={false}
+      selectable={true}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          Object {},
+          Object {
+            "color": "#fff",
+            "fontSize": 10.799999999999999,
+            "fontWeight": "bold",
+            "lineHeight": 12.959999999999999,
+            "textTransform": "uppercase",
+          },
+        ]
+      }
+    >
+      M
+    </Text>
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#f7f6f3",
+          "borderColor": "transparent",
+          "borderRadius": 12,
+          "borderWidth": 1,
+          "justifyContent": "center",
+          "overflow": "hidden",
+        },
+        Array [
+          Object {
+            "borderColor": "#fff",
+            "borderWidth": 2,
+          },
+          Object {
+            "marginLeft": -4,
+            "zIndex": -2,
+          },
+        ],
+        Object {
+          "height": 24,
+          "width": 24,
+        },
+      ]
+    }
+    testID="pile-avatar"
+  >
+    <Image
+      accessibilityLabel="Thomas Mueller"
+      accessibilityRole="image"
+      accessible={false}
+      source={
+        Object {
+          "uri": "avatar-2",
+        }
+      }
+      style={
+        Object {
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "yellow",
+          "borderColor": "transparent",
+          "borderRadius": 12,
+          "borderWidth": 1,
+          "justifyContent": "center",
+          "overflow": "hidden",
+        },
+        Array [
+          Object {
+            "borderColor": "#fff",
+            "borderWidth": 2,
+          },
+          Object {
+            "marginLeft": -4,
+            "zIndex": -3,
+          },
+        ],
+        Object {
+          "height": 24,
+          "width": 24,
+        },
+      ]
+    }
+    testID="pile-avatar"
+  >
+    <Text
+      accessibilityLabel="Sandra Kasandra"
+      accessibilityRole="image"
+      accessible={false}
+      selectable={true}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          Object {},
+          Object {
+            "color": "#222326",
+            "fontSize": 10.799999999999999,
+            "fontWeight": "bold",
+            "lineHeight": 12.959999999999999,
+            "textTransform": "uppercase",
+          },
+        ]
+      }
+    >
+      S
+    </Text>
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#f7f6f3",
+          "borderColor": "transparent",
+          "borderRadius": 12,
+          "borderWidth": 1,
+          "justifyContent": "center",
+          "overflow": "hidden",
+        },
+        Array [
+          Object {
+            "borderColor": "#fff",
+            "borderWidth": 2,
+          },
+          Object {
+            "marginLeft": -4,
+            "zIndex": -4,
+          },
+        ],
+        Object {
+          "height": 24,
+          "width": 24,
+        },
+      ]
+    }
+    testID="pile-avatar"
+  >
+    <Image
+      accessibilityLabel="Peter Pan"
+      accessibilityRole="image"
+      accessible={false}
+      source={
+        Object {
+          "uri": "avatar-3",
+        }
+      }
+      style={
+        Object {
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+    />
+  </View>
+</View>
+`;

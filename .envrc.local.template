@@ -6,3 +6,5 @@ nodenv install -s $(cat .node-version)
 # alternative using nvm
 # . ~/.nvm/nvm.sh # load nvm command
 # nvm use
+export E2E_USER_USERNAME=
+export E2E_USER_PASSWORD=

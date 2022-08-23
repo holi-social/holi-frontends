@@ -2,10 +2,11 @@
 import { UiNode, UiNodeInputAttributes } from '@ory/kratos-client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import type { UseTranslationResponse } from 'react-i18next'
 import { NativeSyntheticEvent, TextInputKeyPressEventData, TextInputProps, ViewStyle } from 'react-native'
 
 import { getNodeId, getNodeTitle, oryNodeIsInput } from '@holi/core/auth/helpers/form'
-import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/HoliTextInput'
+import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
 
 interface Props extends InputProps {
   node: UiNode
@@ -26,6 +27,18 @@ export interface InputProps {
 }
 
 export type TextInputOverride = (field: UiNode, props: TextInputProps) => TextInputProps
+
+const getValidationErrorText = (
+  { messages }: UiNode,
+  i18n: UseTranslationResponse<'translation', undefined>['i18n']
+) => {
+  if (!messages || !messages.length) {
+    return ''
+  }
+  const { id, context, text } = messages[0]
+  const messageKey = `auth.login.input.message.${id}`
+  return i18n.exists(messageKey) ? i18n.t(messageKey, context) : text
+}
 
 const guessVariant = ({ attributes }: UiNode) => {
   if (!oryNodeIsInput(attributes)) {
@@ -58,7 +71,7 @@ const FormInputField = ({
   autofocus,
   style,
 }: Props) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const variant = guessVariant(node)
   if (!variant) {
@@ -96,7 +109,7 @@ const FormInputField = ({
       label={t(`auth.login.input.label-${fieldLabel}`)}
       placeholder={t(`auth.login.input.placeholder-${fieldLabel}`)}
       value={value ? String(value) : ''}
-      validationErrorText={node.messages && node.messages[0] ? node.messages[0].text : ''}
+      validationErrorText={getValidationErrorText(node, i18n)}
       disabled={disabled}
       noOfVisibleLines={1}
       maxNoOfVisibleLines={1}

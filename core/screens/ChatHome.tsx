@@ -1,35 +1,48 @@
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
-import HoliHeading from '@holi/ui/components/HoliHeading'
-import HoliText from '@holi/ui/components/HoliText'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type ChatHomeProps = NativeStackScreenProps<HomeStackScreens>
 
 const ChatHome: React.VFC<ChatHomeProps> = ({ navigation }: ChatHomeProps) => {
-  const { setNavigationHeader } = useNavigationHeader()
+  const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
   const title = t('chat.title')
+  const mixins = useStyleMixins()
 
   useLayoutEffect(
-    () =>
+    () => {
       setNavigationHeader({
         title: title,
-        titleElement: () => <HoliText style={{ paddingTop: 5 }}>{title}</HoliText>,
-      }),
-    [navigation, setNavigationHeader, title]
+        titleElement: () => (
+          <HoliText bold style={{ paddingTop: 5 }}>
+            {title}
+          </HoliText>
+        ),
+      })
+      return clearNavigationHeader
+    },
+    // setNavigationHeader would cause endless loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [navigation, title]
   )
 
   return (
     <DefaultLayout>
-      <HoliHeading level="1" size="super">
-        {title}
-      </HoliHeading>
+      <View style={mixins.container}>
+        <HoliHeading level="1" size="super">
+          {title}
+        </HoliHeading>
+      </View>
     </DefaultLayout>
   )
 }

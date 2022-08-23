@@ -1,0 +1,201 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly renders correctly when there is a title, is editable and has children 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "paddingBottom": 0,
+        "width": "100%",
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={true}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {},
+          Object {},
+        ]
+      }
+    >
+      Test
+    </Text>
+    <View
+      accessibilityLabel="Edit Label"
+      accessibilityRole="button"
+      accessibilityState={
+        Object {
+          "disabled": false,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {
+            "width": "fit-content",
+          },
+          Object {
+            "width": "auto",
+          },
+        ]
+      }
+      testID="edit"
+    >
+      <View
+        pointerEvents="none"
+        style={Object {}}
+      >
+        <Text
+          accessible={false}
+          selectable={false}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              Object {
+                "fontSize": 14,
+                "lineHeight": 16.8,
+              },
+              Object {
+                "fontFamily": "Circular Std Medium",
+                "fontWeight": "500",
+              },
+              Object {
+                "color": "#6f7081",
+              },
+            ]
+          }
+        >
+          general.edit
+        </Text>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "flexShrink": 1,
+        "flexWrap": "wrap",
+        "marginTop": 8,
+      }
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={true}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          Object {},
+          Object {},
+        ]
+      }
+    >
+      Testing
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when there is no title, not editable and has no children 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "paddingBottom": 0,
+        "width": "100%",
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={true}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {},
+          Object {},
+        ]
+      }
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "flexShrink": 1,
+        "flexWrap": "wrap",
+        "marginTop": 8,
+      }
+    }
+  />
+</View>
+`;

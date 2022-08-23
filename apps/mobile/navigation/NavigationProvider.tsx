@@ -5,13 +5,14 @@ import type { LinkingOptions, Theme } from '@react-navigation/native'
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native'
 
 import { RootStackScreensList } from '@holi/mobile/navigation/RootNavigator'
+import { colors } from '@holi/ui/styles/globalVars'
 import defaultHoliTheme from '@holi/ui/styles/theme'
 
 const navigationTheme: Theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    notification: defaultHoliTheme.colors.secondaryColor,
+    notification: colors.secondaryColor,
   },
   dark: defaultHoliTheme.dark,
 }
@@ -62,6 +63,7 @@ const rootLinkingConfig: LinkingOptions<RootStackScreensList> = {
       // all modals
       Login: 'login',
       Logout: 'logout',
+      Registration: 'registration',
     },
   },
 }
