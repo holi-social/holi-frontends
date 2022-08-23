@@ -12,6 +12,9 @@ describe('@Login', () => {
   it('should work with valid credentials', async () => {
     // Login
     await defaultLoginSteps()
+    // Expect home screen
+    await waitForElementWithTestId('home-feed-topics-heading')
+    await tapOnElementWithTestId('btn-to-profile-view')
     // Logout
     await tapOnElementWithTestId('btn-to-logout')
     await tapOnElementWithTestId('confirm-logout-button')

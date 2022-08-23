@@ -117,6 +117,9 @@ You need to use the simulator build here (i.e. `yarn mobile:build_ios_sim`).
 
 You need to use the APK build here (i.e. `yarn mobile:build_android_apk`).
 
+⚠️ Make sure to uninstall a previously installed version of the app, as it might not be overwritten by Appium.
+(You could set `enforceAppInstall: true` in the `appiumConfig.ts`, but this also slows down execution times).
+
 ## Remote Test Execution on [BrowserStack](https://www.browserstack.com)
 
 Upload the previously created application bundle via the tooling or the instructions on the
