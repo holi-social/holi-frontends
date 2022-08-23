@@ -4,7 +4,7 @@ import { ViewStyle } from 'react-native'
 
 import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import HoliIcon from '@holi/ui/components/HoliIcon'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 export type HeaderTitleProps = {
@@ -28,7 +28,7 @@ const HeaderLeft: React.VoidFunctionComponent<HeaderTitleProps> = (props: Header
       {...props}
       style={props.style || {}}
     >
-      <HoliIcon icon="bell" size={20} />
+      <HoliIcon icon="notification-2" size={24} />
     </HoliButton>
   )
 }

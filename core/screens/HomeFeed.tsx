@@ -43,7 +43,7 @@ const appSwiperDummyApps: DummyApp[] = [
     backgroundColor: colors.impactyellow,
   },
   {
-    icon: 'explore',
+    icon: 'loader',
     nameKey: 'apps.donations.name',
     path: '/apps/volunteering',
     testID: 'app-tile-donations',
@@ -51,7 +51,7 @@ const appSwiperDummyApps: DummyApp[] = [
     backgroundColor: colors.positivepurple,
   },
   {
-    icon: 'home',
+    icon: 'home-smile-2',
     nameKey: 'apps.goodNews.name',
     path: '/apps/volunteering',
     testID: 'app-tile-goodNews',
