@@ -619,6 +619,8 @@ They can be accessed via `process.env` (e.g. `process.env.HOLI_API_URL`).
 
 For web deployment it is necessary to include environment variables in the terraform configuration: see `terraform/environments/web/vars.tf` for definitions of variables and `terraform/environments/web/deployment.tf` on how to pass them to the container.
 
+You could also define environment variables in the Dockerfile itself (`apps/web/Dockerfile`), but these may not be environment specific, as the same docker image is used for different environments.
+
 #### Usage for mobile
 
 For mobile development, environment variables can only be used at build time. We use [`expo-constants`](https://docs.expo.dev/versions/latest/sdk/constants/) for this, which provides configuration values defined in `apps/mobile/app.config.js` (here environment variables can be used) as constants to the apps:
