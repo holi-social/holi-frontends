@@ -72,7 +72,7 @@ const localIOSSimulator = {
     automationName: 'XCUITest',
     // platformVersion: '15.4',
     // deviceName: 'iPhone XS',
-    udid: '1FB640B2-C94D-4F8E-93B2-41D6D20E0FF1', // get it with `xcrun simctl list | grep Booted`
+    udid: requireEnvVar('LOCAL_IOS_SIMULATOR_UDID'), // get it with `xcrun simctl list | grep Booted`
     //bundleId: 'foundation.holistic.projectholi',
     showIOSLog: true,
   },

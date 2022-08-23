@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "codeceptjs": "codeceptjs run --steps",
-    "codeceptjs:ios": "CODECEPT_TARGET=local CODECEPT_PLATFORM=ios codeceptjs run --steps",
+    "codeceptjs:ios": "CODECEPT_TARGET=local CODECEPT_PLATFORM=ios LOCAL_IOS_SIMULATOR_UDID=$(xcrun simctl list devices | grep \"(Booted)\" | grep -E -o -i \"([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})\") codeceptjs run --steps",
     "codeceptjs:android": "CODECEPT_TARGET=local CODECEPT_PLATFORM=android codeceptjs run --steps",
     "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
     "codeceptjs:ui": "codecept-ui --app",
