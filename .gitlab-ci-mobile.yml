@@ -129,6 +129,7 @@ mobile_review_build:
 mobile_review_e2e_android:
   extends: .mobile_e2e_android
   needs: ['mobile_review_build']
+  when: manual
   except:
     - main
     - /^noenv\/.*/
