@@ -19,20 +19,22 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 const Registration: React.VFC = () => {
   const { navigateBack } = useRouting()
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
-  const { setUserLoggedIn } = useContext(AuthContext)
+  const { setUserLoggedIn, isLoggedIn } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
   // use safe versions of this function to prevent updating state of destroyed component
   const safeSetFlow = useSafeDispatch(setFlow)
 
   const initializeFlow = useCallback(() => {
+    if (isLoggedIn) return
+
     initRegistrationFlow()
       // The flow was initialized successfully, let's set the form data:
       .then(({ data: flow }) => {
         safeSetFlow(flow)
       })
       .catch((error) => displayError(error, t('auth.registration.error.initialization')))
-  }, [safeSetFlow, t])
+  }, [safeSetFlow, t, isLoggedIn])
 
   // When the component is mounted, we initialize a new use login flow:
   useLayoutEffect(() => initializeFlow(), [initializeFlow])

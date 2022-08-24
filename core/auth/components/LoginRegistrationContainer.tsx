@@ -70,6 +70,7 @@ const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = (
                 label={t('auth.loginProtection.registration')}
                 type="secondary"
                 style={styles.button}
+                testID="btn-to-registration-form"
               >
                 {t('auth.loginProtection.registration')}
               </HoliButton>
@@ -80,6 +81,7 @@ const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = (
               label={t('auth.login')}
               type="secondary"
               style={styles.button}
+              testID="btn-to-login-form"
             >
               {t('auth.login')}
             </HoliButton>
