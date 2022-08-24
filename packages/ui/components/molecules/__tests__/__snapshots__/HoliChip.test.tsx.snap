@@ -12,8 +12,6 @@ exports[`renders correctly renders correctly when checked 1`] = `
         "backgroundColor": "#f7f6f3",
         "borderRadius": 8,
         "overflow": "hidden",
-        "paddingHorizontal": 14,
-        "paddingVertical": 8,
       },
       undefined,
       Object {
@@ -24,6 +22,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
   }
 >
   <View
+    accessibilityChecked={true}
     accessibilityLabel="Test"
     accessibilityRole="checkbox"
     accessibilityState={
@@ -50,6 +49,8 @@ exports[`renders correctly renders correctly when checked 1`] = `
           "alignSelf": "center",
           "flexDirection": "row",
           "justifyContent": "center",
+          "paddingHorizontal": 14,
+          "paddingVertical": 8,
         },
         undefined,
         undefined,
@@ -110,6 +111,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
               "borderWidth": 0,
             },
             Object {
+              "color": "#fff",
               "display": "flex",
               "fill": "currentColor",
               "flexDirection": "row",
@@ -148,7 +150,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
           }
         >
           <RNSVGPath
-            d="M405.333 768c-17.067 0-29.867-8.533-38.4-17.067v0l-174.933-174.933c-25.6-25.6-25.6-64 0-89.6s64-25.6 89.6 0l128 128 341.333-341.333c25.6-25.6 64-25.6 89.6 0s25.6 64 0 89.6l-375.467 375.467c0 8.533-8.533 8.533-8.533 17.067-21.333 4.267-38.4 12.8-51.2 12.8z"
+            d="M426.697 647.339l392.192-392.235 60.373 60.331-452.565 452.565-271.53-271.531 60.331-60.331 211.199 211.2z"
           />
         </RNSVGGroup>
       </RNSVGSvgView>
@@ -169,8 +171,6 @@ exports[`renders correctly renders correctly when disabled 1`] = `
         "backgroundColor": "#f7f6f3",
         "borderRadius": 8,
         "overflow": "hidden",
-        "paddingHorizontal": 14,
-        "paddingVertical": 8,
       },
       undefined,
       false,
@@ -178,6 +178,7 @@ exports[`renders correctly renders correctly when disabled 1`] = `
   }
 >
   <View
+    accessibilityLabel="Test"
     accessibilityRole="none"
     accessibilityState={
       Object {
@@ -203,6 +204,8 @@ exports[`renders correctly renders correctly when disabled 1`] = `
           "alignSelf": "center",
           "flexDirection": "row",
           "justifyContent": "center",
+          "paddingHorizontal": 14,
+          "paddingVertical": 8,
         },
         false,
         false,
@@ -256,8 +259,6 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
         "backgroundColor": "#f7f6f3",
         "borderRadius": 8,
         "overflow": "hidden",
-        "paddingHorizontal": 14,
-        "paddingVertical": 8,
       },
       undefined,
       false,
@@ -265,6 +266,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
   }
 >
   <View
+    accessibilityChecked={false}
     accessibilityLabel="Test"
     accessibilityRole="checkbox"
     accessibilityState={
@@ -291,6 +293,8 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
           "alignSelf": "center",
           "flexDirection": "row",
           "justifyContent": "center",
+          "paddingHorizontal": 14,
+          "paddingVertical": 8,
         },
         undefined,
         undefined,
@@ -351,6 +355,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
               "borderWidth": 0,
             },
             Object {
+              "color": "#6f7081",
               "display": "flex",
               "fill": "currentColor",
               "flexDirection": "row",
@@ -389,7 +394,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
           }
         >
           <RNSVGPath
-            d="M512 874.667c-25.6 0-42.667-17.067-42.667-42.667v-277.333h-277.333c-25.6 0-42.667-17.067-42.667-42.667s17.067-42.667 42.667-42.667h277.333v-277.333c0-25.6 17.067-42.667 42.667-42.667s42.667 17.067 42.667 42.667v277.333h277.333c25.6 0 42.667 17.067 42.667 42.667s-17.067 42.667-42.667 42.667h-277.333v277.333c0 25.6-17.067 42.667-42.667 42.667z"
+            d="M469.333 469.333v-256h85.333v256h256v85.333h-256v256h-85.333v-256h-256v-85.333h256z"
           />
         </RNSVGGroup>
       </RNSVGSvgView>

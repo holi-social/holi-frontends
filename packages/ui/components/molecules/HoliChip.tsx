@@ -13,8 +13,8 @@ import {
 import tinycolor from 'tinycolor2'
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import Holicon from '@holi/ui/components/holicon'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type ChipProps = PressableProps & {
@@ -45,12 +45,12 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: !disabled,
     accessibilityRole: !disabled ? 'checkbox' : 'none',
+    accessibilityLabel: label || text,
     ...(!disabled
       ? {
           // since this component gets rerendered on every state change, we don't need an internal state, but can use the checked prop
           accessibilityState: { checked },
-          // we need a label when not disabled, so we take the text as a default
-          accessibilityLabel: label || text,
+          accessibilityChecked: checked,
         }
       : {}),
   }
@@ -80,10 +80,10 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
             </HoliText>
             {!disabled && !hideIcon && (
               <View style={styles.iconView}>
-                <Holicon
+                <HoliIcon
                   size={15}
                   color={checked ? colors.fontColorWhite : colors.fontColorGrey}
-                  icon={checked ? 'check' : 'plus'}
+                  icon={checked ? 'check' : 'add'}
                 />
               </View>
             )}
@@ -101,8 +101,6 @@ const getStyles = (checked = false) =>
     holiChip: {
       borderRadius: 8,
       backgroundColor: colors.backgroundColorGrey,
-      paddingVertical: 8,
-      paddingHorizontal: 14,
       alignSelf: 'flex-start',
       overflow: 'hidden',
       ...Platform.select({
@@ -115,6 +113,8 @@ const getStyles = (checked = false) =>
       maxWidth: '100%',
     },
     pressable: {
+      paddingVertical: 8,
+      paddingHorizontal: 14,
       flexDirection: 'row',
       alignSelf: 'center',
       alignItems: 'center',

@@ -9,10 +9,10 @@ Scenario('test something', ({ I }) => {
 
   // I.see() without selector takes much more time and may time out
 
-  I.seeTextWithTestId('This week’s topics are Immigration, Education and Sustainability', 'home-feed-topics-heading')
+  I.seeTextWithTestId('This week’s topics are', 'home-feed-topics-heading')
 
   I.tapOnElementWithTestId('app-tile-volunteering')
-  I.waitForText('Volunteering App Home', 10)
+  I.waitForText('Volunteering', 10)
 
   I.tapOnElementWithTestId('nav-button-home')
 })

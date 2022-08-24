@@ -28,7 +28,7 @@ const tabs = [
 
 describe('renders correctly', () => {
   it('renders correctly when open', () => {
-    const tree = renderer.create(<HoliTabs tabs={tabs}></HoliTabs>).toJSON()
+    const tree = renderer.create(<HoliTabs tabs={tabs} />).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })

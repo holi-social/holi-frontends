@@ -15,7 +15,7 @@ import {
 import tinycolor from 'tinycolor2'
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
-import HoliIcon from '@holi/ui/components/HoliIcon'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -58,9 +58,13 @@ const HoliTextInput = ({
   const [isFocused, setFocused] = useState<boolean>(false)
   const hasValidationErrors = !!props?.validationErrorText
 
+  // numberOfLines values is only used for auto-sizing the textarea when there is new text input
   const [numberOfLines, setNumberOfLines] = useState<number>(
     clamp(noOfVisibleLines, noOfVisibleLines, maxNoOfVisibleLines)
   )
+
+  // used for calculating the height of a textArea with auto-sizing
+  const inputPaddingVertical = 15
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: true,
@@ -73,7 +77,7 @@ const HoliTextInput = ({
   }, [noOfVisibleLines, maxNoOfVisibleLines])
 
   const { theme } = useTheme()
-  const styles = getStyles(theme)
+  const styles = getStyles(theme, inputPaddingVertical)
 
   const keyboardType: KeyboardTypeOptions = (() => {
     if (type === 'email') return 'email-address'
@@ -128,7 +132,7 @@ const HoliTextInput = ({
                 style={[
                   styles.input,
                   inline ? styles.inline : styles.block,
-                  { height: numberOfLines * inputLineHeight },
+                  { height: numberOfLines * inputLineHeight + 2 * inputPaddingVertical },
                 ]}
                 numberOfLines={noOfVisibleLines}
                 multiline={maxNoOfVisibleLines > 1}
@@ -180,7 +184,7 @@ const HoliTextInput = ({
                       }
                     />
                   )}
-                  {hasValidationErrors && <HoliIcon icon={'error-warning'} size={16} filled color={colors.errorRed} />}
+                  {hasValidationErrors && <HoliIcon icon="error-warning" size={16} filled color={colors.errorRed} />}
                 </View>
               )}
               {(value?.length ?? 0) > maxNoOfCharacters * 0.8 && (
@@ -222,7 +226,7 @@ export default memo(HoliTextInput)
 
 const inputLineHeight = 16 * 1.4
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = (theme: HoliTheme, inputPaddingVertical: number) =>
   StyleSheet.create({
     wrapper: {
       flexDirection: 'row',
@@ -239,12 +243,11 @@ const getStyles = (theme: HoliTheme) =>
       }),
     },
     inputWrapper: {
+      alignItems: 'center',
       flexDirection: 'row',
       borderWidth: 2,
       borderColor: tinycolor(colors.softblack).lighten(80).toString(),
       borderRadius: 4,
-      paddingLeft: 10,
-      paddingVertical: 15,
       backgroundColor: colors.white,
     },
     inputWrapperFocused: {
@@ -263,12 +266,13 @@ const getStyles = (theme: HoliTheme) =>
     input: {
       flex: 1,
       fontSize: 16,
+      paddingHorizontal: 10,
+      paddingVertical: inputPaddingVertical,
       lineHeight: inputLineHeight,
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
       color: colors.softblack,
       overflow: 'scroll',
-      marginRight: 10,
       ...Platform.select({
         web: {
           overflowX: 'hidden',
@@ -336,9 +340,8 @@ const getStyles = (theme: HoliTheme) =>
     trailingIconWrapper: {
       width: 22,
       height: 22,
-      alignItems: 'flex-end',
       justifyContent: 'center',
-      marginRight: 8,
+      marginRight: 12,
     },
     trailingIconWrapperHasValidationErrors: {
       width: 16,

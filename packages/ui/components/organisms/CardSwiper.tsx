@@ -2,8 +2,8 @@ import React, { RefObject, createRef } from 'react'
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
 import CardStack, { Card } from 'react-native-card-stack-swiper'
 
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import Holicon from '@holi/ui/components/holicon'
 import { colors } from '@holi/ui/styles/globalVars'
 
 import data from './dummy_data.json'
@@ -87,7 +87,7 @@ const CardSwiper = () => {
             <Image style={styles.cardImg} source={{ uri: `${imgUri}${card.image}` }} />
             <View style={styles.textContainer}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Holicon style={{ marginRight: 6 }} icon="community" size={25} color={colors.fontColorWhite} />
+                <HoliIcon icon="home-smile-2" size={25} color={colors.fontColorWhite} style={{ marginRight: 6 }} />
                 <HoliText style={styles.text}>{card.provider}</HoliText>
               </View>
               <View>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { logError } from '@holi/core/errors/useErrorHandling'
+import { logError } from '@holi/core/errors/helpers'
 import i18n from '@holi/core/i18n'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'

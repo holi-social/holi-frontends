@@ -2,29 +2,25 @@
 import { UiText } from '@ory/kratos-client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ViewStyle } from 'react-native'
+import { StyleSheet, TextStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface Props {
   messages?: Array<UiText>
-  style?: ViewStyle | Record<string, unknown>
+  style?: TextStyle
 }
 
-const FormMessages = (props: Props) => {
+const FormMessages = ({ messages = [], style = {} }: Props) => {
   const { t, i18n } = useTranslation()
 
   return (
     <>
-      {props.messages?.map(({ text, id }, k) => {
+      {messages?.map(({ text, id }, k) => {
         const messageKey = `auth.login.message.${id}`
         return (
-          <HoliText
-            key={`${id}${k}`}
-            style={[props.style || {}, { marginBottom: 10, color: colors.errorRed }]}
-            testID={`ory-message-${id}`}
-          >
+          <HoliText key={`${id}${k}`} style={[styles.message, style]} testID={`ory-message-${id}`}>
             {i18n.exists(messageKey) ? t(messageKey) : text}
           </HoliText>
         )
@@ -34,3 +30,9 @@ const FormMessages = (props: Props) => {
 }
 
 export default FormMessages
+
+const styles = StyleSheet.create({
+  message: {
+    color: colors.errorRed,
+  },
+})
