@@ -1,3 +1,6 @@
+import * as NextImage from 'next/image'
+import * as React from 'react'
+
 import i18n, { initI18n } from '@holi/core/i18n'
 import '@holi/ui/assets/fonts/CircularStd/style.css'
 import '@holi/web/styles/common.css'
@@ -21,6 +24,12 @@ export const parameters = {
   },
 }
 
-export const loaders = [
-  async () => await awaitI18nInitialization
-]
+export const loaders = [async () => await awaitI18nInitialization]
+
+// de-optimize next Image component asset loading
+const OriginalNextImage = NextImage.default
+
+Object.defineProperty(NextImage, 'default', {
+  configurable: true,
+  value: (props) => <OriginalNextImage {...props} unoptimized />,
+})
