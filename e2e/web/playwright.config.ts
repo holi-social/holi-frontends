@@ -13,7 +13,7 @@ import { devices } from '@playwright/test'
 const config: PlaywrightTestConfig = {
   testDir: './tests',
   /* Maximum time one test can run for. */
-  timeout: 60 * 1000,
+  timeout: 30 * 1000,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
@@ -28,7 +28,7 @@ const config: PlaywrightTestConfig = {
   /* Retry on CI leads to us devs not fixing flaky tests, therefore deactivated */
   retries: 1,
   /* Opt out of parallel tests on CI. */
-  //workers: process.env.CI ? 1 : undefined,
+  // workers: process.env.CI ? 1 : undefined,
   // parallel tests cause flakiness
   workers: 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -78,12 +78,18 @@ const config: PlaywrightTestConfig = {
         ...devices['Pixel 5'],
       },
     },
-    {
-      name: 'Mobile Safari',
-      use: {
-        ...devices['iPhone 12'],
-      },
-    },
+
+    /**
+     * Mobile Safari has an issue when running on Playwright's official docker image and
+     * is leading to flakiness, with a problem debugging/tracing it:
+     * https://github.com/microsoft/playwright/issues/11812
+     */
+    // {
+    //   name: 'Mobile Safari',
+    //   use: {
+    //     ...devices['iPhone 12'],
+    //   },
+    // },
     {
       name: 'Mobile Firefox',
       use: {

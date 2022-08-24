@@ -2,7 +2,7 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import HoliIcon from '@holi/ui/components/HoliIcon'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText, { HoliTextProps, HoliTextSizes } from '@holi/ui/components/atoms/HoliText'
 
 describe('renders correctly', () => {
@@ -31,7 +31,7 @@ describe('handles components as children', () => {
     const { getByTestId } = render(
       <HoliText label="test" testID="Parent">
         <HoliText testID="Child">foobarbaz</HoliText>
-        <HoliIcon icon="home" testID="Icon" />
+        <HoliIcon icon="home-smile-2" testID="Icon" />
       </HoliText>
     )
     expect(getByTestId('Child')).toBeDefined

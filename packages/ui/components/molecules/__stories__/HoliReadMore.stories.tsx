@@ -22,7 +22,7 @@ const Template: ComponentStory<typeof HoliReadMore> = ({ ...args }) => {
         Please disconsider the border and padding below, those are not part of the HoliReadMore component.
       </HoliText>
       <View style={{ marginTop: 20, padding: 20, width: 500, borderColor: 'black', borderRadius: 5, borderWidth: 1 }}>
-        <HoliReadMore {...args}></HoliReadMore>
+        <HoliReadMore {...args} />
       </View>
     </View>
   )

@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View } from 'react-native'
 
-import useErrorHandling from '@holi/core/errors/useErrorHandling'
+import { displayError } from '@holi/core/errors/helpers'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import {
   UpdateAuthenticatedUserInput,
@@ -42,7 +42,6 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
   const [filteredValues, setFilteredValues] = useState<ChipValueWithTranslation[]>([])
   const [saved, setSaved] = useState(false)
 
-  const { displayError } = useErrorHandling()
   const { t } = useTranslation()
   useEffect(() => {
     /*
@@ -122,7 +121,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
           trailingIcon="search"
           style={styles.input}
         />
-        <HoliChipRow editable={false}>
+        <HoliChipRow editable={false} editButtonLabel="">
           {filteredValues.map(({ value, t }) => {
             return (
               <HoliChip
@@ -131,7 +130,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
                 onPress={() => updateValues(value)}
                 text={t}
                 style={styles.chip}
-              ></HoliChip>
+              />
             )
           })}
         </HoliChipRow>

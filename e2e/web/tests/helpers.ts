@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test'
+import { BrowserContext, Locator, Page } from '@playwright/test'
 import { checkA11y } from 'axe-playwright'
 
 // see https://playwright.dev/docs/selectors#id-data-testid-data-test-id-data-test-selectors
@@ -29,11 +29,14 @@ export const waitForAnimationEnd = async (locator: Locator) => {
 
 type DefaultLoginStepsProps = {
   page: Page
+  context: BrowserContext
   username?: string
   password?: string
 }
 
-export const defaultLoginSteps = async ({ page, username, password }: DefaultLoginStepsProps) => {
+export const defaultLoginSteps = async ({ page, context, username, password }: DefaultLoginStepsProps) => {
+  await context.clearCookies()
+
   await clickElementByTestId(page, 'btn-to-profile-view')
   await clickElementByTestId(page, 'btn-to-login-form')
 

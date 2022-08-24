@@ -1,5 +1,5 @@
 // https://github.com/paularmstrong/build-tracker/blob/371e54ebf37f935a7efd1240894cdc0a45acf7ac/typings/react-native/index.d.ts#L1578
-import type { AccessibilityProps, AccessibilityRole } from 'react-native'
+import type { AccessibilityProps, AccessibilityRole, ViewStyle as ReactViewStyle } from 'react-native'
 
 export type AccessibilityRoleWeb = AccessibilityRole | 'main' | 'region' | 'banner' | 'navigation' | 'heading'
 
@@ -8,6 +8,7 @@ interface AccessibilityPropsWeb extends AccessibilityProps {
   accessibilityRole?: AccessibilityRoleWeb
   accessibilityPressed?: boolean
   accessibilityAutoComplete?: 'none' | 'inline' | 'list' | 'both'
+  accessibilityChecked?: boolean | 'mixed'
 }
 
 // include web specific types (https://github.com/necolas/react-native-web/issues/1684)
@@ -17,7 +18,7 @@ declare module 'react-native' {
     focused?: boolean
   }
 
-  interface ViewStyle {
+  interface ViewStyle extends ReactViewStyle {
     display?: 'flex' | 'none' | 'inline-block' | undefined
     boxShadow?: string | undefined
   }
@@ -34,7 +35,7 @@ declare module 'react-native' {
   interface TextStyle {
     display?: 'flex' | 'none' | 'inline-block' | undefined
   }
-  interface ImgageStyle {
+  interface ImageStyle {
     display?: 'flex' | 'none' | 'inline-block' | undefined
   }
 }
