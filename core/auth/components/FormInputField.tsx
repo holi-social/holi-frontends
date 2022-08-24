@@ -29,7 +29,7 @@ export interface InputProps {
 export type TextInputOverride = (field: UiNode, props: TextInputProps) => TextInputProps
 
 const getValidationErrorText = (
-  { messages }: UiNode,
+  { messages, attributes }: UiNode,
   i18n: UseTranslationResponse<'translation', undefined>['i18n']
 ) => {
   if (!messages || !messages.length) {
@@ -37,7 +37,23 @@ const getValidationErrorText = (
   }
   const { id, context, text } = messages[0]
   const messageKey = `auth.login.input.message.${id}`
-  return i18n.exists(messageKey) ? i18n.t(messageKey, context) : text
+
+  if ('value' in attributes && id === 4000001) {
+    const value = attributes.value
+    return i18n.exists(messageKey) ? i18n.t(messageKey, { value }) : text
+  }
+
+  if (context && id === 4000005) {
+    const { reason } = context as { reason: string }
+
+    const possibleReasons = ['password length', 'password has been found in data breaches']
+    const modifier = possibleReasons.findIndex((str) => reason.includes(str))
+    const messageKeyModifier = `${messageKey}-${modifier}`
+
+    return i18n.exists(messageKeyModifier) ? i18n.t(messageKeyModifier) : text
+  }
+
+  return i18n.exists(messageKey) ? i18n.t(messageKey) : text
 }
 
 const guessVariant = ({ attributes }: UiNode) => {
