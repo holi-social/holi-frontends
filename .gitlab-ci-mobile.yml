@@ -71,22 +71,9 @@
 
 ## only for review environments
 
-mobile_review_gate:
-  image: 'alpine'
-  needs: ['lint_compile_test']
-  dependencies: [] # explicitly disable artifact usage
-  script:
-    - "true"
-  interruptible: true
-  except:
-    - main
-    - /^noenv\/.*/
-    - /^nomobile\/.*/
-  when: manual
-
 mobile_review_publish:
   extends: .mobile_publish
-  needs: ['mobile_review_gate']
+  needs: ['lint_compile_test']
   environment:
     name: review/$CI_COMMIT_REF_SLUG-mobile
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=$CI_COMMIT_REF_SLUG
@@ -96,6 +83,7 @@ mobile_review_publish:
     - main
     - /^noenv\/.*/
     - /^nomobile\/.*/
+  when: manual
 
 mobile_review_destroy:
   needs: ['mobile_review_publish']
@@ -120,16 +108,16 @@ mobile_review_destroy:
 
 mobile_review_build:
   extends: .mobile_build
-  needs: ['mobile_review_gate']
+  needs: ['lint_compile_test']
   except:
     - main
     - /^noenv\/.*/
     - /^nomobile\/.*/
+  when: manual
 
 mobile_review_e2e_android:
   extends: .mobile_e2e_android
   needs: ['mobile_review_build']
-  when: manual
   except:
     - main
     - /^noenv\/.*/
