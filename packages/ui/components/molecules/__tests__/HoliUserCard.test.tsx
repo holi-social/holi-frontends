@@ -20,6 +20,11 @@ describe('HoliUserCard', () => {
     expect(tree).toMatchSnapshot()
   })
 
+  it('renders correctly with small variant', () => {
+    const tree = renderer.create(<HoliUserCard user={user} variant="small" />).toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+
   it('has a category chip if category prop is present', () => {
     const category = 'testCategory'
     const { getByText } = render(<HoliUserCard user={user} category={category} />)
