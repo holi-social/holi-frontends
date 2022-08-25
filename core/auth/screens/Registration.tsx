@@ -24,6 +24,7 @@ const Registration: React.VFC = () => {
   const { t } = useTranslation()
   // use safe versions of this function to prevent updating state of destroyed component
   const safeSetFlow = useSafeDispatch(setFlow)
+  const isWeb = Platform.OS === 'web'
 
   const initializeFlow = useCallback(() => {
     if (isLoggedIn) return
@@ -51,7 +52,7 @@ const Registration: React.VFC = () => {
             onPress={() => navigateBack()}
             style={{ paddingHorizontal: 0 }}
           >
-            <HoliIcon icon="arrow-down-s" size={30} />
+            <HoliIcon icon={isWeb ? 'arrow-left-s' : 'arrow-down-s'} size={30} />
           </HoliButton>
         ),
       })
@@ -71,7 +72,7 @@ const Registration: React.VFC = () => {
             // ORY Kratos can be configured in such a way that it requires a login after
             // registration. You could handle that case by navigating to the Login screen
             // but for simplicity we'll just print an error here:
-            if (Platform.OS === 'web' ? !data.session : !data.session_token) {
+            if (isWeb ? !data.session : !data.session_token) {
               const err = new Error(
                 'It looks like you configured ORY Kratos to not issue a session automatically after registration. This edge-case is currently not supported in this example app. You can find more information on enabling this feature here: https://www.ory.sh/kratos/docs/next/self-service/flows/user-registration#successful-registration'
               )
