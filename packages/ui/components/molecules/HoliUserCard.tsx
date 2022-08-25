@@ -58,7 +58,7 @@ const HoliUserCard: React.FunctionComponent<HoliUserCardProps> = ({
       {variant === 'small' && (
         <View>
           <HoliText style={styles.textStyle} size="small">
-            {nameLabel}
+            {nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
           </HoliText>
         </View>
       )}
