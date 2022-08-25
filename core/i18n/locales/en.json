@@ -54,6 +54,8 @@
   "homeFeed.headerTitle.goodNight": "Good night",
   "homeFeed.heading": "This week’s topic is <1/>",
   "homeFeed.heading_plural": "This week’s topics are <0/>",
+  "homeFeed.userSuggestions.title": "People you might like",
+  "homeFeed.userSuggestions.loadMore": "See more suggestions",
   "homeFeed.volunteering": "Volunteering",
   "modal.backdrop": "Close dialog",
   "navigation.bottomNavigation": "Bottom Navigation",

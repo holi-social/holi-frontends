@@ -1,6 +1,7 @@
+import { AccessibilityPropsWeb } from 'packages/ui/@types/reactNativeWeb'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { AccessibilityProps, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -15,16 +16,25 @@ export type HoliUserCardProps = {
   variant?: HoliUserCardVariant
   category?: string
   style?: StyleProp<ViewStyle>
+  disableFocusability?: boolean
+  accessibilityLabel?: string
 }
 
-const HoliUserCard: React.FunctionComponent<HoliUserCardProps> = ({
+const HoliUserCard: React.VFC<HoliUserCardProps> = ({
   user,
   variant = 'normal',
   category,
   style,
+  disableFocusability,
+  accessibilityLabel,
 }: HoliUserCardProps) => {
   const { t } = useTranslation()
   const styles = getStyles(variant)
+
+  const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
+    ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),
+    accessibilityLabel,
+  }
 
   if (!user) {
     return <View style={[styles.container, style]} />
@@ -35,14 +45,16 @@ const HoliUserCard: React.FunctionComponent<HoliUserCardProps> = ({
   const nameLabel = `${firstName || ''} ${lastName || ''}`.trim()
   return (
     <View style={[styles.container, style]}>
-      <View style={styles.cardContainer} accessible testID="user-card">
+      <View {...accessibilityProps} style={styles.cardContainer} testID="user-card">
         <HoliUserAvatar
           imageSrc={avatar}
           nameLabel={nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
           initials={avatarLabel}
           defaultColor={avatarDefaultColor}
+          accessible={false}
           size="extralarge"
         />
+
         {variant === 'normal' && (
           <>
             <HoliText style={styles.textStyle} bold>
@@ -56,11 +68,9 @@ const HoliUserCard: React.FunctionComponent<HoliUserCardProps> = ({
         )}
       </View>
       {variant === 'small' && (
-        <View>
-          <HoliText style={styles.textStyle} size="small">
-            {nameLabel}
-          </HoliText>
-        </View>
+        <HoliText style={styles.textStyle} size="small">
+          {nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
+        </HoliText>
       )}
     </View>
   )
@@ -71,7 +81,7 @@ export default HoliUserCard
 const getStyles = (variant: HoliUserCardVariant) =>
   StyleSheet.create({
     container: {
-      display: 'inline-block',
+      ...(variant === 'normal' ? { display: 'inline-block' } : {}),
     },
     cardContainer: {
       flex: 1,

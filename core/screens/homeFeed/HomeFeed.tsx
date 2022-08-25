@@ -8,6 +8,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
 import TopicPreviewBox from '@holi/core/screens/topics/components/TopicPreviewBox'
 import fakeTopics, { getRandomUser } from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
@@ -168,7 +169,12 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
             </HoliButton>
           </View>
 
-          <HoliModal relativeHeight={0.85} show={showEditorsModal} onDismiss={() => setShowEditorsModal(false)}>
+          <HoliModal
+            label={t('topics.editors.modal.title')}
+            relativeHeight={0.85}
+            show={showEditorsModal}
+            onDismiss={() => setShowEditorsModal(false)}
+          >
             <HoliUserCardsModalContent
               title={t('topics.editors.modal.title')}
               users={dummyUsers}
@@ -182,6 +188,11 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
             <TopicPreviewBox key={topicId} id={topicId} {...topic} style={styles.feedTopicItem} />
           ))}
         </View>
+      </View>
+
+      {/* User suggestions outside of container mixin for full width scrolling */}
+      <View style={styles.userSuggestionsContainer}>
+        <UserSuggestions />
       </View>
     </DefaultLayout>
   )
@@ -241,6 +252,7 @@ const homeFeedStyles = (screenWidth: number) =>
         },
       }),
     },
+    userSuggestionsContainer: { marginTop: 16 },
   })
 
 export default HomeFeed

@@ -13,9 +13,9 @@ import HeaderRight from '@holi/core/navigation/components/HeaderRight'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import Explore from '@holi/core/screens/Explore'
-import HomeFeed from '@holi/core/screens/HomeFeed'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
+import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import Post, { PostParams } from '@holi/core/screens/topics/Post'
 import Topic, { TopicParams } from '@holi/core/screens/topics/Topic'
 import UserProfile from '@holi/core/screens/userprofile/UserProfile'
@@ -79,7 +79,7 @@ const DownButton = () => {
       onPress={() => navigateBack()}
       style={{ paddingHorizontal: 0 }}
     >
-      <HoliIcon icon="arrow-down-s" size={30} color={colors.softblack} />
+      <HoliIcon icon="arrow-left-s" size={30} color={colors.softblack} />
     </HoliButton>
   )
 }
