@@ -38,11 +38,17 @@ const getValidationErrorText = (
   const { id, context, text } = messages[0]
   const messageKey = `auth.login.input.message.${id}`
 
-  if ('value' in attributes && id === 4000001) {
-    const value = attributes.value
-    return i18n.exists(messageKey) ? i18n.t(messageKey, { value }) : text
+  // if email or password are missing
+  if ('type' in attributes && id === 4000002) {
+    const { type } = attributes
+    const possibleTypes = ['email', 'password']
+    const modifier = possibleTypes.findIndex((value) => value === type)
+    const messageKeyModifier = `${messageKey}-${modifier}`
+
+    return i18n.exists(messageKeyModifier) ? i18n.t(messageKeyModifier) : text
   }
 
+  // if password is not valid
   if (context && id === 4000005) {
     const { reason } = context as { reason: string }
 
