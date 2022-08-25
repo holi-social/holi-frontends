@@ -36,7 +36,7 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
         <HoliCarousel
           style={styles.carouselContainer}
           slides={users.map((user) => ({
-            children: <HoliUserCard style={styles.UserCard} user={user} category={category} />,
+            children: <HoliUserCard style={styles.userCard} user={user} category={category} />,
           }))}
         />
       </ScrollView>
@@ -65,7 +65,7 @@ const getStyles = () =>
       marginTop: 24,
       paddingBottom: 180,
     },
-    UserCard: {
+    userCard: {
       width: '100%',
     },
     buttonContainer: {
