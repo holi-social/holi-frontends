@@ -9,6 +9,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface LoginRegistrationContainerProps {
@@ -90,7 +91,9 @@ const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = (
                 style={mixins.inlineButtonFixSmall}
                 onPress={toggleLoginRegistration}
               >
-                {t('auth.login')}
+                <HoliText size="small" style={styles.loginLinkText}>
+                  {t('auth.login')}
+                </HoliText>
               </HoliButton>
             </HoliHeading>
           )}
@@ -131,6 +134,9 @@ const styles = StyleSheet.create({
   },
   headline3: {
     marginTop: 16,
+  },
+  loginLinkText: {
+    color: colors.positivepurple,
   },
 })
 
