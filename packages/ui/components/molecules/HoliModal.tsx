@@ -18,11 +18,12 @@ export type HoliModalProps = ModalProps & {
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild>
   testID?: string
   label: string
+  autoHeight?: boolean
 }
 
 const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProps) => {
   // default height is 75% of screen size
-  const { show = false, relativeHeight = 0.75, onDismiss, children } = props
+  const { show = false, relativeHeight = 0.75, onDismiss, children, autoHeight = true } = props
   const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
 
   const styles = getStyles(deviceWidth)
@@ -101,6 +102,9 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
               styles.common,
               modalLayoutHeight !== modalHeight && {
                 height: Math.min(deviceHeight - styles.header.height, modalLayoutHeight),
+              },
+              !autoHeight && {
+                height: modalHeight,
               },
             ]}
             testID={[props.testID, 'animatedview'].filter((e) => e).join('-')}
