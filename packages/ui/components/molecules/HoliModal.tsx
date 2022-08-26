@@ -99,7 +99,9 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
                 },
               },
               styles.common,
-              modalLayoutHeight > modalHeight && { height: Math.min(deviceHeight, modalLayoutHeight) },
+              modalLayoutHeight !== modalHeight && {
+                height: Math.min(deviceHeight - styles.header.height, modalLayoutHeight),
+              },
             ]}
             testID={[props.testID, 'animatedview'].filter((e) => e).join('-')}
             onLayout={(event) => {
