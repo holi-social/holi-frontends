@@ -18,14 +18,14 @@ const useNavigationHeader = () => {
       if (headerProps.titleElement) headerOptions.titleElement = headerProps.titleElement
       if (headerProps.headerLeft) headerOptions.headerLeft = headerProps.headerLeft
       if (headerProps.headerRight) headerOptions.headerRight = headerProps.headerRight
-      navigation.setOptions && navigation.setOptions(headerOptions)
+      navigation.setOptions(headerOptions)
     },
     clearNavigationHeader: () => {
       const headerOptions: NativeStackNavigationOptions = {}
       headerOptions.titleElement = undefined
       headerOptions.headerLeft = undefined
       headerOptions.headerRight = undefined
-      navigation.setOptions && navigation.setOptions(headerOptions)
+      navigation.setOptions(headerOptions)
     },
   }
 }
