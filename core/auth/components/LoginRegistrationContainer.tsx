@@ -90,6 +90,7 @@ const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = (
                 variant="small"
                 style={mixins.inlineButtonFixSmall}
                 onPress={toggleLoginRegistration}
+                testID="btn-to-login-form"
               >
                 <HoliText size="small" style={styles.loginLinkText}>
                   {t('auth.login')}
