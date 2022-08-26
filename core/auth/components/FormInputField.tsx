@@ -29,7 +29,7 @@ export interface InputProps {
 export type TextInputOverride = (field: UiNode, props: TextInputProps) => TextInputProps
 
 const getValidationErrorText = (
-  { messages }: UiNode,
+  { messages, attributes }: UiNode,
   i18n: UseTranslationResponse<'translation', undefined>['i18n']
 ) => {
   if (!messages || !messages.length) {
@@ -37,7 +37,29 @@ const getValidationErrorText = (
   }
   const { id, context, text } = messages[0]
   const messageKey = `auth.login.input.message.${id}`
-  return i18n.exists(messageKey) ? i18n.t(messageKey, context) : text
+
+  // if email or password are missing
+  if ('type' in attributes && id === 4000002) {
+    const { type } = attributes
+    const possibleTypes = ['email', 'password']
+    const modifier = possibleTypes.findIndex((value) => value === type)
+    const messageKeyModifier = `${messageKey}-${modifier}`
+
+    return i18n.exists(messageKeyModifier) ? i18n.t(messageKeyModifier) : text
+  }
+
+  // if password is not valid
+  if (context && id === 4000005) {
+    const { reason } = context as { reason: string }
+
+    const possibleReasons = ['password length', 'password has been found in data breaches']
+    const modifier = possibleReasons.findIndex((str) => reason.includes(str))
+    const messageKeyModifier = `${messageKey}-${modifier}`
+
+    return i18n.exists(messageKeyModifier) ? i18n.t(messageKeyModifier) : text
+  }
+
+  return i18n.exists(messageKey) ? i18n.t(messageKey) : text
 }
 
 const guessVariant = ({ attributes }: UiNode) => {
@@ -118,7 +140,7 @@ const FormInputField = ({
       type={inputType}
       inputProps={textInputOverride ? textInputOverride(node, inputProps) : inputProps}
       style={style}
-      testID={`ory-input-${fieldName}`}
+      testID={`ory-input-${fieldName.replace(/\./gi, '-')}`}
     />
   )
 }

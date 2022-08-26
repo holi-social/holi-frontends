@@ -138,6 +138,52 @@ exports[`renders correctly renders correctly when size is 'large', level is '3',
 </Text>
 `;
 
+exports[`renders correctly renders correctly when size is 'large', level is '4', selectable is 'false' 1`] = `
+<Text
+  role="header"
+  selectable={false}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Medium",
+        "fontWeight": "500",
+      },
+      Object {
+        "fontSize": 28,
+        "lineHeight": 33.6,
+      },
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'large', level is '4', selectable is 'true' 1`] = `
+<Text
+  role="header"
+  selectable={true}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Medium",
+        "fontWeight": "500",
+      },
+      Object {
+        "fontSize": 28,
+        "lineHeight": 33.6,
+      },
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
 exports[`renders correctly renders correctly when size is 'medium', level is '1', selectable is 'false' 1`] = `
 <Text
   role="header"
@@ -254,6 +300,52 @@ exports[`renders correctly renders correctly when size is 'medium', level is '3'
 `;
 
 exports[`renders correctly renders correctly when size is 'medium', level is '3', selectable is 'true' 1`] = `
+<Text
+  role="header"
+  selectable={true}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Medium",
+        "fontWeight": "500",
+      },
+      Object {
+        "fontSize": 21,
+        "lineHeight": 25.2,
+      },
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'medium', level is '4', selectable is 'false' 1`] = `
+<Text
+  role="header"
+  selectable={false}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Medium",
+        "fontWeight": "500",
+      },
+      Object {
+        "fontSize": 21,
+        "lineHeight": 25.2,
+      },
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'medium', level is '4', selectable is 'true' 1`] = `
 <Text
   role="header"
   selectable={true}
@@ -414,6 +506,52 @@ exports[`renders correctly renders correctly when size is 'small', level is '3',
 </Text>
 `;
 
+exports[`renders correctly renders correctly when size is 'small', level is '4', selectable is 'false' 1`] = `
+<Text
+  role="header"
+  selectable={false}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Medium",
+        "fontWeight": "500",
+      },
+      Object {
+        "fontSize": 16,
+        "lineHeight": 22.4,
+      },
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'small', level is '4', selectable is 'true' 1`] = `
+<Text
+  role="header"
+  selectable={true}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Medium",
+        "fontWeight": "500",
+      },
+      Object {
+        "fontSize": 16,
+        "lineHeight": 22.4,
+      },
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
 exports[`renders correctly renders correctly when size is 'super', level is '1', selectable is 'false' 1`] = `
 <Text
   role="header"
@@ -530,6 +668,52 @@ exports[`renders correctly renders correctly when size is 'super', level is '3',
 `;
 
 exports[`renders correctly renders correctly when size is 'super', level is '3', selectable is 'true' 1`] = `
+<Text
+  role="header"
+  selectable={true}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Medium",
+        "fontWeight": "500",
+      },
+      Object {
+        "fontSize": 36,
+        "lineHeight": 43.199999999999996,
+      },
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'super', level is '4', selectable is 'false' 1`] = `
+<Text
+  role="header"
+  selectable={false}
+  style={
+    Array [
+      Object {
+        "color": "#222326",
+        "fontFamily": "Circular Std Medium",
+        "fontWeight": "500",
+      },
+      Object {
+        "fontSize": 36,
+        "lineHeight": 43.199999999999996,
+      },
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
+
+exports[`renders correctly renders correctly when size is 'super', level is '4', selectable is 'true' 1`] = `
 <Text
   role="header"
   selectable={true}
