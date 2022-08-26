@@ -29,6 +29,7 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
   const { t } = useTranslation()
 
   const modalHeight = deviceHeight * relativeHeight
+  const [modalLayoutHeight, setModalLayoutHeight] = useState(modalHeight)
   const [visible, setVisible] = useState(show)
   const bottom = useRef(new Animated.Value(-modalHeight)).current
 
@@ -63,6 +64,7 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
       }).start(() => {
         // only dismiss the Modal once the animation is done
         setVisible(false)
+        setModalLayoutHeight(modalHeight)
       })
     }
   }, [show, bottom, modalHeight])
@@ -90,7 +92,6 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
             style={[
               styles.root,
               {
-                height: modalHeight,
                 bottom: bottom,
                 shadowOffset: {
                   width: deviceWidth,
@@ -98,8 +99,12 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
                 },
               },
               styles.common,
+              modalLayoutHeight > modalHeight && { height: Math.min(deviceHeight, modalLayoutHeight) },
             ]}
             testID={[props.testID, 'animatedview'].filter((e) => e).join('-')}
+            onLayout={(event) => {
+              setModalLayoutHeight(event.nativeEvent.layout.height)
+            }}
           >
             <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
               <View style={[styles.header, styles.common, styles.panView]}>
