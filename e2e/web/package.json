@@ -18,5 +18,8 @@
     "axe-playwright": "^1.1.11",
     "dotenv": "^16.0.1",
     "playwright-core": "^1.25.0"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^7.4.0"
   }
 }
