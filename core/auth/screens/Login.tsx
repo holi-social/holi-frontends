@@ -50,6 +50,7 @@ const Login: React.VoidFunctionComponent = () => {
             <HoliIcon icon="arrow-down-s" size={30} />
           </HoliButton>
         ),
+        title: t('auth.login'),
       })
       return clearNavigationHeader
     },

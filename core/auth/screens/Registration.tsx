@@ -55,7 +55,9 @@ const Registration: React.VFC = () => {
             <HoliIcon icon={isWeb ? 'arrow-left-s' : 'arrow-down-s'} size={30} />
           </HoliButton>
         ),
+        title: t('auth.register'),
       })
+
       return clearNavigationHeader
     },
     // setNavigationHeader would cause endless loop
