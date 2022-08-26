@@ -54,7 +54,6 @@ const HoliUserCard: React.VFC<HoliUserCardProps> = ({
           accessible={false}
           size="extralarge"
         />
-
         {variant === 'normal' && (
           <>
             <HoliText style={styles.textStyle} bold>
@@ -82,6 +81,7 @@ const getStyles = (variant: HoliUserCardVariant) =>
   StyleSheet.create({
     container: {
       ...(variant === 'normal' ? { display: 'inline-block' } : {}),
+      height: '100%',
     },
     cardContainer: {
       flex: 1,

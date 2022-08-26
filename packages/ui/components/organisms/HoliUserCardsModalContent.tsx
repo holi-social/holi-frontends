@@ -75,9 +75,7 @@ const getStyles = () =>
     userCardContainer: {
       width: '100%',
     },
-    userCard: {
-      flex: 1,
-    },
+    userCard: { flex: 1 },
     buttonContainer: {
       paddingHorizontal: 24,
       bottom: 70,
