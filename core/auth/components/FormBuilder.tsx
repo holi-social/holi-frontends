@@ -100,7 +100,6 @@ const FormBuilder = <
       {flow &&
         nodes.map((node: UiNode, k) => {
           const name = getNodeId(node)
-          console.log(name)
           return (
             <FormNode
               key={`form-field-${flow?.ui.action || ''}-${name}-${k}`}

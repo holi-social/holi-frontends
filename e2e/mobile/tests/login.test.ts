@@ -7,14 +7,19 @@ describe('@Login', () => {
     // see https://www.ory.sh/docs/kratos/concepts/ui-user-interface#ui-error-codes
     // for more ory error codes
     await waitForElementWithTestId('ory-message-4000006')
+
+    await tapOnElementWithTestId('nav-button-back')
+    await tapOnElementWithTestId('nav-button-home')
   })
 
   it('should work with valid credentials', async () => {
     // Login
     await defaultLoginSteps()
-    // Expect home screen
-    await waitForElementWithTestId('home-feed-topics-heading')
+
+    await tapOnElementWithTestId('nav-button-home')
+
     await tapOnElementWithTestId('btn-to-profile-view')
+
     // Logout
     await tapOnElementWithTestId('btn-to-logout')
     await tapOnElementWithTestId('confirm-logout-button')

@@ -61,11 +61,16 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
   return (
     <DefaultLayout>
       <View style={[mixins.container, styles.topicView]}>
-        <HoliHeading level="1" size="super" style={{ alignSelf: 'center' }}>
+        <HoliHeading level="1" size="super" style={{ alignSelf: 'center' }} testID="topic-headline">
           {t('topics.topic.heading', { title: topic.title, topicId })}
         </HoliHeading>
 
-        <HoliButton label={t('topics.topic.editors', { title: topicId })} inline onPress={() => setShowModal(true)}>
+        <HoliButton
+          label={t('topics.topic.editors', { title: topicId })}
+          inline
+          onPress={() => setShowModal(true)}
+          testID="show-editors"
+        >
           {t('topics.topic.editors', { title: topicId })}
         </HoliButton>
 
