@@ -30,7 +30,7 @@ export const waitForAnimationEnd = async (locator: Locator) => {
 type DefaultAuthStepsProps = {
   page: Page
   context: BrowserContext
-  username?: string
+  email?: string
   password?: string
 }
 
@@ -38,7 +38,7 @@ export const defaultAuthSteps = async (
   {
     page,
     context,
-    username = process.env.E2E_USER_USERNAME || 'empty',
+    email = process.env.E2E_USER_USERNAME || 'empty',
     password = process.env.E2E_USER_PASSWORD || 'empty',
   }: DefaultAuthStepsProps,
   mode: 'login' | 'registration' = 'login'
@@ -54,7 +54,7 @@ export const defaultAuthSteps = async (
     page,
     isLogin ? 'ory-input-identifier-input' : 'ory-input-traits-email-input'
   )
-  await emailInput.fill(username)
+  await emailInput.fill(email)
 
   const passwordInput = await locateElementByTestId(page, 'ory-input-password-input')
   await passwordInput.fill(password)

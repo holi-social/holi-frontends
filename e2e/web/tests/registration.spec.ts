@@ -13,7 +13,7 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('@Registration', () => {
-  const username = `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
+  const email = `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
   const password = 'TheSamePassword4A11E2eUsers'
 
   test('redirects from Registration to Login and back to Registration', async ({ page }) => {
@@ -38,7 +38,7 @@ test.describe('@Registration', () => {
       {
         context,
         page,
-        username: '',
+        email: '',
         password: '',
       },
       'registration'
@@ -48,12 +48,12 @@ test.describe('@Registration', () => {
     await waitForElementByTestId(page, 'ory-input-password-input-error-message')
     await checkAccessibility(page)
 
-    // not real email provided
+    // invalid email provided
     await defaultAuthSteps(
       {
         context,
         page,
-        username: '!!!wrong@',
+        email: '!!!wrong@',
         password,
       },
       'registration'
@@ -61,12 +61,12 @@ test.describe('@Registration', () => {
 
     await waitForElementByTestId(page, 'ory-input-traits-email-input-error-message')
 
-    // invalid email provided
+    // short password provided
     await defaultAuthSteps(
       {
         context,
         page,
-        username,
+        email,
         password: 'Sh0rt',
       },
       'registration'
@@ -77,7 +77,7 @@ test.describe('@Registration', () => {
       {
         context,
         page,
-        username,
+        email,
         password: '11111111',
       },
       'registration'
@@ -92,7 +92,7 @@ test.describe('@Registration', () => {
       {
         context,
         page,
-        username,
+        email,
         password,
       },
       'registration'
@@ -115,7 +115,7 @@ test.describe('@Registration', () => {
       {
         context,
         page,
-        username,
+        email,
         password,
       },
       'registration'

@@ -14,7 +14,7 @@ test.beforeEach(async ({ page }) => {
 test.describe('@Login', () => {
   test('Login - Logout', async ({ context, page }) => {
     // should not work with invalid credentials
-    await defaultAuthSteps({ context, page, username: 'asfd@asdf.de', password: '1234' })
+    await defaultAuthSteps({ context, page, email: 'asfd@asdf.de', password: '1234' })
     // see https://www.ory.sh/docs/kratos/concepts/ui-user-interface#ui-error-codes
     // for more ory error codes
     await waitForElementByTestId(page, 'ory-message-4000006')
