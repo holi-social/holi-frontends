@@ -251,7 +251,7 @@ const RootNavigator: React.VFC = () => {
           name="Registration"
           component={Registration}
           options={{
-            title: t('auth.registration'),
+            title: t('auth.register'),
           }}
         />
       </RootStack.Group>

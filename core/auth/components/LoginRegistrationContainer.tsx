@@ -9,6 +9,8 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface LoginRegistrationContainerProps {
   flow: SelfServiceLoginFlow | SelfServiceRegistrationFlow | undefined
@@ -21,6 +23,7 @@ const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = (
   const { userId, isLoggedIn } = useContext(AuthContext)
   const { t } = useTranslation()
   const { navigate, navigateBack } = useRouting()
+  const mixins = useStyleMixins()
   const isLogin = mode === 'login'
   const isWeb = Platform.OS === 'web'
 
@@ -63,27 +66,37 @@ const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = (
               >
                 {t('auth.login.link.forgotPassword')}
               </HoliButton>
+
               <HoliHeading level="2" style={styles.headline2}>
                 {t('auth.login.signUp.link.headline')}
               </HoliHeading>
+
               <HoliButton
                 onPress={toggleLoginRegistration}
                 label={t('auth.loginProtection.registration')}
                 type="secondary"
                 style={styles.button}
+                testID="btn-to-registration-form"
               >
                 {t('auth.loginProtection.registration')}
               </HoliButton>
             </>
           ) : (
-            <HoliButton
-              onPress={toggleLoginRegistration}
-              label={t('auth.login')}
-              type="secondary"
-              style={styles.button}
-            >
-              {t('auth.login')}
-            </HoliButton>
+            <HoliHeading level="3" size="xSmall" style={styles.headline3}>
+              {t('auth.registration.alreadyHasAccount')}{' '}
+              <HoliButton
+                transparent
+                inline
+                label={t('auth.login')}
+                variant="small"
+                style={mixins.inlineButtonFixSmall}
+                onPress={toggleLoginRegistration}
+              >
+                <HoliText size="small" style={styles.loginLinkText}>
+                  {t('auth.login')}
+                </HoliText>
+              </HoliButton>
+            </HoliHeading>
           )}
         </View>
       )}
@@ -119,6 +132,12 @@ const styles = StyleSheet.create({
   },
   headline2: {
     marginTop: 40,
+  },
+  headline3: {
+    marginTop: 16,
+  },
+  loginLinkText: {
+    color: colors.positivepurple,
   },
 })
 

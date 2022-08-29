@@ -27,6 +27,7 @@ export const BasicExample: ComponentStory<typeof HoliUserCard> = Template.bind({
 
 BasicExample.argTypes = {
   user: { description: 'User object', required: true, control: { type: 'object' } },
+  variant: { description: 'Card variant (small or normal)', control: { type: 'select', options: ['small', 'normal'] } },
   category: {
     description: 'User category chip',
     type: 'string',
@@ -36,5 +37,6 @@ BasicExample.argTypes = {
 
 BasicExample.args = {
   user,
+  variant: 'normal',
   category: 'Immigration',
 }

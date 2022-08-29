@@ -16,6 +16,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
+import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 
 import { ChipValueWithTranslation, toValuesWithTranslation } from './userChipHelper'
 
@@ -36,7 +37,9 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
   const [values, setValues] = useState(
     user ? (user[typeMetadata.keyInUserObject as keyof typeof user] as string[]) : []
   )
+  const [filterString, setFilterString] = useState<string>('')
   const [orderedValues, setOrderedValues] = useState<ChipValueWithTranslation[]>([])
+  const [filteredValues, setFilteredValues] = useState<ChipValueWithTranslation[]>([])
   const [saved, setSaved] = useState(false)
 
   const { t } = useTranslation()
@@ -53,6 +56,16 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
       ...toValuesWithTranslation(typeMetadata, unselectedValues, t, sortByTranslation),
     ])
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(
+    () =>
+      setFilteredValues(
+        filterString === ''
+          ? orderedValues
+          : orderedValues.filter(({ t: label }) => label.toLowerCase().includes(filterString.toLowerCase()))
+      ),
+    [orderedValues, filterString]
+  )
 
   const styles = getStyles()
 
@@ -101,8 +114,15 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <HoliHeading style={styles.headline}>{t(`user.${typeMetadata.keyInUserObject}.form.headline`)}</HoliHeading>
         <HoliText style={styles.subline}>{t(`user.${typeMetadata.keyInUserObject}.form.subline`)}</HoliText>
+        <HoliTextInput
+          value={filterString}
+          placeholder={t(`profile.${typeMetadata.keyInUserObject}.filter.placeholder`)}
+          onChange={(text) => setFilterString(text)}
+          trailingIcon="search"
+          style={styles.input}
+        />
         <HoliChipRow editable={false} editButtonLabel="">
-          {orderedValues.map(({ value, t }) => {
+          {filteredValues.map(({ value, t }) => {
             return (
               <HoliChip
                 key={value}
@@ -114,6 +134,9 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
             )
           })}
         </HoliChipRow>
+        {filteredValues.length === 0 && (
+          <HoliText style={styles.subline}>{t(`profile.${typeMetadata.keyInUserObject}.filter.empty`)}</HoliText>
+        )}
       </ScrollView>
       <HoliButton
         style={styles.saveButton}
@@ -152,6 +175,9 @@ const getStyles = () =>
     },
     subline: {
       marginBottom: 17,
+    },
+    input: {
+      marginBottom: 16,
     },
     chip: {
       marginRight: 8,

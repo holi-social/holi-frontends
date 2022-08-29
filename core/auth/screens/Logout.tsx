@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import client from '@holi/api/graphql/client'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
@@ -33,11 +34,11 @@ const Logout: React.VoidFunctionComponent = () => {
   const onSubmit = () => {
     getSessionFromStorage()
       .then((session) => submitLogoutFlow({ session_token: session ? session.session_token : '' }))
+      .then(() => setUserLoggedOut())
+      .then(() => client.clearStore())
       .then(() => {
-        setUserLoggedOut().then(() => {
-          console.info('[Logout] logout successful')
-          navigateBack()
-        })
+        console.info('[Logout] logout successful')
+        navigateBack()
       })
       .catch((e) => {
         console.warn('[Logout] logout failed, removing session from storage')
