@@ -36,6 +36,7 @@ const rootLinkingConfig: LinkingOptions<RootStackScreensList> = {
               HomeFeed: '',
               Topic: 'topics/:topicId',
               Post: 'topics/:topicId/posts/:postId',
+              OwnProfile: 'profile',
               UserProfile: 'profile/:userId',
               Notifications: 'notifications',
             },

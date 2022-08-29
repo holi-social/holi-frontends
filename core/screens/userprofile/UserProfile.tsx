@@ -1,51 +1,60 @@
-import React, { memo, useCallback, useContext, useLayoutEffect, useState } from 'react'
+import { useQuery } from '@apollo/client'
+import { AuthContext } from 'core/auth/AuthContextProvider'
+import { displayError } from 'core/errors/helpers'
+import useRouting from 'core/navigation/hooks/useRouting'
+import { UserByIdResponse, userByIdQuery } from 'core/screens/userprofile/queries'
+import React, { memo, useContext, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
+import { createParam } from 'solito'
+
+import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
-import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
-import LoggedOutView from '@holi/core/screens/userprofile/components/LoggedOutView'
-import UserChipForm from '@holi/core/screens/userprofile/components/UserChipForm'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
-import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
-import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { UserChipInterest, UserChipSDG, UserChipSkill } from '@holi/core/screens/userprofile/types'
+import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
-import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-// these constants are lower case, because they are used as translation keys
-type editModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'sdgs'
+export type UserProfileParams = {
+  userId: string
+}
+const { useParam } = createParam<UserProfileParams>()
 
-const UserProfile: React.VFC = () => {
-  const { navigate } = useRouting()
-  const [showModal, setShowModal] = useState(false)
-  const [editMode, setEditMode] = useState<editModeState>()
-  const toggleModal = useCallback(() => {
-    setShowModal(!showModal)
-  }, [showModal])
+type UserProfileProps = NativeStackScreenProps<HomeStackScreens>
+
+const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfileProps) => {
   const { t } = useTranslation()
-
-  const { isLoggedIn } = useContext(AuthContext)
-  const { user } = useContext(UserContext)
+  const { navigate } = useRouting()
 
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const mixins = useStyleMixins()
 
+  const { userId: authenticatedUserId } = useContext(AuthContext)
+  const [userId = ''] = useParam('userId')
+
+  if (!userId || userId === authenticatedUserId) {
+    navigate('/profile')
+  }
+
+  const { loading, error, data } = useQuery<UserByIdResponse>(userByIdQuery, {
+    variables: { userId },
+    // fetchPolicy: 'network-only', TODO(SF) necessary to specify?
+  })
+
+  const user = data && data?.userById
+
   // to avoid a FOUC, we use useLayoutEffect (synchronously) instead of useEffect for updating the navigation
   useLayoutEffect(
     () => {
-      const profileTitle = isLoggedIn && user ? user.firstName : t('profile.title')
+      const profileTitle = t('profile.title')
       setNavigationHeader({
         title: profileTitle,
         titleElement: () => (
@@ -53,189 +62,96 @@ const UserProfile: React.VFC = () => {
             {profileTitle}
           </HoliText>
         ),
-        headerRight: () =>
-          isLoggedIn && (
-            <HoliButton
-              inline
-              transparent
-              label={t('profile.edit')}
-              onPress={() => {
-                setEditMode('profile')
-                toggleModal()
-              }}
-              style={styles.headerEditButton}
-            >
-              <HoliText size="small" bold style={{ color: colors.fontColorGrey }}>
-                {t('profile.edit')}
-              </HoliText>
-            </HoliButton>
-          ),
       })
       return clearNavigationHeader
     },
     // setNavigationHeader would cause endless loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isLoggedIn, user, editMode, showModal]
+    [navigation, user]
   )
+
+  // TODO(SF) handle error/loading/missing/not found user
+  if (error) {
+    // TODO(SF) recognize not found?
+    displayError(error, t('user.userProfile.error.fetching'))
+  }
+
+  if (loading) {
+    // TODO: replace with proper loading indicator
+    return (
+      <View style={[mixins.container, styles.container]}>
+        <HoliText>{t('rootProvider.loading.profile')}</HoliText>
+      </View>
+    )
+  }
+
+  if (!user) {
+    return (
+      <View style={[mixins.container, styles.container]}>
+        <HoliText>{t('user.profileView.noUser')}</HoliText>
+      </View>
+    )
+  }
+
+  const hasInterests = !!user.interests?.length
+  const hasSdgs = !!user.sdgs?.length
+  const hasSkills = !!user.skills?.length
+  const hasInfo = user.engagementLevel || hasInterests || hasSdgs || hasSkills
 
   return (
     <DefaultLayout>
-      <LoginProtection loggedOutContent={<LoggedOutView />}>
-        <>
-          <View
-            style={[mixins.container, styles.container]}
-            testID={['user-profile-edit', editMode].filter((e) => e).join('-')}
-          >
-            <>
-              <HoliModal
-                show={showModal}
-                onDismiss={toggleModal}
-                relativeHeight={0.95}
-                testID="user-profile-modal"
-                label={t(`profile.${editMode}.edit`)}
-              >
-                {(() => {
-                  switch (editMode) {
-                    case 'profile':
-                      return <UserProfileForm onCancel={toggleModal} onSubmit={toggleModal} />
-                    case 'engagementLevel':
-                      return <UserEngagementLevelForm onCancel={toggleModal} onSubmit={toggleModal} />
-                    case 'interests':
-                      return (
-                        <UserChipForm typeMetadata={UserChipInterest} onCancel={toggleModal} onSubmit={toggleModal} />
-                      )
-                    case 'skills':
-                      return <UserChipForm typeMetadata={UserChipSkill} onCancel={toggleModal} onSubmit={toggleModal} />
-                    case 'sdgs':
-                      return (
-                        <UserChipForm
-                          typeMetadata={UserChipSDG}
-                          onCancel={toggleModal}
-                          onSubmit={toggleModal}
-                          sortByTranslation={false}
-                        />
-                      )
-                  }
-                })()}
-              </HoliModal>
-              <UserProfileView />
-              <HoliButton
-                label={t('profile.edit')}
-                onPress={() => {
-                  setEditMode('profile')
-                  toggleModal()
-                }}
-                transparent
-                inline
-                testID="btn-open-profile-edit-view"
-              >
-                {t('profile.edit')}
-              </HoliButton>
-              <HoliButton
-                label={t('profile.logout')}
-                inline
-                onPress={() => navigate('/logout')}
-                transparent
-                testID="btn-to-logout"
-              >
-                {t('profile.logout')}
-              </HoliButton>
-            </>
-          </View>
-          <HoliTabs
-            style={{ marginTop: 24 }}
-            tabs={[
-              {
-                title: t('profile.tabs.profile'),
-                children: [
-                  <View style={[mixins.container, styles.chipRowContainer]} key="engagementLevel">
-                    <HoliChipRow
-                      key="engagementLevel"
-                      editButtonLabel={t('profile.engagementLevel.edit')}
-                      editable={!user?.engagementLevel}
-                      title={t('profile.engagementLevel')}
-                      onPressEdit={() => {
-                        setEditMode('engagementLevel')
-                        toggleModal()
-                      }}
-                    >
-                      {user?.engagementLevel && (
-                        <HoliChip
-                          text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
-                          style={styles.chip}
-                          disabled
-                        />
-                      )}
-                      {!user?.engagementLevel && (
-                        <HoliChip
-                          onPress={() => {
-                            setEditMode('engagementLevel')
-                            toggleModal()
-                          }}
-                          label={t('profile.engagementLevel.add')}
-                          style={styles.chip}
-                        />
-                      )}
-                    </HoliChipRow>
-                  </View>,
-                  <View style={[mixins.container, styles.chipRowContainer]} key="interests">
-                    <UserChipRow
-                      key={'interests'}
-                      typeMetadata={UserChipInterest}
-                      onPressEdit={() => {
-                        setEditMode('interests')
-                        toggleModal()
-                      }}
-                      numberOfLines={1}
+      <View style={[mixins.container, styles.container]}>
+        <UserProfileView user={user} />
+      </View>
+      <HoliTabs
+        style={{ marginTop: 24 }}
+        tabs={[
+          {
+            title: t('profile.tabs.profile'),
+            children: [
+              user.engagementLevel && (
+                <View style={[mixins.container, styles.chipRowContainer]} key="engagementLevel">
+                  <HoliChipRow title={t('profile.engagementLevel')}>
+                    <HoliChip
+                      text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
+                      style={styles.chip}
+                      disabled
                     />
-                  </View>,
-                  <View style={[mixins.container, styles.chipRowContainer]} key="skills">
-                    <UserChipRow
-                      key={'skills'}
-                      typeMetadata={UserChipSkill}
-                      onPressEdit={() => {
-                        setEditMode('skills')
-                        toggleModal()
-                      }}
-                      numberOfLines={1}
-                    />
-                  </View>,
-                  <View style={[mixins.container, styles.chipRowContainer]} key="sdgs">
-                    <UserChipRow
-                      key={'sdgs'}
-                      typeMetadata={UserChipSDG}
-                      sortByTranslation={false}
-                      onPressEdit={() => {
-                        setEditMode('sdgs')
-                        toggleModal()
-                      }}
-                      numberOfLines={1}
-                    />
-                  </View>,
-                ],
-              },
-              {
-                title: t('profile.tabs.topics'),
-                children: (
-                  <View
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      paddingHorizontal: 56,
-                      paddingVertical: 72,
-                    }}
-                  >
-                    <HoliText style={{ textAlign: 'center', color: colors.fontColorGrey }}>
-                      {t('profile.tabs.topics.empty')}
-                    </HoliText>
-                  </View>
-                ),
-              },
-            ]}
-          />
-        </>
-      </LoginProtection>
+                  </HoliChipRow>
+                </View>
+              ),
+              hasInterests && (
+                <View style={[mixins.container, styles.chipRowContainer]} key="interests">
+                  <UserChipRow user={user} typeMetadata={UserChipInterest} numberOfLines={1} />
+                </View>
+              ),
+              hasSdgs && (
+                <View style={[mixins.container, styles.chipRowContainer]} key="sdgs">
+                  <UserChipRow user={user} typeMetadata={UserChipSDG} sortByTranslation={false} numberOfLines={1} />
+                </View>
+              ),
+              hasSkills && (
+                <View style={[mixins.container, styles.chipRowContainer]} key="skills">
+                  <UserChipRow user={user} typeMetadata={UserChipSkill} numberOfLines={1} />
+                </View>
+              ),
+              !hasInfo && (
+                <View style={styles.infoContainer} key="missingInfo">
+                  <HoliText style={styles.infoText}>{t('profile.missingInfo')}</HoliText>
+                </View>
+              ),
+            ],
+          },
+          {
+            title: t('profile.tabs.topics'),
+            children: (
+              <View style={styles.infoContainer}>
+                <HoliText style={styles.infoText}>{t('profile.tabs.topics.empty')}</HoliText>
+              </View>
+            ),
+          },
+        ]}
+      />
     </DefaultLayout>
   )
 }
@@ -254,6 +170,16 @@ const styles = StyleSheet.create({
   headerEditButton: {
     marginLeft: 24,
     marginRight: Platform.OS === 'web' ? 24 : 0,
+  },
+  infoContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 56,
+    paddingVertical: 72,
+  },
+  infoText: {
+    textAlign: 'center',
+    color: colors.fontColorGrey,
   },
 })
 

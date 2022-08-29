@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
-import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import { UserChipGeneric } from '@holi/core/screens/userprofile/types'
+import type { User } from '@holi/core/screens/userprofile/types'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 
@@ -11,18 +11,19 @@ import { toValuesWithTranslation } from './userChipHelper'
 
 type UserChipRowProps = {
   typeMetadata: UserChipGeneric<any> // eslint-disable-line @typescript-eslint/no-explicit-any
-  onPressEdit: () => void
+  onPressEdit?: () => void
   numberOfLines?: number
   sortByTranslation?: boolean
+  user: User
 }
 
 const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
   typeMetadata,
   onPressEdit,
   numberOfLines,
+  user,
   sortByTranslation = true,
 }) => {
-  const { user } = useContext(UserContext)
   const values = user ? (user[typeMetadata.keyInUserObject as keyof typeof user] as string[]) : []
   const { t } = useTranslation()
 
@@ -30,10 +31,10 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
 
   return (
     <HoliChipRow
-      editable
+      editable={!!onPressEdit}
       title={t(`profile.${typeMetadata.keyInUserObject}`)}
       editButtonLabel={t(`profile.${typeMetadata.keyInUserObject}.edit`)}
-      onPressEdit={() => onPressEdit()}
+      onPressEdit={onPressEdit}
       testID={`user-profile-${typeMetadata.keyInUserObject}`}
     >
       {values.length > 0 ? (
@@ -50,7 +51,7 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
         <HoliChip
           text={''}
           key="edit"
-          onPress={() => onPressEdit()}
+          onPress={onPressEdit}
           label={t(`profile.${typeMetadata.keyInUserObject}.add`)}
           style={styles.chip}
         />

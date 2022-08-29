@@ -1,3 +1,4 @@
+import OwnProfile from 'core/screens/userprofile/OwnProfile'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
@@ -18,7 +19,7 @@ import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
 import Post, { PostParams } from '@holi/core/screens/topics/Post'
 import Topic, { TopicParams } from '@holi/core/screens/topics/Topic'
-import UserProfile from '@holi/core/screens/userprofile/UserProfile'
+import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -28,7 +29,8 @@ export type HomeStackScreens = {
   HomeFeed: undefined
   Topic: TopicParams
   Post: PostParams
-  UserProfile: undefined
+  OwnProfile: undefined
+  UserProfile: UserProfileParams
   Notifications: undefined
 }
 
@@ -75,6 +77,23 @@ export const HomeStackNavigator: React.VFC = () => {
         options={{
           headerTitle: () => <HeaderTitle style={{ paddingTop: 5 }} />,
           headerLeft: () => <HeaderLeft style={{ paddingHorizontal: 0, marginLeft: 5 }} />,
+          headerRight: () => (
+            <HeaderRight
+              style={{
+                paddingHorizontal: 0,
+                marginRight: 5,
+              }}
+            />
+          ),
+        }}
+      />
+      <HomeStack.Screen
+        name="OwnProfile"
+        component={OwnProfile}
+        options={{
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+          headerLeft: BackButton,
           headerRight: () => (
             <HeaderRight
               style={{

@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import type { User } from 'core/screens/userprofile/types'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
@@ -10,16 +10,20 @@ import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
-const UserProfileView: React.VFC = () => {
-  const { t } = useTranslation()
+type UserProfileViewProps = {
+  user: User
+}
 
-  const { user } = useContext(UserContext)
+const UserProfileView: React.VFC<UserProfileViewProps> = ({ user }) => {
+  const { t } = useTranslation()
 
   if (!user) {
     return <HoliText>{t('user.profileView.noUser')}</HoliText>
   }
 
-  const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim()
+  const fullName = user.firstName
+    ? `${user.firstName || ''} ${user.lastName || ''}`.trim()
+    : t('user.profileView.anonymous')
 
   return (
     <View style={styles.header}>
