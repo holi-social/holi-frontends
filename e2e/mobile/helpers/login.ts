@@ -13,10 +13,10 @@ export const defaultLoginSteps = async ({ username, password }: DefaultLoginStep
   await tapOnElementWithTestId('btn-to-login-form')
 
   // inspect login modal
-  await waitForElementWithTestId('ory-input-identifier-input')
+  await waitForElementWithTestId('ory-identifier-input')
 
-  await fillFieldByTestId('ory-input-identifier-input', username || process.env.E2E_USER_USERNAME || 'empty')
-  await fillFieldByTestId('ory-input-password-input', password || process.env.E2E_USER_PASSWORD || 'empty')
+  await fillFieldByTestId('ory-identifier-input', username || process.env.E2E_USER_USERNAME || 'empty')
+  await fillFieldByTestId('ory-password-input', password || process.env.E2E_USER_PASSWORD || 'empty')
 
   // close keyboard
   // https://webdriver.io/docs/api/appium#hidekeyboard
