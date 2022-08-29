@@ -2,69 +2,95 @@
 
 exports[`HoliUserCard renders correctly 1`] = `
 <View
+  accessible={true}
   style={
     Array [
-      Object {
-        "display": "inline-block",
-        "height": "100%",
-      },
-      undefined,
-    ]
-  }
->
-  <View
-    accessible={true}
-    style={
       Object {
         "alignContent": "center",
         "alignItems": "center",
         "backgroundColor": "#f7f6f3",
         "borderRadius": 16,
-        "flex": 1,
+        "height": "100%",
         "padding": 24,
+      },
+      undefined,
+    ]
+  }
+  testID="user-card"
+>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#f7f6f3",
+          "borderColor": "transparent",
+          "borderRadius": 64,
+          "borderWidth": 1,
+          "justifyContent": "center",
+          "overflow": "hidden",
+        },
+        undefined,
+        Object {
+          "borderColor": "#222326",
+          "borderWidth": 2,
+          "height": 128,
+          "width": 128,
+        },
+      ]
+    }
+  >
+    <Image
+      accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
+      accessibilityRole="image"
+      accessible={false}
+      source={
+        Object {
+          "uri": "avatar-1",
+        }
+      }
+      style={
+        Object {
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+    />
+  </View>
+  <Text
+    accessible={false}
+    selectable={true}
+    style={
+      Array [
+        Object {
+          "color": "#222326",
+          "fontFamily": "Circular Std Book",
+          "fontWeight": "400",
+        },
+        Object {
+          "fontSize": 16,
+          "lineHeight": 19.2,
+        },
+        Object {
+          "fontFamily": "Circular Std Medium",
+          "fontWeight": "500",
+        },
+        Object {
+          "marginTop": 8,
+          "textAlign": "center",
+        },
+      ]
+    }
+  >
+    Dima Rosmait
+  </Text>
+  <View
+    style={
+      Object {
+        "justifyContent": "center",
       }
     }
-    testID="user-card"
   >
-    <View
-      style={
-        Array [
-          Object {
-            "alignItems": "center",
-            "backgroundColor": "#f7f6f3",
-            "borderColor": "transparent",
-            "borderRadius": 64,
-            "borderWidth": 1,
-            "justifyContent": "center",
-            "overflow": "hidden",
-          },
-          undefined,
-          Object {
-            "borderColor": "#222326",
-            "borderWidth": 2,
-            "height": 128,
-            "width": 128,
-          },
-        ]
-      }
-    >
-      <Image
-        accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
-        accessibilityRole="image"
-        accessible={false}
-        source={
-          Object {
-            "uri": "avatar-1",
-          }
-        }
-        style={
-          Object {
-            "height": "100%",
-            "width": "100%",
-          }
-        }
-      />
-    </View>
     <Text
       accessible={false}
       selectable={true}
@@ -79,75 +105,34 @@ exports[`HoliUserCard renders correctly 1`] = `
             "fontSize": 16,
             "lineHeight": 19.2,
           },
-          Object {
-            "fontFamily": "Circular Std Medium",
-            "fontWeight": "500",
-          },
+          Object {},
           Object {
             "marginTop": 8,
             "textAlign": "center",
           },
         ]
       }
-    >
-      Dima Rosmait
-    </Text>
-    <View
-      style={
-        Object {
-          "justifyContent": "center",
-        }
-      }
-    >
-      <Text
-        accessible={false}
-        selectable={true}
-        style={
-          Array [
-            Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
-            },
-            Object {
-              "fontSize": 16,
-              "lineHeight": 19.2,
-            },
-            Object {},
-            Object {
-              "marginTop": 8,
-              "textAlign": "center",
-            },
-          ]
-        }
-      />
-    </View>
+    />
   </View>
 </View>
 `;
 
 exports[`HoliUserCard renders correctly with small variant 1`] = `
-<View
-  style={
-    Array [
-      Object {
-        "height": "100%",
-      },
-      undefined,
-    ]
-  }
->
+Array [
   <View
     accessible={true}
     style={
-      Object {
-        "alignContent": "center",
-        "alignItems": "center",
-        "backgroundColor": "#f7f6f3",
-        "borderRadius": 16,
-        "flex": 1,
-        "padding": 16,
-      }
+      Array [
+        Object {
+          "alignContent": "center",
+          "alignItems": "center",
+          "backgroundColor": "#f7f6f3",
+          "borderRadius": 16,
+          "height": "auto",
+          "padding": 16,
+        },
+        undefined,
+      ]
     }
     testID="user-card"
   >
@@ -190,7 +175,7 @@ exports[`HoliUserCard renders correctly with small variant 1`] = `
         }
       />
     </View>
-  </View>
+  </View>,
   <Text
     accessible={false}
     selectable={true}
@@ -214,6 +199,6 @@ exports[`HoliUserCard renders correctly with small variant 1`] = `
     }
   >
     Dima Rosmait
-  </Text>
-</View>
+  </Text>,
+]
 `;

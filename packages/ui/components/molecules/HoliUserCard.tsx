@@ -37,15 +37,15 @@ const HoliUserCard: React.VFC<HoliUserCardProps> = ({
   }
 
   if (!user) {
-    return <View style={[styles.container, style]} />
+    return <View style={[styles.cardContainer, style]} />
   }
 
   const { firstName, lastName, avatar, avatarLabel, avatarDefaultColor, aboutMe } = user
 
   const nameLabel = `${firstName || ''} ${lastName || ''}`.trim()
   return (
-    <View style={[styles.container, style]}>
-      <View {...accessibilityProps} style={styles.cardContainer} testID="user-card">
+    <>
+      <View {...accessibilityProps} style={[styles.cardContainer, style]} testID="user-card">
         <HoliUserAvatar
           imageSrc={avatar}
           accessibilityLabel={t('homeFeed.userSuggestions.avatarAltText', {
@@ -76,7 +76,7 @@ const HoliUserCard: React.VFC<HoliUserCardProps> = ({
           {nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
         </HoliText>
       )}
-    </View>
+    </>
   )
 }
 
@@ -84,22 +84,13 @@ export default HoliUserCard
 
 const getStyles = (variant: HoliUserCardVariant) =>
   StyleSheet.create({
-    container: {
-      ...(variant === 'normal' ? { display: 'inline-block' } : {}),
-      height: '100%',
-    },
     cardContainer: {
-      flex: 1,
+      borderRadius: 16,
       alignItems: 'center',
       alignContent: 'center',
       backgroundColor: colors.softwhite,
       padding: variant === 'normal' ? 24 : 16,
-      borderRadius: 16,
-      ...Platform.select({
-        web: {
-          height: '100%',
-        },
-      }),
+      height: variant === 'normal' ? '100%' : 'auto',
     },
     chip: {
       marginVertical: 8,
