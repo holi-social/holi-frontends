@@ -6,6 +6,7 @@ exports[`HoliUserCard renders correctly 1`] = `
     Array [
       Object {
         "display": "inline-block",
+        "height": "100%",
       },
       undefined,
     ]
@@ -48,9 +49,9 @@ exports[`HoliUserCard renders correctly 1`] = `
       }
     >
       <Image
-        accessibilityLabel="Dima Rosmait"
+        accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
         accessibilityRole="image"
-        accessible={true}
+        accessible={false}
         source={
           Object {
             "uri": "avatar-1",
@@ -130,7 +131,7 @@ exports[`HoliUserCard renders correctly with small variant 1`] = `
   style={
     Array [
       Object {
-        "display": "inline-block",
+        "height": "100%",
       },
       undefined,
     ]
@@ -173,9 +174,9 @@ exports[`HoliUserCard renders correctly with small variant 1`] = `
       }
     >
       <Image
-        accessibilityLabel="Dima Rosmait"
+        accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
         accessibilityRole="image"
-        accessible={true}
+        accessible={false}
         source={
           Object {
             "uri": "avatar-1",
@@ -190,31 +191,29 @@ exports[`HoliUserCard renders correctly with small variant 1`] = `
       />
     </View>
   </View>
-  <View>
-    <Text
-      accessible={false}
-      selectable={true}
-      style={
-        Array [
-          Object {
-            "color": "#222326",
-            "fontFamily": "Circular Std Book",
-            "fontWeight": "400",
-          },
-          Object {
-            "fontSize": 14,
-            "lineHeight": 16.8,
-          },
-          Object {},
-          Object {
-            "marginTop": 16,
-            "textAlign": "center",
-          },
-        ]
-      }
-    >
-      Dima Rosmait
-    </Text>
-  </View>
+  <Text
+    accessible={false}
+    selectable={true}
+    style={
+      Array [
+        Object {
+          "color": "#222326",
+          "fontFamily": "Circular Std Book",
+          "fontWeight": "400",
+        },
+        Object {
+          "fontSize": 14,
+          "lineHeight": 16.8,
+        },
+        Object {},
+        Object {
+          "marginTop": 16,
+          "textAlign": "center",
+        },
+      ]
+    }
+  >
+    Dima Rosmait
+  </Text>
 </View>
 `;

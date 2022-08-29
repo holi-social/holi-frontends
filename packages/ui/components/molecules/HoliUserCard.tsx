@@ -48,7 +48,12 @@ const HoliUserCard: React.VFC<HoliUserCardProps> = ({
       <View {...accessibilityProps} style={styles.cardContainer} testID="user-card">
         <HoliUserAvatar
           imageSrc={avatar}
-          nameLabel={nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
+          accessibilityLabel={t('homeFeed.userSuggestions.avatarAltText', {
+            name: nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel,
+          })}
+          nameLabel={t('homeFeed.userSuggestions.avatarAltText', {
+            name: nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel,
+          })}
           initials={avatarLabel}
           defaultColor={avatarDefaultColor}
           accessible={false}

@@ -52,6 +52,7 @@
   "homeFeed.headerTitle.goodNight": "Gute Nacht",
   "homeFeed.heading": "Das Thema dieser Woche ist <0/>",
   "homeFeed.heading_plural": "Die Themen dieser Woche sind <0/>",
+  "homeFeed.userSuggestions.avatarAltText": "{{name}}'s Profilbild",
   "homeFeed.userSuggestions.title": "Leute, die dir gefallen könnten",
   "homeFeed.userSuggestions.loadMore": "Weitere Vorschläge ansehen",
   "homeFeed.volunteering": "Freiwilligenarbeit",

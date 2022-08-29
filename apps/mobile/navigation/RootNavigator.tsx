@@ -79,7 +79,7 @@ const DownButton = () => {
       onPress={() => navigateBack()}
       style={{ paddingHorizontal: 0 }}
     >
-      <HoliIcon icon="arrow-left-s" size={30} color={colors.softblack} />
+      <HoliIcon icon="arrow-down-s" size={30} color={colors.softblack} />
     </HoliButton>
   )
 }

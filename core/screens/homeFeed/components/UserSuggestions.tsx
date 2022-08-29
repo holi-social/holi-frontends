@@ -38,7 +38,7 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = ({ style }: UserSuggest
             transparent
             inline
           >
-            <HoliUserCard user={user} variant="small" disableFocusability={true} />
+            <HoliUserCard user={user} variant="small" disableFocusability />
           </HoliButton>
         ))}
         <HoliButton
