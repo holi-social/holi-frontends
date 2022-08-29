@@ -85,28 +85,30 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               }
             >
               <View
+                accessibilityLabel="Dima Rosmait"
+                accessible={true}
                 style={
-                  Array [
-                    Object {
-                      "display": "inline-block",
-                    },
-                    Object {
-                      "width": "100%",
-                    },
-                  ]
+                  Object {
+                    "width": "100%",
+                  }
                 }
               >
                 <View
-                  accessible={true}
+                  accessible={false}
                   style={
-                    Object {
-                      "alignContent": "center",
-                      "alignItems": "center",
-                      "backgroundColor": "#f7f6f3",
-                      "borderRadius": 16,
-                      "flex": 1,
-                      "padding": 24,
-                    }
+                    Array [
+                      Object {
+                        "alignContent": "center",
+                        "alignItems": "center",
+                        "backgroundColor": "#f7f6f3",
+                        "borderRadius": 16,
+                        "height": "100%",
+                        "padding": 24,
+                      },
+                      Object {
+                        "flex": 1,
+                      },
+                    ]
                   }
                   testID="user-card"
                 >
@@ -133,9 +135,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     }
                   >
                     <Image
-                      accessibilityLabel="Dima Rosmait"
+                      accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
                       accessibilityRole="image"
-                      accessible={true}
+                      accessible={false}
                       source={
                         Object {
                           "uri": "avatar-1",
@@ -168,7 +170,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontWeight": "500",
                         },
                         Object {
-                          "marginTop": 8,
                           "textAlign": "center",
                         },
                       ]
@@ -199,7 +200,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           },
                           Object {},
                           Object {
-                            "marginTop": 8,
                             "textAlign": "center",
                           },
                         ]
@@ -225,28 +225,30 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               }
             >
               <View
+                accessibilityLabel="Max Mustermann"
+                accessible={true}
                 style={
-                  Array [
-                    Object {
-                      "display": "inline-block",
-                    },
-                    Object {
-                      "width": "100%",
-                    },
-                  ]
+                  Object {
+                    "width": "100%",
+                  }
                 }
               >
                 <View
-                  accessible={true}
+                  accessible={false}
                   style={
-                    Object {
-                      "alignContent": "center",
-                      "alignItems": "center",
-                      "backgroundColor": "#f7f6f3",
-                      "borderRadius": 16,
-                      "flex": 1,
-                      "padding": 24,
-                    }
+                    Array [
+                      Object {
+                        "alignContent": "center",
+                        "alignItems": "center",
+                        "backgroundColor": "#f7f6f3",
+                        "borderRadius": 16,
+                        "height": "100%",
+                        "padding": 24,
+                      },
+                      Object {
+                        "flex": 1,
+                      },
+                    ]
                   }
                   testID="user-card"
                 >
@@ -273,9 +275,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     }
                   >
                     <Text
-                      accessibilityLabel="Max Mustermann"
+                      accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
                       accessibilityRole="image"
-                      accessible={true}
+                      accessible={false}
                       selectable={true}
                       style={
                         Array [
@@ -321,7 +323,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontWeight": "500",
                         },
                         Object {
-                          "marginTop": 8,
                           "textAlign": "center",
                         },
                       ]
@@ -352,7 +353,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           },
                           Object {},
                           Object {
-                            "marginTop": 8,
                             "textAlign": "center",
                           },
                         ]
@@ -378,28 +378,30 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               }
             >
               <View
+                accessibilityLabel="Thomas Mueller"
+                accessible={true}
                 style={
-                  Array [
-                    Object {
-                      "display": "inline-block",
-                    },
-                    Object {
-                      "width": "100%",
-                    },
-                  ]
+                  Object {
+                    "width": "100%",
+                  }
                 }
               >
                 <View
-                  accessible={true}
+                  accessible={false}
                   style={
-                    Object {
-                      "alignContent": "center",
-                      "alignItems": "center",
-                      "backgroundColor": "#f7f6f3",
-                      "borderRadius": 16,
-                      "flex": 1,
-                      "padding": 24,
-                    }
+                    Array [
+                      Object {
+                        "alignContent": "center",
+                        "alignItems": "center",
+                        "backgroundColor": "#f7f6f3",
+                        "borderRadius": 16,
+                        "height": "100%",
+                        "padding": 24,
+                      },
+                      Object {
+                        "flex": 1,
+                      },
+                    ]
                   }
                   testID="user-card"
                 >
@@ -426,9 +428,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     }
                   >
                     <Image
-                      accessibilityLabel="Thomas Mueller"
+                      accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
                       accessibilityRole="image"
-                      accessible={true}
+                      accessible={false}
                       source={
                         Object {
                           "uri": "avatar-2",
@@ -461,7 +463,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontWeight": "500",
                         },
                         Object {
-                          "marginTop": 8,
                           "textAlign": "center",
                         },
                       ]
@@ -492,7 +493,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           },
                           Object {},
                           Object {
-                            "marginTop": 8,
                             "textAlign": "center",
                           },
                         ]
@@ -518,28 +518,30 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               }
             >
               <View
+                accessibilityLabel="Sandra Kasandra"
+                accessible={true}
                 style={
-                  Array [
-                    Object {
-                      "display": "inline-block",
-                    },
-                    Object {
-                      "width": "100%",
-                    },
-                  ]
+                  Object {
+                    "width": "100%",
+                  }
                 }
               >
                 <View
-                  accessible={true}
+                  accessible={false}
                   style={
-                    Object {
-                      "alignContent": "center",
-                      "alignItems": "center",
-                      "backgroundColor": "#f7f6f3",
-                      "borderRadius": 16,
-                      "flex": 1,
-                      "padding": 24,
-                    }
+                    Array [
+                      Object {
+                        "alignContent": "center",
+                        "alignItems": "center",
+                        "backgroundColor": "#f7f6f3",
+                        "borderRadius": 16,
+                        "height": "100%",
+                        "padding": 24,
+                      },
+                      Object {
+                        "flex": 1,
+                      },
+                    ]
                   }
                   testID="user-card"
                 >
@@ -566,9 +568,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     }
                   >
                     <Text
-                      accessibilityLabel="Sandra Kasandra"
+                      accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
                       accessibilityRole="image"
-                      accessible={true}
+                      accessible={false}
                       selectable={true}
                       style={
                         Array [
@@ -614,7 +616,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontWeight": "500",
                         },
                         Object {
-                          "marginTop": 8,
                           "textAlign": "center",
                         },
                       ]
@@ -645,7 +646,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           },
                           Object {},
                           Object {
-                            "marginTop": 8,
                             "textAlign": "center",
                           },
                         ]
@@ -671,28 +671,30 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               }
             >
               <View
+                accessibilityLabel="Peter Pan"
+                accessible={true}
                 style={
-                  Array [
-                    Object {
-                      "display": "inline-block",
-                    },
-                    Object {
-                      "width": "100%",
-                    },
-                  ]
+                  Object {
+                    "width": "100%",
+                  }
                 }
               >
                 <View
-                  accessible={true}
+                  accessible={false}
                   style={
-                    Object {
-                      "alignContent": "center",
-                      "alignItems": "center",
-                      "backgroundColor": "#f7f6f3",
-                      "borderRadius": 16,
-                      "flex": 1,
-                      "padding": 24,
-                    }
+                    Array [
+                      Object {
+                        "alignContent": "center",
+                        "alignItems": "center",
+                        "backgroundColor": "#f7f6f3",
+                        "borderRadius": 16,
+                        "height": "100%",
+                        "padding": 24,
+                      },
+                      Object {
+                        "flex": 1,
+                      },
+                    ]
                   }
                   testID="user-card"
                 >
@@ -719,9 +721,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     }
                   >
                     <Image
-                      accessibilityLabel="Peter Pan"
+                      accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
                       accessibilityRole="image"
-                      accessible={true}
+                      accessible={false}
                       source={
                         Object {
                           "uri": "avatar-3",
@@ -754,7 +756,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontWeight": "500",
                         },
                         Object {
-                          "marginTop": 8,
                           "textAlign": "center",
                         },
                       ]
@@ -785,7 +786,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           },
                           Object {},
                           Object {
-                            "marginTop": 8,
                             "textAlign": "center",
                           },
                         ]
@@ -811,28 +811,30 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               }
             >
               <View
+                accessibilityLabel="Donald Duck"
+                accessible={true}
                 style={
-                  Array [
-                    Object {
-                      "display": "inline-block",
-                    },
-                    Object {
-                      "width": "100%",
-                    },
-                  ]
+                  Object {
+                    "width": "100%",
+                  }
                 }
               >
                 <View
-                  accessible={true}
+                  accessible={false}
                   style={
-                    Object {
-                      "alignContent": "center",
-                      "alignItems": "center",
-                      "backgroundColor": "#f7f6f3",
-                      "borderRadius": 16,
-                      "flex": 1,
-                      "padding": 24,
-                    }
+                    Array [
+                      Object {
+                        "alignContent": "center",
+                        "alignItems": "center",
+                        "backgroundColor": "#f7f6f3",
+                        "borderRadius": 16,
+                        "height": "100%",
+                        "padding": 24,
+                      },
+                      Object {
+                        "flex": 1,
+                      },
+                    ]
                   }
                   testID="user-card"
                 >
@@ -859,9 +861,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     }
                   >
                     <Text
-                      accessibilityLabel="Donald Duck"
+                      accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
                       accessibilityRole="image"
-                      accessible={true}
+                      accessible={false}
                       selectable={true}
                       style={
                         Array [
@@ -907,7 +909,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontWeight": "500",
                         },
                         Object {
-                          "marginTop": 8,
                           "textAlign": "center",
                         },
                       ]
@@ -938,7 +939,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           },
                           Object {},
                           Object {
-                            "marginTop": 8,
                             "textAlign": "center",
                           },
                         ]
@@ -966,28 +966,30 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               }
             >
               <View
+                accessibilityLabel="Lionel Messi"
+                accessible={true}
                 style={
-                  Array [
-                    Object {
-                      "display": "inline-block",
-                    },
-                    Object {
-                      "width": "100%",
-                    },
-                  ]
+                  Object {
+                    "width": "100%",
+                  }
                 }
               >
                 <View
-                  accessible={true}
+                  accessible={false}
                   style={
-                    Object {
-                      "alignContent": "center",
-                      "alignItems": "center",
-                      "backgroundColor": "#f7f6f3",
-                      "borderRadius": 16,
-                      "flex": 1,
-                      "padding": 24,
-                    }
+                    Array [
+                      Object {
+                        "alignContent": "center",
+                        "alignItems": "center",
+                        "backgroundColor": "#f7f6f3",
+                        "borderRadius": 16,
+                        "height": "100%",
+                        "padding": 24,
+                      },
+                      Object {
+                        "flex": 1,
+                      },
+                    ]
                   }
                   testID="user-card"
                 >
@@ -1014,9 +1016,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     }
                   >
                     <Image
-                      accessibilityLabel="Lionel Messi"
+                      accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
                       accessibilityRole="image"
-                      accessible={true}
+                      accessible={false}
                       source={
                         Object {
                           "uri": "avatar-4",
@@ -1049,7 +1051,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontWeight": "500",
                         },
                         Object {
-                          "marginTop": 8,
                           "textAlign": "center",
                         },
                       ]
@@ -1080,7 +1081,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           },
                           Object {},
                           Object {
-                            "marginTop": 8,
                             "textAlign": "center",
                           },
                         ]
