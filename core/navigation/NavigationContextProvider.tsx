@@ -32,6 +32,8 @@ const NavigationContext = createContext<NavigationContextType>({
   headerRight: () => null,
   setHeaderRight: () => null,
 })
+NavigationContext.displayName = 'NavigationContext'
+
 export const useNavigationContext = () => useContext(NavigationContext)
 
 const NavigationContextProvider: React.FC = ({ children }) => {

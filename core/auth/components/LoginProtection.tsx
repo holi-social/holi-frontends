@@ -40,7 +40,7 @@ const LoginProtection: React.VFC<LoginProtectionProps> = ({ children, loggedOutC
         onPress={() => navigate('/registration')}
         style={[styles.button, styles.registrationButton]}
         type="secondary"
-        testID="btn-to-login-form"
+        testID="btn-to-registration-form"
       >
         {t('auth.loginProtection.registration')}
       </HoliButton>
