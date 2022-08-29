@@ -157,5 +157,10 @@ const getStyles = () =>
     },
     tabContainer: {
       flex: 1,
+      ...Platform.select({
+        native: {
+          flexDirection: 'row',
+        },
+      }),
     },
   })
