@@ -26,7 +26,7 @@ export const UserContextProvider: React.FC = ({ children }) => {
 
   const { loading, error, data } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery, {
     skip: !isLoggedIn,
-    variables: { isLoggedIn }, // pass reactive variable to reset `data` value
+    fetchPolicy: 'network-only',
   })
 
   if (error) {
