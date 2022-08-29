@@ -11,21 +11,23 @@ This upper section is for main design colors and colors that are used multiple t
 Any value that is only used in one variable below can be written inline in that variable.
 */
 $softblack: #222326;
-$softblackTransparent: #1b1d201a;
+$softblackLight: #eff0f1;
 $white: #ffffff;
 $softwhite: #f7f6f3;
+$softwhiteDark: #F1EFE9;
 $impactyellow: #f3f360;
 $positivepurple: #6267e7;
 $grey: #6f7081;
-$lightGrey: #F5F5F5;
-$greyAA: #767676;
-$greyAAA: #595959;
 $errorRed: #ee0004;
 
 $font-color: $softblack;
+$font-color-disabled: $softblackLight;
 $font-color-black: $font-color;
+$font-color-black-disabled: $softblackLight;
 $font-color-grey: $grey;
+$font-color-grey-disabled: $softblackLight;
 $font-color-white: $white;
+$font-color-white-disabled: $softblackLight;
 
 $primary-color: $impactyellow;
 $secondary-color: $positivepurple;
@@ -33,15 +35,16 @@ $tertiary-color: #57d14c;
 
 $border-color: $softblack;
 $border-color-black: $softblack;
-$border-color-black-disabled: $softblackTransparent;
-$border-color-grey: $softblackTransparent;
+$border-color-black-disabled: $softblackLight;
+$border-color-grey: $softblackLight;
 
 $shadow-color-black: #000000;
 
 $background-color: $white;
 $background-color-yellow: $impactyellow;
 $background-color-yellow-dark: #dbdb57;
-$background-color-white-dark: #e6e6e6;
 $background-color-white: $white;
 $background-color-grey: $softwhite;
+$background-color-grey-light: $softblackLight;
+$background-color-grey-dark: $softwhiteDark;
 $background-color-black: $softblack;

@@ -8,7 +8,7 @@ export const navigateBackToHomeScreen = async () => {
   let firstRun = true
   while (!homeScreenReached) {
     try {
-      await waitForHomeScreen(firstRun ? 0 : 2000)
+      await waitForHomeScreen(firstRun ? 0 : 5000)
       homeScreenReached = true
     } catch (e) {
       if (firstRun) {
