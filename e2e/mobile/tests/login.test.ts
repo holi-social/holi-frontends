@@ -16,10 +16,6 @@ describe('@Login', () => {
     // Login
     await defaultLoginSteps()
 
-    await tapOnElementWithTestId('nav-button-home')
-
-    await tapOnElementWithTestId('btn-to-profile-view')
-
     // Logout
     await tapOnElementWithTestId('btn-to-logout')
     await tapOnElementWithTestId('confirm-logout-button')
