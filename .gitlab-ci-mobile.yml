@@ -123,7 +123,7 @@ mobile_review_e2e_android:
     - /^noenv\/.*/
     - /^nomobile\/.*/
 
-.mobile_review_e2e_ios:
+mobile_review_e2e_ios:
   extends: .mobile_e2e_ios
   needs: ['mobile_review_build']
   except:
