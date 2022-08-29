@@ -249,7 +249,7 @@ const getStyles = (theme: HoliTheme, inputPaddingVertical: number) =>
       borderColor: colors.errorRed,
     },
     inputWrapperHovered: {
-      borderColor: tinycolor(colors.borderColorBlack).darken(45).toString(),
+      borderColor: tinycolor(colors.borderColorBlack).lighten(35).toString(),
     },
     input: {
       flex: 1,
