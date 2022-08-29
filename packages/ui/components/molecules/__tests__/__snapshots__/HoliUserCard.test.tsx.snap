@@ -76,7 +76,6 @@ exports[`HoliUserCard renders correctly 1`] = `
           "fontWeight": "500",
         },
         Object {
-          "marginTop": 8,
           "textAlign": "center",
         },
       ]
@@ -107,7 +106,6 @@ exports[`HoliUserCard renders correctly 1`] = `
           },
           Object {},
           Object {
-            "marginTop": 8,
             "textAlign": "center",
           },
         ]
@@ -176,29 +174,36 @@ Array [
       />
     </View>
   </View>,
-  <Text
-    accessible={false}
-    selectable={true}
+  <View
     style={
-      Array [
-        Object {
-          "color": "#222326",
-          "fontFamily": "Circular Std Book",
-          "fontWeight": "400",
-        },
-        Object {
-          "fontSize": 14,
-          "lineHeight": 16.8,
-        },
-        Object {},
-        Object {
-          "marginTop": 16,
-          "textAlign": "center",
-        },
-      ]
+      Object {
+        "marginTop": 16,
+      }
     }
   >
-    Dima Rosmait
-  </Text>,
+    <Text
+      accessible={false}
+      selectable={true}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {},
+          Object {
+            "textAlign": "center",
+          },
+        ]
+      }
+    >
+      Dima Rosmait
+    </Text>
+  </View>,
 ]
 `;

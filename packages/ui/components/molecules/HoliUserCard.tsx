@@ -72,9 +72,11 @@ const HoliUserCard: React.VFC<HoliUserCardProps> = ({
         )}
       </View>
       {variant === 'small' && (
-        <HoliText style={styles.textStyle} size="small">
-          {nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
-        </HoliText>
+        <View style={styles.textContainer}>
+          <HoliText style={styles.textStyle} size="small">
+            {nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
+          </HoliText>
+        </View>
       )}
     </>
   )
@@ -96,11 +98,13 @@ const getStyles = (variant: HoliUserCardVariant) =>
       marginVertical: 8,
       alignSelf: 'center',
     },
-    textStyle: {
-      marginTop: variant === 'normal' ? 8 : 16,
-      textAlign: 'center',
-    },
     textStyleAboutMe: {
       justifyContent: 'center',
+    },
+    textContainer: {
+      marginTop: variant === 'normal' ? 8 : 16,
+    },
+    textStyle: {
+      textAlign: 'center',
     },
   })
