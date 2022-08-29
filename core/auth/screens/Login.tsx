@@ -1,5 +1,5 @@
 import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/kratos-client'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
@@ -36,7 +36,7 @@ const Login: React.VoidFunctionComponent = () => {
   // eslint-disable-next-line
   useEffect(() => initializeFlow(), [])
 
-  useEffect(
+  useLayoutEffect(
     () => {
       setNavigationHeader({
         headerLeft: () => (
@@ -47,9 +47,10 @@ const Login: React.VoidFunctionComponent = () => {
             onPress={() => navigateBack()}
             style={{ paddingHorizontal: 0 }}
           >
-            <HoliIcon icon="arrow-down-s" size={30} />
+            <HoliIcon icon="arrow-left-s" size={30} />
           </HoliButton>
         ),
+        title: t('auth.login'),
       })
       return clearNavigationHeader
     },

@@ -6,6 +6,9 @@ const staticStyles = StyleSheet.create({
   inlineButtonFixDefault: {
     transform: [{ translateY: Platform.select({ ios: 3, android: 4, default: 0 }) }],
   },
+  inlineButtonFixSmall: {
+    transform: [{ translateY: Platform.select({ ios: 2, android: 4, default: 0 }) }],
+  },
   inlineButtonFixMedium: {
     transform: [{ translateY: Platform.select({ ios: 3, android: 5, default: 0 }) }],
   },
