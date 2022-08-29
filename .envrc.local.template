@@ -12,5 +12,8 @@ export E2E_USER_USERNAME=
 export E2E_USER_PASSWORD=
 export BROWSERSTACK_USERNAME=
 export BROWSERSTACK_ACCESS_KEY=
-export AVD_E2E="e2e_avd"
-export ANDROID_HOME="$HOME/Android/Sdk"
+export E2E_ANDROID_VIRTUAL_DEVICE_NAME="e2e_avd"
+case "$OSTYPE" in
+  darwin*)  export ANDROID_HOME="$HOME/Library/Android/sdk";;
+  *)        export ANDROID_HOME="$HOME/Android/Sdk";;
+esac

@@ -75,9 +75,9 @@ For [Android](#android) there is a script that takes care of starting the applic
 
 #### Android
 
-1. Configure environment variables `AVD_E2E` and `ANDROID_HOME` (see `.envrc.local.template`, maybe `ANDROID_HOME` is already set up globally)
+1. Configure environment variables `E2E_ANDROID_VIRTUAL_DEVICE_NAME` and `ANDROID_HOME` (see `.envrc.local.template`, maybe `ANDROID_HOME` is already set up globally)
 
-   You can use an emulator of your own by using its name as value of `AVD_E2E`.
+   You can use an emulator of your own by using its name as value of `E2E_ANDROID_VIRTUAL_DEVICE_NAME`.
 2. run `yarn workspace @holi/e2e-mobile prepare:android`
 
    This script starts and maybe creates an emulator if necessary, runs `appium` and starts the mobile application locally (using the staging backend).

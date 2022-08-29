@@ -620,6 +620,8 @@ They can be accessed via `process.env` (e.g. `process.env.HOLI_API_URL`).
 
 For the web client all environment variables that should be available in the browser, have to be provided at build time. To decide which environment variables are included, Next.js requires these to be prefixed with `NEXT_PUBLIC_` (see [documentation](#https://nextjs.org/docs/basic-features/environment-variables#exposing-environment-variables-to-the-browser)). (An example for this is the `NEXT_PUBLIC_ENVIRONMENT_ID` that is used for sentry, see `apps/web/environment.ts`).
 
+There also is [runtime configuration](https://nextjs.org/docs/api-reference/next.config.js/runtime-configuration) available in Next.js but we have not yet decided on a solution yet (see [HOLI-1692](https://holi.atlassian.net/browse/HOLI-1692)).
+
 #### Configuration for web deployment
 
 For web deployment it is necessary to include environment variables in the terraform configuration: see `terraform/environments/web/vars.tf` for definitions of variables and `terraform/environments/web/deployment.tf` on how to pass them to the container. You can only use information available at script execution time to provide or calculate the configuration values.
@@ -628,7 +630,7 @@ You could also define environment variables in the Dockerfile itself (`apps/web/
 
 #### Usage for mobile
 
-For mobile development, environment variables can only be used at build time. We use [`expo-constants`](https://docs.expo.dev/versions/latest/sdk/constants/) for this, which provides configuration values defined in `apps/mobile/app.config.js` (here environment variables can be used) as constants to the apps, which can be accessed as follows:
+On mobile builds, environment variables are evaluated at build time and the values are therefore included in the binary as constants. We use [`expo-constants`](https://docs.expo.dev/versions/latest/sdk/constants/) for this, which provides configuration values defined in `apps/mobile/app.config.js` (here environment variables can be used) as constants to the apps, which can be accessed as follows:
 
 ```ts
 import Constants from 'expo-constants'
