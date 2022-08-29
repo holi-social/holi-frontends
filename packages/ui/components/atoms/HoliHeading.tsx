@@ -5,8 +5,8 @@ import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-type HoliHeadingLevel = '1' | '2' | '3' // for working code completion in vscode
-type HoliHeadingSize = 'super' | 'large' | 'medium' | 'small' // for working code completion in vscode
+type HoliHeadingLevel = '1' | '2' | '3' | '4' // for working code completion in vscode
+type HoliHeadingSize = 'super' | 'large' | 'medium' | 'small' | 'xSmall' // for working code completion in vscode
 
 const HoliHeadings: Record<HoliHeadingLevel, { defaultSize: HoliHeadingSize }> = {
   1: {
@@ -17,6 +17,9 @@ const HoliHeadings: Record<HoliHeadingLevel, { defaultSize: HoliHeadingSize }> =
   },
   3: {
     defaultSize: 'small',
+  },
+  4: {
+    defaultSize: 'xSmall',
   },
 }
 
@@ -88,5 +91,9 @@ const getStyles = (theme: HoliTheme) =>
     small: {
       fontSize: 16,
       lineHeight: 16 * 1.4,
+    },
+    xSmall: {
+      fontSize: 14,
+      lineHeight: 14 * 1.4,
     },
   })
