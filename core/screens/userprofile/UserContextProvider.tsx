@@ -1,5 +1,5 @@
-import { useLazyQuery } from '@apollo/client'
-import React, { createContext, useContext, useEffect } from 'react'
+import { useQuery } from '@apollo/client'
+import React, { createContext, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
@@ -24,22 +24,16 @@ export const UserContextProvider: React.FC = ({ children }) => {
   const { isLoggedIn } = useContext(AuthContext)
   const { t } = useTranslation()
 
-  const [getAuthenticatedUser, { loading, error, data }] =
-    useLazyQuery<AuthenticatedUserResponse>(authenticatedUserQuery)
-
-  useEffect(() => {
-    // only run when user is authenticated. if he's not authenticated the result
-    // is always null/undefined anyway.
-    if (isLoggedIn) {
-      getAuthenticatedUser()
-    }
-  }, [isLoggedIn, getAuthenticatedUser])
+  const { loading, error, data } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery, {
+    skip: !isLoggedIn,
+    variables: { isLoggedIn }, // pass reactive variable to reset `data` value
+  })
 
   if (error) {
     displayError(error, t('user.userContext.error.fetching'))
   }
 
-  const user = data && data?.authenticatedUser
+  const user = data?.authenticatedUser
 
-  return <UserContext.Provider value={{ isLoading: loading, user: user }}>{children}</UserContext.Provider>
+  return <UserContext.Provider value={{ isLoading: loading, user }}>{children}</UserContext.Provider>
 }
