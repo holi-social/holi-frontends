@@ -4,8 +4,10 @@ const byTestId = (testID: string) => (platform === 'ios' ? `~${testID}` : `//*[@
 const waitForElement = async (elementSelector: string, timeout?: number) => {
   // https://webdriver.io/docs/api/browser/$
   const element = await Appium.$(elementSelector)
+
   // https://webdriver.io/docs/api/element/waitForDisplayed
   await element.waitForDisplayed({ timeout })
+
   return element
 }
 
