@@ -24,6 +24,7 @@ const initialContext: Context = {
 }
 
 export const AuthContext = createContext<Context>(initialContext)
+AuthContext.displayName = 'AuthContext'
 
 type SessionState = 'active' | 'expired' | 'invalid'
 

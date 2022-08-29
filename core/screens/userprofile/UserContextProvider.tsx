@@ -18,6 +18,7 @@ const initialState = {
 }
 
 export const UserContext = createContext<Context>(initialState)
+UserContext.displayName = 'UserContext'
 
 export const UserContextProvider: React.FC = ({ children }) => {
   const { isLoggedIn } = useContext(AuthContext)
