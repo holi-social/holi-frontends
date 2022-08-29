@@ -123,7 +123,6 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "fontWeight": "500",
                 },
                 Object {
-                  "marginTop": 8,
                   "textAlign": "center",
                 },
               ]
@@ -154,7 +153,6 @@ exports[`renders correctly renders correctly when open 1`] = `
                   },
                   Object {},
                   Object {
-                    "marginTop": 8,
                     "textAlign": "center",
                   },
                 ]
@@ -270,7 +268,6 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "fontWeight": "500",
                 },
                 Object {
-                  "marginTop": 8,
                   "textAlign": "center",
                 },
               ]
@@ -301,7 +298,6 @@ exports[`renders correctly renders correctly when open 1`] = `
                   },
                   Object {},
                   Object {
-                    "marginTop": 8,
                     "textAlign": "center",
                   },
                 ]
@@ -404,7 +400,6 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "fontWeight": "500",
                 },
                 Object {
-                  "marginTop": 8,
                   "textAlign": "center",
                 },
               ]
@@ -435,7 +430,6 @@ exports[`renders correctly renders correctly when open 1`] = `
                   },
                   Object {},
                   Object {
-                    "marginTop": 8,
                     "textAlign": "center",
                   },
                 ]
@@ -551,7 +545,6 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "fontWeight": "500",
                 },
                 Object {
-                  "marginTop": 8,
                   "textAlign": "center",
                 },
               ]
@@ -582,7 +575,6 @@ exports[`renders correctly renders correctly when open 1`] = `
                   },
                   Object {},
                   Object {
-                    "marginTop": 8,
                     "textAlign": "center",
                   },
                 ]
@@ -685,7 +677,6 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "fontWeight": "500",
                 },
                 Object {
-                  "marginTop": 8,
                   "textAlign": "center",
                 },
               ]
@@ -716,7 +707,6 @@ exports[`renders correctly renders correctly when open 1`] = `
                   },
                   Object {},
                   Object {
-                    "marginTop": 8,
                     "textAlign": "center",
                   },
                 ]
@@ -832,7 +822,6 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "fontWeight": "500",
                 },
                 Object {
-                  "marginTop": 8,
                   "textAlign": "center",
                 },
               ]
@@ -863,7 +852,6 @@ exports[`renders correctly renders correctly when open 1`] = `
                   },
                   Object {},
                   Object {
-                    "marginTop": 8,
                     "textAlign": "center",
                   },
                 ]
@@ -968,7 +956,6 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "fontWeight": "500",
                 },
                 Object {
-                  "marginTop": 8,
                   "textAlign": "center",
                 },
               ]
@@ -999,7 +986,6 @@ exports[`renders correctly renders correctly when open 1`] = `
                   },
                   Object {},
                   Object {
-                    "marginTop": 8,
                     "textAlign": "center",
                   },
                 ]
