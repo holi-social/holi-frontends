@@ -182,7 +182,7 @@ const HoliTextInput = ({
               {props?.trailingIcon && !hasValidationErrors && (
                 <HoliIcon icon={props?.trailingIcon} size={22} color={iconColor} />
               )}
-              {hasValidationErrors && <HoliIcon icon="error-warning" size={16} filled color={colors.errorRed} />}
+              {hasValidationErrors && <HoliIcon icon="error-warning" size={16} filled color={colors.fontColorError} />}
             </View>
           )}
           {(value?.length ?? 0) > maxNoOfCharacters * 0.8 && (

@@ -24,7 +24,7 @@ const BackButton: React.VFC<BackButtonProps> = (props: BackButtonProps) => {
       style={{ paddingHorizontal: 0 }}
       testID="nav-button-back"
     >
-      <HoliIcon icon={props.icon || 'arrow-left-s'} size={30} color={colors.softblack} />
+      <HoliIcon icon={props.icon || 'arrow-left-s'} size={30} color={colors.fontColorBlack} />
     </HoliButton>
   )
 }
