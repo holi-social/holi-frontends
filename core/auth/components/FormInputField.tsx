@@ -15,6 +15,11 @@ interface Props extends InputProps {
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
 
+enum OryErrorCode {
+  EMAIL_OR_PASSWORD_MISSING = 4000002,
+  INVALID_PASSWORD = 4000005,
+}
+
 export interface InputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange?: (value: any) => void
@@ -39,7 +44,7 @@ const getValidationErrorText = (
   const messageKey = `auth.login.input.message.${id}`
 
   // if email or password are missing
-  if ('type' in attributes && id === 4000002) {
+  if ('type' in attributes && id === OryErrorCode.EMAIL_OR_PASSWORD_MISSING) {
     const { type } = attributes
     const possibleTypes = ['email', 'password']
     const modifier = possibleTypes.findIndex((value) => value === type)
@@ -49,7 +54,7 @@ const getValidationErrorText = (
   }
 
   // if password is not valid
-  if (context && id === 4000005) {
+  if (context && id === OryErrorCode.INVALID_PASSWORD) {
     const { reason } = context as { reason: string }
 
     const possibleReasons = ['password length', 'password has been found in data breaches']
