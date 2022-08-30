@@ -3,7 +3,6 @@ import {
   AccessibilityProps,
   KeyboardTypeOptions,
   Platform,
-  Pressable,
   StyleSheet,
   TextInput,
   TextInputIOSProps,
@@ -56,6 +55,7 @@ const HoliTextInput = ({
   const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max)
 
   const [isFocused, setFocused] = useState<boolean>(false)
+  const [isHovered, setHovered] = useState<boolean>(false)
   const hasValidationErrors = !!props?.validationErrorText
 
   // numberOfLines values is only used for auto-sizing the textarea when there is new text input
@@ -97,8 +97,21 @@ const HoliTextInput = ({
     return 'off'
   })()
 
+  const hoverPropsForWeb = Platform.select({
+    web: {
+      onMouseOver: () => setHovered(true),
+      onMouseOut: () => setHovered(false),
+    },
+  })
+
+  const iconColor = (() => {
+    if (isFocused) return colors.positivepurple
+    if (isHovered) return tinycolor(colors.softblackLight).darken(45).toString()
+    return tinycolor(colors.fontColor).lighten(80).toString()
+  })()
+
   return (
-    <View style={[styles.wrapper, inline ? styles.inline : styles.block, style]}>
+    <View style={[styles.wrapper, inline ? styles.inline : styles.block, style]} {...hoverPropsForWeb}>
       <View style={[styles.wrapperContainer, { maxWidth: dimensions.width }, inline ? styles.inline : styles.block]}>
         {!!props?.label && (
           <View style={[styles.labelWrapper, inline ? styles.inline : styles.block]}>
@@ -115,97 +128,80 @@ const HoliTextInput = ({
             </HoliText>
           </View>
         )}
-        <Pressable focusable={false} style={[styles.pressable]}>
-          {({ hovered }) => (
+        <View
+          style={[
+            styles.inputWrapper,
+            inline ? styles.inline : styles.block,
+            isHovered && styles.inputWrapperHovered,
+            isFocused && styles.inputWrapperFocused,
+            props?.disabled && styles.inputWrapperDisabled,
+            hasValidationErrors && styles.inputWrapperHasValidationErrors,
+          ]}
+        >
+          <TextInput
+            value={value}
+            style={[
+              styles.input,
+              inline ? styles.inline : styles.block,
+              { height: numberOfLines * inputLineHeight + 2 * inputPaddingVertical },
+            ]}
+            numberOfLines={noOfVisibleLines}
+            multiline={maxNoOfVisibleLines > 1}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            placeholder={props?.placeholder}
+            placeholderTextColor={tinycolor(colors.fontColorGrey).lighten(30).toString()}
+            onChange={(event) => {
+              let text = event.nativeEvent.text
+              // type doesn't work with RN 'numeric' on web
+              if (type === 'number') text = text.replace(/[^0-9]/g, '')
+              props.onChange?.(text)
+            }}
+            onContentSizeChange={(event) => {
+              const contentSizeHeight = event.nativeEvent.contentSize.height
+              const calcNumberOfLines = Math.round(contentSizeHeight / inputLineHeight)
+              setNumberOfLines(clamp(calcNumberOfLines, noOfVisibleLines, maxNoOfVisibleLines))
+            }}
+            keyboardType={keyboardType}
+            textContentType={textContentType}
+            maxLength={maxNoOfCharacters}
+            editable={!props?.disabled}
+            blurOnSubmit={Platform.OS !== 'web'}
+            secureTextEntry={type === 'password'}
+            autoComplete={autocomplete}
+            autoCapitalize="none"
+            autoCorrect={false}
+            {...accessibilityProps}
+            {...props?.inputProps}
+            testID={`${props?.testID || 'holi-text'}-input`}
+          />
+          {(hasValidationErrors || props?.trailingIcon) && (
             <View
-              style={[
-                styles.inputWrapper,
-                inline ? styles.inline : styles.block,
-                hovered && styles.inputWrapperHovered,
-                isFocused && styles.inputWrapperFocused,
-                props?.disabled && styles.inputWrapperDisabled,
-                hasValidationErrors && styles.inputWrapperHasValidationErrors,
-              ]}
+              style={[styles.trailingIconWrapper, hasValidationErrors && styles.trailingIconWrapperHasValidationErrors]}
             >
-              <TextInput
-                value={value}
-                style={[
-                  styles.input,
-                  inline ? styles.inline : styles.block,
-                  { height: numberOfLines * inputLineHeight + 2 * inputPaddingVertical },
-                ]}
-                numberOfLines={noOfVisibleLines}
-                multiline={maxNoOfVisibleLines > 1}
-                onFocus={() => setFocused(true)}
-                onBlur={() => setFocused(false)}
-                placeholder={props?.placeholder}
-                placeholderTextColor={colors.softblackTransparent}
-                onChange={(event) => {
-                  let text = event.nativeEvent.text
-                  // type doesn't work with RN 'numeric' on web
-                  if (type === 'number') text = text.replace(/[^0-9]/g, '')
-                  props.onChange?.(text)
-                }}
-                onContentSizeChange={(event) => {
-                  const contentSizeHeight = event.nativeEvent.contentSize.height
-                  const calcNumberOfLines = Math.round(contentSizeHeight / inputLineHeight)
-                  setNumberOfLines(clamp(calcNumberOfLines, noOfVisibleLines, maxNoOfVisibleLines))
-                }}
-                keyboardType={keyboardType}
-                textContentType={textContentType}
-                maxLength={maxNoOfCharacters}
-                editable={!props?.disabled}
-                blurOnSubmit={Platform.OS !== 'web'}
-                secureTextEntry={type === 'password'}
-                autoComplete={autocomplete}
-                autoCapitalize="none"
-                autoCorrect={false}
-                {...accessibilityProps}
-                {...props?.inputProps}
-                testID={`${props?.testID || 'holi-text'}-input`}
-              />
-              {(hasValidationErrors || props?.trailingIcon) && (
-                <View
-                  style={[
-                    styles.trailingIconWrapper,
-                    hasValidationErrors && styles.trailingIconWrapperHasValidationErrors,
-                  ]}
-                >
-                  {props?.trailingIcon && !hasValidationErrors && (
-                    <HoliIcon
-                      icon={props?.trailingIcon}
-                      size={22}
-                      color={
-                        isFocused
-                          ? colors.positivepurple
-                          : hovered
-                          ? colors.greyAA
-                          : tinycolor(colors.softblack).lighten(80).toString()
-                      }
-                    />
-                  )}
-                  {hasValidationErrors && <HoliIcon icon="error-warning" size={16} filled color={colors.errorRed} />}
-                </View>
+              {props?.trailingIcon && !hasValidationErrors && (
+                <HoliIcon icon={props?.trailingIcon} size={22} color={iconColor} />
               )}
-              {(value?.length ?? 0) > maxNoOfCharacters * 0.8 && (
-                <View
-                  style={[
-                    styles.inputCharsTextWrapper,
-                    hovered && styles.inputCharsTextWrapperHovered,
-                    isFocused && styles.inputCharsTextWrapperFocused,
-                    props?.disabled && styles.inputCharsTextWrapperDisabled,
-                    hasValidationErrors && styles.inputCharsTextWrapperHasValidationErrors,
-                  ]}
-                >
-                  <HoliText
-                    size="extrasmall"
-                    style={styles.inputCharsText}
-                  >{`${value?.length}/${maxNoOfCharacters}`}</HoliText>
-                </View>
-              )}
+              {hasValidationErrors && <HoliIcon icon="error-warning" size={16} filled color={colors.fontColorError} />}
             </View>
           )}
-        </Pressable>
+          {(value?.length ?? 0) > maxNoOfCharacters * 0.8 && (
+            <View
+              style={[
+                styles.inputCharsTextWrapper,
+                isHovered && styles.inputCharsTextWrapperHovered,
+                isFocused && styles.inputCharsTextWrapperFocused,
+                props?.disabled && styles.inputCharsTextWrapperDisabled,
+                hasValidationErrors && styles.inputCharsTextWrapperHasValidationErrors,
+              ]}
+            >
+              <HoliText
+                size="extrasmall"
+                style={styles.inputCharsText}
+              >{`${value?.length}/${maxNoOfCharacters}`}</HoliText>
+            </View>
+          )}
+        </View>
         {(props?.validationErrorText || props?.helperText) && (
           <View style={[styles.helperTextWrapper, inline ? styles.inline : styles.block]}>
             <HoliText
@@ -234,34 +230,26 @@ const getStyles = (theme: HoliTheme, inputPaddingVertical: number) =>
     wrapperContainer: {
       minWidth: 190,
     },
-    // @ts-ignore
-    pressable: {
-      ...Platform.select({
-        web: {
-          cursor: 'default',
-        },
-      }),
-    },
     inputWrapper: {
       alignItems: 'center',
       flexDirection: 'row',
       borderWidth: 2,
-      borderColor: tinycolor(colors.softblack).lighten(80).toString(),
+      borderColor: colors.borderColorGrey,
       borderRadius: 4,
-      backgroundColor: colors.white,
+      backgroundColor: colors.backgroundColor,
     },
     inputWrapperFocused: {
       borderColor: colors.positivepurple,
     },
     inputWrapperDisabled: {
-      borderColor: tinycolor(colors.softblack).lighten(80).toString(),
-      backgroundColor: colors.lightGrey,
+      borderColor: colors.borderColorBlackDisabled,
+      backgroundColor: colors.backgroundColorGrey,
     },
     inputWrapperHasValidationErrors: {
       borderColor: colors.errorRed,
     },
     inputWrapperHovered: {
-      borderColor: colors.greyAA,
+      borderColor: tinycolor(colors.borderColorBlack).lighten(35).toString(),
     },
     input: {
       flex: 1,
@@ -271,7 +259,7 @@ const getStyles = (theme: HoliTheme, inputPaddingVertical: number) =>
       lineHeight: inputLineHeight,
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
-      color: colors.softblack,
+      color: colors.fontColor,
       overflow: 'scroll',
       ...Platform.select({
         web: {
@@ -294,7 +282,7 @@ const getStyles = (theme: HoliTheme, inputPaddingVertical: number) =>
       width: '100%',
     },
     inputCharsTextWrapper: {
-      backgroundColor: tinycolor(colors.softblack).lighten(80).toString(),
+      backgroundColor: tinycolor(colors.backgroundColorBlack).lighten(80).toString(),
       borderRadius: 8,
       position: 'absolute',
       paddingHorizontal: 8,
@@ -305,13 +293,13 @@ const getStyles = (theme: HoliTheme, inputPaddingVertical: number) =>
       backgroundColor: colors.positivepurple,
     },
     inputCharsTextWrapperDisabled: {
-      backgroundColor: colors.softblackTransparent,
+      backgroundColor: colors.fontColorBlackDisabled,
     },
     inputCharsTextWrapperHasValidationErrors: {
       backgroundColor: colors.errorRed,
     },
     inputCharsTextWrapperHovered: {
-      backgroundColor: colors.greyAA,
+      backgroundColor: colors.backgroundColorGrey,
     },
     inputCharsText: {
       color: colors.white,
@@ -320,7 +308,7 @@ const getStyles = (theme: HoliTheme, inputPaddingVertical: number) =>
       marginBottom: 6,
     },
     label: {
-      color: colors.softblack,
+      color: colors.fontColor,
     },
     labelFocused: {
       color: colors.positivepurple,
@@ -332,7 +320,7 @@ const getStyles = (theme: HoliTheme, inputPaddingVertical: number) =>
       marginTop: 6,
     },
     helperText: {
-      color: colors.greyAAA,
+      color: colors.fontColorGrey,
     },
     validationErrorText: {
       color: colors.errorRed,
