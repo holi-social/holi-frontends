@@ -3,6 +3,7 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserSuggestionsResponse, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -16,6 +17,7 @@ export type UserSuggestionsProps = {
 
 const UserSuggestions: React.VFC<UserSuggestionsProps> = ({ style }: UserSuggestionsProps) => {
   const { t } = useTranslation()
+  const { navigate } = useRouting()
   const styles = getStyles()
   const mixins = useStyleMixins()
   const numberOfItems = 10
@@ -38,25 +40,24 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = ({ style }: UserSuggest
       <ScrollView style={[mixins.container, styles.scrollviewContainer]} horizontal>
         {userSuggestions.map((user) => (
           <HoliButton
+            label={`${user.firstName} ${user.lastName}`}
+            onPress={() => navigate(`profile/${user.id}`)}
             style={styles.buttonContainer}
             key={user.id}
-            label={`${user.firstName} ${user.lastName}`}
             transparent
             inline
           >
             <HoliUserCard user={user} variant="small" disableFocusability />
           </HoliButton>
         ))}
-        {userSuggestions.length >= numberOfItems && (
-          <HoliButton
-            label={t('homeFeed.userSuggestions.loadMore')}
-            transparent
-            inline
-            style={styles.lastButtonContainer}
-          >
-            <HoliText size="small">{t('homeFeed.userSuggestions.loadMore')}</HoliText>
-          </HoliButton>
-        )}
+        <HoliButton
+          label={t('homeFeed.userSuggestions.loadMore')}
+          style={styles.lastButtonContainer}
+          transparent
+          inline
+        >
+          <HoliText size="small">{t('homeFeed.userSuggestions.loadMore')}</HoliText>
+        </HoliButton>
       </ScrollView>
     </View>
   )
@@ -74,7 +75,7 @@ const getStyles = () =>
     },
     lastButtonContainer: {
       marginLeft: 16,
-      marginRight: 30,
+      marginRight: 45,
       marginBottom: 30,
       alignSelf: 'center',
       ...Platform.select({
