@@ -76,6 +76,7 @@ exports[`HoliUserCard renders correctly 1`] = `
           "fontWeight": "500",
         },
         Object {
+          "marginVertical": 8,
           "textAlign": "center",
         },
       ]
@@ -87,6 +88,7 @@ exports[`HoliUserCard renders correctly 1`] = `
     style={
       Object {
         "justifyContent": "center",
+        "marginTop": 8,
       }
     }
   >
@@ -105,9 +107,7 @@ exports[`HoliUserCard renders correctly 1`] = `
             "lineHeight": 19.2,
           },
           Object {},
-          Object {
-            "textAlign": "center",
-          },
+          Object {},
         ]
       }
     />

@@ -66,14 +66,14 @@ const HoliUserCard: React.VFC<HoliUserCardProps> = ({
             </HoliText>
             {category && <HoliChip style={styles.chip} text={category} checked hideIcon disabled />}
             <View style={styles.textStyleAboutMe}>
-              <HoliText style={styles.textStyle}>{aboutMe}</HoliText>
+              <HoliText>{aboutMe}</HoliText>
             </View>
           </>
         )}
       </View>
       {variant === 'small' && (
         <View style={styles.textContainer}>
-          <HoliText style={styles.textStyle} size="small">
+          <HoliText style={styles.textStyleSmall} size="small">
             {nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
           </HoliText>
         </View>
@@ -95,16 +95,21 @@ const getStyles = (variant: HoliUserCardVariant) =>
       height: variant === 'normal' ? '100%' : 'auto',
     },
     chip: {
-      marginVertical: 8,
+      marginBottom: 8,
       alignSelf: 'center',
     },
     textStyleAboutMe: {
+      marginTop: 8,
       justifyContent: 'center',
     },
     textContainer: {
-      marginTop: variant === 'normal' ? 8 : 16,
+      marginTop: 16,
     },
     textStyle: {
+      textAlign: 'center',
+      marginVertical: 8,
+    },
+    textStyleSmall: {
       textAlign: 'center',
     },
   })

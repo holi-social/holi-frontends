@@ -170,6 +170,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontWeight": "500",
                         },
                         Object {
+                          "marginVertical": 8,
                           "textAlign": "center",
                         },
                       ]
@@ -181,6 +182,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     style={
                       Object {
                         "justifyContent": "center",
+                        "marginTop": 8,
                       }
                     }
                   >
@@ -199,9 +201,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "lineHeight": 19.2,
                           },
                           Object {},
-                          Object {
-                            "textAlign": "center",
-                          },
+                          Object {},
                         ]
                       }
                     />
@@ -323,6 +323,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontWeight": "500",
                         },
                         Object {
+                          "marginVertical": 8,
                           "textAlign": "center",
                         },
                       ]
@@ -334,6 +335,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     style={
                       Object {
                         "justifyContent": "center",
+                        "marginTop": 8,
                       }
                     }
                   >
@@ -352,9 +354,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "lineHeight": 19.2,
                           },
                           Object {},
-                          Object {
-                            "textAlign": "center",
-                          },
+                          Object {},
                         ]
                       }
                     />
@@ -463,6 +463,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontWeight": "500",
                         },
                         Object {
+                          "marginVertical": 8,
                           "textAlign": "center",
                         },
                       ]
@@ -474,6 +475,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     style={
                       Object {
                         "justifyContent": "center",
+                        "marginTop": 8,
                       }
                     }
                   >
@@ -492,9 +494,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "lineHeight": 19.2,
                           },
                           Object {},
-                          Object {
-                            "textAlign": "center",
-                          },
+                          Object {},
                         ]
                       }
                     />
@@ -616,6 +616,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontWeight": "500",
                         },
                         Object {
+                          "marginVertical": 8,
                           "textAlign": "center",
                         },
                       ]
@@ -627,6 +628,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     style={
                       Object {
                         "justifyContent": "center",
+                        "marginTop": 8,
                       }
                     }
                   >
@@ -645,9 +647,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "lineHeight": 19.2,
                           },
                           Object {},
-                          Object {
-                            "textAlign": "center",
-                          },
+                          Object {},
                         ]
                       }
                     />
@@ -756,6 +756,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontWeight": "500",
                         },
                         Object {
+                          "marginVertical": 8,
                           "textAlign": "center",
                         },
                       ]
@@ -767,6 +768,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     style={
                       Object {
                         "justifyContent": "center",
+                        "marginTop": 8,
                       }
                     }
                   >
@@ -785,9 +787,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "lineHeight": 19.2,
                           },
                           Object {},
-                          Object {
-                            "textAlign": "center",
-                          },
+                          Object {},
                         ]
                       }
                     />
@@ -909,6 +909,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontWeight": "500",
                         },
                         Object {
+                          "marginVertical": 8,
                           "textAlign": "center",
                         },
                       ]
@@ -920,6 +921,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     style={
                       Object {
                         "justifyContent": "center",
+                        "marginTop": 8,
                       }
                     }
                   >
@@ -938,9 +940,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "lineHeight": 19.2,
                           },
                           Object {},
-                          Object {
-                            "textAlign": "center",
-                          },
+                          Object {},
                         ]
                       }
                     />
@@ -1051,6 +1051,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontWeight": "500",
                         },
                         Object {
+                          "marginVertical": 8,
                           "textAlign": "center",
                         },
                       ]
@@ -1062,6 +1063,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     style={
                       Object {
                         "justifyContent": "center",
+                        "marginTop": 8,
                       }
                     }
                   >
@@ -1080,9 +1082,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "lineHeight": 19.2,
                           },
                           Object {},
-                          Object {
-                            "textAlign": "center",
-                          },
+                          Object {},
                         ]
                       }
                     />
