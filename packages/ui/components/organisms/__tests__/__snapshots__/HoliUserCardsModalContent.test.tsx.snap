@@ -201,7 +201,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "lineHeight": 19.2,
                           },
                           Object {},
-                          Object {},
+                          Object {
+                            "textAlign": "center",
+                          },
                         ]
                       }
                     />
@@ -354,7 +356,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "lineHeight": 19.2,
                           },
                           Object {},
-                          Object {},
+                          Object {
+                            "textAlign": "center",
+                          },
                         ]
                       }
                     />
@@ -494,7 +498,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "lineHeight": 19.2,
                           },
                           Object {},
-                          Object {},
+                          Object {
+                            "textAlign": "center",
+                          },
                         ]
                       }
                     />
@@ -647,7 +653,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "lineHeight": 19.2,
                           },
                           Object {},
-                          Object {},
+                          Object {
+                            "textAlign": "center",
+                          },
                         ]
                       }
                     />
@@ -787,7 +795,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "lineHeight": 19.2,
                           },
                           Object {},
-                          Object {},
+                          Object {
+                            "textAlign": "center",
+                          },
                         ]
                       }
                     />
@@ -940,7 +950,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "lineHeight": 19.2,
                           },
                           Object {},
-                          Object {},
+                          Object {
+                            "textAlign": "center",
+                          },
                         ]
                       }
                     />
@@ -1082,7 +1094,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "lineHeight": 19.2,
                           },
                           Object {},
-                          Object {},
+                          Object {
+                            "textAlign": "center",
+                          },
                         ]
                       }
                     />
