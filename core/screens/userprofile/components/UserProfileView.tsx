@@ -27,14 +27,16 @@ const UserProfileView: React.VFC = () => {
         <View>
           <HoliUserAvatar
             imageSrc={user.avatar}
-            nameLabel={fullName}
+            label={fullName}
             initials={user.avatarLabel}
             defaultColor={user.avatarDefaultColor}
             size="large"
           />
         </View>
         <View style={styles.nameContainer}>
-          <HoliHeading testID="user-profile-full-name">{fullName}</HoliHeading>
+          <HoliHeading level="1" testID="user-profile-full-name">
+            {fullName}
+          </HoliHeading>
           <HoliText style={{ color: colors.fontColorGrey }}>
             {user.pronouns && `(${user.pronouns}) `}
             {user.location && `${user.location}`}
@@ -45,10 +47,16 @@ const UserProfileView: React.VFC = () => {
       <View style={{ flexDirection: 'row', marginTop: 16 }}>
         <HoliChip
           text={t('user.profileView.connect')}
+          label={t('user.profileView.connect')}
           style={{ marginRight: 8 }}
           fontStyle={{ color: colors.positivepurple }}
         />
-        <HoliChip text={t('user.profileView.message')} disabled={true} fontStyle={{ color: colors.positivepurple }} />
+        <HoliChip
+          text={t('user.profileView.message')}
+          label={t('user.profileView.message')}
+          disabled={true}
+          fontStyle={{ color: colors.positivepurple }}
+        />
       </View>
     </View>
   )

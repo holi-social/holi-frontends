@@ -83,7 +83,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
     <View style={styles.wrapper} testID={props?.testId || 'user-profile-edit-form'}>
       <HoliUserAvatar
         imageSrc={user.avatar}
-        nameLabel={user.firstName || ''}
+        label={user.firstName || ''}
         initials={user.avatarLabel || ''}
         defaultColor={user.avatarDefaultColor || '#FFAE86'}
         size="medium"
@@ -96,7 +96,8 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
       <ScrollView style={styles.scrollView}>
         <HoliTextInput
           value={firstName}
-          label={t('user.profileForm.firstName')}
+          inputLabel={t('user.profileForm.firstName')}
+          accessibilityLabel={t('user.profileForm.firstName')}
           placeholder={t('user.profileForm.firstNamePlaceholder')}
           maxNoOfCharacters={30}
           onChange={(text) => {
@@ -110,7 +111,8 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
         />
         <HoliTextInput
           value={lastName}
-          label={t('user.profileForm.lastName')}
+          inputLabel={t('user.profileForm.lastName')}
+          accessibilityLabel={t('user.profileForm.lastName')}
           placeholder={t('user.profileForm.lastNamePlaceholder')}
           maxNoOfCharacters={30}
           onChange={(text) => {
@@ -123,7 +125,8 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
         />
         <HoliTextInput
           value={aboutMe}
-          label={t('user.profileForm.aboutMe')}
+          inputLabel={t('user.profileForm.aboutMe')}
+          accessibilityLabel={t('user.profileForm.aboutMe')}
           placeholder={t('user.profileForm.aboutMePlaceholder')}
           onChange={(text) => setAboutMe(text)}
           noOfVisibleLines={5}
@@ -133,14 +136,16 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
         />
         <HoliTextInput
           value={pronouns}
-          label={t('user.profileForm.pronouns')}
+          inputLabel={t('user.profileForm.pronouns')}
+          accessibilityLabel={t('user.profileForm.pronouns')}
           placeholder={t('user.profileForm.pronounsPlaceholder')}
           onChange={(text) => setPronouns(text)}
           style={styles.input}
         />
         <HoliTextInput
           value={location}
-          label={t('user.profileForm.location')}
+          inputLabel={t('user.profileForm.location')}
+          accessibilityLabel={t('user.profileForm.location')}
           placeholder={t('user.profileForm.locationPlaceholder')}
           onChange={(text) => setLocation(text)}
           style={[styles.input, { paddingBottom: 100 }]}

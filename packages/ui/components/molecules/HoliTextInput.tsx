@@ -21,7 +21,8 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type HoliTextInputProps = {
-  label?: string
+  inputLabel?: string
+  accessibilityLabel: string
   value?: string
   placeholder?: string
   helperText?: string
@@ -50,6 +51,7 @@ const HoliTextInput = ({
   style = {},
   type,
   value,
+  inputLabel,
   ...props
 }: HoliTextInputProps) => {
   const dimensions = useWindowDimensions()
@@ -68,7 +70,7 @@ const HoliTextInput = ({
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: true,
-    accessibilityLabel: `${props?.label}`,
+    accessibilityLabel: props.accessibilityLabel,
     accessibilityAutoComplete: 'inline',
   }
 
@@ -100,7 +102,7 @@ const HoliTextInput = ({
   return (
     <View style={[styles.wrapper, inline ? styles.inline : styles.block, style]}>
       <View style={[styles.wrapperContainer, { maxWidth: dimensions.width }, inline ? styles.inline : styles.block]}>
-        {!!props?.label && (
+        {!!inputLabel && (
           <View style={[styles.labelWrapper, inline ? styles.inline : styles.block]}>
             <HoliText
               size="small"
@@ -111,7 +113,7 @@ const HoliTextInput = ({
                 hasValidationErrors ? styles.labelHasValidationErrors : {},
               ]}
             >
-              {props?.label}
+              {inputLabel}
             </HoliText>
           </View>
         )}
