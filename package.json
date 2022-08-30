@@ -17,7 +17,6 @@
     "**/@types/react": "17.0.2"
   },
   "scripts": {
-    "pretest": "yarn workspace @holi/ui run generate-style-vars",
     "mobile:dev": "yarn workspace @holi/mobile dev",
     "mobile:build_all": "yarn workspace @holi/mobile build_all",
     "mobile:build_android": "yarn workspace @holi/mobile build_android",

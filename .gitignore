@@ -11,5 +11,3 @@ build
 .holi-terraform.key
 .terraform*
 terraform*.log
-colors.ts
-variables.ts

@@ -21,7 +21,6 @@
     KEEP_ARTIFACTS: 'false'
   dependencies: [] # explicitly disable artifact usage
   script:
-    - 'yarn ui:generate-style-vars'
     - 'cd apps/mobile'
     - 'eas build --platform all --profile $BUILD_PROFILE --non-interactive'
     - 'export APK_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform android --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
