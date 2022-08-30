@@ -66,7 +66,7 @@ exports[`HoliAppSwiper renders correctly 1`] = `
             Array [
               Object {
                 "alignSelf": "center",
-                "borderColor": "#1b1d201a",
+                "borderColor": "#eff0f1",
                 "borderRadius": 16,
                 "borderWidth": 2,
                 "height": 64,
@@ -166,7 +166,7 @@ exports[`HoliAppSwiper renders correctly 1`] = `
             Array [
               Object {
                 "alignSelf": "center",
-                "borderColor": "#1b1d201a",
+                "borderColor": "#eff0f1",
                 "borderRadius": 16,
                 "borderWidth": 2,
                 "height": 64,
@@ -264,7 +264,7 @@ exports[`HoliAppSwiper renders correctly 1`] = `
             Array [
               Object {
                 "alignSelf": "center",
-                "borderColor": "#1b1d201a",
+                "borderColor": "#eff0f1",
                 "borderRadius": 16,
                 "borderWidth": 2,
                 "height": 64,
@@ -286,7 +286,7 @@ exports[`HoliAppSwiper renders correctly 1`] = `
                   "width": "100%",
                 },
                 Object {
-                  "backgroundColor": "#f5f5f5",
+                  "backgroundColor": "#eff0f1",
                 },
               ]
             }
@@ -364,7 +364,7 @@ exports[`HoliAppSwiper renders correctly 1`] = `
             Array [
               Object {
                 "alignSelf": "center",
-                "borderColor": "#1b1d201a",
+                "borderColor": "#eff0f1",
                 "borderRadius": 16,
                 "borderWidth": 2,
                 "height": 64,
@@ -464,7 +464,7 @@ exports[`HoliAppSwiper renders correctly 1`] = `
             Array [
               Object {
                 "alignSelf": "center",
-                "borderColor": "#1b1d201a",
+                "borderColor": "#eff0f1",
                 "borderRadius": 16,
                 "borderWidth": 2,
                 "height": 64,
@@ -484,7 +484,7 @@ exports[`HoliAppSwiper renders correctly 1`] = `
                   "width": "100%",
                 },
                 Object {
-                  "backgroundColor": "#767676",
+                  "backgroundColor": "#f7f6f3",
                 },
               ]
             }
@@ -560,7 +560,7 @@ exports[`HoliAppSwiper renders correctly 1`] = `
             Array [
               Object {
                 "alignSelf": "center",
-                "borderColor": "#1b1d201a",
+                "borderColor": "#eff0f1",
                 "borderRadius": 16,
                 "borderWidth": 2,
                 "height": 64,

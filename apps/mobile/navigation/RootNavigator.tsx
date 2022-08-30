@@ -5,13 +5,13 @@ import { StyleSheet } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import { Login } from '@holi/core/auth/screens/Login'
-import { Logout } from '@holi/core/auth/screens/Logout'
-import { Registration } from '@holi/core/auth/screens/Registration'
+import Login from '@holi/core/auth/screens/Login'
+import Logout from '@holi/core/auth/screens/Logout'
+import Registration from '@holi/core/auth/screens/Registration'
+import BackButton from '@holi/core/navigation/components/BackButton'
 import HeaderLeft from '@holi/core/navigation/components/HeaderLeft'
 import HeaderRight from '@holi/core/navigation/components/HeaderRight'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import Explore from '@holi/core/screens/Explore'
 import HomeFeed from '@holi/core/screens/HomeFeed'
 import Notifications from '@holi/core/screens/Notifications'
@@ -22,7 +22,6 @@ import UserProfile from '@holi/core/screens/userprofile/UserProfile'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type HomeStackScreens = {
@@ -52,36 +51,9 @@ const HomeStack = createNativeStackNavigator<HomeStackScreens>()
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
-const BackButton = () => {
-  const { navigateBack } = useRouting()
-  const { t } = useTranslation()
-  return (
-    <HoliButton
-      label={t('navigation.headerLeft.back')}
-      inline
-      transparent
-      onPress={() => navigateBack()}
-      style={{ paddingHorizontal: 0 }}
-    >
-      <HoliIcon icon="arrow-left-s" size={30} color={colors.softblack} />
-    </HoliButton>
-  )
-}
-
 const DownButton = () => {
-  const { navigateBack } = useRouting()
   const { t } = useTranslation()
-  return (
-    <HoliButton
-      label={t('navigation.closeWindow')}
-      inline
-      transparent
-      onPress={() => navigateBack()}
-      style={{ paddingHorizontal: 0 }}
-    >
-      <HoliIcon icon="arrow-down-s" size={30} color={colors.softblack} />
-    </HoliButton>
-  )
+  return <BackButton label={t('navigation.closeWindow')} icon="arrow-down-s" />
 }
 
 export const HomeStackNavigator: React.VFC = () => {
@@ -193,6 +165,7 @@ export const BottomTabsNavigator: React.VFC = () => {
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="home-smile-2" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
+          tabBarTestID: 'nav-button-home',
         }}
       />
       <BottomTabs.Screen
@@ -236,50 +209,54 @@ export const BottomTabsNavigator: React.VFC = () => {
   )
 }
 
-const RootNavigator: React.VFC = () => (
-  <RootStack.Navigator
-    initialRouteName="Core"
-    screenOptions={{
-      headerShown: false,
-    }}
-  >
-    <RootStack.Screen name="Core" component={BottomTabsNavigator} />
-    <RootStack.Screen name="VolunteeringApp" component={VolunteeringAppNavigator} />
-    {/* modals are only correctly rendered on android when in root navigator */}
-    <RootStack.Group
+const RootNavigator: React.VFC = () => {
+  const { t } = useTranslation()
+
+  return (
+    <RootStack.Navigator
+      initialRouteName="Core"
       screenOptions={{
-        presentation: 'modal',
-        animation: 'slide_from_bottom',
-        headerShown: true,
-        headerTitleAlign: 'center',
-        headerBackVisible: false,
-        headerBackTitleVisible: false,
-        headerLeft: DownButton,
+        headerShown: false,
       }}
     >
-      <RootStack.Screen
-        name="Login"
-        component={Login}
-        options={{
-          title: 'Login',
+      <RootStack.Screen name="Core" component={BottomTabsNavigator} />
+      <RootStack.Screen name="VolunteeringApp" component={VolunteeringAppNavigator} />
+      {/* modals are only correctly rendered on android when in root navigator */}
+      <RootStack.Group
+        screenOptions={{
+          presentation: 'modal',
+          animation: 'slide_from_bottom',
+          headerShown: true,
+          headerTitleAlign: 'center',
+          headerBackVisible: false,
+          headerBackTitleVisible: false,
+          headerLeft: DownButton,
         }}
-      />
-      <RootStack.Screen
-        name="Logout"
-        component={Logout}
-        options={{
-          title: 'Logout',
-        }}
-      />
-      <RootStack.Screen
-        name="Registration"
-        component={Registration}
-        options={{
-          title: 'Registration',
-        }}
-      />
-    </RootStack.Group>
-  </RootStack.Navigator>
-)
+      >
+        <RootStack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            title: t('auth.login'),
+          }}
+        />
+        <RootStack.Screen
+          name="Logout"
+          component={Logout}
+          options={{
+            title: t('auth.logout'),
+          }}
+        />
+        <RootStack.Screen
+          name="Registration"
+          component={Registration}
+          options={{
+            title: t('auth.register'),
+          }}
+        />
+      </RootStack.Group>
+    </RootStack.Navigator>
+  )
+}
 
 export default RootNavigator

@@ -3,21 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "codeceptjs": "codeceptjs run --steps",
-    "codeceptjs:ios": "CODECEPT_TARGET=local CODECEPT_PLATFORM=ios LOCAL_IOS_SIMULATOR_UDID=$(xcrun simctl list devices | grep \"(Booted)\" | grep -E -o -i \"([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})\") codeceptjs run --steps",
-    "codeceptjs:android": "CODECEPT_TARGET=local CODECEPT_PLATFORM=android codeceptjs run --steps",
-    "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
-    "codeceptjs:ui": "codecept-ui --app",
+    "test": "jest --runInBand",
+    "test:ios": "APPIUM_TARGET=local APPIUM_PLATFORM=ios LOCAL_IOS_SIMULATOR_UDID=$(xcrun simctl list devices | grep \"(Booted)\" | grep -E -o -i \"([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})\") yarn run test",
+    "test:android": "APPIUM_TARGET=local APPIUM_PLATFORM=android yarn run test",
+    "lint": "TIMING=1 eslint .",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json}\"",
     "clean": "rimraf output",
     "clean:all": "yarn clean && rimraf node_modules",
-    "prepare:android": "./scripts/run_android.sh"
-  },
-  "dependencies": {
-    "codeceptjs": "^3.3.4",
-    "wd": "^1.14.0",
-    "webdriverio": "^7.16.16"
+    "prepare:android": "./scripts/prepare_android.sh"
   },
   "devDependencies": {
-    "ts-node": "^10.9.1"
+    "webdriverio": "^7.16.16"
   }
 }

@@ -32,94 +32,74 @@ exports[`renders correctly when disabled 1`] = `
     }
   >
     <View
-      accessible={true}
-      collapsable={false}
-      focusable={false}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         Array [
-          Object {},
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#fff",
+            "borderColor": "#eff0f1",
+            "borderRadius": 4,
+            "borderWidth": 2,
+            "flexDirection": "row",
+          },
+          Object {
+            "alignSelf": "stretch",
+            "width": "100%",
+          },
+          false,
+          false,
+          Object {
+            "backgroundColor": "#f7f6f3",
+            "borderColor": "#eff0f1",
+          },
+          false,
         ]
       }
     >
-      <View
+      <TextInput
+        accessibilityAutoComplete="inline"
+        accessibilityLabel="accessibility label"
+        accessible={true}
+        autoCapitalize="none"
+        autoComplete="off"
+        autoCorrect={false}
+        blurOnSubmit={true}
+        editable={false}
+        keyboardType="default"
+        maxLength={5000}
+        multiline={false}
+        numberOfLines={1}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onContentSizeChange={[Function]}
+        onFocus={[Function]}
+        placeholder="Placeholder"
+        placeholderTextColor="#c0c1c9"
+        secureTextEntry={false}
         style={
           Array [
             Object {
-              "alignItems": "center",
-              "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
-              "borderRadius": 4,
-              "borderWidth": 2,
-              "flexDirection": "row",
+              "color": "#222326",
+              "flex": 1,
+              "fontFamily": "Circular Std Book",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 22.4,
+              "overflow": "scroll",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             Object {
               "alignSelf": "stretch",
               "width": "100%",
             },
-            undefined,
-            false,
             Object {
-              "backgroundColor": "#f5f5f5",
-              "borderColor": "#eff0f1",
+              "height": 52.4,
             },
-            false,
           ]
         }
-      >
-        <TextInput
-          accessibilityAutoComplete="inline"
-          accessibilityLabel="accessibility label"
-          accessible={true}
-          autoCapitalize="none"
-          autoComplete="off"
-          autoCorrect={false}
-          blurOnSubmit={true}
-          editable={false}
-          keyboardType="default"
-          maxLength={5000}
-          multiline={false}
-          numberOfLines={1}
-          onBlur={[Function]}
-          onChange={[Function]}
-          onContentSizeChange={[Function]}
-          onFocus={[Function]}
-          placeholder="Placeholder"
-          placeholderTextColor="#1b1d201a"
-          secureTextEntry={false}
-          style={
-            Array [
-              Object {
-                "color": "#222326",
-                "flex": 1,
-                "fontFamily": "Circular Std Book",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "overflow": "scroll",
-                "paddingHorizontal": 10,
-                "paddingVertical": 15,
-              },
-              Object {
-                "alignSelf": "stretch",
-                "width": "100%",
-              },
-              Object {
-                "height": 52.4,
-              },
-            ]
-          }
-          testID="holi-text-input"
-        />
-      </View>
+        testID="holi-text-input"
+      />
     </View>
     <View
       style={
@@ -151,7 +131,7 @@ exports[`renders correctly when disabled 1`] = `
             Object {},
             Array [
               Object {
-                "color": "#595959",
+                "color": "#6f7081",
               },
               Object {},
             ],
@@ -198,91 +178,71 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
     }
   >
     <View
-      accessible={true}
-      collapsable={false}
-      focusable={false}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         Array [
-          Object {},
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#fff",
+            "borderColor": "#eff0f1",
+            "borderRadius": 4,
+            "borderWidth": 2,
+            "flexDirection": "row",
+          },
+          Object {
+            "alignSelf": "stretch",
+            "width": "100%",
+          },
+          false,
+          false,
+          undefined,
+          false,
         ]
       }
     >
-      <View
+      <TextInput
+        accessibilityAutoComplete="inline"
+        accessibilityLabel="accessibility label"
+        accessible={true}
+        autoCapitalize="none"
+        autoComplete="off"
+        autoCorrect={false}
+        blurOnSubmit={true}
+        editable={true}
+        keyboardType="default"
+        maxLength={5000}
+        multiline={true}
+        numberOfLines={2}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onContentSizeChange={[Function]}
+        onFocus={[Function]}
+        placeholder="Placeholder"
+        placeholderTextColor="#c0c1c9"
+        secureTextEntry={false}
         style={
           Array [
             Object {
-              "alignItems": "center",
-              "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
-              "borderRadius": 4,
-              "borderWidth": 2,
-              "flexDirection": "row",
+              "color": "#222326",
+              "flex": 1,
+              "fontFamily": "Circular Std Book",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 22.4,
+              "overflow": "scroll",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             Object {
               "alignSelf": "stretch",
               "width": "100%",
             },
-            undefined,
-            false,
-            undefined,
-            false,
+            Object {
+              "height": 74.8,
+            },
           ]
         }
-      >
-        <TextInput
-          accessibilityAutoComplete="inline"
-          accessibilityLabel="accessibility label"
-          accessible={true}
-          autoCapitalize="none"
-          autoComplete="off"
-          autoCorrect={false}
-          blurOnSubmit={true}
-          editable={true}
-          keyboardType="default"
-          maxLength={5000}
-          multiline={true}
-          numberOfLines={2}
-          onBlur={[Function]}
-          onChange={[Function]}
-          onContentSizeChange={[Function]}
-          onFocus={[Function]}
-          placeholder="Placeholder"
-          placeholderTextColor="#1b1d201a"
-          secureTextEntry={false}
-          style={
-            Array [
-              Object {
-                "color": "#222326",
-                "flex": 1,
-                "fontFamily": "Circular Std Book",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "overflow": "scroll",
-                "paddingHorizontal": 10,
-                "paddingVertical": 15,
-              },
-              Object {
-                "alignSelf": "stretch",
-                "width": "100%",
-              },
-              Object {
-                "height": 74.8,
-              },
-            ]
-          }
-          testID="holi-text-input"
-        />
-      </View>
+        testID="holi-text-input"
+      />
     </View>
     <View
       style={
@@ -314,7 +274,7 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
             Object {},
             Array [
               Object {
-                "color": "#595959",
+                "color": "#6f7081",
               },
               Object {},
             ],
@@ -361,91 +321,71 @@ exports[`renders correctly when multiline starting with one line 1`] = `
     }
   >
     <View
-      accessible={true}
-      collapsable={false}
-      focusable={false}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         Array [
-          Object {},
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#fff",
+            "borderColor": "#eff0f1",
+            "borderRadius": 4,
+            "borderWidth": 2,
+            "flexDirection": "row",
+          },
+          Object {
+            "alignSelf": "stretch",
+            "width": "100%",
+          },
+          false,
+          false,
+          undefined,
+          false,
         ]
       }
     >
-      <View
+      <TextInput
+        accessibilityAutoComplete="inline"
+        accessibilityLabel="accessibility label"
+        accessible={true}
+        autoCapitalize="none"
+        autoComplete="off"
+        autoCorrect={false}
+        blurOnSubmit={true}
+        editable={true}
+        keyboardType="default"
+        maxLength={5000}
+        multiline={true}
+        numberOfLines={1}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onContentSizeChange={[Function]}
+        onFocus={[Function]}
+        placeholder="Placeholder"
+        placeholderTextColor="#c0c1c9"
+        secureTextEntry={false}
         style={
           Array [
             Object {
-              "alignItems": "center",
-              "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
-              "borderRadius": 4,
-              "borderWidth": 2,
-              "flexDirection": "row",
+              "color": "#222326",
+              "flex": 1,
+              "fontFamily": "Circular Std Book",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 22.4,
+              "overflow": "scroll",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             Object {
               "alignSelf": "stretch",
               "width": "100%",
             },
-            undefined,
-            false,
-            undefined,
-            false,
+            Object {
+              "height": 52.4,
+            },
           ]
         }
-      >
-        <TextInput
-          accessibilityAutoComplete="inline"
-          accessibilityLabel="accessibility label"
-          accessible={true}
-          autoCapitalize="none"
-          autoComplete="off"
-          autoCorrect={false}
-          blurOnSubmit={true}
-          editable={true}
-          keyboardType="default"
-          maxLength={5000}
-          multiline={true}
-          numberOfLines={1}
-          onBlur={[Function]}
-          onChange={[Function]}
-          onContentSizeChange={[Function]}
-          onFocus={[Function]}
-          placeholder="Placeholder"
-          placeholderTextColor="#1b1d201a"
-          secureTextEntry={false}
-          style={
-            Array [
-              Object {
-                "color": "#222326",
-                "flex": 1,
-                "fontFamily": "Circular Std Book",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "overflow": "scroll",
-                "paddingHorizontal": 10,
-                "paddingVertical": 15,
-              },
-              Object {
-                "alignSelf": "stretch",
-                "width": "100%",
-              },
-              Object {
-                "height": 52.4,
-              },
-            ]
-          }
-          testID="holi-text-input"
-        />
-      </View>
+        testID="holi-text-input"
+      />
     </View>
     <View
       style={
@@ -477,7 +417,7 @@ exports[`renders correctly when multiline starting with one line 1`] = `
             Object {},
             Array [
               Object {
-                "color": "#595959",
+                "color": "#6f7081",
               },
               Object {},
             ],
@@ -565,89 +505,69 @@ exports[`renders correctly with default props 1`] = `
       </Text>
     </View>
     <View
-      accessible={true}
-      collapsable={false}
-      focusable={false}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         Array [
-          Object {},
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#fff",
+            "borderColor": "#eff0f1",
+            "borderRadius": 4,
+            "borderWidth": 2,
+            "flexDirection": "row",
+          },
+          Object {
+            "maxWidth": "100%",
+          },
+          false,
+          false,
+          undefined,
+          false,
         ]
       }
     >
-      <View
+      <TextInput
+        accessibilityAutoComplete="inline"
+        accessibilityLabel="accessibility label"
+        accessible={true}
+        autoCapitalize="none"
+        autoComplete="off"
+        autoCorrect={false}
+        blurOnSubmit={true}
+        editable={true}
+        keyboardType="default"
+        maxLength={50}
+        multiline={false}
+        numberOfLines={1}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onContentSizeChange={[Function]}
+        onFocus={[Function]}
+        placeholder="Placeholder"
+        placeholderTextColor="#c0c1c9"
+        secureTextEntry={false}
         style={
           Array [
             Object {
-              "alignItems": "center",
-              "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
-              "borderRadius": 4,
-              "borderWidth": 2,
-              "flexDirection": "row",
+              "color": "#222326",
+              "flex": 1,
+              "fontFamily": "Circular Std Book",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 22.4,
+              "overflow": "scroll",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             Object {
               "maxWidth": "100%",
             },
-            undefined,
-            false,
-            undefined,
-            false,
+            Object {
+              "height": 52.4,
+            },
           ]
         }
-      >
-        <TextInput
-          accessibilityAutoComplete="inline"
-          accessibilityLabel="accessibility label"
-          accessible={true}
-          autoCapitalize="none"
-          autoComplete="off"
-          autoCorrect={false}
-          blurOnSubmit={true}
-          editable={true}
-          keyboardType="default"
-          maxLength={50}
-          multiline={false}
-          numberOfLines={1}
-          onBlur={[Function]}
-          onChange={[Function]}
-          onContentSizeChange={[Function]}
-          onFocus={[Function]}
-          placeholder="Placeholder"
-          placeholderTextColor="#1b1d201a"
-          secureTextEntry={false}
-          style={
-            Array [
-              Object {
-                "color": "#222326",
-                "flex": 1,
-                "fontFamily": "Circular Std Book",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "overflow": "scroll",
-                "paddingHorizontal": 10,
-                "paddingVertical": 15,
-              },
-              Object {
-                "maxWidth": "100%",
-              },
-              Object {
-                "height": 52.4,
-              },
-            ]
-          }
-          testID="holi-text-input"
-        />
-      </View>
+        testID="holi-text-input"
+      />
     </View>
     <View
       style={
@@ -678,7 +598,7 @@ exports[`renders correctly with default props 1`] = `
             Object {},
             Array [
               Object {
-                "color": "#595959",
+                "color": "#6f7081",
               },
               Object {},
             ],
@@ -771,167 +691,147 @@ exports[`renders correctly with error 1`] = `
       </Text>
     </View>
     <View
-      accessible={true}
-      collapsable={false}
-      focusable={false}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         Array [
-          Object {},
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#fff",
+            "borderColor": "#eff0f1",
+            "borderRadius": 4,
+            "borderWidth": 2,
+            "flexDirection": "row",
+          },
+          Object {
+            "alignSelf": "stretch",
+            "width": "100%",
+          },
+          false,
+          false,
+          undefined,
+          Object {
+            "borderColor": "#ee0004",
+          },
         ]
       }
     >
-      <View
+      <TextInput
+        accessibilityAutoComplete="inline"
+        accessibilityLabel="accessibility label"
+        accessible={true}
+        autoCapitalize="none"
+        autoComplete="off"
+        autoCorrect={false}
+        blurOnSubmit={true}
+        editable={true}
+        keyboardType="default"
+        maxLength={5000}
+        multiline={false}
+        numberOfLines={1}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onContentSizeChange={[Function]}
+        onFocus={[Function]}
+        placeholder="Placeholder"
+        placeholderTextColor="#c0c1c9"
+        secureTextEntry={false}
         style={
           Array [
             Object {
-              "alignItems": "center",
-              "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
-              "borderRadius": 4,
-              "borderWidth": 2,
-              "flexDirection": "row",
+              "color": "#222326",
+              "flex": 1,
+              "fontFamily": "Circular Std Book",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 22.4,
+              "overflow": "scroll",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             Object {
               "alignSelf": "stretch",
               "width": "100%",
             },
-            undefined,
-            false,
-            undefined,
             Object {
-              "borderColor": "#ee0004",
+              "height": 52.4,
+            },
+          ]
+        }
+        testID="holi-text-input"
+      />
+      <View
+        style={
+          Array [
+            Object {
+              "height": 22,
+              "justifyContent": "center",
+              "marginRight": 12,
+              "width": 22,
+            },
+            Object {
+              "width": 16,
             },
           ]
         }
       >
-        <TextInput
-          accessibilityAutoComplete="inline"
-          accessibilityLabel="accessibility label"
-          accessible={true}
-          autoCapitalize="none"
-          autoComplete="off"
-          autoCorrect={false}
-          blurOnSubmit={true}
-          editable={true}
-          keyboardType="default"
-          maxLength={5000}
-          multiline={false}
-          numberOfLines={1}
-          onBlur={[Function]}
-          onChange={[Function]}
-          onContentSizeChange={[Function]}
-          onFocus={[Function]}
-          placeholder="Placeholder"
-          placeholderTextColor="#1b1d201a"
-          secureTextEntry={false}
+        <RNSVGSvgView
+          align="xMidYMid"
+          bbHeight={16}
+          bbWidth={16}
+          color={4293787652}
+          focusable={false}
+          meetOrSlice={0}
+          minX={0}
+          minY={0}
           style={
             Array [
               Object {
-                "color": "#222326",
-                "flex": 1,
-                "fontFamily": "Circular Std Book",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "overflow": "scroll",
-                "paddingHorizontal": 10,
-                "paddingVertical": 15,
+                "backgroundColor": "transparent",
+                "borderWidth": 0,
               },
               Object {
-                "alignSelf": "stretch",
-                "width": "100%",
+                "color": "#ee0004",
+                "display": "flex",
+                "fill": "currentColor",
+                "flexDirection": "row",
+                "flexWrap": "wrap",
+                "height": 16,
+                "stroke": "currentColor",
+                "width": 16,
               },
               Object {
-                "height": 52.4,
-              },
-            ]
-          }
-          testID="holi-text-input"
-        />
-        <View
-          style={
-            Array [
-              Object {
-                "height": 22,
-                "justifyContent": "center",
-                "marginRight": 12,
-                "width": 22,
-              },
-              Object {
+                "flex": 0,
+                "height": 16,
                 "width": 16,
               },
             ]
           }
+          tintColor={4293787652}
+          vbHeight={1024}
+          vbWidth={1024}
         >
-          <RNSVGSvgView
-            align="xMidYMid"
-            bbHeight={16}
-            bbWidth={16}
-            color={4293787652}
-            focusable={false}
-            meetOrSlice={0}
-            minX={0}
-            minY={0}
-            style={
+          <RNSVGGroup
+            fill={
               Array [
-                Object {
-                  "backgroundColor": "transparent",
-                  "borderWidth": 0,
-                },
-                Object {
-                  "color": "#ee0004",
-                  "display": "flex",
-                  "fill": "currentColor",
-                  "flexDirection": "row",
-                  "flexWrap": "wrap",
-                  "height": 16,
-                  "stroke": "currentColor",
-                  "width": 16,
-                },
-                Object {
-                  "flex": 0,
-                  "height": 16,
-                  "width": 16,
-                },
+                2,
               ]
             }
-            tintColor={4293787652}
-            vbHeight={1024}
-            vbWidth={1024}
+            propList={
+              Array [
+                "fill",
+                "stroke",
+              ]
+            }
+            stroke={
+              Array [
+                2,
+              ]
+            }
           >
-            <RNSVGGroup
-              fill={
-                Array [
-                  2,
-                ]
-              }
-              propList={
-                Array [
-                  "fill",
-                  "stroke",
-                ]
-              }
-              stroke={
-                Array [
-                  2,
-                ]
-              }
-            >
-              <RNSVGPath
-                d="M512 938.667c-235.648 0-426.667-191.019-426.667-426.667s191.019-426.667 426.667-426.667c235.648 0 426.667 191.019 426.667 426.667s-191.019 426.667-426.667 426.667zM469.333 640v85.333h85.333v-85.333h-85.333zM469.333 298.667v256h85.333v-256h-85.333z"
-              />
-            </RNSVGGroup>
-          </RNSVGSvgView>
-        </View>
+            <RNSVGPath
+              d="M512 938.667c-235.648 0-426.667-191.019-426.667-426.667s191.019-426.667 426.667-426.667c235.648 0 426.667 191.019 426.667 426.667s-191.019 426.667-426.667 426.667zM469.333 640v85.333h85.333v-85.333h-85.333zM469.333 298.667v256h85.333v-256h-85.333z"
+            />
+          </RNSVGGroup>
+        </RNSVGSvgView>
       </View>
     </View>
     <View
@@ -964,7 +864,7 @@ exports[`renders correctly with error 1`] = `
             Object {},
             Array [
               Object {
-                "color": "#595959",
+                "color": "#6f7081",
               },
               Object {
                 "color": "#ee0004",
@@ -1013,163 +913,143 @@ exports[`renders correctly with trailing icon 1`] = `
     }
   >
     <View
-      accessible={true}
-      collapsable={false}
-      focusable={false}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         Array [
-          Object {},
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#fff",
+            "borderColor": "#eff0f1",
+            "borderRadius": 4,
+            "borderWidth": 2,
+            "flexDirection": "row",
+          },
+          Object {
+            "alignSelf": "stretch",
+            "width": "100%",
+          },
+          false,
+          false,
+          undefined,
+          false,
         ]
       }
     >
-      <View
+      <TextInput
+        accessibilityAutoComplete="inline"
+        accessibilityLabel="accessibility label"
+        accessible={true}
+        autoCapitalize="none"
+        autoComplete="off"
+        autoCorrect={false}
+        blurOnSubmit={true}
+        editable={true}
+        keyboardType="default"
+        maxLength={5000}
+        multiline={false}
+        numberOfLines={1}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onContentSizeChange={[Function]}
+        onFocus={[Function]}
+        placeholder="Placeholder"
+        placeholderTextColor="#c0c1c9"
+        secureTextEntry={false}
         style={
           Array [
             Object {
-              "alignItems": "center",
-              "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
-              "borderRadius": 4,
-              "borderWidth": 2,
-              "flexDirection": "row",
+              "color": "#222326",
+              "flex": 1,
+              "fontFamily": "Circular Std Book",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 22.4,
+              "overflow": "scroll",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             Object {
               "alignSelf": "stretch",
               "width": "100%",
             },
-            undefined,
-            false,
-            undefined,
+            Object {
+              "height": 52.4,
+            },
+          ]
+        }
+        testID="holi-text-input"
+      />
+      <View
+        style={
+          Array [
+            Object {
+              "height": 22,
+              "justifyContent": "center",
+              "marginRight": 12,
+              "width": 22,
+            },
             false,
           ]
         }
       >
-        <TextInput
-          accessibilityAutoComplete="inline"
-          accessibilityLabel="accessibility label"
-          accessible={true}
-          autoCapitalize="none"
-          autoComplete="off"
-          autoCorrect={false}
-          blurOnSubmit={true}
-          editable={true}
-          keyboardType="default"
-          maxLength={5000}
-          multiline={false}
-          numberOfLines={1}
-          onBlur={[Function]}
-          onChange={[Function]}
-          onContentSizeChange={[Function]}
-          onFocus={[Function]}
-          placeholder="Placeholder"
-          placeholderTextColor="#1b1d201a"
-          secureTextEntry={false}
+        <RNSVGSvgView
+          align="xMidYMid"
+          bbHeight={22}
+          bbWidth={22}
+          color={4293914865}
+          focusable={false}
+          meetOrSlice={0}
+          minX={0}
+          minY={0}
           style={
             Array [
               Object {
-                "color": "#222326",
-                "flex": 1,
-                "fontFamily": "Circular Std Book",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "overflow": "scroll",
-                "paddingHorizontal": 10,
-                "paddingVertical": 15,
+                "backgroundColor": "transparent",
+                "borderWidth": 0,
               },
               Object {
-                "alignSelf": "stretch",
-                "width": "100%",
-              },
-              Object {
-                "height": 52.4,
-              },
-            ]
-          }
-          testID="holi-text-input"
-        />
-        <View
-          style={
-            Array [
-              Object {
+                "color": "#eff0f1",
+                "display": "flex",
+                "fill": "currentColor",
+                "flexDirection": "row",
+                "flexWrap": "wrap",
                 "height": 22,
-                "justifyContent": "center",
-                "marginRight": 12,
+                "stroke": "currentColor",
                 "width": 22,
               },
-              false,
+              Object {
+                "flex": 0,
+                "height": 22,
+                "width": 22,
+              },
             ]
           }
+          tintColor={4293914865}
+          vbHeight={1024}
+          vbWidth={1024}
         >
-          <RNSVGSvgView
-            align="xMidYMid"
-            bbHeight={22}
-            bbWidth={22}
-            color={4293914865}
-            focusable={false}
-            meetOrSlice={0}
-            minX={0}
-            minY={0}
-            style={
+          <RNSVGGroup
+            fill={
               Array [
-                Object {
-                  "backgroundColor": "transparent",
-                  "borderWidth": 0,
-                },
-                Object {
-                  "color": "#eff0f1",
-                  "display": "flex",
-                  "fill": "currentColor",
-                  "flexDirection": "row",
-                  "flexWrap": "wrap",
-                  "height": 22,
-                  "stroke": "currentColor",
-                  "width": 22,
-                },
-                Object {
-                  "flex": 0,
-                  "height": 22,
-                  "width": 22,
-                },
+                2,
               ]
             }
-            tintColor={4293914865}
-            vbHeight={1024}
-            vbWidth={1024}
+            propList={
+              Array [
+                "fill",
+                "stroke",
+              ]
+            }
+            stroke={
+              Array [
+                2,
+              ]
+            }
           >
-            <RNSVGGroup
-              fill={
-                Array [
-                  2,
-                ]
-              }
-              propList={
-                Array [
-                  "fill",
-                  "stroke",
-                ]
-              }
-              stroke={
-                Array [
-                  2,
-                ]
-              }
-            >
-              <RNSVGPath
-                d="M769.323 708.992l182.741 182.699-60.373 60.373-182.699-182.741c-67.981 54.494-152.533 84.134-239.659 84.011-211.968 0-384-172.032-384-384s172.032-384 384-384c211.968 0 384 172.032 384 384 0.124 87.125-29.517 171.678-84.011 239.659zM683.733 677.333c54.148-55.684 84.39-130.33 84.267-208 0-165.035-133.675-298.667-298.667-298.667-165.035 0-298.667 133.632-298.667 298.667 0 164.992 133.632 298.667 298.667 298.667 77.67 0.124 152.316-30.118 208-84.267l6.4-6.4z"
-              />
-            </RNSVGGroup>
-          </RNSVGSvgView>
-        </View>
+            <RNSVGPath
+              d="M769.323 708.992l182.741 182.699-60.373 60.373-182.699-182.741c-67.981 54.494-152.533 84.134-239.659 84.011-211.968 0-384-172.032-384-384s172.032-384 384-384c211.968 0 384 172.032 384 384 0.124 87.125-29.517 171.678-84.011 239.659zM683.733 677.333c54.148-55.684 84.39-130.33 84.267-208 0-165.035-133.675-298.667-298.667-298.667-165.035 0-298.667 133.632-298.667 298.667 0 164.992 133.632 298.667 298.667 298.667 77.67 0.124 152.316-30.118 208-84.267l6.4-6.4z"
+            />
+          </RNSVGGroup>
+        </RNSVGSvgView>
       </View>
     </View>
     <View
@@ -1202,7 +1082,7 @@ exports[`renders correctly with trailing icon 1`] = `
             Object {},
             Array [
               Object {
-                "color": "#595959",
+                "color": "#6f7081",
               },
               Object {},
             ],
@@ -1249,92 +1129,72 @@ exports[`renders correctly with type password 1`] = `
     }
   >
     <View
-      accessible={true}
-      collapsable={false}
-      focusable={false}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         Array [
-          Object {},
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#fff",
+            "borderColor": "#eff0f1",
+            "borderRadius": 4,
+            "borderWidth": 2,
+            "flexDirection": "row",
+          },
+          Object {
+            "alignSelf": "stretch",
+            "width": "100%",
+          },
+          false,
+          false,
+          undefined,
+          false,
         ]
       }
     >
-      <View
+      <TextInput
+        accessibilityAutoComplete="inline"
+        accessibilityLabel="accessibility label"
+        accessible={true}
+        autoCapitalize="none"
+        autoComplete="current-password"
+        autoCorrect={false}
+        blurOnSubmit={true}
+        editable={true}
+        keyboardType="default"
+        maxLength={5000}
+        multiline={false}
+        numberOfLines={1}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onContentSizeChange={[Function]}
+        onFocus={[Function]}
+        placeholder="Placeholder"
+        placeholderTextColor="#c0c1c9"
+        secureTextEntry={true}
         style={
           Array [
             Object {
-              "alignItems": "center",
-              "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
-              "borderRadius": 4,
-              "borderWidth": 2,
-              "flexDirection": "row",
+              "color": "#222326",
+              "flex": 1,
+              "fontFamily": "Circular Std Book",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 22.4,
+              "overflow": "scroll",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             Object {
               "alignSelf": "stretch",
               "width": "100%",
             },
-            undefined,
-            false,
-            undefined,
-            false,
+            Object {
+              "height": 52.4,
+            },
           ]
         }
-      >
-        <TextInput
-          accessibilityAutoComplete="inline"
-          accessibilityLabel="accessibility label"
-          accessible={true}
-          autoCapitalize="none"
-          autoComplete="current-password"
-          autoCorrect={false}
-          blurOnSubmit={true}
-          editable={true}
-          keyboardType="default"
-          maxLength={5000}
-          multiline={false}
-          numberOfLines={1}
-          onBlur={[Function]}
-          onChange={[Function]}
-          onContentSizeChange={[Function]}
-          onFocus={[Function]}
-          placeholder="Placeholder"
-          placeholderTextColor="#1b1d201a"
-          secureTextEntry={true}
-          style={
-            Array [
-              Object {
-                "color": "#222326",
-                "flex": 1,
-                "fontFamily": "Circular Std Book",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "overflow": "scroll",
-                "paddingHorizontal": 10,
-                "paddingVertical": 15,
-              },
-              Object {
-                "alignSelf": "stretch",
-                "width": "100%",
-              },
-              Object {
-                "height": 52.4,
-              },
-            ]
-          }
-          testID="holi-text-input"
-          textContentType="password"
-        />
-      </View>
+        testID="holi-text-input"
+        textContentType="password"
+      />
     </View>
     <View
       style={
@@ -1366,7 +1226,7 @@ exports[`renders correctly with type password 1`] = `
             Object {},
             Array [
               Object {
-                "color": "#595959",
+                "color": "#6f7081",
               },
               Object {},
             ],
@@ -1413,91 +1273,71 @@ exports[`renders correctly without label 1`] = `
     }
   >
     <View
-      accessible={true}
-      collapsable={false}
-      focusable={false}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         Array [
-          Object {},
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#fff",
+            "borderColor": "#eff0f1",
+            "borderRadius": 4,
+            "borderWidth": 2,
+            "flexDirection": "row",
+          },
+          Object {
+            "alignSelf": "stretch",
+            "width": "100%",
+          },
+          false,
+          false,
+          undefined,
+          false,
         ]
       }
     >
-      <View
+      <TextInput
+        accessibilityAutoComplete="inline"
+        accessibilityLabel="accessibility label"
+        accessible={true}
+        autoCapitalize="none"
+        autoComplete="off"
+        autoCorrect={false}
+        blurOnSubmit={true}
+        editable={true}
+        keyboardType="default"
+        maxLength={5000}
+        multiline={false}
+        numberOfLines={1}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onContentSizeChange={[Function]}
+        onFocus={[Function]}
+        placeholder="Placeholder"
+        placeholderTextColor="#c0c1c9"
+        secureTextEntry={false}
         style={
           Array [
             Object {
-              "alignItems": "center",
-              "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
-              "borderRadius": 4,
-              "borderWidth": 2,
-              "flexDirection": "row",
+              "color": "#222326",
+              "flex": 1,
+              "fontFamily": "Circular Std Book",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 22.4,
+              "overflow": "scroll",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             Object {
               "alignSelf": "stretch",
               "width": "100%",
             },
-            undefined,
-            false,
-            undefined,
-            false,
+            Object {
+              "height": 52.4,
+            },
           ]
         }
-      >
-        <TextInput
-          accessibilityAutoComplete="inline"
-          accessibilityLabel="accessibility label"
-          accessible={true}
-          autoCapitalize="none"
-          autoComplete="off"
-          autoCorrect={false}
-          blurOnSubmit={true}
-          editable={true}
-          keyboardType="default"
-          maxLength={5000}
-          multiline={false}
-          numberOfLines={1}
-          onBlur={[Function]}
-          onChange={[Function]}
-          onContentSizeChange={[Function]}
-          onFocus={[Function]}
-          placeholder="Placeholder"
-          placeholderTextColor="#1b1d201a"
-          secureTextEntry={false}
-          style={
-            Array [
-              Object {
-                "color": "#222326",
-                "flex": 1,
-                "fontFamily": "Circular Std Book",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "overflow": "scroll",
-                "paddingHorizontal": 10,
-                "paddingVertical": 15,
-              },
-              Object {
-                "alignSelf": "stretch",
-                "width": "100%",
-              },
-              Object {
-                "height": 52.4,
-              },
-            ]
-          }
-          testID="holi-text-input"
-        />
-      </View>
+        testID="holi-text-input"
+      />
     </View>
     <View
       style={
@@ -1529,7 +1369,7 @@ exports[`renders correctly without label 1`] = `
             Object {},
             Array [
               Object {
-                "color": "#595959",
+                "color": "#6f7081",
               },
               Object {},
             ],

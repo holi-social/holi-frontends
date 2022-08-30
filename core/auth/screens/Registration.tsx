@@ -11,13 +11,10 @@ import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { displayError } from '@holi/core/errors/helpers'
 import { useSafeDispatch } from '@holi/core/helpers'
+import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 const Registration: React.VFC = () => {
-  const { navigateBack } = useRouting()
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { setUserLoggedIn, isLoggedIn } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
@@ -44,17 +41,7 @@ const Registration: React.VFC = () => {
   useLayoutEffect(
     () => {
       setNavigationHeader({
-        headerLeft: () => (
-          <HoliButton
-            label={t('navigation.headerLeft.back')}
-            inline
-            transparent
-            onPress={() => navigateBack()}
-            style={{ paddingHorizontal: 0 }}
-          >
-            <HoliIcon icon={isWeb ? 'arrow-left-s' : 'arrow-down-s'} size={30} />
-          </HoliButton>
-        ),
+        headerLeft: () => <BackButton icon={isWeb ? 'arrow-left-s' : 'arrow-down-s'} />,
         title: t('auth.register'),
       })
 
@@ -97,4 +84,4 @@ const Registration: React.VFC = () => {
   )
 }
 
-export { Registration }
+export default Registration

@@ -91,7 +91,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
       />
       <View style={styles.addImage}>
         <HoliText style={{ marginRight: 13 }}>Add a profile image</HoliText>
-        <HoliIcon icon="image" color={colors.grey} />
+        <HoliIcon icon="image" color={colors.fontColorGrey} />
       </View>
       <ScrollView style={styles.scrollView}>
         <HoliTextInput

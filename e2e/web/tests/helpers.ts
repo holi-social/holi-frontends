@@ -40,10 +40,10 @@ export const defaultLoginSteps = async ({ page, context, username, password }: D
   await clickElementByTestId(page, 'btn-to-profile-view')
   await clickElementByTestId(page, 'btn-to-login-form')
 
-  const emailInput = await locateElementByTestId(page, 'ory-input-identifier-input')
+  const emailInput = await locateElementByTestId(page, 'ory-identifier-input')
   await emailInput.fill(username || process.env.E2E_USER_USERNAME || 'empty')
 
-  const passwordInput = await locateElementByTestId(page, 'ory-input-password-input')
+  const passwordInput = await locateElementByTestId(page, 'ory-password-input')
   await passwordInput.fill(password || process.env.E2E_USER_PASSWORD || 'empty')
 
   await clickElementByTestId(page, 'ory-submit-method')

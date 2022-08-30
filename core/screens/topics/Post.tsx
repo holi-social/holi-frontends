@@ -6,14 +6,12 @@ import { createParam } from 'solito'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type PostParams = {
@@ -30,7 +28,6 @@ const Post: React.VFC<PostProps> = ({ navigation }: PostProps) => {
   const [postId] = useParam('postId')
 
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
-  const { navigateBack } = useRouting()
   const { t } = useTranslation()
   const title = t('topics.post.title', { topicId, postId })
   const mixins = useStyleMixins()
@@ -44,17 +41,7 @@ const Post: React.VFC<PostProps> = ({ navigation }: PostProps) => {
             {title}
           </HoliText>
         ),
-        headerLeft: () => (
-          <HoliButton
-            label={t('navigation.headerLeft.back')}
-            inline
-            transparent
-            onPress={() => navigateBack()}
-            style={{ paddingHorizontal: 0 }}
-          >
-            <HoliIcon icon="arrow-left-s" size={30} />
-          </HoliButton>
-        ),
+        headerLeft: () => <BackButton />,
       })
       return clearNavigationHeader
     },

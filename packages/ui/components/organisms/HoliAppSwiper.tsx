@@ -39,7 +39,7 @@ const getStyles = (screenWidth: number) =>
       padding: 2,
       borderWidth: 2,
       borderRadius: 16,
-      borderColor: colors.softblackTransparent,
+      borderColor: colors.borderColorGrey,
     },
     icon: {
       width: '100%',
