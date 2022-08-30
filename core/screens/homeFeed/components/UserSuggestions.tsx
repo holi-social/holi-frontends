@@ -41,7 +41,7 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = ({ style }: UserSuggest
         {userSuggestions.map((user) => (
           <HoliButton
             label={`${user.firstName} ${user.lastName}`}
-            onPress={() => navigate(`profile/${user.id}`)}
+            onPress={() => navigate(`/profile/${user.id}`)}
             style={styles.buttonContainer}
             key={user.id}
             transparent
