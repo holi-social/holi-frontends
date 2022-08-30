@@ -32,6 +32,7 @@
   "auth.loginProtection.loginLabel": "Anmeldeformular öffnen",
   "auth.loginProtection.registration": "Konto anlegen",
   "auth.loginProtection.text": "Du bist nicht angemeldet.",
+  "auth.logout": "Abmelden",
   "auth.logout.button": "Abmelden",
   "auth.logout.error": "Abmelden fehlgeschlagen",
   "auth.logout.heading": "Willst du dich abmelden?",
@@ -239,6 +240,5 @@
   "user.skills.form.subline": "Deine Fähigkeiten erlauben es anderen Nutzer*innen, Dich besser kennenzulernen, und uns, unser Angebot auf Dich zuzuschneiden.",
   "user.userContext.error.fetching": "Laden des eingeloggten Nutzers ist fehlgeschlagen",
   "volunteering.navigation.home": "Home",
-  "volunteering.navigation.search": "Suche",
-  "volunteering.title": "Lets Act"
+  "volunteering.navigation.search": "Suche"
 }

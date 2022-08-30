@@ -33,6 +33,7 @@
   "auth.loginProtection.registration": "Create account",
   "auth.loginProtection.registrationLabel": "Open registration form",
   "auth.loginProtection.text": "You're not logged in",
+  "auth.logout": "Logout",
   "auth.logout.button": "Log out",
   "auth.logout.error": "Logout failed",
   "auth.logout.heading": "Do you want to log out?",

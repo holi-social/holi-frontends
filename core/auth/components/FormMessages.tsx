@@ -19,8 +19,9 @@ const FormMessages = ({ messages = [], style = {} }: Props) => {
     <>
       {messages?.map(({ text, id }, k) => {
         const messageKey = `auth.login.message.${id}`
+        const testId = `ory-message-${id}`
         return (
-          <HoliText key={`${id}${k}`} style={[styles.message, style]} testID={`ory-message-${id}`}>
+          <HoliText key={`${id}${k}`} style={[styles.message, style]} testID={testId}>
             {i18n.exists(messageKey) ? t(messageKey) : text}
           </HoliText>
         )

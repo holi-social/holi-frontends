@@ -145,7 +145,7 @@ const FormInputField = ({
       type={inputType}
       inputProps={textInputOverride ? textInputOverride(node, inputProps) : inputProps}
       style={style}
-      testID={`ory-input-${fieldName.replace(/\./gi, '-')}`}
+      testID={`ory-${fieldName.replace(/\./gi, '-')}`}
     />
   )
 }

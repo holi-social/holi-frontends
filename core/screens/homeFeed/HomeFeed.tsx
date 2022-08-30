@@ -57,7 +57,7 @@ const appSwiperDummyApps: DummyApp[] = [
     path: '/apps/volunteering',
     testID: 'app-tile-goodNews',
     hasUpdates: true,
-    backgroundColor: colors.lightGrey,
+    backgroundColor: colors.backgroundColorGreyLight,
   },
   {
     icon: 'search',
@@ -73,7 +73,7 @@ const appSwiperDummyApps: DummyApp[] = [
     path: '/apps/volunteering',
     testID: 'app-tile-factCheck',
     hasUpdates: false,
-    backgroundColor: colors.greyAA,
+    backgroundColor: colors.backgroundColorGrey,
   },
 ]
 

@@ -161,7 +161,7 @@ const getStyles = (inline: boolean) =>
       backgroundColor: colors.backgroundColorYellowDark,
     },
     pressedSecondary: {
-      backgroundColor: colors.backgroundColorWhiteDark,
+      backgroundColor: colors.backgroundColorGreyDark,
     },
     small: {
       borderRadius: 16,

@@ -6,10 +6,15 @@
   - [Local Test Execution](#local-test-execution)
     - [Prerequisites](#prerequisites)
     - [Local Test Execution Against Expo Dev Mode](#local-test-execution-against-expo-dev-mode)
+      - [iOS](#ios)
+      - [Android](#android)
     - [Local Test Execution Against Binary](#local-test-execution-against-binary)
       - [iOS Simulator](#ios-simulator)
       - [Android Emulator](#android-emulator)
   - [Remote Test Execution on BrowserStack](#remote-test-execution-on-browserstack)
+  - [Writing tests](#writing-tests)
+    - [Assumptions](#assumptions)
+    - [API docs](#api-docs)
   - [Troubleshooting](#troubleshooting)
     - ["browser driver is not running"](#browser-driver-is-not-running)
     - [No Matching Android Version available on Virtual Device](#no-matching-android-version-available-on-virtual-device)
@@ -45,61 +50,75 @@ Follow [this tutorial](https://www.robincussol.com/build-standalone-expo-apk-ipa
 
 ### Prerequisites
 
-The short manual is roughly (not replayed / reproduced on other machines):
+You need to install [Appium](https://appium.io/docs/en/about-appium/getting-started/) in order to run the tests locally.
 
 1. `npm i -g appium appium-doctor`
 2. run `appium-doctor`
   (Then do all the things appium-doctor tells you to do / shows as error.)
+  (You can also pass arguments to only check for a specific platform: `--ios` resp. `--android`)
 
-    When appium-doctor is successful, run appium:
+    When appium-doctor is successful, you can run appium:
 
 3. run `appium`
 
 ### Local Test Execution Against Expo Dev Mode
 
-Find more documentation [here](https://codecept.io/mobile/#setting-up)
+Executing the e2e tests locally requires the mobile application to be running on a device and `appium` to be started. We also expect the user to be logged out initially.
+
+For [Android](#android) there is a script that takes care of starting the application and an emulator if necessary.
 
 #### iOS
 
-1. Make sure the application is running and on the "home screen" (i.e. where it goes right after start)
-2. (iOs) grab simulator Id with this command (in new tab):
-
-    `xcrun simctl list | grep Booted`
-
-    and add field `udid` to file `e2e/mobile/codecept.conf.js`
-3. run `yarn run mobile:e2e:ios`
+1. Make sure the application is running on the simulator.
+2. run `yarn e2e:ios`
+   (The script detects and uses the locally running simulator)
 
 #### Android
 
-(run in this directory)
+1. Configure environment variables `E2E_ANDROID_VIRTUAL_DEVICE_NAME` and `ANDROID_HOME` (see `.envrc.local.template`, maybe `ANDROID_HOME` is already set up globally)
 
-1. Configure environment variables `AVD_E2E` and `ANDROID_HOME` (see .envrc.local.template, maybe `ANDROID_HOME` is already set up globally)
+   You can use an emulator of your own by using its name as value of `E2E_ANDROID_VIRTUAL_DEVICE_NAME`.
+2. run `yarn workspace @holi/e2e-mobile prepare:android`
 
-   You can use an emulator of your own by using its name as value of `AVD_E2E`.
-2. run `yarn prepare:android`
-
-   This script starts and maybe creates an emulator if necessary, runs `appium` and starts the mobile application locally.
+   This script starts and maybe creates an emulator if necessary, runs `appium` and starts the mobile application locally (using the staging backend).
 
    If the emulator is run for the first time, Expo Go might open some onboarding layer that should be clicked away.
 
-   If the app was running before, maybe close and reopen it (making sure the newest version is used and the HomeScreen is visible).
-3. run `yarn run codeceptjs:android`
+   If the app was running before, maybe close and reopen it (making sure the newest version is used).
+3. run `yarn e2e:android`
 
    This starts the actual test execution.
+
+#### Single test execution
+
+Single tests can be executed by passing an argument with the name of the spec to be executed, e.g.
+
+```sh
+yarn e2e:android -t HomeScreen
+# resp.
+yarn e2e:ios -t HomeScreen
+# or even
+yarn e2e:android -t 'Login should work with valid credentials'
+```
+
+See the documentation of the [Jest CLI](https://jestjs.io/docs/cli#--testnamepatternregex) for more options.
 
 ### Local Test Execution Against Binary
 
 #### iOS Simulator
 
-`CODECEPT_TARGET=local CODECEPT_PLATFORM=ios CODECEPT_APP_PATH=/path/to/application.app yarn codeceptjs`.
+`APP_PATH=/path/to/application.app yarn e2e:ios`
 
-You need to use the simulator build here.
+You need to use the simulator build here (i.e. `yarn mobile:build_ios_sim`).
 
 #### Android Emulator
 
-`CODECEPT_TARGET=local CODECEPT_PLATFORM=android CODECEPT_APP_PATH=/path/to/application.app yarn codeceptjs`
+`APP_PATH=/path/to/application.apk yarn e2e:android`
 
-You need to use the APK build here.
+You need to use the APK build here (i.e. `yarn mobile:build_android_apk`).
+
+⚠️ Make sure to uninstall a previously installed version of the app, as it might not be overwritten by Appium.
+(You could set `enforceAppInstall: true` in the `appiumConfig.ts`, but this also slows down execution times).
 
 ## Remote Test Execution on [BrowserStack](https://www.browserstack.com)
 
@@ -112,22 +131,36 @@ export BROWSERSTACK_APP_URL=<yourappurl>
 export BROWSERSTACK_USERNAME=<yourusername>
 export BROWSERSTACK_ACCESS_KEY=<youraccesskey>
 
-export CODECEPT_TARGET='browserstack' # optional, as this is the default setting
-export CODECEPT_PLATFORM='ios' # or 'android'
+export APPIUM_TARGET='browserstack' # optional, as this is the default setting
+export APPIUM_PLATFORM='ios' # or 'android'
 
-yarn codeceptjs
+yarn workspace @holi/e2e-mobile test
 ```
 
-Alternatively, add your Browserstack credentials to `.envrc.local` and have them automatically exported via `direnv`
-when cd'ing into `e2e/mobile`.
+Alternatively, add your Browserstack credentials to `.envrc.local` and have them automatically exported via `direnv`.
 
-If you feel like automating this process by writing a script, take a look at `.gitlab-ci.yml`.
+If you feel like automating this process by writing a script, take a look at `.gitlab-ci-mobile.yml`.
+
+## Writing tests
+
+### Assumptions
+
+As it is not as easy to instantly navigate to a specific screen on mobile devices as it is on web using URLs, we expect every test to be started on the home screen. When testing using a specific binary (e.g. during CI), this is ensured by starting the app anew before each test. When running the tests locally against the Expo Dev Mode, we keep the same app instance running all the time and make sure to navigate back to the home screen before each test using the helper function `navigateBackToHomeScreen` (defined in `e2e/mobile/helpers/navigation.ts`) during setup (`e2e/mobile/jest.setup.ts`).
+
+We also assume the user to be logged out initially.
+
+### API docs
+
+As we use [WebdriverIO](https://webdriver.io/) as Node.JS client for Appium, see the [webdriver.io API docs](https://webdriver.io/docs/api) for available commands as well as [Appium specific commands](https://webdriver.io/docs/api/appium).
+You can also take a look into the [Appium API docs](https://appium.io/docs/en/about-appium/api/) - keep in mind that we are using `webdriver.io` instead of `wd` and we are using the `UiAutomator2` driver for Android and `XCUITest` for iOS.
+
+There already are some helper functions, e.g. to locate and interact with elements or to perform a login with the e2e user, which you can find in the `e2e/mobile/helpers` directory.
 
 ## Troubleshooting
 
 ### "browser driver is not running"
 
-When running codecept, if you see an error message along the lines of
+When running the tests, if you see an error message along the lines of
 
 > Unable to connect to "127.0.0.1:4444", make sure browser driver is running on that address.
 
@@ -138,18 +171,22 @@ npm install -g appium
 appium
 ```
 
-### No Matching Android Version available on Virtual Device
+### Can't find simctl SDKs
 
-Make sure that you have set up an Android Virtual Device (AVD) with an Android version that matches the one configured
-in `codecept.conf.js`.
+If you see an error like the following for an iOS simulator:
+
+```sh
+Original error: '15.4' does not exist in the list of simctl SDKs. Only the following Simulator SDK versions are available on your system: x.y
+```
+
+you can either install the required version or set the environment variable `IOS_PLATFORM_VERSION` to the version you have installed (see [Appium troubleshooting](https://github.com/appium/appium/tree/1.x/sample-code/javascript-webdriverio#troubleshooting)).
 
 ### Espresso server can't be built / started
 
 I had trouble that the Espresso server could not be built on AdoptOpenJDK16 on macOS. Changing my java version to SDK 11
 as was [hinted here](https://github.com/exercism/support/issues/73#issuecomment-538498370) helped.
 
-In order to debug what's going on, watch the output of the appium process and use the `showGradleLog: true` capability
-in `codecept.conf.js`.
+In order to debug what's going on, watch the output of the appium process and use the `showGradleLog: true` capability for the android emulator in `appiumConfig.ts`.
 
 ### Can't find ANDROID_HOME nor ANDROID_SDK_ROOT
 
