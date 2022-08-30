@@ -2,7 +2,7 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Text } from 'react-native'
 
-import HoliSeparatedList from '@holi/ui/components/atoms/HoliSeparatedList'
+import HoliSeparatedList from '@holi/ui/components/molecules/HoliSeparatedList'
 
 describe('HoliSeparatedList.tsx', () => {
   it('renders no comma or "and" word with only one child', () => {

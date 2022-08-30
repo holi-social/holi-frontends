@@ -7,26 +7,31 @@ import { colors } from '@holi/ui/styles/globalVars'
 const apps = [
   {
     name: 'Volunteering',
+    label: 'Volunteering label',
     hasUpdates: true,
     backgroundColor: colors.impactyellow,
   },
   {
     name: 'Donations',
+    label: 'Donations label',
     hasUpdates: false,
     backgroundColor: colors.positivepurple,
   },
   {
     name: 'Good News',
+    label: 'Good News label',
     hasUpdates: true,
     backgroundColor: colors.lightGrey,
   },
   {
     name: 'Ads for Good',
+    label: 'Ads for Good label',
     hasUpdates: true,
     backgroundColor: colors.impactyellow,
   },
   {
     name: 'FactCheck',
+    label: 'FactCheck label',
     hasUpdates: false,
     backgroundColor: colors.greyAA,
   },
