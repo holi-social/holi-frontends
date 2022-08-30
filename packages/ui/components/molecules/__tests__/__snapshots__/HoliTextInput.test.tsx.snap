@@ -32,50 +32,6 @@ exports[`renders correctly when disabled 1`] = `
     }
   >
     <View
-      style={
-        Array [
-          Object {
-            "marginBottom": 6,
-          },
-          Object {
-            "alignSelf": "stretch",
-            "width": "100%",
-          },
-        ]
-      }
-    >
-      <Text
-        accessible={false}
-        selectable={true}
-        style={
-          Array [
-            Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
-            },
-            Object {
-              "fontSize": 14,
-              "lineHeight": 16.8,
-            },
-            Object {
-              "fontFamily": "Circular Std Medium",
-              "fontWeight": "500",
-            },
-            Array [
-              Object {
-                "color": "#222326",
-              },
-              Object {},
-              Object {},
-            ],
-          ]
-        }
-      >
-        Label
-      </Text>
-    </View>
-    <View
       accessible={true}
       collapsable={false}
       focusable={false}
@@ -121,7 +77,7 @@ exports[`renders correctly when disabled 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="inline"
-          accessibilityLabel="Label"
+          accessibilityLabel="accessibility label"
           accessible={true}
           autoCapitalize="none"
           autoComplete="off"
@@ -242,50 +198,6 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
     }
   >
     <View
-      style={
-        Array [
-          Object {
-            "marginBottom": 6,
-          },
-          Object {
-            "alignSelf": "stretch",
-            "width": "100%",
-          },
-        ]
-      }
-    >
-      <Text
-        accessible={false}
-        selectable={true}
-        style={
-          Array [
-            Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
-            },
-            Object {
-              "fontSize": 14,
-              "lineHeight": 16.8,
-            },
-            Object {
-              "fontFamily": "Circular Std Medium",
-              "fontWeight": "500",
-            },
-            Array [
-              Object {
-                "color": "#222326",
-              },
-              Object {},
-              Object {},
-            ],
-          ]
-        }
-      >
-        Label
-      </Text>
-    </View>
-    <View
       accessible={true}
       collapsable={false}
       focusable={false}
@@ -328,7 +240,7 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
       >
         <TextInput
           accessibilityAutoComplete="inline"
-          accessibilityLabel="Label"
+          accessibilityLabel="accessibility label"
           accessible={true}
           autoCapitalize="none"
           autoComplete="off"
@@ -449,50 +361,6 @@ exports[`renders correctly when multiline starting with one line 1`] = `
     }
   >
     <View
-      style={
-        Array [
-          Object {
-            "marginBottom": 6,
-          },
-          Object {
-            "alignSelf": "stretch",
-            "width": "100%",
-          },
-        ]
-      }
-    >
-      <Text
-        accessible={false}
-        selectable={true}
-        style={
-          Array [
-            Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
-            },
-            Object {
-              "fontSize": 14,
-              "lineHeight": 16.8,
-            },
-            Object {
-              "fontFamily": "Circular Std Medium",
-              "fontWeight": "500",
-            },
-            Array [
-              Object {
-                "color": "#222326",
-              },
-              Object {},
-              Object {},
-            ],
-          ]
-        }
-      >
-        Label
-      </Text>
-    </View>
-    <View
       accessible={true}
       collapsable={false}
       focusable={false}
@@ -535,7 +403,7 @@ exports[`renders correctly when multiline starting with one line 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="inline"
-          accessibilityLabel="Label"
+          accessibilityLabel="accessibility label"
           accessible={true}
           autoCapitalize="none"
           autoComplete="off"
@@ -738,7 +606,7 @@ exports[`renders correctly with default props 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="inline"
-          accessibilityLabel="Label"
+          accessibilityLabel="accessibility label"
           accessible={true}
           autoCapitalize="none"
           autoComplete="off"
@@ -947,7 +815,7 @@ exports[`renders correctly with error 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="inline"
-          accessibilityLabel="Label"
+          accessibilityLabel="accessibility label"
           accessible={true}
           autoCapitalize="none"
           autoComplete="off"
@@ -1145,50 +1013,6 @@ exports[`renders correctly with trailing icon 1`] = `
     }
   >
     <View
-      style={
-        Array [
-          Object {
-            "marginBottom": 6,
-          },
-          Object {
-            "alignSelf": "stretch",
-            "width": "100%",
-          },
-        ]
-      }
-    >
-      <Text
-        accessible={false}
-        selectable={true}
-        style={
-          Array [
-            Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
-            },
-            Object {
-              "fontSize": 14,
-              "lineHeight": 16.8,
-            },
-            Object {
-              "fontFamily": "Circular Std Medium",
-              "fontWeight": "500",
-            },
-            Array [
-              Object {
-                "color": "#222326",
-              },
-              Object {},
-              Object {},
-            ],
-          ]
-        }
-      >
-        Label
-      </Text>
-    </View>
-    <View
       accessible={true}
       collapsable={false}
       focusable={false}
@@ -1231,7 +1055,7 @@ exports[`renders correctly with trailing icon 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="inline"
-          accessibilityLabel="Label"
+          accessibilityLabel="accessibility label"
           accessible={true}
           autoCapitalize="none"
           autoComplete="off"
@@ -1425,50 +1249,6 @@ exports[`renders correctly with type password 1`] = `
     }
   >
     <View
-      style={
-        Array [
-          Object {
-            "marginBottom": 6,
-          },
-          Object {
-            "alignSelf": "stretch",
-            "width": "100%",
-          },
-        ]
-      }
-    >
-      <Text
-        accessible={false}
-        selectable={true}
-        style={
-          Array [
-            Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
-            },
-            Object {
-              "fontSize": 14,
-              "lineHeight": 16.8,
-            },
-            Object {
-              "fontFamily": "Circular Std Medium",
-              "fontWeight": "500",
-            },
-            Array [
-              Object {
-                "color": "#222326",
-              },
-              Object {},
-              Object {},
-            ],
-          ]
-        }
-      >
-        Label
-      </Text>
-    </View>
-    <View
       accessible={true}
       collapsable={false}
       focusable={false}
@@ -1511,7 +1291,7 @@ exports[`renders correctly with type password 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="inline"
-          accessibilityLabel="Label"
+          accessibilityLabel="accessibility label"
           accessible={true}
           autoCapitalize="none"
           autoComplete="current-password"
@@ -1675,7 +1455,7 @@ exports[`renders correctly without label 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="inline"
-          accessibilityLabel="undefined"
+          accessibilityLabel="accessibility label"
           accessible={true}
           autoCapitalize="none"
           autoComplete="off"

@@ -14,9 +14,10 @@ export default {
   },
 }
 
-export const Primary = ({ ...args }) => <HoliTextInput {...args} />
+export const Primary = ({ ...args }) => <HoliTextInput accessibilityLabel={args.accessibilityLabel} {...args} />
 Primary.args = {
-  label: 'Label',
+  inputLabel: 'Label',
+  accessibilityLabel: 'accessibility label',
   placeholder: 'Placeholder',
   helperText: 'Helper Text',
   maxNoOfCharacters: 50,
@@ -31,26 +32,50 @@ Primary.argTypes = {
 }
 
 export const WithError = ({ ...args }) => (
-  <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} {...args} />
+  <HoliTextInput
+    inputLabel={'Label'}
+    accessibilityLabel={'accessibility label'}
+    placeholder={'Placeholder'}
+    helperText={'Helper Text'}
+    {...args}
+  />
 )
 WithError.args = {
   validationErrorText: 'Validation Error Text',
 }
 
 export const NoLabel = ({ ...args }) => (
-  <HoliTextInput placeholder={'Placeholder'} helperText={'Helper Text'} {...args} />
+  <HoliTextInput
+    accessibilityLabel={'accessibility label'}
+    placeholder={'Placeholder'}
+    helperText={'Helper Text'}
+    {...args}
+  />
 )
 NoLabel.args = {}
 
 export const Disabled = ({ ...args }) => (
-  <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} {...args} />
+  <HoliTextInput
+    label={'Label'}
+    accessibilityLabel={'accessibility label'}
+    placeholder={'Placeholder'}
+    helperText={'Helper Text'}
+    {...args}
+  />
 )
 Disabled.args = {
   disabled: true,
 }
 
 export const Multiline = ({ ...args }) => (
-  <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} multiline {...args} />
+  <HoliTextInput
+    label={'Label'}
+    accessibilityLabel={'accessibility label'}
+    placeholder={'Placeholder'}
+    helperText={'Helper Text'}
+    multiline
+    {...args}
+  />
 )
 Multiline.args = {
   noOfVisibleLines: 1,
@@ -58,7 +83,14 @@ Multiline.args = {
 }
 
 export const MultilineVariant = ({ ...args }) => (
-  <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} multiline {...args} />
+  <HoliTextInput
+    label={'Label'}
+    accessibilityLabel={'accessibility label'}
+    placeholder={'Placeholder'}
+    helperText={'Helper Text'}
+    multiline
+    {...args}
+  />
 )
 MultilineVariant.args = {
   noOfVisibleLines: 2,
@@ -66,7 +98,13 @@ MultilineVariant.args = {
 }
 
 export const WithTrailingIcon = ({ ...args }) => (
-  <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} {...args} />
+  <HoliTextInput
+    label={'Label'}
+    accessibilityLabel={'accessibility label'}
+    placeholder={'Placeholder'}
+    helperText={'Helper Text'}
+    {...args}
+  />
 )
 WithTrailingIcon.args = {
   trailingIcon: 'search',
@@ -79,7 +117,13 @@ WithTrailingIcon.argTypes = {
 }
 
 export const Password = ({ ...args }) => (
-  <HoliTextInput label={'Label'} placeholder={'Placeholder'} helperText={'Helper Text'} {...args} />
+  <HoliTextInput
+    label={'Label'}
+    accessibilityLabel={'accessibility label'}
+    placeholder={'Placeholder'}
+    helperText={'Helper Text'}
+    {...args}
+  />
 )
 Password.args = {
   type: 'password',

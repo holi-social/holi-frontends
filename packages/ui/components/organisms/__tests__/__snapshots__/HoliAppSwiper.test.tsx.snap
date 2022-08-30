@@ -22,7 +22,6 @@ exports[`HoliAppSwiper renders correctly 1`] = `
 >
   <View>
     <View
-      accessibilityLabel="Volunteering"
       accessibilityRole="button"
       accessibilityState={
         Object {
@@ -122,7 +121,6 @@ exports[`HoliAppSwiper renders correctly 1`] = `
       </View>
     </View>
     <View
-      accessibilityLabel="Donations"
       accessibilityRole="button"
       accessibilityState={
         Object {
@@ -220,7 +218,6 @@ exports[`HoliAppSwiper renders correctly 1`] = `
       </View>
     </View>
     <View
-      accessibilityLabel="Good News"
       accessibilityRole="button"
       accessibilityState={
         Object {
@@ -320,7 +317,6 @@ exports[`HoliAppSwiper renders correctly 1`] = `
       </View>
     </View>
     <View
-      accessibilityLabel="Ads for Good"
       accessibilityRole="button"
       accessibilityState={
         Object {
@@ -420,7 +416,6 @@ exports[`HoliAppSwiper renders correctly 1`] = `
       </View>
     </View>
     <View
-      accessibilityLabel="FactCheck"
       accessibilityRole="button"
       accessibilityState={
         Object {
