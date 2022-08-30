@@ -23,6 +23,7 @@ export const ThemeContext = React.createContext<{
   theme: defaultTheme,
   toggleDarkMode: () => null,
 })
+ThemeContext.displayName = 'ThemeContext'
 
 export const ThemeConsumer = ThemeContext.Consumer
 
