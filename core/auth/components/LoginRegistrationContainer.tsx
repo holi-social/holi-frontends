@@ -51,6 +51,7 @@ const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = (
           {Platform.OS === 'web' && (
             <HoliHeading>{isLogin ? t('auth.login') : t('auth.registration.heading')}</HoliHeading>
           )}
+
           <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} />
 
           {isLogin ? (

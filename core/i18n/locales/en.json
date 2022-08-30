@@ -33,6 +33,7 @@
   "auth.loginProtection.registration": "Create account",
   "auth.loginProtection.registrationLabel": "Open registration form",
   "auth.loginProtection.text": "You're not logged in",
+  "auth.logout": "Logout",
   "auth.logout.button": "Log out",
   "auth.logout.error": "Logout failed",
   "auth.logout.heading": "Do you want to log out?",
@@ -237,6 +238,5 @@
   "user.skills.form.subline": "This allows other users to get to know you better and us to tailor our offering to your skills.",
   "user.userContext.error.fetching": "Error fetching authenticated user",
   "volunteering.navigation.home": "Home",
-  "volunteering.navigation.search": "Search",
-  "volunteering.title": "Lets Act"
+  "volunteering.navigation.search": "Search"
 }
