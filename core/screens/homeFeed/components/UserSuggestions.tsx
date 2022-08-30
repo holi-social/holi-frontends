@@ -1,15 +1,14 @@
+import { useQuery } from '@apollo/client'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { getRandomUser } from '@holi/core/screens/topics/fakeTopics'
+import { UserSuggestionsResponse, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-const dummyUsers = Array.from(' '.repeat(10), (_, idx) => getRandomUser(!(idx % 2)))
 
 export type UserSuggestionsProps = {
   style?: StyleProp<ViewStyle>
@@ -19,10 +18,17 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = ({ style }: UserSuggest
   const { t } = useTranslation()
   const styles = getStyles()
   const mixins = useStyleMixins()
+  const numberOfItems = 10
 
-  if (!dummyUsers?.length) {
+  const { loading, error, data } = useQuery<UserSuggestionsResponse>(userSuggestionsQuery, {
+    variables: { numberOfItems },
+  })
+
+  if (loading || error || !data?.userSuggestions?.length) {
     return <></>
   }
+
+  const { userSuggestions } = data
 
   return (
     <View style={style}>
@@ -30,7 +36,7 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = ({ style }: UserSuggest
         <HoliHeading level="2">{t('homeFeed.userSuggestions.title')}</HoliHeading>
       </View>
       <ScrollView style={[mixins.container, styles.scrollviewContainer]} horizontal>
-        {dummyUsers.map((user) => (
+        {userSuggestions.map((user) => (
           <HoliButton
             style={styles.buttonContainer}
             key={user.id}
@@ -41,14 +47,16 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = ({ style }: UserSuggest
             <HoliUserCard user={user} variant="small" disableFocusability />
           </HoliButton>
         ))}
-        <HoliButton
-          label={t('homeFeed.userSuggestions.loadMore')}
-          transparent
-          inline
-          style={styles.lastButtonContainer}
-        >
-          <HoliText size="small">{t('homeFeed.userSuggestions.loadMore')}</HoliText>
-        </HoliButton>
+        {userSuggestions.length >= numberOfItems && (
+          <HoliButton
+            label={t('homeFeed.userSuggestions.loadMore')}
+            transparent
+            inline
+            style={styles.lastButtonContainer}
+          >
+            <HoliText size="small">{t('homeFeed.userSuggestions.loadMore')}</HoliText>
+          </HoliButton>
+        )}
       </ScrollView>
     </View>
   )
