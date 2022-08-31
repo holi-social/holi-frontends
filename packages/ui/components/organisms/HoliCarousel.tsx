@@ -26,7 +26,7 @@ const HoliCarousel: React.FunctionComponent<HoliCarouselProps> = ({ slides, styl
 
   const { width: screenWidth } = useWindowDimensions()
 
-  const marginHorizontal = 24 // margin between slide and device screen
+  const marginHorizontal = 0 // margin between slide and device screen
   const marginBetweenSlides = 8 // margin between slides
   const scrollingOffset = screenWidth - (marginHorizontal * 2 - marginBetweenSlides)
   const defaultSlideWidth = 350
@@ -106,7 +106,7 @@ const HoliCarousel: React.FunctionComponent<HoliCarouselProps> = ({ slides, styl
         </View>
       )}
 
-      {/* 
+      {/*
         Web scrollview uses simple scrolling.
         When screenWidth < horizontalScrollMinWidth, it uses snap and hides the horizontal scrollbar.
         The slide buttons underneath are not displayed on Web for now.
