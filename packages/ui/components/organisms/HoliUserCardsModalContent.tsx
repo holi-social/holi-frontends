@@ -58,7 +58,6 @@ export default HoliUserCardsModalContent
 const getStyles = (screenHeight: number) =>
   StyleSheet.create({
     container: {
-      maxWidth: 600,
       paddingHorizontal: 16,
       width: '100%',
       maxHeight: screenHeight - 80,
