@@ -38,11 +38,10 @@ const HeaderRight: React.VFC<HeaderRightProps> = (props) => {
     userAvatar = (
       <HoliUserAvatar
         imageSrc={user.avatar}
-        nameLabel={nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
+        label={nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
         initials={user.avatarLabel}
         defaultColor={user.avatarDefaultColor}
         size="micro"
-        accessible={false}
       />
     )
   }

@@ -8,11 +8,9 @@ import { colors } from '@holi/ui/styles/globalVars'
 // See accessibility hints: https://www.w3.org/WAI/tutorials/images/informative/
 // https://usability.yale.edu/web-accessibility/articles/images#image-guidelines
 
-type AccessibleComponentProps<T> = AccessibilityProps & T
-
 export type AvatarProps = {
   imageSrc: string | undefined
-  nameLabel: string
+  label: string
   defaultColor: string
   initials: string
   size?: 'micro' | 'small' | 'medium' | 'large' | 'extralarge'
@@ -28,18 +26,7 @@ export const sizes = {
   extralarge: 128,
 }
 
-const HoliUserAvatar: React.VFC<AccessibleComponentProps<AvatarProps>> = ({
-  size = 'medium',
-  defaultColor,
-  imageSrc,
-  initials,
-  nameLabel,
-  style,
-  accessible = true,
-  accessibilityLabel,
-  accessibilityRole = 'image',
-  ...props
-}) => {
+const HoliUserAvatar = ({ size = 'medium', defaultColor, imageSrc, initials, label, style, ...props }: AvatarProps) => {
   const width = sizes[size || 'medium']
   const hasImage = !!imageSrc
   const styles = getStyles(width, defaultColor, hasImage)
@@ -47,9 +34,9 @@ const HoliUserAvatar: React.VFC<AccessibleComponentProps<AvatarProps>> = ({
   const sizeClass = size || 'medium'
 
   const accessibilityProps: AccessibilityProps & { accessibilityPressed?: boolean } = {
-    accessibilityLabel: accessibilityLabel || nameLabel,
-    accessible,
-    accessibilityRole,
+    accessible: false,
+    accessibilityLabel: label,
+    accessibilityRole: 'image',
   }
 
   return (

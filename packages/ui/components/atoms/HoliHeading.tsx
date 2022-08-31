@@ -37,7 +37,7 @@ export type HoliHeadingProps = {
 
 const HoliHeading: React.FC<HoliHeadingProps> = ({
   children,
-  level = '1',
+  level = '2',
   size = HoliHeadings[level].defaultSize,
   selectable = true,
   testID,

@@ -17,7 +17,7 @@ export default {
 export const ByLevel = ({ ...args }) => <HoliHeading {...args} />
 ByLevel.args = {
   children: 'Text',
-  level: 1,
+  level: 2,
   selectable: true,
 }
 ByLevel.argTypes = {

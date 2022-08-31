@@ -162,6 +162,7 @@ const UserProfile: React.VFC = () => {
                       {user?.engagementLevel && (
                         <HoliChip
                           text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
+                          label={t(`user.engagementLevel.title.${user.engagementLevel}`)}
                           style={styles.chip}
                           disabled
                         />

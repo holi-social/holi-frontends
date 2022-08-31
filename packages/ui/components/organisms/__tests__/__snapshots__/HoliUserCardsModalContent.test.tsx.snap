@@ -135,7 +135,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     <Image
                       accessibilityLabel="Dima Rosmait"
                       accessibilityRole="image"
-                      accessible={true}
+                      accessible={false}
                       source={
                         Object {
                           "uri": "avatar-1",
@@ -275,7 +275,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     <Text
                       accessibilityLabel="Max Mustermann"
                       accessibilityRole="image"
-                      accessible={true}
+                      accessible={false}
                       selectable={true}
                       style={
                         Array [
@@ -428,7 +428,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     <Image
                       accessibilityLabel="Thomas Mueller"
                       accessibilityRole="image"
-                      accessible={true}
+                      accessible={false}
                       source={
                         Object {
                           "uri": "avatar-2",
@@ -568,7 +568,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     <Text
                       accessibilityLabel="Sandra Kasandra"
                       accessibilityRole="image"
-                      accessible={true}
+                      accessible={false}
                       selectable={true}
                       style={
                         Array [
@@ -721,7 +721,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     <Image
                       accessibilityLabel="Peter Pan"
                       accessibilityRole="image"
-                      accessible={true}
+                      accessible={false}
                       source={
                         Object {
                           "uri": "avatar-3",
@@ -861,7 +861,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     <Text
                       accessibilityLabel="Donald Duck"
                       accessibilityRole="image"
-                      accessible={true}
+                      accessible={false}
                       selectable={true}
                       style={
                         Array [
@@ -1016,7 +1016,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     <Image
                       accessibilityLabel="Lionel Messi"
                       accessibilityRole="image"
-                      accessible={true}
+                      accessible={false}
                       source={
                         Object {
                           "uri": "avatar-4",

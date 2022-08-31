@@ -19,7 +19,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export type ChipProps = PressableProps & {
   text?: string
-  label?: string
+  label: string
   checked?: boolean
   disabled?: boolean
   hideIcon?: boolean
@@ -45,7 +45,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: !disabled,
     accessibilityRole: !disabled ? 'checkbox' : 'none',
-    accessibilityLabel: label || text,
+    accessibilityLabel: label,
     ...(!disabled
       ? {
           // since this component gets rerendered on every state change, we don't need an internal state, but can use the checked prop
