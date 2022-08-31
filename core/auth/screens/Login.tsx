@@ -2,6 +2,7 @@ import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/krato
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import client from '@holi/api/graphql/client'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
@@ -54,6 +55,7 @@ const Login: React.VoidFunctionComponent = () => {
           .then(({ data }) => {
             setUserLoggedIn(data as OrySessionContext)
           })
+          .then(() => client.clearStore())
           .then(() => {
             console.info('[Login] session created')
           })
