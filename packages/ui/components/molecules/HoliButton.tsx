@@ -131,7 +131,7 @@ const getStyles = (inline: boolean) =>
     nonTransparent: {
       borderColor: colors.borderColorBlack,
       borderWidth: 2,
-      borderRadius: 24,
+      borderRadius: 28,
       backgroundColor: colors.backgroundColorWhite,
       paddingHorizontal: 32,
       paddingVertical: 13,
@@ -161,7 +161,7 @@ const getStyles = (inline: boolean) =>
       backgroundColor: colors.backgroundColorYellowDark,
     },
     pressedSecondary: {
-      backgroundColor: colors.backgroundColorWhiteDark,
+      backgroundColor: colors.backgroundColorGreyDark,
     },
     small: {
       borderRadius: 16,

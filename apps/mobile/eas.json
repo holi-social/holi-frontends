@@ -6,16 +6,29 @@
     "simulator": {
       "ios": {
         "simulator": true
+      },
+      "env": {
+        "HOLI_API_URL": "https://staging.unified.apis.project-holi.org/graphql"
       }
     },
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "HOLI_API_URL": "https://staging.unified.apis.project-holi.org/graphql"
+      }
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "HOLI_API_URL": "https://staging.unified.apis.project-holi.org/graphql"
+      }
     },
-    "production": {}
+    "production": {
+      "env": {
+        "HOLI_API_URL": "https://production.unified.apis.project-holi.org/graphql"
+      }
+    }
   },
   "submit": {
     "production": {}

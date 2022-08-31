@@ -45,6 +45,12 @@
     - [noenv Branches](#noenv-branches)
     - [noweb / nomobile Branches](#noweb--nomobile-branches)
   - [Staging and Production Environments](#staging-and-production-environments)
+  - [Environment variables](#environment-variables)
+    - [Local execution and general usage](#local-execution-and-general-usage)
+    - [Configuration for web client](#configuration-for-web-client)
+    - [Configuration for web deployment](#configuration-for-web-deployment)
+    - [Usage for mobile](#usage-for-mobile)
+    - [Configuration for mobile builds](#configuration-for-mobile-builds)
 - [sentry.io logging/tracing](#sentryio-loggingtracing)
 - [Accessibility testing](#accessibility-testing)
 <!-- /TOC -->
@@ -599,6 +605,43 @@ You can also selectively skip the web part of the pipeline by prefixing your bra
 ### Staging and Production Environments
 
 When a branch is merged to the main branch, the pipeline deploys to the staging environment and runs e2e tests against it. After these are successful, you can manually trigger a deployment of a specific commit to production via GitLab CI.
+
+### Environment variables
+
+Setting environment specific configurations using environment variables works differently for web and mobile: for the web server it is sufficient to provide environment variables during runtime, while for mobile and the web client these variables have to be available at build time, so they are included in the respective bundles. There are also differences between local execution and builds/deployment during CI.
+
+#### Local execution and general usage
+
+For local execution environment variables can usually be provided (both for web and to some extend mobile, see [below](#usage-for-mobile)) by defining the variables in `.envrc` or `.envrc.local` or by passing them directly before issuing a command, e.g. `HOLI_API_URL=foobar yarn web:dev`.
+
+They can be accessed via `process.env` (e.g. `process.env.HOLI_API_URL`).
+
+#### Configuration for web client
+
+For the web client all environment variables that should be available in the browser, have to be provided at build time. To decide which environment variables are included, Next.js requires these to be prefixed with `NEXT_PUBLIC_` (see [documentation](#https://nextjs.org/docs/basic-features/environment-variables#exposing-environment-variables-to-the-browser)). (An example for this is the `NEXT_PUBLIC_ENVIRONMENT_ID` that is used for sentry, see `apps/web/environment.ts`).
+
+There also is [runtime configuration](https://nextjs.org/docs/api-reference/next.config.js/runtime-configuration) available in Next.js but we have not yet decided on a solution yet (see [HOLI-1692](https://holi.atlassian.net/browse/HOLI-1692)).
+
+#### Configuration for web deployment
+
+For web deployment it is necessary to include environment variables in the terraform configuration: see `terraform/environments/web/vars.tf` for definitions of variables and `terraform/environments/web/deployment.tf` on how to pass them to the container. You can only use information available at script execution time to provide or calculate the configuration values.
+
+You could also define environment variables in the Dockerfile itself (`apps/web/Dockerfile`), but these may not be environment specific, as the same docker image is used for different environments.
+
+#### Usage for mobile
+
+On mobile builds, environment variables are evaluated at build time and the values are therefore included in the binary as constants. We use [`expo-constants`](https://docs.expo.dev/versions/latest/sdk/constants/) for this, which provides configuration values defined in `apps/mobile/app.config.js` (here environment variables can be used) as constants to the apps, which can be accessed as follows:
+
+```ts
+import Constants from 'expo-constants'
+
+export const holiApiUrl = Constants.manifest?.extra?.holi_api.url
+```
+
+#### Configuration for mobile builds
+
+For app builds generated using the [`EAS command line tool`](https://github.com/expo/eas-cli) (which is used in the pipelines), environment variables have be set for each build profile in `apps/mobile/eas.json` (see [documentation](https://docs.expo.dev/build/eas-json/#environment-variables)).
+You should see such variables listed as `Project environment variables` in the EAS build logs (you should also be able to find the full `app.config.js` there to check that all configuration values are filled in correctly).
 
 ## sentry.io logging/tracing
 
