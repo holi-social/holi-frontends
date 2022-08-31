@@ -31,6 +31,8 @@ const { useParam } = createParam<UserProfileParams>()
 
 type UserProfileProps = NativeStackScreenProps<HomeStackScreens>
 
+Edit
+
 const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfileProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()

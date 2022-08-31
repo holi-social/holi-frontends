@@ -12,14 +12,11 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 type UserProfileViewProps = {
   user: User
+  contactPossible?: boolean
 }
 
-const UserProfileView: React.VFC<UserProfileViewProps> = ({ user }) => {
+const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossible = true }) => {
   const { t } = useTranslation()
-
-  if (!user) {
-    return <HoliText>{t('user.profileView.noUser')}</HoliText>
-  }
 
   const fullName = user.firstName
     ? `${user.firstName || ''} ${user.lastName || ''}`.trim()
@@ -46,14 +43,16 @@ const UserProfileView: React.VFC<UserProfileViewProps> = ({ user }) => {
         </View>
       </View>
       {user.aboutMe && <HoliReadMore style={styles.aboutMe}>{user.aboutMe}</HoliReadMore>}
-      <View style={{ flexDirection: 'row', marginTop: 16 }}>
-        <HoliChip
-          text={t('user.profileView.connect')}
-          style={{ marginRight: 8 }}
-          fontStyle={{ color: colors.positivepurple }}
-        />
-        <HoliChip text={t('user.profileView.message')} disabled={true} fontStyle={{ color: colors.positivepurple }} />
-      </View>
+      {contactPossible && (
+        <View style={{ flexDirection: 'row', marginTop: 16 }}>
+          <HoliChip
+            text={t('user.profileView.connect')}
+            style={{ marginRight: 8 }}
+            fontStyle={{ color: colors.positivepurple }}
+          />
+          <HoliChip text={t('user.profileView.message')} disabled={true} fontStyle={{ color: colors.positivepurple }} />
+        </View>
+      )}
     </View>
   )
 }
