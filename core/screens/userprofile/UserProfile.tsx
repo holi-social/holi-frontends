@@ -6,13 +6,13 @@ import { UserByIdResponse, userByIdQuery } from 'core/screens/userprofile/querie
 import React, { memo, useContext, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
-import { createParam } from 'solito'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import NotFound from '@holi/core/errors/components/NotFound'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
+import createParam from '@holi/core/navigation/hooks/useParam'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { UserChipInterest, UserChipSDG, UserChipSkill } from '@holi/core/screens/userprofile/types'
@@ -31,8 +31,6 @@ const { useParam } = createParam<UserProfileParams>()
 
 type UserProfileProps = NativeStackScreenProps<HomeStackScreens>
 
-Edit
-
 const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfileProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -41,7 +39,6 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
   const mixins = useStyleMixins()
 
   const { isLoggedIn, userId: authenticatedUserId } = useContext(AuthContext)
-  // TODO(SF) remove solito
   const [userId = ''] = useParam('userId') // TODO(SF) initially this is always missing??
 
   // TODO(SF) own profile is still briefly visible in read only view

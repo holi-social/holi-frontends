@@ -62,7 +62,6 @@
     "react-native-svg": "12.3.0",
     "react-spring": "^8.0.27",
     "sentry-expo": "^4.2.0",
-    "solito": "^0.0.26",
     "tinycolor2": "1.4.2"
   },
   "devDependencies": {
