@@ -20,7 +20,7 @@ const navigationTheme: Theme = {
 // linking is done to configure deep linking (e.g. to get https://staging.web.project-holi.org/profiles/dieter
 // or holi://profiles/dieter to open the corresponding screen on the app). See
 // https://reactnavigation.org/docs/deep-linking and https://reactnavigation.org/docs/configuring-links for details
-const rootLinkingConfig: LinkingOptions<RootStackScreensList> = {
+export const rootLinkingConfig: LinkingOptions<RootStackScreensList> = {
   prefixes: [Linking.createURL('/'), 'holi://', 'https://*.web.project-holi.org'],
   // this deep linking config needs to reflect the stacking structure of the navigators
   // see also https://reactnavigation.org/docs/configuring-links#mapping-path-to-route-names

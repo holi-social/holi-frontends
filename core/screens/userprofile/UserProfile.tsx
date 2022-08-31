@@ -33,7 +33,7 @@ type UserProfileProps = NativeStackScreenProps<HomeStackScreens>
 
 const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfileProps) => {
   const { t } = useTranslation()
-  const { navigate } = useRouting()
+  const { replaceRoute } = useRouting()
 
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const mixins = useStyleMixins()
@@ -41,10 +41,11 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
   const { isLoggedIn, userId: authenticatedUserId } = useContext(AuthContext)
   const [userId = ''] = useParam('userId')
 
-  // TODO(SF) own profile is still briefly visible in read only view
-  if (isLoggedIn && userId === authenticatedUserId) {
-    navigate('/profile')
-  }
+  useLayoutEffect(() => {
+    if (isLoggedIn && userId === authenticatedUserId) {
+      replaceRoute('/profile')
+    }
+  }, [replaceRoute, isLoggedIn, userId, authenticatedUserId])
 
   const [fetchUser, { loading, error, data }] = useLazyQuery<UserByIdResponse>(userByIdQuery, {
     variables: { userId },
