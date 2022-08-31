@@ -4,7 +4,7 @@ import { getActionFromState, getStateFromPath } from '@react-navigation/core'
 import { StackActions, useLinkTo, useNavigation } from '@react-navigation/native'
 
 import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
-import { rootLinkingConfig } from '@holi/mobile/navigation/NavigationProvider'
+import linkingConfig from '@holi/mobile/navigation/linkingConfig'
 
 import { UseRouting } from './types'
 
@@ -36,7 +36,7 @@ const useRouting: UseRouting = <T extends Record<string, string>>() => {
   // based on https://github.com/react-navigation/react-navigation/discussions/10517
   const replaceRoute = useCallback(
     (routeName: string) => {
-      const state = getStateFromPath(routeName, rootLinkingConfig.config)
+      const state = getStateFromPath(routeName, linkingConfig)
       if (state) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const action: any = getActionFromState(state)
