@@ -41,6 +41,10 @@ const OwnProfile: React.VFC = () => {
 
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const mixins = useStyleMixins()
+  const editProfile = useCallback(() => {
+    setEditMode('profile')
+    toggleModal()
+  }, [setEditMode, toggleModal])
 
   // to avoid a FOUC, we use useLayoutEffect (synchronously) instead of useEffect for updating the navigation
   useLayoutEffect(
@@ -59,10 +63,7 @@ const OwnProfile: React.VFC = () => {
               inline
               transparent
               label={t('profile.edit')}
-              onPress={() => {
-                setEditMode('profile')
-                toggleModal()
-              }}
+              onPress={editProfile}
               style={styles.headerEditButton}
             >
               <HoliText size="small" bold style={{ color: colors.fontColorGrey }}>
@@ -75,173 +76,174 @@ const OwnProfile: React.VFC = () => {
     },
     // setNavigationHeader would cause endless loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isLoggedIn, user, editMode, showModal]
+    [isLoggedIn, user, editProfile]
   )
 
-  if (!user) {
-    return (
-      <View style={[mixins.container, styles.container]}>
-        <HoliText>{t('user.profileView.noUser')}</HoliText>
-      </View>
-    )
-  }
-
+  // TODO(SF) improve missing user case
   return (
     <DefaultLayout>
       <LoginProtection loggedOutContent={<LoggedOutView />}>
-        <>
-          <View
-            style={[mixins.container, styles.container]}
-            testID={['user-profile-edit', editMode].filter((e) => e).join('-')}
-          >
-            <>
-              <HoliModal
-                show={showModal}
-                onDismiss={toggleModal}
-                relativeHeight={0.95}
-                testID="user-profile-modal"
-                label={t(`profile.${editMode}.edit`)}
-              >
-                {(() => {
-                  switch (editMode) {
-                    case 'profile':
-                      return <UserProfileForm onCancel={toggleModal} onSubmit={toggleModal} />
-                    case 'engagementLevel':
-                      return <UserEngagementLevelForm onCancel={toggleModal} onSubmit={toggleModal} />
-                    case 'interests':
-                      return (
-                        <UserChipForm typeMetadata={UserChipInterest} onCancel={toggleModal} onSubmit={toggleModal} />
-                      )
-                    case 'skills':
-                      return <UserChipForm typeMetadata={UserChipSkill} onCancel={toggleModal} onSubmit={toggleModal} />
-                    case 'sdgs':
-                      return (
-                        <UserChipForm
-                          typeMetadata={UserChipSDG}
-                          onCancel={toggleModal}
-                          onSubmit={toggleModal}
-                          sortByTranslation={false}
-                        />
-                      )
-                  }
-                })()}
-              </HoliModal>
-              <UserProfileView user={user} />
-              <HoliButton
-                label={t('profile.edit')}
-                onPress={() => {
-                  setEditMode('profile')
-                  toggleModal()
-                }}
-                transparent
-                inline
-                testID="btn-open-profile-edit-view"
-              >
-                {t('profile.edit')}
-              </HoliButton>
-              <HoliButton
-                label={t('profile.logout')}
-                inline
-                onPress={() => navigate('/logout')}
-                transparent
-                testID="btn-to-logout"
-              >
-                {t('profile.logout')}
-              </HoliButton>
-            </>
-          </View>
-          <HoliTabs
-            style={{ marginTop: 24 }}
-            tabs={[
-              {
-                title: t('profile.tabs.profile'),
-                children: [
-                  <View style={[mixins.container, styles.chipRowContainer]} key="engagementLevel">
-                    <HoliChipRow
-                      editButtonLabel={t('profile.engagementLevel.edit')}
-                      editable={!user?.engagementLevel}
-                      title={t('profile.engagementLevel')}
-                      onPressEdit={() => {
-                        toggleModal()
-                        setEditMode('engagementLevel')
+        {user ? (
+          <>
+            <View
+              style={[mixins.container, styles.container]}
+              testID={['user-profile-edit', editMode].filter((e) => e).join('-')}
+            >
+              <>
+                <HoliModal
+                  show={showModal}
+                  onDismiss={toggleModal}
+                  relativeHeight={0.95}
+                  testID="user-profile-modal"
+                  label={t(`profile.${editMode}.edit`)}
+                >
+                  {(() => {
+                    switch (editMode) {
+                      case 'profile':
+                        return <UserProfileForm onCancel={toggleModal} onSubmit={toggleModal} />
+                      case 'engagementLevel':
+                        return <UserEngagementLevelForm onCancel={toggleModal} onSubmit={toggleModal} />
+                      case 'interests':
+                        return (
+                          <UserChipForm typeMetadata={UserChipInterest} onCancel={toggleModal} onSubmit={toggleModal} />
+                        )
+                      case 'skills':
+                        return (
+                          <UserChipForm typeMetadata={UserChipSkill} onCancel={toggleModal} onSubmit={toggleModal} />
+                        )
+                      case 'sdgs':
+                        return (
+                          <UserChipForm
+                            typeMetadata={UserChipSDG}
+                            onCancel={toggleModal}
+                            onSubmit={toggleModal}
+                            sortByTranslation={false}
+                          />
+                        )
+                    }
+                  })()}
+                </HoliModal>
+                <UserProfileView user={user} />
+                <HoliButton
+                  label={t('profile.edit')}
+                  onPress={() => {
+                    setEditMode('profile')
+                    toggleModal()
+                  }}
+                  transparent
+                  inline
+                  testID="btn-open-profile-edit-view"
+                >
+                  {t('profile.edit')}
+                </HoliButton>
+                <HoliButton
+                  label={t('profile.logout')}
+                  inline
+                  onPress={() => navigate('/logout')}
+                  transparent
+                  testID="btn-to-logout"
+                >
+                  {t('profile.logout')}
+                </HoliButton>
+              </>
+            </View>
+            <HoliTabs
+              style={{ marginTop: 24 }}
+              tabs={[
+                {
+                  title: t('profile.tabs.profile'),
+                  children: [
+                    <View style={[mixins.container, styles.chipRowContainer]} key="engagementLevel">
+                      <HoliChipRow
+                        editButtonLabel={t('profile.engagementLevel.edit')}
+                        editable={!user?.engagementLevel}
+                        title={t('profile.engagementLevel')}
+                        onPressEdit={() => {
+                          toggleModal()
+                          setEditMode('engagementLevel')
+                        }}
+                      >
+                        {user?.engagementLevel && (
+                          <HoliChip
+                            text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
+                            style={styles.chip}
+                            disabled
+                          />
+                        )}
+                        {!user?.engagementLevel && (
+                          <HoliChip
+                            onPress={() => {
+                              toggleModal()
+                              setEditMode('engagementLevel')
+                            }}
+                            label={t('profile.engagementLevel.add')}
+                            style={styles.chip}
+                          />
+                        )}
+                      </HoliChipRow>
+                    </View>,
+                    <View style={[mixins.container, styles.chipRowContainer]} key="interests">
+                      <UserChipRow
+                        user={user}
+                        typeMetadata={UserChipInterest}
+                        onPressEdit={() => {
+                          toggleModal()
+                          setEditMode('interests')
+                        }}
+                        numberOfLines={1}
+                      />
+                    </View>,
+                    <View style={[mixins.container, styles.chipRowContainer]} key="sdgs">
+                      <UserChipRow
+                        user={user}
+                        typeMetadata={UserChipSDG}
+                        sortByTranslation={false}
+                        onPressEdit={() => {
+                          toggleModal()
+                          setEditMode('sdgs')
+                        }}
+                        numberOfLines={1}
+                      />
+                    </View>,
+                    <View style={[mixins.container, styles.chipRowContainer]} key="skills">
+                      <UserChipRow
+                        user={user}
+                        typeMetadata={UserChipSkill}
+                        onPressEdit={() => {
+                          toggleModal()
+                          setEditMode('skills')
+                        }}
+                        numberOfLines={1}
+                      />
+                    </View>,
+                  ],
+                },
+                {
+                  title: t('profile.tabs.topics'),
+                  children: (
+                    <View
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        paddingHorizontal: 56,
+                        paddingVertical: 72,
                       }}
                     >
-                      {user?.engagementLevel && (
-                        <HoliChip
-                          text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
-                          style={styles.chip}
-                          disabled
-                        />
-                      )}
-                      {!user?.engagementLevel && (
-                        <HoliChip
-                          onPress={() => {
-                            toggleModal()
-                            setEditMode('engagementLevel')
-                          }}
-                          label={t('profile.engagementLevel.add')}
-                          style={styles.chip}
-                        />
-                      )}
-                    </HoliChipRow>
-                  </View>,
-                  <View style={[mixins.container, styles.chipRowContainer]} key="interests">
-                    <UserChipRow
-                      user={user}
-                      typeMetadata={UserChipInterest}
-                      onPressEdit={() => {
-                        toggleModal()
-                        setEditMode('interests')
-                      }}
-                      numberOfLines={1}
-                    />
-                  </View>,
-                  <View style={[mixins.container, styles.chipRowContainer]} key="sdgs">
-                    <UserChipRow
-                      user={user}
-                      typeMetadata={UserChipSDG}
-                      sortByTranslation={false}
-                      onPressEdit={() => {
-                        toggleModal()
-                        setEditMode('sdgs')
-                      }}
-                      numberOfLines={1}
-                    />
-                  </View>,
-                  <View style={[mixins.container, styles.chipRowContainer]} key="skills">
-                    <UserChipRow
-                      user={user}
-                      typeMetadata={UserChipSkill}
-                      onPressEdit={() => {
-                        toggleModal()
-                        setEditMode('skills')
-                      }}
-                      numberOfLines={1}
-                    />
-                  </View>,
-                ],
-              },
-              {
-                title: t('profile.tabs.topics'),
-                children: (
-                  <View
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      paddingHorizontal: 56,
-                      paddingVertical: 72,
-                    }}
-                  >
-                    <HoliText style={{ textAlign: 'center', color: colors.fontColorGrey }}>
-                      {t('profile.tabs.topics.empty')}
-                    </HoliText>
-                  </View>
-                ),
-              },
-            ]}
-          />
-        </>
+                      <HoliText style={{ textAlign: 'center', color: colors.fontColorGrey }}>
+                        {t('profile.tabs.topics.empty')}
+                      </HoliText>
+                    </View>
+                  ),
+                },
+              ]}
+            />
+          </>
+        ) : (
+          <View style={[mixins.container, styles.container]}>
+            <HoliText>{t('user.profileView.noUser')}</HoliText>
+          </View>
+        )}
       </LoginProtection>
     </DefaultLayout>
   )

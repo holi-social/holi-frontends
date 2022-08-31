@@ -1,11 +1,12 @@
 import moment from 'moment'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useContext, useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import TopicPreviewBox from '@holi/core/screens/topics/components/TopicPreviewBox'
@@ -78,6 +79,14 @@ const appSwiperDummyApps: DummyApp[] = [
 
 const dummyUsers = Array.from(' '.repeat(6), (_, idx) => getRandomUser(!(idx % 2)))
 
+const exampleUsers = {
+  example: '9ebfc2c2-2d2b-413d-8bfd-ec30af1b7d49',
+  minimal: '5846dd02-e2c9-4350-9e68-e4c79bf02e02',
+  example2: 'a09124b7-cdaf-4922-9c02-10b40b3b1530',
+  maximal: 'd2384748-0151-40d6-8527-0fe182112a6c',
+  missing: 'foobar',
+}
+
 type HomeFeedProps = NativeStackScreenProps<HomeStackScreens>
 
 const temporalGreeting = (hours: number, t: (key: string) => string) => {
@@ -97,6 +106,12 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   const headerTitle = temporalGreeting(moment().hours(), t)
   const styles = homeFeedStyles(width)
   const mixins = useStyleMixins()
+  const { isLoggedIn, userId: authenticatedUserId } = useContext(AuthContext)
+  // TODO(SF) only temporarily for testing
+  const users: Record<string, string> = { ...exampleUsers }
+  if (isLoggedIn) {
+    users['current'] = authenticatedUserId || ''
+  }
 
   useLayoutEffect(
     () => {
@@ -182,6 +197,15 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
             <TopicPreviewBox key={topicId} id={topicId} {...topic} style={styles.feedTopicItem} />
           ))}
         </View>
+      </View>
+      <View style={[mixins.container]}>
+        {Object.entries(users).map(([label, userId]) => {
+          return (
+            <HoliButton key={userId} label={label} onPress={() => navigate('/profile/' + userId)}>
+              <HoliText>{label}</HoliText>
+            </HoliButton>
+          )
+        })}
       </View>
     </DefaultLayout>
   )

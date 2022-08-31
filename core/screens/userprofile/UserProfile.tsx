@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client'
+import { useLazyQuery } from '@apollo/client'
 import { AuthContext } from 'core/auth/AuthContextProvider'
 import { displayError } from 'core/errors/helpers'
 import useRouting from 'core/navigation/hooks/useRouting'
@@ -11,6 +11,7 @@ import { createParam } from 'solito'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import NotFound from '@holi/core/errors/components/NotFound'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
@@ -37,17 +38,26 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const mixins = useStyleMixins()
 
-  const { userId: authenticatedUserId } = useContext(AuthContext)
-  const [userId = ''] = useParam('userId')
+  const { isLoggedIn, userId: authenticatedUserId } = useContext(AuthContext)
+  // TODO(SF) remove solito
+  const [userId = ''] = useParam('userId') // TODO(SF) initially this is always missing??
 
-  if (!userId || userId === authenticatedUserId) {
+  // TODO(SF) own profile is still briefly visible in read only view
+  if (isLoggedIn && userId === authenticatedUserId) {
     navigate('/profile')
   }
 
-  const { loading, error, data } = useQuery<UserByIdResponse>(userByIdQuery, {
+  const [fetchUser, { loading, error, data }] = useLazyQuery<UserByIdResponse>(userByIdQuery, {
     variables: { userId },
-    // fetchPolicy: 'network-only', TODO(SF) necessary to specify?
+    fetchPolicy: 'network-only', //TODO(SF) necessary to specify?
   })
+
+  // TODO(SF) layout necessary?
+  useLayoutEffect(() => {
+    if (userId) {
+      fetchUser()
+    }
+  }, [fetchUser, userId])
 
   const user = data && data?.userById
 
@@ -67,13 +77,16 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
     },
     // setNavigationHeader would cause endless loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [navigation, user]
+    [navigation, user] // TODO(SF) navigation necessary?
   )
 
-  // TODO(SF) handle error/loading/missing/not found user
   if (error) {
-    // TODO(SF) recognize not found?
-    displayError(error, t('user.userProfile.error.fetching'))
+    // TODO(SF) perform more explicit check for 404?
+    if (error.graphQLErrors.length) {
+      return <NotFound />
+    } else {
+      displayError(error, t('user.userProfile.error.fetching'))
+    }
   }
 
   if (loading) {
