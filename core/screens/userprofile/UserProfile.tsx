@@ -1,8 +1,4 @@
 import { useLazyQuery } from '@apollo/client'
-import { AuthContext } from 'core/auth/AuthContextProvider'
-import { displayError } from 'core/errors/helpers'
-import useRouting from 'core/navigation/hooks/useRouting'
-import { UserByIdResponse, userByIdQuery } from 'core/screens/userprofile/queries'
 import React, { memo, useContext, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -10,11 +6,15 @@ import { Platform, StyleSheet, View } from 'react-native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import NotFound from '@holi/core/errors/components/NotFound'
+import { displayError } from '@holi/core/errors/helpers'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
+import { UserByIdResponse, userByIdQuery } from '@holi/core/screens/userprofile/queries'
 import { UserChipInterest, UserChipSDG, UserChipSkill } from '@holi/core/screens/userprofile/types'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -39,7 +39,7 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
   const mixins = useStyleMixins()
 
   const { isLoggedIn, userId: authenticatedUserId } = useContext(AuthContext)
-  const [userId = ''] = useParam('userId') // TODO(SF) initially this is always missing??
+  const [userId = ''] = useParam('userId')
 
   // TODO(SF) own profile is still briefly visible in read only view
   if (isLoggedIn && userId === authenticatedUserId) {
@@ -51,7 +51,9 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
     fetchPolicy: 'network-only', //TODO(SF) necessary to specify?
   })
 
-  // TODO(SF) layout necessary?
+  // TODO: workaround for params always being undefined on initial page load
+  // > will probably be solved with ssr
+  // see https://github.com/nandorojo/solito/issues/100
   useLayoutEffect(() => {
     if (userId) {
       fetchUser()
@@ -88,7 +90,7 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
     }
   }
 
-  if (loading) {
+  if (!userId || loading) {
     // TODO: replace with proper loading indicator
     return (
       <View style={[mixins.container, styles.container]}>

@@ -1,4 +1,3 @@
-import OwnProfile from 'core/screens/userprofile/OwnProfile'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
@@ -19,6 +18,7 @@ import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
 import Post, { PostParams } from '@holi/core/screens/topics/Post'
 import Topic, { TopicParams } from '@holi/core/screens/topics/Topic'
+import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
@@ -59,6 +59,8 @@ const DownButton = () => {
 }
 
 export const HomeStackNavigator: React.VFC = () => {
+  const { t } = useTranslation()
+
   return (
     <HomeStack.Navigator
       initialRouteName="HomeFeed"
@@ -102,6 +104,7 @@ export const HomeStackNavigator: React.VFC = () => {
               }}
             />
           ),
+          title: t('profile.title'),
         }}
       />
       <HomeStack.Screen
@@ -119,6 +122,7 @@ export const HomeStackNavigator: React.VFC = () => {
               }}
             />
           ),
+          title: t('profile.title'),
         }}
       />
       <HomeStack.Screen
