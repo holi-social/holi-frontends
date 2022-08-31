@@ -26,7 +26,7 @@ exports[`renders correctly renders correctly when open 1`] = `
     onMomentumScrollEnd={[Function]}
     pagingEnabled={true}
     showsHorizontalScrollIndicator={false}
-    snapToInterval={710}
+    snapToInterval={758}
   >
     <View>
       <View
@@ -37,10 +37,10 @@ exports[`renders correctly renders correctly when open 1`] = `
               "height": "100%",
               "marginLeft": 8,
               "marginRight": 0,
-              "width": 702,
+              "width": 750,
             },
             Object {
-              "marginLeft": 24,
+              "marginLeft": 0,
             },
             Object {},
           ]
@@ -181,7 +181,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               "height": "100%",
               "marginLeft": 8,
               "marginRight": 0,
-              "width": 702,
+              "width": 750,
             },
             Object {},
             Object {},
@@ -336,7 +336,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               "height": "100%",
               "marginLeft": 8,
               "marginRight": 0,
-              "width": 702,
+              "width": 750,
             },
             Object {},
             Object {},
@@ -478,7 +478,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               "height": "100%",
               "marginLeft": 8,
               "marginRight": 0,
-              "width": 702,
+              "width": 750,
             },
             Object {},
             Object {},
@@ -633,7 +633,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               "height": "100%",
               "marginLeft": 8,
               "marginRight": 0,
-              "width": 702,
+              "width": 750,
             },
             Object {},
             Object {},
@@ -775,7 +775,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               "height": "100%",
               "marginLeft": 8,
               "marginRight": 0,
-              "width": 702,
+              "width": 750,
             },
             Object {},
             Object {},
@@ -930,11 +930,11 @@ exports[`renders correctly renders correctly when open 1`] = `
               "height": "100%",
               "marginLeft": 8,
               "marginRight": 0,
-              "width": 702,
+              "width": 750,
             },
             Object {},
             Object {
-              "marginRight": 24,
+              "marginRight": 0,
             },
           ]
         }
