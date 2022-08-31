@@ -50,13 +50,10 @@ export const defaultAuthSteps = async (
   await clickElementByTestId(page, 'btn-to-profile-view')
   await clickElementByTestId(page, isLogin ? 'btn-to-login-form' : 'btn-to-registration-form')
 
-  const emailInput = await locateElementByTestId(
-    page,
-    isLogin ? 'ory-input-identifier-input' : 'ory-input-traits-email-input'
-  )
+  const emailInput = await locateElementByTestId(page, isLogin ? 'ory-identifier-input' : 'ory-traits-email-input')
   await emailInput.fill(email)
 
-  const passwordInput = await locateElementByTestId(page, 'ory-input-password-input')
+  const passwordInput = await locateElementByTestId(page, 'ory-password-input')
   await passwordInput.fill(password)
 
   await clickElementByTestId(page, 'ory-submit-method')

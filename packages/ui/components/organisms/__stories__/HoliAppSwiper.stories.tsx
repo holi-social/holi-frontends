@@ -18,7 +18,7 @@ const apps = [
   {
     name: 'Good News',
     hasUpdates: true,
-    backgroundColor: colors.lightGrey,
+    backgroundColor: colors.softblackLight,
   },
   {
     name: 'Ads for Good',
@@ -28,7 +28,7 @@ const apps = [
   {
     name: 'FactCheck',
     hasUpdates: false,
-    backgroundColor: colors.greyAA,
+    backgroundColor: colors.backgroundColorGrey,
   },
 ]
 
