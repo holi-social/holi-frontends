@@ -30,7 +30,7 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
   return (
     <View style={[styles.container, style]}>
       <ScrollView>
-        <HoliHeading style={styles.title} size="large">
+        <HoliHeading level="1" style={styles.title} size="large">
           {title || t('user.cards.modal.title')}
         </HoliHeading>
         <HoliCarousel

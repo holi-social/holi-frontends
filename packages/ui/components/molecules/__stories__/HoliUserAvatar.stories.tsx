@@ -11,7 +11,7 @@ export default {
 const Template: ComponentStory<typeof HoliUserAvatar> = ({ ...args }) => {
   return (
     <HoliUserAvatar
-      nameLabel={args.nameLabel}
+      label={args.label}
       imageSrc={args.imageSrc}
       defaultColor={args.defaultColor}
       initials={args.initials}
@@ -23,7 +23,7 @@ const Template: ComponentStory<typeof HoliUserAvatar> = ({ ...args }) => {
 export const BasicExample: ComponentStory<typeof HoliUserAvatar> = Template.bind({})
 
 BasicExample.argTypes = {
-  nameLabel: { description: 'Username', required: true, control: { type: 'text' } },
+  label: { description: 'Username', required: true, control: { type: 'text' } },
   imageSrc: {
     description: 'Url to the image',
     type: 'string',
@@ -44,7 +44,7 @@ BasicExample.argTypes = {
 }
 
 BasicExample.args = {
-  nameLabel: 'Uschi Meyer',
+  label: 'Uschi Meyer',
   imageSrc: undefined,
   defaultColor: 'pink',
   initials: 'UM',
