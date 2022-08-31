@@ -74,7 +74,6 @@ const getStyles = (screenHeight: number) =>
     },
     closeButton: {
       bottom: 50,
-      display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
     },
