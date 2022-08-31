@@ -85,13 +85,13 @@ exports[`renders correctly renders correctly when open 1`] = `
     </View>
     <View
       collapsable={false}
+      onLayout={[Function]}
       style={
         Object {
           "backgroundColor": "#fff",
           "borderTopLeftRadius": 24,
           "borderTopRightRadius": 24,
           "bottom": -1000.5,
-          "height": 1000.5,
           "left": 0,
           "overflow": "hidden",
           "position": "absolute",
