@@ -5,8 +5,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
   style={
     Array [
       Object {
+        "marginHorizontal": 16,
         "maxHeight": "100%",
-        "paddingHorizontal": 16,
       },
       undefined,
     ]
@@ -45,8 +45,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               "justifyContent": "center",
             },
             Object {
+              "marginBottom": 150,
               "marginTop": 24,
-              "paddingBottom": 80,
             },
           ]
         }
@@ -1519,7 +1519,10 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
     onStartShouldSetResponder={[Function]}
     style={
       Array [
-        undefined,
+        Object {
+          "bottom": 40,
+          "position": "absolute",
+        },
         Object {
           "width": "100%",
         },

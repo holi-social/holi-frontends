@@ -98,7 +98,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           "bottom": "0%",
           "maxHeight": "90%",
           "overflow": "hidden",
-          "paddingVertical": 40,
+          "paddingTop": 40,
           "shadowColor": "#000",
           "shadowOffset": Object {
             "height": 0,
