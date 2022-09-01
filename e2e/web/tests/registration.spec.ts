@@ -44,8 +44,8 @@ test.describe('@Registration', () => {
       'registration'
     )
 
-    await waitForElementByTestId(page, 'ory-input-traits-email-input-error-message')
-    await waitForElementByTestId(page, 'ory-input-password-input-error-message')
+    await waitForElementByTestId(page, 'ory-traits-email-input-error-message')
+    await waitForElementByTestId(page, 'ory-password-input-error-message')
     await checkAccessibility(page)
 
     // invalid email provided
@@ -59,7 +59,7 @@ test.describe('@Registration', () => {
       'registration'
     )
 
-    await waitForElementByTestId(page, 'ory-input-traits-email-input-error-message')
+    await waitForElementByTestId(page, 'ory-traits-email-input-error-message')
 
     // short password provided
     await defaultAuthSteps(
@@ -83,7 +83,7 @@ test.describe('@Registration', () => {
       'registration'
     )
 
-    await waitForElementByTestId(page, 'ory-input-password-input-error-message')
+    await waitForElementByTestId(page, 'ory-password-input-error-message')
   })
 
   test('Registration - Logout', async ({ context, page }) => {
