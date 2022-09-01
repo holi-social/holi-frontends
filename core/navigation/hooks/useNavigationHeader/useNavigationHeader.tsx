@@ -16,7 +16,6 @@ const useNavigationHeader = () => {
     setNavigationHeader: (title: string, headerProps?: HeaderProps) => {
       const headerOptions: NativeStackNavigationOptions = {}
       navigationContext.setHeaderTitle(title)
-      // TODO use headerCenter instead of titleElement??
       headerOptions.headerCenter = () => (
         <HoliText bold style={{ paddingTop: 5 }}>
           {title}
