@@ -5,9 +5,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
   style={
     Array [
       Object {
-        "maxHeight": 1254,
+        "maxHeight": "100%",
         "paddingHorizontal": 16,
-        "width": "100%",
       },
       undefined,
     ]
@@ -1520,11 +1519,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
     onStartShouldSetResponder={[Function]}
     style={
       Array [
-        Object {
-          "alignItems": "center",
-          "bottom": 50,
-          "justifyContent": "center",
-        },
+        undefined,
         Object {
           "width": "100%",
         },
