@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Dimensions, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -23,8 +23,6 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
   title,
   style,
 }: HoliUserCardsModalContentProps) => {
-  const screenHeight = Dimensions.get('window').height
-  const styles = getStyles(screenHeight)
   const { t } = useTranslation()
 
   return (
@@ -33,6 +31,7 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
         <HoliHeading level="1" style={styles.title} size="large">
           {title || t('user.cards.modal.title')}
         </HoliHeading>
+
         <HoliCarousel
           style={styles.carouselContainer}
           slides={users.map((user) => ({
@@ -41,12 +40,7 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
         />
       </ScrollView>
 
-      <HoliButton
-        style={styles.closeButton}
-        label={t('user.cards.modal.close')}
-        onPress={onDismiss}
-        testID="user-cards-modal-content-close"
-      >
+      <HoliButton label={t('user.cards.modal.close')} onPress={onDismiss} testID="user-cards-modal-content-close">
         {t('user.cards.modal.close')}
       </HoliButton>
     </View>
@@ -55,26 +49,20 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
 
 export default HoliUserCardsModalContent
 
-const getStyles = (screenHeight: number) =>
-  StyleSheet.create({
-    container: {
-      paddingHorizontal: 16,
-      width: '100%',
-      maxHeight: screenHeight - 80,
-    },
-    title: {
-      textAlign: 'center',
-    },
-    carouselContainer: {
-      marginTop: 24,
-      paddingBottom: 80,
-    },
-    userCard: {
-      width: '100%',
-    },
-    closeButton: {
-      bottom: 50,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  })
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 16,
+    maxHeight: '100%',
+  },
+
+  title: {
+    textAlign: 'center',
+  },
+  carouselContainer: {
+    marginTop: 24,
+    paddingBottom: 80,
+  },
+  userCard: {
+    width: '100%',
+  },
+})
