@@ -1,8 +1,10 @@
+import React from 'react'
 import { NativeStackNavigationOptions } from 'react-native-screens/native-stack'
 
 import { useNavigation } from '@react-navigation/native'
 
 import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 
 import type { HeaderProps } from './index'
 
@@ -11,18 +13,22 @@ const useNavigationHeader = () => {
   const navigationContext = useNavigationContext()
 
   return {
-    setNavigationHeader: (headerProps: HeaderProps) => {
+    setNavigationHeader: (title: string, headerProps?: HeaderProps) => {
       const headerOptions: NativeStackNavigationOptions = {}
-      const title = headerProps.title || ''
       navigationContext.setHeaderTitle(title)
-      if (headerProps.titleElement) headerOptions.titleElement = headerProps.titleElement
-      if (headerProps.headerLeft) headerOptions.headerLeft = headerProps.headerLeft
-      if (headerProps.headerRight) headerOptions.headerRight = headerProps.headerRight
+      // TODO use headerCenter instead of titleElement??
+      headerOptions.headerCenter = () => (
+        <HoliText bold style={{ paddingTop: 5 }}>
+          {title}
+        </HoliText>
+      )
+      if (headerProps?.headerLeft) headerOptions.headerLeft = headerProps.headerLeft
+      if (headerProps?.headerRight) headerOptions.headerRight = headerProps.headerRight
       navigation.setOptions?.(headerOptions)
     },
     clearNavigationHeader: () => {
       const headerOptions: NativeStackNavigationOptions = {}
-      headerOptions.titleElement = undefined
+      headerOptions.headerCenter = undefined
       headerOptions.headerLeft = undefined
       headerOptions.headerRight = undefined
       navigation.setOptions?.(headerOptions)

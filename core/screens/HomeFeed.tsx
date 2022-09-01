@@ -100,14 +100,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
 
   useLayoutEffect(
     () => {
-      setNavigationHeader({
-        title: headerTitle,
-        titleElement: () => (
-          <HoliText bold style={{ paddingTop: 5 }}>
-            {headerTitle}
-          </HoliText>
-        ),
-      })
+      setNavigationHeader(headerTitle)
       return clearNavigationHeader
     },
     // setNavigationHeader would cause endless loop

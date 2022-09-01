@@ -34,13 +34,7 @@ const Post: React.VFC<PostProps> = ({ navigation }: PostProps) => {
 
   useLayoutEffect(
     () => {
-      setNavigationHeader({
-        title: title,
-        titleElement: () => (
-          <HoliText bold style={{ paddingTop: 5 }}>
-            {title}
-          </HoliText>
-        ),
+      setNavigationHeader(title, {
         headerLeft: () => <BackButton />,
       })
       return clearNavigationHeader

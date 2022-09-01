@@ -1,4 +1,7 @@
+import React from 'react'
+
 import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 
 import { HeaderProps } from './index'
 
@@ -6,12 +9,15 @@ const useNavigationHeader = () => {
   const navigationContext = useNavigationContext()
 
   return {
-    setNavigationHeader: (headerProps: HeaderProps) => {
-      const title = headerProps.title || ''
+    setNavigationHeader: (title: string, headerProps?: HeaderProps) => {
       navigationContext.setHeaderTitle(title)
-      if (headerProps.titleElement) navigationContext.setTitleElement(headerProps.titleElement)
-      if (headerProps.headerRight) navigationContext.setHeaderRight(headerProps.headerRight)
-      if (headerProps.headerLeft) navigationContext.setHeaderLeft(headerProps.headerLeft)
+      navigationContext.setTitleElement(() => (
+        <HoliText bold style={{ paddingTop: 5 }}>
+          {title}
+        </HoliText>
+      ))
+      if (headerProps?.headerRight) navigationContext.setHeaderRight(headerProps.headerRight)
+      if (headerProps?.headerLeft) navigationContext.setHeaderLeft(headerProps.headerLeft)
     },
     clearNavigationHeader: () => {
       navigationContext.clearBackLinks()

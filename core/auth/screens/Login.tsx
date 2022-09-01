@@ -35,9 +35,8 @@ const Login: React.VoidFunctionComponent = () => {
 
   useLayoutEffect(
     () => {
-      setNavigationHeader({
+      setNavigationHeader(t('auth.login'), {
         headerLeft: () => <BackButton icon="arrow-down-s" />,
-        title: t('auth.login'),
       })
       return clearNavigationHeader
     },
