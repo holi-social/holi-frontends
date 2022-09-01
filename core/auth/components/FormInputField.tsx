@@ -133,7 +133,8 @@ const FormInputField = ({
 
   return (
     <HoliTextInput
-      label={t(`auth.login.input.label-${fieldLabel}`)}
+      inputLabel={t(`auth.login.input.label-${fieldLabel}`)}
+      accessibilityLabel={t(`auth.login.input.label-${fieldLabel}`)}
       placeholder={t(`auth.login.input.placeholder-${fieldLabel}`)}
       value={value ? String(value) : ''}
       validationErrorText={getValidationErrorText(node, i18n)}

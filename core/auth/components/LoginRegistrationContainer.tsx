@@ -49,7 +49,7 @@ const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = (
       ) : (
         <View style={styles.formContainer}>
           {Platform.OS === 'web' && (
-            <HoliHeading>{isLogin ? t('auth.login') : t('auth.registration.heading')}</HoliHeading>
+            <HoliHeading level="1">{isLogin ? t('auth.login') : t('auth.registration.heading')}</HoliHeading>
           )}
 
           <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} />

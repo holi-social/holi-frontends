@@ -12,13 +12,18 @@ export default {
 const Template: ComponentStory<typeof HoliChipRow> = ({ ...args }) => {
   return (
     <HoliChipRow {...args}>
-      <HoliChip text="Books" disabled style={{ marginRight: 5, marginTop: 5 }} />
-      <HoliChip text="Sports" disabled style={{ marginRight: 5, marginTop: 5 }} />
-      <HoliChip text="Movies" disabled style={{ marginRight: 5, marginTop: 5 }} />
-      <HoliChip text="Hiking" disabled style={{ marginRight: 5, marginTop: 5 }} />
-      <HoliChip text="Video games" disabled style={{ marginRight: 5, marginTop: 5 }} />
-      <HoliChip text="Harvesting" disabled style={{ marginRight: 5, marginTop: 5 }} />
-      <HoliChip text="Chasing butterflies" disabled style={{ marginRight: 5, marginTop: 5 }} />
+      <HoliChip text="Books" label="Books" disabled style={{ marginRight: 5, marginTop: 5 }} />
+      <HoliChip text="Sports" label="Sports" disabled style={{ marginRight: 5, marginTop: 5 }} />
+      <HoliChip text="Movies" label="Movies" disabled style={{ marginRight: 5, marginTop: 5 }} />
+      <HoliChip text="Hiking" label="Hiking" disabled style={{ marginRight: 5, marginTop: 5 }} />
+      <HoliChip text="Video games" label="Video games" disabled style={{ marginRight: 5, marginTop: 5 }} />
+      <HoliChip text="Harvesting" label="Harvesting" disabled style={{ marginRight: 5, marginTop: 5 }} />
+      <HoliChip
+        text="Chasing butterflies"
+        label="Chasing butterflies"
+        disabled
+        style={{ marginRight: 5, marginTop: 5 }}
+      />
     </HoliChipRow>
   )
 }

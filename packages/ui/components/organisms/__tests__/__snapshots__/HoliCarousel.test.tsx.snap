@@ -97,7 +97,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               <Image
                 accessibilityLabel="Dima Rosmait"
                 accessibilityRole="image"
-                accessible={true}
+                accessible={false}
                 source={
                   Object {
                     "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
@@ -239,7 +239,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               <Text
                 accessibilityLabel="Max Mustermann"
                 accessibilityRole="image"
-                accessible={true}
+                accessible={false}
                 selectable={true}
                 style={
                   Array [
@@ -394,7 +394,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               <Image
                 accessibilityLabel="Thomas Mueller"
                 accessibilityRole="image"
-                accessible={true}
+                accessible={false}
                 source={
                   Object {
                     "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
@@ -536,7 +536,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               <Text
                 accessibilityLabel="Sandra Kasandra"
                 accessibilityRole="image"
-                accessible={true}
+                accessible={false}
                 selectable={true}
                 style={
                   Array [
@@ -691,7 +691,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               <Image
                 accessibilityLabel="Peter Pan"
                 accessibilityRole="image"
-                accessible={true}
+                accessible={false}
                 source={
                   Object {
                     "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
@@ -833,7 +833,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               <Text
                 accessibilityLabel="Donald Duck"
                 accessibilityRole="image"
-                accessible={true}
+                accessible={false}
                 selectable={true}
                 style={
                   Array [
@@ -990,7 +990,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               <Image
                 accessibilityLabel="Lionel Messi"
                 accessibilityRole="image"
-                accessible={true}
+                accessible={false}
                 source={
                   Object {
                     "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",

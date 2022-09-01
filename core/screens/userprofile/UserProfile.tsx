@@ -129,6 +129,7 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
                   <HoliChipRow title={t('profile.engagementLevel')}>
                     <HoliChip
                       text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
+                      label={t(`user.engagementLevel.title.${user.engagementLevel}`)}
                       style={styles.chip}
                       disabled
                     />

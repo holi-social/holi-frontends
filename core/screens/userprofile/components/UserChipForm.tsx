@@ -104,9 +104,12 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
   return (
     <View style={styles.wrapper}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <HoliHeading style={styles.headline}>{t(`user.${typeMetadata.keyInUserObject}.form.headline`)}</HoliHeading>
+        <HoliHeading level="1" style={styles.headline}>
+          {t(`user.${typeMetadata.keyInUserObject}.form.headline`)}
+        </HoliHeading>
         <HoliText style={styles.subline}>{t(`user.${typeMetadata.keyInUserObject}.form.subline`)}</HoliText>
         <HoliTextInput
+          accessibilityLabel={t(`profile.${typeMetadata.keyInUserObject}.filter.placeholder`)}
           value={filterString}
           placeholder={t(`profile.${typeMetadata.keyInUserObject}.filter.placeholder`)}
           onChange={(text) => setFilterString(text)}
@@ -121,6 +124,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
                 checked={values.includes(value)}
                 onPress={() => updateValues(value)}
                 text={t}
+                label={t}
                 style={styles.chip}
               />
             )

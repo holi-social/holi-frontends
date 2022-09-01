@@ -50,7 +50,7 @@ exports[`HoliUserCard renders correctly 1`] = `
       <Image
         accessibilityLabel="Dima Rosmait"
         accessibilityRole="image"
-        accessible={true}
+        accessible={false}
         source={
           Object {
             "uri": "avatar-1",
@@ -175,7 +175,7 @@ exports[`HoliUserCard renders correctly with small variant 1`] = `
       <Image
         accessibilityLabel="Dima Rosmait"
         accessibilityRole="image"
-        accessible={true}
+        accessible={false}
         source={
           Object {
             "uri": "avatar-1",
