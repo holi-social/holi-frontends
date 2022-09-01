@@ -1,7 +1,7 @@
 import { Page, expect, test } from '@playwright/test'
 import { injectAxe } from 'axe-playwright'
 
-import { byTestId, checkAccessibility, defaultLoginSteps, delay, waitForAnimationEnd } from './helpers'
+import { byTestId, checkAccessibility, defaultAuthSteps, delay, waitForAnimationEnd } from './helpers'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
@@ -14,7 +14,7 @@ test.beforeEach(async ({ page }) => {
 test.describe('@Profile', () => {
   test('journey', async ({ context, page }) => {
     // go to profile edit modal
-    await defaultLoginSteps({ context, page })
+    await defaultAuthSteps({ context, page })
     await page.waitForSelector(byTestId('btn-open-profile-edit-view'))
     await checkAccessibility(page)
     await delay(0.5) // source of flakyness and delay. Why do we need this here? Component is there, but click does not work when done too early.
