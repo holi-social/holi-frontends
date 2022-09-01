@@ -87,17 +87,15 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
         animationType="fade"
       >
         <GestureHandlerRootView style={styles.rootView}>
-          <View style={styles.backdrop}>
-            <HoliButton
-              label={t('modal.backdrop')}
-              onPress={onDismiss}
-              style={{ flex: 1 }}
-              transparent
-              disableFocusability
-            >
-              <View onAccessibilityEscape={onDismiss} style={styles.backdrop} testID="backdrop" />
-            </HoliButton>
-          </View>
+          <HoliButton
+            label={t('modal.backdrop')}
+            style={styles.backdrop}
+            onPress={onDismiss}
+            transparent
+            disableFocusability
+          >
+            <View onAccessibilityEscape={onDismiss} style={styles.backdrop} testID="backdrop" />
+          </HoliButton>
 
           <Animated.View
             style={[
@@ -105,13 +103,14 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
               {
                 bottom: animShiftInterpolated,
                 transform: [{ translateY: gestureShift }],
-                [autoHeight ? 'maxHeight' : 'height']: `${relativeHeight * 100}%`,
+                maxHeight: `${relativeHeight * 100}%`,
               },
               styles.common,
+              !autoHeight && styles.rootFixHeight,
             ]}
             testID={[props.testID, 'animatedview'].filter((e) => e).join('-')}
           >
-            <View style={{ position: 'absolute', top: 0, width: '100%' }}>
+            <View style={styles.panGestureContainer}>
               <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
                 <View style={[styles.header, styles.common]}>
                   <View style={[styles.handle]} />
@@ -139,6 +138,14 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 24,
     overflow: 'hidden',
     paddingVertical: 40,
+  },
+  rootFixHeight: {
+    flex: 1,
+  },
+  panGestureContainer: {
+    position: 'absolute',
+    top: 0,
+    width: '100%',
   },
   header: {
     height: 40,
