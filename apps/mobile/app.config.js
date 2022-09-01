@@ -20,7 +20,6 @@ export default {
       supportsTablet: true,
       bundleIdentifier: 'foundation.holistic.projectholi',
       buildNumber: '1.0.0',
-      backgroundColor: '#FFFFFF',
     },
     android: {
       adaptiveIcon: {
