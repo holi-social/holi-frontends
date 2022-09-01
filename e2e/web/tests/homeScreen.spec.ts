@@ -1,6 +1,12 @@
 import { expect, test } from '@playwright/test'
 
-import { byTestId, clickElementByTestId, waitForElementByTestId } from './helpers'
+import {
+  byTestId,
+  clickElementByTestId,
+  defaultLoginSteps,
+  waitForAnimationEnd,
+  waitForElementByTestId,
+} from './helpers'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
@@ -35,11 +41,21 @@ test.describe('@HomeScreen', () => {
   })
 
   test('opens editors list upon clicking in avatar pile and shows topic editor cards.', async ({ page }) => {
-    // TODO in https://holi.atlassian.net/browse/HOLI-1942
-    // await page.waitForSelector(byTestId('avatar-pile-open-modal-button'))
-    // await page.locator(byTestId('avatar-pile-open-modal-button')).first().click()
-    // await delay(0.5) // wait for modal to open
-    // await page.locator(byTestId('user-cards-modal-content'))
-    // await page.locator(byTestId('user-card'))
+    await page.waitForSelector(byTestId('avatar-pile-open-modal-button'))
+    await page.locator(byTestId('avatar-pile-open-modal-button')).first().click()
+    await waitForAnimationEnd(page.locator(byTestId('topic-editors-modal-animatedview')))
+    await page.locator(byTestId('user-cards-modal-content'))
+    await page.locator(byTestId('user-card'))
+  })
+
+  test('shows no user suggestions if logged out.', async ({ page }) => {
+    await expect(await page.locator(byTestId('user-suggestions'))).toHaveCount(0)
+  })
+
+  test('shows 10 user suggestions if logged in.', async ({ page, context }) => {
+    await defaultLoginSteps({ page, context })
+    await page.locator(byTestId('nav-button-home')).click()
+    await page.waitForSelector(byTestId('user-suggestions'))
+    expect(await page.locator(byTestId('user-card-suggestion'))).toHaveCount(10)
   })
 })

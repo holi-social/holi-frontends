@@ -14,6 +14,7 @@ type HoliUserCardVariant = 'small' | 'normal'
 export type HoliUserCardProps = {
   user: User
   variant?: HoliUserCardVariant
+  testID?: string
   category?: string
   style?: StyleProp<ViewStyle>
   disableFocusability?: boolean
@@ -23,6 +24,7 @@ export type HoliUserCardProps = {
 const HoliUserCard: React.VFC<HoliUserCardProps> = ({
   user,
   variant = 'normal',
+  testID,
   category,
   style,
   disableFocusability,
@@ -45,7 +47,7 @@ const HoliUserCard: React.VFC<HoliUserCardProps> = ({
   const nameLabel = `${firstName || ''} ${lastName || ''}`.trim()
   return (
     <>
-      <View {...accessibilityProps} style={[styles.cardContainer, style]} testID="user-card">
+      <View {...accessibilityProps} style={[styles.cardContainer, style]} testID={testID || 'user-card'}>
         <HoliUserAvatar
           imageSrc={avatar}
           label={nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}

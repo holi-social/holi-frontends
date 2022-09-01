@@ -33,7 +33,7 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = ({ style }: UserSuggest
   const { userSuggestions } = data
 
   return (
-    <View style={style}>
+    <View style={style} testID="user-suggestions">
       <View style={mixins.container}>
         <HoliHeading level="2">{t('homeFeed.userSuggestions.title')}</HoliHeading>
       </View>
@@ -47,7 +47,7 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = ({ style }: UserSuggest
             transparent
             inline
           >
-            <HoliUserCard user={user} variant="small" disableFocusability />
+            <HoliUserCard user={user} testID="user-card-suggestion" variant="small" disableFocusability />
           </HoliButton>
         ))}
         <HoliButton
