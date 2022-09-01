@@ -30,7 +30,7 @@ const OwnProfileView: React.VFC<OwnProfileViewProps> = ({ toggleEditMode, user }
 
   return (
     <>
-      <View style={[mixins.container, styles.container]} testID="user-profile-edit">
+      <View style={[mixins.container, styles.container]}>
         <>
           <UserProfileView user={user} contactPossible={false} />
           <HoliButton

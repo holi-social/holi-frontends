@@ -77,7 +77,6 @@ const OwnProfile: React.VFC = () => {
   )
 
   // TODO(SF) improve missing user case
-  // TODO(SF) moved position of editMode in testids
   return (
     <DefaultLayout>
       <LoginProtection loggedOutContent={<LoggedOutView />}>
@@ -87,7 +86,7 @@ const OwnProfile: React.VFC = () => {
               show={showModal}
               onDismiss={toggleModal}
               relativeHeight={0.95}
-              testID={['user-profile-modal', editMode].filter((e) => e).join('-')}
+              testID="user-profile-modal"
               label={t(`profile.${editMode}.edit`)}
             >
               {(() => {
