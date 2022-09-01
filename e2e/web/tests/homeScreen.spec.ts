@@ -43,7 +43,7 @@ test.describe('@HomeScreen', () => {
   test('opens editors list upon clicking in avatar pile and shows topic editor cards.', async ({ page }) => {
     await page.waitForSelector(byTestId('avatar-pile-open-modal-button'))
     await page.locator(byTestId('avatar-pile-open-modal-button')).first().click()
-    await waitForAnimationEnd(page.locator(byTestId('topic-editors-modal-animatedview')))
+    // await waitForAnimationEnd(page.locator(byTestId('topic-editors-modal-animatedview')))
     await page.locator(byTestId('user-cards-modal-content'))
     await page.locator(byTestId('user-card'))
   })
