@@ -1,12 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-import {
-  byTestId,
-  clickElementByTestId,
-  defaultAuthSteps,
-  waitForAnimationEnd,
-  waitForElementByTestId,
-} from './helpers'
+import { byTestId, clickElementByTestId, defaultAuthSteps, waitForElementByTestId } from './helpers'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
