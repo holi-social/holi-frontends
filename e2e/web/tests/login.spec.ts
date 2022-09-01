@@ -1,7 +1,7 @@
 import { test } from '@playwright/test'
 import { injectAxe } from 'axe-playwright'
 
-import { checkAccessibility, clickElementByTestId, defaultLoginSteps, waitForElementByTestId } from './helpers'
+import { checkAccessibility, clickElementByTestId, defaultAuthSteps, waitForElementByTestId } from './helpers'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
@@ -14,7 +14,7 @@ test.beforeEach(async ({ page }) => {
 test.describe('@Login', () => {
   test('Login - Logout', async ({ context, page }) => {
     // should not work with invalid credentials
-    await defaultLoginSteps({ context, page, username: 'asfd@asdf.de', password: '1234' })
+    await defaultAuthSteps({ context, page, email: 'asfd@asdf.de', password: '1234' })
     // see https://www.ory.sh/docs/kratos/concepts/ui-user-interface#ui-error-codes
     // for more ory error codes
     await waitForElementByTestId(page, 'ory-message-4000006')
@@ -23,7 +23,7 @@ test.describe('@Login', () => {
 
     // should work with valid credentials
     // Login
-    await defaultLoginSteps({ context, page })
+    await defaultAuthSteps({ context, page })
     // Logout
     await clickElementByTestId(page, 'btn-to-logout')
     await clickElementByTestId(page, 'confirm-logout-button')
