@@ -90,7 +90,6 @@ const UserProfile: React.VFC = () => {
               <HoliModal
                 show={showModal}
                 onDismiss={toggleModal}
-                relativeHeight={0.95}
                 testID="user-profile-modal"
                 label={t(`profile.${editMode}.edit`)}
               >

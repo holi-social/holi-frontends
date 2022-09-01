@@ -143,7 +143,6 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
         )}
       </ScrollView>
       <HoliButton
-        style={styles.saveButton}
         label={t('user.profileForm.save')}
         onPress={submit}
         testID={['user-profile-chipform', typeMetadata.keyInUserObject, 'save'].join('-')}
@@ -172,7 +171,7 @@ const getStyles = () =>
       display: 'flex',
       flexDirection: 'column',
       width: '100%',
-      paddingBottom: 150,
+      paddingBottom: 50,
     },
     headline: {
       marginBottom: 16,
@@ -186,12 +185,6 @@ const getStyles = () =>
     chip: {
       marginRight: 8,
       marginBottom: 8,
-    },
-    saveButton: {
-      bottom: 70,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
     },
   })
 

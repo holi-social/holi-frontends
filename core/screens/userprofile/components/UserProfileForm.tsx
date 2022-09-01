@@ -89,10 +89,12 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
         size="medium"
         style={styles.avatar}
       />
+
       <View style={styles.addImage}>
         <HoliText style={{ marginRight: 13 }}>Add a profile image</HoliText>
         <HoliIcon icon="image" color={colors.fontColorGrey} />
       </View>
+
       <ScrollView style={styles.scrollView}>
         <HoliTextInput
           value={firstName}
@@ -148,11 +150,11 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
           accessibilityLabel={t('user.profileForm.location')}
           placeholder={t('user.profileForm.locationPlaceholder')}
           onChange={(text) => setLocation(text)}
-          style={[styles.input, { paddingBottom: 100 }]}
+          style={styles.input}
         />
       </ScrollView>
+
       <HoliButton
-        style={styles.saveButton}
         label={t('user.profileForm.save')}
         onPress={submit}
         testID={`btn-${props?.testId || 'user-profile-edit-form'}-save`}
@@ -179,24 +181,15 @@ const styles = StyleSheet.create({
   scrollView: {
     marginTop: 24,
     paddingHorizontal: 8,
-    flex: 1,
     width: '100%',
   },
   wrapper: {
     alignItems: 'center',
     alignSelf: 'center',
-    flex: 1,
+    height: '100%',
     maxWidth: 500,
     paddingHorizontal: 16,
-    paddingBottom: 24,
     width: '100%',
-  },
-  saveButton: {
-    bottom: 30,
-    position: 'absolute',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 })
 

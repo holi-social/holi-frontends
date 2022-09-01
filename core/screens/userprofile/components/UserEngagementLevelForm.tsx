@@ -140,7 +140,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
           </HoliText>
         </View>
       </ScrollView>
-      <HoliButton style={styles.saveButton} label={t('user.profileForm.save')} onPress={submit}>
+      <HoliButton label={t('user.profileForm.save')} onPress={submit}>
         {t('user.profileForm.save')}
       </HoliButton>
     </View>
@@ -153,8 +153,7 @@ const getStyles = (buttonsContainerHeight: number) =>
       alignItems: 'center',
       flexDirection: 'column',
       maxWidth: 600,
-      padding: 16,
-      paddingTop: 0,
+      paddingHorizontal: 16,
       width: '100%',
       height: '100%',
       alignSelf: 'center',
@@ -192,12 +191,6 @@ const getStyles = (buttonsContainerHeight: number) =>
     },
     button3: {
       height: buttonsContainerHeight,
-    },
-    saveButton: {
-      bottom: 70,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
     },
     activeButtonIcon: {
       width: 50,
