@@ -7,6 +7,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type HoliUserCardsModalContentProps = {
   users: User[]
@@ -24,6 +25,7 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
   style,
 }: HoliUserCardsModalContentProps) => {
   const { t } = useTranslation()
+  const mixins = useStyleMixins()
 
   return (
     <View style={[styles.container, style]}>
@@ -40,7 +42,12 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
         />
       </ScrollView>
 
-      <HoliButton label={t('user.cards.modal.close')} onPress={onDismiss} testID="user-cards-modal-content-close">
+      <HoliButton
+        style={mixins.modalActionButton}
+        label={t('user.cards.modal.close')}
+        onPress={onDismiss}
+        testID="user-cards-modal-content-close"
+      >
         {t('user.cards.modal.close')}
       </HoliButton>
     </View>
@@ -51,16 +58,15 @@ export default HoliUserCardsModalContent
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 16,
+    marginHorizontal: 16,
     maxHeight: '100%',
   },
-
   title: {
     textAlign: 'center',
   },
   carouselContainer: {
     marginTop: 24,
-    paddingBottom: 80,
+    marginBottom: 150,
   },
   userCard: {
     width: '100%',

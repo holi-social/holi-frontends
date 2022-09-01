@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     overflow: 'hidden',
-    paddingVertical: 40,
+    paddingTop: 40,
   },
   rootFixHeight: {
     flex: 1,

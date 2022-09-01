@@ -17,6 +17,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import { ChipValueWithTranslation, toValuesWithTranslation } from './userChipHelper'
 
@@ -43,6 +44,8 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
   const [saved, setSaved] = useState(false)
 
   const { t } = useTranslation()
+  const mixins = useStyleMixins()
+
   useEffect(() => {
     /*
     We need to determine the right order when opening the layer:
@@ -115,7 +118,9 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
         <HoliHeading level="1" style={styles.headline}>
           {t(`user.${typeMetadata.keyInUserObject}.form.headline`)}
         </HoliHeading>
+
         <HoliText style={styles.subline}>{t(`user.${typeMetadata.keyInUserObject}.form.subline`)}</HoliText>
+
         <HoliTextInput
           accessibilityLabel={t(`profile.${typeMetadata.keyInUserObject}.filter.placeholder`)}
           value={filterString}
@@ -124,6 +129,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
           trailingIcon="search"
           style={styles.input}
         />
+
         <HoliChipRow editable={false} editButtonLabel="">
           {filteredValues.map(({ value, t }) => {
             return (
@@ -138,13 +144,16 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
             )
           })}
         </HoliChipRow>
+
         {filteredValues.length === 0 && (
           <HoliText style={styles.subline}>{t(`profile.${typeMetadata.keyInUserObject}.filter.empty`)}</HoliText>
         )}
       </ScrollView>
+
       <HoliButton
         label={t('user.profileForm.save')}
         onPress={submit}
+        style={mixins.modalActionButton}
         testID={['user-profile-chipform', typeMetadata.keyInUserObject, 'save'].join('-')}
       >
         {t('user.profileForm.save')}
@@ -157,12 +166,9 @@ const getStyles = () =>
   StyleSheet.create({
     wrapper: {
       alignItems: 'center',
-      flexDirection: 'column',
       maxWidth: 600,
       paddingHorizontal: 16,
       paddingTop: 0,
-      width: '100%',
-      height: '100%',
       alignSelf: 'center',
     },
     scrollViewContent: {
@@ -171,13 +177,13 @@ const getStyles = () =>
       display: 'flex',
       flexDirection: 'column',
       width: '100%',
-      paddingBottom: 50,
+      paddingBottom: 150,
     },
     headline: {
       marginBottom: 16,
     },
     subline: {
-      marginBottom: 17,
+      marginBottom: 16,
     },
     input: {
       marginBottom: 16,

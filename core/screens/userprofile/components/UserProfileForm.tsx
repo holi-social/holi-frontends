@@ -18,6 +18,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type UserProfileFormProps = {
   onCancel: () => void
@@ -37,6 +38,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
   const [location, setLocation] = useState(user?.location ?? '')
   const [fieldErrors, setFieldErrors] = useState<{ [x: string]: string[] | undefined }>({})
   const { t } = useTranslation()
+  const mixins = useStyleMixins()
 
   const submit = async () => {
     const input: UpdateAuthenticatedUserInput = {
@@ -157,6 +159,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
       <HoliButton
         label={t('user.profileForm.save')}
         onPress={submit}
+        style={mixins.modalActionButton}
         testID={`btn-${props?.testId || 'user-profile-edit-form'}-save`}
       >
         {t('user.profileForm.save')}

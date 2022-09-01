@@ -16,6 +16,7 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 enum EngagementLevel {
   INTERESTED = 'INTERESTED',
@@ -37,6 +38,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const [engagementLevel, setEngagementLevel] = useState(user?.engagementLevel || EngagementLevel.INTERESTED)
   const { t } = useTranslation()
+  const mixins = useStyleMixins()
 
   const { height: deviceHeight } = useWindowDimensions()
   const buttonsContainerHeight = buttonsRelativeHeight * deviceHeight
@@ -140,7 +142,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
           </HoliText>
         </View>
       </ScrollView>
-      <HoliButton label={t('user.profileForm.save')} onPress={submit}>
+      <HoliButton label={t('user.profileForm.save')} onPress={submit} style={mixins.modalActionButton}>
         {t('user.profileForm.save')}
       </HoliButton>
     </View>
@@ -155,7 +157,6 @@ const getStyles = (buttonsContainerHeight: number) =>
       maxWidth: 600,
       paddingHorizontal: 16,
       width: '100%',
-      height: '100%',
       alignSelf: 'center',
     },
     scrollView: {
@@ -164,7 +165,7 @@ const getStyles = (buttonsContainerHeight: number) =>
       display: 'flex',
       flexDirection: 'column',
       width: '100%',
-      paddingBottom: 100,
+      marginBottom: 150,
     },
     buttonsContainer: {
       marginTop: 60,
