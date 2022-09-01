@@ -82,7 +82,9 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
   return (
     <View style={styles.wrapper}>
       <ScrollView contentContainerStyle={styles.scrollView}>
-        <HoliHeading size="large">{t('user.engagementLevel.form.question')}</HoliHeading>
+        <HoliHeading level="1" size="large">
+          {t('user.engagementLevel.form.question')}
+        </HoliHeading>
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonContainer}>
             {engagementLevel === EngagementLevel.INTERESTED && ActiveButtonIcon}
@@ -163,7 +165,7 @@ const getStyles = (buttonsContainerHeight: number) =>
       display: 'flex',
       flexDirection: 'column',
       width: '100%',
-      paddingBottom: 150,
+      paddingBottom: 100,
     },
     buttonsContainer: {
       marginTop: 60,

@@ -26,7 +26,7 @@ exports[`React tree renders correctly 1`] = `
   <Image
     accessibilityLabel="Uschi Meyer"
     accessibilityRole="image"
-    accessible={true}
+    accessible={false}
     source={
       Object {
         "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
@@ -68,7 +68,7 @@ exports[`React tree renders the users initials, when given image prop is empty 1
   <Text
     accessibilityLabel="Uschi Meyer"
     accessibilityRole="image"
-    accessible={true}
+    accessible={false}
     selectable={true}
     style={
       Array [

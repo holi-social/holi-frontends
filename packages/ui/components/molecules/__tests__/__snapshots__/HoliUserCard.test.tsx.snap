@@ -41,7 +41,7 @@ exports[`HoliUserCard renders correctly 1`] = `
     }
   >
     <Image
-      accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
+      accessibilityLabel="Dima Rosmait"
       accessibilityRole="image"
       accessible={false}
       source={
@@ -159,7 +159,7 @@ Array [
       }
     >
       <Image
-        accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
+        accessibilityLabel="Dima Rosmait"
         accessibilityRole="image"
         accessible={false}
         source={

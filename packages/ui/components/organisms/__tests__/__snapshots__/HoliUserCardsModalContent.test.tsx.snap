@@ -5,7 +5,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
   style={
     Array [
       Object {
-        "height": "100%",
+        "maxHeight": 1254,
+        "paddingHorizontal": 16,
+        "width": "100%",
       },
       undefined,
     ]
@@ -28,7 +30,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               "lineHeight": 33.6,
             },
             Object {
-              "paddingHorizontal": 24,
               "textAlign": "center",
             },
           ]
@@ -46,7 +47,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             },
             Object {
               "marginTop": 24,
-              "paddingBottom": 180,
+              "paddingBottom": 80,
             },
           ]
         }
@@ -64,7 +65,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           onMomentumScrollEnd={[Function]}
           pagingEnabled={true}
           showsHorizontalScrollIndicator={false}
-          snapToInterval={710}
+          snapToInterval={758}
         >
           <View>
             <View
@@ -75,10 +76,10 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
-                    "width": 702,
+                    "width": 750,
                   },
                   Object {
-                    "marginLeft": 24,
+                    "marginLeft": 0,
                   },
                   Object {},
                 ]
@@ -135,7 +136,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     }
                   >
                     <Image
-                      accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
+                      accessibilityLabel="Dima Rosmait"
                       accessibilityRole="image"
                       accessible={false}
                       source={
@@ -219,7 +220,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
-                    "width": 702,
+                    "width": 750,
                   },
                   Object {},
                   Object {},
@@ -277,7 +278,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     }
                   >
                     <Text
-                      accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
+                      accessibilityLabel="Max Mustermann"
                       accessibilityRole="image"
                       accessible={false}
                       selectable={true}
@@ -374,7 +375,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
-                    "width": 702,
+                    "width": 750,
                   },
                   Object {},
                   Object {},
@@ -432,7 +433,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     }
                   >
                     <Image
-                      accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
+                      accessibilityLabel="Thomas Mueller"
                       accessibilityRole="image"
                       accessible={false}
                       source={
@@ -516,7 +517,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
-                    "width": 702,
+                    "width": 750,
                   },
                   Object {},
                   Object {},
@@ -574,7 +575,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     }
                   >
                     <Text
-                      accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
+                      accessibilityLabel="Sandra Kasandra"
                       accessibilityRole="image"
                       accessible={false}
                       selectable={true}
@@ -671,7 +672,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
-                    "width": 702,
+                    "width": 750,
                   },
                   Object {},
                   Object {},
@@ -729,7 +730,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     }
                   >
                     <Image
-                      accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
+                      accessibilityLabel="Peter Pan"
                       accessibilityRole="image"
                       accessible={false}
                       source={
@@ -813,7 +814,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
-                    "width": 702,
+                    "width": 750,
                   },
                   Object {},
                   Object {},
@@ -871,7 +872,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     }
                   >
                     <Text
-                      accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
+                      accessibilityLabel="Donald Duck"
                       accessibilityRole="image"
                       accessible={false}
                       selectable={true}
@@ -968,11 +969,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
-                    "width": 702,
+                    "width": 750,
                   },
                   Object {},
                   Object {
-                    "marginRight": 24,
+                    "marginRight": 0,
                   },
                 ]
               }
@@ -1028,7 +1029,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     }
                   >
                     <Image
-                      accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
+                      accessibilityLabel="Lionel Messi"
                       accessibilityRole="image"
                       accessible={false}
                       source={
@@ -1512,99 +1513,87 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
     </View>
   </RCTScrollView>
   <View
+    accessibilityLabel="user.cards.modal.close"
+    accessibilityRole="button"
+    accessibilityState={
+      Object {
+        "disabled": false,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
     style={
       Array [
         Object {
           "alignItems": "center",
-          "bottom": 70,
+          "bottom": 50,
           "justifyContent": "center",
-          "paddingHorizontal": 24,
-          "position": "absolute",
+        },
+        Object {
           "width": "100%",
         },
-        false,
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "margin": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "backgroundColor": "#f3f360",
+        },
       ]
     }
+    testID="user-cards-modal-content-close"
   >
     <View
-      accessibilityLabel="user.cards.modal.close"
-      accessibilityRole="button"
-      accessibilityState={
+      pointerEvents="none"
+      style={
         Object {
-          "disabled": false,
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
         }
       }
-      accessible={true}
-      collapsable={false}
-      focusable={true}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        Array [
-          undefined,
-          Object {
-            "width": "100%",
-          },
-          Object {
-            "backgroundColor": "#fff",
-            "borderColor": "#222326",
-            "borderRadius": 28,
-            "borderWidth": 2,
-            "elevation": 0,
-            "margin": 4,
-            "overflow": "hidden",
-            "paddingHorizontal": 32,
-            "paddingVertical": 13,
-          },
-          Object {
-            "backgroundColor": "#f3f360",
-          },
-        ]
-      }
-      testID="user-cards-modal-content-close"
     >
-      <View
-        pointerEvents="none"
+      <Text
+        accessible={false}
+        selectable={false}
         style={
-          Object {
-            "alignItems": "center",
-            "flexDirection": "row",
-            "justifyContent": "center",
-          }
+          Array [
+            Object {
+              "color": "#222326",
+              "fontFamily": "Circular Std Book",
+              "fontWeight": "400",
+            },
+            Object {
+              "fontSize": 21,
+              "lineHeight": 25.2,
+            },
+            Object {
+              "fontFamily": "Circular Std Medium",
+              "fontWeight": "500",
+            },
+            Object {},
+          ]
         }
       >
-        <Text
-          accessible={false}
-          selectable={false}
-          style={
-            Array [
-              Object {
-                "color": "#222326",
-                "fontFamily": "Circular Std Book",
-                "fontWeight": "400",
-              },
-              Object {
-                "fontSize": 21,
-                "lineHeight": 25.2,
-              },
-              Object {
-                "fontFamily": "Circular Std Medium",
-                "fontWeight": "500",
-              },
-              Object {},
-            ]
-          }
-        >
-          user.cards.modal.close
-        </Text>
-      </View>
+        user.cards.modal.close
+      </Text>
     </View>
   </View>
 </View>

@@ -56,7 +56,7 @@ const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),
     accessibilityRole: 'button',
-    ...(label ? { accessibilityLabel: label } : {}),
+    accessibilityLabel: label,
   }
   const content =
     typeof props.children === 'string' ? (

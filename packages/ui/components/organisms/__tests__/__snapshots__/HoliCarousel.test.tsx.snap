@@ -26,7 +26,7 @@ exports[`renders correctly renders correctly when open 1`] = `
     onMomentumScrollEnd={[Function]}
     pagingEnabled={true}
     showsHorizontalScrollIndicator={false}
-    snapToInterval={710}
+    snapToInterval={758}
   >
     <View>
       <View
@@ -37,10 +37,10 @@ exports[`renders correctly renders correctly when open 1`] = `
               "height": "100%",
               "marginLeft": 8,
               "marginRight": 0,
-              "width": 702,
+              "width": 750,
             },
             Object {
-              "marginLeft": 24,
+              "marginLeft": 0,
             },
             Object {},
           ]
@@ -88,7 +88,7 @@ exports[`renders correctly renders correctly when open 1`] = `
             }
           >
             <Image
-              accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
+              accessibilityLabel="Dima Rosmait"
               accessibilityRole="image"
               accessible={false}
               source={
@@ -173,7 +173,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               "height": "100%",
               "marginLeft": 8,
               "marginRight": 0,
-              "width": 702,
+              "width": 750,
             },
             Object {},
             Object {},
@@ -222,7 +222,7 @@ exports[`renders correctly renders correctly when open 1`] = `
             }
           >
             <Text
-              accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
+              accessibilityLabel="Max Mustermann"
               accessibilityRole="image"
               accessible={false}
               selectable={true}
@@ -320,7 +320,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               "height": "100%",
               "marginLeft": 8,
               "marginRight": 0,
-              "width": 702,
+              "width": 750,
             },
             Object {},
             Object {},
@@ -369,7 +369,7 @@ exports[`renders correctly renders correctly when open 1`] = `
             }
           >
             <Image
-              accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
+              accessibilityLabel="Thomas Mueller"
               accessibilityRole="image"
               accessible={false}
               source={
@@ -454,7 +454,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               "height": "100%",
               "marginLeft": 8,
               "marginRight": 0,
-              "width": 702,
+              "width": 750,
             },
             Object {},
             Object {},
@@ -503,7 +503,7 @@ exports[`renders correctly renders correctly when open 1`] = `
             }
           >
             <Text
-              accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
+              accessibilityLabel="Sandra Kasandra"
               accessibilityRole="image"
               accessible={false}
               selectable={true}
@@ -601,7 +601,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               "height": "100%",
               "marginLeft": 8,
               "marginRight": 0,
-              "width": 702,
+              "width": 750,
             },
             Object {},
             Object {},
@@ -650,7 +650,7 @@ exports[`renders correctly renders correctly when open 1`] = `
             }
           >
             <Image
-              accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
+              accessibilityLabel="Peter Pan"
               accessibilityRole="image"
               accessible={false}
               source={
@@ -735,7 +735,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               "height": "100%",
               "marginLeft": 8,
               "marginRight": 0,
-              "width": 702,
+              "width": 750,
             },
             Object {},
             Object {},
@@ -784,7 +784,7 @@ exports[`renders correctly renders correctly when open 1`] = `
             }
           >
             <Text
-              accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
+              accessibilityLabel="Donald Duck"
               accessibilityRole="image"
               accessible={false}
               selectable={true}
@@ -882,11 +882,11 @@ exports[`renders correctly renders correctly when open 1`] = `
               "height": "100%",
               "marginLeft": 8,
               "marginRight": 0,
-              "width": 702,
+              "width": 750,
             },
             Object {},
             Object {
-              "marginRight": 24,
+              "marginRight": 0,
             },
           ]
         }
@@ -933,7 +933,7 @@ exports[`renders correctly renders correctly when open 1`] = `
             }
           >
             <Image
-              accessibilityLabel="homeFeed.userSuggestions.avatarAltText"
+              accessibilityLabel="Lionel Messi"
               accessibilityRole="image"
               accessible={false}
               source={

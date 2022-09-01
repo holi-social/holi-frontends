@@ -8,7 +8,7 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 export type HoliApp = {
   icon?: string
   name: string
-  label?: string
+  label: string
   onPress?: null | ((event: GestureResponderEvent) => void)
   testID?: string
   hasUpdates: boolean
@@ -84,7 +84,7 @@ const HoliAppSwiper: React.VFC<HoliAppSwiperProps> = ({ apps, style, onPressMore
       {apps.map((app, index) => (
         <HoliButton
           key={index}
-          label={app.label || app.name}
+          label={app.label}
           inline
           transparent
           onPress={app.onPress}

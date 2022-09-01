@@ -8,13 +8,7 @@ describe('React tree', () => {
     const imageUrl = 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg'
     const tree = renderer
       .create(
-        <HoliUserAvatar
-          nameLabel="Uschi Meyer"
-          imageSrc={imageUrl}
-          initials="UM"
-          defaultColor="red"
-          size="extralarge"
-        />
+        <HoliUserAvatar label="Uschi Meyer" imageSrc={imageUrl} initials="UM" defaultColor="red" size="extralarge" />
       )
       .toJSON()
     expect(tree).toMatchSnapshot()
@@ -23,13 +17,7 @@ describe('React tree', () => {
   it('renders the users initials, when given image prop is empty', () => {
     const tree = renderer
       .create(
-        <HoliUserAvatar
-          nameLabel="Uschi Meyer"
-          imageSrc={undefined}
-          defaultColor="red"
-          initials="UM"
-          size="extralarge"
-        />
+        <HoliUserAvatar label="Uschi Meyer" imageSrc={undefined} defaultColor="red" initials="UM" size="extralarge" />
       )
       .toJSON()
     expect(tree).toMatchSnapshot()

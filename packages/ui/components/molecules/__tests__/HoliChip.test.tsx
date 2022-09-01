@@ -7,15 +7,15 @@ import HoliChip from '@holi/ui/components/molecules/HoliChip'
 
 describe('renders correctly', () => {
   it('renders correctly when checked', () => {
-    const tree = renderer.create(<HoliChip text="Test" checked />).toJSON()
+    const tree = renderer.create(<HoliChip text="Test" label="Test" checked />).toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('renders correctly when unchecked', () => {
-    const tree = renderer.create(<HoliChip text="Test" />).toJSON()
+    const tree = renderer.create(<HoliChip text="Test" label="Test" />).toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('renders correctly when disabled', () => {
-    const tree = renderer.create(<HoliChip text="Test" disabled />).toJSON()
+    const tree = renderer.create(<HoliChip text="Test" label="Test" disabled />).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })
@@ -23,7 +23,7 @@ describe('renders correctly', () => {
 describe('calls onPress prop function correctly', () => {
   it('calls onPress prop when not disabled', () => {
     const mockFn = jest.fn()
-    const { getByText } = render(<HoliChip text="Test" onPress={mockFn} />)
+    const { getByText } = render(<HoliChip text="Test" label="Test" onPress={mockFn} />)
 
     fireEvent.press(getByText('Test'))
     expect(mockFn).toBeCalledTimes(1)
@@ -31,7 +31,7 @@ describe('calls onPress prop function correctly', () => {
 
   it('does not call onPress prop when disabled', () => {
     const mockFn = jest.fn()
-    const { getByText } = render(<HoliChip text="Test" onPress={mockFn} disabled={true} />)
+    const { getByText } = render(<HoliChip text="Test" label="Test" onPress={mockFn} disabled={true} />)
 
     fireEvent.press(getByText('Test'))
     expect(mockFn).toBeCalledTimes(0)
@@ -40,7 +40,7 @@ describe('calls onPress prop function correctly', () => {
 
 describe('displays icons correctly', () => {
   it('shows check icon when checked', () => {
-    const testRenderer = renderer.create(<HoliChip text="Test" checked={true} />)
+    const testRenderer = renderer.create(<HoliChip text="Test" label="Test" checked={true} />)
     const holiChipInstance = testRenderer.root
 
     const iconInstance = holiChipInstance.findByType(HoliIcon)
@@ -49,7 +49,7 @@ describe('displays icons correctly', () => {
   })
 
   it('shows add icon when unchecked', () => {
-    const testRenderer = renderer.create(<HoliChip text="Test" checked={false} />)
+    const testRenderer = renderer.create(<HoliChip text="Test" label="Test" checked={false} />)
     const holiChipInstance = testRenderer.root
 
     const iconInstance = holiChipInstance.findByType(HoliIcon)
@@ -58,7 +58,7 @@ describe('displays icons correctly', () => {
   })
 
   it('shows no icons when disabled', () => {
-    const testRenderer = renderer.create(<HoliChip text="Test" checked={false} disabled={true} />)
+    const testRenderer = renderer.create(<HoliChip text="Test" label="Test" checked={false} disabled={true} />)
     const holiChipInstance = testRenderer.root
 
     const iconInstances = holiChipInstance.findAllByType(HoliIcon)
