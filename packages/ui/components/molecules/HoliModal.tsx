@@ -10,6 +10,7 @@ import {
 
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type HoliModalProps = ModalProps & {
   show: boolean
@@ -25,6 +26,13 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
   const { show = false, relativeHeight = 0.9, onDismiss, autoHeight = true, children } = props
   const { t } = useTranslation()
   const [visible, setVisible] = useState(show)
+
+  const setModalisOpen = (isOpen: boolean) => {
+    setVisible(isOpen)
+    setModalIsOpen(isOpen)
+  }
+
+  const { setModalIsOpen } = useTheme()
 
   // value for appearance animation
   const animShift = useRef(new Animated.Value(0)).current
@@ -56,7 +64,7 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
 
   useEffect(() => {
     if (show) {
-      setVisible(show)
+      setModalisOpen(show)
       Animated.timing(animShift, {
         toValue: 0,
         duration: 350,
@@ -70,10 +78,11 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
         useNativeDriver: false,
       }).start(() => {
         // only dismiss the Modal once the animation is done
-        setVisible(false)
+        setModalisOpen(false)
         gestureShift.setValue(0)
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show, animShift, gestureShift])
 
   return (
