@@ -46,6 +46,7 @@ test.describe('@HomeScreen', () => {
     await waitForAnimationEnd(page.locator(byTestId('topic-editors-modal-animatedview')))
     await page.locator(byTestId('user-cards-modal-content'))
     await page.locator(byTestId('user-card'))
+    await page.locator(byTestId('backdrop')).first().click()
   })
 
   test('shows no user suggestions if logged out.', async ({ page }) => {
