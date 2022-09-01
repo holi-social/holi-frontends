@@ -163,7 +163,7 @@ const getStyles = (buttonsContainerHeight: number) =>
       display: 'flex',
       flexDirection: 'column',
       width: '100%',
-      paddingBottom: 150,
+      paddingBottom: 100,
     },
     buttonsContainer: {
       marginTop: 60,

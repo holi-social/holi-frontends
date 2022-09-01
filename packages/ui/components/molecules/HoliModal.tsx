@@ -70,6 +70,10 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
     }
   }, [show, bottom, modalHeight])
 
+  const calcHeight = () => {
+    return Math.min(deviceHeight - styles.header.height, modalLayoutHeight)
+  }
+
   return (
     <>
       <Modal
@@ -101,7 +105,7 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
               },
               styles.common,
               modalLayoutHeight !== modalHeight && {
-                height: Math.min(deviceHeight - styles.header.height, modalLayoutHeight),
+                height: calcHeight(),
               },
               !autoHeight && {
                 height: modalHeight,

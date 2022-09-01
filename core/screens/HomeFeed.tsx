@@ -168,7 +168,12 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
             </HoliButton>
           </View>
 
-          <HoliModal relativeHeight={0.85} show={showEditorsModal} onDismiss={() => setShowEditorsModal(false)}>
+          <HoliModal
+            label={t('topics.editors.modal.title')}
+            relativeHeight={0.85}
+            show={showEditorsModal}
+            onDismiss={() => setShowEditorsModal(false)}
+          >
             <HoliUserCardsModalContent
               title={t('topics.editors.modal.title')}
               users={dummyUsers}
