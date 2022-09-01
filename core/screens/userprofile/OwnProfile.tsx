@@ -76,7 +76,6 @@ const OwnProfile: React.VFC = () => {
     [isLoggedIn, user, editProfile]
   )
 
-  // TODO(SF) improve missing user case
   return (
     <DefaultLayout>
       <LoginProtection loggedOutContent={<LoggedOutView />}>
@@ -92,18 +91,31 @@ const OwnProfile: React.VFC = () => {
               {(() => {
                 switch (editMode) {
                   case 'profile':
-                    return <UserProfileForm onCancel={toggleModal} onSubmit={toggleModal} />
+                    return <UserProfileForm user={user} onCancel={toggleModal} onSubmit={toggleModal} />
                   case 'engagementLevel':
-                    return <UserEngagementLevelForm onCancel={toggleModal} onSubmit={toggleModal} />
+                    return <UserEngagementLevelForm user={user} onCancel={toggleModal} onSubmit={toggleModal} />
                   case 'interests':
                     return (
-                      <UserChipForm typeMetadata={UserChipInterest} onCancel={toggleModal} onSubmit={toggleModal} />
+                      <UserChipForm
+                        user={user}
+                        typeMetadata={UserChipInterest}
+                        onCancel={toggleModal}
+                        onSubmit={toggleModal}
+                      />
                     )
                   case 'skills':
-                    return <UserChipForm typeMetadata={UserChipSkill} onCancel={toggleModal} onSubmit={toggleModal} />
+                    return (
+                      <UserChipForm
+                        user={user}
+                        typeMetadata={UserChipSkill}
+                        onCancel={toggleModal}
+                        onSubmit={toggleModal}
+                      />
+                    )
                   case 'sdgs':
                     return (
                       <UserChipForm
+                        user={user}
                         typeMetadata={UserChipSDG}
                         onCancel={toggleModal}
                         onSubmit={toggleModal}

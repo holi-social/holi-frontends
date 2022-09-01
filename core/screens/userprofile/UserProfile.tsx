@@ -49,7 +49,7 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
 
   const [fetchUser, { loading, error, data }] = useLazyQuery<UserByIdResponse>(userByIdQuery, {
     variables: { userId },
-    fetchPolicy: 'network-only', //TODO(SF) necessary to specify?
+    fetchPolicy: 'network-only',
   })
 
   // TODO: workaround for params always being undefined on initial page load
@@ -79,11 +79,11 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
     },
     // setNavigationHeader would cause endless loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [navigation, user] // TODO(SF) navigation necessary?
+    [navigation, user]
   )
 
   if (error) {
-    // TODO(SF) perform more explicit check for 404?
+    // TODO: perform more explicit check for 404?
     if (error.graphQLErrors.length) {
       return <NotFound />
     } else {

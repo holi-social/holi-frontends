@@ -107,7 +107,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   const styles = homeFeedStyles(width)
   const mixins = useStyleMixins()
   const { isLoggedIn, userId: authenticatedUserId } = useContext(AuthContext)
-  // TODO(SF) only temporarily for testing
+  // TODO(SF) only temporarily for local testing
   const users: Record<string, string> = { ...exampleUsers }
   if (isLoggedIn) {
     users['current'] = authenticatedUserId || ''
