@@ -17,10 +17,11 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 export type HoliTabsProps = {
   tabs: { title: string; children: React.ReactNode }[]
   relativeHeight?: number
+  testID?: string
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
 
-const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, style }: HoliTabsProps) => {
+const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, style, testID = 'tabs-module' }: HoliTabsProps) => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const carousel = React.useRef<ScrollView | null>(null)
 
@@ -56,24 +57,25 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, style }: HoliT
     <View style={[styles.container, style]}>
       <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
         <View style={[mixins.container, styles.tabButtonsContainer]}>
-          {tabs.map((tab, index) => (
-            <HoliButton
-              label={tab.title}
-              transparent
-              inline
-              style={[styles.tabButton, currentSlide === index ? styles.activeTabButton : {}]}
-              onPress={() => goToIndex(index)}
-              key={index}
-              accessibilityRole="tab"
-              accessibilitySelected={currentSlide === index}
-              accessibilityLabel={tab.title}
-              testID={currentSlide === index ? 'active-tab' : 'inactive-tab'}
-            >
-              <Text style={[styles.tabButtonText, currentSlide === index ? styles.activeTabButtonText : {}]}>
-                {tab.title}
-              </Text>
-            </HoliButton>
-          ))}
+          {tabs.map((tab, index) => {
+            const isActive = currentSlide === index
+            return (
+              <HoliButton
+                label={tab.title}
+                transparent
+                inline
+                style={[styles.tabButton, isActive ? styles.activeTabButton : {}]}
+                onPress={() => goToIndex(index)}
+                key={index}
+                accessibilityRole="tab"
+                accessibilitySelected={isActive}
+                accessibilityLabel={tab.title}
+                testID={`${testID}-button-${index}-${isActive ? 'active' : 'inactive'}`}
+              >
+                <Text style={[styles.tabButtonText, isActive ? styles.activeTabButtonText : {}]}>{tab.title}</Text>
+              </HoliButton>
+            )
+          })}
         </View>
       </View>
       {!isWeb && (
@@ -93,6 +95,8 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, style }: HoliT
                 style={{
                   width: screenWidth,
                 }}
+                accessibilityRole="tabpanel"
+                testID={`${testID}-panel-${i}-${currentSlide === i ? 'active' : 'inactive'}`}
                 key={i}
               >
                 {tab.children}
@@ -103,9 +107,14 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, style }: HoliT
       )}
 
       {isWeb && (
-        <ScrollView style={styles.tabContainer} accessibilityRole="tabpanel" focusable={true}>
+        <View
+          style={styles.tabContainer}
+          accessibilityRole="tabpanel"
+          testID={`${testID}-panel-${currentSlide}-active`}
+          focusable={true}
+        >
           {tabs[currentSlide].children}
-        </ScrollView>
+        </View>
       )}
     </View>
   )
@@ -157,6 +166,7 @@ const getStyles = () =>
     },
     tabContainer: {
       flex: 1,
+      width: '100%',
       ...Platform.select({
         native: {
           flexDirection: 'row',

@@ -43,22 +43,22 @@ describe('displays the tab buttons correctly', () => {
   })
 
   it('initializes with the first tab button active', () => {
-    const testRenderer = renderer.create(<HoliTabs tabs={tabs} />)
+    const testRenderer = renderer.create(<HoliTabs tabs={tabs} testID="test-tabs" />)
     const holiTabsInstance = testRenderer.root
-    const buttonInstances = holiTabsInstance.findAllByType(HoliButton)
 
-    expect(buttonInstances[0].props.testID).toBe('active-tab')
-    expect(buttonInstances[1].props.testID).toBe('inactive-tab')
+    expect(holiTabsInstance.findByProps({ testID: 'test-tabs-button-0-active' })).toBeDefined
+    expect(holiTabsInstance.findByProps({ testID: 'test-tabs-button-1-inactive' })).toBeDefined
+    expect(holiTabsInstance.findByProps({ testID: 'test-tabs-panel-0-active' })).toBeDefined
   })
 
   it('activates the correct tab button upon click', () => {
-    const testRenderer = renderer.create(<HoliTabs tabs={tabs} />)
+    const testRenderer = renderer.create(<HoliTabs tabs={tabs} testID="test-tabs" />)
     const holiTabsInstance = testRenderer.root
-    const buttonInstances = holiTabsInstance.findAllByType(HoliButton)
 
-    fireEvent.press(buttonInstances[1])
+    fireEvent.press(holiTabsInstance.findByProps({ testID: 'test-tabs-button-1-inactive' }))
 
-    expect(buttonInstances[0].props.testID).toBe('inactive-tab')
-    expect(buttonInstances[1].props.testID).toBe('active-tab')
+    expect(holiTabsInstance.findByProps({ testID: 'test-tabs-button-0-inactive' })).toBeDefined
+    expect(holiTabsInstance.findByProps({ testID: 'test-tabs-button-1-active' })).toBeDefined
+    expect(holiTabsInstance.findByProps({ testID: 'test-tabs-panel-1-active' })).toBeDefined
   })
 })

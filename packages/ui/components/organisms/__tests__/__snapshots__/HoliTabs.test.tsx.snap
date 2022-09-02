@@ -83,7 +83,7 @@ exports[`renders correctly renders correctly when open 1`] = `
             },
           ]
         }
-        testID="active-tab"
+        testID="tabs-module-button-0-active"
       >
         <View
           pointerEvents="none"
@@ -148,7 +148,7 @@ exports[`renders correctly renders correctly when open 1`] = `
             },
           ]
         }
-        testID="inactive-tab"
+        testID="tabs-module-button-1-inactive"
       >
         <View
           pointerEvents="none"
@@ -191,15 +191,19 @@ exports[`renders correctly renders correctly when open 1`] = `
         style={
           Object {
             "flex": 1,
+            "flexDirection": "row",
+            "width": "100%",
           }
         }
       >
         <View
+          accessibilityRole="tabpanel"
           style={
             Object {
               "width": 750,
             }
           }
+          testID="tabs-module-panel-0-active"
         >
           <View>
             <Text
@@ -227,11 +231,13 @@ exports[`renders correctly renders correctly when open 1`] = `
           </View>
         </View>
         <View
+          accessibilityRole="tabpanel"
           style={
             Object {
               "width": 750,
             }
           }
+          testID="tabs-module-panel-1-inactive"
         >
           <View>
             <Text
