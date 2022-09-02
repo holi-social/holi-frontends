@@ -80,26 +80,30 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
     displayError(error, t('user.profileForm.error.saving'))
   }
 
-  const prependComponent =
-    user && !loading ? (
-      <View style={styles.headerContainer}>
-        <HoliUserAvatar
-          imageSrc={user.avatar || ''}
-          label={user.firstName || ''}
-          initials={user.avatarLabel || ''}
-          defaultColor={user.avatarDefaultColor || '#FFAE86'}
-          size="medium"
-          style={styles.avatar}
-        />
+  const header = (
+    <View style={styles.headerContainer}>
+      <HoliUserAvatar
+        imageSrc={user?.avatar || ''}
+        label={user?.firstName || ''}
+        initials={user?.avatarLabel || ''}
+        defaultColor={user?.avatarDefaultColor || '#FFAE86'}
+        size="medium"
+        style={styles.avatar}
+      />
 
-        <View style={styles.addImage}>
-          <HoliText style={{ marginRight: 13 }}>Add a profile image</HoliText>
-          <HoliIcon icon="image" color={colors.fontColorGrey} />
-        </View>
+      <View style={styles.addImage}>
+        <HoliText style={{ marginRight: 13 }}>Add a profile image</HoliText>
+        <HoliIcon icon="image" color={colors.fontColorGrey} />
       </View>
-    ) : (
-      notificationComponent
-    )
+    </View>
+  )
+
+  const prependComponent = (
+    <>
+      {notificationComponent}
+      {header}
+    </>
+  )
 
   return (
     <HoliModalContentWrapper
