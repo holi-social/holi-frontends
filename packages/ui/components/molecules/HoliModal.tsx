@@ -23,6 +23,12 @@ export type HoliModalProps = ModalProps & {
   autoHeight?: boolean
 }
 
+/*
+  "relativeHeight" with "autoHeight === true" works like "max-height"
+  "relativeHeight" with "autoHeight === false" works like fix "height"
+  "minRelativeHeight" is "min-height" and if "minRelativeHeight" is bigger than "relativeHeight" the lower value will be used
+*/
+
 const HoliModal: React.FC<HoliModalProps> = (props) => {
   const { show = false, relativeHeight = 0.9, minRelativeHeight, onDismiss, autoHeight = true, children } = props
   const { t } = useTranslation()
