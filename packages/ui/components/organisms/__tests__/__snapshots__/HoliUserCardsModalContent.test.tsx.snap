@@ -5,8 +5,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
   style={
     Array [
       Object {
-        "maxHeight": 1254,
-        "paddingHorizontal": 16,
+        "marginHorizontal": "auto",
+        "maxHeight": "100%",
+        "maxWidth": 800,
         "width": "100%",
       },
       undefined,
@@ -30,6 +31,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               "lineHeight": 33.6,
             },
             Object {
+              "marginBottom": 16,
+              "marginHorizontal": 24,
               "textAlign": "center",
             },
           ]
@@ -46,8 +49,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               "justifyContent": "center",
             },
             Object {
-              "marginTop": 24,
-              "paddingBottom": 80,
+              "marginTop": 8,
             },
           ]
         }
@@ -65,7 +67,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           onMomentumScrollEnd={[Function]}
           pagingEnabled={true}
           showsHorizontalScrollIndicator={false}
-          snapToInterval={758}
+          snapToInterval={710}
         >
           <View>
             <View
@@ -76,10 +78,10 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
-                    "width": 750,
+                    "width": 702,
                   },
                   Object {
-                    "marginLeft": 0,
+                    "marginLeft": 24,
                   },
                   Object {},
                 ]
@@ -218,7 +220,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
-                    "width": 750,
+                    "width": 702,
                   },
                   Object {},
                   Object {},
@@ -371,7 +373,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
-                    "width": 750,
+                    "width": 702,
                   },
                   Object {},
                   Object {},
@@ -511,7 +513,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
-                    "width": 750,
+                    "width": 702,
                   },
                   Object {},
                   Object {},
@@ -664,7 +666,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
-                    "width": 750,
+                    "width": 702,
                   },
                   Object {},
                   Object {},
@@ -804,7 +806,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
-                    "width": 750,
+                    "width": 702,
                   },
                   Object {},
                   Object {},
@@ -957,11 +959,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
-                    "width": 750,
+                    "width": 702,
                   },
                   Object {},
                   Object {
-                    "marginRight": 0,
+                    "marginRight": 24,
                   },
                 ]
               }
@@ -1496,90 +1498,106 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           </View>
         </View>
       </View>
+      <View
+        style={
+          Object {
+            "marginBottom": 120,
+          }
+        }
+      />
     </View>
   </RCTScrollView>
   <View
-    accessibilityLabel="user.cards.modal.close"
-    accessibilityRole="button"
-    accessibilityState={
+    style={
       Object {
-        "disabled": false,
+        "bottom": 32,
+        "left": 0,
+        "marginHorizontal": 24,
+        "position": "absolute",
+        "right": 0,
       }
     }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
-    style={
-      Array [
-        Object {
-          "alignItems": "center",
-          "bottom": 50,
-          "justifyContent": "center",
-        },
-        Object {
-          "width": "100%",
-        },
-        Object {
-          "backgroundColor": "#fff",
-          "borderColor": "#222326",
-          "borderRadius": 28,
-          "borderWidth": 2,
-          "elevation": 0,
-          "margin": 4,
-          "overflow": "hidden",
-          "paddingHorizontal": 32,
-          "paddingVertical": 13,
-        },
-        Object {
-          "backgroundColor": "#f3f360",
-        },
-      ]
-    }
-    testID="user-cards-modal-content-close"
   >
     <View
-      pointerEvents="none"
-      style={
+      accessibilityLabel="user.cards.modal.close"
+      accessibilityRole="button"
+      accessibilityState={
         Object {
-          "alignItems": "center",
-          "flexDirection": "row",
-          "justifyContent": "center",
+          "disabled": false,
         }
       }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          undefined,
+          Object {
+            "width": "100%",
+          },
+          Object {
+            "backgroundColor": "#fff",
+            "borderColor": "#222326",
+            "borderRadius": 28,
+            "borderWidth": 2,
+            "elevation": 0,
+            "marginBottom": 4,
+            "marginRight": 4,
+            "overflow": "hidden",
+            "paddingHorizontal": 32,
+            "paddingVertical": 13,
+          },
+          Object {
+            "backgroundColor": "#f3f360",
+          },
+        ]
+      }
+      testID="user-cards-modal-content-close"
     >
-      <Text
-        accessible={false}
-        selectable={false}
+      <View
+        pointerEvents="none"
         style={
-          Array [
-            Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
-            },
-            Object {
-              "fontSize": 21,
-              "lineHeight": 25.2,
-            },
-            Object {
-              "fontFamily": "Circular Std Medium",
-              "fontWeight": "500",
-            },
-            Object {},
-          ]
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "center",
+          }
         }
       >
-        user.cards.modal.close
-      </Text>
+        <Text
+          accessible={false}
+          selectable={false}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              Object {
+                "fontSize": 21,
+                "lineHeight": 25.2,
+              },
+              Object {
+                "fontFamily": "Circular Std Medium",
+                "fontWeight": "500",
+              },
+              Object {},
+            ]
+          }
+        >
+          user.cards.modal.close
+        </Text>
+      </View>
     </View>
   </View>
 </View>

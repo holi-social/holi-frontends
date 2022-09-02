@@ -7,6 +7,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 import HomeTopBar from '@holi/web/components/navigation/HomeTopBar'
 
 import volunteeringLayoutStyles from './NavigationLayoutVolunteeringApp.module.scss'
@@ -16,6 +17,7 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
   const { navigate } = useRouting()
   const styles = getStyles()
   const { t } = useTranslation()
+  const { modalIsOpen } = useTheme()
 
   return (
     <>
@@ -32,7 +34,9 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
         <HomeTopBar />
       </header>
 
-      <main className={volunteeringLayoutStyles.main}>{children}</main>
+      <main className={`${volunteeringLayoutStyles.main} ${modalIsOpen ? volunteeringLayoutStyles.fixed : ''}`}>
+        {children}
+      </main>
 
       <footer className={volunteeringLayoutStyles.footer}>
         <View
