@@ -1,10 +1,9 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { displayError } from '@holi/core/errors/helpers'
-import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserResponse,
@@ -24,6 +23,7 @@ enum EngagementLevel {
 }
 
 type UserEngagementLevelFormProps = {
+  user: User
   onCancel?: () => void
   onSubmit?: (user: User) => void
   buttonsRelativeHeight?: number
@@ -31,9 +31,9 @@ type UserEngagementLevelFormProps = {
 
 const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFormProps> = ({
   onSubmit,
+  user,
   buttonsRelativeHeight = 0.35,
 }) => {
-  const { user } = useContext(UserContext)
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const [engagementLevel, setEngagementLevel] = useState(user?.engagementLevel || EngagementLevel.INTERESTED)
   const { t } = useTranslation()
@@ -51,14 +51,6 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
     if (!error && result.data && onSubmit) {
       onSubmit(result.data.authenticatedUser)
     }
-  }
-
-  if (!user) {
-    return (
-      <View style={styles.wrapper}>
-        <HoliText>{t('user.profileView.noUser')}</HoliText>
-      </View>
-    )
   }
 
   if (loading) {

@@ -1,10 +1,9 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View } from 'react-native'
 
 import { displayError } from '@holi/core/errors/helpers'
-import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserResponse,
@@ -21,6 +20,7 @@ import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { ChipValueWithTranslation, toValuesWithTranslation } from './userChipHelper'
 
 type UserChipFormProps = {
+  user: User
   onCancel?: () => void
   onSubmit?: (user: User) => void
   typeMetadata: UserChipGeneric<any> // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -31,8 +31,8 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
   onSubmit,
   typeMetadata,
   sortByTranslation = true,
+  user,
 }) => {
-  const { user } = useContext(UserContext)
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const [values, setValues] = useState(
     user ? (user[typeMetadata.keyInUserObject as keyof typeof user] as string[]) : []
@@ -78,14 +78,6 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
       setSaved(true)
       onSubmit && onSubmit(result.data.authenticatedUser)
     }
-  }
-
-  if (!user) {
-    return (
-      <View style={styles.wrapper}>
-        <HoliText>{t('user.profileView.noUser')}</HoliText>
-      </View>
-    )
   }
 
   if (loading || saved) {
