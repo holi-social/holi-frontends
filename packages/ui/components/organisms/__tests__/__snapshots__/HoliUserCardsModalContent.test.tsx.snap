@@ -34,6 +34,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             },
           ]
         }
+        testID="undefined-heading"
       >
         user.cards.modal.title
       </Text>
@@ -1544,7 +1545,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
         },
       ]
     }
-    testID="user-cards-modal-content-close"
+    testID="undefined-close-btn"
   >
     <View
       pointerEvents="none"
