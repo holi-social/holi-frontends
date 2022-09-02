@@ -16,6 +16,7 @@ import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import { colors } from '@holi/ui/styles/globalVars'
 
 import { ChipValueWithTranslation, toValuesWithTranslation } from './userChipHelper'
 
@@ -76,18 +77,20 @@ const UserChipForm: React.VFC<UserChipFormProps> = ({ onSubmit, typeMetadata, so
     }
   }
 
+  let notificationComponent: React.ReactNode | null = null
+
   if (!user) {
-    return (
-      <View style={styles.singleTextWrapper}>
+    notificationComponent = (
+      <View style={styles.notification}>
         <HoliText>{t('user.profileView.noUser')}</HoliText>
       </View>
     )
   }
 
   if (loading || saved) {
-    return (
+    notificationComponent = (
       <View
-        style={styles.singleTextWrapper}
+        style={styles.notification}
         testID={['user-profile-chipform', typeMetadata.keyInUserObject, 'saving'].join('-')}
       >
         <HoliText>{t('user.profileForm.saving')}</HoliText>
@@ -115,6 +118,7 @@ const UserChipForm: React.VFC<UserChipFormProps> = ({ onSubmit, typeMetadata, so
       onActionButtonPress={submit}
       headlineText={t(`user.${typeMetadata.keyInUserObject}.form.headline`)}
       actionButtonTestID={['user-profile-chipform', typeMetadata.keyInUserObject, 'save'].join('-')}
+      prependChildren={notificationComponent}
     >
       <View style={styles.mainContainer}>
         <HoliText style={styles.subline}>{t(`user.${typeMetadata.keyInUserObject}.form.subline`)}</HoliText>
@@ -156,12 +160,13 @@ const getStyles = () =>
     mainContainer: {
       marginHorizontal: 24,
     },
-    singleTextWrapper: {
+    notification: {
+      ...StyleSheet.absoluteFillObject,
       alignItems: 'center',
-      maxWidth: 600,
+      justifyContent: 'center',
       marginHorizontal: 16,
-      alignSelf: 'center',
-      maxHeight: '100%',
+      zIndex: 10,
+      backgroundColor: colors.backgroundColorWhite,
     },
     scrollViewContent: {
       paddingHorizontal: 16,

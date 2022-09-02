@@ -58,17 +58,19 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
     }
   }
 
+  let notificationComponent: React.ReactNode | null = null
+
   if (!user) {
-    return (
-      <View style={styles.singleTextWrapper}>
+    notificationComponent = (
+      <View style={styles.notification}>
         <HoliText>{t('user.profileView.noUser')}</HoliText>
       </View>
     )
   }
 
   if (loading) {
-    return (
-      <View style={styles.singleTextWrapper} testID="user-profile-edit-form-saving">
+    notificationComponent = (
+      <View style={styles.notification} testID="user-profile-edit-form-saving">
         <HoliText>{t('user.profileForm.saving')}</HoliText>
       </View>
     )
@@ -78,29 +80,32 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
     displayError(error, t('user.profileForm.error.saving'))
   }
 
-  const header = (
-    <View style={styles.headerContainer}>
-      <HoliUserAvatar
-        imageSrc={user.avatar}
-        label={user.firstName || ''}
-        initials={user.avatarLabel || ''}
-        defaultColor={user.avatarDefaultColor || '#FFAE86'}
-        size="medium"
-        style={styles.avatar}
-      />
+  const prependComponent =
+    user && !loading ? (
+      <View style={styles.headerContainer}>
+        <HoliUserAvatar
+          imageSrc={user.avatar || ''}
+          label={user.firstName || ''}
+          initials={user.avatarLabel || ''}
+          defaultColor={user.avatarDefaultColor || '#FFAE86'}
+          size="medium"
+          style={styles.avatar}
+        />
 
-      <View style={styles.addImage}>
-        <HoliText style={{ marginRight: 13 }}>Add a profile image</HoliText>
-        <HoliIcon icon="image" color={colors.fontColorGrey} />
+        <View style={styles.addImage}>
+          <HoliText style={{ marginRight: 13 }}>Add a profile image</HoliText>
+          <HoliIcon icon="image" color={colors.fontColorGrey} />
+        </View>
       </View>
-    </View>
-  )
+    ) : (
+      notificationComponent
+    )
 
   return (
     <HoliModalContentWrapper
       actionButtonText={t('user.profileForm.save')}
       onActionButtonPress={submit}
-      prependChildren={header}
+      prependChildren={prependComponent}
       testID={props?.testId || 'user-profile-edit-form'}
       actionButtonTestID={`btn-${props?.testId || 'user-profile-edit-form'}-save`}
     >
@@ -191,13 +196,13 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingBottom: 150,
   },
-  singleTextWrapper: {
+  notification: {
+    ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
-    alignSelf: 'center',
-    height: '100%',
-    maxWidth: 500,
-    paddingHorizontal: 16,
-    width: '100%',
+    justifyContent: 'center',
+    marginHorizontal: 16,
+    zIndex: 10,
+    backgroundColor: colors.backgroundColorWhite,
   },
 })
 

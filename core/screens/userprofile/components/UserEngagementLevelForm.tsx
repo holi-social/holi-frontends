@@ -53,17 +53,19 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
     }
   }
 
+  let notificationComponent: React.ReactNode | null = null
+
   if (!user) {
-    return (
-      <View style={styles.singleTextWrapper}>
+    notificationComponent = (
+      <View style={styles.notification}>
         <HoliText>{t('user.profileView.noUser')}</HoliText>
       </View>
     )
   }
 
   if (loading) {
-    return (
-      <View style={styles.singleTextWrapper}>
+    notificationComponent = (
+      <View style={styles.notification}>
         <HoliText>{t('user.profileForm.saving')}</HoliText>
       </View>
     )
@@ -84,6 +86,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
       actionButtonText={t('user.profileForm.save')}
       onActionButtonPress={submit}
       headlineText={t('user.engagementLevel.form.question')}
+      prependChildren={notificationComponent}
     >
       <View style={styles.mainContainer}>
         <View style={styles.buttonsContainer}>
@@ -153,12 +156,13 @@ const getStyles = (buttonsContainerHeight: number) =>
     mainContainer: {
       marginHorizontal: 24,
     },
-    singleTextWrapper: {
+    notification: {
+      ...StyleSheet.absoluteFillObject,
       alignItems: 'center',
-      maxHeight: '100%',
-      maxWidth: 600,
+      justifyContent: 'center',
       marginHorizontal: 16,
-      alignSelf: 'center',
+      zIndex: 10,
+      backgroundColor: colors.backgroundColorWhite,
     },
     buttonsContainer: {
       marginTop: 60,
