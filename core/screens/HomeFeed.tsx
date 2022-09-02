@@ -12,10 +12,10 @@ import TopicPreviewBox from '@holi/core/screens/topics/components/TopicPreviewBo
 import fakeTopics, { getRandomUser } from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliSeparatedList from '@holi/ui/components/atoms/HoliSeparatedList'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import HoliSeparatedList from '@holi/ui/components/molecules/HoliSeparatedList'
 import HoliAppSwiper from '@holi/ui/components/organisms/HoliAppSwiper'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
@@ -56,7 +56,7 @@ const appSwiperDummyApps: DummyApp[] = [
     path: '/apps/volunteering',
     testID: 'app-tile-goodNews',
     hasUpdates: true,
-    backgroundColor: colors.lightGrey,
+    backgroundColor: colors.backgroundColorGreyLight,
   },
   {
     icon: 'search',
@@ -72,7 +72,7 @@ const appSwiperDummyApps: DummyApp[] = [
     path: '/apps/volunteering',
     testID: 'app-tile-factCheck',
     hasUpdates: false,
-    backgroundColor: colors.greyAA,
+    backgroundColor: colors.backgroundColorGrey,
   },
 ]
 
@@ -168,7 +168,12 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
             </HoliButton>
           </View>
 
-          <HoliModal relativeHeight={0.85} show={showEditorsModal} onDismiss={() => setShowEditorsModal(false)}>
+          <HoliModal
+            label={t('topics.editors.modal.title')}
+            relativeHeight={0.85}
+            show={showEditorsModal}
+            onDismiss={() => setShowEditorsModal(false)}
+          >
             <HoliUserCardsModalContent
               title={t('topics.editors.modal.title')}
               users={dummyUsers}

@@ -42,6 +42,7 @@ const UserProfile: React.VFC = () => {
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const mixins = useStyleMixins()
 
+  // to avoid a FOUC, we use useLayoutEffect (synchronously) instead of useEffect for updating the navigation
   useLayoutEffect(
     () => {
       const profileTitle = isLoggedIn && user ? user.firstName : t('profile.title')
@@ -74,7 +75,7 @@ const UserProfile: React.VFC = () => {
     },
     // setNavigationHeader would cause endless loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isLoggedIn, user, t]
+    [isLoggedIn, user, editMode, showModal]
   )
 
   return (
@@ -154,13 +155,14 @@ const UserProfile: React.VFC = () => {
                       editable={!user?.engagementLevel}
                       title={t('profile.engagementLevel')}
                       onPressEdit={() => {
-                        toggleModal()
                         setEditMode('engagementLevel')
+                        toggleModal()
                       }}
                     >
                       {user?.engagementLevel && (
                         <HoliChip
                           text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
+                          label={t(`user.engagementLevel.title.${user.engagementLevel}`)}
                           style={styles.chip}
                           disabled
                         />
@@ -168,8 +170,8 @@ const UserProfile: React.VFC = () => {
                       {!user?.engagementLevel && (
                         <HoliChip
                           onPress={() => {
-                            toggleModal()
                             setEditMode('engagementLevel')
+                            toggleModal()
                           }}
                           label={t('profile.engagementLevel.add')}
                           style={styles.chip}
@@ -182,8 +184,8 @@ const UserProfile: React.VFC = () => {
                       key={'interests'}
                       typeMetadata={UserChipInterest}
                       onPressEdit={() => {
-                        toggleModal()
                         setEditMode('interests')
+                        toggleModal()
                       }}
                       numberOfLines={1}
                     />
@@ -193,8 +195,8 @@ const UserProfile: React.VFC = () => {
                       key={'skills'}
                       typeMetadata={UserChipSkill}
                       onPressEdit={() => {
-                        toggleModal()
                         setEditMode('skills')
+                        toggleModal()
                       }}
                       numberOfLines={1}
                     />
@@ -205,8 +207,8 @@ const UserProfile: React.VFC = () => {
                       typeMetadata={UserChipSDG}
                       sortByTranslation={false}
                       onPressEdit={() => {
-                        toggleModal()
                         setEditMode('sdgs')
+                        toggleModal()
                       }}
                       numberOfLines={1}
                     />

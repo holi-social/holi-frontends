@@ -13,7 +13,7 @@ const TopicEditors: React.FunctionComponent<TopicEditorsProps> = ({ topicId }) =
 
   return (
     <View style={{ padding: 10 }}>
-      <HoliHeading level="1" size="super">
+      <HoliHeading level="1" size="super" testID="topic-editors-headline">
         {t('topics.topic.editors.title', { topicId })}
       </HoliHeading>
     </View>

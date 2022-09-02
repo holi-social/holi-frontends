@@ -16,17 +16,20 @@ export type HeaderRightProps = {
 }
 
 const HeaderRight: React.VFC<HeaderRightProps> = (props) => {
-  const { navigate } = useRouting()
-  const navigationContext = useNavigationContext()
+  const { navigate, pathname } = useRouting()
+  const { headerRight } = useNavigationContext()
   const { user } = useContext(UserContext)
   const { isLoggedIn } = useContext(AuthContext)
   const hasUserData = isLoggedIn && user
   const { t } = useTranslation()
 
-  // TODO: navigate to user profile!
-  const profileUrl = '/profile/danbim'
+  const pathToGo = pathname.includes('/login')
+    ? '/registration'
+    : pathname.includes('/registration')
+    ? '/login'
+    : '/profile/danbim'
 
-  if (navigationContext.headerRight) return navigationContext.headerRight
+  if (headerRight) return headerRight
 
   let userAvatar
   if (hasUserData) {
@@ -35,11 +38,10 @@ const HeaderRight: React.VFC<HeaderRightProps> = (props) => {
     userAvatar = (
       <HoliUserAvatar
         imageSrc={user.avatar}
-        nameLabel={nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
+        label={nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
         initials={user.avatarLabel}
         defaultColor={user.avatarDefaultColor}
         size="micro"
-        accessible={false}
       />
     )
   }
@@ -48,7 +50,7 @@ const HeaderRight: React.VFC<HeaderRightProps> = (props) => {
       label={t('profile.title')}
       inline
       transparent
-      onPress={() => navigate(profileUrl)}
+      onPress={() => navigate(pathToGo)}
       {...props}
       style={props.style}
       testID="btn-to-profile-view"

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Dimensions, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -23,14 +23,14 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
   title,
   style,
 }: HoliUserCardsModalContentProps) => {
-  const styles = getStyles()
+  const screenHeight = Dimensions.get('window').height
+  const styles = getStyles(screenHeight)
   const { t } = useTranslation()
-  const isWeb = Platform.OS === 'web'
 
   return (
     <View style={[styles.container, style]}>
       <ScrollView>
-        <HoliHeading style={styles.title} size="large">
+        <HoliHeading level="1" style={styles.title} size="large">
           {title || t('user.cards.modal.title')}
         </HoliHeading>
         <HoliCarousel
@@ -41,43 +41,40 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
         />
       </ScrollView>
 
-      <View style={[styles.buttonContainer, isWeb && styles.buttonContainerWeb]}>
-        <HoliButton label={t('user.cards.modal.close')} onPress={onDismiss} testID="user-cards-modal-content-close">
-          {t('user.cards.modal.close')}
-        </HoliButton>
-      </View>
+      <HoliButton
+        style={styles.closeButton}
+        label={t('user.cards.modal.close')}
+        onPress={onDismiss}
+        testID="user-cards-modal-content-close"
+      >
+        {t('user.cards.modal.close')}
+      </HoliButton>
     </View>
   )
 }
 
 export default HoliUserCardsModalContent
 
-const getStyles = () =>
+const getStyles = (screenHeight: number) =>
   StyleSheet.create({
     container: {
-      height: '100%',
+      paddingHorizontal: 16,
+      width: '100%',
+      maxHeight: screenHeight - 80,
     },
     title: {
-      paddingHorizontal: 24,
       textAlign: 'center',
     },
     carouselContainer: {
       marginTop: 24,
-      paddingBottom: 180,
+      paddingBottom: 80,
     },
     userCard: {
       width: '100%',
     },
-    buttonContainer: {
-      paddingHorizontal: 24,
-      bottom: 70,
-      position: 'absolute',
-      width: '100%',
+    closeButton: {
+      bottom: 50,
       alignItems: 'center',
       justifyContent: 'center',
-    },
-    buttonContainerWeb: {
-      alignSelf: 'center',
-      maxWidth: 450,
     },
   })

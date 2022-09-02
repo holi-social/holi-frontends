@@ -36,12 +36,11 @@ const HoliUserAvatarPile: React.FC<HoliUserAvatarPileProps> = ({
             <HoliUserAvatar
               key={user.id}
               imageSrc={user.avatar}
-              nameLabel={nameLabel || t('navigation.headerRight.avatarFallbackLabel')}
+              label={nameLabel || t('navigation.headerRight.avatarFallbackLabel')}
               initials={user.avatarLabel}
               defaultColor={user.avatarDefaultColor}
               size={size}
               style={[styles.avatar, { marginLeft: idx ? collapseDistance : 0, zIndex: idx * -1 }]}
-              accessible={false}
               testID="pile-avatar"
             />
           )

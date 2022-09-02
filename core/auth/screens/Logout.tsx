@@ -2,13 +2,14 @@ import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import client from '@holi/api/graphql/client'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
 import { displayError } from '@holi/core/errors/helpers'
+import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
@@ -21,17 +22,7 @@ const Logout: React.VoidFunctionComponent = () => {
   useEffect(
     () => {
       setNavigationHeader({
-        headerLeft: () => (
-          <HoliButton
-            label={t('navigation.headerLeft.back')}
-            inline
-            transparent
-            onPress={() => navigateBack()}
-            style={{ paddingHorizontal: 0 }}
-          >
-            <HoliIcon icon="arrow-down-s" size={30} />
-          </HoliButton>
-        ),
+        headerLeft: () => <BackButton icon="arrow-down-s" />,
       })
       return clearNavigationHeader
     },
@@ -43,11 +34,11 @@ const Logout: React.VoidFunctionComponent = () => {
   const onSubmit = () => {
     getSessionFromStorage()
       .then((session) => submitLogoutFlow({ session_token: session ? session.session_token : '' }))
+      .then(() => setUserLoggedOut())
+      .then(() => client.clearStore())
       .then(() => {
-        setUserLoggedOut().then(() => {
-          console.info('[Logout] logout successful')
-          navigateBack()
-        })
+        console.info('[Logout] logout successful')
+        navigateBack()
       })
       .catch((e) => {
         console.warn('[Logout] logout failed, removing session from storage')
@@ -74,7 +65,7 @@ const Logout: React.VoidFunctionComponent = () => {
   )
 }
 
-export { Logout }
+export default Logout
 
 const styles = StyleSheet.create({
   container: {

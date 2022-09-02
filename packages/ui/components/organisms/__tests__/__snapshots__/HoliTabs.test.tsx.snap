@@ -19,7 +19,7 @@ exports[`renders correctly renders correctly when open 1`] = `
     accessibilityRole="tablist"
     style={
       Object {
-        "borderBottomColor": "#1b1d201a",
+        "borderBottomColor": "#eff0f1",
         "borderBottomWidth": 2,
         "width": "100%",
       }

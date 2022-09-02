@@ -1,2 +1,2 @@
-declare var mockLinkTo: (routeName: string) => void
-declare var captureSentryException: (error: Error) => void
+declare let mockLinkTo: (routeName: string) => void
+declare let captureSentryException: (error: Error) => void

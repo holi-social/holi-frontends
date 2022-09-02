@@ -38,7 +38,7 @@ const HoliUserCard: React.FunctionComponent<HoliUserCardProps> = ({
       <View style={styles.cardContainer} accessible testID="user-card">
         <HoliUserAvatar
           imageSrc={avatar}
-          nameLabel={nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
+          label={nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
           initials={avatarLabel}
           defaultColor={avatarDefaultColor}
           size="extralarge"
@@ -48,7 +48,7 @@ const HoliUserCard: React.FunctionComponent<HoliUserCardProps> = ({
             <HoliText style={styles.textStyle} bold>
               {nameLabel}
             </HoliText>
-            {category && <HoliChip style={styles.chip} text={category} checked hideIcon disabled />}
+            {category && <HoliChip style={styles.chip} text={category} label={category} checked hideIcon disabled />}
             <View style={styles.textStyleAboutMe}>
               <HoliText style={styles.textStyle}>{aboutMe}</HoliText>
             </View>

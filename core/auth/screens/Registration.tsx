@@ -11,28 +11,28 @@ import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { displayError } from '@holi/core/errors/helpers'
 import { useSafeDispatch } from '@holi/core/helpers'
+import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 const Registration: React.VFC = () => {
-  const { navigateBack } = useRouting()
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
-  const { setUserLoggedIn } = useContext(AuthContext)
+  const { setUserLoggedIn, isLoggedIn } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
   // use safe versions of this function to prevent updating state of destroyed component
   const safeSetFlow = useSafeDispatch(setFlow)
+  const isWeb = Platform.OS === 'web'
 
   const initializeFlow = useCallback(() => {
+    if (isLoggedIn) return
+
     initRegistrationFlow()
       // The flow was initialized successfully, let's set the form data:
       .then(({ data: flow }) => {
         safeSetFlow(flow)
       })
       .catch((error) => displayError(error, t('auth.registration.error.initialization')))
-  }, [safeSetFlow, t])
+  }, [safeSetFlow, t, isLoggedIn])
 
   // When the component is mounted, we initialize a new use login flow:
   useLayoutEffect(() => initializeFlow(), [initializeFlow])
@@ -41,18 +41,10 @@ const Registration: React.VFC = () => {
   useLayoutEffect(
     () => {
       setNavigationHeader({
-        headerLeft: () => (
-          <HoliButton
-            label={t('navigation.headerLeft.back')}
-            inline
-            transparent
-            onPress={() => navigateBack()}
-            style={{ paddingHorizontal: 0 }}
-          >
-            <HoliIcon icon="arrow-down-s" size={30} />
-          </HoliButton>
-        ),
+        headerLeft: () => <BackButton icon={isWeb ? 'arrow-left-s' : 'arrow-down-s'} />,
+        title: t('auth.register'),
       })
+
       return clearNavigationHeader
     },
     // setNavigationHeader would cause endless loop
@@ -69,7 +61,7 @@ const Registration: React.VFC = () => {
             // ORY Kratos can be configured in such a way that it requires a login after
             // registration. You could handle that case by navigating to the Login screen
             // but for simplicity we'll just print an error here:
-            if (Platform.OS === 'web' ? !data.session : !data.session_token) {
+            if (isWeb ? !data.session : !data.session_token) {
               const err = new Error(
                 'It looks like you configured ORY Kratos to not issue a session automatically after registration. This edge-case is currently not supported in this example app. You can find more information on enabling this feature here: https://www.ory.sh/kratos/docs/next/self-service/flows/user-registration#successful-registration'
               )
@@ -92,4 +84,4 @@ const Registration: React.VFC = () => {
   )
 }
 
-export { Registration }
+export default Registration

@@ -18,17 +18,19 @@ export type HoliModalProps = ModalProps & {
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild>
   testID?: string
   label: string
+  autoHeight?: boolean
 }
 
 const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProps) => {
   // default height is 75% of screen size
-  const { show = false, relativeHeight = 0.75, onDismiss, children } = props
+  const { show = false, relativeHeight = 0.75, onDismiss, children, autoHeight = true } = props
   const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
 
   const styles = getStyles(deviceWidth)
   const { t } = useTranslation()
 
   const modalHeight = deviceHeight * relativeHeight
+  const [modalLayoutHeight, setModalLayoutHeight] = useState(modalHeight)
   const [visible, setVisible] = useState(show)
   const bottom = useRef(new Animated.Value(-modalHeight)).current
 
@@ -63,9 +65,14 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
       }).start(() => {
         // only dismiss the Modal once the animation is done
         setVisible(false)
+        setModalLayoutHeight(modalHeight)
       })
     }
   }, [show, bottom, modalHeight])
+
+  const calcHeight = () => {
+    return Math.min(deviceHeight - styles.header.height, modalLayoutHeight)
+  }
 
   return (
     <>
@@ -90,7 +97,6 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
             style={[
               styles.root,
               {
-                height: modalHeight,
                 bottom: bottom,
                 shadowOffset: {
                   width: deviceWidth,
@@ -98,8 +104,17 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
                 },
               },
               styles.common,
+              modalLayoutHeight !== modalHeight && {
+                height: calcHeight(),
+              },
+              !autoHeight && {
+                height: modalHeight,
+              },
             ]}
             testID={[props.testID, 'animatedview'].filter((e) => e).join('-')}
+            onLayout={(event) => {
+              setModalLayoutHeight(event.nativeEvent.layout.height)
+            }}
           >
             <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
               <View style={[styles.header, styles.common, styles.panView]}>

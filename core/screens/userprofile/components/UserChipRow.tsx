@@ -42,6 +42,7 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
             numberOfLines={numberOfLines}
             key={valueWithT.value}
             text={valueWithT.t}
+            label={valueWithT.t}
             disabled
             style={styles.chip}
           />

@@ -27,24 +27,34 @@ export const waitForAnimationEnd = async (locator: Locator) => {
   return locator.evaluate((element) => Promise.all(element.getAnimations().map((animation) => animation.finished)))
 }
 
-type DefaultLoginStepsProps = {
+type DefaultAuthStepsProps = {
   page: Page
   context: BrowserContext
-  username?: string
+  email?: string
   password?: string
 }
 
-export const defaultLoginSteps = async ({ page, context, username, password }: DefaultLoginStepsProps) => {
+export const defaultAuthSteps = async (
+  {
+    page,
+    context,
+    email = process.env.E2E_USER_USERNAME || 'empty',
+    password = process.env.E2E_USER_PASSWORD || 'empty',
+  }: DefaultAuthStepsProps,
+  mode: 'login' | 'registration' = 'login'
+) => {
+  const isLogin = mode === 'login'
+
   await context.clearCookies()
 
   await clickElementByTestId(page, 'btn-to-profile-view')
-  await clickElementByTestId(page, 'btn-to-login-form')
+  await clickElementByTestId(page, isLogin ? 'btn-to-login-form' : 'btn-to-registration-form')
 
-  const emailInput = await locateElementByTestId(page, 'ory-input-identifier-input')
-  await emailInput.fill(username || process.env.E2E_USER_USERNAME || 'empty')
+  const emailInput = await locateElementByTestId(page, isLogin ? 'ory-identifier-input' : 'ory-traits-email-input')
+  await emailInput.fill(email)
 
-  const passwordInput = await locateElementByTestId(page, 'ory-input-password-input')
-  await passwordInput.fill(password || process.env.E2E_USER_PASSWORD || 'empty')
+  const passwordInput = await locateElementByTestId(page, 'ory-password-input')
+  await passwordInput.fill(password)
 
   await clickElementByTestId(page, 'ory-submit-method')
 }
