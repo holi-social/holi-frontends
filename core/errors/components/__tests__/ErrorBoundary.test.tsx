@@ -62,7 +62,7 @@ describe('renders correctly', () => {
     )
 
     expect(console.error).toHaveBeenCalledWith(
-      '[useErrorHandling.ts] [ErrorBoundary.tsx]:',
+      '[logError.ts] [ErrorBoundary.tsx]:',
       new Error('Test'),
       expect.any(String)
     )

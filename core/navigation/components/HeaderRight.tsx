@@ -28,8 +28,8 @@ const HeaderRight: React.VFC<HeaderRightProps> = (props) => {
   //   ? '/registration'
   //   : pathname.includes('/registration')
   //   ? '/login'
-  //   : '/profile/danbim'
-  const pathToGo = '/profile/danbim'
+  //   : '/profile'
+  const pathToGo = '/profile'
 
   if (headerRight) return headerRight
 

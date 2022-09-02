@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
+import type { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
@@ -10,16 +10,17 @@ import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
-const UserProfileView: React.VFC = () => {
+type UserProfileViewProps = {
+  user: User
+  contactPossible?: boolean
+}
+
+const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossible = true }) => {
   const { t } = useTranslation()
 
-  const { user } = useContext(UserContext)
-
-  if (!user) {
-    return <HoliText>{t('user.profileView.noUser')}</HoliText>
-  }
-
-  const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim()
+  const fullName = user.firstName
+    ? `${user.firstName || ''} ${user.lastName || ''}`.trim()
+    : t('user.profileView.anonymous')
 
   return (
     <View style={styles.header}>
@@ -44,20 +45,22 @@ const UserProfileView: React.VFC = () => {
         </View>
       </View>
       {user.aboutMe && <HoliReadMore style={styles.aboutMe}>{user.aboutMe}</HoliReadMore>}
-      <View style={{ flexDirection: 'row', marginTop: 16 }}>
-        <HoliChip
-          text={t('user.profileView.connect')}
-          label={t('user.profileView.connect')}
-          style={{ marginRight: 8 }}
-          fontStyle={{ color: colors.positivepurple }}
-        />
-        <HoliChip
-          text={t('user.profileView.message')}
-          label={t('user.profileView.message')}
-          disabled={true}
-          fontStyle={{ color: colors.positivepurple }}
-        />
-      </View>
+      {contactPossible && (
+        <View style={{ flexDirection: 'row', marginTop: 16 }}>
+          <HoliChip
+            text={t('user.profileView.connect')}
+            label={t('user.profileView.connect')}
+            style={{ marginRight: 8 }}
+            fontStyle={{ color: colors.positivepurple }}
+          />
+          <HoliChip
+            text={t('user.profileView.message')}
+            label={t('user.profileView.message')}
+            disabled={true}
+            fontStyle={{ color: colors.positivepurple }}
+          />
+        </View>
+      )}
     </View>
   )
 }
