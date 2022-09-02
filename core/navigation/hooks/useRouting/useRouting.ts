@@ -44,7 +44,6 @@ const useRouting: UseRouting = <T extends Record<string, string>>() => {
           const { name, params } = action?.payload || {}
 
           if (name) {
-            console.log(StackActions, name, params)
             navigation.dispatch(StackActions.replace(name, params))
           } else {
             navigation.dispatch(action)

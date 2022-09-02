@@ -63,10 +63,10 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
 
   const user = data && data?.userById
 
+  const profileTitle = t('profile.title')
   // to avoid a FOUC, we use useLayoutEffect (synchronously) instead of useEffect for updating the navigation
   useLayoutEffect(
     () => {
-      const profileTitle = t('profile.title')
       setNavigationHeader({
         title: profileTitle,
         titleElement: () => (
@@ -79,7 +79,7 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
     },
     // setNavigationHeader would cause endless loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [navigation, user]
+    [navigation]
   )
 
   if (error) {
@@ -94,7 +94,7 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
   if (!userId || loading) {
     // TODO: replace with proper loading indicator
     return (
-      <View style={[mixins.container, styles.container]}>
+      <View style={[mixins.container, styles.messageContainer]}>
         <HoliText>{t('rootProvider.loading.profile')}</HoliText>
       </View>
     )
@@ -102,7 +102,7 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
 
   if (!user) {
     return (
-      <View style={[mixins.container, styles.container]}>
+      <View style={[mixins.container, styles.messageContainer]}>
         <HoliText>{t('user.profileView.noUser')}</HoliText>
       </View>
     )
@@ -175,6 +175,10 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
 const styles = StyleSheet.create({
   container: {
     alignItems: 'baseline',
+  },
+  messageContainer: {
+    alignItems: 'center',
+    marginTop: 50,
   },
   chipRowContainer: {
     marginTop: 24,

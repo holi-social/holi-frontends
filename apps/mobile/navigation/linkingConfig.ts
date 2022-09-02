@@ -1,4 +1,8 @@
-const linkingConfig = {
+import type { LinkingOptions } from '@react-navigation/native'
+
+import { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
+
+const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
   initialRouteName: 'Core',
   screens: {
     // the actual app
