@@ -191,6 +191,7 @@ exports[`renders correctly renders correctly when open 1`] = `
         style={
           Object {
             "flex": 1,
+            "width": "100%",
           }
         }
       >
