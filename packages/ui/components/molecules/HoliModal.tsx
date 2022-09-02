@@ -83,15 +83,16 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
         testID={props.testID}
         accessibilityLabel={props.label}
       >
-        <GestureHandlerRootView style={styles.rootView}>
+        <GestureHandlerRootView style={styles.rootView} accessible={false}>
           <HoliButton
             label={t('modal.backdrop')}
             onPress={onDismiss}
             style={styles.backdrop}
             transparent
             disableFocusability
+            testID={`${props.testID}-backdrop`}
           >
-            <View onAccessibilityEscape={onDismiss} style={styles.backdrop} testID="backdrop" />
+            <View onAccessibilityEscape={onDismiss} style={styles.backdrop} />
           </HoliButton>
           <Animated.View
             style={[
@@ -111,7 +112,7 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
                 height: modalHeight,
               },
             ]}
-            testID={[props.testID, 'animatedview'].filter((e) => e).join('-')}
+            // testID={[props.testID, 'animatedview'].filter((e) => e).join('-')}
             onLayout={(event) => {
               setModalLayoutHeight(event.nativeEvent.layout.height)
             }}

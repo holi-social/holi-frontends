@@ -14,6 +14,7 @@ export type HoliUserCardsModalContentProps = {
   category?: string // optional string for the text in the chip inside the HoliUserCard
   title?: string
   style?: StyleProp<ViewStyle>
+  testID?: string
 }
 
 const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
@@ -22,15 +23,16 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
   category,
   title,
   style,
+  testID,
 }: HoliUserCardsModalContentProps) => {
   const screenHeight = Dimensions.get('window').height
   const styles = getStyles(screenHeight)
   const { t } = useTranslation()
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, style]} testID={testID}>
       <ScrollView>
-        <HoliHeading level="1" style={styles.title} size="large">
+        <HoliHeading level="1" style={styles.title} size="large" testID={`${testID}-heading`}>
           {title || t('user.cards.modal.title')}
         </HoliHeading>
         <HoliCarousel
@@ -45,7 +47,7 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
         style={styles.closeButton}
         label={t('user.cards.modal.close')}
         onPress={onDismiss}
-        testID="user-cards-modal-content-close"
+        testID={`${testID}-close-btn`}
       >
         {t('user.cards.modal.close')}
       </HoliButton>

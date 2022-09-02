@@ -16,7 +16,8 @@ describe('@Login', () => {
     // Login
     await defaultLoginSteps()
 
-    // Logout
+    // Logout// open user profile
+    await tapOnElementWithTestId('btn-to-profile-view')
     await tapOnElementWithTestId('btn-to-logout')
     await tapOnElementWithTestId('confirm-logout-button')
     await waitForElementWithTestId('btn-to-login-form')
