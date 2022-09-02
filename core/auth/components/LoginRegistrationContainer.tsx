@@ -39,7 +39,7 @@ const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = (
   }
 
   useLayoutEffect(() => {
-    isLoggedIn && navigate(`/profile/${userId}`)
+    isLoggedIn && navigate('/profile')
   }, [isLoggedIn, navigate, userId])
 
   return (

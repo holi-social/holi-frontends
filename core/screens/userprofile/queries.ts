@@ -3,7 +3,6 @@ import { z } from 'zod'
 
 import type { User } from '@holi/core/screens/userprofile/types'
 
-// TODO: user needs also default color (HOLI-1525)
 export const userFragment = gql`
   fragment FullUser on User {
     id
@@ -34,6 +33,20 @@ export const authenticatedUserQuery = gql`
 
 export type AuthenticatedUserResponse = {
   authenticatedUser: User
+}
+
+export const userByIdQuery = gql`
+  ${userFragment}
+
+  query UserById($userId: String!) {
+    userById(id: $userId) {
+      ...FullUser
+    }
+  }
+`
+
+export type UserByIdResponse = {
+  userById: User
 }
 
 export const UpdateAuthenticatedUserInputSchema = z.object({
