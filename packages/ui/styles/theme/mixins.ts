@@ -12,10 +12,6 @@ const staticStyles = StyleSheet.create({
   inlineButtonFixMedium: {
     transform: [{ translateY: Platform.select({ ios: 3, android: 5, default: 0 }) }],
   },
-  modalActionButton: {
-    position: 'absolute',
-    bottom: 40,
-  },
 })
 
 const useStyleMixins = () => {
