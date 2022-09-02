@@ -1,10 +1,9 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { displayError } from '@holi/core/errors/helpers'
-import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserResponse,
@@ -21,14 +20,19 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { ChipValueWithTranslation, toValuesWithTranslation } from './userChipHelper'
 
 type UserChipFormProps = {
+  user: User
   onCancel?: () => void
   onSubmit?: (user: User) => void
   typeMetadata: UserChipGeneric<any> // eslint-disable-line @typescript-eslint/no-explicit-any
   sortByTranslation?: boolean
 }
 
-const UserChipForm: React.VFC<UserChipFormProps> = ({ onSubmit, typeMetadata, sortByTranslation = true }) => {
-  const { user } = useContext(UserContext)
+const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
+  onSubmit,
+  typeMetadata,
+  sortByTranslation = true,
+  user,
+}) => {
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const [values, setValues] = useState(
     user ? (user[typeMetadata.keyInUserObject as keyof typeof user] as string[]) : []

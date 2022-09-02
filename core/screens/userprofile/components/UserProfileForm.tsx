@@ -1,10 +1,9 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import { displayError } from '@holi/core/errors/helpers'
-import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserInputSchema,
@@ -20,6 +19,7 @@ import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type UserProfileFormProps = {
+  user: User
   onCancel: () => void
   onSubmit: (user: User) => void
   testId?: string
@@ -27,8 +27,7 @@ type UserProfileFormProps = {
 
 const onlyLettersAndSpaces = (str: string) => str.replace(/[^\p{L}\s]/gu, '')
 
-const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }) => {
-  const { user } = useContext(UserContext)
+const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...props }) => {
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const [firstName, setFirstName] = useState(user?.firstName ?? '')
   const [lastName, setLastName] = useState(user?.lastName ?? '')

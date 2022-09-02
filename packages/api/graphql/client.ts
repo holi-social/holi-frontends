@@ -16,6 +16,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path }) => {
       const errorMessage = `Message: ${message}, Location: ${locations}, Path: ${path}`
+      // TODO: maybe do not log 404 errors
       logError(new Error(errorMessage), '[GraphQL Error]')
     })
   }
