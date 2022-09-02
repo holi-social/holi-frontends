@@ -1,5 +1,6 @@
 import * as Font from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
+import { StatusBar } from 'expo-status-bar'
 import React, { useEffect, useState } from 'react'
 
 import RootProvider from '@holi/core/RootProvider'
@@ -37,11 +38,14 @@ const App: React.VoidFunctionComponent = () => {
   if (!isReady) return null
 
   return (
-    <RootProvider>
-      <NavigationProvider>
-        <RootNavigator />
-      </NavigationProvider>
-    </RootProvider>
+    <>
+      <StatusBar style="dark" />
+      <RootProvider>
+        <NavigationProvider>
+          <RootNavigator />
+        </NavigationProvider>
+      </RootProvider>
+    </>
   )
 }
 

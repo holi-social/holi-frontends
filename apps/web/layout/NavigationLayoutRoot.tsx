@@ -2,6 +2,7 @@ import Head from 'next/head'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { useTheme } from '@holi/ui/styles/theme'
 import HomeButtonBar from '@holi/web/components/navigation/HomeBottomBar'
 import HomeTopBar from '@holi/web/components/navigation/HomeTopBar'
 
@@ -9,6 +10,7 @@ import navigationLayoutRootStyles from './NavigationLayoutRoot.module.scss'
 
 const DefaultLayout: React.FunctionComponent = ({ children }) => {
   const { t } = useTranslation()
+  const { modalIsOpen } = useTheme()
 
   return (
     <>
@@ -25,7 +27,9 @@ const DefaultLayout: React.FunctionComponent = ({ children }) => {
         <HomeTopBar />
       </header>
 
-      <main className={navigationLayoutRootStyles.main}>{children}</main>
+      <main className={`${navigationLayoutRootStyles.main} ${modalIsOpen ? navigationLayoutRootStyles.fixed : ''}`}>
+        {children}
+      </main>
 
       <footer className={navigationLayoutRootStyles.footer}>
         <HomeButtonBar />
