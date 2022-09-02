@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { displayError } from '@holi/core/errors/helpers'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
@@ -14,11 +14,10 @@ import {
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type UserProfileFormProps = {
   onCancel: () => void
@@ -38,7 +37,6 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
   const [location, setLocation] = useState(user?.location ?? '')
   const [fieldErrors, setFieldErrors] = useState<{ [x: string]: string[] | undefined }>({})
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
 
   const submit = async () => {
     const input: UpdateAuthenticatedUserInput = {
@@ -62,7 +60,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
 
   if (!user) {
     return (
-      <View style={styles.wrapper}>
+      <View style={styles.singleTextWrapper}>
         <HoliText>{t('user.profileView.noUser')}</HoliText>
       </View>
     )
@@ -70,7 +68,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
 
   if (loading) {
     return (
-      <View style={styles.wrapper} testID="user-profile-edit-form-saving">
+      <View style={styles.singleTextWrapper} testID="user-profile-edit-form-saving">
         <HoliText>{t('user.profileForm.saving')}</HoliText>
       </View>
     )
@@ -80,9 +78,8 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
     displayError(error, t('user.profileForm.error.saving'))
   }
 
-  // Later: possibly use form tag for web
-  return (
-    <View style={styles.wrapper} testID={props?.testId || 'user-profile-edit-form'}>
+  const header = (
+    <View style={styles.headerContainer}>
       <HoliUserAvatar
         imageSrc={user.avatar}
         label={user.firstName || ''}
@@ -96,8 +93,18 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
         <HoliText style={{ marginRight: 13 }}>Add a profile image</HoliText>
         <HoliIcon icon="image" color={colors.fontColorGrey} />
       </View>
+    </View>
+  )
 
-      <ScrollView style={styles.scrollView}>
+  return (
+    <HoliModalContentWrapper
+      actionButtonText={t('user.profileForm.save')}
+      onActionButtonPress={submit}
+      prependChildren={header}
+      testID={props?.testId || 'user-profile-edit-form'}
+      actionButtonTestID={`btn-${props?.testId || 'user-profile-edit-form'}-save`}
+    >
+      <View style={styles.mainContainer}>
         <HoliTextInput
           value={firstName}
           inputLabel={t('user.profileForm.firstName')}
@@ -154,21 +161,18 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
           onChange={(text) => setLocation(text)}
           style={styles.input}
         />
-      </ScrollView>
-
-      <HoliButton
-        label={t('user.profileForm.save')}
-        onPress={submit}
-        style={mixins.modalActionButton}
-        testID={`btn-${props?.testId || 'user-profile-edit-form'}-save`}
-      >
-        {t('user.profileForm.save')}
-      </HoliButton>
-    </View>
+      </View>
+    </HoliModalContentWrapper>
   )
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    marginHorizontal: 24,
+  },
+  headerContainer: {
+    alignItems: 'center',
+  },
   addImage: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -185,8 +189,9 @@ const styles = StyleSheet.create({
     marginTop: 24,
     paddingHorizontal: 8,
     width: '100%',
+    paddingBottom: 150,
   },
-  wrapper: {
+  singleTextWrapper: {
     alignItems: 'center',
     alignSelf: 'center',
     height: '100%',

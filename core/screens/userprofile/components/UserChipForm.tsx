@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import { displayError } from '@holi/core/errors/helpers'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
@@ -11,13 +11,11 @@ import {
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { User, UserChipGeneric } from '@holi/core/screens/userprofile/types'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
+import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import { ChipValueWithTranslation, toValuesWithTranslation } from './userChipHelper'
 
@@ -28,11 +26,7 @@ type UserChipFormProps = {
   sortByTranslation?: boolean
 }
 
-const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
-  onSubmit,
-  typeMetadata,
-  sortByTranslation = true,
-}) => {
+const UserChipForm: React.VFC<UserChipFormProps> = ({ onSubmit, typeMetadata, sortByTranslation = true }) => {
   const { user } = useContext(UserContext)
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const [values, setValues] = useState(
@@ -44,7 +38,6 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
   const [saved, setSaved] = useState(false)
 
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
 
   useEffect(() => {
     /*
@@ -85,7 +78,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
 
   if (!user) {
     return (
-      <View style={styles.wrapper}>
+      <View style={styles.singleTextWrapper}>
         <HoliText>{t('user.profileView.noUser')}</HoliText>
       </View>
     )
@@ -93,7 +86,10 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
 
   if (loading || saved) {
     return (
-      <View style={styles.wrapper} testID={['user-profile-chipform', typeMetadata.keyInUserObject, 'saving'].join('-')}>
+      <View
+        style={styles.singleTextWrapper}
+        testID={['user-profile-chipform', typeMetadata.keyInUserObject, 'saving'].join('-')}
+      >
         <HoliText>{t('user.profileForm.saving')}</HoliText>
       </View>
     )
@@ -112,13 +108,15 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
       setValues((previous) => [...previous, value])
     }
   }
-  return (
-    <View style={styles.wrapper}>
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <HoliHeading level="1" style={styles.headline}>
-          {t(`user.${typeMetadata.keyInUserObject}.form.headline`)}
-        </HoliHeading>
 
+  return (
+    <HoliModalContentWrapper
+      actionButtonText={t('user.profileForm.save')}
+      onActionButtonPress={submit}
+      headlineText={t(`user.${typeMetadata.keyInUserObject}.form.headline`)}
+      actionButtonTestID={['user-profile-chipform', typeMetadata.keyInUserObject, 'save'].join('-')}
+    >
+      <View style={styles.mainContainer}>
         <HoliText style={styles.subline}>{t(`user.${typeMetadata.keyInUserObject}.form.subline`)}</HoliText>
 
         <HoliTextInput
@@ -148,35 +146,26 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
         {filteredValues.length === 0 && (
           <HoliText style={styles.subline}>{t(`profile.${typeMetadata.keyInUserObject}.filter.empty`)}</HoliText>
         )}
-      </ScrollView>
-
-      <HoliButton
-        label={t('user.profileForm.save')}
-        onPress={submit}
-        style={mixins.modalActionButton}
-        testID={['user-profile-chipform', typeMetadata.keyInUserObject, 'save'].join('-')}
-      >
-        {t('user.profileForm.save')}
-      </HoliButton>
-    </View>
+      </View>
+    </HoliModalContentWrapper>
   )
 }
 
 const getStyles = () =>
   StyleSheet.create({
-    wrapper: {
+    mainContainer: {
+      marginHorizontal: 24,
+    },
+    singleTextWrapper: {
       alignItems: 'center',
       maxWidth: 600,
-      paddingHorizontal: 16,
-      paddingTop: 0,
+      marginHorizontal: 16,
       alignSelf: 'center',
+      maxHeight: '100%',
     },
     scrollViewContent: {
       paddingHorizontal: 16,
       alignItems: 'center',
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%',
       paddingBottom: 150,
     },
     headline: {
