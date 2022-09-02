@@ -16,6 +16,7 @@ export type HoliModalProps = ModalProps & {
   show: boolean
   onDismiss: () => void
   relativeHeight?: number
+  minRelativeHeight?: number
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild>
   testID?: string
   label: string
@@ -23,7 +24,7 @@ export type HoliModalProps = ModalProps & {
 }
 
 const HoliModal: React.FC<HoliModalProps> = (props) => {
-  const { show = false, relativeHeight = 0.9, onDismiss, autoHeight = true, children } = props
+  const { show = false, relativeHeight = 0.9, minRelativeHeight, onDismiss, autoHeight = true, children } = props
   const { t } = useTranslation()
   const [visible, setVisible] = useState(show)
   const { setModalIsOpen } = useTheme()
@@ -112,6 +113,7 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
                 bottom: animShiftInterpolated,
                 transform: [{ translateY: gestureShift }],
                 maxHeight: `${relativeHeight * 100}%`,
+                ...(minRelativeHeight && { minHeight: `${Math.min(minRelativeHeight, relativeHeight) * 100}%` }),
               },
               styles.common,
               !autoHeight && styles.rootFixHeight,
