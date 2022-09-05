@@ -1,6 +1,7 @@
 import { defaultAuthSteps } from '../helpers/auth'
 import { navigateBackToHomeScreen } from '../helpers/navigation'
 import {
+  scrollToElementWithTestId,
   tapOnElementWithTestId,
   waitForElementWithTestId,
   waitForElementWithTestIdToBeNull,
@@ -44,6 +45,9 @@ describe('@HomeScreen', () => {
     await navigateBackToHomeScreen()
 
     // user suggestions element should not be null
-    await waitForElementWithTestId('user-suggestions')
+    await scrollToElementWithTestId('user-suggestions')
+
+    // scroll up again
+    await scrollToElementWithTestId('home-feed-topics-heading')
   })
 })
