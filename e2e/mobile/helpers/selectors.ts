@@ -14,6 +14,16 @@ const waitForElement = async (elementSelector: string, timeout?: number) => {
 export const waitForElementWithTestId = async (testId: string, timeout?: number) =>
   waitForElement(byTestId(testId), timeout)
 
+export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?: number) => {
+  // https://webdriver.io/docs/api/browser/$
+  const element = await Appium.$(byTestId(testId))
+
+  // https://webdriver.io/docs/api/element/waitForDisplayed
+  await element.waitForDisplayed({ timeout, reverse: true })
+
+  return element
+}
+
 export const seeTextWithTestId = async (expectedText: string, testId: string) => {
   const element = await waitForElementWithTestId(testId)
   // https://webdriver.io/docs/api/element/getText
