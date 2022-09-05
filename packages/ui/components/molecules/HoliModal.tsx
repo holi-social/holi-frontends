@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Animated, Modal, ModalProps, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Animated, Modal, ModalProps, StyleSheet, TouchableOpacity, View, useWindowDimensions } from 'react-native'
 import {
   GestureEvent,
   GestureHandlerRootView,
@@ -8,8 +8,10 @@ import {
   PanGestureHandler,
 } from 'react-native-gesture-handler'
 
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
+import { vars } from '@holi/ui/styles/globalVars'
 
 export type HoliModalProps = ModalProps & {
   show: boolean
@@ -74,6 +76,20 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
     return Math.min(deviceHeight - styles.header.height, modalLayoutHeight)
   }
 
+  const DismissModal = () => {
+    return (
+      <>
+        {deviceWidth >= +vars.breakpointXl ? (
+          <TouchableOpacity onPress={onDismiss} style={styles.dismissIcon}>
+            <HoliIcon icon="close" color={colors.fontColorBlack} size={25} />
+          </TouchableOpacity>
+        ) : (
+          <View style={[styles.handle]} />
+        )}
+      </>
+    )
+  }
+
   return (
     <>
       <Modal
@@ -118,7 +134,7 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
           >
             <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
               <View style={[styles.header, styles.common, styles.panView]}>
-                <View style={[styles.handle]} />
+                <DismissModal />
               </View>
             </PanGestureHandler>
             {children}
@@ -157,7 +173,7 @@ const getStyles = (deviceWidth: number) =>
       position: 'absolute',
       top: 10,
       zIndex: 10,
-      backgroundColor: colors.softblack,
+      backgroundColor: colors.fontColorGrey,
       opacity: 0.3,
     },
     common: {
@@ -185,5 +201,11 @@ const getStyles = (deviceWidth: number) =>
       zIndex: 0,
       opacity: 0.4,
       backgroundColor: colors.softblack,
+    },
+    dismissIcon: {
+      position: 'absolute',
+      right: 10,
+      top: 10,
+      zIndex: 10,
     },
   })
