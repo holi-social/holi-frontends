@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
@@ -28,9 +28,11 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
       onActionButtonPress={onDismiss}
       headlineText={title || t('user.cards.modal.title')}
       actionButtonTestID="user-cards-modal-content-close"
+      style={styles.modalContentWrapper}
     >
       <HoliCarousel
         style={styles.carouselContainer}
+        marginHorizontal={24}
         slides={users.map((user) => ({
           children: <HoliUserCard style={styles.userCard} user={user} category={category} disableFocusability />,
         }))}
@@ -42,12 +44,18 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
 export default HoliUserCardsModalContent
 
 const styles = StyleSheet.create({
+  modalContentWrapper: {
+    ...Platform.select({
+      web: {
+        maxWidth: '100%',
+      },
+    }),
+  },
   carouselContainer: {
     marginTop: 24,
     paddingBottom: 80,
   },
-  userCardContainer: {
-    width: '100%',
+  userCard: {
+    flex: 1,
   },
-  userCard: { flex: 1 },
 })
