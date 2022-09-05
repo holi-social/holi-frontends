@@ -19,7 +19,6 @@ export type UserSuggestionsProps = {
 const UserSuggestions: React.VFC<UserSuggestionsProps> = ({ style }: UserSuggestionsProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const styles = getStyles()
   const mixins = useStyleMixins()
   const numberOfItems = 10
 
@@ -71,21 +70,20 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = ({ style }: UserSuggest
 
 export default UserSuggestions
 
-const getStyles = () =>
-  StyleSheet.create({
-    scrollviewContainer: {
-      paddingVertical: 16, // paddingBottom is necessary for the scroll bar not to touch the user names
-    },
-    buttonContainer: {
-      marginRight: 8,
-    },
-    lastButtonContainer: {
-      marginLeft: 16,
-      marginRight: 45,
-      marginBottom: 30,
-      alignSelf: 'center',
-      ...Platform.select({
-        web: { marginRight: 16 },
-      }),
-    },
-  })
+const styles = StyleSheet.create({
+  scrollviewContainer: {
+    paddingVertical: 16, // paddingBottom is necessary for the scroll bar not to touch the user names
+  },
+  buttonContainer: {
+    marginRight: 8,
+  },
+  lastButtonContainer: {
+    marginLeft: 16,
+    marginRight: 45,
+    marginBottom: 30,
+    alignSelf: 'center',
+    ...Platform.select({
+      web: { marginRight: 16 },
+    }),
+  },
+})
