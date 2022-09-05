@@ -72,6 +72,8 @@ test.describe('@Registration', () => {
       'registration'
     )
 
+    await waitForElementByTestId(page, 'ory-password-input-error-message')
+
     // weak password provided
     await defaultAuthSteps(
       {
