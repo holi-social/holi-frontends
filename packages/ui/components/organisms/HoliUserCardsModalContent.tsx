@@ -32,9 +32,8 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
       <HoliCarousel
         style={styles.carouselContainer}
         slides={users.map((user) => ({
-          children: <HoliUserCard style={styles.userCard} user={user} category={category} />,
+          children: <HoliUserCard style={styles.userCard} user={user} category={category} disableFocusability />,
         }))}
-        marginHorizontal={24}
       />
     </HoliModalContentWrapper>
   )
@@ -44,9 +43,11 @@ export default HoliUserCardsModalContent
 
 const styles = StyleSheet.create({
   carouselContainer: {
-    marginTop: 8,
+    marginTop: 24,
+    paddingBottom: 80,
   },
-  userCard: {
+  userCardContainer: {
     width: '100%',
   },
+  userCard: { flex: 1 },
 })
