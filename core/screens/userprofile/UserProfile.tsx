@@ -8,7 +8,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import NotFound from '@holi/core/errors/components/NotFound'
-import { displayError } from '@holi/core/errors/helpers'
+import { displayError, isNotFoundError } from '@holi/core/errors/helpers'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -83,8 +83,7 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
   )
 
   if (error) {
-    // TODO: perform more explicit check for 404?
-    if (error.graphQLErrors.length) {
+    if (isNotFoundError(error)) {
       return <NotFound />
     } else {
       displayError(error, t('user.userProfile.error.fetching'))
