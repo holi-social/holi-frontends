@@ -6,6 +6,9 @@ const useRouting: UseRouting = <T extends Record<string, string>>() => {
   const router = useRouter()
 
   const navigate = (routeName: string) => router.push(routeName)
+
+  const replaceRoute = (routeName: string) => router.replace(routeName)
+
   return {
     navigate,
     navigateBack: (fallbackRouteName = '/') => {
@@ -15,6 +18,7 @@ const useRouting: UseRouting = <T extends Record<string, string>>() => {
         navigate(fallbackRouteName)
       }
     },
+    replaceRoute,
     query: router.query as T,
     pathname: router.asPath,
   }

@@ -27,7 +27,7 @@ const HeaderRight: React.VFC<HeaderRightProps> = (props) => {
     ? '/registration'
     : pathname.includes('/registration')
     ? '/login'
-    : '/profile/danbim'
+    : '/profile'
 
   if (headerRight) return headerRight
 
@@ -38,7 +38,7 @@ const HeaderRight: React.VFC<HeaderRightProps> = (props) => {
     userAvatar = (
       <HoliUserAvatar
         imageSrc={user.avatar}
-        label={nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
+        label={nameLabel || t('user.profileView.anonymous')}
         initials={user.avatarLabel}
         defaultColor={user.avatarDefaultColor}
         size="micro"

@@ -1,26 +1,26 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import { displayError } from '@holi/core/errors/helpers'
-import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserResponse,
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { User, UserChipGeneric } from '@holi/core/screens/userprofile/types'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
+import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import { colors } from '@holi/ui/styles/globalVars'
 
 import { ChipValueWithTranslation, toValuesWithTranslation } from './userChipHelper'
 
 type UserChipFormProps = {
+  user: User
   onCancel?: () => void
   onSubmit?: (user: User) => void
   typeMetadata: UserChipGeneric<any> // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -31,8 +31,8 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
   onSubmit,
   typeMetadata,
   sortByTranslation = true,
+  user,
 }) => {
-  const { user } = useContext(UserContext)
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const [values, setValues] = useState(
     user ? (user[typeMetadata.keyInUserObject as keyof typeof user] as string[]) : []
@@ -43,6 +43,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
   const [saved, setSaved] = useState(false)
 
   const { t } = useTranslation()
+
   useEffect(() => {
     /*
     We need to determine the right order when opening the layer:
@@ -80,17 +81,22 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
     }
   }
 
+  let notificationComponent: React.ReactNode | null = null
+
   if (!user) {
-    return (
-      <View style={styles.wrapper}>
+    notificationComponent = (
+      <View style={styles.notification}>
         <HoliText>{t('user.profileView.noUser')}</HoliText>
       </View>
     )
   }
 
   if (loading || saved) {
-    return (
-      <View style={styles.wrapper} testID={['user-profile-chipform', typeMetadata.keyInUserObject, 'saving'].join('-')}>
+    notificationComponent = (
+      <View
+        style={styles.notification}
+        testID={['user-profile-chipform', typeMetadata.keyInUserObject, 'saving'].join('-')}
+      >
         <HoliText>{t('user.profileForm.saving')}</HoliText>
       </View>
     )
@@ -109,13 +115,18 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
       setValues((previous) => [...previous, value])
     }
   }
+
   return (
-    <View style={styles.wrapper}>
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <HoliHeading level="1" style={styles.headline}>
-          {t(`user.${typeMetadata.keyInUserObject}.form.headline`)}
-        </HoliHeading>
+    <HoliModalContentWrapper
+      actionButtonText={t('user.profileForm.save')}
+      onActionButtonPress={submit}
+      headlineText={t(`user.${typeMetadata.keyInUserObject}.form.headline`)}
+      actionButtonTestID={['user-profile-chipform', typeMetadata.keyInUserObject, 'save'].join('-')}
+      prependChildren={notificationComponent}
+    >
+      <View style={styles.mainContainer}>
         <HoliText style={styles.subline}>{t(`user.${typeMetadata.keyInUserObject}.form.subline`)}</HoliText>
+
         <HoliTextInput
           accessibilityLabel={t(`profile.${typeMetadata.keyInUserObject}.filter.placeholder`)}
           value={filterString}
@@ -124,6 +135,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
           trailingIcon="search"
           style={styles.input}
         />
+
         <HoliChipRow editable={false} editButtonLabel="">
           {filteredValues.map(({ value, t }) => {
             return (
@@ -138,47 +150,38 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
             )
           })}
         </HoliChipRow>
+
         {filteredValues.length === 0 && (
           <HoliText style={styles.subline}>{t(`profile.${typeMetadata.keyInUserObject}.filter.empty`)}</HoliText>
         )}
-      </ScrollView>
-      <HoliButton
-        style={styles.saveButton}
-        label={t('user.profileForm.save')}
-        onPress={submit}
-        testID={['user-profile-chipform', typeMetadata.keyInUserObject, 'save'].join('-')}
-      >
-        {t('user.profileForm.save')}
-      </HoliButton>
-    </View>
+      </View>
+    </HoliModalContentWrapper>
   )
 }
 
 const getStyles = () =>
   StyleSheet.create({
-    wrapper: {
+    mainContainer: {
+      marginHorizontal: 24,
+    },
+    notification: {
+      ...StyleSheet.absoluteFillObject,
       alignItems: 'center',
-      flexDirection: 'column',
-      maxWidth: 600,
-      paddingHorizontal: 16,
-      paddingTop: 0,
-      width: '100%',
-      height: '100%',
-      alignSelf: 'center',
+      justifyContent: 'center',
+      marginHorizontal: 16,
+      zIndex: 10,
+      backgroundColor: colors.backgroundColorWhite,
     },
     scrollViewContent: {
       paddingHorizontal: 16,
       alignItems: 'center',
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%',
       paddingBottom: 150,
     },
     headline: {
       marginBottom: 16,
     },
     subline: {
-      marginBottom: 17,
+      marginBottom: 16,
     },
     input: {
       marginBottom: 16,
@@ -186,12 +189,6 @@ const getStyles = () =>
     chip: {
       marginRight: 8,
       marginBottom: 8,
-    },
-    saveButton: {
-      bottom: 70,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
     },
   })
 

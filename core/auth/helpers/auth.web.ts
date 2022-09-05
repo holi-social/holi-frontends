@@ -34,9 +34,7 @@ export const initLoginFlow = (): AxiosPromise<SelfServiceLoginFlow> => {
 export const submitLogoutFlow = (/*payload: SubmitSelfServiceLogoutFlowWithoutBrowserBody*/) => {
   return newKratosSdk()
     .createSelfServiceLogoutFlowUrlForBrowsers('')
-    .then(({ data }) => {
-      return newKratosSdk().submitSelfServiceLogoutFlow(data.logout_token)
-    })
+    .then(({ data }) => newKratosSdk().submitSelfServiceLogoutFlow(data.logout_token))
 }
 
 export const initRegistrationFlow = (): AxiosPromise<SelfServiceRegistrationFlow> => {

@@ -1,10 +1,9 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { displayError } from '@holi/core/errors/helpers'
-import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserInputSchema,
@@ -14,12 +13,13 @@ import {
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type UserProfileFormProps = {
+  user: User
   onCancel: () => void
   onSubmit: (user: User) => void
   testId?: string
@@ -27,8 +27,7 @@ type UserProfileFormProps = {
 
 const onlyLettersAndSpaces = (str: string) => str.replace(/[^\p{L}\s]/gu, '')
 
-const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }) => {
-  const { user } = useContext(UserContext)
+const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...props }) => {
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const [firstName, setFirstName] = useState(user?.firstName ?? '')
   const [lastName, setLastName] = useState(user?.lastName ?? '')
@@ -58,17 +57,19 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
     }
   }
 
+  let notificationComponent: React.ReactNode | null = null
+
   if (!user) {
-    return (
-      <View style={styles.wrapper}>
+    notificationComponent = (
+      <View style={styles.notification}>
         <HoliText>{t('user.profileView.noUser')}</HoliText>
       </View>
     )
   }
 
   if (loading) {
-    return (
-      <View style={styles.wrapper} testID="user-profile-edit-form-saving">
+    notificationComponent = (
+      <View style={styles.notification} testID="user-profile-edit-form-saving">
         <HoliText>{t('user.profileForm.saving')}</HoliText>
       </View>
     )
@@ -78,22 +79,40 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
     displayError(error, t('user.profileForm.error.saving'))
   }
 
-  // Later: possibly use form tag for web
-  return (
-    <View style={styles.wrapper} testID={props?.testId || 'user-profile-edit-form'}>
+  const header = (
+    <View style={styles.headerContainer}>
       <HoliUserAvatar
-        imageSrc={user.avatar}
-        label={user.firstName || ''}
-        initials={user.avatarLabel || ''}
-        defaultColor={user.avatarDefaultColor || '#FFAE86'}
+        imageSrc={user?.avatar || ''}
+        label={user?.firstName || ''}
+        initials={user?.avatarLabel || ''}
+        defaultColor={user?.avatarDefaultColor || '#FFAE86'}
         size="medium"
         style={styles.avatar}
       />
+
       <View style={styles.addImage}>
         <HoliText style={{ marginRight: 13 }}>Add a profile image</HoliText>
         <HoliIcon icon="image" color={colors.fontColorGrey} />
       </View>
-      <ScrollView style={styles.scrollView}>
+    </View>
+  )
+
+  const prependComponent = (
+    <>
+      {notificationComponent}
+      {header}
+    </>
+  )
+
+  return (
+    <HoliModalContentWrapper
+      actionButtonText={t('user.profileForm.save')}
+      onActionButtonPress={submit}
+      prependChildren={prependComponent}
+      testID={props?.testId || 'user-profile-edit-form'}
+      actionButtonTestID={`btn-${props?.testId || 'user-profile-edit-form'}-save`}
+    >
+      <View style={styles.mainContainer}>
         <HoliTextInput
           value={firstName}
           inputLabel={t('user.profileForm.firstName')}
@@ -148,22 +167,20 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, ...props }
           accessibilityLabel={t('user.profileForm.location')}
           placeholder={t('user.profileForm.locationPlaceholder')}
           onChange={(text) => setLocation(text)}
-          style={[styles.input, { paddingBottom: 100 }]}
+          style={styles.input}
         />
-      </ScrollView>
-      <HoliButton
-        style={styles.saveButton}
-        label={t('user.profileForm.save')}
-        onPress={submit}
-        testID={`btn-${props?.testId || 'user-profile-edit-form'}-save`}
-      >
-        {t('user.profileForm.save')}
-      </HoliButton>
-    </View>
+      </View>
+    </HoliModalContentWrapper>
   )
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    marginHorizontal: 24,
+  },
+  headerContainer: {
+    alignItems: 'center',
+  },
   addImage: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -179,24 +196,16 @@ const styles = StyleSheet.create({
   scrollView: {
     marginTop: 24,
     paddingHorizontal: 8,
-    flex: 1,
     width: '100%',
+    paddingBottom: 150,
   },
-  wrapper: {
-    alignItems: 'center',
-    alignSelf: 'center',
-    flex: 1,
-    maxWidth: 500,
-    paddingHorizontal: 16,
-    paddingBottom: 24,
-    width: '100%',
-  },
-  saveButton: {
-    bottom: 30,
-    position: 'absolute',
-    display: 'flex',
+  notification: {
+    ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     justifyContent: 'center',
+    marginHorizontal: 16,
+    zIndex: 10,
+    backgroundColor: colors.backgroundColorWhite,
   },
 })
 

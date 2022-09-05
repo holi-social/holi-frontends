@@ -13,12 +13,13 @@ import HeaderLeft from '@holi/core/navigation/components/HeaderLeft'
 import HeaderRight from '@holi/core/navigation/components/HeaderRight'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import Explore from '@holi/core/screens/Explore'
-import HomeFeed from '@holi/core/screens/HomeFeed'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
+import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import Post, { PostParams } from '@holi/core/screens/topics/Post'
 import Topic, { TopicParams } from '@holi/core/screens/topics/Topic'
-import UserProfile from '@holi/core/screens/userprofile/UserProfile'
+import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
+import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -28,7 +29,8 @@ export type HomeStackScreens = {
   HomeFeed: undefined
   Topic: TopicParams
   Post: PostParams
-  UserProfile: undefined
+  OwnProfile: undefined
+  UserProfile: UserProfileParams
   Notifications: undefined
 }
 
@@ -57,6 +59,8 @@ const DownButton = () => {
 }
 
 export const HomeStackNavigator: React.VFC = () => {
+  const { t } = useTranslation()
+
   return (
     <HomeStack.Navigator
       initialRouteName="HomeFeed"
@@ -86,6 +90,24 @@ export const HomeStackNavigator: React.VFC = () => {
         }}
       />
       <HomeStack.Screen
+        name="OwnProfile"
+        component={OwnProfile}
+        options={{
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+          headerLeft: BackButton,
+          headerRight: () => (
+            <HeaderRight
+              style={{
+                paddingHorizontal: 0,
+                marginRight: 5,
+              }}
+            />
+          ),
+          title: t('profile.title'),
+        }}
+      />
+      <HomeStack.Screen
         name="UserProfile"
         component={UserProfile}
         options={{
@@ -100,6 +122,7 @@ export const HomeStackNavigator: React.VFC = () => {
               }}
             />
           ),
+          title: t('profile.title'),
         }}
       />
       <HomeStack.Screen
