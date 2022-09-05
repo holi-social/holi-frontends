@@ -73,7 +73,7 @@ const config: PlaywrightTestConfig = {
 
     /* Test against mobile viewports. */
     {
-      name: 'Mobile Chrome',
+      name: 'Mobile_Chrome',
       use: {
         ...devices['Pixel 5'],
       },
@@ -85,13 +85,13 @@ const config: PlaywrightTestConfig = {
      * https://github.com/microsoft/playwright/issues/11812
      */
     // {
-    //   name: 'Mobile Safari',
+    //   name: 'Mobile_Safari',
     //   use: {
     //     ...devices['iPhone 12'],
     //   },
     // },
     {
-      name: 'Mobile Firefox',
+      name: 'Mobile_Firefox',
       use: {
         ...devices['Desktop Firefox'],
         viewport: { width: 390, height: 844 },
@@ -101,7 +101,7 @@ const config: PlaywrightTestConfig = {
 
     /* Test against branded browsers. */
     // {
-    //   name: 'Microsoft Edge',
+    //   name: 'Microsoft_Edge',
     //   use: {
     //     channel: 'msedge',
     //   },

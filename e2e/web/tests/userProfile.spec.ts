@@ -19,7 +19,7 @@ test.describe('@Profile', () => {
     await checkAccessibility(page)
     await delay(0.5) // source of flakyness and delay. Why do we need this here? Component is there, but click does not work when done too early.
     await page.locator(byTestId('btn-open-profile-edit-view')).click()
-    await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
+    await waitForAnimationEnd(page.locator(byTestId('user-profile-modal')))
     await checkAccessibility(page)
 
     // validation should block save
@@ -48,18 +48,18 @@ const checkChipRow = async (page: Page, what: string) => {
   // deselecting all chips should work
   await page.locator(byTestId(`user-profile-${what}-edit`)).click()
   await delay(0.5)
-  await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
+  await waitForAnimationEnd(page.locator(byTestId('user-profile-modal')))
   await checkAccessibility(page)
   const noSelected: number = await page
-    .locator(`${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`)
+    .locator(`${byTestId('user-profile-modal')} >> [aria-checked=true]`)
     .count()
   for (let stillSelected = noSelected; stillSelected > 0; stillSelected--) {
     await page
-      .locator(`${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`)
+      .locator(`${byTestId('user-profile-modal')} >> [aria-checked=true]`)
       .first()
       .click()
   }
-  expect(await page.locator(`${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`).count()).toBe(0)
+  expect(await page.locator(`${byTestId('user-profile-modal')} >> [aria-checked=true]`).count()).toBe(0)
   await save(page, what)
   await checkAccessibility(page)
 
@@ -67,14 +67,14 @@ const checkChipRow = async (page: Page, what: string) => {
   expect(await page.locator(`${userProfileTestId} >> [role="checkbox"]`).count()).toBe(1)
 
   await page.locator(`${userProfileTestId} >> [role="checkbox"]`).click()
-  await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
+  await waitForAnimationEnd(page.locator(byTestId('user-profile-modal')))
   const noAvailable: number = await page
-    .locator(`${byTestId('user-profile-modal-animatedview')} >> [role="checkbox"]`)
+    .locator(`${byTestId('user-profile-modal')} >> [role="checkbox"]`)
     .count()
   const noExpected: number = Math.floor((noAvailable - 1) / 3) + 1 // every third element, if there is one, one is selected; If there's 4, two are selected etc.
   for (let toSelect = noAvailable - 1; toSelect > 0; toSelect = toSelect - 3) {
     await page
-      .locator(`${byTestId('user-profile-modal-animatedview')} >> [role="checkbox"]`)
+      .locator(`${byTestId('user-profile-modal')} >> [role="checkbox"]`)
       .nth(toSelect)
       .click()
   }
