@@ -36,7 +36,7 @@ describe('@HomeScreen', () => {
     await waitForElementWithTestIdToBeNull('user-suggestions')
   })
 
-  it('should show user suggestions if logged out', async () => {
+  it('should show user suggestions if logged in', async () => {
     // login
     await defaultAuthSteps()
 
