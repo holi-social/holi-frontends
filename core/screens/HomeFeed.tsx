@@ -170,7 +170,6 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
 
           <HoliModal
             label={t('topics.editors.modal.title')}
-            relativeHeight={0.85}
             show={showEditorsModal}
             onDismiss={() => setShowEditorsModal(false)}
             testID="topic-editors-modal"

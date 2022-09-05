@@ -2,6 +2,8 @@
 
 exports[`renders correctly renders correctly when closed 1`] = `
 <Modal
+  accessibilityLabel="Test"
+  animationType="fade"
   hardwareAccelerated={false}
   onRequestClose={[Function]}
   transparent={true}
@@ -11,6 +13,8 @@ exports[`renders correctly renders correctly when closed 1`] = `
 
 exports[`renders correctly renders correctly when open 1`] = `
 <Modal
+  accessibilityLabel="Test"
+  animationType="fade"
   hardwareAccelerated={false}
   onRequestClose={[Function]}
   transparent={true}
@@ -21,6 +25,7 @@ exports[`renders correctly renders correctly when open 1`] = `
     style={
       Object {
         "flex": 1,
+        "justifyContent": "flex-end",
       }
     }
   >
@@ -86,71 +91,76 @@ exports[`renders correctly renders correctly when open 1`] = `
     </View>
     <View
       collapsable={false}
-      onLayout={[Function]}
       style={
         Object {
           "backgroundColor": "#fff",
           "borderTopLeftRadius": 24,
           "borderTopRightRadius": 24,
-          "bottom": -1000.5,
-          "left": 0,
+          "bottom": "0%",
+          "maxHeight": "90%",
           "overflow": "hidden",
-          "position": "absolute",
-          "right": 0,
+          "paddingTop": 40,
           "shadowColor": "#000",
           "shadowOffset": Object {
             "height": 0,
             "width": 0,
           },
-          "zIndex": 100,
+          "transform": Array [
+            Object {
+              "translateY": 0,
+            },
+          ],
         }
       }
     >
       <View
-        collapsable={false}
-        onGestureHandlerEvent={[Function]}
-        onGestureHandlerStateChange={[Function]}
         style={
-          Array [
-            Object {
-              "alignItems": "center",
-              "backgroundColor": "#fff",
-              "height": 44,
-              "justifyContent": "center",
-            },
-            Object {
-              "shadowColor": "#000",
-              "shadowOffset": Object {
-                "height": 0,
-                "width": 0,
-              },
-            },
-            Object {
-              "position": "relative",
-              "shadowOffset": Object {
-                "height": 3,
-                "width": 750,
-              },
-            },
-          ]
+          Object {
+            "position": "absolute",
+            "top": 0,
+            "width": "100%",
+          }
         }
       >
         <View
+          collapsable={false}
+          onGestureHandlerEvent={[Function]}
+          onGestureHandlerStateChange={[Function]}
           style={
             Array [
               Object {
-                "backgroundColor": "#222326",
-                "borderRadius": 4,
-                "height": 4,
-                "opacity": 0.3,
-                "position": "absolute",
-                "top": 10,
-                "width": 40,
-                "zIndex": 10,
+                "alignItems": "center",
+                "backgroundColor": "#fff",
+                "height": 40,
+                "justifyContent": "center",
+              },
+              Object {
+                "shadowColor": "#000",
+                "shadowOffset": Object {
+                  "height": 0,
+                  "width": 0,
+                },
               },
             ]
           }
-        />
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "#222326",
+                  "borderRadius": 4,
+                  "height": 4,
+                  "opacity": 0.3,
+                  "position": "absolute",
+                  "top": 10,
+                  "width": 40,
+                  "zIndex": 10,
+                },
+              ]
+            }
+          />
+        </View>
       </View>
     </View>
   </View>
