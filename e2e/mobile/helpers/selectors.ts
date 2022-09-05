@@ -1,18 +1,28 @@
 // https://webdriver.io/docs/selectors
 const byTestId = (testID: string) => (platform === 'ios' ? `~${testID}` : `//*[@resource-id='${testID}']`)
 
-const waitForElement = async (elementSelector: string, timeout?: number, reverse?: boolean) => {
+const waitForElement = async (elementSelector: string, timeout?: number) => {
   // https://webdriver.io/docs/api/browser/$
   const element = await Appium.$(elementSelector)
 
   // https://webdriver.io/docs/api/element/waitForDisplayed
-  await element.waitForDisplayed({ timeout, reverse })
+  await element.waitForDisplayed({ timeout })
 
   return element
 }
 
-export const waitForElementWithTestId = async (testId: string, timeout?: number, reverse?: boolean) =>
-  waitForElement(byTestId(testId), timeout, reverse)
+export const waitForElementWithTestId = async (testId: string, timeout?: number) =>
+  waitForElement(byTestId(testId), timeout)
+
+export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?: number) => {
+  // https://webdriver.io/docs/api/browser/$
+  const element = await Appium.$(byTestId(testId))
+
+  // https://webdriver.io/docs/api/element/waitForDisplayed
+  await element.waitForDisplayed({ timeout, reverse: true })
+
+  return element
+}
 
 export const seeTextWithTestId = async (expectedText: string, testId: string) => {
   const element = await waitForElementWithTestId(testId)

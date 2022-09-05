@@ -1,6 +1,10 @@
 import { defaultAuthSteps } from '../helpers/auth'
 import { navigateBackToHomeScreen } from '../helpers/navigation'
-import { tapOnElementWithTestId, waitForElementWithTestId } from '../helpers/selectors'
+import {
+  tapOnElementWithTestId,
+  waitForElementWithTestId,
+  waitForElementWithTestIdToBeNull,
+} from '../helpers/selectors'
 
 describe('@HomeScreen', () => {
   it('should work', async () => {
@@ -25,26 +29,21 @@ describe('@HomeScreen', () => {
   })
 
   it('should not show user suggestions if logged out', async () => {
-    // logout
-    await tapOnElementWithTestId('btn-to-profile-view')
-    await tapOnElementWithTestId('btn-to-logout')
-    await tapOnElementWithTestId('confirm-logout-button')
-
     // go home
     await navigateBackToHomeScreen()
 
     // user suggestions element should be null
-    await waitForElementWithTestId('user-suggestions', 500, true)
+    await waitForElementWithTestIdToBeNull('user-suggestions')
   })
 
-  it('should not show user suggestions if logged out', async () => {
+  it('should show user suggestions if logged out', async () => {
     // login
     await defaultAuthSteps()
 
     // go home
     await navigateBackToHomeScreen()
 
-    // user suggestions element should be null
-    await waitForElementWithTestId('user-suggestions', 500, false)
+    // user suggestions element should not be null
+    await waitForElementWithTestId('user-suggestions')
   })
 })
