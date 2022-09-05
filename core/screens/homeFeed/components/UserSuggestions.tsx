@@ -43,18 +43,21 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = ({ style }: UserSuggest
         <HoliHeading level="2">{t('homeFeed.userSuggestions.title')}</HoliHeading>
       </View>
       <ScrollView style={[mixins.container, styles.scrollviewContainer]} horizontal>
-        {userSuggestions.map((user) => (
-          <HoliButton
-            label={`${user.firstName} ${user.lastName}`}
-            onPress={() => navigate(`/profile/${user.id}`)}
-            style={styles.buttonContainer}
-            key={user.id}
-            transparent
-            inline
-          >
-            <HoliUserCard user={user} testID="user-card-suggestion" variant="small" disableFocusability />
-          </HoliButton>
-        ))}
+        {userSuggestions.map((user) => {
+          const nameLabel = `${user.firstName || ''} ${user.lastName || ''}`.trim()
+          return (
+            <HoliButton
+              label={nameLabel || t('user.profileView.anonymous')}
+              onPress={() => navigate(`/profile/${user.id}`)}
+              style={styles.buttonContainer}
+              key={user.id}
+              transparent
+              inline
+            >
+              <HoliUserCard user={user} testID="user-card-suggestion" variant="small" disableFocusability />
+            </HoliButton>
+          )
+        })}
         <HoliButton
           label={t('homeFeed.userSuggestions.loadMore')}
           style={styles.lastButtonContainer}
