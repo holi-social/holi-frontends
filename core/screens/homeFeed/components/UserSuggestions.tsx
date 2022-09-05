@@ -3,6 +3,7 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserSuggestionsResponse, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -26,6 +27,11 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = ({ style }: UserSuggest
     variables: { numberOfItems },
   })
 
+  if (error) {
+    logError(error, `[UserSuggestions.tsx] ${error.message}`)
+  }
+
+  // Error and loading states are handled the same way and just hide the component
   if (loading || error || !data?.userSuggestions?.length) {
     return <></>
   }

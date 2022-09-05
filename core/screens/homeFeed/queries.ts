@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client/core'
 
-import { userFragment } from '@holi/core/screens/userprofile/queries'
 import { User } from '@holi/core/screens/userprofile/types'
 
 export type NumberOfItems = {
@@ -8,11 +7,18 @@ export type NumberOfItems = {
 }
 
 export const userSuggestionsQuery = gql`
-  ${userFragment}
+  fragment UserSuggestion on User {
+    id
+    avatar
+    firstName
+    lastName
+    avatarDefaultColor
+    avatarLabel
+  }
 
   query UserSuggestions($numberOfItems: Int!) {
     userSuggestions(numberOfItems: $numberOfItems) {
-      ...FullUser
+      ...UserSuggestion
     }
   }
 `

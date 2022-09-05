@@ -20,7 +20,7 @@ const initialState = {
 export const UserContext = createContext<Context>(initialState)
 UserContext.displayName = 'UserContext'
 
-export const UserContextProvider: React.FC = ({ children }) => {
+const UserContextProvider: React.FC = ({ children }) => {
   const { isLoggedIn } = useContext(AuthContext)
   const { t } = useTranslation()
 
@@ -37,3 +37,5 @@ export const UserContextProvider: React.FC = ({ children }) => {
 
   return <UserContext.Provider value={{ isLoading: loading, user }}>{children}</UserContext.Provider>
 }
+
+export default UserContextProvider

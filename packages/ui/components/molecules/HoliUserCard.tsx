@@ -18,7 +18,7 @@ export type HoliUserCardProps = {
   category?: string
   style?: StyleProp<ViewStyle>
   disableFocusability?: boolean
-  accessibilityLabel?: string
+  label?: string
 }
 
 const HoliUserCard: React.VFC<HoliUserCardProps> = ({
@@ -28,14 +28,14 @@ const HoliUserCard: React.VFC<HoliUserCardProps> = ({
   category,
   style,
   disableFocusability,
-  accessibilityLabel,
+  label,
 }: HoliUserCardProps) => {
   const { t } = useTranslation()
   const styles = getStyles(variant)
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),
-    accessibilityLabel,
+    accessibilityLabel: label,
   }
 
   if (!user) {

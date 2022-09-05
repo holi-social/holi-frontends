@@ -8,6 +8,7 @@ feedId query param
 export type RoutingState<T> = {
   navigate: (routeName: string) => void
   navigateBack: (fallbackRouteName?: string) => void
+  replaceRoute: (routeName: string) => void
   query: T
   // pathnahme in mobile is depending on the navigator in which it is used
   pathname: string

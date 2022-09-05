@@ -1,20 +1,19 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { displayError } from '@holi/core/errors/helpers'
-import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserResponse,
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import { colors } from '@holi/ui/styles/globalVars'
 
 enum EngagementLevel {
@@ -24,6 +23,7 @@ enum EngagementLevel {
 }
 
 type UserEngagementLevelFormProps = {
+  user: User
   onCancel?: () => void
   onSubmit?: (user: User) => void
   buttonsRelativeHeight?: number
@@ -31,9 +31,9 @@ type UserEngagementLevelFormProps = {
 
 const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFormProps> = ({
   onSubmit,
+  user,
   buttonsRelativeHeight = 0.35,
 }) => {
-  const { user } = useContext(UserContext)
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const [engagementLevel, setEngagementLevel] = useState(user?.engagementLevel || EngagementLevel.INTERESTED)
   const { t } = useTranslation()
@@ -53,17 +53,19 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
     }
   }
 
+  let notificationComponent: React.ReactNode | null = null
+
   if (!user) {
-    return (
-      <View style={styles.wrapper}>
+    notificationComponent = (
+      <View style={styles.notification}>
         <HoliText>{t('user.profileView.noUser')}</HoliText>
       </View>
     )
   }
 
   if (loading) {
-    return (
-      <View style={styles.wrapper}>
+    notificationComponent = (
+      <View style={styles.notification}>
         <HoliText>{t('user.profileForm.saving')}</HoliText>
       </View>
     )
@@ -80,11 +82,13 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
   )
 
   return (
-    <View style={styles.wrapper}>
-      <ScrollView contentContainerStyle={styles.scrollView}>
-        <HoliHeading level="1" size="large">
-          {t('user.engagementLevel.form.question')}
-        </HoliHeading>
+    <HoliModalContentWrapper
+      actionButtonText={t('user.profileForm.save')}
+      onActionButtonPress={submit}
+      headlineText={t('user.engagementLevel.form.question')}
+      prependChildren={notificationComponent}
+    >
+      <View style={styles.mainContainer}>
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonContainer}>
             {engagementLevel === EngagementLevel.INTERESTED && ActiveButtonIcon}
@@ -101,6 +105,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
               />
             </HoliButton>
           </View>
+
           <View style={[styles.buttonContainer, { marginHorizontal: 10 }]}>
             {engagementLevel === EngagementLevel.ENGAGED && ActiveButtonIcon}
             <HoliButton
@@ -117,6 +122,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
               />
             </HoliButton>
           </View>
+
           <View style={styles.buttonContainer}>
             {engagementLevel === EngagementLevel.INITIATOR && ActiveButtonIcon}
             <HoliButton
@@ -134,44 +140,34 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
             </HoliButton>
           </View>
         </View>
+
         <View style={{ marginTop: 32, width: '100%' }}>
           <HoliText style={{ textAlign: 'center' }}>
             {t(`user.engagementLevel.description.${engagementLevel}`)}
           </HoliText>
         </View>
-      </ScrollView>
-      <HoliButton style={styles.saveButton} label={t('user.profileForm.save')} onPress={submit}>
-        {t('user.profileForm.save')}
-      </HoliButton>
-    </View>
+      </View>
+    </HoliModalContentWrapper>
   )
 }
 
 const getStyles = (buttonsContainerHeight: number) =>
   StyleSheet.create({
-    wrapper: {
-      alignItems: 'center',
-      flexDirection: 'column',
-      maxWidth: 600,
-      padding: 16,
-      paddingTop: 0,
-      width: '100%',
-      height: '100%',
-      alignSelf: 'center',
+    mainContainer: {
+      marginHorizontal: 24,
     },
-    scrollView: {
-      paddingHorizontal: 16,
+    notification: {
+      ...StyleSheet.absoluteFillObject,
       alignItems: 'center',
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%',
-      paddingBottom: 100,
+      justifyContent: 'center',
+      marginHorizontal: 16,
+      zIndex: 10,
+      backgroundColor: colors.backgroundColorWhite,
     },
     buttonsContainer: {
       marginTop: 60,
       width: '100%',
       height: buttonsContainerHeight,
-      display: 'flex',
       flexDirection: 'row',
       alignItems: 'flex-end',
       justifyContent: 'space-between',
@@ -192,12 +188,6 @@ const getStyles = (buttonsContainerHeight: number) =>
     },
     button3: {
       height: buttonsContainerHeight,
-    },
-    saveButton: {
-      bottom: 70,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
     },
     activeButtonIcon: {
       width: 50,

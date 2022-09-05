@@ -49,7 +49,6 @@ module.exports = withSentryConfig(
     [
       withTranspileModules(
         [
-          'solito',
           'react-native-reanimated',
           'react-native-card-stack-swiper',
           'react-native-gesture-handler',
