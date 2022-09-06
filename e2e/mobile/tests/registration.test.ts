@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker'
 
-import { defaultAuthSteps } from '../helpers/auth'
-import { tapOnElementWithTestId, waitForElementWithTestId } from '../helpers/selectors'
+import { defaultAuthSteps, logout } from '../helpers/auth'
+import { waitForElementWithTestId } from '../helpers/selectors'
 
-describe('@Login', () => {
+describe('@Registration', () => {
   const email = `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
   const password = 'TheSamePassword4A11E2eUsers'
 
@@ -31,12 +31,8 @@ describe('@Login', () => {
     // successful registration
     await defaultAuthSteps({ email, password }, 'registration')
 
-    await waitForElementWithTestId('btn-to-profile-view')
-
     // logout
-    await tapOnElementWithTestId('btn-to-profile-view')
-    await tapOnElementWithTestId('btn-to-logout')
-    await tapOnElementWithTestId('confirm-logout-button')
+    await logout()
 
     // try to create a new user with the same credentials
     await defaultAuthSteps({ email, password }, 'registration')

@@ -1,5 +1,5 @@
 import { BrowserContext, Locator, Page } from '@playwright/test'
-import { checkA11y } from 'axe-playwright'
+import { checkA11y, injectAxe } from 'axe-playwright'
 
 // see https://playwright.dev/docs/selectors#id-data-testid-data-test-id-data-test-selectors
 export const byTestId = (testId: string) => `[data-testid=${testId}]`
@@ -60,6 +60,7 @@ export const defaultAuthSteps = async (
 }
 
 export const checkAccessibility = async (page: Page) => {
+  await injectAxe(page)
   const axeOptions = {
     rules: {
       region: { enabled: true }, // https://dequeuniversity.com/rules/axe/4.4/region
