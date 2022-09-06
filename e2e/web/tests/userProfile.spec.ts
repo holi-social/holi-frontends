@@ -1,18 +1,34 @@
 import { Page, expect, test } from '@playwright/test'
-import { injectAxe } from 'axe-playwright'
 
-import { byTestId, checkAccessibility, defaultAuthSteps, delay, waitForAnimationEnd } from './helpers'
+import {
+  byTestId,
+  checkAccessibility,
+  defaultAuthSteps,
+  delay,
+  waitForAnimationEnd,
+  waitForElementByTestId,
+} from './helpers'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
-  await injectAxe(page)
 })
 
 test.describe('@Profile', () => {
   test('journey', async ({ context, page }) => {
+    const userId = process.env.E2E_USER_ID || 'empty'
+
+    // go to user profile page
+    await page.goto('/profile/' + userId)
+    await waitForElementByTestId(page, 'user-profile-full-name')
+    await waitForElementByTestId(page, 'user-profile-interests')
+    await waitForElementByTestId(page, 'user-profile-sdgs')
+    await waitForElementByTestId(page, 'user-profile-skills')
+    await checkAccessibility(page)
+
+    // go to profile edit modal
     await defaultAuthSteps({ context, page })
     await page.waitForSelector(byTestId('btn-open-profile-edit-view'))
     await checkAccessibility(page)
@@ -33,21 +49,26 @@ test.describe('@Profile', () => {
     const lastName = await page.inputValue(byTestId('last-name-input'))
     await page.locator(byTestId('user-profile-edit-form-close-btn')).click()
     await page.waitForSelector(byTestId('user-profile-edit-form-saving'), { state: 'detached' })
-
     expect(await page.textContent(byTestId('user-profile-full-name'))).toBe(`${firstNameEdited} ${lastName}`.trim())
 
+    // edit interests, skills + sdgs should work
     await deselectAll(page, 'interests')
-    await selectTwoChips(page, 'interests')
-
+    await selectSomeItems(page, 'interests')
     await deselectAll(page, 'skills')
-    await selectTwoChips(page, 'skills')
-
+    await selectSomeItems(page, 'skills')
     await deselectAll(page, 'sdgs')
-    await selectTwoChips(page, 'sdgs')
+    await selectSomeItems(page, 'sdgs')
+
+    // go to own profile after login
+    await page.goto('/profile/' + userId)
+    // expect redirect to own profile page
+    await waitForElementByTestId(page, 'user-profile-full-name')
+    expect(page.url()).not.toContain(userId)
+    expect(page.url()).toContain('/profile')
   })
 })
 
-const selectTwoChips = async (page: Page, what: string) => {
+const selectSomeItems = async (page: Page, what: string) => {
   const userProfileTestId = byTestId(`user-profile-${what}`)
 
   await page.locator(byTestId(`user-profile-${what}-edit`)).click()

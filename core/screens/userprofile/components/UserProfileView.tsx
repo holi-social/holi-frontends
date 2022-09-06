@@ -38,10 +38,12 @@ const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossibl
           <HoliHeading level="1" testID="user-profile-full-name">
             {fullName}
           </HoliHeading>
-          <HoliText style={{ color: colors.fontColorGrey }}>
-            {user.pronouns && `(${user.pronouns}) `}
-            {user.location && `${user.location}`}
-          </HoliText>
+          {(user.pronouns || user.location) && (
+            <HoliText style={{ color: colors.fontColorGrey }}>
+              {user.pronouns && `(${user.pronouns}) `}
+              {user.location && `${user.location}`}
+            </HoliText>
+          )}
         </View>
       </View>
       {user.aboutMe && <HoliReadMore style={styles.aboutMe}>{user.aboutMe}</HoliReadMore>}
