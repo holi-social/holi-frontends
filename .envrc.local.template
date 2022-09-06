@@ -10,6 +10,7 @@ nodenv install -s $(cat .node-version)
 # e2e tests
 export E2E_USER_USERNAME=
 export E2E_USER_PASSWORD=
+export E2E_USER_ID=
 export BROWSERSTACK_USERNAME=
 export BROWSERSTACK_ACCESS_KEY=
 export E2E_ANDROID_VIRTUAL_DEVICE_NAME="e2e_avd"
