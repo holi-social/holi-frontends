@@ -20,6 +20,8 @@ export type HoliTabsProps = {
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
 
+const isWeb = Platform.OS === 'web'
+
 const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, style }: HoliTabsProps) => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const carousel = React.useRef<ScrollView | null>(null)
@@ -28,7 +30,6 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, style }: HoliT
 
   const mixins = useStyleMixins()
   const styles = getStyles()
-  const isWeb = Platform.OS === 'web'
 
   const handleScrollEnd = ({ nativeEvent }: { nativeEvent: NativeScrollEvent }) => {
     if (!nativeEvent || !nativeEvent.contentOffset) {
