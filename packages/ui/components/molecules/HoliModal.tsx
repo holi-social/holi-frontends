@@ -125,6 +125,7 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
               styles.common,
               !autoHeight && styles.rootFixHeight,
             ]}
+            testID={`${props.testID}-animatedview`}
           >
             <View style={styles.panGestureContainer}>
               <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>

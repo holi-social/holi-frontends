@@ -22,7 +22,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 const OwnProfile: React.VFC = () => {
   const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState<editModeState>()
-  const toggleModal = useCallback(() => {
+  const closeModal = useCallback(() => {
     setShowModal(false)
   }, [])
   const { t } = useTranslation()
@@ -34,7 +34,6 @@ const OwnProfile: React.VFC = () => {
   const mixins = useStyleMixins()
   const toggleEditMode = useCallback((editMode: editModeState) => {
     setEditMode(editMode)
-    // toggleModal()
     setShowModal(true)
   }, [])
   const editProfile = useCallback(() => {
@@ -81,23 +80,23 @@ const OwnProfile: React.VFC = () => {
           <>
             <HoliModal
               show={showModal}
-              onDismiss={toggleModal}
+              onDismiss={closeModal}
               testID="user-profile-modal"
               label={t(`profile.${editMode}.edit`)}
             >
               {(() => {
                 switch (editMode) {
                   case 'profile':
-                    return <UserProfileForm user={user} onCancel={toggleModal} onSubmit={toggleModal} />
+                    return <UserProfileForm user={user} onCancel={closeModal} onSubmit={closeModal} />
                   case 'engagementLevel':
-                    return <UserEngagementLevelForm user={user} onCancel={toggleModal} onSubmit={toggleModal} />
+                    return <UserEngagementLevelForm user={user} onCancel={closeModal} onSubmit={closeModal} />
                   case 'interests':
                     return (
                       <UserChipForm
                         user={user}
                         typeMetadata={UserChipInterest}
-                        onCancel={toggleModal}
-                        onSubmit={toggleModal}
+                        onCancel={closeModal}
+                        onSubmit={closeModal}
                       />
                     )
                   case 'skills':
@@ -105,8 +104,8 @@ const OwnProfile: React.VFC = () => {
                       <UserChipForm
                         user={user}
                         typeMetadata={UserChipSkill}
-                        onCancel={toggleModal}
-                        onSubmit={toggleModal}
+                        onCancel={closeModal}
+                        onSubmit={closeModal}
                       />
                     )
                   case 'sdgs':
@@ -114,8 +113,8 @@ const OwnProfile: React.VFC = () => {
                       <UserChipForm
                         user={user}
                         typeMetadata={UserChipSDG}
-                        onCancel={toggleModal}
-                        onSubmit={toggleModal}
+                        onCancel={closeModal}
+                        onSubmit={closeModal}
                         sortByTranslation={false}
                       />
                     )

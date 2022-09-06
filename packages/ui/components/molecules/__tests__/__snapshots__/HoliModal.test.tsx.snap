@@ -112,6 +112,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           ],
         }
       }
+      testID="undefined-animatedview"
     >
       <View
         style={

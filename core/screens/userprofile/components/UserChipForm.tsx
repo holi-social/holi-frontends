@@ -77,7 +77,6 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
     const result = await updateUser({ variables: { input } })
     if (!error && result.data) {
       setSaved(true)
-      console.log('****** onSubmit ...')
       onSubmit && onSubmit(result.data.authenticatedUser)
     }
   }
@@ -122,7 +121,6 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
       actionButtonText={t('user.profileForm.save')}
       onActionButtonPress={submit}
       headlineText={t(`user.${typeMetadata.keyInUserObject}.form.headline`)}
-      // actionButtonTestID={['user-profile-chipform', typeMetadata.keyInUserObject, 'save'].join('-')}
       prependChildren={notificationComponent}
       testID="user-profile-chipform"
     >

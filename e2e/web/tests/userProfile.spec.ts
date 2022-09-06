@@ -34,7 +34,7 @@ test.describe('@Profile', () => {
     await checkAccessibility(page)
     await delay(0.5) // source of flakyness and delay. Why do we need this here? Component is there, but click does not work when done too early.
     await page.locator(byTestId('btn-open-profile-edit-view')).click()
-    await waitForAnimationEnd(page.locator(byTestId('user-profile-modal')))
+    await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
     await checkAccessibility(page)
 
     // validation should block save
@@ -73,25 +73,32 @@ const selectSomeItems = async (page: Page, what: string) => {
 
   await page.locator(byTestId(`user-profile-${what}-edit`)).click()
   await delay(0.5)
-  await waitForAnimationEnd(page.locator(byTestId('user-profile-modal')))
+  await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
 
-  const noOfSelectableChips: number = await page.locator(`${byTestId('user-profile-modal')} >> [role=checkbox]`).count()
-  const noExpected: number = Math.floor((noOfSelectableChips - 1) / 3) + 1 // every third element, if there is one, one is selected; If there's 4, two are selected etc.
+  const noOfSelectableChips = await getCountOf(
+    page,
+    `${byTestId('user-profile-modal-animatedview')} >> [role=checkbox]`
+  )
+  // every third element, if there is one, one is selected; If there's 4, two are selected etc.
+  const expectedNoOfSelectedChips: number = Math.floor((noOfSelectableChips - 1) / 3) + 1
 
-  for (let toSelect = noOfSelectableChips - 1; toSelect > 0; toSelect = toSelect - 3) {
+  for (let indexToSelect = noOfSelectableChips - 1; indexToSelect > 0; indexToSelect = indexToSelect - 3) {
     await page
-      .locator(`${byTestId('user-profile-modal')} >> [role=checkbox]`)
-      .nth(toSelect)
+      .locator(`${byTestId('user-profile-modal-animatedview')} >> [role=checkbox]`)
+      .nth(indexToSelect)
       .click()
   }
 
-  const nowSelected = await getCountOf(page, `${byTestId('user-profile-modal')} >> [aria-checked=true]`)
-  expect(nowSelected).toBe(noExpected)
+  const newSelectionCount = await getCountOf(
+    page,
+    `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
+  )
+  expect(newSelectionCount).toBe(expectedNoOfSelectedChips)
 
   await saveAndClose(page)
 
   const presentedChips = await getCountOf(page, `${userProfileTestId} >> [role=presentation]`)
-  expect(presentedChips).toBe(noExpected)
+  expect(presentedChips).toBe(expectedNoOfSelectedChips)
 }
 
 const deselectAll = async (page: Page, what: string) => {
@@ -99,18 +106,24 @@ const deselectAll = async (page: Page, what: string) => {
 
   await page.locator(byTestId(`user-profile-${what}-edit`)).click()
   await delay(0.5)
-  await waitForAnimationEnd(page.locator(byTestId('user-profile-modal')))
+  await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
 
-  const currentlySelected: number = await getCountOf(page, `${byTestId('user-profile-modal')} >> [aria-checked=true]`)
+  const currentlySelected: number = await getCountOf(
+    page,
+    `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
+  )
 
   for (let stillSelected = currentlySelected; stillSelected > 0; stillSelected--) {
     await page
-      .locator(`${byTestId('user-profile-modal')} >> [aria-checked=true]`)
+      .locator(`${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`)
       .first()
       .click()
   }
 
-  const stillSelected: number = await getCountOf(page, `${byTestId('user-profile-modal')} >> [aria-checked=true]`)
+  const stillSelected: number = await getCountOf(
+    page,
+    `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
+  )
   expect(stillSelected).toBe(0)
 
   await saveAndClose(page)
@@ -130,6 +143,6 @@ const getCountOf = async (page: Page, selector: string) => {
 const saveAndClose = async (page: Page) => {
   await page.locator(byTestId('user-profile-chipform-close-btn')).click()
   await page.waitForSelector(byTestId('user-profile-chipform-saving'), { state: 'detached' })
-  await waitForAnimationEnd(page.locator(byTestId('user-profile-modal')))
+  await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
   await delay(2)
 }
