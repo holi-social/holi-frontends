@@ -10,7 +10,6 @@ type AuthMode = 'login' | 'registration'
 type DefaultAuthStepsProps = {
   email?: string
   password?: string
-  mode?: AuthMode
 }
 
 export const defaultAuthSteps = async (

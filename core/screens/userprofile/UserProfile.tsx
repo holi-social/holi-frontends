@@ -52,7 +52,7 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
     fetchPolicy: 'network-only',
   })
 
-  const user = data && data?.userById
+  const user = data?.userById
 
   // TODO: workaround for params always being undefined on initial page load
   // > will probably be solved with ssr
