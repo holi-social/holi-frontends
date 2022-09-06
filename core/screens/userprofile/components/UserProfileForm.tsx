@@ -37,6 +37,8 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   const [fieldErrors, setFieldErrors] = useState<{ [x: string]: string[] | undefined }>({})
   const { t } = useTranslation()
 
+  const testID = props.testId || 'user-profile-edit-form'
+
   const submit = async () => {
     const input: UpdateAuthenticatedUserInput = {
       firstName,
@@ -69,7 +71,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
 
   if (loading) {
     notificationComponent = (
-      <View style={styles.notification} testID="user-profile-edit-form-saving">
+      <View style={styles.notification} testID={`${testID}-saving`}>
         <HoliText>{t('user.profileForm.saving')}</HoliText>
       </View>
     )
@@ -109,8 +111,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
       actionButtonText={t('user.profileForm.save')}
       onActionButtonPress={submit}
       prependChildren={prependComponent}
-      testID={props?.testId || 'user-profile-edit-form'}
-      actionButtonTestID={`btn-${props?.testId || 'user-profile-edit-form'}-save`}
+      testID={testID}
     >
       <View style={styles.mainContainer}>
         <HoliTextInput

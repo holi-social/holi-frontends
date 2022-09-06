@@ -23,8 +23,8 @@ const OwnProfile: React.VFC = () => {
   const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState<editModeState>()
   const toggleModal = useCallback(() => {
-    setShowModal(!showModal)
-  }, [showModal])
+    setShowModal(false)
+  }, [])
   const { t } = useTranslation()
 
   const { isLoggedIn } = useContext(AuthContext)
@@ -32,13 +32,11 @@ const OwnProfile: React.VFC = () => {
 
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const mixins = useStyleMixins()
-  const toggleEditMode = useCallback(
-    (editMode: editModeState) => {
-      setEditMode(editMode)
-      toggleModal()
-    },
-    [setEditMode, toggleModal]
-  )
+  const toggleEditMode = useCallback((editMode: editModeState) => {
+    setEditMode(editMode)
+    // toggleModal()
+    setShowModal(true)
+  }, [])
   const editProfile = useCallback(() => {
     toggleEditMode('profile')
   }, [toggleEditMode])

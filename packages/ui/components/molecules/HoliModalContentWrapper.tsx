@@ -20,7 +20,7 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
   prependChildren,
   children,
   style,
-  testID,
+  testID = 'holi-modal-content',
 }) => {
   return (
     <View style={[styles.container, style]} testID={testID}>
