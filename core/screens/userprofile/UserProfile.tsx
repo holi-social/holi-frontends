@@ -119,6 +119,7 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
       </View>
       <HoliTabs
         style={{ marginTop: 24 }}
+        id="profile-tabs"
         tabs={[
           {
             title: t('profile.tabs.profile'),

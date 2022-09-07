@@ -1,7 +1,14 @@
 // https://github.com/paularmstrong/build-tracker/blob/371e54ebf37f935a7efd1240894cdc0a45acf7ac/typings/react-native/index.d.ts#L1578
 import type { AccessibilityProps, AccessibilityRole, ViewStyle as ReactViewStyle } from 'react-native'
 
-export type AccessibilityRoleWeb = AccessibilityRole | 'main' | 'region' | 'banner' | 'navigation' | 'heading'
+export type AccessibilityRoleWeb =
+  | AccessibilityRole
+  | 'main'
+  | 'region'
+  | 'banner'
+  | 'navigation'
+  | 'heading'
+  | 'tabpanel'
 
 interface AccessibilityPropsWeb extends AccessibilityProps {
   accessibilityLevel?: number
@@ -25,6 +32,7 @@ declare module 'react-native' {
 
   interface ViewProps extends ViewProps {
     accessibilityRole?: string
+    accessibilityLabelledBy?: string
     accessibilityOrientation?: 'horizontal' | 'vertical'
   }
 
