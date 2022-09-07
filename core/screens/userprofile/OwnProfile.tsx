@@ -8,7 +8,7 @@ import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import LoggedOutView from '@holi/core/screens/userprofile/components/LoggedOutView'
-import OwnProfileView, { editModeState } from '@holi/core/screens/userprofile/components/OwnProfileView'
+import OwnProfileView, { EditModeState } from '@holi/core/screens/userprofile/components/OwnProfileView'
 import UserChipForm from '@holi/core/screens/userprofile/components/UserChipForm'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
@@ -21,7 +21,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const OwnProfile: React.VFC = () => {
   const [showModal, setShowModal] = useState(false)
-  const [editMode, setEditMode] = useState<editModeState>()
+  const [editMode, setEditMode] = useState<EditModeState>()
   const toggleModal = useCallback(() => {
     setShowModal(!showModal)
   }, [showModal])
@@ -33,7 +33,7 @@ const OwnProfile: React.VFC = () => {
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const mixins = useStyleMixins()
   const toggleEditMode = useCallback(
-    (editMode: editModeState) => {
+    (editMode: EditModeState) => {
       setEditMode(editMode)
       toggleModal()
     },

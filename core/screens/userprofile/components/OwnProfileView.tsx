@@ -15,10 +15,10 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 // these constants are lower case, because they are used as translation keys
-export type editModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'sdgs'
+export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'sdgs'
 
 export type OwnProfileViewProps = {
-  toggleEditMode: (editModeState: editModeState) => void
+  toggleEditMode: (editModeState: EditModeState) => void
   user: User
 }
 
