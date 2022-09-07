@@ -1,5 +1,11 @@
+import { defaultAuthSteps } from '../helpers/auth'
 import { navigateBackToHomeScreen } from '../helpers/navigation'
-import { tapOnElementWithTestId, waitForElementWithTestId } from '../helpers/selectors'
+import {
+  scrollToElementWithTestId,
+  tapOnElementWithTestId,
+  waitForElementWithTestId,
+  waitForElementWithTestIdToBeNull,
+} from '../helpers/selectors'
 
 describe('@HomeScreen', () => {
   it('should work', async () => {
@@ -21,5 +27,27 @@ describe('@HomeScreen', () => {
 
     // go home
     await navigateBackToHomeScreen()
+  })
+
+  it('should not show user suggestions if logged out', async () => {
+    // go home
+    await navigateBackToHomeScreen()
+
+    // user suggestions element should be null
+    await waitForElementWithTestIdToBeNull('user-suggestions')
+  })
+
+  it('should show user suggestions if logged in', async () => {
+    // login
+    await defaultAuthSteps()
+
+    // go home
+    await navigateBackToHomeScreen()
+
+    // user suggestions element should not be null
+    await scrollToElementWithTestId('user-suggestions')
+
+    // scroll up again
+    await scrollToElementWithTestId('home-feed-topics-heading')
   })
 })

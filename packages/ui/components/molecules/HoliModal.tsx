@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Animated, Modal, ModalProps, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Animated, Modal, ModalProps, StyleSheet, View } from 'react-native'
 import {
   GestureEvent,
   GestureHandlerRootView,
@@ -10,69 +10,86 @@ import {
 
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type HoliModalProps = ModalProps & {
   show: boolean
   onDismiss: () => void
   relativeHeight?: number
+  minRelativeHeight?: number
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild>
   testID?: string
   label: string
   autoHeight?: boolean
 }
 
-const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProps) => {
-  // default height is 75% of screen size
-  const { show = false, relativeHeight = 0.75, onDismiss, children, autoHeight = true } = props
-  const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
+/*
+  "relativeHeight" with "autoHeight === true" works like "max-height"
+  "relativeHeight" with "autoHeight === false" works like fix "height"
+  "minRelativeHeight" is "min-height" and if "minRelativeHeight" is bigger than "relativeHeight" the lower value will be used
+*/
 
-  const styles = getStyles(deviceWidth)
+const HoliModal: React.FC<HoliModalProps> = (props) => {
+  const { show = false, relativeHeight = 0.9, minRelativeHeight, onDismiss, autoHeight = true, children } = props
   const { t } = useTranslation()
-
-  const modalHeight = deviceHeight * relativeHeight
-  const [modalLayoutHeight, setModalLayoutHeight] = useState(modalHeight)
   const [visible, setVisible] = useState(show)
-  const bottom = useRef(new Animated.Value(-modalHeight)).current
+  const { setModalIsOpen } = useTheme()
+
+  const setModalOpen = (isOpen: boolean) => {
+    setVisible(isOpen)
+    setModalIsOpen(isOpen)
+  }
+
+  // value for appearance animation
+  const animShift = useRef(new Animated.Value(0)).current
+  const animShiftInterpolated = animShift.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0%', '-100%'],
+  })
+  // value for user gestures
+  const gestureShift = useRef(new Animated.Value(0)).current
 
   const onGesture = (event: GestureEvent) => {
     if (typeof event.nativeEvent.translationY == 'number' && event.nativeEvent.translationY > 0) {
-      bottom.setValue(-event.nativeEvent.translationY)
+      gestureShift.setValue(event.nativeEvent.translationY)
     }
   }
 
   const onGestureEnd = (event: HandlerStateChangeEvent) => {
-    // if dragged more than half of the height down, dismiss the modal
-    if (typeof event.nativeEvent.translationY == 'number' && event.nativeEvent.translationY > modalHeight / 2) {
+    // if dragged more than 150px down, dismiss the modal
+    if (typeof event.nativeEvent.translationY == 'number' && event.nativeEvent.translationY > 150) {
       onDismiss()
     } else {
-      bottom.setValue(0)
+      Animated.timing(gestureShift, {
+        toValue: 0,
+        duration: 250,
+        useNativeDriver: false,
+      }).start()
     }
   }
 
   useEffect(() => {
     if (show) {
-      setVisible(show)
-      Animated.timing(bottom, {
+      setModalOpen(show)
+      Animated.timing(animShift, {
         toValue: 0,
-        duration: 250,
+        duration: 350,
         useNativeDriver: false,
+        delay: 300,
       }).start()
     } else {
-      Animated.timing(bottom, {
-        toValue: -modalHeight,
-        duration: 250,
+      Animated.timing(animShift, {
+        toValue: 1,
+        duration: 350,
         useNativeDriver: false,
       }).start(() => {
         // only dismiss the Modal once the animation is done
-        setVisible(false)
-        setModalLayoutHeight(modalHeight)
+        setModalOpen(false)
+        gestureShift.setValue(0)
       })
     }
-  }, [show, bottom, modalHeight])
-
-  const calcHeight = () => {
-    return Math.min(deviceHeight - styles.header.height, modalLayoutHeight)
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [show, animShift, gestureShift])
 
   return (
     <>
@@ -82,45 +99,41 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
         transparent={true}
         testID={props.testID}
         accessibilityLabel={props.label}
+        animationType="fade"
       >
-        <GestureHandlerRootView style={styles.rootView}>
+        <GestureHandlerRootView style={styles.rootView} accessible={false}>
           <HoliButton
             label={t('modal.backdrop')}
-            onPress={onDismiss}
             style={styles.backdrop}
+            onPress={onDismiss}
             transparent
             disableFocusability
+            testID={`${props.testID}-backdrop`}
           >
-            <View onAccessibilityEscape={onDismiss} style={styles.backdrop} testID="backdrop" />
+            <View onAccessibilityEscape={onDismiss} style={styles.backdrop} />
           </HoliButton>
+
           <Animated.View
             style={[
               styles.root,
               {
-                bottom: bottom,
-                shadowOffset: {
-                  width: deviceWidth,
-                  height: -3,
-                },
+                bottom: animShiftInterpolated,
+                transform: [{ translateY: gestureShift }],
+                maxHeight: `${relativeHeight * 100}%`,
+                ...(minRelativeHeight && { minHeight: `${Math.min(minRelativeHeight, relativeHeight) * 100}%` }),
               },
               styles.common,
-              modalLayoutHeight !== modalHeight && {
-                height: calcHeight(),
-              },
-              !autoHeight && {
-                height: modalHeight,
-              },
+              !autoHeight && styles.rootFixHeight,
             ]}
-            testID={[props.testID, 'animatedview'].filter((e) => e).join('-')}
-            onLayout={(event) => {
-              setModalLayoutHeight(event.nativeEvent.layout.height)
-            }}
+            testID={`${props.testID}-animatedview`}
           >
-            <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
-              <View style={[styles.header, styles.common, styles.panView]}>
-                <View style={[styles.handle]} />
-              </View>
-            </PanGestureHandler>
+            <View style={styles.panGestureContainer}>
+              <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
+                <View style={[styles.header, styles.common]}>
+                  <View style={[styles.handle]} />
+                </View>
+              </PanGestureHandler>
+            </View>
             {children}
           </Animated.View>
         </GestureHandlerRootView>
@@ -131,59 +144,59 @@ const HoliModal: React.FunctionComponent<HoliModalProps> = (props: HoliModalProp
 
 export default HoliModal
 
-const getStyles = (deviceWidth: number) =>
-  StyleSheet.create({
-    rootView: { flex: 1 },
-    root: {
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      zIndex: 100,
-      backgroundColor: colors.backgroundColorWhite,
-      borderTopLeftRadius: 24,
-      borderTopRightRadius: 24,
-      overflow: 'hidden',
+const styles = StyleSheet.create({
+  rootView: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  root: {
+    backgroundColor: colors.backgroundColorWhite,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    overflow: 'hidden',
+    paddingTop: 40,
+  },
+  rootFixHeight: {
+    flex: 1,
+  },
+  panGestureContainer: {
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+  },
+  header: {
+    height: 40,
+    backgroundColor: colors.backgroundColorWhite,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  handle: {
+    width: 40,
+    height: 4,
+    borderRadius: 4,
+    position: 'absolute',
+    top: 10,
+    zIndex: 10,
+    backgroundColor: colors.softblack,
+    opacity: 0.3,
+  },
+  common: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 0,
     },
-    header: {
-      height: 44,
-      backgroundColor: colors.backgroundColorWhite,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    handle: {
-      width: 40,
-      height: 4,
-      borderRadius: 4,
-      position: 'absolute',
-      top: 10,
-      zIndex: 10,
-      backgroundColor: colors.softblack,
-      opacity: 0.3,
-    },
-    common: {
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 0,
-      },
-    },
-    panView: {
-      position: 'relative',
-      shadowOffset: {
-        width: deviceWidth,
-        height: 3,
-      },
-    },
-    closeIcon: {
-      position: 'absolute',
-      right: 0,
-      top: 0,
-      zIndex: 10,
-    },
-    backdrop: {
-      ...StyleSheet.absoluteFillObject,
-      zIndex: 0,
-      opacity: 0.4,
-      backgroundColor: colors.softblack,
-    },
-  })
+  },
+  closeIcon: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: 10,
+  },
+  backdrop: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 0,
+    opacity: 0.4,
+    backgroundColor: colors.softblack,
+  },
+})

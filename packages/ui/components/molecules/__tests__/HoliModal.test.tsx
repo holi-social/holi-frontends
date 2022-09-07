@@ -6,11 +6,11 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 
 describe('renders correctly', () => {
   it('renders correctly when open', () => {
-    const tree = renderer.create(<HoliModal show={true} onDismiss={() => null} />).toJSON()
+    const tree = renderer.create(<HoliModal label="Test" show={true} onDismiss={() => null} />).toJSON()
     expect(tree).toMatchSnapshot()
   })
   it('renders correctly when closed', () => {
-    const tree = renderer.create(<HoliModal show={false} onDismiss={() => null} />).toJSON()
+    const tree = renderer.create(<HoliModal label="Test" show={false} onDismiss={() => null} />).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })
@@ -18,9 +18,9 @@ describe('renders correctly', () => {
 describe('calls onDismiss prop function correctly', () => {
   it('calls onDismiss prop when clicked on backdrop if modal is open', () => {
     const mockFn = jest.fn()
-    const { getByTestId } = render(<HoliModal show={true} onDismiss={mockFn} />)
+    const { getByTestId } = render(<HoliModal show={true} onDismiss={mockFn} testID="testmodal" />)
 
-    fireEvent.press(getByTestId('backdrop'))
+    fireEvent.press(getByTestId('testmodal-backdrop'))
     expect(mockFn).toBeCalledTimes(1)
   })
 })

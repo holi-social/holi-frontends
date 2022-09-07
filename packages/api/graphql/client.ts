@@ -3,7 +3,7 @@ import { onError } from '@apollo/client/link/error'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 
 import { holiApiUrl } from '@holi/api/config'
-import { logError } from '@holi/core/errors/helpers'
+import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 
 import authLink from './authLink'
 
@@ -13,10 +13,13 @@ const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
 const timeoutLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
 const httpLink = new HttpLink({ uri: holiApiUrl })
 const errorLink = onError(({ graphQLErrors, networkError }) => {
+  // Do not log "not found" errors
+  if (graphQLErrors && isNotFoundError({ graphQLErrors })) {
+    return
+  }
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path }) => {
       const errorMessage = `Message: ${message}, Location: ${locations}, Path: ${path}`
-      // TODO: maybe do not log 404 errors
       logError(new Error(errorMessage), '[GraphQL Error]')
     })
   }

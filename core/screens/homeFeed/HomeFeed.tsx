@@ -1,13 +1,15 @@
 import moment from 'moment'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useContext, useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
 import TopicPreviewBox from '@holi/core/screens/topics/components/TopicPreviewBox'
 import fakeTopics, { getRandomUser } from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
@@ -90,6 +92,7 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
 
 const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   const [showEditorsModal, setShowEditorsModal] = useState(false)
+  const { isLoggedIn } = useContext(AuthContext)
   const { navigate } = useRouting()
   const { width } = useWindowDimensions()
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
@@ -170,14 +173,15 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
 
           <HoliModal
             label={t('topics.editors.modal.title')}
-            relativeHeight={0.85}
             show={showEditorsModal}
             onDismiss={() => setShowEditorsModal(false)}
+            testID="topic-editors-modal"
           >
             <HoliUserCardsModalContent
               title={t('topics.editors.modal.title')}
               users={dummyUsers}
               onDismiss={() => setShowEditorsModal(false)}
+              testID="topic-editors"
             />
           </HoliModal>
         </View>
@@ -188,6 +192,13 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
           ))}
         </View>
       </View>
+
+      {/* User suggestions outside of container mixin for full width scrolling */}
+      {isLoggedIn && (
+        <View style={styles.userSuggestionsContainer}>
+          <UserSuggestions />
+        </View>
+      )}
     </DefaultLayout>
   )
 }
@@ -246,6 +257,7 @@ const homeFeedStyles = (screenWidth: number) =>
         },
       }),
     },
+    userSuggestionsContainer: { marginTop: 16 },
   })
 
 export default HomeFeed
