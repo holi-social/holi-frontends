@@ -24,6 +24,7 @@ const HeaderRight: React.VFC<HeaderRightProps> = (props) => {
   const { t } = useTranslation()
 
   // FIXME: login test fails
+  // https://holi.atlassian.net/browse/HOLI-2141
   // const pathToGo = pathname.includes('/login')
   //   ? '/registration'
   //   : pathname.includes('/registration')

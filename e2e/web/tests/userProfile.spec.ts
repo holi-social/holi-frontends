@@ -52,12 +52,9 @@ test.describe('@Profile', () => {
     expect(await page.textContent(byTestId('user-profile-full-name'))).toBe(`${firstNameEdited} ${lastName}`.trim())
 
     // edit interests, skills + sdgs should work
-    await deselectAll(page, 'interests')
-    await selectSomeItems(page, 'interests')
-    await deselectAll(page, 'skills')
-    await selectSomeItems(page, 'skills')
-    await deselectAll(page, 'sdgs')
-    await selectSomeItems(page, 'sdgs')
+    await checkChipsSelection(page, 'interests')
+    await checkChipsSelection(page, 'skills')
+    await checkChipsSelection(page, 'sdgs')
 
     // go to own profile after login
     await page.goto('/profile/' + userId)
@@ -68,7 +65,48 @@ test.describe('@Profile', () => {
   })
 })
 
-const selectSomeItems = async (page: Page, what: string) => {
+const checkChipsSelection = async (page: Page, what: string) => {
+  await deselectAll(page, what)
+  await selectSomeItemsAndVerify(page, what)
+}
+
+const deselectAll = async (page: Page, what: string) => {
+  const userProfileTestId = byTestId(`user-profile-${what}`)
+
+  await page.locator(byTestId(`user-profile-${what}-edit`)).click()
+  await delay(0.5)
+  await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
+
+  const countOfSelectedChips: number = await getCountOf(
+    page,
+    `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
+  )
+
+  for (let stillSelectedCount = countOfSelectedChips; stillSelectedCount > 0; stillSelectedCount--) {
+    await page
+      .locator(`${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`)
+      .first()
+      .click()
+  }
+
+  const stillSelectedCount: number = await getCountOf(
+    page,
+    `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
+  )
+  expect(stillSelectedCount).toBe(0)
+
+  await saveAndClose(page)
+
+  // only edit button is visible
+  const editButtonCount = await getCountOf(page, `${userProfileTestId} >> [role=checkbox]`)
+  expect(editButtonCount).toBe(1)
+
+  // no chips should be shown
+  const shownChips = await getCountOf(page, `${userProfileTestId} >> [role=presentation]`)
+  expect(shownChips).toBe(0)
+}
+
+const selectSomeItemsAndVerify = async (page: Page, what: string) => {
   const userProfileTestId = byTestId(`user-profile-${what}`)
 
   await page.locator(byTestId(`user-profile-${what}-edit`)).click()
@@ -97,42 +135,9 @@ const selectSomeItems = async (page: Page, what: string) => {
 
   await saveAndClose(page)
 
-  const presentedChips = await getCountOf(page, `${userProfileTestId} >> [role=presentation]`)
-  expect(presentedChips).toBe(expectedNoOfSelectedChips)
-}
-
-const deselectAll = async (page: Page, what: string) => {
-  const userProfileTestId = byTestId(`user-profile-${what}`)
-
-  await page.locator(byTestId(`user-profile-${what}-edit`)).click()
-  await delay(0.5)
-  await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
-
-  const currentlySelected: number = await getCountOf(
-    page,
-    `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
-  )
-
-  for (let stillSelected = currentlySelected; stillSelected > 0; stillSelected--) {
-    await page
-      .locator(`${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`)
-      .first()
-      .click()
-  }
-
-  const stillSelected: number = await getCountOf(
-    page,
-    `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
-  )
-  expect(stillSelected).toBe(0)
-
-  await saveAndClose(page)
-
-  const chipsCount = await getCountOf(page, `${userProfileTestId} >> [aria-checked=false]`)
-  expect(chipsCount).toBe(1)
-
-  const editButtonCount = await getCountOf(page, `${userProfileTestId} >> [role=checkbox]`)
-  expect(editButtonCount).toBe(1)
+  // all selected chips should be shown
+  const shownChips = await getCountOf(page, `${userProfileTestId} >> [role=presentation]`)
+  expect(shownChips).toBe(expectedNoOfSelectedChips)
 }
 
 const getCountOf = async (page: Page, selector: string) => {
