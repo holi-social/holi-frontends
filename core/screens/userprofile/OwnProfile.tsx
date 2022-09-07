@@ -12,7 +12,7 @@ import OwnProfileView, { EditModeState } from '@holi/core/screens/userprofile/co
 import UserChipForm from '@holi/core/screens/userprofile/components/UserChipForm'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
-import { UserChipInterest, UserChipSDG, UserChipSkill } from '@holi/core/screens/userprofile/types'
+import { userChipTypes } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
@@ -76,6 +76,25 @@ const OwnProfile: React.VFC = () => {
     [isLoggedIn, user, editProfile]
   )
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let EditFormComponent: React.VFC<any> = UserProfileForm
+  let isUserChipForm = false
+
+  switch (editMode) {
+    case 'profile':
+      EditFormComponent = UserProfileForm
+      break
+    case 'engagementLevel':
+      EditFormComponent = UserEngagementLevelForm
+      break
+    case 'interests':
+    case 'skills':
+    case 'sdgs':
+      EditFormComponent = UserChipForm
+      isUserChipForm = true
+      break
+  }
+
   return (
     <DefaultLayout>
       <LoginProtection loggedOutContent={<LoggedOutView />}>
@@ -86,44 +105,16 @@ const OwnProfile: React.VFC = () => {
               onDismiss={toggleModal}
               testID="user-profile-modal"
               label={t(`profile.${editMode}.edit`)}
+              minRelativeHeight={isUserChipForm ? 0.9 : 0} // fix height for UserChipForm
             >
-              {(() => {
-                switch (editMode) {
-                  case 'profile':
-                    return <UserProfileForm user={user} onCancel={toggleModal} onSubmit={toggleModal} />
-                  case 'engagementLevel':
-                    return <UserEngagementLevelForm user={user} onCancel={toggleModal} onSubmit={toggleModal} />
-                  case 'interests':
-                    return (
-                      <UserChipForm
-                        user={user}
-                        typeMetadata={UserChipInterest}
-                        onCancel={toggleModal}
-                        onSubmit={toggleModal}
-                      />
-                    )
-                  case 'skills':
-                    return (
-                      <UserChipForm
-                        user={user}
-                        typeMetadata={UserChipSkill}
-                        onCancel={toggleModal}
-                        onSubmit={toggleModal}
-                      />
-                    )
-                  case 'sdgs':
-                    return (
-                      <UserChipForm
-                        user={user}
-                        typeMetadata={UserChipSDG}
-                        onCancel={toggleModal}
-                        onSubmit={toggleModal}
-                        sortByTranslation={false}
-                      />
-                    )
-                }
-              })()}
+              <EditFormComponent
+                user={user}
+                typeMetadata={editMode && userChipTypes[editMode]}
+                onCancel={toggleModal}
+                onSubmit={toggleModal}
+              />
             </HoliModal>
+
             <OwnProfileView toggleEditMode={toggleEditMode} user={user} />
           </>
         ) : (

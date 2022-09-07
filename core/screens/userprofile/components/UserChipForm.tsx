@@ -123,6 +123,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
       headlineText={t(`user.${typeMetadata.keyInUserObject}.form.headline`)}
       actionButtonTestID={['user-profile-chipform', typeMetadata.keyInUserObject, 'save'].join('-')}
       prependChildren={notificationComponent}
+      style={styles.modalWrapper}
     >
       <View style={styles.mainContainer}>
         <HoliText style={styles.subline}>{t(`user.${typeMetadata.keyInUserObject}.form.subline`)}</HoliText>
@@ -161,6 +162,9 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
 
 const getStyles = () =>
   StyleSheet.create({
+    modalWrapper: {
+      height: '100%',
+    },
     mainContainer: {
       marginHorizontal: 24,
     },
