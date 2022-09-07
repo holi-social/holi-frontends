@@ -10,9 +10,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
         "maxWidth": 800,
         "width": "100%",
       },
-      Object {},
+      Array [
+        Object {},
+        undefined,
+      ],
     ]
   }
+  testID="holi-modal-content"
 >
   <RCTScrollView>
     <View>
@@ -37,6 +41,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             },
           ]
         }
+        testID="holi-modal-content-heading"
       >
         user.cards.modal.title
       </Text>
@@ -1506,7 +1511,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           },
         ]
       }
-      testID="user-cards-modal-content-close"
+      testID="holi-modal-content-close-btn"
     >
       <View
         pointerEvents="none"

@@ -39,7 +39,7 @@ test.describe('@Profile', () => {
 
     // validation should block save
     await page.locator(byTestId('first-name-input')).fill('a')
-    await page.locator(byTestId('btn-user-profile-edit-form-save')).click()
+    await page.locator(byTestId('user-profile-edit-form-close-btn')).click()
     await page.locator(byTestId('first-name-input-error-message')).waitFor()
     await checkAccessibility(page)
 
@@ -47,14 +47,14 @@ test.describe('@Profile', () => {
     const firstNameEdited = 'Text User Name'
     await page.locator(byTestId('first-name-input')).fill(firstNameEdited)
     const lastName = await page.inputValue(byTestId('last-name-input'))
-    await page.locator(byTestId('btn-user-profile-edit-form-save')).click()
+    await page.locator(byTestId('user-profile-edit-form-close-btn')).click()
     await page.waitForSelector(byTestId('user-profile-edit-form-saving'), { state: 'detached' })
     expect(await page.textContent(byTestId('user-profile-full-name'))).toBe(`${firstNameEdited} ${lastName}`.trim())
 
     // edit interests, skills + sdgs should work
-    await checkChipRow(page, 'interests')
-    await checkChipRow(page, 'skills')
-    await checkChipRow(page, 'sdgs')
+    await checkChipsSelection(page, 'interests')
+    await checkChipsSelection(page, 'skills')
+    await checkChipsSelection(page, 'sdgs')
 
     // go to own profile after login
     await page.goto('/profile/' + userId)
@@ -65,50 +65,89 @@ test.describe('@Profile', () => {
   })
 })
 
-const checkChipRow = async (page: Page, what: string) => {
+const checkChipsSelection = async (page: Page, what: string) => {
+  await deselectAll(page, what)
+  await selectSomeItemsAndVerify(page, what)
+}
+
+const deselectAll = async (page: Page, what: string) => {
   const userProfileTestId = byTestId(`user-profile-${what}`)
 
-  // deselecting all chips should work
   await page.locator(byTestId(`user-profile-${what}-edit`)).click()
   await delay(0.5)
   await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
-  await checkAccessibility(page)
-  const noSelected: number = await page
-    .locator(`${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`)
-    .count()
-  for (let stillSelected = noSelected; stillSelected > 0; stillSelected--) {
+
+  const countOfSelectedChips: number = await getCountOf(
+    page,
+    `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
+  )
+
+  for (let stillSelectedCount = countOfSelectedChips; stillSelectedCount > 0; stillSelectedCount--) {
     await page
       .locator(`${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`)
       .first()
       .click()
   }
-  expect(await page.locator(`${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`).count()).toBe(0)
-  await save(page, what)
-  await checkAccessibility(page)
 
-  // there should be no chip selected, the only chip available should be the one opening the modal layer
-  expect(await page.locator(`${userProfileTestId} >> [role="checkbox"]`).count()).toBe(1)
+  const stillSelectedCount: number = await getCountOf(
+    page,
+    `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
+  )
+  expect(stillSelectedCount).toBe(0)
 
-  await page.locator(`${userProfileTestId} >> [role="checkbox"]`).click()
-  await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
-  const noAvailable: number = await page
-    .locator(`${byTestId('user-profile-modal-animatedview')} >> [role="checkbox"]`)
-    .count()
-  const noExpected: number = Math.floor((noAvailable - 1) / 3) + 1 // every third element, if there is one, one is selected; If there's 4, two are selected etc.
-  for (let toSelect = noAvailable - 1; toSelect > 0; toSelect = toSelect - 3) {
-    await page
-      .locator(`${byTestId('user-profile-modal-animatedview')} >> [role="checkbox"]`)
-      .nth(toSelect)
-      .click()
-  }
-  await save(page, what)
-  await checkAccessibility(page)
+  await saveAndClose(page)
 
-  // the selected chips should be visible on the profile page
-  expect(await page.locator(`${userProfileTestId} >> [role="presentation"]`).count()).toBe(noExpected)
+  // only edit button is visible
+  const editButtonCount = await getCountOf(page, `${userProfileTestId} >> [role=checkbox]`)
+  expect(editButtonCount).toBe(1)
+
+  // no chips should be shown
+  const shownChips = await getCountOf(page, `${userProfileTestId} >> [role=presentation]`)
+  expect(shownChips).toBe(0)
 }
 
-const save = async (page: Page, what: string) => {
-  await page.locator(byTestId(`user-profile-chipform-${what}-save`)).click()
-  await page.waitForSelector(byTestId(`user-profile-chipform-${what}-saving`), { state: 'detached' })
+const selectSomeItemsAndVerify = async (page: Page, what: string) => {
+  const userProfileTestId = byTestId(`user-profile-${what}`)
+
+  await page.locator(byTestId(`user-profile-${what}-edit`)).click()
+  await delay(0.5)
+  await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
+
+  const noOfSelectableChips = await getCountOf(
+    page,
+    `${byTestId('user-profile-modal-animatedview')} >> [role=checkbox]`
+  )
+  // every third element, if there is one, one is selected; If there's 4, two are selected etc.
+  const expectedNoOfSelectedChips: number = Math.floor((noOfSelectableChips - 1) / 3) + 1
+
+  for (let indexToSelect = noOfSelectableChips - 1; indexToSelect > 0; indexToSelect = indexToSelect - 3) {
+    await page
+      .locator(`${byTestId('user-profile-modal-animatedview')} >> [role=checkbox]`)
+      .nth(indexToSelect)
+      .click()
+  }
+
+  const newSelectionCount = await getCountOf(
+    page,
+    `${byTestId('user-profile-modal-animatedview')} >> [aria-checked=true]`
+  )
+  expect(newSelectionCount).toBe(expectedNoOfSelectedChips)
+
+  await saveAndClose(page)
+
+  // all selected chips should be shown
+  const shownChips = await getCountOf(page, `${userProfileTestId} >> [role=presentation]`)
+  expect(shownChips).toBe(expectedNoOfSelectedChips)
+}
+
+const getCountOf = async (page: Page, selector: string) => {
+  const locator = await page.locator(selector)
+  return await locator.count()
+}
+
+const saveAndClose = async (page: Page) => {
+  await page.locator(byTestId('user-profile-chipform-close-btn')).click()
+  await page.waitForSelector(byTestId('user-profile-chipform-saving'), { state: 'detached' })
+  await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
+  await delay(2)
 }
