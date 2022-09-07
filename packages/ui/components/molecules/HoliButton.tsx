@@ -21,6 +21,7 @@ export const HoliButtonVariants: HoliButtonVariant[] = ['default', 'small'] // k
 
 export type HoliButtonProps = {
   label: string
+  id?: string
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
   inline?: boolean
   type?: HoliButtonType
@@ -31,7 +32,7 @@ export type HoliButtonProps = {
   disableFocusability?: boolean
   accessibilityRole?: AccessibilityRole
   accessibilitySelected?: boolean
-  accessibilityLabel?: string
+  accessibilityControls?: string
   tabIndex?: number
   // only for TS (props are added by {...props})
   onPress?: null | ((event: GestureResponderEvent) => void)
@@ -39,6 +40,7 @@ export type HoliButtonProps = {
 }
 
 const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
+  id,
   label,
   inline = false,
   type = 'primary',
@@ -76,6 +78,7 @@ const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
     <Pressable
       {...accessibilityProps}
       {...props}
+      nativeID={id}
       disabled={disabled}
       onPress={(event) => {
         !disabled && props.onPress && props.onPress(event)

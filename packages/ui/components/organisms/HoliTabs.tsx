@@ -15,13 +15,19 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type HoliTabsProps = {
+  id: string
   tabs: { title: string; children: React.ReactNode }[]
   relativeHeight?: number
   testID?: string
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
 
-const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, style, testID = 'tabs-module' }: HoliTabsProps) => {
+const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
+  id,
+  tabs,
+  style,
+  testID = 'tabs-module',
+}: HoliTabsProps) => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const carousel = React.useRef<ScrollView | null>(null)
 
@@ -62,6 +68,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, style, testID 
             return (
               <HoliButton
                 label={tab.title}
+                id={`${id}-tab-${index}`}
                 transparent
                 inline
                 style={[styles.tabButton, isActive ? styles.activeTabButton : {}]}
@@ -69,7 +76,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, style, testID 
                 key={index}
                 accessibilityRole="tab"
                 accessibilitySelected={isActive}
-                accessibilityLabel={tab.title}
+                accessibilityControls={`${id}-panel-${index}`}
                 testID={`${testID}-button-${index}-${isActive ? 'active' : 'inactive'}`}
               >
                 <Text style={[styles.tabButtonText, isActive ? styles.activeTabButtonText : {}]}>{tab.title}</Text>
@@ -96,6 +103,8 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, style, testID 
                   width: screenWidth,
                 }}
                 accessibilityRole="tabpanel"
+                accessibilityLabelledBy={`${id}-tab-${i}`}
+                nativeID={`${id}-panel-${i}`}
                 testID={`${testID}-panel-${i}-${currentSlide === i ? 'active' : 'inactive'}`}
                 key={i}
               >
@@ -110,8 +119,9 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({ tabs, style, testID 
         <View
           style={styles.tabContainer}
           accessibilityRole="tabpanel"
+          accessibilityLabelledBy={`${id}-tab-${currentSlide}`}
+          nativeID={`${id}-panel-${currentSlide}`}
           testID={`${testID}-panel-${currentSlide}-active`}
-          focusable={true}
         >
           {tabs[currentSlide].children}
         </View>

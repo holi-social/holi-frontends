@@ -28,14 +28,14 @@ const tabs = [
 
 describe('renders correctly', () => {
   it('renders correctly when open', () => {
-    const tree = renderer.create(<HoliTabs tabs={tabs} />).toJSON()
+    const tree = renderer.create(<HoliTabs tabs={tabs} id="test-tabs" />).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })
 
 describe('displays the tab buttons correctly', () => {
   it('displays all tab buttons', () => {
-    const testRenderer = renderer.create(<HoliTabs tabs={tabs} />)
+    const testRenderer = renderer.create(<HoliTabs tabs={tabs} id="test-tabs" />)
     const holiTabsInstance = testRenderer.root
     const buttonInstances = holiTabsInstance.findAllByType(HoliButton)
 
@@ -43,7 +43,7 @@ describe('displays the tab buttons correctly', () => {
   })
 
   it('initializes with the first tab button active', () => {
-    const testRenderer = renderer.create(<HoliTabs tabs={tabs} testID="test-tabs" />)
+    const testRenderer = renderer.create(<HoliTabs tabs={tabs} id="test-tabs" testID="test-tabs" />)
     const holiTabsInstance = testRenderer.root
 
     expect(holiTabsInstance.findByProps({ testID: 'test-tabs-button-0-active' })).toBeDefined
@@ -52,7 +52,7 @@ describe('displays the tab buttons correctly', () => {
   })
 
   it('activates the correct tab button upon click', () => {
-    const testRenderer = renderer.create(<HoliTabs tabs={tabs} testID="test-tabs" />)
+    const testRenderer = renderer.create(<HoliTabs tabs={tabs} id="test-tabs" testID="test-tabs" />)
     const holiTabsInstance = testRenderer.root
 
     fireEvent.press(holiTabsInstance.findByProps({ testID: 'test-tabs-button-1-inactive' }))
