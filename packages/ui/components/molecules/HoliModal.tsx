@@ -101,15 +101,16 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
         accessibilityLabel={props.label}
         animationType="fade"
       >
-        <GestureHandlerRootView style={styles.rootView}>
+        <GestureHandlerRootView style={styles.rootView} accessible={false}>
           <HoliButton
             label={t('modal.backdrop')}
             style={styles.backdrop}
             onPress={onDismiss}
             transparent
             disableFocusability
+            testID={`${props.testID}-backdrop`}
           >
-            <View onAccessibilityEscape={onDismiss} style={styles.backdrop} testID="backdrop" />
+            <View onAccessibilityEscape={onDismiss} style={styles.backdrop} />
           </HoliButton>
 
           <Animated.View
@@ -124,7 +125,7 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
               styles.common,
               !autoHeight && styles.rootFixHeight,
             ]}
-            testID={[props.testID, 'animatedview'].filter((e) => e).join('-')}
+            testID={`${props.testID}-animatedview`}
           >
             <View style={styles.panGestureContainer}>
               <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>

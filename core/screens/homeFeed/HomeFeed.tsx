@@ -181,6 +181,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
               title={t('topics.editors.modal.title')}
               users={dummyUsers}
               onDismiss={() => setShowEditorsModal(false)}
+              testID="topic-editors"
             />
           </HoliModal>
         </View>
