@@ -9,7 +9,7 @@ import linkingConfig from '@holi/mobile/navigation/linkingConfig'
 import { UseRouting } from './types'
 
 const useRouting: UseRouting = <T extends Record<string, string>>() => {
-  const { setPathname, pathname } = useNavigationContext()
+  const { pathname, setPathname } = useNavigationContext()
   const linkTo = useLinkTo()
   const navigation = useNavigation()
   const currentRoute = navigation.getState().routes[navigation.getState().index]
@@ -26,11 +26,12 @@ const useRouting: UseRouting = <T extends Record<string, string>>() => {
     (fallbackRouteName = '/') => {
       if (navigation.canGoBack()) {
         navigation.goBack()
+        setPathname(fallbackRouteName)
       } else {
         navigate(fallbackRouteName)
       }
     },
-    [navigation, navigate]
+    [navigation, navigate, setPathname]
   )
 
   // based on https://github.com/react-navigation/react-navigation/discussions/10517
