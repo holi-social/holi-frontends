@@ -1,5 +1,4 @@
 import { test } from '@playwright/test'
-import { injectAxe } from 'axe-playwright'
 
 import { checkAccessibility, clickElementByTestId, defaultAuthSteps, waitForElementByTestId } from './helpers'
 
@@ -8,7 +7,6 @@ require('dotenv').config({ path: '.envrc' })
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
-  await injectAxe(page)
 })
 
 test.describe('@Login', () => {

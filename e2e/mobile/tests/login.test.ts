@@ -1,4 +1,4 @@
-import { defaultAuthSteps } from '../helpers/auth'
+import { defaultAuthSteps, logout } from '../helpers/auth'
 import { tapOnElementWithTestId, waitForElementWithTestId } from '../helpers/selectors'
 
 describe('@Login', () => {
@@ -16,9 +16,11 @@ describe('@Login', () => {
     // Login
     await defaultAuthSteps()
 
+    // expect user profile
+    await tapOnElementWithTestId('btn-to-profile-view')
+    await waitForElementWithTestId('user-profile-full-name')
+
     // Logout
-    await tapOnElementWithTestId('btn-to-logout')
-    await tapOnElementWithTestId('confirm-logout-button')
-    await waitForElementWithTestId('btn-to-login-form')
+    await logout()
   })
 })
