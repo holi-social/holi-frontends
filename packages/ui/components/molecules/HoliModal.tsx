@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Animated, Modal, ModalProps, StyleSheet, TouchableOpacity, View, useWindowDimensions } from 'react-native'
+import { Animated, Modal, ModalProps, StyleSheet, View, useWindowDimensions } from 'react-native'
 import {
   GestureEvent,
   GestureHandlerRootView,
@@ -94,20 +94,6 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show, animShift, gestureShift])
 
-  const DismissModal = () => {
-    return (
-      <>
-        {deviceWidth >= +vars.breakpointXl ? (
-          <TouchableOpacity onPress={onDismiss} style={styles.dismissIcon}>
-            <HoliIcon icon="close" color={colors.fontColorBlack} size={25} />
-          </TouchableOpacity>
-        ) : (
-          <View style={[styles.handle]} />
-        )}
-      </>
-    )
-  }
-
   return (
     <>
       <Modal
@@ -122,6 +108,7 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
           <HoliButton
             label={t('modal.backdrop')}
             style={styles.backdrop}
+            inline={false}
             onPress={onDismiss}
             transparent
             disableFocusability
@@ -144,11 +131,24 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
             testID={[props.testID, 'animatedview'].filter((e) => e).join('-')}
           >
             <View style={styles.panGestureContainer}>
-              <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
-                <View style={[styles.header, styles.common]}>
-                  <DismissModal />
-                </View>
-              </PanGestureHandler>
+              {navigator.maxTouchPoints != 0 && deviceWidth < +vars.breakpointL ? (
+                <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
+                  <View style={[styles.header, styles.common]}>
+                    <View style={[styles.handle]} />
+                  </View>
+                </PanGestureHandler>
+              ) : (
+                <HoliButton
+                  label={t('modal.backdrop')}
+                  style={styles.dismissIcon}
+                  onPress={onDismiss}
+                  inline={true}
+                  transparent
+                  disableFocusability
+                >
+                  <HoliIcon icon="close" color={colors.fontColorBlack} size={25} />
+                </HoliButton>
+              )}
             </View>
             {children}
           </Animated.View>
@@ -215,10 +215,11 @@ const styles = StyleSheet.create({
     opacity: 0.4,
     backgroundColor: colors.backgroundColorBlack,
   },
+  //style HoliButton in the top right corner of the modal
   dismissIcon: {
     position: 'absolute',
-    right: 10,
-    top: 10,
+    right: 15,
+    top: 15,
     zIndex: 10,
   },
 })
