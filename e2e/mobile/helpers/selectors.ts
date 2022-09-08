@@ -52,14 +52,24 @@ export const seeTextWithTestId = async (expectedText: string, testId: string) =>
 }
 
 export const tapOnElementWithTestId = async (testId: string, timeout?: number) => {
-  const element = await waitForElementWithTestId(testId, timeout)
   // https://webdriver.io/docs/api/element/touchAction
-  await Appium.touchAction({ element, action: 'tap' })
-  return element
+
+  try {
+    const element = await waitForElementWithTestId(testId, timeout)
+    await Appium.touchAction({ element, action: 'tap' })
+
+    return element
+  } catch (err) {
+    console.error(`FAILED: Tap "${testId}"`)
+  }
 }
 
 export const fillFieldByTestId = async (testId: string, value: string) => {
-  const element = await tapOnElementWithTestId(testId)
-  // https://webdriver.io/docs/api/element/setValue
-  await element.setValue(value)
+  try {
+    const element = await tapOnElementWithTestId(testId)
+    // https://webdriver.io/docs/api/element/setValue
+    await element.setValue(value)
+  } catch (err) {
+    console.error(`FAILED: Fill input "${testId}" with value "${value}"`)
+  }
 }
