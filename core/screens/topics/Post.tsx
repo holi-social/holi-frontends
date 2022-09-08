@@ -32,23 +32,18 @@ const Post: React.VFC<PostProps> = ({ navigation }: PostProps) => {
   const title = t('topics.post.title', { topicId, postId })
   const mixins = useStyleMixins()
 
-  useLayoutEffect(
-    () => {
-      setNavigationHeader({
-        title: title,
-        titleElement: () => (
-          <HoliText bold style={{ paddingTop: 5 }}>
-            {title}
-          </HoliText>
-        ),
-        headerLeft: () => <BackButton />,
-      })
-      return clearNavigationHeader
-    },
-    // setNavigationHeader would cause endless loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [navigation, topicId, postId, title]
-  )
+  useLayoutEffect(() => {
+    setNavigationHeader({
+      title: title,
+      titleElement: () => (
+        <HoliText bold style={{ paddingTop: 5 }}>
+          {title}
+        </HoliText>
+      ),
+      headerLeft: () => <BackButton />,
+    })
+    return clearNavigationHeader
+  }, [navigation, topicId, postId, title, setNavigationHeader, clearNavigationHeader])
 
   if (!topicId) return <HoliText>{t('topics.post.missingTopicId')}</HoliText>
   if (!postId) return <HoliText>{t('topics.post.missingPostId')}</HoliText>

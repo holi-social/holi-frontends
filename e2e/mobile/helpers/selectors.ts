@@ -22,10 +22,20 @@ export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?:
 }
 
 export const scrollToElementWithTestId = async (testId: string, timeout?: number) => {
-  const selector =
-    platform === 'ios'
-      ? byTestId(testId)
-      : `android=new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().resourceId("${testId}"))`
+  // scrollIntoView is not supported for iOS and webdriverio currently requires a manual scroll down, instead of a scroll into element
+  // https://github.com/webdriverio/webdriverio/issues/6537 and https://stackoverflow.com/questions/42656872/how-to-do-scroll-on-ios-native-app-with-webdriver-io
+  if (platform === 'ios') {
+    await Appium.execute('mobile: scroll', { direction: 'down' })
+
+    const element = await Appium.$(byTestId(testId))
+
+    await element.waitForDisplayed({ timeout })
+
+    return element
+  }
+
+  const selector = `android=new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().resourceId("${testId}"))`
+
   const element = await Appium.$(selector)
 
   await element.waitForDisplayed({ timeout })

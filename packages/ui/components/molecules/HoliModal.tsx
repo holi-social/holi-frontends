@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Animated, Modal, ModalProps, StyleSheet, View, useWindowDimensions } from 'react-native'
 import {
@@ -39,10 +39,13 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
   const { width: deviceWidth } = useWindowDimensions()
   const [isTouch, setIsTouch] = useState(true)
 
-  const setModalOpen = (isOpen: boolean) => {
-    setVisible(isOpen)
-    setModalIsOpen(isOpen)
-  }
+  const setModalOpen = useCallback(
+    (isOpen: boolean) => {
+      setVisible(isOpen)
+      setModalIsOpen(isOpen)
+    },
+    [setVisible, setModalIsOpen]
+  )
 
   // value for appearance animation
   const animShift = useRef(new Animated.Value(0)).current
@@ -92,8 +95,7 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
         gestureShift.setValue(0)
       })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [show, animShift, gestureShift])
+  }, [show, animShift, gestureShift, setModalOpen])
 
   useEffect(() => {
     //check if document is loaded

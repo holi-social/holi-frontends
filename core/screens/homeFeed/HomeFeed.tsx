@@ -101,22 +101,17 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   const styles = homeFeedStyles(width)
   const mixins = useStyleMixins()
 
-  useLayoutEffect(
-    () => {
-      setNavigationHeader({
-        title: headerTitle,
-        titleElement: () => (
-          <HoliText bold style={{ paddingTop: 5 }}>
-            {headerTitle}
-          </HoliText>
-        ),
-      })
-      return clearNavigationHeader
-    },
-    // setNavigationHeader would cause endless loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [navigation, headerTitle]
-  )
+  useLayoutEffect(() => {
+    setNavigationHeader({
+      title: headerTitle,
+      titleElement: () => (
+        <HoliText bold style={{ paddingTop: 5 }}>
+          {headerTitle}
+        </HoliText>
+      ),
+    })
+    return clearNavigationHeader
+  }, [navigation, headerTitle, setNavigationHeader, clearNavigationHeader])
 
   return (
     <DefaultLayout>
