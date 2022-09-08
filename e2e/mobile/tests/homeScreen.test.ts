@@ -1,4 +1,4 @@
-import { defaultAuthSteps } from '../helpers/auth'
+import { defaultAuthSteps, logout } from '../helpers/auth'
 import { navigateBackToHomeScreen } from '../helpers/navigation'
 import {
   scrollToElementWithTestId,
@@ -9,6 +9,9 @@ import {
 
 describe('@HomeScreen', () => {
   it('should work', async () => {
+    // start from home
+    await navigateBackToHomeScreen()
+
     await waitForElementWithTestId('home-feed-topics-heading')
 
     // go to topic screen
@@ -47,7 +50,7 @@ describe('@HomeScreen', () => {
     // scorll down to user suggestions element should be visible
     await scrollToElementWithTestId('user-suggestions', 'down')
 
-    // scroll up again
-    await scrollToElementWithTestId('home-feed-topics-heading', 'up')
+    // logout
+    await logout()
   })
 })

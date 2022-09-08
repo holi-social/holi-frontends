@@ -1,4 +1,4 @@
-import { defaultAuthSteps } from '../helpers/auth'
+import { defaultAuthSteps, logout } from '../helpers/auth'
 import { navigateBackToHomeScreen } from '../helpers/navigation'
 import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../helpers/selectors'
 
@@ -21,5 +21,8 @@ describe('@Profile', () => {
 
     // go back
     await tapOnElementWithTestId('nav-button-back', 0)
+
+    // logout
+    await logout()
   })
 })
