@@ -242,7 +242,5 @@
   "user.skills.form.headline": "Skills I have to offer",
   "user.skills.form.subline": "This allows other users to get to know you better and us to tailor our offering to your skills.",
   "user.userContext.error.fetching": "Error fetching authenticated user",
-  "user.userProfile.error.fetching": "Error fetching user profile",
-  "volunteering.navigation.home": "Home",
-  "volunteering.navigation.search": "Search"
+  "user.userProfile.error.fetching": "Error fetching user profile"
 }
