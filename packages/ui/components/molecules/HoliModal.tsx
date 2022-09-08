@@ -37,6 +37,7 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
   const [visible, setVisible] = useState(show)
   const { setModalIsOpen } = useTheme()
   const { width: deviceWidth } = useWindowDimensions()
+  const [isTouch, setIsTouch] = useState(true)
 
   const setModalOpen = (isOpen: boolean) => {
     setVisible(isOpen)
@@ -94,6 +95,17 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show, animShift, gestureShift])
 
+  //setIstouch after document is loaded
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      if (navigator.maxTouchPoints != 0) {
+        setIsTouch(true)
+      } else {
+        setIsTouch(false)
+      }
+    }
+  }, [])
+
   return (
     <>
       <Modal
@@ -131,8 +143,8 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
             ]}
             testID={`${props.testID}-animatedview`}
           >
-            <View style={styles.panGestureContainer}>
-              {navigator.maxTouchPoints != 0 && deviceWidth < +vars.breakpointL ? (
+            <View style={styles.headerContainer}>
+              {isTouch && deviceWidth < +vars.breakpointL ? (
                 <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
                   <View style={[styles.header, styles.common]}>
                     <View style={[styles.handle]} />
@@ -176,10 +188,20 @@ const styles = StyleSheet.create({
   rootFixHeight: {
     flex: 1,
   },
-  panGestureContainer: {
+  headerContainer: {
     position: 'absolute',
     top: 0,
     width: '100%',
+    /*     
+    height: 40,
+    backgroundColor: colors.backgroundColorWhite,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    }, */
   },
   header: {
     height: 40,
@@ -194,7 +216,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     zIndex: 10,
-    backgroundColor: colors.fontColorBlack,
+    backgroundColor: colors.softblack,
     opacity: 0.3,
   },
   common: {
@@ -219,8 +241,9 @@ const styles = StyleSheet.create({
   //style HoliButton in the top right corner of the modal
   dismissIcon: {
     position: 'absolute',
-    right: 15,
-    top: 15,
+    padding: 15,
+    right: 0,
+    top: 0,
     zIndex: 10,
   },
 })
