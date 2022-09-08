@@ -1,4 +1,4 @@
-import React, { ReactNode, createContext, useContext, useState } from 'react'
+import React, { ReactNode, createContext, useCallback, useContext, useState } from 'react'
 
 export type linkDirection = 'left' | 'down'
 export type NavigationContextType = {
@@ -45,14 +45,14 @@ const NavigationContextProvider: React.FC = ({ children }) => {
   const [headerLeft, setHeaderLeft] = useState(null)
   const [headerRight, setHeaderRight] = useState(null)
 
-  const clearBackLinks = () => {
+  const clearBackLinks = useCallback(() => {
     setShowBackLink(false)
     setShowDownLink(false)
     setHeaderTitle('')
     setTitleElement(null)
     setHeaderLeft(null)
     setHeaderRight(null)
-  }
+  }, [])
 
   return (
     <NavigationContext.Provider

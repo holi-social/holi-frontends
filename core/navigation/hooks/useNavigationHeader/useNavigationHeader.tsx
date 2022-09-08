@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { NativeStackNavigationOptions } from 'react-native-screens/native-stack'
 
 import { useNavigation } from '@react-navigation/native'
@@ -7,26 +8,33 @@ import { useNavigationContext } from '@holi/core/navigation/NavigationContextPro
 import type { HeaderProps } from './index'
 
 const useNavigationHeader = () => {
-  const navigation = useNavigation()
-  const navigationContext = useNavigationContext()
+  const { setOptions } = useNavigation()
+  const { setHeaderTitle } = useNavigationContext()
 
-  return {
-    setNavigationHeader: (headerProps: HeaderProps) => {
+  const setNavigationHeader = useCallback(
+    (headerProps: HeaderProps) => {
       const headerOptions: NativeStackNavigationOptions = {}
       const title = headerProps.title || ''
-      navigationContext.setHeaderTitle(title)
+      setHeaderTitle(title)
       if (headerProps.titleElement) headerOptions.titleElement = headerProps.titleElement
       if (headerProps.headerLeft) headerOptions.headerLeft = headerProps.headerLeft
       if (headerProps.headerRight) headerOptions.headerRight = headerProps.headerRight
-      navigation.setOptions?.(headerOptions)
+      setOptions?.(headerOptions)
     },
-    clearNavigationHeader: () => {
-      const headerOptions: NativeStackNavigationOptions = {}
-      headerOptions.titleElement = undefined
-      headerOptions.headerLeft = undefined
-      headerOptions.headerRight = undefined
-      navigation.setOptions?.(headerOptions)
-    },
+    [setOptions, setHeaderTitle]
+  )
+
+  const clearNavigationHeader = useCallback(() => {
+    const headerOptions: NativeStackNavigationOptions = {}
+    headerOptions.titleElement = undefined
+    headerOptions.headerLeft = undefined
+    headerOptions.headerRight = undefined
+    setOptions?.(headerOptions)
+  }, [setOptions])
+
+  return {
+    setNavigationHeader,
+    clearNavigationHeader,
   }
 }
 
