@@ -19,17 +19,12 @@ const Logout: React.VoidFunctionComponent = () => {
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
 
-  useEffect(
-    () => {
-      setNavigationHeader({
-        headerLeft: () => <BackButton icon="arrow-down-s" />,
-      })
-      return clearNavigationHeader
-    },
-    // setNavigationHeader would cause endless loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+  useEffect(() => {
+    setNavigationHeader({
+      headerLeft: () => <BackButton icon="arrow-down-s" />,
+    })
+    return clearNavigationHeader
+  }, [setNavigationHeader, clearNavigationHeader])
 
   const onSubmit = () => {
     getSessionFromStorage()

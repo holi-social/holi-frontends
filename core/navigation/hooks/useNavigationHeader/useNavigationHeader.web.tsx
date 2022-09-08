@@ -1,24 +1,33 @@
+import { useCallback } from 'react'
+
 import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
 
 import { HeaderProps } from './index'
 
 const useNavigationHeader = () => {
-  const navigationContext = useNavigationContext()
+  const { setHeaderTitle, setTitleElement, setHeaderRight, setHeaderLeft, clearBackLinks } = useNavigationContext()
+
+  const setNavigationHeader = useCallback(
+    (headerProps: HeaderProps) => {
+      const title = headerProps.title || ''
+      setHeaderTitle(title)
+      if (headerProps.titleElement) setTitleElement(headerProps.titleElement)
+      if (headerProps.headerRight) setHeaderRight(headerProps.headerRight)
+      if (headerProps.headerLeft) setHeaderLeft(headerProps.headerLeft)
+    },
+    [setHeaderTitle, setTitleElement, setHeaderRight, setHeaderLeft]
+  )
+
+  const clearNavigationHeader = useCallback(() => {
+    clearBackLinks()
+    setTitleElement(undefined)
+    setHeaderRight(undefined)
+    setHeaderLeft(undefined)
+  }, [setTitleElement, setHeaderRight, setHeaderLeft, clearBackLinks])
 
   return {
-    setNavigationHeader: (headerProps: HeaderProps) => {
-      const title = headerProps.title || ''
-      navigationContext.setHeaderTitle(title)
-      if (headerProps.titleElement) navigationContext.setTitleElement(headerProps.titleElement)
-      if (headerProps.headerRight) navigationContext.setHeaderRight(headerProps.headerRight)
-      if (headerProps.headerLeft) navigationContext.setHeaderLeft(headerProps.headerLeft)
-    },
-    clearNavigationHeader: () => {
-      navigationContext.clearBackLinks()
-      navigationContext.setTitleElement(undefined)
-      navigationContext.setHeaderRight(undefined)
-      navigationContext.setHeaderLeft(undefined)
-    },
+    setNavigationHeader,
+    clearNavigationHeader,
   }
 }
 

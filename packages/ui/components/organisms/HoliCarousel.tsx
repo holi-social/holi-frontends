@@ -19,6 +19,8 @@ export interface HoliCarouselProps {
   marginHorizontal?: number
 }
 
+const isWeb = Platform.OS === 'web'
+
 const HoliCarousel: React.FC<HoliCarouselProps> = ({
   slides,
   style,
@@ -26,8 +28,6 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
 }: HoliCarouselProps) => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const carousel = React.useRef<ScrollView | null>(null)
-
-  const isWeb = Platform.OS === 'web'
 
   const { width: screenWidth } = useWindowDimensions()
 

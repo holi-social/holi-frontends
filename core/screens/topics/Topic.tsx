@@ -29,28 +29,23 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
   const [showModal, setShowModal] = useState(false)
   const [topicId = ''] = useParam('topicId')
   const { navigate } = useRouting()
-  const navigationHeader = useNavigationHeader()
+  const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  useLayoutEffect(
-    () => {
-      const title = t('topics.topic.title', { title: topicId })
-      navigationHeader.setNavigationHeader({
-        title: title,
-        titleElement: () => (
-          <HoliText bold style={{ paddingTop: 5 }}>
-            {title}
-          </HoliText>
-        ),
-        headerLeft: () => <BackButton />,
-      })
-      return navigationHeader.clearNavigationHeader
-    },
-    // setNavigationHeader would cause endless loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [navigation, topicId, t]
-  )
+  useLayoutEffect(() => {
+    const title = t('topics.topic.title', { title: topicId })
+    setNavigationHeader({
+      title: title,
+      titleElement: () => (
+        <HoliText bold style={{ paddingTop: 5 }}>
+          {title}
+        </HoliText>
+      ),
+      headerLeft: () => <BackButton />,
+    })
+    return clearNavigationHeader
+  }, [navigation, topicId, t, setNavigationHeader, clearNavigationHeader])
 
   // Important: `fakeTopics.get(topicId) should be called after useEffect() or useLayoutEffet()
   // A hard reload will cause an error.

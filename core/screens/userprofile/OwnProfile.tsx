@@ -41,37 +41,32 @@ const OwnProfile: React.VFC = () => {
   }, [toggleEditMode])
 
   // to avoid a FOUC, we use useLayoutEffect (synchronously) instead of useEffect for updating the navigation
-  useLayoutEffect(
-    () => {
-      const profileTitle = isLoggedIn && user ? user.firstName : t('profile.title')
-      setNavigationHeader({
-        title: profileTitle,
-        titleElement: () => (
-          <HoliText bold style={{ paddingTop: 5 }}>
-            {profileTitle}
-          </HoliText>
+  useLayoutEffect(() => {
+    const profileTitle = isLoggedIn && user ? user.firstName : t('profile.title')
+    setNavigationHeader({
+      title: profileTitle,
+      titleElement: () => (
+        <HoliText bold style={{ paddingTop: 5 }}>
+          {profileTitle}
+        </HoliText>
+      ),
+      headerRight: () =>
+        isLoggedIn && (
+          <HoliButton
+            inline
+            transparent
+            label={t('profile.edit')}
+            onPress={editProfile}
+            style={styles.headerEditButton}
+          >
+            <HoliText size="small" bold style={{ color: colors.fontColorGrey }}>
+              {t('profile.edit')}
+            </HoliText>
+          </HoliButton>
         ),
-        headerRight: () =>
-          isLoggedIn && (
-            <HoliButton
-              inline
-              transparent
-              label={t('profile.edit')}
-              onPress={editProfile}
-              style={styles.headerEditButton}
-            >
-              <HoliText size="small" bold style={{ color: colors.fontColorGrey }}>
-                {t('profile.edit')}
-              </HoliText>
-            </HoliButton>
-          ),
-      })
-      return clearNavigationHeader
-    },
-    // setNavigationHeader would cause endless loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isLoggedIn, user, editProfile]
-  )
+    })
+    return clearNavigationHeader
+  }, [t, isLoggedIn, user, editProfile, setNavigationHeader, clearNavigationHeader])
 
   return (
     <DefaultLayout>
