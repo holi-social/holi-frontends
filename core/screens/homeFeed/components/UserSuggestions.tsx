@@ -55,7 +55,7 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = ({ style }: UserSuggest
               inline
               testID={`user-card-suggestion-${index}`}
             >
-              <HoliUserCard user={user} variant="small" disableFocusability />
+              <HoliUserCard user={user} testID="user-card-suggestion" variant="small" disableFocusability />
             </HoliButton>
           )
         })}
