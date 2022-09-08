@@ -44,10 +44,10 @@ describe('@HomeScreen', () => {
     // go home
     await navigateBackToHomeScreen()
 
-    // user suggestions element should not be null
-    await scrollToElementWithTestId('user-suggestions')
+    // scorll down to user suggestions element should be visible
+    await scrollToElementWithTestId('user-suggestions', 'down')
 
     // scroll up again
-    await scrollToElementWithTestId('home-feed-topics-heading')
+    await scrollToElementWithTestId('home-feed-topics-heading', 'up')
   })
 })

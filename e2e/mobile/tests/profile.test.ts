@@ -11,16 +11,15 @@ describe('@Profile', () => {
     await navigateBackToHomeScreen()
 
     // user suggestions element should be visible
-    await scrollToElementWithTestId('user-suggestions')
+    await scrollToElementWithTestId('user-suggestions', 'down')
 
     // tap on first user in list
-    await tapOnElementWithTestId('user-card-suggestion')
+    await tapOnElementWithTestId('user-card-suggestion-0')
 
     // expect user profile
     await waitForElementWithTestId('user-profile-full-name')
 
-    // go back and scroll up again
+    // go back
     await tapOnElementWithTestId('nav-button-back', 0)
-    await scrollToElementWithTestId('home-feed-topics-heading')
   })
 })
