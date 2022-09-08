@@ -19,22 +19,17 @@ const Search: React.VFC<SearchProps> = ({ navigation }: SearchProps) => {
   const title = t('search.title')
   const mixins = useStyleMixins()
 
-  useLayoutEffect(
-    () => {
-      setNavigationHeader({
-        title: title,
-        titleElement: () => (
-          <HoliText bold style={{ paddingTop: 5 }}>
-            {title}
-          </HoliText>
-        ),
-      })
-      return clearNavigationHeader
-    },
-    // setNavigationHeader would cause endless loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [navigation, title]
-  )
+  useLayoutEffect(() => {
+    setNavigationHeader({
+      title: title,
+      titleElement: () => (
+        <HoliText bold style={{ paddingTop: 5 }}>
+          {title}
+        </HoliText>
+      ),
+    })
+    return clearNavigationHeader
+  }, [navigation, title, setNavigationHeader, clearNavigationHeader])
 
   return (
     <DefaultLayout>

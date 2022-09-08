@@ -11,7 +11,6 @@ export interface HoliModalContentWrapper {
   onActionButtonPress: () => void
   style?: StyleProp<ViewStyle>
   testID?: string
-  actionButtonTestID?: string
 }
 
 const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
@@ -21,8 +20,7 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
   prependChildren,
   children,
   style,
-  testID,
-  actionButtonTestID,
+  testID = 'holi-modal-content',
 }) => {
   return (
     <View style={[styles.container, style]} testID={testID}>
@@ -30,7 +28,7 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
 
       <ScrollView>
         {headlineText && (
-          <HoliHeading level="1" style={styles.headline} size="large">
+          <HoliHeading level="1" style={styles.headline} size="large" testID={`${testID}-heading`}>
             {headlineText}
           </HoliHeading>
         )}
@@ -41,7 +39,7 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
       </ScrollView>
 
       <View style={styles.actionButtonContainer}>
-        <HoliButton label={actionButtonText} onPress={onActionButtonPress} testID={actionButtonTestID}>
+        <HoliButton label={actionButtonText} onPress={onActionButtonPress} testID={`${testID}-close-btn`}>
           {actionButtonText}
         </HoliButton>
       </View>

@@ -121,9 +121,9 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
       actionButtonText={t('user.profileForm.save')}
       onActionButtonPress={submit}
       headlineText={t(`user.${typeMetadata.keyInUserObject}.form.headline`)}
-      actionButtonTestID={['user-profile-chipform', typeMetadata.keyInUserObject, 'save'].join('-')}
       prependChildren={notificationComponent}
       style={styles.modalWrapper}
+      testID="user-profile-chipform"
     >
       <View style={styles.mainContainer}>
         <HoliText style={styles.subline}>{t(`user.${typeMetadata.keyInUserObject}.form.subline`)}</HoliText>

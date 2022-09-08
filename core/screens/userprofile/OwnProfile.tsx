@@ -22,9 +22,9 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 const OwnProfile: React.VFC = () => {
   const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
-  const toggleModal = useCallback(() => {
-    setShowModal(!showModal)
-  }, [showModal])
+  const closeModal = useCallback(() => {
+    setShowModal(false)
+  }, [])
   const { t } = useTranslation()
 
   const { isLoggedIn } = useContext(AuthContext)
@@ -32,49 +32,41 @@ const OwnProfile: React.VFC = () => {
 
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const mixins = useStyleMixins()
-  const toggleEditMode = useCallback(
-    (editMode: EditModeState) => {
-      setEditMode(editMode)
-      toggleModal()
-    },
-    [setEditMode, toggleModal]
-  )
+  const toggleEditMode = useCallback((editMode: EditModeState) => {
+    setEditMode(editMode)
+    setShowModal(true)
+  }, [])
   const editProfile = useCallback(() => {
     toggleEditMode('profile')
   }, [toggleEditMode])
 
   // to avoid a FOUC, we use useLayoutEffect (synchronously) instead of useEffect for updating the navigation
-  useLayoutEffect(
-    () => {
-      const profileTitle = isLoggedIn && user ? user.firstName : t('profile.title')
-      setNavigationHeader({
-        title: profileTitle,
-        titleElement: () => (
-          <HoliText bold style={{ paddingTop: 5 }}>
-            {profileTitle}
-          </HoliText>
+  useLayoutEffect(() => {
+    const profileTitle = isLoggedIn && user ? user.firstName : t('profile.title')
+    setNavigationHeader({
+      title: profileTitle,
+      titleElement: () => (
+        <HoliText bold style={{ paddingTop: 5 }}>
+          {profileTitle}
+        </HoliText>
+      ),
+      headerRight: () =>
+        isLoggedIn && (
+          <HoliButton
+            inline
+            transparent
+            label={t('profile.edit')}
+            onPress={editProfile}
+            style={styles.headerEditButton}
+          >
+            <HoliText size="small" bold style={{ color: colors.fontColorGrey }}>
+              {t('profile.edit')}
+            </HoliText>
+          </HoliButton>
         ),
-        headerRight: () =>
-          isLoggedIn && (
-            <HoliButton
-              inline
-              transparent
-              label={t('profile.edit')}
-              onPress={editProfile}
-              style={styles.headerEditButton}
-            >
-              <HoliText size="small" bold style={{ color: colors.fontColorGrey }}>
-                {t('profile.edit')}
-              </HoliText>
-            </HoliButton>
-          ),
-      })
-      return clearNavigationHeader
-    },
-    // setNavigationHeader would cause endless loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isLoggedIn, user, editProfile]
-  )
+    })
+    return clearNavigationHeader
+  }, [t, isLoggedIn, user, editProfile, setNavigationHeader, clearNavigationHeader])
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let EditFormComponent: React.VFC<any> = UserProfileForm
@@ -102,7 +94,7 @@ const OwnProfile: React.VFC = () => {
           <>
             <HoliModal
               show={showModal}
-              onDismiss={toggleModal}
+              onDismiss={closeModal}
               testID="user-profile-modal"
               label={t(`profile.${editMode}.edit`)}
               minRelativeHeight={isUserChipForm ? 0.9 : 0} // fix height for UserChipForm
@@ -110,8 +102,8 @@ const OwnProfile: React.VFC = () => {
               <EditFormComponent
                 user={user}
                 typeMetadata={editMode && userChipTypes[editMode]}
-                onCancel={toggleModal}
-                onSubmit={toggleModal}
+                onCancel={closeModal}
+                onSubmit={closeModal}
               />
             </HoliModal>
 

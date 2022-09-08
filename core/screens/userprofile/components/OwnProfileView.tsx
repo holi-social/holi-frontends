@@ -58,6 +58,7 @@ const OwnProfileView: React.VFC<OwnProfileViewProps> = ({ toggleEditMode, user }
       </View>
       <HoliTabs
         style={{ marginTop: 24 }}
+        id="profile-tabs"
         tabs={[
           {
             title: t('profile.tabs.profile'),

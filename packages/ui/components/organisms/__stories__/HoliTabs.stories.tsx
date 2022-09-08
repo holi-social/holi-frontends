@@ -48,11 +48,13 @@ const Template: ComponentStory<typeof HoliTabs> = ({ ...args }) => <HoliTabs {..
 export const Primary: ComponentStory<typeof HoliTabs> = Template.bind({})
 
 Primary.argTypes = {
+  id: { description: 'unique ID to identify tabs and child elements', control: false },
   tabs: { description: 'Tabs information with title and children', control: false },
   relativeHeight: { description: 'Relative height of modal', type: 'number', control: { type: 'number' } },
 }
 
 Primary.args = {
+  id: 'story-tabs',
   tabs,
   relativeHeight: 0.75,
 }
