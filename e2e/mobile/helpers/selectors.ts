@@ -11,9 +11,6 @@ const waitForElement = async (elementSelector: string, timeout?: number) => {
   return element
 }
 
-export const waitForElementWithTestId = async (testId: string, timeout?: number) =>
-  waitForElement(byTestId(testId), timeout)
-
 export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?: number) => {
   // https://webdriver.io/docs/api/browser/$
   const element = await Appium.$(byTestId(testId))
@@ -23,6 +20,29 @@ export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?:
 
   return element
 }
+
+export const scrollToElementWithTestId = async (testId: string, timeout?: number) => {
+  const selector =
+    platform === 'ios'
+      ? byTestId(testId)
+      : `android=new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().resourceId("${testId}"))`
+  const element = await Appium.$(selector)
+
+  await element.waitForDisplayed({ timeout })
+
+  return element
+}
+
+export const checkIfElementWithTestIdExists = async (testId: string) => {
+  // https://webdriver.io/docs/api/browser/$
+  const element = await Appium.$(byTestId(testId))
+
+  // https://webdriver.io/docs/api/element/isExisting
+  return element.isExisting()
+}
+
+export const waitForElementWithTestId = async (testId: string, timeout?: number) =>
+  waitForElement(byTestId(testId), timeout)
 
 export const seeTextWithTestId = async (expectedText: string, testId: string) => {
   const element = await waitForElementWithTestId(testId)

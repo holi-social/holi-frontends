@@ -1,6 +1,7 @@
 import * as webdriverio from 'webdriverio'
 
 import appiumConfig, { target, waitingTimeout } from './appiumConfig'
+import { logout } from './helpers/auth'
 import { navigateBackToHomeScreen, waitForHomeScreen } from './helpers/navigation'
 
 global.platform = appiumConfig.platform
@@ -23,7 +24,8 @@ beforeEach(async () => {
       }
     }
   } else {
-    // Navigate back to the home screen before each test
+    // Logout + navigate back to the home screen before each test
+    await logout()
     await navigateBackToHomeScreen()
   }
   // https://appium.io/docs/en/commands/session/timeouts/implicit-wait/

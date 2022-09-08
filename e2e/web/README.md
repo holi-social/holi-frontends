@@ -27,7 +27,7 @@ yarn test:localhost
 if E2E_USER vars are not loaded you can try this
   
 ```sh
-E2E_USER_USERNAME=... E2E_USER_PASSWORD=... yarn test:localhost
+E2E_USER_USERNAME=... E2E_USER_PASSWORD=... E2E_USER_ID=... yarn test:localhost
 ```
 
 For testing a deployed app, use the following commmand:
