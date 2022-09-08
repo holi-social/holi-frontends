@@ -1,7 +1,8 @@
 import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/kratos-client'
-import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import client from '@holi/api/graphql/client'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
@@ -19,20 +20,6 @@ const Login: React.VoidFunctionComponent = () => {
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
 
-  const initializeFlow = () => {
-    initLoginFlow()
-      .then((response) => {
-        const { data: flow } = response
-        // The flow was initialized successfully, let's set the form data:
-        setFlow(flow)
-      })
-      .catch((error) => displayError(error, t('auth.login.error.initialization')))
-  }
-
-  // When the component is mounted, we initialize a new use login flow:
-  // eslint-disable-next-line
-  useEffect(() => initializeFlow(), [])
-
   useLayoutEffect(() => {
     setNavigationHeader({
       headerLeft: () => <BackButton icon="arrow-down-s" />,
@@ -41,25 +28,38 @@ const Login: React.VoidFunctionComponent = () => {
     return clearNavigationHeader
   }, [t, setNavigationHeader, clearNavigationHeader])
 
-  // This will update the login flow with the user provided input:
-  const onSubmit = (payload: SubmitSelfServiceLoginFlowBody) =>
-    flow
-      ? newKratosSdk()
-          .submitSelfServiceLoginFlow(flow.id, undefined, payload)
-          .then(({ data }) => {
-            setUserLoggedIn(data as OrySessionContext)
-          })
-          .then(() => {
-            console.info('[Login] session created')
-          })
-          .catch(handleFormSubmitError(setFlow, initializeFlow))
-          .catch((error) => displayError(error, t('auth.login.error.login')))
-      : Promise.resolve()
+  const initializeFlow = useCallback(() => {
+    initLoginFlow()
+      .then((response) => {
+        const { data: flow } = response
+        setFlow(flow)
+      })
+      .catch((error) => displayError(error, t('auth.login.error.initialization')))
+  }, [t])
 
-  // this should only occur when a logged-in user navigates to /login on web
+  useEffect(() => {
+    initializeFlow()
+    return () => {
+      console.log('##### [UserSuggestions] TODO: clean up flow .... or AuthContext?')
+    }
+  }, [initializeFlow])
+
+  const performLogin = (payload: SubmitSelfServiceLoginFlowBody): Promise<void> => {
+    client.clearStore()
+    if (flow)
+      return newKratosSdk()
+        .submitSelfServiceLoginFlow(flow.id, undefined, payload)
+        .then(({ data }) => {
+          setUserLoggedIn(data as OrySessionContext)
+        })
+        .catch(handleFormSubmitError(setFlow, initializeFlow))
+        .catch((error) => displayError(error, t('auth.login.error.login')))
+    return Promise.resolve()
+  }
+
   return (
     <DefaultLayout>
-      <LoginRegistrationContainer flow={flow} onSubmit={onSubmit} />
+      <LoginRegistrationContainer flow={flow} onSubmit={performLogin} />
     </DefaultLayout>
   )
 }

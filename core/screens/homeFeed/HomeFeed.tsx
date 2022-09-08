@@ -1,12 +1,11 @@
 import moment from 'moment'
-import React, { useContext, useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
@@ -92,7 +91,6 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
 
 const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   const [showEditorsModal, setShowEditorsModal] = useState(false)
-  const { isLoggedIn } = useContext(AuthContext)
   const { navigate } = useRouting()
   const { width } = useWindowDimensions()
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
@@ -188,12 +186,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         </View>
       </View>
 
-      {/* User suggestions outside of container mixin for full width scrolling */}
-      {isLoggedIn && (
-        <View style={styles.userSuggestionsContainer}>
-          <UserSuggestions />
-        </View>
-      )}
+      <UserSuggestions style={styles.userSuggestionsContainer} />
     </DefaultLayout>
   )
 }
