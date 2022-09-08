@@ -14,6 +14,8 @@ import { useSafeDispatch } from '@holi/core/helpers'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 
+const isWeb = Platform.OS === 'web'
+
 const Registration: React.VFC = () => {
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { setUserLoggedIn, isLoggedIn } = useContext(AuthContext)
@@ -21,7 +23,6 @@ const Registration: React.VFC = () => {
   const { t } = useTranslation()
   // use safe versions of this function to prevent updating state of destroyed component
   const safeSetFlow = useSafeDispatch(setFlow)
-  const isWeb = Platform.OS === 'web'
 
   const initializeFlow = useCallback(() => {
     if (isLoggedIn) return
@@ -38,19 +39,14 @@ const Registration: React.VFC = () => {
   useLayoutEffect(() => initializeFlow(), [initializeFlow])
 
   // update header
-  useLayoutEffect(
-    () => {
-      setNavigationHeader({
-        headerLeft: () => <BackButton icon={isWeb ? 'arrow-left-s' : 'arrow-down-s'} />,
-        title: t('auth.register'),
-      })
+  useLayoutEffect(() => {
+    setNavigationHeader({
+      headerLeft: () => <BackButton icon={isWeb ? 'arrow-left-s' : 'arrow-down-s'} />,
+      title: t('auth.register'),
+    })
 
-      return clearNavigationHeader
-    },
-    // setNavigationHeader would cause endless loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+    return clearNavigationHeader
+  }, [t, setNavigationHeader, clearNavigationHeader])
 
   // This will update the registration flow with the user provided input:
   const onSubmit = (payload: SubmitSelfServiceRegistrationFlowBody): Promise<void> =>

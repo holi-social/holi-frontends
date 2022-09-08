@@ -33,18 +33,13 @@ const Login: React.VoidFunctionComponent = () => {
   // eslint-disable-next-line
   useEffect(() => initializeFlow(), [])
 
-  useLayoutEffect(
-    () => {
-      setNavigationHeader({
-        headerLeft: () => <BackButton icon="arrow-down-s" />,
-        title: t('auth.login'),
-      })
-      return clearNavigationHeader
-    },
-    // setNavigationHeader would cause endless loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+  useLayoutEffect(() => {
+    setNavigationHeader({
+      headerLeft: () => <BackButton icon="arrow-down-s" />,
+      title: t('auth.login'),
+    })
+    return clearNavigationHeader
+  }, [t, setNavigationHeader, clearNavigationHeader])
 
   // This will update the login flow with the user provided input:
   const onSubmit = (payload: SubmitSelfServiceLoginFlowBody) =>

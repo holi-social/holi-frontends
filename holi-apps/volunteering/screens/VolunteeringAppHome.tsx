@@ -18,22 +18,17 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = ({ navigation }
   const title = t('apps.volunteering.name')
   const mixins = useStyleMixins()
 
-  useLayoutEffect(
-    () => {
-      setNavigationHeader({
-        title: title,
-        titleElement: () => (
-          <HoliText bold style={{ paddingTop: 5 }}>
-            {title}
-          </HoliText>
-        ),
-      })
-      return clearNavigationHeader
-    },
-    // setNavigationHeader would cause endless loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [navigation, title]
-  )
+  useLayoutEffect(() => {
+    setNavigationHeader({
+      title: title,
+      titleElement: () => (
+        <HoliText bold style={{ paddingTop: 5 }}>
+          {title}
+        </HoliText>
+      ),
+    })
+    return clearNavigationHeader
+  }, [navigation, title, setNavigationHeader, clearNavigationHeader])
 
   return (
     <View style={[mixins.container, { padding: 10 }]}>
