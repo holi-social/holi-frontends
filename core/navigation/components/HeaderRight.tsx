@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ViewStyle } from 'react-native'
+import { Platform, ViewStyle } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
@@ -16,21 +16,23 @@ export type HeaderRightProps = {
 }
 
 const HeaderRight: React.VFC<HeaderRightProps> = (props) => {
-  const { navigate } = useRouting()
+  const { pathname, navigate } = useRouting()
   const { headerRight } = useNavigationContext()
   const { user } = useContext(UserContext)
   const { isLoggedIn } = useContext(AuthContext)
   const hasUserData = isLoggedIn && user
   const { t } = useTranslation()
+  const isWeb = Platform.OS === 'web'
 
-  // FIXME: login test fails
-  // https://holi.atlassian.net/browse/HOLI-2141
-  // const pathToGo = pathname.includes('/login')
-  //   ? '/registration'
-  //   : pathname.includes('/registration')
-  //   ? '/login'
-  //   : '/profile'
-  const pathToGo = '/profile'
+  let pathToGo = '/profile'
+
+  if (isWeb) {
+    pathToGo = pathname.includes('/login')
+      ? '/registration'
+      : pathname.includes('/registration')
+      ? '/login'
+      : '/profile'
+  }
 
   if (headerRight) return headerRight
 
