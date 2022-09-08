@@ -95,14 +95,10 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show, animShift, gestureShift])
 
-  //setIstouch after document is loaded
   useEffect(() => {
+    //check if document is loaded
     if (typeof document !== 'undefined') {
-      if (navigator.maxTouchPoints != 0) {
-        setIsTouch(true)
-      } else {
-        setIsTouch(false)
-      }
+      navigator.maxTouchPoints != 0 ? setIsTouch(true) : setIsTouch(false)
     }
   }, [])
 
@@ -146,8 +142,8 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
             <View style={styles.headerContainer}>
               {isTouch && deviceWidth < +vars.breakpointL ? (
                 <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
-                  <View style={[styles.header, styles.common]}>
-                    <View style={[styles.handle]} />
+                  <View style={styles.handle}>
+                    <View style={styles.line} />
                   </View>
                 </PanGestureHandler>
               ) : (
@@ -183,7 +179,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     overflow: 'hidden',
-    paddingTop: 40,
+    paddingTop: 47,
   },
   rootFixHeight: {
     flex: 1,
@@ -192,31 +188,20 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     width: '100%',
-    /*     
-    height: 40,
-    backgroundColor: colors.backgroundColorWhite,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    }, */
-  },
-  header: {
-    height: 40,
-    backgroundColor: colors.backgroundColorWhite,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   handle: {
+    height: 40,
+    backgroundColor: colors.backgroundColorWhite,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  line: {
     width: 40,
     height: 4,
     borderRadius: 4,
     position: 'absolute',
     top: 10,
-    zIndex: 10,
-    backgroundColor: colors.softblack,
+    backgroundColor: colors.backgroundColorBlack,
     opacity: 0.3,
   },
   common: {
@@ -226,12 +211,6 @@ const styles = StyleSheet.create({
       height: 0,
     },
   },
-  closeIcon: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    zIndex: 10,
-  },
   backdrop: {
     ...StyleSheet.absoluteFillObject,
     zIndex: 0,
@@ -240,10 +219,8 @@ const styles = StyleSheet.create({
   },
   //style HoliButton in the top right corner of the modal
   dismissIcon: {
-    position: 'absolute',
+    alignSelf: 'flex-end',
     padding: 15,
-    right: 0,
-    top: 0,
-    zIndex: 10,
+    paddingBottom: 3,
   },
 })
