@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import * as React from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
