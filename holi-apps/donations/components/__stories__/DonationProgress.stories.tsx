@@ -15,7 +15,7 @@ export const Primary: ComponentStory<typeof DonationProgress> = Template.bind({}
 Primary.argTypes = {
   currency: { description: 'Currency symbol', control: { type: 'select', options: ['EUR', 'GBP', 'JPY'] } },
   currencyLocale: { description: 'Currency locale', control: { type: 'select', options: ['de-DE', 'en-GB', 'ja-JP'] } },
-  noOfdonations: { description: 'Number of donations', control: { type: 'number' } },
+  noOfDonations: { description: 'Number of donations', control: { type: 'number' } },
   donationsLabel: { description: 'Label/tag for the donations', control: { type: 'text' } },
   goal: { description: "Project's donation goal amount", control: { type: 'range', min: 0, max: 1000, step: 1 } },
   total: {
@@ -29,7 +29,7 @@ Primary.argTypes = {
 Primary.args = {
   currency: 'EUR',
   currencyLocale: 'de-DE',
-  noOfdonations: 10,
+  noOfDonations: 10,
   donationsLabel: 'Climate',
   goal: 1000,
   total: 500,

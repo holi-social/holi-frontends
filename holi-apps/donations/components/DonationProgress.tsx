@@ -7,7 +7,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 type DonationProgressProps = {
   currency: string
   currencyLocale: string
-  noOfdonations: number
+  noOfDonations: number
   donationsLabel: string
   goal: number
   total: number
@@ -20,7 +20,7 @@ const pluralize = (count: number, noun: string, suffix = 's') => `${count} ${nou
 const DonationProgress = ({
   currency,
   currencyLocale,
-  noOfdonations,
+  noOfDonations,
   donationsLabel,
   goal,
   total,
@@ -40,7 +40,7 @@ const DonationProgress = ({
       {size !== 'small' && (
         <HoliText>
           <HoliText size={'small'} style={{ color: colors.fontColorGrey }}>{`${pluralize(
-            noOfdonations,
+            noOfDonations,
             'donation',
             's'
           )}`}</HoliText>
