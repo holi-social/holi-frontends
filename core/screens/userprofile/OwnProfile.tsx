@@ -8,11 +8,11 @@ import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import LoggedOutView from '@holi/core/screens/userprofile/components/LoggedOutView'
-import OwnProfileView, { editModeState } from '@holi/core/screens/userprofile/components/OwnProfileView'
+import OwnProfileView, { EditModeState } from '@holi/core/screens/userprofile/components/OwnProfileView'
 import UserChipForm from '@holi/core/screens/userprofile/components/UserChipForm'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
-import { UserChipInterest, UserChipSDG, UserChipSkill } from '@holi/core/screens/userprofile/types'
+import { userChipTypes } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
@@ -21,7 +21,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const OwnProfile: React.VFC = () => {
   const [showModal, setShowModal] = useState(false)
-  const [editMode, setEditMode] = useState<editModeState>()
+  const [editMode, setEditMode] = useState<EditModeState>()
   const closeModal = useCallback(() => {
     setShowModal(false)
   }, [])
@@ -32,7 +32,7 @@ const OwnProfile: React.VFC = () => {
 
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const mixins = useStyleMixins()
-  const toggleEditMode = useCallback((editMode: editModeState) => {
+  const toggleEditMode = useCallback((editMode: EditModeState) => {
     setEditMode(editMode)
     setShowModal(true)
   }, [])
@@ -68,6 +68,25 @@ const OwnProfile: React.VFC = () => {
     return clearNavigationHeader
   }, [t, isLoggedIn, user, editProfile, setNavigationHeader, clearNavigationHeader])
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let EditFormComponent: React.VFC<any> = UserProfileForm
+  let isUserChipForm = false
+
+  switch (editMode) {
+    case 'profile':
+      EditFormComponent = UserProfileForm
+      break
+    case 'engagementLevel':
+      EditFormComponent = UserEngagementLevelForm
+      break
+    case 'interests':
+    case 'skills':
+    case 'sdgs':
+      EditFormComponent = UserChipForm
+      isUserChipForm = true
+      break
+  }
+
   return (
     <DefaultLayout>
       <LoginProtection loggedOutContent={<LoggedOutView />}>
@@ -78,44 +97,16 @@ const OwnProfile: React.VFC = () => {
               onDismiss={closeModal}
               testID="user-profile-modal"
               label={t(`profile.${editMode}.edit`)}
+              minRelativeHeight={isUserChipForm ? 0.9 : 0} // fix height for UserChipForm
             >
-              {(() => {
-                switch (editMode) {
-                  case 'profile':
-                    return <UserProfileForm user={user} onCancel={closeModal} onSubmit={closeModal} />
-                  case 'engagementLevel':
-                    return <UserEngagementLevelForm user={user} onCancel={closeModal} onSubmit={closeModal} />
-                  case 'interests':
-                    return (
-                      <UserChipForm
-                        user={user}
-                        typeMetadata={UserChipInterest}
-                        onCancel={closeModal}
-                        onSubmit={closeModal}
-                      />
-                    )
-                  case 'skills':
-                    return (
-                      <UserChipForm
-                        user={user}
-                        typeMetadata={UserChipSkill}
-                        onCancel={closeModal}
-                        onSubmit={closeModal}
-                      />
-                    )
-                  case 'sdgs':
-                    return (
-                      <UserChipForm
-                        user={user}
-                        typeMetadata={UserChipSDG}
-                        onCancel={closeModal}
-                        onSubmit={closeModal}
-                        sortByTranslation={false}
-                      />
-                    )
-                }
-              })()}
+              <EditFormComponent
+                user={user}
+                typeMetadata={editMode && userChipTypes[editMode]}
+                onCancel={closeModal}
+                onSubmit={closeModal}
+              />
             </HoliModal>
+
             <OwnProfileView toggleEditMode={toggleEditMode} user={user} />
           </>
         ) : (
