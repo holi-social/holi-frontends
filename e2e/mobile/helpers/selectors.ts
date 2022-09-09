@@ -70,7 +70,7 @@ export const tapOnElementWithTestId = async (testId: string, timeout?: number) =
 
     return element
   } catch (err) {
-    // do nothing
+    throw new Error("Couldn't tap on element with testID: " + testId)
   }
 }
 
@@ -80,6 +80,6 @@ export const fillFieldByTestId = async (testId: string, value: string) => {
     // https://webdriver.io/docs/api/element/setValue
     await element.setValue(value)
   } catch (err) {
-    // do nothing
+    throw new Error("Couldn't fill field with testID: " + testId)
   }
 }

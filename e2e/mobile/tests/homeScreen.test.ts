@@ -9,9 +9,6 @@ import {
 
 describe('@HomeScreen', () => {
   it('should work', async () => {
-    // start from home
-    await navigateBackToHomeScreen()
-
     await waitForElementWithTestId('home-feed-topics-heading')
 
     // go to topic screen
