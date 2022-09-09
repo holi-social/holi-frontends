@@ -92,8 +92,8 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
 
 const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   const [showEditorsModal, setShowEditorsModal] = useState(false)
-  const { isLoggedIn } = useContext(AuthContext)
   const { navigate } = useRouting()
+  const { isLoggedIn } = useContext(AuthContext)
   const { width } = useWindowDimensions()
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
@@ -188,12 +188,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         </View>
       </View>
 
-      {/* User suggestions outside of container mixin for full width scrolling */}
-      {isLoggedIn && (
-        <View style={styles.userSuggestionsContainer}>
-          <UserSuggestions />
-        </View>
-      )}
+      {isLoggedIn && <UserSuggestions style={styles.userSuggestionsContainer} />}
     </DefaultLayout>
   )
 }
