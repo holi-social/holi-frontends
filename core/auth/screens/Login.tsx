@@ -15,7 +15,7 @@ import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 
 const Login: React.VoidFunctionComponent = () => {
-  const { setUserLoggedIn } = useContext(AuthContext)
+  const { isLoggedIn, setUserLoggedIn } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
@@ -38,12 +38,8 @@ const Login: React.VoidFunctionComponent = () => {
   }, [t])
 
   useEffect(() => {
-    initializeFlow()
-    return () => {
-      console.log('##### [UserSuggestions] TODO: clean up flow .... or AuthContext?')
-      setFlow(undefined)
-    }
-  }, [initializeFlow])
+    !isLoggedIn && initializeFlow()
+  }, [isLoggedIn, initializeFlow])
 
   const performLogin = (payload: SubmitSelfServiceLoginFlowBody): Promise<void> => {
     client.clearStore()
