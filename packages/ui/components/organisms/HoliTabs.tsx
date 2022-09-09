@@ -103,7 +103,6 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
                 style={{
                   width: screenWidth,
                 }}
-                accessibilityRole="tabpanel"
                 accessibilityLabelledBy={`${id}-tab-${i}`}
                 nativeID={`${id}-panel-${i}`}
                 testID={`${testID}-panel-${i}-${currentSlide === i ? 'active' : 'inactive'}`}

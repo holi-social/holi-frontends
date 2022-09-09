@@ -202,7 +202,6 @@ exports[`renders correctly renders correctly when open 1`] = `
       >
         <View
           accessibilityLabelledBy="test-tabs-tab-0"
-          accessibilityRole="tabpanel"
           nativeID="test-tabs-panel-0"
           style={
             Object {
@@ -238,7 +237,6 @@ exports[`renders correctly renders correctly when open 1`] = `
         </View>
         <View
           accessibilityLabelledBy="test-tabs-tab-1"
-          accessibilityRole="tabpanel"
           nativeID="test-tabs-panel-1"
           style={
             Object {
