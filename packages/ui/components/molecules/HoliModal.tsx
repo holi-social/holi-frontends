@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Animated, Modal, ModalProps, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Animated, Modal, ModalProps, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import {
   GestureEvent,
   GestureHandlerRootView,
@@ -97,12 +97,11 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
     }
   }, [show, animShift, gestureShift, setModalOpen])
 
-  useEffect(() => {
-    //check if document is loaded
-    if (typeof document !== 'undefined') {
-      navigator.maxTouchPoints != 0 ? setIsTouch(true) : setIsTouch(false)
+  useLayoutEffect(() => {
+    if (Platform.OS === 'web') {
+      navigator && navigator.maxTouchPoints != 0 ? setIsTouch(true) : setIsTouch(false)
     }
-  }, [])
+  }, [isTouch])
 
   return (
     <>
@@ -118,7 +117,6 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
           <HoliButton
             label={t('modal.backdrop')}
             style={styles.backdrop}
-            inline={false}
             onPress={onDismiss}
             transparent
             disableFocusability
@@ -219,7 +217,6 @@ const styles = StyleSheet.create({
     opacity: 0.4,
     backgroundColor: colors.backgroundColorBlack,
   },
-  //style HoliButton in the top right corner of the modal
   dismissIcon: {
     alignSelf: 'flex-end',
     padding: 15,
