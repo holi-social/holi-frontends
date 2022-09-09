@@ -21,6 +21,7 @@ import Topic, { TopicParams } from '@holi/core/screens/topics/Topic'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
+import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -43,6 +44,7 @@ export type BottomTabsScreens = {
 
 export type RootStackScreens = {
   Core: undefined
+  DonationsApp: undefined
   VolunteeringApp: undefined
   Login: undefined
   Logout: undefined
@@ -243,6 +245,7 @@ const RootNavigator: React.VFC = () => {
       }}
     >
       <RootStack.Screen name="Core" component={BottomTabsNavigator} />
+      <RootStack.Screen name="DonationsApp" component={DonationsAppNavigator} />
       <RootStack.Screen name="VolunteeringApp" component={VolunteeringAppNavigator} />
       {/* modals are only correctly rendered on android when in root navigator */}
       <RootStack.Group
