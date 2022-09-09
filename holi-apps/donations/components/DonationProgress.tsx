@@ -39,11 +39,19 @@ const DonationProgress = ({
     <View style={[props?.style]}>
       {size !== 'small' && (
         <HoliText>
-          <HoliText style={{ color: colors.fontColorGrey }}>{`${pluralize(noOfdonations, 'donation', 's')}`}</HoliText>
+          <HoliText size={'small'} style={{ color: colors.fontColorGrey }}>{`${pluralize(
+            noOfdonations,
+            'donation',
+            's'
+          )}`}</HoliText>
           {donationsLabel && (
             <>
-              <HoliText style={{ color: colors.positivepurple }}>{' ∙ '}</HoliText>
-              <HoliText style={{ color: colors.fontColorGrey }}>{donationsLabel}</HoliText>
+              <HoliText size={'small'} style={{ color: colors.positivepurple }}>
+                {' ∙ '}
+              </HoliText>
+              <HoliText size={'small'} style={{ color: colors.fontColorGrey }}>
+                {donationsLabel}
+              </HoliText>
             </>
           )}
         </HoliText>
@@ -52,8 +60,8 @@ const DonationProgress = ({
         <View style={[styles.filled, size === 'small' && { height: 6 }, { width: `${goalPercentage}%` }]} />
       </View>
       <View style={styles.goals}>
-        <HoliText style={{ color: colors.fontColorGrey }}>{`${goalPercentage}% funded`}</HoliText>
-        {size !== 'small' && goal > total && <HoliText>{`${formatGoal} to go`}</HoliText>}
+        <HoliText size={'small'} style={{ color: colors.fontColorGrey }}>{`${goalPercentage}% funded`}</HoliText>
+        {size !== 'small' && goal > total && <HoliText size={'small'}>{`${formatGoal} to go`}</HoliText>}
       </View>
     </View>
   )
