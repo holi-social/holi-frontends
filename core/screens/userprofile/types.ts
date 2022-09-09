@@ -138,3 +138,9 @@ export const UserChipSDG: UserChipGeneric<UserSDG> = {
   keyInUserObject: 'sdgs',
   isOfType: (x: any): x is UserSDG => UserChipSDG.allValues.includes(x), // eslint-disable-line @typescript-eslint/no-explicit-any
 }
+
+export const userChipTypes = [UserChipInterest, UserChipSkill, UserChipSDG].reduce((acc, type) => {
+  acc[type.keyInUserObject] = type
+  return acc
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+}, {} as Record<string, UserChipGeneric<any>>)

@@ -122,6 +122,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
       onActionButtonPress={submit}
       headlineText={t(`user.${typeMetadata.keyInUserObject}.form.headline`)}
       prependChildren={notificationComponent}
+      style={styles.modalWrapper}
       testID="user-profile-chipform"
     >
       <View style={styles.mainContainer}>
@@ -161,6 +162,9 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
 
 const getStyles = () =>
   StyleSheet.create({
+    modalWrapper: {
+      height: '100%',
+    },
     mainContainer: {
       marginHorizontal: 24,
     },
