@@ -42,13 +42,14 @@ const Login: React.VoidFunctionComponent = () => {
   }, [isLoggedIn, initializeFlow])
 
   const performLogin = (payload: SubmitSelfServiceLoginFlowBody): Promise<void> => {
-    client.clearStore()
     if (flow)
       return newKratosSdk()
         .submitSelfServiceLoginFlow(flow.id, undefined, payload)
-        .then(({ data }) => {
-          setUserLoggedIn(data as OrySessionContext)
-        })
+        .then(({ data }) =>
+          client.clearStore().then(() => {
+            setUserLoggedIn(data as OrySessionContext)
+          })
+        )
         .catch(handleFormSubmitError(setFlow, initializeFlow))
         .catch((error) => displayError(error, t('auth.login.error.login')))
     return Promise.resolve()

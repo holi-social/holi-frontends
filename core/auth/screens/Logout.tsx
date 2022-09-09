@@ -29,8 +29,8 @@ const Logout: React.VoidFunctionComponent = () => {
   const onSubmit = () => {
     getSessionFromStorage()
       .then((session) => submitLogoutFlow({ session_token: session ? session.session_token : '' }))
-      .then(() => setUserLoggedOut())
       .then(() => client.clearStore())
+      .then(() => setUserLoggedOut())
       .then(() => {
         console.info('[Logout] logout successful')
         navigateBack()

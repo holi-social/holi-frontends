@@ -1,9 +1,8 @@
-import { useLazyQuery } from '@apollo/client'
-import React, { useContext, useEffect } from 'react'
+import { useQuery } from '@apollo/client'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserSuggestionsResponse, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
@@ -20,21 +19,12 @@ export type UserSuggestionsProps = {
 const UserSuggestions: React.VFC<UserSuggestionsProps> = ({ style }: UserSuggestionsProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const { isLoggedIn } = useContext(AuthContext)
   const mixins = useStyleMixins()
   const numberOfItems = 10
 
-  const [loadSuggestions, { loading, error, data }] = useLazyQuery<UserSuggestionsResponse>(userSuggestionsQuery, {
+  const { loading, error, data } = useQuery<UserSuggestionsResponse>(userSuggestionsQuery, {
     variables: { numberOfItems },
   })
-
-  useEffect(() => {
-    if (isLoggedIn) loadSuggestions()
-  }, [isLoggedIn, loadSuggestions])
-
-  if (!isLoggedIn) {
-    return <></>
-  }
 
   if (error) {
     logError(error, `[UserSuggestions.tsx] ${error.message}`)
