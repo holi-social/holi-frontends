@@ -41,6 +41,7 @@ const Login: React.VoidFunctionComponent = () => {
     initializeFlow()
     return () => {
       console.log('##### [UserSuggestions] TODO: clean up flow .... or AuthContext?')
+      setFlow(undefined)
     }
   }, [initializeFlow])
 
