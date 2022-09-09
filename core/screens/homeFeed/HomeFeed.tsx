@@ -37,20 +37,20 @@ type DummyApp = {
 
 const appSwiperDummyApps: DummyApp[] = [
   {
+    icon: 'loader',
+    nameKey: 'apps.donations.name',
+    path: '/apps/donations',
+    testID: 'app-tile-donations',
+    hasUpdates: false,
+    backgroundColor: colors.positivepurple,
+  },
+  {
     icon: 'chat',
     nameKey: 'apps.volunteering.name',
     path: '/apps/volunteering',
     testID: 'app-tile-volunteering',
     hasUpdates: true,
     backgroundColor: colors.impactyellow,
-  },
-  {
-    icon: 'loader',
-    nameKey: 'apps.donations.name',
-    path: '/apps/volunteering',
-    testID: 'app-tile-donations',
-    hasUpdates: false,
-    backgroundColor: colors.positivepurple,
   },
   {
     icon: 'home-smile-2',
