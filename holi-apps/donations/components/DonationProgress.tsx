@@ -31,7 +31,7 @@ const DonationProgress = ({
   const formatGoal = new Intl.NumberFormat(currencyLocale, {
     style: 'currency',
     currency: currency,
-  }).format(1000)
+  }).format(goal - total)
 
   const goalPercentage = Math.round((total / goal) * 100)
 
