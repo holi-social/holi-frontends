@@ -13,26 +13,19 @@ const Template: ComponentStory<typeof DonationProgress> = ({ ...args }) => <Dona
 export const Primary: ComponentStory<typeof DonationProgress> = Template.bind({})
 
 Primary.argTypes = {
-  currency: { description: 'Currency symbol', control: { type: 'select', options: ['EUR', 'GBP', 'JPY'] } },
-  currencyLocale: { description: 'Currency locale', control: { type: 'select', options: ['de-DE', 'en-GB', 'ja-JP'] } },
-  noOfDonations: { description: 'Number of donations', control: { type: 'number' } },
-  donationsLabel: { description: 'Label/tag for the donations', control: { type: 'text' } },
-  goal: { description: "Project's donation goal amount", control: { type: 'range', min: 0, max: 1000, step: 1 } },
-  total: {
-    description: "Project's current total donations amount",
-    control: { type: 'range', min: 0, max: 1000, step: 1 },
-  },
+  donationsCount: { description: 'Number of donations', control: { type: 'number' } },
+  category: { description: 'Label/tag for the donations', control: { type: 'text' } },
+  progressPercentage: { description: 'Progress in %', control: { type: 'range', min: 0, max: 100, step: 0.1 } },
+  openAmountInCents: { description: 'Open amount', control: { type: 'range', min: 0, max: 100000, step: 100 } },
   size: { description: 'Size of the component', control: { type: 'select', options: ['default', 'small'] } },
   style: { description: 'Wrapper style override', control: false },
 }
 
 Primary.args = {
-  currency: 'EUR',
-  currencyLocale: 'de-DE',
-  noOfDonations: 10,
-  donationsLabel: 'Climate',
-  goal: 1000,
-  total: 500,
+  donationsCount: 10,
+  category: 'Climate',
+  progressPercentage: 87.4,
+  openAmountInCents: 12345,
   size: 'default',
   style: {},
 }
