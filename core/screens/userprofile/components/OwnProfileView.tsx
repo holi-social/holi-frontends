@@ -70,15 +70,14 @@ const OwnProfileView: React.VFC<OwnProfileViewProps> = ({ toggleEditMode, user }
                   title={t('profile.engagementLevel')}
                   onPressEdit={() => toggleEditMode('engagementLevel')}
                 >
-                  {user?.engagementLevel && (
+                  {user?.engagementLevel ? (
                     <HoliChip
                       text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
                       label={t(`user.engagementLevel.title.${user.engagementLevel}`)}
                       style={styles.chip}
                       disabled
                     />
-                  )}
-                  {!user?.engagementLevel && (
+                  ) : (
                     <HoliChip
                       onPress={() => toggleEditMode('engagementLevel')}
                       label={t('profile.engagementLevel.add')}
