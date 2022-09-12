@@ -43,7 +43,7 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = ({ style }: UserSuggest
         <HoliHeading level="2">{t('homeFeed.userSuggestions.title')}</HoliHeading>
       </View>
       <ScrollView style={[mixins.container, styles.scrollviewContainer]} horizontal>
-        {userSuggestions.map((user) => {
+        {userSuggestions.map((user, index) => {
           const nameLabel = `${user.firstName || ''} ${user.lastName || ''}`.trim()
           return (
             <HoliButton
@@ -53,6 +53,7 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = ({ style }: UserSuggest
               key={user.id}
               transparent
               inline
+              testID={`user-card-suggestion-${index}`}
             >
               <HoliUserCard user={user} testID="user-card-suggestion" variant="small" disableFocusability />
             </HoliButton>
