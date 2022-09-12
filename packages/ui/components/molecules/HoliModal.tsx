@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Animated, Modal, ModalProps, StyleSheet, View } from 'react-native'
+import { Animated, Modal, ModalProps, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import {
   GestureEvent,
   GestureHandlerRootView,
@@ -8,8 +8,10 @@ import {
   PanGestureHandler,
 } from 'react-native-gesture-handler'
 
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
+import { vars } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 
 export type HoliModalProps = ModalProps & {
@@ -34,6 +36,8 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
   const { t } = useTranslation()
   const [visible, setVisible] = useState(show)
   const { setModalIsOpen } = useTheme()
+  const { width: deviceWidth } = useWindowDimensions()
+  const [isTouch, setIsTouch] = useState(true)
 
   const setModalOpen = useCallback(
     (isOpen: boolean) => {
@@ -93,6 +97,12 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
     }
   }, [show, animShift, gestureShift, setModalOpen])
 
+  useLayoutEffect(() => {
+    if (Platform.OS === 'web') {
+      navigator && navigator.maxTouchPoints != 0 ? setIsTouch(true) : setIsTouch(false)
+    }
+  }, [])
+
   return (
     <>
       <Modal
@@ -129,12 +139,25 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
             ]}
             testID={`${props.testID}-animatedview`}
           >
-            <View style={styles.panGestureContainer}>
-              <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
-                <View style={[styles.header, styles.common]}>
-                  <View style={[styles.handle]} />
-                </View>
-              </PanGestureHandler>
+            <View style={styles.headerContainer}>
+              {isTouch && deviceWidth < +vars.breakpointL ? (
+                <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
+                  <View style={styles.handle}>
+                    <View style={styles.line} />
+                  </View>
+                </PanGestureHandler>
+              ) : (
+                <HoliButton
+                  label={t('modal.backdrop')}
+                  style={styles.dismissIcon}
+                  onPress={onDismiss}
+                  inline={true}
+                  transparent
+                  disableFocusability
+                >
+                  <HoliIcon icon="close" color={colors.fontColorBlack} size={25} />
+                </HoliButton>
+              )}
             </View>
             {children}
           </Animated.View>
@@ -156,30 +179,29 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     overflow: 'hidden',
-    paddingTop: 40,
+    paddingTop: 47,
   },
   rootFixHeight: {
     flex: 1,
   },
-  panGestureContainer: {
+  headerContainer: {
     position: 'absolute',
     top: 0,
     width: '100%',
   },
-  header: {
+  handle: {
     height: 40,
     backgroundColor: colors.backgroundColorWhite,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  handle: {
+  line: {
     width: 40,
     height: 4,
     borderRadius: 4,
     position: 'absolute',
     top: 10,
-    zIndex: 10,
-    backgroundColor: colors.softblack,
+    backgroundColor: colors.backgroundColorBlack,
     opacity: 0.3,
   },
   common: {
@@ -189,16 +211,15 @@ const styles = StyleSheet.create({
       height: 0,
     },
   },
-  closeIcon: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    zIndex: 10,
-  },
   backdrop: {
     ...StyleSheet.absoluteFillObject,
     zIndex: 0,
     opacity: 0.4,
-    backgroundColor: colors.softblack,
+    backgroundColor: colors.backgroundColorBlack,
+  },
+  dismissIcon: {
+    alignSelf: 'flex-end',
+    padding: 15,
+    paddingBottom: 3,
   },
 })
