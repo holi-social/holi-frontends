@@ -1,13 +1,13 @@
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
-import { createParam } from 'solito'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
+import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import TopicEditors from '@holi/core/screens/topics/components/TopicEditors'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
@@ -29,22 +29,17 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
   const [showModal, setShowModal] = useState(false)
   const [topicId = ''] = useParam('topicId')
   const { navigate } = useRouting()
-  const navigationHeader = useNavigationHeader()
+  const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  useLayoutEffect(
-    () => {
-      const title = t('topics.topic.title', { title: topicId })
-      navigationHeader.setNavigationHeader(title, {
-        headerLeft: () => <BackButton />,
-      })
-      return navigationHeader.clearNavigationHeader
-    },
-    // setNavigationHeader would cause endless loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [navigation, topicId, t]
-  )
+  useLayoutEffect(() => {
+    const title = t('topics.topic.title', { title: topicId })
+      setNavigationHeader(title, {
+      headerLeft: () => <BackButton />,
+    })
+    return clearNavigationHeader
+  }, [navigation, topicId, t, setNavigationHeader, clearNavigationHeader])
 
   // Important: `fakeTopics.get(topicId) should be called after useEffect() or useLayoutEffet()
   // A hard reload will cause an error.

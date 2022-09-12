@@ -17,15 +17,10 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = ({ navigation }
   const title = t('apps.volunteering.name')
   const mixins = useStyleMixins()
 
-  useLayoutEffect(
-    () => {
+  useLayoutEffect(() => {
       setNavigationHeader(title)
-      return clearNavigationHeader
-    },
-    // setNavigationHeader would cause endless loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [navigation, title]
-  )
+    return clearNavigationHeader
+  }, [navigation, title, setNavigationHeader, clearNavigationHeader])
 
   return (
     <View style={[mixins.container, { padding: 10 }]}>

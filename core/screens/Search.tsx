@@ -18,15 +18,10 @@ const Search: React.VFC<SearchProps> = ({ navigation }: SearchProps) => {
   const title = t('search.title')
   const mixins = useStyleMixins()
 
-  useLayoutEffect(
-    () => {
+  useLayoutEffect(() => {
       setNavigationHeader(title)
-      return clearNavigationHeader
-    },
-    // setNavigationHeader would cause endless loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [navigation, title]
-  )
+    return clearNavigationHeader
+  }, [navigation, title, setNavigationHeader, clearNavigationHeader])
 
   return (
     <DefaultLayout>

@@ -75,9 +75,9 @@ describe('HoliUserCardsModalContent', () => {
 
   it('has close button and onDismiss is triggered upon press', () => {
     const mockFn = jest.fn()
-    const { getByTestId } = render(<HoliUserCardsModalContent users={users} onDismiss={mockFn} />)
+    const { getByTestId } = render(<HoliUserCardsModalContent users={users} onDismiss={mockFn} testID="userModal" />)
 
-    fireEvent.press(getByTestId('user-cards-modal-content-close'))
+    fireEvent.press(getByTestId('userModal-close-btn'))
     expect(mockFn).toBeCalledTimes(1)
   })
 })

@@ -19,23 +19,18 @@ const Logout: React.VoidFunctionComponent = () => {
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
 
-  useEffect(
-    () => {
+  useEffect(() => {
       setNavigationHeader('', {
-        headerLeft: () => <BackButton icon="arrow-down-s" />,
-      })
-      return clearNavigationHeader
-    },
-    // setNavigationHeader would cause endless loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+      headerLeft: () => <BackButton icon="arrow-down-s" />,
+    })
+    return clearNavigationHeader
+  }, [setNavigationHeader, clearNavigationHeader])
 
   const onSubmit = () => {
     getSessionFromStorage()
       .then((session) => submitLogoutFlow({ session_token: session ? session.session_token : '' }))
-      .then(() => setUserLoggedOut())
       .then(() => client.clearStore())
+      .then(() => setUserLoggedOut())
       .then(() => {
         console.info('[Logout] logout successful')
         navigateBack()

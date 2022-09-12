@@ -1,0 +1,74 @@
+import React from 'react'
+import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+
+export interface HoliModalContentWrapper {
+  actionButtonText: string
+  headlineText?: string
+  prependChildren?: React.ReactNode
+  onActionButtonPress: () => void
+  style?: StyleProp<ViewStyle>
+  testID?: string
+}
+
+const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
+  actionButtonText,
+  onActionButtonPress,
+  headlineText,
+  prependChildren,
+  children,
+  style,
+  testID = 'holi-modal-content',
+}) => {
+  return (
+    <View style={[styles.container, style]} testID={testID}>
+      {prependChildren}
+
+      <ScrollView>
+        {headlineText && (
+          <HoliHeading level="1" style={styles.headline} size="large" testID={`${testID}-heading`}>
+            {headlineText}
+          </HoliHeading>
+        )}
+
+        {children}
+
+        <View style={styles.placeHolder} />
+      </ScrollView>
+
+      <View style={styles.actionButtonContainer}>
+        <HoliButton label={actionButtonText} onPress={onActionButtonPress} testID={`${testID}-close-btn`}>
+          {actionButtonText}
+        </HoliButton>
+      </View>
+    </View>
+  )
+}
+
+export default HoliModalContentWrapper
+
+const styles = StyleSheet.create({
+  container: {
+    marginHorizontal: 'auto',
+    maxHeight: '100%',
+    width: '100%',
+    maxWidth: 800,
+  },
+  headline: {
+    marginBottom: 16,
+    textAlign: 'center',
+    marginHorizontal: 24,
+  },
+  placeHolder: {
+    marginBottom: 120,
+  },
+  actionButtonContainer: {
+    position: 'absolute',
+    bottom: 32,
+    right: 0,
+    left: 0,
+    marginHorizontal: 24,
+  },
+})

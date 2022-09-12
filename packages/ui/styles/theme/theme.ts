@@ -19,9 +19,13 @@ export type HoliTheme = typeof defaultTheme
 export const ThemeContext = React.createContext<{
   theme: HoliTheme
   toggleDarkMode: () => void
+  modalIsOpen: boolean
+  setModalIsOpen: (value: boolean) => void
 }>({
   theme: defaultTheme,
   toggleDarkMode: () => null,
+  modalIsOpen: false,
+  setModalIsOpen: () => false,
 })
 ThemeContext.displayName = 'ThemeContext'
 

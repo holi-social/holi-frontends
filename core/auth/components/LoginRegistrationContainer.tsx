@@ -19,13 +19,14 @@ interface LoginRegistrationContainerProps {
   onSubmit: (payload: any) => Promise<void>
 }
 
+const isWeb = Platform.OS === 'web'
+
 const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = ({ flow, mode = 'login', onSubmit }) => {
   const { userId, isLoggedIn } = useContext(AuthContext)
   const { t } = useTranslation()
   const { navigate, navigateBack } = useRouting()
   const mixins = useStyleMixins()
   const isLogin = mode === 'login'
-  const isWeb = Platform.OS === 'web'
 
   const toggleLoginRegistration = () => {
     const toggle = () => navigate(isLogin ? '/registration' : '/login')
@@ -39,7 +40,7 @@ const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = (
   }
 
   useLayoutEffect(() => {
-    isLoggedIn && navigate(`/profile/${userId}`)
+    isLoggedIn && navigate('/profile')
   }, [isLoggedIn, navigate, userId])
 
   return (
@@ -91,6 +92,7 @@ const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = (
                 variant="small"
                 style={mixins.inlineButtonFixSmall}
                 onPress={toggleLoginRegistration}
+                testID="btn-to-login-form"
               >
                 <HoliText size="small" style={styles.loginLinkText}>
                   {t('auth.login')}

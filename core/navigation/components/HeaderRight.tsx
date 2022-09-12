@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ViewStyle } from 'react-native'
+import { Platform, ViewStyle } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
@@ -16,18 +16,23 @@ export type HeaderRightProps = {
 }
 
 const HeaderRight: React.VFC<HeaderRightProps> = (props) => {
-  const { navigate, pathname } = useRouting()
+  const { pathname, navigate } = useRouting()
   const { headerRight } = useNavigationContext()
   const { user } = useContext(UserContext)
   const { isLoggedIn } = useContext(AuthContext)
   const hasUserData = isLoggedIn && user
   const { t } = useTranslation()
+  const isWeb = Platform.OS === 'web'
 
-  const pathToGo = pathname.includes('/login')
-    ? '/registration'
-    : pathname.includes('/registration')
-    ? '/login'
-    : '/profile/danbim'
+  let pathToGo = '/profile'
+
+  if (isWeb) {
+    pathToGo = pathname.includes('/login')
+      ? '/registration'
+      : pathname.includes('/registration')
+      ? '/login'
+      : '/profile'
+  }
 
   if (headerRight) return headerRight
 
@@ -38,7 +43,7 @@ const HeaderRight: React.VFC<HeaderRightProps> = (props) => {
     userAvatar = (
       <HoliUserAvatar
         imageSrc={user.avatar}
-        label={nameLabel === '' ? t('navigation.headerRight.avatarFallbackLabel') : nameLabel}
+        label={nameLabel || t('user.profileView.anonymous')}
         initials={user.avatarLabel}
         defaultColor={user.avatarDefaultColor}
         size="micro"

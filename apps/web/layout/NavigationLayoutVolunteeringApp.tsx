@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import Head from 'next/head'
 import React, { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -7,15 +8,20 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 import HomeTopBar from '@holi/web/components/navigation/HomeTopBar'
 
+import sharedLayoutStyles from './NavigationLayoutRoot.module.scss'
 import volunteeringLayoutStyles from './NavigationLayoutVolunteeringApp.module.scss'
+
+const mergedStyles = {...sharedLayoutStyles, ...volunteeringLayoutStyles}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildren<any>) => {
   const { navigate } = useRouting()
   const styles = getStyles()
   const { t } = useTranslation()
+  const { modalIsOpen } = useTheme()
 
   return (
     <>
@@ -28,13 +34,15 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
         Docu: https://www.w3.org/WAI/WCAG21/Techniques/aria/ARIA11.html
         Rule: https://dequeuniversity.com/rules/axe/4.4/region
       */}
-      <header className={volunteeringLayoutStyles.header}>
+      <header className={mergedStyles.header}>
         <HomeTopBar />
       </header>
 
-      <main className={volunteeringLayoutStyles.main}>{children}</main>
+      <main className={`${mergedStyles.main} ${modalIsOpen ? mergedStyles.fixed : ''}`}>
+        {children}
+      </main>
 
-      <footer className={volunteeringLayoutStyles.footer}>
+      <footer className={mergedStyles.footer}>
         <View
           style={styles.appNav}
           accessible={true}
@@ -42,7 +50,7 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
           accessibilityLabel={t('navigation.bottomNavigation')}
         >
           <HoliButton
-            label={t('volunteering.navigation.home')}
+            label={t('navigation.home')}
             inline
             transparent
             onPress={() => navigate('/')}
@@ -51,7 +59,7 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
             <HoliIcon icon="home-smile-2" size={35} color={colors.fontColorBlack} />
           </HoliButton>
           <HoliButton
-            label={t('volunteering.navigation.search')}
+            label={t('navigation.search')}
             inline
             transparent
             onPress={() => navigate('/search')}

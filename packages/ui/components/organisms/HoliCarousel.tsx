@@ -13,20 +13,24 @@ import {
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type HoliCarouselProps = {
+export interface HoliCarouselProps {
   slides: { title?: string; children: React.ReactNode }[]
   style?: StyleProp<ViewStyle>
+  marginHorizontal?: number
 }
 
-const HoliCarousel: React.FunctionComponent<HoliCarouselProps> = ({ slides, style }: HoliCarouselProps) => {
+const isWeb = Platform.OS === 'web'
+
+const HoliCarousel: React.FC<HoliCarouselProps> = ({
+  slides,
+  style,
+  marginHorizontal = 0, // margin between slide and device screen
+}: HoliCarouselProps) => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const carousel = React.useRef<ScrollView | null>(null)
 
-  const isWeb = Platform.OS === 'web'
-
   const { width: screenWidth } = useWindowDimensions()
 
-  const marginHorizontal = 24 // margin between slide and device screen
   const marginBetweenSlides = 8 // margin between slides
   const scrollingOffset = screenWidth - (marginHorizontal * 2 - marginBetweenSlides)
   const defaultSlideWidth = 350
@@ -106,7 +110,7 @@ const HoliCarousel: React.FunctionComponent<HoliCarouselProps> = ({ slides, styl
         </View>
       )}
 
-      {/* 
+      {/*
         Web scrollview uses simple scrolling.
         When screenWidth < horizontalScrollMinWidth, it uses snap and hides the horizontal scrollbar.
         The slide buttons underneath are not displayed on Web for now.

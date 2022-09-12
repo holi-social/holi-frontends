@@ -2,6 +2,6 @@ import * as Sentry from '@sentry/nextjs'
 
 export const logError = (error: Error, message?: string, stack?: string) => {
   const errorMessage = message ? ` ${message}:` : ''
-  console.error('[useErrorHandling.ts]' + errorMessage, error, stack)
+  console.error('[logError.ts]' + errorMessage, error, stack)
   Sentry.captureException(error)
 }
