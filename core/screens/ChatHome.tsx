@@ -19,7 +19,7 @@ const ChatHome: React.VFC<ChatHomeProps> = ({ navigation }: ChatHomeProps) => {
   const mixins = useStyleMixins()
 
   useLayoutEffect(() => {
-      setNavigationHeader(title)
+    setNavigationHeader(title)
     return clearNavigationHeader
   }, [navigation, title, setNavigationHeader, clearNavigationHeader])
 

@@ -19,7 +19,7 @@ const Search: React.VFC<SearchProps> = ({ navigation }: SearchProps) => {
   const mixins = useStyleMixins()
 
   useLayoutEffect(() => {
-      setNavigationHeader(title)
+    setNavigationHeader(title)
     return clearNavigationHeader
   }, [navigation, title, setNavigationHeader, clearNavigationHeader])
 

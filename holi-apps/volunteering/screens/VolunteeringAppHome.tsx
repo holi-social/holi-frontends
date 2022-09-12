@@ -18,7 +18,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = ({ navigation }
   const mixins = useStyleMixins()
 
   useLayoutEffect(() => {
-      setNavigationHeader(title)
+    setNavigationHeader(title)
     return clearNavigationHeader
   }, [navigation, title, setNavigationHeader, clearNavigationHeader])
 

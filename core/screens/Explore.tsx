@@ -19,7 +19,7 @@ const Explore: React.VFC<ExploreProps> = ({ navigation }: ExploreProps) => {
   const mixins = useStyleMixins()
 
   useLayoutEffect(() => {
-      setNavigationHeader(title)
+    setNavigationHeader(title)
     return clearNavigationHeader
   }, [navigation, title, setNavigationHeader, clearNavigationHeader])
 

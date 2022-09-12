@@ -33,7 +33,7 @@ const Post: React.VFC<PostProps> = ({ navigation }: PostProps) => {
   const mixins = useStyleMixins()
 
   useLayoutEffect(() => {
-      setNavigationHeader(title, {
+    setNavigationHeader(title, {
       headerLeft: () => <BackButton />,
     })
     return clearNavigationHeader

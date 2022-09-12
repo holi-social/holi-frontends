@@ -1,4 +1,4 @@
-import React, {useCallback } from 'react'
+import React, { useCallback } from 'react'
 
 import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -9,15 +9,15 @@ const useNavigationHeader = () => {
   const { setHeaderTitle, setTitleElement, setHeaderRight, setHeaderLeft, clearBackLinks } = useNavigationContext()
 
   const setNavigationHeader = useCallback(
-    (title: string, headerProps: HeaderProps) => {
+    (title: string, headerProps?: HeaderProps) => {
       setHeaderTitle(title)
       setTitleElement(() => (
         <HoliText bold style={{ paddingTop: 5 }}>
           {title}
         </HoliText>
       ))
-      if (headerProps.headerRight) setHeaderRight(headerProps.headerRight)
-      if (headerProps.headerLeft) setHeaderLeft(headerProps.headerLeft)
+      if (headerProps?.headerRight) setHeaderRight(headerProps.headerRight)
+      if (headerProps?.headerLeft) setHeaderLeft(headerProps.headerLeft)
     },
     [setHeaderTitle, setTitleElement, setHeaderRight, setHeaderLeft]
   )

@@ -13,7 +13,7 @@ const useNavigationHeader = () => {
   const { setHeaderTitle } = useNavigationContext()
 
   const setNavigationHeader = useCallback(
-    (title: string, headerProps: HeaderProps) => {
+    (title: string, headerProps?: HeaderProps) => {
       const headerOptions: NativeStackNavigationOptions = {}
       setHeaderTitle(title)
       headerOptions.headerCenter = () => (

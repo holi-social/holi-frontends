@@ -40,7 +40,7 @@ const Registration: React.VFC = () => {
 
   // update header
   useLayoutEffect(() => {
-      setNavigationHeader(t('auth.register'), {
+    setNavigationHeader(t('auth.register'), {
       headerLeft: () => <BackButton icon={isWeb ? 'arrow-left-s' : 'arrow-down-s'} />,
     })
 

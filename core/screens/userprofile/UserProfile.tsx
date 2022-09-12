@@ -66,10 +66,10 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
   const profileTitle = t('profile.title')
   // to avoid a FOUC, we use useLayoutEffect (synchronously) instead of useEffect for updating the navigation
   useLayoutEffect(() => {
-      setNavigationHeader(profileTitle)
+    setNavigationHeader(profileTitle)
     return clearNavigationHeader
   }, [profileTitle, navigation, setNavigationHeader, clearNavigationHeader])
-    // We need to include editMode and showModal, because otherwise the profile edit button breaks due to missing re-renderings
+  // We need to include editMode and showModal, because otherwise the profile edit button breaks due to missing re-renderings
 
   if (error) {
     if (isNotFoundError(error)) {

@@ -19,7 +19,7 @@ const Notifications: React.VFC<NotificationsProps> = ({ navigation }: Notificati
   const mixins = useStyleMixins()
 
   useLayoutEffect(() => {
-      setNavigationHeader(title)
+    setNavigationHeader(title)
     return clearNavigationHeader
   }, [navigation, title, setNavigationHeader, clearNavigationHeader])
 
