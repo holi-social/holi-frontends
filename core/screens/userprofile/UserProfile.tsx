@@ -69,7 +69,7 @@ const UserProfile: React.VFC = () => {
       })
       return clearNavigationHeader
     },
-    // We need to include editMode and showModal
+    // We need to include editMode and showModal, because otherwise the profile edit button breaks due to missing re-renderings
     // setNavigationHeader would cause endless loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [isLoggedIn, user, editMode, showModal]
