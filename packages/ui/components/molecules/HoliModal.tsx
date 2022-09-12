@@ -101,7 +101,7 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
     if (Platform.OS === 'web') {
       navigator && navigator.maxTouchPoints != 0 ? setIsTouch(true) : setIsTouch(false)
     }
-  }, [isTouch])
+  }, [])
 
   return (
     <>
