@@ -20,6 +20,8 @@ module.exports = {
       directory: storiesDirectory,
       files: '*.stories.*',
     },
+    '../../../holi-apps/donations/**/__stories__/*.stories.mdx',
+    '../../../holi-apps/donations/**/__stories__/*.stories.@(js|jsx|ts|tsx)',
   ],
   addons: [
     '@storybook/addon-links',
