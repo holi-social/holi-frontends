@@ -1,5 +1,6 @@
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 /* eslint-disable @typescript-eslint/no-var-requires */
+const { withExpo } = require('@expo/next-adapter')
 const withPlugins = require('next-compose-plugins')
 const withTranspileModules = require('next-transpile-modules')
 const path = require('path')
@@ -49,6 +50,7 @@ module.exports = withSentryConfig(
     [
       withTranspileModules(
         [
+          'react-native-web',
           'react-native-reanimated',
           'react-native-card-stack-swiper',
           'react-native-gesture-handler',
@@ -63,6 +65,7 @@ module.exports = withSentryConfig(
           debug: true,
         }
       ),
+      [withExpo, { projectRoot: __dirname }],
     ],
     nextConfig
   ),

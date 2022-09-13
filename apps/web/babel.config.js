@@ -3,6 +3,7 @@ module.exports = {
     'next/babel',
     // '@babel/preset-typescript',
     ['babel-preset-expo', { jsxRuntime: 'automatic' }],
+    '@expo/next-adapter/babel',
   ],
   plugins: [
     ['react-native-web', { commonjs: true }],
