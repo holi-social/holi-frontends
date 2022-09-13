@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@apollo/client": "3.5.9",
+    "@holi-apps/donations": "*",
     "@holi-apps/volunteering": "*",
     "@holi/api": "*",
     "@holi/core": "*",

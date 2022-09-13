@@ -22,7 +22,7 @@ export const defaultAuthSteps = async (
   const isLogin = mode === 'login'
 
   // open user profile
-  await tapOnElementWithTestId('btn-to-profile-view')
+  await tapOnElementWithTestId('btn-to-profile-view', 10000)
 
   // hit login
   const buttonId = isLogin ? 'btn-to-login-form' : 'btn-to-registration-form'
@@ -61,7 +61,9 @@ export const logout = async () => {
   if (logoutButtonExists) {
     // Logout
     await tapOnElementWithTestId('btn-to-logout')
+    await waitForElementWithTestId('confirm-logout-button')
     await tapOnElementWithTestId('confirm-logout-button')
-    await waitForElementWithTestId('btn-to-login-form')
+    await tapOnElementWithTestId('nav-button-home')
+    await waitForElementWithTestId('btn-to-profile-view')
   }
 }

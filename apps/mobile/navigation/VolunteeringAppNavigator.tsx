@@ -31,7 +31,7 @@ export const AppNavigation: React.FC = ({ children }) => {
     >
       <View style={{ flexDirection: 'row', padding: 20 }}>
         <HoliButton
-          label={t('volunteering.navigation.home')}
+          label={t('navigation.home')}
           inline
           transparent
           onPress={() => navigate('/')}
@@ -39,7 +39,7 @@ export const AppNavigation: React.FC = ({ children }) => {
         >
           <HoliIcon icon="search" size={30} color={colors.fontColorBlack} />
         </HoliButton>
-        <HoliButton label={t('volunteering.navigation.search')} inline transparent onPress={() => navigate('/search')}>
+        <HoliButton label={t('navigation.search')} inline transparent onPress={() => navigate('/search')}>
           <HoliIcon icon="home-smile-2" size={30} color={colors.fontColorBlack} />
         </HoliButton>
       </View>

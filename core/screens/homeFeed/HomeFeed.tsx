@@ -37,20 +37,20 @@ type DummyApp = {
 
 const appSwiperDummyApps: DummyApp[] = [
   {
+    icon: 'loader',
+    nameKey: 'apps.donations.name',
+    path: '/apps/donations',
+    testID: 'app-tile-donations',
+    hasUpdates: false,
+    backgroundColor: colors.positivepurple,
+  },
+  {
     icon: 'chat',
     nameKey: 'apps.volunteering.name',
     path: '/apps/volunteering',
     testID: 'app-tile-volunteering',
     hasUpdates: true,
     backgroundColor: colors.impactyellow,
-  },
-  {
-    icon: 'loader',
-    nameKey: 'apps.donations.name',
-    path: '/apps/volunteering',
-    testID: 'app-tile-donations',
-    hasUpdates: false,
-    backgroundColor: colors.positivepurple,
   },
   {
     icon: 'home-smile-2',
@@ -92,8 +92,8 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
 
 const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   const [showEditorsModal, setShowEditorsModal] = useState(false)
-  const { isLoggedIn } = useContext(AuthContext)
   const { navigate } = useRouting()
+  const { isLoggedIn } = useContext(AuthContext)
   const { width } = useWindowDimensions()
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
@@ -188,12 +188,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         </View>
       </View>
 
-      {/* User suggestions outside of container mixin for full width scrolling */}
-      {isLoggedIn && (
-        <View style={styles.userSuggestionsContainer}>
-          <UserSuggestions />
-        </View>
-      )}
+      {isLoggedIn && <UserSuggestions style={styles.userSuggestionsContainer} />}
     </DefaultLayout>
   )
 }

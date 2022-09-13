@@ -34,6 +34,11 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
       },
     },
     // apps from the HOLI store
+    DonationsApp: {
+      screens: {
+        DonationsAppHome: 'apps/donations',
+      },
+    },
     VolunteeringApp: {
       screens: {
         VolunteeringAppHome: 'apps/volunteering',

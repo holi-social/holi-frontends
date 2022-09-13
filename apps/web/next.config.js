@@ -52,6 +52,7 @@ module.exports = withSentryConfig(
           'react-native-reanimated',
           'react-native-card-stack-swiper',
           'react-native-gesture-handler',
+          '@holi-apps/donations',
           '@holi-apps/volunteering',
           '@holi/ui',
           '@holi/core',
