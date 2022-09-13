@@ -50,7 +50,6 @@ module.exports = withSentryConfig(
     [
       withTranspileModules(
         [
-          'react-native-web',
           'react-native-reanimated',
           'react-native-card-stack-swiper',
           'react-native-gesture-handler',
