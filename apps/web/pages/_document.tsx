@@ -1,4 +1,5 @@
-import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document'
+import Document from '@expo/next-adapter/document'
+import { DocumentContext, Head, Html, Main, NextScript } from 'next/document'
 import { Children } from 'react'
 import { AppRegistry } from 'react-native'
 
