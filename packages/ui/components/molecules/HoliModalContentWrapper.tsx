@@ -1,6 +1,7 @@
 import React from 'react'
 import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { useKeyboard } from '@holi/core/helpers'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
@@ -22,6 +23,8 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
   style,
   testID = 'holi-modal-content',
 }) => {
+  const { keyboardHeight } = useKeyboard()
+
   return (
     <View style={[styles.container, style]} testID={testID}>
       {prependChildren}
@@ -38,7 +41,7 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
         <View style={styles.placeHolder} />
       </ScrollView>
 
-      <View style={styles.actionButtonContainer}>
+      <View style={[styles.actionButtonContainer, keyboardHeight > 0 && styles.hidden]}>
         <HoliButton label={actionButtonText} onPress={onActionButtonPress} testID={`${testID}-close-btn`}>
           {actionButtonText}
         </HoliButton>
@@ -50,6 +53,11 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
 export default HoliModalContentWrapper
 
 const styles = StyleSheet.create({
+  hidden: {
+    // display: 'none',
+    opacity: 0,
+    visibility: 'none',
+  },
   container: {
     marginHorizontal: 'auto',
     maxHeight: '100%',
@@ -62,7 +70,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
   },
   placeHolder: {
-    marginBottom: 120,
+    // space behind the action button
+    // and room when the keyboard is open
+    height: 120,
   },
   actionButtonContainer: {
     position: 'absolute',
@@ -70,5 +80,8 @@ const styles = StyleSheet.create({
     right: 0,
     left: 0,
     marginHorizontal: 24,
+    opacity: 1,
+    visibility: 'visible',
+    transition: 'all 2s',
   },
 })

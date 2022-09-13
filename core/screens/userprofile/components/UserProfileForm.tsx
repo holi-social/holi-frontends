@@ -81,38 +81,28 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
     displayError(error, t('user.profileForm.error.saving'))
   }
 
-  const header = (
-    <View style={styles.headerContainer}>
-      <HoliUserAvatar
-        imageSrc={user?.avatar || ''}
-        label={user?.firstName || ''}
-        initials={user?.avatarLabel || ''}
-        defaultColor={user?.avatarDefaultColor || '#FFAE86'}
-        size="medium"
-        style={styles.avatar}
-      />
-
-      <View style={styles.addImage}>
-        <HoliText style={{ marginRight: 13 }}>Add a profile image</HoliText>
-        <HoliIcon icon="image" color={colors.fontColorGrey} />
-      </View>
-    </View>
-  )
-
-  const prependComponent = (
-    <>
-      {notificationComponent}
-      {header}
-    </>
-  )
-
   return (
     <HoliModalContentWrapper
       actionButtonText={t('user.profileForm.save')}
       onActionButtonPress={submit}
-      prependChildren={prependComponent}
+      prependChildren={notificationComponent}
       testID={testID}
     >
+      <View style={styles.headerContainer}>
+        <HoliUserAvatar
+          imageSrc={user?.avatar || ''}
+          label={user?.firstName || ''}
+          initials={user?.avatarLabel || ''}
+          defaultColor={user?.avatarDefaultColor || '#FFAE86'}
+          size="medium"
+          style={styles.avatar}
+        />
+
+        <View style={styles.addImage}>
+          <HoliText style={{ marginRight: 13 }}>Add a profile image</HoliText>
+          <HoliIcon icon="image" color={colors.fontColorGrey} />
+        </View>
+      </View>
       <View style={styles.mainContainer}>
         <HoliTextInput
           value={firstName}
@@ -178,6 +168,8 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
 const styles = StyleSheet.create({
   mainContainer: {
     marginHorizontal: 24,
+    marginTop: 30,
+    paddingBottom: 50,
   },
   headerContainer: {
     alignItems: 'center',
@@ -193,12 +185,6 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 16,
-  },
-  scrollView: {
-    marginTop: 24,
-    paddingHorizontal: 8,
-    width: '100%',
-    paddingBottom: 150,
   },
   notification: {
     ...StyleSheet.absoluteFillObject,

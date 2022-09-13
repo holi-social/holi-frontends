@@ -94,10 +94,13 @@ exports[`renders correctly renders correctly when open 1`] = `
       style={
         Object {
           "backgroundColor": "#fff",
+          "borderColor": "#0f0",
           "borderTopLeftRadius": 24,
           "borderTopRightRadius": 24,
+          "borderWidth": 1,
           "bottom": "0%",
-          "maxHeight": "90%",
+          "maxHeight": "96%",
+          "minHeight": "0%",
           "overflow": "hidden",
           "paddingTop": 47,
           "shadowColor": "#000",
