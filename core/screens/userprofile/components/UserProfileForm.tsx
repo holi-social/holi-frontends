@@ -1,10 +1,11 @@
 import { useMutation } from '@apollo/client'
+import { MediaTypeOptions } from 'expo-image-picker'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import { displayError } from '@holi/core/errors/helpers'
-import { MediaTypeOptions, useMediaLibraryImagePicker } from '@holi/core/helpers'
+import { useMediaLibraryImagePicker } from '@holi/core/helpers'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserInputSchema,

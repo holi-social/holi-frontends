@@ -1,7 +1,6 @@
 import {
   ImageInfo,
   ImagePickerOptions,
-  MediaTypeOptions,
   PermissionStatus,
   launchImageLibraryAsync,
   useMediaLibraryPermissions,
@@ -53,5 +52,3 @@ export const useMediaLibraryImagePicker = () => {
     pickImage,
   }
 }
-
-export { MediaTypeOptions }
