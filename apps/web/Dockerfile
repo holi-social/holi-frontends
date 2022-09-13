@@ -4,6 +4,7 @@ FROM node:16-alpine
 WORKDIR /app
 
 ENV NODE_ENV production
+ENV NODE_OPTIONS --openssl-legacy-provider
 
 COPY ./next.config.js ./
 COPY ./public ./public
