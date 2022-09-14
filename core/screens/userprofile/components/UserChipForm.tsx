@@ -91,17 +91,6 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
     )
   }
 
-  if (loading || saved) {
-    notificationComponent = (
-      <View
-        style={styles.notification}
-        testID={['user-profile-chipform', typeMetadata.keyInUserObject, 'saving'].join('-')}
-      >
-        <HoliText>{t('user.profileForm.saving')}</HoliText>
-      </View>
-    )
-  }
-
   if (error) {
     displayError(error, t('user.profileForm.error.saving'))
   }
@@ -123,6 +112,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
       headlineText={t(`user.${typeMetadata.keyInUserObject}.form.headline`)}
       prependChildren={notificationComponent}
       style={styles.modalWrapper}
+      loading={loading || saved}
       testID="user-profile-chipform"
     >
       <View style={styles.mainContainer}>

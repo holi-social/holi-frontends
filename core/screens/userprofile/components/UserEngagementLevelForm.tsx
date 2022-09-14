@@ -63,14 +63,6 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
     )
   }
 
-  if (loading) {
-    notificationComponent = (
-      <View style={styles.notification}>
-        <HoliText>{t('user.profileForm.saving')}</HoliText>
-      </View>
-    )
-  }
-
   if (error) {
     displayError(error, t('user.profileForm.error.saving'))
   }
@@ -87,6 +79,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
       onActionButtonPress={submit}
       headlineText={t('user.engagementLevel.form.question')}
       prependChildren={notificationComponent}
+      loading={loading}
     >
       <View style={styles.mainContainer}>
         <View style={styles.buttonsContainer}>
