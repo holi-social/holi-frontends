@@ -69,14 +69,6 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
     )
   }
 
-  if (loading) {
-    notificationComponent = (
-      <View style={styles.notification} testID={`${testID}-saving`}>
-        <HoliText>{t('user.profileForm.saving')}</HoliText>
-      </View>
-    )
-  }
-
   if (error) {
     displayError(error, t('user.profileForm.error.saving'))
   }
@@ -86,6 +78,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
       actionButtonText={t('user.profileForm.save')}
       onActionButtonPress={submit}
       prependChildren={notificationComponent}
+      loading={loading}
       testID={testID}
     >
       <View style={styles.headerContainer}>

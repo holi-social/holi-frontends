@@ -1,9 +1,12 @@
 import React from 'react'
 import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
 import { useKeyboard } from '@holi/core/helpers'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export interface HoliModalContentWrapper {
   actionButtonText: string
@@ -11,6 +14,7 @@ export interface HoliModalContentWrapper {
   prependChildren?: React.ReactNode
   onActionButtonPress: () => void
   style?: StyleProp<ViewStyle>
+  loading?: boolean
   testID?: string
 }
 
@@ -21,6 +25,7 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
   prependChildren,
   children,
   style,
+  loading = false,
   testID = 'holi-modal-content',
 }) => {
   const { keyboardHeight } = useKeyboard()
@@ -28,6 +33,14 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
   return (
     <View style={[styles.container, style]} testID={testID}>
       {prependChildren}
+
+      {loading && (
+        <Animated.View style={styles.loaderContainer} entering={FadeIn} exiting={FadeOut.delay(300)}>
+          <View style={styles.loader}>
+            <HoliLottie animType="loader" />
+          </View>
+        </Animated.View>
+      )}
 
       <ScrollView>
         {headlineText && (
@@ -58,6 +71,18 @@ const styles = StyleSheet.create({
     maxHeight: '100%',
     width: '100%',
     maxWidth: 800,
+  },
+  loaderContainer: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 16,
+    zIndex: 2,
+    backgroundColor: colors.backgroundColorWhite,
+  },
+  loader: {
+    height: 64,
+    width: 64,
   },
   headline: {
     marginBottom: 16,

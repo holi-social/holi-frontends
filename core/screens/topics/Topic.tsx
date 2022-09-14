@@ -35,13 +35,7 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
 
   useLayoutEffect(() => {
     const title = t('topics.topic.title', { title: topicId })
-    setNavigationHeader({
-      title: title,
-      titleElement: () => (
-        <HoliText bold style={{ paddingTop: 5 }}>
-          {title}
-        </HoliText>
-      ),
+    setNavigationHeader(title, {
       headerLeft: () => <BackButton />,
     })
     return clearNavigationHeader
