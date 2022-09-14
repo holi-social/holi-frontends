@@ -19,7 +19,7 @@ type DonationsAppHomeProps = NativeStackScreenProps<HomeStackScreens>
  * DEMO MOCK CODE START
  */
 
-const mockData: Project[] = [
+export const donationsMockData: Project[] = [
   {
     id: 12345,
     title: 'Pakistan: Nothilfe nach Überschwemmungen',
@@ -116,7 +116,7 @@ const DonationsAppHome: React.VFC<DonationsAppHomeProps> = ({ navigation }: Dona
       <HoliHeading level="1" size="super" testID="apps-donations-heading">
         {title}
       </HoliHeading>
-      <DonationListing data={mockData} />
+      <DonationListing data={donationsMockData} />
     </View>
   )
 }
