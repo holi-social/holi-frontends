@@ -42,14 +42,8 @@ const OwnProfile: React.VFC = () => {
 
   // to avoid a FOUC, we use useLayoutEffect (synchronously) instead of useEffect for updating the navigation
   useLayoutEffect(() => {
-    const profileTitle = isLoggedIn && user ? user.firstName : t('profile.title')
-    setNavigationHeader({
-      title: profileTitle,
-      titleElement: () => (
-        <HoliText bold style={{ paddingTop: 5 }}>
-          {profileTitle}
-        </HoliText>
-      ),
+    const profileTitle = isLoggedIn && user && user.firstName ? user.firstName : t('profile.title')
+    setNavigationHeader(profileTitle, {
       headerRight: () =>
         isLoggedIn && (
           <HoliButton

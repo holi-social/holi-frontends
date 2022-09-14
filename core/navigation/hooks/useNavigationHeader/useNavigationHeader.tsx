@@ -1,9 +1,10 @@
-import { useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { NativeStackNavigationOptions } from 'react-native-screens/native-stack'
 
 import { useNavigation } from '@react-navigation/native'
 
 import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 
 import type { HeaderProps } from './index'
 
@@ -12,13 +13,16 @@ const useNavigationHeader = () => {
   const { setHeaderTitle } = useNavigationContext()
 
   const setNavigationHeader = useCallback(
-    (headerProps: HeaderProps) => {
+    (title: string, headerProps?: HeaderProps) => {
       const headerOptions: NativeStackNavigationOptions = {}
-      const title = headerProps.title || ''
       setHeaderTitle(title)
-      if (headerProps.titleElement) headerOptions.titleElement = headerProps.titleElement
-      if (headerProps.headerLeft) headerOptions.headerLeft = headerProps.headerLeft
-      if (headerProps.headerRight) headerOptions.headerRight = headerProps.headerRight
+      headerOptions.headerCenter = () => (
+        <HoliText bold style={{ paddingTop: 5 }}>
+          {title}
+        </HoliText>
+      )
+      if (headerProps?.headerLeft) headerOptions.headerLeft = headerProps.headerLeft
+      if (headerProps?.headerRight) headerOptions.headerRight = headerProps.headerRight
       setOptions?.(headerOptions)
     },
     [setOptions, setHeaderTitle]
@@ -26,7 +30,7 @@ const useNavigationHeader = () => {
 
   const clearNavigationHeader = useCallback(() => {
     const headerOptions: NativeStackNavigationOptions = {}
-    headerOptions.titleElement = undefined
+    headerOptions.headerCenter = undefined
     headerOptions.headerLeft = undefined
     headerOptions.headerRight = undefined
     setOptions?.(headerOptions)

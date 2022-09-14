@@ -66,14 +66,7 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
   const profileTitle = t('profile.title')
   // to avoid a FOUC, we use useLayoutEffect (synchronously) instead of useEffect for updating the navigation
   useLayoutEffect(() => {
-    setNavigationHeader({
-      title: profileTitle,
-      titleElement: () => (
-        <HoliText bold style={{ paddingTop: 5 }}>
-          {profileTitle}
-        </HoliText>
-      ),
-    })
+    setNavigationHeader(profileTitle)
     return clearNavigationHeader
   }, [profileTitle, navigation, setNavigationHeader, clearNavigationHeader])
 
