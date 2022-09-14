@@ -20,7 +20,7 @@ const Logout: React.VoidFunctionComponent = () => {
   const { t } = useTranslation()
 
   useEffect(() => {
-    setNavigationHeader({
+    setNavigationHeader('', {
       headerLeft: () => <BackButton icon="arrow-down-s" />,
     })
     return clearNavigationHeader

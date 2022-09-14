@@ -102,14 +102,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   const mixins = useStyleMixins()
 
   useLayoutEffect(() => {
-    setNavigationHeader({
-      title: headerTitle,
-      titleElement: () => (
-        <HoliText bold style={{ paddingTop: 5 }}>
-          {headerTitle}
-        </HoliText>
-      ),
-    })
+    setNavigationHeader(headerTitle)
     return clearNavigationHeader
   }, [navigation, headerTitle, setNavigationHeader, clearNavigationHeader])
 
