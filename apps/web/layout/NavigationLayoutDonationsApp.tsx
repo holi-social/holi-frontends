@@ -11,10 +11,10 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 import HomeTopBar from '@holi/web/components/navigation/HomeTopBar'
 
-import sharedLayoutStyles from './NavigationLayoutRoot.module.scss'
 import donationsLayoutStyles from './NavigationLayoutDonationsApp.module.scss'
+import sharedLayoutStyles from './NavigationLayoutRoot.module.scss'
 
-const mergedStyles = {...sharedLayoutStyles, ...donationsLayoutStyles}
+const mergedStyles = { ...sharedLayoutStyles, ...donationsLayoutStyles }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildren<any>) => {
@@ -38,9 +38,7 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
         <HomeTopBar />
       </header>
 
-      <main className={`${mergedStyles.main} ${modalIsOpen ? mergedStyles.fixed : ''}`}>
-        {children}
-      </main>
+      <main className={`${mergedStyles.main} ${modalIsOpen ? mergedStyles.fixed : ''}`}>{children}</main>
 
       <footer className={mergedStyles.footer}>
         <View
@@ -58,12 +56,7 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
           >
             <HoliIcon icon="home-smile-2" size={35} color={colors.fontColorBlack} />
           </HoliButton>
-          <HoliButton
-            label={t('navigation.search')}
-            inline
-            transparent
-            onPress={() => navigate('/search')}
-          >
+          <HoliButton label={t('navigation.search')} inline transparent onPress={() => navigate('/search')}>
             <HoliIcon icon="search" size={35} color={colors.fontColorBlack} />
           </HoliButton>
         </View>
