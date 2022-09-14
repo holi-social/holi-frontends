@@ -175,7 +175,6 @@
   "user.profileForm.pronouns": "Pronouns (e.g. them/theirs)",
   "user.profileForm.pronounsPlaceholder": "Insert your preferred pronouns",
   "user.profileForm.save": "Save",
-  "user.profileForm.saving": "Saving...",
   "user.profileView.connect": "Connect",
   "user.profileView.message": "Message",
   "user.profileView.noUser": "No user fetched",
