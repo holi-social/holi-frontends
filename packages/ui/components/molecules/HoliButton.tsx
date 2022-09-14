@@ -1,4 +1,4 @@
-import React, { ReactChild, ReactChildren, ReactNode } from 'react'
+import React, { useMemo } from 'react'
 import {
   AccessibilityProps,
   AccessibilityRole,
@@ -28,38 +28,41 @@ export type HoliButtonProps = {
   variant?: HoliButtonVariant
   transparent?: boolean
   disabled?: boolean
-  children: ReactChild | ReactChildren | ReactNode | Element
   disableFocusability?: boolean
+  accessibilityLabel?: string // optional to overwrite the default label prop
   accessibilityRole?: AccessibilityRole
   accessibilitySelected?: boolean
   accessibilityControls?: string
-  tabIndex?: number
-  // only for TS (props are added by {...props})
-  onPress?: null | ((event: GestureResponderEvent) => void)
   testID?: string
+  onPress?: null | ((event: GestureResponderEvent) => void)
 }
 
-const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
-  id,
-  label,
+const HoliButton: React.FC<HoliButtonProps> = ({
+  id = undefined,
   inline = false,
   type = 'primary',
   variant = 'default',
   transparent = false,
   disabled = false,
   disableFocusability = false,
+  accessibilityRole = 'button',
+  accessibilitySelected = undefined,
+  accessibilityControls = undefined,
   ...props
-}: HoliButtonProps) => {
+}: React.PropsWithChildren<HoliButtonProps>) => {
   const isSmall = variant === 'small'
   const isPrimary = type === 'primary'
 
-  const styles = getStyles(inline)
+  const styles = useMemo(() => getStyles(inline), [inline])
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),
-    accessibilityRole: 'button',
-    accessibilityLabel: label,
+    accessibilityRole,
+    accessibilityLabel: props.accessibilityLabel || props.label,
+    accessibilityControls,
+    accessibilitySelected,
   }
+
   const content =
     typeof props.children === 'string' ? (
       <HoliText
@@ -77,8 +80,8 @@ const HoliButton: React.FunctionComponent<HoliButtonProps> = ({
   return (
     <Pressable
       {...accessibilityProps}
-      {...props}
       nativeID={id}
+      testID={props.testID}
       disabled={disabled}
       onPress={(event) => {
         !disabled && props.onPress && props.onPress(event)
