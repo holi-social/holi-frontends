@@ -69,7 +69,6 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
     setNavigationHeader(profileTitle)
     return clearNavigationHeader
   }, [profileTitle, navigation, setNavigationHeader, clearNavigationHeader])
-  // We need to include editMode and showModal, because otherwise the profile edit button breaks due to missing re-renderings
 
   if (error) {
     if (isNotFoundError(error)) {
