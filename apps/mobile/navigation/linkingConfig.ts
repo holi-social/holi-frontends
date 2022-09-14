@@ -37,6 +37,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     DonationsApp: {
       screens: {
         DonationsAppHome: 'apps/donations',
+        DonationsAppDetail: 'apps/donations/:donationId',
       },
     },
     VolunteeringApp: {

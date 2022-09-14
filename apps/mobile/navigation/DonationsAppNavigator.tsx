@@ -4,15 +4,18 @@ import { View } from 'react-native'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
+import BackButton from '@holi/core/navigation/components/BackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
+import DonationsAppDetail from '@holi-apps/donations/screens/DonationsAppDetail'
 import DonationsAppHome from '@holi-apps/donations/screens/DonationsAppHome'
 
 export type DonationsAppScreensList = {
   DonationsAppHome: undefined
+  DonationsAppDetail: undefined
 }
 
 const DonationsAppStack = createNativeStackNavigator<DonationsAppScreensList>()
@@ -62,6 +65,15 @@ const DonationsAppNavigator: React.VFC = () => {
         }}
       >
         <DonationsAppStack.Screen name="DonationsAppHome" component={DonationsAppHome} />
+        <DonationsAppStack.Screen
+          name="DonationsAppDetail"
+          component={DonationsAppDetail}
+          options={{
+            headerBackTitleVisible: false,
+            headerBackVisible: false,
+            headerLeft: BackButton,
+          }}
+        />
       </DonationsAppStack.Navigator>
       <AppNavigation />
     </View>

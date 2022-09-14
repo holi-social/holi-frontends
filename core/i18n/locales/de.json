@@ -1,6 +1,8 @@
 {
   "apps.adsForGood.name": "Ads for Good",
   "apps.donations.name": "Donations",
+  "apps.donations.detail.title": "Give",
+  "apps.donations.detail.missingDonationId": "DonationId fehlt",
   "apps.factCheck.name": "FactCheck",
   "apps.goodNews.name": "Good News",
   "apps.volunteering.name": "Volunteering",
