@@ -101,11 +101,8 @@ const styles = StyleSheet.create({
     left: 0,
     marginHorizontal: 24,
     opacity: 1,
-    visibility: 'visible',
-    transition: 'all 2s',
   },
   hiddenButton: {
-    opacity: 0,
-    visibility: 'none',
+    display: 'none',
   },
 })
