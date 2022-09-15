@@ -1,14 +1,16 @@
 import {
+  ImageInfo,
   ImagePickerOptions,
   PermissionStatus,
   launchImageLibraryAsync,
   useMediaLibraryPermissions,
 } from 'expo-image-picker'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 
 import { displayError } from '@holi/core/errors/helpers'
 
 export const useMediaLibraryImagePicker = () => {
+  const [image, setImage] = useState<ImageInfo>()
   const [mediaLibraryPermissionInfo, requestMediaLibraryPermission] = useMediaLibraryPermissions()
 
   const verifyPermissions = useCallback(async () => {
@@ -37,11 +39,16 @@ export const useMediaLibraryImagePicker = () => {
       const image = await launchImageLibraryAsync(pickerOptions)
 
       if (!image.cancelled) {
+        setImage(image)
+
         return image
       }
     },
     [verifyPermissions]
   )
 
-  return pickImage
+  return {
+    image,
+    pickImage,
+  }
 }

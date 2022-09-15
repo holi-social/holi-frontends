@@ -1,21 +1,10 @@
 import React, { useRef } from 'react'
 
-import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
-import { ImageInfo } from './types'
+import { HoliImagePickerProps } from './types'
 
-interface HoliImagePickerProps {
-  imagePickerOptions: unknown
-  buttonProps: Omit<HoliButtonProps, 'children' | 'onPress'>
-  onPickImage: (image: ImageInfo) => void
-}
-
-export const HoliImagePicker: React.FC<HoliImagePickerProps> = ({
-  children,
-  // imagePickerOptions,
-  buttonProps,
-  onPickImage,
-}) => {
+const HoliImagePicker: React.FC<HoliImagePickerProps> = ({ children, buttonProps, onPickImage }) => {
   const imageInputNode = useRef<HTMLInputElement>(null)
 
   const onChangeHandler = async () => {
@@ -61,3 +50,7 @@ export const HoliImagePicker: React.FC<HoliImagePickerProps> = ({
     </>
   )
 }
+
+export default HoliImagePicker
+
+export type { HoliImagePickerProps }

@@ -1,2 +1,2 @@
 export * from './useSafeDispatch'
-export * from './imagePicker'
+export * from './useMediaLibraryImagePicker'

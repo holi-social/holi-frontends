@@ -1,5 +1,4 @@
 import { useMutation } from '@apollo/client'
-import { MediaTypeOptions } from 'expo-image-picker'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -17,7 +16,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
-import { HoliImagePicker } from '@holi/ui/components/organisms/HoliImagePicker'
+import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -93,13 +92,6 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           label: t('profile.avatar.add'),
           transparent: true,
           inline: true,
-        }}
-        imagePickerOptions={{
-          mediaTypes: MediaTypeOptions.Images,
-          allowsEditing: true,
-          aspect: [16, 9],
-          quality: 1,
-          base64: true,
         }}
         onPickImage={setPickedAvatar}
       >
