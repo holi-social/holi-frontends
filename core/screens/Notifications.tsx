@@ -8,7 +8,6 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type NotificationsProps = NativeStackScreenProps<HomeStackScreens>
@@ -20,14 +19,7 @@ const Notifications: React.VFC<NotificationsProps> = ({ navigation }: Notificati
   const mixins = useStyleMixins()
 
   useLayoutEffect(() => {
-    setNavigationHeader({
-      title: title,
-      titleElement: () => (
-        <HoliText bold style={{ paddingTop: 5 }}>
-          {title}
-        </HoliText>
-      ),
-    })
+    setNavigationHeader(title)
     return clearNavigationHeader
   }, [navigation, title, setNavigationHeader, clearNavigationHeader])
 
