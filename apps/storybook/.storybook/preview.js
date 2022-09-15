@@ -2,9 +2,9 @@ import * as NextImage from 'next/image'
 import * as React from 'react'
 
 import i18n, { initI18n } from '@holi/core/i18n'
+import '@holi/storybook/storybook.css'
 import '@holi/ui/assets/fonts/CircularStd/style.css'
 import '@holi/web/styles/common.css'
-import '@holi/storybook/storybook.css'
 
 const awaitI18nInitialization = initI18n()
 

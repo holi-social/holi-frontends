@@ -55,7 +55,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             },
             Object {
               "marginTop": 24,
-              "paddingBottom": 80,
             },
           ]
         }
@@ -1451,7 +1450,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
       <View
         style={
           Object {
-            "marginBottom": 120,
+            "height": 120,
           }
         }
       />
@@ -1459,13 +1458,17 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
   </RCTScrollView>
   <View
     style={
-      Object {
-        "bottom": 32,
-        "left": 0,
-        "marginHorizontal": 24,
-        "position": "absolute",
-        "right": 0,
-      }
+      Array [
+        Object {
+          "bottom": 32,
+          "left": 0,
+          "marginHorizontal": 24,
+          "opacity": 1,
+          "position": "absolute",
+          "right": 0,
+        },
+        false,
+      ]
     }
   >
     <View

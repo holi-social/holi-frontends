@@ -44,6 +44,8 @@
   "auth.registration.heading": "Create an account",
   "chat.title": "Chat",
   "date": "{{date, MMM, D}}",
+  "donations.donationListing.error": "Loading donation projects failed",
+  "donations.donationListing.loading": "Loading donation projects...",
   "error.alert.button": "OK",
   "error.alert.headline": "Something went wrong",
   "error.alert.title": "Error",

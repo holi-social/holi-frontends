@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
   },
   carouselContainer: {
     marginTop: 24,
-    paddingBottom: 80,
   },
   userCard: {
     flex: 1,

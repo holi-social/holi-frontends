@@ -7,3 +7,6 @@ apps/web/.next
 apps/web/build
 apps/storybook/storybook-static
 e2e/web/playwright-report
+# minified json files
+packages/ui/assets/fonts/**/*.json
+packages/ui/lottie-animations/loader.json

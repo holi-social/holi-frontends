@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import { displayError } from '@holi/core/errors/helpers'
-import { useMediaLibraryImagePicker } from '@holi/core/helpers'
+import { useMediaLibraryImagePicker } from '@holi/core/helpers/imagePicker'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserInputSchema,
@@ -185,6 +185,8 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
 const styles = StyleSheet.create({
   mainContainer: {
     marginHorizontal: 24,
+    marginTop: 30,
+    paddingBottom: Platform.OS === 'ios' ? 200 : 50,
   },
   headerContainer: {
     alignItems: 'center',
@@ -200,12 +202,6 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 16,
-  },
-  scrollView: {
-    marginTop: 24,
-    paddingHorizontal: 8,
-    width: '100%',
-    paddingBottom: 150,
   },
   notification: {
     ...StyleSheet.absoluteFillObject,
