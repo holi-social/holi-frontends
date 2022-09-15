@@ -16,8 +16,6 @@ export const useMediaLibraryImagePicker = () => {
   const verifyPermissions = useCallback(async () => {
     if (!mediaLibraryPermissionInfo) return false
 
-    console.log('PERMISSION', mediaLibraryPermissionInfo.status)
-
     if (mediaLibraryPermissionInfo.status === PermissionStatus.UNDETERMINED) {
       const permissionResponse = await requestMediaLibraryPermission()
       return permissionResponse.granted
