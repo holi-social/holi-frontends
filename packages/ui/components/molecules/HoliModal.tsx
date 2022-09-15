@@ -32,7 +32,7 @@ export type HoliModalProps = ModalProps & {
 */
 
 const HoliModal: React.FC<HoliModalProps> = (props) => {
-  const { show = false, relativeHeight = 0.9, minRelativeHeight, onDismiss, autoHeight = true, children } = props
+  const { show = false, relativeHeight = 0.96, minRelativeHeight, onDismiss, autoHeight = true, children } = props
   const { t } = useTranslation()
   const [visible, setVisible] = useState(show)
   const { setModalIsOpen } = useTheme()
@@ -103,6 +103,10 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
     }
   }, [])
 
+  const maxHeight = relativeHeight * 100
+  const minHeight = minRelativeHeight ? Math.min(minRelativeHeight, relativeHeight) * 100 : '0'
+  const fixedHeight = minRelativeHeight ? Math.min(minRelativeHeight, relativeHeight) * 100 : maxHeight
+
   return (
     <>
       <Modal
@@ -131,11 +135,11 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
               {
                 bottom: animShiftInterpolated,
                 transform: [{ translateY: gestureShift }],
-                maxHeight: `${relativeHeight * 100}%`,
-                ...(minRelativeHeight && { minHeight: `${Math.min(minRelativeHeight, relativeHeight) * 100}%` }),
+                maxHeight: `${maxHeight}%`,
+                minHeight: `${minHeight}%`,
+                ...(!autoHeight && { height: `${fixedHeight}%` }),
               },
               styles.common,
-              !autoHeight && styles.rootFixHeight,
             ]}
             testID={`${props.testID}-animatedview`}
           >
@@ -180,9 +184,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 24,
     overflow: 'hidden',
     paddingTop: 47,
-  },
-  rootFixHeight: {
-    flex: 1,
   },
   headerContainer: {
     position: 'absolute',

@@ -18,8 +18,6 @@ const mergedStyles = { ...sharedLayoutStyles, ...donationsLayoutStyles }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildren<any>) => {
-  const { navigate } = useRouting()
-  const styles = getStyles()
   const { t } = useTranslation()
   const { modalIsOpen } = useTheme()
 
@@ -39,28 +37,6 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
       </header>
 
       <main className={`${mergedStyles.main} ${modalIsOpen ? mergedStyles.fixed : ''}`}>{children}</main>
-
-      <footer className={mergedStyles.footer}>
-        <View
-          style={styles.appNav}
-          accessible={true}
-          accessibilityRole="navigation"
-          accessibilityLabel={t('navigation.bottomNavigation')}
-        >
-          <HoliButton
-            label={t('navigation.home')}
-            inline
-            transparent
-            onPress={() => navigate('/')}
-            testID="nav-button-home"
-          >
-            <HoliIcon icon="home-smile-2" size={35} color={colors.fontColorBlack} />
-          </HoliButton>
-          <HoliButton label={t('navigation.search')} inline transparent onPress={() => navigate('/search')}>
-            <HoliIcon icon="search" size={35} color={colors.fontColorBlack} />
-          </HoliButton>
-        </View>
-      </footer>
     </>
   )
 }
