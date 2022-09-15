@@ -4,9 +4,13 @@ import { View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
+import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListing from '@holi-apps/donations/components/DonationListing'
@@ -18,16 +22,19 @@ const DonationsAppHome: React.VFC<DonationsAppHomeProps> = ({ navigation }: Dona
   const { t } = useTranslation()
   const title = t('apps.donations.name')
   const mixins = useStyleMixins()
+  const { navigate } = useRouting()
 
-  useLayoutEffect(
-    () => {
-      setNavigationHeader(title)
-      return clearNavigationHeader
-    },
-    // setNavigationHeader would cause endless loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [navigation, title]
-  )
+  useLayoutEffect(() => {
+    setNavigationHeader(title, {
+      headerLeft: () => <BackButton icon="arrow-down-s" />,
+      headerRight: () => (
+        <HoliButton label={t('navigation.search')} inline transparent onPress={() => navigate('/search')}>
+          <HoliIcon icon="search" size={24} />
+        </HoliButton>
+      ),
+    })
+    return clearNavigationHeader
+  }, [t, navigation, title, setNavigationHeader, clearNavigationHeader, navigate])
 
   return (
     <View style={[mixins.container, { padding: 10 }]}>
