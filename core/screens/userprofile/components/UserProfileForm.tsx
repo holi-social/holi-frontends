@@ -1,11 +1,10 @@
 import { useMutation } from '@apollo/client'
-import { MediaTypeOptions } from 'expo-image-picker'
+import { ImageInfo, MediaTypeOptions } from 'expo-image-picker'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import { displayError } from '@holi/core/errors/helpers'
-import { useMediaLibraryImagePicker } from '@holi/core/helpers'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserInputSchema,
@@ -19,6 +18,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
+import { HoliImagePicker } from '@holi/ui/components/organisms/HoliImagePicker'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type UserProfileFormProps = {
@@ -38,18 +38,10 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   const [pronouns, setPronouns] = useState(user?.pronouns ?? '')
   const [location, setLocation] = useState(user?.location ?? '')
   const [fieldErrors, setFieldErrors] = useState<{ [x: string]: string[] | undefined }>({})
-  const { image: pickedAvatar, pickImage } = useMediaLibraryImagePicker()
+  const [pickedAvatar, setPickedAvatar] = useState<ImageInfo>()
   const { t } = useTranslation()
 
   const testID = props.testId || 'user-profile-edit-form'
-
-  const onPickAvatar = () =>
-    pickImage({
-      mediaTypes: MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [16, 9],
-      quality: 1,
-    })
 
   const submit = async () => {
     const input: UpdateAuthenticatedUserInput = {
@@ -96,12 +88,27 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
         style={styles.avatar}
       />
 
-      <HoliButton label={t('profile.avatar.add')} transparent inline onPress={onPickAvatar}>
-        <View style={styles.addImage}>
-          <HoliText style={{ marginRight: 12 }}>{t('profile.avatar.add')}</HoliText>
-          <HoliIcon icon="image" color={colors.fontColorGrey} />
-        </View>
-      </HoliButton>
+      <HoliImagePicker
+        getChildren={(pickImage) => (
+          <HoliButton
+            label={t('profile.avatar.add')}
+            transparent
+            inline
+            onPress={() => pickImage().then(setPickedAvatar)}
+          >
+            <View style={styles.addImage}>
+              <HoliText style={{ marginRight: 12 }}>{t('profile.avatar.add')}</HoliText>
+              <HoliIcon icon="image" color={colors.fontColorGrey} />
+            </View>
+          </HoliButton>
+        )}
+        imagePickerOptions={{
+          mediaTypes: MediaTypeOptions.Images,
+          allowsEditing: true,
+          aspect: [16, 9],
+          quality: 1,
+        }}
+      />
     </View>
   )
 
