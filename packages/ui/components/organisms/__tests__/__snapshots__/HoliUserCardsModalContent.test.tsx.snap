@@ -1466,8 +1466,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           "opacity": 1,
           "position": "absolute",
           "right": 0,
-          "transition": "all 2s",
-          "visibility": "visible",
         },
         false,
       ]
