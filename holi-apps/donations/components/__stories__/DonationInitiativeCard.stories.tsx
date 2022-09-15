@@ -17,10 +17,10 @@ Primary.argTypes = {
   carrierName: { description: 'Carrier name', control: { type: 'text' } },
   carrierCity: { description: 'Carrier city', control: { type: 'text' } },
   carrierCountry: { description: 'Carrier country', control: { type: 'text' } },
-  category: { description: 'Label/tag for the donations', control: { type: 'text' } },
-  carrierLinks: { description: 'Carrier links', control: { type: 'text' } },
-  summary: { description: 'Summary', control: { type: 'text' } },
-  description: { description: 'Description', control: { type: 'text' } },
+  category: { description: 'Label/tag for the initiative', control: { type: 'text' } },
+  carrierLinks: { description: 'Links to the external carrier website', control: { type: 'text' } },
+  summary: { description: 'Initiative headline text', control: { type: 'text' } },
+  description: { description: 'Description of the initiative', control: { type: 'text' } },
 }
 
 Primary.args = {

@@ -5,7 +5,7 @@ import { Image, Linking, StyleSheet, View } from 'react-native'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-//import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
+import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore.web'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type DonationInitiativeCardProps = {
@@ -32,8 +32,8 @@ const DonationInitiativeCard = ({
   const { t } = useTranslation()
 
   return (
-    <View style={[styles.container]}>
-      <View style={[styles.header]}>
+    <View style={styles.container}>
+      <View style={styles.header}>
         <Image source={{ uri: carrierPictureLinks }} style={styles.headerImage} />
         <View style={styles.headerContent}>
           <HoliText style={styles.carrierName}>
@@ -47,20 +47,18 @@ const DonationInitiativeCard = ({
           label={t('modal.backdrop')}
           style={styles.headerButton}
           inline={true}
-          onPress={() => Linking.openURL(carrierLinks)}
           transparent
           disableFocusability
+          onPress={() => Linking.openURL(carrierLinks)}
         >
           <HoliIcon icon="share-box" color={colors.fontColorBlack} size={18} />
         </HoliButton>
       </View>
-      <View style={[styles.content]}>
+      <View>
         <HoliText style={styles.headlineText}>&ldquo;{summary}&rdquo;</HoliText>
-        {/*         
-        <HoliReadMore style={styles.summaryText} numberOfLines={2}>
+        <HoliReadMore numberOfLines={6} style={styles.summaryText}>
           {description}
-        </HoliReadMore> */}
-        <HoliText style={styles.summaryText}>{description}</HoliText>
+        </HoliReadMore>
       </View>
     </View>
   )
@@ -71,7 +69,6 @@ export default DonationInitiativeCard
 const styles = StyleSheet.create({
   by: {
     color: colors.fontColorGrey,
-    fontWeight: '400',
     fontSize: 14,
   },
   carrierName: {
@@ -84,19 +81,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
+    alignItems: 'center',
+    alignContent: 'center',
     borderRadius: 30,
     padding: 24,
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.backgroundColorWhite,
     width: '100%',
   },
-  content: {},
   header: {
     flexDirection: 'row',
     width: '100%',
-    paddingBottom: 24,
+    marginBottom: 24,
   },
   headerButton: {
     position: 'absolute',
@@ -105,7 +100,7 @@ const styles = StyleSheet.create({
   },
   headerContent: {
     justifyContent: 'space-between',
-    paddingLeft: 24,
+    paddingLeft: 12,
     paddingVertical: 6,
   },
   headerImage: {
@@ -121,13 +116,12 @@ const styles = StyleSheet.create({
     font: 'circular std',
     fontSize: 21,
     fontWeight: '500',
-    paddingBottom: 24,
     lineHeight: 25.2,
+    marginBottom: 24,
   },
   summaryText: {
     color: colors.fontColorGrey,
     fontSize: 16,
     lineHeight: 22.4,
-    fontWeight: '400',
   },
 })
