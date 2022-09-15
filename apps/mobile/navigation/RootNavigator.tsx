@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { NativeStackNavigationOptions, createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import Login from '@holi/core/auth/screens/Login'
 import Logout from '@holi/core/auth/screens/Logout'
@@ -236,6 +236,15 @@ export const BottomTabsNavigator: React.VFC = () => {
 
 const RootNavigator: React.VFC = () => {
   const { t } = useTranslation()
+  const modalScreenOptions: NativeStackNavigationOptions = {
+    presentation: 'modal',
+    animation: 'slide_from_bottom',
+    headerShown: true,
+    headerTitleAlign: 'center',
+    headerBackVisible: false,
+    headerBackTitleVisible: false,
+    headerLeft: DownButton,
+  }
 
   return (
     <RootStack.Navigator
@@ -245,20 +254,14 @@ const RootNavigator: React.VFC = () => {
       }}
     >
       <RootStack.Screen name="Core" component={BottomTabsNavigator} />
-      <RootStack.Screen name="DonationsApp" component={DonationsAppNavigator} />
+      <RootStack.Screen
+        name="DonationsApp"
+        component={DonationsAppNavigator}
+        options={{ ...modalScreenOptions, headerShown: false }}
+      />
       <RootStack.Screen name="VolunteeringApp" component={VolunteeringAppNavigator} />
       {/* modals are only correctly rendered on android when in root navigator */}
-      <RootStack.Group
-        screenOptions={{
-          presentation: 'modal',
-          animation: 'slide_from_bottom',
-          headerShown: true,
-          headerTitleAlign: 'center',
-          headerBackVisible: false,
-          headerBackTitleVisible: false,
-          headerLeft: DownButton,
-        }}
-      >
+      <RootStack.Group screenOptions={modalScreenOptions}>
         <RootStack.Screen
           name="Login"
           component={Login}
