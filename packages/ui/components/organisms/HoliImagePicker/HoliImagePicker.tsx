@@ -1,17 +1,40 @@
-import { ImageInfo, ImagePickerOptions } from 'expo-image-picker'
+import { ImagePickerOptions } from 'expo-image-picker'
 import React, { useCallback } from 'react'
 
+import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
+
+import { ImageInfo } from './types'
 import { useMediaLibraryImagePicker } from './useMediaLibraryImagePicker'
 
 interface HoliImagePickerProps {
   imagePickerOptions: ImagePickerOptions
-  getChildren: (actionHandler: () => Promise<ImageInfo | undefined>) => React.ReactNode
+  buttonProps: Omit<HoliButtonProps, 'children' | 'onPress'>
+  onPickImage: (image: ImageInfo) => void
 }
 
-export const HoliImagePicker: React.VFC<HoliImagePickerProps> = ({ getChildren, imagePickerOptions }) => {
+export const HoliImagePicker: React.FC<HoliImagePickerProps> = ({
+  children,
+  imagePickerOptions,
+  buttonProps,
+  onPickImage,
+}) => {
   const pickImage = useMediaLibraryImagePicker()
 
-  const onPickImage = useCallback(() => pickImage(imagePickerOptions), [pickImage, imagePickerOptions])
+  const pickImageHandler = useCallback(async () => {
+    const image = await pickImage(imagePickerOptions)
 
-  return <>{getChildren(onPickImage)}</>
+    if (!image || image.cancelled) return
+
+    const { uri, base64 = '', height, width } = image
+    const response = await fetch(uri)
+    const blob = await response.blob()
+
+    onPickImage({ uri, blob, base64, height, width })
+  }, [pickImage, imagePickerOptions, onPickImage])
+
+  return (
+    <HoliButton {...buttonProps} onPress={pickImageHandler}>
+      {children}
+    </HoliButton>
+  )
 }

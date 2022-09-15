@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import { ImageInfo, MediaTypeOptions } from 'expo-image-picker'
+import { MediaTypeOptions } from 'expo-image-picker'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -14,11 +14,11 @@ import {
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { HoliImagePicker } from '@holi/ui/components/organisms/HoliImagePicker'
+import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type UserProfileFormProps = {
@@ -89,26 +89,25 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
       />
 
       <HoliImagePicker
-        getChildren={(pickImage) => (
-          <HoliButton
-            label={t('profile.avatar.add')}
-            transparent
-            inline
-            onPress={() => pickImage().then(setPickedAvatar)}
-          >
-            <View style={styles.addImage}>
-              <HoliText style={{ marginRight: 12 }}>{t('profile.avatar.add')}</HoliText>
-              <HoliIcon icon="image" color={colors.fontColorGrey} />
-            </View>
-          </HoliButton>
-        )}
+        buttonProps={{
+          label: t('profile.avatar.add'),
+          transparent: true,
+          inline: true,
+        }}
         imagePickerOptions={{
           mediaTypes: MediaTypeOptions.Images,
           allowsEditing: true,
           aspect: [16, 9],
           quality: 1,
+          base64: true,
         }}
-      />
+        onPickImage={setPickedAvatar}
+      >
+        <View style={styles.addImage}>
+          <HoliText style={{ marginRight: 12 }}>{t('profile.avatar.add')}</HoliText>
+          <HoliIcon icon="image" color={colors.fontColorGrey} />
+        </View>
+      </HoliImagePicker>
     </View>
   )
 

@@ -1,11 +1,21 @@
 import React, { useRef } from 'react'
 
+import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
+
+import { ImageInfo } from './types'
+
 interface HoliImagePickerProps {
   imagePickerOptions: unknown
-  getChildren: (actionHandler: () => Promise<unknown | undefined>) => React.ReactNode
+  buttonProps: Omit<HoliButtonProps, 'children' | 'onPress'>
+  onPickImage: (image: ImageInfo) => void
 }
 
-export const HoliImagePicker: React.VFC<HoliImagePickerProps> = ({ getChildren }) => {
+export const HoliImagePicker: React.FC<HoliImagePickerProps> = ({
+  children,
+  // imagePickerOptions,
+  buttonProps,
+  onPickImage,
+}) => {
   const imageInputNode = useRef<HTMLInputElement>(null)
 
   const onChangeHandler = async () => {
@@ -14,7 +24,7 @@ export const HoliImagePicker: React.VFC<HoliImagePickerProps> = ({ getChildren }
 
     if (!fileBlob) return
 
-    const promise = Promise.all([
+    Promise.all([
       new Promise<string>(
         (resolve) =>
           (reader.onload = () => {
@@ -30,11 +40,9 @@ export const HoliImagePicker: React.VFC<HoliImagePickerProps> = ({ getChildren }
             height: img.height,
           })
       }),
-    ]).then(([base64, { width, height }]) => console.log({ image: base64, width, height }))
+    ]).then(([base64, { width, height }]) => onPickImage({ uri: base64, base64, blob: fileBlob, width, height }))
 
     reader.readAsDataURL(fileBlob)
-
-    return promise
   }
 
   return (
@@ -48,7 +56,7 @@ export const HoliImagePicker: React.VFC<HoliImagePickerProps> = ({ getChildren }
           onChange={onChangeHandler}
         />
 
-        {getChildren(async () => undefined)}
+        <HoliButton {...buttonProps}>{children}</HoliButton>
       </label>
     </>
   )
