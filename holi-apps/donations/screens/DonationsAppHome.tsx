@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
@@ -15,26 +15,23 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListing from '@holi-apps/donations/components/DonationListing'
 
-type DonationsAppHomeProps = NativeStackScreenProps<HomeStackScreens>
+type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const DonationsAppHome: React.VFC<DonationsAppHomeProps> = ({ navigation }: DonationsAppHomeProps) => {
-  const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
+const DonationsAppHome: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const { t } = useTranslation()
   const title = t('apps.donations.name')
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
 
-  useLayoutEffect(() => {
-    setNavigationHeader(title, {
-      headerLeft: () => <BackButton icon="arrow-down-s" />,
-      headerRight: () => (
-        <HoliButton label={t('navigation.search')} inline transparent onPress={() => navigate('/search')}>
-          <HoliIcon icon="search" size={24} />
-        </HoliButton>
-      ),
-    })
-    return clearNavigationHeader
-  }, [t, navigation, title, setNavigationHeader, clearNavigationHeader, navigate])
+  useNavigationHeader(navigation, {
+    title: title,
+    headerLeft: () => <BackButton icon="arrow-down-s" />,
+    headerRight: () => (
+      <HoliButton label={t('navigation.search')} inline transparent onPress={() => navigate('/search')}>
+        <HoliIcon icon="search" size={24} />
+      </HoliButton>
+    ),
+  })
 
   return (
     <View style={[mixins.container, { padding: 10 }]}>

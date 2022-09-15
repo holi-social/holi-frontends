@@ -1,6 +1,9 @@
 import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/kratos-client'
-import React, { useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Platform } from 'react-native'
+
+import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import client from '@holi/api/graphql/client'
 import DefaultLayout from '@holi/core/DefaultLayout'
@@ -13,19 +16,28 @@ import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { displayError } from '@holi/core/errors/helpers'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
+import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 
-const Login: React.VoidFunctionComponent = () => {
+type ScreenProps = NativeStackScreenProps<HomeStackScreens>
+
+const Login: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const { isLoggedIn, setUserLoggedIn } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
-  const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
 
-  useLayoutEffect(() => {
-    setNavigationHeader(t('auth.login'), {
-      headerLeft: () => <BackButton icon="arrow-down-s" />,
-    })
-    return clearNavigationHeader
-  }, [t, setNavigationHeader, clearNavigationHeader])
+  const title = t('auth.login')
+  useNavigationHeader(navigation, {
+    title: title,
+    headerCenter: () => (
+      <HoliHeading level="1" size="small">
+        {title}
+      </HoliHeading>
+    ),
+    headerLeft: () => (Platform.OS === 'web' ? <HoliText /> : <BackButton icon="arrow-left-s" />),
+    headerRight: () => (Platform.OS === 'web' ? <BackButton icon="close" /> : <HoliText />),
+  })
 
   const initializeFlow = useCallback(() => {
     initLoginFlow()
