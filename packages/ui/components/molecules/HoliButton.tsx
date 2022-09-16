@@ -29,7 +29,6 @@ export type HoliButtonProps = {
   transparent?: boolean
   disabled?: boolean
   disableFocusability?: boolean
-  accessibilityLabel?: string // optional to overwrite the default label prop
   accessibilityRole?: AccessibilityRole
   accessibilitySelected?: boolean
   accessibilityControls?: string
@@ -38,7 +37,6 @@ export type HoliButtonProps = {
 }
 
 const HoliButton: React.FC<HoliButtonProps> = ({
-  id = undefined,
   inline = false,
   type = 'primary',
   variant = 'default',
@@ -46,8 +44,8 @@ const HoliButton: React.FC<HoliButtonProps> = ({
   disabled = false,
   disableFocusability = false,
   accessibilityRole = 'button',
-  accessibilitySelected = undefined,
-  accessibilityControls = undefined,
+  accessibilitySelected,
+  accessibilityControls,
   ...props
 }: React.PropsWithChildren<HoliButtonProps>) => {
   const isSmall = variant === 'small'
@@ -58,7 +56,7 @@ const HoliButton: React.FC<HoliButtonProps> = ({
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),
     accessibilityRole,
-    accessibilityLabel: props.accessibilityLabel || props.label,
+    accessibilityLabel: props.label,
     accessibilityControls,
     accessibilitySelected,
   }
@@ -80,7 +78,7 @@ const HoliButton: React.FC<HoliButtonProps> = ({
   return (
     <Pressable
       {...accessibilityProps}
-      nativeID={id}
+      nativeID={props.id}
       testID={props.testID}
       disabled={disabled}
       onPress={(event) => {

@@ -93,7 +93,7 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
         <View style={styles.slideButtonsContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
           {slides.map((slide, slideIndex) => (
             <HoliButton
-              label={slide.title || ''}
+              label={slide.title || '' + (slideIndex + 1)}
               transparent
               inline
               style={styles.slideButton}
@@ -101,7 +101,6 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
               key={slideIndex}
               accessibilityRole="tab"
               accessibilitySelected={slideIndex === currentSlide}
-              accessibilityLabel={'' + slideIndex}
               testID={slideIndex === slideIndex ? 'active-tab' : 'inactive-tab'}
             >
               <View style={[styles.slideButtonIcon, slideIndex === currentSlide ? styles.activeSlideButtonIcon : {}]} />
