@@ -41,6 +41,9 @@ const browserStackDevice = platform === 'android' ? google_pixel_5_11 : iphone_x
 const defaultConfig: Partial<Options.WebdriverIO> = {
   logLevel: 'error',
   waitforTimeout: waitingTimeout, // ms
+  // TODO (OL) trying if this stabilizes tests
+  connectionRetryCount: 3,
+  connectionRetryTimeout: 20000, // ms
 }
 
 const browserStackCapabilities = () => ({
