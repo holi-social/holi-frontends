@@ -12,7 +12,7 @@ beforeEach(async () => {
     let numAttempts = 5
     let appRunning = false
     // Installing and starting the app on local emulator might take very long
-    const homeScreenTimeout = target === 'local' ? 60000 : 2000
+    const homeScreenTimeout = target === 'local' ? 60000 : 4000
     while (!appRunning && numAttempts) {
       // Wait for the app to start
       try {
