@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
 import { useKeyboard } from '@holi/core/helpers'
@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     maxHeight: '100%',
     width: '100%',
     maxWidth: 800,
+    ...(Platform.OS === 'web' ? { minHeight: '100%' } : {}),
   },
   loaderContainer: {
     ...StyleSheet.absoluteFillObject,
