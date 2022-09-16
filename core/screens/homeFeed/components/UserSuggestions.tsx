@@ -1,15 +1,17 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserSuggestionsResponse, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type UserSuggestionsProps = {
@@ -61,11 +63,21 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = ({ style }: UserSuggest
         })}
         <HoliButton
           label={t('homeFeed.userSuggestions.loadMore')}
-          style={styles.lastButtonContainer}
+          style={[styles.buttonContainer, styles.lastButtonContainer]}
           transparent
           inline
         >
-          <HoliText size="small">{t('homeFeed.userSuggestions.loadMore')}</HoliText>
+          <View style={styles.moreSuggestionsImageContainer}>
+            <HoliLocalImage
+              imageSource={require('@holi/ui/assets/img/illustrations/illustration_user_suggestions.png')}
+              width={125.6}
+              height={125.6}
+              label=""
+            />
+          </View>
+          <HoliText style={styles.moreSuggestionsText} size="small" bold>
+            {t('homeFeed.userSuggestions.loadMore')}
+          </HoliText>
         </HoliButton>
       </ScrollView>
     </View>
@@ -82,12 +94,17 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   lastButtonContainer: {
-    marginLeft: 16,
-    marginRight: 45,
-    marginBottom: 30,
-    alignSelf: 'center',
-    ...Platform.select({
-      web: { marginRight: 16 },
-    }),
+    marginRight: 24,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    flex: 1,
+  },
+  moreSuggestionsImageContainer: {
+    padding: 17.2,
+  },
+  moreSuggestionsText: {
+    color: colors.secondaryColor,
+    textAlign: 'center',
+    marginTop: 16,
   },
 })
