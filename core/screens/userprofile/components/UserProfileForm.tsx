@@ -183,6 +183,8 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
 const styles = StyleSheet.create({
   mainContainer: {
     marginHorizontal: 24,
+    marginTop: 30,
+    paddingBottom: Platform.OS === 'ios' ? 200 : 50,
   },
   headerContainer: {
     alignItems: 'center',
@@ -198,12 +200,6 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 16,
-  },
-  scrollView: {
-    marginTop: 24,
-    paddingHorizontal: 8,
-    width: '100%',
-    paddingBottom: 150,
   },
   notification: {
     ...StyleSheet.absoluteFillObject,

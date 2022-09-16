@@ -245,7 +245,18 @@ const RootNavigator: React.VFC = () => {
       }}
     >
       <RootStack.Screen name="Core" component={BottomTabsNavigator} />
-      <RootStack.Screen name="DonationsApp" component={DonationsAppNavigator} />
+      <RootStack.Screen
+        name="DonationsApp"
+        component={DonationsAppNavigator}
+        options={{
+          animation: 'slide_from_bottom',
+          headerShown: false,
+          headerTitleAlign: 'center',
+          headerBackVisible: false,
+          headerBackTitleVisible: false,
+          headerLeft: DownButton,
+        }}
+      />
       <RootStack.Screen name="VolunteeringApp" component={VolunteeringAppNavigator} />
       {/* modals are only correctly rendered on android when in root navigator */}
       <RootStack.Group

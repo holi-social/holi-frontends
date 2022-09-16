@@ -80,7 +80,9 @@ const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
         ))}
 
         <HoliModal
+          label={t('topics.topic.editors.title', { topicId })}
           show={showModal}
+          minRelativeHeight={0.5}
           onDismiss={() => {
             setShowModal(false)
           }}
