@@ -1,9 +1,11 @@
 import { useMutation } from '@apollo/client'
+import { MediaTypeOptions } from 'expo-image-picker'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import { displayError } from '@holi/core/errors/helpers'
+import { useMediaLibraryImagePicker } from '@holi/core/helpers/imagePicker'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserInputSchema,
@@ -13,6 +15,7 @@ import {
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
@@ -35,9 +38,18 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   const [pronouns, setPronouns] = useState(user?.pronouns ?? '')
   const [location, setLocation] = useState(user?.location ?? '')
   const [fieldErrors, setFieldErrors] = useState<{ [x: string]: string[] | undefined }>({})
+  const { image: pickedAvatar, pickImage } = useMediaLibraryImagePicker()
   const { t } = useTranslation()
 
   const testID = props.testId || 'user-profile-edit-form'
+
+  const onPickAvatar = () =>
+    pickImage({
+      mediaTypes: MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [16, 9],
+      quality: 1,
+    })
 
   const submit = async () => {
     const input: UpdateAuthenticatedUserInput = {
@@ -73,29 +85,41 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
     displayError(error, t('user.profileForm.error.saving'))
   }
 
+  const header = (
+    <View style={styles.headerContainer}>
+      <HoliUserAvatar
+        imageSrc={pickedAvatar?.uri ?? user?.avatar ?? ''}
+        label={user?.firstName || ''}
+        initials={user?.avatarLabel || ''}
+        defaultColor={user?.avatarDefaultColor || '#FFAE86'}
+        size="medium"
+        style={styles.avatar}
+      />
+
+      <HoliButton label={t('profile.avatar.add')} transparent inline onPress={onPickAvatar}>
+        <View style={styles.addImage}>
+          <HoliText style={{ marginRight: 12 }}>{t('profile.avatar.add')}</HoliText>
+          <HoliIcon icon="image" color={colors.fontColorGrey} />
+        </View>
+      </HoliButton>
+    </View>
+  )
+
+  const prependComponent = (
+    <>
+      {notificationComponent}
+      {header}
+    </>
+  )
+
   return (
     <HoliModalContentWrapper
       actionButtonText={t('user.profileForm.save')}
       onActionButtonPress={submit}
-      prependChildren={notificationComponent}
+      prependChildren={prependComponent}
       loading={loading}
       testID={testID}
     >
-      <View style={styles.headerContainer}>
-        <HoliUserAvatar
-          imageSrc={user?.avatar || ''}
-          label={user?.firstName || ''}
-          initials={user?.avatarLabel || ''}
-          defaultColor={user?.avatarDefaultColor || '#FFAE86'}
-          size="medium"
-          style={styles.avatar}
-        />
-
-        <View style={styles.addImage}>
-          <HoliText style={{ marginRight: 13 }}>Add a profile image</HoliText>
-          <HoliIcon icon="image" color={colors.fontColorGrey} />
-        </View>
-      </View>
       <View style={styles.mainContainer}>
         <HoliTextInput
           value={firstName}

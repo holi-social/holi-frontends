@@ -23,6 +23,7 @@
     "@sentry/nextjs": "^6.19.7",
     "babel-plugin-react-native-web": "^0.18.7",
     "cookies": "^0.8.0",
+    "expo-image-picker": "^13.3.1",
     "http-proxy": "^1.18.1",
     "i18next-browser-languagedetector": "^6.1.4",
     "lottie-react": "^2.3.1",
