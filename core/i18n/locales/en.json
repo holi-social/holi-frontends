@@ -78,6 +78,8 @@
   "navigation.title": "Holi Project",
   "navigation.topNavigation": "Top Navigation",
   "notifications.title": "Notifications",
+  "photosPermission": "The app accesses your photos to let you post them.",
+  "profile.avatar.add": "Add a profile image",
   "profile.edit": "Edit",
   "profile.engagementLevel": "Engagement level",
   "profile.engagementLevel.add": "Add level of engagement",
@@ -177,10 +179,10 @@
   "user.profileForm.pronouns": "Pronouns (e.g. them/theirs)",
   "user.profileForm.pronounsPlaceholder": "Insert your preferred pronouns",
   "user.profileForm.save": "Save",
+  "user.profileView.anonymous": "Anonymous user",
   "user.profileView.connect": "Connect",
   "user.profileView.message": "Message",
   "user.profileView.noUser": "No user fetched",
-  "user.profileView.anonymous": "Anonymous user",
   "user.sdgs.10_REDUCED_INEQUALITY": "Reduced Inequality",
   "user.sdgs.11_SUSTAINABLE_CITIES_COMMUNITIES": "Sustainable Cities and Communities",
   "user.sdgs.12_RESPONSIBLE_CONSUMPTION_PRODUCTION": "Responsible Consumption and Production",
@@ -244,5 +246,7 @@
   "user.skills.form.headline": "Skills I have to offer",
   "user.skills.form.subline": "This allows other users to get to know you better and us to tailor our offering to your skills.",
   "user.userContext.error.fetching": "Error fetching authenticated user",
-  "user.userProfile.error.fetching": "Error fetching user profile"
+  "user.userProfile.error.fetching": "Error fetching user profile",
+  "volunteering.navigation.home": "Home",
+  "volunteering.navigation.search": "Search"
 }
