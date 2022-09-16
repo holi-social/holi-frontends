@@ -16,6 +16,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
+import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
+import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type UserProfileFormProps = {
@@ -35,6 +37,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   const [pronouns, setPronouns] = useState(user?.pronouns ?? '')
   const [location, setLocation] = useState(user?.location ?? '')
   const [fieldErrors, setFieldErrors] = useState<{ [x: string]: string[] | undefined }>({})
+  const [pickedAvatar, setPickedAvatar] = useState<ImageInfo>()
   const { t } = useTranslation()
 
   const testID = props.testId || 'user-profile-edit-form'
@@ -73,29 +76,48 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
     displayError(error, t('user.profileForm.error.saving'))
   }
 
+  const header = (
+    <View style={styles.headerContainer}>
+      <HoliUserAvatar
+        imageSrc={pickedAvatar?.uri ?? user?.avatar ?? ''}
+        label={user?.firstName || ''}
+        initials={user?.avatarLabel || ''}
+        defaultColor={user?.avatarDefaultColor || '#FFAE86'}
+        size="medium"
+        style={styles.avatar}
+      />
+
+      <HoliImagePicker
+        buttonProps={{
+          label: t('profile.avatar.add'),
+          transparent: true,
+          inline: true,
+        }}
+        onPickImage={setPickedAvatar}
+      >
+        <View style={styles.addImage}>
+          <HoliText style={{ marginRight: 12 }}>{t('profile.avatar.add')}</HoliText>
+          <HoliIcon icon="image" color={colors.fontColorGrey} />
+        </View>
+      </HoliImagePicker>
+    </View>
+  )
+
+  const prependComponent = (
+    <>
+      {notificationComponent}
+      {header}
+    </>
+  )
+
   return (
     <HoliModalContentWrapper
       actionButtonText={t('user.profileForm.save')}
       onActionButtonPress={submit}
-      prependChildren={notificationComponent}
+      prependChildren={prependComponent}
       loading={loading}
       testID={testID}
     >
-      <View style={styles.headerContainer}>
-        <HoliUserAvatar
-          imageSrc={user?.avatar || ''}
-          label={user?.firstName || ''}
-          initials={user?.avatarLabel || ''}
-          defaultColor={user?.avatarDefaultColor || '#FFAE86'}
-          size="medium"
-          style={styles.avatar}
-        />
-
-        <View style={styles.addImage}>
-          <HoliText style={{ marginRight: 13 }}>Add a profile image</HoliText>
-          <HoliIcon icon="image" color={colors.fontColorGrey} />
-        </View>
-      </View>
       <View style={styles.mainContainer}>
         <HoliTextInput
           value={firstName}
