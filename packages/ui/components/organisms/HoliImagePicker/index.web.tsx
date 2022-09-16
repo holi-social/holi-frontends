@@ -9,9 +9,10 @@ const HoliImagePicker: React.FC<HoliImagePickerProps> = ({ children, buttonProps
 
   const onChangeHandler = async () => {
     const fileBlob = imageInputNode.current?.files?.[0]
-    const reader = new FileReader()
 
     if (!fileBlob) return
+
+    const reader = new FileReader()
 
     Promise.all([
       new Promise<string>(
@@ -34,19 +35,15 @@ const HoliImagePicker: React.FC<HoliImagePickerProps> = ({ children, buttonProps
     reader.readAsDataURL(fileBlob)
   }
 
+  const pickImageHandler = () => imageInputNode.current?.click()
+
   return (
     <>
-      <label>
-        <input
-          type="file"
-          accept="image/*"
-          style={{ display: 'none' }}
-          ref={imageInputNode}
-          onChange={onChangeHandler}
-        />
+      <input type="file" accept="image/*" style={{ display: 'none' }} ref={imageInputNode} onChange={onChangeHandler} />
 
-        <HoliButton {...buttonProps}>{children}</HoliButton>
-      </label>
+      <HoliButton {...buttonProps} onPress={pickImageHandler}>
+        {children}
+      </HoliButton>
     </>
   )
 }
