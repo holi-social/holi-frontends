@@ -1,10 +1,10 @@
 import { MediaTypeOptions } from 'expo-image-picker'
 import React, { useCallback } from 'react'
 
-import { useMediaLibraryImagePicker } from '@holi/core/helpers'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 import { HoliImagePickerProps } from './types'
+import { useMediaLibraryImagePicker } from './useMediaLibraryImagePicker'
 
 const HoliImagePicker: React.FC<HoliImagePickerProps> = ({ children, buttonProps, onPickImage }) => {
   const { pickImage } = useMediaLibraryImagePicker()
