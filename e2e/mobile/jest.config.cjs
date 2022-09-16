@@ -8,4 +8,7 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testMatch: ['**/tests/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
   testTimeout: 120000, // ms
+  maxConcurrency: 1,
+  maxWorkers: 1,
+  coverageProvider: 'v8',
 }
