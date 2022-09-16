@@ -47,6 +47,7 @@ export const defaultAuthSteps = async (
 
   await context.clearCookies()
 
+  await page.goto('/')
   await clickElementByTestId(page, 'btn-to-profile-view')
   await clickElementByTestId(page, isLogin ? 'btn-to-login-form' : 'btn-to-registration-form')
 
