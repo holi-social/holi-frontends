@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import {
   AccessibilityProps,
-  AccessibilityRole,
   GestureResponderEvent,
   Platform,
   Pressable,
@@ -21,7 +20,6 @@ export const HoliButtonVariants: HoliButtonVariant[] = ['default', 'small'] // k
 
 export type HoliButtonProps = {
   label: string
-  id?: string
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
   inline?: boolean
   type?: HoliButtonType
@@ -29,9 +27,6 @@ export type HoliButtonProps = {
   transparent?: boolean
   disabled?: boolean
   disableFocusability?: boolean
-  accessibilityRole?: AccessibilityRole
-  accessibilitySelected?: boolean
-  accessibilityControls?: string
   testID?: string
   onPress?: null | ((event: GestureResponderEvent) => void)
 }
@@ -43,9 +38,6 @@ const HoliButton: React.FC<HoliButtonProps> = ({
   transparent = false,
   disabled = false,
   disableFocusability = false,
-  accessibilityRole = 'button',
-  accessibilitySelected,
-  accessibilityControls,
   ...props
 }: React.PropsWithChildren<HoliButtonProps>) => {
   const isSmall = variant === 'small'
@@ -55,10 +47,8 @@ const HoliButton: React.FC<HoliButtonProps> = ({
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),
-    accessibilityRole,
+    accessibilityRole: 'button',
     accessibilityLabel: props.label,
-    accessibilityControls,
-    accessibilitySelected,
   }
 
   const content =
@@ -78,7 +68,6 @@ const HoliButton: React.FC<HoliButtonProps> = ({
   return (
     <Pressable
       {...accessibilityProps}
-      nativeID={props.id}
       testID={props.testID}
       disabled={disabled}
       onPress={(event) => {

@@ -1059,7 +1059,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           }
         >
           <View
-            accessibilityLabel="0"
+            accessibilityLabel="1"
             accessibilityRole="tab"
             accessibilitySelected={true}
             accessibilityState={
@@ -1095,7 +1095,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           >
             <View
               pointerEvents="none"
-              style={Object {}}
             >
               <View
                 style={
@@ -1111,61 +1110,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       "backgroundColor": "#222326",
                       "opacity": 1,
                     },
-                  ]
-                }
-              />
-            </View>
-          </View>
-          <View
-            accessibilityLabel="1"
-            accessibilityRole="tab"
-            accessibilitySelected={false}
-            accessibilityState={
-              Object {
-                "disabled": false,
-              }
-            }
-            accessible={true}
-            collapsable={false}
-            focusable={true}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-            style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                  "marginHorizontal": 4,
-                },
-                Object {
-                  "width": "auto",
-                },
-              ]
-            }
-            testID="active-tab"
-          >
-            <View
-              pointerEvents="none"
-              style={Object {}}
-            >
-              <View
-                style={
-                  Array [
-                    Object {
-                      "backgroundColor": "#222326",
-                      "borderRadius": 50,
-                      "height": 8,
-                      "opacity": 0.3,
-                      "width": 8,
-                    },
-                    Object {},
                   ]
                 }
               />
@@ -1208,7 +1152,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           >
             <View
               pointerEvents="none"
-              style={Object {}}
             >
               <View
                 style={
@@ -1263,7 +1206,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           >
             <View
               pointerEvents="none"
-              style={Object {}}
             >
               <View
                 style={
@@ -1318,7 +1260,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           >
             <View
               pointerEvents="none"
-              style={Object {}}
             >
               <View
                 style={
@@ -1373,7 +1314,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           >
             <View
               pointerEvents="none"
-              style={Object {}}
             >
               <View
                 style={
@@ -1428,7 +1368,60 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           >
             <View
               pointerEvents="none"
-              style={Object {}}
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "#222326",
+                      "borderRadius": 50,
+                      "height": 8,
+                      "opacity": 0.3,
+                      "width": 8,
+                    },
+                    Object {},
+                  ]
+                }
+              />
+            </View>
+          </View>
+          <View
+            accessibilityLabel="7"
+            accessibilityRole="tab"
+            accessibilitySelected={false}
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "marginHorizontal": 4,
+                },
+                Object {
+                  "width": "auto",
+                },
+              ]
+            }
+            testID="active-tab"
+          >
+            <View
+              pointerEvents="none"
             >
               <View
                 style={
