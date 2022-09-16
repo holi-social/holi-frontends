@@ -1,8 +1,11 @@
 #!/usr/bin/env sh
+
+set -eux
+
 trap '' EXIT INT TERM
 trap "echo 'stopping all' && kill 0" EXIT
 
-echo 'staring or connecting to emulator...'
+echo 'starting or connecting to emulator...'
 ./scripts/run_android_emulator.sh &
 
 echo 'starting appium...'
