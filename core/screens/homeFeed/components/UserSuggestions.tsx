@@ -72,7 +72,7 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = ({ style }: UserSuggest
               imageSource={require('@holi/ui/assets/img/illustrations/illustration_user_suggestions.png')}
               width={125.6}
               height={125.6}
-              label={t('homeFeed.userSuggestions.loadMore')}
+              label=""
             />
           </View>
           <HoliText style={styles.moreSuggestionsText} size="small" bold>
