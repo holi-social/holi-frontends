@@ -9,7 +9,7 @@ export type HeaderTitleProps = {
   testID?: string
 }
 
-const HeaderTitle: React.FunctionComponent<HeaderTitleProps> = (props: HeaderTitleProps) => {
+const HeaderTitle: React.VFC<HeaderTitleProps> = (props: HeaderTitleProps) => {
   const navigationContext = useNavigationContext()
 
   if (navigationContext.titleElement) return navigationContext.titleElement
