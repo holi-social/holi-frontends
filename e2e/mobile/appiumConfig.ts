@@ -59,12 +59,16 @@ const browserStackCapabilities = () => ({
   platform,
   capabilities: {
     platformName,
-    app: requireEnvVar('BROWSERSTACK_APP_URL'),
     // TODO (OL) trying if this stabilizes tests
     'bstack:options': {
       idleTimeout: 120,
+      ...browserStackDevice,
+      app: requireEnvVar('BROWSERSTACK_APP_URL'),
+      buildName: requireEnvVar('CI_COMMIT_SHA', { defaultValue: 'local' }),
+      projectName: 'holi-frontends',
+      parallelsPerPlatform: 1,
+      networkLogs: true,
     },
-    ...browserStackDevice,
   },
 })
 
