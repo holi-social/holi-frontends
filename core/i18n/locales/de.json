@@ -64,7 +64,7 @@
   "homeFeed.heading": "Das Thema dieser Woche ist <0/>",
   "homeFeed.heading_plural": "Die Themen dieser Woche sind <0/>",
   "homeFeed.userSuggestions.avatarAltText": "{{name}}'s Profilbild",
-  "homeFeed.userSuggestions.loadMore": "Weitere Vorschläge ansehen",
+  "homeFeed.userSuggestions.loadMore": "Weitere Vorschläge",
   "homeFeed.userSuggestions.title": "Leute, die dir gefallen könnten",
   "homeFeed.volunteering": "Freiwilligenarbeit",
   "modal.backdrop": "Dialog Schließen",
