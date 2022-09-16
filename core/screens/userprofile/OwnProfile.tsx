@@ -96,7 +96,7 @@ const OwnProfile: React.VFC = () => {
               autoHeight={autoHeight}
               // Smaller devides use the whole screen and
               // larger ones should have more space above for clicking the backdrop pane
-              minRelativeHeight={autoHeight || deviceHeight > 750 ? 0 : 0.85}
+              minRelativeHeight={!autoHeight && deviceHeight > 750 ? 0.85 : 0}
             >
               <EditFormComponent
                 user={user}
