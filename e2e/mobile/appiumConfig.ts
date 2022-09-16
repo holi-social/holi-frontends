@@ -43,7 +43,7 @@ const defaultConfig: Partial<Options.WebdriverIO> = {
   waitforTimeout: waitingTimeout, // ms
   // TODO (OL) trying if this stabilizes tests
   connectionRetryCount: 3,
-  connectionRetryTimeout: 20000, // ms
+  connectionRetryTimeout: 200000, // ms
 }
 
 const browserStackCapabilities = () => ({
