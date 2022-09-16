@@ -34,19 +34,15 @@ const HoliImagePicker: React.FC<HoliImagePickerProps> = ({ children, buttonProps
     reader.readAsDataURL(fileBlob)
   }
 
+  const pickImageHandler = () => imageInputNode.current?.click()
+
   return (
     <>
-      <label>
-        <input
-          type="file"
-          accept="image/*"
-          style={{ display: 'none' }}
-          ref={imageInputNode}
-          onChange={onChangeHandler}
-        />
+      <input type="file" accept="image/*" style={{ display: 'none' }} ref={imageInputNode} onChange={onChangeHandler} />
 
-        <HoliButton {...buttonProps}>{children}</HoliButton>
-      </label>
+      <HoliButton {...buttonProps} onPress={pickImageHandler}>
+        {children}
+      </HoliButton>
     </>
   )
 }
