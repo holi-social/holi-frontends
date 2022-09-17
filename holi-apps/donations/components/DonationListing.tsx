@@ -9,6 +9,8 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'
 
+import DonationListingItem from './DonationListingItem'
+
 const PROJECT_PAGE_SIZE = 5
 
 const DonationListing: React.VFC = () => {
@@ -41,7 +43,7 @@ const DonationListing: React.VFC = () => {
   return (
     <View>
       {projects.map((project) => (
-        <HoliText key={project.id}>{project.title}</HoliText>
+        <DonationListingItem key={project.id} data={project} />
       ))}
     </View>
   )

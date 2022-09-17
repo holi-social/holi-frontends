@@ -8,7 +8,6 @@ import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -38,9 +37,6 @@ const DonationsAppHome: React.VFC<DonationsAppHomeProps> = ({ navigation }: Dona
 
   return (
     <View style={[mixins.container, { padding: 10 }]}>
-      <HoliHeading level="1" size="super" testID="apps-donations-heading">
-        {title}
-      </HoliHeading>
       <DonationListing />
     </View>
   )
