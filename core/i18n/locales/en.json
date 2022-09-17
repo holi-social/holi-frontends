@@ -1,8 +1,12 @@
 {
   "apps.adsForGood.name": "Ads for Good",
   "apps.donations.name": "Donations",
+  "apps.donations.label": "{{count}} Donation",
+  "apps.donations.label_plural": "{{count}} Donations",
   "apps.donations.detail.title": "Give",
-  "apps.donations.detail.missingDonationId": "Missing donationId",
+  "apps.donations.detail.missingProjectId": "Missing projectId",
+  "apps.donations.detail.notFound": "Project {{projectId}} not found",
+  "apps.donations.detail.donate": "Donate",
   "apps.factCheck.name": "FactCheck",
   "apps.goodNews.name": "Good News",
   "apps.volunteering.name": "Volunteering",

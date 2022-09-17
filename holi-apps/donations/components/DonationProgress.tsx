@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -8,22 +9,24 @@ type DonationProgressProps = {
   donationsCount: number
   progressPercentage: number
   openAmountInCents: number
-  category: string
+  category?: string
   size?: 'default' | 'small'
+  bold?: boolean
+  hideDonationsCount?: boolean
   style?: ViewStyle | ViewStyle[]
 }
-
-// TODO(konrad): refactor and move to collection of helpers later?
-const pluralize = (count: number, noun: string, suffix = 's') => `${count} ${noun}${count !== 1 ? suffix : ''}`
 
 const DonationProgress = ({
   donationsCount,
   progressPercentage,
   openAmountInCents,
   category,
+  bold,
+  hideDonationsCount = false,
   size = 'default',
   ...props
 }: DonationProgressProps) => {
+  const { t } = useTranslation()
   const styles = getStyles()
   const openAmount = useMemo(() => {
     return new Intl.NumberFormat('de-DE', {
@@ -37,22 +40,26 @@ const DonationProgress = ({
   const interactionBar = useCallback(
     () => (
       <HoliText>
-        <HoliText size={'small'} style={{ color: colors.fontColorGrey }}>
-          {`${pluralize(donationsCount, 'donation', 's')}`}
-        </HoliText>
+        {!hideDonationsCount && (
+          <HoliText size={bold ? 'default' : 'small'} bold={bold} style={{ color: colors.fontColorGrey }}>
+            <Trans t={t} i18nKey="apps.donations.label" values={{ count: donationsCount }} />
+          </HoliText>
+        )}
         {category && (
           <>
-            <HoliText size={'small'} style={{ color: colors.positivepurple }}>
-              {' ∙ '}
-            </HoliText>
-            <HoliText size={'small'} style={{ color: colors.fontColorGrey }}>
+            {!hideDonationsCount && (
+              <HoliText size={bold ? 'default' : 'small'} bold={bold} style={{ color: colors.positivepurple }}>
+                {' ∙ '}
+              </HoliText>
+            )}
+            <HoliText size={bold ? 'default' : 'small'} bold={bold} style={{ color: colors.fontColorGrey }}>
               {category}
             </HoliText>
           </>
         )}
       </HoliText>
     ),
-    [donationsCount, category]
+    [hideDonationsCount, bold, t, donationsCount, category]
   )
 
   return (
@@ -62,8 +69,12 @@ const DonationProgress = ({
         <View style={[styles.filled, size === 'small' && { height: 6 }, { width: `${progressPercentage}%` }]} />
       </View>
       <View style={styles.goals}>
-        <HoliText size={'small'} style={{ color: colors.fontColorGrey }}>{`${progressPercentage}% funded`}</HoliText>
-        {size !== 'small' && <HoliText size={'small'}>{`${openAmount} to go`}</HoliText>}
+        <HoliText
+          size={bold ? 'default' : 'small'}
+          style={{ color: colors.fontColorGrey }}
+          bold={bold}
+        >{`${progressPercentage}% funded`}</HoliText>
+        {size !== 'small' && <HoliText size={bold ? 'default' : 'small'} bold={bold}>{`${openAmount} to go`}</HoliText>}
       </View>
     </View>
   )

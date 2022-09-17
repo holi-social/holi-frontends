@@ -19,7 +19,7 @@ const DonationListing: React.VFC<DonationListingProps> = ({ data }: DonationList
             key={entry.id}
             label={entry.title}
             transparent
-            onPress={() => navigate(`/apps/donations/${entry.id}`)}
+            onPress={() => navigate(`/apps/donations/project/${entry.id}`)}
           >
             <HoliText>{entry.title}</HoliText>
           </HoliButton>

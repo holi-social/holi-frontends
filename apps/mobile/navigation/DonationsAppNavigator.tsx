@@ -10,12 +10,12 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
-import DonationsAppDetail from '@holi-apps/donations/screens/DonationsAppDetail'
 import DonationsAppHome from '@holi-apps/donations/screens/DonationsAppHome'
+import DonationsAppProjectDetail from '@holi-apps/donations/screens/DonationsAppProjectDetail'
 
 export type DonationsAppScreensList = {
   DonationsAppHome: undefined
-  DonationsAppDetail: undefined
+  DonationsAppProjectDetail: undefined
 }
 
 const DonationsAppStack = createNativeStackNavigator<DonationsAppScreensList>()
@@ -66,8 +66,8 @@ const DonationsAppNavigator: React.VFC = () => {
       >
         <DonationsAppStack.Screen name="DonationsAppHome" component={DonationsAppHome} />
         <DonationsAppStack.Screen
-          name="DonationsAppDetail"
-          component={DonationsAppDetail}
+          name="DonationsAppProjectDetail"
+          component={DonationsAppProjectDetail}
           options={{
             headerBackTitleVisible: false,
             headerBackVisible: false,
