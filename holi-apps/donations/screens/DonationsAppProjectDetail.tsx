@@ -67,8 +67,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
               {project?.title}
             </HoliHeading>
             <View style={styles.location}>
-              {/* TODO update icon */}
-              <HoliIcon icon="add" size={20} />
+              <HoliIcon icon="globe" size={20} />
               {/* TODO update project location / using mock location */}
               <HoliText size="small" style={{ marginLeft: 8 }}>
                 Germany, DE
@@ -90,8 +89,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
                 <HoliText size={'small'} style={{ color: colors.fontColorGrey }}>
                   99
                 </HoliText>
-                {/* TODO update icon */}
-                <HoliIcon icon="add" size={24} />
+                <HoliIcon icon="heart" size={24} />
               </View>
             </View>
             <DonationProgress
@@ -103,7 +101,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
               style={{ marginTop: 8 }}
             />
           </View>
-          {/* TODO update to component once API is available */}
+          {/* TODO replace with project intiative card once available */}
           <View style={styles.DonationsAppProjectDetails}>
             <HoliText size={'large'} bold style={{ marginBottom: 24 }}>
               Quisque vel augue vestibulum, finibus metus a, malesuada sem. Nulla at convallis massa.
@@ -122,8 +120,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
           <HoliText bold style={{ marginRight: 8 }}>
             {t('apps.donations.detail.donate')}
           </HoliText>
-          {/* TODO update icon */}
-          <HoliIcon icon="add" size={20} />
+          <HoliIcon icon="external-link" size={16} />
         </HoliButton>
       </View>
     </>
