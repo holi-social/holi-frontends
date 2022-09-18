@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/client'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
