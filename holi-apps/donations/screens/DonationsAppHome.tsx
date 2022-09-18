@@ -13,7 +13,6 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 // ToDo (konrad): check and adjust this implementation after team feedback
 // eslint-disable-next-line no-restricted-imports
 import DonationListing from '../components/DonationListing'
-import { DonationAppsResponse, donationAppsProjectsQuery } from './queries'
 
 type DonationsAppHomeProps = NativeStackScreenProps<HomeStackScreens>
 
@@ -102,12 +101,6 @@ const DonationsAppHome: React.VFC<DonationsAppHomeProps> = ({ navigation }: Dona
   const { t } = useTranslation()
   const title = t('apps.donations.name')
   const mixins = useStyleMixins()
-
-  // TODO - manage offset state
-  const { loading, error, data } = useQuery<DonationAppsResponse>(donationAppsProjectsQuery, {
-    variables: { locale: 'en', limit: 5, offset: 0 },
-  })
-  console.log(loading, error, data)
 
   useLayoutEffect(
     () => {
