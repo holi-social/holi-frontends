@@ -16,6 +16,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
+import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
+import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type UserProfileFormProps = {
@@ -35,6 +37,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   const [pronouns, setPronouns] = useState(user?.pronouns ?? '')
   const [location, setLocation] = useState(user?.location ?? '')
   const [fieldErrors, setFieldErrors] = useState<{ [x: string]: string[] | undefined }>({})
+  const [pickedAvatar, setPickedAvatar] = useState<ImageInfo>()
   const { t } = useTranslation()
 
   const testID = props.testId || 'user-profile-edit-form'
@@ -76,7 +79,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   const header = (
     <View style={styles.headerContainer}>
       <HoliUserAvatar
-        imageSrc={user?.avatar || ''}
+        imageSrc={pickedAvatar?.uri ?? user?.avatar ?? ''}
         label={user?.firstName || ''}
         initials={user?.avatarLabel || ''}
         defaultColor={user?.avatarDefaultColor || '#FFAE86'}
@@ -84,10 +87,19 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
         style={styles.avatar}
       />
 
-      <View style={styles.addImage}>
-        <HoliText style={{ marginRight: 13 }}>Add a profile image</HoliText>
-        <HoliIcon icon="image" color={colors.fontColorGrey} />
-      </View>
+      <HoliImagePicker
+        buttonProps={{
+          label: t('profile.avatar.add'),
+          transparent: true,
+          inline: true,
+        }}
+        onPickImage={setPickedAvatar}
+      >
+        <View style={styles.addImage}>
+          <HoliText style={{ marginRight: 12 }}>{t('profile.avatar.add')}</HoliText>
+          <HoliIcon icon="image" color={colors.fontColorGrey} />
+        </View>
+      </HoliImagePicker>
     </View>
   )
 
@@ -171,6 +183,8 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
 const styles = StyleSheet.create({
   mainContainer: {
     marginHorizontal: 24,
+    marginTop: 30,
+    paddingBottom: Platform.OS === 'ios' ? 200 : 50,
   },
   headerContainer: {
     alignItems: 'center',
@@ -186,12 +200,6 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 16,
-  },
-  scrollView: {
-    marginTop: 24,
-    paddingHorizontal: 8,
-    width: '100%',
-    paddingBottom: 150,
   },
   notification: {
     ...StyleSheet.absoluteFillObject,

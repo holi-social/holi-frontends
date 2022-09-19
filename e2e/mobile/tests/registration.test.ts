@@ -12,7 +12,7 @@ describe('@Registration', () => {
   const email = `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
   const password = 'TheSamePassword4A11E2eUsers'
 
-  it('validate Email and password fields', async () => {
+  it('validates Email and password fields', async () => {
     // no password and no email
     await defaultAuthSteps({ email: '', password: '' }, 'registration')
 

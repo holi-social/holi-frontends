@@ -1,31 +1,66 @@
+import { useQuery } from '@apollo/client'
 import React from 'react'
-import { View } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { StyleSheet, View } from 'react-native'
 
+import { displayError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-type DonationListingProps = {
-  data: Project[]
-}
+import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'
 
-const DonationListing: React.VFC<DonationListingProps> = ({ data }: DonationListingProps) => {
+const PROJECT_PAGE_SIZE = 5
+
+const DonationListing: React.VFC = () => {
+  const { t, i18n } = useTranslation()
+  const mixins = useStyleMixins()
   const { navigate } = useRouting()
+
+  const { loading, data, error } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
+    variables: {
+      locale: i18n.language,
+      limit: PROJECT_PAGE_SIZE,
+      offset: 0,
+    },
+  })
+
+  if (loading) {
+    // TODO: replace with proper loading indicator
+    return (
+      <View style={[mixins.container, styles.messageContainer]}>
+        <HoliText>{t('donations.donationListing.loading')}</HoliText>
+      </View>
+    )
+  }
+
+  if (error) {
+    displayError(error, t('donations.donationListing.error'))
+  }
+
+  const projects = data?.appDonations_projects?.projects || []
+
   return (
     <View>
-      {data &&
-        data.map((entry) => (
-          <HoliButton
-            key={entry.id}
-            label={entry.title}
-            transparent
-            onPress={() => navigate(`/apps/donations/project/${entry.id}`)}
-          >
-            <HoliText>{entry.title}</HoliText>
-          </HoliButton>
-        ))}
+      {projects.map((project) => (
+        <HoliButton
+          key={project.id}
+          label={project.title}
+          onPress={() => navigate(`/apps/donations/project/${project.id}`)}
+        >
+          <HoliText>{project.title}</HoliText>
+        </HoliButton>
+      ))}
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  messageContainer: {
+    alignItems: 'center',
+    marginTop: 50,
+  },
+})
 
 export default DonationListing

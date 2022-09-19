@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useContext, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
@@ -26,6 +26,7 @@ const OwnProfile: React.VFC = () => {
     setShowModal(false)
   }, [])
   const { t } = useTranslation()
+  const { height: deviceHeight } = useWindowDimensions()
 
   const { isLoggedIn } = useContext(AuthContext)
   const { user } = useContext(UserContext)
@@ -64,7 +65,7 @@ const OwnProfile: React.VFC = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let EditFormComponent: React.VFC<any> = UserProfileForm
-  let isUserChipForm = false
+  let autoHeight = true
 
   switch (editMode) {
     case 'profile':
@@ -72,12 +73,13 @@ const OwnProfile: React.VFC = () => {
       break
     case 'engagementLevel':
       EditFormComponent = UserEngagementLevelForm
+      autoHeight = false
       break
     case 'interests':
     case 'skills':
     case 'sdgs':
       EditFormComponent = UserChipForm
-      isUserChipForm = true
+      autoHeight = false
       break
   }
 
@@ -91,7 +93,10 @@ const OwnProfile: React.VFC = () => {
               onDismiss={closeModal}
               testID="user-profile-modal"
               label={t(`profile.${editMode}.edit`)}
-              minRelativeHeight={isUserChipForm ? 0.9 : 0} // fix height for UserChipForm
+              autoHeight={autoHeight}
+              // Smaller devides use the whole screen and
+              // larger ones should have more space above for clicking the backdrop pane
+              minRelativeHeight={!autoHeight && deviceHeight > 750 ? 0.85 : 0}
             >
               <EditFormComponent
                 user={user}

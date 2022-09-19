@@ -20,7 +20,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
-import { donationsMockData } from '@holi-apps/donations/screens/DonationsAppHome'
+import { Project } from '@holi-apps/donations/typings'
 
 export type DonationsAppProjectDetailParams = {
   projectId: string
@@ -29,6 +29,79 @@ export type DonationsAppProjectDetailParams = {
 const { useParam } = createParam<DonationsAppProjectDetailParams>()
 
 type DonationsAppProjectDetailProps = NativeStackScreenProps<HomeStackScreens>
+
+export const donationsMockData: Project[] = [
+  {
+    id: 12345,
+    title: 'Pakistan: Nothilfe nach Überschwemmungen',
+    categories: ['Climate'],
+    donationsCount: 130,
+    progressPercentage: 50,
+    openAmountInCents: 1477901,
+    picture: [
+      {
+        url: 'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/112/765/fill_618x322_bp1661777467_pakistan-nothilfe-flut_066_1008.jpg',
+        type: 'original',
+      },
+    ],
+  },
+  {
+    id: 12346,
+    title: 'Nothilfe Ukraine',
+    categories: ['Climate'],
+    donationsCount: 6816,
+    progressPercentage: 97,
+    openAmountInCents: 75836400,
+    picture: [
+      {
+        url: 'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/106/501/fill_618x322_bp1658423152_DRK_YouTube_KatKit_Titelbild_Youtube.png',
+        type: 'original',
+      },
+    ],
+  },
+  {
+    id: 12347,
+    title: 'Hilfe für das Berliner Tierheim! Mehr als 1.300 Tiere brauchen Euch!',
+    categories: ['Kittens'],
+    donationsCount: 3780,
+    progressPercentage: 94,
+    openAmountInCents: 67229796,
+    picture: [
+      {
+        url: 'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/058/391/limit_1240x646_bp1658358248_9R0A1226_-_Kopie.jpg',
+        type: 'original',
+      },
+    ],
+  },
+  {
+    id: 12348,
+    title: 'Jetzt Wasserprojekte weltweit unterstützen!',
+    categories: ['Environment'],
+    donationsCount: 28359,
+    progressPercentage: 97,
+    openAmountInCents: 151838026,
+    picture: [
+      {
+        url: 'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/024/394/limit_1240x646_bp1658241002_Wasser_fu%CC%88r_alle.jpg',
+        type: 'original',
+      },
+    ],
+  },
+  {
+    id: 12349,
+    title: 'Unsere Inklusions-Kita vor dem AUS! Wir brauchen EURE Hilfe!',
+    categories: ['Children'],
+    donationsCount: 881,
+    progressPercentage: 90,
+    openAmountInCents: 3287500,
+    picture: [
+      {
+        url: 'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/103/416/limit_1240x646_bp1661435367_keyvisual_3x2.png',
+        type: 'original',
+      },
+    ],
+  },
+]
 
 const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
   navigation,
@@ -52,7 +125,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
   if (!projectId) return <HoliText>{t('apps.donations.detail.missingProjectId')}</HoliText>
 
   // TODO (FE): fetch donation from API / using donationsMockData
-  const project = donationsMockData.find((project) => project.id === parseInt(projectId))
+  const project = donationsMockData.find((project) => project.id === 12345)
   if (!project) return <HoliText>{t('apps.donations.detail.notFound', { projectId })}</HoliText>
 
   return (
@@ -101,7 +174,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
               style={{ marginTop: 8 }}
             />
           </View>
-          {/* TODO replace with project intiative card once available */}
+          {/* TODO replace with project initiative card once available */}
           <View style={styles.DonationsAppProjectDetails}>
             <HoliText size={'large'} bold style={{ marginBottom: 24 }}>
               Quisque vel augue vestibulum, finibus metus a, malesuada sem. Nulla at convallis massa.
