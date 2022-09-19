@@ -13,6 +13,15 @@ export interface Picture {
   type: PictureType
 }
 
+export interface ProjectCarrier {
+  id: number
+  name: string
+  city: string
+  country: string
+  picture: CarrierPicture[]
+  url: string | undefined
+}
+
 export interface Project {
   id: number
   title: string
@@ -23,6 +32,7 @@ export interface Project {
   openAmountInCents: number
   /** The project's "profile picture" in different variants */
   picture: Picture[]
+  carrier: ProjectCarrier
 }
 
 export interface Pagination {

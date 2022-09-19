@@ -1,3 +1,6 @@
+import { useLazyQuery } from '@apollo/client'
+import { displayError } from 'core/errors/helpers'
+import { AppDonationsProjectByIdResponse, projectByIdQuery } from 'holi-apps/donations/queries'
 import React, { useLayoutEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Image, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
@@ -8,19 +11,17 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
-import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
-import { Project } from '@holi-apps/donations/typings'
+import { Picture } from '@holi-apps/donations/typings'
 
 export type DonationsAppProjectDetailParams = {
   projectId: string
@@ -30,90 +31,37 @@ const { useParam } = createParam<DonationsAppProjectDetailParams>()
 
 type DonationsAppProjectDetailProps = NativeStackScreenProps<HomeStackScreens>
 
-export const donationsMockData: Project[] = [
-  {
-    id: 12345,
-    title: 'Pakistan: Nothilfe nach Überschwemmungen',
-    categories: ['Climate'],
-    donationsCount: 130,
-    progressPercentage: 50,
-    openAmountInCents: 1477901,
-    picture: [
-      {
-        url: 'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/112/765/fill_618x322_bp1661777467_pakistan-nothilfe-flut_066_1008.jpg',
-        type: 'original',
-      },
-    ],
-  },
-  {
-    id: 12346,
-    title: 'Nothilfe Ukraine',
-    categories: ['Climate'],
-    donationsCount: 6816,
-    progressPercentage: 97,
-    openAmountInCents: 75836400,
-    picture: [
-      {
-        url: 'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/106/501/fill_618x322_bp1658423152_DRK_YouTube_KatKit_Titelbild_Youtube.png',
-        type: 'original',
-      },
-    ],
-  },
-  {
-    id: 12347,
-    title: 'Hilfe für das Berliner Tierheim! Mehr als 1.300 Tiere brauchen Euch!',
-    categories: ['Kittens'],
-    donationsCount: 3780,
-    progressPercentage: 94,
-    openAmountInCents: 67229796,
-    picture: [
-      {
-        url: 'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/058/391/limit_1240x646_bp1658358248_9R0A1226_-_Kopie.jpg',
-        type: 'original',
-      },
-    ],
-  },
-  {
-    id: 12348,
-    title: 'Jetzt Wasserprojekte weltweit unterstützen!',
-    categories: ['Environment'],
-    donationsCount: 28359,
-    progressPercentage: 97,
-    openAmountInCents: 151838026,
-    picture: [
-      {
-        url: 'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/024/394/limit_1240x646_bp1658241002_Wasser_fu%CC%88r_alle.jpg',
-        type: 'original',
-      },
-    ],
-  },
-  {
-    id: 12349,
-    title: 'Unsere Inklusions-Kita vor dem AUS! Wir brauchen EURE Hilfe!',
-    categories: ['Children'],
-    donationsCount: 881,
-    progressPercentage: 90,
-    openAmountInCents: 3287500,
-    picture: [
-      {
-        url: 'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/103/416/limit_1240x646_bp1661435367_keyvisual_3x2.png',
-        type: 'original',
-      },
-    ],
-  },
-]
-
 const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
   navigation,
 }: DonationsAppProjectDetailProps) => {
   const [projectId] = useParam('projectId')
 
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const title = t('apps.donations.detail.title')
   const mixins = useStyleMixins()
 
   const { height: deviceHeight } = useWindowDimensions()
+
+  const [fetchProjectById, { loading, data, error }] = useLazyQuery<AppDonationsProjectByIdResponse>(projectByIdQuery)
+
+  const project = data?.appDonations_project
+
+  // TODO: workaround for params always being undefined on initial page load
+  // > will probably be solved with ssr
+  // see https://github.com/nandorojo/solito/issues/100
+  useLayoutEffect(() => {
+    console.debug('projectId', projectId, 'loading', loading, 'project', project)
+    if (projectId && !loading && !project) {
+      console.debug('fetchProjectById()')
+      fetchProjectById({
+        variables: {
+          locale: i18n.language,
+          id: Number(projectId),
+        },
+      })
+    }
+  }, [fetchProjectById, projectId, loading, project, i18n.language])
 
   useLayoutEffect(() => {
     setNavigationHeader(title, {
@@ -122,28 +70,40 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
     return clearNavigationHeader
   }, [navigation, projectId, title, setNavigationHeader, clearNavigationHeader])
 
-  if (!projectId) return <HoliText>{t('apps.donations.detail.missingProjectId')}</HoliText>
+  if (!projectId || loading) {
+    // TODO: replace with proper loading indicator
+    return (
+      <View style={[mixins.container, styles.messageContainer]}>
+        <HoliText>{t('donations.donationListing.loading')}</HoliText>
+      </View>
+    )
+  }
 
-  // TODO (FE): fetch donation from API / using donationsMockData
-  const project = donationsMockData.find((project) => project.id === 12345)
-  if (!project) return <HoliText>{t('apps.donations.detail.notFound', { projectId })}</HoliText>
+  if (error) {
+    displayError(error, t('donations.donationListing.error'))
+  }
+
+  if (!project) {
+    return <HoliText>{t('apps.donations.detail.notFound', { projectId })}</HoliText>
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const picture: Picture = (project.picture.find((p) => p.type === 'original') ||
+    project.picture.find((p) => p.type === 'small'))!
 
   return (
     <>
       <DefaultLayout style={{ backgroundColor: colors.backgroundColorGreyLight }}>
         <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
-          {project.picture.map((picture, index) => (
-            <Image key={index} source={{ uri: picture.url }} style={styles.images} />
-          ))}
+          <Image source={{ uri: picture.url }} style={styles.images} />
           <View style={styles.header}>
             <HoliHeading level="2" size={'large'}>
-              {project?.title}
+              {project.title}
             </HoliHeading>
             <View style={styles.location}>
               <HoliIcon icon="globe" size={20} />
-              {/* TODO update project location / using mock location */}
               <HoliText size="small" style={{ marginLeft: 8 }}>
-                Germany, DE
+                {project.carrier.city}, {project.carrier.country}
               </HoliText>
             </View>
           </View>
@@ -151,18 +111,9 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
           <View style={styles.donationStats}>
             <View style={styles.donationStatsHeader}>
               <View style={styles.donationStatsHeaderSection}>
-                {/* TODO update project users / using fakeTopics editors data */}
-                <HoliUserAvatarPile users={fakeTopics.get('abc').editors} collapse />
                 <HoliText size={'small'} style={{ color: colors.fontColorGrey, marginLeft: 8 }}>
                   <Trans t={t} i18nKey="apps.donations.label" values={{ count: project.donationsCount }} />
                 </HoliText>
-              </View>
-              <View style={styles.donationStatsHeaderSection}>
-                {/* TODO update hearts count / using placeholder */}
-                <HoliText size={'small'} style={{ color: colors.fontColorGrey }}>
-                  99
-                </HoliText>
-                <HoliIcon icon="heart" size={24} />
               </View>
             </View>
             <DonationProgress
@@ -203,6 +154,10 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
 export default DonationsAppProjectDetail
 
 const styles = StyleSheet.create({
+  messageContainer: {
+    alignItems: 'center',
+    marginTop: 50,
+  },
   container: {
     paddingBottom: 92,
     paddingHorizontal: 0,
