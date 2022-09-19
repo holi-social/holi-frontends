@@ -50,6 +50,12 @@ const browserStackCapabilities = () => ({
   ...defaultConfig,
   user: requireEnvVar('BROWSERSTACK_USERNAME'),
   key: requireEnvVar('BROWSERSTACK_ACCESS_KEY'),
+  // TODO (OL) trying if this stabilizes tests
+  idleTimeout: 120,
+  buildName: requireEnvVar('CI_COMMIT_SHA', { defaultValue: 'local' }),
+  projectName: 'holi-frontends',
+  parallelsPerPlatform: 1,
+  networkLogs: true,
   platform,
   capabilities: {
     platformName,
