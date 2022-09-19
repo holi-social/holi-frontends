@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React, { useContext, useLayoutEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -95,16 +95,12 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   const { navigate } = useRouting()
   const { isLoggedIn } = useContext(AuthContext)
   const { width } = useWindowDimensions()
-  const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(moment().hours(), t)
   const styles = homeFeedStyles(width)
   const mixins = useStyleMixins()
 
-  useLayoutEffect(() => {
-    setNavigationHeader(headerTitle)
-    return clearNavigationHeader
-  }, [navigation, headerTitle, setNavigationHeader, clearNavigationHeader])
+  useNavigationHeader(navigation, { title: headerTitle })
 
   return (
     <DefaultLayout>
