@@ -25,7 +25,6 @@ const DonationProgress = ({
   const { t, i18n } = useTranslation()
   const styles = getStyles()
   const isSmall = size === 'small'
-  // TODO(SF) working in app as well?
   const openAmount = useMemo(() => {
     return new Intl.NumberFormat(i18n.language, {
       style: 'currency',
