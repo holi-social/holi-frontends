@@ -55,13 +55,13 @@ const HomeStack = createNativeStackNavigator<HomeStackScreens>()
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
-export const DownButton = () => {
+const DownButton = () => {
   const { t } = useTranslation()
   return <BackButton label={t('navigation.closeWindow')} icon="arrow-down-s" />
 }
-export const CenterElement = () => <HeaderTitle style={{ paddingTop: 5 }} />
-export const LeftElement = () => <HeaderLeft style={{ paddingHorizontal: 0, marginLeft: 5 }} />
-export const RightElement = () => (
+const CenterElement = () => <HeaderTitle style={{ paddingTop: 5 }} />
+const LeftElement = () => <HeaderLeft style={{ paddingHorizontal: 0, marginLeft: 5 }} />
+const RightElement = () => (
   <HeaderRight
     style={{
       paddingHorizontal: 0,
