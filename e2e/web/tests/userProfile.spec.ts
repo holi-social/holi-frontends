@@ -23,6 +23,7 @@ test.describe('@Profile', () => {
     // go to user profile page
     await page.goto('/profile/' + userId)
     await waitForElementByTestId(page, 'user-profile-full-name')
+    // await waitForElementByTestId(page, 'user-profile-interests')
     await waitForElementByTestId(page, 'user-profile-sdgs')
     await waitForElementByTestId(page, 'user-profile-skills')
     await checkAccessibility(page)
@@ -51,7 +52,7 @@ test.describe('@Profile', () => {
     expect(await page.textContent(byTestId('user-profile-full-name'))).toBe(`${firstNameEdited} ${lastName}`.trim())
 
     // edit interests, skills + sdgs should work
-    await checkChipsSelection(page, 'interests')
+    // await checkChipsSelection(page, 'interests')
     await checkChipsSelection(page, 'skills')
     await checkChipsSelection(page, 'sdgs')
 
