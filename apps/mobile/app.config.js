@@ -20,6 +20,9 @@ export default {
       supportsTablet: true,
       bundleIdentifier: 'foundation.holistic.projectholi',
       buildNumber: '1.0.0',
+      infoPlist: {
+        CFBundleAllowMixedLocalizations: true,
+      },
     },
     android: {
       adaptiveIcon: {
@@ -32,7 +35,7 @@ export default {
     web: {
       favicon: './assets/favicon.png',
     },
-    plugins: ['sentry-expo'],
+    plugins: ['sentry-expo', 'expo-image-picker'],
     hooks: {
       postPublish: [
         {
@@ -56,6 +59,10 @@ export default {
       sentry: {
         dsn: process.env.SENTRY_DSN || 'https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191',
       },
+    },
+    locales: {
+      en: '../../core/i18n/locales/en.json',
+      de: '../../core/i18n/locales/de.json',
     },
   },
 }
