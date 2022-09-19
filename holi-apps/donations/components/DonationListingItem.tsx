@@ -4,20 +4,22 @@ import { Image, StyleSheet } from 'react-native'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
+import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { Project } from '@holi-apps/donations/typings'
 
-import DonationProgress from './DonationProgress'
+// TODO(SF) scroll layout broken
 
 type DonationListingItemProps = {
-  data: Project
+  project: Project
 }
 
-const DonationListingItem: React.VFC<DonationListingItemProps> = ({ data }: DonationListingItemProps) => {
-  const { title, categories, donationsCount, progressPercentage, openAmountInCents, picture } = data
+const DonationListingItem: React.VFC<DonationListingItemProps> = ({ project }: DonationListingItemProps) => {
+  const { title, categories, donationsCount, progressPercentage, openAmountInCents, picture } = project
 
+  // TODO(SF) not small?
   const responsiveImage = useMemo(() => {
     const original = picture.find(({ type }) => type === 'original')
-    if (original === undefined) return
+    if (!original) return
 
     return original && <Image source={{ uri: original.url }} style={styles.mainImage} /> // <Image source={{ uri: original.url }} style={{ width: '100', height: '100' }} />
   }, [picture])
@@ -33,7 +35,7 @@ const DonationListingItem: React.VFC<DonationListingItemProps> = ({ data }: Dona
       >
         {responsiveImage}
 
-        <HoliHeading level="2" selectable={true}>
+        <HoliHeading level="2" size="small" selectable={true} style={styles.heading}>
           {title}
         </HoliHeading>
 
@@ -56,8 +58,11 @@ const styles = StyleSheet.create({
   },
   mainImage: {
     aspectRatio: 327 / 214,
-    borderRadius: 18,
-    marginBottom: 16,
+    borderRadius: 24,
+    marginBottom: 8,
     width: '100%',
+  },
+  heading: {
+    marginBottom: 8,
   },
 })

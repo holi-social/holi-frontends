@@ -25,6 +25,7 @@ const DonationProgress = ({
   ...props
 }: DonationProgressProps) => {
   const styles = getStyles()
+  const isSmall = size === 'small'
   const openAmount = useMemo(() => {
     return new Intl.NumberFormat('de-DE', {
       style: 'currency',
@@ -37,15 +38,15 @@ const DonationProgress = ({
   const interactionBar = useCallback(
     () => (
       <HoliText>
-        <HoliText size={'small'} style={{ color: colors.fontColorGrey }}>
+        <HoliText size="small" style={{ color: colors.fontColorGrey }}>
           {`${pluralize(donationsCount, 'donation', 's')}`}
         </HoliText>
         {category && (
           <>
-            <HoliText size={'small'} style={{ color: colors.positivepurple }}>
+            <HoliText size="small" style={{ color: colors.positivepurple }}>
               {' ∙ '}
             </HoliText>
-            <HoliText size={'small'} style={{ color: colors.fontColorGrey }}>
+            <HoliText size="small" style={{ color: colors.fontColorGrey }}>
               {category}
             </HoliText>
           </>
@@ -58,12 +59,12 @@ const DonationProgress = ({
   return (
     <View style={[props?.style]}>
       {size !== 'small' && interactionBar()}
-      <View style={[styles.bar, size === 'small' && { height: 6 }]}>
-        <View style={[styles.filled, size === 'small' && { height: 6 }, { width: `${progressPercentage}%` }]} />
+      <View style={[styles.bar, isSmall && { height: 6 }]}>
+        <View style={[styles.filled, isSmall && { height: 6 }, { width: `${progressPercentage}%` }]} />
       </View>
       <View style={styles.goals}>
-        <HoliText size={'small'} style={{ color: colors.fontColorGrey }}>{`${progressPercentage}% funded`}</HoliText>
-        {size !== 'small' && <HoliText size={'small'}>{`${openAmount} to go`}</HoliText>}
+        <HoliText size="small" style={{ color: colors.fontColorGrey }}>{`${progressPercentage}% funded`}</HoliText>
+        {!isSmall && <HoliText size="small" style={styles.openAmount}>{`${openAmount} to go`}</HoliText>}
       </View>
     </View>
   )
@@ -92,5 +93,8 @@ const getStyles = () =>
     goals: {
       flexDirection: 'row',
       justifyContent: 'space-between',
+    },
+    openAmount: {
+      fontWeight: '500',
     },
   })
