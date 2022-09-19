@@ -32,6 +32,8 @@ beforeEach(async () => {
   await global.Appium.setImplicitTimeout(waitingTimeout)
 }, 60000)
 
+jest.setTimeout(120000)
+
 afterEach(async () => {
   await global.Appium?.deleteSession()
 })
