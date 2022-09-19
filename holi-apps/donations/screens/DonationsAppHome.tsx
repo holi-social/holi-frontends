@@ -4,6 +4,7 @@ import { View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
+import DefaultLayout from '@holi/core/DefaultLayout'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -36,9 +37,11 @@ const DonationsAppHome: React.VFC<DonationsAppHomeProps> = ({ navigation }: Dona
   }, [t, navigation, title, setNavigationHeader, clearNavigationHeader, navigate])
 
   return (
-    <View style={[mixins.container, { padding: 10 }]}>
-      <DonationListing />
-    </View>
+    <DefaultLayout>
+      <View style={[mixins.container, { padding: 10 }]}>
+        <DonationListing />
+      </View>
+    </DefaultLayout>
   )
 }
 

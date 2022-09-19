@@ -7,8 +7,6 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { Project } from '@holi-apps/donations/typings'
 
-// TODO(SF) scroll layout broken
-
 type DonationListingItemProps = {
   project: Project
 }
@@ -16,12 +14,11 @@ type DonationListingItemProps = {
 const DonationListingItem: React.VFC<DonationListingItemProps> = ({ project }: DonationListingItemProps) => {
   const { title, categories, donationsCount, progressPercentage, openAmountInCents, picture } = project
 
-  // TODO(SF) not small?
   const responsiveImage = useMemo(() => {
+    // TODO: use small picture if applicable?
     const original = picture.find(({ type }) => type === 'original')
     if (!original) return
 
-    // TODO(SF) a11y label
     return original && <Image source={{ uri: original.url }} style={styles.mainImage} />
   }, [picture])
 
