@@ -21,7 +21,8 @@ const DonationListingItem: React.VFC<DonationListingItemProps> = ({ project }: D
     const original = picture.find(({ type }) => type === 'original')
     if (!original) return
 
-    return original && <Image source={{ uri: original.url }} style={styles.mainImage} /> // <Image source={{ uri: original.url }} style={{ width: '100', height: '100' }} />
+    // TODO(SF) a11y label
+    return original && <Image source={{ uri: original.url }} style={styles.mainImage} />
   }, [picture])
 
   return (
@@ -31,7 +32,6 @@ const DonationListingItem: React.VFC<DonationListingItemProps> = ({ project }: D
         transparent
         onPress={() => console.log('navigate click')}
         style={styles.mainImageContainer}
-        testID="feed-topic-image-link"
       >
         {responsiveImage}
 
