@@ -19,7 +19,7 @@ type DonationsAppHomeProps = NativeStackScreenProps<HomeStackScreens>
 const DonationsAppHome: React.VFC<DonationsAppHomeProps> = ({ navigation }: DonationsAppHomeProps) => {
   const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
-  const title = t('apps.donations.name')
+  const title = t('donations:app.name')
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
 

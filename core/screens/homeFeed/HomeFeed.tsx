@@ -38,7 +38,7 @@ type DummyApp = {
 const appSwiperDummyApps: DummyApp[] = [
   {
     icon: 'loader',
-    nameKey: 'apps.donations.name',
+    nameKey: 'donations:app.name',
     path: '/apps/donations',
     testID: 'app-tile-donations',
     hasUpdates: false,

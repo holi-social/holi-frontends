@@ -1,0 +1,5 @@
+{
+  "app.name": "Donations",
+  "donationListing.error": "Laden von Spendenprojekten ist fehlgeschlagen",
+  "donationListing.loading": "Lädt Spendenprojekte..."
+}

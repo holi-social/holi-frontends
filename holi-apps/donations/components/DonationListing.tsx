@@ -28,13 +28,13 @@ const DonationListing: React.VFC = () => {
     // TODO: replace with proper loading indicator
     return (
       <View style={[mixins.container, styles.messageContainer]}>
-        <HoliText>{t('donations.donationListing.loading')}</HoliText>
+        <HoliText>{t('donations:donationListing.loading')}</HoliText>
       </View>
     )
   }
 
   if (error) {
-    displayError(error, t('donations.donationListing.error'))
+    displayError(error, t('donations:donationListing.error'))
   }
 
   const projects = data?.appDonations_projects?.projects || []

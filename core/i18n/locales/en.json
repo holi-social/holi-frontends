@@ -1,6 +1,5 @@
 {
   "apps.adsForGood.name": "Ads for Good",
-  "apps.donations.name": "Donations",
   "apps.factCheck.name": "FactCheck",
   "apps.goodNews.name": "Good News",
   "apps.volunteering.name": "Volunteering",
@@ -44,8 +43,6 @@
   "auth.registration.heading": "Create an account",
   "chat.title": "Chat",
   "date": "{{date, MMM, D}}",
-  "donations.donationListing.error": "Loading donation projects failed",
-  "donations.donationListing.loading": "Loading donation projects...",
   "error.alert.button": "OK",
   "error.alert.headline": "Something went wrong",
   "error.alert.title": "Error",
