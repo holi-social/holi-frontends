@@ -46,15 +46,29 @@ const defaultConfig: Partial<Options.WebdriverIO> = {
   connectionRetryTimeout: 200000, // ms
 }
 
+const getUsername = () => {
+  return requireEnvVar('USER', { defaultValue: 'unknownUser' })
+}
+
+const getISO8601Date = () => {
+  return new Date()
+    .toLocaleString('sv') // ISO-8601 format
+    .replace(' ', 'T')
+}
+
 const browserStackCapabilities = () => ({
+  // as it seems, on this top level, no validation is done on any properties. Be aware of this, it might be not the right level for settings you want to add
   ...defaultConfig,
   user: requireEnvVar('BROWSERSTACK_USERNAME'),
   key: requireEnvVar('BROWSERSTACK_ACCESS_KEY'),
   // TODO (OL) trying if this stabilizes tests
   idleTimeout: 120,
-  buildName: requireEnvVar('CI_COMMIT_SHA', { defaultValue: 'local' }),
-  projectName: 'holi-frontends',
+  buildName: requireEnvVar('CI_COMMIT_SHA', {
+    defaultValue: `local-${getUsername()}-${getISO8601Date()}`,
+  }),
+  projectName: `Test name would be great - ${getISO8601Date()}`,
   parallelsPerPlatform: 1,
+  test123: true,
   networkLogs: true,
   platform,
   capabilities: {
