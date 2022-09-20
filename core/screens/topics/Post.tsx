@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
@@ -21,23 +21,17 @@ export type PostParams = {
 
 const { useParam } = createParam<PostParams>()
 
-type PostProps = NativeStackScreenProps<HomeStackScreens>
+type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const Post: React.VFC<PostProps> = ({ navigation }: PostProps) => {
+const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const [topicId] = useParam('topicId')
   const [postId] = useParam('postId')
 
-  const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
   const title = t('topics.post.title', { topicId, postId })
   const mixins = useStyleMixins()
 
-  useLayoutEffect(() => {
-    setNavigationHeader(title, {
-      headerLeft: () => <BackButton />,
-    })
-    return clearNavigationHeader
-  }, [navigation, topicId, postId, title, setNavigationHeader, clearNavigationHeader])
+  useNavigationHeader(navigation, { title: title, headerLeft: () => <BackButton /> })
 
   if (!topicId) return <HoliText>{t('topics.post.missingTopicId')}</HoliText>
   if (!postId) return <HoliText>{t('topics.post.missingPostId')}</HoliText>

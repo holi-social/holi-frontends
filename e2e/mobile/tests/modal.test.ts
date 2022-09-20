@@ -1,4 +1,4 @@
-import { checkIfElementWithTestIdExists, tapOnElementWithTestId, waitForElementWithTestId } from '../helpers/selectors'
+import { tapOnElementWithTestId, waitForElementWithTestId } from '../helpers/selectors'
 
 describe('@HoliModal', () => {
   it('find selectors', async () => {
@@ -14,12 +14,13 @@ describe('@HoliModal', () => {
 
     // close modal
     // TODO: This does not work on android (during testing), we need to use the close button
-    await waitForElementWithTestId('topic-editors-modal-backdrop')
-    await tapOnElementWithTestId('topic-editors-modal-backdrop')
+    // await waitForElementWithTestId('topic-editors-modal-backdrop')
+    // await tapOnElementWithTestId('topic-editors-modal-backdrop')
 
-    if (await checkIfElementWithTestIdExists('topic-editors-close-btn')) {
-      await waitForElementWithTestId('topic-editors-close-btn')
-      await tapOnElementWithTestId('topic-editors-close-btn')
-    }
+    await waitForElementWithTestId('topic-editors-close-btn')
+    await tapOnElementWithTestId('topic-editors-close-btn')
+
+    // modal should be closed again
+    await waitForElementWithTestId('home-feed-topics-heading')
   })
 })

@@ -1,45 +1,46 @@
-import React, { useCallback } from 'react'
+import { useLayoutEffect } from 'react'
 import { NativeStackNavigationOptions } from 'react-native-screens/native-stack'
 
 import { useNavigation } from '@react-navigation/native'
+import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 
 import type { HeaderProps } from './index'
 
-const useNavigationHeader = () => {
+type NavigtionProps = NativeStackScreenProps<HomeStackScreens>
+
+const setNavigationHeader = (
+  headerProps: HeaderProps,
+  setHeaderTitle: (title: string) => void,
+  setOptions: (options: NativeStackNavigationOptions) => void
+) => {
+  const headerOptions: NativeStackNavigationOptions = {}
+  if (typeof headerProps.title === 'string') setHeaderTitle(headerProps.title)
+  if (headerProps?.headerCenter) headerOptions.headerCenter = headerProps.headerCenter
+  if (headerProps?.headerLeft) headerOptions.headerLeft = headerProps.headerLeft
+  if (headerProps?.headerRight) headerOptions.headerRight = headerProps.headerRight
+  setOptions?.(headerOptions)
+}
+
+const useNavigationHeader = (navigation: NavigtionProps['navigation'], headerProps: HeaderProps) => {
   const { setOptions } = useNavigation()
   const { setHeaderTitle } = useNavigationContext()
 
-  const setNavigationHeader = useCallback(
-    (title: string, headerProps?: HeaderProps) => {
-      const headerOptions: NativeStackNavigationOptions = {}
-      setHeaderTitle(title)
-      headerOptions.headerCenter = () => (
-        <HoliText bold style={{ paddingTop: 5 }}>
-          {title}
-        </HoliText>
-      )
-      if (headerProps?.headerLeft) headerOptions.headerLeft = headerProps.headerLeft
-      if (headerProps?.headerRight) headerOptions.headerRight = headerProps.headerRight
-      setOptions?.(headerOptions)
-    },
-    [setOptions, setHeaderTitle]
-  )
+  useLayoutEffect(() => {
+    // This duplicate call is to prevent from flickering
+    setNavigationHeader(headerProps, setHeaderTitle, setOptions)
 
-  const clearNavigationHeader = useCallback(() => {
-    const headerOptions: NativeStackNavigationOptions = {}
-    headerOptions.headerCenter = undefined
-    headerOptions.headerLeft = undefined
-    headerOptions.headerRight = undefined
-    setOptions?.(headerOptions)
-  }, [setOptions])
+    const unsubscribeFocus = navigation?.addListener('focus', () => {
+      setNavigationHeader(headerProps, setHeaderTitle, setOptions)
+      return () => unsubscribeFocus
+    })
 
-  return {
-    setNavigationHeader,
-    clearNavigationHeader,
-  }
+    // Important: do not add dependency items here. They will cause too many event subscriptions
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  return ''
 }
 
 export default useNavigationHeader

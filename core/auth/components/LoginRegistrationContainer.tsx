@@ -24,12 +24,12 @@ const isWeb = Platform.OS === 'web'
 const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = ({ flow, mode = 'login', onSubmit }) => {
   const { userId, isLoggedIn } = useContext(AuthContext)
   const { t } = useTranslation()
-  const { navigate, navigateBack } = useRouting()
+  const { navigate, replaceRoute, navigateBack } = useRouting()
   const mixins = useStyleMixins()
   const isLogin = mode === 'login'
 
   const toggleLoginRegistration = () => {
-    const toggle = () => navigate(isLogin ? '/registration' : '/login')
+    const toggle = () => replaceRoute(isLogin ? '/registration' : '/login')
 
     if (isWeb) {
       toggle()
@@ -49,10 +49,6 @@ const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = (
         <HoliText>{t('auth.login.alreadyLoggedIn')}</HoliText>
       ) : (
         <View style={styles.formContainer}>
-          {Platform.OS === 'web' && (
-            <HoliHeading level="1">{isLogin ? t('auth.login') : t('auth.registration.heading')}</HoliHeading>
-          )}
-
           <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} />
 
           {isLogin ? (

@@ -1,0 +1,253 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly renders correctly when disabled is 'false', disableFocusability is 'false' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="tab"
+  accessibilitySelected={false}
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          Object {},
+        ]
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when disabled is 'false', disableFocusability is 'true' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="tab"
+  accessibilitySelected={false}
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          Object {},
+        ]
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when disabled is 'true', disableFocusability is 'false' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="tab"
+  accessibilitySelected={false}
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when disabled is 'true', disableFocusability is 'true' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="tab"
+  accessibilitySelected={false}
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "width": "auto",
+      },
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 21,
+            "lineHeight": 25.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          Object {
+            "color": "#6f7081",
+          },
+        ]
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;

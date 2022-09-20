@@ -7,6 +7,7 @@ import { displayError } from '@holi/core/errors/helpers'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
 import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'
 
 const PROJECT_PAGE_SIZE = 5
@@ -27,13 +28,13 @@ const DonationListing: React.VFC = () => {
     // TODO: replace with proper loading indicator
     return (
       <View style={[mixins.container, styles.messageContainer]}>
-        <HoliText>{t('donations.donationListing.loading')}</HoliText>
+        <HoliText>{t('donations:donationListing.loading')}</HoliText>
       </View>
     )
   }
 
   if (error) {
-    displayError(error, t('donations.donationListing.error'))
+    displayError(error, t('donations:donationListing.error'))
   }
 
   const projects = data?.appDonations_projects?.projects || []
@@ -41,7 +42,7 @@ const DonationListing: React.VFC = () => {
   return (
     <View>
       {projects.map((project) => (
-        <HoliText key={project.id}>{project.title}</HoliText>
+        <DonationListingItem key={project.id} project={project} />
       ))}
     </View>
   )

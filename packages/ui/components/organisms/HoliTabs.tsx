@@ -10,7 +10,7 @@ import {
   useWindowDimensions,
 } from 'react-native'
 
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -67,21 +67,18 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
           {tabs.map((tab, index) => {
             const isActive = currentSlide === index
             return (
-              <HoliButton
+              <HoliTabButton
                 label={tab.title}
                 id={`${id}-tab-${index}`}
-                transparent
-                inline
                 style={[styles.tabButton, isActive ? styles.activeTabButton : {}]}
                 onPress={() => goToIndex(index)}
                 key={index}
-                accessibilityRole="tab"
                 accessibilitySelected={isActive}
                 accessibilityControls={`${id}-panel-${index}`}
                 testID={`${testID}-button-${index}-${isActive ? 'active' : 'inactive'}`}
               >
                 <Text style={[styles.tabButtonText, isActive ? styles.activeTabButtonText : {}]}>{tab.title}</Text>
-              </HoliButton>
+              </HoliTabButton>
             )
           })}
         </View>

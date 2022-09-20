@@ -17,6 +17,9 @@ export const initI18n = (): Promise<TFunction> => {
         {
           fallbackLng: config.defaultLocale,
           supportedLngs: Object.keys(config.supportedLocales),
+          defaultNS: config.defaultNamespace,
+          fallbackNS: config.defaultNamespace,
+          ns: Object.keys(config.namespaces),
           interpolation: {
             escapeValue: false,
             format: (value, format?) => {

@@ -8,10 +8,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Login from '@holi/core/auth/screens/Login'
 import Logout from '@holi/core/auth/screens/Logout'
 import Registration from '@holi/core/auth/screens/Registration'
-import BackButton from '@holi/core/navigation/components/BackButton'
-import HeaderLeft from '@holi/core/navigation/components/HeaderLeft'
-import HeaderRight from '@holi/core/navigation/components/HeaderRight'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import Explore from '@holi/core/screens/Explore'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
@@ -25,6 +21,8 @@ import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
+
+import { BackButton, CenterElement, DownButton, LeftElement, RightElement } from './components'
 
 export type HomeStackScreens = {
   HomeFeed: undefined
@@ -55,14 +53,7 @@ const HomeStack = createNativeStackNavigator<HomeStackScreens>()
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
-const DownButton = () => {
-  const { t } = useTranslation()
-  return <BackButton label={t('navigation.closeWindow')} icon="arrow-down-s" />
-}
-
 export const HomeStackNavigator: React.VFC = () => {
-  const { t } = useTranslation()
-
   return (
     <HomeStack.Navigator
       initialRouteName="HomeFeed"
@@ -79,16 +70,11 @@ export const HomeStackNavigator: React.VFC = () => {
         name="HomeFeed"
         component={HomeFeed}
         options={{
-          headerTitle: () => <HeaderTitle style={{ paddingTop: 5 }} />,
-          headerLeft: () => <HeaderLeft style={{ paddingHorizontal: 0, marginLeft: 5 }} />,
-          headerRight: () => (
-            <HeaderRight
-              style={{
-                paddingHorizontal: 0,
-                marginRight: 5,
-              }}
-            />
-          ),
+          headerBackTitleVisible: true,
+          headerBackVisible: true,
+          headerTitle: CenterElement,
+          headerLeft: LeftElement,
+          headerRight: RightElement,
         }}
       />
       <HomeStack.Screen
@@ -97,16 +83,9 @@ export const HomeStackNavigator: React.VFC = () => {
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
+          headerTitle: CenterElement,
           headerLeft: BackButton,
-          headerRight: () => (
-            <HeaderRight
-              style={{
-                paddingHorizontal: 0,
-                marginRight: 5,
-              }}
-            />
-          ),
-          title: t('profile.title'),
+          headerRight: RightElement,
         }}
       />
       <HomeStack.Screen
@@ -115,16 +94,9 @@ export const HomeStackNavigator: React.VFC = () => {
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
+          headerTitle: CenterElement,
           headerLeft: BackButton,
-          headerRight: () => (
-            <HeaderRight
-              style={{
-                paddingHorizontal: 0,
-                marginRight: 5,
-              }}
-            />
-          ),
-          title: t('profile.title'),
+          headerRight: RightElement,
         }}
       />
       <HomeStack.Screen
@@ -133,6 +105,7 @@ export const HomeStackNavigator: React.VFC = () => {
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
+          headerTitle: CenterElement,
           headerLeft: BackButton,
         }}
       />
@@ -142,6 +115,7 @@ export const HomeStackNavigator: React.VFC = () => {
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
+          headerTitle: CenterElement,
           headerLeft: BackButton,
         }}
       />
@@ -151,15 +125,9 @@ export const HomeStackNavigator: React.VFC = () => {
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
+          headerTitle: CenterElement,
           headerLeft: BackButton,
-          headerRight: () => (
-            <HeaderRight
-              style={{
-                paddingHorizontal: 0,
-                marginRight: 5,
-              }}
-            />
-          ),
+          headerRight: RightElement,
         }}
       />
     </HomeStack.Navigator>
@@ -202,16 +170,19 @@ export const BottomTabsNavigator: React.VFC = () => {
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="chat-3" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
+          headerStyle: {
+            borderBottomColor: 'transparent',
+          },
         }}
       />
       <BottomTabs.Screen
         name="Explore"
         component={Explore}
         options={{
-          headerShown: true,
           headerTitleAlign: 'center',
           headerShadowVisible: false,
           tabBarShowLabel: false,
+          headerTitle: CenterElement,
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="loader" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
@@ -221,10 +192,10 @@ export const BottomTabsNavigator: React.VFC = () => {
         name="Search"
         component={Search}
         options={{
-          headerShown: true,
           headerTitleAlign: 'center',
           headerShadowVisible: false,
           tabBarShowLabel: false,
+          headerTitle: CenterElement,
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="search" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
@@ -275,6 +246,8 @@ const RootNavigator: React.VFC = () => {
           component={Login}
           options={{
             title: t('auth.login'),
+            headerLeft: LeftElement,
+            headerRight: RightElement,
           }}
         />
         <RootStack.Screen
@@ -282,6 +255,8 @@ const RootNavigator: React.VFC = () => {
           component={Logout}
           options={{
             title: t('auth.logout'),
+            headerLeft: LeftElement,
+            headerRight: RightElement,
           }}
         />
         <RootStack.Screen
@@ -289,6 +264,8 @@ const RootNavigator: React.VFC = () => {
           component={Registration}
           options={{
             title: t('auth.register'),
+            headerLeft: LeftElement,
+            headerRight: RightElement,
           }}
         />
       </RootStack.Group>
