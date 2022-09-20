@@ -10,7 +10,7 @@ import {
   useWindowDimensions,
 } from 'react-native'
 
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export interface HoliCarouselProps {
@@ -92,20 +92,16 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
       {!isWeb && (
         <View style={styles.slideButtonsContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
           {slides.map((slide, slideIndex) => (
-            <HoliButton
-              label={slide.title || ''}
-              transparent
-              inline
+            <HoliTabButton
+              label={slide.title || '' + (slideIndex + 1)}
               style={styles.slideButton}
               onPress={() => goToSlide(slideIndex)}
               key={slideIndex}
-              accessibilityRole="tab"
               accessibilitySelected={slideIndex === currentSlide}
-              accessibilityLabel={'' + slideIndex}
               testID={slideIndex === slideIndex ? 'active-tab' : 'inactive-tab'}
             >
               <View style={[styles.slideButtonIcon, slideIndex === currentSlide ? styles.activeSlideButtonIcon : {}]} />
-            </HoliButton>
+            </HoliTabButton>
           ))}
         </View>
       )}
