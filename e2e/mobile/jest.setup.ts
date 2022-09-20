@@ -1,12 +1,14 @@
 import * as webdriverio from 'webdriverio'
 
-import appiumConfig, { target, waitingTimeout } from './appiumConfig'
+import appiumConfig, { target } from './appiumConfig'
 import { logout } from './helpers/auth'
 import { navigateBackToHomeScreen, waitForHomeScreen } from './helpers/navigation'
 
 global.platform = appiumConfig.platform
 
 beforeEach(async () => {
+  console.warn('current test: ', expect.getState().currentTestName)
+  appiumConfig.capabilities.name = expect.getState().currentTestName
   global.Appium = await webdriverio.remote(appiumConfig)
   if (appiumConfig.capabilities.app) {
     let numAttempts = 5
@@ -29,7 +31,7 @@ beforeEach(async () => {
     await navigateBackToHomeScreen()
   }
   // https://appium.io/docs/en/commands/session/timeouts/implicit-wait/
-  await global.Appium.setImplicitTimeout(waitingTimeout)
+  await global.Appium.setImplicitTimeout(10000)
 }, 60000)
 
 jest.setTimeout(120000)

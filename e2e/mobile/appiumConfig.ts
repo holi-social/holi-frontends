@@ -24,23 +24,22 @@ export const target = requireEnvVar('APPIUM_TARGET', {
   defaultValue: 'browserstack',
 })
 const platform = requireEnvVar('APPIUM_PLATFORM', { validValues: ['android', 'ios'] })
-const platformName = platform === 'android' ? 'Android' : 'iOS'
 const appId = 'foundation.holistic.projectholi'
-export const waitingTimeout = 5000 // ms
 
 //////////////////////////////////////////
 // remote testing on BrowserStack cloud //
 //////////////////////////////////////////
 
 // see https://www.browserstack.com/list-of-browsers-and-platforms/app_automate for list of available real devices
-const google_pixel_5_11 = { deviceName: 'Google Pixel 5', os: 'android', os_version: '11.0' }
-const iphone_xs_13 = { deviceName: 'iPhone XS', os: 'ios', os_version: '13' }
+const google_pixel_5_11 = { device: 'Google Pixel 5', os_version: '11.0' }
+const iphone_xs_13 = { device: 'iPhone XS', os_version: '13' }
 
 const browserStackDevice = platform === 'android' ? google_pixel_5_11 : iphone_xs_13
 
 const defaultConfig: Partial<Options.WebdriverIO> = {
   logLevel: 'error',
-  waitforTimeout: waitingTimeout, // ms
+  // timeout in ms for the waitFor... commands
+  waitforTimeout: 10000, // ms
   // TODO (OL) trying if this stabilizes tests
   connectionRetryCount: 3,
   connectionRetryTimeout: 200000, // ms
@@ -57,23 +56,25 @@ const getISO8601Date = () => {
 }
 
 const browserStackCapabilities = () => ({
-  // as it seems, on this top level, no validation is done on any properties. Be aware of this, it might be not the right level for settings you want to add
+  // WebDriverIO level https://webdriver.io/docs/options/
   ...defaultConfig,
   user: requireEnvVar('BROWSERSTACK_USERNAME'),
   key: requireEnvVar('BROWSERSTACK_ACCESS_KEY'),
-  // TODO (OL) trying if this stabilizes tests
-  idleTimeout: 120,
-  buildName: requireEnvVar('CI_COMMIT_SHA', {
-    defaultValue: `local-${getUsername()}-${getISO8601Date()}`,
-  }),
-  projectName: `Test name would be great - ${getISO8601Date()}`,
-  parallelsPerPlatform: 1,
-  test123: true,
-  networkLogs: true,
   platform,
   capabilities: {
-    platformName,
+    // BrowserStack options: https://www.browserstack.com/app-automate/capabilities#  (switch to Node.JS)
     app: requireEnvVar('BROWSERSTACK_APP_URL'),
+    project: requireEnvVar('CI_COMMIT_REF_NAME', {
+      defaultValue: `local-${getUsername()}-${getISO8601Date()}`,
+    }),
+    build: requireEnvVar('CI_COMMIT_SHA', {
+      defaultValue: `local-${getUsername()}-${getISO8601Date()}`,
+    }),
+    name: `test name - ${getISO8601Date()}`,
+    'browserstack.idleTimeout': '120',
+    'browserstack.networkLogs': 'true',
+    'browserstack.consoleLogs': 'info',
+    'browserstack.disableAnimations': 'true',
     ...browserStackDevice,
   },
 })
