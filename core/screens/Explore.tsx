@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
@@ -10,18 +10,14 @@ import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-type ExploreProps = NativeStackScreenProps<HomeStackScreens>
+type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const Explore: React.VFC<ExploreProps> = ({ navigation }: ExploreProps) => {
-  const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
+const Explore: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const { t } = useTranslation()
   const title = t('explore.title')
   const mixins = useStyleMixins()
 
-  useLayoutEffect(() => {
-    setNavigationHeader(title)
-    return clearNavigationHeader
-  }, [navigation, title, setNavigationHeader, clearNavigationHeader])
+  useNavigationHeader(navigation, { title: title })
 
   return (
     <DefaultLayout>

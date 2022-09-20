@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -23,23 +23,19 @@ export type TopicParams = {
 }
 const { useParam } = createParam<TopicParams>()
 
-type TopicProps = NativeStackScreenProps<HomeStackScreens>
+type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const Topic: React.VFC<TopicProps> = ({ navigation }: TopicProps) => {
+const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const [showModal, setShowModal] = useState(false)
   const [topicId = ''] = useParam('topicId')
   const { navigate } = useRouting()
-  const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  useLayoutEffect(() => {
-    const title = t('topics.topic.title', { title: topicId })
-    setNavigationHeader(title, {
-      headerLeft: () => <BackButton />,
-    })
-    return clearNavigationHeader
-  }, [navigation, topicId, t, setNavigationHeader, clearNavigationHeader])
+  useNavigationHeader(navigation, {
+    title: t('topics.topic.title', { title: topicId }),
+    headerLeft: () => <BackButton />,
+  })
 
   // Important: `fakeTopics.get(topicId) should be called after useEffect() or useLayoutEffet()
   // A hard reload will cause an error.

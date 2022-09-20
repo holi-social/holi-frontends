@@ -29,13 +29,11 @@ export type UserProfileParams = {
 }
 const { useParam } = createParam<UserProfileParams>()
 
-type UserProfileProps = NativeStackScreenProps<HomeStackScreens>
+type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfileProps) => {
+const UserProfile: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const { t } = useTranslation()
   const { replaceRoute } = useRouting()
-
-  const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const mixins = useStyleMixins()
 
   const { isLoggedIn, userId: authenticatedUserId } = useContext(AuthContext)
@@ -46,6 +44,9 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
       replaceRoute('/profile')
     }
   }, [replaceRoute, isLoggedIn, userId, authenticatedUserId])
+
+  const profileTitle = t('profile.title')
+  useNavigationHeader(navigation, { title: profileTitle })
 
   const [fetchUser, { loading, error, data }] = useLazyQuery<UserByIdResponse>(userByIdQuery, {
     variables: { userId },
@@ -62,13 +63,6 @@ const UserProfile: React.VFC<UserProfileProps> = ({ navigation }: UserProfilePro
       fetchUser()
     }
   }, [fetchUser, userId, loading, user])
-
-  const profileTitle = t('profile.title')
-  // to avoid a FOUC, we use useLayoutEffect (synchronously) instead of useEffect for updating the navigation
-  useLayoutEffect(() => {
-    setNavigationHeader(profileTitle)
-    return clearNavigationHeader
-  }, [profileTitle, navigation, setNavigationHeader, clearNavigationHeader])
 
   if (error) {
     if (isNotFoundError(error)) {
