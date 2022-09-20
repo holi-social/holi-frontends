@@ -38,7 +38,7 @@ const DonationsAppHome: React.VFC<DonationsAppHomeProps> = ({ navigation }: Dona
 
   return (
     <DefaultLayout>
-      <View style={[mixins.container, { padding: 10 }]}>
+      <View style={[mixins.container, { paddingTop: 10 }]}>
         <DonationListing />
       </View>
     </DefaultLayout>
