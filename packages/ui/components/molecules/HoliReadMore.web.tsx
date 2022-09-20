@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, Text, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -17,10 +18,11 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
   const [numberOfLines, setNumberOfLines] = React.useState<number | undefined>(
     props.numberOfLines || defaultNumberOfLines
   )
+  const { t } = useTranslation()
 
-  const hideButtonText = 'Read less'
+  const hideButtonText = t('component.readMore.readLess')
 
-  const showButtonText = 'Read more'
+  const showButtonText = t('component.readMore.readMore')
 
   // buffer for comparing scrollHeight and clientHeight - clientHeight may differ +/- 1px
   const marginBuffer = 1

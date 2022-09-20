@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Text, TextLayoutEventData, TextLayoutLine, TextProps, TextStyle, View, ViewStyle } from 'react-native'
 
 import HoliText, { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
@@ -25,11 +26,12 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
   const [numberOfLines, setNumberOfLines] = React.useState<number | undefined>(
     props.numberOfLines || defaultNumberOfLines
   )
+  const { t } = useTranslation()
 
-  const hideButtonText = 'Read less'
+  const hideButtonText = t('component.readMore.readLess')
 
   // needed for its length calculation
-  const showButtonText = 'Read more'
+  const showButtonText = t('component.readMore.readMore')
   const { length: showButtonTextLength } = showButtonText
 
   // buffer factor to truncate the text for extra space (showButtonTextLength * bufferTextFactor)
@@ -103,17 +105,9 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
 
   // using a Text as the button, due to vertical aligning issues on Android https://github.com/facebook/react-native/issues/27549
   const ToggleButton = (
-    <HoliText
-      label={buttonType === 'show' ? showButtonText : hideButtonText}
-      onPress={togglebuttonType}
-      transparent
-      accessible={true}
-      accessibilityRole="button"
-      role="button"
-      style={props.buttonStyle || {}}
-    >
+    <Text onPress={togglebuttonType} accessible={true} accessibilityRole="button" style={props.buttonStyle || {}}>
       {buttonType === 'show' ? showButtonText : hideButtonText}
-    </HoliText>
+    </Text>
   )
 
   return (
