@@ -1,6 +1,5 @@
 {
   "apps.adsForGood.name": "Ads for Good",
-  "apps.donations.name": "Donations",
   "apps.factCheck.name": "FactCheck",
   "apps.goodNews.name": "Good News",
   "apps.volunteering.name": "Volunteering",
@@ -43,8 +42,6 @@
   "auth.registration.heading": "Erstelle ein Benutzerkonto",
   "chat.title": "Chat",
   "date": "{{date, D. MMM}}",
-  "donations.donationListing.error": "Laden von Spendenprojekten ist fehlgeschlagen",
-  "donations.donationListing.loading": "Lädt Spendenprojekte...",
   "error.alert.button": "OK",
   "error.alert.headline": "Ein Fehler ist aufgetreten",
   "error.alert.title": "Fehler",

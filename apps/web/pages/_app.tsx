@@ -51,6 +51,7 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
       <RootProvider>{getLayout(<Component {...pageProps} />)}</RootProvider>
     </I18nextProvider>
   ) : (
+    // TODO: Workaround as React.Suspense is not yet supported for SSR
     <SafeArea style={styles.loadingContainer}>
       <HoliText style={{ textAlign: 'center' }}>Loading translations...</HoliText>
     </SafeArea>
