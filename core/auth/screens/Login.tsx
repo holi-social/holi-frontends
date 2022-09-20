@@ -35,7 +35,7 @@ const Login: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
         {title}
       </HoliHeading>
     ),
-    headerLeft: () => (Platform.OS === 'web' ? <HoliText /> : <BackButton icon="arrow-left-s" />),
+    headerLeft: () => (Platform.OS === 'web' ? <HoliText /> : <BackButton icon="arrow-down-s" />),
     headerRight: () => (Platform.OS === 'web' ? <BackButton icon="close" /> : <HoliText />),
   })
 

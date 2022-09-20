@@ -8,10 +8,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Login from '@holi/core/auth/screens/Login'
 import Logout from '@holi/core/auth/screens/Logout'
 import Registration from '@holi/core/auth/screens/Registration'
-import BackButton from '@holi/core/navigation/components/BackButton'
-import HeaderLeft from '@holi/core/navigation/components/HeaderLeft'
-import HeaderRight from '@holi/core/navigation/components/HeaderRight'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import Explore from '@holi/core/screens/Explore'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
@@ -25,6 +21,8 @@ import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
+
+import { BackButton, CenterElement, DownButton, LeftElement, RightElement } from './components'
 
 export type HomeStackScreens = {
   HomeFeed: undefined
@@ -54,21 +52,6 @@ export type RootStackScreens = {
 const HomeStack = createNativeStackNavigator<HomeStackScreens>()
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const RootStack = createNativeStackNavigator<RootStackScreens>()
-
-export const DownButton = () => {
-  const { t } = useTranslation()
-  return <BackButton label={t('navigation.closeWindow')} icon="arrow-down-s" />
-}
-export const CenterElement = () => <HeaderTitle style={{ paddingTop: 5 }} />
-export const LeftElement = () => <HeaderLeft style={{ paddingHorizontal: 0, marginLeft: 5 }} />
-export const RightElement = () => (
-  <HeaderRight
-    style={{
-      paddingHorizontal: 0,
-      marginRight: 5,
-    }}
-  />
-)
 
 export const HomeStackNavigator: React.VFC = () => {
   return (
