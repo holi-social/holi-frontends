@@ -25,7 +25,7 @@ const Logout: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
 
   useNavigationHeader(navigation, {
     title: '',
-    headerLeft: () => (Platform.OS === 'web' ? <HoliText /> : <BackButton icon="arrow-left-s" />),
+    headerLeft: () => (Platform.OS === 'web' ? <HoliText /> : <BackButton icon="arrow-down-s" />),
     headerRight: () => (Platform.OS === 'web' ? <BackButton icon="close" /> : <HoliText />),
   })
 
