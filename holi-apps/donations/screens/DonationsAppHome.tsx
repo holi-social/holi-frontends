@@ -4,11 +4,11 @@ import { View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
+import DefaultLayout from '@holi/core/DefaultLayout'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -19,7 +19,7 @@ type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
 const DonationsAppHome: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const { t } = useTranslation()
-  const title = t('apps.donations.name')
+  const title = t('donations:app.name')
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
 
@@ -34,12 +34,11 @@ const DonationsAppHome: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) =
   })
 
   return (
-    <View style={[mixins.container, { padding: 10 }]}>
-      <HoliHeading level="1" size="super" testID="apps-donations-heading">
-        {title}
-      </HoliHeading>
-      <DonationListing />
-    </View>
+    <DefaultLayout>
+      <View style={[mixins.container, { paddingTop: 10 }]}>
+        <DonationListing />
+      </View>
+    </DefaultLayout>
   )
 }
 

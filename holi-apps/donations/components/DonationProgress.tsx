@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -13,9 +14,6 @@ type DonationProgressProps = {
   style?: ViewStyle | ViewStyle[]
 }
 
-// TODO(konrad): refactor and move to collection of helpers later?
-const pluralize = (count: number, noun: string, suffix = 's') => `${count} ${noun}${count !== 1 ? suffix : ''}`
-
 const DonationProgress = ({
   donationsCount,
   progressPercentage,
@@ -24,46 +22,53 @@ const DonationProgress = ({
   size = 'default',
   ...props
 }: DonationProgressProps) => {
+  const { t, i18n } = useTranslation()
   const styles = getStyles()
+  const isSmall = size === 'small'
   const openAmount = useMemo(() => {
-    return new Intl.NumberFormat('de-DE', {
+    return new Intl.NumberFormat(i18n.language, {
       style: 'currency',
       currency: 'EUR',
       minimumFractionDigits: 0,
     }).format(Math.round(openAmountInCents / 100))
-  }, [openAmountInCents])
+  }, [openAmountInCents, i18n.language])
 
-  // TODO(konrad): move this to separate component later (with avatar bubbles and likes)
   const interactionBar = useCallback(
     () => (
       <HoliText>
-        <HoliText size={'small'} style={{ color: colors.fontColorGrey }}>
-          {`${pluralize(donationsCount, 'donation', 's')}`}
+        <HoliText size="small" style={{ color: colors.fontColorGrey }}>
+          {t('donations:donationProgress.count', { count: donationsCount })}
         </HoliText>
         {category && (
           <>
-            <HoliText size={'small'} style={{ color: colors.positivepurple }}>
+            <HoliText size="small" style={{ color: colors.positivepurple }}>
               {' ∙ '}
             </HoliText>
-            <HoliText size={'small'} style={{ color: colors.fontColorGrey }}>
-              {category}
+            <HoliText size="small" style={{ color: colors.fontColorGrey }}>
+              {t(`donations:category.${category}`)}
             </HoliText>
           </>
         )}
       </HoliText>
     ),
-    [donationsCount, category]
+    [t, donationsCount, category]
   )
 
   return (
     <View style={[props?.style]}>
       {size !== 'small' && interactionBar()}
-      <View style={[styles.bar, size === 'small' && { height: 6 }]}>
-        <View style={[styles.filled, size === 'small' && { height: 6 }, { width: `${progressPercentage}%` }]} />
+      <View style={[styles.bar, isSmall && { height: 6 }]}>
+        <View style={[styles.filled, isSmall && { height: 6 }, { width: `${progressPercentage}%` }]} />
       </View>
       <View style={styles.goals}>
-        <HoliText size={'small'} style={{ color: colors.fontColorGrey }}>{`${progressPercentage}% funded`}</HoliText>
-        {size !== 'small' && <HoliText size={'small'}>{`${openAmount} to go`}</HoliText>}
+        <HoliText size="small" style={{ color: colors.fontColorGrey }}>
+          {t('donations:donationProgress.percentFunded', { percentage: progressPercentage })}
+        </HoliText>
+        {!isSmall && (
+          <HoliText size="small" style={styles.openAmount}>
+            {t('donations:donationProgress.openAmount', { amount: openAmount })}
+          </HoliText>
+        )}
       </View>
     </View>
   )
@@ -92,5 +97,8 @@ const getStyles = () =>
     goals: {
       flexDirection: 'row',
       justifyContent: 'space-between',
+    },
+    openAmount: {
+      fontWeight: '500',
     },
   })
