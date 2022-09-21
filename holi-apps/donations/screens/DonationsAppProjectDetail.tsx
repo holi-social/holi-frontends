@@ -1,13 +1,12 @@
 import { useLazyQuery } from '@apollo/client'
-import { displayError } from 'core/errors/helpers'
-import { AppDonationsProjectByIdResponse, projectByIdQuery } from 'holi-apps/donations/queries'
 import React, { useLayoutEffect } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { Image, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import { displayError } from '@holi/core/errors/helpers'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -21,6 +20,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
+import { AppDonationsProjectByIdResponse, projectByIdQuery } from '@holi-apps/donations/queries'
 import { Picture } from '@holi-apps/donations/typings'
 
 export type DonationsAppProjectDetailParams = {
@@ -35,10 +35,14 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
   navigation,
 }: DonationsAppProjectDetailProps) => {
   const [projectId] = useParam('projectId')
-
-  const { setNavigationHeader, clearNavigationHeader } = useNavigationHeader()
   const { t, i18n } = useTranslation()
-  const title = t('apps.donations.detail.title')
+  const title = t('donations:detail.title')
+
+  useNavigationHeader(navigation, {
+    title: title,
+    headerLeft: () => <BackButton />,
+  })
+
   const mixins = useStyleMixins()
 
   const { height: deviceHeight } = useWindowDimensions()
@@ -51,9 +55,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
   // > will probably be solved with ssr
   // see https://github.com/nandorojo/solito/issues/100
   useLayoutEffect(() => {
-    console.debug('projectId', projectId, 'loading', loading, 'project', project)
     if (projectId && !loading && !project) {
-      console.debug('fetchProjectById()')
       fetchProjectById({
         variables: {
           locale: i18n.language,
@@ -63,28 +65,21 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
     }
   }, [fetchProjectById, projectId, loading, project, i18n.language])
 
-  useLayoutEffect(() => {
-    setNavigationHeader(title, {
-      headerLeft: () => <BackButton />,
-    })
-    return clearNavigationHeader
-  }, [navigation, projectId, title, setNavigationHeader, clearNavigationHeader])
-
   if (!projectId || loading) {
     // TODO: replace with proper loading indicator
     return (
       <View style={[mixins.container, styles.messageContainer]}>
-        <HoliText>{t('donations.donationListing.loading')}</HoliText>
+        <HoliText>{t('donations:donationListing.loading')}</HoliText>
       </View>
     )
   }
 
   if (error) {
-    displayError(error, t('donations.donationListing.error'))
+    displayError(error, t('donations:donationListing.error'))
   }
 
   if (!project) {
-    return <HoliText>{t('apps.donations.detail.notFound', { projectId })}</HoliText>
+    return <HoliText>{t('donations:detail.notFound', { projectId })}</HoliText>
   }
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -109,19 +104,10 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
           </View>
           {/* TODO update to organism once API is available */}
           <View style={styles.donationStats}>
-            <View style={styles.donationStatsHeader}>
-              <View style={styles.donationStatsHeaderSection}>
-                <HoliText size={'small'} style={{ color: colors.fontColorGrey, marginLeft: 8 }}>
-                  <Trans t={t} i18nKey="apps.donations.label" values={{ count: project.donationsCount }} />
-                </HoliText>
-              </View>
-            </View>
             <DonationProgress
               donationsCount={project.donationsCount}
               progressPercentage={project.progressPercentage}
               openAmountInCents={project.openAmountInCents}
-              bold
-              hideDonationsCount={true}
               style={{ marginTop: 8 }}
             />
           </View>
@@ -140,9 +126,9 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
         </View>
       </DefaultLayout>
       <View style={[mixins.container, styles.donateButton]}>
-        <HoliButton label={t('apps.donations.detail.donate')}>
+        <HoliButton label={t('donations:detail.donate')}>
           <HoliText bold style={{ marginRight: 8 }}>
-            {t('apps.donations.detail.donate')}
+            {t('donations:detail.donate')}
           </HoliText>
           <HoliIcon icon="external-link" size={16} />
         </HoliButton>
@@ -185,14 +171,6 @@ const styles = StyleSheet.create({
     borderRadius: 32,
     backgroundColor: colors.white,
     marginTop: 2,
-  },
-  donationStatsHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  donationStatsHeaderSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
   },
   donateButton: {
     bottom: 92,

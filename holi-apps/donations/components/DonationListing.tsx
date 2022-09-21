@@ -9,6 +9,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
 import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'
 
 const PROJECT_PAGE_SIZE = 5
@@ -30,13 +31,13 @@ const DonationListing: React.VFC = () => {
     // TODO: replace with proper loading indicator
     return (
       <View style={[mixins.container, styles.messageContainer]}>
-        <HoliText>{t('donations.donationListing.loading')}</HoliText>
+        <HoliText>{t('donations:donationListing.loading')}</HoliText>
       </View>
     )
   }
 
   if (error) {
-    displayError(error, t('donations.donationListing.error'))
+    displayError(error, t('donations:donationListing.error'))
   }
 
   const projects = data?.appDonations_projects?.projects || []
@@ -48,8 +49,9 @@ const DonationListing: React.VFC = () => {
           key={project.id}
           label={project.title}
           onPress={() => navigate(`/apps/donations/project/${project.id}`)}
+          transparent
         >
-          <HoliText>{project.title}</HoliText>
+          <DonationListingItem key={project.id} project={project} />
         </HoliButton>
       ))}
     </View>

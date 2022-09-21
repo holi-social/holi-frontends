@@ -1,5 +1,9 @@
 import { registerRootComponent } from 'expo'
 import Constants from 'expo-constants'
+// Polyfill for Intl including required locale data
+import 'intl'
+import 'intl/locale-data/jsonp/de'
+import 'intl/locale-data/jsonp/en'
 import 'react-native-gesture-handler'
 import 'react-native-url-polyfill/auto'
 import * as Sentry from 'sentry-expo'

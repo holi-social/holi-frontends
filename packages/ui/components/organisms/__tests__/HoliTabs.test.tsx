@@ -4,7 +4,7 @@ import { View } from 'react-native'
 import renderer from 'react-test-renderer'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 
 const tabs = [
@@ -37,7 +37,7 @@ describe('displays the tab buttons correctly', () => {
   it('displays all tab buttons', () => {
     const testRenderer = renderer.create(<HoliTabs tabs={tabs} id="test-tabs" />)
     const holiTabsInstance = testRenderer.root
-    const buttonInstances = holiTabsInstance.findAllByType(HoliButton)
+    const buttonInstances = holiTabsInstance.findAllByType(HoliTabButton)
 
     expect(buttonInstances.length).toBe(tabs.length)
   })

@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -21,60 +21,56 @@ const DonationProgress = ({
   progressPercentage,
   openAmountInCents,
   category,
-  bold,
-  hideDonationsCount = false,
   size = 'default',
   ...props
 }: DonationProgressProps) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const styles = getStyles()
+  const isSmall = size === 'small'
   const openAmount = useMemo(() => {
-    return new Intl.NumberFormat('de-DE', {
+    return new Intl.NumberFormat(i18n.language, {
       style: 'currency',
       currency: 'EUR',
       minimumFractionDigits: 0,
     }).format(Math.round(openAmountInCents / 100))
-  }, [openAmountInCents])
+  }, [openAmountInCents, i18n.language])
 
-  // TODO(konrad): move this to separate component later (with avatar bubbles and likes)
   const interactionBar = useCallback(
     () => (
       <HoliText>
-        {!hideDonationsCount && (
-          <HoliText size={bold ? 'default' : 'small'} bold={bold} style={{ color: colors.fontColorGrey }}>
-            <Trans t={t} i18nKey="apps.donations.label" values={{ count: donationsCount }} />
-          </HoliText>
-        )}
+        <HoliText size="small" style={{ color: colors.fontColorGrey }}>
+          {t('donations:donationProgress.count', { count: donationsCount })}
+        </HoliText>
         {category && (
           <>
-            {!hideDonationsCount && (
-              <HoliText size={bold ? 'default' : 'small'} bold={bold} style={{ color: colors.positivepurple }}>
-                {' ∙ '}
-              </HoliText>
-            )}
-            <HoliText size={bold ? 'default' : 'small'} bold={bold} style={{ color: colors.fontColorGrey }}>
-              {category}
+            <HoliText size="small" style={{ color: colors.positivepurple }}>
+              {' ∙ '}
+            </HoliText>
+            <HoliText size="small" style={{ color: colors.fontColorGrey }}>
+              {t(`donations:category.${category}`)}
             </HoliText>
           </>
         )}
       </HoliText>
     ),
-    [hideDonationsCount, bold, t, donationsCount, category]
+    [t, donationsCount, category]
   )
 
   return (
     <View style={[props?.style]}>
       {size !== 'small' && interactionBar()}
-      <View style={[styles.bar, size === 'small' && { height: 6 }]}>
-        <View style={[styles.filled, size === 'small' && { height: 6 }, { width: `${progressPercentage}%` }]} />
+      <View style={[styles.bar, isSmall && { height: 6 }]}>
+        <View style={[styles.filled, isSmall && { height: 6 }, { width: `${progressPercentage}%` }]} />
       </View>
       <View style={styles.goals}>
-        <HoliText
-          size={bold ? 'default' : 'small'}
-          style={{ color: colors.fontColorGrey }}
-          bold={bold}
-        >{`${progressPercentage}% funded`}</HoliText>
-        {size !== 'small' && <HoliText size={bold ? 'default' : 'small'} bold={bold}>{`${openAmount} to go`}</HoliText>}
+        <HoliText size="small" style={{ color: colors.fontColorGrey }}>
+          {t('donations:donationProgress.percentFunded', { percentage: progressPercentage })}
+        </HoliText>
+        {!isSmall && (
+          <HoliText size="small" style={styles.openAmount}>
+            {t('donations:donationProgress.openAmount', { amount: openAmount })}
+          </HoliText>
+        )}
       </View>
     </View>
   )
@@ -103,5 +99,8 @@ const getStyles = () =>
     goals: {
       flexDirection: 'row',
       justifyContent: 'space-between',
+    },
+    openAmount: {
+      fontWeight: '500',
     },
   })
