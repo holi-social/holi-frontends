@@ -7,7 +7,6 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export type ReadMoreProps = HoliTextProps &
   TextProps & {
-    children: string
     numberOfLines?: 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | undefined // 1 line is not supported on Android and in this component
     style?: ViewStyle
     fontStyle?: TextStyle
@@ -44,7 +43,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
   // for mobile only: onTextLayout is not supported on web - https://github.com/necolas/react-native-web/issues/1685
   const truncateText = ({ nativeEvent: { lines } }: { nativeEvent: TextLayoutEventData }) => {
     // ignore truncating when there is no hidden text (no need for a Read more button)
-    if (!lines || !lines.length || !lines[0].text.length || !numberOfLines || lines.length < numberOfLines) {
+    if (!numberOfLines || lines.length < numberOfLines) {
       setNumberOfLines(undefined)
       setButtonType(undefined)
       return
@@ -59,18 +58,14 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
     const truncatedText = lines
       .map((line: TextLayoutLine, index: number) => {
         const { text } = line
+        const maxAllowedLastLineLength = firstLineLength - showButtonTextLength * bufferTextFactor - ellipsisLength
 
         // if we are in the last visible line, truncate it in case its text is too long (longer or equal to the length of first line minus the button text length)
-        if (
-          numberOfLines - 1 === index &&
-          text.length >= firstLineLength - showButtonTextLength * bufferTextFactor - ellipsisLength
-        ) {
+        if (numberOfLines - 1 === index && text.length >= maxAllowedLastLineLength) {
           // only display Read More button if truncating was needed
           truncated = true
 
-          return (
-            text.substring(0, firstLineLength - showButtonTextLength * bufferTextFactor - ellipsisLength) + ellipsis
-          )
+          return text.substring(0, maxAllowedLastLineLength) + ellipsis
         }
 
         // disconsider any lines beyond numberOfLines for the truncated text
