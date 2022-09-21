@@ -49,6 +49,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
       aboutMe,
       pronouns,
       location,
+      ...(pickedAvatar?.blob ? { avatar: pickedAvatar.blob } : {}),
     }
 
     const resultSchema = UpdateAuthenticatedUserInputSchema.safeParse(input)
