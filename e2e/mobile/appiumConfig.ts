@@ -47,15 +47,9 @@ const defaultConfig: Partial<Options.WebdriverIO> = {
   connectionRetryTimeout: 200000, // ms
 }
 
-const gitlabBranchName = requireEnvVar('CI_COMMIT_REF_NAME', {
-  defaultValue: undefined, //`local-${getUsername()}-${getISO8601Date()}`,
-})
-const gitlabCommmitSHA = requireEnvVar('CI_COMMIT_SHA', {
-  defaultValue: undefined, //`local-${getUsername()}-${getISO8601Date()}`,
-})
-const gitlabJobID = requireEnvVar('CI_JOB_ID', {
-  defaultValue: undefined, //`local-${getUsername()}-${getISO8601Date()}`,
-})
+const gitlabBranchName = requireEnvVar('CI_COMMIT_REF_NAME', { defaultValue: undefined })
+const gitlabCommmitSHA = requireEnvVar('CI_COMMIT_SHA', { defaultValue: undefined })
+const gitlabJobID = requireEnvVar('CI_JOB_ID', { defaultValue: undefined })
 // unique across single runs of the pipeline, but still informative
 const gitlabCommitSHAAndJobID = gitlabCommmitSHA ? `SHA-${gitlabCommmitSHA}_JOB-${gitlabJobID}` : undefined
 
@@ -69,14 +63,12 @@ const localGitInfo = (() => {
   const git = (parameters: string[]) => {
     return execFileSync('git', parameters)
   }
-
-  // .git
-  const gitPath = path.resolve('../../', './.git')
-
-  // parse `git branch` output
+  const gitRootPath = '../../'
+  const gitPath = path.resolve(gitRootPath, './.git')
   const branchName =
-    (git(['--work-tree=' + '../../', '--git-dir=' + gitPath, 'branch'])
+    (git([`--work-tree=${gitRootPath}`, `--git-dir=${gitPath}`, 'branch'])
       ?.toString()
+      // parse `git branch` output
       ?.match(/\*\s(.*)\n/) || ['', ''])[1] || ''
   const commitSHA = git(['rev-parse', 'HEAD'])?.toString()
 
