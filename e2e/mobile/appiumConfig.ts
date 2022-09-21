@@ -88,7 +88,7 @@ const browserStackCapabilities = () => ({
     // BrowserStack options: https://www.browserstack.com/app-automate/capabilities#  (switch to Node.JS)
     app: requireEnvVar('BROWSERSTACK_APP_URL'),
     project: gitlabBranchName || localGitInfo.branch,
-    build: gitlabCommitSHAAndJobID || localGitInfo.sha,
+    build: gitlabCommitSHAAndJobID || `${requireEnvVar('USER')?.toUpperCase()}_SHA${localGitInfo.sha}`,
     name: undefined, // is set to the name of the current test in jest.setup.ts
     'browserstack.idleTimeout': '120',
     'browserstack.networkLogs': 'true',
