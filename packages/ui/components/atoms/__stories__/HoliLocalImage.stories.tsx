@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import { ResizeModes } from '@holi/ui/components/atoms/HoliLocalImage.shared'
+import { ResizeModes } from '@holi/ui/components/atoms/HoliImage.shared'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage.web'
 
 export default {
@@ -56,11 +56,9 @@ Primary.argTypes = {
   },
   resizeMode: {
     description: 'the resizeMode for the image',
-    //    options: ResizeModes, // An array of serializable values
-    //  mapping: ResizeModes, // Maps serializable option values to complex arg values
+    options: ResizeModes, // An array of serializable values
     control: {
       type: 'select',
-      options: ResizeModes,
     },
   },
 }

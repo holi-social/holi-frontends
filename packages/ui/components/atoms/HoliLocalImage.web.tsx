@@ -1,20 +1,13 @@
 import Image from 'next/image'
-import { HoliLocalImageProps, ResizeMode } from 'packages/ui/components/atoms/HoliLocalImage.shared'
 import React from 'react'
+
+import { resizeModeToObjectFit } from '@holi/ui/components/atoms/HoliImage.shared'
+import { HoliLocalImageProps } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 
 // Usage:
 // import PngLogo from '@holi/ui/assets/img/logo/logo.svg'
 // <HoliLocalImage imageSource={PngLogo} width={30} height={30} label="some alt text" />
 // <HoliLocalImage imageSource={require('@holi/ui/assets/img/logo/logo.svg')} isSvg={true} width={30} height={30} label="some alt text" />
-
-const resizeModeToObjectFit = (resizeMode: ResizeMode): 'cover' | 'contain' | 'fill' => {
-  switch (resizeMode) {
-    case 'stretch':
-      return 'fill'
-    default:
-      return resizeMode
-  }
-}
 
 const HoliLocalImage: React.VoidFunctionComponent<HoliLocalImageProps> = ({
   imageSource,

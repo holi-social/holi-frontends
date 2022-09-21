@@ -1,5 +1,7 @@
 import { ImageStyle, StyleProp } from 'react-native'
 
+import { ResizeMode } from '@holi/ui/components/atoms/HoliImage.shared'
+
 // TODO: intermediate fix until
 // https://github.com/vercel/next.js/issues/29788
 type StaticImageData = {
@@ -9,17 +11,6 @@ type StaticImageData = {
   blurDataURL?: string
   default?: { src: string }
 }
-
-/**
- * These modes work the same across web and mobile and therefore are the only ones we allow.
- */
-export const ResizeModes: ('cover' | 'contain' | 'stretch')[] = [
-  'cover',
-  'contain',
-  'stretch', // fill in web
-  // center and repeat have no web equivalent
-]
-export type ResizeMode = typeof ResizeModes[number]
 
 export type HoliLocalImageProps = {
   imageSource: StaticImageData
