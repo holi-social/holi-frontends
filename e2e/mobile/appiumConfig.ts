@@ -1,8 +1,10 @@
 import { Options } from '@wdio/types'
+import { execFileSync } from 'child_process'
+import * as path from 'path'
 
 const requireEnvVar = (varName: string, options?: { validValues?: Array<string>; defaultValue?: string }) => {
   if (!process.env[varName]) {
-    if (!options?.defaultValue) {
+    if (!(options && 'defaultValue' in options)) {
       if (options?.validValues) {
         throw Error(`${varName} is not set (valid values: ${options.validValues})`)
       } else {
@@ -45,15 +47,44 @@ const defaultConfig: Partial<Options.WebdriverIO> = {
   connectionRetryTimeout: 200000, // ms
 }
 
-const getUsername = () => {
-  return requireEnvVar('USER', { defaultValue: 'unknownUser' })
-}
+const gitlabBranchName = requireEnvVar('CI_COMMIT_REF_NAME', {
+  defaultValue: undefined, //`local-${getUsername()}-${getISO8601Date()}`,
+})
+const gitlabCommmitSHA = requireEnvVar('CI_COMMIT_SHA', {
+  defaultValue: undefined, //`local-${getUsername()}-${getISO8601Date()}`,
+})
+const gitlabJobID = requireEnvVar('CI_JOB_ID', {
+  defaultValue: undefined, //`local-${getUsername()}-${getISO8601Date()}`,
+})
+// unique across single runs of the pipeline, but still informative
+const gitlabCommitSHAAndJobID = gitlabCommmitSHA ? `SHA-${gitlabCommmitSHA}_JOB-${gitlabJobID}` : undefined
 
-const getISO8601Date = () => {
-  return new Date()
-    .toLocaleString('sv') // ISO-8601 format
-    .replace(' ', 'T')
-}
+/**
+ * get the directory's git branch
+ *
+ * @param  {String} dirPath  directory absolute path
+ * @return {String} git branch name
+ */
+const localGitInfo = (() => {
+  const git = (parameters: string[]) => {
+    return execFileSync('git', parameters)
+  }
+
+  // .git
+  const gitPath = path.resolve('../../', './.git')
+
+  // parse `git branch` output
+  const branchName =
+    (git(['--work-tree=' + '../../', '--git-dir=' + gitPath, 'branch'])
+      ?.toString()
+      ?.match(/\*\s(.*)\n/) || ['', ''])[1] || ''
+  const commitSHA = git(['rev-parse', 'HEAD'])?.toString()
+
+  return {
+    branch: branchName,
+    sha: commitSHA,
+  }
+})()
 
 const browserStackCapabilities = () => ({
   // WebDriverIO level https://webdriver.io/docs/options/
@@ -64,13 +95,9 @@ const browserStackCapabilities = () => ({
   capabilities: {
     // BrowserStack options: https://www.browserstack.com/app-automate/capabilities#  (switch to Node.JS)
     app: requireEnvVar('BROWSERSTACK_APP_URL'),
-    project: requireEnvVar('CI_COMMIT_REF_NAME', {
-      defaultValue: `local-${getUsername()}-${getISO8601Date()}`,
-    }),
-    build: requireEnvVar('CI_COMMIT_SHA', {
-      defaultValue: `local-${getUsername()}-${getISO8601Date()}`,
-    }),
-    name: `test name - ${getISO8601Date()}`,
+    project: gitlabBranchName || localGitInfo.branch,
+    build: gitlabCommitSHAAndJobID || localGitInfo.sha,
+    name: undefined, // is set to the name of the current test in jest.setup.ts
     'browserstack.idleTimeout': '120',
     'browserstack.networkLogs': 'true',
     'browserstack.consoleLogs': 'info',
@@ -133,7 +160,5 @@ const localCapabilities = () => {
 }
 
 const appiumConfig = target === 'local' ? localCapabilities() : browserStackCapabilities()
-
-console.debug('running e2e tests with config', appiumConfig)
 
 export default appiumConfig

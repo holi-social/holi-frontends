@@ -7,8 +7,8 @@ import { navigateBackToHomeScreen, waitForHomeScreen } from './helpers/navigatio
 global.platform = appiumConfig.platform
 
 beforeEach(async () => {
-  console.warn('current test: ', expect.getState().currentTestName)
   appiumConfig.capabilities.name = expect.getState().currentTestName
+  console.debug('running e2e tests with config', appiumConfig)
   global.Appium = await webdriverio.remote(appiumConfig)
   if (appiumConfig.capabilities.app) {
     let numAttempts = 5
