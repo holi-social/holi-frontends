@@ -105,7 +105,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
       to both text and button */}
       <Text
         onTextLayout={!buttonType ? truncateText : undefined}
-        numberOfLines={buttonType === 'show' ? numberOfLines : undefined} // only pass numberOfLines when the Read More button is present
+        numberOfLines={buttonType !== 'hide' ? numberOfLines : undefined}
         ellipsizeMode="tail"
         style={{ alignContent: 'flex-start', justifyContent: 'center' }}
       >
