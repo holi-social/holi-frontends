@@ -36,7 +36,6 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
     }
     const target = nativeEvent.target
 
-    console.log(target.clientHeight, target.scrollHeight - marginBuffer)
     // check if ellipsis is active
     if (target.clientHeight < target.scrollHeight - marginBuffer) {
       setButtonType('show')
