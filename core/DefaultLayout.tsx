@@ -14,7 +14,7 @@ export interface LayoutProps extends ScrollViewProps {
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
 }
 
-const LayoutProps: React.FunctionComponent<LayoutProps> = ({ style, children, ...scrollViewProps }: LayoutProps) => {
+const DefaultLayout: React.FunctionComponent<LayoutProps> = ({ style, children, ...scrollViewProps }: LayoutProps) => {
   const screenView = <View style={styles.screenLayout}>{children}</View>
 
   return Platform.OS === 'web' ? (

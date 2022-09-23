@@ -1,20 +1,19 @@
-import React, { useState } from 'react'
+import { StatusBar } from 'expo-status-bar'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ImageBackground, StyleSheet, View } from 'react-native'
+import { ImageBackground, ScrollView, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
+import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-import TopicEditors from '@holi/core/screens/topics/components/TopicEditors'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type TopicParams = {
@@ -25,14 +24,13 @@ const { useParam } = createParam<TopicParams>()
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
 const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
-  const [showModal, setShowModal] = useState(false)
   const [topicId = ''] = useParam('topicId')
-  const { navigate } = useRouting()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
   useNavigationHeader(navigation, {
     title: t('topics.topic.title', { title: topicId }),
+    headerLeft: (props) => <BackButton {...props} icon="arrow-down-s" />,
   })
 
   // Important: `fakeTopics.get(topicId) should be called after useEffect() or useLayoutEffet()
@@ -42,27 +40,26 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   if (!topic) return <HoliText>{t('topics.topic.notFound', { topicId })}</HoliText>
 
   return (
-    <DefaultLayout bounces={false}>
-      <ImageBackground source={{ uri: topic.image.src }} resizeMode="cover" style={{ height: 300 }} />
-      <View style={[mixins.container, styles.topicView]}>
-        <HoliHeading level="1" size="super" style={{ alignSelf: 'center' }} testID="topic-headline">
-          {t('topics.topic.heading', { title: topic.title, topicId })}
-        </HoliHeading>
+    <>
+      <StatusBar style="light" animated={true} />
 
-        <HoliButton
-          label={t('topics.topic.editors', { title: topicId })}
-          inline
-          onPress={() => setShowModal(true)}
-          testID="show-editors"
-        >
-          {t('topics.topic.editors', { title: topicId })}
-        </HoliButton>
+      <ScrollView bounces={false} style={styles.wrapper}>
+        <View>
+          <ImageBackground source={{ uri: topic.image.src }} resizeMode="cover" style={{ height: 340 }} />
+        </View>
 
-        <HoliText>{topic.text}</HoliText>
+        <View style={[mixins.container, styles.topicView]}>
+          <HoliHeading size="xSmall" style={styles.categoryHeadline} testID="topic-category">
+            Immigration
+          </HoliHeading>
 
-        <HoliHeading level="3">{t('topics.topic.posts')}</HoliHeading>
+          <HoliHeading level="1" size="super" style={styles.topicHeadline} testID="topic-headline">
+            {topic.title}
+          </HoliHeading>
 
-        {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
+          <HoliText style={styles.topicText}>{topic.text}</HoliText>
+
+          {/* {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
           <HoliButton
             key={postId}
             label={topic.posts[postId].text}
@@ -83,19 +80,46 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
           }}
         >
           <TopicEditors topicId={topicId || ''} />
-        </HoliModal>
-      </View>
-    </DefaultLayout>
+        </HoliModal> */}
+        </View>
+
+        {/* TODO: remove after adding posts */}
+        <View style={{ marginBottom: 1000 }} />
+      </ScrollView>
+    </>
   )
 }
 
 const styles = StyleSheet.create({
-  topicView: {
-    padding: 10,
-    flex: 1,
+  wrapper: {
+    backgroundColor: colors.backgroundColorGreyDark,
   },
-  text: {
-    paddingBottom: 10,
+  imageGradient: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 104,
+    zIndex: 10,
+  },
+  topicView: {
+    backgroundColor: colors.backgroundColorWhite,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+    paddingTop: 40,
+    paddingBottom: 24,
+    marginBottom: 24,
+  },
+  categoryHeadline: {
+    color: colors.positivepurple,
+    marginBottom: 8,
+  },
+  topicHeadline: {
+    marginBottom: 24,
+  },
+  topicText: {
+    color: colors.grey,
+    marginBottom: 24,
   },
   post: {
     borderWidth: 1,
