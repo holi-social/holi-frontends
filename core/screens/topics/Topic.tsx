@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { ImageBackground, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -34,7 +33,6 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
 
   useNavigationHeader(navigation, {
     title: t('topics.topic.title', { title: topicId }),
-    headerLeft: () => <BackButton />,
   })
 
   // Important: `fakeTopics.get(topicId) should be called after useEffect() or useLayoutEffet()
@@ -44,7 +42,8 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   if (!topic) return <HoliText>{t('topics.topic.notFound', { topicId })}</HoliText>
 
   return (
-    <DefaultLayout>
+    <DefaultLayout bounces={false}>
+      <ImageBackground source={{ uri: topic.image.src }} resizeMode="cover" style={{ height: 300 }} />
       <View style={[mixins.container, styles.topicView]}>
         <HoliHeading level="1" size="super" style={{ alignSelf: 'center' }} testID="topic-headline">
           {t('topics.topic.heading', { title: topic.title, topicId })}
