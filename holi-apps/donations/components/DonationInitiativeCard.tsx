@@ -31,21 +31,16 @@ const DonationInitiativeCard = ({
 
   return (
     <View style={styles.initiativeCard}>
-      <HoliButton
-        label={t('donations:initiative.link.button')}
-        transparent
-        disableFocusability
-        onPress={() => Linking.openURL(link)}
-      >
+      <HoliButton label={t('donations:initiative.link.button')} transparent onPress={() => Linking.openURL(link)}>
         <View style={styles.initiative}>
           <View style={styles.initiativeContent}>
             <Image source={{ uri: pictureUrl }} style={styles.initiativeImage} />
             <View style={styles.initiativeDetails}>
               <View style={{ flexDirection: 'row' }}>
-                <HoliText style={styles.namePrefix} size={'small'}>
-                  by{' '}
+                <HoliText style={styles.namePrefix} size="small">
+                  {t('donations:initiative.indication')}{' '}
                 </HoliText>
-                <HoliText style={styles.initiativeName} bold={true} size="small">
+                <HoliText style={styles.initiativeName} bold size="small">
                   {name}
                 </HoliText>
               </View>
@@ -54,10 +49,10 @@ const DonationInitiativeCard = ({
               </HoliText>
             </View>
           </View>
-          <HoliIcon icon="share-box" />
+          <HoliIcon icon="share-box" size={18} />
         </View>
       </HoliButton>
-      <HoliText size={'large'} style={styles.projectSummary}>
+      <HoliText size="large" style={styles.projectSummary}>
         &ldquo;{projectSummary}&rdquo;
       </HoliText>
       <HoliReadMore numberOfLines={6} style={styles.projectDescription}>
@@ -74,41 +69,36 @@ const styles = StyleSheet.create({
     color: colors.fontColorGrey,
   },
   initiativeCard: {
-    backgroundColor: colors.backgroundColorWhite,
     borderRadius: 32,
     padding: 24,
   },
   initiativeContent: {
-    display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
   },
   initiativeName: {
     color: colors.positivepurple,
-    paddingBottom: 4,
   },
   initiativeOrigin: {
     color: colors.fontColorGrey,
+    paddingTop: 4,
   },
   initiative: {
-    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   initiativeDetails: {
-    display: 'flex',
     justifyContent: 'space-between',
-    paddingLeft: 12,
+    marginLeft: 12,
     alignContent: 'center',
   },
   initiativeImage: {
     width: 56,
     height: 56,
     borderRadius: 12,
-    border: 1,
-    borderStyle: 'solid',
-    borderColor: 'rgba(34, 35, 38, .1)',
+    borderWidth: 1,
+    borderColor: colors.borderColorGrey,
   },
   projectSummary: {
     marginVertical: 24,
@@ -116,6 +106,5 @@ const styles = StyleSheet.create({
   projectDescription: {
     color: colors.fontColorGrey,
     marginRight: 54,
-    lineHeight: 50,
   },
 })
