@@ -1492,7 +1492,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             },
             Object {
               "backgroundColor": "#fff",
+              "borderColor": "#222326",
               "borderRadius": 28,
+              "borderWidth": 2,
               "elevation": 0,
               "marginBottom": 4,
               "marginRight": 4,

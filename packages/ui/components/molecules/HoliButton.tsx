@@ -127,8 +127,8 @@ const getStyles = (inline: boolean) =>
       width: inline ? 'auto' : '100%',
     },
     nonTransparent: {
-      // borderColor: colors.borderColorBlack,
-      // borderWidth: 2,
+      borderColor: colors.borderColorBlack,
+      borderWidth: 2,
       borderRadius: 28,
       backgroundColor: colors.backgroundColorWhite,
       paddingHorizontal: 32,
@@ -153,8 +153,6 @@ const getStyles = (inline: boolean) =>
     },
     focused: {
       borderWidth: 4,
-      // paddingHorizontal: 30,
-      // paddingVertical: 11,
     },
     pressedPrimary: {
       backgroundColor: colors.backgroundColorYellowDark,
