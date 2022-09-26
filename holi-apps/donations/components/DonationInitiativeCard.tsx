@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
   initiativeOrigin: {
     color: colors.fontColorGrey,
-    paddingTop: 4,
+    marginTop: 4,
   },
   initiative: {
     flexDirection: 'row',
