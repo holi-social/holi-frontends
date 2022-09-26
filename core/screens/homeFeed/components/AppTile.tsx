@@ -1,42 +1,45 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import tinycolor from 'tinycolor2'
 
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type HoliApp = {
+  id: string
   icon: string
-  nameKey: string
+  translationKey: string
   path: string
-  testID: string
   hasUpdates: boolean
 }
 
 type AppTileProps = {
-  app: HoliApp
+  appData: HoliApp
+  onPress?: (appData: HoliApp) => void
 }
 
 const AppTile: React.FC<AppTileProps> = (props: AppTileProps) => {
   const { t } = useTranslation()
-  const { navigate } = useRouting()
-  const name = t(props.app.nameKey)
+  const name = t(props.appData.translationKey)
+
+  const onPress = useCallback(() => {
+    if (props.onPress) props.onPress(props.appData)
+  }, [props])
 
   return (
     <HoliButton
       label={name}
       inline
       transparent
-      onPress={() => navigate(props.app.path)}
+      onPress={onPress}
       style={[styles.appTile]}
-      testID={props.app.testID}
+      testID={`app-tile-${props.appData.id}`}
     >
       <View style={styles.contentContainer}>
-        {props.app.icon && <HoliIcon icon={props.app.icon} size={30} color={colors.fontColorBlack} />}
+        {props.appData.icon && <HoliIcon icon={props.appData.icon} size={30} color={colors.fontColorBlack} />}
       </View>
       <HoliText selectable={false} style={styles.appName} size={'extrasmall'}>
         {name}

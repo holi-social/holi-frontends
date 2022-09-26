@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import tinycolor from 'tinycolor2'
 
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppTile from '@holi/core/screens/homeFeed/components/AppTile'
 import type { HoliApp } from '@holi/core/screens/homeFeed/components/AppTile'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -15,32 +16,41 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const appSwiperDummyApps: HoliApp[] = [
   {
+    id: 'donations',
     icon: 'hand-heart',
-    nameKey: 'donations:app.name',
+    translationKey: 'donations:app.name',
     path: '/apps/donations',
-    testID: 'app-tile-donations',
     hasUpdates: false,
   },
   {
+    id: 'volunteering',
     icon: 'hearts',
-    nameKey: 'apps.name.volunteering',
+    translationKey: 'apps.name.volunteering',
     path: '/apps/volunteering',
-    testID: 'app-tile-volunteering',
     hasUpdates: true,
   },
   {
+    id: 'goodNews',
     icon: 'newspaper',
-    nameKey: 'apps.name.goodNews',
+    translationKey: 'apps.name.goodNews',
     path: '/apps/volunteering',
-    testID: 'app-tile-goodNews',
     hasUpdates: true,
   },
 ]
 
 const AppsDrawer: React.FC = () => {
   const { t } = useTranslation()
+  const { navigate } = useRouting()
   const mixins = useStyleMixins()
   const [modalIsVisible, setModalIsVisible] = useState(false)
+
+  const onAppButtonClick = useCallback(
+    (app: HoliApp) => {
+      setModalIsVisible(false)
+      navigate(app.path)
+    },
+    [navigate]
+  )
 
   return (
     <>
@@ -70,7 +80,7 @@ const AppsDrawer: React.FC = () => {
           <HoliHeading level="2">{t('apps.drawer.headline')}</HoliHeading>
           <ScrollView horizontal={true} style={{ marginTop: 20 }} contentContainerStyle={styles.appsCarousel}>
             {appSwiperDummyApps.map((app, index) => (
-              <AppTile app={app} key={index} />
+              <AppTile appData={app} key={index} onPress={onAppButtonClick} />
             ))}
           </ScrollView>
         </View>

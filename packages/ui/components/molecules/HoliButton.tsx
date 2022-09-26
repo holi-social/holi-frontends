@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import {
   AccessibilityProps,
   GestureResponderEvent,
@@ -28,7 +28,7 @@ export type HoliButtonProps = {
   disabled?: boolean
   disableFocusability?: boolean
   testID?: string
-  onPress?: null | ((event: GestureResponderEvent) => void)
+  onPress?: null | ((event: React.SyntheticEvent | GestureResponderEvent) => void)
 }
 
 const HoliButton: React.FC<HoliButtonProps> = ({
@@ -65,14 +65,19 @@ const HoliButton: React.FC<HoliButtonProps> = ({
       props.children
     )
 
+  const onButtonPress = useCallback(
+    (event: React.SyntheticEvent | GestureResponderEvent) => {
+      if (props.onPress && !disabled) props.onPress(event)
+    },
+    [disabled, props]
+  )
+
   return (
     <Pressable
       {...accessibilityProps}
       testID={props.testID}
       disabled={disabled}
-      onPress={(event) => {
-        !disabled && props.onPress && props.onPress(event)
-      }}
+      onPress={onButtonPress}
       style={(state) => {
         const result: ViewStyle[] = [styles.base]
         if (!transparent) {
