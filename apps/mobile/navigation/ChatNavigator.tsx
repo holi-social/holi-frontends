@@ -5,6 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import ChatHome from '@holi/core/screens/ChatHome'
 import { colors } from '@holi/ui/styles/globalVars'
 
+import { CenterElement, LeftElement, RightElement } from './components'
+
 export type ChatStackScreensList = {
   ChatHome: undefined
 }
@@ -23,7 +25,17 @@ const ChatStackNavigator: React.VFC = () => {
         headerShadowVisible: false,
       }}
     >
-      <ChatStack.Screen name="ChatHome" component={ChatHome} />
+      <ChatStack.Screen
+        name="ChatHome"
+        component={ChatHome}
+        options={{
+          headerBackTitleVisible: true,
+          headerBackVisible: true,
+          headerTitle: CenterElement,
+          headerLeft: LeftElement,
+          headerRight: RightElement,
+        }}
+      />
     </ChatStack.Navigator>
   )
 }

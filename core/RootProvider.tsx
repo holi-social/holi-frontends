@@ -1,5 +1,5 @@
 import { ApolloProvider } from '@apollo/client'
-import React, { useContext } from 'react'
+import React, { Suspense, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
@@ -49,15 +49,25 @@ const RootProvider: React.VoidFunctionComponent<{ children: React.ReactElement |
 }) => {
   return (
     <ThemeProvider theme={defaultHoliTheme}>
-      <ErrorBoundary>
-        <ApolloProvider client={client}>
-          <AuthContextProvider>
-            <UserContextProvider>
-              <Children>{children}</Children>
-            </UserContextProvider>
-          </AuthContextProvider>
-        </ApolloProvider>
-      </ErrorBoundary>
+      {/* Necessary for loading e.g. translations on mobile */}
+      {/* TODO: replace with proper loading indicator */}
+      <Suspense
+        fallback={
+          <SafeArea style={styles.loadingContainer}>
+            <HoliText style={{ textAlign: 'center' }}>Loading...</HoliText>
+          </SafeArea>
+        }
+      >
+        <ErrorBoundary>
+          <ApolloProvider client={client}>
+            <AuthContextProvider>
+              <UserContextProvider>
+                <Children>{children}</Children>
+              </UserContextProvider>
+            </AuthContextProvider>
+          </ApolloProvider>
+        </ErrorBoundary>
+      </Suspense>
     </ThemeProvider>
   )
 }

@@ -14,6 +14,8 @@ interface AccessibilityPropsWeb extends AccessibilityProps {
   accessibilityLevel?: number
   accessibilityRole?: AccessibilityRoleWeb
   accessibilityPressed?: boolean
+  accessibilityControls?: string
+  accessibilitySelected?: boolean
   accessibilityAutoComplete?: 'none' | 'inline' | 'list' | 'both'
   accessibilityChecked?: boolean | 'mixed'
 }

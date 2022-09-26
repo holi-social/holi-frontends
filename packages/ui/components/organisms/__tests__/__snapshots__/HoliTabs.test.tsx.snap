@@ -89,7 +89,6 @@ exports[`renders correctly renders correctly when open 1`] = `
       >
         <View
           pointerEvents="none"
-          style={Object {}}
         >
           <Text
             style={
@@ -156,7 +155,6 @@ exports[`renders correctly renders correctly when open 1`] = `
       >
         <View
           pointerEvents="none"
-          style={Object {}}
         >
           <Text
             style={

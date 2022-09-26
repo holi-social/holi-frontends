@@ -6,10 +6,11 @@ const translationLoader: BackendModule = {
   type: 'backend',
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   init: () => {},
-  read: (language, _namespace, callback) => {
-    const locale = config.supportedLocales[language] || config.supportedLocales[config.defaultLocale]
+  read: (language, namespace, callback) => {
     try {
-      callback(null, locale.translationFileLoader())
+      const namespaceConfig = config.namespaces[namespace] || config.namespaces[config.defaultNamespace]
+      const translations = namespaceConfig[language] || namespaceConfig[config.defaultLocale]
+      callback(null, translations)
     } catch (error) {
       callback(error as CallbackError, null)
     }

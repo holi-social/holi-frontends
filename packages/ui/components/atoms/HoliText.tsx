@@ -7,7 +7,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 type HoliTextSize = 'large' | 'default' | 'small' | 'extrasmall' // for working code completion in vscode
 export const HoliTextSizes: HoliTextSize[] = ['large', 'default', 'small', 'extrasmall'] // keep in sync with all possible HoliTextSize values
 
-export type HoliTextProps = {
+export interface HoliTextProps {
   children?: React.ReactNode
   size?: HoliTextSize
   bold?: boolean
