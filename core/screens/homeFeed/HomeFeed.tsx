@@ -8,7 +8,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import AppsDrawer from '@holi/core/screens/homeFeed/components/AppsDrawer'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
 import TopicPreviewBox from '@holi/core/screens/topics/components/TopicPreviewBox'
 import fakeTopics, { getRandomUser } from '@holi/core/screens/topics/fakeTopics'
@@ -18,65 +18,12 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliSeparatedList from '@holi/ui/components/molecules/HoliSeparatedList'
-import HoliAppSwiper from '@holi/ui/components/organisms/HoliAppSwiper'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const dummyTopicCategories = ['Immigration', 'Education', 'Sustainability']
-
-type DummyApp = {
-  icon: string
-  nameKey: string
-  path: string
-  testID: string
-  hasUpdates: boolean
-  backgroundColor: string
-}
-
-const appSwiperDummyApps: DummyApp[] = [
-  {
-    icon: 'loader',
-    nameKey: 'donations:app.name',
-    path: '/apps/donations',
-    testID: 'app-tile-donations',
-    hasUpdates: false,
-    backgroundColor: colors.positivepurple,
-  },
-  {
-    icon: 'chat',
-    nameKey: 'apps.volunteering.name',
-    path: '/apps/volunteering',
-    testID: 'app-tile-volunteering',
-    hasUpdates: true,
-    backgroundColor: colors.impactyellow,
-  },
-  {
-    icon: 'home-smile-2',
-    nameKey: 'apps.goodNews.name',
-    path: '/apps/volunteering',
-    testID: 'app-tile-goodNews',
-    hasUpdates: true,
-    backgroundColor: colors.backgroundColorGreyLight,
-  },
-  {
-    icon: 'search',
-    nameKey: 'apps.adsForGood.name',
-    path: '/apps/volunteering',
-    testID: 'app-tile-adsForGood',
-    hasUpdates: true,
-    backgroundColor: colors.impactyellow,
-  },
-  {
-    icon: 'user-circled',
-    nameKey: 'apps.factCheck.name',
-    path: '/apps/volunteering',
-    testID: 'app-tile-factCheck',
-    hasUpdates: false,
-    backgroundColor: colors.backgroundColorGrey,
-  },
-]
 
 const dummyUsers = Array.from(' '.repeat(6), (_, idx) => getRandomUser(!(idx % 2)))
 
@@ -92,7 +39,6 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
 
 const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   const [showEditorsModal, setShowEditorsModal] = useState(false)
-  const { navigate } = useRouting()
   const { isLoggedIn } = useContext(AuthContext)
   const { width } = useWindowDimensions()
   const { t } = useTranslation()
@@ -103,82 +49,71 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   useNavigationHeader(navigation, { title: headerTitle })
 
   return (
-    <DefaultLayout>
-      {/* Holi Apps */}
-      <HoliAppSwiper
-        style={[mixins.container, styles.appSwiper]}
-        apps={appSwiperDummyApps.map((app) => {
-          const name = t(app.nameKey)
-          return {
-            ...app,
-            name,
-            onPress: () => navigate(app.path),
-            label: t('homeFeed.apps.appLabel', { name }),
-          }
-        })}
-        onPressMoreApps={() => navigate('/apps/volunteering')}
-        moreAppsLabel={t('homeFeed.apps.moreApps')}
-      />
+    <>
+      <DefaultLayout>
+        <View style={[styles.divider, styles.borderBottom]} />
 
-      <View style={[styles.divider, styles.borderBottom]} />
+        <View style={[mixins.container]}>
+          {/* Weekly Topics */}
+          <View style={[styles.feedHeadlineContainer, styles.borderBottom]}>
+            {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
+            <HoliHeading level="1" size="medium" style={styles.feedHeadline} testID="home-feed-topics-heading">
+              <Trans t={t} i18nKey="homeFeed.heading" values={{ count: dummyTopicCategories.length }}>
+                <HoliSeparatedList size="large" bold>
+                  {dummyTopicCategories.map((category, idx) => (
+                    <HoliButton key={idx} label={category} transparent inline style={mixins.inlineButtonFixMedium}>
+                      <HoliText size="large" bold style={{ color: colors.positivepurple }}>
+                        {category}
+                      </HoliText>
+                    </HoliButton>
+                  ))}
+                </HoliSeparatedList>
+              </Trans>
+            </HoliHeading>
 
-      <View style={[mixins.container]}>
-        {/* Weekly Topics */}
-        <View style={[styles.feedHeadlineContainer, styles.borderBottom]}>
-          {/* Accessibility requires level 1 heading, design requires level 2 heading size */}
-          <HoliHeading level="1" size="medium" style={styles.feedHeadline} testID="home-feed-topics-heading">
-            <Trans t={t} i18nKey="homeFeed.heading" values={{ count: dummyTopicCategories.length }}>
-              <HoliSeparatedList size="large" bold>
-                {dummyTopicCategories.map((category, idx) => (
-                  <HoliButton key={idx} label={category} transparent inline style={mixins.inlineButtonFixMedium}>
-                    <HoliText size="large" bold style={{ color: colors.positivepurple }}>
-                      {category}
-                    </HoliText>
-                  </HoliButton>
-                ))}
-              </HoliSeparatedList>
-            </Trans>
-          </HoliHeading>
+            <HoliText size="small" style={styles.avatarsTopTitle} testID="avatars-top-title">
+              {t('topics.editors.editedBy')}
+            </HoliText>
+            <View style={styles.topicEditorsModalButton}>
+              <HoliButton
+                label={t('topics.editors.modal.title')}
+                transparent
+                onPress={() => setShowEditorsModal(true)}
+                testID="avatar-pile-open-modal-button"
+                inline
+              >
+                <HoliUserAvatarPile users={dummyUsers} size="small" collapse />
+              </HoliButton>
+            </View>
 
-          <HoliText size="small" style={styles.avatarsTopTitle} testID="avatars-top-title">
-            {t('topics.editors.editedBy')}
-          </HoliText>
-          <View style={styles.topicEditorsModalButton}>
-            <HoliButton
+            <HoliModal
               label={t('topics.editors.modal.title')}
-              transparent
-              onPress={() => setShowEditorsModal(true)}
-              testID="avatar-pile-open-modal-button"
-              inline
+              show={showEditorsModal}
+              onDismiss={() => setShowEditorsModal(false)}
+              testID="topic-editors-modal"
             >
-              <HoliUserAvatarPile users={dummyUsers} size="small" collapse />
-            </HoliButton>
+              <HoliUserCardsModalContent
+                title={t('topics.editors.modal.title')}
+                users={dummyUsers}
+                onDismiss={() => setShowEditorsModal(false)}
+                testID="topic-editors"
+              />
+            </HoliModal>
           </View>
 
-          <HoliModal
-            label={t('topics.editors.modal.title')}
-            show={showEditorsModal}
-            onDismiss={() => setShowEditorsModal(false)}
-            testID="topic-editors-modal"
-          >
-            <HoliUserCardsModalContent
-              title={t('topics.editors.modal.title')}
-              users={dummyUsers}
-              onDismiss={() => setShowEditorsModal(false)}
-              testID="topic-editors"
-            />
-          </HoliModal>
+          <View style={styles.feedTopicGrid}>
+            {[...fakeTopics.entries()].map(([topicId, topic]) => (
+              <TopicPreviewBox key={topicId} id={topicId} {...topic} style={styles.feedTopicItem} />
+            ))}
+          </View>
         </View>
 
-        <View style={styles.feedTopicGrid}>
-          {[...fakeTopics.entries()].map(([topicId, topic]) => (
-            <TopicPreviewBox key={topicId} id={topicId} {...topic} style={styles.feedTopicItem} />
-          ))}
-        </View>
-      </View>
+        {isLoggedIn && <UserSuggestions style={styles.userSuggestionsContainer} />}
+      </DefaultLayout>
 
-      {isLoggedIn && <UserSuggestions style={styles.userSuggestionsContainer} />}
-    </DefaultLayout>
+      {/* AppsDrawer needs to be outside of the Layout */}
+      <AppsDrawer />
+    </>
   )
 }
 
@@ -196,9 +131,6 @@ const homeFeedStyles = (screenWidth: number) =>
     },
     divider: {
       marginTop: 12,
-    },
-    appSwiper: {
-      flexGrow: 0,
     },
     feedHeadlineContainer: {
       paddingBottom: 40,

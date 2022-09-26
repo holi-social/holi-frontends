@@ -74,7 +74,7 @@ const HoliButton: React.FC<HoliButtonProps> = ({
         !disabled && props.onPress && props.onPress(event)
       }}
       style={(state) => {
-        const result = [props.style, styles.base]
+        const result: ViewStyle[] = [styles.base]
         if (!transparent) {
           result.push(styles.nonTransparent)
           if (isSmall) {
@@ -94,7 +94,7 @@ const HoliButton: React.FC<HoliButtonProps> = ({
             }
           }
         }
-        return result
+        return [result, props.style]
       }}
     >
       <View
@@ -122,8 +122,8 @@ const getStyles = (inline: boolean) =>
       width: inline ? 'auto' : '100%',
     },
     nonTransparent: {
-      borderColor: colors.borderColorBlack,
-      borderWidth: 2,
+      // borderColor: colors.borderColorBlack,
+      // borderWidth: 2,
       borderRadius: 28,
       backgroundColor: colors.backgroundColorWhite,
       paddingHorizontal: 32,
@@ -148,8 +148,8 @@ const getStyles = (inline: boolean) =>
     },
     focused: {
       borderWidth: 4,
-      paddingHorizontal: 30,
-      paddingVertical: 11,
+      // paddingHorizontal: 30,
+      // paddingVertical: 11,
     },
     pressedPrimary: {
       backgroundColor: colors.backgroundColorYellowDark,
