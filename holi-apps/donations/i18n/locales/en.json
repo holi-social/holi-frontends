@@ -35,5 +35,6 @@
   "donationProgress.count": "{{count}} donation",
   "donationProgress.count_plural": "{{count}} donations",
   "donationProgress.openAmount": "{{amount}} to go",
-  "donationProgress.percentFunded": "{{percentage}}% funded"
+  "donationProgress.percentFunded": "{{percentage}}% funded",
+  "initiative.link.button": "Page of the initiative"
 }

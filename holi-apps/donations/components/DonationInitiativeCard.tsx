@@ -5,42 +5,64 @@ import { Image, Linking, StyleSheet, View } from 'react-native'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type DonationInitiativeCardProps = {
-  pictureURL: string
+  pictureUrl: string
   name: string
   city: string
   country: string
   link: string
+  projectSummary: string
+  projectDescription: string
 }
 
-const DonationInitiativeCard = ({ pictureURL, name, city, country, link }: DonationInitiativeCardProps) => {
+const DonationInitiativeCard = ({
+  pictureUrl,
+  name,
+  city,
+  country,
+  link,
+  projectSummary,
+  projectDescription,
+}: DonationInitiativeCardProps) => {
   const { t } = useTranslation()
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Image source={{ uri: pictureURL }} style={styles.headerImage} />
-        <View style={styles.headerContent}>
-          <HoliText style={styles.carrierName} bold={true}>
-            <HoliText style={styles.by}>by </HoliText> {name}
-          </HoliText>
-          <HoliText style={styles.carrierOrigin}>
-            {city}, {country}
-          </HoliText>
+    <View style={styles.initiativeCard}>
+      <HoliButton
+        label={t('donations:initiative.link.button')}
+        transparent
+        disableFocusability
+        onPress={() => Linking.openURL(link)}
+      >
+        <View style={styles.initiative}>
+          <View style={styles.initiativeContent}>
+            <Image source={{ uri: pictureUrl }} style={styles.initiativeImage} />
+            <View style={styles.initiativeDetails}>
+              <View style={{ flexDirection: 'row' }}>
+                <HoliText style={styles.namePrefix} size={'small'}>
+                  by{' '}
+                </HoliText>
+                <HoliText style={styles.initiativeName} bold={true} size="small">
+                  {name}
+                </HoliText>
+              </View>
+              <HoliText style={styles.initiativeOrigin} size="small">
+                {city}, {country}
+              </HoliText>
+            </View>
+          </View>
+          <HoliIcon icon="share-box" />
         </View>
-        <HoliButton
-          label={t('donation.initiative.link')}
-          style={styles.headerButton}
-          inline={true}
-          transparent
-          disableFocusability
-          onPress={() => Linking.openURL(link)}
-        >
-          <HoliIcon icon="share-box" color={colors.fontColorBlack} size={18} />
-        </HoliButton>
-      </View>
+      </HoliButton>
+      <HoliText size={'large'} style={styles.projectSummary}>
+        &ldquo;{projectSummary}&rdquo;
+      </HoliText>
+      <HoliReadMore numberOfLines={6} style={styles.projectDescription}>
+        {projectDescription}
+      </HoliReadMore>
     </View>
   )
 }
@@ -48,44 +70,52 @@ const DonationInitiativeCard = ({ pictureURL, name, city, country, link }: Donat
 export default DonationInitiativeCard
 
 const styles = StyleSheet.create({
-  by: {
+  namePrefix: {
     color: colors.fontColorGrey,
-    fontSize: 14,
   },
-  carrierName: {
-    color: colors.positivepurple,
-    fontSize: 14,
-  },
-  carrierOrigin: {
-    color: colors.fontColorGrey,
-    fontSize: 14,
-  },
-  container: {
-    alignItems: 'center',
-    alignContent: 'center',
-    borderRadius: 30,
-    padding: 24,
+  initiativeCard: {
     backgroundColor: colors.backgroundColorWhite,
-    width: '100%',
+    borderRadius: 32,
+    padding: 24,
   },
-  header: {
+  initiativeContent: {
+    display: 'flex',
+    alignItems: 'center',
     flexDirection: 'row',
-    width: '100%',
+  },
+  initiativeName: {
+    color: colors.positivepurple,
+    paddingBottom: 4,
+  },
+  initiativeOrigin: {
+    color: colors.fontColorGrey,
+  },
+  initiative: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
-  headerButton: {
-    position: 'absolute',
-    right: -15,
-    padding: 15,
-  },
-  headerContent: {
+  initiativeDetails: {
+    display: 'flex',
     justifyContent: 'space-between',
     paddingLeft: 12,
-    paddingVertical: 8,
+    alignContent: 'center',
   },
-  headerImage: {
+  initiativeImage: {
     width: 56,
     height: 56,
-    borderRadius: 18,
+    borderRadius: 12,
+    border: 1,
+    borderStyle: 'solid',
+    borderColor: 'rgba(34, 35, 38, .1)',
+  },
+  projectSummary: {
+    marginVertical: 24,
+  },
+  projectDescription: {
+    color: colors.fontColorGrey,
+    marginRight: 54,
+    lineHeight: 50,
   },
 })
