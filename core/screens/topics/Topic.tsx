@@ -1,18 +1,20 @@
+import { LinearGradient } from 'expo-linear-gradient'
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ImageBackground, ScrollView, StyleSheet, View } from 'react-native'
+import { ImageBackground, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import BackButton from '@holi/core/navigation/components/BackButton'
+import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
+// import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -46,6 +48,20 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
       <ScrollView bounces={false} style={styles.wrapper}>
         <View>
           <ImageBackground source={{ uri: topic.image.src }} resizeMode="cover" style={{ height: 340 }} />
+
+          <View style={styles.header}>
+            <LinearGradient colors={['rgba(0,0,0,0.6)', 'transparent']} style={styles.headerBackgroundGradient} />
+
+            <SafeAreaView style={styles.headerInner}>
+              <View style={styles.headerLeft}>
+                <BackButton tintColor={colors.fontColorWhite} icon="arrow-down-s" />
+              </View>
+
+              <View style={styles.headerCenter}>
+                <HeaderTitle style={styles.headerTitle} />
+              </View>
+            </SafeAreaView>
+          </View>
         </View>
 
         <View style={[mixins.container, styles.topicView]}>
@@ -94,13 +110,30 @@ const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: colors.backgroundColorGreyDark,
   },
-  imageGradient: {
+  header: {
+    paddingHorizontal: 20,
+    flexDirection: 'row',
     position: 'absolute',
-    top: 0,
+  },
+  headerBackgroundGradient: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  headerInner: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '100%',
+  },
+  headerLeft: {
+    position: 'absolute',
+    bottom: '50%',
     left: 0,
-    right: 0,
-    height: 104,
-    zIndex: 10,
+    transform: [{ translateY: 15 }],
+  },
+  headerCenter: {
+    paddingVertical: 16,
+  },
+  headerTitle: {
+    color: colors.fontColorWhite,
   },
   topicView: {
     backgroundColor: colors.backgroundColorWhite,
