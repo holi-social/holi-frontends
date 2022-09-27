@@ -67,6 +67,7 @@
   "homeFeed.userSuggestions.loadMore": "See more",
   "homeFeed.userSuggestions.title": "People you might like",
   "homeFeed.volunteering": "Volunteering",
+  "insight.curatedBy": "Curated by <0>{{name}}</0>",
   "modal.backdrop": "Close dialog",
   "navigation.bottomNavigation": "Bottom Navigation",
   "navigation.closeWindow": "Close window",
