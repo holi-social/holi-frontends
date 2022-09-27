@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     minHeight: '100%',
     width: '100%',
     justifyContent: 'flex-start',
-    paddingBottom: 50,
+    marginBottom: 50,
     backgroundColor: colors.backgroundColorWhite,
   },
   screenLayout: {

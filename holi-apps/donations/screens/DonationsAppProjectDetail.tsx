@@ -89,43 +89,42 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
   const donateButtonLabel = t('donations:projectDetail.donate')
 
   return (
-    <DefaultLayout style={{ backgroundColor: colors.backgroundColorGreyLight }}>
-      <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
-        <Image source={{ uri: picture.url }} style={styles.images} />
-        <View style={styles.header}>
-          <HoliHeading level="2" size={'large'}>
-            {project.title}
-          </HoliHeading>
-          <View style={styles.location}>
-            <HoliIcon icon="globe" size={20} />
-            <HoliText size="small" style={{ marginLeft: 8 }}>
-              {project.initiative.city}, {project.initiative.country}
-            </HoliText>
+    <View style={{ alignItems: 'center', backgroundColor: colors.backgroundColorGreyLight }}>
+      <DefaultLayout style={{ backgroundColor: colors.backgroundColorGreyLight }}>
+        <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
+          <Image source={{ uri: picture.url }} style={styles.image} />
+          <View style={styles.header}>
+            <HoliHeading level="2" size={'large'}>
+              {project.title}
+            </HoliHeading>
+            <View style={styles.location}>
+              <HoliIcon icon="globe" size={20} />
+              <HoliText size="small" style={{ marginLeft: 8 }}>
+                {project.initiative.city}, {project.initiative.country}
+              </HoliText>
+            </View>
           </View>
-        </View>
-        {/* TODO update to organism once API is available */}
-        <View style={styles.donationStats}>
           <DonationProgress
             donationsCount={project.donationsCount}
             progressPercentage={project.progressPercentage}
             openAmountInCents={project.openAmountInCents}
             size="large"
-            style={{ marginTop: 8 }}
+            style={styles.card}
           />
+          {/* TODO replace with project initiative card once available */}
+          <View style={[styles.card, { paddingVertical: 24 }]}>
+            <HoliText size={'large'} bold style={{ marginBottom: 24 }}>
+              Quisque vel augue vestibulum, finibus metus a, malesuada sem. Nulla at convallis massa.
+            </HoliText>
+            <HoliReadMore numberOfLines={5}>
+              Nam condimentum est massa. Donec ultrices maximus mauris, id accumsan risus mollis non. Pellentesque ut ex
+              mollis, interdum quam vitae, lobortis velit. Sed sed interdum nisi. Integer malesuada ex at arcu consequat
+              gravida. Vivamus accumsan nisi a erat tristique condimentum. Phasellus auctor dolor ac pulvinar facilisis.
+              Quisque placerat posuere tempor.
+            </HoliReadMore>
+          </View>
         </View>
-        {/* TODO replace with project initiative card once available */}
-        <View style={styles.DonationsAppProjectDetails}>
-          <HoliText size={'large'} bold style={{ marginBottom: 24 }}>
-            Quisque vel augue vestibulum, finibus metus a, malesuada sem. Nulla at convallis massa.
-          </HoliText>
-          <HoliReadMore numberOfLines={5}>
-            Nam condimentum est massa. Donec ultrices maximus mauris, id accumsan risus mollis non. Pellentesque ut ex
-            mollis, interdum quam vitae, lobortis velit. Sed sed interdum nisi. Integer malesuada ex at arcu consequat
-            gravida. Vivamus accumsan nisi a erat tristique condimentum. Phasellus auctor dolor ac pulvinar facilisis.
-            Quisque placerat posuere tempor.
-          </HoliReadMore>
-        </View>
-      </View>
+      </DefaultLayout>
       <View style={[mixins.container, styles.donateButton]}>
         <HoliButton label={donateButtonLabel}>
           <HoliText bold style={{ marginRight: 8 }}>
@@ -134,7 +133,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
           <HoliIcon icon="external-link" size={16} />
         </HoliButton>
       </View>
-    </DefaultLayout>
+    </View>
   )
 }
 
@@ -149,7 +148,7 @@ const styles = StyleSheet.create({
     paddingBottom: 132,
     paddingHorizontal: 0,
   },
-  images: {
+  image: {
     aspectRatio: 375 / 240,
     width: '100%',
   },
@@ -166,12 +165,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 14,
   },
-  donationStats: {
+  card: {
     paddingHorizontal: 24,
-    paddingVertical: 16,
     borderRadius: 32,
     backgroundColor: colors.white,
     marginTop: 2,
+    paddingVertical: 16,
   },
   donateButton: {
     bottom: 40,
@@ -187,11 +186,5 @@ const styles = StyleSheet.create({
         position: 'fixed',
       },
     }),
-  },
-  DonationsAppProjectDetails: {
-    backgroundColor: colors.white,
-    padding: 24,
-    borderRadius: 32,
-    marginTop: 2,
   },
 })
