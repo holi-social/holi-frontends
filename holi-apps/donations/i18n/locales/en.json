@@ -1,11 +1,5 @@
 {
   "app.name": "Donations",
-  "label": "{{count}} Donation",
-  "label_plural": "{{count}} Donations",
-  "detail.title": "Give",
-  "detail.missingProjectId": "Missing projectId",
-  "detail.notFound": "Project with ID {{projectId}} could not be found",
-  "detail.donate": "Donate",
   "category.Emergency Aid Ukraine ": "Emergency Aid Ukraine ",
   "category.LGBTQIA": "LGBTQIA+",
   "category.aid_syria": "Humanitarian Aid to Syria",
@@ -41,5 +35,7 @@
   "donationProgress.count": "{{count}} donation",
   "donationProgress.count_plural": "{{count}} donations",
   "donationProgress.openAmount": "{{amount}} to go",
-  "donationProgress.percentFunded": "{{percentage}}% funded"
+  "donationProgress.percentFunded": "{{percentage}}% funded",
+  "projectDetail.donate": "Donate",
+  "projectDetail.notFound": "Project with ID {{projectId}} could not be found"
 }

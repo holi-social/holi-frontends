@@ -36,7 +36,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
 }: DonationsAppProjectDetailProps) => {
   const [projectId] = useParam('projectId')
   const { t, i18n } = useTranslation()
-  const title = t('donations:detail.title')
+  const title = t('donations:app.name')
 
   useNavigationHeader(navigation, {
     title: title,
@@ -79,61 +79,62 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
   }
 
   if (!project) {
-    return <HoliText>{t('donations:detail.notFound', { projectId })}</HoliText>
+    return <HoliText>{t('donations:projectDetail.notFound', { projectId })}</HoliText>
   }
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const picture: Picture = (project.picture.find((p) => p.type === 'original') ||
     project.picture.find((p) => p.type === 'small'))!
 
+  const donateButtonLabel = t('donations:projectDetail.donate')
+
   return (
-    <>
-      <DefaultLayout style={{ backgroundColor: colors.backgroundColorGreyLight }}>
-        <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
-          <Image source={{ uri: picture.url }} style={styles.images} />
-          <View style={styles.header}>
-            <HoliHeading level="2" size={'large'}>
-              {project.title}
-            </HoliHeading>
-            <View style={styles.location}>
-              <HoliIcon icon="globe" size={20} />
-              <HoliText size="small" style={{ marginLeft: 8 }}>
-                {project.carrier.city}, {project.carrier.country}
-              </HoliText>
-            </View>
-          </View>
-          {/* TODO update to organism once API is available */}
-          <View style={styles.donationStats}>
-            <DonationProgress
-              donationsCount={project.donationsCount}
-              progressPercentage={project.progressPercentage}
-              openAmountInCents={project.openAmountInCents}
-              style={{ marginTop: 8 }}
-            />
-          </View>
-          {/* TODO replace with project initiative card once available */}
-          <View style={styles.DonationsAppProjectDetails}>
-            <HoliText size={'large'} bold style={{ marginBottom: 24 }}>
-              Quisque vel augue vestibulum, finibus metus a, malesuada sem. Nulla at convallis massa.
+    <DefaultLayout style={{ backgroundColor: colors.backgroundColorGreyLight }}>
+      <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
+        <Image source={{ uri: picture.url }} style={styles.images} />
+        <View style={styles.header}>
+          <HoliHeading level="2" size={'large'}>
+            {project.title}
+          </HoliHeading>
+          <View style={styles.location}>
+            <HoliIcon icon="globe" size={20} />
+            <HoliText size="small" style={{ marginLeft: 8 }}>
+              {project.initiative.city}, {project.initiative.country}
             </HoliText>
-            <HoliReadMore numberOfLines={5}>
-              Nam condimentum est massa. Donec ultrices maximus mauris, id accumsan risus mollis non. Pellentesque ut ex
-              mollis, interdum quam vitae, lobortis velit. Sed sed interdum nisi. Integer malesuada ex at arcu consequat
-              gravida. Vivamus accumsan nisi a erat tristique condimentum. Phasellus auctor dolor ac pulvinar facilisis.
-              Quisque placerat posuere tempor.
-            </HoliReadMore>
           </View>
         </View>
-      </DefaultLayout>
+        {/* TODO update to organism once API is available */}
+        <View style={styles.donationStats}>
+          <DonationProgress
+            donationsCount={project.donationsCount}
+            progressPercentage={project.progressPercentage}
+            openAmountInCents={project.openAmountInCents}
+            size="large"
+            style={{ marginTop: 8 }}
+          />
+        </View>
+        {/* TODO replace with project initiative card once available */}
+        <View style={styles.DonationsAppProjectDetails}>
+          <HoliText size={'large'} bold style={{ marginBottom: 24 }}>
+            Quisque vel augue vestibulum, finibus metus a, malesuada sem. Nulla at convallis massa.
+          </HoliText>
+          <HoliReadMore numberOfLines={5}>
+            Nam condimentum est massa. Donec ultrices maximus mauris, id accumsan risus mollis non. Pellentesque ut ex
+            mollis, interdum quam vitae, lobortis velit. Sed sed interdum nisi. Integer malesuada ex at arcu consequat
+            gravida. Vivamus accumsan nisi a erat tristique condimentum. Phasellus auctor dolor ac pulvinar facilisis.
+            Quisque placerat posuere tempor.
+          </HoliReadMore>
+        </View>
+      </View>
       <View style={[mixins.container, styles.donateButton]}>
-        <HoliButton label={t('donations:detail.donate')}>
+        <HoliButton label={donateButtonLabel}>
           <HoliText bold style={{ marginRight: 8 }}>
-            {t('donations:detail.donate')}
+            {donateButtonLabel}
           </HoliText>
           <HoliIcon icon="external-link" size={16} />
         </HoliButton>
       </View>
-    </>
+    </DefaultLayout>
   )
 }
 
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   container: {
-    paddingBottom: 92,
+    paddingBottom: 132,
     paddingHorizontal: 0,
   },
   images: {
@@ -173,7 +174,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   donateButton: {
-    bottom: 92,
+    bottom: 40,
     paddingHorizontal: 16,
     ...Platform.select({
       ios: {

@@ -4,9 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { displayError } from '@holi/core/errors/helpers'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
@@ -17,7 +15,6 @@ const PROJECT_PAGE_SIZE = 5
 const DonationListing: React.VFC = () => {
   const { t, i18n } = useTranslation()
   const mixins = useStyleMixins()
-  const { navigate } = useRouting()
 
   const { loading, data, error } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
     variables: {
@@ -45,14 +42,7 @@ const DonationListing: React.VFC = () => {
   return (
     <View>
       {projects.map((project) => (
-        <HoliButton
-          key={project.id}
-          label={project.title}
-          onPress={() => navigate(`/apps/donations/project/${project.id}`)}
-          transparent
-        >
-          <DonationListingItem key={project.id} project={project} />
-        </HoliButton>
+        <DonationListingItem key={project.id} project={project} />
       ))}
     </View>
   )
