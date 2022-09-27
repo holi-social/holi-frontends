@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { Image, Linking, StyleSheet, View } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -31,17 +31,20 @@ const DonationInitiativeCard = ({
 
   return (
     <View style={styles.initiativeCard}>
-      <HoliButton label={t('donations:initiative.link.button')} transparent onPress={() => Linking.openURL(link)}>
+      <HoliButton
+        label={t('donations:initiative.link.button', { name })}
+        transparent
+        onPress={() => Linking.openURL(link)}
+      >
         <View style={styles.initiative}>
           <View style={styles.initiativeContent}>
             <Image source={{ uri: pictureUrl }} style={styles.initiativeImage} />
             <View style={styles.initiativeDetails}>
               <View style={{ flexDirection: 'row' }}>
                 <HoliText style={styles.namePrefix} size="small">
-                  {t('donations:initiative.indication')}{' '}
-                </HoliText>
-                <HoliText style={styles.initiativeName} bold size="small">
-                  {name}
+                  <Trans t={t} i18nKey="donations:initiative.indication" values={{ name }}>
+                    <HoliText style={styles.initiativeName} bold size="small" />
+                  </Trans>
                 </HoliText>
               </View>
               <HoliText style={styles.initiativeOrigin} size="small">
