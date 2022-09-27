@@ -109,6 +109,7 @@ export const HomeStackNavigator: React.VFC = () => {
           headerLeft: BackButton,
           headerTransparent: true,
           headerTintColor: 'white',
+          headerShown: false,
           headerStyle: {
             backgroundColor: 'transparent',
           },
