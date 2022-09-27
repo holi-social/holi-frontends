@@ -91,6 +91,7 @@ const getStyles = (width: number, defaultColor: string, imageIsAvailable: boolea
       borderColor: colors.softblack,
     },
     image: {
+      borderRadius: width / 2,
       height: '100%',
       width: '100%',
     },
