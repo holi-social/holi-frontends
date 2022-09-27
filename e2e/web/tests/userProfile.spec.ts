@@ -27,20 +27,20 @@ test.describe('@Profile', () => {
     await waitForElementByTestId(page, 'user-profile-interests')
     await waitForElementByTestId(page, 'user-profile-sdgs')
     await waitForElementByTestId(page, 'user-profile-skills')
-    // await checkAccessibility(page)
+    await checkAccessibility(page)
 
     // go to profile edit modal
     await defaultAuthSteps({ context, page })
-    // await checkAccessibility(page)
+    await checkAccessibility(page)
     await clickElementByTestId(page, 'btn-open-profile-edit-view')
     await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
-    // await checkAccessibility(page)
+    await checkAccessibility(page)
 
     // validation should block save
     await page.locator(byTestId('first-name-input')).fill('a')
     await clickElementByTestId(page, 'user-profile-edit-form-close-btn')
     await page.locator(byTestId('first-name-input-error-message')).waitFor()
-    // await checkAccessibility(page)
+    await checkAccessibility(page)
 
     // edit firstName should work
     const firstNameEdited = 'Proper First Name'
