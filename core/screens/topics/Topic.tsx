@@ -1,7 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient'
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { ImageBackground, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -14,7 +14,7 @@ import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-// import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
+import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -40,15 +40,21 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   // see here: https://reactjs.org/docs/hooks-rules.html
   const topic = fakeTopics.get(topicId)
   if (!topic) return <HoliText>{t('topics.topic.notFound', { topicId })}</HoliText>
+  const author = {
+    ...topic.author,
+    fullName: `${topic.author.firstName} ${topic.author.lastName}`.trim(),
+  }
 
   return (
     <>
       <StatusBar style="light" animated={true} />
 
       <ScrollView bounces={false} style={styles.wrapper}>
+        {/* Image section */}
         <View>
-          <ImageBackground source={{ uri: topic.image.src }} resizeMode="cover" style={{ height: 340 }} />
+          <ImageBackground source={{ uri: topic.image.src }} resizeMode="cover" style={styles.topicImage} />
 
+          {/* Header */}
           <View style={styles.header}>
             <LinearGradient colors={['rgba(0,0,0,0.6)', 'transparent']} style={styles.headerBackgroundGradient} />
 
@@ -64,8 +70,10 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
           </View>
         </View>
 
+        {/* Topic content */}
         <View style={[mixins.container, styles.topicView]}>
           <HoliHeading size="xSmall" style={styles.categoryHeadline} testID="topic-category">
+            {/* TODO: provide real data from BE */}
             Immigration
           </HoliHeading>
 
@@ -75,32 +83,33 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
 
           <HoliText style={styles.topicText}>{topic.text}</HoliText>
 
-          {/* {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
-          <HoliButton
-            key={postId}
-            label={topic.posts[postId].text}
-            transparent
-            style={styles.post}
-            onPress={() => navigate(`/topics/${topicId}/posts/${postId}`)}
-          >
-            <HoliText>{topic.posts[postId].text}</HoliText>
-          </HoliButton>
-        ))}
+          {/* Author  */}
+          <View style={styles.authorInfo}>
+            <HoliUserAvatar
+              imageSrc={author.avatar}
+              label={author.fullName}
+              initials={author.avatarLabel}
+              defaultColor={author.avatarDefaultColor}
+              size="small"
+              style={styles.authorInfoAvatar}
+            />
 
-        <HoliModal
-          label={t('topics.topic.editors.title', { topicId })}
-          show={showModal}
-          minRelativeHeight={0.5}
-          onDismiss={() => {
-            setShowModal(false)
-          }}
-        >
-          <TopicEditors topicId={topicId || ''} />
-        </HoliModal> */}
+            <HoliText size="small" style={styles.authorInfoText}>
+              <Trans t={t} i18nKey="insight.curatedBy" values={{ name: author.fullName }}>
+                <HoliText size="small">{author.fullName}</HoliText>
+              </Trans>
+            </HoliText>
+          </View>
         </View>
 
-        {/* TODO: remove after adding posts */}
-        <View style={{ marginBottom: 1000 }} />
+        {/* Dummy list of posts */}
+        <View style={styles.postList}>
+          {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
+            <View key={postId} style={styles.post}>
+              <HoliText>{topic.posts[postId].text}</HoliText>
+            </View>
+          ))}
+        </View>
       </ScrollView>
     </>
   )
@@ -135,6 +144,9 @@ const styles = StyleSheet.create({
   headerTitle: {
     color: colors.fontColorWhite,
   },
+  topicImage: {
+    height: 340,
+  },
   topicView: {
     backgroundColor: colors.backgroundColorWhite,
     borderBottomLeftRadius: 24,
@@ -154,9 +166,26 @@ const styles = StyleSheet.create({
     color: colors.grey,
     marginBottom: 24,
   },
+  authorInfo: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  authorInfoAvatar: {
+    marginRight: 16,
+  },
+  authorInfoText: {
+    color: colors.grey,
+  },
+  postList: {
+    marginHorizontal: 16,
+    marginBottom: 64,
+  },
   post: {
-    borderWidth: 1,
-    borderColor: 'pink',
+    padding: 24,
+    borderRadius: 12,
+    backgroundColor: colors.backgroundColorWhite,
+    marginBottom: 16,
   },
 })
 
