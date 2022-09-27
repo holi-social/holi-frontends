@@ -98,6 +98,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               }
               style={
                 Object {
+                  "borderRadius": 64,
                   "height": "100%",
                   "width": "100%",
                 }
@@ -379,6 +380,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               }
               style={
                 Object {
+                  "borderRadius": 64,
                   "height": "100%",
                   "width": "100%",
                 }
@@ -660,6 +662,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               }
               style={
                 Object {
+                  "borderRadius": 64,
                   "height": "100%",
                   "width": "100%",
                 }
@@ -943,6 +946,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               }
               style={
                 Object {
+                  "borderRadius": 64,
                   "height": "100%",
                   "width": "100%",
                 }

@@ -144,6 +144,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     }
                     style={
                       Object {
+                        "borderRadius": 64,
                         "height": "100%",
                         "width": "100%",
                       }
@@ -421,6 +422,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     }
                     style={
                       Object {
+                        "borderRadius": 64,
                         "height": "100%",
                         "width": "100%",
                       }
@@ -698,6 +700,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     }
                     style={
                       Object {
+                        "borderRadius": 64,
                         "height": "100%",
                         "width": "100%",
                       }
@@ -977,6 +980,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     }
                     style={
                       Object {
+                        "borderRadius": 64,
                         "height": "100%",
                         "width": "100%",
                       }

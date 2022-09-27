@@ -34,6 +34,7 @@ exports[`React tree renders correctly 1`] = `
     }
     style={
       Object {
+        "borderRadius": 64,
         "height": "100%",
         "width": "100%",
       }

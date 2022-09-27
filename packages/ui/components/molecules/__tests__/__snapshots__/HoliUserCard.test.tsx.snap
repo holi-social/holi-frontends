@@ -51,6 +51,7 @@ exports[`HoliUserCard renders correctly 1`] = `
       }
       style={
         Object {
+          "borderRadius": 64,
           "height": "100%",
           "width": "100%",
         }
@@ -169,6 +170,7 @@ Array [
         }
         style={
           Object {
+            "borderRadius": 64,
             "height": "100%",
             "width": "100%",
           }

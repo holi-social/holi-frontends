@@ -50,6 +50,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       }
       style={
         Object {
+          "borderRadius": 12,
           "height": "100%",
           "width": "100%",
         }
@@ -157,6 +158,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       }
       style={
         Object {
+          "borderRadius": 12,
           "height": "100%",
           "width": "100%",
         }
@@ -264,6 +266,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       }
       style={
         Object {
+          "borderRadius": 12,
           "height": "100%",
           "width": "100%",
         }
