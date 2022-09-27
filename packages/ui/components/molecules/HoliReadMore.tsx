@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Text, TextLayoutEventData, TextLayoutLine, TextProps, TextStyle, View, ViewStyle } from 'react-native'
 
 import HoliText, { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
@@ -6,7 +7,6 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export type ReadMoreProps = HoliTextProps &
   TextProps & {
-    children: string
     numberOfLines?: 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | undefined // 1 line is not supported on Android and in this component
     style?: ViewStyle
     fontStyle?: TextStyle
@@ -18,18 +18,21 @@ export type ReadMoreProps = HoliTextProps &
  * This component returns a View which encapsulates HoliText components.
  * Most accessibility props are already present in the HoliText component itself.
  */
-const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMoreProps) => {
-  const defaultNumberOfLines = 3
-  const [truncatedText, setTruncatedText] = React.useState(props.children || '')
+const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
+  children,
+  numberOfLines = 3,
+  style,
+  fontStyle,
+  buttonStyle,
+}) => {
+  const [truncatedText, setTruncatedText] = React.useState(children || '')
   const [buttonType, setButtonType] = React.useState<'show' | 'hide' | undefined>(undefined)
-  const [numberOfLines, setNumberOfLines] = React.useState<number | undefined>(
-    props.numberOfLines || defaultNumberOfLines
-  )
+  const { t } = useTranslation()
 
-  const hideButtonText = 'Read less'
+  const hideButtonText = t('component.readMore.readLess')
 
   // needed for its length calculation
-  const showButtonText = 'Read more'
+  const showButtonText = t('component.readMore.readMore')
   const { length: showButtonTextLength } = showButtonText
 
   // buffer factor to truncate the text for extra space (showButtonTextLength * bufferTextFactor)
@@ -42,8 +45,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
   // for mobile only: onTextLayout is not supported on web - https://github.com/necolas/react-native-web/issues/1685
   const truncateText = ({ nativeEvent: { lines } }: { nativeEvent: TextLayoutEventData }) => {
     // ignore truncating when there is no hidden text (no need for a Read more button)
-    if (!lines || !lines.length || !lines[0].text.length || !numberOfLines || lines.length < numberOfLines) {
-      setNumberOfLines(undefined)
+    if (!numberOfLines || lines.length < numberOfLines) {
       setButtonType(undefined)
       return
     }
@@ -57,18 +59,14 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
     const truncatedText = lines
       .map((line: TextLayoutLine, index: number) => {
         const { text } = line
+        const maxAllowedLastLineLength = firstLineLength - showButtonTextLength * bufferTextFactor - ellipsisLength
 
         // if we are in the last visible line, truncate it in case its text is too long (longer or equal to the length of first line minus the button text length)
-        if (
-          numberOfLines - 1 === index &&
-          text.length >= firstLineLength - showButtonTextLength * bufferTextFactor - ellipsisLength
-        ) {
+        if (numberOfLines - 1 === index && text.length >= maxAllowedLastLineLength) {
           // only display Read More button if truncating was needed
           truncated = true
 
-          return (
-            text.substring(0, firstLineLength - showButtonTextLength * bufferTextFactor - ellipsisLength) + ellipsis
-          )
+          return text.substring(0, maxAllowedLastLineLength) + ellipsis
         }
 
         // disconsider any lines beyond numberOfLines for the truncated text
@@ -84,51 +82,36 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = (props: ReadMorePro
     if (truncated) {
       setButtonType('show')
     } else {
-      setNumberOfLines(undefined)
       setButtonType(undefined)
     }
 
     setTruncatedText(truncatedText)
   }
 
-  const togglebuttonType = () => {
-    if (buttonType === 'show') {
-      setNumberOfLines(undefined)
-      setButtonType('hide')
-    } else {
-      setNumberOfLines(props.numberOfLines || defaultNumberOfLines)
-      setButtonType('show')
-    }
+  const toggleButtonType = () => {
+    setButtonType((previousType) => (previousType === 'show' ? 'hide' : 'show'))
   }
 
   // using a Text as the button, due to vertical aligning issues on Android https://github.com/facebook/react-native/issues/27549
   const ToggleButton = (
-    <HoliText
-      label={buttonType === 'show' ? showButtonText : hideButtonText}
-      onPress={togglebuttonType}
-      transparent
-      accessible={true}
-      accessibilityRole="button"
-      role="button"
-      style={props.buttonStyle || {}}
-    >
+    <Text onPress={toggleButtonType} accessible={true} accessibilityRole="button" style={buttonStyle || {}}>
       {buttonType === 'show' ? showButtonText : hideButtonText}
-    </HoliText>
+    </Text>
   )
 
   return (
-    <View style={props.style || {}}>
+    <View style={style || {}}>
       {/* Use react-native's Text component to encapsulate HoliText components to avoid applying HoliText default styles
       to both text and button */}
       <Text
         onTextLayout={!buttonType ? truncateText : undefined}
-        numberOfLines={numberOfLines}
+        numberOfLines={buttonType !== 'hide' ? numberOfLines : undefined}
         ellipsizeMode="tail"
         style={{ alignContent: 'flex-start', justifyContent: 'center' }}
       >
         {/* The visible text. Any style props are applied here */}
-        <HoliText style={[{ color: colors.fontColorGrey }, props.fontStyle || {}]}>
-          {numberOfLines ? truncatedText : props.children} {buttonType === 'hide' && ' '}
+        <HoliText style={[{ color: colors.fontColorGrey }, fontStyle || {}]}>
+          {buttonType === 'show' ? truncatedText : children} {buttonType === 'hide' && ' '}
         </HoliText>
 
         {/* show button inline (mobile only) */}

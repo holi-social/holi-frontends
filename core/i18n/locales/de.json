@@ -41,6 +41,8 @@
   "auth.registration.error.registration": "Registrierung ist fehlgeschlagen",
   "auth.registration.heading": "Erstelle ein Benutzerkonto",
   "chat.title": "Chat",
+  "component.readMore.readLess": "Zeige weniger",
+  "component.readMore.readMore": "Weiterlesen",
   "date": "{{date, D. MMM}}",
   "error.alert.button": "OK",
   "error.alert.headline": "Ein Fehler ist aufgetreten",
