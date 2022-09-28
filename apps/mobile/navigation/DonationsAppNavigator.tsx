@@ -10,6 +10,8 @@ import DonationsAppProjectDetail, {
   DonationsAppProjectDetailParams,
 } from '@holi-apps/donations/screens/DonationsAppProjectDetail'
 
+import { CenterElement } from './components'
+
 export type DonationsAppScreensList = {
   DonationsAppHome: undefined
   DonationsAppProjectDetail: DonationsAppProjectDetailParams
@@ -29,7 +31,14 @@ const DonationsAppNavigator: React.VFC = () => {
         headerTitleAlign: 'center',
       }}
     >
-      <DonationsAppStack.Screen name="DonationsAppHome" component={DonationsAppHome} />
+      <DonationsAppStack.Screen
+        name="DonationsAppHome"
+        component={DonationsAppHome}
+        options={{
+          headerBackVisible: false,
+          headerTitle: CenterElement,
+        }}
+      />
       <DonationsAppStack.Screen
         name="DonationsAppProjectDetail"
         component={DonationsAppProjectDetail}
@@ -37,6 +46,7 @@ const DonationsAppNavigator: React.VFC = () => {
           headerBackTitleVisible: false,
           headerBackVisible: false,
           headerLeft: BackButton,
+          headerTitle: CenterElement,
         }}
       />
     </DonationsAppStack.Navigator>
