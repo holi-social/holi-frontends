@@ -2,10 +2,11 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ImageBackground, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
+import { ImageBackground, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
+import DefaultLayout from '@holi/core/DefaultLayout'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
@@ -49,25 +50,32 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
     <>
       <StatusBar style="light" animated={true} />
 
-      <ScrollView bounces={false} style={styles.wrapper}>
+      <DefaultLayout bounces={false} style={styles.wrapper}>
         {/* Image section */}
         <View>
-          <ImageBackground source={{ uri: topic.image.src }} resizeMode="cover" style={styles.topicImage} />
+          <ImageBackground
+            source={{ uri: topic.image.src }}
+            resizeMode="cover"
+            style={styles.topicBackgroundImage}
+            imageStyle={styles.topicImage}
+          />
 
           {/* Header */}
-          <View style={styles.header}>
-            <LinearGradient colors={['rgba(0,0,0,0.6)', 'transparent']} style={styles.headerBackgroundGradient} />
+          {Platform.OS !== 'web' && (
+            <View style={styles.header}>
+              <LinearGradient colors={['rgba(0,0,0,0.6)', 'transparent']} style={styles.headerBackgroundGradient} />
 
-            <SafeAreaView style={styles.headerInner}>
-              <View style={styles.headerLeft}>
-                <BackButton tintColor={colors.fontColorWhite} icon="arrow-down-s" />
-              </View>
+              <SafeAreaView style={styles.headerInner}>
+                <View style={styles.headerLeft}>
+                  <BackButton tintColor={colors.fontColorWhite} icon="arrow-down-s" />
+                </View>
 
-              <View style={styles.headerCenter}>
-                <HeaderTitle style={styles.headerTitle} />
-              </View>
-            </SafeAreaView>
-          </View>
+                <View style={styles.headerCenter}>
+                  <HeaderTitle style={styles.headerTitle} />
+                </View>
+              </SafeAreaView>
+            </View>
+          )}
         </View>
 
         {/* Topic content */}
@@ -103,14 +111,14 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
         </View>
 
         {/* Dummy list of posts */}
-        <View style={styles.postList}>
+        <View style={[mixins.container, Platform.OS === 'web' && mixins.twoColumnGrid]}>
           {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
             <View key={postId} style={styles.post}>
               <HoliText>{topic.posts[postId].text}</HoliText>
             </View>
           ))}
         </View>
-      </ScrollView>
+      </DefaultLayout>
     </>
   )
 }
@@ -144,8 +152,18 @@ const styles = StyleSheet.create({
   headerTitle: {
     color: colors.fontColorWhite,
   },
+  topicBackgroundImage: {
+    height: Platform.OS === 'web' ? 680 : 340,
+    ...Platform.select({
+      web: {
+        maxHeight: '50vh',
+        objectFit: 'cover',
+      },
+      native: { maxHeight: '50%' },
+    }),
+  },
   topicImage: {
-    height: 340,
+    ...Platform.select({ web: { height: 'auto' } }),
   },
   topicView: {
     backgroundColor: colors.backgroundColorWhite,
@@ -154,6 +172,7 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingBottom: 24,
     marginBottom: 24,
+    ...Platform.select({ web: { paddingHorizontal: 20 } }),
   },
   categoryHeadline: {
     color: colors.positivepurple,
@@ -177,14 +196,11 @@ const styles = StyleSheet.create({
   authorInfoText: {
     color: colors.grey,
   },
-  postList: {
-    marginHorizontal: 16,
-    marginBottom: 64,
-  },
   post: {
     padding: 24,
     borderRadius: 12,
     backgroundColor: colors.backgroundColorWhite,
+    flex: 1,
     marginBottom: 16,
   },
 })

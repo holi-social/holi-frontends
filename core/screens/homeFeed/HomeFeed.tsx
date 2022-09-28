@@ -1,7 +1,7 @@
 import moment from 'moment'
 import React, { useContext, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -21,7 +21,7 @@ import HoliSeparatedList from '@holi/ui/components/molecules/HoliSeparatedList'
 import HoliAppSwiper from '@holi/ui/components/organisms/HoliAppSwiper'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const dummyTopicCategories = ['Immigration', 'Education', 'Sustainability']
@@ -94,10 +94,8 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   const [showEditorsModal, setShowEditorsModal] = useState(false)
   const { navigate } = useRouting()
   const { isLoggedIn } = useContext(AuthContext)
-  const { width } = useWindowDimensions()
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(moment().hours(), t)
-  const styles = homeFeedStyles(width)
   const mixins = useStyleMixins()
 
   useNavigationHeader(navigation, { title: headerTitle })
@@ -170,7 +168,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
           </HoliModal>
         </View>
 
-        <View style={styles.feedTopicGrid}>
+        <View style={Platform.OS === 'web' && mixins.twoColumnGrid}>
           {[...fakeTopics.entries()].map(([topicId, topic]) => (
             <TopicPreviewBox key={topicId} id={topicId} {...topic} style={styles.feedTopicItem} />
           ))}
@@ -182,61 +180,48 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   )
 }
 
-const homeFeedStyles = (screenWidth: number) =>
-  StyleSheet.create({
-    view: {
-      alignItems: 'center',
-      maxWidth: '100%',
-      marginTop: 5,
-    },
-    borderBottom: {
-      marginBottom: 40,
-      borderBottomColor: colors.borderColorGrey,
-      borderBottomWidth: 1,
-    },
-    divider: {
-      marginTop: 12,
-    },
-    appSwiper: {
-      flexGrow: 0,
-    },
-    feedHeadlineContainer: {
-      paddingBottom: 40,
-    },
-    feedHeadline: {
-      marginBottom: 16,
-    },
-    avatarsTopTitle: {
-      marginBottom: 8,
-    },
-    feedHeadlineEditorsText: {
-      marginBottom: 8,
-      color: colors.grey,
-    },
-    feedTopicGrid: {
-      ...Platform.select({
-        web: {
-          ...(screenWidth > +vars.breakpointM
-            ? {
-                flexDirection: 'row',
-                gap: 24,
-              }
-            : {}),
-        },
-      }),
-    },
-    feedTopicItem: {
-      marginBottom: 40,
-      flex: 1,
-    },
-    topicEditorsModalButton: {
-      ...Platform.select({
-        web: {
-          width: 'fit-content',
-        },
-      }),
-    },
-    userSuggestionsContainer: { marginTop: 16 },
-  })
+const styles = StyleSheet.create({
+  view: {
+    alignItems: 'center',
+    maxWidth: '100%',
+    marginTop: 5,
+  },
+  borderBottom: {
+    marginBottom: 40,
+    borderBottomColor: colors.borderColorGrey,
+    borderBottomWidth: 1,
+  },
+  divider: {
+    marginTop: 12,
+  },
+  appSwiper: {
+    flexGrow: 0,
+  },
+  feedHeadlineContainer: {
+    paddingBottom: 40,
+  },
+  feedHeadline: {
+    marginBottom: 16,
+  },
+  avatarsTopTitle: {
+    marginBottom: 8,
+  },
+  feedHeadlineEditorsText: {
+    marginBottom: 8,
+    color: colors.grey,
+  },
+  feedTopicItem: {
+    marginBottom: 40,
+    flex: 1,
+  },
+  topicEditorsModalButton: {
+    ...Platform.select({
+      web: {
+        width: 'fit-content',
+      },
+    }),
+  },
+  userSuggestionsContainer: { marginTop: 16 },
+})
 
 export default HomeFeed
