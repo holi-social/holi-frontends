@@ -42,6 +42,8 @@
   "auth.registration.error.registration": "Registration failed",
   "auth.registration.heading": "Create an account",
   "chat.title": "Chat",
+  "component.readMore.readLess": "Read less",
+  "component.readMore.readMore": "Read more",
   "date": "{{date, MMM, D}}",
   "error.alert.button": "OK",
   "error.alert.headline": "Something went wrong",

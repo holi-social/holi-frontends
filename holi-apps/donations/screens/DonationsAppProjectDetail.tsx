@@ -130,7 +130,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
           <HoliText bold style={{ marginRight: 8 }}>
             {donateButtonLabel}
           </HoliText>
-          <HoliIcon icon="external-link" size={16} />
+          <HoliIcon icon="share-box" size={16} />
         </HoliButton>
       </View>
     </View>

@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?bfg6au');
-  src:  url('fonts/icomoon.eot?bfg6au#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?bfg6au') format('truetype'),
-    url('fonts/icomoon.woff?bfg6au') format('woff'),
-    url('fonts/icomoon.svg?bfg6au#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?6ll72q');
+  src:  url('fonts/icomoon.eot?6ll72q#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?6ll72q') format('truetype'),
+    url('fonts/icomoon.woff?6ll72q') format('woff'),
+    url('fonts/icomoon.svg?6ll72q#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,54 +25,63 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-external-link:before {
+.icon-smiley:before {
   content: "\e900";
 }
-.icon-globe:before {
+.icon-share-box:before {
   content: "\e901";
 }
-.icon-heart:before {
+.icon-search:before {
   content: "\e902";
 }
-.icon-close:before {
+.icon-notification-2:before {
   content: "\e903";
 }
-.icon-account-circle:before {
+.icon-newspaper:before {
   content: "\e904";
 }
-.icon-add:before {
+.icon-loader:before {
   content: "\e905";
 }
-.icon-arrow-down-s:before {
+.icon-image:before {
   content: "\e906";
 }
-.icon-arrow-left-s:before {
+.icon-home-smile-2:before {
   content: "\e907";
 }
-.icon-chat-3:before {
+.icon-hearts:before {
   content: "\e908";
 }
-.icon-check:before {
+.icon-hand-heart:before {
   content: "\e909";
 }
-.icon-error-warning:before {
+.icon-globe:before {
   content: "\e90a";
 }
-.icon-home-smile-2:before {
+.icon-error-warning:before {
   content: "\e90b";
 }
-.icon-image:before {
+.icon-close:before {
   content: "\e90c";
 }
-.icon-loader:before {
+.icon-check:before {
   content: "\e90d";
 }
-.icon-notification-2:before {
+.icon-chat-3:before {
   content: "\e90e";
 }
-.icon-search:before {
+.icon-arrow-left-s:before {
   content: "\e90f";
 }
-.icon-smiley:before {
+.icon-arrow-down-s:before {
   content: "\e910";
+}
+.icon-apps:before {
+  content: "\e911";
+}
+.icon-add:before {
+  content: "\e912";
+}
+.icon-account-circle:before {
+  content: "\e913";
 }
