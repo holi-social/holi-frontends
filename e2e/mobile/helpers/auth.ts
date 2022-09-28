@@ -65,5 +65,7 @@ export const logout = async () => {
     await tapOnElementWithTestId('confirm-logout-button')
     await tapOnElementWithTestId('nav-button-home')
     await waitForElementWithTestId('btn-to-profile-view')
+  } else {
+    await tapOnElementWithTestId('nav-button-back')
   }
 }
