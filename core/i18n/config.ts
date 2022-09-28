@@ -1,15 +1,10 @@
 import type { ResourceKey } from 'i18next'
 
-type LocaleConfig = {
-  name: string
-  momentLocaleLoader: () => Promise<void>
-}
-
 type NamespaceConfig = { [key: string]: ResourceKey }
 
 type I18nConfig = {
   defaultLocale: string
-  supportedLocales: { [key: string]: LocaleConfig }
+  supportedLocales: { [key: string]: string }
   defaultNamespace: string
   namespaces: { [key: string]: NamespaceConfig }
 }
@@ -17,15 +12,8 @@ type I18nConfig = {
 const config: I18nConfig = {
   defaultLocale: 'en',
   supportedLocales: {
-    en: {
-      name: 'English',
-      // en is default locale in Moment
-      momentLocaleLoader: () => Promise.resolve(),
-    },
-    de: {
-      name: 'Deutsch',
-      momentLocaleLoader: () => require('moment/locale/de'),
-    },
+    en: 'English',
+    de: 'Deutsch',
   },
   defaultNamespace: 'core',
   namespaces: {
