@@ -147,7 +147,9 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
               {isTouch && deviceWidth < +vars.breakpointL ? (
                 <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
                   <View style={styles.handle}>
-                    <View style={styles.line} />
+                    <HoliButton label={t('modal.backdrop')} style={{ padding: 10 }} onPress={onDismiss} transparent>
+                      <View style={styles.line} />
+                    </HoliButton>
                   </View>
                 </PanGestureHandler>
               ) : (
@@ -157,7 +159,6 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
                   onPress={onDismiss}
                   inline={true}
                   transparent
-                  disableFocusability
                 >
                   <HoliIcon icon="close" color={colors.fontColorBlack} size={25} />
                 </HoliButton>
@@ -189,19 +190,17 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     width: '100%',
+    alignItems: 'center',
   },
   handle: {
     height: 40,
     backgroundColor: colors.backgroundColorWhite,
-    justifyContent: 'center',
     alignItems: 'center',
   },
   line: {
     width: 40,
     height: 4,
     borderRadius: 4,
-    position: 'absolute',
-    top: 10,
     backgroundColor: colors.backgroundColorBlack,
     opacity: 0.3,
   },
