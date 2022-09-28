@@ -28,7 +28,7 @@ export type HoliButtonProps = {
   disabled?: boolean
   disableFocusability?: boolean
   testID?: string
-  onPress?: null | ((event: React.SyntheticEvent | GestureResponderEvent) => void)
+  onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
 }
 
 const HoliButton: React.FC<HoliButtonProps> = ({
