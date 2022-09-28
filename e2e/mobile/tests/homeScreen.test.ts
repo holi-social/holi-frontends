@@ -19,14 +19,6 @@ describe('@HomeScreen', () => {
 
     // go home
     await navigateBackToHomeScreen()
-
-    // open volunteering app
-    await waitForElementWithTestId('app-tile-volunteering')
-    await tapOnElementWithTestId('app-tile-volunteering')
-    await waitForElementWithTestId('apps-volunteering-heading')
-
-    // go home
-    await navigateBackToHomeScreen()
   })
 
   it('should not show user suggestions if logged out', async () => {

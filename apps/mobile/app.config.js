@@ -35,7 +35,15 @@ export default {
     web: {
       favicon: './assets/favicon.png',
     },
-    plugins: ['sentry-expo', 'expo-image-picker'],
+    plugins: [
+      'sentry-expo',
+      [
+        'expo-image-picker',
+        {
+          photosPermission: 'The app accesses your photos to let you share them with your friends.',
+        },
+      ],
+    ],
     hooks: {
       postPublish: [
         {
@@ -59,10 +67,6 @@ export default {
       sentry: {
         dsn: process.env.SENTRY_DSN || 'https://0e50481f84454f9a838a8217085498f0@o949544.ingest.sentry.io/6377191',
       },
-    },
-    locales: {
-      en: '../../core/i18n/locales/en.json',
-      de: '../../core/i18n/locales/de.json',
     },
   },
 }

@@ -19,6 +19,7 @@ export const locateElementByTestId = async (page: Page, testId: string) => {
 
 export const clickElementByTestId = async (page: Page, testId: string) => {
   const button = await locateElementByTestId(page, testId)
+  await delay(0.5) // source of flakyness and delay. Why do we need this here? Component is there, but click does not work when done too early.
   // Only click the first element if there are multiple matches
   await button.first().click()
 }

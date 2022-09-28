@@ -7,16 +7,6 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('@HomeScreen', () => {
-  test('should work', async ({ page }) => {
-    await waitForElementByTestId(page, 'home-feed-topics-heading')
-    await clickElementByTestId(page, 'app-tile-volunteering')
-
-    await page.waitForSelector('text="Volunteering"')
-    await clickElementByTestId(page, 'nav-button-home')
-
-    await waitForElementByTestId(page, 'home-feed-topics-heading')
-  })
-
   test('has feed topic headline', async ({ page }) => {
     await waitForElementByTestId(page, 'home-feed-topics-heading')
   })
