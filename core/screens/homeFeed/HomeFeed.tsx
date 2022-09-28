@@ -1,4 +1,3 @@
-import moment from 'moment'
 import React, { useContext, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
@@ -96,7 +95,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   const { isLoggedIn } = useContext(AuthContext)
   const { width } = useWindowDimensions()
   const { t } = useTranslation()
-  const headerTitle = temporalGreeting(moment().hours(), t)
+  const headerTitle = temporalGreeting(new Date().getHours(), t)
   const styles = homeFeedStyles(width)
   const mixins = useStyleMixins()
 
