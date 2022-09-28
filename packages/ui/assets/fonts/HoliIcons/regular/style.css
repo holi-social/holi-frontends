@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?1s3jec');
-  src:  url('fonts/icomoon.eot?1s3jec#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?1s3jec') format('truetype'),
-    url('fonts/icomoon.woff?1s3jec') format('woff'),
-    url('fonts/icomoon.svg?1s3jec#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?6ll72q');
+  src:  url('fonts/icomoon.eot?6ll72q#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?6ll72q') format('truetype'),
+    url('fonts/icomoon.woff?6ll72q') format('woff'),
+    url('fonts/icomoon.svg?6ll72q#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,60 +25,63 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-account-circle:before {
+.icon-smiley:before {
   content: "\e900";
 }
-.icon-add:before {
+.icon-share-box:before {
   content: "\e901";
 }
-.icon-apps:before {
+.icon-search:before {
   content: "\e902";
 }
-.icon-arrow-down-s:before {
+.icon-notification-2:before {
   content: "\e903";
 }
-.icon-arrow-left-s:before {
+.icon-newspaper:before {
   content: "\e904";
 }
-.icon-chat-3:before {
+.icon-loader:before {
   content: "\e905";
 }
-.icon-check:before {
+.icon-image:before {
   content: "\e906";
 }
-.icon-close:before {
+.icon-home-smile-2:before {
   content: "\e907";
 }
-.icon-error-warning:before {
+.icon-hearts:before {
   content: "\e908";
 }
 .icon-hand-heart:before {
   content: "\e909";
 }
-.icon-hearts:before {
+.icon-globe:before {
   content: "\e90a";
 }
-.icon-home-smile-2:before {
+.icon-error-warning:before {
   content: "\e90b";
 }
-.icon-image:before {
+.icon-close:before {
   content: "\e90c";
 }
-.icon-loader:before {
+.icon-check:before {
   content: "\e90d";
 }
-.icon-newspaper:before {
+.icon-chat-3:before {
   content: "\e90e";
 }
-.icon-notification-2:before {
+.icon-arrow-left-s:before {
   content: "\e90f";
 }
-.icon-search:before {
+.icon-arrow-down-s:before {
   content: "\e910";
 }
-.icon-share-box:before {
+.icon-apps:before {
   content: "\e911";
 }
-.icon-smiley:before {
+.icon-add:before {
   content: "\e912";
+}
+.icon-account-circle:before {
+  content: "\e913";
 }
