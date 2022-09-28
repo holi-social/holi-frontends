@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { Image, StyleSheet } from 'react-native'
 
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
@@ -12,6 +13,7 @@ type DonationListingItemProps = {
 }
 
 const DonationListingItem: React.VFC<DonationListingItemProps> = ({ project }: DonationListingItemProps) => {
+  const { navigate } = useRouting()
   const { title, categories, donationsCount, progressPercentage, openAmountInCents, picture } = project
 
   const responsiveImage = useMemo(() => {
@@ -27,7 +29,7 @@ const DonationListingItem: React.VFC<DonationListingItemProps> = ({ project }: D
       <HoliButton
         label={title}
         transparent
-        onPress={() => console.log('navigate click')}
+        onPress={() => navigate(`/apps/donations/project/${project.id}`)}
         style={styles.mainImageContainer}
       >
         {responsiveImage}

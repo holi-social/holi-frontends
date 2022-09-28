@@ -51,6 +51,11 @@ exports[`renders correctly renders correctly when open 1`] = `
       onStartShouldSetResponder={[Function]}
       style={
         Array [
+          Array [
+            Object {
+              "width": "100%",
+            },
+          ],
           Object {
             "backgroundColor": "#222326",
             "bottom": 0,
@@ -60,9 +65,6 @@ exports[`renders correctly renders correctly when open 1`] = `
             "right": 0,
             "top": 0,
             "zIndex": 0,
-          },
-          Object {
-            "width": "100%",
           },
         ]
       }
