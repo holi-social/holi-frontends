@@ -16,7 +16,7 @@ test.describe('@Donations', () => {
     expect(page.url()).toContain('/apps/donations')
   })
 
-  test('should display 5 projects', async ({ page }) => {
+  test('should display multiple projects', async ({ page }) => {
     await waitForElementByTestId(page, 'donations-list-container')
     const listItems = await locateElementByTestId(page, 'donations-list-item')
     expect(listItems).toBeGreaterThan(1)
