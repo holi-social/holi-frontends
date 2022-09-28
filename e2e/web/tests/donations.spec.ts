@@ -9,7 +9,7 @@ test.beforeEach(async ({ page }) => {
 test.describe('@Donations', () => {
   test('should be accessible from home screen', async ({ page }) => {
     await page.goto('/')
-    await waitForElementByTestId(page, 'home-feed-topics-heading')
+    await clickElementByTestId(page, 'home-apps-button')
     await clickElementByTestId(page, 'app-tile-donations')
 
     await waitForElementByTestId(page, 'donations-list-container')
@@ -19,6 +19,7 @@ test.describe('@Donations', () => {
   test('should display multiple projects', async ({ page }) => {
     await waitForElementByTestId(page, 'donations-list-container')
     const listItems = await locateElementByTestId(page, 'donations-list-item')
-    expect(listItems).toBeGreaterThan(1)
+    const itemCount = await listItems.count()
+    expect(itemCount).toBeGreaterThan(1)
   })
 })

@@ -7,6 +7,7 @@ import {
 describe('@Donations', () => {
   it('should be accessible from home screen', async () => {
     await waitForElementWithTestId('home-feed-topics-heading')
+    await tapOnElementWithTestId('home-apps-button')
     await tapOnElementWithTestId('app-tile-donations')
 
     await waitForElementWithTestId('donations-list-container')
@@ -15,6 +16,7 @@ describe('@Donations', () => {
   it('should display multiple projects', async () => {
     // navigate to donations app
     await waitForElementWithTestId('home-feed-topics-heading')
+    await tapOnElementWithTestId('home-apps-button')
     await tapOnElementWithTestId('app-tile-donations')
     await waitForElementWithTestId('donations-list-container')
 
