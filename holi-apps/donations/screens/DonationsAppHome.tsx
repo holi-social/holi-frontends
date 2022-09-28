@@ -35,7 +35,7 @@ const DonationsAppHome: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) =
 
   return (
     <DefaultLayout>
-      <View style={[mixins.container, { paddingTop: 10 }]}>
+      <View style={[mixins.container, { paddingTop: 10 }]} testID={'donations-list-container'}>
         <DonationListing />
       </View>
     </DefaultLayout>
