@@ -28,8 +28,8 @@ declare module 'react-native' {
   }
 
   interface ViewStyle extends ReactViewStyle {
-    display?: 'flex' | 'none' | 'inline-block' | undefined
-    boxShadow?: string | undefined
+    display?: 'flex' | 'none' | 'inline-block'
+    boxShadow?: string
   }
 
   interface ViewProps extends ViewProps {
@@ -43,9 +43,10 @@ declare module 'react-native' {
   }
 
   interface TextStyle {
-    display?: 'flex' | 'none' | 'inline-block' | undefined
+    display?: 'flex' | 'none' | 'inline-block'
   }
+
   interface ImageStyle {
-    display?: 'flex' | 'none' | 'inline-block' | undefined
+    display?: 'flex' | 'none' | 'inline-block'
   }
 }
