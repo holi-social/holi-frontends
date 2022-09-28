@@ -1,58 +1,59 @@
 # holi-frontends
 
 <!-- TOC -->
-- [Development](#development)
-  - [Prerequisites](#prerequisites)
-    - [Android emulator](#android-emulator)
-    - [iOS simulator (if you have a Mac)](#ios-simulator-if-you-have-a-mac)
-    - [Docker (optional)](#docker-optional)
-  - [Running](#running)
-  - [Automated Testing](#automated-testing)
-    - [Web e2e tests](#web-e2e-tests)
-- [Monorepo - and why](#monorepo---and-why)
-  - [Yarn Workspaces](#yarn-workspaces)
-  - [Workspaces / Package Structure](#workspaces--package-structure)
-  - [Code conventions](#code-conventions)
-    - [Code style](#code-style)
-  - [Dependencies](#dependencies)
-    - [Dependencies and Yarn Workspaces](#dependencies-and-yarn-workspaces)
-  - [Rules for Adding Dependencies](#rules-for-adding-dependencies)
-  - [Clean up](#clean-up)
-  - [How to Reproduce (Built this from scratch)](#how-to-reproduce-built-this-from-scratch)
-  - [Navigation](#navigation)
-    - [core](#core)
-    - [web](#web)
-    - [mobile](#mobile)
-    - [conclusion](#conclusion)
-    - [notes](#notes)
-  - [I18n (Internationalization)](#i18n-internationalization)
-    - [Usage example](#usage-example)
-    - [VS Code extension](#vs-code-extension)
-- [Creating NextJS SSR and SSG pages](#creating-nextjs-ssr-and-ssg-pages)
-  - [Understanding NextJS data fetching strategies](#understanding-nextjs-data-fetching-strategies)
-  - [Creating reusable pages for web and mobile and allowing SSR or SSG on web](#creating-reusable-pages-for-web-and-mobile-and-allowing-ssr-or-ssg-on-web)
-    - [Configure the page/screen component to use SSR or SSG:](#configure-the-pagescreen-component-to-use-ssr-or-ssg)
-      - [`core/screens/Quote.tsx`](#corescreensquotetsx)
-    - [In the web app, in the file corresponding to the page using SSR or SSG:](#in-the-web-app-in-the-file-corresponding-to-the-page-using-ssr-or-ssg)
-      - [`apps/web/pages/quote.tsx`](#appswebpagesquotetsx)
-- [Authentication](#authentication)
-  - [Mobile](#mobile)
-  - [Web](#web)
-- [Exploring the GraphQL API (via graphiql)](#exploring-the-graphql-api-via-graphiql)
-- [Continuous Integration and Deployment](#continuous-integration-and-deployment)
-  - [Feature Branches & Environments](#feature-branches--environments)
-  - [Skipping parts of CI](#skipping-parts-of-ci)
-    - [noenv Branches](#noenv-branches)
-    - [noweb / nomobile Branches](#noweb--nomobile-branches)
-  - [Staging and Production Environments](#staging-and-production-environments)
-  - [Environment variables](#environment-variables)
-    - [Local execution and general usage](#local-execution-and-general-usage)
-    - [Configuration for web client](#configuration-for-web-client)
-    - [Configuration for web deployment](#configuration-for-web-deployment)
-    - [Usage for mobile](#usage-for-mobile)
-    - [Configuration for mobile builds](#configuration-for-mobile-builds)
-- [sentry.io logging/tracing](#sentryio-loggingtracing)
-- [Accessibility testing](#accessibility-testing)
+- [holi-frontends](#holi-frontends)
+  - [Development](#development)
+    - [Prerequisites](#prerequisites)
+      - [Android emulator](#android-emulator)
+      - [iOS simulator (if you have a Mac)](#ios-simulator-if-you-have-a-mac)
+      - [Docker (optional)](#docker-optional)
+    - [Running](#running)
+    - [Automated Testing](#automated-testing)
+      - [Web e2e tests](#web-e2e-tests)
+  - [Monorepo - and why](#monorepo---and-why)
+    - [Yarn Workspaces](#yarn-workspaces)
+    - [Workspaces / Package Structure](#workspaces--package-structure)
+    - [Code conventions](#code-conventions)
+      - [Code style](#code-style)
+    - [Dependencies](#dependencies)
+      - [Dependencies and Yarn Workspaces](#dependencies-and-yarn-workspaces)
+    - [Rules for Adding Dependencies](#rules-for-adding-dependencies)
+    - [Clean up](#clean-up)
+    - [How to Reproduce (Built this from scratch)](#how-to-reproduce-built-this-from-scratch)
+    - [Navigation](#navigation)
+      - [core](#core)
+      - [web](#web)
+      - [mobile](#mobile)
+      - [conclusion](#conclusion)
+      - [notes](#notes)
+    - [I18n (Internationalization)](#i18n-internationalization)
+      - [Usage example](#usage-example)
+      - [VS Code extension](#vs-code-extension)
+  - [Creating NextJS SSR and SSG pages](#creating-nextjs-ssr-and-ssg-pages)
+    - [Understanding NextJS data fetching strategies](#understanding-nextjs-data-fetching-strategies)
+    - [Creating reusable pages for web and mobile and allowing SSR or SSG on web](#creating-reusable-pages-for-web-and-mobile-and-allowing-ssr-or-ssg-on-web)
+      - [Configure the page/screen component to use SSR or SSG:](#configure-the-pagescreen-component-to-use-ssr-or-ssg)
+        - [`core/screens/Quote.tsx`](#corescreensquotetsx)
+      - [In the web app, in the file corresponding to the page using SSR or SSG:](#in-the-web-app-in-the-file-corresponding-to-the-page-using-ssr-or-ssg)
+        - [`apps/web/pages/quote.tsx`](#appswebpagesquotetsx)
+  - [Authentication](#authentication)
+    - [Mobile](#mobile-1)
+    - [Web](#web-1)
+  - [Exploring the GraphQL API (via graphiql)](#exploring-the-graphql-api-via-graphiql)
+  - [Continuous Integration and Deployment](#continuous-integration-and-deployment)
+    - [Feature Branches & Environments](#feature-branches--environments)
+    - [Skipping parts of CI](#skipping-parts-of-ci)
+      - [noenv Branches](#noenv-branches)
+      - [noweb / nomobile Branches](#noweb--nomobile-branches)
+    - [Staging and Production Environments](#staging-and-production-environments)
+    - [Environment variables](#environment-variables)
+      - [Local execution and general usage](#local-execution-and-general-usage)
+      - [Configuration for web client](#configuration-for-web-client)
+      - [Configuration for web deployment](#configuration-for-web-deployment)
+      - [Usage for mobile](#usage-for-mobile)
+      - [Configuration for mobile builds](#configuration-for-mobile-builds)
+  - [sentry.io logging/tracing](#sentryio-loggingtracing)
+  - [Accessibility testing](#accessibility-testing)
 <!-- /TOC -->
 
 ## Development
@@ -97,7 +98,7 @@ Best way to run a dev environment is to checkout [holi-meta](https://gitlab.com/
 it to quickly start a complete environment.
 
 Locally in this repository, you can run `yarn mobile:dev` for mobile and `yarn web:dev` for web. These will connect
-to Staging APIs by default. You can let them connect to other deployments of 
+to Staging APIs by default. You can let them connect to other deployments of
 [holi-unified-api](https://gitlab.com/holisticfoundation/holi-unified-api/) by providing the environment variable
 HOLI_API_URL (see [holi-meta](https://gitlab.com/holisticfoundation/holi-meta)).
 
@@ -200,7 +201,7 @@ To give an overview, the project contains the following workspaces (npm packages
   - `web` - end-to-end tests for the web site
 - `holi-apps` - apps for the HOLI app "store" will eventually go here
   - `volunteering` - examplary for holi-apps in general, contains everything specific to this app, structurally equivalent to `screens` in `core`
-- `packages` - shared "library" code goes here, i.e. everything reusable that *could* also be published as an npm package
+- `packages` - shared "library" code goes here, i.e. everything reusable that _could_ also be published as an npm package
   - `api` - shared client-side code for the HOLI API
   - `ui` - the HOLI component library
 - `terraform`
@@ -288,7 +289,7 @@ and might cause dependency conflicts.
 Due to the monorepo layout and how hoisting works we have to follow a couple of rules that "magically" make everything work:
 
 - **root**: don't add any dependencies here
-  - *exception*: dev dependencies that understand monorepos like `eslint`
+  - _exception_: dev dependencies that understand monorepos like `eslint`
 - **core**: don't add any dependencies here
 - **mobile**: add all your React Native and universal (both mobile and web) dependencies here
 - **web**: add your web-only dependencies here
@@ -383,16 +384,12 @@ config: {
 
 you can now navigate from anywhere in web and mobile using the navigate function exposed by the useRouting hook.
 
-```ts
+```tsx
 const {navigate} = useRouting()
 
-< Button
-onPress = {()
-=>
-navigate('/profile/jasper')
-}>
-jaspers
-profile < /Button>
+<Button onPress = {() => navigate('/profile/jasper')}>
+  jaspers profile
+</Button>
 ```
 
 #### notes
@@ -410,12 +407,18 @@ It may be configured at different places, but over all it must be unique.
 
 ### I18n (Internationalization)
 
-We use [i18next](https://www.i18next.com/) as framework for internationalization with [react-i18next](https://react.i18next.com/) for React/React Native support and [momentjs](https://momentjs.com/) for date formatting.
+We use [i18next](https://www.i18next.com/) as framework for internationalization with [react-i18next](https://react.i18next.com/) for React/React Native support and rely on [Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) to provide locale data (polyfilled on mobile using [intl](https://www.npmjs.com/package/intl)).
 
 You can find more documentation in [confluence](https://holi.atlassian.net/wiki/spaces/HOLI/pages/181174275/I18n+Internationalization).
 
-The translations can be found in `core/i18n/locales`.
-Message keys should include prefixes for grouping translations e.g. by screen and be represented in a flat JSON structure.
+We use [namespaces](https://www.i18next.com/principles/namespaces) to separate translations for the core application and the different holi-apps, which can be found in
+
+- `core/i18n/locales`
+- `holi-apps/donations/i18n/locales`
+- etc.
+
+Message keys should include prefixes separated by `.` for grouping translations e.g. by screen and be represented in a flat JSON structure.
+To refer to a translation from a specific namespace use the prefix `<namespace>:`, e.g `donations:app.name`. If no namespace prefix is passed, translations from `core` are used.
 
 #### Usage example
 
@@ -436,17 +439,19 @@ import { Trans, useTranslation } from 'react-i18next'
 
 const { t } = useTranslation()
 
-// results in: Simple translation
+// results in: "Simple translation"
 t('message.key')
 
-// results in: Interpolation example
+// results in: "Interpolation example"
 t('message.interpolation', { value: 'example' })
 
-// results in: Translation with a <HoliText styles={{ fontWeight: 'bold' }}>nested component</HoliText>
+// results in: "Translation with a <HoliText styles={{ fontWeight: 'bold' }}>nested component</HoliText>"
 <Trans t={t} i18nKey="message.nestedComponent">
-  <HoliText style={{ fontWeight: 'bold' }}>this is ignored</HoliText>
+  <HoliText style={{ fontWeight: 'bold' }}>this text will be replaced by "nested component"</HoliText>
 </Trans>
 ```
+
+See `holi-apps/donations/components/DonationProgress.tsx` for an example for number formatting using `Intl.NumberFormat`.
 
 #### VS Code extension
 
@@ -464,10 +469,13 @@ NextJS supports client side rendering (CSR), server side rendering (SSR) and sta
 To be able to use the same page/screen for both web and mobile, it is necessary to create the page/screen component with the rendering strategy in mind. For client side rendering, the data will be fetched in the page/screen component itself, without the need to configure anything for the web app. However, when creating an SSR or SSG page, it is necessary to follow the steps below:
 
 #### Configure the page/screen component to use SSR or SSG:
+
 Say you want to create a new page for the web app, and you want it to use SSR. You also want the same page/screen component to be used both for the mobile and the web apps.
 
 The first step to take would be creating the page/screen component that will be used both for the mobile and web apps. Let's call it `Quote` component and all it does is display a famous quote in the page.
+
 ##### `core/screens/Quote.tsx`
+
 ```tsx
 type QuoteProps = {
   ssr: boolean
@@ -493,6 +501,7 @@ const Quote: React.VFC<QuoteProps> = ({ ssr, ssrData }: QuoteProps) => {
 
 export default Quote
 ```
+
 - The `ssrData` will be passed to the page/screen component as a prop, as well as the `ssr` prop will be `true`.
 - If there is any data fetching method running on the component initialization (`useEffect`, e.g.), avoid running it if `ssr` is `true`. We already have the `ssrData` as a prop.
 - We are using ApolloClient for data fetching, and for SSR usage, make sure to use `useLazyQuery` instead of `useQuery`, to avoid fetching data from the client side as well when using SSR. Read more about these methods on the [Apollo Docs](https://www.apollographql.com/docs/react/api/react/hooks/).
@@ -500,7 +509,9 @@ export default Quote
 Please note that `ssr` will only be set to true when decided to use SSR in the web app. Never in the mobile app.
 
 #### In the web app, in the file corresponding to the page using SSR or SSG:
+
 ##### `apps/web/pages/quote.tsx`
+
 ```tsx
 import { NextPage } from 'next'
 
@@ -555,7 +566,7 @@ the backend (which is reverse-proxied on Next.JS server side, see `apps/web/page
 ## Exploring the GraphQL API (via graphiql)
 
 For exploring our GraphQL API we have a running instance
-of [graphiql](https://graphql-dotnet.github.io/docs/getting-started/graphiql/) at https://staging.web.project-holi.org/
+of [graphiql](https://graphql-dotnet.github.io/docs/getting-started/graphiql/) at <https://staging.web.project-holi.org/>
 
 If all your requests don't need user authentication you can do them right away. Currently we don't have any GraphQL
 queries that work without authentication but there will be some in the future.
@@ -588,7 +599,7 @@ alternative.
 
 When you are working on a story, please create a branch that contains the ticket number in its name, and keep the branch name short. A good default is either only the ticket number (e.g. HOLI-1234) or git flow based names (e.g. feature/HOLI-1234).
 
-When you push this branch, a GitLab CI pipeline is triggered that builds and deploys the code to web (available via https://$BRANCH_NAME.web.project-holi.org) and to mobile (available via expo). Also, E2E tests are executed against all platforms.
+When you push this branch, a GitLab CI pipeline is triggered that builds and deploys the code to web (available via <https://$BRANCH_NAME.web.project-holi.org>) and to mobile (available via expo). Also, E2E tests are executed against all platforms.
 
 ### Skipping parts of CI
 
@@ -618,7 +629,7 @@ They can be accessed via `process.env` (e.g. `process.env.HOLI_API_URL`).
 
 #### Configuration for web client
 
-For the web client all environment variables that should be available in the browser, have to be provided at build time. To decide which environment variables are included, Next.js requires these to be prefixed with `NEXT_PUBLIC_` (see [documentation](#https://nextjs.org/docs/basic-features/environment-variables#exposing-environment-variables-to-the-browser)). (An example for this is the `NEXT_PUBLIC_ENVIRONMENT_ID` that is used for sentry, see `apps/web/environment.ts`).
+For the web client all environment variables that should be available in the browser, have to be provided at build time. To decide which environment variables are included, Next.js requires these to be prefixed with `NEXT_PUBLIC_` (see [documentation](https://nextjs.org/docs/basic-features/environment-variables#exposing-environment-variables-to-the-browser)). (An example for this is the `NEXT_PUBLIC_ENVIRONMENT_ID` that is used for sentry, see `apps/web/environment.ts`).
 
 There also is [runtime configuration](https://nextjs.org/docs/api-reference/next.config.js/runtime-configuration) available in Next.js but we have not yet decided on a solution yet (see [HOLI-1692](https://holi.atlassian.net/browse/HOLI-1692)).
 

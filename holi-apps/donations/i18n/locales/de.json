@@ -35,5 +35,7 @@
   "donationProgress.count": "{{count}} Spende",
   "donationProgress.count_plural": "{{count}} Spenden",
   "donationProgress.openAmount": "{{amount}} fehlen noch",
-  "donationProgress.percentFunded": "{{percentage}}% finanziert"
+  "donationProgress.percentFunded": "{{percentage}}% finanziert",
+  "initiative.link.button": "Seite von {{name}}",
+  "initiative.indication": "von <0>{{name}}</0>"
 }
