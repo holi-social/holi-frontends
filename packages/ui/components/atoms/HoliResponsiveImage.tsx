@@ -8,8 +8,6 @@ const HoliResponsiveImage: React.VoidFunctionComponent<HoliResponsiveImageProps>
   sources,
   label,
   style,
-  width,
-  height,
   resizeMode = 'cover',
 }: HoliResponsiveImageProps) => {
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
@@ -17,15 +15,7 @@ const HoliResponsiveImage: React.VoidFunctionComponent<HoliResponsiveImageProps>
     accessibilityRole: 'image',
     accessibilityLabel: label,
   }
-  return (
-    <Image
-      {...accessibilityProps}
-      width={width}
-      height={height}
-      source={sources}
-      style={[style, { resizeMode: resizeMode }]}
-    />
-  )
+  return <Image {...accessibilityProps} source={sources} style={[style, { resizeMode }]} />
 }
 
 export default HoliResponsiveImage

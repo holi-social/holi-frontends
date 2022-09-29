@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import React from 'react'
 
-import { resizeModeForWeb } from '@holi/ui/components/atoms/HoliImage.shared'
 import { HoliLocalImageProps } from '@holi/ui/components/atoms/HoliLocalImage.shared'
+import { resizeModeForWeb } from '@holi/ui/components/atoms/imageUtils'
 
 // Usage:
 // import PngLogo from '@holi/ui/assets/img/logo/logo.svg'

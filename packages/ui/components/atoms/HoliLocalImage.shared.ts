@@ -1,6 +1,6 @@
 import { ImageStyle, StyleProp } from 'react-native'
 
-import { ResizeMode } from '@holi/ui/components/atoms/HoliImage.shared'
+import { ResizeMode } from '@holi/ui/components/atoms/imageUtils'
 
 // TODO: intermediate fix until
 // https://github.com/vercel/next.js/issues/29788

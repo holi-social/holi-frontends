@@ -1,12 +1,16 @@
-import { ImageStyle, ImageURISource, StyleProp } from 'react-native'
+import { ImageStyle, StyleProp } from 'react-native'
 
-import { ResizeMode } from '@holi/ui/components/atoms/HoliImage.shared'
+import { ResizeMode } from '@holi/ui/components/atoms/imageUtils'
+
+type ImageSource = {
+  uri: string
+  width: number
+  height: number
+}
 
 export type HoliResponsiveImageProps = {
-  sources: ImageURISource[]
+  sources: ImageSource[]
   label: string
   style?: StyleProp<ImageStyle>
   resizeMode?: ResizeMode
-  width: string
-  height: string
 }
