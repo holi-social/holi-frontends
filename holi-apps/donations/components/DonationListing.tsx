@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -16,6 +16,7 @@ const PROJECT_PAGE_SIZE = 5
 const DonationListing: React.VFC = () => {
   const { t, i18n } = useTranslation()
   const mixins = useStyleMixins()
+  const [fetchingMore, setFetchingMore] = useState(false)
 
   const { loading, data, error, fetchMore } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
     variables: {
@@ -39,27 +40,30 @@ const DonationListing: React.VFC = () => {
   }
 
   const projects = data?.appDonations_projects || []
+  const moreButtonText = fetchingMore
+    ? t('donations:donationListing.loadMoreButton.loading')
+    : t('donations:donationListing.loadMoreButton.text')
 
   return (
     <View>
-      <HoliText>{projects.length}</HoliText>
       {projects.map((project) => (
         <DonationListingItem key={project.id} project={project} />
       ))}
       <HoliButton
-        label={t('donations:donationListing.loadMore')}
+        label={moreButtonText}
+        disabled={fetchingMore}
         onPress={() => {
-          console.debug('fetchMore')
+          setFetchingMore(true)
           return fetchMore({
             variables: {
               offset: projects.length + PROJECT_PAGE_SIZE,
             },
-          })
+          }).finally(() => setFetchingMore(false))
         }}
         style={[styles.loadMoreButton]}
         testID="btn-donation-list-load-more"
       >
-        <HoliText>{t('donations:donationListing.loadMore')}</HoliText>
+        <HoliText>{moreButtonText}</HoliText>
       </HoliButton>
     </View>
   )
