@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { resizeModeToObjectFit } from '@holi/ui/components/atoms/HoliImage.shared'
+import { resizeModeForWeb } from '@holi/ui/components/atoms/HoliImage.shared'
 import { HoliResponsiveImageProps } from '@holi/ui/components/atoms/HoliResponsiveImage.shared'
 
 const HoliResponsiveImage: React.VoidFunctionComponent<HoliResponsiveImageProps> = ({
@@ -24,7 +24,7 @@ const HoliResponsiveImage: React.VoidFunctionComponent<HoliResponsiveImageProps>
       width={width}
       height={height}
       alt={label}
-      style={{ ...style, objectFit: resizeModeToObjectFit(resizeMode) }}
+      style={{ ...style, objectFit: resizeModeForWeb(resizeMode) }}
     />
   )
 }

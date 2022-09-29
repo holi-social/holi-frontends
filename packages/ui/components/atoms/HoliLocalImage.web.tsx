@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 
-import { resizeModeToObjectFit } from '@holi/ui/components/atoms/HoliImage.shared'
+import { resizeModeForWeb } from '@holi/ui/components/atoms/HoliImage.shared'
 import { HoliLocalImageProps } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 
 // Usage:
@@ -28,7 +28,7 @@ const HoliLocalImage: React.VoidFunctionComponent<HoliLocalImageProps> = ({
       alt={label}
       width={width}
       height={height}
-      objectFit={resizeModeToObjectFit(resizeMode)}
+      objectFit={resizeModeForWeb(resizeMode)}
       style={style}
     />
   )

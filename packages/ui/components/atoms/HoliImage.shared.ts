@@ -9,7 +9,7 @@ export const ResizeModes: ('cover' | 'contain' | 'stretch')[] = [
 ]
 export type ResizeMode = typeof ResizeModes[number]
 
-export const resizeModeToObjectFit = (resizeMode: ResizeMode): 'cover' | 'contain' | 'fill' => {
+export const resizeModeForWeb = (resizeMode: ResizeMode): 'cover' | 'contain' | 'fill' => {
   switch (resizeMode) {
     case 'stretch':
       return 'fill'
