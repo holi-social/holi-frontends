@@ -5,6 +5,7 @@ import { StyleSheet, View } from 'react-native'
 
 import { displayError } from '@holi/core/errors/helpers'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
@@ -16,7 +17,7 @@ const DonationListing: React.VFC = () => {
   const { t, i18n } = useTranslation()
   const mixins = useStyleMixins()
 
-  const { loading, data, error } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
+  const { loading, data, error, fetchMore } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
     variables: {
       locale: i18n.language,
       limit: PROJECT_PAGE_SIZE,
@@ -37,13 +38,29 @@ const DonationListing: React.VFC = () => {
     displayError(error, t('donations:donationListing.error'))
   }
 
-  const projects = data?.appDonations_projects?.projects || []
+  const projects = data?.appDonations_projects || []
 
   return (
     <View>
+      <HoliText>{projects.length}</HoliText>
       {projects.map((project) => (
         <DonationListingItem key={project.id} project={project} />
       ))}
+      <HoliButton
+        label={t('donations:donationListing.loadMore')}
+        onPress={() => {
+          console.debug('fetchMore')
+          return fetchMore({
+            variables: {
+              offset: projects.length + PROJECT_PAGE_SIZE,
+            },
+          })
+        }}
+        style={[styles.loadMoreButton]}
+        testID="btn-donation-list-load-more"
+      >
+        <HoliText>{t('donations:donationListing.loadMore')}</HoliText>
+      </HoliButton>
     </View>
   )
 }
@@ -52,6 +69,9 @@ const styles = StyleSheet.create({
   messageContainer: {
     alignItems: 'center',
     marginTop: 50,
+  },
+  loadMoreButton: {
+    marginBottom: 20,
   },
 })
 

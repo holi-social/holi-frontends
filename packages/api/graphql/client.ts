@@ -1,5 +1,6 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
+import { offsetLimitPagination } from '@apollo/client/utilities'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 
 import { holiApiUrl } from '@holi/api/config'
@@ -44,6 +45,10 @@ export const client = new ApolloClient({
         fields: {
           // here, we can specify e.g. pagination behavior, depending on the
           // query, see https://www.apollographql.com/docs/react/pagination/overview
+          appDonations_projects: {
+            ...offsetLimitPagination(),
+            keyArgs: ['locale'],
+          },
         },
       },
     },

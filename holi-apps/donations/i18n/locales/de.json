@@ -32,6 +32,7 @@
   "category.weihnachtsstreamerei-health": "Gesundheit zu Weihnachten",
   "donationListing.error": "Laden von Spendenprojekten ist fehlgeschlagen",
   "donationListing.loading": "Lädt Spendenprojekte...",
+  "donationListing.loadMore": "Weitere Spendenprojekte",
   "donationProgress.count": "{{count}} Spende",
   "donationProgress.count_plural": "{{count}} Spenden",
   "donationProgress.openAmount": "{{amount}} fehlen noch",
