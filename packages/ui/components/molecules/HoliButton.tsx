@@ -55,7 +55,7 @@ const HoliButton: React.FC<HoliButtonProps> = ({
     typeof props.children === 'string' ? (
       <HoliText
         style={disabled ? styles.textDisabled : {}}
-        size={isSmall ? 'small' : 'large'}
+        size={isSmall ? 'small' : 'default'}
         bold={true}
         selectable={false}
       >

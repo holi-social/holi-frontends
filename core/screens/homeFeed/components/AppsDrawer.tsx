@@ -71,7 +71,7 @@ const AppsDrawer: React.FC = () => {
 
       {/* App modal (drawer) */}
       <HoliModal
-        label={t('topics.editors.modal.title')}
+        label={t('apps.drawer.headline')}
         show={modalIsVisible}
         onDismiss={() => setModalIsVisible(false)}
         testID="topic-editors-modal"

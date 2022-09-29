@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -15,10 +15,10 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type UserSuggestionsProps = {
-  style?: StyleProp<ViewStyle>
+  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
 
-const UserSuggestions: React.VFC<UserSuggestionsProps> = ({ style }: UserSuggestionsProps) => {
+const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestionsProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
@@ -40,11 +40,12 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = ({ style }: UserSuggest
   const { userSuggestions } = data
 
   return (
-    <View style={style} testID="user-suggestions">
-      <View style={mixins.container}>
-        <HoliHeading level="2">{t('homeFeed.userSuggestions.title')}</HoliHeading>
-      </View>
-      <ScrollView style={[mixins.container, styles.scrollviewContainer]} horizontal>
+    <View style={[mixins.container, props.style]} testID="user-suggestions">
+      <HoliHeading level="2" size="large">
+        {t('homeFeed.userSuggestions.title')}
+      </HoliHeading>
+
+      <ScrollView style={styles.scrollviewContainer} horizontal>
         {userSuggestions.map((user, index) => {
           const nameLabel = `${user.firstName || ''} ${user.lastName || ''}`.trim()
           return (
