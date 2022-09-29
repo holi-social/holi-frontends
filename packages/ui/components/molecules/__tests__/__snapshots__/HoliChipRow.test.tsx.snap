@@ -65,12 +65,12 @@ exports[`renders correctly renders correctly when there is a title, is editable 
       onStartShouldSetResponder={[Function]}
       style={
         Array [
-          Object {
-            "width": "fit-content",
-          },
-          Object {
-            "width": "auto",
-          },
+          Array [
+            Object {
+              "width": "auto",
+            },
+          ],
+          Object {},
         ]
       }
       testID="edit"

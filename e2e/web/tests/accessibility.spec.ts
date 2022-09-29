@@ -20,10 +20,5 @@ test.describe('@Accessibility', () => {
     await homeButton.click()
     await waitForElementByTestId(page, 'home-feed-topics-heading') // this weeks topics
     await checkAccessibility(page)
-
-    const volunteeringAppButton = await locateElementByTestId(page, 'app-tile-volunteering')
-    await volunteeringAppButton.click()
-    await waitForElementByTestId(page, 'apps-volunteering-heading')
-    await checkAccessibility(page)
   })
 })

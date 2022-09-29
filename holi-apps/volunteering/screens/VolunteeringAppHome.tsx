@@ -13,7 +13,7 @@ type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
 const VolunteeringAppHome: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const { t } = useTranslation()
-  const title = t('apps.volunteering.name')
+  const title = t('apps.name.volunteering')
   const mixins = useStyleMixins()
 
   useNavigationHeader(navigation, { title: title })
