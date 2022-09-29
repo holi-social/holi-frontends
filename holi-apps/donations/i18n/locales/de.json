@@ -36,6 +36,8 @@
   "donationProgress.count_plural": "{{count}} Spenden",
   "donationProgress.openAmount": "{{amount}} fehlen noch",
   "donationProgress.percentFunded": "{{percentage}}% finanziert",
+  "initiative.indication": "von <0>{{name}}</0>",
   "initiative.link.button": "Seite von {{name}}",
-  "initiative.indication": "von <0>{{name}}</0>"
+  "projectDetail.donate": "Spenden",
+  "projectDetail.notFound": "Projekt mit ID {{projectId}} wurde nicht gefunden"
 }

@@ -9,8 +9,8 @@ type DonationProgressProps = {
   donationsCount: number
   progressPercentage: number
   openAmountInCents: number
-  category: string
-  size?: 'default' | 'small'
+  category?: string
+  size?: 'default' | 'small' | 'large'
   style?: ViewStyle | ViewStyle[]
 }
 
@@ -25,6 +25,8 @@ const DonationProgress = ({
   const { t, i18n } = useTranslation()
   const styles = getStyles()
   const isSmall = size === 'small'
+  const goalTextSize = size === 'large' ? 'default' : 'small'
+
   const openAmount = useMemo(() => {
     return new Intl.NumberFormat(i18n.language, {
       style: 'currency',
@@ -61,11 +63,11 @@ const DonationProgress = ({
         <View style={[styles.filled, isSmall && { height: 6 }, { width: `${progressPercentage}%` }]} />
       </View>
       <View style={styles.goals}>
-        <HoliText size="small" style={{ color: colors.fontColorGrey }}>
+        <HoliText size={goalTextSize} bold={size === 'large'} style={{ color: colors.fontColorGrey }}>
           {t('donations:donationProgress.percentFunded', { percentage: progressPercentage })}
         </HoliText>
         {!isSmall && (
-          <HoliText size="small" style={styles.openAmount}>
+          <HoliText size={goalTextSize} bold style={styles.openAmount}>
             {t('donations:donationProgress.openAmount', { amount: openAmount })}
           </HoliText>
         )}
@@ -97,8 +99,5 @@ const getStyles = () =>
     goals: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-    },
-    openAmount: {
-      fontWeight: '500',
     },
   })

@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { Image, StyleSheet } from 'react-native'
 
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
@@ -12,6 +13,7 @@ type DonationListingItemProps = {
 }
 
 const DonationListingItem: React.VFC<DonationListingItemProps> = ({ project }: DonationListingItemProps) => {
+  const { navigate } = useRouting()
   const { title, categories, donationsCount, progressPercentage, openAmountInCents, picture } = project
 
   const responsiveImage = useMemo(() => {
@@ -23,27 +25,26 @@ const DonationListingItem: React.VFC<DonationListingItemProps> = ({ project }: D
   }, [picture])
 
   return (
-    <>
-      <HoliButton
-        label={title}
-        transparent
-        onPress={() => console.log('navigate click')}
-        style={styles.mainImageContainer}
-      >
-        {responsiveImage}
+    <HoliButton
+      label={title}
+      transparent
+      onPress={() => navigate(`/apps/donations/project/${project.id}`)}
+      style={styles.mainImageContainer}
+      testID={'donations-list-item'}
+    >
+      {responsiveImage}
 
-        <HoliHeading level="2" size="small" selectable={true} style={styles.heading}>
-          {title}
-        </HoliHeading>
+      <HoliHeading level="2" size="small" selectable={true} style={styles.heading}>
+        {title}
+      </HoliHeading>
 
-        <DonationProgress
-          category={categories[0]}
-          donationsCount={donationsCount}
-          progressPercentage={progressPercentage}
-          openAmountInCents={openAmountInCents}
-        />
-      </HoliButton>
-    </>
+      <DonationProgress
+        category={categories[0]}
+        donationsCount={donationsCount}
+        progressPercentage={progressPercentage}
+        openAmountInCents={openAmountInCents}
+      />
+    </HoliButton>
   )
 }
 
