@@ -25,27 +25,26 @@ const DonationListingItem: React.VFC<DonationListingItemProps> = ({ project }: D
   }, [picture])
 
   return (
-    <>
-      <HoliButton
-        label={title}
-        transparent
-        onPress={() => navigate(`/apps/donations/project/${project.id}`)}
-        style={styles.mainImageContainer}
-      >
-        {responsiveImage}
+    <HoliButton
+      label={title}
+      transparent
+      onPress={() => navigate(`/apps/donations/project/${project.id}`)}
+      style={styles.mainImageContainer}
+      testID={'donations-list-item'}
+    >
+      {responsiveImage}
 
-        <HoliHeading level="2" size="small" selectable={true} style={styles.heading}>
-          {title}
-        </HoliHeading>
+      <HoliHeading level="2" size="small" selectable={true} style={styles.heading}>
+        {title}
+      </HoliHeading>
 
-        <DonationProgress
-          category={categories[0]}
-          donationsCount={donationsCount}
-          progressPercentage={progressPercentage}
-          openAmountInCents={openAmountInCents}
-        />
-      </HoliButton>
-    </>
+      <DonationProgress
+        category={categories[0]}
+        donationsCount={donationsCount}
+        progressPercentage={progressPercentage}
+        openAmountInCents={openAmountInCents}
+      />
+    </HoliButton>
   )
 }
 
