@@ -7,7 +7,7 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('@AppsDrawer', () => {
-  test('open drawer and go to an app', async ({ page }) => {
+  test('should be visible and opens drawer', async ({ page }) => {
     // find and click apps button
     await waitForElementByTestId(page, 'home-apps-button')
     await clickElementByTestId(page, 'home-apps-button')
