@@ -6,11 +6,20 @@ export interface ProjectParameters {
   offset?: number
 }
 
-export type PictureType = 'original' | 'small'
+export type PictureType = 'original' | 'small' | 'tiny_square'
 
 export interface Picture {
   url: string
   type: PictureType
+}
+
+export interface ProjectInitiative {
+  id: number
+  name: string
+  city: string
+  country: string
+  picture: Picture[]
+  url: string | undefined
 }
 
 export interface Project {
@@ -23,6 +32,7 @@ export interface Project {
   openAmountInCents: number
   /** The project's "profile picture" in different variants */
   picture: Picture[]
+  initiative: ProjectInitiative
 }
 
 export interface Pagination {

@@ -2,12 +2,7 @@
 import Head from 'next/head'
 import React, { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
 
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 import HomeTopBar from '@holi/web/components/navigation/HomeTopBar'
 
@@ -24,7 +19,7 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
   return (
     <>
       <Head>
-        <title>{t('navigation.title')}</title>
+        <title>{t('donations:app.name')}</title>
       </Head>
 
       {/*
@@ -40,16 +35,3 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
     </>
   )
 }
-
-const getStyles = () =>
-  StyleSheet.create({
-    appNav: {
-      margin: 5,
-      flexDirection: 'row',
-      borderStyle: 'solid',
-      borderWidth: 2,
-      borderColor: '#888',
-      borderRadius: 10,
-      padding: 10,
-    },
-  })

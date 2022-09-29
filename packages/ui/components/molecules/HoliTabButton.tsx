@@ -17,8 +17,8 @@ export type HoliTabButtonProps = {
   label: string
   id?: string
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
-  disabled?: boolean // TODO(SF) keep?
-  disableFocusability?: boolean // TODO(SF) keep?
+  disabled?: boolean
+  disableFocusability?: boolean
   accessibilitySelected?: boolean
   accessibilityControls?: string
   testID?: string

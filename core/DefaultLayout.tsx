@@ -16,12 +16,12 @@ export type LayoutProps = {
 }
 
 const DefaultLayout: React.FunctionComponent<LayoutProps> = (props: LayoutProps) => {
-  const screenView = <View style={styles.screenLayout}>{props.children}</View>
+  const screenView = <View style={[styles.screenLayout, props.style]}>{props.children}</View>
 
   return Platform.OS === 'web' ? (
     screenView
   ) : (
-    <ScrollView contentContainerStyle={[styles.scrollLayout, props.style]}>{screenView}</ScrollView>
+    <ScrollView contentContainerStyle={styles.scrollLayout}>{screenView}</ScrollView>
   )
 }
 
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     minHeight: '100%',
     width: '100%',
     justifyContent: 'flex-start',
-    paddingBottom: 50,
+    marginBottom: 50,
     backgroundColor: colors.backgroundColorWhite,
   },
   screenLayout: {
