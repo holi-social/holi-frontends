@@ -50,7 +50,7 @@ export type UserByIdResponse = {
 }
 
 export const UpdateAuthenticatedUserInputSchema = z.object({
-  avatar: z.instanceof(Object).optional(),
+  avatar: z.instanceof(File).optional(),
   firstName: z.string().min(2, { message: 'Should be at least 2 characters' }).optional(),
   lastName: z.string().optional(),
   aboutMe: z.string().optional(),
