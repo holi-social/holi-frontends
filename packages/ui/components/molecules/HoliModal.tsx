@@ -1,6 +1,15 @@
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Animated, Modal, ModalProps, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import {
+  AccessibilityProps,
+  Animated,
+  Modal,
+  ModalProps,
+  Platform,
+  StyleSheet,
+  View,
+  useWindowDimensions,
+} from 'react-native'
 import {
   GestureEvent,
   GestureHandlerRootView,
@@ -8,6 +17,7 @@ import {
   PanGestureHandler,
 } from 'react-native-gesture-handler'
 
+import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -103,6 +113,11 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
     }
   }, [])
 
+  const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
+    ...(Platform.OS === 'web' ? { accessibilityModal: true } : {}),
+    accessibilityLabel: props.label,
+  }
+
   const maxHeight = relativeHeight * 100
   const minHeight = minRelativeHeight ? Math.min(minRelativeHeight, relativeHeight) * 100 : '0'
   const fixedHeight = minRelativeHeight ? Math.min(minRelativeHeight, relativeHeight) * 100 : maxHeight
@@ -110,12 +125,12 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
   return (
     <>
       <Modal
-        onRequestClose={onDismiss}
+        {...accessibilityProps}
         visible={visible}
         transparent={true}
-        testID={props.testID}
-        accessibilityLabel={props.label}
         animationType="fade"
+        onRequestClose={onDismiss}
+        testID={props.testID}
       >
         <GestureHandlerRootView style={styles.rootView} accessible={false}>
           <HoliButton
@@ -123,7 +138,6 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
             style={styles.backdrop}
             onPress={onDismiss}
             transparent
-            disableFocusability
             testID={`${props.testID}-backdrop`}
           >
             <View onAccessibilityEscape={onDismiss} style={styles.backdrop} />
