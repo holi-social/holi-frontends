@@ -13,11 +13,13 @@ const Template: ComponentStory<typeof DonationButton> = ({ ...args }) => <Donati
 export const Primary: ComponentStory<typeof DonationButton> = Template.bind({})
 
 Primary.argTypes = {
-  name: { description: 'Initiative name', control: { type: 'text' } },
-  link: { description: 'Links to the external initiative website', control: { type: 'text' } },
+  icon: { description: 'icon name', control: { type: 'text' } },
+  label: { description: 'button label', control: { type: 'text' } },
+  link: { description: 'Link to the external initiative website', control: { type: 'text' } },
 }
 
 Primary.args = {
-  name: 'Deutsches Rotes Kreuz',
+  icon: 'share-box',
+  label: 'donations:projectDetail.donate',
   link: 'https://www.betterplace.org/de/projects/106501-nothilfe-ukraine',
 }
