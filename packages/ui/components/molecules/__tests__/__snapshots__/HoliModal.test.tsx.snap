@@ -37,7 +37,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           "disabled": false,
         }
       }
-      accessible={false}
+      accessible={true}
       collapsable={false}
       focusable={true}
       onBlur={[Function]}
