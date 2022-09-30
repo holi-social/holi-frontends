@@ -113,13 +113,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
           {/* TODO replace with project initiative card once available */}
 
           <View style={[styles.card, { paddingVertical: 24 }]}>
-            <DonationInitiativeButton
-              pictureUrl={project.initiative.picture[0].url}
-              name={project.initiative.name}
-              city={project.initiative.city}
-              country={project.initiative.country}
-              link={project.initiative.url || ''}
-            />
+            <DonationInitiativeButton initiative={project.initiative} />
             <HoliText size={'large'} bold style={{ marginVertical: 24 }}>
               &ldquo;{project.summary}&rdquo;
             </HoliText>
@@ -127,7 +121,12 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
           </View>
         </View>
       </DefaultLayout>
-      <DonationButton icon="share-box" label="donations:projectDetail.donate" link={project.initiative.url || ''} />
+      <DonationButton
+        icon="share-box"
+        label="donations:projectDetail.donate"
+        link={project.initiative.url || ''}
+        style={[mixins.container, styles.donateButton]}
+      />
     </View>
   )
 }
@@ -142,6 +141,23 @@ const styles = StyleSheet.create({
   container: {
     paddingBottom: 132,
     paddingHorizontal: 0,
+  },
+  donateButton: {
+    bottom: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    ...Platform.select({
+      ios: {
+        position: 'absolute',
+      },
+      android: {
+        position: 'absolute',
+      },
+      default: {
+        position: 'fixed',
+      },
+    }),
   },
   image: {
     aspectRatio: 375 / 240,
@@ -166,20 +182,5 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     marginTop: 2,
     paddingVertical: 16,
-  },
-  donateButton: {
-    bottom: 40,
-    paddingHorizontal: 16,
-    ...Platform.select({
-      ios: {
-        position: 'absolute',
-      },
-      android: {
-        position: 'absolute',
-      },
-      default: {
-        position: 'fixed',
-      },
-    }),
   },
 })

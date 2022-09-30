@@ -1,24 +1,24 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleSheet, View } from 'react-native'
+import { Linking, View } from 'react-native'
+import { ViewStyle } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type DonationButtonProps = {
   icon: string
   label: string
   link: string
+  style?: ViewStyle | ViewStyle[]
 }
 
-const DonationButton = ({ icon, label, link }: DonationButtonProps) => {
+const DonationButton = ({ icon, label, link, style }: DonationButtonProps) => {
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
 
   return (
-    <View style={[mixins.container, styles.donateButton]}>
+    <View style={style}>
       <HoliButton
         label={t(label)}
         style={{ boxShadow: '0px 8px 0px rgba(0, 0, 0, 0.1)' }}
@@ -34,26 +34,3 @@ const DonationButton = ({ icon, label, link }: DonationButtonProps) => {
 }
 
 export default DonationButton
-
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 60,
-  },
-  donateButton: {
-    bottom: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    ...Platform.select({
-      ios: {
-        position: 'absolute',
-      },
-      android: {
-        position: 'absolute',
-      },
-      default: {
-        position: 'fixed',
-      },
-    }),
-  },
-})

@@ -7,26 +7,24 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
+import { ProjectInitiative } from '@holi-apps/donations/typings'
+
 export type DonationInitiativeButtonProps = {
-  pictureUrl: string
-  name: string
-  city: string
-  country: string
-  link: string
+  initiative: ProjectInitiative
 }
 
-const DonationInitiativeButton = ({ pictureUrl, name, city, country, link }: DonationInitiativeButtonProps) => {
+const DonationInitiativeButton = ({ initiative }: DonationInitiativeButtonProps) => {
   const { t } = useTranslation()
-
+  const name = initiative.name
   return (
     <HoliButton
       label={t('donations:initiative.link.button', { name })}
       transparent
-      onPress={() => Linking.openURL(link)}
+      onPress={() => Linking.openURL(initiative.url || '')}
     >
       <View style={styles.initiative}>
         <View style={styles.initiativeContent}>
-          <Image source={{ uri: pictureUrl }} style={styles.initiativeImage} />
+          <Image source={{ uri: initiative.picture[0].url }} style={styles.initiativeImage} />
           <View style={styles.initiativeDetails}>
             <View style={{ flexDirection: 'row' }}>
               <HoliText style={styles.namePrefix} size="small">
@@ -36,7 +34,7 @@ const DonationInitiativeButton = ({ pictureUrl, name, city, country, link }: Don
               </HoliText>
             </View>
             <HoliText style={styles.initiativeOrigin} size="small">
-              {city}, {country}
+              {initiative.city}, {initiative.country}
             </HoliText>
           </View>
         </View>
