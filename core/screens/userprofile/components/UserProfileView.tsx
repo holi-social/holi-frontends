@@ -1,7 +1,9 @@
+import { useMutation } from '@apollo/client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import { UpdateAuthenticatedUserResponse, connectWithUserMutation } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -16,11 +18,19 @@ type UserProfileViewProps = {
 }
 
 const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossible = true }) => {
+  const [connectWithUser] = useMutation<UpdateAuthenticatedUserResponse>(connectWithUserMutation)
   const { t } = useTranslation()
+  console.log(user)
 
   const fullName = user.firstName
     ? `${user.firstName || ''} ${user.lastName || ''}`.trim()
     : t('user.profileView.anonymous')
+
+  const connect = async () => {
+    await connectWithUser({
+      variables: { input: { username: user.id, circlesIds: [] } },
+    })
+  }
 
   return (
     <View style={styles.header}>
@@ -54,6 +64,7 @@ const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossibl
             label={t('user.profileView.connect')}
             style={{ marginRight: 8 }}
             fontStyle={{ color: colors.positivepurple }}
+            onPress={() => connect()}
           />
           <HoliChip
             text={t('user.profileView.message')}

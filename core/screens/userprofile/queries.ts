@@ -64,6 +64,11 @@ export const UpdateAuthenticatedUserInputSchema = z.object({
 
 export type UpdateAuthenticatedUserInput = z.infer<typeof UpdateAuthenticatedUserInputSchema>
 
+export type ConnectWithUserInput = {
+  username: string
+  circlesIds: string[]
+}
+
 export type UpdateAuthenticatedUserResponse = {
   authenticatedUser: User
 }
@@ -73,6 +78,18 @@ export const updateUserMutation = gql`
 
   mutation UpdateAuthenticatedUser($input: UpdateAuthenticatedUserInput!) {
     updateAuthenticatedUser(input: $input) {
+      authenticatedUser {
+        ...FullUser
+      }
+    }
+  }
+`
+
+export const connectWithUserMutation = gql`
+  ${userFragment}
+
+  mutation ConnectWithUser($input: ConnectWithUserInput!) {
+    connectWithUser(input: $input) {
       authenticatedUser {
         ...FullUser
       }
