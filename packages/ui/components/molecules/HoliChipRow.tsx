@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -37,7 +37,13 @@ const HoliChipRow: React.FunctionComponent<HoliChipRowProps> = ({
             label={editButtonLabel || editButtonText || t('general.edit')}
             transparent
             inline
-            style={{ width: 'fit-content' }}
+            style={{
+              ...Platform.select({
+                web: {
+                  width: 'fit-content',
+                },
+              }),
+            }}
             onPress={onPressEdit}
             testID={[testID, 'edit'].filter((e) => e).join('-')}
           >
