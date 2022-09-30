@@ -2,7 +2,7 @@ import { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 
 export interface ImageInfo {
   uri: string
-  blob: Blob
+  blob: File
   base64: string
   height: number
   width: number
