@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -26,6 +26,23 @@ const DonationListing: React.VFC = () => {
     },
   })
 
+  const projects = data?.appDonations_projects || []
+
+  const memoizedFetchMore = useCallback(() => {
+    setFetchingMore(true)
+    return fetchMore({
+      variables: {
+        offset: projects.length + PROJECT_PAGE_SIZE,
+      },
+    }).finally(() => setFetchingMore(false))
+  }, [fetchMore, projects.length])
+
+  const fetchMoreButtonText = useMemo(() => {
+    return fetchingMore
+      ? t('donations:donationListing.loadMoreButton.loading')
+      : t('donations:donationListing.loadMoreButton.text')
+  }, [fetchingMore, t])
+
   if (loading) {
     // TODO: replace with proper loading indicator
     return (
@@ -39,31 +56,19 @@ const DonationListing: React.VFC = () => {
     displayError(error, t('donations:donationListing.error'))
   }
 
-  const projects = data?.appDonations_projects || []
-  const moreButtonText = fetchingMore
-    ? t('donations:donationListing.loadMoreButton.loading')
-    : t('donations:donationListing.loadMoreButton.text')
-
   return (
     <View>
       {projects.map((project) => (
         <DonationListingItem key={project.id} project={project} />
       ))}
       <HoliButton
-        label={moreButtonText}
+        label={fetchMoreButtonText}
         disabled={fetchingMore}
-        onPress={() => {
-          setFetchingMore(true)
-          return fetchMore({
-            variables: {
-              offset: projects.length + PROJECT_PAGE_SIZE,
-            },
-          }).finally(() => setFetchingMore(false))
-        }}
+        onPress={memoizedFetchMore}
         style={[styles.loadMoreButton]}
         testID="btn-donation-list-load-more"
       >
-        <HoliText>{moreButtonText}</HoliText>
+        <HoliText>{fetchMoreButtonText}</HoliText>
       </HoliButton>
     </View>
   )
