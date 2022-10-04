@@ -6,8 +6,8 @@ import { StyleSheet, View } from 'react-native'
 import { displayError } from '@holi/core/errors/helpers'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+//import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
 import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'
 
@@ -15,7 +15,7 @@ const PROJECT_PAGE_SIZE = 5
 
 const DonationListing: React.VFC = () => {
   const { t, i18n } = useTranslation()
-  const mixins = useStyleMixins()
+  //const mixins = useStyleMixins()
   const [fetchingMore, setFetchingMore] = useState(false)
 
   const { loading, data, error, fetchMore } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
@@ -46,9 +46,7 @@ const DonationListing: React.VFC = () => {
   if (loading) {
     // TODO: replace with proper loading indicator
     return (
-      <View style={[mixins.container, styles.messageContainer]}>
-        <HoliText>{t('donations:donationListing.loading')}</HoliText>
-      </View>
+      <HoliButton icon disabled iconName="share-box" label={t('donations:donationListing.loadMoreButton.loading')} />
     )
   }
 
@@ -61,15 +59,17 @@ const DonationListing: React.VFC = () => {
       {projects.map((project) => (
         <DonationListingItem key={project.id} project={project} />
       ))}
-      <HoliButton
-        label={fetchMoreButtonText}
-        disabled={fetchingMore}
-        onPress={memoizedFetchMore}
-        style={[styles.loadMoreButton]}
-        testID="btn-donation-list-load-more"
-      >
-        <HoliText>{fetchMoreButtonText}</HoliText>
-      </HoliButton>
+      {!loading ? (
+        <HoliButton
+          label={fetchMoreButtonText}
+          disabled={fetchingMore}
+          onPress={memoizedFetchMore}
+          style={[styles.loadMoreButton]}
+          testID="btn-donation-list-load-more"
+        >
+          <HoliText>{fetchMoreButtonText}</HoliText>
+        </HoliButton>
+      ) : null}
     </View>
   )
 }

@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -27,6 +28,8 @@ export type HoliButtonProps = {
   transparent?: boolean
   disabled?: boolean
   disableFocusability?: boolean
+  icon?: boolean
+  iconName?: string
   testID?: string
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
 }
@@ -38,6 +41,8 @@ const HoliButton: React.FC<HoliButtonProps> = ({
   transparent = false,
   disabled = false,
   disableFocusability = false,
+  icon = false,
+  iconName = 'share-box',
   ...props
 }: React.PropsWithChildren<HoliButtonProps>) => {
   const isSmall = variant === 'small'
@@ -109,6 +114,7 @@ const HoliButton: React.FC<HoliButtonProps> = ({
         pointerEvents="none"
       >
         {content}
+        {icon ? <HoliIcon icon={iconName} size={16} style={{ marginLeft: 6, color: colors.fontColorBlack }} /> : null}
       </View>
     </Pressable>
   )
