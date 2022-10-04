@@ -1,16 +1,16 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
-import DonationButton from '@holi-apps/donations/components/DonationButton'
+import DonateButton from '@holi-apps/donations/components/DonateButton'
 
 export default {
-  title: 'Donations/Organisms/DonationButton',
-  component: DonationButton,
-} as ComponentMeta<typeof DonationButton>
+  title: 'Donations/Organisms/DonateButton',
+  component: DonateButton,
+} as ComponentMeta<typeof DonateButton>
 
-const Template: ComponentStory<typeof DonationButton> = ({ ...args }) => <DonationButton {...args} />
+const Template: ComponentStory<typeof DonateButton> = ({ ...args }) => <DonateButton {...args} />
 
-export const Primary: ComponentStory<typeof DonationButton> = Template.bind({})
+export const Primary: ComponentStory<typeof DonateButton> = Template.bind({})
 
 Primary.argTypes = {
   icon: { description: 'icon name', control: { type: 'text' } },

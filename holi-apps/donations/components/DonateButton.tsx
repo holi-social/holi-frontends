@@ -7,14 +7,14 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
-export type DonationButtonProps = {
+export type DonateButtonProps = {
   icon: string
   label: string
   link: string
   style?: ViewStyle | ViewStyle[]
 }
 
-const DonationButton = ({ icon, label, link, style }: DonationButtonProps) => {
+const DonateButton = ({ icon, label, link, style }: DonateButtonProps) => {
   const { t } = useTranslation()
 
   return (
@@ -33,4 +33,4 @@ const DonationButton = ({ icon, label, link, style }: DonationButtonProps) => {
   )
 }
 
-export default DonationButton
+export default DonateButton
