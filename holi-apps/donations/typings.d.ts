@@ -37,11 +37,6 @@ export interface Project {
   initiative: ProjectInitiative
 }
 
-export interface Pagination {
-  totalResults: number
-  offset: number
-}
-
-export interface ProjectsResponse extends Pagination {
+export interface ProjectsResponse {
   projects: Project[]
 }
