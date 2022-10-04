@@ -69,12 +69,12 @@ const AppsDrawer: React.FC = () => {
         <HoliIcon icon="apps" size={16} color={colors.fontColorBlack} style={{ marginLeft: 3 }} />
       </HoliButton>
 
-      {/* App modal (drawer) */}
+      {/* Apps modal (drawer) */}
       <HoliModal
-        label={t('apps.drawer.headline')}
+        label={t('apps.drawer.title')}
         show={modalIsVisible}
         onDismiss={() => setModalIsVisible(false)}
-        testID="topic-editors-modal"
+        testID="apps-drawer-modal"
       >
         <View style={[styles.modalContent, mixins.container]}>
           <HoliHeading level="2">{t('apps.drawer.headline')}</HoliHeading>
