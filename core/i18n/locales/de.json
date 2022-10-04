@@ -2,6 +2,7 @@
   "apps.drawer.headline": "Alle Apps",
   "apps.drawer.open.btn.label": "App-Übersicht öffnen",
   "apps.drawer.open.btn.text": "Apps",
+  "apps.drawer.title": "Apps Übersicht",
   "apps.name.goodNews": "Good News",
   "apps.name.volunteering": "Volunteering",
   "auth.authContextProvider.error.sessionCreation": "Fehler beim Erstellen der Session",
