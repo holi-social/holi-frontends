@@ -45,7 +45,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
       >
         <View style={styles.editorsButtonContent}>
           <HoliUserAvatarPile users={dummyUsers} collapse />
-          <HoliText size="default" testID="avatars-top-title">
+          <HoliText size="default" testID="avatars-top-title" style={styles.editorsButtonText}>
             {t('topics.editors.editedBy')}
           </HoliText>
         </View>
@@ -89,7 +89,11 @@ const getStyles = (screenWidth: number) =>
     editorsButtonContent: {
       flexDirection: 'row',
       alignItems: 'center',
-      columnGap: 10,
+    },
+    editorsButtonText: {
+      marginLeft: 10,
+      flex: 1,
+      flexWrap: 'wrap',
     },
     insightsContainer: {
       ...Platform.select({
