@@ -30,6 +30,7 @@ export type HoliButtonProps = {
   disableFocusability?: boolean
   icon?: boolean
   iconName?: string
+  iconSpin?: boolean
   testID?: string
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
 }
@@ -43,6 +44,7 @@ const HoliButton: React.FC<HoliButtonProps> = ({
   disableFocusability = false,
   icon = false,
   iconName = 'share-box',
+  iconSpin = false,
   ...props
 }: React.PropsWithChildren<HoliButtonProps>) => {
   const isSmall = variant === 'small'
@@ -114,7 +116,8 @@ const HoliButton: React.FC<HoliButtonProps> = ({
         pointerEvents="none"
       >
         {content}
-        {icon ? <HoliIcon icon={iconName} size={16} style={{ marginLeft: 6, color: colors.fontColorBlack }} /> : null}
+        <View style={{ marginLeft: 6 }} />
+        {icon ? <HoliIcon icon={iconName} size={16} spinning={iconSpin} /> : null}
       </View>
     </Pressable>
   )

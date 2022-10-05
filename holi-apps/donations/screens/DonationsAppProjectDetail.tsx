@@ -1,7 +1,7 @@
 import { useLazyQuery } from '@apollo/client'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Image, Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -14,11 +14,11 @@ import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import DonateButton from '@holi-apps/donations/components/DonateButton'
 import DonationInitiativeButton from '@holi-apps/donations/components/DonationInitiativeButton'
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { AppDonationsProjectByIdResponse, projectByIdQuery } from '@holi-apps/donations/queries'
@@ -68,9 +68,10 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
 
   if (!projectId || loading) {
     // TODO: replace with proper loading indicator
+    // label={t('donations:donationListing.loading')}
     return (
       <View style={[mixins.container, styles.messageContainer]}>
-        <HoliText>{t('donations:donationListing.loading')}</HoliText>
+        <HoliIcon spinning icon="loading-4" />
       </View>
     )
   }
@@ -121,12 +122,16 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
           </View>
         </View>
       </DefaultLayout>
-      <DonateButton
-        icon="share-box"
-        label="donations:projectDetail.donate"
-        link={project.initiative.url || ''}
-        style={[mixins.container, styles.donateButton]}
-      />
+      <View style={[mixins.container, styles.donateButton]}>
+        <HoliButton
+          label={t('donations:projectDetail.donate')}
+          icon
+          iconName="share-box"
+          onPress={() => Linking.openURL(project.initiative.url || '')}
+        >
+          <HoliText bold>{t('donations:projectDetail.donate')}</HoliText>
+        </HoliButton>
+      </View>
     </View>
   )
 }

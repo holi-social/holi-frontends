@@ -16,10 +16,11 @@ export default {
 }
 
 export const Primary = ({ ...args }) => (
-  <HoliIcon icon={args.icon} size={args.size} filled={args.filled} color={args.color} />
+  <HoliIcon icon={args.icon} size={args.size} filled={args.filled} color={args.color} spinning={false} />
 )
 Primary.args = {
   icon: 'home-smile-2',
+  spinning: false,
   color: colors.positivepurple,
   filled: false,
   size: 50,
@@ -30,6 +31,7 @@ Primary.argTypes = {
     type: 'select',
     options: iconSelection.icons.map((icon) => icon?.properties?.name),
   },
+  spinning: { control: { type: 'boolean' } },
   filled: { control: { type: 'boolean' } },
   size: { control: { type: 'number' } },
 }
@@ -57,7 +59,7 @@ export const All = () => {
         {filteredIcons.map((icon, index) => (
           <div key={index} className="icon-container">
             <a>
-              <HoliIcon icon={icon?.properties?.name} size={32} />
+              <HoliIcon icon={icon?.properties?.name} size={32} spinning={false} />
             </a>
             <div>{icon?.properties?.name}</div>
           </div>
