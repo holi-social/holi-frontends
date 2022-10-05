@@ -32,9 +32,9 @@ beforeEach(async () => {
   }
   // https://appium.io/docs/en/commands/session/timeouts/implicit-wait/
   await global.Appium.setImplicitTimeout(10000)
-}, 300000)
+}, 900000) // the timeout here has to be very high. If we end up in the queue, there might be 5 tests before us, each potentially 2 minutes long.
 
-jest.setTimeout(299000)
+jest.setTimeout(240000) // a normal test runs up to 2 minutes, but give some time to spare
 
 afterEach(async () => {
   await global.Appium?.deleteSession()

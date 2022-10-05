@@ -18,18 +18,17 @@
   variables:
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
     BUILD_PROFILE: preview
+    BUILD_PLATFORM: changeme
     KEEP_ARTIFACTS: 'false'
   dependencies: [] # explicitly disable artifact usage
   script:
     - 'cd apps/mobile'
-    - 'eas build --platform all --profile $BUILD_PROFILE --non-interactive'
-    - 'export APK_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform android --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
-    - 'export IPA_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform ios --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
+    - 'eas build --platform $PLATFORM --profile $BUILD_PROFILE --non-interactive'
+    - 'export ARTIFACT_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform $PLATFORM --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
     - >
       if [ "$KEEP_ARTIFACTS" == "true" ]; then
         mkdir -p artifacts_$ENVIRONMENT_ID
-        curl -o artifacts_$ENVIRONMENT_ID/$(basename $APK_URL) $APK_URL
-        curl -o artifacts_$ENVIRONMENT_ID/$(basename $IPA_URL) $IPA_URL
+        curl -o artifacts_$ENVIRONMENT_ID/$(basename $ARTIFACT_URL) $ARTIFACT_URL
       fi
   interruptible: true
   allow_failure: false
@@ -105,9 +104,22 @@ mobile_review_destroy:
     - /^nomobile\/.*/
   interruptible: false
 
-mobile_review_build:
+mobile_review_build_android:
   extends: .mobile_build
   needs: ['lint_compile_test']
+  variables:
+    BUILD_PLATFORM: android
+  except:
+    - main
+    - /^noenv\/.*/
+    - /^nomobile\/.*/
+  when: manual
+
+mobile_review_build_ios:
+  extends: .mobile_build
+  needs: ['lint_compile_test']
+  variables:
+    BUILD_PLATFORM: ios
   except:
     - main
     - /^noenv\/.*/
@@ -116,7 +128,7 @@ mobile_review_build:
 
 mobile_review_e2e_android:
   extends: .mobile_e2e_android
-  needs: ['mobile_review_build']
+  needs: ['mobile_review_build_android']
   except:
     - main
     - /^noenv\/.*/
@@ -124,7 +136,7 @@ mobile_review_e2e_android:
 
 mobile_review_e2e_ios:
   extends: .mobile_e2e_ios
-  needs: ['mobile_review_build']
+  needs: ['mobile_review_build_ios', 'mobile_review_e2e_android']
   except:
     - main
     - /^noenv\/.*/
