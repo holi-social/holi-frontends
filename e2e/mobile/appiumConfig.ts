@@ -90,7 +90,7 @@ const browserStackCapabilities = () => ({
     project: gitlabBranchName || localGitInfo.branch,
     build: gitlabCommitSHAAndJobID || `${requireEnvVar('USER')?.toUpperCase()}_SHA${localGitInfo.sha}`,
     name: undefined, // is set to the name of the current test in jest.setup.ts
-    'browserstack.idleTimeout': '120',
+    'browserstack.idleTimeout': '300',
     'browserstack.networkLogs': 'true',
     'browserstack.consoleLogs': 'info',
     'browserstack.disableAnimations': 'true',
