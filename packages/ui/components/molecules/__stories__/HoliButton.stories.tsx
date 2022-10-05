@@ -35,9 +35,6 @@ Primary.argTypes = {
   disabled: { description: 'Disables interaction' },
   inline: { description: 'Inline / Full-width' },
   disableFocusability: { description: 'disallows focusing the button via tabbing' },
-  icon: { description: 'Show icon' },
-  iconName: { description: 'Icon name' },
-  iconSpin: { description: 'Spin icon' },
 }
 
 Primary.args = {
@@ -49,7 +46,4 @@ Primary.args = {
   disabled: false,
   inline: true,
   disableFocusability: false,
-  icon: false,
-  iconName: 'share-box',
-  iconSpin: false,
 }

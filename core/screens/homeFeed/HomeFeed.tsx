@@ -13,6 +13,7 @@ import TopicPreviewBox from '@holi/core/screens/topics/components/TopicPreviewBo
 import fakeTopics, { getRandomUser } from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+//import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
@@ -21,6 +22,8 @@ import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+
+import DonateButton from '@holi-apps/donations/components/DonateButton'
 
 const dummyTopicCategories = ['Immigration', 'Education', 'Sustainability']
 
@@ -53,6 +56,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
         <View style={[styles.divider, styles.borderBottom]} />
 
         <View style={[mixins.container]}>
+          <DonateButton icon="loader-4" label="adadwd" bold />
           {/* Weekly Topics */}
           <View style={[styles.feedHeadlineContainer, styles.borderBottom]}>
             {/* Accessibility requires level 1 heading, design requires level 2 heading size */}

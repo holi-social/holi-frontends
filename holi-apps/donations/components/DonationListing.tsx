@@ -7,6 +7,7 @@ import { displayError } from '@holi/core/errors/helpers'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
+import DonateButton from '@holi-apps/donations/components/DonateButton'
 //import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
 import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'
@@ -52,18 +53,26 @@ const DonationListing: React.VFC = () => {
       {projects.map((project) => (
         <DonationListingItem key={project.id} project={project} />
       ))}
-      <HoliButton
-        label={fetchMoreButtonText}
-        disabled={fetchingMore}
-        icon={fetchingMore}
-        iconName="loader-4"
-        onPress={memoizedFetchMore}
-        style={[styles.loadMoreButton]}
-        testID="btn-donation-list-load-more"
-        iconSpin
-      >
-        <HoliText>{fetchMoreButtonText}</HoliText>
-      </HoliButton>
+      {fetchingMore ? (
+        <DonateButton
+          label={fetchMoreButtonText}
+          disabled={fetchingMore}
+          icon="loader-4"
+          iconSpinning={fetchingMore}
+          onPress={memoizedFetchMore}
+          style={[styles.loadMoreButton]}
+        />
+      ) : (
+        <HoliButton
+          label={fetchMoreButtonText}
+          disabled={fetchingMore}
+          onPress={memoizedFetchMore}
+          style={[styles.loadMoreButton]}
+          testID="btn-donation-list-load-more"
+        >
+          <HoliText>{fetchMoreButtonText}</HoliText>
+        </HoliButton>
+      )}
     </View>
   )
 }
