@@ -1,6 +1,5 @@
 import { ApolloClient, InMemoryCache, from } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
-import { offsetLimitPagination } from '@apollo/client/utilities'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 
