@@ -26,7 +26,7 @@ const DonationListing: React.VFC = () => {
     },
   })
 
-  const projects = data?.appDonations_projects || []
+  const projects = data?.appDonations_projects?.projects || []
 
   const memoizedFetchMore = useCallback(() => {
     setFetchingMore(true)
