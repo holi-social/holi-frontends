@@ -11,7 +11,6 @@ const requireEnvVar = (varName: string, options?: { validValues?: Array<string>;
         throw Error(`${varName} is not set`)
       }
     } else {
-      //console.info(`${varName} not set, using default value '${options.defaultValue}'`)
       return options.defaultValue
     }
   }

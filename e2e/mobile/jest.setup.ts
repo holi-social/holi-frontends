@@ -21,7 +21,6 @@ beforeEach(async () => {
         appRunning = true
       } catch (e) {
         numAttempts--
-        console.debug('app not fully running yet')
       }
     }
   } else {

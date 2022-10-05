@@ -48,7 +48,7 @@
     - export BROWSERSTACK_UPLOAD_RESPONSE=$(curl -s -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@${EAS_APK_FILE}")
     - export BROWSERSTACK_APP_URL=$(echo "${BROWSERSTACK_UPLOAD_RESPONSE}" | jq -r '.app_url')
     - APPIUM_PLATFORM=$BUILD_PLATFORM yarn run jest --runInBand
-  allow_failure: true
+  allow_failure: false
   interruptible: true
   tags:
     - holi-big
