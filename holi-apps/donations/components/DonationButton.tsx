@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { GestureResponderEvent, Linking, View, ViewStyle } from 'react-native'
+import { GestureResponderEvent, View, ViewStyle } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
