@@ -1,7 +1,7 @@
 import { useLazyQuery } from '@apollo/client'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Image, Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -18,7 +18,7 @@ import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import DonateButton from '@holi-apps/donations/components/DonateButton'
+import DonationButton from '@holi-apps/donations/components/DonationButton'
 import DonationInitiativeButton from '@holi-apps/donations/components/DonationInitiativeButton'
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { AppDonationsProjectByIdResponse, projectByIdQuery } from '@holi-apps/donations/queries'
@@ -121,10 +121,10 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
           </View>
         </View>
       </DefaultLayout>
-      <DonateButton
+      <DonationButton
         icon="share-box"
         label="donations:projectDetail.donate"
-        link={project.initiative.url || ''}
+        onPress={() => Linking.openURL(project.initiative.url || '')}
         style={[mixins.container, styles.donateButton]}
       />
     </View>
