@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -13,6 +13,7 @@ interface HoliUserAvatarPileProps {
   size?: 'micro' | 'small'
   collapse?: boolean
   counter?: boolean
+  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
 
 const HoliUserAvatarPile: React.FC<HoliUserAvatarPileProps> = ({
@@ -22,12 +23,13 @@ const HoliUserAvatarPile: React.FC<HoliUserAvatarPileProps> = ({
   size = 'micro',
   collapse = false,
   counter = false,
+  style,
 }) => {
   const { t } = useTranslation()
 
   return (
     <>
-      <View style={styles.container}>
+      <View style={[style, styles.container]}>
         {users.slice(0, usersToShow).map((user, idx) => {
           const nameLabel = `${user.firstName || ''} ${user.lastName || ''}`.trim()
           const collapseDistance = collapse ? avatarSizes[size] / -2.4 : -4

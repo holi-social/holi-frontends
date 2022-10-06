@@ -3,6 +3,7 @@ import { Page, expect, test } from '@playwright/test'
 import {
   byTestId,
   checkAccessibility,
+  clickElementByTestId,
   defaultAuthSteps,
   delay,
   waitForAnimationEnd,
@@ -23,35 +24,42 @@ test.describe('@Profile', () => {
     // go to user profile page
     await page.goto('/profile/' + userId)
     await waitForElementByTestId(page, 'user-profile-full-name')
-    await waitForElementByTestId(page, 'user-profile-interests')
-    await waitForElementByTestId(page, 'user-profile-sdgs')
-    await waitForElementByTestId(page, 'user-profile-skills')
+
+    // IMPORTANT: a parallel test might remove all characteristics from the profile, so that the following tests will fail.
+    // await waitForElementByTestId(page, 'user-profile-interests')
+    // await waitForElementByTestId(page, 'user-profile-sdgs')
+    // await waitForElementByTestId(page, 'user-profile-skills')
+
     await checkAccessibility(page)
 
     // go to profile edit modal
     await defaultAuthSteps({ context, page })
-    await page.waitForSelector(byTestId('btn-open-profile-edit-view'))
     await checkAccessibility(page)
-    await delay(0.5) // source of flakyness and delay. Why do we need this here? Component is there, but click does not work when done too early.
-    await page.locator(byTestId('btn-open-profile-edit-view')).click()
+    await clickElementByTestId(page, 'btn-open-profile-edit-view')
     await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
     await checkAccessibility(page)
 
     // validation should block save
     await page.locator(byTestId('first-name-input')).fill('a')
-    await page.locator(byTestId('user-profile-edit-form-close-btn')).click()
+    await clickElementByTestId(page, 'user-profile-edit-form-close-btn')
     await page.locator(byTestId('first-name-input-error-message')).waitFor()
     await checkAccessibility(page)
 
     // edit firstName should work
-    const firstNameEdited = 'Text User Name'
+    const firstNameEdited = 'Proper First Name'
     await page.locator(byTestId('first-name-input')).fill(firstNameEdited)
     const lastName = await page.inputValue(byTestId('last-name-input'))
-    await page.locator(byTestId('user-profile-edit-form-close-btn')).click()
+    await delay(0.5)
+    await clickElementByTestId(page, 'user-profile-edit-form-close-btn')
     await page.waitForSelector(byTestId('user-profile-edit-form-saving'), { state: 'detached' })
-    expect(await page.textContent(byTestId('user-profile-full-name'))).toBe(`${firstNameEdited} ${lastName}`.trim())
+
+    await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
+    await delay(0.5)
+    const editedFullName = await page.textContent(byTestId('user-profile-full-name'))
+    expect(editedFullName).toBe(`${firstNameEdited} ${lastName}`.trim())
 
     // edit interests, skills + sdgs should work
+    await delay(2)
     await checkChipsSelection(page, 'interests')
     await checkChipsSelection(page, 'skills')
     await checkChipsSelection(page, 'sdgs')
@@ -73,8 +81,7 @@ const checkChipsSelection = async (page: Page, what: string) => {
 const deselectAll = async (page: Page, what: string) => {
   const userProfileTestId = byTestId(`user-profile-${what}`)
 
-  await page.locator(byTestId(`user-profile-${what}-edit`)).click()
-  await delay(0.5)
+  await clickElementByTestId(page, `user-profile-${what}-edit`)
   await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
 
   const countOfSelectedChips: number = await getCountOf(
@@ -95,7 +102,7 @@ const deselectAll = async (page: Page, what: string) => {
   )
   expect(stillSelectedCount).toBe(0)
 
-  await saveAndClose(page)
+  await saveAndCloseChipform(page)
 
   // only edit button is visible
   const editButtonCount = await getCountOf(page, `${userProfileTestId} >> [role=checkbox]`)
@@ -109,7 +116,7 @@ const deselectAll = async (page: Page, what: string) => {
 const selectSomeItemsAndVerify = async (page: Page, what: string) => {
   const userProfileTestId = byTestId(`user-profile-${what}`)
 
-  await page.locator(byTestId(`user-profile-${what}-edit`)).click()
+  await clickElementByTestId(page, `user-profile-${what}-edit`)
   await delay(0.5)
   await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
 
@@ -133,7 +140,7 @@ const selectSomeItemsAndVerify = async (page: Page, what: string) => {
   )
   expect(newSelectionCount).toBe(expectedNoOfSelectedChips)
 
-  await saveAndClose(page)
+  await saveAndCloseChipform(page)
 
   // all selected chips should be shown
   const shownChips = await getCountOf(page, `${userProfileTestId} >> [role=presentation]`)
@@ -145,8 +152,8 @@ const getCountOf = async (page: Page, selector: string) => {
   return await locator.count()
 }
 
-const saveAndClose = async (page: Page) => {
-  await page.locator(byTestId('user-profile-chipform-close-btn')).click()
+const saveAndCloseChipform = async (page: Page) => {
+  await clickElementByTestId(page, 'user-profile-chipform-close-btn')
   await page.waitForSelector(byTestId('user-profile-chipform-saving'), { state: 'detached' })
   await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
   await delay(2)

@@ -32,6 +32,11 @@ const useStyleMixins = () => {
           }
         : {}),
     },
+    moreButton: {
+      marginTop: 50,
+      maxWidth: 800,
+      alignSelf: 'center',
+    },
   })
 
   return { ...staticStyles, ...dynamicStyles }

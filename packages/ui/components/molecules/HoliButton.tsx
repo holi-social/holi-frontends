@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import {
   AccessibilityProps,
   GestureResponderEvent,
@@ -28,7 +28,7 @@ export type HoliButtonProps = {
   disabled?: boolean
   disableFocusability?: boolean
   testID?: string
-  onPress?: null | ((event: GestureResponderEvent) => void)
+  onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
 }
 
 const HoliButton: React.FC<HoliButtonProps> = ({
@@ -55,7 +55,7 @@ const HoliButton: React.FC<HoliButtonProps> = ({
     typeof props.children === 'string' ? (
       <HoliText
         style={disabled ? styles.textDisabled : {}}
-        size={isSmall ? 'small' : 'large'}
+        size={isSmall ? 'small' : 'default'}
         bold={true}
         selectable={false}
       >
@@ -65,16 +65,21 @@ const HoliButton: React.FC<HoliButtonProps> = ({
       props.children
     )
 
+  const onButtonPress = useCallback(
+    (event: React.SyntheticEvent | GestureResponderEvent) => {
+      if (props.onPress && !disabled) props.onPress(event)
+    },
+    [disabled, props]
+  )
+
   return (
     <Pressable
       {...accessibilityProps}
       testID={props.testID}
       disabled={disabled}
-      onPress={(event) => {
-        !disabled && props.onPress && props.onPress(event)
-      }}
+      onPress={onButtonPress}
       style={(state) => {
-        const result = [props.style, styles.base]
+        const result: ViewStyle[] = [styles.base]
         if (!transparent) {
           result.push(styles.nonTransparent)
           if (isSmall) {
@@ -94,7 +99,7 @@ const HoliButton: React.FC<HoliButtonProps> = ({
             }
           }
         }
-        return result
+        return [result, props.style]
       }}
     >
       <View
@@ -148,8 +153,6 @@ const getStyles = (inline: boolean) =>
     },
     focused: {
       borderWidth: 4,
-      paddingHorizontal: 30,
-      paddingVertical: 11,
     },
     pressedPrimary: {
       backgroundColor: colors.backgroundColorYellowDark,

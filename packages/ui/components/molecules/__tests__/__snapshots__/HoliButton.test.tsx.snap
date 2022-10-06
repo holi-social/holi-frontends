@@ -23,25 +23,27 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "backgroundColor": "#f3f360",
+        },
+      ],
       undefined,
-      Object {
-        "width": "100%",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "backgroundColor": "#f3f360",
-      },
     ]
   }
 >
@@ -66,8 +68,8 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -106,30 +108,32 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+        Object {
+          "backgroundColor": "#f3f360",
+        },
+      ],
       undefined,
-      Object {
-        "width": "100%",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderRadius": 16,
-        "paddingHorizontal": 16,
-        "paddingVertical": 6,
-      },
-      Object {
-        "backgroundColor": "#f3f360",
-      },
     ]
   }
 >
@@ -194,22 +198,24 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+      ],
       undefined,
-      Object {
-        "width": "100%",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
     ]
   }
 >
@@ -234,8 +240,8 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -274,27 +280,29 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+      ],
       undefined,
-      Object {
-        "width": "100%",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderRadius": 16,
-        "paddingHorizontal": 16,
-        "paddingVertical": 6,
-      },
     ]
   }
 >
@@ -359,25 +367,27 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "backgroundColor": "#f3f360",
+        },
+      ],
       undefined,
-      Object {
-        "width": "100%",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "backgroundColor": "#f3f360",
-      },
     ]
   }
 >
@@ -402,8 +412,8 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -442,30 +452,32 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+        Object {
+          "backgroundColor": "#f3f360",
+        },
+      ],
       undefined,
-      Object {
-        "width": "100%",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderRadius": 16,
-        "paddingHorizontal": 16,
-        "paddingVertical": 6,
-      },
-      Object {
-        "backgroundColor": "#f3f360",
-      },
     ]
   }
 >
@@ -530,22 +542,24 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+      ],
       undefined,
-      Object {
-        "width": "100%",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
     ]
   }
 >
@@ -570,8 +584,8 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -610,27 +624,29 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+      ],
       undefined,
-      Object {
-        "width": "100%",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderRadius": 16,
-        "paddingHorizontal": 16,
-        "paddingVertical": 6,
-      },
     ]
   }
 >
@@ -695,28 +711,30 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+        Object {
+          "backgroundColor": "#f7f6f3",
+        },
+      ],
       undefined,
-      Object {
-        "width": "100%",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderColor": "#eff0f1",
-      },
-      Object {
-        "backgroundColor": "#f7f6f3",
-      },
     ]
   }
 >
@@ -741,8 +759,8 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -783,33 +801,35 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+        Object {
+          "backgroundColor": "#f7f6f3",
+        },
+      ],
       undefined,
-      Object {
-        "width": "100%",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderRadius": 16,
-        "paddingHorizontal": 16,
-        "paddingVertical": 6,
-      },
-      Object {
-        "borderColor": "#eff0f1",
-      },
-      Object {
-        "backgroundColor": "#f7f6f3",
-      },
     ]
   }
 >
@@ -876,25 +896,27 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+      ],
       undefined,
-      Object {
-        "width": "100%",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderColor": "#eff0f1",
-      },
     ]
   }
 >
@@ -919,8 +941,8 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -961,30 +983,32 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+      ],
       undefined,
-      Object {
-        "width": "100%",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderRadius": 16,
-        "paddingHorizontal": 16,
-        "paddingVertical": 6,
-      },
-      Object {
-        "borderColor": "#eff0f1",
-      },
     ]
   }
 >
@@ -1051,28 +1075,30 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+        Object {
+          "backgroundColor": "#f7f6f3",
+        },
+      ],
       undefined,
-      Object {
-        "width": "100%",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderColor": "#eff0f1",
-      },
-      Object {
-        "backgroundColor": "#f7f6f3",
-      },
     ]
   }
 >
@@ -1097,8 +1123,8 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -1139,33 +1165,35 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+        Object {
+          "backgroundColor": "#f7f6f3",
+        },
+      ],
       undefined,
-      Object {
-        "width": "100%",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderRadius": 16,
-        "paddingHorizontal": 16,
-        "paddingVertical": 6,
-      },
-      Object {
-        "borderColor": "#eff0f1",
-      },
-      Object {
-        "backgroundColor": "#f7f6f3",
-      },
     ]
   }
 >
@@ -1232,25 +1260,27 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+      ],
       undefined,
-      Object {
-        "width": "100%",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderColor": "#eff0f1",
-      },
     ]
   }
 >
@@ -1275,8 +1305,8 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -1317,30 +1347,32 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+      ],
       undefined,
-      Object {
-        "width": "100%",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderRadius": 16,
-        "paddingHorizontal": 16,
-        "paddingVertical": 6,
-      },
-      Object {
-        "borderColor": "#eff0f1",
-      },
     ]
   }
 >
@@ -1407,25 +1439,27 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "backgroundColor": "#f3f360",
+        },
+      ],
       undefined,
-      Object {
-        "width": "auto",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "backgroundColor": "#f3f360",
-      },
     ]
   }
 >
@@ -1450,8 +1484,8 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -1490,30 +1524,32 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+        Object {
+          "backgroundColor": "#f3f360",
+        },
+      ],
       undefined,
-      Object {
-        "width": "auto",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderRadius": 16,
-        "paddingHorizontal": 16,
-        "paddingVertical": 6,
-      },
-      Object {
-        "backgroundColor": "#f3f360",
-      },
     ]
   }
 >
@@ -1578,22 +1614,24 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+      ],
       undefined,
-      Object {
-        "width": "auto",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
     ]
   }
 >
@@ -1618,8 +1656,8 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -1658,27 +1696,29 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+      ],
       undefined,
-      Object {
-        "width": "auto",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderRadius": 16,
-        "paddingHorizontal": 16,
-        "paddingVertical": 6,
-      },
     ]
   }
 >
@@ -1743,25 +1783,27 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "backgroundColor": "#f3f360",
+        },
+      ],
       undefined,
-      Object {
-        "width": "auto",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "backgroundColor": "#f3f360",
-      },
     ]
   }
 >
@@ -1786,8 +1828,8 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -1826,30 +1868,32 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+        Object {
+          "backgroundColor": "#f3f360",
+        },
+      ],
       undefined,
-      Object {
-        "width": "auto",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderRadius": 16,
-        "paddingHorizontal": 16,
-        "paddingVertical": 6,
-      },
-      Object {
-        "backgroundColor": "#f3f360",
-      },
     ]
   }
 >
@@ -1914,22 +1958,24 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+      ],
       undefined,
-      Object {
-        "width": "auto",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
     ]
   }
 >
@@ -1954,8 +2000,8 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -1994,27 +2040,29 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+      ],
       undefined,
-      Object {
-        "width": "auto",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderRadius": 16,
-        "paddingHorizontal": 16,
-        "paddingVertical": 6,
-      },
     ]
   }
 >
@@ -2079,28 +2127,30 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+        Object {
+          "backgroundColor": "#f7f6f3",
+        },
+      ],
       undefined,
-      Object {
-        "width": "auto",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderColor": "#eff0f1",
-      },
-      Object {
-        "backgroundColor": "#f7f6f3",
-      },
     ]
   }
 >
@@ -2125,8 +2175,8 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -2167,33 +2217,35 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+        Object {
+          "backgroundColor": "#f7f6f3",
+        },
+      ],
       undefined,
-      Object {
-        "width": "auto",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderRadius": 16,
-        "paddingHorizontal": 16,
-        "paddingVertical": 6,
-      },
-      Object {
-        "borderColor": "#eff0f1",
-      },
-      Object {
-        "backgroundColor": "#f7f6f3",
-      },
     ]
   }
 >
@@ -2260,25 +2312,27 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+      ],
       undefined,
-      Object {
-        "width": "auto",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderColor": "#eff0f1",
-      },
     ]
   }
 >
@@ -2303,8 +2357,8 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -2345,30 +2399,32 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+      ],
       undefined,
-      Object {
-        "width": "auto",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderRadius": 16,
-        "paddingHorizontal": 16,
-        "paddingVertical": 6,
-      },
-      Object {
-        "borderColor": "#eff0f1",
-      },
     ]
   }
 >
@@ -2435,28 +2491,30 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+        Object {
+          "backgroundColor": "#f7f6f3",
+        },
+      ],
       undefined,
-      Object {
-        "width": "auto",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderColor": "#eff0f1",
-      },
-      Object {
-        "backgroundColor": "#f7f6f3",
-      },
     ]
   }
 >
@@ -2481,8 +2539,8 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -2523,33 +2581,35 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+        Object {
+          "backgroundColor": "#f7f6f3",
+        },
+      ],
       undefined,
-      Object {
-        "width": "auto",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderRadius": 16,
-        "paddingHorizontal": 16,
-        "paddingVertical": 6,
-      },
-      Object {
-        "borderColor": "#eff0f1",
-      },
-      Object {
-        "backgroundColor": "#f7f6f3",
-      },
     ]
   }
 >
@@ -2616,25 +2676,27 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+      ],
       undefined,
-      Object {
-        "width": "auto",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderColor": "#eff0f1",
-      },
     ]
   }
 >
@@ -2659,8 +2721,8 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -2701,30 +2763,32 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   onStartShouldSetResponder={[Function]}
   style={
     Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "elevation": 0,
+          "marginBottom": 4,
+          "marginRight": 4,
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+      ],
       undefined,
-      Object {
-        "width": "auto",
-      },
-      Object {
-        "backgroundColor": "#fff",
-        "borderColor": "#222326",
-        "borderRadius": 28,
-        "borderWidth": 2,
-        "elevation": 0,
-        "marginBottom": 4,
-        "marginRight": 4,
-        "overflow": "hidden",
-        "paddingHorizontal": 32,
-        "paddingVertical": 13,
-      },
-      Object {
-        "borderRadius": 16,
-        "paddingHorizontal": 16,
-        "paddingVertical": 6,
-      },
-      Object {
-        "borderColor": "#eff0f1",
-      },
     ]
   }
 >

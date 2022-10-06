@@ -11,6 +11,13 @@ const waitForElement = async (elementSelector: string, timeout?: number) => {
   return element
 }
 
+const locateMultipleElements = async (elementSelector: string) => {
+  // https://webdriver.io/docs/api/browser/$$
+  const elements = await Appium.$$(elementSelector)
+
+  return elements
+}
+
 export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?: number) => {
   // https://webdriver.io/docs/api/browser/$
   const element = await Appium.$(byTestId(testId))
@@ -53,6 +60,8 @@ export const checkIfElementWithTestIdExists = async (testId: string) => {
 
 export const waitForElementWithTestId = async (testId: string, timeout?: number) =>
   waitForElement(byTestId(testId), timeout)
+
+export const locateMultipleElementsWithTestId = async (testId: string) => locateMultipleElements(byTestId(testId))
 
 export const seeTextWithTestId = async (expectedText: string, testId: string) => {
   const element = await waitForElementWithTestId(testId)

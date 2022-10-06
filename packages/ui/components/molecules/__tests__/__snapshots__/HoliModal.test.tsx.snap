@@ -37,7 +37,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           "disabled": false,
         }
       }
-      accessible={false}
+      accessible={true}
       collapsable={false}
       focusable={true}
       onBlur={[Function]}
@@ -51,6 +51,11 @@ exports[`renders correctly renders correctly when open 1`] = `
       onStartShouldSetResponder={[Function]}
       style={
         Array [
+          Array [
+            Object {
+              "width": "100%",
+            },
+          ],
           Object {
             "backgroundColor": "#222326",
             "bottom": 0,
@@ -60,9 +65,6 @@ exports[`renders correctly renders correctly when open 1`] = `
             "right": 0,
             "top": 0,
             "zIndex": 0,
-          },
-          Object {
-            "width": "100%",
           },
         ]
       }
@@ -118,6 +120,7 @@ exports[`renders correctly renders correctly when open 1`] = `
       <View
         style={
           Object {
+            "alignItems": "center",
             "position": "absolute",
             "top": 0,
             "width": "100%",
@@ -133,23 +136,59 @@ exports[`renders correctly renders correctly when open 1`] = `
               "alignItems": "center",
               "backgroundColor": "#fff",
               "height": 40,
-              "justifyContent": "center",
             }
           }
         >
           <View
-            style={
+            accessibilityLabel="modal.backdrop"
+            accessibilityRole="button"
+            accessibilityState={
               Object {
-                "backgroundColor": "#222326",
-                "borderRadius": 4,
-                "height": 4,
-                "opacity": 0.3,
-                "position": "absolute",
-                "top": 10,
-                "width": 40,
+                "disabled": false,
               }
             }
-          />
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Array [
+                Array [
+                  Object {
+                    "width": "100%",
+                  },
+                ],
+                Object {
+                  "padding": 10,
+                },
+              ]
+            }
+          >
+            <View
+              pointerEvents="none"
+              style={Object {}}
+            >
+              <View
+                style={
+                  Object {
+                    "backgroundColor": "#222326",
+                    "borderRadius": 4,
+                    "height": 4,
+                    "opacity": 0.3,
+                    "width": 40,
+                  }
+                }
+              />
+            </View>
+          </View>
         </View>
       </View>
     </View>

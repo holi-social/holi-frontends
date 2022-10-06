@@ -32,10 +32,14 @@
   "category.weihnachtsstreamerei-health": "Gesundheit zu Weihnachten",
   "donationListing.error": "Laden von Spendenprojekten ist fehlgeschlagen",
   "donationListing.loading": "Lädt Spendenprojekte...",
+  "donationListing.loadMoreButton.loading": "Lädt...",
+  "donationListing.loadMoreButton.text": "Weitere Projekte",
   "donationProgress.count": "{{count}} Spende",
   "donationProgress.count_plural": "{{count}} Spenden",
   "donationProgress.openAmount": "{{amount}} fehlen noch",
   "donationProgress.percentFunded": "{{percentage}}% finanziert",
+  "initiative.indication": "von <0>{{name}}</0>",
   "initiative.link.button": "Seite von {{name}}",
-  "initiative.indication": "von <0>{{name}}</0>"
+  "projectDetail.donate": "Spenden",
+  "projectDetail.notFound": "Projekt mit ID {{projectId}} wurde nicht gefunden"
 }

@@ -4,7 +4,7 @@ import { StyleSheet, Text, TextStyle } from 'react-native'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-type HoliTextSize = 'large' | 'default' | 'small' | 'extrasmall' // for working code completion in vscode
+type HoliTextSize = 'extralarge' | 'large' | 'default' | 'small' | 'extrasmall' // for working code completion in vscode
 export const HoliTextSizes: HoliTextSize[] = ['large', 'default', 'small', 'extrasmall'] // keep in sync with all possible HoliTextSize values
 
 export interface HoliTextProps {
@@ -42,6 +42,10 @@ const getStyles = (theme: HoliTheme) =>
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
       color: colors.softblack,
+    },
+    extralarge: {
+      fontSize: 28,
+      lineHeight: 28 * 1.2,
     },
     large: {
       fontSize: 21,
