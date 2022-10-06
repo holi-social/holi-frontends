@@ -42,7 +42,6 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
         label={t('topics.topic.title', { title })}
         transparent
         onPress={() => navigate(`/topics/${id}`)}
-        style={styles.mainImageContainer}
         testID="feed-topic-image-link"
       >
         <Image source={{ uri: image.src }} style={styles.mainImage} />
@@ -68,7 +67,7 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
         </HoliText>
       </View>
 
-      {editors.length && <HoliUserAvatarPile users={editors} counter collapse />}
+      {editors.length && <HoliUserAvatarPile users={editors} counter collapse style={{ marginTop: 10 }} />}
     </View>
   )
 }
@@ -76,9 +75,6 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
 export default TopicPreviewBox
 
 const styles = StyleSheet.create({
-  mainImageContainer: {
-    marginBottom: 16,
-  },
   mainImage: {
     aspectRatio: 344 / 218,
     borderRadius: 18,
@@ -87,6 +83,7 @@ const styles = StyleSheet.create({
   },
   authorCategoryContainer: {
     flexDirection: 'row',
+    marginTop: 16,
     marginBottom: 8,
   },
   avatar: {
@@ -99,9 +96,6 @@ const styles = StyleSheet.create({
   contributorsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  contributorsCounter: {
-    marginLeft: 8,
   },
   textGrey: {
     color: colors.fontColorGrey,

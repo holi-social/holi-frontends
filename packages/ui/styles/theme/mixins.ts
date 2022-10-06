@@ -24,6 +24,11 @@ const useStyleMixins = () => {
       maxWidth: vars.maxScreenWidth,
       paddingHorizontal: screenWidth > parseInt(vars.breakpointXl, 10) ? 0 : 20,
     },
+    moreButton: {
+      marginTop: 50,
+      maxWidth: 800,
+      alignSelf: 'center',
+    },
   })
 
   return { ...staticStyles, ...dynamicStyles }
