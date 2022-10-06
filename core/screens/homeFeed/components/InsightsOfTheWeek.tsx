@@ -71,7 +71,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
         ))}
       </View>
 
-      <HoliButton type="secondary" label="see previous" style={mixins.moreButton} disabled>
+      <HoliButton type="secondary" label={t('homeFeed.insights.loadMoreText')} style={mixins.moreButton} disabled>
         {t('homeFeed.insights.loadMoreText')}
       </HoliButton>
     </View>
