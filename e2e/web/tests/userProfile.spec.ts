@@ -24,9 +24,12 @@ test.describe('@Profile', () => {
     // go to user profile page
     await page.goto('/profile/' + userId)
     await waitForElementByTestId(page, 'user-profile-full-name')
-    await waitForElementByTestId(page, 'user-profile-interests')
-    await waitForElementByTestId(page, 'user-profile-sdgs')
-    await waitForElementByTestId(page, 'user-profile-skills')
+
+    // IMPORTANT: a parallel test might remove all characteristics from the profile, so that the following tests will fail.
+    // await waitForElementByTestId(page, 'user-profile-interests')
+    // await waitForElementByTestId(page, 'user-profile-sdgs')
+    // await waitForElementByTestId(page, 'user-profile-skills')
+
     await checkAccessibility(page)
 
     // go to profile edit modal
