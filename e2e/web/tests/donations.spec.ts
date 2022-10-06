@@ -6,7 +6,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/apps/donations')
 })
 
-test.describe('@Donations', () => {
+test.describe.skip('@Donations', () => {
   test('should be accessible from home screen', async ({ page }) => {
     await page.goto('/')
     await clickElementByTestId(page, 'home-apps-button')
