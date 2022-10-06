@@ -1,6 +1,5 @@
 import { Options } from '@wdio/types'
 import { execFileSync } from 'child_process'
-import * as path from 'path'
 
 const requireEnvVar = (varName: string, options?: { validValues?: Array<string>; defaultValue?: string }) => {
   if (!process.env[varName]) {
@@ -52,28 +51,13 @@ const gitlabJobID = requireEnvVar('CI_JOB_ID', { defaultValue: undefined })
 // unique across single runs of the pipeline, but still informative
 const gitlabCommitSHAAndJobID = gitlabCommmitSHA ? `SHA-${gitlabCommmitSHA}_JOB-${gitlabJobID}` : undefined
 
-/**
- * get the directory's git branch
- *
- * @param  {String} dirPath  directory absolute path
- * @return {String} git branch name
- */
 const localGitInfo = (() => {
   const git = (parameters: string[]) => {
     return execFileSync('git', parameters)
   }
-  const gitRootPath = '../../'
-  const gitPath = path.resolve(gitRootPath, './.git')
-  const branchName =
-    (git([`--work-tree=${gitRootPath}`, `--git-dir=${gitPath}`, 'branch'])
-      ?.toString()
-      // parse `git branch` output
-      ?.match(/\*\s(.*)\n/) || ['', ''])[1] || ''
-  const commitSHA = git(['rev-parse', 'HEAD'])?.toString()
-
   return {
-    branch: branchName,
-    sha: commitSHA,
+    branch: git(['rev-parse', '--abbrev-rev', 'HEAD'])?.toString(),
+    sha: git(['rev-parse', 'HEAD'])?.toString(),
   }
 })()
 
