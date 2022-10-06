@@ -22,4 +22,13 @@ test.describe('@Donations', () => {
     const itemCount = await listItems.count()
     expect(itemCount).toBeGreaterThan(1)
   })
+
+  test('should display project details', async ({ page }) => {
+    await waitForElementByTestId(page, 'donations-list-container')
+    // click first element in list
+    await clickElementByTestId(page, 'donations-list-item')
+
+    await waitForElementByTestId(page, 'donations-project-detail-heading')
+    expect(page.url()).toContain('/apps/donations/project/')
+  })
 })
