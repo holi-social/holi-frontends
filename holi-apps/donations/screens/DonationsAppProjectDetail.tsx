@@ -18,7 +18,7 @@ import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import DonateButton from '@holi-apps/donations/components/DonateButton'
+import DonationButton from '@holi-apps/donations/components/DonationButton'
 import DonationInitiativeButton from '@holi-apps/donations/components/DonationInitiativeButton'
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { AppDonationsProjectByIdResponse, projectByIdQuery } from '@holi-apps/donations/queries'
@@ -116,13 +116,13 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
           <View style={[styles.card, { paddingVertical: 24 }]}>
             <DonationInitiativeButton initiative={project.initiative} />
             <HoliText size={'large'} bold style={{ marginVertical: 24 }}>
-              &ldquo;{project.summary}&rdquo;
+              &ldquo;{project.summery}&rdquo;
             </HoliText>
             <HoliReadMore numberOfLines={5}>{project.description}</HoliReadMore>
           </View>
         </View>
       </DefaultLayout>
-      <DonateButton
+      <DonationButton
         label={t('donations:projectDetail.donate')}
         icon="share-box"
         bold

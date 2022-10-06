@@ -7,8 +7,7 @@ import { displayError } from '@holi/core/errors/helpers'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
-import DonateButton from '@holi-apps/donations/components/DonateButton'
-//import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import DonationButton from '@holi-apps/donations/components/DonationButton'
 import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
 import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'
 
@@ -27,7 +26,7 @@ const DonationListing: React.VFC = () => {
     },
   })
 
-  const projects = data?.appDonations_projects?.projects || []
+  const projects = data?.appDonations_projects || []
 
   const memoizedFetchMore = useCallback(() => {
     setFetchingMore(true)
@@ -54,7 +53,7 @@ const DonationListing: React.VFC = () => {
         <DonationListingItem key={project.id} project={project} />
       ))}
       {fetchingMore ? (
-        <DonateButton
+        <DonationButton
           label={fetchMoreButtonText}
           disabled={fetchingMore}
           icon="loader-4"

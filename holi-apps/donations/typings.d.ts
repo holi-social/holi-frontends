@@ -27,11 +27,11 @@ export interface Project {
   title: string
   categories: string[]
   donationsCount: number
-  summary: string
-  description: string
   /** Number between 0 and 100 */
   progressPercentage: number
   openAmountInCents: number
+  summery: string
+  description: string
   /** The project's "profile picture" in different variants */
   picture: Picture[]
   initiative: ProjectInitiative
