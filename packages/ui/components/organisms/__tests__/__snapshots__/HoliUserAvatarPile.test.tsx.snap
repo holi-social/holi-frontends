@@ -3,10 +3,13 @@
 exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
 <View
   style={
-    Object {
-      "alignItems": "center",
-      "flexDirection": "row",
-    }
+    Array [
+      undefined,
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+      },
+    ]
   }
 >
   <View
