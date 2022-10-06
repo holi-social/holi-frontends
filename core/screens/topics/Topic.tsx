@@ -1,3 +1,6 @@
+import { useQuery } from '@apollo/client'
+import { LastInsightsResponse, lastInsightsQuery } from 'core/screens/homeFeed/queries'
+import { Insight } from 'core/screens/topics/types'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -5,6 +8,7 @@ import { StyleSheet, View } from 'react-native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import { logError } from '@holi/core/errors/helpers'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -31,16 +35,32 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const numberOfItems = 2
 
   useNavigationHeader(navigation, {
     title: t('topics.topic.title', { title: topicId }),
     headerLeft: () => <BackButton />,
   })
 
+  const { loading, error, data } = useQuery<LastInsightsResponse>(lastInsightsQuery, {
+    variables: { numberOfItems },
+  })
+
+  if (error) {
+    logError(error, `[UserSuggestions.tsx] ${error.message}`)
+  }
+
+  // Error and loading states are handled the same way and just hide the component
+  if (loading || error) {
+    return <></>
+  }
+
+  const insights: Insight[] = data?.lastInsights?.length ? data.lastInsights : fakeTopics
+
   // Important: `fakeTopics.get(topicId) should be called after useEffect() or useLayoutEffet()
   // A hard reload will cause an error.
   // see here: https://reactjs.org/docs/hooks-rules.html
-  const topic = fakeTopics.get(topicId)
+  const topic = insights.find((insight) => insight.id == topicId)
   if (!topic) return <HoliText>{t('topics.topic.notFound', { topicId })}</HoliText>
 
   return (
