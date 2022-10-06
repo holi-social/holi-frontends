@@ -1,3 +1,7 @@
+import { useQuery } from '@apollo/client'
+import { logError } from 'core/errors/helpers/logError.web'
+import { LastInsightsResponse, lastInsightsQuery } from 'core/screens/topics/queries'
+import { Insight } from 'core/screens/topics/types'
 import React, { useContext, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
@@ -44,8 +48,24 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   const headerTitle = temporalGreeting(new Date().getHours(), t)
   const styles = homeFeedStyles(width)
   const mixins = useStyleMixins()
+  const numberOfInsights = 2
 
   useNavigationHeader(navigation, { title: headerTitle })
+
+  const { loading, error, data } = useQuery<LastInsightsResponse>(lastInsightsQuery, {
+    variables: { numberOfItems: numberOfInsights },
+  })
+
+  if (error) {
+    logError(error, `[HomeFeed.tsx] ${error.message}`)
+  }
+
+  // Error and loading states are handled the same way and just hide the component
+  if (loading || error) {
+    return <></>
+  }
+
+  const insights: Insight[] = data?.lastInsights?.length ? data.lastInsights : fakeTopics
 
   return (
     <>
@@ -101,8 +121,8 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
           </View>
 
           <View style={styles.feedTopicGrid}>
-            {[...fakeTopics.entries()].map(([topicId, topic]) => (
-              <TopicPreviewBox key={topicId} id={topicId} {...topic} style={styles.feedTopicItem} />
+            {insights.map((insight) => (
+              <TopicPreviewBox key={insight.id} id={insight.id} {...topic} style={styles.feedTopicItem} />
             ))}
           </View>
         </View>

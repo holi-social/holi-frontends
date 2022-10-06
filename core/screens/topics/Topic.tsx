@@ -47,7 +47,7 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   })
 
   if (error) {
-    logError(error, `[UserSuggestions.tsx] ${error.message}`)
+    logError(error, `[Topic.tsx] ${error.message}`)
   }
 
   // Error and loading states are handled the same way and just hide the component
@@ -57,7 +57,7 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
 
   const insights: Insight[] = data?.lastInsights?.length ? data.lastInsights : fakeTopics
 
-  // Important: `fakeTopics.get(topicId) should be called after useEffect() or useLayoutEffet()
+  // Important: `insights.find() should be called after useEffect() or useLayoutEffet()
   // A hard reload will cause an error.
   // see here: https://reactjs.org/docs/hooks-rules.html
   const topic = insights.find((insight) => insight.id == topicId)
@@ -79,19 +79,19 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
           {t('topics.topic.editors', { title: topicId })}
         </HoliButton>
 
-        <HoliText>{topic.text}</HoliText>
+        <HoliText>{topic.description}</HoliText>
 
         <HoliHeading level="3">{t('topics.topic.posts')}</HoliHeading>
 
-        {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
+        {topic.posts.map((post) => (
           <HoliButton
-            key={postId}
-            label={topic.posts[postId].text}
+            key={post.id}
+            label={post.text}
             transparent
             style={styles.post}
-            onPress={() => navigate(`/topics/${topicId}/posts/${postId}`)}
+            onPress={() => navigate(`/topics/${topicId}/posts/${post.id}`)}
           >
-            <HoliText>{topic.posts[postId].text}</HoliText>
+            <HoliText>{post.text}</HoliText>
           </HoliButton>
         ))}
 
