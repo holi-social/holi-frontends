@@ -71,7 +71,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
     // label={t('donations:donationListing.loading')}
     return (
       <View style={[mixins.container, styles.messageContainer]}>
-        <HoliIcon icon="loading-4" />
+        <HoliText>{t('donations:donationListing.loading')}</HoliText>{' '}
       </View>
     )
   }
@@ -87,6 +87,8 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const picture: Picture = (project.picture.find((p) => p.type === 'original') ||
     project.picture.find((p) => p.type === 'small'))!
+
+  const donateButtonLabel = t('donations:projectDetail.donate')
 
   return (
     <View style={{ alignItems: 'center', backgroundColor: colors.backgroundColorGreyLight }}>
@@ -123,7 +125,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
         </View>
       </DefaultLayout>
       <DonationButton
-        label={t('donations:projectDetail.donate')}
+        label={donateButtonLabel}
         icon="share-box"
         bold
         style={[mixins.container, styles.donateButton]}
