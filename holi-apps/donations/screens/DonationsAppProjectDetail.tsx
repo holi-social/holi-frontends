@@ -116,7 +116,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
           <View style={[styles.card, { paddingVertical: 24 }]}>
             <DonationInitiativeButton initiative={project.initiative} />
             <HoliText size={'large'} bold style={{ marginVertical: 24 }}>
-              &ldquo;{project.summery}&rdquo;
+              &ldquo;{project.summary}&rdquo;
             </HoliText>
             <HoliReadMore numberOfLines={5}>{project.description}</HoliReadMore>
           </View>

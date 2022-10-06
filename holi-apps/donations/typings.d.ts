@@ -30,7 +30,7 @@ export interface Project {
   /** Number between 0 and 100 */
   progressPercentage: number
   openAmountInCents: number
-  summery: string
+  summary: string
   description: string
   /** The project's "profile picture" in different variants */
   picture: Picture[]
