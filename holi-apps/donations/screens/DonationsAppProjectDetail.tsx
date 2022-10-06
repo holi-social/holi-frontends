@@ -124,6 +124,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
       <DonationButton
         icon="share-box"
         label="donations:projectDetail.donate"
+        disabled={!project.initiative.url}
         onPress={() => Linking.openURL(project.initiative.url || '')}
         style={[mixins.container, styles.donateButton]}
       />
