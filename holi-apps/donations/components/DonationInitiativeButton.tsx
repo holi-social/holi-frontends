@@ -7,7 +7,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
-import { ProjectInitiative } from '@holi-apps/donations/typings'
+import type { ProjectInitiative } from '@holi-apps/donations/typings'
 
 export type DonationInitiativeButtonProps = {
   initiative: ProjectInitiative
@@ -20,7 +20,8 @@ const DonationInitiativeButton = ({ initiative }: DonationInitiativeButtonProps)
     <HoliButton
       label={t('donations:initiative.link.button', { name })}
       transparent
-      onPress={() => Linking.openURL(initiative.url || '')}
+      disabled={!initiative.url}
+      onPress={() => initiative.url && Linking.openURL(initiative.url)}
     >
       <View style={styles.initiative}>
         <View style={styles.initiativeContent}>
@@ -38,7 +39,7 @@ const DonationInitiativeButton = ({ initiative }: DonationInitiativeButtonProps)
             </HoliText>
           </View>
         </View>
-        <HoliIcon icon="share-box" size={18} />
+        <HoliIcon icon="share-box" size={18} style={{ ...(!initiative.url && { display: 'none' }) }} />
       </View>
     </HoliButton>
   )
