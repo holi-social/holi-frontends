@@ -28,30 +28,43 @@ const DonationButton = ({
 
   const spinValue = new Animated.Value(0)
 
-  Animated.loop(
-    Animated.timing(spinValue, {
-      toValue: 1,
-      duration: 1000,
-      easing: Easing.linear,
-      useNativeDriver: iconSpinning,
+  if (iconSpinning) {
+    Animated.loop(
+      Animated.timing(spinValue, {
+        toValue: 1,
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: false,
+      })
+    ).start(() => {
+      spinValue.setValue(0)
     })
-  ).start(() => {
-    spinValue.setValue(0)
-  })
 
-  const spin = spinValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
-  })
+    const spin = spinValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '360deg'],
+    })
+    return (
+      <View style={props.style}>
+        <HoliButton label={t(label)} disabled={disabled}>
+          <HoliText bold={props.bold} style={{ marginRight: 6, borderColor: colors.borderColorBlack }}>
+            {t(label)}
+          </HoliText>
+          <Animated.View style={{ transform: [{ rotate: spin }] }}>
+            <HoliIcon icon={icon} size={16} />
+          </Animated.View>
+        </HoliButton>
+      </View>
+    )
+  }
+
   return (
     <View style={props.style}>
       <HoliButton label={t(label)} disabled={disabled}>
         <HoliText bold={props.bold} style={{ marginRight: 6, borderColor: colors.borderColorBlack }}>
           {t(label)}
         </HoliText>
-        <Animated.View style={{ transform: [{ rotate: spin }] }}>
-          <HoliIcon icon={icon} size={16} />
-        </Animated.View>
+        <HoliIcon icon={icon} size={16} />
       </HoliButton>
     </View>
   )
