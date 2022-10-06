@@ -28,7 +28,7 @@ const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossibl
 
   const connect = async () => {
     await connectWithUser({
-      variables: { input: { username: user.id, circlesIds: [] } },
+      variables: { input: { userId: user.id } },
     })
   }
 
@@ -60,8 +60,8 @@ const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossibl
       {contactPossible && (
         <View style={{ flexDirection: 'row', marginTop: 16 }}>
           <HoliChip
-            text={t('user.profileView.connect')}
-            label={t('user.profileView.connect')}
+            text={user.connectionStatus || t('user.profileView.connect')}
+            label={user.connectionStatus || t('user.profileView.connect')}
             style={{ marginRight: 8 }}
             fontStyle={{ color: colors.positivepurple }}
             onPress={() => connect()}

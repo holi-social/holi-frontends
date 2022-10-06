@@ -41,6 +41,7 @@ export const userByIdQuery = gql`
   query UserById($userId: String!) {
     userById(id: $userId) {
       ...FullUser
+      connectionStatus
     }
   }
 `
@@ -65,8 +66,7 @@ export const UpdateAuthenticatedUserInputSchema = z.object({
 export type UpdateAuthenticatedUserInput = z.infer<typeof UpdateAuthenticatedUserInputSchema>
 
 export type ConnectWithUserInput = {
-  username: string
-  circlesIds: string[]
+  userId: string
 }
 
 export type UpdateAuthenticatedUserResponse = {
@@ -86,12 +86,10 @@ export const updateUserMutation = gql`
 `
 
 export const connectWithUserMutation = gql`
-  ${userFragment}
-
   mutation ConnectWithUser($input: ConnectWithUserInput!) {
     connectWithUser(input: $input) {
-      authenticatedUser {
-        ...FullUser
+      userById {
+        connectionStatus
       }
     }
   }

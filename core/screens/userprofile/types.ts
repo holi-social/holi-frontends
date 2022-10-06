@@ -12,6 +12,7 @@ export interface User {
   interests?: UserInterest[]
   sdgs?: string[]
   skills?: string[]
+  connectionStatus?: UserConnectionStatus
 }
 
 // This definition of UserInterests and the type UserInterest does not allow for code autocompletion, so only use this pattern
@@ -144,3 +145,9 @@ export const userChipTypes = [UserChipInterest, UserChipSkill, UserChipSDG].redu
   return acc
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }, {} as Record<string, UserChipGeneric<any>>)
+
+export type UserConnectionStatus =
+  | 'NOT_CONNECTED'
+  | 'CONNECTED'
+  | 'REQUESTED' // requested by currently authenticated user
+  | 'PENDING_CONFIRMATION' // pending confirmation by currently authenticated user
