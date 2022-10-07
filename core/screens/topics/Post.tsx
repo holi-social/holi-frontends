@@ -1,3 +1,7 @@
+import { useQuery } from '@apollo/client'
+import { faker } from '@faker-js/faker'
+import { LastInsightsResponse, lastInsightsQuery } from 'core/screens/homeFeed/queries'
+import type { Insight } from 'core/screens/homeFeed/types'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
@@ -5,6 +9,7 @@ import { View } from 'react-native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import { logError } from '@holi/core/errors/helpers'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -33,8 +38,30 @@ const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
 
   useNavigationHeader(navigation, { title: title, headerLeft: () => <BackButton /> })
 
-  if (!topicId) return <HoliText>{t('topics.post.missingTopicId')}</HoliText>
-  if (!postId) return <HoliText>{t('topics.post.missingPostId')}</HoliText>
+  const { loading, error, data } = useQuery<LastInsightsResponse>(lastInsightsQuery, {
+    variables: { numberOfItems: 1 },
+  })
+
+  if (error) {
+    logError(error, `[Topic.tsx] ${error.message}`)
+  }
+
+  // Error and loading states are handled the same way and just hide the component
+  if (loading || error) {
+    return <></>
+  }
+  const insights: Insight[] = data?.lastInsights?.length ? data.lastInsights : fakeTopics
+  const topic = insights.find((insight) => insight.id == topicId)
+  if (!topic) return <HoliText>{t('topics.topic.notFound', { topicId })}</HoliText>
+
+  // TODO: dummy category
+  const category = 'Immigration'
+
+  const author = {
+    ...topic.curator,
+    fullName: `${topic.curator.firstName} ${topic.curator.lastName}`.trim(),
+    avatar: faker.image.avatar(), // TODO: dummy image
+  }
 
   return (
     <DefaultLayout>
@@ -43,9 +70,9 @@ const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
           {title}
         </HoliHeading>
         <HoliText style={{ paddingTop: 10 }}>
-          {t('topics.post.author', { author: fakeTopics.get(topicId).posts[postId].author })}
+          {t('topics.post.author', { author: author.fullName, category: category })}
         </HoliText>
-        <HoliText style={{ paddingTop: 10 }}>{fakeTopics.get(topicId).posts[postId].text}</HoliText>
+        <HoliText style={{ paddingTop: 10 }}>{topic.title}</HoliText>
       </View>
     </DefaultLayout>
   )

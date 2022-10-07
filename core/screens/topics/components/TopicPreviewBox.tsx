@@ -39,6 +39,10 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({ insight, ...props })
 
   const editors = editorsOfInsight(insight)
 
+  // TODO: remove dummy image
+  // const headerImage = insight.headerImage
+  const headerImage = 'https://image.geo.de/30657478/t/5W/v6/w960/r1.5/-/wer-hat-den-foehn-picture-1238735191.jpg'
+
   return (
     <View {...props}>
       <HoliButton
@@ -47,7 +51,7 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({ insight, ...props })
         onPress={() => navigate(`/topics/${insight.id}`)}
         testID="feed-topic-image-link"
       >
-        <Image source={{ uri: insight.headerImage }} style={styles.mainImage} />
+        <Image source={{ uri: headerImage }} style={styles.mainImage} />
 
         <HoliHeading level="2" selectable={true}>
           {insight.title}
@@ -85,6 +89,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     marginBottom: 16,
     width: '100%',
+    backgroundColor: colors.backgroundColorGreyLight,
   },
   authorCategoryContainer: {
     flexDirection: 'row',

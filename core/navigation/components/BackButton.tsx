@@ -9,22 +9,27 @@ import { colors } from '@holi/ui/styles/globalVars'
 type BackButtonProps = {
   icon?: string
   label?: string
+  tintColor?: string
 }
 
-const BackButton: React.VFC<BackButtonProps> = (props: BackButtonProps) => {
+const BackButton: React.VFC<BackButtonProps> = ({
+  label,
+  icon = 'arrow-left-s',
+  tintColor = colors.fontColorBlack,
+}: BackButtonProps) => {
   const { navigateBack } = useRouting()
   const { t } = useTranslation()
 
   return (
     <HoliButton
-      label={props.label || t('navigation.headerLeft.back')}
+      label={label || t('navigation.headerLeft.back')}
       inline
       transparent
       onPress={() => navigateBack()}
       style={{ paddingHorizontal: 0 }}
       testID="nav-button-back"
     >
-      <HoliIcon icon={props.icon || 'arrow-left-s'} size={30} color={colors.fontColorBlack} />
+      <HoliIcon icon={icon} size={30} color={tintColor} />
     </HoliButton>
   )
 }
