@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { LastInsightsResponse, lastInsightsQuery } from 'core/screens/homeFeed/queries'
-import { Insight } from 'core/screens/topics/types'
+import { Insight } from 'core/screens/homeFeed/types'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'

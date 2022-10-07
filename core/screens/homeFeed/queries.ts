@@ -29,33 +29,31 @@ export type UserSuggestionsResponse = {
 }
 
 export const lastInsightsQuery = gql`
-{
-  lastInsights(numberOfItems: Int!) {
-    id
-    title
+  query LastInsights($numberOfItems: Int!) {
+    lastInsights(numberOfItems: $numberOfItems) {
+      id
+      title
+      description
+      datePublished
+      curator {
+        id
+        avatar
+        firstName
+        lastName
+      }
+      headerImage
+      posts {
+        id
+        text
+        creator {
+          id
+          firstName
+          lastName
+        }
+      }
+    }
   }
-}
 `
-/*
-for reference, here's a full insight query, except for the posts fields
-{
-  lastInsights(numberOfItems: Int!) {
-    id
-    title
-    description
-    datePublished
-    curator {
-      id
-      avatar
-    }
-    headerImage
-    posts {
-      id
-      text
-    }
-  }
-}
-*/
 
 export type LastInsightsResponse = {
   lastInsights: Insight[]

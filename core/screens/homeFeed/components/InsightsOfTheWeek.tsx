@@ -1,7 +1,11 @@
+import { useQuery } from '@apollo/client'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
+import { logError } from '@holi/core/errors/helpers/logError.web'
+import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/homeFeed/queries'
+import { Insight } from '@holi/core/screens/homeFeed/types'
 import TopicPreviewBox from '@holi/core/screens/topics/components/TopicPreviewBox'
 import fakeTopics, { getRandomUser } from '@holi/core/screens/topics/fakeTopics'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -24,8 +28,26 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
   const mixins = useStyleMixins()
   const { width } = useWindowDimensions()
   const styles = getStyles(width)
+  const numberOfInsights = 2
 
   const [showEditorsModal, setShowEditorsModal] = useState(false)
+
+  const { loading, error, data } = useQuery<LastInsightsResponse>(lastInsightsQuery, {
+    variables: { numberOfItems: numberOfInsights },
+  })
+
+  if (error) {
+    logError(error, `[InsightsOfTheWeek.tsx] ${error.message}`)
+  }
+
+  // Error and loading states are handled the same way and just hide the component
+  if (loading || error) {
+    return <></>
+  }
+
+  // if there are no insights in the okuna backend, use fake topics.
+  // This way feature branches still have content and don't look empty.
+  const insights: Insight[] = data?.lastInsights?.length ? data.lastInsights : fakeTopics
 
   return (
     <View style={[mixins.container, styles.insightsOfTheWeek, props.style]}>
@@ -66,8 +88,8 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
 
       {/* insights */}
       <View style={styles.insightsContainer}>
-        {[...fakeTopics.entries()].map(([topicId, topic]) => (
-          <TopicPreviewBox key={topicId} id={topicId} {...topic} style={styles.insight} />
+        {insights.map((insight) => (
+          <TopicPreviewBox key={insight.id} insight={insight} style={styles.insight} />
         ))}
       </View>
 

@@ -1,11 +1,18 @@
 import { User } from 'core/screens/userprofile/types'
 
-export interface Insight {
+export interface Post {
   id: string
-  title: string
-  description: string
-  datePublished: string
-  curator: Partial<User>
-  headerImage: string
-  posts: { id: string; author?: string; text: string }[]
+  text: string
+  creator: Partial<User>
+  created?: string // "2022-10-06T17:50:41.661594+00:00"
+  modified?: string // "2022-10-06T17:50:41.661594+00:00"
+  commentsEnabled?: boolean
+  publicReactions?: boolean
+  isEdited?: boolean
+  isClosed?: boolean
+  isDeleted?: boolean
+  status?: string // 'P'
+  mediaWidth?: number
+  mediaHeight?: number
+  mediaThumbnail?: string // "posts/8cf625cc-670c-4a79-875c-44fd7a6dbf47/fedd0ef0-2f7e-402c-ab6c-523e135acaef.jpg"
 }
