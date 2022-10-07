@@ -184,13 +184,13 @@ mobile_staging_build_ios:
   only:
     - main
 
-.mobile_staging_e2e_android:
+mobile_staging_e2e_android:
   extends: .mobile_e2e_android
   needs: ['mobile_staging_build_android']
   only:
     - main
 
-.mobile_staging_e2e_ios:
+mobile_staging_e2e_ios:
   extends: .mobile_e2e_ios
   needs: ['mobile_staging_build_ios', 'mobile_staging_e2e_android']
   only:
