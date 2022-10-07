@@ -3,7 +3,10 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { UpdateAuthenticatedUserResponse, connectWithUserMutation } from '@holi/core/screens/userprofile/queries'
+import {
+  UpdateConnectionWithUserResponse,
+  updateConnectionWithUserMutation,
+} from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -18,7 +21,7 @@ type UserProfileViewProps = {
 }
 
 const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossible = true }) => {
-  const [connectWithUser] = useMutation<UpdateAuthenticatedUserResponse>(connectWithUserMutation)
+  const [updateConnectionWithUser] = useMutation<UpdateConnectionWithUserResponse>(updateConnectionWithUserMutation)
   const { t } = useTranslation()
   console.log(user)
 
@@ -27,9 +30,18 @@ const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossibl
     : t('user.profileView.anonymous')
 
   const connect = async () => {
-    await connectWithUser({
-      variables: { input: { userId: user.id } },
-    })
+    try {
+      await updateConnectionWithUser({
+        variables: {
+          input: {
+            userId: user.id,
+            action: user.connectionStatusToMyself === 'NOT_CONNECTED' ? 'CONNECT' : 'DISCONNECT',
+          },
+        },
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -60,8 +72,8 @@ const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossibl
       {contactPossible && (
         <View style={{ flexDirection: 'row', marginTop: 16 }}>
           <HoliChip
-            text={user.connectionStatus || t('user.profileView.connect')}
-            label={user.connectionStatus || t('user.profileView.connect')}
+            text={user.connectionStatusToMyself || t('user.profileView.connect')}
+            label={user.connectionStatusToMyself || t('user.profileView.connect')}
             style={{ marginRight: 8 }}
             fontStyle={{ color: colors.positivepurple }}
             onPress={() => connect()}

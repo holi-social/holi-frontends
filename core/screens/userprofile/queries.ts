@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
-import type { User } from '@holi/core/screens/userprofile/types'
+import type { UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
 
 export const userFragment = gql`
   fragment FullUser on User {
@@ -41,7 +41,7 @@ export const userByIdQuery = gql`
   query UserById($userId: String!) {
     userById(id: $userId) {
       ...FullUser
-      connectionStatus
+      connectionStatusToMyself
     }
   }
 `
@@ -65,12 +65,17 @@ export const UpdateAuthenticatedUserInputSchema = z.object({
 
 export type UpdateAuthenticatedUserInput = z.infer<typeof UpdateAuthenticatedUserInputSchema>
 
-export type ConnectWithUserInput = {
-  userId: string
-}
-
 export type UpdateAuthenticatedUserResponse = {
   authenticatedUser: User
+}
+
+export type UpdateConnectionWithUserInput = {
+  userId: string
+  action: UpdateConnectionWithUserActions
+}
+
+export type UpdateConnectionWithUserResponse = {
+  userById: User
 }
 
 export const updateUserMutation = gql`
@@ -85,11 +90,11 @@ export const updateUserMutation = gql`
   }
 `
 
-export const connectWithUserMutation = gql`
-  mutation ConnectWithUser($input: ConnectWithUserInput!) {
-    connectWithUser(input: $input) {
+export const updateConnectionWithUserMutation = gql`
+  mutation UpdateConnectionWithUser($input: UpdateConnectionWithUserInput!) {
+    updateConnectionWithUser(input: $input) {
       userById {
-        connectionStatus
+        connectionStatusToMyself
       }
     }
   }
