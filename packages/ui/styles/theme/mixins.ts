@@ -24,6 +24,14 @@ const useStyleMixins = () => {
       maxWidth: vars.maxScreenWidth,
       paddingHorizontal: screenWidth > parseInt(vars.breakpointXl, 10) ? 0 : 20,
     },
+    twoColumnGrid: {
+      ...(screenWidth > +vars.breakpointM
+        ? {
+            flexDirection: 'row',
+            gap: 24,
+          }
+        : {}),
+    },
     moreButton: {
       marginTop: 50,
       maxWidth: 800,
