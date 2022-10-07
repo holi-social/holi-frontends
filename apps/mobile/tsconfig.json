@@ -3,9 +3,5 @@
   "compilerOptions": {
     "jsx": "react-native"
   },
-  "typeRoots": [
-    "./@types",
-    "@holi/ui/@types",
-    "./node_modules/@types"
-  ]
+  "typeRoots": ["./@types", "./node_modules/@types"]
 }
