@@ -33,7 +33,7 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
 
   useNavigationHeader(navigation, {
     title: t('topics.topic.title', { title: topicId }),
-    headerLeft: (props) => <BackButton {...props} icon="arrow-down-s" />,
+    headerLeft: () => <BackButton icon="arrow-down-s" />,
   })
 
   // Important: `fakeTopics.get(topicId) should be called after useEffect() or useLayoutEffet()
