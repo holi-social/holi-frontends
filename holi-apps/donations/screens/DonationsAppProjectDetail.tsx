@@ -88,8 +88,6 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
   const picture: Picture = (project.picture.find((p) => p.type === 'original') ||
     project.picture.find((p) => p.type === 'small'))!
 
-  const donateButtonLabel = t('donations:projectDetail.donate')
-
   return (
     <View style={{ alignItems: 'center', backgroundColor: colors.backgroundColorGreyLight }}>
       <DefaultLayout style={{ backgroundColor: colors.backgroundColorGreyLight }}>
@@ -113,8 +111,6 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
             size="large"
             style={styles.card}
           />
-          {/* TODO replace with project initiative card once available */}
-
           <View style={[styles.card, { paddingVertical: 24 }]}>
             <DonationInitiativeButton initiative={project.initiative} />
             <HoliText size={'large'} bold style={{ marginVertical: 24 }}>
@@ -125,11 +121,11 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
         </View>
       </DefaultLayout>
       <DonationButton
-        label={donateButtonLabel}
         icon="share-box"
-        bold
-        style={[mixins.container, styles.donateButton]}
+        label="donations:projectDetail.donate"
+        disabled={!project.initiative.url}
         onPress={() => Linking.openURL(project.initiative.url || '')}
+        style={[mixins.container, styles.donateButton]}
       />
     </View>
   )

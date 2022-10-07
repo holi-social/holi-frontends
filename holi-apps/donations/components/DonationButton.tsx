@@ -46,7 +46,7 @@ const DonationButton = ({
     })
     return (
       <View style={props.style}>
-        <HoliButton label={t(label)} disabled={disabled}>
+        <HoliButton label={t(label)} disabled={disabled} onPress={props.onPress}>
           <HoliText bold={props.bold} style={{ marginRight: 6, borderColor: colors.borderColorBlack }}>
             {t(label)}
           </HoliText>
@@ -60,7 +60,7 @@ const DonationButton = ({
 
   return (
     <View style={props.style}>
-      <HoliButton label={t(label)} disabled={disabled}>
+      <HoliButton label={t(label)} disabled={disabled} onPress={props.onPress}>
         <HoliText bold={props.bold} style={{ marginRight: 6, borderColor: colors.borderColorBlack }}>
           {t(label)}
         </HoliText>
