@@ -48,7 +48,7 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
 
   return (
     <>
-      <StatusBar style="light" animated={true} />
+      <StatusBar style="light" animated />
 
       <DefaultLayout bounces={false} style={styles.wrapper}>
         {/* Image section */}

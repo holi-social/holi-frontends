@@ -67,7 +67,7 @@
   "homeFeed.userSuggestions.loadMore": "Weitere Vorschläge",
   "homeFeed.userSuggestions.title": "Kontaktvorschläge",
   "homeFeed.volunteering": "Freiwilligenarbeit",
-  "insight.curatedBy": "Curated by <0>{{name}}</0>",
+  "insight.curatedBy": "kuratiert von: <0>{{name}}</0>",
   "modal.backdrop": "Dialog Schließen",
   "navigation.bottomNavigation": "Untere Navigation",
   "navigation.closeWindow": "Fenster schließen",
