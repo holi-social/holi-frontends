@@ -134,7 +134,13 @@ export BROWSERSTACK_ACCESS_KEY=<youraccesskey>
 export APPIUM_TARGET='browserstack' # optional, as this is the default setting
 export APPIUM_PLATFORM='ios' # or 'android'
 
-yarn workspace @holi/e2e-mobile test
+yarn workspace @holi/e2e-mobile run jest --runInBand
+```
+
+or alternatively in a single line (in this e2e/mobile directory):
+
+```sh
+BROWSERSTACK_USERNAME=<yourusername> BROWSERSTACK_ACCESS_KEY=<youraccesskey> BROWSERSTACK_APP_URL=<yourappurl> APPIUM_PLATFORM=<yourplatform> yarn run jest --runInBand
 ```
 
 Alternatively, add your Browserstack credentials to `.envrc.local` and have them automatically exported via `direnv`.

@@ -18,52 +18,50 @@
   variables:
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
     BUILD_PROFILE: preview
+    BUILD_PLATFORM: changeme
     KEEP_ARTIFACTS: 'false'
   dependencies: [] # explicitly disable artifact usage
   script:
     - 'cd apps/mobile'
-    - 'eas build --platform all --profile $BUILD_PROFILE --non-interactive'
-    - 'export APK_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform android --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
-    - 'export IPA_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform ios --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
+    - 'eas build --platform $BUILD_PLATFORM --profile $BUILD_PROFILE --non-interactive'
+    - 'export ARTIFACT_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform $BUILD_PLATFORM --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
     - >
       if [ "$KEEP_ARTIFACTS" == "true" ]; then
         mkdir -p artifacts_$ENVIRONMENT_ID
-        curl -o artifacts_$ENVIRONMENT_ID/$(basename $APK_URL) $APK_URL
-        curl -o artifacts_$ENVIRONMENT_ID/$(basename $IPA_URL) $IPA_URL
+        curl -o artifacts_$ENVIRONMENT_ID/$(basename $ARTIFACT_URL) $ARTIFACT_URL
       fi
   interruptible: true
+  allow_failure: false
 
-.mobile_e2e_android:
+.mobile_e2e:
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   dependencies: [] # explicitly disable artifact usage
+  variables:
+    BUILD_PLATFORM: changeme
   script:
     - cd apps/mobile
-    - export EAS_APK_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform android --limit 1 | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
+    - export EAS_APK_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform $BUILD_PLATFORM --limit 1 | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
     - export EAS_APK_FILE=$(basename $EAS_APK_URL)
     - curl -L -s -o ../../e2e/mobile/$EAS_APK_FILE $EAS_APK_URL # download .apk from EAS
     - cd ../../e2e/mobile
     - yarn install
     - export BROWSERSTACK_UPLOAD_RESPONSE=$(curl -s -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@${EAS_APK_FILE}")
     - export BROWSERSTACK_APP_URL=$(echo "${BROWSERSTACK_UPLOAD_RESPONSE}" | jq -r '.app_url')
-    - APPIUM_PLATFORM=android yarn run jest --runInBand
-  allow_failure: true
+    - APPIUM_PLATFORM=$BUILD_PLATFORM yarn run jest --runInBand
+  allow_failure: false
   interruptible: true
+  tags:
+    - holi-big
+
+.mobile_e2e_android:
+  extends: .mobile_e2e
+  variables:
+    BUILD_PLATFORM: android
 
 .mobile_e2e_ios:
-  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
-  dependencies: [] # explicitly disable artifact usage
-  script:
-    - cd apps/mobile
-    - export EAS_IPA_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform ios --limit 1 | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
-    - export EAS_IPA_FILE=$(basename $EAS_IPA_URL)
-    - curl -L -s -o ../../e2e/mobile/$EAS_IPA_FILE $EAS_IPA_URL # download .ipa from EAS
-    - cd ../../e2e/mobile
-    - yarn install
-    - export BROWSERSTACK_UPLOAD_RESPONSE=$(curl -s -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@${EAS_IPA_FILE}")
-    - export BROWSERSTACK_APP_URL=$(echo "${BROWSERSTACK_UPLOAD_RESPONSE}" | jq -r '.app_url')
-    - APPIUM_PLATFORM=ios yarn run jest --runInBand
-  allow_failure: true
-  interruptible: true
+  extends: .mobile_e2e
+  variables:
+    BUILD_PLATFORM: ios
 
 # end job templates
 
@@ -106,9 +104,22 @@ mobile_review_destroy:
     - /^nomobile\/.*/
   interruptible: false
 
-mobile_review_build:
+mobile_review_build_android:
   extends: .mobile_build
   needs: ['lint_compile_test']
+  variables:
+    BUILD_PLATFORM: android
+  except:
+    - main
+    - /^noenv\/.*/
+    - /^nomobile\/.*/
+  when: manual
+
+mobile_review_build_ios:
+  extends: .mobile_build
+  needs: ['lint_compile_test']
+  variables:
+    BUILD_PLATFORM: ios
   except:
     - main
     - /^noenv\/.*/
@@ -117,7 +128,7 @@ mobile_review_build:
 
 mobile_review_e2e_android:
   extends: .mobile_e2e_android
-  needs: ['mobile_review_build']
+  needs: ['mobile_review_build_android']
   except:
     - main
     - /^noenv\/.*/
@@ -125,7 +136,7 @@ mobile_review_e2e_android:
 
 mobile_review_e2e_ios:
   extends: .mobile_e2e_ios
-  needs: ['mobile_review_build']
+  needs: ['mobile_review_build_ios', 'mobile_review_e2e_android']
   except:
     - main
     - /^noenv\/.*/
