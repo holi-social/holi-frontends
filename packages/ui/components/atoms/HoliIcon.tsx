@@ -30,6 +30,7 @@ const HoliIcon: React.VoidFunctionComponent<HoliIconProps> = (props: HoliIconPro
         }
 
   const icoMoonProps = { size: 24, ...props }
+  const styleProps = { color: props?.color || colors.fontColorBlack, ...StyleSheet.flatten<ViewStyle>(props?.style) }
   delete icoMoonProps.filled
 
   const spinValue = new Animated.Value(0)
@@ -49,18 +50,14 @@ const HoliIcon: React.VoidFunctionComponent<HoliIconProps> = (props: HoliIconPro
     ).start(() => {
       spinValue.setValue(0)
     })
-  }
 
-  return (
-    <Animated.View style={{ ...(props.spinning && { transform: [{ rotate: spin }] }) }}>
-      <IcoMoon
-        iconSet={iconSet}
-        {...mobileProps}
-        {...icoMoonProps}
-        style={{ color: props?.color || colors.fontColorBlack, ...StyleSheet.flatten<ViewStyle>(props?.style) }}
-      />
-    </Animated.View>
-  )
+    return (
+      <Animated.View style={{ ...(props.spinning && { transform: [{ rotate: spin }] }) }}>
+        <IcoMoon iconSet={iconSet} {...mobileProps} {...icoMoonProps} style={styleProps} />
+      </Animated.View>
+    )
+  }
+  return <IcoMoon iconSet={iconSet} {...mobileProps} {...icoMoonProps} style={styleProps} />
 }
 
 export default HoliIcon
