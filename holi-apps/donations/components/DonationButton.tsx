@@ -5,7 +5,6 @@ import { Animated, Easing, GestureResponderEvent, View, ViewStyle } from 'react-
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
 
 export type DonationButtonProps = {
   icon: string
@@ -47,7 +46,7 @@ const DonationButton = ({
     return (
       <View style={props.style}>
         <HoliButton label={t(label)} disabled={disabled} onPress={props.onPress}>
-          <HoliText bold={props.bold} style={{ marginRight: 6, borderColor: colors.borderColorBlack }}>
+          <HoliText bold={props.bold} style={{ marginRight: 6 }}>
             {t(label)}
           </HoliText>
           <Animated.View style={{ transform: [{ rotate: spin }] }}>
@@ -61,7 +60,7 @@ const DonationButton = ({
   return (
     <View style={props.style}>
       <HoliButton label={t(label)} disabled={disabled} onPress={props.onPress}>
-        <HoliText bold={props.bold} style={{ marginRight: 6, borderColor: colors.borderColorBlack }}>
+        <HoliText bold={props.bold} style={{ marginRight: 6 }}>
           {t(label)}
         </HoliText>
         <HoliIcon icon={icon} size={16} />
