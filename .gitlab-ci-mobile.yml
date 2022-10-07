@@ -156,12 +156,27 @@ mobile_staging_publish:
   only:
     - main
 
-mobile_staging_build:
+mobile_staging_build_android:
   extends: .mobile_build
   needs: ['lint_compile_test']
   variables:
     ENVIRONMENT_ID: staging
     KEEP_ARTIFACTS: 'true'
+    BUILD_PLATFORM: 'android'
+  artifacts:
+    paths:
+      - apps/mobile/artifacts_staging/
+    expire_in: 1 week
+  only:
+    - main
+
+mobile_staging_build_ios:
+  extends: .mobile_build
+  needs: ['lint_compile_test']
+  variables:
+    ENVIRONMENT_ID: staging
+    KEEP_ARTIFACTS: 'true'
+    BUILD_PLATFORM: 'ios'
   artifacts:
     paths:
       - apps/mobile/artifacts_staging/
@@ -171,13 +186,13 @@ mobile_staging_build:
 
 .mobile_staging_e2e_android:
   extends: .mobile_e2e_android
-  needs: ['mobile_staging_build']
+  needs: ['mobile_staging_build_android']
   only:
     - main
 
 .mobile_staging_e2e_ios:
   extends: .mobile_e2e_ios
-  needs: ['mobile_staging_build']
+  needs: ['mobile_staging_build_ios', 'mobile_staging_e2e_android']
   only:
     - main
 
@@ -197,7 +212,7 @@ mobile_staging_build:
   only:
   - main
 
-.mobile_production_build:
+.mobile_production_build_android:
   extends: .mobile_build
   needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
   when: manual
@@ -205,6 +220,23 @@ mobile_staging_build:
     ENVIRONMENT_ID: production
     KEEP_ARTIFACTS: 'true'
     BUILD_PROFILE: production
+    BUILD_PLATFORM: 'android'
+  artifacts:
+    paths:
+      - apps/mobile/artifacts_production/
+    expire_in: 1 week
+  only:
+    - main
+
+.mobile_production_build_ios:
+  extends: .mobile_build
+  needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
+  when: manual
+  variables:
+    ENVIRONMENT_ID: production
+    KEEP_ARTIFACTS: 'true'
+    BUILD_PROFILE: production
+    BUILD_PLATFORM: 'ios'
   artifacts:
     paths:
       - apps/mobile/artifacts_production/
@@ -214,7 +246,7 @@ mobile_staging_build:
 
 # disabled (hidden) (not implemented yet), only increases build times and uses up runner minutes
 .mobile_production_submit:
-  needs: ['mobile_production_build']
+  needs: ['mobile_production_build_android', 'mobile_production_build_ios']
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
