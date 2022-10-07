@@ -1,3 +1,8 @@
 {
   "extends": "../tsconfig.json",
+  "typeRoots": [
+    "./@types",
+    "@holi/ui/@types",
+    "./node_modules/@types"
+  ]
 }
