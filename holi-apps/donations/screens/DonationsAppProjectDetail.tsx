@@ -127,6 +127,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
         disabled={!project.initiative.url}
         onPress={() => Linking.openURL(project.initiative.url || '')}
         style={[mixins.container, styles.donateButton]}
+        testID="donations-project-detail-donate-btn"
       />
     </View>
   )
