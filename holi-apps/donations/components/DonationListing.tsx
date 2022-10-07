@@ -6,6 +6,7 @@ import { StyleSheet, View } from 'react-native'
 import { displayError } from '@holi/core/errors/helpers'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationButton from '@holi-apps/donations/components/DonationButton'
 import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
@@ -15,10 +16,10 @@ const PROJECT_PAGE_SIZE = 5
 
 const DonationListing: React.VFC = () => {
   const { t, i18n } = useTranslation()
-  //const mixins = useStyleMixins()
+  const mixins = useStyleMixins()
   const [fetchingMore, setFetchingMore] = useState(false)
 
-  const { data, error, fetchMore } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
+  const { loading, data, error, fetchMore } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
     variables: {
       locale: i18n.language,
       limit: PROJECT_PAGE_SIZE,
@@ -45,6 +46,15 @@ const DonationListing: React.VFC = () => {
 
   if (error) {
     displayError(error, t('donations:donationListing.error'))
+  }
+
+  if (loading) {
+    // TODO: replace with proper loading indicator
+    return (
+      <View style={[mixins.container, styles.messageContainer]}>
+        <HoliText>{t('donations:donationListing.loading')}</HoliText>
+      </View>
+    )
   }
 
   return (

@@ -71,7 +71,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
     // label={t('donations:donationListing.loading')}
     return (
       <View style={[mixins.container, styles.messageContainer]}>
-        <HoliText>{t('donations:donationListing.loading')}</HoliText>{' '}
+        <HoliText>{t('donations:donationListing.loading')}</HoliText>
       </View>
     )
   }
@@ -120,6 +120,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
           </View>
         </View>
       </DefaultLayout>
+      {/* TODO: replace initiative.url with project.url */}
       <DonationButton
         icon="share-box"
         label="donations:projectDetail.donate"

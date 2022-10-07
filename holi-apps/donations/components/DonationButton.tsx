@@ -14,7 +14,7 @@ export type DonationButtonProps = {
   bold?: boolean
   disabled?: boolean
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
-  style?: ViewStyle | ViewStyle[]
+  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
 
 const DonationButton = ({
