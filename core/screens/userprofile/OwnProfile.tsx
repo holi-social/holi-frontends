@@ -7,6 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
+import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import LoggedOutView from '@holi/core/screens/userprofile/components/LoggedOutView'
@@ -40,6 +41,7 @@ const OwnProfile: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
 
   const profileTitle = isLoggedIn && user && user.firstName ? '' : t('profile.title')
   useNavigationHeader(navigation, {
+    headerLeft: () => <BackButton icon="arrow-left-s" />,
     title: profileTitle,
     headerRight: () =>
       isLoggedIn && (

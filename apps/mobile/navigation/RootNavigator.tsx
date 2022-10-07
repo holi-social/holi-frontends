@@ -103,10 +103,14 @@ export const HomeStackNavigator: React.VFC = () => {
         name="Topic"
         component={Topic}
         options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-          headerTitle: CenterElement,
           headerLeft: BackButton,
+          headerTransparent: true,
+          headerTintColor: 'white',
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+          presentation: 'fullScreenModal',
         }}
       />
       <HomeStack.Screen

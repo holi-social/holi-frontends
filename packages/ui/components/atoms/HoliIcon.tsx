@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import React from 'react'
 import IcoMoon from 'react-icomoon'
-import { Platform } from 'react-native'
+import { Platform, StyleSheet, ViewStyle } from 'react-native'
 
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -11,7 +11,7 @@ export type HoliIconProps = {
   filled?: boolean
   size?: number
   testID?: string
-  style?: React.CSSProperties
+  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
 
 const HoliIcon: React.VoidFunctionComponent<HoliIconProps> = (props: HoliIconProps) => {
@@ -34,9 +34,9 @@ const HoliIcon: React.VoidFunctionComponent<HoliIconProps> = (props: HoliIconPro
   return (
     <IcoMoon
       iconSet={iconSet}
-      style={{ color: props?.color || colors.fontColorBlack }}
       {...mobileProps}
       {...icoMoonProps}
+      style={{ color: props?.color || colors.fontColorBlack, ...StyleSheet.flatten<ViewStyle>(props?.style) }}
     />
   )
 }
