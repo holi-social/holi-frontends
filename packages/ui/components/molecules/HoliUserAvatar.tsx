@@ -59,8 +59,6 @@ const getStyles = (width: number, defaultColor: string, imageIsAvailable: boolea
   return StyleSheet.create({
     holiUserAvatar: {
       borderRadius: width / 2,
-      borderWidth: 1,
-      borderColor: 'transparent',
       backgroundColor: imageIsAvailable ? colors.backgroundColorGrey : defaultColor,
       alignItems: 'center',
       justifyContent: 'center',
