@@ -1,53 +1,82 @@
 import { Options } from '@wdio/types'
+import { execFileSync } from 'child_process'
 
-const requireEnvVar = (varName: string, validValues?: Array<string>, defaultValue?: string) => {
+const requireEnvVar = (varName: string, options?: { validValues?: Array<string>; defaultValue?: string }) => {
   if (!process.env[varName]) {
-    if (!defaultValue) {
-      if (validValues) {
-        throw Error(`${varName} is not set (valid values: ${validValues})`)
+    if (!(options && 'defaultValue' in options)) {
+      if (options?.validValues) {
+        throw Error(`${varName} is not set (valid values: ${options.validValues})`)
       } else {
         throw Error(`${varName} is not set`)
       }
     } else {
-      console.info(`${varName} not set, using default value '${defaultValue}'`)
-      return defaultValue
+      return options.defaultValue
     }
   }
-  if (validValues && !validValues.includes(process.env[varName] || '')) {
-    throw Error(`'${process.env[varName]}' is not a valid value for ${varName} (valid values: ${validValues})`)
+  if (options?.validValues && !options.validValues.includes(process.env[varName] || '')) {
+    throw Error(`'${process.env[varName]}' is not a valid value for ${varName} (valid values: ${options.validValues})`)
   }
   return process.env[varName]
 }
 
-export const target = requireEnvVar('APPIUM_TARGET', ['local', 'browserstack'], 'browserstack')
-const platform = requireEnvVar('APPIUM_PLATFORM', ['android', 'ios'])
-const platformName = platform === 'android' ? 'Android' : 'iOS'
+export const target = requireEnvVar('APPIUM_TARGET', {
+  validValues: ['local', 'browserstack'],
+  defaultValue: 'browserstack',
+})
+const platform = requireEnvVar('APPIUM_PLATFORM', { validValues: ['android', 'ios'] })
 const appId = 'foundation.holistic.projectholi'
-export const waitingTimeout = 5000 // ms
 
 //////////////////////////////////////////
 // remote testing on BrowserStack cloud //
 //////////////////////////////////////////
 
 // see https://www.browserstack.com/list-of-browsers-and-platforms/app_automate for list of available real devices
-const google_pixel_5_11 = { deviceName: 'Google Pixel 5', os: 'android', os_version: '11.0' }
-const iphone_xs_13 = { deviceName: 'iPhone XS', os: 'ios', os_version: '13' }
+const google_pixel_5_11 = { device: 'Google Pixel 5', os_version: '11.0' }
+const iphone_xs_13 = { device: 'iPhone XS', os_version: '13' }
 
 const browserStackDevice = platform === 'android' ? google_pixel_5_11 : iphone_xs_13
 
 const defaultConfig: Partial<Options.WebdriverIO> = {
   logLevel: 'error',
-  waitforTimeout: waitingTimeout, // ms
+  // timeout in ms for the waitFor... commands
+  waitforTimeout: 10000, // ms
+  // TODO (OL) trying if this stabilizes tests
+  connectionRetryCount: 3,
+  connectionRetryTimeout: 200000, // ms
 }
 
+const gitlabBranchName = requireEnvVar('CI_COMMIT_REF_NAME', { defaultValue: undefined })
+const gitlabCommmitSHA = requireEnvVar('CI_COMMIT_SHA', { defaultValue: undefined })
+const gitlabJobID = requireEnvVar('CI_JOB_ID', { defaultValue: undefined })
+// unique across single runs of the pipeline, but still informative
+const gitlabCommitSHAAndJobID = gitlabCommmitSHA ? `SHA-${gitlabCommmitSHA}_JOB-${gitlabJobID}` : undefined
+
+const localGitInfo = (() => {
+  const git = (parameters: string[]) => {
+    return execFileSync('git', parameters)
+  }
+  return {
+    branch: git(['rev-parse', '--abbrev-rev', 'HEAD'])?.toString(),
+    sha: git(['rev-parse', 'HEAD'])?.toString(),
+  }
+})()
+
 const browserStackCapabilities = () => ({
+  // WebDriverIO level https://webdriver.io/docs/options/
   ...defaultConfig,
   user: requireEnvVar('BROWSERSTACK_USERNAME'),
   key: requireEnvVar('BROWSERSTACK_ACCESS_KEY'),
   platform,
   capabilities: {
-    platformName,
+    // BrowserStack options: https://www.browserstack.com/app-automate/capabilities#  (switch to Node.JS)
     app: requireEnvVar('BROWSERSTACK_APP_URL'),
+    project: gitlabBranchName || localGitInfo.branch,
+    build: gitlabCommitSHAAndJobID || `${requireEnvVar('USER')?.toUpperCase()}_SHA${localGitInfo.sha}`,
+    name: undefined, // is set to the name of the current test in jest.setup.ts
+    'browserstack.idleTimeout': '30', // seconds, should be short in order to fail early and keep queue slots open
+    'browserstack.networkLogs': 'true',
+    'browserstack.consoleLogs': 'info',
+    'browserstack.disableAnimations': 'true',
     ...browserStackDevice,
   },
 })
@@ -106,7 +135,5 @@ const localCapabilities = () => {
 }
 
 const appiumConfig = target === 'local' ? localCapabilities() : browserStackCapabilities()
-
-console.debug('running e2e tests with config', appiumConfig)
 
 export default appiumConfig
