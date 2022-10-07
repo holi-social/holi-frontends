@@ -52,31 +52,12 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
 
       <DefaultLayout bounces={false} style={styles.wrapper}>
         {/* Image section */}
-        <View>
-          <ImageBackground
-            source={{ uri: topic.image.src }}
-            resizeMode="cover"
-            style={styles.topicBackgroundImage}
-            imageStyle={styles.topicImage}
-          />
-
-          {/* Header */}
-          {Platform.OS !== 'web' && (
-            <View style={styles.header}>
-              <LinearGradient colors={['rgba(0,0,0,0.6)', 'transparent']} style={styles.headerBackgroundGradient} />
-
-              <SafeAreaView style={styles.headerInner}>
-                <View style={styles.headerLeft}>
-                  <BackButton tintColor={colors.fontColorWhite} icon="arrow-down-s" />
-                </View>
-
-                <View style={styles.headerCenter}>
-                  <HeaderTitle style={styles.headerTitle} />
-                </View>
-              </SafeAreaView>
-            </View>
-          )}
-        </View>
+        <ImageBackground
+          source={{ uri: topic.image.src }}
+          resizeMode="cover"
+          style={styles.topicBackgroundImage}
+          imageStyle={styles.topicImage}
+        />
 
         {/* Topic content */}
         <View style={[mixins.container, styles.topicView]}>
@@ -119,35 +100,55 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
           ))}
         </View>
       </DefaultLayout>
+
+      {/* Header */}
+      {Platform.OS !== 'web' && (
+        <View style={styles.mobileHeader}>
+          <LinearGradient colors={[colors.shadowColorBlack, 'transparent']} style={styles.headerBackgroundGradient} />
+          <SafeAreaView style={styles.headerInner}>
+            <View style={styles.headerLeft}>
+              <BackButton tintColor={colors.fontColorWhite} icon="arrow-down-s" />
+            </View>
+
+            <View style={styles.headerCenter}>
+              <HeaderTitle style={styles.headerTitle} />
+            </View>
+          </SafeAreaView>
+        </View>
+      )}
     </>
   )
 }
 
+const headerLeftWidth = 50
 const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: colors.backgroundColorGreyDark,
   },
-  header: {
-    paddingHorizontal: 20,
-    flexDirection: 'row',
+  mobileHeader: {
     position: 'absolute',
+    top: 0,
+    flexDirection: 'row',
+    height: 100,
   },
   headerBackgroundGradient: {
     ...StyleSheet.absoluteFillObject,
+    opacity: 0.6,
   },
   headerInner: {
     flexDirection: 'row',
-    justifyContent: 'center',
     width: '100%',
   },
   headerLeft: {
-    position: 'absolute',
-    bottom: '50%',
-    left: 0,
-    transform: [{ translateY: 15 }],
+    width: headerLeftWidth,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
   },
   headerCenter: {
-    paddingVertical: 16,
+    flex: 1,
+    marginRight: headerLeftWidth,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   headerTitle: {
     color: colors.fontColorWhite,
