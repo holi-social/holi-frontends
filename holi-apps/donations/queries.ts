@@ -22,6 +22,8 @@ export const fullProjectFragment = gql`
     id
     title
     categories
+    summary
+    description
     donationsCount
     progressPercentage
     openAmountInCents
