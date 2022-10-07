@@ -18,9 +18,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
         Object {
           "alignItems": "center",
           "backgroundColor": "#f7f6f3",
-          "borderColor": "transparent",
           "borderRadius": 12,
-          "borderWidth": 1,
           "justifyContent": "center",
           "overflow": "hidden",
         },
@@ -65,9 +63,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
         Object {
           "alignItems": "center",
           "backgroundColor": "red",
-          "borderColor": "transparent",
           "borderRadius": 12,
-          "borderWidth": 1,
           "justifyContent": "center",
           "overflow": "hidden",
         },
@@ -125,9 +121,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
         Object {
           "alignItems": "center",
           "backgroundColor": "#f7f6f3",
-          "borderColor": "transparent",
           "borderRadius": 12,
-          "borderWidth": 1,
           "justifyContent": "center",
           "overflow": "hidden",
         },
@@ -172,9 +166,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
         Object {
           "alignItems": "center",
           "backgroundColor": "yellow",
-          "borderColor": "transparent",
           "borderRadius": 12,
-          "borderWidth": 1,
           "justifyContent": "center",
           "overflow": "hidden",
         },
@@ -232,9 +224,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
         Object {
           "alignItems": "center",
           "backgroundColor": "#f7f6f3",
-          "borderColor": "transparent",
           "borderRadius": 12,
-          "borderWidth": 1,
           "justifyContent": "center",
           "overflow": "hidden",
         },

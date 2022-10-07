@@ -1,5 +1,5 @@
-import React, { ReactChild, ReactChildren, ReactNode } from 'react'
-import { Platform, ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
+import React from 'react'
+import { Platform, ScrollView, ScrollViewProps, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -10,38 +10,31 @@ import { colors } from '@holi/ui/styles/globalVars'
  * Web scrolling is done here: `core/DefaultLayout.tsx`
  */
 
-export type LayoutProps = {
+export interface LayoutProps extends ScrollViewProps {
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
-  children: ReactChild | ReactChildren | ReactNode | Element
 }
 
-const DefaultLayout: React.FunctionComponent<LayoutProps> = (props: LayoutProps) => {
-  const screenView = <View style={[styles.screenLayout, props.style]}>{props.children}</View>
+const DefaultLayout: React.FC<LayoutProps> = ({ style, children, ...scrollViewProps }: LayoutProps) => {
+  const screenView = <View style={style}>{children}</View>
 
   return Platform.OS === 'web' ? (
     screenView
   ) : (
-    <ScrollView contentContainerStyle={styles.scrollLayout}>{screenView}</ScrollView>
+    <ScrollView {...scrollViewProps} contentContainerStyle={[styles.mobileView, style]}>
+      {screenView}
+    </ScrollView>
   )
 }
 
 export default DefaultLayout
 
 const styles = StyleSheet.create({
-  scrollLayout: {
+  mobileView: {
     minHeight: '100%',
     width: '100%',
     justifyContent: 'flex-start',
     marginBottom: 50,
     backgroundColor: colors.backgroundColorWhite,
-  },
-  screenLayout: {
-    minHeight: '100%',
-    maxWidth: '100%',
-    overflow: 'hidden',
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
+    paddingBottom: 50,
   },
 })
