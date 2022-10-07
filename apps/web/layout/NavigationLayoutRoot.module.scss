@@ -21,8 +21,10 @@
 .main {
   width: 100%;
   min-height: calc(100vh - #{$top-bar-height}px);
+  overflow: hidden;
   display: flex;
   flex-direction: column;
+  padding-bottom: #{$bottom-bar-height + 50}px;
   margin: #{$top-bar-height}px auto auto auto;
   background-color: $background-color-white;
 }

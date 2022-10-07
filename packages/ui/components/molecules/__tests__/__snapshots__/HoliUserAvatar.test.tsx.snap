@@ -7,9 +7,7 @@ exports[`React tree renders correctly 1`] = `
       Object {
         "alignItems": "center",
         "backgroundColor": "#f7f6f3",
-        "borderColor": "transparent",
         "borderRadius": 64,
-        "borderWidth": 1,
         "justifyContent": "center",
         "overflow": "hidden",
       },
@@ -34,7 +32,6 @@ exports[`React tree renders correctly 1`] = `
     }
     style={
       Object {
-        "borderRadius": 64,
         "height": "100%",
         "width": "100%",
       }
@@ -50,9 +47,7 @@ exports[`React tree renders the users initials, when given image prop is empty 1
       Object {
         "alignItems": "center",
         "backgroundColor": "red",
-        "borderColor": "transparent",
         "borderRadius": 64,
-        "borderWidth": 1,
         "justifyContent": "center",
         "overflow": "hidden",
       },
