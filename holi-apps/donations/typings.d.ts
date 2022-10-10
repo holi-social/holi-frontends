@@ -27,6 +27,8 @@ export interface Project {
   title: string
   categories: string[]
   donationsCount: number
+  summary: string
+  description: string
   /** Number between 0 and 100 */
   progressPercentage: number
   openAmountInCents: number
@@ -35,11 +37,6 @@ export interface Project {
   initiative: ProjectInitiative
 }
 
-export interface Pagination {
-  totalResults: number
-  offset: number
-}
-
-export interface ProjectsResponse extends Pagination {
+export interface ProjectsResponse {
   projects: Project[]
 }

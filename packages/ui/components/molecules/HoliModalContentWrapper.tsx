@@ -7,6 +7,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface HoliModalContentWrapper {
   actionButtonText: string
@@ -29,6 +30,7 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
   testID = 'holi-modal-content',
 }) => {
   const { keyboardHeight } = useKeyboard()
+  const mixins = useStyleMixins()
 
   return (
     <View style={[styles.container, style]} testID={testID}>
@@ -55,7 +57,12 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
       </ScrollView>
 
       <View style={[styles.actionButtonContainer, keyboardHeight > 0 && styles.hiddenButton]}>
-        <HoliButton label={actionButtonText} onPress={onActionButtonPress} testID={`${testID}-close-btn`}>
+        <HoliButton
+          label={actionButtonText}
+          onPress={onActionButtonPress}
+          style={[mixins.moreButton, { marginTop: 0 }]}
+          testID={`${testID}-close-btn`}
+        >
           {actionButtonText}
         </HoliButton>
       </View>
@@ -67,6 +74,7 @@ export default HoliModalContentWrapper
 
 const styles = StyleSheet.create({
   container: {
+    position: 'relative',
     marginHorizontal: 'auto',
     maxHeight: '100%',
     width: '100%',

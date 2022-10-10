@@ -1,7 +1,7 @@
 import { useLazyQuery } from '@apollo/client'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Image, Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -14,11 +14,12 @@ import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+import DonationButton from '@holi-apps/donations/components/DonationButton'
+import DonationInitiativeButton from '@holi-apps/donations/components/DonationInitiativeButton'
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { AppDonationsProjectByIdResponse, projectByIdQuery } from '@holi-apps/donations/queries'
 import { Picture } from '@holi-apps/donations/typings'
@@ -86,15 +87,13 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
   const picture: Picture = (project.picture.find((p) => p.type === 'original') ||
     project.picture.find((p) => p.type === 'small'))!
 
-  const donateButtonLabel = t('donations:projectDetail.donate')
-
   return (
     <View style={{ alignItems: 'center', backgroundColor: colors.backgroundColorGreyLight }}>
       <DefaultLayout style={{ backgroundColor: colors.backgroundColorGreyLight }}>
         <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
           <Image source={{ uri: picture.url }} style={styles.image} />
           <View style={styles.header}>
-            <HoliHeading level="2" size={'large'}>
+            <HoliHeading level="2" size={'large'} testID="donations-project-detail-heading">
               {project.title}
             </HoliHeading>
             <View style={styles.location}>
@@ -112,27 +111,23 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
             style={styles.card}
           />
           {/* TODO replace with project initiative card once available */}
+
           <View style={[styles.card, { paddingVertical: 24 }]}>
-            <HoliText size={'large'} bold style={{ marginBottom: 24 }}>
-              Quisque vel augue vestibulum, finibus metus a, malesuada sem. Nulla at convallis massa.
+            <DonationInitiativeButton initiative={project.initiative} />
+            <HoliText size={'large'} bold style={{ marginVertical: 24 }}>
+              &ldquo;{project.summary}&rdquo;
             </HoliText>
-            <HoliReadMore numberOfLines={5}>
-              Nam condimentum est massa. Donec ultrices maximus mauris, id accumsan risus mollis non. Pellentesque ut ex
-              mollis, interdum quam vitae, lobortis velit. Sed sed interdum nisi. Integer malesuada ex at arcu consequat
-              gravida. Vivamus accumsan nisi a erat tristique condimentum. Phasellus auctor dolor ac pulvinar facilisis.
-              Quisque placerat posuere tempor.
-            </HoliReadMore>
+            <HoliReadMore numberOfLines={5}>{project.description}</HoliReadMore>
           </View>
         </View>
       </DefaultLayout>
-      <View style={[mixins.container, styles.donateButton]}>
-        <HoliButton label={donateButtonLabel}>
-          <HoliText bold style={{ marginRight: 8 }}>
-            {donateButtonLabel}
-          </HoliText>
-          <HoliIcon icon="share-box" size={16} />
-        </HoliButton>
-      </View>
+      <DonationButton
+        icon="share-box"
+        label="donations:projectDetail.donate"
+        disabled={!project.initiative.url}
+        onPress={() => Linking.openURL(project.initiative.url || '')}
+        style={[mixins.container, styles.donateButton]}
+      />
     </View>
   )
 }
@@ -147,6 +142,23 @@ const styles = StyleSheet.create({
   container: {
     paddingBottom: 132,
     paddingHorizontal: 0,
+  },
+  donateButton: {
+    bottom: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    ...Platform.select({
+      ios: {
+        position: 'absolute',
+      },
+      android: {
+        position: 'absolute',
+      },
+      default: {
+        position: 'fixed',
+      },
+    }),
   },
   image: {
     aspectRatio: 375 / 240,
@@ -171,20 +183,5 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     marginTop: 2,
     paddingVertical: 16,
-  },
-  donateButton: {
-    bottom: 40,
-    paddingHorizontal: 16,
-    ...Platform.select({
-      ios: {
-        position: 'absolute',
-      },
-      android: {
-        position: 'absolute',
-      },
-      default: {
-        position: 'fixed',
-      },
-    }),
   },
 })

@@ -38,7 +38,7 @@ fakeTopics.set('abc', {
   image: {
     src: 'https://image.geo.de/30657478/t/5W/v6/w960/r1.5/-/wer-hat-den-foehn-picture-1238735191.jpg',
   },
-  author: getRandomName(),
+  author: getRandomUser(true),
   editors: Array(...new Array(4)).map((_, index) => getRandomUser(index % 2 === 0)),
   category: 'Education',
 })
@@ -54,7 +54,7 @@ fakeTopics.set('bca', {
   image: {
     src: 'https://image.geo.de/30137764/t/r8/v4/w960/r1.5/-/die-welt-von-gestern-in-farbe-02-jpg--78318-.jpg',
   },
-  author: getRandomName(),
+  author: getRandomUser(true),
   editors: Array(...new Array(5)).map((_, index) => getRandomUser(index % 2 === 0)),
   category: 'Education',
 })

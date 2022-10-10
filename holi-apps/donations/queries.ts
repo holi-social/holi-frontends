@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client/core'
 
-import { Project, ProjectsResponse } from '@holi-apps/donations/typings'
+import { Project } from '@holi-apps/donations/typings'
 
 export const projectFragment = gql`
   fragment Project on AppDonations_Project {
@@ -22,6 +22,8 @@ export const fullProjectFragment = gql`
     id
     title
     categories
+    summary
+    description
     donationsCount
     progressPercentage
     openAmountInCents
@@ -46,19 +48,15 @@ export const fullProjectFragment = gql`
 export const projectsQuery = gql`
   ${projectFragment}
 
-  query Projects($locale: String, $limit: Int, $offset: Int) {
-    appDonations_projects(locale: $locale, limit: $limit, offset: $offset) {
-      totalResults
-      offset
-      projects {
-        ...Project
-      }
+  query Projects($offset: Int, $limit: Int, $locale: String) {
+    appDonations_projects(offset: $offset, limit: $limit, locale: $locale) {
+      ...Project
     }
   }
 `
 
 export type AppDonationsProjectsResponse = {
-  appDonations_projects: ProjectsResponse
+  appDonations_projects: Project[]
 }
 
 export const projectByIdQuery = gql`

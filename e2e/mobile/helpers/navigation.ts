@@ -13,7 +13,6 @@ export const navigateBackToHomeScreen = async () => {
     } catch (e) {
       if (firstRun) {
         firstRun = false
-        console.debug('navigating back to home screen')
       }
       try {
         await tapOnElementWithTestId('nav-button-home', 0)

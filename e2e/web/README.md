@@ -8,7 +8,7 @@ You need to have Docker installed, because Playwright only supports Ubuntu.
 
 ## Credentials
 
-The test for the login require working credentials. Please provide them in the .envrc.local file. The variable names are already there.
+The test for the login require working credentials. Please provide them in the `.envrc.local` file. The variable names are already there.
 
 ## Testing locally
 
@@ -30,7 +30,7 @@ if E2E_USER vars are not loaded you can try this
 E2E_USER_USERNAME=... E2E_USER_PASSWORD=... E2E_USER_ID=... yarn test:localhost
 ```
 
-For testing a deployed app, use the following commmand:
+For testing a deployed app, use the following command:
 
 ```sh
 BASE_URL=https://staging.web.project-holi.org yarn test
