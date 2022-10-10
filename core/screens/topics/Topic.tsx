@@ -33,7 +33,7 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
 
   useNavigationHeader(navigation, {
     title: t('topics.topic.title', { title: topicId }),
-    headerLeft: () => <BackButton icon="arrow-down-s" />,
+    headerLeft: () => <BackButton />,
   })
 
   // Important: `fakeTopics.get(topicId) should be called after useEffect() or useLayoutEffet()
@@ -107,7 +107,7 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
           <LinearGradient colors={[colors.shadowColorBlack, 'transparent']} style={styles.headerBackgroundGradient} />
           <SafeAreaView style={styles.headerInner}>
             <View style={styles.headerLeft}>
-              <BackButton tintColor={colors.fontColorWhite} icon="arrow-down-s" />
+              <BackButton tintColor={colors.fontColorWhite} />
             </View>
 
             <View style={styles.headerCenter}>
