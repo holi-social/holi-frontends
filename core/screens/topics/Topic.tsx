@@ -124,6 +124,7 @@ const headerLeftWidth = 50
 const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: colors.backgroundColorGreyDark,
+    ...Platform.select({ web: { flex: 1 } }),
   },
   mobileHeader: {
     position: 'absolute',
