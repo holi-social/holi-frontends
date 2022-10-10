@@ -1,6 +1,5 @@
 import { useQuery } from '@apollo/client'
 import { faker } from '@faker-js/faker'
-import { LastInsightsResponse, lastInsightsQuery } from 'core/screens/homeFeed/queries'
 import type { Insight } from 'core/screens/homeFeed/types'
 import { LinearGradient } from 'expo-linear-gradient'
 import { StatusBar } from 'expo-status-bar'
@@ -17,6 +16,7 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/homeFeed/queries'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -50,6 +50,7 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   })
 
   if (error) {
+    console.log('######## Topic load error')
     logError(error, `[Topic.tsx] ${error.message}`)
   }
 

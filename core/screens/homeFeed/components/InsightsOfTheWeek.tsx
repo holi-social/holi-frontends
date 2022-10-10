@@ -37,6 +37,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
   })
 
   if (error) {
+    console.log('######## Insights load error')
     logError(error, `[InsightsOfTheWeek.tsx] ${error.message}`)
   }
 
@@ -47,7 +48,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
 
   // if there are no insights in the okuna backend, use fake topics.
   // This way feature branches still have content and don't look empty.
-  const insights: Insight[] = data?.lastInsights?.length ? data.lastInsights : fakeTopics
+  const insights: Insight[] = data?.lastInsights?.length > 10 ? data.lastInsights : fakeTopics
 
   return (
     <View style={[mixins.container, styles.insightsOfTheWeek, props.style]}>
