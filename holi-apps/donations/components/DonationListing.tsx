@@ -5,9 +5,9 @@ import { StyleSheet, View } from 'react-native'
 
 import { displayError } from '@holi/core/errors/helpers'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+import DonationButton from '@holi-apps/donations/components/DonationButton'
 import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
 import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'
 
@@ -43,6 +43,10 @@ const DonationListing: React.VFC = () => {
       : t('donations:donationListing.loadMoreButton.text')
   }, [fetchingMore, t])
 
+  if (error) {
+    displayError(error, t('donations:donationListing.error'))
+  }
+
   if (loading) {
     // TODO: replace with proper loading indicator
     return (
@@ -52,24 +56,20 @@ const DonationListing: React.VFC = () => {
     )
   }
 
-  if (error) {
-    displayError(error, t('donations:donationListing.error'))
-  }
-
   return (
     <View>
       {projects.map((project) => (
         <DonationListingItem key={project.id} project={project} />
       ))}
-      <HoliButton
+      <DonationButton
         label={fetchMoreButtonText}
         disabled={fetchingMore}
+        icon={fetchingMore ? 'loader-4' : undefined}
+        iconSpinning={fetchingMore}
         onPress={memoizedFetchMore}
         style={[styles.loadMoreButton]}
         testID="btn-donation-list-load-more"
-      >
-        <HoliText>{fetchMoreButtonText}</HoliText>
-      </HoliButton>
+      />
     </View>
   )
 }

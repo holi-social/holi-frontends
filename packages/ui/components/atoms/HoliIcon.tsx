@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import React from 'react'
 import IcoMoon from 'react-icomoon'
-import { Platform, StyleSheet, ViewStyle } from 'react-native'
+import { Animated, Easing, Platform, StyleSheet, ViewStyle } from 'react-native'
 
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type HoliIconProps = {
   icon: string
+  spinning?: boolean
   color?: string
   filled?: boolean
   size?: number
@@ -30,15 +31,33 @@ const HoliIcon: React.VoidFunctionComponent<HoliIconProps> = (props: HoliIconPro
 
   const icoMoonProps = { size: 24, ...props }
   delete icoMoonProps.filled
+  delete icoMoonProps.spinning
+  const styling = { color: props?.color || colors.fontColorBlack, ...StyleSheet.flatten<ViewStyle>(props?.style) }
 
-  return (
-    <IcoMoon
-      iconSet={iconSet}
-      {...mobileProps}
-      {...icoMoonProps}
-      style={{ color: props?.color || colors.fontColorBlack, ...StyleSheet.flatten<ViewStyle>(props?.style) }}
-    />
-  )
+  if (props.spinning) {
+    const spinValue = new Animated.Value(0)
+    const spin = spinValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '360deg'],
+    })
+    Animated.loop(
+      Animated.timing(spinValue, {
+        toValue: 1,
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: false,
+      })
+    ).start(() => {
+      spinValue.setValue(0)
+    })
+    return (
+      <Animated.View style={{ ...(props.spinning && { transform: [{ rotate: spin }] }) }}>
+        <IcoMoon iconSet={iconSet} {...mobileProps} {...icoMoonProps} style={styling} />
+      </Animated.View>
+    )
+  }
+
+  return <IcoMoon iconSet={iconSet} {...mobileProps} {...icoMoonProps} style={styling} />
 }
 
 export default HoliIcon
