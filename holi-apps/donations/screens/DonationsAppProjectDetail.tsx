@@ -14,11 +14,11 @@ import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import DonationButton from '@holi-apps/donations/components/DonationButton'
 import DonationInitiativeButton from '@holi-apps/donations/components/DonationInitiativeButton'
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { AppDonationsProjectByIdResponse, projectByIdQuery } from '@holi-apps/donations/queries'
@@ -83,6 +83,8 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
     return <HoliText>{t('donations:projectDetail.notFound', { projectId })}</HoliText>
   }
 
+  const donationLabel = t('donations:projectDetail.donate')
+
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const picture: Picture = (project.picture.find((p) => p.type === 'original') ||
     project.picture.find((p) => p.type === 'small'))!
@@ -121,13 +123,16 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
           </View>
         </View>
       </DefaultLayout>
-      <DonationButton
-        icon="share-box"
-        label="donations:projectDetail.donate"
-        disabled={!project.initiative.url}
-        onPress={() => Linking.openURL(project.donationUrl)}
-        style={[mixins.container, styles.donateButton]}
-      />
+      <View style={[mixins.container, styles.donateButton]}>
+        <HoliButton
+          label={donationLabel}
+          onPress={() => Linking.openURL(project.donationUrl)}
+          disabled={!project.donationUrl}
+        >
+          <HoliText bold>{donationLabel}</HoliText>
+          <HoliIcon icon="share-box" size={16} style={{ marginLeft: 6 }} />
+        </HoliButton>
+      </View>
     </View>
   )
 }
@@ -142,6 +147,7 @@ const styles = StyleSheet.create({
   container: {
     paddingBottom: 132,
     paddingHorizontal: 0,
+    maxWidth: '100%',
   },
   donateButton: {
     bottom: 40,
