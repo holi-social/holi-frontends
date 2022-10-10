@@ -25,6 +25,7 @@ export const fullProjectFragment = gql`
     summary
     description
     donationsCount
+    donationUrl
     progressPercentage
     openAmountInCents
     picture {
