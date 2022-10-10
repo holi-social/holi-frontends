@@ -68,8 +68,8 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -240,8 +240,8 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -412,8 +412,8 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -584,8 +584,8 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -759,8 +759,8 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -941,8 +941,8 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -1123,8 +1123,8 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -1305,8 +1305,8 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -1484,8 +1484,8 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -1656,8 +1656,8 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -1828,8 +1828,8 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -2000,8 +2000,8 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -2175,8 +2175,8 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -2357,8 +2357,8 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -2539,8 +2539,8 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
@@ -2721,8 +2721,8 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "400",
           },
           Object {
-            "fontSize": 21,
-            "lineHeight": 25.2,
+            "fontSize": 16,
+            "lineHeight": 19.2,
           },
           Object {
             "fontFamily": "Circular Std Medium",
