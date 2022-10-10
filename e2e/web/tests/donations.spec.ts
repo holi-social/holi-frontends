@@ -45,7 +45,6 @@ test.describe('@Donations', () => {
     const projectUrlPrefix = '/apps/donations/project/'
     const projectUrl = page.url()
     const projectId = projectUrl.substring(projectUrl.indexOf(projectUrlPrefix) + projectUrlPrefix.length)
-    console.log('projectId', projectId)
     expect(projectUrl).toContain(projectUrlPrefix)
 
     // check if clicking on donate button actually opens a tab with the correct URL
@@ -55,7 +54,10 @@ test.describe('@Donations', () => {
       context.waitForEvent('page'),
       clickElementByTestId(page, 'donations-project-detail-donate-btn'), // opens a new tab
     ])
-    expect(donationPage.url()).toBe('https://www.betterplace.org/en/donate/platform/projects/' + projectId)
+    const donationUrl = donationPage.url()
+    expect(donationUrl).toMatch(/https:\/\/www.betterplace.org\/.*\/donate\/platform\/projects\/.*/)
+    const donationUrlParts = donationUrl.split('/')
+    expect(donationUrlParts[donationUrlParts.length - 1]).toBe(projectId)
     donationPage.close() // close newly opened tab
   })
 })
