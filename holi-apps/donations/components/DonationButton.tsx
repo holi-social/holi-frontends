@@ -7,7 +7,6 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 export type DonationButtonProps = {
-  testID?: string
   icon?: string
   iconSpinning?: boolean
   label: string
@@ -15,6 +14,7 @@ export type DonationButtonProps = {
   disabled?: boolean
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
+  testID?: string
 }
 
 const DonationButton = ({
@@ -39,12 +39,7 @@ const DonationButton = ({
       <HoliText bold={props.bold} style={{ marginRight: 6 }}>
         {t(props.label)}
       </HoliText>
-      <HoliIcon
-        spinning={iconSpinning}
-        icon={props.icon || ''}
-        size={16}
-        style={{ ...(!props.icon && { display: 'none' }) }}
-      />
+      {props.icon && <HoliIcon spinning={iconSpinning} icon={props.icon} size={16} />}
     </HoliButton>
   )
 }
