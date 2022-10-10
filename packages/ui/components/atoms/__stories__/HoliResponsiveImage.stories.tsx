@@ -1,8 +1,8 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
-import { ResizeModes } from '@holi/ui/components/atoms/HoliImage.shared'
 import HoliResponsiveImage from '@holi/ui/components/atoms/HoliResponsiveImage.web'
+import { ResizeModes } from '@holi/ui/components/atoms/imageUtils'
 
 export default {
   title: 'Atoms/HoliResponsiveImage',
@@ -24,29 +24,15 @@ const allSources = [
 ]
 
 export const Primary: ComponentStory<typeof HoliResponsiveImage> = ({ ...args }) => (
-  <HoliResponsiveImage
-    sources={allSources}
-    width={args.width}
-    height={args.height}
-    label={args.label}
-    resizeMode={args.resizeMode}
-  />
+  <HoliResponsiveImage sources={allSources} label={args.label} resizeMode={args.resizeMode} />
 )
 Primary.args = {
   label: 'an alternative Text',
-  width: '320px',
-  height: '213px',
   resizeMode: 'cover',
 }
 Primary.argTypes = {
   label: {
     description: 'the alt text to set (leave empty for no alt text)',
-  },
-  width: {
-    description: 'the width of the image',
-  },
-  height: {
-    description: 'the height of the image',
   },
   resizeMode: {
     description: 'the resizeMode for the image',

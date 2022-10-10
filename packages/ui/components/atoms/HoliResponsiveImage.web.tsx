@@ -3,6 +3,7 @@ import { ImageStyle, StyleSheet } from 'react-native'
 
 import { HoliResponsiveImageProps } from '@holi/ui/components/atoms/HoliResponsiveImage.shared'
 import { resizeModeForWeb } from '@holi/ui/components/atoms/imageUtils'
+import { vars } from '@holi/ui/styles/globalVars'
 
 const HoliResponsiveImage: React.VoidFunctionComponent<HoliResponsiveImageProps> = ({
   sources,
@@ -21,8 +22,12 @@ const HoliResponsiveImage: React.VoidFunctionComponent<HoliResponsiveImageProps>
   return (
     <img
       srcSet={srcSet}
+      sizes={`(min-width:${vars.maxScreenWidth}px) ${vars.maxScreenWidth}px, 100vw`}
       alt={label}
-      style={StyleSheet.flatten<ImageStyle>([style, { objectFit: resizeModeForWeb(resizeMode) }])}
+      style={StyleSheet.flatten<ImageStyle>([
+        style,
+        { objectFit: resizeModeForWeb(resizeMode), borderStyle: 'solid', maxWidth: '100%' },
+      ])}
     />
   )
 }

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 
-import { ResizeModes } from '@holi/ui/components/atoms/HoliImage.shared'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage.web'
+import { ResizeModes } from '@holi/ui/components/atoms/imageUtils'
 
 export default {
   title: 'Atoms/HoliLocalImage',
