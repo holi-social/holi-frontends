@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import TopicPreviewBox from '@holi/core/screens/topics/components/TopicPreviewBox'
 import fakeTopics, { getRandomUser } from '@holi/core/screens/topics/fakeTopics'
@@ -10,7 +10,6 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
-import { vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const dummyUsers = Array.from(' '.repeat(6), (_, idx) => getRandomUser(!(idx % 2)))
@@ -22,8 +21,6 @@ export type InsightsOfTheWeekProps = {
 const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfTheWeekProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { width } = useWindowDimensions()
-  const styles = getStyles(width)
 
   const [showEditorsModal, setShowEditorsModal] = useState(false)
 
@@ -65,7 +62,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
       </HoliModal>
 
       {/* insights */}
-      <View style={styles.insightsContainer}>
+      <View style={mixins.twoColumnGridWeb}>
         {[...fakeTopics.entries()].map(([topicId, topic]) => (
           <TopicPreviewBox key={topicId} id={topicId} {...topic} style={styles.insight} />
         ))}
@@ -80,35 +77,22 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
 
 export default InsightsOfTheWeek
 
-const getStyles = (screenWidth: number) =>
-  StyleSheet.create({
-    insightsOfTheWeek: {},
-    editorsButton: {
-      marginTop: 20,
-    },
-    editorsButtonContent: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    editorsButtonText: {
-      marginLeft: 10,
-      flex: 1,
-      flexWrap: 'wrap',
-    },
-    insightsContainer: {
-      ...Platform.select({
-        web: {
-          ...(screenWidth > +vars.breakpointM
-            ? {
-                flexDirection: 'row',
-                gap: 24,
-              }
-            : {}),
-        },
-      }),
-    },
-    insight: {
-      flex: 1,
-      marginTop: 40,
-    },
-  })
+const styles = StyleSheet.create({
+  insightsOfTheWeek: {},
+  editorsButton: {
+    marginTop: 20,
+  },
+  editorsButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  editorsButtonText: {
+    marginLeft: 10,
+    flex: 1,
+    flexWrap: 'wrap',
+  },
+  insight: {
+    flex: 1,
+    marginTop: 40,
+  },
+})

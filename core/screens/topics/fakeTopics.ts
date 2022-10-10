@@ -34,6 +34,8 @@ fakeTopics.set('abc', {
   posts: {
     123: { author: getRandomName(), text: '123 ' + loremIpsum },
     321: { author: getRandomName(), text: '321 ' + loremIpsum },
+    456: { author: getRandomName(), text: '321 ' + loremIpsum },
+    654: { author: getRandomName(), text: '321 ' + loremIpsum },
   },
   image: {
     src: 'https://image.geo.de/30657478/t/5W/v6/w960/r1.5/-/wer-hat-den-foehn-picture-1238735191.jpg',
@@ -50,6 +52,7 @@ fakeTopics.set('bca', {
   posts: {
     456: { author: getRandomName(), text: '456 ' + loremIpsum },
     654: { author: getRandomName(), text: '654 ' + loremIpsum },
+    789: { author: getRandomName(), text: '654 ' + loremIpsum },
   },
   image: {
     src: 'https://image.geo.de/30137764/t/r8/v4/w960/r1.5/-/die-welt-von-gestern-in-farbe-02-jpg--78318-.jpg',

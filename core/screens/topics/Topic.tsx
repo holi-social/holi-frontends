@@ -92,7 +92,7 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
         </View>
 
         {/* Dummy list of posts */}
-        <View style={[mixins.container, Platform.OS === 'web' && mixins.twoColumnGrid]}>
+        <View style={[mixins.container, Platform.OS === 'web' && mixins.twoColumnGridWeb]}>
           {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
             <View key={postId} style={styles.post}>
               <HoliText>{topic.posts[postId].text}</HoliText>
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: colors.backgroundColorWhite,
     flex: 1,
-    marginBottom: 16,
+    marginBottom: Platform.OS === 'web' ? 0 : 16,
   },
 })
 
