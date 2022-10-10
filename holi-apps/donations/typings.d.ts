@@ -37,6 +37,7 @@ export interface Project {
   /** The project's "profile picture" in different variants */
   picture: Picture[]
   initiative: ProjectInitiative
+  donationUrl: string
 }
 
 export interface ProjectsResponse {
