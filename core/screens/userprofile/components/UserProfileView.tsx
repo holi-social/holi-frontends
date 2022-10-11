@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -10,7 +10,8 @@ import {
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliChip from '@holi/ui/components/molecules/HoliChip'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -22,6 +23,7 @@ type UserProfileViewProps = {
 
 const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossible = true }) => {
   const [updateConnectionWithUser] = useMutation<UpdateConnectionWithUserResponse>(updateConnectionWithUserMutation)
+  const [showConnectionConfirmation, setShowConnectionConfirmation] = useState(false)
   const { t } = useTranslation()
   console.log(user)
 
@@ -31,7 +33,7 @@ const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossibl
 
   const connect = async () => {
     try {
-      await updateConnectionWithUser({
+      const { data } = await updateConnectionWithUser({
         variables: {
           input: {
             userId: user.id,
@@ -39,6 +41,9 @@ const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossibl
           },
         },
       })
+      if (data?.updateConnectionWithUser) {
+        console.log(data.updateConnectionWithUser.userById)
+      }
     } catch (error) {
       console.log(error)
     }
@@ -71,21 +76,34 @@ const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossibl
       {user.aboutMe && <HoliReadMore style={styles.aboutMe}>{user.aboutMe}</HoliReadMore>}
       {contactPossible && (
         <View style={{ flexDirection: 'row', marginTop: 16 }}>
-          <HoliChip
-            text={user.connectionStatusToMyself || t('user.profileView.connect')}
+          <HoliButton
+            inline
             label={user.connectionStatusToMyself || t('user.profileView.connect')}
             style={{ marginRight: 8 }}
-            fontStyle={{ color: colors.positivepurple }}
-            onPress={() => connect()}
-          />
-          <HoliChip
-            text={t('user.profileView.message')}
-            label={t('user.profileView.message')}
-            disabled={true}
-            fontStyle={{ color: colors.positivepurple }}
-          />
+            onPress={() => setShowConnectionConfirmation(true)}
+          >
+            {user.connectionStatusToMyself || t('user.profileView.connect')}
+          </HoliButton>
+
+          <HoliButton
+            type="secondary"
+            inline
+            disabled
+            label={user.connectionStatusToMyself || t('user.profileView.connect')}
+            style={{ marginRight: 8 }}
+          >
+            {t('user.profileView.message')}
+          </HoliButton>
         </View>
       )}
+      <HoliConfirmation
+        show={showConnectionConfirmation}
+        label="Connect user"
+        title="Connect with user"
+        description="Are you sure you would like to connect with ddd"
+        onConfirm={connect}
+        onDismiss={() => setShowConnectionConfirmation(false)}
+      />
     </View>
   )
 }

@@ -66,7 +66,9 @@ export const UpdateAuthenticatedUserInputSchema = z.object({
 export type UpdateAuthenticatedUserInput = z.infer<typeof UpdateAuthenticatedUserInputSchema>
 
 export type UpdateAuthenticatedUserResponse = {
-  authenticatedUser: User
+  updateAuthenticatedUser: {
+    authenticatedUser: User
+  }
 }
 
 export type UpdateConnectionWithUserInput = {
@@ -75,7 +77,9 @@ export type UpdateConnectionWithUserInput = {
 }
 
 export type UpdateConnectionWithUserResponse = {
-  userById: User
+  updateConnectionWithUser: {
+    userById: User
+  }
 }
 
 export const updateUserMutation = gql`
