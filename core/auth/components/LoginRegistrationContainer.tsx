@@ -54,12 +54,12 @@ const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = (
           {isLogin ? (
             <>
               <HoliButton
-                disabled
                 transparent
                 inline
                 label={t('auth.login.link.forgotPassword')}
                 variant="small"
                 style={styles.button}
+                onPress={() => navigate('/forgotPassword')}
               >
                 {t('auth.login.link.forgotPassword')}
               </HoliButton>

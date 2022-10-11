@@ -11,6 +11,8 @@
   "auth.login.alreadyLoggedIn": "You are already logged in",
   "auth.login.error.initialization": "Initializing login flow failed",
   "auth.login.error.login": "Login failed",
+  "auth.forgotPassword": "Forgot password",
+
   "auth.login.input.label-E-Mail": "Email",
   "auth.login.input.label-ID": "Email",
   "auth.login.input.label-Password": "Password",

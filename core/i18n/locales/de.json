@@ -11,6 +11,8 @@
   "auth.login.alreadyLoggedIn": "Du bist bereits eingeloggt",
   "auth.login.error.initialization": "Initialisierung der Anmeldung ist fehlgeschlagen.",
   "auth.login.error.login": "Die Anmeldung ist fehlgeschlagen",
+  "auth.forgotPassword": "Passwort vergessen",
+
   "auth.login.input.label-E-Mail": "Email",
   "auth.login.input.label-ID": "Email",
   "auth.login.input.label-Password": "Passwort",
