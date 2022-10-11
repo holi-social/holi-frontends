@@ -2,10 +2,5 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "jsx": "react-native"
-  },
-  "typeRoots": [
-    "./@types",
-    "@holi/ui/@types",
-    "./node_modules/@types"
-  ]
+  }
 }
