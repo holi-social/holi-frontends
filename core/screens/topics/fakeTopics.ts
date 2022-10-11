@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { Insight } from 'core/screens/homeFeed/types'
+import { Insight } from 'core/screens/insights/types'
 
 import { User } from '@holi/core/screens/userprofile/types'
 

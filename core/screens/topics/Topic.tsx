@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { faker } from '@faker-js/faker'
-import type { Insight } from 'core/screens/homeFeed/types'
+import type { Insight } from 'core/screens/insights/types'
 import { LinearGradient } from 'expo-linear-gradient'
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
