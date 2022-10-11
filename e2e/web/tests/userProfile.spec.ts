@@ -9,6 +9,7 @@ import {
   waitForAnimationEnd,
   waitForElementByTestId,
 } from './helpers'
+import { faker } from "@faker-js/faker"
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
@@ -18,23 +19,25 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('@Profile', () => {
+  const email = `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
+  const password = 'TheSamePassword4A11E2eUsers'
+
   test('journey', async ({ context, page }) => {
-    const userId = process.env.E2E_USER_ID || 'empty'
+    // create a new user
+    await defaultAuthSteps({ context, page, email, password }, 'registration')
+    await waitForElementByTestId(page, 'btn-to-logout')
 
     // go to user profile page
-    await page.goto('/profile/' + userId)
+    await page.goto('/profile/')
     await waitForElementByTestId(page, 'user-profile-full-name')
 
-    // IMPORTANT: a parallel test might remove all characteristics from the profile, so that the following tests will fail.
-    // await waitForElementByTestId(page, 'user-profile-interests')
-    // await waitForElementByTestId(page, 'user-profile-sdgs')
-    // await waitForElementByTestId(page, 'user-profile-skills')
+    await waitForElementByTestId(page, 'user-profile-interests')
+    await waitForElementByTestId(page, 'user-profile-sdgs')
+    await waitForElementByTestId(page, 'user-profile-skills')
 
     await checkAccessibility(page)
 
     // go to profile edit modal
-    await defaultAuthSteps({ context, page })
-    await checkAccessibility(page)
     await clickElementByTestId(page, 'btn-open-profile-edit-view')
     await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
     await checkAccessibility(page)
@@ -46,30 +49,25 @@ test.describe('@Profile', () => {
     await checkAccessibility(page)
 
     // edit firstName should work
-    const firstNameEdited = 'Proper First Name'
+    const firstNameEdited = faker.name.firstName()
+    const lastNameEdited = faker.name.lastName()
     await page.locator(byTestId('first-name-input')).fill(firstNameEdited)
-    const lastName = await page.inputValue(byTestId('last-name-input'))
+    await page.locator(byTestId('last-name-input')).fill(lastNameEdited)
     await delay(0.5)
     await clickElementByTestId(page, 'user-profile-edit-form-close-btn')
     await page.waitForSelector(byTestId('user-profile-edit-form-saving'), { state: 'detached' })
 
     await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
     await delay(0.5)
-    const editedFullName = await page.textContent(byTestId('user-profile-full-name'))
-    expect(editedFullName).toBe(`${firstNameEdited} ${lastName}`.trim())
+    await expect
+      .poll(async () => await page.textContent(byTestId('user-profile-full-name')))
+      .toBe(`${firstNameEdited} ${lastNameEdited}`.trim())
 
     // edit interests, skills + sdgs should work
     await delay(2)
     await checkChipsSelection(page, 'interests')
     await checkChipsSelection(page, 'skills')
     await checkChipsSelection(page, 'sdgs')
-
-    // go to own profile after login
-    await page.goto('/profile/' + userId)
-    // expect redirect to own profile page
-    await waitForElementByTestId(page, 'user-profile-full-name')
-    expect(page.url()).not.toContain(userId)
-    expect(page.url()).toContain('/profile')
   })
 })
 
