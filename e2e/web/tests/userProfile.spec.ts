@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker'
 import { Page, expect, test } from '@playwright/test'
 
 import {
@@ -9,7 +10,6 @@ import {
   waitForAnimationEnd,
   waitForElementByTestId,
 } from './helpers'
-import { faker } from "@faker-js/faker"
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.envrc' })
