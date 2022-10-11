@@ -5,7 +5,6 @@ exports[`renders correctly renders correctly when closed 1`] = `
   accessibilityLabel="Test"
   animationType="fade"
   hardwareAccelerated={false}
-  onRequestClose={[Function]}
   transparent={true}
   visible={false}
 />
@@ -16,7 +15,6 @@ exports[`renders correctly renders correctly when open 1`] = `
   accessibilityLabel="Test"
   animationType="fade"
   hardwareAccelerated={false}
-  onRequestClose={[Function]}
   transparent={true}
   visible={true}
 >
@@ -29,54 +27,18 @@ exports[`renders correctly renders correctly when open 1`] = `
     }
   >
     <View
-      accessibilityLabel="modal.backdrop"
-      accessibilityRole="button"
-      accessibilityState={
+      style={
         Object {
-          "disabled": false,
+          "backgroundColor": "#222326",
+          "bottom": 0,
+          "left": 0,
+          "opacity": 0.4,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
         }
       }
-      accessible={true}
-      collapsable={false}
-      focusable={true}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        Array [
-          Array [
-            Object {
-              "width": "100%",
-            },
-          ],
-          Object {
-            "backgroundColor": "#222326",
-            "bottom": 0,
-            "left": 0,
-            "opacity": 0.4,
-            "position": "absolute",
-            "right": 0,
-            "top": 0,
-          },
-        ]
-      }
-      testID="undefined-backdrop"
-    >
-      <View
-        pointerEvents="none"
-        style={Object {}}
-      >
-        <View
-          onAccessibilityEscape={[Function]}
-        />
-      </View>
-    </View>
+    />
     <View
       style={
         Object {
@@ -154,7 +116,7 @@ exports[`renders correctly renders correctly when open 1`] = `
         }
       >
         <View
-          accessibilityLabel="cancel"
+          accessibilityLabel="confirmation.dismiss"
           accessibilityRole="button"
           accessibilityState={
             Object {
@@ -193,11 +155,10 @@ exports[`renders correctly renders correctly when open 1`] = `
                 },
               ],
               Object {
-                "minWidth": 130,
+                "minWidth": 110,
               },
             ]
           }
-          testID="undefined-dismiss"
         >
           <View
             pointerEvents="none"
@@ -231,12 +192,12 @@ exports[`renders correctly renders correctly when open 1`] = `
                 ]
               }
             >
-              confirmation.no
+              confirmation.dismiss
             </Text>
           </View>
         </View>
         <View
-          accessibilityLabel="confirm"
+          accessibilityLabel="confirmation.confirm"
           accessibilityRole="button"
           accessibilityState={
             Object {
@@ -278,11 +239,10 @@ exports[`renders correctly renders correctly when open 1`] = `
                 },
               ],
               Object {
-                "minWidth": 130,
+                "minWidth": 110,
               },
             ]
           }
-          testID="undefined-confirm"
         >
           <View
             pointerEvents="none"
@@ -316,7 +276,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                 ]
               }
             >
-              confirmation.yes
+              confirmation.confirm
             </Text>
           </View>
         </View>

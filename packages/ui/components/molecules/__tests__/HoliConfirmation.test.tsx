@@ -37,26 +37,6 @@ describe('renders correctly', () => {
   })
 })
 
-describe('calls onDismiss prop function correctly', () => {
-  it('calls onDismiss prop when clicked on backdrop if dialog is open', () => {
-    const mockFn = jest.fn()
-    const { getByTestId } = render(
-      <HoliConfirmation
-        label="Test"
-        title="Test Title"
-        description="Test Description"
-        show={true}
-        onDismiss={mockFn}
-        onConfirm={() => null}
-        testID="testconfirmation"
-      />
-    )
-
-    fireEvent.press(getByTestId('testconfirmation-backdrop'))
-    expect(mockFn).toBeCalledTimes(1)
-  })
-})
-
 describe('calls onConfirm prop function correctly', () => {
   it('calls onConfirm prop when clicked on confirmation button if dialog is open', () => {
     const mockFn = jest.fn()
@@ -68,11 +48,11 @@ describe('calls onConfirm prop function correctly', () => {
         show={true}
         onDismiss={() => null}
         onConfirm={mockFn}
-        testID="testconfirmation"
+        testID="test"
       />
     )
 
-    fireEvent.press(getByTestId('testconfirmation-confirm'))
+    fireEvent.press(getByTestId('test-confirmation-confirm'))
     expect(mockFn).toBeCalledTimes(1)
   })
 })

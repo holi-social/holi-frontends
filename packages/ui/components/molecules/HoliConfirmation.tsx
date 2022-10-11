@@ -49,41 +49,32 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
   }
 
   return (
-    <Modal
-      {...accessibilityProps}
-      visible={visible}
-      transparent
-      animationType="fade"
-      onRequestClose={onDismiss}
-      testID={testID}
-    >
+    <Modal {...accessibilityProps} visible={visible} transparent animationType="fade" testID={testID}>
       <View style={styles.modalContainer}>
-        <HoliButton
-          label={t('modal.backdrop')}
-          style={styles.backdrop}
-          onPress={onDismiss}
-          transparent
-          testID={`${testID}-backdrop`}
-        >
-          <View onAccessibilityEscape={onDismiss} />
-        </HoliButton>
+        <View style={styles.backdrop} {...(testID ? { testID: `${testID}-confirmation-backdrop` } : {})} />
 
         <View style={styles.modalView}>
           <HoliText bold>{title}</HoliText>
           <HoliText style={styles.description}>{description}</HoliText>
           <View style={styles.buttonContainer}>
             <HoliButton
-              type="secondary"
               inline
-              label="cancel"
+              type="secondary"
+              label={t('confirmation.dismiss')}
               onPress={onDismiss}
               style={styles.button}
-              testID={`${testID}-dismiss`}
+              {...(testID ? { testID: `${testID}-confirmation-dismiss` } : {})}
             >
-              {t('confirmation.no')}
+              {t('confirmation.dismiss')}
             </HoliButton>
-            <HoliButton inline label="confirm" onPress={onConfirm} style={styles.button} testID={`${testID}-confirm`}>
-              {t('confirmation.yes')}
+            <HoliButton
+              inline
+              label={t('confirmation.confirm')}
+              onPress={onConfirm}
+              style={styles.button}
+              {...(testID ? { testID: `${testID}-confirmation-confirm` } : {})}
+            >
+              {t('confirmation.confirm')}
             </HoliButton>
           </View>
         </View>
@@ -100,9 +91,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   backdrop: {
-    ...StyleSheet.absoluteFillObject,
     opacity: 0.4,
     backgroundColor: colors.backgroundColorBlack,
+    ...StyleSheet.absoluteFillObject,
   },
   modalView: {
     padding: 24,
@@ -129,6 +120,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   button: {
-    minWidth: 130,
+    minWidth: 110,
   },
 })
