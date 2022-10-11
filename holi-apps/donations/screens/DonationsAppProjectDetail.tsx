@@ -138,7 +138,14 @@ const styles = StyleSheet.create({
   container: {
     paddingBottom: 132,
     paddingHorizontal: 0,
-    maxWidth: '100%',
+    ...Platform.select({
+      ios: {
+        maxWidth: '100%',
+      },
+      android: {
+        maxWidth: '100%',
+      },
+    }),
   },
   donateButton: {
     bottom: 40,
