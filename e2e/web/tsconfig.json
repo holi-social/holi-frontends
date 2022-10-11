@@ -1,5 +1,8 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "types": ["axe-playwright"]
+    "types": [
+      "axe-playwright"
+    ]
   }
 }
