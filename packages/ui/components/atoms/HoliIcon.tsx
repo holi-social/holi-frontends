@@ -30,16 +30,16 @@ const HoliIcon: React.VoidFunctionComponent<HoliIconProps> = (props: HoliIconPro
         }
 
   const icoMoonProps = { size: 24, ...props }
-  const styleProps = { color: props?.color || colors.fontColorBlack, ...StyleSheet.flatten<ViewStyle>(props?.style) }
   delete icoMoonProps.filled
-
-  const spinValue = new Animated.Value(0)
-  const spin = spinValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
-  })
+  delete icoMoonProps.spinning
+  const styling = { color: props?.color || colors.fontColorBlack, ...StyleSheet.flatten<ViewStyle>(props?.style) }
 
   if (props.spinning) {
+    const spinValue = new Animated.Value(0)
+    const spin = spinValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '360deg'],
+    })
     Animated.loop(
       Animated.timing(spinValue, {
         toValue: 1,
@@ -50,14 +50,14 @@ const HoliIcon: React.VoidFunctionComponent<HoliIconProps> = (props: HoliIconPro
     ).start(() => {
       spinValue.setValue(0)
     })
-
     return (
       <Animated.View style={{ ...(props.spinning && { transform: [{ rotate: spin }] }) }}>
-        <IcoMoon iconSet={iconSet} {...mobileProps} {...icoMoonProps} style={styleProps} />
+        <IcoMoon iconSet={iconSet} {...mobileProps} {...icoMoonProps} style={styling} />
       </Animated.View>
     )
   }
-  return <IcoMoon iconSet={iconSet} {...mobileProps} {...icoMoonProps} style={styleProps} />
+
+  return <IcoMoon iconSet={iconSet} {...mobileProps} {...icoMoonProps} style={styling} />
 }
 
 export default HoliIcon

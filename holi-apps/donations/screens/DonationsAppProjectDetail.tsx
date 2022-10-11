@@ -120,15 +120,14 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
           </View>
         </View>
       </DefaultLayout>
-      {/* TODO: replace initiative.url with project.url */}
-      <DonationButton
-        icon="share-box"
-        label="donations:projectDetail.donate"
-        disabled={!project.initiative.url}
-        onPress={() => Linking.openURL(project.donationUrl)}
-        style={[mixins.container, styles.donateButton]}
-        testID="donations-project-detail-donate-btn"
-      />
+      <View style={[mixins.container, styles.donateButton]}>
+        <DonationButton
+          icon="share-box"
+          label={t('donations:projectDetail.donate')}
+          onPress={() => Linking.openURL(project.donationUrl)}
+          testID="donations-project-detail-donate-btn"
+        />
+      </View>
     </View>
   )
 }
@@ -143,6 +142,7 @@ const styles = StyleSheet.create({
   container: {
     paddingBottom: 132,
     paddingHorizontal: 0,
+    maxWidth: '100%',
   },
   donateButton: {
     bottom: 40,

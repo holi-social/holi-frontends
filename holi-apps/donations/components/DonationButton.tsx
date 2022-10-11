@@ -1,5 +1,4 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, ViewStyle } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -7,7 +6,6 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 export type DonationButtonProps = {
-  testID?: string
   icon?: string
   iconSpinning?: boolean
   label: string
@@ -15,6 +13,7 @@ export type DonationButtonProps = {
   disabled?: boolean
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
+  testID?: string
 }
 
 const DonationButton = ({
@@ -22,29 +21,18 @@ const DonationButton = ({
   disabled = false,
   ...props
 }: React.PropsWithChildren<DonationButtonProps>) => {
-  const { t } = useTranslation()
-
-  if (!props.icon) {
-    iconSpinning = false
-  }
-
   return (
     <HoliButton
-      label={t(props.label)}
+      label={props.label}
       disabled={disabled}
       onPress={props.onPress}
       testID={props.testID}
       style={props.style}
     >
       <HoliText bold={props.bold} style={{ marginRight: 6 }}>
-        {t(props.label)}
+        {props.label}
       </HoliText>
-      <HoliIcon
-        spinning={iconSpinning}
-        icon={props.icon || ''}
-        size={16}
-        style={{ ...(!props.icon && { display: 'none' }) }}
-      />
+      {props.icon && <HoliIcon spinning={!!props.icon && iconSpinning} icon={props.icon} size={16} />}
     </HoliButton>
   )
 }
