@@ -9,7 +9,9 @@ test.beforeEach(async ({ page }) => {
 test.describe('@Donations', () => {
   test('should be accessible from home screen', async ({ page }) => {
     await page.goto('/')
+    await waitForElementByTestId(page, 'home-apps-button')
     await clickElementByTestId(page, 'home-apps-button')
+    await waitForElementByTestId(page, 'app-tile-donations')
     await clickElementByTestId(page, 'app-tile-donations')
 
     await waitForElementByTestId(page, 'donations-list-container')
