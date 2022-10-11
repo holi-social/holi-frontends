@@ -1,5 +1,4 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, ViewStyle } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -22,24 +21,18 @@ const DonationButton = ({
   disabled = false,
   ...props
 }: React.PropsWithChildren<DonationButtonProps>) => {
-  const { t } = useTranslation()
-
-  if (!props.icon) {
-    iconSpinning = false
-  }
-
   return (
     <HoliButton
-      label={t(props.label)}
+      label={props.label}
       disabled={disabled}
       onPress={props.onPress}
       testID={props.testID}
       style={props.style}
     >
       <HoliText bold={props.bold} style={{ marginRight: 6 }}>
-        {t(props.label)}
+        {props.label}
       </HoliText>
-      {props.icon && <HoliIcon spinning={iconSpinning} icon={props.icon} size={16} />}
+      {props.icon && <HoliIcon spinning={!!props.icon && iconSpinning} icon={props.icon} size={16} />}
     </HoliButton>
   )
 }
