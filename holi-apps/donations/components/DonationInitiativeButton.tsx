@@ -1,12 +1,13 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Image, Linking, StyleSheet, View } from 'react-native'
+import { Linking, StyleSheet, View } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
+import DonationImage from '@holi-apps/donations/components/DonationImage'
 import type { ProjectInitiative } from '@holi-apps/donations/typings'
 
 export type DonationInitiativeButtonProps = {
@@ -25,7 +26,7 @@ const DonationInitiativeButton = ({ initiative }: DonationInitiativeButtonProps)
     >
       <View style={styles.initiative}>
         <View style={styles.initiativeContent}>
-          <Image source={{ uri: initiative.picture[0].url }} style={styles.initiativeImage} />
+          <DonationImage picture={initiative.picture} label={name} style={styles.initiativeImage} />
           <View style={styles.initiativeDetails}>
             <View style={{ flexDirection: 'row' }}>
               <HoliText style={styles.namePrefix} size="small">

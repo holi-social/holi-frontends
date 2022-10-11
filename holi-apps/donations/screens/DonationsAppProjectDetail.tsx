@@ -1,7 +1,7 @@
 import { useLazyQuery } from '@apollo/client'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -19,10 +19,10 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationButton from '@holi-apps/donations/components/DonationButton'
+import DonationImage from '@holi-apps/donations/components/DonationImage'
 import DonationInitiativeButton from '@holi-apps/donations/components/DonationInitiativeButton'
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { AppDonationsProjectByIdResponse, projectByIdQuery } from '@holi-apps/donations/queries'
-import { Picture } from '@holi-apps/donations/typings'
 
 export type DonationsAppProjectDetailParams = {
   projectId: string
@@ -84,15 +84,11 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
     return <HoliText>{t('donations:projectDetail.notFound', { projectId })}</HoliText>
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const picture: Picture = (project.picture.find((p) => p.type === 'original') ||
-    project.picture.find((p) => p.type === 'small'))!
-
   return (
     <View style={{ alignItems: 'center', backgroundColor: colors.backgroundColorGreyLight }}>
       <DefaultLayout style={{ backgroundColor: colors.backgroundColorGreyLight }}>
         <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
-          <Image source={{ uri: picture.url }} style={styles.image} />
+          <DonationImage picture={project.picture} label={project.title} style={styles.image} />
           <View style={styles.header}>
             <HoliHeading level="2" size={'large'} testID="donations-project-detail-heading">
               {project.title}
