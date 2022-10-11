@@ -23,12 +23,41 @@ test.describe('@Donations', () => {
     expect(itemCount).toBeGreaterThan(1)
   })
 
-  test('should display project details', async ({ page }) => {
+  test('should allow pagination', async ({ page }) => {
+    await waitForElementByTestId(page, 'donations-list-container')
+    const countListItems = async () => {
+      const listItems = await locateElementByTestId(page, 'donations-list-item')
+      return await listItems.count()
+    }
+    await expect.poll(countListItems).toBeGreaterThan(0)
+    const listItemCountBefore = await countListItems()
+    await clickElementByTestId(page, 'btn-donation-list-load-more')
+    await expect.poll(countListItems).toBeGreaterThan(listItemCountBefore)
+  })
+
+  test('should display project details', async ({ page, context }) => {
     await waitForElementByTestId(page, 'donations-list-container')
     // click first element in list
     await clickElementByTestId(page, 'donations-list-item')
 
     await waitForElementByTestId(page, 'donations-project-detail-heading')
-    expect(page.url()).toContain('/apps/donations/project/')
+
+    const projectUrlPrefix = '/apps/donations/project/'
+    const projectUrl = page.url()
+    const projectId = projectUrl.substring(projectUrl.indexOf(projectUrlPrefix) + projectUrlPrefix.length)
+    expect(projectUrl).toContain(projectUrlPrefix)
+
+    // check if clicking on donate button actually opens a tab with the correct URL
+    await waitForElementByTestId(page, 'donations-project-detail-donate-btn')
+    // follows https://playwright.dev/docs/pages#handling-new-pages
+    const [donationPage] = await Promise.all([
+      context.waitForEvent('page'),
+      clickElementByTestId(page, 'donations-project-detail-donate-btn'), // opens a new tab
+    ])
+    const donationUrl = donationPage.url()
+    expect(donationUrl).toMatch(/https:\/\/www.betterplace.org\/.*\/donate\/platform\/projects\/.*/)
+    const donationUrlParts = donationUrl.split('/')
+    expect(donationUrlParts[donationUrlParts.length - 1]).toBe(projectId)
+    donationPage.close() // close newly opened tab
   })
 })

@@ -68,6 +68,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
 
   if (!projectId || loading) {
     // TODO: replace with proper loading indicator
+    // label={t('donations:donationListing.loading')}
     return (
       <View style={[mixins.container, styles.messageContainer]}>
         <HoliText>{t('donations:donationListing.loading')}</HoliText>
@@ -110,8 +111,6 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
             size="large"
             style={styles.card}
           />
-          {/* TODO replace with project initiative card once available */}
-
           <View style={[styles.card, { paddingVertical: 24 }]}>
             <DonationInitiativeButton initiative={project.initiative} />
             <HoliText size={'large'} bold style={{ marginVertical: 24 }}>
@@ -121,13 +120,14 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
           </View>
         </View>
       </DefaultLayout>
-      <DonationButton
-        icon="share-box"
-        label="donations:projectDetail.donate"
-        disabled={!project.initiative.url}
-        onPress={() => Linking.openURL(project.initiative.url || '')}
-        style={[mixins.container, styles.donateButton]}
-      />
+      <View style={[mixins.container, styles.donateButton]}>
+        <DonationButton
+          icon="share-box"
+          label={t('donations:projectDetail.donate')}
+          onPress={() => Linking.openURL(project.donationUrl)}
+          testID="donations-project-detail-donate-btn"
+        />
+      </View>
     </View>
   )
 }
@@ -142,6 +142,7 @@ const styles = StyleSheet.create({
   container: {
     paddingBottom: 132,
     paddingHorizontal: 0,
+    maxWidth: '100%',
   },
   donateButton: {
     bottom: 40,
