@@ -37,6 +37,10 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery }: Don
 
   const { projects = [], totalResults = 0 } = data?.appDonations_projects || {}
 
+  const canFetchMore = useMemo(() => {
+    return projects.length < totalResults
+  }, [projects, totalResults])
+
   const memoizedFetchMore = useCallback(() => {
     setFetchingMore(true)
     return fetchMore({
@@ -96,15 +100,17 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery }: Don
       {projects.map((project) => (
         <DonationListingItem key={project.id} project={project} />
       ))}
-      <DonationButton
-        label={fetchMoreButtonText}
-        disabled={fetchingMore}
-        icon={fetchingMore ? 'loader-4' : undefined}
-        iconSpinning={fetchingMore}
-        onPress={memoizedFetchMore}
-        style={[styles.loadMoreButton]}
-        testID="btn-donation-list-load-more"
-      />
+      {canFetchMore && (
+        <DonationButton
+          label={fetchMoreButtonText}
+          disabled={fetchingMore}
+          icon={fetchingMore ? 'loader-4' : undefined}
+          iconSpinning={fetchingMore}
+          onPress={memoizedFetchMore}
+          style={[styles.loadMoreButton]}
+          testID="btn-donation-list-load-more"
+        />
+      )}
     </View>
   )
 }
