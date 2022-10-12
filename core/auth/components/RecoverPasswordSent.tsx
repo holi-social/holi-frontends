@@ -20,19 +20,24 @@ const RecoverPasswordSent: React.FC<RecoverPasswordSentProps> = (props: RecoverP
     <View style={[styles.viewContainer, props.style]}>
       <View style={styles.moodImage}>
         <HoliLocalImage
-          imageSource={require('@holi/ui/assets/img/illustrations/illustration_logged_out.png')}
-          width={189}
+          imageSource={require('@holi/ui/assets/img/illustrations/illustration_look_out.png')}
+          width={217}
           height={158}
           label={t('profile.loggedOut.image')}
           style={{ borderWidth: 2, borderColor: '#0f0', width: 300 }}
         />
       </View>
-      <HoliHeading level="1" size="medium">
+      <HoliHeading level="2" size="medium" style={styles.heading}>
         {t('auth.forgotPassword.success.headline')}
       </HoliHeading>
-      <HoliText>{t('auth.forgotPassword.success.text')}</HoliText>
+      <HoliText style={styles.text}>{t('auth.forgotPassword.success.text')}</HoliText>
 
-      <HoliButton label={t('auth.forgotPassword.success.button')} onPress={() => navigate('/')}>
+      <HoliButton
+        label={t('auth.forgotPassword.success.button')}
+        inline
+        onPress={() => navigate('/')}
+        style={styles.button}
+      >
         {t('auth.forgotPassword.success.button')}
       </HoliButton>
     </View>
@@ -47,5 +52,17 @@ const styles = StyleSheet.create({
   },
   moodImage: {
     alignItems: 'center',
+  },
+  heading: {
+    marginTop: 40,
+    textAlign: 'center',
+  },
+  text: {
+    marginTop: 40,
+    textAlign: 'center',
+  },
+  button: {
+    marginTop: 20,
+    alignSelf: 'center',
   },
 })

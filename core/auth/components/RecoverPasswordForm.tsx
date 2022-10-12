@@ -8,6 +8,7 @@ import { initPasswordRecoveryFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { displayError } from '@holi/core/errors/helpers'
+import { useSafeDispatch } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -27,14 +28,16 @@ const RecoverPasswordForm: React.FC<RecoverPasswordFormProps> = (props: RecoverP
 
   const [flow, setFlow] = useState<SelfServiceRecoveryFlow | undefined>(undefined)
 
+  const safeSetFlow = useSafeDispatch(setFlow)
+
   const initializeFlow = useCallback(() => {
     // if (isLoggedIn) return
     initPasswordRecoveryFlow()
       .then(({ data: flow }) => {
-        setFlow(flow)
+        safeSetFlow(flow)
       })
       .catch((error) => displayError(error, t('auth.registration.error.initialization')))
-  }, [setFlow, t])
+  }, [safeSetFlow, t])
 
   useLayoutEffect(() => initializeFlow(), [initializeFlow])
 
@@ -58,7 +61,7 @@ const RecoverPasswordForm: React.FC<RecoverPasswordFormProps> = (props: RecoverP
     <View style={[styles.viewContainer, props.style]}>
       <FormBuilder flow={flow} onSubmit={requestPasswordRecovery} style={styles.recoverPasswordForm} />
 
-      <HoliHeading level="3" size="xSmall" style={styles.headline3}>
+      <HoliHeading level="2" size="xSmall" style={styles.headline3}>
         {t('auth.registration.alreadyHasAccount')}{' '}
         <HoliButton
           transparent
