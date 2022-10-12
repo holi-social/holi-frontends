@@ -57,7 +57,7 @@ const DonationsAppHome: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) =
         <DonationSearchForm onSubmit={submitSearch} locationQuery={locationQuery} />
       </HoliModal>
       <View style={[mixins.container, { paddingTop: 10 }]} testID={'donations-list-container'}>
-        <DonationListing />
+        <DonationListing locationQuery={locationQuery} />
       </View>
     </DefaultLayout>
   )

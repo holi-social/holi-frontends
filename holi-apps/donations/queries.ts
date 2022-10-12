@@ -49,8 +49,8 @@ export const fullProjectFragment = gql`
 export const projectsQuery = gql`
   ${projectFragment}
 
-  query Projects($offset: Int, $limit: Int, $locale: String) {
-    appDonations_projects(offset: $offset, limit: $limit, locale: $locale) {
+  query Projects($offset: Int, $limit: Int, $locale: String, $location: String) {
+    appDonations_projects(offset: $offset, limit: $limit, locale: $locale, location: $location) {
       ...Project
     }
   }

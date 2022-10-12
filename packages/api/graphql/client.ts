@@ -45,7 +45,7 @@ export const client = new ApolloClient({
           // query, see https://www.apollographql.com/docs/react/pagination/overview
           appDonations_projects: {
             ...offsetLimitPagination(),
-            keyArgs: ['locale'],
+            keyArgs: ['locale', 'location'],
           },
         },
       },
