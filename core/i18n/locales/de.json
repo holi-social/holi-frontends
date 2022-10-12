@@ -12,6 +12,12 @@
   "auth.login.error.initialization": "Initialisierung der Anmeldung ist fehlgeschlagen.",
   "auth.login.error.login": "Die Anmeldung ist fehlgeschlagen",
   "auth.forgotPassword": "Passwort vergessen",
+  "auth.forgotPassword.success.headline": "Großartig, wir haben dich gefunden!",
+  "auth.forgotPassword.success.text": "Wir werden dir eine Email mit einem Link zum Zurücksetzen deines Passworts schicken. ",
+  "auth.forgotPassword.success.button": "zurück zur Startseite",
+  "auth.login.input.label-Submit": "Passwort zurücksetzen",
+  "auth.login.input.placeholder-Email": "Email ...",
+  "auth.login.input.label-Email": "Email",
 
   "auth.login.input.label-E-Mail": "Email",
   "auth.login.input.label-ID": "Email",

@@ -20,35 +20,30 @@ const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = (
   }, [isLoggedIn, navigate, userId])
 
   return (
-    <View style={styles.container}>
+    <>
       {isLoggedIn ? (
         <HoliText>{t('auth.login.alreadyLoggedIn')}</HoliText>
       ) : (
-        <View style={styles.formContainer}>
-          <>{children}</>
-        </View>
+        <View style={styles.viewContainer}>{children}</View>
       )}
-    </View>
+    </>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: 34,
+  viewContainer: {
+    marginTop: 100,
+    alignSelf: 'center',
+    maxWidth: 500,
+    width: '100%',
+    paddingHorizontal: 32,
+    alignItems: 'center',
     ...Platform.select({
       native: {
         // enables scroll up when keyboard overlaps submit button
-        marginBottom: 500,
+        paddingBottom: 500,
       },
     }),
-    minHeight: '100%',
-    paddingTop: 60,
-    alignItems: 'center',
-  },
-  formContainer: {
-    maxWidth: 500,
-    width: '100%',
-    alignItems: 'center',
   },
 })
 

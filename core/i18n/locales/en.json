@@ -12,6 +12,12 @@
   "auth.login.error.initialization": "Initializing login flow failed",
   "auth.login.error.login": "Login failed",
   "auth.forgotPassword": "Forgot password",
+  "auth.forgotPassword.success.headline": "Great, we got you!",
+  "auth.forgotPassword.success.text": "We will send you an email with a link to change your password account. ",
+  "auth.login.input.label-Submit": "Reset password",
+  "auth.forgotPassword.success.button": "Back to startpage",
+  "auth.login.input.placeholder-Email": "Email ...",
+  "auth.login.input.label-Email": "Email",
 
   "auth.login.input.label-E-Mail": "Email",
   "auth.login.input.label-ID": "Email",
