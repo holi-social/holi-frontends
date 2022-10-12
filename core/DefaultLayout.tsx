@@ -1,7 +1,7 @@
 import React from 'react'
 import { Platform, ScrollView, ScrollViewProps, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 
 /**
  * This is the default screen layout.
@@ -30,16 +30,10 @@ export default DefaultLayout
 
 const styles = StyleSheet.create({
   scrollLayout: {
-    minHeight: '100%',
-    width: '100%',
     justifyContent: 'flex-start',
     backgroundColor: colors.backgroundColorWhite,
-    paddingBottom: 50,
   },
   screenLayout: {
-    minHeight: '100%',
-    maxWidth: '100%',
-    overflow: 'hidden',
-    ...Platform.select({ web: { paddingBottom: +vars.bottomBarHeight + 50 } }), //
+    paddingBottom: 50,
   },
 })

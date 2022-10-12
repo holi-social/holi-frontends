@@ -26,6 +26,7 @@
   flex-direction: column;
   margin: #{$top-bar-height}px auto auto auto;
   background-color: $background-color-white;
+  padding-bottom: #{$top-bar-height}px;
 }
 
 .fixed {
