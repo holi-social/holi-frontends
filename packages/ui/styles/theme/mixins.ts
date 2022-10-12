@@ -12,6 +12,11 @@ const staticStyles = StyleSheet.create({
   inlineButtonFixMedium: {
     transform: [{ translateY: Platform.select({ ios: 3, android: 5, default: 0 }) }],
   },
+  moreButton: {
+    marginTop: 50,
+    maxWidth: 800,
+    alignSelf: 'center',
+  },
 })
 
 const useStyleMixins = () => {
@@ -23,11 +28,6 @@ const useStyleMixins = () => {
       width: '100%',
       maxWidth: vars.maxScreenWidth,
       paddingHorizontal: screenWidth > parseInt(vars.breakpointXl, 10) ? 0 : 20,
-    },
-    moreButton: {
-      marginTop: 50,
-      maxWidth: 800,
-      alignSelf: 'center',
     },
   })
 
