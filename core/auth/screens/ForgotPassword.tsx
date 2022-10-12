@@ -15,6 +15,8 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 // import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 // import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 // import { displayError } from '@holi/core/errors/helpers'
+import DefaultLayout from '@holi/core/DefaultLayout'
+import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -43,21 +45,23 @@ const ForgotPassword: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => 
   })
 
   return (
-    <>
-      <HoliHeading level="2" style={styles.headline2}>
-        {t('auth.login.signUp.link.headline')}
-      </HoliHeading>
+    <DefaultLayout>
+      <LoginRegistrationContainer>
+        <HoliHeading level="2" style={styles.headline2}>
+          {t('auth.login.signUp.link.headline')}
+        </HoliHeading>
 
-      <HoliButton
-        onPress={() => navigate('/registration')}
-        label={t('auth.loginProtection.registration')}
-        type="secondary"
-        style={styles.button}
-        testID="btn-to-registration-form"
-      >
-        {t('auth.loginProtection.registration')}
-      </HoliButton>
-    </>
+        <HoliButton
+          onPress={() => navigate('/registration')}
+          label={t('auth.loginProtection.registration')}
+          type="secondary"
+          style={styles.button}
+          testID="btn-to-registration-form"
+        >
+          {t('auth.loginProtection.registration')}
+        </HoliButton>
+      </LoginRegistrationContainer>
+    </DefaultLayout>
   )
 }
 
