@@ -22,12 +22,12 @@ test.describe('@Profile', () => {
   const email = `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
   const password = 'TheSamePassword4A11E2eUsers'
 
-  test('journey', async ({ context, page }) => {
+  test('own profile journey', async ({ context, page }) => {
     // create a new user
     await defaultAuthSteps({ context, page, email, password }, 'registration')
     await waitForElementByTestId(page, 'btn-to-logout')
 
-    // go to user profile page
+    // visit own profile page via url
     await page.goto('/profile/')
     await waitForElementByTestId(page, 'user-profile-full-name')
 
@@ -68,6 +68,19 @@ test.describe('@Profile', () => {
     await checkChipsSelection(page, 'interests')
     await checkChipsSelection(page, 'skills')
     await checkChipsSelection(page, 'sdgs')
+  })
+
+  test('other user profile journey', async ({ page }) => {
+    // visit another user's profile page via url
+    const userId = process.env.E2E_USER_ID || 'empty'
+    await page.goto('/profile/' + userId)
+    await waitForElementByTestId(page, 'user-profile-full-name')
+
+    await waitForElementByTestId(page, 'user-profile-interests')
+    await waitForElementByTestId(page, 'user-profile-sdgs')
+    await waitForElementByTestId(page, 'user-profile-skills')
+
+    await checkAccessibility(page)
   })
 })
 
