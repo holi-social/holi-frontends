@@ -35,7 +35,7 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery }: Don
     },
   })
 
-  const projects = data?.appDonations_projects || []
+  const { projects = [], totalResults = 0 } = data?.appDonations_projects || {}
 
   const memoizedFetchMore = useCallback(() => {
     setFetchingMore(true)
@@ -76,7 +76,7 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery }: Don
       )}
       {isFiltering && (
         <HoliText bold style={styles.searchSummary}>
-          {t('donations:donationListing.search.resultCount', { count: 4 })}
+          {t('donations:donationListing.search.resultCount', { count: totalResults })}
         </HoliText>
       )}
       {isFiltering && !projects.length && (

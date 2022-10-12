@@ -41,5 +41,6 @@ export interface Project {
 }
 
 export interface ProjectsResponse {
+  totalResults: number
   projects: Project[]
 }
