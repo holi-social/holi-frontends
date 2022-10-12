@@ -37,6 +37,7 @@ const link = from([authLink, timeoutLink, errorLink, uploadLink].filter((link) =
 
 export const client = new ApolloClient({
   link,
+  connectToDevTools: true,
   cache: new InMemoryCache({
     typePolicies: {
       Query: {

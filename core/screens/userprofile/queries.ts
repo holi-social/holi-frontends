@@ -98,6 +98,7 @@ export const updateConnectionWithUserMutation = gql`
   mutation UpdateConnectionWithUser($input: UpdateConnectionWithUserInput!) {
     updateConnectionWithUser(input: $input) {
       userById {
+        id
         connectionStatusToMyself
       }
     }

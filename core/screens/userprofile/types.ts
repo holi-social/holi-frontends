@@ -147,6 +147,7 @@ export const userChipTypes = [UserChipInterest, UserChipSkill, UserChipSDG].redu
 }, {} as Record<string, UserChipGeneric<any>>)
 
 export type UserConnectionStatus =
+  | 'NOT_LOGGED_IN'
   | 'NOT_CONNECTED'
   | 'CONNECTED'
   | 'REQUESTED' // requested by currently authenticated user
