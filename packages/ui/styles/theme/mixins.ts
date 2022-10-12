@@ -1,4 +1,4 @@
-import { Platform, StyleSheet, ViewStyle, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
 import { vars } from '@holi/ui/styles/globalVars'
 
@@ -24,15 +24,6 @@ const useStyleMixins = () => {
       maxWidth: vars.maxScreenWidth,
       paddingHorizontal: screenWidth > parseInt(vars.breakpointXl, 10) ? 0 : 20,
     },
-    twoColumnGridWeb: {
-      ...Platform.select({
-        web: {
-          display: 'grid',
-          gridTemplateColumns: screenWidth > +vars.breakpointM ? '1fr 1fr' : '1fr',
-          gap: 24,
-        },
-      }),
-    } as ViewStyle,
     moreButton: {
       marginTop: 50,
       maxWidth: 800,
