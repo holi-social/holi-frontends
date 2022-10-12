@@ -28,5 +28,12 @@
     "isolatedModules": true,
     "incremental": true
   },
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": ["**/*.ts", "**/*.tsx"],
+  "typeRoots": [
+    "./@types",
+    "packages/ui/@types",
+    "./node_modules/@types"
+  ]
 }
+
+

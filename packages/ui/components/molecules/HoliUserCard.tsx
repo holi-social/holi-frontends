@@ -1,9 +1,9 @@
-import { AccessibilityPropsWeb } from 'packages/ui/@types/reactNativeWeb'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { AccessibilityProps, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { User } from '@holi/core/screens/userprofile/types'
+import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'

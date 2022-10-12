@@ -1,11 +1,12 @@
-import { AccessibilityPropsWeb } from 'packages/ui/@types/reactNativeWeb'
-import { HoliLocalImageProps } from 'packages/ui/components/atoms/HoliLocalImage.shared'
 import React from 'react'
 import { AccessibilityProps, Image } from 'react-native'
 // TODO: "no exported member" !!!!!!!!!!!!!!!!!!!!
 // https://github.com/react-native-svg/react-native-svg/pull/1443
 // @ts-ignore
 import { WithLocalSvg } from 'react-native-svg'
+
+import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
+import { HoliLocalImageProps } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 
 // Usage:
 // import PngLogo from '@holi/ui/assets/img/logo/logo.svg'

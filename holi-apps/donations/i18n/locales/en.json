@@ -32,7 +32,7 @@
   "category.weihnachtsstreamerei-health": "Health at christmas",
   "donationListing.error": "Loading donation projects failed",
   "donationListing.loading": "Loading donation projects...",
-  "donationListing.loadMoreButton.loading": "Loading...",
+  "donationListing.loadMoreButton.loading": "Loading",
   "donationListing.loadMoreButton.text": "See more",
   "donationProgress.count": "{{count}} donation",
   "donationProgress.count_plural": "{{count}} donations",
