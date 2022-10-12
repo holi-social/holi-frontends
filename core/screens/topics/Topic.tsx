@@ -2,11 +2,12 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ImageBackground, Platform, SafeAreaView, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { ImageBackground, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import { useBreakpointMatcher } from '@holi/core/helpers'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
@@ -18,7 +19,7 @@ import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type TopicParams = {
@@ -32,7 +33,7 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const [topicId = ''] = useParam('topicId')
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { width: screenWidth } = useWindowDimensions()
+  const postGridItemsInRow = useBreakpointMatcher()
 
   useNavigationHeader(navigation, {
     title: t('topics.topic.title', { title: topicId }),
@@ -96,7 +97,7 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
 
         {/* Dummy list of posts */}
         <View style={mixins.container}>
-          <HoliGridWrapper itemsInRow={screenWidth >= +vars.breakpointXl ? 2 : 1}>
+          <HoliGridWrapper itemsInRow={postGridItemsInRow}>
             {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
               <HoliGridCell key={postId}>
                 <View style={styles.post}>
