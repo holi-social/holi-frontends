@@ -2,7 +2,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ImageBackground, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { ImageBackground, Platform, SafeAreaView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -13,10 +13,12 @@ import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader
 import createParam from '@holi/core/navigation/hooks/useParam'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
+import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type TopicParams = {
@@ -30,6 +32,7 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const [topicId = ''] = useParam('topicId')
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const { width: screenWidth } = useWindowDimensions()
 
   useNavigationHeader(navigation, {
     title: t('topics.topic.title', { title: topicId }),
@@ -92,12 +95,16 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
         </View>
 
         {/* Dummy list of posts */}
-        <View style={[mixins.container, Platform.OS === 'web' && mixins.twoColumnGridWeb]}>
-          {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
-            <View key={postId} style={styles.post}>
-              <HoliText>{topic.posts[postId].text}</HoliText>
-            </View>
-          ))}
+        <View style={mixins.container}>
+          <HoliGridWrapper itemsInRow={screenWidth >= +vars.breakpointXl ? 2 : 1}>
+            {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
+              <HoliGridCell key={postId}>
+                <View style={styles.post}>
+                  <HoliText>{topic.posts[postId].text}</HoliText>
+                </View>
+              </HoliGridCell>
+            ))}
+          </HoliGridWrapper>
         </View>
       </DefaultLayout>
 
@@ -199,11 +206,10 @@ const styles = StyleSheet.create({
     color: colors.grey,
   },
   post: {
+    flex: 1,
     padding: 24,
     borderRadius: 12,
     backgroundColor: colors.backgroundColorWhite,
-    flex: 1,
-    marginBottom: Platform.OS === 'web' ? 0 : 16,
   },
 })
 
