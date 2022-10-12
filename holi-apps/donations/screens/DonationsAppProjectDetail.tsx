@@ -139,10 +139,7 @@ const styles = StyleSheet.create({
     paddingBottom: 132,
     paddingHorizontal: 0,
     ...Platform.select({
-      ios: {
-        maxWidth: '100%',
-      },
-      android: {
+      native: {
         maxWidth: '100%',
       },
     }),
@@ -153,10 +150,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     ...Platform.select({
-      ios: {
-        position: 'absolute',
-      },
-      android: {
+      native: {
         position: 'absolute',
       },
       default: {
