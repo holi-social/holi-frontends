@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
-import InsightsList from '@holi/core/screens/insights/list'
+import Insights from '@holi/core/screens/insights'
 import { getRandomUser } from '@holi/core/screens/topics/fakeTopics'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -61,7 +61,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
         />
       </HoliModal>
 
-      <InsightsList />
+      <Insights />
     </View>
   )
 }

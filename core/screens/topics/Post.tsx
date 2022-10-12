@@ -1,18 +1,19 @@
 import { useQuery } from '@apollo/client'
 import { faker } from '@faker-js/faker'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
+import { userFullName } from '@holi/core/helpers'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/homeFeed/queries'
-import type { Insight } from '@holi/core/screens/homeFeed/types'
+import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/insights/queries'
+import type { Insight } from '@holi/core/screens/insights/types'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -59,7 +60,7 @@ const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
 
   const author = {
     ...topic.curator,
-    fullName: `${topic.curator.firstName} ${topic.curator.lastName}`.trim(),
+    fullName: userFullName(topic.curator),
     avatar: faker.image.avatar(), // TODO: dummy image
   }
 
@@ -70,7 +71,7 @@ const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
           {title}
         </HoliHeading>
         <HoliText style={{ paddingTop: 10 }}>
-          {t('topics.post.author', { author: author.fullName, category: category })}
+          <Trans i18nKey="topics.post.author" values={{ author: author.fullName, category: category }} />
         </HoliText>
         <HoliText style={{ paddingTop: 10 }}>{topic.title}</HoliText>
       </View>

@@ -120,7 +120,7 @@
   "topics.editors.editedBy": "Zusammengestellt von Holi & Gästen",
   "topics.editors.modal.title": "Die Themenredakteure dieser Woche",
   "topics.loadMore": "Ältere Einblicke laden",
-  "topics.post.author": "von {{author}} in {{category}}",
+  "topics.post.author": "von {{author}} in <0>{{category}}</0>",
   "topics.post.missingPostId": "PostId fehlt",
   "topics.post.missingTopicId": "TopicId fehlt",
   "topics.post.title": "Beitrag {{postId}} zu Thema {{topicId}}",

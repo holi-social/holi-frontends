@@ -2,8 +2,9 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { userFullName } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { Insight } from '@holi/core/screens/homeFeed/types'
+import { Insight } from '@holi/core/screens/insights/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -15,13 +16,6 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 interface TopicPreviewBoxProps {
   insight: Insight
   style?: StyleProp<ViewStyle>
-}
-
-const authorName: (user: Partial<User>) => string = (user) => {
-  const nameParts = [user.firstName, user.lastName]
-  // filter out null/undefined/empty string
-  const existingNameParts = nameParts.filter((x) => !!x)
-  return existingNameParts.join(' ') || '???'
 }
 
 // TODO: decide on how to work with User Partials
@@ -61,7 +55,7 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({ insight, ...props })
       {
         <View style={styles.authorCategoryContainer}>
           <HoliText style={styles.textGrey}>
-            <Trans i18nKey="topics.post.author" values={{ author: authorName(insight.curator), category: '' }} />
+            <Trans i18nKey="topics.post.author" values={{ author: userFullName(insight.curator), category: '' }} />
             <HoliButton
               label={t('topics.topic.category', { category: 'TBD' })}
               transparent

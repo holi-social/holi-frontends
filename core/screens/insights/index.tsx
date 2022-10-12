@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers/logError'
 import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/insights/queries'
@@ -12,11 +12,11 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type InsightsListProps = {
-  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
+export type InsightsProps = {
+  style?: StyleProp<ViewStyle>
 }
 
-const InsightsList: React.VFC<InsightsListProps> = (props: InsightsListProps) => {
+const Insights: React.VFC<InsightsProps> = (props) => {
   const { t } = useTranslation()
   const { width } = useWindowDimensions()
   const mixins = useStyleMixins()
@@ -40,7 +40,7 @@ const InsightsList: React.VFC<InsightsListProps> = (props: InsightsListProps) =>
   const insights: Insight[] = data?.lastInsights?.length ? data.lastInsights : fakeTopics
 
   return (
-    <View style={[styles.insightsList, props.style]}>
+    <View style={props.style}>
       {/* insights */}
       <View style={styles.insightsContainer}>
         {insights.map((insight) => (
@@ -55,11 +55,10 @@ const InsightsList: React.VFC<InsightsListProps> = (props: InsightsListProps) =>
   )
 }
 
-export default InsightsList
+export default Insights
 
 const getStyles = (screenWidth: number) =>
   StyleSheet.create({
-    insightsList: {},
     insightsContainer: {
       ...Platform.select({
         web: {

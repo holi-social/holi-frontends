@@ -11,12 +11,13 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
+import { userFullName } from '@holi/core/helpers'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/homeFeed/queries'
+import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -69,7 +70,7 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
 
   const author = {
     ...topic.curator,
-    fullName: `${topic.curator.firstName} ${topic.curator.lastName}`.trim(),
+    fullName: userFullName(topic.curator),
     avatar: faker.image.avatar(), // TODO: dummy image
   }
 
