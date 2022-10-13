@@ -152,7 +152,9 @@ const getStyles = (inline: boolean) =>
       elevation: 8,
     },
     focused: {
-      borderWidth: 4,
+      outlineWidth: 2,
+      outlineColor: colors.shadowColorBlack,
+      outlineStyle: 'solid',
     },
     pressedPrimary: {
       backgroundColor: colors.backgroundColorYellowDark,
