@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { defaultAuthSteps, logout } from '../helpers/auth'
+import { defaultAuthSteps } from '../helpers/auth'
 import { navigateBackToHomeScreen } from '../helpers/navigation'
 import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../helpers/selectors'
 
@@ -22,18 +22,18 @@ describe('@UserConnection', () => {
     await tapOnElementWithTestId('user-card-suggestion-0')
 
     // for the newly created user, the button state should be NOT_CONNECTED
-    await tapOnElementWithTestId(`user-connection-button-NOT_CONNECTED`)
+    await tapOnElementWithTestId('user-connection-button-NOT_CONNECTED')
 
     // after clicked, the button state should change to REQUESTED
     await waitForElementWithTestId('user-connection-button-REQUESTED')
 
     // clicking the button again, should trigger the confirm dialog
-    await tapOnElementWithTestId(`user-connection-button-REQUESTED`)
+    await tapOnElementWithTestId('user-connection-button-REQUESTED')
 
     // click on confirm within the confirmation dialog and wait for NOT_CONNECTED state
-    await tapOnElementWithTestId(`user-connection-confirmation-confirm`)
+    await tapOnElementWithTestId('user-connection-confirmation-confirm')
 
     // the connection button state should be back to NOT_CONNECTED
-    await waitForElementWithTestId(`user-connection-button-NOT_CONNECTED`)
+    await waitForElementWithTestId('user-connection-button-NOT_CONNECTED')
   })
 })
