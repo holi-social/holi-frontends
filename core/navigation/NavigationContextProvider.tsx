@@ -1,4 +1,4 @@
-import React, { ReactNode, createContext, useCallback, useContext, useState } from 'react'
+import React, { ReactElement, createContext, useCallback, useContext, useState } from 'react'
 
 export type linkDirection = 'left' | 'down'
 export type NavigationContextType = {
@@ -9,12 +9,12 @@ export type NavigationContextType = {
   showBackLink: boolean
   showDownLink: boolean
   clearBackLinks: () => void
-  titleElement: () => ReactNode | undefined
-  setTitleElement: (node: ReactNode) => void
-  headerLeft: () => ReactNode | undefined
-  setHeaderLeft: (node: ReactNode) => void
-  headerRight: () => ReactNode | undefined
-  setHeaderRight: (node: ReactNode) => void
+  titleElement: ReactElement | undefined
+  setTitleElement: (node: ReactElement) => void
+  headerLeft: ReactElement | undefined
+  setHeaderLeft: (node: ReactElement) => void
+  headerRight: ReactElement | undefined
+  setHeaderRight: (node: ReactElement) => void
 }
 
 const NavigationContext = createContext<NavigationContextType>({
@@ -25,11 +25,11 @@ const NavigationContext = createContext<NavigationContextType>({
   showBackLink: false,
   showDownLink: false,
   clearBackLinks: () => null,
-  titleElement: () => null,
+  titleElement: undefined,
   setTitleElement: () => null,
-  headerLeft: () => null,
+  headerLeft: undefined,
   setHeaderLeft: () => null,
-  headerRight: () => null,
+  headerRight: undefined,
   setHeaderRight: () => null,
 })
 NavigationContext.displayName = 'NavigationContext'
