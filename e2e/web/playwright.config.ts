@@ -43,7 +43,7 @@ const config: PlaywrightTestConfig = {
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on',
     screenshot: 'only-on-failure',
-    video: 'off',
+    video: 'on-first-retry',
     headless: process.env.CI ? true : !!process.env.HEADLESS || true,
   },
 
@@ -64,12 +64,13 @@ const config: PlaywrightTestConfig = {
     //   },
     // },
 
-    // {
-    //   name: 'webkit',
-    //   use: {
-    //     ...devices['Desktop Safari'],
-    //   },
-    // },
+    {
+      name: 'webkit',
+      use: {
+        ...devices['Desktop Safari'],
+        viewport: { width: 390, height: 844 },
+      },
+    },
 
     /* Test against mobile viewports. */
     {
@@ -90,14 +91,14 @@ const config: PlaywrightTestConfig = {
     //     ...devices['iPhone 12'],
     //   },
     // },
-    {
-      name: 'Mobile_Firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-        viewport: { width: 390, height: 844 },
-        deviceScaleFactor: 3,
-      },
-    },
+    //{
+    //  name: 'Mobile_Firefox',
+    //  use: {
+    //    ...devices['Desktop Firefox'],
+    //    viewport: { width: 390, height: 844 },
+    //    deviceScaleFactor: 3,
+    //  },
+    //},
 
     /* Test against branded browsers. */
     // {

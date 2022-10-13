@@ -2,20 +2,20 @@ import React from 'react'
 import { AccessibilityProps, Image } from 'react-native'
 
 import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
-import { HoliResponsiveImageProps } from '@holi/ui/components/atoms/HoliResponsiveImage.shared'
+import { HoliImageProps } from '@holi/ui/components/atoms/HoliImage.shared'
 
-const HoliResponsiveImage: React.VoidFunctionComponent<HoliResponsiveImageProps> = ({
-  sources,
+const HoliImage: React.VoidFunctionComponent<HoliImageProps> = ({
+  source,
   label,
   style,
   resizeMode = 'cover',
-}: HoliResponsiveImageProps) => {
+}: HoliImageProps) => {
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: false,
     accessibilityRole: 'image',
     accessibilityLabel: label,
   }
-  return <Image {...accessibilityProps} source={sources} style={[style, { resizeMode }]} />
+  return <Image {...accessibilityProps} source={source} style={[style, { resizeMode }]} />
 }
 
-export default HoliResponsiveImage
+export default HoliImage

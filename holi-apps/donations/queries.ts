@@ -13,6 +13,8 @@ export const projectFragment = gql`
     picture {
       type
       url
+      width
+      height
     }
   }
 `
@@ -31,6 +33,8 @@ export const fullProjectFragment = gql`
     picture {
       type
       url
+      width
+      height
     }
     initiative {
       id
@@ -40,6 +44,8 @@ export const fullProjectFragment = gql`
       picture {
         url
         type
+        width
+        height
       }
       url
     }

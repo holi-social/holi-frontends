@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, ViewStyle } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import { userFullName } from '@holi/core/helpers'
 import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
@@ -38,7 +39,7 @@ const HeaderRight: React.VFC<HeaderRightProps> = (props) => {
 
   let userAvatar
   if (hasUserData) {
-    const nameLabel = `${user.firstName || ''} ${user.lastName || ''}`.trim()
+    const nameLabel = userFullName(user)
 
     userAvatar = (
       <HoliUserAvatar
