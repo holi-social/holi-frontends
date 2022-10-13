@@ -41,13 +41,17 @@ export const client = new ApolloClient({
   link,
   cache: new InMemoryCache({
     typePolicies: {
+      AppDonations_ProjectsResponse: {
+        fields: {
+          projects: offsetLimitPagination(),
+        },
+      },
       Query: {
         fields: {
           // here, we can specify e.g. pagination behavior, depending on the
           // query, see https://www.apollographql.com/docs/react/pagination/overview
           appDonations_projects: {
-            ...offsetLimitPagination(),
-            keyArgs: ['locale'],
+            keyArgs: ['locale', 'location'],
           },
         },
       },
