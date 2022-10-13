@@ -2,7 +2,9 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { userFullName } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { Insight } from '@holi/core/screens/insights/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -12,60 +14,61 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface TopicPreviewBoxProps {
-  id: string
-  title: string
-  author: string
-  image: {
-    src: string
-  }
-  editors: User[]
+  insight: Insight
   style?: StyleProp<ViewStyle>
-  category: string
 }
 
-const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({
-  id,
-  title,
-  image,
-  author,
-  editors,
-  category,
-  ...props
-}) => {
+// TODO: decide on how to work with User Partials
+const editorsOfInsight: (insight: Insight) => User[] = (insight) => {
+  const editors: User[] = [insight.curator as User]
+  insight.posts.forEach((post) => editors.push(post.creator as User))
+  // filter empty authors/curators
+  return editors.filter((x) => !!x)
+}
+
+const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({ insight, ...props }) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
+  const editors = editorsOfInsight(insight)
+
+  // TODO: remove dummy image
+  // const headerImage = insight.headerImage
+  const headerImage = 'https://image.geo.de/30657478/t/5W/v6/w960/r1.5/-/wer-hat-den-foehn-picture-1238735191.jpg'
+
   return (
     <View {...props}>
       <HoliButton
-        label={t('topics.topic.title', { title })}
+        label={t('topics.topic.title', { title: insight.title })}
         transparent
-        onPress={() => navigate(`/topics/${id}`)}
+        onPress={() => navigate(`/topics/${insight.id}`)}
         testID="feed-topic-image-link"
       >
-        <Image source={{ uri: image.src }} style={styles.mainImage} />
+        <Image source={{ uri: headerImage }} style={styles.mainImage} />
 
         <HoliHeading level="2" selectable={true}>
-          {title}
+          {insight.title}
         </HoliHeading>
       </HoliButton>
 
-      <View style={styles.authorCategoryContainer}>
-        <HoliText style={styles.textGrey}>
-          <Trans i18nKey="topics.post.author" values={{ author, category: '' }} />
-          <HoliButton
-            label={t('topics.topic.category', { category })}
-            transparent
-            inline
-            style={mixins.inlineButtonFixDefault}
-          >
-            <HoliText bold style={styles.textGrey}>
-              #{category}
-            </HoliText>
-          </HoliButton>
-        </HoliText>
-      </View>
+      {
+        <View style={styles.authorCategoryContainer}>
+          <HoliText style={styles.textGrey}>
+            <Trans i18nKey="topics.post.author" values={{ author: userFullName(insight.curator), category: '' }} />
+            <HoliButton
+              label={t('topics.topic.category', { category: 'TBD' })}
+              transparent
+              inline
+              style={mixins.inlineButtonFixDefault}
+            >
+              <HoliText bold style={styles.textGrey}>
+                #{'TBD'}
+              </HoliText>
+            </HoliButton>
+          </HoliText>
+        </View>
+      }
 
       {editors.length && <HoliUserAvatarPile users={editors} counter collapse style={{ marginTop: 10 }} />}
     </View>
@@ -80,6 +83,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     marginBottom: 16,
     width: '100%',
+    backgroundColor: colors.backgroundColorGreyLight,
   },
   authorCategoryContainer: {
     flexDirection: 'row',

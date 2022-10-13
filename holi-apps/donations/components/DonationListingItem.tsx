@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react'
-import { Image, StyleSheet } from 'react-native'
+import React from 'react'
+import { StyleSheet } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
+import DonationImage from '@holi-apps/donations/components/DonationImage'
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { Project } from '@holi-apps/donations/typings'
 
@@ -16,14 +17,6 @@ const DonationListingItem: React.VFC<DonationListingItemProps> = ({ project }: D
   const { navigate } = useRouting()
   const { title, categories, donationsCount, progressPercentage, openAmountInCents, picture } = project
 
-  const responsiveImage = useMemo(() => {
-    // TODO: use small picture if applicable?
-    const original = picture.find(({ type }) => type === 'original')
-    if (!original) return
-
-    return original && <Image source={{ uri: original.url }} style={styles.mainImage} />
-  }, [picture])
-
   return (
     <HoliButton
       label={title}
@@ -32,7 +25,7 @@ const DonationListingItem: React.VFC<DonationListingItemProps> = ({ project }: D
       style={styles.mainImageContainer}
       testID={'donations-list-item'}
     >
-      {responsiveImage}
+      <DonationImage picture={picture} label={title} style={styles.mainImage} />
 
       <HoliHeading level="2" size="small" selectable={true} style={styles.heading}>
         {title}
