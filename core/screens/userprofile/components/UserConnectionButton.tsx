@@ -63,6 +63,7 @@ const UserConnectionButton: React.VFC<UserConnectionButtonProps> = ({ user, full
         style={style}
         onPress={onPress}
         disabled={loading}
+        testID={`user-connection-button-${connectionStatusToMyself}`}
       >
         {t(`user.profileView.connection.button.${connectionStatusToMyself}`)}
       </HoliButton>
@@ -77,6 +78,7 @@ const UserConnectionButton: React.VFC<UserConnectionButtonProps> = ({ user, full
         dismissText={t(`user.profileView.connection.confirmation.dismiss.${connectionStatusToMyself}`)}
         confirmText={t(`user.profileView.connection.confirmation.confirm.${connectionStatusToMyself}`)}
         {...(connectionStatusToMyself !== 'NOT_LOGGED_IN' ? { onConfirm: updateUserConnectionStatus } : {})}
+        testID="user-connection"
       />
     </>
   )

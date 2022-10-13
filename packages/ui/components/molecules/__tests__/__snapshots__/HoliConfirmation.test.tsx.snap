@@ -5,6 +5,7 @@ exports[`renders correctly renders correctly when closed 1`] = `
   accessibilityLabel="Test"
   animationType="fade"
   hardwareAccelerated={false}
+  testID="undefined-confirmation-dialog"
   transparent={true}
   visible={false}
 />
@@ -15,6 +16,7 @@ exports[`renders correctly renders correctly when open 1`] = `
   accessibilityLabel="Test"
   animationType="fade"
   hardwareAccelerated={false}
+  testID="undefined-confirmation-dialog"
   transparent={true}
   visible={true}
 >

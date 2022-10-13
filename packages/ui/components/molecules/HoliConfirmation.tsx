@@ -53,7 +53,13 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
   }
 
   return (
-    <Modal {...accessibilityProps} visible={visible} transparent animationType="fade" testID={testID}>
+    <Modal
+      {...accessibilityProps}
+      visible={visible}
+      transparent
+      animationType="fade"
+      testID={`${testID}-confirmation-dialog`}
+    >
       <View style={styles.modalContainer}>
         <View style={styles.backdrop} {...(testID ? { testID: `${testID}-confirmation-backdrop` } : {})} />
 
