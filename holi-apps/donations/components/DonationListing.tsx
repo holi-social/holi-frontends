@@ -1,10 +1,13 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { displayError } from '@holi/core/errors/helpers'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationButton from '@holi-apps/donations/components/DonationButton'
@@ -13,26 +16,36 @@ import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donation
 
 const PROJECT_PAGE_SIZE = 5
 
-const DonationListing: React.VFC = () => {
+type DonationListingProps = {
+  locationQuery?: string
+}
+
+const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery }: DonationListingProps) => {
   const { t, i18n } = useTranslation()
   const mixins = useStyleMixins()
   const [fetchingMore, setFetchingMore] = useState(false)
+  const isFiltering = useMemo(() => !!locationQuery, [locationQuery])
 
   const { loading, data, error, fetchMore } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
     variables: {
       locale: i18n.language,
       limit: PROJECT_PAGE_SIZE,
       offset: 0,
+      location: locationQuery,
     },
   })
 
-  const projects = data?.appDonations_projects || []
+  const { projects = [], totalResults = 0 } = data?.appDonations_projects || {}
+
+  const canFetchMore = useMemo(() => {
+    return projects.length < totalResults
+  }, [projects, totalResults])
 
   const memoizedFetchMore = useCallback(() => {
     setFetchingMore(true)
     return fetchMore({
       variables: {
-        offset: projects.length + PROJECT_PAGE_SIZE,
+        offset: projects.length,
       },
     }).finally(() => setFetchingMore(false))
   }, [fetchMore, projects.length])
@@ -58,18 +71,46 @@ const DonationListing: React.VFC = () => {
 
   return (
     <View>
+      {isFiltering && (
+        <HoliHeading style={styles.searchHeading}>
+          <Trans t={t} i18nKey="donations:donationListing.search.heading" values={{ location: locationQuery }}>
+            <HoliText size="large" bold style={styles.searchQuery} />
+          </Trans>
+        </HoliHeading>
+      )}
+      {isFiltering && (
+        <HoliText bold style={styles.searchSummary}>
+          {t('donations:donationListing.search.resultCount', { count: totalResults })}
+        </HoliText>
+      )}
+      {isFiltering && !projects.length && (
+        <View style={styles.noResultsContainer}>
+          <View style={styles.imageContainer}>
+            <HoliLocalImage
+              imageSource={require('@holi/ui/assets/img/illustrations/illustration_no_results.png')}
+              width={179}
+              height={131}
+              label=""
+              resizeMode="stretch"
+            />
+          </View>
+          <HoliText style={styles.noResultsHint}>{t('donations:donationListing.search.noResults')}</HoliText>
+        </View>
+      )}
       {projects.map((project) => (
         <DonationListingItem key={project.id} project={project} />
       ))}
-      <DonationButton
-        label={fetchMoreButtonText}
-        disabled={fetchingMore}
-        icon={fetchingMore ? 'loader-4' : undefined}
-        iconSpinning={fetchingMore}
-        onPress={memoizedFetchMore}
-        style={[styles.loadMoreButton]}
-        testID="btn-donation-list-load-more"
-      />
+      {canFetchMore && (
+        <DonationButton
+          label={fetchMoreButtonText}
+          disabled={fetchingMore}
+          icon={fetchingMore ? 'loader-4' : undefined}
+          iconSpinning={fetchingMore}
+          onPress={memoizedFetchMore}
+          style={[styles.loadMoreButton]}
+          testID="btn-donation-list-load-more"
+        />
+      )}
     </View>
   )
 }
@@ -81,6 +122,26 @@ const styles = StyleSheet.create({
   },
   loadMoreButton: {
     marginBottom: 20,
+  },
+  searchHeading: {
+    marginBottom: 14,
+  },
+  searchQuery: {
+    color: colors.positivepurple,
+  },
+  searchSummary: {
+    marginBottom: 25,
+  },
+  noResultsContainer: {
+    alignItems: 'center',
+    padding: 32,
+  },
+  imageContainer: {
+    padding: 18,
+    marginBottom: 10,
+  },
+  noResultsHint: {
+    textAlign: 'center',
   },
 })
 
