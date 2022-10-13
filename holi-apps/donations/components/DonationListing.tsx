@@ -45,7 +45,7 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery }: Don
     setFetchingMore(true)
     return fetchMore({
       variables: {
-        offset: projects.length + PROJECT_PAGE_SIZE,
+        offset: projects.length,
       },
     }).finally(() => setFetchingMore(false))
   }, [fetchMore, projects.length])
