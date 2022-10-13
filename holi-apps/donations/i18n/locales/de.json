@@ -46,7 +46,7 @@
   "initiative.link.button": "Seite von {{name}}",
   "projectDetail.donate": "Spenden",
   "projectDetail.notFound": "Projekt mit ID {{projectId}} wurde nicht gefunden",
-  "search.heading": "Suche filtern",
+  "search.heading": "Suche",
   "search.location.label": "Ort",
   "search.location.placeholder": "Ort eingeben...",
   "search.submitButton": "Passende Projekte anzeigen"
