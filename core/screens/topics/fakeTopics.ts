@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+import { Insight } from 'core/screens/insights/types'
 
 import { User } from '@holi/core/screens/userprofile/types'
 
@@ -22,41 +23,44 @@ export const getRandomUser = (hasAvatar = false): User => {
   }
 }
 
-const fakeTopics = new Map()
-fakeTopics.set('abc', {
-  title: 'What does it mean to be a refugee in Europe?',
-  text:
-    'Most of the world’s refugees take shelter in refugee camps, run by the United Nations Refugee Agency. Refugee ' +
-    'camps are safe but temporary shelters, where refugees can live before their resettlement into other countries. ' +
-    '\n' +
-    '\n' +
-    loremIpsum,
-  posts: {
-    123: { author: getRandomName(), text: '123 ' + loremIpsum },
-    321: { author: getRandomName(), text: '321 ' + loremIpsum },
+const fakeTopics: Insight[] = [
+  {
+    id: 'abc',
+    title: 'What does it mean to be a refugee in Europe?',
+    description:
+      'Most of the world’s refugees take shelter in refugee camps, run by the United Nations Refugee Agency. Refugee ' +
+      'camps are safe but temporary shelters, where refugees can live before their resettlement into other countries. ' +
+      '\n' +
+      '\n' +
+      loremIpsum,
+    datePublished: '2022-09-28',
+    posts: [
+      { id: '123', creator: { id: 'afoo', firstName: getRandomName() }, text: '123 ' + loremIpsum },
+      { id: '321', creator: { id: 'abar', firstName: getRandomName() }, text: '321 ' + loremIpsum },
+    ],
+    headerImage: 'https://image.geo.de/30657478/t/5W/v6/w960/r1.5/-/wer-hat-den-foehn-picture-1238735191.jpg',
+    curator: {
+      id: 'foo',
+      firstName: getRandomName(),
+    },
   },
-  image: {
-    src: 'https://image.geo.de/30657478/t/5W/v6/w960/r1.5/-/wer-hat-den-foehn-picture-1238735191.jpg',
+  {
+    id: 'bca',
+    title: 'How can we stop a climate catastrophe?',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio eget metus, est mauris viverra orci rhoncus quis ' +
+      'eu. Ultricies pellentesque et tincidunt vitae etiam turpis at vulputate.',
+    datePublished: '2022-10-05',
+    posts: [
+      { id: '456', creator: { id: 'bfoo', firstName: getRandomName() }, text: '456 ' + loremIpsum },
+      { id: '654', creator: { id: 'bbar', firstName: getRandomName() }, text: '654 ' + loremIpsum },
+    ],
+    headerImage: 'https://image.geo.de/30137764/t/r8/v4/w960/r1.5/-/die-welt-von-gestern-in-farbe-02-jpg--78318-.jpg',
+    curator: {
+      id: 'bar',
+      firstName: getRandomName(),
+    },
   },
-  author: getRandomUser(true),
-  editors: Array(...new Array(4)).map((_, index) => getRandomUser(index % 2 === 0)),
-  category: 'Education',
-})
-fakeTopics.set('bca', {
-  title: 'How can we stop a climate catastrophe?',
-  text:
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio eget metus, est mauris viverra orci rhoncus quis ' +
-    'eu. Ultricies pellentesque et tincidunt vitae etiam turpis at vulputate.',
-  posts: {
-    456: { author: getRandomName(), text: '456 ' + loremIpsum },
-    654: { author: getRandomName(), text: '654 ' + loremIpsum },
-  },
-  image: {
-    src: 'https://image.geo.de/30137764/t/r8/v4/w960/r1.5/-/die-welt-von-gestern-in-farbe-02-jpg--78318-.jpg',
-  },
-  author: getRandomUser(true),
-  editors: Array(...new Array(5)).map((_, index) => getRandomUser(index % 2 === 0)),
-  category: 'Education',
-})
+]
 
 export default fakeTopics

@@ -6,21 +6,21 @@ export const byTestId = (testId: string) => `[data-testid=${testId}]`
 
 export const delay = (time: number) => new Promise((resolve) => setTimeout(resolve, time * 1000))
 
-export const waitForElementByTestId = async (page: Page, testId: string) => {
+export const waitForElementByTestId = async (page: Page, testId: string): Promise<string> => {
   const selector = byTestId(testId)
   await page.waitForSelector(selector)
   return selector
 }
 
-export const locateElementByTestId = async (page: Page, testId: string) => {
+export const locateElementByTestId = async (page: Page, testId: string): Promise<Locator> => {
   const selector = await waitForElementByTestId(page, testId)
   return page.locator(selector)
 }
 
 export const clickElementByTestId = async (page: Page, testId: string) => {
   const button = await locateElementByTestId(page, testId)
-  await delay(0.5) // source of flakyness and delay. Why do we need this here? Component is there, but click does not work when done too early.
-  // Only click the first element if there are multiple matches
+  await delay(0.5) // source of flakiness and delay. Why do we need this here? Component is there, but click does not work when done too early.
+  // potentially there are multiple matches, so we ensure to only click the first element
   await button.first().click()
 }
 
@@ -43,7 +43,7 @@ export const defaultAuthSteps = async (
     password = process.env.E2E_USER_PASSWORD || 'empty',
   }: DefaultAuthStepsProps,
   mode: 'login' | 'registration' = 'login'
-) => {
+): Promise<void> => {
   const isLogin = mode === 'login'
 
   await context.clearCookies()
@@ -58,7 +58,7 @@ export const defaultAuthSteps = async (
   const passwordInput = await locateElementByTestId(page, 'ory-password-input')
   await passwordInput.fill(password)
 
-  await clickElementByTestId(page, 'ory-submit-method')
+  return await clickElementByTestId(page, 'ory-submit-method')
 }
 
 export const checkAccessibility = async (page: Page) => {

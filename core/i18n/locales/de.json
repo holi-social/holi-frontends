@@ -132,8 +132,6 @@
   "topics.post.missingTopicId": "TopicId fehlt",
   "topics.post.title": "Beitrag {{postId}} zu Thema {{topicId}}",
   "topics.topic.category": "Ein Thema der Kategorie {{category}}",
-  "topics.topic.editors.title": "Die Redakteure dieser Woche für das Thema topicId={{topicId}}",
-  "topics.topic.editors": "Redakteure des Themas {{title}}",
   "topics.topic.heading": "{{title}} (ID: {{topicId}})",
   "topics.topic.notFound": "Thema {{topicId}} nicht gefunden",
   "topics.topic.posts": "Beiträge",

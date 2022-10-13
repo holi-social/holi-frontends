@@ -15,6 +15,8 @@ const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
 const timeoutLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
 const uploadLink = createUploadLink({ uri: holiApiUrl, credentials: 'include' })
 const errorLink = onError(({ graphQLErrors, networkError }) => {
+  console.log('####### errorLink ...', networkError)
+
   // Do not log "not found" errors
   if (graphQLErrors && isNotFoundError({ graphQLErrors })) {
     return
