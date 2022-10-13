@@ -2,11 +2,8 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
-import { useBreakpointMatcher } from '@holi/core/helpers'
-import TopicPreviewBox from '@holi/core/screens/topics/components/TopicPreviewBox'
-import fakeTopics, { getRandomUser } from '@holi/core/screens/topics/fakeTopics'
-import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
-import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
+import Insights from '@holi/core/screens/insights'
+import { getRandomUser } from '@holi/core/screens/topics/fakeTopics'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -26,7 +23,6 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
   const mixins = useStyleMixins()
 
   const [showEditorsModal, setShowEditorsModal] = useState(false)
-  const insightGridItemsInRow = useBreakpointMatcher()
 
   return (
     <View style={[mixins.container, styles.insightsOfTheWeek, props.style]}>
@@ -65,18 +61,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
         />
       </HoliModal>
 
-      {/* insights */}
-      <HoliGridWrapper itemsInRow={insightGridItemsInRow}>
-        {[...fakeTopics.entries()].map(([topicId, topic]) => (
-          <HoliGridCell key={topicId}>
-            <TopicPreviewBox id={topicId} {...topic} style={styles.insight} />
-          </HoliGridCell>
-        ))}
-      </HoliGridWrapper>
-
-      <HoliButton type="secondary" label={t('homeFeed.insights.loadMoreText')} style={mixins.moreButton} disabled>
-        {t('homeFeed.insights.loadMoreText')}
-      </HoliButton>
+      <Insights />
     </View>
   )
 }
@@ -96,9 +81,5 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     flex: 1,
     flexWrap: 'wrap',
-  },
-  insight: {
-    flex: 1,
-    marginTop: 40,
   },
 })

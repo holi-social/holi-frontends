@@ -33,7 +33,7 @@ default:
   interruptible: false
 
 .web_e2e:
-  image: 'mcr.microsoft.com/playwright:v1.25.0-focal'
+  image: 'mcr.microsoft.com/playwright:v1.27.0-focal'
   dependencies: [] # explicitly disable artifact usage
   artifacts:
     name: 'web e2e test report'

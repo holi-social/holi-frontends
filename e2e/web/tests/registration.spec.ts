@@ -107,10 +107,11 @@ test.describe('@Registration', () => {
     await page.goto('/login')
     await waitForElementByTestId(page, 'btn-to-logout')
 
-    // logout and try to create a new user with the same credentials
+    // logout
     await clickElementByTestId(page, 'btn-to-logout')
     await clickElementByTestId(page, 'confirm-logout-button')
 
+    // try to create a new user with the same credentials and assert that this fails
     await defaultAuthSteps(
       {
         context,
@@ -120,7 +121,6 @@ test.describe('@Registration', () => {
       },
       'registration'
     )
-
     await waitForElementByTestId(page, 'ory-message-4000007')
   })
 })
