@@ -31,9 +31,9 @@
   "category.weihnachtsstreamerei-emergency": "Emergency at christmas",
   "category.weihnachtsstreamerei-health": "Health at christmas",
   "donationListing.error": "Loading donation projects failed",
-  "donationListing.loading": "Loading donation projects...",
   "donationListing.loadMoreButton.loading": "Loading",
   "donationListing.loadMoreButton.text": "See more",
+  "donationListing.loading": "Loading donation projects...",
   "donationProgress.count": "{{count}} donation",
   "donationProgress.count_plural": "{{count}} donations",
   "donationProgress.openAmount": "{{amount}} to go",
@@ -41,5 +41,9 @@
   "initiative.indication": "by <0>{{name}}</0>",
   "initiative.link.button": "Page of {{name}}",
   "projectDetail.donate": "Donate",
-  "projectDetail.notFound": "Project with ID {{projectId}} could not be found"
+  "projectDetail.notFound": "Project with ID {{projectId}} could not be found",
+  "search.heading": "Filter your search",
+  "search.location.label": "Location",
+  "search.location.placeholder": "Start typing a location...",
+  "search.submitButton": "Show matching projects"
 }
