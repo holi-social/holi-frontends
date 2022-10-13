@@ -34,10 +34,12 @@ export const useGrid = () => {
 
 const HoliGridWrapper: React.FC<Partial<HoliGridWrapperProps>> = ({ children, gap = 24, itemsInRow = 2, style }) => {
   return (
-    <View style={[style, styles.wrapper, { margin: -gap / 2 }]}>
-      <GridProvider padding={gap / 2} width={`${100 / itemsInRow}%`}>
-        {children}
-      </GridProvider>
+    <View style={styles.outer}>
+      <View style={[style, styles.wrapper, { margin: -gap / 2 }]}>
+        <GridProvider padding={gap / 2} width={`${100 / itemsInRow}%`}>
+          {children}
+        </GridProvider>
+      </View>
     </View>
   )
 }
@@ -45,6 +47,9 @@ const HoliGridWrapper: React.FC<Partial<HoliGridWrapperProps>> = ({ children, ga
 export default HoliGridWrapper
 
 const styles = StyleSheet.create({
+  outer: {
+    overflow: 'hidden',
+  },
   wrapper: {
     flexDirection: 'row',
     flexWrap: 'wrap',
