@@ -30,7 +30,7 @@ const DonationInitiativeButton = ({ initiative }: DonationInitiativeButtonProps)
           <View style={styles.initiativeDetails}>
             <View style={{ flexDirection: 'row' }}>
               <HoliText style={styles.namePrefix} size="small">
-                <Trans t={t} i18nKey="donations:initiative.indication" values={{ name }}>
+                <Trans t={t} i18nKey="donations:initiative.indication" values={{ name }} shouldUnescape={true}>
                   <HoliText style={styles.initiativeName} bold size="small" />
                 </Trans>
               </HoliText>
