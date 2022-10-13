@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { NativeSyntheticEvent, StyleSheet, TextInputKeyPressEventData, TextInputProps, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
@@ -20,12 +20,6 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
   const submit = () => {
     onSubmit && onSubmit(locationInput)
   }
-  const onKeyPress = (event: NativeSyntheticEvent<TextInputKeyPressEventData | TextInputProps>) => {
-    const nativeElement = event.nativeEvent as TextInputKeyPressEventData
-    if (nativeElement.key === 'Enter') {
-      submit()
-    }
-  }
 
   return (
     <HoliModalContentWrapper
@@ -42,7 +36,7 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
           value={locationInput}
           trailingIcon="search"
           onChange={setLocationInput}
-          inputProps={{ autoFocus: true, onKeyPress }}
+          inputProps={{ autoFocus: true, onSubmitEditing: submit }}
         />
       </View>
     </HoliModalContentWrapper>
