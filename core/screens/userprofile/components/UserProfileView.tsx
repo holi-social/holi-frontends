@@ -3,10 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { userFullName } from '@holi/core/helpers'
+import UserConnectionButton from '@holi/core/screens/userprofile/components/UserConnectionButton'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliChip from '@holi/ui/components/molecules/HoliChip'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -48,18 +49,11 @@ const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossibl
       {user.aboutMe && <HoliReadMore style={styles.aboutMe}>{user.aboutMe}</HoliReadMore>}
       {contactPossible && (
         <View style={{ flexDirection: 'row', marginTop: 16 }}>
-          <HoliChip
-            text={t('user.profileView.connect')}
-            label={t('user.profileView.connect')}
-            style={{ marginRight: 8 }}
-            fontStyle={{ color: colors.positivepurple }}
-          />
-          <HoliChip
-            text={t('user.profileView.message')}
-            label={t('user.profileView.message')}
-            disabled={true}
-            fontStyle={{ color: colors.positivepurple }}
-          />
+          <UserConnectionButton style={{ marginRight: 8 }} user={user} fullName={fullName} />
+
+          <HoliButton type="secondary" inline disabled label={t('user.profileView.message')} style={{ marginRight: 8 }}>
+            {t('user.profileView.message')}
+          </HoliButton>
         </View>
       )}
     </View>
