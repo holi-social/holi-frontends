@@ -36,7 +36,7 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
           value={locationInput}
           trailingIcon="search"
           onChange={setLocationInput}
-          inputProps={{ autoFocus: true }}
+          inputProps={{ autoFocus: true, onSubmitEditing: submit }}
         />
       </View>
     </HoliModalContentWrapper>
