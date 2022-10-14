@@ -146,11 +146,12 @@ export const userChipTypes = [UserChipInterest, UserChipSkill, UserChipSDG].redu
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }, {} as Record<string, UserChipGeneric<any>>)
 
-export type UserConnectionStatus =
-  | 'NOT_LOGGED_IN'
-  | 'NOT_CONNECTED'
-  | 'CONNECTED'
-  | 'REQUESTED' // requested by currently authenticated user
-  | 'PENDING_CONFIRMATION' // pending confirmation by currently authenticated user
+export enum UserConnectionStatus {
+  NOT_LOGGED_IN = 'NOT_LOGGED_IN',
+  NOT_CONNECTED = 'NOT_CONNECTED',
+  CONNECTED = 'CONNECTED',
+  REQUESTED = 'REQUESTED', // requested by currently authenticated user
+  PENDING_CONFIRMATION = 'PENDING_CONFIRMATION', // pending confirmation by currently authenticated user
+}
 
 export type UpdateConnectionWithUserActions = 'CONNECT' | 'DISCONNECT'

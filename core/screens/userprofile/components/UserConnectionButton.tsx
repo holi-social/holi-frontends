@@ -8,7 +8,7 @@ import {
   UpdateConnectionWithUserResponse,
   updateConnectionWithUserMutation,
 } from '@holi/core/screens/userprofile/queries'
-import type { User } from '@holi/core/screens/userprofile/types'
+import { User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 
@@ -31,7 +31,7 @@ const UserConnectionButton: React.VFC<UserConnectionButtonProps> = ({ user, full
   }
 
   // when not logged in, user has connectionStatusToMyself as null
-  const connectionStatusToMyself = user.connectionStatusToMyself || 'NOT_LOGGED_IN'
+  const connectionStatusToMyself = user.connectionStatusToMyself || UserConnectionStatus.NOT_LOGGED_IN
 
   const updateUserConnectionStatus = () => {
     updateConnectionWithUser({
@@ -39,7 +39,8 @@ const UserConnectionButton: React.VFC<UserConnectionButtonProps> = ({ user, full
         input: {
           userId: user.id,
           action:
-            connectionStatusToMyself === 'NOT_CONNECTED' || connectionStatusToMyself === 'PENDING_CONFIRMATION'
+            connectionStatusToMyself === UserConnectionStatus.NOT_CONNECTED ||
+            connectionStatusToMyself === UserConnectionStatus.PENDING_CONFIRMATION
               ? 'CONNECT'
               : 'DISCONNECT',
         },
@@ -48,7 +49,10 @@ const UserConnectionButton: React.VFC<UserConnectionButtonProps> = ({ user, full
   }
 
   const onPress = () => {
-    if (connectionStatusToMyself !== 'NOT_CONNECTED' && connectionStatusToMyself !== 'PENDING_CONFIRMATION') {
+    if (
+      connectionStatusToMyself !== UserConnectionStatus.NOT_CONNECTED &&
+      connectionStatusToMyself !== UserConnectionStatus.PENDING_CONFIRMATION
+    ) {
       setShowConfirmation(true)
     } else {
       updateUserConnectionStatus()
