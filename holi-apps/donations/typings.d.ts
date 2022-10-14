@@ -11,6 +11,8 @@ export type PictureType = 'original' | 'small' | 'tiny_square'
 export interface Picture {
   url: string
   type: PictureType
+  width?: number
+  height?: number
 }
 
 export interface ProjectInitiative {
@@ -41,5 +43,6 @@ export interface Project {
 }
 
 export interface ProjectsResponse {
+  totalResults: number
   projects: Project[]
 }

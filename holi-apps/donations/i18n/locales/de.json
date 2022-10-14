@@ -31,9 +31,13 @@
   "category.weihnachtsstreamerei-emergency": "Nothilfe zu Weihnachten",
   "category.weihnachtsstreamerei-health": "Gesundheit zu Weihnachten",
   "donationListing.error": "Laden von Spendenprojekten ist fehlgeschlagen",
-  "donationListing.loading": "Lädt Spendenprojekte...",
   "donationListing.loadMoreButton.loading": "Lädt",
   "donationListing.loadMoreButton.text": "Weitere Projekte",
+  "donationListing.loading": "Lädt Spendenprojekte...",
+  "donationListing.search.heading": "Suchergebnisse für <0>{{location}}</0>",
+  "donationListing.search.noResults": "Versuche, die Anzahl an Filtern zu verringern oder den Ort zu ändern.",
+  "donationListing.search.resultCount": "{{count}} Möglichkeit",
+  "donationListing.search.resultCount_plural": "{{count}} Möglichkeiten",
   "donationProgress.count": "{{count}} Spende",
   "donationProgress.count_plural": "{{count}} Spenden",
   "donationProgress.openAmount": "{{amount}} fehlen noch",
@@ -41,5 +45,9 @@
   "initiative.indication": "von <0>{{name}}</0>",
   "initiative.link.button": "Seite von {{name}}",
   "projectDetail.donate": "Spenden",
-  "projectDetail.notFound": "Projekt mit ID {{projectId}} wurde nicht gefunden"
+  "projectDetail.notFound": "Projekt mit ID {{projectId}} wurde nicht gefunden",
+  "search.heading": "Suche",
+  "search.location.label": "Ort",
+  "search.location.placeholder": "Ort eingeben...",
+  "search.submitButton": "Passende Projekte anzeigen"
 }
