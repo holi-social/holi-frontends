@@ -103,16 +103,18 @@ const styles = StyleSheet.create({
   },
   recoverPasswordForm: {
     // reserves space for inputs plus submit until ory flow is done
-    minHeight: 235,
+    minHeight: 170,
   },
   button: {
     marginTop: 20,
   },
   headline2: {
     marginTop: 40,
+    textAlign: 'center',
   },
   headline3: {
     marginTop: 16,
+    textAlign: 'center',
   },
   loginLinkText: {
     color: colors.positivepurple,

@@ -24,7 +24,6 @@ const RecoverPasswordSent: React.FC<RecoverPasswordSentProps> = (props: RecoverP
           width={217}
           height={158}
           label={t('profile.loggedOut.image')}
-          style={{ borderWidth: 2, borderColor: '#0f0', width: 300 }}
         />
       </View>
       <HoliHeading level="2" size="medium" style={styles.heading}>
@@ -54,15 +53,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   heading: {
-    marginTop: 40,
+    marginTop: 20,
     textAlign: 'center',
   },
   text: {
-    marginTop: 40,
+    marginTop: 20,
     textAlign: 'center',
   },
   button: {
-    marginTop: 20,
+    marginTop: 40,
     alignSelf: 'center',
   },
 })
