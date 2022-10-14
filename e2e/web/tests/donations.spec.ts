@@ -62,7 +62,17 @@ test.describe('@Donations', () => {
     expect(donationUrl).toMatch(/https:\/\/www.betterplace.org\/.*\/donate\/platform\/projects\/.*/)
     const donationUrlParts = donationUrl.split('/')
     expect(donationUrlParts[donationUrlParts.length - 1]).toBe(projectId)
-    donationPage.close() // close newly opened tab
+    await donationPage.close() // close newly opened tab
+
+    // check if clicking on initiative button actually opens a tab with a reasonable URL
+    await waitForElementByTestId(page, 'donations-project-initiative-btn')
+    const [initiativePage] = await Promise.all([
+      context.waitForEvent('page'),
+      clickElementByTestId(page, 'donations-project-initiative-btn'), // opens a new tab
+    ])
+    const initiativeUrl = initiativePage.url()
+    expect(initiativeUrl).toMatch(/https:\/\/www.betterplace.org\/.*\/organisations\/.*/)
+    await initiativePage.close() // close newly opened tab
   })
 
   test('should filter donations by location', async ({ page }) => {
