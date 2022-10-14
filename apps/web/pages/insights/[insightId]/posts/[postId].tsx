@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 
-import Post from '@holi/core/screens/topics/Post'
+import Post from '@holi/core/screens/posts/Post'
 
 const PostPage: NextPage = () => <Post />
 

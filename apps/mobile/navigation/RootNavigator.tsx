@@ -12,8 +12,8 @@ import Explore from '@holi/core/screens/Explore'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
-import Post, { PostParams } from '@holi/core/screens/topics/Post'
-import Topic, { TopicParams } from '@holi/core/screens/topics/Topic'
+import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
+import Post, { PostParams } from '@holi/core/screens/posts/Post'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
@@ -26,7 +26,7 @@ import { BackButton, CenterElement, DownButton, LeftElement, RightElement } from
 
 export type HomeStackScreens = {
   HomeFeed: undefined
-  Topic: TopicParams
+  InsightDetailPage: InsightDetailPageParams
   Post: PostParams
   OwnProfile: undefined
   UserProfile: UserProfileParams
@@ -100,8 +100,8 @@ export const HomeStackNavigator: React.VFC = () => {
         }}
       />
       <HomeStack.Screen
-        name="Topic"
-        component={Topic}
+        name="InsightDetailPage"
+        component={InsightDetailPage}
         options={{
           headerShown: false,
         }}
