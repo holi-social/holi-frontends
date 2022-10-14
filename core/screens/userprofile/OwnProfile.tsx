@@ -41,7 +41,7 @@ const OwnProfile: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
 
   const profileTitle = isLoggedIn && user && user.firstName ? '' : t('profile.title')
   useNavigationHeader(navigation, {
-    headerLeft: () => <BackButton icon="arrow-left-s" />,
+    headerLeft: () => <BackButton />,
     title: profileTitle,
     headerRight: () =>
       isLoggedIn && (
