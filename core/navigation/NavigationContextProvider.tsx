@@ -9,12 +9,12 @@ export type NavigationContextType = {
   showBackLink: boolean
   showDownLink: boolean
   clearBackLinks: () => void
-  titleElement: ReactElement | undefined
-  setTitleElement: (node: ReactElement) => void
-  headerLeft: ReactElement | undefined
-  setHeaderLeft: (node: ReactElement) => void
-  headerRight: ReactElement | undefined
-  setHeaderRight: (node: ReactElement) => void
+  titleElement?: ReactElement
+  setTitleElement: (node?: ReactElement) => void
+  headerLeft?: ReactElement
+  setHeaderLeft: (node?: ReactElement) => void
+  headerRight?: ReactElement
+  setHeaderRight: (node?: ReactElement) => void
 }
 
 const NavigationContext = createContext<NavigationContextType>({
@@ -25,11 +25,8 @@ const NavigationContext = createContext<NavigationContextType>({
   showBackLink: false,
   showDownLink: false,
   clearBackLinks: () => null,
-  titleElement: undefined,
   setTitleElement: () => null,
-  headerLeft: undefined,
   setHeaderLeft: () => null,
-  headerRight: undefined,
   setHeaderRight: () => null,
 })
 NavigationContext.displayName = 'NavigationContext'
@@ -41,17 +38,17 @@ const NavigationContextProvider: React.FC = ({ children }) => {
   const [headerTitle, setHeaderTitle] = useState('')
   const [showBackLink, setShowBackLink] = useState(false)
   const [showDownLink, setShowDownLink] = useState(false)
-  const [titleElement, setTitleElement] = useState(null)
-  const [headerLeft, setHeaderLeft] = useState(null)
-  const [headerRight, setHeaderRight] = useState(null)
+  const [titleElement, setTitleElement] = useState<ReactElement>()
+  const [headerLeft, setHeaderLeft] = useState<ReactElement>()
+  const [headerRight, setHeaderRight] = useState<ReactElement>()
 
   const clearBackLinks = useCallback(() => {
     setShowBackLink(false)
     setShowDownLink(false)
     setHeaderTitle('')
-    setTitleElement(null)
-    setHeaderLeft(null)
-    setHeaderRight(null)
+    setTitleElement(undefined)
+    setHeaderLeft(undefined)
+    setHeaderRight(undefined)
   }, [])
 
   return (
