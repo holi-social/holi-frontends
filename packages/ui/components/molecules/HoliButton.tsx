@@ -4,6 +4,7 @@ import {
   GestureResponderEvent,
   Platform,
   Pressable,
+  StyleProp,
   StyleSheet,
   View,
   ViewStyle,
@@ -20,7 +21,7 @@ export const HoliButtonVariants: HoliButtonVariant[] = ['default', 'small'] // k
 
 export type HoliButtonProps = {
   label: string
-  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
+  style?: StyleProp<ViewStyle>
   inline?: boolean
   type?: HoliButtonType
   variant?: HoliButtonVariant

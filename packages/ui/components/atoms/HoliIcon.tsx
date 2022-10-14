@@ -32,7 +32,12 @@ const HoliIcon: React.VoidFunctionComponent<HoliIconProps> = (props: HoliIconPro
   const icoMoonProps = { size: 24, ...props }
   delete icoMoonProps.filled
   delete icoMoonProps.spinning
-  const styling = { color: props?.color || colors.fontColorBlack, ...StyleSheet.flatten<ViewStyle>(props?.style) }
+  const styling = {
+    color: props?.color || colors.fontColorBlack,
+    borderStyle: 'solid',
+    borderWidth: 0,
+    ...StyleSheet.flatten<ViewStyle>(props?.style),
+  }
 
   if (props.spinning) {
     const spinValue = new Animated.Value(0)
