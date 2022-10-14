@@ -24,9 +24,9 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding-bottom: #{$bottom-bar-height + 50}px;
   margin: #{$top-bar-height}px auto auto auto;
   background-color: $background-color-white;
+  padding-bottom: #{$top-bar-height}px;
 }
 
 .fixed {

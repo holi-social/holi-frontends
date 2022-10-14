@@ -37,6 +37,8 @@ const fakeTopics: Insight[] = [
     posts: [
       { id: '123', creator: { id: 'afoo', firstName: getRandomName() }, text: '123 ' + loremIpsum },
       { id: '321', creator: { id: 'abar', firstName: getRandomName() }, text: '321 ' + loremIpsum },
+      { id: '123a', creator: { id: 'dbar', firstName: getRandomName() }, text: '123a ' + loremIpsum },
+      { id: '321a', creator: { id: 'ebar', firstName: getRandomName() }, text: '321a ' + loremIpsum },
     ],
     headerImage: 'https://image.geo.de/30657478/t/5W/v6/w960/r1.5/-/wer-hat-den-foehn-picture-1238735191.jpg',
     curator: {
@@ -54,6 +56,7 @@ const fakeTopics: Insight[] = [
     posts: [
       { id: '456', creator: { id: 'bfoo', firstName: getRandomName() }, text: '456 ' + loremIpsum },
       { id: '654', creator: { id: 'bbar', firstName: getRandomName() }, text: '654 ' + loremIpsum },
+      { id: '654a', creator: { id: 'cbar', firstName: getRandomName() }, text: '654a ' + loremIpsum },
     ],
     headerImage: 'https://image.geo.de/30137764/t/r8/v4/w960/r1.5/-/die-welt-von-gestern-in-farbe-02-jpg--78318-.jpg',
     curator: {
