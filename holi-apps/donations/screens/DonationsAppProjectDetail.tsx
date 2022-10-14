@@ -90,7 +90,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
         <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
           <DonationImage picture={project.picture} label={project.title} style={styles.image} />
           <View style={styles.header}>
-            <HoliHeading level="2" size={'large'} testID="donations-project-detail-heading">
+            <HoliHeading level="1" size={'large'} testID="donations-project-detail-heading">
               {project.title}
             </HoliHeading>
             <View style={styles.location}>
