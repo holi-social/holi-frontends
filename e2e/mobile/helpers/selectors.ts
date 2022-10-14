@@ -31,7 +31,7 @@ export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?:
 export const scrollToElementWithTestId = async (
   testId: string,
   direction: 'up' | 'down',
-  { timeout, maxAttempts = 1 }: { timeout?: number; maxAttempts?: number }
+  { timeout, maxAttempts = 1 }: { timeout?: number; maxAttempts?: number } = {}
 ) => {
   // scrollIntoView is not supported for iOS and webdriverio currently requires a manual scroll down, instead of a scroll into element
   // https://github.com/webdriverio/webdriverio/issues/6537 and https://stackoverflow.com/questions/42656872/how-to-do-scroll-on-ios-native-app-with-webdriver-io
