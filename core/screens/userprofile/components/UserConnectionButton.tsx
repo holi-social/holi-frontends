@@ -80,7 +80,9 @@ const UserConnectionButton: React.VFC<UserConnectionButtonProps> = ({ user, full
         onDismiss={() => setShowConfirmation(false)}
         dismissText={t(`user.profileView.connection.confirmation.dismiss.${connectionStatusToMyself}`)}
         confirmText={t(`user.profileView.connection.confirmation.confirm.${connectionStatusToMyself}`)}
-        {...(connectionStatusToMyself !== 'NOT_LOGGED_IN' ? { onConfirm: updateUserConnectionStatus } : {})}
+        {...(connectionStatusToMyself !== UserConnectionStatus.NOT_LOGGED_IN
+          ? { onConfirm: updateUserConnectionStatus }
+          : {})}
       />
     </>
   )
