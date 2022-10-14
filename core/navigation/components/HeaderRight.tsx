@@ -35,7 +35,7 @@ const HeaderRight: React.VFC<HeaderRightProps> = (props) => {
       : '/profile'
   }
 
-  if (headerRight) return headerRight
+  if (headerRight) return React.cloneElement(headerRight, { style: props.style })
 
   let userAvatar
   if (hasUserData) {
