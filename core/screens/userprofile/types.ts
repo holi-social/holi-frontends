@@ -154,4 +154,7 @@ export enum UserConnectionStatus {
   PENDING_CONFIRMATION = 'PENDING_CONFIRMATION', // pending confirmation by currently authenticated user
 }
 
-export type UpdateConnectionWithUserActions = 'CONNECT' | 'DISCONNECT'
+export enum UpdateConnectionWithUserActions {
+  CONNECT = 'CONNECT',
+  DISCONNECT = 'DISCONNECT',
+}

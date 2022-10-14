@@ -8,7 +8,7 @@ import {
   UpdateConnectionWithUserResponse,
   updateConnectionWithUserMutation,
 } from '@holi/core/screens/userprofile/queries'
-import { User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
+import { UpdateConnectionWithUserActions, User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 
@@ -41,8 +41,8 @@ const UserConnectionButton: React.VFC<UserConnectionButtonProps> = ({ user, full
           action:
             connectionStatusToMyself === UserConnectionStatus.NOT_CONNECTED ||
             connectionStatusToMyself === UserConnectionStatus.PENDING_CONFIRMATION
-              ? 'CONNECT'
-              : 'DISCONNECT',
+              ? UpdateConnectionWithUserActions.CONNECT
+              : UpdateConnectionWithUserActions.DISCONNECT,
         },
       },
     })
