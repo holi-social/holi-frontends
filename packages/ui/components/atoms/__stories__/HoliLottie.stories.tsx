@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
-import HoliLottie from '@holi/ui/components/atoms/HoliLottie.web'
+import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import { animations } from '@holi/ui/lottie-animations'
 
 export default {
