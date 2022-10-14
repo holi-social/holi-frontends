@@ -20,11 +20,11 @@ const HomeTopBar: React.VoidFunctionComponent = () => {
       accessibilityLabel={t('navigation.topNavigation')}
     >
       <View style={styles.buttonContainer}>
-        <HeaderLeft style={{ paddingHorizontal: 20, paddingVertical: 10 }} />
+        <HeaderLeft style={styles.leftItem} />
 
         <HeaderTitle style={{ paddingTop: 5 }} />
 
-        <HeaderRight style={{ paddingHorizontal: 20, paddingVertical: 10 }} />
+        <HeaderRight style={styles.rightItem} />
       </View>
     </View>
   )
@@ -46,7 +46,21 @@ const getStyles = (screenWidth: number) =>
       alignItems: 'center',
       width: '100%',
       maxWidth: vars.maxScreenWidth,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
+      justifyContent: 'center',
+      position: 'relative',
+    },
+    leftItem: {
+      position: 'absolute',
+      left: 0,
+      top: 5,
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+    },
+    rightItem: {
+      position: 'absolute',
+      right: 0,
+      top: 5,
+      paddingHorizontal: 20,
+      paddingVertical: 10,
     },
   })
