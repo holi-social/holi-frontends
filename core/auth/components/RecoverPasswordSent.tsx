@@ -26,7 +26,7 @@ const RecoverPasswordSent: React.FC<RecoverPasswordSentProps> = (props: RecoverP
           label={t('profile.loggedOut.image')}
         />
       </View>
-      <HoliHeading level="2" size="medium" style={styles.heading}>
+      <HoliHeading level="2" size="medium" style={styles.heading} testID="form-sent-headline">
         {t('auth.forgotPassword.success.headline')}
       </HoliHeading>
       <HoliText style={styles.text}>{t('auth.forgotPassword.success.text')}</HoliText>
@@ -36,6 +36,7 @@ const RecoverPasswordSent: React.FC<RecoverPasswordSentProps> = (props: RecoverP
         inline
         onPress={() => navigate('/')}
         style={styles.button}
+        testID="back-to-home-btn"
       >
         {t('auth.forgotPassword.success.button')}
       </HoliButton>

@@ -82,6 +82,7 @@ const Login: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
           variant="small"
           style={styles.button}
           onPress={() => navigate('/forgotPassword')}
+          testID="btn-to-forgot-password-form"
         >
           {t('auth.login.link.forgotPassword')}
         </HoliButton>
