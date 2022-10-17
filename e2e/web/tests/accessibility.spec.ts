@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('@Accessibility', () => {
   test('should work', async ({ page }) => {
-    await waitForElementByTestId(page, 'home-feed-topics-heading')
+    await waitForElementByTestId(page, 'home-feed-insights-heading')
     await checkAccessibility(page)
 
     const profileButton = await locateElementByTestId(page, 'btn-to-profile-view')
@@ -18,7 +18,7 @@ test.describe('@Accessibility', () => {
 
     const homeButton = await locateElementByTestId(page, 'nav-button-home')
     await homeButton.click()
-    await waitForElementByTestId(page, 'home-feed-topics-heading') // this weeks topics
+    await waitForElementByTestId(page, 'home-feed-insights-heading') // this weeks insights
     await checkAccessibility(page)
   })
 })

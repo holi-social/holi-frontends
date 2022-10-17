@@ -1,10 +1,10 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
-import fakeTopics from '@holi/core/screens/topics/fakeTopics'
+import { getRandomUser } from '@holi/core/screens/insights/fakeInsights'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 
-const users = fakeTopics.get('abc').editors
+const users = Array.from(' '.repeat(6), (_, idx) => getRandomUser(!(idx % 2)))
 
 export default {
   title: 'Organisms/HoliUserAvatarPile',

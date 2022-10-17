@@ -22,7 +22,7 @@ const tabs = [
     ),
   },
   {
-    title: 'Topics',
+    title: 'Insights',
     children: (
       <View
         style={{
@@ -32,7 +32,7 @@ const tabs = [
           padding: 56,
         }}
       >
-        <HoliText style={{ textAlign: 'center', color: '#6F7081' }}>These are my topics.</HoliText>
+        <HoliText style={{ textAlign: 'center', color: '#6F7081' }}>These are my insights.</HoliText>
       </View>
     ),
   },

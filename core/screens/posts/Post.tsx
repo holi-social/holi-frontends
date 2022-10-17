@@ -12,16 +12,16 @@ import { userFullName } from '@holi/core/helpers'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
+import fakeInsights from '@holi/core/screens/insights/fakeInsights'
 import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import type { Insight } from '@holi/core/screens/insights/types'
-import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type PostParams = {
-  topicId: string
+  insightId: string
   postId: string
 }
 
@@ -30,11 +30,11 @@ const { useParam } = createParam<PostParams>()
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
 const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
-  const [topicId] = useParam('topicId')
+  const [insightId] = useParam('insightId')
   const [postId] = useParam('postId')
 
   const { t } = useTranslation()
-  const title = t('topics.post.title', { topicId, postId })
+  const title = t('insights.post.title', { insightId, postId })
   const mixins = useStyleMixins()
 
   useNavigationHeader(navigation, { title: title, headerLeft: () => <BackButton /> })
@@ -44,23 +44,23 @@ const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   })
 
   if (error) {
-    logError(error, `[Topic.tsx] ${error.message}`)
+    logError(error, `[Post.tsx] ${error.message}`)
   }
 
   // Error and loading states are handled the same way and just hide the component
   if (loading || error) {
     return <></>
   }
-  const insights: Insight[] = data?.lastInsights?.length ? data.lastInsights : fakeTopics
-  const topic = insights.find((insight) => insight.id == topicId)
-  if (!topic) return <HoliText>{t('topics.topic.notFound', { topicId })}</HoliText>
+  const insights: Insight[] = data?.lastInsights?.length ? data.lastInsights : fakeInsights
+  const insight = insights.find((insight) => insight.id == insightId)
+  if (!insight) return <HoliText>{t('insights.insight.notFound', { insightId })}</HoliText>
 
   // TODO: dummy category
   const category = 'Immigration'
 
   const author = {
-    ...topic.curator,
-    fullName: userFullName(topic.curator),
+    ...insight.curator,
+    fullName: userFullName(insight.curator),
     avatar: faker.image.avatar(), // TODO: dummy image
   }
 
@@ -71,9 +71,9 @@ const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
           {title}
         </HoliHeading>
         <HoliText style={{ paddingTop: 10 }}>
-          <Trans i18nKey="topics.post.author" values={{ author: author.fullName, category: category }} />
+          <Trans i18nKey="insights.post.author" values={{ author: author.fullName, category: category }} />
         </HoliText>
-        <HoliText style={{ paddingTop: 10 }}>{topic.title}</HoliText>
+        <HoliText style={{ paddingTop: 10 }}>{insight.title}</HoliText>
       </View>
     </DefaultLayout>
   )
