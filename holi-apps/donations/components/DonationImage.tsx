@@ -12,9 +12,16 @@ type DonationImageProps = {
   label: string
   style?: StyleProp<ImageStyle>
   resizeMode?: ResizeMode
+  sizes?: string
 }
 
-const DonationImage: React.VFC<DonationImageProps> = ({ picture, label, style, resizeMode }: DonationImageProps) => {
+const DonationImage: React.VFC<DonationImageProps> = ({
+  picture,
+  label,
+  style,
+  resizeMode,
+  sizes,
+}: DonationImageProps) => {
   const sources: ImageSource[] = picture
     .filter((picture) => !!picture.width && !!picture.height)
     .map((picture) => ({
@@ -25,7 +32,15 @@ const DonationImage: React.VFC<DonationImageProps> = ({ picture, label, style, r
     }))
   const original = picture.find(({ type }) => type === 'original')
 
-  return <HoliImage source={sources || { uri: original?.url }} label={label} style={style} resizeMode={resizeMode} />
+  return (
+    <HoliImage
+      source={sources || { uri: original?.url }}
+      label={label}
+      style={style}
+      resizeMode={resizeMode}
+      sizes={sizes}
+    />
+  )
 }
 
 export default DonationImage
