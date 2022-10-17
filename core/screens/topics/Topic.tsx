@@ -11,7 +11,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
-import { userFullName } from '@holi/core/helpers'
+import { useBreakpointMatcher, userFullName } from '@holi/core/helpers'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
@@ -20,6 +20,8 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
+import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -38,12 +40,13 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const [topicId = ''] = useParam('topicId')
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const postGridItemsInRow = useBreakpointMatcher()
   const { navigate } = useRouting()
   const numberOfItems = 2
 
   useNavigationHeader(navigation, {
     title: t('topics.topic.title', { title: topicId }),
-    headerLeft: () => <BackButton icon="arrow-down-s" />,
+    headerLeft: () => <BackButton />,
   })
 
   const { loading, error, data } = useQuery<LastInsightsResponse>(lastInsightsQuery, {
@@ -125,26 +128,24 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
           </View>
         </View>
 
-        {/* List of posts */}
-        {topic.posts.map((post) => (
-          <HoliButton
-            key={post.id}
-            label={post.text}
-            transparent
-            style={styles.post}
-            onPress={() => navigate(`/topics/${topicId}/posts/${post.id}`)}
-          >
-            <HoliText>{post.text}</HoliText>
-          </HoliButton>
-        ))}
-
-        {/* <View style={[mixins.container, Platform.OS === 'web' && mixins.twoColumnGrid]}>
-          {[...Object.getOwnPropertyNames(topic.posts)].map((postId) => (
-            <View key={postId} style={styles.post}>
-              <HoliText>{topic.posts[postId].text}</HoliText>
-            </View>
-          ))}
-        </View> */}
+        {/* Dummy list of posts */}
+        <View style={mixins.container}>
+          <HoliGridWrapper itemsInRow={postGridItemsInRow}>
+            {topic.posts.map((post) => (
+              <HoliGridCell key={post.id}>
+                <HoliButton
+                  key={post.id}
+                  label={post.text}
+                  transparent
+                  style={styles.post}
+                  onPress={() => navigate(`/topics/${topicId}/posts/${post.id}`)}
+                >
+                  <HoliText>{post.text}</HoliText>
+                </HoliButton>
+              </HoliGridCell>
+            ))}
+          </HoliGridWrapper>
+        </View>
       </DefaultLayout>
 
       {/* Header */}
@@ -153,7 +154,7 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
           <LinearGradient colors={[colors.shadowColorBlack, 'transparent']} style={styles.headerBackgroundGradient} />
           <SafeAreaView style={styles.headerInner}>
             <View style={styles.headerLeft}>
-              <BackButton tintColor={colors.fontColorWhite} icon="arrow-down-s" />
+              <BackButton tintColor={colors.fontColorWhite} />
             </View>
 
             <View style={styles.headerCenter}>
@@ -170,6 +171,7 @@ const headerLeftWidth = 50
 const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: colors.backgroundColorGreyDark,
+    ...Platform.select({ web: { flex: 1 } }),
   },
   mobileHeader: {
     position: 'absolute',
@@ -244,11 +246,10 @@ const styles = StyleSheet.create({
     color: colors.grey,
   },
   post: {
+    flex: 1,
     padding: 24,
     borderRadius: 12,
     backgroundColor: colors.backgroundColorWhite,
-    flex: 1,
-    marginBottom: 16,
   },
 })
 

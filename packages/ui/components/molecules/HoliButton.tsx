@@ -4,6 +4,7 @@ import {
   GestureResponderEvent,
   Platform,
   Pressable,
+  StyleProp,
   StyleSheet,
   View,
   ViewStyle,
@@ -20,7 +21,7 @@ export const HoliButtonVariants: HoliButtonVariant[] = ['default', 'small'] // k
 
 export type HoliButtonProps = {
   label: string
-  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
+  style?: StyleProp<ViewStyle>
   inline?: boolean
   type?: HoliButtonType
   variant?: HoliButtonVariant
@@ -152,7 +153,9 @@ const getStyles = (inline: boolean) =>
       elevation: 8,
     },
     focused: {
-      borderWidth: 4,
+      outlineWidth: 2,
+      outlineColor: colors.shadowColorBlack,
+      outlineStyle: 'solid',
     },
     pressedPrimary: {
       backgroundColor: colors.backgroundColorYellowDark,

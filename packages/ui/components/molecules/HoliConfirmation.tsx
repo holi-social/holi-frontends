@@ -10,21 +10,25 @@ import { useTheme } from '@holi/ui/styles/theme'
 
 export type HoliConfirmationProps = ModalProps & {
   show: boolean
-  onConfirm: () => void
-  onDismiss: () => void
   label: string
   title: string
   description: string
+  onConfirm?: () => void
+  onDismiss?: () => void
+  confirmText?: string
+  dismissText?: string
   testID?: string
 }
 
 const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
   show = false,
-  onConfirm,
-  onDismiss,
   label,
   title,
   description,
+  onConfirm,
+  onDismiss,
+  confirmText,
+  dismissText,
   testID,
 }) => {
   const { t } = useTranslation()
@@ -57,25 +61,29 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
           <HoliText bold>{title}</HoliText>
           <HoliText style={styles.description}>{description}</HoliText>
           <View style={styles.buttonContainer}>
-            <HoliButton
-              inline
-              type="secondary"
-              label={t('confirmation.dismiss')}
-              onPress={onDismiss}
-              style={styles.button}
-              {...(testID ? { testID: `${testID}-confirmation-dismiss` } : {})}
-            >
-              {t('confirmation.dismiss')}
-            </HoliButton>
-            <HoliButton
-              inline
-              label={t('confirmation.confirm')}
-              onPress={onConfirm}
-              style={styles.button}
-              {...(testID ? { testID: `${testID}-confirmation-confirm` } : {})}
-            >
-              {t('confirmation.confirm')}
-            </HoliButton>
+            {onDismiss && (
+              <HoliButton
+                inline
+                type="secondary"
+                label={dismissText || t('confirmation.dismiss')}
+                onPress={onDismiss}
+                style={styles.button}
+                {...(testID ? { testID: `${testID}-confirmation-dismiss` } : {})}
+              >
+                {dismissText || t('confirmation.dismiss')}
+              </HoliButton>
+            )}
+            {onConfirm && (
+              <HoliButton
+                inline
+                label={confirmText || t('confirmation.confirm')}
+                onPress={onConfirm}
+                style={styles.button}
+                {...(testID ? { testID: `${testID}-confirmation-confirm` } : {})}
+              >
+                {confirmText || t('confirmation.confirm')}
+              </HoliButton>
+            )}
           </View>
         </View>
       </View>

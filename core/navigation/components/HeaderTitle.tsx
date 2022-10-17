@@ -12,7 +12,7 @@ export type HeaderTitleProps = {
 const HeaderTitle: React.VFC<HeaderTitleProps> = (props: HeaderTitleProps) => {
   const navigationContext = useNavigationContext()
 
-  if (navigationContext.titleElement) return navigationContext.titleElement
+  if (navigationContext.titleElement) return React.cloneElement(navigationContext.titleElement, { style: props.style })
 
   return (
     <HoliText bold {...props}>

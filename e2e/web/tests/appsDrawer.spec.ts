@@ -21,7 +21,6 @@ test.describe('@AppsDrawer', () => {
     await clickElementByTestId(page, 'app-tile-donations')
 
     // app is open, apps button has disappeared and drawer is gone
-    await waitForAnimationEnd(page.locator(byTestId('apps-drawer-modal-animatedview')))
     await waitForElementByTestId(page, 'donations-list-container')
     expect(page.url()).toContain('/apps/donations')
     const appsButtonIsVisible = await page.locator(byTestId('home-apps-button')).isVisible()

@@ -111,6 +111,8 @@ exports[`renders correctly renders correctly when checked 1`] = `
               "borderWidth": 0,
             },
             Object {
+              "borderStyle": "solid",
+              "borderWidth": 0,
               "color": "#fff",
               "display": "flex",
               "fill": "currentColor",
@@ -355,6 +357,8 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
               "borderWidth": 0,
             },
             Object {
+              "borderStyle": "solid",
+              "borderWidth": 0,
               "color": "#6f7081",
               "display": "flex",
               "fill": "currentColor",
