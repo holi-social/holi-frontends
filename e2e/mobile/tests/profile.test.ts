@@ -19,9 +19,6 @@ describe('@Profile', () => {
     // expect user profile
     await waitForElementWithTestId('user-profile-full-name')
 
-    // go back
-    await tapOnElementWithTestId('nav-button-back', 0)
-
     // logout
     await logout()
   })

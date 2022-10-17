@@ -70,7 +70,7 @@ For [Android](#android) there is a script that takes care of starting the applic
 #### iOS
 
 1. Make sure the application is running on the simulator.
-2. run `yarn e2e:ios`
+2. run `yarn test:ios`
    (The script detects and uses the locally running simulator)
 
 #### Android
@@ -85,7 +85,7 @@ For [Android](#android) there is a script that takes care of starting the applic
    If the emulator is run for the first time, Expo Go might open some onboarding layer that should be clicked away.
 
    If the app was running before, maybe close and reopen it (making sure the newest version is used).
-3. run `yarn e2e:android`
+3. run `yarn test:android`
 
    This starts the actual test execution.
 
@@ -94,11 +94,11 @@ For [Android](#android) there is a script that takes care of starting the applic
 Single tests can be executed by passing an argument with the name of the spec to be executed, e.g.
 
 ```sh
-yarn e2e:android -t HomeScreen
+yarn test:android -t HomeScreen
 # resp.
-yarn e2e:ios -t HomeScreen
+yarn test:ios -t HomeScreen
 # or even
-yarn e2e:android -t 'Login should work with valid credentials'
+yarn test:android -t 'Login should work with valid credentials'
 ```
 
 See the documentation of the [Jest CLI](https://jestjs.io/docs/cli#--testnamepatternregex) for more options.
@@ -107,13 +107,13 @@ See the documentation of the [Jest CLI](https://jestjs.io/docs/cli#--testnamepat
 
 #### iOS Simulator
 
-`APP_PATH=/path/to/application.app yarn e2e:ios`
+`APP_PATH=/path/to/application.app yarn test:ios`
 
 You need to use the simulator build here (i.e. `yarn mobile:build_ios_sim`).
 
 #### Android Emulator
 
-`APP_PATH=/path/to/application.apk yarn e2e:android`
+`APP_PATH=/path/to/application.apk yarn test:android`
 
 You need to use the APK build here (i.e. `yarn mobile:build_android_apk`).
 

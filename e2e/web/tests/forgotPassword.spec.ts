@@ -17,7 +17,7 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('@ForgotPassword', () => {
-  test('ForgotPassword form validation', async ({ page }) => {
+  test('form validation', async ({ page }) => {
     await clickElementByTestId(page, 'btn-to-profile-view')
     await clickElementByTestId(page, 'btn-to-login-form')
     await clickElementByTestId(page, 'btn-to-forgot-password-form')
@@ -42,7 +42,7 @@ test.describe('@ForgotPassword', () => {
     await waitForElementByTestId(page, 'ory-email-input-error-message')
   })
 
-  test('ForgotPassword successful form submission', async ({ page }) => {
+  test('successful form submission', async ({ page }) => {
     await waitForElementByTestId(page, 'home-feed-topics-heading')
     await checkAccessibility(page)
 
