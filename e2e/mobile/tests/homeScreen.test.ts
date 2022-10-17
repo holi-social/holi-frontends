@@ -9,13 +9,13 @@ import {
 
 describe('@HomeScreen', () => {
   it('should work', async () => {
-    await waitForElementWithTestId('home-feed-topics-heading')
+    await waitForElementWithTestId('home-feed-insights-heading')
 
-    // go to topic screen
-    await waitForElementWithTestId('feed-topic-image-link')
-    await tapOnElementWithTestId('feed-topic-image-link')
+    // go to insight screen
+    await waitForElementWithTestId('feed-insight-image-link')
+    await tapOnElementWithTestId('feed-insight-image-link')
 
-    await waitForElementWithTestId('topic-headline')
+    await waitForElementWithTestId('insight-headline')
 
     // go home
     await navigateBackToHomeScreen()

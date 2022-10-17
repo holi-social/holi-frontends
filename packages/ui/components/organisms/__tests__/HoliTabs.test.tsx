@@ -17,10 +17,10 @@ const tabs = [
     ),
   },
   {
-    title: 'Topics',
+    title: 'Insights',
     children: (
       <View>
-        <HoliText testID="topicsTab">These are my topics.</HoliText>
+        <HoliText testID="InsightsTab">These are my insights.</HoliText>
       </View>
     ),
   },

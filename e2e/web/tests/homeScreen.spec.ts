@@ -7,24 +7,24 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('@HomeScreen', () => {
-  test('has feed topic headline', async ({ page }) => {
-    await waitForElementByTestId(page, 'home-feed-topics-heading')
+  test('has feed insight headline', async ({ page }) => {
+    await waitForElementByTestId(page, 'home-feed-insights-heading')
   })
 
-  test('has feed topic items and clicking them leads to overview page.', async ({ page }) => {
+  test('has feed insight items and clicking them leads to overview page.', async ({ page }) => {
     await Promise.all([
-      page.waitForNavigation({ url: '**/topics/**' }),
-      clickElementByTestId(page, 'feed-topic-image-link'),
+      page.waitForNavigation({ url: '**/insights/**' }),
+      clickElementByTestId(page, 'feed-insight-image-link'),
     ])
-    expect(page.url()).toContain('/topics/')
+    expect(page.url()).toContain('/insights/')
   })
 
-  test('has feed topic editors avatar pile.', async ({ page }) => {
+  test('has feed insight editors avatar pile.', async ({ page }) => {
     // make sure the feed contains the corresponding avatar pile for its editors
     await page.waitForSelector(byTestId('avatar-pile-open-modal-button'))
   })
 
-  test('opens editors list upon clicking in avatar pile and shows topic editor cards.', async ({ page }) => {
+  test('opens editors list upon clicking in avatar pile and shows insight editor cards.', async ({ page }) => {
     await page.waitForSelector(byTestId('avatar-pile-open-modal-button'))
     await page.locator(byTestId('avatar-pile-open-modal-button')).first().click()
     await page.locator(byTestId('user-cards-modal-content'))

@@ -27,38 +27,38 @@ import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type TopicParams = {
-  topicId: string
+export type InsightDetailPageParams = {
+  insightId: string
 }
-const { useParam } = createParam<TopicParams>()
+const { useParam } = createParam<InsightDetailPageParams>()
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
-  const [topicId = ''] = useParam('topicId')
+const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+  const [insightId = ''] = useParam('insightId')
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const postGridItemsInRow = useBreakpointMatcher()
   const { navigate } = useRouting()
 
   const [getInsight, { loading, error, data }] = useLazyQuery<InsightByIdResponse>(insightById, {
-    variables: { id: topicId },
+    variables: { id: insightId },
   })
 
   useEffect(() => {
-    if (topicId) getInsight()
-  }, [topicId, getInsight])
+    if (insightId) getInsight()
+  }, [insightId, getInsight])
 
   const insight = data?.insightById
 
   useNavigationHeader(navigation, {
-    title: t('topics.topic.title', { title: insight?.title }),
+    title: t('insights.insight.title', { title: insight?.title }),
     headerLeft: () => <BackButton />,
   })
 
   if (error) {
-    console.log('######## Topic load error')
-    logError(error, `[Topic.tsx] ${error.message}`)
+    console.log('######## InsightDetailPage load error')
+    logError(error, `[InsightDetailPage.tsx] ${error.message}`)
   }
 
   // Error and loading states are handled the same way and just hide the component
@@ -69,7 +69,7 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   // Important: `insights.find() should be called after useEffect() or useLayoutEffet()
   // A hard reload will cause an error.
   // see here: https://reactjs.org/docs/hooks-rules.html
-  if (!insight) return <HoliText>{t('topics.topic.notFound', { topicId })}</HoliText>
+  if (!insight) return <HoliText>{t('insights.insight.notFound', { insightId })}</HoliText>
 
   const author = {
     ...insight.curator,
@@ -81,7 +81,6 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const category = 'Immigration'
 
   // TODO: dummy image
-  // const headerImage = topic.headerImage
   const headerImage = 'https://image.geo.de/30657478/t/5W/v6/w960/r1.5/-/wer-hat-den-foehn-picture-1238735191.jpg'
 
   return (
@@ -93,21 +92,21 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
         <ImageBackground
           source={{ uri: headerImage }}
           resizeMode="cover"
-          style={styles.topicBackgroundImage}
-          imageStyle={styles.topicImage}
+          style={styles.insightBackgroundImage}
+          imageStyle={styles.insightImage}
         />
 
-        {/* Topic content */}
-        <View style={[mixins.container, styles.topicView]}>
-          <HoliHeading size="xSmall" style={styles.categoryHeadline} testID="topic-category">
+        {/* Insight content */}
+        <View style={[mixins.container, styles.insightView]}>
+          <HoliHeading size="xSmall" style={styles.categoryHeadline} testID="insight-category">
             {category}
           </HoliHeading>
 
-          <HoliHeading level="1" size="super" style={styles.topicHeadline} testID="topic-headline">
+          <HoliHeading level="1" size="super" style={styles.insightHeadline} testID="insight-headline">
             {insight.title}
           </HoliHeading>
 
-          <HoliText style={styles.topicText}>{insight.description}</HoliText>
+          <HoliText style={styles.insightText}>{insight.description}</HoliText>
 
           {/* Author  */}
           <View style={styles.authorInfo}>
@@ -138,7 +137,7 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
                   label={post.text}
                   transparent
                   style={styles.post}
-                  onPress={() => navigate(`/topics/${topicId}/posts/${post.id}`)}
+                  onPress={() => navigate(`/insights/${insightId}/posts/${post.id}`)}
                 >
                   <HoliText>{post.text}</HoliText>
                 </HoliButton>
@@ -201,7 +200,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     color: colors.fontColorWhite,
   },
-  topicBackgroundImage: {
+  insightBackgroundImage: {
     height: Platform.OS === 'web' ? 680 : 340,
     ...Platform.select({
       web: {
@@ -211,10 +210,10 @@ const styles = StyleSheet.create({
       native: { maxHeight: '50%' },
     }),
   },
-  topicImage: {
+  insightImage: {
     ...Platform.select({ web: { height: 'auto' } }),
   },
-  topicView: {
+  insightView: {
     backgroundColor: colors.backgroundColorWhite,
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
@@ -227,10 +226,10 @@ const styles = StyleSheet.create({
     color: colors.positivepurple,
     marginBottom: 8,
   },
-  topicHeadline: {
+  insightHeadline: {
     marginBottom: 24,
   },
-  topicText: {
+  insightText: {
     color: colors.grey,
     marginBottom: 24,
   },
@@ -253,4 +252,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Topic
+export default InsightDetailPage

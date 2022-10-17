@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
-import Insights from '@holi/core/screens/insights'
-import { getRandomUser } from '@holi/core/screens/topics/fakeTopics'
+import InsightList from '@holi/core/screens/insights/InsightList'
+import { getRandomUser } from '@holi/core/screens/insights/fakeInsights'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -27,13 +27,13 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
   return (
     <View style={[mixins.container, styles.insightsOfTheWeek, props.style]}>
       {/* Headline */}
-      <HoliHeading level="1" size="large" testID="home-feed-topics-heading">
+      <HoliHeading level="1" size="large" testID="home-feed-insights-heading">
         {t('homeFeed.heading')}
       </HoliHeading>
 
       {/* Curators with popup */}
       <HoliButton
-        label={t('topics.editors.modal.title')}
+        label={t('insights.editors.modal.title')}
         transparent
         style={styles.editorsButton}
         onPress={() => setShowEditorsModal(true)}
@@ -43,25 +43,25 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
         <View style={styles.editorsButtonContent}>
           <HoliUserAvatarPile users={dummyUsers} collapse />
           <HoliText size="default" testID="avatars-top-title" style={styles.editorsButtonText}>
-            {t('topics.editors.editedBy')}
+            {t('insights.editors.editedBy')}
           </HoliText>
         </View>
       </HoliButton>
       <HoliModal
-        label={t('topics.editors.modal.title')}
+        label={t('insights.editors.modal.title')}
         show={showEditorsModal}
         onDismiss={() => setShowEditorsModal(false)}
-        testID="topic-editors-modal"
+        testID="insight-editors-modal"
       >
         <HoliUserCardsModalContent
-          title={t('topics.editors.modal.title')}
+          title={t('insights.editors.modal.title')}
           users={dummyUsers}
           onDismiss={() => setShowEditorsModal(false)}
-          testID="topic-editors"
+          testID="insight-editors"
         />
       </HoliModal>
 
-      <Insights />
+      <InsightList />
     </View>
   )
 }
