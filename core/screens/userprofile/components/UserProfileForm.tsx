@@ -27,7 +27,7 @@ type UserProfileFormProps = {
   testId?: string
 }
 
-const onlyAllowedCharacters = (str: string) => str.replace(/[0-9]/g, '')
+const onlyAllowedCharacters = (str: string) => str.replace(/[0-9<>]/g, '')
 
 const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...props }) => {
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
