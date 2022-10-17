@@ -58,8 +58,9 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
       return
     }
     const result = await updateUser({ variables: { input } })
-    if (!error && result.data && onSubmit) {
-      onSubmit(result.data.authenticatedUser)
+
+    if (!error && result.data?.updateAuthenticatedUser && onSubmit) {
+      onSubmit(result.data.updateAuthenticatedUser.authenticatedUser)
     }
   }
 
