@@ -1,9 +1,8 @@
-import { useQuery } from '@apollo/client'
+import { useLazyQuery } from '@apollo/client'
 import { faker } from '@faker-js/faker'
-import type { Insight } from 'core/screens/insights/types'
 import { LinearGradient } from 'expo-linear-gradient'
 import { StatusBar } from 'expo-status-bar'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { ImageBackground, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
@@ -17,8 +16,7 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/insights/queries'
-import fakeTopics from '@holi/core/screens/topics/fakeTopics'
+import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
@@ -42,15 +40,20 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const mixins = useStyleMixins()
   const postGridItemsInRow = useBreakpointMatcher()
   const { navigate } = useRouting()
-  const numberOfItems = 2
 
-  useNavigationHeader(navigation, {
-    title: t('topics.topic.title', { title: topicId }),
-    headerLeft: () => <BackButton />,
+  const [getInsight, { loading, error, data }] = useLazyQuery<InsightByIdResponse>(insightById, {
+    variables: { id: topicId },
   })
 
-  const { loading, error, data } = useQuery<LastInsightsResponse>(lastInsightsQuery, {
-    variables: { numberOfItems },
+  useEffect(() => {
+    if (topicId) getInsight()
+  }, [topicId, getInsight])
+
+  const insight = data?.insightById
+
+  useNavigationHeader(navigation, {
+    title: t('topics.topic.title', { title: insight?.title }),
+    headerLeft: () => <BackButton />,
   })
 
   if (error) {
@@ -63,17 +66,14 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
     return <></>
   }
 
-  const insights: Insight[] = data?.lastInsights?.length ? data.lastInsights : fakeTopics
-
   // Important: `insights.find() should be called after useEffect() or useLayoutEffet()
   // A hard reload will cause an error.
   // see here: https://reactjs.org/docs/hooks-rules.html
-  const topic = insights.find((insight) => insight.id == topicId)
-  if (!topic) return <HoliText>{t('topics.topic.notFound', { topicId })}</HoliText>
+  if (!insight) return <HoliText>{t('topics.topic.notFound', { topicId })}</HoliText>
 
   const author = {
-    ...topic.curator,
-    fullName: userFullName(topic.curator),
+    ...insight.curator,
+    fullName: userFullName(insight.curator),
     avatar: faker.image.avatar(), // TODO: dummy image
   }
 
@@ -104,10 +104,10 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
           </HoliHeading>
 
           <HoliHeading level="1" size="super" style={styles.topicHeadline} testID="topic-headline">
-            {topic.title}
+            {insight.title}
           </HoliHeading>
 
-          <HoliText style={styles.topicText}>{topic.description}</HoliText>
+          <HoliText style={styles.topicText}>{insight.description}</HoliText>
 
           {/* Author  */}
           <View style={styles.authorInfo}>
@@ -131,7 +131,7 @@ const Topic: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
         {/* Dummy list of posts */}
         <View style={mixins.container}>
           <HoliGridWrapper itemsInRow={postGridItemsInRow}>
-            {topic.posts.map((post) => (
+            {insight.posts.map((post) => (
               <HoliGridCell key={post.id}>
                 <HoliButton
                   key={post.id}
