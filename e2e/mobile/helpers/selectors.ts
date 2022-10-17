@@ -35,7 +35,7 @@ export const scrollToElementWithTestId = async (testId: string, direction: 'up' 
     await Appium.execute('mobile: scroll', { direction })
 
     if (testId === 'user-suggestions') {
-      // Quickfix: rerun scroll down, as it is currently not scrolling enough until user-suggestion (last section of HomeFeed)
+      // Rerun scroll down, as it is currently not scrolling enough until user-suggestion (last section of HomeFeed)
       await Appium.execute('mobile: scroll', { direction })
     }
 
