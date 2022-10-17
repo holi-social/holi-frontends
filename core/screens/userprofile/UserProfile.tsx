@@ -141,10 +141,10 @@ const UserProfile: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
             ],
           },
           {
-            title: t('profile.tabs.topics'),
+            title: t('profile.tabs.insight'),
             children: (
               <View style={styles.infoContainer}>
-                <HoliText style={styles.infoText}>{t('profile.tabs.topics.empty')}</HoliText>
+                <HoliText style={styles.infoText}>{t('profile.tabs.insight.empty')}</HoliText>
               </View>
             ),
           },

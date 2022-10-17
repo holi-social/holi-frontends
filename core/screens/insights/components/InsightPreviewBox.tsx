@@ -13,7 +13,7 @@ import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-interface TopicPreviewBoxProps {
+interface InsightPreviewBoxProps {
   insight: Insight
   style?: StyleProp<ViewStyle>
 }
@@ -26,7 +26,7 @@ const editorsOfInsight: (insight: Insight) => User[] = (insight) => {
   return editors.filter((x) => !!x)
 }
 
-const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({ insight, ...props }) => {
+const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...props }) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -40,10 +40,10 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({ insight, ...props })
   return (
     <View {...props}>
       <HoliButton
-        label={t('topics.topic.title', { title: insight.title })}
+        label={t('insights.insight.title', { title: insight.title })}
         transparent
-        onPress={() => navigate(`/topics/${insight.id}`)}
-        testID="feed-topic-image-link"
+        onPress={() => navigate(`/insights/${insight.id}`)}
+        testID="feed-insight-image-link"
       >
         <Image source={{ uri: headerImage }} style={styles.mainImage} />
 
@@ -55,9 +55,9 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({ insight, ...props })
       {
         <View style={styles.authorCategoryContainer}>
           <HoliText style={styles.textGrey}>
-            <Trans i18nKey="topics.post.author" values={{ author: userFullName(insight.curator), category: '' }} />
+            <Trans i18nKey="insights.post.author" values={{ author: userFullName(insight.curator), category: '' }} />
             <HoliButton
-              label={t('topics.topic.category', { category: 'TBD' })}
+              label={t('insights.insight.category', { category: 'TBD' })}
               transparent
               inline
               style={mixins.inlineButtonFixDefault}
@@ -75,7 +75,7 @@ const TopicPreviewBox: React.VFC<TopicPreviewBoxProps> = ({ insight, ...props })
   )
 }
 
-export default TopicPreviewBox
+export default InsightPreviewBox
 
 const styles = StyleSheet.create({
   mainImage: {

@@ -114,7 +114,7 @@ const OwnProfileView: React.VFC<OwnProfileViewProps> = ({ toggleEditMode, user }
             ],
           },
           {
-            title: t('profile.tabs.topics'),
+            title: t('profile.tabs.insight'),
             children: (
               <View
                 style={{
@@ -126,7 +126,7 @@ const OwnProfileView: React.VFC<OwnProfileViewProps> = ({ toggleEditMode, user }
                 }}
               >
                 <HoliText style={{ textAlign: 'center', color: colors.fontColorGrey }}>
-                  {t('profile.tabs.topics.empty')}
+                  {t('profile.tabs.insight.empty')}
                 </HoliText>
               </View>
             ),

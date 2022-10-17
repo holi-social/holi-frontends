@@ -12,8 +12,8 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
           initialRouteName: 'HomeFeed',
           screens: {
             HomeFeed: '',
-            Topic: 'topics/:topicId',
-            Post: 'topics/:topicId/posts/:postId',
+            Insight: 'insights/:insightId',
+            Post: 'insights/:insightId/posts/:postId',
             OwnProfile: 'profile',
             UserProfile: 'profile/:userId',
             Notifications: 'notifications',
