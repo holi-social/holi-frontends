@@ -36,7 +36,7 @@ const RecoverPasswordForm: React.FC<RecoverPasswordFormProps> = (props: RecoverP
       .then(({ data: flow }) => {
         safeSetFlow(flow)
       })
-      .catch((error) => displayError(error, t('auth.registration.error.initialization')))
+      .catch((error: Error) => displayError(error, t('auth.registration.error.initialization')))
   }, [safeSetFlow, t])
 
   useLayoutEffect(() => initializeFlow(), [initializeFlow])
@@ -49,8 +49,8 @@ const RecoverPasswordForm: React.FC<RecoverPasswordFormProps> = (props: RecoverP
           initializeFlow()
           props.onSubmit && props.onSubmit(true)
         })
-        .catch(() => {
-          handleFormSubmitError(setFlow, initializeFlow)
+        .catch((error) => {
+          handleFormSubmitError(setFlow, initializeFlow)(error)
           props.onSubmit && props.onSubmit(false)
         })
         .catch((error) => displayError(error, t('auth.login.error.login')))
