@@ -789,6 +789,8 @@ exports[`renders correctly with error 1`] = `
                 "borderWidth": 0,
               },
               Object {
+                "borderStyle": "solid",
+                "borderWidth": 0,
                 "color": "#ee0004",
                 "display": "flex",
                 "fill": "currentColor",
@@ -1007,6 +1009,8 @@ exports[`renders correctly with trailing icon 1`] = `
                 "borderWidth": 0,
               },
               Object {
+                "borderStyle": "solid",
+                "borderWidth": 0,
                 "color": "#eff0f1",
                 "display": "flex",
                 "fill": "currentColor",

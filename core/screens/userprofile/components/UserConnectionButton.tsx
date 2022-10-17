@@ -8,7 +8,7 @@ import {
   UpdateConnectionWithUserResponse,
   updateConnectionWithUserMutation,
 } from '@holi/core/screens/userprofile/queries'
-import type { User } from '@holi/core/screens/userprofile/types'
+import { UpdateConnectionWithUserActions, User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 
@@ -31,7 +31,7 @@ const UserConnectionButton: React.VFC<UserConnectionButtonProps> = ({ user, full
   }
 
   // when not logged in, user has connectionStatusToMyself as null
-  const connectionStatusToMyself = user.connectionStatusToMyself || 'NOT_LOGGED_IN'
+  const connectionStatusToMyself = user.connectionStatusToMyself || UserConnectionStatus.NOT_LOGGED_IN
 
   const updateUserConnectionStatus = () => {
     updateConnectionWithUser({
@@ -39,16 +39,20 @@ const UserConnectionButton: React.VFC<UserConnectionButtonProps> = ({ user, full
         input: {
           userId: user.id,
           action:
-            connectionStatusToMyself === 'NOT_CONNECTED' || connectionStatusToMyself === 'PENDING_CONFIRMATION'
-              ? 'CONNECT'
-              : 'DISCONNECT',
+            connectionStatusToMyself === UserConnectionStatus.NOT_CONNECTED ||
+            connectionStatusToMyself === UserConnectionStatus.PENDING_CONFIRMATION
+              ? UpdateConnectionWithUserActions.CONNECT
+              : UpdateConnectionWithUserActions.DISCONNECT,
         },
       },
     })
   }
 
   const onPress = () => {
-    if (connectionStatusToMyself !== 'NOT_CONNECTED' && connectionStatusToMyself !== 'PENDING_CONFIRMATION') {
+    if (
+      connectionStatusToMyself !== UserConnectionStatus.NOT_CONNECTED &&
+      connectionStatusToMyself !== UserConnectionStatus.PENDING_CONFIRMATION
+    ) {
       setShowConfirmation(true)
     } else {
       updateUserConnectionStatus()
@@ -77,8 +81,10 @@ const UserConnectionButton: React.VFC<UserConnectionButtonProps> = ({ user, full
         onDismiss={() => setShowConfirmation(false)}
         dismissText={t(`user.profileView.connection.confirmation.dismiss.${connectionStatusToMyself}`)}
         confirmText={t(`user.profileView.connection.confirmation.confirm.${connectionStatusToMyself}`)}
-        {...(connectionStatusToMyself !== 'NOT_LOGGED_IN' ? { onConfirm: updateUserConnectionStatus } : {})}
         testID="user-connection"
+        {...(connectionStatusToMyself !== UserConnectionStatus.NOT_LOGGED_IN
+          ? { onConfirm: updateUserConnectionStatus }
+          : {})}
       />
     </>
   )

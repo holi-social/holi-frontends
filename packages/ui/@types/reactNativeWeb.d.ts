@@ -29,7 +29,7 @@ declare module 'react-native' {
 
   interface ViewStyle extends ReactViewStyle {
     display?: 'flex' | 'none' | 'inline-block'
-    position?: 'fixed' | 'absolute'
+    position?: 'relative' | 'fixed' | 'absolute'
     boxShadow?: string
     outlineWidth?: number
   }

@@ -15,12 +15,12 @@ export interface LayoutProps extends ScrollViewProps {
 }
 
 const DefaultLayout: React.FC<LayoutProps> = ({ style, children, ...scrollViewProps }: LayoutProps) => {
-  const screenView = <View style={style}>{children}</View>
+  const screenView = <View style={[styles.screenLayout, style]}>{children}</View>
 
   return Platform.OS === 'web' ? (
     screenView
   ) : (
-    <ScrollView {...scrollViewProps} contentContainerStyle={[styles.mobileView, style]}>
+    <ScrollView {...scrollViewProps} contentContainerStyle={[styles.scrollLayout, style]}>
       {screenView}
     </ScrollView>
   )
@@ -29,12 +29,11 @@ const DefaultLayout: React.FC<LayoutProps> = ({ style, children, ...scrollViewPr
 export default DefaultLayout
 
 const styles = StyleSheet.create({
-  mobileView: {
-    minHeight: '100%',
-    width: '100%',
+  scrollLayout: {
     justifyContent: 'flex-start',
-    marginBottom: 50,
     backgroundColor: colors.backgroundColorWhite,
+  },
+  screenLayout: {
     paddingBottom: 50,
   },
 })
