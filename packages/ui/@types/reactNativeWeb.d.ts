@@ -31,6 +31,7 @@ declare module 'react-native' {
     display?: 'flex' | 'none' | 'inline-block'
     position?: 'relative' | 'fixed' | 'absolute'
     boxShadow?: string
+    outlineWidth?: number
   }
 
   interface ViewProps extends ViewProps {
