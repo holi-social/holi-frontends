@@ -27,7 +27,7 @@ type UserProfileFormProps = {
   testId?: string
 }
 
-const onlyLettersAndSpaces = (str: string) => str.replace(/[^\p{L}\s]/gu, '')
+const onlyAllowedCharacters = (str: string) => str.replace(/[0-9]/g, '')
 
 const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...props }) => {
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
@@ -128,7 +128,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           placeholder={t('user.profileForm.firstNamePlaceholder')}
           maxNoOfCharacters={30}
           onChange={(text) => {
-            setFirstName(onlyLettersAndSpaces(text))
+            setFirstName(onlyAllowedCharacters(text))
             setFieldErrors((currentErrors) => ({ ...currentErrors, ...{ firstName: undefined } }))
           }}
           style={styles.input}
@@ -143,7 +143,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           placeholder={t('user.profileForm.lastNamePlaceholder')}
           maxNoOfCharacters={30}
           onChange={(text) => {
-            setLastName(onlyLettersAndSpaces(text))
+            setLastName(onlyAllowedCharacters(text))
             setFieldErrors((currentErrors) => ({ ...currentErrors, ...{ lastName: undefined } }))
           }}
           style={styles.input}
