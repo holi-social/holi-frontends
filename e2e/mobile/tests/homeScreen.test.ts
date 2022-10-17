@@ -15,7 +15,7 @@ describe('@HomeScreen', () => {
     await waitForElementWithTestId('feed-insight-image-link')
     await tapOnElementWithTestId('feed-insight-image-link')
 
-    await waitForElementWithTestId('insight-headline')
+    await waitForElementWithTestId('home-feed-insights-heading')
 
     // go home
     await navigateBackToHomeScreen()
