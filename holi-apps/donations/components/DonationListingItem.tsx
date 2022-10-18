@@ -23,35 +23,33 @@ const DonationListingItem: React.VFC<DonationListingItemProps> = ({
   const { title, categories, donationsCount, progressPercentage, openAmountInCents, picture } = project
 
   return (
-    <>
-      <HoliButton
-        label={title}
-        transparent
-        onPress={() => navigate(`/apps/donations/project/${project.id}`)}
-        style={!small ? styles.mainImageContainer : styles.smallImageContainer}
-        testID={'donations-list-item'}
-        inline={small}
-      >
-        <DonationImage picture={picture} label={title} style={!small ? styles.mainImage : styles.smallImage} />
+    <HoliButton
+      label={title}
+      transparent
+      onPress={() => navigate(`/apps/donations/project/${project.id}`)}
+      style={!small ? styles.mainImageContainer : styles.smallImageContainer}
+      testID={'donations-list-item'}
+      inline={small}
+    >
+      <DonationImage picture={picture} label={title} style={!small ? styles.mainImage : styles.smallImage} />
 
-        {!small ? (
-          <HoliHeading level="2" size="small" selectable style={styles.heading}>
-            {title}
-          </HoliHeading>
-        ) : (
-          <HoliText size="small" bold numberOfLines={2} selectable style={{ marginTop: 8 }}>
-            {title}
-          </HoliText>
-        )}
-        <DonationProgress
-          category={categories[0]}
-          donationsCount={donationsCount}
-          progressPercentage={progressPercentage}
-          openAmountInCents={openAmountInCents}
-          size={!small ? 'default' : 'small'}
-        />
-      </HoliButton>
-    </>
+      {!small ? (
+        <HoliHeading level="2" size="small" selectable style={styles.heading}>
+          {title}
+        </HoliHeading>
+      ) : (
+        <HoliText size="small" bold numberOfLines={2} selectable style={{ marginTop: 8 }}>
+          {title}
+        </HoliText>
+      )}
+      <DonationProgress
+        category={categories[0]}
+        donationsCount={donationsCount}
+        progressPercentage={progressPercentage}
+        openAmountInCents={openAmountInCents}
+        size={!small ? 'default' : 'small'}
+      />
+    </HoliButton>
   )
 }
 
