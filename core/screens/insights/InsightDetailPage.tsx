@@ -74,7 +74,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
   const author = {
     ...insight.curator,
     fullName: userFullName(insight.curator),
-    avatar: faker.image.avatar(), // TODO: dummy image
+    avatar: faker.image.avatar(), // TODO: remove, use real avatar instead of dummy image
   }
 
   // TODO: dummy category
