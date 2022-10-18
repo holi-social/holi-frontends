@@ -44,8 +44,7 @@ const DonationsAppHome: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) =
 
   useNavigationHeader(navigation, {
     title: title,
-    // TODO(SF) back behaviour/icon not correct
-    headerLeft: () => <BackButton icon="arrow-down-s" />,
+    headerLeft: () => <BackButton navigateHome icon="arrow-down-s" />,
     headerRight: () => (
       <HoliButton label={t('donations:search.heading')} inline transparent onPress={() => setShowSearchModal(true)}>
         <HoliIcon icon="search" size={24} />
