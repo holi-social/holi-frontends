@@ -6,11 +6,7 @@ import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
-interface LoginRegistrationContainerProps {
-  children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild>
-}
-
-const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = ({ children }) => {
+const LoginRegistrationContainer: React.FC = ({ children }) => {
   const { userId, isLoggedIn } = useContext(AuthContext)
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -19,14 +15,10 @@ const LoginRegistrationContainer: React.VFC<LoginRegistrationContainerProps> = (
     isLoggedIn && navigate('/profile')
   }, [isLoggedIn, navigate, userId])
 
-  return (
-    <>
-      {isLoggedIn ? (
-        <HoliText>{t('auth.login.alreadyLoggedIn')}</HoliText>
-      ) : (
-        <View style={styles.viewContainer}>{children}</View>
-      )}
-    </>
+  return isLoggedIn ? (
+    <HoliText>{t('auth.login.alreadyLoggedIn')}</HoliText>
+  ) : (
+    <View style={styles.viewContainer}>{children}</View>
   )
 }
 

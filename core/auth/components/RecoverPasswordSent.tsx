@@ -12,7 +12,7 @@ export type RecoverPasswordSentProps = {
   style?: ViewStyle | ViewStyle[]
 }
 
-const RecoverPasswordSent: React.FC<RecoverPasswordSentProps> = (props: RecoverPasswordSentProps) => {
+const RecoverPasswordSent: React.VFC<RecoverPasswordSentProps> = (props: RecoverPasswordSentProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform } from 'react-native'
 
@@ -32,12 +32,10 @@ const ForgotPassword: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => 
     headerRight: () => (Platform.OS === 'web' ? <BackButton icon="close" /> : <HoliText />),
   })
 
-  const onSubmit = useCallback(setSuccuss, [setSuccuss])
-
   return (
     <DefaultLayout>
       <LoginRegistrationContainer>
-        {success ? <RecoverPasswordSent /> : <RecoverPasswordForm onSubmit={onSubmit} />}
+        {success ? <RecoverPasswordSent /> : <RecoverPasswordForm onSubmit={setSuccuss} />}
       </LoginRegistrationContainer>
     </DefaultLayout>
   )
