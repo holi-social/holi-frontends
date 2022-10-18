@@ -10,6 +10,7 @@ const HoliImage: React.VoidFunctionComponent<HoliImageProps> = ({
   label,
   style,
   resizeMode = 'cover',
+  sizes,
 }: HoliImageProps) => {
   const defaultStyle = {
     objectFit: resizeModeForWeb(resizeMode),
@@ -25,7 +26,6 @@ const HoliImage: React.VoidFunctionComponent<HoliImageProps> = ({
         .join(',')
     : undefined
   const src = !srcSet ? source.uri : undefined
-  const sizes = srcSet ? `(min-width:${vars.maxScreenWidth}px) ${vars.maxScreenWidth}px, 100vw` : undefined
 
   // We use img tag instead of Image by react-native, as react-native-web does not yet
   // support multiple sources for image tag: https://github.com/necolas/react-native-web/issues/515
@@ -33,9 +33,10 @@ const HoliImage: React.VoidFunctionComponent<HoliImageProps> = ({
     <img
       srcSet={srcSet}
       src={src}
-      sizes={sizes}
+      sizes={sizes || (srcSet && `(min-width:${vars.maxScreenWidth}px) ${vars.maxScreenWidth}px, 100vw`)}
       alt={label}
-      style={StyleSheet.flatten<ImageStyle>([defaultStyle, style])}
+      // aspect ratio is ignored if not transformed to string
+      style={StyleSheet.flatten<ImageStyle>([defaultStyle, style, { aspectRatio: style?.aspectRatio?.toString() }])}
     />
   )
 }

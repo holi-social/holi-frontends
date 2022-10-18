@@ -27,4 +27,16 @@ describe('renders correctly for web', () => {
       expect(tree).toMatchSnapshot()
     })
   })
+
+  it('passes aspect ratio', () => {
+    const tree = renderer
+      .create(<HoliImage source={allSources} label={'alt text'} style={{ aspectRatio: 16 / 9 }} />)
+      .toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('passes sizes property', () => {
+    const tree = renderer.create(<HoliImage source={allSources} label={'alt text'} sizes="500px" />).toJSON()
+    expect(tree).toMatchSnapshot()
+  })
 })

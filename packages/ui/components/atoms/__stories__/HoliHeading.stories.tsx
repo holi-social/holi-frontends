@@ -30,6 +30,10 @@ ByLevel.argTypes = {
     control: { type: 'select', options: HoliHeadingLevels },
   },
   selectable: { description: 'Should text be selectable?' },
+  numberOfLines: {
+    description: 'Limit the heading to this number of lines',
+    control: { type: 'number' },
+  },
 }
 
 export const ByLevelAndSize = ({ ...args }) => <HoliHeading {...args} />
@@ -53,6 +57,10 @@ ByLevelAndSize.argTypes = {
     control: { type: 'select', options: HoliHeadingLevels },
   },
   selectable: { description: 'Should text be selectable?' },
+  numberOfLines: {
+    description: 'Limits the text to this number of lines',
+    control: { type: 'number' },
+  },
 }
 
 export const Colored = () => (
