@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-import { clickElementByTestId, locateElementByTestId, waitForElementByTestId } from './helpers'
+import { checkAccessibility, clickElementByTestId, locateElementByTestId, waitForElementByTestId } from './helpers'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/apps/donations')
@@ -21,6 +21,8 @@ test.describe('@Donations', () => {
     const listItems = await locateElementByTestId(page, 'donations-list-item')
     const itemCount = await listItems.count()
     expect(itemCount).toBeGreaterThan(1)
+
+    await checkAccessibility(page)
   })
 
   test('should allow pagination', async ({ page }) => {
@@ -42,6 +44,8 @@ test.describe('@Donations', () => {
 
     await waitForElementByTestId(page, 'donations-project-detail-heading')
 
+    await checkAccessibility(page)
+
     const projectUrlPrefix = '/apps/donations/project/'
     const projectUrl = page.url()
     const projectId = projectUrl.substring(projectUrl.indexOf(projectUrlPrefix) + projectUrlPrefix.length)
@@ -58,6 +62,35 @@ test.describe('@Donations', () => {
     expect(donationUrl).toMatch(/https:\/\/www.betterplace.org\/.*\/donate\/platform\/projects\/.*/)
     const donationUrlParts = donationUrl.split('/')
     expect(donationUrlParts[donationUrlParts.length - 1]).toBe(projectId)
-    donationPage.close() // close newly opened tab
+    await donationPage.close() // close newly opened tab
+
+    // check if clicking on initiative button actually opens a tab with a reasonable URL
+    await waitForElementByTestId(page, 'donations-project-initiative-btn')
+    const [initiativePage] = await Promise.all([
+      context.waitForEvent('page'),
+      clickElementByTestId(page, 'donations-project-initiative-btn'), // opens a new tab
+    ])
+    const initiativeUrl = initiativePage.url()
+    expect(initiativeUrl).toMatch(/https:\/\/www.betterplace.org\/.*\/organisations\/.*/)
+    await initiativePage.close() // close newly opened tab
+  })
+
+  test('should filter donations by location', async ({ page }) => {
+    // open search modal
+    await clickElementByTestId(page, 'donations-search-button')
+
+    await checkAccessibility(page)
+
+    // enter location
+    const locationInput = await locateElementByTestId(page, 'donations-search-location-input')
+    await locationInput.fill('Hamburg')
+    // close search modal
+    await clickElementByTestId(page, 'donations-search-modal-close-btn')
+    // wait for results
+    await waitForElementByTestId(page, 'donations-list-container')
+    await waitForElementByTestId(page, 'donations-list-search-heading')
+    await waitForElementByTestId(page, 'donations-list-search-summary')
+
+    await checkAccessibility(page)
   })
 })

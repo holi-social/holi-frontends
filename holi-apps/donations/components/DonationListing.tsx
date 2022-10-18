@@ -72,14 +72,14 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery }: Don
   return (
     <View>
       {isFiltering && (
-        <HoliHeading style={styles.searchHeading}>
+        <HoliHeading style={styles.searchHeading} testID="donations-list-search-heading">
           <Trans t={t} i18nKey="donations:donationListing.search.heading" values={{ location: locationQuery }}>
             <HoliText size="large" bold style={styles.searchQuery} />
           </Trans>
         </HoliHeading>
       )}
       {isFiltering && (
-        <HoliText bold style={styles.searchSummary}>
+        <HoliText bold style={styles.searchSummary} testID="donations-list-search-summary">
           {t('donations:donationListing.search.resultCount', { count: totalResults })}
         </HoliText>
       )}

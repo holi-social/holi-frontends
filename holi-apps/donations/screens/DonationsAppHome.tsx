@@ -8,6 +8,7 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
@@ -37,9 +38,20 @@ const DonationsAppHome: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) =
 
   useNavigationHeader(navigation, {
     title: title,
+    headerCenter: () => (
+      <HoliHeading level="1" size="small">
+        {title}
+      </HoliHeading>
+    ),
     headerLeft: () => <BackButton icon="arrow-down-s" />,
     headerRight: () => (
-      <HoliButton label={t('donations:search.heading')} inline transparent onPress={() => setShowSearchModal(true)}>
+      <HoliButton
+        label={t('donations:search.heading')}
+        inline
+        transparent
+        onPress={() => setShowSearchModal(true)}
+        testID="donations-search-button"
+      >
         <HoliIcon icon="search" size={24} />
       </HoliButton>
     ),
