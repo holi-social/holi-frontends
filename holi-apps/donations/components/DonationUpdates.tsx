@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -12,6 +12,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 //import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import { colors } from '@holi/ui/styles/globalVars'
 
+import DonationImage from '@holi-apps/donations/components/DonationImage'
 //import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'
@@ -35,22 +36,15 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: Don
     },
   })
 
-  const { projects = [], totalResults = 0 } = data?.appDonations_projects || {}
-
-  const canFetchMore = useMemo(() => {
-    return projects.length < totalResults
-  }, [projects, totalResults])
+  const { projects = [] } = data?.appDonations_projects || {}
 
   return (
     <>
       <View style={styles.donationsHeader}>
-        <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-          <View style={styles.donationIconContainer}>
-            <HoliIcon icon="hand-heart" size={18} filled color={colors.fontColorGrey} />
-          </View>
-          <HoliHeading style={{ marginLeft: 10 }}>{t('donations:app.name')}</HoliHeading>
+        <View style={styles.donationIconContainer}>
+          <HoliIcon icon="hand-heart" size={18} filled color={colors.fontColorGrey} />
         </View>
-        {/*  <HoliIcon icon="share-box" size={18} />*/}
+        <HoliHeading style={{ marginLeft: 10 }}>{t('donations:app.name')}</HoliHeading>
       </View>
       {/*       
       <HoliCarousel
@@ -72,7 +66,7 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: Don
               testID={`donations-list-item-${index}`}
             >
               <View style={styles.donationListingItem}>
-                <Image source={{ uri: project.picture[0].url }} style={styles.mainImage} />
+                <DonationImage picture={project.picture} style={styles.mainImage} label={''} />
                 <HoliText size="small" numberOfLines={2} style={{ marginTop: 16 }}>
                   {project.title}
                 </HoliText>
@@ -86,35 +80,33 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: Don
             </HoliButton>
           )
         })}
-        {canFetchMore && (
-          <HoliButton
-            label={'seeMore.button'}
-            style={[styles.buttonContainer, styles.lastButtonContainer]}
-            onPress={() => navigate('/apps/donations/')}
-            transparent
-            inline
+        <HoliButton
+          label={'seeMore.button'}
+          style={[styles.buttonContainer, styles.lastButtonContainer]}
+          onPress={() => navigate('/apps/donations/')}
+          transparent
+          inline
+        >
+          <View style={styles.seeMoreImageContainer}>
+            <HoliLocalImage
+              imageSource={require('@holi/ui/assets/img/illustrations/illustration_user_suggestions.png')}
+              width={125.6}
+              height={125.6}
+              label=""
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+            }}
           >
-            <View style={styles.seeMoreImageContainer}>
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_user_suggestions.png')}
-                width={125.6}
-                height={125.6}
-                label=""
-              />
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-              }}
-            >
-              <HoliText style={styles.seeMoreText} size="small" bold>
-                {t('homeFeed.userSuggestions.loadMore')}
-              </HoliText>
-              <HoliIcon icon="share-box" size={18} style={[styles.seeMoreText, styles.seeMoreIcon]} />
-            </View>
-          </HoliButton>
-        )}
+            <HoliText style={styles.seeMoreText} size="small" bold>
+              {t('homeFeed.userSuggestions.loadMore')}
+            </HoliText>
+            <HoliIcon icon="share-box" size={18} style={[styles.seeMoreText, styles.seeMoreIcon]} />
+          </View>
+        </HoliButton>
       </ScrollView>
     </>
   )
@@ -124,7 +116,6 @@ export default DonationUpdates
 const styles = StyleSheet.create({
   donationsHeader: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 40,
   },
