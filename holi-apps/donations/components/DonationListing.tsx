@@ -12,6 +12,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationButton from '@holi-apps/donations/components/DonationButton'
 import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
+import DonationListingItemFiltered from '@holi-apps/donations/components/DonationListingItemFiltered'
 import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'
 
 const PROJECT_PAGE_SIZE = 5
@@ -97,9 +98,13 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery }: Don
           <HoliText style={styles.noResultsHint}>{t('donations:donationListing.search.noResults')}</HoliText>
         </View>
       )}
-      {projects.map((project) => (
-        <DonationListingItem key={project.id} project={project} />
-      ))}
+      {projects.map((project) =>
+        isFiltering ? (
+          <DonationListingItemFiltered key={project.id} project={project} />
+        ) : (
+          <DonationListingItem key={project.id} project={project} />
+        )
+      )}
       {canFetchMore && (
         <DonationButton
           label={fetchMoreButtonText}
