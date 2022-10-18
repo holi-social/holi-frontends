@@ -3,6 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View } from 'react-native'
 
+import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -17,8 +18,6 @@ import DonationImage from '@holi-apps/donations/components/DonationImage'
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'
 
-const PROJECT_PAGE_SIZE = 8
-
 type DonationUpdatesProps = {
   locationQuery?: string
 }
@@ -26,8 +25,9 @@ type DonationUpdatesProps = {
 const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: DonationUpdatesProps) => {
   const { t, i18n } = useTranslation()
   const { navigate } = useRouting()
+  const PROJECT_PAGE_SIZE = 8
 
-  const { data } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
+  const { data, error } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
     variables: {
       locale: i18n.language,
       limit: PROJECT_PAGE_SIZE,
@@ -35,6 +35,10 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: Don
       location: locationQuery,
     },
   })
+
+  if (error) {
+    logError(error, t('donations:donationListing.error'))
+  }
 
   const { projects = [] } = data?.appDonations_projects || {}
 
@@ -46,13 +50,16 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: Don
         </View>
         <HoliHeading style={{ marginLeft: 10 }}>{t('donations:app.name')}</HoliHeading>
       </View>
+
       {/*       
       <HoliCarousel
+        style={{ marginTop: 20 }}
         slides={projects.map((project, index) => ({
           children: <DonationListingItem key={index} project={project} small />,
         }))}
-      />
+      /> 
       */}
+
       <ScrollView style={styles.scrollViewContainer} horizontal>
         {projects.map((project, index) => {
           return (
@@ -66,7 +73,7 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: Don
               testID={`donations-list-item-${index}`}
             >
               <View style={styles.donationListingItem}>
-                <DonationImage picture={project.picture} style={styles.mainImage} label={''} />
+                <DonationImage picture={project.picture} style={styles.mainImage} label={project.title} />
                 <HoliText size="small" numberOfLines={2} style={{ marginTop: 16 }}>
                   {project.title}
                 </HoliText>
@@ -102,9 +109,9 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: Don
             }}
           >
             <HoliText style={styles.seeMoreText} size="small" bold>
-              {t('homeFeed.userSuggestions.loadMore')}
+              {t('donations:donationListing.loadMoreButton.text')}
             </HoliText>
-            <HoliIcon icon="share-box" size={18} style={[styles.seeMoreText, styles.seeMoreIcon]} />
+            <HoliIcon icon="arrow-right-up" size={18} style={styles.seeMoreText} />
           </View>
         </HoliButton>
       </ScrollView>
@@ -155,8 +162,5 @@ const styles = StyleSheet.create({
     color: colors.secondaryColor,
     textAlign: 'center',
     marginTop: 16,
-  },
-  seeMoreIcon: {
-    marginLeft: 8,
   },
 })
