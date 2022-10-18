@@ -25,7 +25,14 @@ const DonationImage: React.VFC<DonationImageProps> = ({ picture, label, style, r
     }))
   const original = picture.find(({ type }) => type === 'original')
 
-  return <HoliImage source={sources || { uri: original?.url }} label={label} style={style} resizeMode={resizeMode} />
+  return (
+    <HoliImage
+      source={sources.length ? sources : { uri: original?.url }}
+      label={label}
+      style={style}
+      resizeMode={resizeMode}
+    />
+  )
 }
 
 export default DonationImage
