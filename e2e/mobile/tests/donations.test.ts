@@ -2,6 +2,7 @@ import {
   fillFieldByTestId,
   locateMultipleElementsWithTestId,
   scrollToElementWithTestId,
+  seeTextWithTestId,
   tapOnElementWithTestId,
   waitForElementWithTestId,
   waitForElementWithTestIdToBeNull,
@@ -51,10 +52,36 @@ describe('@Donations', () => {
     await waitForElementWithTestId('donations-project-initiative-btn')
   })
 
+  const extractResultCount = async (testId: string): Promise<number> => {
+    const element = await waitForElementWithTestId(testId)
+    const textContent = await element.getText()
+    const numberMatch = textContent?.match(/\d+/)
+    if (numberMatch && numberMatch.length) {
+      return parseInt(numberMatch[0], 10)
+    }
+    return 0
+  }
+
   test('should filter donations by location', async () => {
     // open search modal
     await tapOnElementWithTestId('donations-search-button')
 
+    // enter location Germany
+    await fillFieldByTestId('donations-search-location-input', 'Germany')
+    // close keyboard
+    await tapOnElementWithTestId('donations-search-modal')
+    // close search modal
+    await tapOnElementWithTestId('donations-search-modal-close-btn')
+    // wait for results
+    await waitForElementWithTestId('donations-list-container')
+
+    // assert results
+    await seeTextWithTestId('Germany', 'donations-list-search-heading')
+    const resultCountGermany = await extractResultCount('donations-list-search-summary')
+    expect(resultCountGermany).toBeGreaterThan(0)
+
+    // open search modal
+    await tapOnElementWithTestId('donations-search-button')
     // enter location
     await fillFieldByTestId('donations-search-location-input', 'Hamburg')
     // close keyboard
@@ -63,7 +90,11 @@ describe('@Donations', () => {
     await tapOnElementWithTestId('donations-search-modal-close-btn')
     // wait for results
     await waitForElementWithTestId('donations-list-container')
-    await waitForElementWithTestId('donations-list-search-heading')
-    await waitForElementWithTestId('donations-list-search-summary')
+
+    // assert and compare results
+    await seeTextWithTestId('Hamburg', 'donations-list-search-heading')
+    const resultCountHamburg = await extractResultCount('donations-list-search-summary')
+    expect(resultCountHamburg).toBeGreaterThan(0)
+    expect(resultCountHamburg).toBeLessThan(resultCountGermany)
   })
 })
