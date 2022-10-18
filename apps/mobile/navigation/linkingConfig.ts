@@ -49,6 +49,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     Login: 'login',
     Logout: 'logout',
     Registration: 'registration',
+    ForgotPassword: 'forgotPassword',
   },
 }
 
