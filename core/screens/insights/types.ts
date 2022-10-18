@@ -1,4 +1,4 @@
-import { Post } from 'core/screens/topics/types'
+import { Post } from 'core/screens/posts/types'
 import { User } from 'core/screens/userprofile/types'
 
 export interface Insight {

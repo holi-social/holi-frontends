@@ -1,7 +1,7 @@
 import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from './selectors'
 
 export const waitForHomeScreen = async (timeout?: number) =>
-  waitForElementWithTestId('home-feed-topics-heading', timeout)
+  waitForElementWithTestId('home-feed-insights-heading', timeout)
 
 export const navigateBackToHomeScreen = async () => {
   let homeScreenReached = false
@@ -16,10 +16,10 @@ export const navigateBackToHomeScreen = async () => {
       }
       try {
         await tapOnElementWithTestId('nav-button-home', 0)
-        await scrollToElementWithTestId('home-feed-topics-heading', 'up')
+        await scrollToElementWithTestId('home-feed-insights-heading', 'up')
       } catch (e) {
         await tapOnElementWithTestId('nav-button-back', 0)
-        await scrollToElementWithTestId('home-feed-topics-heading', 'up')
+        await scrollToElementWithTestId('home-feed-insights-heading', 'up')
       }
     }
   }

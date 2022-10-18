@@ -23,7 +23,7 @@ export const getRandomUser = (hasAvatar = false): User => {
   }
 }
 
-const fakeTopics: Insight[] = [
+const fakeInsights: Insight[] = [
   {
     id: 'abc',
     title: 'What does it mean to be a refugee in Europe?',
@@ -66,4 +66,4 @@ const fakeTopics: Insight[] = [
   },
 ]
 
-export default fakeTopics
+export default fakeInsights

@@ -110,7 +110,7 @@ exports[`renders correctly renders correctly when open 1`] = `
       </View>
       <View
         accessibilityControls="test-tabs-panel-1"
-        accessibilityLabel="Topics"
+        accessibilityLabel="Insights"
         accessibilityRole="tab"
         accessibilitySelected={false}
         accessibilityState={
@@ -167,7 +167,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               ]
             }
           >
-            Topics
+            Insights
           </Text>
         </View>
       </View>
@@ -262,9 +262,9 @@ exports[`renders correctly renders correctly when open 1`] = `
                   Object {},
                 ]
               }
-              testID="topicsTab"
+              testID="InsightsTab"
             >
-              These are my topics.
+              These are my insights.
             </Text>
           </View>
         </View>
