@@ -34,6 +34,11 @@ export const scrollToElementWithTestId = async (testId: string, direction: 'up' 
   if (platform === 'ios') {
     await Appium.execute('mobile: scroll', { direction })
 
+    if (testId === 'user-suggestions') {
+      // Rerun scroll down, as it is currently not scrolling enough until user-suggestion (last section of HomeFeed)
+      await Appium.execute('mobile: scroll', { direction })
+    }
+
     const element = await Appium.$(byTestId(testId))
 
     await element.waitForDisplayed({ timeout })
