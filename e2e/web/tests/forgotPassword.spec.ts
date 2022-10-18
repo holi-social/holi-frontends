@@ -43,12 +43,11 @@ test.describe('@ForgotPassword', () => {
   })
 
   test('successful form submission', async ({ page }) => {
-    await waitForElementByTestId(page, 'home-feed-topics-heading')
-    await checkAccessibility(page)
-
     await clickElementByTestId(page, 'btn-to-profile-view')
     await clickElementByTestId(page, 'btn-to-login-form')
     await clickElementByTestId(page, 'btn-to-forgot-password-form')
+
+    await checkAccessibility(page)
 
     // shows also login link
     await waitForElementByTestId(page, 'btn-to-login-form')
