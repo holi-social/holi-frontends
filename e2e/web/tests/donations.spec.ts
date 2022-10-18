@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { Locator, expect, test } from '@playwright/test'
 
 import { checkAccessibility, clickElementByTestId, locateElementByTestId, waitForElementByTestId } from './helpers'
 
@@ -75,22 +75,54 @@ test.describe('@Donations', () => {
     await initiativePage.close() // close newly opened tab
   })
 
+  const extractResultCount = async (element: Locator): Promise<number> => {
+    const textContent = await element.textContent()
+    const numberMatch = textContent?.match(/\d+/)
+    if (numberMatch && numberMatch.length) {
+      return parseInt(numberMatch[0], 10)
+    }
+    return 0
+  }
+
   test('should filter donations by location', async ({ page }) => {
     // open search modal
     await clickElementByTestId(page, 'donations-search-button')
 
     await checkAccessibility(page)
 
-    // enter location
-    const locationInput = await locateElementByTestId(page, 'donations-search-location-input')
+    // enter location Germany
+    let locationInput = await locateElementByTestId(page, 'donations-search-location-input')
+    await locationInput.fill('Germany')
+    // close search modal
+    await clickElementByTestId(page, 'donations-search-modal-close-btn')
+    // wait for results
+    await waitForElementByTestId(page, 'donations-list-container')
+
+    // assert results
+    let heading = await locateElementByTestId(page, 'donations-list-search-heading')
+    await expect(heading).toContainText('Germany')
+    let summary = await locateElementByTestId(page, 'donations-list-search-summary')
+    const resultCountGermany = await extractResultCount(summary)
+    expect(resultCountGermany).toBeGreaterThan(0)
+
+    await checkAccessibility(page)
+
+    // open search modal
+    await clickElementByTestId(page, 'donations-search-button')
+    // enter location Hamburg
+    locationInput = await locateElementByTestId(page, 'donations-search-location-input')
     await locationInput.fill('Hamburg')
     // close search modal
     await clickElementByTestId(page, 'donations-search-modal-close-btn')
     // wait for results
     await waitForElementByTestId(page, 'donations-list-container')
-    await waitForElementByTestId(page, 'donations-list-search-heading')
-    await waitForElementByTestId(page, 'donations-list-search-summary')
 
-    await checkAccessibility(page)
+    // assert and compare results
+    heading = await locateElementByTestId(page, 'donations-list-search-heading')
+    await expect(heading).toContainText('Hamburg')
+    summary = await locateElementByTestId(page, 'donations-list-search-summary')
+    const resultCountHamburg = await extractResultCount(summary)
+    expect(resultCountHamburg).toBeGreaterThan(0)
+    expect(resultCountHamburg).toBeLessThan(resultCountGermany)
   })
 })
