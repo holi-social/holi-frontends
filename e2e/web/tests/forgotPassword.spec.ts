@@ -4,7 +4,6 @@ import {
   byTestId,
   checkAccessibility,
   clickElementByTestId,
-  delay,
   locateElementByTestId,
   waitForElementByTestId,
 } from './helpers'
@@ -34,7 +33,6 @@ test.describe('@ForgotPassword', () => {
     // required field message
     await clickElementByTestId(page, 'ory-submit-method')
     await waitForElementByTestId(page, 'ory-email-input-error-message')
-    delay(10)
 
     // invalid email message
     await emailInput.fill('an-invalid-email')
