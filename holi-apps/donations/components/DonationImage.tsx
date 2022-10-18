@@ -34,7 +34,7 @@ const DonationImage: React.VFC<DonationImageProps> = ({
 
   return (
     <HoliImage
-      source={sources || { uri: original?.url }}
+      source={sources.length ? sources : { uri: original?.url }}
       label={label}
       style={style}
       resizeMode={resizeMode}

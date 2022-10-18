@@ -23,6 +23,7 @@ const DonationInitiativeButton = ({ initiative }: DonationInitiativeButtonProps)
       transparent
       disabled={!initiative.url}
       onPress={() => initiative.url && Linking.openURL(initiative.url)}
+      testID="donations-project-initiative-btn"
     >
       <View style={styles.initiative}>
         <View style={styles.initiativeContent}>

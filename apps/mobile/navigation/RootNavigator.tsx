@@ -5,6 +5,7 @@ import { StyleSheet } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
+import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
 import Logout from '@holi/core/auth/screens/Logout'
 import Registration from '@holi/core/auth/screens/Registration'
@@ -12,8 +13,8 @@ import Explore from '@holi/core/screens/Explore'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
-import Post, { PostParams } from '@holi/core/screens/topics/Post'
-import Topic, { TopicParams } from '@holi/core/screens/topics/Topic'
+import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
+import Post, { PostParams } from '@holi/core/screens/posts/Post'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
@@ -26,7 +27,7 @@ import { BackButton, CenterElement, DownButton, LeftElement, RightElement } from
 
 export type HomeStackScreens = {
   HomeFeed: undefined
-  Topic: TopicParams
+  InsightDetailPage: InsightDetailPageParams
   Post: PostParams
   OwnProfile: undefined
   UserProfile: UserProfileParams
@@ -47,6 +48,7 @@ export type RootStackScreens = {
   Login: undefined
   Logout: undefined
   Registration: undefined
+  ForgotPassword: undefined
 }
 
 const HomeStack = createNativeStackNavigator<HomeStackScreens>()
@@ -100,8 +102,8 @@ export const HomeStackNavigator: React.VFC = () => {
         }}
       />
       <HomeStack.Screen
-        name="Topic"
-        component={Topic}
+        name="InsightDetailPage"
+        component={InsightDetailPage}
         options={{
           headerShown: false,
         }}
@@ -261,6 +263,15 @@ const RootNavigator: React.VFC = () => {
           component={Registration}
           options={{
             title: t('auth.register'),
+            headerLeft: LeftElement,
+            headerRight: RightElement,
+          }}
+        />
+        <RootStack.Screen
+          name="ForgotPassword"
+          component={ForgotPassword}
+          options={{
+            title: t('auth.forgotPassword'),
             headerLeft: LeftElement,
             headerRight: RightElement,
           }}
