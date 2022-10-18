@@ -3,7 +3,7 @@ import React from 'react'
 import { View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore.web'
+import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 
 export default {
   title: 'Molecules/HoliReadMore',
