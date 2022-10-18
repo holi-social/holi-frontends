@@ -11,7 +11,7 @@ describe('@Profile', () => {
     await navigateBackToHomeScreen()
 
     // user suggestions element should be visible
-    await scrollToElementWithTestId('user-suggestions', 'down')
+    await scrollToElementWithTestId('user-suggestions', 'down', { maxAttempts: 5 })
 
     // tap on first user in list
     await tapOnElementWithTestId('user-card-suggestion-0')

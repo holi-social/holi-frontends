@@ -8,6 +8,7 @@
     - [Local Test Execution Against Expo Dev Mode](#local-test-execution-against-expo-dev-mode)
       - [iOS](#ios)
       - [Android](#android)
+      - [Single test execution](#single-test-execution)
     - [Local Test Execution Against Binary](#local-test-execution-against-binary)
       - [iOS Simulator](#ios-simulator)
       - [Android Emulator](#android-emulator)
@@ -17,7 +18,7 @@
     - [API docs](#api-docs)
   - [Troubleshooting](#troubleshooting)
     - ["browser driver is not running"](#browser-driver-is-not-running)
-    - [No Matching Android Version available on Virtual Device](#no-matching-android-version-available-on-virtual-device)
+    - [Can't find simctl SDKs](#cant-find-simctl-sdks)
     - [Espresso server can't be built / started](#espresso-server-cant-be-built--started)
     - [Can't find ANDROID_HOME nor ANDROID_SDK_ROOT](#cant-find-android_home-nor-android_sdk_root)
 
@@ -77,7 +78,7 @@ For [Android](#android) there is a script that takes care of starting the applic
 
 1. Configure environment variables `E2E_ANDROID_VIRTUAL_DEVICE_NAME` and `ANDROID_HOME` (see `.envrc.local.template`, maybe `ANDROID_HOME` is already set up globally)
 
-   You can use an emulator of your own by using its name as value of `E2E_ANDROID_VIRTUAL_DEVICE_NAME`.
+   You can use an emulator of your own by using its name as value of `E2E_ANDROID_VIRTUAL_DEVICE_NAME` or use an actual device (run `adb devices` to make sure it is properly connected).
 2. run `yarn workspace @holi/e2e-mobile prepare:android`
 
    This script starts and maybe creates an emulator if necessary, runs `appium` and starts the mobile application locally (using the staging backend).

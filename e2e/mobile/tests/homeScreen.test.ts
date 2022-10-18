@@ -37,7 +37,7 @@ describe('@HomeScreen', () => {
     await navigateBackToHomeScreen()
 
     // scorll down to user suggestions element should be visible
-    await scrollToElementWithTestId('user-suggestions', 'down')
+    await scrollToElementWithTestId('user-suggestions', 'down', { maxAttempts: 5 })
 
     // clean up view
     await logout()

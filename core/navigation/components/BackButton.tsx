@@ -12,6 +12,7 @@ type BackButtonProps = {
   label?: string
   tintColor?: string
   style?: StyleProp<ViewStyle>
+  navigateHome?: boolean
 }
 
 const BackButton: React.VFC<BackButtonProps> = ({
@@ -19,8 +20,9 @@ const BackButton: React.VFC<BackButtonProps> = ({
   icon = 'arrow-left-s',
   tintColor = colors.fontColorBlack,
   style,
+  navigateHome = false,
 }: BackButtonProps) => {
-  const { navigateBack } = useRouting()
+  const { navigate, navigateBack } = useRouting()
   const { t } = useTranslation()
 
   return (
@@ -28,7 +30,7 @@ const BackButton: React.VFC<BackButtonProps> = ({
       label={label || t('navigation.headerLeft.back')}
       inline
       transparent
-      onPress={() => navigateBack()}
+      onPress={navigateHome ? () => navigate('/') : () => navigateBack()}
       style={[{ paddingHorizontal: 0 }, style]}
       testID="nav-button-back"
     >

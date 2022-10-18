@@ -32,20 +32,32 @@ export const checkIfElementWithTestIdExists = async (testId: string) => {
   return element.isExisting()
 }
 
-export const scrollToElementWithTestId = async (testId: string, direction: 'up' | 'down', timeout?: number) => {
+export const scrollToElementWithTestId = async (
+  testId: string,
+  direction: 'up' | 'down',
+  { timeout, maxAttempts = 1 }: { timeout?: number; maxAttempts?: number } = {}
+) => {
   // scrollIntoView is not supported for iOS and webdriverio currently requires a manual scroll down, instead of a scroll into element
   // https://github.com/webdriverio/webdriverio/issues/6537 and https://stackoverflow.com/questions/42656872/how-to-do-scroll-on-ios-native-app-with-webdriver-io
   if (platform === 'ios') {
-    await Appium.execute('mobile: scroll', { direction })
+    let scrollCounter = 0
+    while (scrollCounter < maxAttempts) {
+      scrollCounter++
+      try {
+        await Appium.execute('mobile: scroll', { direction })
 
-    if (testId === 'user-suggestions') {
-      // Rerun scroll down, as it is currently not scrolling enough until user-suggestion (last section of HomeFeed)
-      await Appium.execute('mobile: scroll', { direction })
+        return await waitForElementWithTestId(testId)
+      } catch (e) {
+        // element not visible yet, throw if max attempt count reached
+        if (scrollCounter === maxAttempts) {
+          throw e
+        }
+      }
     }
-
-    return await waitForElementWithTestId(testId)
   }
 
+  // See https://developer.android.com/reference/androidx/test/uiautomator/UiScrollable +
+  // https://developer.android.com/reference/androidx/test/uiautomator/UiSelector
   const selector = `android=new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().resourceId("${testId}"))`
   return waitForElement(selector, timeout)
 }
