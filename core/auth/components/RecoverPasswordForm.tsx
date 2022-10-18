@@ -21,12 +21,12 @@ export type RecoverPasswordFormProps = {
   style?: ViewStyle | ViewStyle[]
 }
 
-const RecoverPasswordForm: React.FC<RecoverPasswordFormProps> = (props: RecoverPasswordFormProps) => {
+const RecoverPasswordForm: React.VFC<RecoverPasswordFormProps> = (props: RecoverPasswordFormProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
 
-  const [flow, setFlow] = useState<SelfServiceRecoveryFlow | undefined>(undefined)
+  const [flow, setFlow] = useState<SelfServiceRecoveryFlow>()
 
   const safeSetFlow = useSafeDispatch(setFlow)
 
@@ -47,11 +47,11 @@ const RecoverPasswordForm: React.FC<RecoverPasswordFormProps> = (props: RecoverP
         .submitSelfServiceRecoveryFlow(flow.id, undefined, payload)
         .then(() => {
           initializeFlow()
-          props.onSubmit && props.onSubmit(true)
+          props.onSubmit?.(true)
         })
         .catch((error) => {
           handleFormSubmitError(setFlow, initializeFlow)(error)
-          props.onSubmit && props.onSubmit(false)
+          props.onSubmit?.(false)
         })
         .catch((error) => displayError(error, t('auth.login.error.login')))
     return Promise.resolve()

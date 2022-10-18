@@ -5,10 +5,10 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers/logError'
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import InsightPreviewBox from '@holi/core/screens/insights/components/InsightPreviewBox'
+import fakeInsights from '@holi/core/screens/insights/fakeInsights'
 import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { Insight } from '@holi/core/screens/insights/types'
-import TopicPreviewBox from '@holi/core/screens/topics/components/TopicPreviewBox'
-import fakeTopics from '@holi/core/screens/topics/fakeTopics'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -18,7 +18,7 @@ export type InsightsProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const Insights: React.VFC<InsightsProps> = (props) => {
+const InsightList: React.VFC<InsightsProps> = (props) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const numberOfInsights = 2
@@ -36,22 +36,17 @@ const Insights: React.VFC<InsightsProps> = (props) => {
     return <></>
   }
 
-  // if there are no insights in the okuna backend, use fake topics.
+  // if there are no insights in the okuna backend, use fake insights.
   // This way feature branches still have content and don't look empty.
-  const insights: Insight[] = data?.lastInsights?.length ? data.lastInsights : fakeTopics
+  const insights: Insight[] = data?.lastInsights?.length ? data.lastInsights : fakeInsights
 
   return (
     <View style={props.style}>
       {/* insights */}
-      {/* <View style={styles.insightsContainer}>
-        {insights.map((insight) => (
-          <TopicPreviewBox key={insight.id} insight={insight} style={styles.insight} />
-        ))}
-      </View> */}
       <HoliGridWrapper itemsInRow={insightGridItemsInRow}>
         {insights.map((insight) => (
           <HoliGridCell key={insight.id}>
-            <TopicPreviewBox key={insight.id} insight={insight} style={styles.insight} />
+            <InsightPreviewBox key={insight.id} insight={insight} style={styles.insight} />
           </HoliGridCell>
         ))}
       </HoliGridWrapper>
@@ -63,7 +58,7 @@ const Insights: React.VFC<InsightsProps> = (props) => {
   )
 }
 
-export default Insights
+export default InsightList
 
 const styles = StyleSheet.create({
   insight: {
