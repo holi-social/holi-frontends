@@ -1,6 +1,7 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/auth.tsx
 import {
   SelfServiceLoginFlow,
+  SelfServiceRecoveryFlow,
   SelfServiceRegistrationFlow,
   SubmitSelfServiceLogoutFlowWithoutBrowserBody,
 } from '@ory/kratos-client'
@@ -30,14 +31,21 @@ export const removeSessionFromStorage = () => {
   return SecureStore.deleteItemAsync(userSessionName)
 }
 
+// Login
 export const initLoginFlow = (): AxiosPromise<SelfServiceLoginFlow> => {
   return newKratosSdk().initializeSelfServiceLoginFlowWithoutBrowser()
 }
 
+// Logout
 export const submitLogoutFlow = (payload: SubmitSelfServiceLogoutFlowWithoutBrowserBody) => {
   return newKratosSdk().submitSelfServiceLogoutFlowWithoutBrowser(payload)
 }
 
+// Register
 export const initRegistrationFlow = (): AxiosPromise<SelfServiceRegistrationFlow> => {
   return newKratosSdk().initializeSelfServiceRegistrationFlowWithoutBrowser()
 }
+
+// Forgot Password
+export const initPasswordRecoveryFlow = (): AxiosPromise<SelfServiceRecoveryFlow> =>
+  newKratosSdk().initializeSelfServiceRecoveryFlowWithoutBrowser()

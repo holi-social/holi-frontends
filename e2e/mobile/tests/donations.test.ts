@@ -9,7 +9,7 @@ import {
 } from '../helpers/selectors'
 
 const navigateToDonationsApp = async () => {
-  await waitForElementWithTestId('home-feed-topics-heading')
+  await waitForElementWithTestId('home-feed-insights-heading')
   await tapOnElementWithTestId('home-apps-button')
   await tapOnElementWithTestId('app-tile-donations')
   await waitForElementWithTestId('donations-list-container')

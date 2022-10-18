@@ -9,13 +9,13 @@ import {
 
 describe('@HomeScreen', () => {
   it('should work', async () => {
-    await waitForElementWithTestId('home-feed-topics-heading')
+    await waitForElementWithTestId('home-feed-insights-heading')
 
-    // go to topic screen
-    await waitForElementWithTestId('feed-topic-image-link')
-    await tapOnElementWithTestId('feed-topic-image-link')
+    // go to insight screen
+    await waitForElementWithTestId('feed-insight-image-link')
+    await tapOnElementWithTestId('feed-insight-image-link')
 
-    await waitForElementWithTestId('topic-headline')
+    await waitForElementWithTestId('home-feed-insights-heading')
 
     // go home
     await navigateBackToHomeScreen()
@@ -37,7 +37,7 @@ describe('@HomeScreen', () => {
     await navigateBackToHomeScreen()
 
     // scorll down to user suggestions element should be visible
-    await scrollToElementWithTestId('user-suggestions', 'down')
+    await scrollToElementWithTestId('user-suggestions', 'down', { maxAttempts: 5 })
 
     // logout
     await logout()
