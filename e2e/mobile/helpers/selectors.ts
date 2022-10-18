@@ -37,6 +37,12 @@ export const scrollToElementWithTestId = async (testId: string, direction: 'up' 
   // https://github.com/webdriverio/webdriverio/issues/6537 and https://stackoverflow.com/questions/42656872/how-to-do-scroll-on-ios-native-app-with-webdriver-io
   if (platform === 'ios') {
     await Appium.execute('mobile: scroll', { direction })
+
+    if (testId === 'user-suggestions') {
+      // Rerun scroll down, as it is currently not scrolling enough until user-suggestion (last section of HomeFeed)
+      await Appium.execute('mobile: scroll', { direction })
+    }
+
     return await waitForElementWithTestId(testId)
   }
 
