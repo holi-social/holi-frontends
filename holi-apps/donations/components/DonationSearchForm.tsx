@@ -26,6 +26,7 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
       actionButtonText={t('donations:search.submitButton')}
       onActionButtonPress={submit}
       style={styles.modalWrapper}
+      testID="donations-search-modal"
     >
       <View style={styles.container}>
         <HoliHeading style={styles.heading}>{t('donations:search.heading')}</HoliHeading>
@@ -37,6 +38,7 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
           trailingIcon="search"
           onChange={setLocationInput}
           inputProps={{ autoFocus: true, onSubmitEditing: submit }}
+          testID="donations-search-location"
         />
       </View>
     </HoliModalContentWrapper>
