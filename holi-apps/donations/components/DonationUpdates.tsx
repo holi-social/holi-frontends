@@ -10,12 +10,9 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-//import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import { colors } from '@holi/ui/styles/globalVars'
 
-import DonationImage from '@holi-apps/donations/components/DonationImage'
-//import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
-import DonationProgress from '@holi-apps/donations/components/DonationProgress'
+import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
 import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'
 
 type DonationUpdatesProps = {
@@ -25,7 +22,7 @@ type DonationUpdatesProps = {
 const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: DonationUpdatesProps) => {
   const { t, i18n } = useTranslation()
   const { navigate } = useRouting()
-  const PROJECT_PAGE_SIZE = 8
+  const PROJECT_PAGE_SIZE = 5
 
   const { data, error } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
     variables: {
@@ -50,42 +47,9 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: Don
         </View>
         <HoliHeading style={{ marginLeft: 10 }}>{t('donations:app.name')}</HoliHeading>
       </View>
-
-      {/*       
-      <HoliCarousel
-        style={{ marginTop: 20 }}
-        slides={projects.map((project, index) => ({
-          children: <DonationListingItem key={index} project={project} small />,
-        }))}
-      /> 
-      */}
-
       <ScrollView style={styles.scrollViewContainer} horizontal>
         {projects.map((project, index) => {
-          return (
-            <HoliButton
-              label={project.title}
-              onPress={() => navigate(`/apps/donations/project/${project.id}`)}
-              style={styles.buttonContainer}
-              key={project.id}
-              transparent
-              inline
-              testID={`donations-list-item-${index}`}
-            >
-              <View style={styles.donationListingItem}>
-                <DonationImage picture={project.picture} style={styles.mainImage} label={project.title} />
-                <HoliText size="small" numberOfLines={2} style={{ marginTop: 16 }}>
-                  {project.title}
-                </HoliText>
-                <DonationProgress
-                  donationsCount={project.donationsCount}
-                  progressPercentage={project.progressPercentage}
-                  openAmountInCents={project.openAmountInCents}
-                  size="small"
-                />
-              </View>
-            </HoliButton>
-          )
+          return <DonationListingItem key={index} project={project} small />
         })}
         <HoliButton
           label={'seeMore.button'}
@@ -127,11 +91,11 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   donationIconContainer: {
-    backgroundColor: colors.backgroundColorGrey,
     padding: 12,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: colors.borderColorGrey,
+    backgroundColor: colors.backgroundColorGrey,
   },
   donationListingItem: {
     height: 'auto',
@@ -148,12 +112,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     flex: 1,
-  },
-  mainImage: {
-    borderRadius: 10,
-    marginBottom: 8,
-    width: 160,
-    height: 160,
   },
   seeMoreImageContainer: {
     padding: 17.2,

@@ -21,71 +21,64 @@ const DonationListingItem: React.VFC<DonationListingItemProps> = ({
 }: DonationListingItemProps) => {
   const { navigate } = useRouting()
   const { title, categories, donationsCount, progressPercentage, openAmountInCents, picture } = project
-  const styles = getStyles(small)
 
   return (
     <>
-      {!small ? (
-        <HoliButton
-          label={title}
-          transparent
-          onPress={() => navigate(`/apps/donations/project/${project.id}`)}
-          style={styles.mainImageContainer}
-          testID={'donations-list-item'}
-        >
-          <DonationImage picture={picture} label={title} style={styles.mainImage} />
+      <HoliButton
+        label={title}
+        transparent
+        onPress={() => navigate(`/apps/donations/project/${project.id}`)}
+        style={!small ? styles.mainImageContainer : styles.smallImageContainer}
+        testID={'donations-list-item'}
+        inline={small}
+      >
+        <DonationImage picture={picture} label={title} style={!small ? styles.mainImage : styles.smallImage} />
 
-          <HoliHeading level="2" size="small" selectable={true} style={styles.heading}>
+        {!small ? (
+          <HoliHeading level="2" size="small" selectable style={styles.heading}>
             {title}
           </HoliHeading>
-
-          <DonationProgress
-            category={categories[0]}
-            donationsCount={donationsCount}
-            progressPercentage={progressPercentage}
-            openAmountInCents={openAmountInCents}
-          />
-        </HoliButton>
-      ) : (
-        <HoliButton
-          label={title}
-          transparent
-          onPress={() => navigate(`/apps/donations/project/${project.id}`)}
-          style={{ width: '90%' }}
-          testID={'donations-list-item'}
-        >
-          <DonationImage picture={picture} label={title} style={styles.mainImage} />
-
-          <HoliText size="small" numberOfLines={1}>
+        ) : (
+          <HoliText size="small" bold numberOfLines={2} selectable style={{ marginTop: 8 }}>
             {title}
           </HoliText>
-
-          <DonationProgress
-            category={categories[0]}
-            donationsCount={donationsCount}
-            progressPercentage={progressPercentage}
-            openAmountInCents={openAmountInCents}
-            size="small"
-          />
-        </HoliButton>
-      )}
+        )}
+        <DonationProgress
+          category={categories[0]}
+          donationsCount={donationsCount}
+          progressPercentage={progressPercentage}
+          openAmountInCents={openAmountInCents}
+          size={!small ? 'default' : 'small'}
+        />
+      </HoliButton>
     </>
   )
 }
 
 export default DonationListingItem
-const getStyles = (small = false) =>
-  StyleSheet.create({
-    mainImageContainer: {
-      marginBottom: 40,
-    },
-    mainImage: {
-      aspectRatio: !small ? 214 / 214 : 1,
-      borderRadius: !small ? 24 : 10,
-      marginBottom: 8,
-      width: '100%',
-    },
-    heading: {
-      marginBottom: 8,
-    },
-  })
+
+const styles = StyleSheet.create({
+  mainImageContainer: {
+    marginBottom: 40,
+  },
+  mainImage: {
+    aspectRatio: 327 / 214,
+    borderRadius: 24,
+    marginBottom: 8,
+    width: '100%',
+  },
+  smallImage: {
+    borderRadius: 10,
+    marginBottom: 8,
+    width: 160,
+    height: 160,
+  },
+  heading: {
+    marginBottom: 8,
+  },
+  smallImageContainer: {
+    marginRight: 11,
+    height: 'auto',
+    width: 160,
+  },
+})
