@@ -24,7 +24,7 @@ const LoginRegistrationContainer: React.FC = ({ children }) => {
 
 const styles = StyleSheet.create({
   viewContainer: {
-    marginTop: 100,
+    marginTop: 80,
     alignSelf: 'center',
     maxWidth: 500,
     width: '100%',
