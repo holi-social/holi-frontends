@@ -136,6 +136,7 @@
   "rootProvider.loading.login": "Überprüfe Login...",
   "rootProvider.loading.profile": "Lädt Benutzerprofil...",
   "search.title": "Suche",
+  "search.filter.reset": "Filter löschen",
   "user.cards.modal.close": "Schließen",
   "user.cards.modal.title": "Nutzer*innen",
   "user.engagementLevel.description.ENGAGED": "Ich bin ziemlich engagiert und unterstütze aktiv Organisationen durch Freiwilligenarbeit und Spenden.",

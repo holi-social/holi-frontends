@@ -123,6 +123,7 @@
   "rootProvider.loading.login": "Verifying login...",
   "rootProvider.loading.profile": "Loading user profile...",
   "search.title": "Search",
+  "search.filter.reset": "Clear filter",
   "insights.editors.discussing_plural": "{{count}} discussing",
   "insights.editors.discussing": "{{count}} discussing",
   "insights.editors.editedBy": "curated by Holi & guest editors",
