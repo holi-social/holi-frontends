@@ -33,7 +33,7 @@ const Registration: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const [flow, setFlow] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { navigate } = useRouting()
+  const { replaceRoute } = useRouting()
   // use safe versions of this function to prevent updating state of destroyed component
   const safeSetFlow = useSafeDispatch(setFlow)
 
@@ -101,7 +101,7 @@ const Registration: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
             variant="small"
             label={t('auth.login')}
             style={mixins.inlineButtonFixSmall}
-            onPress={() => navigate('/login')}
+            onPress={() => replaceRoute('/login')}
             testID="btn-to-login-form"
           >
             <HoliText size="small" style={styles.loginLinkText}>

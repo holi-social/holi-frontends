@@ -23,7 +23,7 @@ export type RecoverPasswordFormProps = {
 
 const RecoverPasswordForm: React.VFC<RecoverPasswordFormProps> = (props: RecoverPasswordFormProps) => {
   const { t } = useTranslation()
-  const { navigate } = useRouting()
+  const { replaceRoute } = useRouting()
   const mixins = useStyleMixins()
 
   const [flow, setFlow] = useState<SelfServiceRecoveryFlow>()
@@ -69,7 +69,7 @@ const RecoverPasswordForm: React.VFC<RecoverPasswordFormProps> = (props: Recover
           variant="small"
           label={t('auth.login')}
           style={mixins.inlineButtonFixSmall}
-          onPress={() => navigate('/login')}
+          onPress={() => replaceRoute('/login')}
           testID="btn-to-login-form"
         >
           <HoliText size="small" style={styles.loginLinkText}>
@@ -83,7 +83,7 @@ const RecoverPasswordForm: React.VFC<RecoverPasswordFormProps> = (props: Recover
       </HoliHeading>
 
       <HoliButton
-        onPress={() => navigate('/registration')}
+        onPress={() => replaceRoute('/registration')}
         label={t('auth.loginProtection.registration')}
         type="secondary"
         style={styles.button}
