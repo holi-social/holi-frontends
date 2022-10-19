@@ -20,10 +20,10 @@ const PROJECT_PAGE_SIZE = 5
 
 type DonationListingProps = {
   locationQuery?: string
-  resetHandler: () => void
+  resetSearch: () => void
 }
 
-const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, resetHandler }: DonationListingProps) => {
+const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, resetSearch }: DonationListingProps) => {
   const { t, i18n } = useTranslation()
   const mixins = useStyleMixins()
   const [fetchingMore, setFetchingMore] = useState(false)
@@ -86,8 +86,10 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
           <HoliText bold testID="donations-list-search-summary">
             {t('donations:donationListing.search.resultCount', { count: totalResults })}
           </HoliText>
-          <HoliButton transparent inline label={t('search.filter.reset')} onPress={resetHandler}>
-            <HoliText style={{ color: colors.fontColorGrey }}>{t('search.filter.reset')}</HoliText>
+          <HoliButton transparent inline label={t('search.filter.reset')} onPress={resetSearch}>
+            <HoliText size="small" style={{ color: colors.fontColorGrey }}>
+              {t('search.filter.reset')}
+            </HoliText>
           </HoliButton>
         </View>
       )}
