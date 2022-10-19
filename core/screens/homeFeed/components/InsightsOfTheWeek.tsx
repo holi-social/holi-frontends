@@ -27,7 +27,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
   return (
     <View style={[mixins.container, props.style]}>
       {/* Headline */}
-      <HoliHeading level="1" size="large" style={styles.headline} testID="home-feed-insights-heading">
+      <HoliHeading level="1" size="large" testID="home-feed-insights-heading">
         {t('homeFeed.heading')}
       </HoliHeading>
 
@@ -62,7 +62,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
         />
       </HoliModal>
 
-      <InsightList />
+      <InsightList style={styles.insightList} />
     </View>
   )
 }
@@ -70,11 +70,8 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
 export default InsightsOfTheWeek
 
 const styles = StyleSheet.create({
-  headline: {
-    marginBottom: 8,
-  },
   editorsButton: {
-    marginBottom: 36,
+    marginTop: 8,
   },
   editorsButtonContent: {
     flexDirection: 'row',
@@ -84,5 +81,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     flex: 1,
     flexWrap: 'wrap',
+  },
+  insightList: {
+    marginTop: 36,
   },
 })

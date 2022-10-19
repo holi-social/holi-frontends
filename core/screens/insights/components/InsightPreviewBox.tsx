@@ -43,20 +43,20 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
       >
         <Image source={{ uri: headerImage }} style={styles.mainImage} />
 
-        <HoliHeading level="3" selectable={true} size="xSmall" style={[styles.cagetory, styles.spaceBottom]}>
+        <HoliHeading level="3" selectable={true} size="xSmall" style={[styles.cagetory]}>
           {/* TODO: provide real category */}
           Immigration
         </HoliHeading>
 
-        <HoliHeading level="2" selectable={true} size="small" style={styles.spaceBottom}>
+        <HoliHeading level="2" selectable={true} size="small" style={styles.spaceTop}>
           {insight.title}
         </HoliHeading>
 
-        <HoliText size="small" style={[styles.authorPosts, styles.textGrey]} selectable={true}>
+        <HoliText size="small" style={[styles.spaceTop, styles.textGrey]} selectable={true}>
           {t('insights.posts.byAuthor', { author: userFullName(insight.curator), count: insight.posts.length })}
         </HoliText>
 
-        {editors.length && <HoliUserAvatarPile users={editors} counter collapse />}
+        {editors.length && <HoliUserAvatarPile users={editors} counter collapse style={styles.avatarPile} />}
       </HoliButton>
     </View>
   )
@@ -68,20 +68,20 @@ const styles = StyleSheet.create({
   mainImage: {
     aspectRatio: 327 / 206,
     borderRadius: 12,
-    marginBottom: 16,
     width: '100%',
     backgroundColor: colors.backgroundColorGreyLight,
   },
   cagetory: {
     color: colors.positivepurple,
+    marginTop: 16,
   },
-  authorPosts: {
-    marginBottom: 12,
+  avatarPile: {
+    marginTop: 12,
   },
   textGrey: {
     color: colors.fontColorGrey,
   },
-  spaceBottom: {
-    marginBottom: 8,
+  spaceTop: {
+    marginTop: 8,
   },
 })

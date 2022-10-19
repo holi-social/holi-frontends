@@ -128,23 +128,25 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
         </View>
 
         {/* Dummy list of posts */}
-        <View style={mixins.container}>
-          <HoliGridWrapper itemsInRow={postGridItemsInRow}>
-            {insight.posts.map((post) => (
-              <HoliGridCell key={post.id}>
-                <HoliButton
-                  key={post.id}
-                  label={post.text}
-                  transparent
-                  style={styles.post}
-                  onPress={() => navigate(`/insights/${insightId}/posts/${post.id}`)}
-                >
-                  <HoliText>{post.text}</HoliText>
-                </HoliButton>
-              </HoliGridCell>
-            ))}
-          </HoliGridWrapper>
-        </View>
+        {insight.posts.length && (
+          <View style={mixins.container}>
+            <HoliGridWrapper itemsInRow={postGridItemsInRow}>
+              {insight.posts.map((post) => (
+                <HoliGridCell key={post.id}>
+                  <HoliButton
+                    key={post.id}
+                    label={post.text}
+                    transparent
+                    style={styles.post}
+                    onPress={() => navigate(`/insights/${insightId}/posts/${post.id}`)}
+                  >
+                    <HoliText>{post.text}</HoliText>
+                  </HoliButton>
+                </HoliGridCell>
+              ))}
+            </HoliGridWrapper>
+          </View>
+        )}
       </DefaultLayout>
 
       {/* Header */}
@@ -219,30 +221,31 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 24,
     paddingTop: 40,
     paddingBottom: 24,
-    marginBottom: 24,
     ...Platform.select({ web: { paddingHorizontal: 20 } }),
   },
   categoryHeadline: {
-    color: colors.positivepurple,
-    marginBottom: 8,
+    color: colors.fontColorHighlighted,
   },
   insightHeadline: {
-    marginBottom: 24,
+    marginTop: 8,
   },
   insightText: {
     color: colors.grey,
-    marginBottom: 24,
   },
   authorInfo: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 24,
   },
   authorInfoAvatar: {
     marginRight: 16,
   },
   authorInfoText: {
     color: colors.grey,
+  },
+  postList: {
+    marginTop: 24,
   },
   post: {
     flex: 1,
