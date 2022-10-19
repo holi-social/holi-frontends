@@ -24,10 +24,9 @@ const RecoverPasswordSent: React.VFC<RecoverPasswordSentProps> = (props: Recover
           width={217}
           height={158}
           label={t('profile.loggedOut.image')}
-          style={{ borderWidth: 2, borderColor: '#0f0', width: 300 }}
         />
       </View>
-      <HoliHeading level="2" size="medium" style={styles.heading}>
+      <HoliHeading level="2" size="medium" style={styles.heading} testID="form-sent-headline">
         {t('auth.forgotPassword.success.headline')}
       </HoliHeading>
       <HoliText style={styles.text}>{t('auth.forgotPassword.success.text')}</HoliText>
@@ -37,6 +36,7 @@ const RecoverPasswordSent: React.VFC<RecoverPasswordSentProps> = (props: Recover
         inline
         onPress={() => navigate('/')}
         style={styles.button}
+        testID="back-to-home-btn"
       >
         {t('auth.forgotPassword.success.button')}
       </HoliButton>
@@ -54,15 +54,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   heading: {
-    marginTop: 40,
+    marginTop: 20,
     textAlign: 'center',
   },
   text: {
-    marginTop: 40,
+    marginTop: 20,
     textAlign: 'center',
   },
   button: {
-    marginTop: 20,
+    marginTop: 40,
     alignSelf: 'center',
   },
 })

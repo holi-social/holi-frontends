@@ -33,6 +33,7 @@ export type HoliHeadingProps = {
   style?: TextStyle | TextStyle[]
   selectable?: boolean
   testID?: string
+  numberOfLines?: number
 }
 
 const HoliHeading: React.FC<HoliHeadingProps> = ({
@@ -41,6 +42,7 @@ const HoliHeading: React.FC<HoliHeadingProps> = ({
   size = HoliHeadings[level].defaultSize,
   selectable = true,
   testID,
+  numberOfLines,
   ...props
 }) => {
   const { theme } = useTheme()
@@ -61,6 +63,7 @@ const HoliHeading: React.FC<HoliHeadingProps> = ({
       selectable={selectable}
       style={[styles.default, styles[size as keyof typeof styles], props?.style]}
       testID={testID}
+      numberOfLines={numberOfLines}
     >
       {children}
     </Text>

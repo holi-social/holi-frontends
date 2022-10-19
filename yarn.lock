@@ -2832,6 +2832,11 @@
     regenerator-runtime "^0.13.7"
     ts-dedent "^2.0.0"
 
+"@storybook/addon-react-native-web@^0.0.18":
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-react-native-web/-/addon-react-native-web-0.0.18.tgz#920278a3a5d7e3cc03314d52429936cf231354da"
+  integrity sha512-tMZumiF+Dgk7sngMWFrbDdBN3h5C001traYM46CqNQvtJoZvwYe2MPGEeWy3wk+5D8vOv8TFw2i96f3wwfralg==
+
 "@storybook/addon-storysource@^6.5.9":
   version "6.5.9"
   resolved "https://registry.yarnpkg.com/@storybook/addon-storysource/-/addon-storysource-6.5.9.tgz#8e5fb76b9314a69831a3b5e08e8570407c39de75"

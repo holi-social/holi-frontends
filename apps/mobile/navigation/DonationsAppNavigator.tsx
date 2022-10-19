@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
-import DonationsAppHome from '@holi-apps/donations/screens/DonationsAppHome'
+import DonationsAppHome, { DonationsAppHomeParams } from '@holi-apps/donations/screens/DonationsAppHome'
 import DonationsAppProjectDetail, {
   DonationsAppProjectDetailParams,
 } from '@holi-apps/donations/screens/DonationsAppProjectDetail'
@@ -13,7 +13,7 @@ import DonationsAppProjectDetail, {
 import { CenterElement } from './components'
 
 export type DonationsAppScreensList = {
-  DonationsAppHome: undefined
+  DonationsAppHome: DonationsAppHomeParams
   DonationsAppProjectDetail: DonationsAppProjectDetailParams
 }
 
