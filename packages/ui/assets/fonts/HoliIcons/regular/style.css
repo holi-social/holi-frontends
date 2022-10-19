@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?j8dfwh');
-  src:  url('fonts/icomoon.eot?j8dfwh#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?j8dfwh') format('truetype'),
-    url('fonts/icomoon.woff?j8dfwh') format('woff'),
-    url('fonts/icomoon.svg?j8dfwh#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?wd8efj');
+  src:  url('fonts/icomoon.eot?wd8efj#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?wd8efj') format('truetype'),
+    url('fonts/icomoon.woff?wd8efj') format('woff'),
+    url('fonts/icomoon.svg?wd8efj#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,66 +25,69 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-search:before {
+.icon-account-circle:before {
   content: "\e900";
 }
-.icon-hand-heart:before {
+.icon-add:before {
   content: "\e901";
 }
-.icon-home-smile-2:before {
+.icon-apps:before {
   content: "\e902";
 }
-.icon-share-box:before {
+.icon-arrow-down-s:before {
   content: "\e903";
 }
-.icon-error-warning:before {
+.icon-arrow-left-s:before {
   content: "\e904";
 }
-.icon-smiley:before {
+.icon-chat-3:before {
   content: "\e905";
 }
-.icon-apps:before {
+.icon-check:before {
   content: "\e906";
 }
-.icon-notification-2:before {
+.icon-close:before {
   content: "\e907";
 }
-.icon-account-circle:before {
+.icon-error-warning:before {
   content: "\e908";
 }
-.icon-newspaper:before {
+.icon-globe:before {
   content: "\e909";
 }
-.icon-check:before {
+.icon-hand-heart:before {
   content: "\e90a";
 }
-.icon-loader:before {
+.icon-hearts:before {
   content: "\e90b";
 }
-.icon-add:before {
+.icon-home-smile-2:before {
   content: "\e90c";
 }
-.icon-close:before {
+.icon-image:before {
   content: "\e90d";
 }
-.icon-image:before {
+.icon-loader:before {
   content: "\e90e";
 }
 .icon-loader-4:before {
   content: "\e90f";
 }
-.icon-arrow-left-s:before {
+.icon-newspaper:before {
   content: "\e910";
 }
-.icon-globe:before {
+.icon-notification-2:before {
   content: "\e911";
 }
-.icon-hearts:before {
+.icon-search:before {
   content: "\e912";
 }
-.icon-arrow-down-s:before {
+.icon-search-2:before {
   content: "\e913";
 }
-.icon-chat-3:before {
+.icon-share-box:before {
   content: "\e914";
+}
+.icon-smiley:before {
+  content: "\e915";
 }
