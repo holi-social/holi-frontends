@@ -52,6 +52,23 @@ describe('@Donations', () => {
     await waitForElementWithTestId('donations-project-initiative-btn')
   })
 
+  const filterForLocation = async (location: string) => {
+    // open search modal
+    await tapOnElementWithTestId('donations-search-button')
+
+    // enter location
+    await fillFieldByTestId('donations-search-location-input', location)
+
+    // close keyboard
+    await tapOnElementWithTestId('donations-search-modal')
+
+    // close search modal
+    await tapOnElementWithTestId('donations-search-modal-close-btn')
+
+    // wait for results
+    await waitForElementWithTestId('donations-list-container')
+  }
+
   const extractResultCount = async (testId: string): Promise<number> => {
     const element = await waitForElementWithTestId(testId)
     const textContent = await element.getText()
@@ -63,38 +80,41 @@ describe('@Donations', () => {
   }
 
   test('should filter donations by location', async () => {
-    // open search modal
-    await tapOnElementWithTestId('donations-search-button')
-
-    // enter location Germany
-    await fillFieldByTestId('donations-search-location-input', 'Germany')
-    // close keyboard
-    await tapOnElementWithTestId('donations-search-modal')
-    // close search modal
-    await tapOnElementWithTestId('donations-search-modal-close-btn')
-    // wait for results
-    await waitForElementWithTestId('donations-list-container')
+    // filter for "Germany"
+    filterForLocation('Germany')
 
     // assert results
     await seeTextWithTestId('Germany', 'donations-list-search-heading')
     const resultCountGermany = await extractResultCount('donations-list-search-summary')
     expect(resultCountGermany).toBeGreaterThan(0)
 
-    // open search modal
-    await tapOnElementWithTestId('donations-search-button')
-    // enter location
-    await fillFieldByTestId('donations-search-location-input', 'Hamburg')
-    // close keyboard
-    await tapOnElementWithTestId('donations-search-modal')
-    // close search modal
-    await tapOnElementWithTestId('donations-search-modal-close-btn')
-    // wait for results
-    await waitForElementWithTestId('donations-list-container')
+    // filter for "Hamburg"
+    filterForLocation('Hamburg')
 
     // assert and compare results
     await seeTextWithTestId('Hamburg', 'donations-list-search-heading')
     const resultCountHamburg = await extractResultCount('donations-list-search-summary')
     expect(resultCountHamburg).toBeGreaterThan(0)
     expect(resultCountHamburg).toBeLessThan(resultCountGermany)
+  })
+
+  test('should display details of filter results', async () => {
+    // filter for "Hamburg"
+    filterForLocation('Hamburg')
+
+    // expect filtered list
+    await seeTextWithTestId('Hamburg', 'donations-list-search-heading')
+
+    // click first element in list
+    await tapOnElementWithTestId('donations-list-item')
+
+    // expect detail view
+    await waitForElementWithTestId('donations-project-detail-heading')
+
+    // navigate back
+    await tapOnElementWithTestId('nav-button-back')
+
+    // expect filtered list
+    await seeTextWithTestId('Hamburg', 'donations-list-search-heading')
   })
 })
