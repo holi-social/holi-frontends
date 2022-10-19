@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { AccessibilityProps, Platform, StyleSheet, Text, TextStyle } from 'react-native'
+import { AccessibilityProps, Platform, StyleSheet, Text, TextProps } from 'react-native'
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -30,12 +30,11 @@ export type HoliHeadingProps = {
   children?: React.ReactNode
   size?: HoliHeadingSize
   level?: HoliHeadingLevel
-  style?: TextStyle | TextStyle[]
   selectable?: boolean
   testID?: string
 }
 
-const HoliHeading: React.FC<HoliHeadingProps> = ({
+const HoliHeading: React.FC<HoliHeadingProps & TextProps> = ({
   children,
   level = '2',
   size = HoliHeadings[level].defaultSize,
@@ -57,6 +56,7 @@ const HoliHeading: React.FC<HoliHeadingProps> = ({
 
   return (
     <Text
+      {...props}
       {...accessibilityProps}
       selectable={selectable}
       style={[styles.default, styles[size as keyof typeof styles], props?.style]}

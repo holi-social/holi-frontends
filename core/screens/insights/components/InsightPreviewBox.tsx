@@ -48,7 +48,7 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
           Immigration
         </HoliHeading>
 
-        <HoliHeading level="2" selectable={true} size="small" style={styles.spaceTop}>
+        <HoliHeading level="2" selectable={true} size="small" numberOfLines={3} style={styles.spaceTop}>
           {insight.title}
         </HoliHeading>
 
@@ -56,7 +56,9 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
           {t('insights.posts.byAuthor', { author: userFullName(insight.curator), count: insight.posts.length })}
         </HoliText>
 
-        {editors.length && <HoliUserAvatarPile users={editors} counter collapse style={styles.avatarPile} />}
+        {editors.length && (
+          <HoliUserAvatarPile users={editors} usersToShow={3} counter collapse style={styles.avatarPile} />
+        )}
       </HoliButton>
     </View>
   )
