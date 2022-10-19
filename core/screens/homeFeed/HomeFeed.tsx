@@ -52,13 +52,12 @@ const styles = StyleSheet.create({
   },
   insightsOfTheWeek: {
     marginTop: 32,
-    marginBottom: 100,
   },
   updatesOfYourApps: {
-    marginBottom: 72,
+    marginTop: 100,
   },
   userSuggestionsContainer: {
-    marginTop: 16,
+    marginTop: 88,
   },
 })
 

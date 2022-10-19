@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundColorGreyLight,
   },
   cagetory: {
-    color: colors.positivepurple,
+    color: colors.fontColorHighlighted,
     marginTop: 16,
   },
   avatarPile: {
