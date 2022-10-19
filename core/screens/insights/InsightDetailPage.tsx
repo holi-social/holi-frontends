@@ -15,14 +15,15 @@ import BackButton from '@holi/core/navigation/components/BackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { fakePosts } from '@holi/core/screens/insights/fakeInsights'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
+import PostPreview from '@holi/core/screens/posts/PostPreview'
+import { Post } from '@holi/core/screens/posts/types'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -39,7 +40,6 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const postGridItemsInRow = useBreakpointMatcher()
-  const { navigate } = useRouting()
 
   const [getInsight, { loading, error, data }] = useLazyQuery<InsightByIdResponse>(insightById, {
     variables: { id: insightId },
@@ -70,6 +70,10 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
   // A hard reload will cause an error.
   // see here: https://reactjs.org/docs/hooks-rules.html
   if (!insight) return <HoliText>{t('insights.insight.notFound', { insightId })}</HoliText>
+
+  // if there are no posts in the insight from the okuna backend, use fake posts.
+  // This way feature branches still have content and don't look empty.
+  const posts: Post[] = insight.posts?.length ? insight.posts : fakePosts
 
   const author = {
     ...insight.curator,
@@ -130,17 +134,9 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
         {/* Dummy list of posts */}
         <View style={mixins.container}>
           <HoliGridWrapper itemsInRow={postGridItemsInRow}>
-            {insight.posts.map((post) => (
+            {posts.map((post) => (
               <HoliGridCell key={post.id}>
-                <HoliButton
-                  key={post.id}
-                  label={post.text}
-                  transparent
-                  style={styles.post}
-                  onPress={() => navigate(`/insights/${insightId}/posts/${post.id}`)}
-                >
-                  <HoliText>{post.text}</HoliText>
-                </HoliButton>
+                <PostPreview insightId={insightId} post={post} />
               </HoliGridCell>
             ))}
           </HoliGridWrapper>

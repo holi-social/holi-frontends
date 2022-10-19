@@ -131,6 +131,7 @@
   "insights.post.author": "by {{author}} in <0>{{category}}</0>",
   "insights.post.missingPostId": "Missing postId",
   "insights.post.missingInsightId": "Missing topicId",
+  "insights.post.preview.options": "Options",
   "insights.post.title": "Post {{postId}} in topic {{insightId}}",
   "insights.insight.category": "Topic of category {{category}}",
   "insights.insight.heading": "{{title}} (ID: {{insightId}})",
