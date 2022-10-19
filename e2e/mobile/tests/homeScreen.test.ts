@@ -39,7 +39,8 @@ describe('@HomeScreen', () => {
     // scorll down to user suggestions element should be visible
     await scrollToElementWithTestId('user-suggestions', 'down', { maxAttempts: 5 })
 
-    // logout
+    // clean up view
     await logout()
+    await scrollToElementWithTestId('home-feed-topics-heading', 'up')
   })
 })

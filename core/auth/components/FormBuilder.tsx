@@ -109,7 +109,7 @@ const FormBuilder = <
               onChange={onChange(name)}
               node={node}
               onSubmitPress={() => onSubmit({ ...values, ...submitType })}
-              autofocus={name === 'identifier' || name === 'traits.email'} // email field
+              autofocus={name === 'identifier' || name === 'traits.email' || name === 'email'} // email field
               style={{ marginTop: 30 }}
             />
           )
