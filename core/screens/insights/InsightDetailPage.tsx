@@ -128,7 +128,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
         </View>
 
         {/* Dummy list of posts */}
-        {insight.posts.length && (
+        {insight.posts.length > 0 && (
           <View style={mixins.container}>
             <HoliGridWrapper itemsInRow={postGridItemsInRow}>
               {insight.posts.map((post) => (

@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useCallback } from 'react'
+import { Platform } from 'react-native'
 
 import { HoliTheme } from '.'
 import { useStyleMixins } from './mixins'
@@ -11,9 +12,22 @@ export const ThemeProvider: React.FunctionComponent<{
   const [modalIsOpen, setModalIsOpen] = React.useState(false)
   const mixins = useStyleMixins()
 
+  const setModalIsOpenWeb = useCallback((isOpen: boolean) => {
+    if (Platform.OS) {
+      document.body.style.overflow = isOpen ? 'hidden' : ''
+    }
+
+    setModalIsOpen?.(isOpen)
+  }, [])
+
   return (
     <ThemeContext.Provider
-      value={{ theme: { ...theme, dark: isDark, mixins }, toggleDarkMode, modalIsOpen, setModalIsOpen }}
+      value={{
+        theme: { ...theme, dark: isDark, mixins },
+        toggleDarkMode,
+        modalIsOpen,
+        setModalIsOpen: setModalIsOpenWeb,
+      }}
     >
       {children}
     </ThemeContext.Provider>

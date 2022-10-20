@@ -3,7 +3,6 @@ import Head from 'next/head'
 import React, { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useTheme } from '@holi/ui/styles/theme'
 import HomeTopBar from '@holi/web/components/navigation/HomeTopBar'
 
 import donationsLayoutStyles from './NavigationLayoutDonationsApp.module.scss'
@@ -14,7 +13,6 @@ const mergedStyles = { ...sharedLayoutStyles, ...donationsLayoutStyles }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildren<any>) => {
   const { t } = useTranslation()
-  const { modalIsOpen } = useTheme()
 
   return (
     <>
@@ -31,7 +29,7 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
         <HomeTopBar />
       </header>
 
-      <main className={`${mergedStyles.main} ${modalIsOpen ? mergedStyles.fixed : ''}`}>{children}</main>
+      <main className={mergedStyles.main}>{children}</main>
     </>
   )
 }
