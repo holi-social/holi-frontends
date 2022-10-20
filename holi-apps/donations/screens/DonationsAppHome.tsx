@@ -35,20 +35,18 @@ const DonationsAppHome: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) =
     setShowSearchModal(false)
   }, [])
   const [locationQuery, setLocationQuery] = useParam('location')
-  const [locationQueryInput, setLocationQueryInput] = useState(locationQuery)
   const submitSearch = useCallback(
     (location) => {
       setLocationQuery(location)
-      setLocationQueryInput(location)
       closeModal()
     },
-    [setLocationQuery, setLocationQueryInput, closeModal]
+    [setLocationQuery, closeModal]
   )
 
   const resetSearch = useCallback(() => {
-    setLocationQueryInput(undefined)
-    setShowSearchModal(true)
-  }, [setLocationQueryInput, setShowSearchModal])
+    setLocationQuery(undefined)
+    closeModal()
+  }, [setLocationQuery, closeModal])
 
   useNavigationHeader(navigation, {
     title: title,
@@ -80,7 +78,7 @@ const DonationsAppHome: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) =
         label={t('donations:search.heading')}
         autoHeight={false}
       >
-        <DonationSearchForm onSubmit={submitSearch} locationQuery={locationQueryInput} />
+        <DonationSearchForm onSubmit={submitSearch} locationQuery={locationQuery} />
       </HoliModal>
       <View style={[mixins.container, { paddingTop: 10 }]} testID={'donations-list-container'}>
         <DonationListing locationQuery={locationQuery} resetSearch={resetSearch} />
