@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { fullName } from '@holi/core/helpers'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
@@ -16,9 +16,10 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type PostPreviewProps = {
   insightId: string
   post: Post
+  style?: StyleProp<ViewStyle>
 }
 
-const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post }) => {
+const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post, style }) => {
   const { navigate } = useRouting()
   const { t, i18n } = useTranslation()
 
@@ -29,7 +30,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post }) => {
   const capitalizeDate = (date: string) => date.charAt(0).toUpperCase() + date.slice(1)
 
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.wrapper, style]}>
       <View style={styles.header}>
         <HoliUserAvatar
           imageSrc={post.creator.avatar}
