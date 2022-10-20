@@ -13,7 +13,7 @@ export const ThemeProvider: React.FunctionComponent<{
   const mixins = useStyleMixins()
 
   const setModalIsOpenWeb = useCallback((isOpen: boolean) => {
-    if (Platform.OS) {
+    if (Platform.OS === 'web') {
       document.body.style.overflow = isOpen ? 'hidden' : ''
     }
 
