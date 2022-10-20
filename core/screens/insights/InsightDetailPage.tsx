@@ -143,7 +143,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
             testID="insight-curator-modal"
           >
             <HoliUserCardsModalContent
-              title={t('insights.editors.modal.title')}
+              title={''} // don't show any headline in modal
               users={[author]}
               onDismiss={() => setShowCuratorModal(false)}
               testID="insight-curator"
