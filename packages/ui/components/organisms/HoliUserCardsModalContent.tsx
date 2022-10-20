@@ -1,10 +1,10 @@
-import HoliButton from 'packages/ui/components/molecules/HoliButton'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
 import { userFullName } from '@holi/core/helpers'
 import { User } from '@holi/core/screens/userprofile/types'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
