@@ -63,6 +63,5 @@ export default InsightList
 const styles = StyleSheet.create({
   insight: {
     flex: 1,
-    marginTop: 40,
   },
 })
