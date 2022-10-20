@@ -1,17 +1,16 @@
+import { faker } from '@faker-js/faker'
 import React from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { userFullName } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Insight } from '@holi/core/screens/insights/types'
-import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { colors } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface InsightPreviewBoxProps {
   insight: Insight
@@ -19,17 +18,14 @@ interface InsightPreviewBoxProps {
 }
 
 // TODO: decide on how to work with User Partials
-const editorsOfInsight: (insight: Insight) => User[] = (insight) => {
-  const editors: User[] = [insight.curator as User]
-  insight.posts.forEach((post) => editors.push(post.creator as User))
-  // filter empty authors/curators
-  return editors.filter((x) => !!x)
-}
+const editorsOfInsight = (insight: Insight) =>
+  [insight.curator, ...insight.posts.map(({ creator }) => creator)]
+    .filter((user) => !!user)
+    .map((user) => (!user.avatar ? { ...user, avatar: faker.image.avatar() } : user)) // TODO: remove, use real avatar instead of dummy image
 
 const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...props }) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
 
   const editors = editorsOfInsight(insight)
 
@@ -47,30 +43,23 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
       >
         <Image source={{ uri: headerImage }} style={styles.mainImage} />
 
-        <HoliHeading level="2" selectable={true}>
+        <HoliHeading level="3" selectable={true} size="xSmall" style={[styles.cagetory]}>
+          {/* TODO: provide real category */}
+          Immigration
+        </HoliHeading>
+
+        <HoliHeading level="2" selectable={true} size="small" numberOfLines={3} style={styles.spaceTop}>
           {insight.title}
         </HoliHeading>
+
+        <HoliText size="small" style={[styles.spaceTop, styles.textGrey]} selectable={true}>
+          {t('insights.posts.byAuthor', { author: userFullName(insight.curator), count: insight.posts.length })}
+        </HoliText>
+
+        {editors.length && (
+          <HoliUserAvatarPile users={editors} usersToShow={3} counter collapse style={styles.avatarPile} />
+        )}
       </HoliButton>
-
-      {
-        <View style={styles.authorCategoryContainer}>
-          <HoliText style={styles.textGrey}>
-            <Trans i18nKey="insights.post.author" values={{ author: userFullName(insight.curator), category: '' }} />
-            <HoliButton
-              label={t('insights.insight.category', { category: 'TBD' })}
-              transparent
-              inline
-              style={mixins.inlineButtonFixDefault}
-            >
-              <HoliText bold style={styles.textGrey}>
-                #{'TBD'}
-              </HoliText>
-            </HoliButton>
-          </HoliText>
-        </View>
-      }
-
-      {editors.length && <HoliUserAvatarPile users={editors} counter collapse style={{ marginTop: 10 }} />}
     </View>
   )
 }
@@ -79,29 +68,22 @@ export default InsightPreviewBox
 
 const styles = StyleSheet.create({
   mainImage: {
-    aspectRatio: 344 / 218,
-    borderRadius: 18,
-    marginBottom: 16,
+    aspectRatio: 327 / 206,
+    borderRadius: 12,
     width: '100%',
     backgroundColor: colors.backgroundColorGreyLight,
   },
-  authorCategoryContainer: {
-    flexDirection: 'row',
+  cagetory: {
+    color: colors.fontColorHighlighted,
     marginTop: 16,
-    marginBottom: 8,
   },
-  avatar: {
-    borderColor: colors.white,
-    borderRadius: 24,
-    borderWidth: 2,
-    height: 24,
-    width: 24,
-  },
-  contributorsContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  avatarPile: {
+    marginTop: 12,
   },
   textGrey: {
     color: colors.fontColorGrey,
+  },
+  spaceTop: {
+    marginTop: 8,
   },
 })
