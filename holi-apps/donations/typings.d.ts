@@ -6,7 +6,7 @@ export interface ProjectParameters {
   offset?: number
 }
 
-export type PictureType = 'original' | 'small' | 'tiny_square'
+export type PictureType = 'original' | 'fill' | 'limit'
 
 export interface Picture {
   url: string

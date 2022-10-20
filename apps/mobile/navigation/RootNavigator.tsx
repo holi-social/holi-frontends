@@ -5,6 +5,7 @@ import { StyleSheet } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
+import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
 import Logout from '@holi/core/auth/screens/Logout'
 import Registration from '@holi/core/auth/screens/Registration'
@@ -47,6 +48,7 @@ export type RootStackScreens = {
   Login: undefined
   Logout: undefined
   Registration: undefined
+  ForgotPassword: undefined
 }
 
 const HomeStack = createNativeStackNavigator<HomeStackScreens>()
@@ -229,7 +231,7 @@ const RootNavigator: React.VFC = () => {
       {/* modals are only correctly rendered on android when in root navigator */}
       <RootStack.Group
         screenOptions={{
-          presentation: 'modal',
+          presentation: 'containedModal',
           animation: 'slide_from_bottom',
           headerShown: true,
           headerTitleAlign: 'center',
@@ -261,6 +263,15 @@ const RootNavigator: React.VFC = () => {
           component={Registration}
           options={{
             title: t('auth.register'),
+            headerLeft: LeftElement,
+            headerRight: RightElement,
+          }}
+        />
+        <RootStack.Screen
+          name="ForgotPassword"
+          component={ForgotPassword}
+          options={{
+            title: t('auth.forgotPassword'),
             headerLeft: LeftElement,
             headerRight: RightElement,
           }}

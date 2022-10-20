@@ -1,12 +1,13 @@
 import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } from '@ory/kratos-client'
 import React, { useCallback, useContext, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
@@ -15,9 +16,13 @@ import { displayError } from '@holi/core/errors/helpers'
 import { useSafeDispatch } from '@holi/core/helpers'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks//useNavigationHeader'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const isWeb = Platform.OS === 'web'
 
@@ -27,6 +32,8 @@ const Registration: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const { setUserLoggedIn, isLoggedIn } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
+  const mixins = useStyleMixins()
+  const { replaceRoute } = useRouting()
   // use safe versions of this function to prevent updating state of destroyed component
   const safeSetFlow = useSafeDispatch(setFlow)
 
@@ -83,9 +90,42 @@ const Registration: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
 
   return (
     <DefaultLayout>
-      <LoginRegistrationContainer flow={flow} onSubmit={onSubmit} mode="registration" />
+      <LoginRegistrationContainer>
+        <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} />
+
+        <HoliHeading level="3" size="xSmall" style={styles.headline3}>
+          {t('auth.registration.alreadyHasAccount')}{' '}
+          <HoliButton
+            transparent
+            inline
+            variant="small"
+            label={t('auth.login')}
+            style={mixins.inlineButtonFixSmall}
+            onPress={() => replaceRoute('/login')}
+            testID="btn-to-login-form"
+          >
+            <HoliText size="small" style={styles.loginLinkText}>
+              {t('auth.login')}
+            </HoliText>
+          </HoliButton>
+        </HoliHeading>
+      </LoginRegistrationContainer>
     </DefaultLayout>
   )
 }
 
 export default Registration
+
+const styles = StyleSheet.create({
+  loginForm: {
+    // reserves space for inputs plus submit until ory flow is done
+    minHeight: 235,
+    width: '100%',
+  },
+  headline3: {
+    marginTop: 16,
+  },
+  loginLinkText: {
+    color: colors.positivepurple,
+  },
+})

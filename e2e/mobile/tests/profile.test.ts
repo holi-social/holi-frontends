@@ -11,16 +11,13 @@ describe('@Profile', () => {
     await navigateBackToHomeScreen()
 
     // user suggestions element should be visible
-    await scrollToElementWithTestId('user-suggestions', 'down')
+    await scrollToElementWithTestId('user-suggestions', 'down', { maxAttempts: 5 })
 
     // tap on first user in list
     await tapOnElementWithTestId('user-card-suggestion-0')
 
     // expect user profile
     await waitForElementWithTestId('user-profile-full-name')
-
-    // go back
-    await tapOnElementWithTestId('nav-button-back', 0)
 
     // logout
     await logout()
