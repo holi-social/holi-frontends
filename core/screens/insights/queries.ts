@@ -13,6 +13,7 @@ const InsightFragment = gql`
       avatar
       firstName
       lastName
+      aboutMe
     }
     headerImage
     posts {

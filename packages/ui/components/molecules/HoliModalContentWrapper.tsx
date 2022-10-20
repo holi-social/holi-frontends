@@ -45,7 +45,7 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
       )}
 
       <ScrollView>
-        {headlineText && (
+        {!!headlineText?.length && (
           <HoliHeading level="1" style={styles.headline} size="large" testID={`${testID}-heading`}>
             {headlineText}
           </HoliHeading>

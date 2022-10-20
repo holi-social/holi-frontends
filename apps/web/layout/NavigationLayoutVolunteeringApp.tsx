@@ -8,7 +8,6 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
-import { useTheme } from '@holi/ui/styles/theme'
 import HomeTopBar from '@holi/web/components/navigation/HomeTopBar'
 
 import sharedLayoutStyles from './NavigationLayoutRoot.module.scss'
@@ -21,7 +20,6 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
   const { navigate } = useRouting()
   const styles = getStyles()
   const { t } = useTranslation()
-  const { modalIsOpen } = useTheme()
 
   return (
     <>
@@ -38,7 +36,7 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
         <HomeTopBar />
       </header>
 
-      <main className={`${mergedStyles.main} ${modalIsOpen ? mergedStyles.fixed : ''}`}>{children}</main>
+      <main className={mergedStyles.main}>{children}</main>
 
       <footer className={mergedStyles.footer}>
         <View
