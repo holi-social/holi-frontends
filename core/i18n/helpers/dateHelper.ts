@@ -6,17 +6,18 @@ const calculateNumberOfDaysAgo = (date: Date) => {
 }
 
 /**
- * Date Formatting rules:
+ * Relative Date Formatting rules:
  *
- * If date === today, it shows “Today”
- * If date === yesterday, it shows “Yesterday”
- * If date is before yesterday, but within this week, it shows “this week”
- * If date is in the last week, it shows “last week”
- * If date is more than 1 week ago, the respective number of weeks that past since creation is shown: “2 weeks ago, “3 weeks ago” etc.
+ * date === today => “Today”
+ * date === yesterday => “Yesterday”
+ * date is before yesterday, but within this week => “this week”
+ * date is in the last week => “last week”
+ * date is more than 1 week ago => “2 weeks ago”, “3 weeks ago” etc.
  *
  * Intl.RelativeTimeFormat docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat
  */
-export const getFormattedDateString = (date: Date, language: string) => {
+export const getRelativeDateString = (dateStr = '', language: string) => {
+  const date = new Date(dateStr)
   let weeksAgo = 0
   const daysAgo = Math.floor(calculateNumberOfDaysAgo(date))
   const isOverOneDayAgo = daysAgo > 1

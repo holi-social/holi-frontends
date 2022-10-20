@@ -78,7 +78,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
   const author = {
     ...insight.curator,
     fullName: userFullName(insight.curator),
-    avatar: faker.image.avatar(), // TODO: dummy image
+    avatar: faker.image.avatar(), // TODO: remove, use real avatar instead of dummy image
   }
 
   // TODO: dummy category
@@ -132,15 +132,17 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
         </View>
 
         {/* Dummy list of posts */}
-        <View style={mixins.container}>
-          <HoliGridWrapper itemsInRow={postGridItemsInRow}>
-            {posts.map((post) => (
-              <HoliGridCell key={post.id}>
-                <PostPreview insightId={insightId} post={post} />
-              </HoliGridCell>
-            ))}
-          </HoliGridWrapper>
-        </View>
+        {posts.length && (
+          <View style={[mixins.container, styles.postList]}>
+            <HoliGridWrapper itemsInRow={postGridItemsInRow}>
+              {posts.map((post) => (
+                <HoliGridCell key={post.id}>
+                  <PostPreview insightId={insightId} post={post} />
+                </HoliGridCell>
+              ))}
+            </HoliGridWrapper>
+          </View>
+        )}
       </DefaultLayout>
 
       {/* Header */}
@@ -215,24 +217,22 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 24,
     paddingTop: 40,
     paddingBottom: 24,
-    marginBottom: 24,
     ...Platform.select({ web: { paddingHorizontal: 20 } }),
   },
   categoryHeadline: {
-    color: colors.positivepurple,
-    marginBottom: 8,
+    color: colors.fontColorHighlighted,
   },
   insightHeadline: {
-    marginBottom: 24,
+    marginTop: 8,
   },
   insightText: {
     color: colors.grey,
-    marginBottom: 24,
   },
   authorInfo: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 24,
   },
   authorInfoAvatar: {
     marginRight: 16,
@@ -240,11 +240,8 @@ const styles = StyleSheet.create({
   authorInfoText: {
     color: colors.grey,
   },
-  post: {
-    flex: 1,
-    padding: 24,
-    borderRadius: 12,
-    backgroundColor: colors.backgroundColorWhite,
+  postList: {
+    marginTop: 24,
   },
 })
 
