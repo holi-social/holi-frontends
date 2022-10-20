@@ -2,7 +2,7 @@ import { useLazyQuery } from '@apollo/client'
 import { faker } from '@faker-js/faker'
 import { LinearGradient } from 'expo-linear-gradient'
 import { StatusBar } from 'expo-status-bar'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { ImageBackground, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
@@ -23,13 +23,16 @@ import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
+import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type InsightDetailPageParams = {
   insightId: string
 }
+
 const { useParam } = createParam<InsightDetailPageParams>()
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
@@ -40,6 +43,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
   const mixins = useStyleMixins()
   const postGridItemsInRow = useBreakpointMatcher()
   const { navigate } = useRouting()
+  const [showCuratorModal, setShowCuratorModal] = useState(false)
 
   const [getInsight, { loading, error, data }] = useLazyQuery<InsightByIdResponse>(insightById, {
     variables: { id: insightId },
@@ -109,26 +113,46 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
           <HoliText style={styles.insightText}>{insight.description}</HoliText>
 
           {/* Author  */}
-          <View style={styles.authorInfo}>
-            <HoliUserAvatar
-              imageSrc={author.avatar}
-              label={author.fullName}
-              initials={author.avatarLabel || ''}
-              defaultColor={author.avatarDefaultColor || ''}
-              size="small"
-              style={styles.authorInfoAvatar}
-            />
+          <HoliButton
+            transparent
+            label={t('user.visitProfile', { fullName: author.fullName })}
+            onPress={() => setShowCuratorModal(true)}
+          >
+            <View style={styles.authorInfo}>
+              <HoliUserAvatar
+                imageSrc={author.avatar}
+                label={author.fullName}
+                initials={author.avatarLabel || ''}
+                defaultColor={author.avatarDefaultColor || ''}
+                size="small"
+                style={styles.authorInfoAvatar}
+              />
 
-            <HoliText size="small" style={styles.authorInfoText}>
-              <Trans t={t} i18nKey="insight.curatedBy" values={{ name: author.fullName }}>
-                <HoliText size="small">{author.fullName}</HoliText>
-              </Trans>
-            </HoliText>
-          </View>
+              <HoliText size="small" style={styles.authorInfoText}>
+                <Trans t={t} i18nKey="insight.curatedBy" values={{ name: author.fullName }}>
+                  <HoliText size="small" />
+                </Trans>
+              </HoliText>
+            </View>
+          </HoliButton>
+
+          <HoliModal
+            label={t('insights.editors.modal.title')}
+            show={showCuratorModal}
+            onDismiss={() => setShowCuratorModal(false)}
+            testID="insight-curator-modal"
+          >
+            <HoliUserCardsModalContent
+              title={t('insights.editors.modal.title')}
+              users={[author]}
+              onDismiss={() => setShowCuratorModal(false)}
+              testID="insight-curator"
+            />
+          </HoliModal>
         </View>
 
         {/* Dummy list of posts */}
-        {insight.posts.length && (
+        {insight.posts.length > 0 && (
           <View style={mixins.container}>
             <HoliGridWrapper itemsInRow={postGridItemsInRow}>
               {insight.posts.map((post) => (
@@ -231,6 +255,7 @@ const styles = StyleSheet.create({
   },
   insightText: {
     color: colors.grey,
+    marginTop: 24,
   },
   authorInfo: {
     flexDirection: 'row',
@@ -243,6 +268,9 @@ const styles = StyleSheet.create({
   },
   authorInfoText: {
     color: colors.grey,
+  },
+  authorInfoName: {
+    color: colors.fontColorBlack,
   },
   postList: {
     marginTop: 24,

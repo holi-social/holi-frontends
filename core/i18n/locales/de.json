@@ -271,6 +271,7 @@
   "user.skills.WILLINGNESS_TO_LEARN": "Lernbereitschaft",
   "user.skills.form.headline": "Fähigkeiten, die ich einbringen kann",
   "user.skills.form.subline": "Deine Fähigkeiten erlauben es anderen Nutzer*innen, Dich besser kennenzulernen, und uns, unser Angebot auf Dich zuzuschneiden.",
+  "user.visitProfile": "Zum Profil von {{fullName}}",
   "user.userContext.error.fetching": "Laden des eingeloggten Nutzers ist fehlgeschlagen",
   "user.userProfile.error.fetching": "Laden des Nutzerprofils ist fehlgeschlagen"
 }

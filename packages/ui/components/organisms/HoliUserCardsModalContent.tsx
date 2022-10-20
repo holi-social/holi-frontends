@@ -6,7 +6,6 @@ import { User } from '@holi/core/screens/userprofile/types'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type HoliUserCardsModalContentProps = {
   users: User[]
@@ -26,7 +25,6 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
   testID,
 }: HoliUserCardsModalContentProps) => {
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
 
   return (
     <HoliModalContentWrapper
@@ -37,7 +35,8 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
       style={[styles.modalContentWrapper, style]}
     >
       <HoliCarousel
-        style={[mixins.container, { marginTop: 24 }]}
+        marginHorizontal={20}
+        style={{ marginTop: 24 }}
         slides={users.map((user) => ({
           children: <HoliUserCard style={styles.userCard} user={user} category={category} disableFocusability />,
         }))}
