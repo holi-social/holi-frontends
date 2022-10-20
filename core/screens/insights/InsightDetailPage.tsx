@@ -17,6 +17,7 @@ import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
+import { User } from '@holi/core/screens/userprofile/types'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
@@ -113,28 +114,30 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
           <HoliText style={styles.insightText}>{insight.description}</HoliText>
 
           {/* Author  */}
-          <HoliButton
-            transparent
-            label={t('user.visitProfile', { fullName: author.fullName })}
-            onPress={() => setShowCuratorModal(true)}
-          >
-            <View style={styles.authorInfo}>
-              <HoliUserAvatar
-                imageSrc={author.avatar}
-                label={author.fullName}
-                initials={author.avatarLabel || ''}
-                defaultColor={author.avatarDefaultColor || ''}
-                size="small"
-                style={styles.authorInfoAvatar}
-              />
+          <View style={styles.authorInfo}>
+            <HoliButton
+              transparent
+              label={t('user.visitProfile', { fullName: author.fullName })}
+              onPress={() => setShowCuratorModal(true)}
+            >
+              <View style={styles.authorInfoInner}>
+                <HoliUserAvatar
+                  imageSrc={author.avatar}
+                  label={author.fullName}
+                  initials={author.avatarLabel || ''}
+                  defaultColor={author.avatarDefaultColor || ''}
+                  size="small"
+                  style={styles.authorInfoAvatar}
+                />
 
-              <HoliText size="small" style={styles.authorInfoText}>
-                <Trans t={t} i18nKey="insight.curatedBy" values={{ name: author.fullName }}>
-                  <HoliText size="small" />
-                </Trans>
-              </HoliText>
-            </View>
-          </HoliButton>
+                <HoliText size="small" style={styles.authorInfoText}>
+                  <Trans t={t} i18nKey="insight.curatedBy" values={{ name: author.fullName }}>
+                    <HoliText size="small" />
+                  </Trans>
+                </HoliText>
+              </View>
+            </HoliButton>
+          </View>
 
           <HoliModal
             label={t('insights.editors.modal.title')}
@@ -144,8 +147,9 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
           >
             <HoliUserCardsModalContent
               title={''} // don't show any headline in modal
-              users={[author]}
+              users={[author as User]}
               onDismiss={() => setShowCuratorModal(false)}
+              onUserPress={({ id }) => navigate('/profile/' + id)}
               testID="insight-curator"
             />
           </HoliModal>
@@ -258,10 +262,12 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
   authorInfo: {
+    marginTop: 24,
+  },
+  authorInfoInner: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 24,
   },
   authorInfoAvatar: {
     marginRight: 16,
