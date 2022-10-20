@@ -77,7 +77,7 @@
   "homeFeed.userSuggestions.loadMore": "See more",
   "homeFeed.userSuggestions.title": "People you may like",
   "homeFeed.volunteering": "Volunteering",
-  "insight.curatedBy": "Curated by <0>{{name}}</0>",
+  "insight.curatedBy": "curated by <0>{{name}}</0>",
   "insights.editors.discussing": "{{count}} discussing",
   "insights.editors.discussing_plural": "{{count}} discussing",
   "insights.editors.editedBy": "curated by Holi & guest editors",
