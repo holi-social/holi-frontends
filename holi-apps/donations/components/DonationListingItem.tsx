@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { Platform, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -13,11 +13,13 @@ import { Project } from '@holi-apps/donations/typings'
 type DonationListingItemProps = {
   project: Project
   small?: boolean
+  style?: StyleProp<ViewStyle>
 }
 
 const DonationListingItem: React.VFC<DonationListingItemProps> = ({
   project,
   small = false,
+  style,
 }: DonationListingItemProps) => {
   const { navigate } = useRouting()
   const { title, categories, donationsCount, progressPercentage, openAmountInCents, picture } = project
@@ -27,11 +29,11 @@ const DonationListingItem: React.VFC<DonationListingItemProps> = ({
       label={title}
       transparent
       onPress={() => navigate(`/apps/donations/project/${project.id}`)}
-      style={!small ? styles.mainImageContainer : styles.smallImageContainer}
+      style={[!small ? styles.mainImageContainer : style]}
       testID={'donations-list-item'}
       inline={small}
     >
-      <DonationImage picture={picture} label={title} style={!small ? styles.mainImage : styles.smallImage} />
+      <DonationImage picture={picture} label={title} style={[!small ? styles.mainImage : styles.smallImage]} />
 
       {!small ? (
         <HoliHeading level="2" size="small" selectable style={styles.heading}>
@@ -66,17 +68,13 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   smallImage: {
+    aspectRatio: 1,
     borderRadius: 10,
     marginBottom: 8,
-    width: 160,
-    height: 160,
+    width: Platform.OS === 'web' ? 160 : '100%',
+    height: Platform.OS === 'web' ? 160 : 'auto',
   },
   heading: {
     marginBottom: 8,
-  },
-  smallImageContainer: {
-    marginRight: 11,
-    height: 'auto',
-    width: 160,
   },
 })

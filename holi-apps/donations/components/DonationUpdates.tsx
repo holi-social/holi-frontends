@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -10,6 +10,7 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+//import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import { colors } from '@holi/ui/styles/globalVars'
 
 import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
@@ -22,7 +23,8 @@ type DonationUpdatesProps = {
 const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: DonationUpdatesProps) => {
   const { t, i18n } = useTranslation()
   const { navigate } = useRouting()
-  const PROJECT_PAGE_SIZE = 5
+  const PROJECT_PAGE_SIZE = 8
+  const { width: screenWidth } = useWindowDimensions()
 
   const { data, error } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
     variables: {
@@ -49,7 +51,17 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: Don
       </View>
       <ScrollView style={styles.scrollViewContainer} horizontal>
         {projects.map((project, index) => {
-          return <DonationListingItem key={index} project={project} small />
+          return (
+            <DonationListingItem
+              key={index}
+              project={project}
+              small
+              style={{
+                width: Platform.OS === 'web' ? 160 : screenWidth / 2 - 25,
+                marginRight: 11,
+              }}
+            />
+          )
         })}
         <HoliButton
           label={'seeMore.button'}
@@ -58,20 +70,13 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: Don
           transparent
           inline
         >
-          <View style={styles.seeMoreImageContainer}>
-            <HoliLocalImage
-              imageSource={require('@holi/ui/assets/img/illustrations/illustration_user_suggestions.png')}
-              width={125.6}
-              height={125.6}
-              label=""
-            />
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-            }}
-          >
+          <HoliLocalImage
+            imageSource={require('@holi/ui/assets/img/illustrations/illustration_user_suggestions.png')}
+            width={Platform.OS === 'web' ? 160 : screenWidth / 2 - 25}
+            height={Platform.OS === 'web' ? 160 : screenWidth / 2 - 25}
+            label=""
+          />
+          <View style={styles.seeMoreContainer}>
             <HoliText style={styles.seeMoreText} size="small" bold>
               {t('donations:donationListing.loadMoreButton.text')}
             </HoliText>
@@ -103,6 +108,8 @@ const styles = StyleSheet.create({
   },
   scrollViewContainer: {
     paddingVertical: 23,
+    marginHorizontal: -20,
+    paddingLeft: 20,
   },
   buttonContainer: {
     marginRight: 11,
@@ -113,8 +120,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flex: 1,
   },
-  seeMoreImageContainer: {
-    padding: 17.2,
+  seeMoreContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   seeMoreText: {
     color: colors.secondaryColor,
