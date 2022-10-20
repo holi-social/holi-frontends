@@ -89,7 +89,7 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
         </ScrollView>
       )}
 
-      {!isWeb && (
+      {!isWeb && slides.length > 1 && (
         <View style={styles.slideButtonsContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
           {slides.map((slide, slideIndex) => (
             <HoliTabButton
