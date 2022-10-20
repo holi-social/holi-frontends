@@ -117,7 +117,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
           <View style={styles.authorInfo}>
             <HoliButton
               transparent
-              label={t('user.visitProfile', { fullName: author.fullName })}
+              label={t('user.cards.modal.showInfo', { name: author.fullName })}
               onPress={() => setShowCuratorModal(true)}
             >
               <View style={styles.authorInfoInner}>
@@ -140,7 +140,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
           </View>
 
           <HoliModal
-            label={t('insights.editors.modal.title')}
+            label={t('user.cards.modal.showInfo', { name: author.fullName })}
             show={showCuratorModal}
             onDismiss={() => setShowCuratorModal(false)}
             testID="insight-curator-modal"

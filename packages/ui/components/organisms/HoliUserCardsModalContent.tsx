@@ -47,7 +47,7 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
             children: onUserPress ? (
               <HoliButton
                 transparent
-                label={t('user.visitProfile', { fullName: userFullName(user) })}
+                label={t('user.visitProfile', { name: userFullName(user) })}
                 onPress={() => onUserPress(user)}
               >
                 {userCard}
