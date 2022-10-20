@@ -13,7 +13,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 //import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import { colors } from '@holi/ui/styles/globalVars'
 
-import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
+import DonationUpdatesItem from '@holi-apps/donations/components/DonationUpdatesItem'
 import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'
 
 type DonationUpdatesProps = {
@@ -26,7 +26,7 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: Don
   const PROJECT_PAGE_SIZE = 8
   const { width: screenWidth } = useWindowDimensions()
 
-  const { data, error } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
+  const { data, error, loading } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
     variables: {
       locale: i18n.language,
       limit: PROJECT_PAGE_SIZE,
@@ -51,18 +51,13 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: Don
       </View>
       <ScrollView style={styles.scrollViewContainer} horizontal>
         {projects.map((project, index) => {
-          return (
-            <DonationListingItem
-              key={index}
-              project={project}
-              small
-              style={{
-                width: Platform.OS === 'web' ? 160 : screenWidth / 2 - 25,
-                marginRight: 11,
-              }}
-            />
-          )
+          return <DonationUpdatesItem key={index} project={project} />
         })}
+        {loading && (
+          <View style={styles.loadingContainer}>
+            <HoliIcon icon="loader-4" size={50} color={colors.fontColorGrey} spinning />
+          </View>
+        )}
         <HoliButton
           label={'seeMore.button'}
           style={[styles.buttonContainer, styles.lastButtonContainer]}
@@ -72,8 +67,8 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: Don
         >
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/illustrations/illustration_user_suggestions.png')}
-            width={Platform.OS === 'web' ? 160 : screenWidth / 2 - 25}
-            height={Platform.OS === 'web' ? 160 : screenWidth / 2 - 25}
+            width={Platform.OS === 'web' ? 160 : screenWidth / 2 - 26}
+            height={Platform.OS === 'web' ? 160 : screenWidth / 2 - 26}
             label=""
           />
           <View style={styles.seeMoreContainer}>
@@ -113,6 +108,13 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginRight: 11,
+  },
+  loadingContainer: {
+    width: 160,
+    height: 160,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.backgroundColorGrey,
   },
   lastButtonContainer: {
     marginRight: 24,

@@ -1,9 +1,8 @@
 import React from 'react'
-import { Platform, StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 import DonationImage from '@holi-apps/donations/components/DonationImage'
@@ -12,15 +11,9 @@ import { Project } from '@holi-apps/donations/typings'
 
 type DonationListingItemProps = {
   project: Project
-  small?: boolean
-  style?: StyleProp<ViewStyle>
 }
 
-const DonationListingItem: React.VFC<DonationListingItemProps> = ({
-  project,
-  small = false,
-  style,
-}: DonationListingItemProps) => {
+const DonationListingItem: React.VFC<DonationListingItemProps> = ({ project }: DonationListingItemProps) => {
   const { navigate } = useRouting()
   const { title, categories, donationsCount, progressPercentage, openAmountInCents, picture } = project
 
@@ -29,27 +22,20 @@ const DonationListingItem: React.VFC<DonationListingItemProps> = ({
       label={title}
       transparent
       onPress={() => navigate(`/apps/donations/project/${project.id}`)}
-      style={[!small ? styles.mainImageContainer : style]}
+      style={styles.mainImageContainer}
       testID={'donations-list-item'}
-      inline={small}
     >
-      <DonationImage picture={picture} label={title} style={[!small ? styles.mainImage : styles.smallImage]} />
+      <DonationImage picture={picture} label={title} style={styles.mainImage} />
 
-      {!small ? (
-        <HoliHeading level="2" size="small" selectable style={styles.heading}>
-          {title}
-        </HoliHeading>
-      ) : (
-        <HoliText size="small" bold numberOfLines={2} selectable style={{ marginTop: 8 }}>
-          {title}
-        </HoliText>
-      )}
+      <HoliHeading level="2" size="small" selectable={true} style={styles.heading}>
+        {title}
+      </HoliHeading>
+
       <DonationProgress
         category={categories[0]}
         donationsCount={donationsCount}
         progressPercentage={progressPercentage}
         openAmountInCents={openAmountInCents}
-        size={!small ? 'default' : 'small'}
       />
     </HoliButton>
   )
@@ -66,13 +52,6 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     marginBottom: 8,
     width: '100%',
-  },
-  smallImage: {
-    aspectRatio: 1,
-    borderRadius: 10,
-    marginBottom: 8,
-    width: Platform.OS === 'web' ? 160 : '100%',
-    height: Platform.OS === 'web' ? 160 : 'auto',
   },
   heading: {
     marginBottom: 8,
