@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -30,6 +30,7 @@ const DonationsAppHome: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) =
   const { t } = useTranslation()
   const title = t('donations:app.name')
   const mixins = useStyleMixins()
+  const { height: deviceHeight } = useWindowDimensions()
   const [showSearchModal, setShowSearchModal] = useState(false)
   const closeModal = useCallback(() => {
     setShowSearchModal(false)
@@ -59,7 +60,7 @@ const DonationsAppHome: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) =
         onPress={() => setShowSearchModal(true)}
         testID="donations-search-button"
       >
-        <HoliIcon icon="search" size={24} />
+        <HoliIcon icon="search-2" size={24} />
       </HoliButton>
     ),
   })
@@ -72,6 +73,9 @@ const DonationsAppHome: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) =
         testID="donations-search-modal"
         label={t('donations:search.heading')}
         autoHeight={false}
+        // Smaller devides use the whole screen and
+        // larger ones should have more space above for clicking the backdrop pane
+        minRelativeHeight={deviceHeight > 750 ? 0.85 : 0}
       >
         <DonationSearchForm onSubmit={submitSearch} locationQuery={locationQuery} />
       </HoliModal>
