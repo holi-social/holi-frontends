@@ -16,7 +16,10 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { fakePosts } from '@holi/core/screens/insights/fakeInsights'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
+import PostPreview from '@holi/core/screens/posts/PostPreview'
+import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
@@ -75,6 +78,10 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
   // A hard reload will cause an error.
   // see here: https://reactjs.org/docs/hooks-rules.html
   if (!insight) return <HoliText>{t('insights.insight.notFound', { insightId })}</HoliText>
+
+  // if there are no posts in the insight from the okuna backend, use fake posts.
+  // This way feature branches still have content and don't look empty.
+  const posts: Post[] = insight.posts?.length ? insight.posts : fakePosts
 
   const author = {
     ...insight.curator,
@@ -159,20 +166,12 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
         </View>
 
         {/* Dummy list of posts */}
-        {insight.posts.length > 0 && (
-          <View style={mixins.container}>
+        {!!posts.length && (
+          <View style={[mixins.container, styles.postList]}>
             <HoliGridWrapper itemsInRow={postGridItemsInRow}>
-              {insight.posts.map((post) => (
+              {posts.map((post) => (
                 <HoliGridCell key={post.id}>
-                  <HoliButton
-                    key={post.id}
-                    label={post.text}
-                    transparent
-                    style={styles.post}
-                    onPress={() => navigate(`/insights/${insightId}/posts/${post.id}`)}
-                  >
-                    <HoliText>{post.text}</HoliText>
-                  </HoliButton>
+                  <PostPreview insightId={insightId} post={post} />
                 </HoliGridCell>
               ))}
             </HoliGridWrapper>
@@ -283,12 +282,6 @@ const styles = StyleSheet.create({
   },
   postList: {
     marginTop: 24,
-  },
-  post: {
-    flex: 1,
-    padding: 24,
-    borderRadius: 12,
-    backgroundColor: colors.backgroundColorWhite,
   },
 })
 
