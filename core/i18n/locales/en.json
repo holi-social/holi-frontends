@@ -91,6 +91,7 @@
   "insights.post.author": "by {{author}} in <0>{{category}}</0>",
   "insights.post.missingInsightId": "Missing topicId",
   "insights.post.missingPostId": "Missing postId",
+  "insights.post.preview.options": "Options",
   "insights.post.title": "Post {{postId}} in topic {{insightId}}",
   "insights.posts.byAuthor": "post by {{author}}",
   "insights.posts.byAuthor_plural": "{{count}} posts by {{author}}",
