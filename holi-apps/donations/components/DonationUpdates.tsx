@@ -10,7 +10,6 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-//import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import { colors } from '@holi/ui/styles/globalVars'
 
 import DonationUpdatesItem from '@holi-apps/donations/components/DonationUpdatesItem'
@@ -23,7 +22,7 @@ type DonationUpdatesProps = {
 const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: DonationUpdatesProps) => {
   const { t, i18n } = useTranslation()
   const { navigate } = useRouting()
-  const PROJECT_PAGE_SIZE = 8
+  const PROJECT_PAGE_SIZE = 5
   const { width: screenWidth } = useWindowDimensions()
 
   const { data, error, loading } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
@@ -43,13 +42,13 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: Don
 
   return (
     <>
-      <View style={styles.donationsHeader}>
+      <View style={styles.donationsHeader} testID={'donations-updates-heading'}>
         <View style={styles.donationIconContainer}>
           <HoliIcon icon="hand-heart" size={18} filled color={colors.fontColorGrey} />
         </View>
         <HoliHeading style={{ marginLeft: 10 }}>{t('donations:app.name')}</HoliHeading>
       </View>
-      <ScrollView style={styles.scrollViewContainer} horizontal>
+      <ScrollView style={styles.scrollViewContainer} horizontal testID={'donations-updates-container'}>
         {projects.map((project, index) => {
           return <DonationUpdatesItem key={index} project={project} />
         })}
@@ -59,11 +58,12 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: Don
           </View>
         )}
         <HoliButton
-          label={'seeMore.button'}
+          label={t('donations:donationListing.loadMoreButton.text')}
           style={[styles.buttonContainer, styles.lastButtonContainer]}
           onPress={() => navigate('/apps/donations/')}
           transparent
           inline
+          testID={'donations-updates-load-more-button'}
         >
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/illustrations/illustration_user_suggestions.png')}
@@ -112,6 +112,7 @@ const styles = StyleSheet.create({
   loadingContainer: {
     width: 160,
     height: 160,
+    borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.backgroundColorGrey,
