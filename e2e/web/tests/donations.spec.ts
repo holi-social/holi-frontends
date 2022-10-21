@@ -149,4 +149,18 @@ test.describe('@Donations', () => {
     heading = await locateElementByTestId(page, 'donations-list-search-heading')
     await expect(heading).toContainText('Hamburg')
   })
+
+  test('should display donation updates', async ({ page }) => {
+    await page.goto('/')
+    await waitForElementByTestId(page, 'donations-updates-heading')
+    await waitForElementByTestId(page, 'donations-updates-container')
+
+    // click first element in ScrollView
+    await clickElementByTestId(page, 'donations-updates-load-more-button')
+
+    //expect detail view
+    expect(page.url()).toContain('/apps/donations/project/')
+
+    await checkAccessibility(page)
+  })
 })
