@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { Insight } from 'core/screens/insights/types'
 
+import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
 
 const loremIpsum =
@@ -23,7 +24,58 @@ export const getRandomUser = (hasAvatar = false): User => {
   }
 }
 
-const fakeInsights: Insight[] = [
+export const fakePosts: Post[] = [
+  {
+    id: '123',
+    title: faker.random.words(8),
+    created: faker.date.past().toDateString(),
+    creator: {
+      id: 'afoo',
+      firstName: getRandomName(),
+      avatar: faker.image.avatar(),
+      avatarDefaultColor: faker.color.rgb(),
+    },
+    text: '123 ' + loremIpsum + loremIpsum + loremIpsum + loremIpsum + loremIpsum,
+  },
+  {
+    id: '321',
+    title: faker.random.words(8),
+    created: faker.date.past().toDateString(),
+    creator: {
+      id: 'abar',
+      firstName: getRandomName(),
+      avatar: faker.image.avatar(),
+      avatarDefaultColor: faker.color.rgb(),
+    },
+    text: '321 ' + loremIpsum + loremIpsum + loremIpsum + loremIpsum + loremIpsum,
+  },
+  {
+    id: '123a',
+    title: faker.random.words(8),
+    created: faker.date.past().toDateString(),
+    creator: {
+      id: 'dbar',
+      firstName: getRandomName(),
+      avatar: faker.image.avatar(),
+      avatarDefaultColor: faker.color.rgb(),
+    },
+    text: '123a ' + loremIpsum + loremIpsum + loremIpsum + loremIpsum + loremIpsum,
+  },
+  {
+    id: '321a',
+    title: faker.random.words(8),
+    created: faker.date.past().toDateString(),
+    creator: {
+      id: 'ebar',
+      firstName: getRandomName(),
+      avatar: faker.image.avatar(),
+      avatarDefaultColor: faker.color.rgb(),
+    },
+    text: '321a ' + loremIpsum + loremIpsum + loremIpsum + loremIpsum + loremIpsum,
+  },
+]
+
+export const fakeInsights: Insight[] = [
   {
     id: 'abc',
     title: 'What does it mean to be a refugee in Europe?',
@@ -34,12 +86,7 @@ const fakeInsights: Insight[] = [
       '\n' +
       loremIpsum,
     datePublished: '2022-09-28',
-    posts: [
-      { id: '123', creator: { id: 'afoo', firstName: getRandomName() }, text: '123 ' + loremIpsum },
-      { id: '321', creator: { id: 'abar', firstName: getRandomName() }, text: '321 ' + loremIpsum },
-      { id: '123a', creator: { id: 'dbar', firstName: getRandomName() }, text: '123a ' + loremIpsum },
-      { id: '321a', creator: { id: 'ebar', firstName: getRandomName() }, text: '321a ' + loremIpsum },
-    ],
+    posts: fakePosts,
     headerImage: 'https://image.geo.de/30657478/t/5W/v6/w960/r1.5/-/wer-hat-den-foehn-picture-1238735191.jpg',
     curator: {
       id: 'foo',
@@ -53,11 +100,7 @@ const fakeInsights: Insight[] = [
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio eget metus, est mauris viverra orci rhoncus quis ' +
       'eu. Ultricies pellentesque et tincidunt vitae etiam turpis at vulputate.',
     datePublished: '2022-10-05',
-    posts: [
-      { id: '456', creator: { id: 'bfoo', firstName: getRandomName() }, text: '456 ' + loremIpsum },
-      { id: '654', creator: { id: 'bbar', firstName: getRandomName() }, text: '654 ' + loremIpsum },
-      { id: '654a', creator: { id: 'cbar', firstName: getRandomName() }, text: '654a ' + loremIpsum },
-    ],
+    posts: fakePosts,
     headerImage: 'https://image.geo.de/30137764/t/r8/v4/w960/r1.5/-/die-welt-von-gestern-in-farbe-02-jpg--78318-.jpg',
     curator: {
       id: 'bar',
@@ -65,5 +108,3 @@ const fakeInsights: Insight[] = [
     },
   },
 ]
-
-export default fakeInsights

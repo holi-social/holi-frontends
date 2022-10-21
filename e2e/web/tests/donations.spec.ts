@@ -1,4 +1,4 @@
-import { Locator, expect, test } from '@playwright/test'
+import { Locator, Page, expect, test } from '@playwright/test'
 
 import { checkAccessibility, clickElementByTestId, locateElementByTestId, waitForElementByTestId } from './helpers'
 
@@ -75,6 +75,25 @@ test.describe('@Donations', () => {
     await initiativePage.close() // close newly opened tab
   })
 
+  const filterForLocation = async (page: Page, location: string, { assertAccessibility = false } = {}) => {
+    // open search modal
+    await clickElementByTestId(page, 'donations-search-button')
+
+    if (assertAccessibility) {
+      await checkAccessibility(page)
+    }
+
+    // enter location
+    const locationInput = await locateElementByTestId(page, 'donations-search-location-input')
+    await locationInput.fill(location)
+
+    // close search modal
+    await clickElementByTestId(page, 'donations-search-modal-close-btn')
+
+    // wait for results
+    await waitForElementByTestId(page, 'donations-list-container')
+  }
+
   const extractResultCount = async (element: Locator): Promise<number> => {
     const textContent = await element.textContent()
     const numberMatch = textContent?.match(/\d+/)
@@ -85,18 +104,8 @@ test.describe('@Donations', () => {
   }
 
   test('should filter donations by location', async ({ page }) => {
-    // open search modal
-    await clickElementByTestId(page, 'donations-search-button')
-
-    await checkAccessibility(page)
-
-    // enter location Germany
-    let locationInput = await locateElementByTestId(page, 'donations-search-location-input')
-    await locationInput.fill('Germany')
-    // close search modal
-    await clickElementByTestId(page, 'donations-search-modal-close-btn')
-    // wait for results
-    await waitForElementByTestId(page, 'donations-list-container')
+    // filter for "Germany"
+    await filterForLocation(page, 'Germany', { assertAccessibility: true })
 
     // assert results
     let heading = await locateElementByTestId(page, 'donations-list-search-heading')
@@ -107,15 +116,8 @@ test.describe('@Donations', () => {
 
     await checkAccessibility(page)
 
-    // open search modal
-    await clickElementByTestId(page, 'donations-search-button')
-    // enter location Hamburg
-    locationInput = await locateElementByTestId(page, 'donations-search-location-input')
-    await locationInput.fill('Hamburg')
-    // close search modal
-    await clickElementByTestId(page, 'donations-search-modal-close-btn')
-    // wait for results
-    await waitForElementByTestId(page, 'donations-list-container')
+    // filter for "Hamburg"
+    await filterForLocation(page, 'Hamburg')
 
     // assert and compare results
     heading = await locateElementByTestId(page, 'donations-list-search-heading')
@@ -124,5 +126,27 @@ test.describe('@Donations', () => {
     const resultCountHamburg = await extractResultCount(summary)
     expect(resultCountHamburg).toBeGreaterThan(0)
     expect(resultCountHamburg).toBeLessThan(resultCountGermany)
+  })
+
+  test('should display details of filter results', async ({ page }) => {
+    // filter for "Hamburg"
+    await filterForLocation(page, 'Hamburg')
+
+    // expect filtered list
+    let heading = await locateElementByTestId(page, 'donations-list-search-heading')
+    await expect(heading).toContainText('Hamburg')
+
+    // click first element in list
+    await clickElementByTestId(page, 'donations-list-item')
+
+    // expect detail view
+    await waitForElementByTestId(page, 'donations-project-detail-heading')
+
+    // navigate back
+    await clickElementByTestId(page, 'nav-button-back')
+
+    // expect filtered list
+    heading = await locateElementByTestId(page, 'donations-list-search-heading')
+    await expect(heading).toContainText('Hamburg')
   })
 })

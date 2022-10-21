@@ -6,7 +6,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { logError } from '@holi/core/errors/helpers/logError'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import InsightPreviewBox from '@holi/core/screens/insights/components/InsightPreviewBox'
-import fakeInsights from '@holi/core/screens/insights/fakeInsights'
+import { fakeInsights } from '@holi/core/screens/insights/fakeInsights'
 import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { Insight } from '@holi/core/screens/insights/types'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
@@ -63,6 +63,5 @@ export default InsightList
 const styles = StyleSheet.create({
   insight: {
     flex: 1,
-    marginTop: 40,
   },
 })

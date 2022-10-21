@@ -33,9 +33,9 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   return (
     <>
       <DefaultLayout>
-        <InsightsOfTheWeek style={{ marginTop: 30 }} />
-        <UpdatesOfYourApps style={{ marginTop: 100 }} />
-        {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer, { marginTop: 72 }]} />}
+        <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
+        <UpdatesOfYourApps style={styles.updatesOfYourApps} />
+        {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}
       </DefaultLayout>
 
       {/* AppsDrawer needs to be outside of the Layout */}
@@ -50,7 +50,15 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     marginTop: 5,
   },
-  userSuggestionsContainer: { marginTop: 16 },
+  insightsOfTheWeek: {
+    marginTop: 32,
+  },
+  updatesOfYourApps: {
+    marginTop: 100,
+  },
+  userSuggestionsContainer: {
+    marginTop: 88,
+  },
 })
 
 export default HomeFeed

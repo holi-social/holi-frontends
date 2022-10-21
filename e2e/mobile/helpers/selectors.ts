@@ -11,12 +11,8 @@ const waitForElement = async (elementSelector: string, timeout?: number) => {
   return element
 }
 
-const locateMultipleElements = async (elementSelector: string) => {
-  // https://webdriver.io/docs/api/browser/$$
-  const elements = await Appium.$$(elementSelector)
-
-  return elements
-}
+export const waitForElementWithTestId = async (testId: string, timeout?: number) =>
+  waitForElement(byTestId(testId), timeout)
 
 export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?: number) => {
   // https://webdriver.io/docs/api/browser/$
@@ -26,6 +22,14 @@ export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?:
   await element.waitForDisplayed({ timeout, reverse: true })
 
   return element
+}
+
+export const checkIfElementWithTestIdExists = async (testId: string) => {
+  // https://webdriver.io/docs/api/browser/$
+  const element = await Appium.$(byTestId(testId))
+
+  // https://webdriver.io/docs/api/element/isExisting
+  return element.isExisting()
 }
 
 export const scrollToElementWithTestId = async (
@@ -42,11 +46,7 @@ export const scrollToElementWithTestId = async (
       try {
         await Appium.execute('mobile: scroll', { direction })
 
-        const element = await Appium.$(byTestId(testId))
-
-        await element.waitForDisplayed({ timeout })
-
-        return element
+        return await waitForElementWithTestId(testId)
       } catch (e) {
         // element not visible yet, throw if max attempt count reached
         if (scrollCounter === maxAttempts) {
@@ -59,24 +59,13 @@ export const scrollToElementWithTestId = async (
   // See https://developer.android.com/reference/androidx/test/uiautomator/UiScrollable +
   // https://developer.android.com/reference/androidx/test/uiautomator/UiSelector
   const selector = `android=new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().resourceId("${testId}"))`
-
-  const element = await Appium.$(selector)
-
-  await element.waitForDisplayed({ timeout })
-
-  return element
+  return waitForElement(selector, timeout)
 }
 
-export const checkIfElementWithTestIdExists = async (testId: string) => {
-  // https://webdriver.io/docs/api/browser/$
-  const element = await Appium.$(byTestId(testId))
-
-  // https://webdriver.io/docs/api/element/isExisting
-  return element.isExisting()
+const locateMultipleElements = async (elementSelector: string) => {
+  // https://webdriver.io/docs/api/browser/$$
+  return await Appium.$$(elementSelector)
 }
-
-export const waitForElementWithTestId = async (testId: string, timeout?: number) =>
-  waitForElement(byTestId(testId), timeout)
 
 export const locateMultipleElementsWithTestId = async (testId: string) => locateMultipleElements(byTestId(testId))
 
@@ -89,11 +78,9 @@ export const seeTextWithTestId = async (expectedText: string, testId: string) =>
 
 export const tapOnElementWithTestId = async (testId: string, timeout?: number) => {
   // https://webdriver.io/docs/api/element/touchAction
-
   try {
     const element = await waitForElementWithTestId(testId, timeout)
     await Appium.touchAction({ element, action: 'tap' })
-
     return element
   } catch (err) {
     throw new Error("Couldn't tap on element with testID: " + testId)

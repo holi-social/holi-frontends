@@ -16,7 +16,7 @@ import DonationListingItem from '@holi-apps/donations/components/DonationListing
 import DonationListingItemFiltered from '@holi-apps/donations/components/DonationListingItemFiltered'
 import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'
 
-const PROJECT_PAGE_SIZE = 5
+const PROJECT_PAGE_SIZE = 10
 
 type DonationListingProps = {
   locationQuery?: string

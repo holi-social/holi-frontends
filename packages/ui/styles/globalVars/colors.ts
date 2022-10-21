@@ -17,6 +17,7 @@ export default {
   fontColorWhite: '#fff',
   fontColorWhiteDisabled: '#eff0f1',
   fontColorError: '#ee0004',
+  fontColorHighlighted: '#6267e7',
   primaryColor: '#f3f360',
   secondaryColor: '#6267e7',
   tertiaryColor: '#57d14c',

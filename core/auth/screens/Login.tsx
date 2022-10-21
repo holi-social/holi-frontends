@@ -28,7 +28,7 @@ type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 const Login: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const { isLoggedIn, setUserLoggedIn } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
-  const { navigate } = useRouting()
+  const { replaceRoute } = useRouting()
   const { t } = useTranslation()
 
   const title = t('auth.login')
@@ -81,7 +81,8 @@ const Login: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
           label={t('auth.login.link.forgotPassword')}
           variant="small"
           style={styles.button}
-          onPress={() => navigate('/forgotPassword')}
+          onPress={() => replaceRoute('/forgotPassword')}
+          testID="btn-to-forgot-password-form"
         >
           {t('auth.login.link.forgotPassword')}
         </HoliButton>
@@ -91,7 +92,7 @@ const Login: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
         </HoliHeading>
 
         <HoliButton
-          onPress={() => navigate('/registration')}
+          onPress={() => replaceRoute('/registration')}
           label={t('auth.loginProtection.registration')}
           type="secondary"
           style={styles.button}
