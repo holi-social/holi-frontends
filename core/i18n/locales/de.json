@@ -139,6 +139,7 @@
   "rootProvider.loading.login": "Überprüfe Login...",
   "rootProvider.loading.profile": "Lädt Benutzerprofil...",
   "search.title": "Suche",
+  "search.filter.reset": "Filter löschen",
   "user.cards.modal.close": "Schließen",
   "user.cards.modal.showInfo": "Weitere Informationen zu {{name}} anzeigen",
   "user.cards.modal.title": "Nutzer*innen",
