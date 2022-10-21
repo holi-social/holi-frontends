@@ -46,3 +46,15 @@ export interface ProjectsResponse {
   totalResults: number
   projects: Project[]
 }
+
+interface SubstringMatch {
+  length: number
+  offset: number
+}
+
+export interface Place {
+  description: string
+  mainText: string
+  mainTextMatchedSubstrings: SubstringMatch[]
+  secondaryText: string
+}

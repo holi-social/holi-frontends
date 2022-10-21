@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react'
+import React, { ReactChild, memo, useCallback, useEffect, useState } from 'react'
 import {
   AccessibilityProps,
   KeyboardTypeOptions,
@@ -34,10 +34,14 @@ export type HoliTextInputProps = {
   type?: 'text' | 'email' | 'number' | 'password' // Force limited input types
   inline?: boolean
   trailingIcon?: string
+  trailingComponent?: ReactChild
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
+  inputStyle?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
   /** TextInputProps to extend input e.g with'returnKeytype' or 'autofocus' */
   inputProps?: TextInputProps
   testID?: string
+  onFocus?: () => void
+  onBlur?: () => void
   // eslint-disable-next-line
   [x: string]: any
 }
@@ -48,9 +52,12 @@ const HoliTextInput = ({
   maxNoOfCharacters = 5000,
   inline = false,
   style = {},
+  inputStyle = {},
   type,
   value,
   inputLabel,
+  onFocus,
+  onBlur,
   ...props
 }: HoliTextInputProps) => {
   const dimensions = useWindowDimensions()
@@ -77,6 +84,15 @@ const HoliTextInput = ({
   useEffect(() => {
     setNumberOfLines(clamp(noOfVisibleLines, noOfVisibleLines, maxNoOfVisibleLines))
   }, [noOfVisibleLines, maxNoOfVisibleLines])
+
+  const handleFocus = useCallback(() => {
+    setFocused(true)
+    onFocus && onFocus()
+  }, [setFocused, onFocus])
+  const handleBlur = useCallback(() => {
+    setFocused(false)
+    onBlur && onBlur()
+  }, [setFocused, onBlur])
 
   const { theme } = useTheme()
   const styles = getStyles(theme, inputPaddingVertical)
@@ -138,6 +154,7 @@ const HoliTextInput = ({
             isFocused && styles.inputWrapperFocused,
             props?.disabled && styles.inputWrapperDisabled,
             hasValidationErrors && styles.inputWrapperHasValidationErrors,
+            inputStyle,
           ]}
         >
           <TextInput
@@ -149,8 +166,8 @@ const HoliTextInput = ({
             ]}
             numberOfLines={noOfVisibleLines}
             multiline={maxNoOfVisibleLines > 1}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
             placeholder={props?.placeholder}
             placeholderTextColor={tinycolor(colors.fontColorGrey).lighten(30).toString()}
             onChange={(event) => {
@@ -177,13 +194,13 @@ const HoliTextInput = ({
             {...props?.inputProps}
             testID={`${props?.testID || 'holi-text'}-input`}
           />
-          {(hasValidationErrors || props?.trailingIcon) && (
+          {(hasValidationErrors || props?.trailingIcon || props?.trailingComponent) && (
             <View
               style={[styles.trailingIconWrapper, hasValidationErrors && styles.trailingIconWrapperHasValidationErrors]}
             >
-              {props?.trailingIcon && !hasValidationErrors && (
-                <HoliIcon icon={props?.trailingIcon} size={22} color={iconColor} />
-              )}
+              {(props?.trailingIcon || props?.trailingComponent) &&
+                !hasValidationErrors &&
+                (props?.trailingComponent || <HoliIcon icon={props?.trailingIcon || ''} size={22} color={iconColor} />)}
               {hasValidationErrors && <HoliIcon icon="error-warning" size={16} filled color={colors.fontColorError} />}
             </View>
           )}

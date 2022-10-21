@@ -53,6 +53,7 @@
     "graphql": "^16.3.0",
     "i18next": "^21.8.13",
     "intl": "^1.2.5",
+    "lodash.debounce": "^4.0.8",
     "lottie-ios": "3.4.0",
     "lottie-react-native": "5.1.4",
     "react": "17.0.2",
@@ -71,6 +72,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@types/lodash.debounce": "^4.0.7",
     "@types/react": "17.0.2",
     "@types/react-native": "0.67.7",
     "find-yarn-workspace-root": "^2.0.0",
