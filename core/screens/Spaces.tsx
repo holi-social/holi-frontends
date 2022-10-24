@@ -38,14 +38,14 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const spaces = data?.spaces || []
 
   if (error) {
-    displayError(error, t('spaceListing.error'))
+    displayError(error, t('spaces.spaceListing.error'))
   }
 
   if (loading) {
     // TODO: replace with proper loading indicator
     return (
       <View style={[mixins.container, styles.messageContainer]}>
-        <HoliText>{t('spaceListing.loading')}</HoliText>
+        <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
       </View>
     )
   }

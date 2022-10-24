@@ -11,15 +11,14 @@ import Logout from '@holi/core/auth/screens/Logout'
 import Registration from '@holi/core/auth/screens/Registration'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
-import Spaces from '@holi/core/screens/Spaces'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
 import Post, { PostParams } from '@holi/core/screens/posts/Post'
-import SpaceDetails, { SpaceDetailsParams } from '@holi/core/screens/spaces/SpaceDetails'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
+import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -33,14 +32,13 @@ export type HomeStackScreens = {
   OwnProfile: undefined
   UserProfile: UserProfileParams
   Notifications: undefined
-  SpaceDetails: SpaceDetailsParams
 }
 
 export type BottomTabsScreens = {
   Home: undefined
   Chat: undefined
-  Spaces: undefined
   Search: undefined
+  Spaces: undefined
 }
 
 export type RootStackScreens = {
@@ -131,13 +129,6 @@ export const HomeStackNavigator: React.VFC = () => {
           headerRight: RightElement,
         }}
       />
-      <HomeStack.Screen
-        name="SpaceDetails"
-        component={SpaceDetails}
-        options={{
-          headerShown: false,
-        }}
-      />
     </HomeStack.Navigator>
   )
 }
@@ -170,6 +161,17 @@ export const BottomTabsNavigator: React.VFC = () => {
         }}
       />
       <BottomTabs.Screen
+        name="Spaces"
+        component={SpacesNavigator}
+        options={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused }) => {
+            return <HoliIcon icon="loader" size={24} filled={focused} style={{ color: iconColor(focused) }} />
+          },
+        }}
+      />
+      <BottomTabs.Screen
         name="Chat"
         component={ChatStackNavigator}
         options={{
@@ -180,19 +182,6 @@ export const BottomTabsNavigator: React.VFC = () => {
           },
           headerStyle: {
             borderBottomColor: 'transparent',
-          },
-        }}
-      />
-      <BottomTabs.Screen
-        name="Spaces"
-        component={Spaces}
-        options={{
-          headerTitleAlign: 'center',
-          headerShadowVisible: false,
-          tabBarShowLabel: false,
-          headerTitle: CenterElement,
-          tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="loader" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
         }}
       />

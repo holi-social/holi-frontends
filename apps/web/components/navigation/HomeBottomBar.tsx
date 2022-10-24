@@ -41,15 +41,6 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
           <HoliIcon icon="home-smile-2" size={24} filled={isHome} style={{ color: iconColor(isHome) }} />
         </HoliButton>
         <HoliButton
-          label={t('chat.title')}
-          inline
-          transparent
-          onPress={() => navigate('/chat')}
-          style={{ paddingHorizontal: 20, paddingVertical: 10 }}
-        >
-          <HoliIcon icon="chat-3" size={24} filled={isChat} style={{ color: iconColor(isChat) }} />
-        </HoliButton>
-        <HoliButton
           label={t('spaces.title')}
           inline
           transparent
@@ -57,6 +48,15 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
           style={{ paddingHorizontal: 20, paddingVertical: 10 }}
         >
           <HoliIcon icon="loader" size={24} filled={isSpaces} style={{ color: iconColor(isSpaces) }} />
+        </HoliButton>
+        <HoliButton
+          label={t('chat.title')}
+          inline
+          transparent
+          onPress={() => navigate('/chat')}
+          style={{ paddingHorizontal: 20, paddingVertical: 10 }}
+        >
+          <HoliIcon icon="chat-3" size={24} filled={isChat} style={{ color: iconColor(isChat) }} />
         </HoliButton>
         <HoliButton
           label={t('search.title')}

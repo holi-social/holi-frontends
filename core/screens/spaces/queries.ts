@@ -32,7 +32,7 @@ export type SpacesResponse = {
   spaces: Space[]
 }
 
-export const spaceById = gql`
+export const spaceByIdQuery = gql`
   ${SpaceFragment}
 
   query SpaceById($id: String!) {

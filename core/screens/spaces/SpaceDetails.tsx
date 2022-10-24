@@ -61,7 +61,7 @@ const SpaceDetails: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
           {space.title}
         </HoliHeading>
         <HoliText style={{ paddingTop: 10 }}>
-          <Trans i18nKey="spaces.spaceDetails.creator" values={{ creator: creator.fullName }} />
+          <Trans i18nKey="spaces.spaceDetails.creator" values={{ name: creator.fullName || t('Anonymous user') }} />
         </HoliText>
         <HoliText style={{ paddingTop: 10 }}>{space.description}</HoliText>
       </View>

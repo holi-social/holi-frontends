@@ -17,7 +17,13 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             OwnProfile: 'profile',
             UserProfile: 'profile/:userId',
             Notifications: 'notifications',
-            SpaceDetailsPage: 'spaces/:spaceId',
+          },
+        },
+        Spaces: {
+          initialRouteName: 'Spaces',
+          screens: {
+            Spaces: 'spaces',
+            SpaceDetails: 'spaces/:spaceId',
           },
         },
         Chat: {
