@@ -15,7 +15,9 @@ import Search from '@holi/core/screens/Search'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
 import Post, { PostParams } from '@holi/core/screens/posts/Post'
+import AccountSettings from '@holi/core/screens/userprofile/AccountSettings'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
+import SettingsOverview from '@holi/core/screens/userprofile/SettingsOverview'
 import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
@@ -26,12 +28,14 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { BackButton, CenterElement, DownButton, LeftElement, RightElement } from './components'
 
 export type HomeStackScreens = {
+  AccountSettings: undefined
   HomeFeed: undefined
   InsightDetailPage: InsightDetailPageParams
-  Post: PostParams
-  OwnProfile: undefined
-  UserProfile: UserProfileParams
   Notifications: undefined
+  OwnProfile: undefined
+  Post: PostParams
+  SettingsOverview: undefined
+  UserProfile: UserProfileParams
 }
 
 export type BottomTabsScreens = {
@@ -82,6 +86,28 @@ export const HomeStackNavigator: React.VFC = () => {
       <HomeStack.Screen
         name="OwnProfile"
         component={OwnProfile}
+        options={{
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+          headerTitle: CenterElement,
+          headerLeft: BackButton,
+          headerRight: RightElement,
+        }}
+      />
+      <HomeStack.Screen
+        name="SettingsOverview"
+        component={SettingsOverview}
+        options={{
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+          headerTitle: CenterElement,
+          headerLeft: BackButton,
+          headerRight: RightElement,
+        }}
+      />
+      <HomeStack.Screen
+        name="AccountSettings"
+        component={AccountSettings}
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
