@@ -1,0 +1,11 @@
+Hey there,
+
+you (or someone else) entered this email address ({{ .To }}) when trying to recover access to an account at <a href="https://project-holi.org/" target="_blank">HOLI</a>.
+
+However, this email address is not on our database of registered users and therefore the attempt has failed.
+If this was you, check if you signed up using a different address.
+
+And if you don't have an user account already, we would love to have you onboard.
+Please sign up <a href="https://project-holi.org/profile" target="_blank">here</a>.
+
+Your HOLI Team
