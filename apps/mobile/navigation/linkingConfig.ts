@@ -17,6 +17,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             OwnProfile: 'profile',
             UserProfile: 'profile/:userId',
             Notifications: 'notifications',
+            SpaceDetailsPage: 'spaces/:spaceId',
           },
         },
         Chat: {

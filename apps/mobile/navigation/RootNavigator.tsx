@@ -9,12 +9,13 @@ import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
 import Logout from '@holi/core/auth/screens/Logout'
 import Registration from '@holi/core/auth/screens/Registration'
-import Explore from '@holi/core/screens/Explore'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
+import Spaces from '@holi/core/screens/Spaces'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
 import Post, { PostParams } from '@holi/core/screens/posts/Post'
+import SpaceDetails, { SpaceDetailsParams } from '@holi/core/screens/spaces/SpaceDetails'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
@@ -32,12 +33,13 @@ export type HomeStackScreens = {
   OwnProfile: undefined
   UserProfile: UserProfileParams
   Notifications: undefined
+  SpaceDetails: SpaceDetailsParams
 }
 
 export type BottomTabsScreens = {
   Home: undefined
   Chat: undefined
-  Explore: undefined
+  Spaces: undefined
   Search: undefined
 }
 
@@ -129,6 +131,13 @@ export const HomeStackNavigator: React.VFC = () => {
           headerRight: RightElement,
         }}
       />
+      <HomeStack.Screen
+        name="SpaceDetails"
+        component={SpaceDetails}
+        options={{
+          headerShown: false,
+        }}
+      />
     </HomeStack.Navigator>
   )
 }
@@ -175,8 +184,8 @@ export const BottomTabsNavigator: React.VFC = () => {
         }}
       />
       <BottomTabs.Screen
-        name="Explore"
-        component={Explore}
+        name="Spaces"
+        component={Spaces}
         options={{
           headerTitleAlign: 'center',
           headerShadowVisible: false,
