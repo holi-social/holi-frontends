@@ -69,6 +69,20 @@ describe('@Donations', () => {
     await waitForElementWithTestId('donations-list-container')
   }
 
+  const resetFilterInModal = async () => {
+    // open search modal
+    await tapOnElementWithTestId('donations-search-button')
+
+    // reset filter
+    await tapOnElementWithTestId('donations-search-form-reset')
+
+    // close search modal
+    await tapOnElementWithTestId('donations-search-modal-close-btn')
+
+    // wait for results
+    await waitForElementWithTestId('donations-list-container')
+  }
+
   const extractResultCount = async (testId: string): Promise<number> => {
     const element = await waitForElementWithTestId(testId)
     const textContent = await element.getText()
@@ -96,6 +110,44 @@ describe('@Donations', () => {
     const resultCountHamburg = await extractResultCount('donations-list-search-summary')
     expect(resultCountHamburg).toBeGreaterThan(0)
     expect(resultCountHamburg).toBeLessThan(resultCountGermany)
+  })
+
+  test('should reset donations filter from list', async () => {
+    // filter for "Germany"
+    await filterForLocation('Germany')
+
+    // assert results
+    await seeTextWithTestId('Germany', 'donations-list-search-heading')
+    const resultCountGermany = await extractResultCount('donations-list-search-summary')
+    expect(resultCountGermany).toBeGreaterThan(0)
+
+    // reset filter in list
+    await tapOnElementWithTestId('donations-list-search-reset')
+
+    // assert reset
+    await waitForElementWithTestIdToBeNull('donations-list-search-heading')
+    await seeTextWithTestId('Germany', 'donations-list-search-heading')
+    const resultCountReset = await extractResultCount('donations-list-search-summary')
+    expect(resultCountReset).toBeGreaterThan(resultCountGermany)
+  })
+
+  test('should reset donations filter from modal', async () => {
+    // filter for "Germany"
+    await filterForLocation('Germany')
+
+    // assert results
+    await seeTextWithTestId('Germany', 'donations-list-search-heading')
+    const resultCountGermany = await extractResultCount('donations-list-search-summary')
+    expect(resultCountGermany).toBeGreaterThan(0)
+
+    // reset filter in modal
+    await resetFilterInModal()
+
+    // assert reset
+    await waitForElementWithTestIdToBeNull('donations-list-search-heading')
+    await seeTextWithTestId('Germany', 'donations-list-search-heading')
+    const resultCountReset = await extractResultCount('donations-list-search-summary')
+    expect(resultCountReset).toBeGreaterThan(resultCountGermany)
   })
 
   test('should display details of filter results', async () => {
