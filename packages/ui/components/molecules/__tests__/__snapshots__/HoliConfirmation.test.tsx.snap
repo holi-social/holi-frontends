@@ -163,11 +163,14 @@ exports[`renders correctly renders correctly when open 1`] = `
           <View
             pointerEvents="none"
             style={
-              Object {
-                "alignItems": "center",
-                "flexDirection": "row",
-                "justifyContent": "center",
-              }
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                },
+                Object {},
+              ]
             }
           >
             <Text
@@ -247,11 +250,14 @@ exports[`renders correctly renders correctly when open 1`] = `
           <View
             pointerEvents="none"
             style={
-              Object {
-                "alignItems": "center",
-                "flexDirection": "row",
-                "justifyContent": "center",
-              }
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                },
+                Object {},
+              ]
             }
           >
             <Text

@@ -109,7 +109,7 @@ const HoliButton: React.FC<HoliButtonProps> = ({
           {
             ...(!transparent ? { alignItems: 'center', flexDirection: 'row', justifyContent: 'center' } : {}),
           },
-          props.contentStyle,
+          props.contentStyle ? props.contentStyle : {},
         ]}
         pointerEvents="none"
       >

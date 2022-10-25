@@ -50,11 +50,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -140,11 +143,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -222,11 +228,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -309,11 +318,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -394,11 +406,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -484,11 +499,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -566,11 +584,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -653,11 +674,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -741,11 +765,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -836,11 +863,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -923,11 +953,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -1015,11 +1048,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -1105,11 +1141,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -1200,11 +1239,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -1287,11 +1329,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -1379,11 +1424,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -1466,11 +1514,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -1556,11 +1607,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -1638,11 +1692,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -1725,11 +1782,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -1810,11 +1870,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -1900,11 +1963,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -1982,11 +2048,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -2069,11 +2138,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -2157,11 +2229,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -2252,11 +2327,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -2339,11 +2417,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -2431,11 +2512,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -2521,11 +2605,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -2616,11 +2703,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -2703,11 +2793,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text
@@ -2795,11 +2888,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   <View
     pointerEvents="none"
     style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {},
+      ]
     }
   >
     <Text

@@ -72,7 +72,12 @@ exports[`renders correctly renders correctly when open 1`] = `
     >
       <View
         pointerEvents="none"
-        style={Object {}}
+        style={
+          Array [
+            Object {},
+            Object {},
+          ]
+        }
       >
         <View
           onAccessibilityEscape={[Function]}
@@ -174,7 +179,12 @@ exports[`renders correctly renders correctly when open 1`] = `
           >
             <View
               pointerEvents="none"
-              style={Object {}}
+              style={
+                Array [
+                  Object {},
+                  Object {},
+                ]
+              }
             >
               <View
                 style={
