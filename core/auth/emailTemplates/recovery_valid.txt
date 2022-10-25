@@ -1,0 +1,12 @@
+Hey there,
+
+need a new password? No worries!
+Please click the link below and follow the instructions there.
+
+The link is only valid 15mins and will be invalidated afterwards.
+
+{{ .RecoveryURL }}
+
+If you didn't ask for a new password, please ignore this email.
+
+Your HOLI Team

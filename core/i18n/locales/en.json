@@ -140,6 +140,7 @@
   "rootProvider.loading.login": "Verifying login...",
   "rootProvider.loading.profile": "Loading user profile...",
   "search.title": "Search",
+  "search.filter.reset": "Clear filter",
   "user.cards.modal.close": "Got it",
   "user.cards.modal.showInfo": "Show more information about {{name}}",
   "user.cards.modal.title": "Users",
