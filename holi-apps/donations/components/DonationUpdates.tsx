@@ -49,7 +49,6 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery, style
         <HoliHeading style={{ marginLeft: 12 }}>{t('donations:app.name')}</HoliHeading>
       </View>
       <ScrollView style={styles.scrollViewContainer} horizontal testID={'donations-updates-container'}>
-        {/*only map 5 projects */}
         {projects.slice(0, 5).map((project, index) => {
           return <DonationUpdatesItem key={index} project={project} />
         })}
