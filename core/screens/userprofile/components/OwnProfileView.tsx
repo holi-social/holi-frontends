@@ -54,9 +54,13 @@ const OwnProfileView: React.VFC<OwnProfileViewProps> = ({ toggleEditMode, user }
           >
             {t('profile.logout')}
           </HoliButton>
-
-          <HoliButton label={''} inline onPress={() => navigate('/profile/settings')} transparent>
-            settings overview
+          <HoliButton
+            label={t('profile.settings.overview.title')}
+            inline
+            onPress={() => navigate('/profile/settings')}
+            transparent
+          >
+            {t('profile.settings.overview.title')}
           </HoliButton>
         </>
       </View>
