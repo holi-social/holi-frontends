@@ -17,7 +17,8 @@ type DonationUpdatesItemProps = {
 const DonationUpdatesItem: React.VFC<DonationUpdatesItemProps> = ({ project, style }: DonationUpdatesItemProps) => {
   const { navigate } = useRouting()
   const { title, categories, donationsCount, progressPercentage, openAmountInCents, picture } = project
-  const { styles } = useStyle()
+  const { width: screenWidth } = useWindowDimensions()
+  const styles = getStyles(screenWidth)
 
   return (
     <HoliButton
@@ -25,10 +26,10 @@ const DonationUpdatesItem: React.VFC<DonationUpdatesItemProps> = ({ project, sty
       transparent
       onPress={() => navigate(`/apps/donations/project/${project.id}`)}
       style={[styles.buttonContainer, style]}
-      testID={'donations-list-item'}
+      testID={'donations-updates-item'}
       inline
     >
-      <DonationImage picture={picture} label={title} style={styles.mainImage} />
+      <DonationImage picture={picture} label={title} sizes="180px" style={styles.mainImage} />
 
       <HoliText size="small" numberOfLines={2} selectable style={{ marginTop: 16 }}>
         {title}
@@ -46,9 +47,8 @@ const DonationUpdatesItem: React.VFC<DonationUpdatesItemProps> = ({ project, sty
 
 export default DonationUpdatesItem
 
-const useStyle = () => {
-  const { width: screenWidth } = useWindowDimensions()
-  const styles = StyleSheet.create({
+const getStyles = (screenWidth: number) =>
+  StyleSheet.create({
     buttonContainer: {
       width: Platform.OS === 'web' ? 160 : screenWidth / 2 - 26,
       marginRight: 12,
@@ -59,5 +59,3 @@ const useStyle = () => {
       height: Platform.OS === 'web' ? '100%' : 'auto',
     },
   })
-  return { styles }
-}

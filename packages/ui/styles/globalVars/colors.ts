@@ -25,6 +25,7 @@ export default {
   borderColorBlack: '#222326',
   borderColorBlackDisabled: '#eff0f1',
   borderColorGrey: '#eff0f1',
+  borderColorGreyDark: '#2223261A',
   shadowColorBlack: '#000',
   backgroundColor: '#fff',
   backgroundColorYellow: '#f3f360',
