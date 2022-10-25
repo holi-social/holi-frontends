@@ -43,13 +43,13 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: Don
 
   return (
     <>
-      <View style={styles.donationsHeader}>
+      <View style={styles.donationsHeader} testID={'donations-updates-heading'}>
         <View style={styles.donationIconContainer}>
           <HoliIcon icon="hand-heart" size={18} filled color={colors.fontColorGrey} />
         </View>
         <HoliHeading style={{ marginLeft: 10 }}>{t('donations:app.name')}</HoliHeading>
       </View>
-      <ScrollView style={styles.scrollViewContainer} horizontal>
+      <ScrollView style={styles.scrollViewContainer} horizontal testID={'donations-updates-container'}>
         {projects.map((project, index) => {
           return <DonationUpdatesItem key={index} project={project} />
         })}
@@ -64,6 +64,7 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: Don
           onPress={() => navigate('/apps/donations/')}
           transparent
           inline
+          testID={'donations-updates-load-more-button'}
         >
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/illustrations/illustration_user_suggestions.png')}

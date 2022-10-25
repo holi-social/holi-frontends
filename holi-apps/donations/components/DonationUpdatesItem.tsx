@@ -25,7 +25,7 @@ const DonationUpdatesItem: React.VFC<DonationUpdatesItemProps> = ({ project, sty
       transparent
       onPress={() => navigate(`/apps/donations/project/${project.id}`)}
       style={[styles.buttonContainer, style]}
-      testID={'donations-list-item'}
+      testID={'donations-updates-item'}
       inline
     >
       <DonationImage picture={picture} label={title} style={styles.mainImage} />
