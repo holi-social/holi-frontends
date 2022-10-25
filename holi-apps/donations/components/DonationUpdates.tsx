@@ -2,6 +2,7 @@ import { useQuery } from '@apollo/client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import tinycolor from 'tinycolor2'
 
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
     padding: 13,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: colors.borderColorGreyDark,
+    borderColor: tinycolor(colors.borderColorGrey).darken(5).toString(),
     backgroundColor: colors.backgroundColorGrey,
   },
   donationListingItem: {
