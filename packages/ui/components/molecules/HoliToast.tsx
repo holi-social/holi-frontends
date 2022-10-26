@@ -117,7 +117,7 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
         : {}),
     },
     toast: {
-      padding: 20,
+      padding: 25,
       flex: 1,
       backgroundColor: type === HoliToastType.ERROR ? colors.errorRed : colors.positivepurple,
       ...(deviceWidth >= +vars.breakpointL
@@ -132,7 +132,6 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
-      gap: 10,
     },
     toastText: {
       color: colors.fontColorWhite,
