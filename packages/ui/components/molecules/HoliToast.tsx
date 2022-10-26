@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, SafeAreaView as SafeAreaViewIOS, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { SafeAreaView as SafeAreaViewAndroid } from 'react-native-safe-area-context'
 
 import { createUUID } from '@holi/core/helpers'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -48,11 +49,13 @@ export const ToastProvider: React.FC<Partial<ToastContextValue>> = ({ children }
   const { width: deviceWidth } = useWindowDimensions()
   const styles = createStyles(deviceWidth)
 
+  const SafeArea = Platform.OS === 'android' ? SafeAreaViewAndroid : SafeAreaViewIOS
+
   return (
     <ToastContext.Provider value={contextValue}>
       {children}
 
-      <View style={styles.wrapper}>
+      <SafeArea style={styles.wrapper}>
         {toasts.map((toast: Toast) => (
           <HoliToast
             key={toast.id}
@@ -63,7 +66,7 @@ export const ToastProvider: React.FC<Partial<ToastContextValue>> = ({ children }
             testID={toast.testID}
           />
         ))}
-      </View>
+      </SafeArea>
     </ToastContext.Provider>
   )
 }
@@ -89,9 +92,12 @@ export const HoliToast: React.FC<HoliToastProps> = ({ closeToast, type, text, te
     >
       <View style={styles.toastView}>
         <HoliText style={styles.toastText}>{text}</HoliText>
-        {type === HoliToastType.SUCCESS ? (
-          <HoliIcon icon="smiley-2" size={20} color={colors.fontColorWhite} style={styles.toastIcon} />
-        ) : null}
+        <HoliIcon
+          icon={type === HoliToastType.SUCCESS ? 'smiley-2' : 'error-warning'}
+          size={20}
+          color={colors.fontColorWhite}
+          style={styles.toastIcon}
+        />
       </View>
     </HoliButton>
   )
@@ -117,7 +123,7 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
         : {}),
     },
     toast: {
-      padding: 25,
+      padding: 20,
       flex: 1,
       backgroundColor: type === HoliToastType.ERROR ? colors.errorRed : colors.positivepurple,
       ...(deviceWidth >= +vars.breakpointL
@@ -139,6 +145,5 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
     },
     toastIcon: {
       marginLeft: 10,
-      top: 1,
     },
   })

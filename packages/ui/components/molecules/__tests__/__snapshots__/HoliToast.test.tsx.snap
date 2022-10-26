@@ -1,0 +1,285 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly renders correctly when type is ERROR 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+      ],
+      Object {
+        "backgroundColor": "#ee0004",
+        "flex": 1,
+        "padding": 20,
+      },
+    ]
+  }
+  testID="toast-ERROR"
+>
+  <View
+    pointerEvents="none"
+    style={Object {}}
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "display": "flex",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Text
+        accessible={false}
+        selectable={true}
+        style={
+          Array [
+            Object {
+              "color": "#222326",
+              "fontFamily": "Circular Std Book",
+              "fontWeight": "400",
+            },
+            Object {
+              "fontSize": 16,
+              "lineHeight": 19.2,
+            },
+            Object {},
+            Object {
+              "color": "#fff",
+              "textAlign": "center",
+            },
+          ]
+        }
+      >
+        test
+      </Text>
+      <RNSVGSvgView
+        align="xMidYMid"
+        bbHeight={20}
+        bbWidth={20}
+        color={4294967295}
+        focusable={false}
+        meetOrSlice={0}
+        minX={0}
+        minY={0}
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "borderWidth": 0,
+            },
+            Object {
+              "borderStyle": "solid",
+              "borderWidth": 0,
+              "color": "#fff",
+              "display": "flex",
+              "fill": "currentColor",
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "height": 20,
+              "marginLeft": 10,
+              "stroke": "currentColor",
+              "width": 20,
+            },
+            Object {
+              "flex": 0,
+              "height": 20,
+              "width": 20,
+            },
+          ]
+        }
+        tintColor={4294967295}
+        vbHeight={1024}
+        vbWidth={1024}
+      >
+        <RNSVGGroup
+          fill={
+            Array [
+              2,
+            ]
+          }
+          propList={
+            Array [
+              "fill",
+              "stroke",
+            ]
+          }
+          stroke={
+            Array [
+              2,
+            ]
+          }
+        >
+          <RNSVGPath
+            d="M512 938.667c-235.648 0-426.667-191.019-426.667-426.667s191.019-426.667 426.667-426.667c235.648 0 426.667 191.019 426.667 426.667s-191.019 426.667-426.667 426.667zM512 853.333c90.526 0 177.348-35.964 241.361-99.972 64.009-64.013 99.972-150.835 99.972-241.361 0-90.527-35.964-177.347-99.972-241.359-64.013-64.013-150.835-99.974-241.361-99.974-90.527 0-177.347 35.962-241.359 99.974s-99.974 150.832-99.974 241.359c0 90.526 35.962 177.348 99.974 241.361 64.012 64.009 150.832 99.972 241.359 99.972v0zM469.333 640h85.333v85.333h-85.333v-85.333zM469.333 298.667h85.333v256h-85.333v-256z"
+          />
+        </RNSVGGroup>
+      </RNSVGSvgView>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+      ],
+      Object {
+        "backgroundColor": "#6267e7",
+        "flex": 1,
+        "padding": 20,
+      },
+    ]
+  }
+  testID="toast-SUCCESS"
+>
+  <View
+    pointerEvents="none"
+    style={Object {}}
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "display": "flex",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Text
+        accessible={false}
+        selectable={true}
+        style={
+          Array [
+            Object {
+              "color": "#222326",
+              "fontFamily": "Circular Std Book",
+              "fontWeight": "400",
+            },
+            Object {
+              "fontSize": 16,
+              "lineHeight": 19.2,
+            },
+            Object {},
+            Object {
+              "color": "#fff",
+              "textAlign": "center",
+            },
+          ]
+        }
+      >
+        test
+      </Text>
+      <RNSVGSvgView
+        align="xMidYMid"
+        bbHeight={20}
+        bbWidth={20}
+        color={4294967295}
+        focusable={false}
+        meetOrSlice={0}
+        minX={0}
+        minY={0}
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "borderWidth": 0,
+            },
+            Object {
+              "borderStyle": "solid",
+              "borderWidth": 0,
+              "color": "#fff",
+              "display": "flex",
+              "fill": "currentColor",
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "height": 20,
+              "marginLeft": 10,
+              "stroke": "currentColor",
+              "width": 20,
+            },
+            Object {
+              "flex": 0,
+              "height": 20,
+              "width": 20,
+            },
+          ]
+        }
+        tintColor={4294967295}
+        vbHeight={1024}
+        vbWidth={1024}
+      >
+        <RNSVGGroup
+          fill={
+            Array [
+              2,
+            ]
+          }
+          propList={
+            Array [
+              "fill",
+              "stroke",
+            ]
+          }
+          stroke={
+            Array [
+              2,
+            ]
+          }
+        >
+          <RNSVGPath
+            d="M426.667 853.333c-235.648 0-426.667-191.019-426.667-426.667s191.019-426.667 426.667-426.667c235.648 0 426.667 191.019 426.667 426.667s-191.019 426.667-426.667 426.667zM426.667 768c90.526 0 177.348-35.964 241.361-99.972 64.009-64.013 99.972-150.835 99.972-241.361 0-90.527-35.964-177.347-99.972-241.359-64.013-64.013-150.835-99.974-241.361-99.974-90.527 0-177.347 35.962-241.359 99.974s-99.974 150.832-99.974 241.359c0 90.526 35.962 177.348 99.974 241.361 64.012 64.009 150.832 99.972 241.359 99.972zM213.333 426.667h85.333c0 33.946 13.486 66.505 37.49 90.509s56.562 37.491 90.51 37.491c33.946 0 66.505-13.487 90.509-37.491s37.491-56.563 37.491-90.509h85.333c0 56.58-22.477 110.844-62.485 150.848-40.004 40.009-94.268 62.485-150.848 62.485s-110.842-22.477-150.849-62.485c-40.008-40.004-62.484-94.268-62.484-150.848z"
+          />
+        </RNSVGGroup>
+      </RNSVGSvgView>
+    </View>
+  </View>
+</View>
+`;
