@@ -78,12 +78,7 @@ const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
           <Trans i18nKey="insights.post.author" values={{ author: author.fullName, category: category }} />
         </HoliText>
         <HoliText style={{ paddingTop: 10 }}>{insight.title}</HoliText>
-        <HoliButton
-          label="click me"
-          onPress={() =>
-            openToast(`Toast created from child component! ${Math.random() * 2332}`, HoliToastType.SUCCESS)
-          }
-        >
+        <HoliButton label="click me" onPress={() => openToast('Comment created', HoliToastType.SUCCESS)}>
           Show toast
         </HoliButton>
       </View>

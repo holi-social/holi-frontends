@@ -87,8 +87,12 @@ export const HoliToast: React.FC<HoliToastProps> = ({ closeToast, type, text, te
       onPress={closeToast}
       testID={`toast-${testID ? testID : type}`}
     >
-      <HoliText style={styles.toastText}>{text}</HoliText>
-      {type === HoliToastType.SUCCESS ? <HoliIcon icon="home-smile-2" /> : null}
+      <View style={styles.toastView}>
+        <HoliText style={styles.toastText}>{text}</HoliText>
+        {type === HoliToastType.SUCCESS ? (
+          <HoliIcon icon="smiley-2" size={20} color={colors.fontColorWhite} style={styles.toastIcon} />
+        ) : null}
+      </View>
     </HoliButton>
   )
 }
@@ -113,7 +117,8 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
         : {}),
     },
     toast: {
-      padding: 17,
+      padding: 20,
+      flex: 1,
       backgroundColor: type === HoliToastType.ERROR ? colors.errorRed : colors.positivepurple,
       ...(deviceWidth >= +vars.breakpointL
         ? {
@@ -122,8 +127,19 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
           }
         : {}),
     },
+    toastView: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 10,
+    },
     toastText: {
       color: colors.fontColorWhite,
       textAlign: 'center',
+    },
+    toastIcon: {
+      marginLeft: 10,
+      top: 1,
     },
   })
