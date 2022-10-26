@@ -125,10 +125,7 @@ describe('@Donations', () => {
     await tapOnElementWithTestId('donations-list-search-reset')
 
     // assert reset
-    await waitForElementWithTestIdToBeNull('donations-list-search-heading')
-    await seeTextWithTestId('Germany', 'donations-list-search-heading')
-    const resultCountReset = await extractResultCount('donations-list-search-summary')
-    expect(resultCountReset).toBeGreaterThan(resultCountGermany)
+    expect(await waitForElementWithTestId('donations-list-unfiltered'))
   })
 
   test('should reset donations filter from modal', async () => {
@@ -144,10 +141,7 @@ describe('@Donations', () => {
     await resetFilterInModal()
 
     // assert reset
-    await waitForElementWithTestIdToBeNull('donations-list-search-heading')
-    await seeTextWithTestId('Germany', 'donations-list-search-heading')
-    const resultCountReset = await extractResultCount('donations-list-search-summary')
-    expect(resultCountReset).toBeGreaterThan(resultCountGermany)
+    expect(await waitForElementWithTestId('donations-list-unfiltered'))
   })
 
   test('should display details of filter results', async () => {

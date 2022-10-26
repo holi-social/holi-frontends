@@ -73,7 +73,7 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
   }
 
   return (
-    <View>
+    <View testID={isFiltering ? 'donations-list-filtered' : 'donations-list-unfiltered'}>
       {isFiltering && (
         <HoliHeading style={styles.searchHeading} testID="donations-list-search-heading">
           <Trans t={t} i18nKey="donations:donationListing.search.heading" values={{ location: locationQuery }}>

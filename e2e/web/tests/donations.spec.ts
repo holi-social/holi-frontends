@@ -1,6 +1,12 @@
 import { Locator, Page, expect, test } from '@playwright/test'
 
-import { checkAccessibility, clickElementByTestId, locateElementByTestId, waitForElementByTestId } from './helpers'
+import {
+  byTestId,
+  checkAccessibility,
+  clickElementByTestId,
+  locateElementByTestId,
+  waitForElementByTestId,
+} from './helpers'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/apps/donations')
@@ -132,7 +138,9 @@ test.describe('@Donations', () => {
 
     // reset filter in list
     await clickElementByTestId(page, 'donations-list-search-reset')
-    expect(await heading.count()).toEqual(0)
+
+    // assert reset
+    await expect(page.locator(byTestId('donations-list-unfiltered'))).toHaveCount(1)
 
     // filter for "Hamburg"
     await filterForLocation(page, 'Hamburg')
@@ -147,7 +155,9 @@ test.describe('@Donations', () => {
 
     // reset filter in modal
     await resetFilterInModal(page)
-    expect(await heading.count()).toEqual(1)
+
+    // assert reset
+    await expect(page.locator(byTestId('donations-list-unfiltered'))).toHaveCount(1)
   })
 
   test('should display details of filter results', async ({ page }) => {
