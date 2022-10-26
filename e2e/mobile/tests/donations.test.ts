@@ -1,3 +1,4 @@
+import { waitForHomeScreen } from '../helpers/navigation'
 import {
   fillFieldByTestId,
   locateMultipleElementsWithTestId,
@@ -9,7 +10,7 @@ import {
 } from '../helpers/selectors'
 
 const navigateToDonationsApp = async () => {
-  await waitForElementWithTestId('home-feed-insights-heading')
+  await waitForHomeScreen()
   await tapOnElementWithTestId('home-apps-button')
   await tapOnElementWithTestId('app-tile-donations')
   await waitForElementWithTestId('donations-list-container')
@@ -26,7 +27,7 @@ describe('@Donations', () => {
     expect(listItems.length).toBeGreaterThan(1)
   })
 
-  test('should allow pagination', async () => {
+  it('should allow pagination', async () => {
     // scroll to button and count elements in viewport
     await scrollToElementWithTestId('btn-donation-list-load-more', 'down', { maxAttempts: 5 })
     const listItemsBefore = await locateMultipleElementsWithTestId('donations-list-item')
@@ -42,7 +43,7 @@ describe('@Donations', () => {
     expect(listItemsAfter.length).toBeGreaterThan(listItemsBefore.length)
   })
 
-  test('should display project details', async () => {
+  it('should display project details', async () => {
     // click first element in list
     await tapOnElementWithTestId('donations-list-item')
 
@@ -73,6 +74,9 @@ describe('@Donations', () => {
     // open search modal
     await tapOnElementWithTestId('donations-search-button')
 
+    // close keyboard
+    await tapOnElementWithTestId('donations-search-modal')
+
     // reset filter
     await tapOnElementWithTestId('donations-search-form-reset')
 
@@ -93,7 +97,7 @@ describe('@Donations', () => {
     return 0
   }
 
-  test('should filter donations by location', async () => {
+  it('should filter donations by location', async () => {
     // filter for "Germany"
     await filterForLocation('Germany')
 
@@ -112,7 +116,7 @@ describe('@Donations', () => {
     expect(resultCountHamburg).toBeLessThan(resultCountGermany)
   })
 
-  test('should reset donations filter from list', async () => {
+  it('should reset donations filter from list', async () => {
     // filter for "Germany"
     await filterForLocation('Germany')
 
@@ -128,7 +132,7 @@ describe('@Donations', () => {
     expect(await waitForElementWithTestId('donations-list-unfiltered'))
   })
 
-  test('should reset donations filter from modal', async () => {
+  it('should reset donations filter from modal', async () => {
     // filter for "Germany"
     await filterForLocation('Germany')
 
@@ -141,10 +145,10 @@ describe('@Donations', () => {
     await resetFilterInModal()
 
     // assert reset
-    expect(await waitForElementWithTestId('donations-list-unfiltered'))
+    await waitForElementWithTestId('donations-list-unfiltered')
   })
 
-  test('should display details of filter results', async () => {
+  it('should display details of filter results', async () => {
     // filter for "Hamburg"
     await filterForLocation('Hamburg')
 
