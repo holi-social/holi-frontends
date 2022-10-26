@@ -18,6 +18,8 @@ import type { Insight } from '@holi/core/screens/insights/types'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type PostParams = {
@@ -36,6 +38,8 @@ const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const { t } = useTranslation()
   const title = t('insights.post.title', { insightId, postId })
   const mixins = useStyleMixins()
+
+  const { openToast } = useToast()
 
   useNavigationHeader(navigation, { title: title, headerLeft: () => <BackButton /> })
 
@@ -74,6 +78,14 @@ const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
           <Trans i18nKey="insights.post.author" values={{ author: author.fullName, category: category }} />
         </HoliText>
         <HoliText style={{ paddingTop: 10 }}>{insight.title}</HoliText>
+        <HoliButton
+          label="click me"
+          onPress={() =>
+            openToast(`Toast created from child component! ${Math.random() * 2332}`, HoliToastType.SUCCESS)
+          }
+        >
+          Show toast
+        </HoliButton>
       </View>
     </DefaultLayout>
   )

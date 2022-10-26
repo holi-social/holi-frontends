@@ -10,6 +10,7 @@ import NavigationContextProvider from '@holi/core/navigation/NavigationContextPr
 import UserContextProvider, { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
+import { ToastProvider } from '@holi/ui/components/molecules/HoliToast'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 
 const styles = StyleSheet.create({
@@ -62,7 +63,9 @@ const RootProvider: React.VoidFunctionComponent<{ children: React.ReactElement |
           <ApolloProvider client={client}>
             <AuthContextProvider>
               <UserContextProvider>
-                <Children>{children}</Children>
+                <ToastProvider>
+                  <Children>{children}</Children>
+                </ToastProvider>
               </UserContextProvider>
             </AuthContextProvider>
           </ApolloProvider>
