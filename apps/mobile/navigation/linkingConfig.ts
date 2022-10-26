@@ -20,7 +20,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
           },
         },
         Spaces: {
-          initialRouteName: 'Spaces',
+          initialRouteName: 'SpacesHome',
           screens: {
             Spaces: 'spaces',
             SpaceDetails: 'spaces/:spaceId',

@@ -9,7 +9,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { CenterElement, LeftElement, RightElement } from './components'
 
 export type SpacesStackScreensList = {
-  Spaces: undefined
+  SpacesHome: undefined
   SpaceDetails: SpaceDetailsParams
 }
 
@@ -17,7 +17,7 @@ const SpacesStack = createNativeStackNavigator<SpacesStackScreensList>()
 const SpacesStackNavigator: React.VFC = () => {
   return (
     <SpacesStack.Navigator
-      initialRouteName="Spaces"
+      initialRouteName="SpacesHome"
       screenOptions={{
         headerShown: true,
         headerStyle: {
@@ -28,7 +28,7 @@ const SpacesStackNavigator: React.VFC = () => {
       }}
     >
       <SpacesStack.Screen
-        name="Spaces"
+        name="SpacesHome"
         component={Spaces}
         options={{
           headerBackTitleVisible: true,
