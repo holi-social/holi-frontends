@@ -9,6 +9,7 @@ export type AccessibilityRoleWeb =
   | 'navigation'
   | 'heading'
   | 'tabpanel'
+  | 'option'
 
 interface AccessibilityPropsWeb extends AccessibilityProps {
   accessibilityLevel?: number

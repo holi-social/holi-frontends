@@ -110,6 +110,7 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
           testID="donations-search-location"
           validationErrorText={error?.message && t('donations:search.location.autocomplete.error')}
           helperText={noResultsText}
+          id="donations-search-location"
         />
       </View>
     </HoliModalContentWrapper>

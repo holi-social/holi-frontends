@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import {
   AccessibilityProps,
+  AccessibilityRole,
   GestureResponderEvent,
   Platform,
   Pressable,
@@ -10,7 +11,7 @@ import {
   ViewStyle,
 } from 'react-native'
 
-import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
+import type { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -30,6 +31,8 @@ export type HoliButtonProps = {
   disableFocusability?: boolean
   testID?: string
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
+  accessibilityRole?: AccessibilityRoleWeb
+  id?: string
 }
 
 const HoliButton: React.FC<HoliButtonProps> = ({
@@ -48,7 +51,7 @@ const HoliButton: React.FC<HoliButtonProps> = ({
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),
-    accessibilityRole: 'button',
+    accessibilityRole: props.accessibilityRole || 'button',
     accessibilityLabel: props.label,
   }
 
@@ -79,6 +82,7 @@ const HoliButton: React.FC<HoliButtonProps> = ({
       testID={props.testID}
       disabled={disabled}
       onPress={onButtonPress}
+      nativeID={props.id}
       style={(state) => {
         const result: ViewStyle[] = [styles.base]
         if (!transparent) {

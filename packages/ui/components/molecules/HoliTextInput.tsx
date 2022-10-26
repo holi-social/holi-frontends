@@ -42,6 +42,8 @@ export type HoliTextInputProps = {
   testID?: string
   onFocus?: () => void
   onBlur?: () => void
+  accessibilityAutoComplete?: 'inline' | 'list' | 'both' // TODO(SF) is there a matching type?
+  accessibilityControls?: string
   // eslint-disable-next-line
   [x: string]: any
 }
@@ -78,7 +80,8 @@ const HoliTextInput = ({
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: true,
     accessibilityLabel: props.accessibilityLabel,
-    accessibilityAutoComplete: 'inline',
+    accessibilityAutoComplete: props.accessibilityAutoComplete || 'inline',
+    accessibilityControls: props.accessibilityControls,
   }
 
   useEffect(() => {

@@ -38,6 +38,7 @@ export type HoliAutocompleteProps = {
   debounce: number
   testID?: string
   inputProps?: TextInputProps
+  id: string
 }
 
 const HoliAutocomplete = ({
@@ -56,6 +57,7 @@ const HoliAutocomplete = ({
   inputProps,
   debounce: debounceValue,
   trailingIcon,
+  id,
 }: HoliAutocompleteProps) => {
   const [searchText, setSearchText] = useState(value || '')
   const [selectedItem, setSelectedItem] = useState<Suggestion | null>(null)
@@ -135,12 +137,15 @@ const HoliAutocomplete = ({
           transparent
           testID={testID && `${testID}-item-${item.id}`}
           style={[styles.listItem, isLast && styles.listItemLast]}
+          accessibilityRole="option"
+          // accessibilitySelected={isSelected} TODO(SF) needed?
+          id={`${id}-suggestion-${item.id}`}
         >
           <HoliText numberOfLines={2}>{item.label}</HoliText>
         </HoliButton>
       )
     },
-    [testID, suggestions, handleItemSelection, selectedItem]
+    [testID, suggestions, handleItemSelection, selectedItem, id]
   )
 
   // Keyboard.dismiss() // TODO(SF) use this somewhere?
@@ -170,12 +175,20 @@ const HoliAutocomplete = ({
         inline={inline}
         trailingComponent={trailingComponent}
         testID={testID && `${testID}-input`}
-        inputProps={inputProps}
+        inputProps={{ ...inputProps }}
         inputStyle={[styles.textInput, isOpened && suggestions.length && styles.textInputOpened]}
         onFocus={open}
         // onBlur={close}
+        accessibilityAutoComplete="list"
+        accessibilityControls={`${id}-suggestions`}
+        accessibilityRole="combobox"
+        accessibilityExpanded={isOpened}
+        accessibilityActiveDescendant={selectedItem && `${id}-suggestion-${selectedItem.id}`}
+        accessibilityHasPopup="listbox" // TODO(SF) needed?
       />
-      {isOpened ? suggestions.map(renderItem) : <></>}
+      <View nativeID={`${id}-suggestions`} accessibilityRole="listbox">
+        {isOpened ? suggestions.map(renderItem) : <></>}
+      </View>
     </View>
   )
 }
