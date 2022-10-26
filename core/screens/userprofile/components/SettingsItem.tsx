@@ -1,4 +1,3 @@
-import { colors } from 'packages/ui/styles/globalVars'
 import React from 'react'
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
@@ -6,6 +5,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type SettingsItemProps = {
   label: string
