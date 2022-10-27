@@ -38,7 +38,13 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
       <View style={styles.container}>
         <View style={styles.headingRow}>
           <HoliHeading>{t('donations:search.heading')}</HoliHeading>
-          <HoliButton transparent inline label={t('search.filter.reset')} onPress={reset}>
+          <HoliButton
+            transparent
+            inline
+            label={t('search.filter.reset')}
+            onPress={reset}
+            testID="donations-search-form-reset"
+          >
             <HoliText size="small" style={{ color: colors.fontColorGrey }}>
               {t('search.filter.reset')}
             </HoliText>
