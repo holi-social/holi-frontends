@@ -1,7 +1,8 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import tinycolor from 'tinycolor2'
 
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -10,7 +11,6 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-//import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import { colors } from '@holi/ui/styles/globalVars'
 
 import DonationUpdatesItem from '@holi-apps/donations/components/DonationUpdatesItem'
@@ -18,12 +18,12 @@ import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donation
 
 type DonationUpdatesProps = {
   locationQuery?: string
+  style?: StyleProp<ViewStyle>
 }
 
-const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: DonationUpdatesProps) => {
+const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery, style }: DonationUpdatesProps) => {
   const { t, i18n } = useTranslation()
   const { navigate } = useRouting()
-
   const { width: screenWidth } = useWindowDimensions()
 
   const { data, error, loading } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
@@ -41,12 +41,12 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: Don
   const { projects = [] } = data?.appDonations_projects || {}
 
   return (
-    <>
+    <View style={style}>
       <View style={styles.donationsHeader} testID={'donations-updates-heading'}>
         <View style={styles.donationIconContainer}>
-          <HoliIcon icon="hand-heart" size={18} filled color={colors.fontColorGrey} />
+          <HoliIcon icon="hand-heart" size={20} color={colors.fontColorGrey} />
         </View>
-        <HoliHeading style={{ marginLeft: 10 }}>{t('donations:app.name')}</HoliHeading>
+        <HoliHeading style={{ marginLeft: 12 }}>{t('donations:app.name')}</HoliHeading>
       </View>
       <ScrollView style={styles.scrollViewContainer} horizontal testID={'donations-updates-container'}>
         {projects.slice(0, 5).map((project, index) => {
@@ -58,7 +58,7 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: Don
           </View>
         )}
         <HoliButton
-          label={'seeMore.button'}
+          label={t('donations:donationListing.loadMoreButton.text')}
           style={[styles.buttonContainer, styles.lastButtonContainer]}
           onPress={() => navigate('/apps/donations/')}
           transparent
@@ -79,7 +79,7 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: Don
           </View>
         </HoliButton>
       </ScrollView>
-    </>
+    </View>
   )
 }
 export default DonationUpdates
@@ -91,10 +91,10 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   donationIconContainer: {
-    padding: 12,
+    padding: 13,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: colors.borderColorGrey,
+    borderColor: tinycolor(colors.borderColorGrey).darken(5).toString(),
     backgroundColor: colors.backgroundColorGrey,
   },
   donationListingItem: {
@@ -102,9 +102,9 @@ const styles = StyleSheet.create({
     width: 160,
   },
   scrollViewContainer: {
-    paddingVertical: 23,
+    paddingVertical: 24,
     marginHorizontal: -20,
-    paddingLeft: 20,
+    paddingLeft: 24,
   },
   buttonContainer: {
     marginRight: 11,
@@ -112,6 +112,7 @@ const styles = StyleSheet.create({
   loadingContainer: {
     width: 160,
     height: 160,
+    borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.backgroundColorGrey,

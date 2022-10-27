@@ -18,9 +18,7 @@ const UpdatesOfYourApps: React.VFC<UpdatesOfYourAppsProps> = (props: UpdatesOfYo
   return (
     <View style={[mixins.container, props.style]}>
       <HoliHeading size="large">{t('apps.updates.headline')}</HoliHeading>
-      <View style={styles.updatesContainer}>
-        <DonationUpdates />
-      </View>
+      <DonationUpdates style={styles.updatesContainer} />
     </View>
   )
 }
