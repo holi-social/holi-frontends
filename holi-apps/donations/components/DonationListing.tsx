@@ -73,7 +73,7 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
   }
 
   return (
-    <View>
+    <View testID={isFiltering ? 'donations-list-filtered' : 'donations-list-unfiltered'}>
       {isFiltering && (
         <HoliHeading style={styles.searchHeading} testID="donations-list-search-heading">
           <Trans t={t} i18nKey="donations:donationListing.search.heading" values={{ location: locationQuery }}>
@@ -86,7 +86,13 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
           <HoliText bold testID="donations-list-search-summary">
             {t('donations:donationListing.search.resultCount', { count: totalResults })}
           </HoliText>
-          <HoliButton transparent inline label={t('search.filter.reset')} onPress={resetSearch}>
+          <HoliButton
+            transparent
+            inline
+            label={t('search.filter.reset')}
+            onPress={resetSearch}
+            testID="donations-list-search-reset"
+          >
             <HoliText size="small" style={{ color: colors.fontColorGrey }}>
               {t('search.filter.reset')}
             </HoliText>

@@ -1,8 +1,9 @@
+import { waitForHomeScreen } from '../helpers/navigation'
 import { tapOnElementWithTestId, waitForElementWithTestId } from '../helpers/selectors'
 
 describe('@HoliModal', () => {
   it('find selectors', async () => {
-    await waitForElementWithTestId('home-feed-insights-heading')
+    await waitForHomeScreen()
 
     // open editors modal
     await waitForElementWithTestId('avatar-pile-open-modal-button')
@@ -21,6 +22,6 @@ describe('@HoliModal', () => {
     await tapOnElementWithTestId('insight-editors-close-btn')
 
     // modal should be closed again
-    await waitForElementWithTestId('home-feed-insights-heading')
+    await waitForHomeScreen()
   })
 })
