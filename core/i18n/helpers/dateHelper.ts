@@ -1,3 +1,5 @@
+import { Platform } from 'react-native'
+
 const calculateNumberOfDaysAgo = (date: Date) => {
   const today = new Date()
   const millisecondsPerDay = 1000 * 60 * 60 * 24
@@ -25,8 +27,12 @@ export const getRelativeDateString = (dateStr = '', language: string) => {
   if (isOverOneDayAgo) {
     weeksAgo = Math.floor(daysAgo / 7)
   }
-  return new Intl.RelativeTimeFormat(language, {
-    style: 'long',
-    numeric: 'auto',
-  }).format(isOverOneDayAgo ? -weeksAgo : -daysAgo, isOverOneDayAgo ? 'weeks' : 'days')
+  if (Platform.OS !== 'android') {
+    return new Intl.RelativeTimeFormat(language, {
+      style: 'long',
+      numeric: 'auto',
+    }).format(isOverOneDayAgo ? -weeksAgo : -daysAgo, isOverOneDayAgo ? 'weeks' : 'days')
+  }
+
+  return dateStr
 }

@@ -7,6 +7,7 @@ import { displayError } from '@holi/core/errors/helpers'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -19,9 +20,10 @@ const PROJECT_PAGE_SIZE = 10
 
 type DonationListingProps = {
   locationQuery?: string
+  resetSearch: () => void
 }
 
-const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery }: DonationListingProps) => {
+const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, resetSearch }: DonationListingProps) => {
   const { t, i18n } = useTranslation()
   const mixins = useStyleMixins()
   const [fetchingMore, setFetchingMore] = useState(false)
@@ -80,9 +82,16 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery }: Don
         </HoliHeading>
       )}
       {isFiltering && (
-        <HoliText bold style={styles.searchSummary} testID="donations-list-search-summary">
-          {t('donations:donationListing.search.resultCount', { count: totalResults })}
-        </HoliText>
+        <View style={styles.searchFilter}>
+          <HoliText bold testID="donations-list-search-summary">
+            {t('donations:donationListing.search.resultCount', { count: totalResults })}
+          </HoliText>
+          <HoliButton transparent inline label={t('search.filter.reset')} onPress={resetSearch}>
+            <HoliText size="small" style={{ color: colors.fontColorGrey }}>
+              {t('search.filter.reset')}
+            </HoliText>
+          </HoliButton>
+        </View>
       )}
       {isFiltering && !projects.length && (
         <View style={styles.noResultsContainer}>
@@ -134,8 +143,11 @@ const styles = StyleSheet.create({
   searchQuery: {
     color: colors.positivepurple,
   },
-  searchSummary: {
-    marginBottom: 25,
+  searchFilter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    marginBottom: 24,
   },
   noResultsContainer: {
     alignItems: 'center',
