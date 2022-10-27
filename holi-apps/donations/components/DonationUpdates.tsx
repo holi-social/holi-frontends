@@ -16,6 +16,8 @@ import { colors } from '@holi/ui/styles/globalVars'
 import DonationUpdatesItem from '@holi-apps/donations/components/DonationUpdatesItem'
 import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'
 
+const PROJECT_PAGE_SIZE = 5
+
 type DonationUpdatesProps = {
   locationQuery?: string
   style?: StyleProp<ViewStyle>
@@ -29,6 +31,7 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery, style
   const { data, error, loading } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
     variables: {
       locale: i18n.language,
+      limit: PROJECT_PAGE_SIZE,
       offset: 0,
       location: locationQuery,
     },
@@ -49,7 +52,7 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery, style
         <HoliHeading style={{ marginLeft: 12 }}>{t('donations:app.name')}</HoliHeading>
       </View>
       <ScrollView style={styles.scrollViewContainer} horizontal testID={'donations-updates-container'}>
-        {projects.slice(0, 5).map((project, index) => {
+        {projects.slice(0, PROJECT_PAGE_SIZE).map((project, index) => {
           return <DonationUpdatesItem key={index} project={project} />
         })}
         {loading && (
