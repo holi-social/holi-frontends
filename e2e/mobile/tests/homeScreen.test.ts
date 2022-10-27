@@ -41,6 +41,6 @@ describe('@HomeScreen', () => {
 
     // clean up view
     await logout()
-    await scrollToElementWithTestId('home-feed-topics-heading', 'up')
+    await scrollToElementWithTestId('home-feed-insights-heading', 'up')
   })
 })
