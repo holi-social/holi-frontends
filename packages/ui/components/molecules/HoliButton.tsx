@@ -3,15 +3,17 @@ import {
   AccessibilityProps,
   AccessibilityRole,
   GestureResponderEvent,
+  NativeSyntheticEvent,
   Platform,
   Pressable,
   StyleProp,
   StyleSheet,
+  TargetedEvent,
   View,
   ViewStyle,
 } from 'react-native'
 
-import type { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
+import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -31,9 +33,9 @@ export type HoliButtonProps = {
   disableFocusability?: boolean
   testID?: string
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
-  onFocus?: (event: React.SyntheticEvent | GestureResponderEvent) => void
-  onBlur?: (event: React.SyntheticEvent | GestureResponderEvent) => void
-  accessibilityRole?: AccessibilityRoleWeb
+  onFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void
+  onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void
+  accessibilityRole?: AccessibilityRole
   id?: string
 }
 

@@ -2,9 +2,11 @@ import React, { ReactChild, memo, useCallback, useEffect, useState } from 'react
 import {
   AccessibilityProps,
   KeyboardTypeOptions,
+  NativeSyntheticEvent,
   Platform,
   StyleProp,
   StyleSheet,
+  TargetedEvent,
   TextInput,
   TextInputIOSProps,
   TextInputProps,
@@ -43,9 +45,9 @@ export type HoliTextInputProps = {
   /** TextInputProps to extend input e.g with'returnKeytype' or 'autofocus' */
   inputProps?: TextInputProps
   testID?: string
-  onFocus?: () => void
-  onBlur?: () => void
-  accessibilityAutoComplete?: 'inline' | 'list' | 'both' // TODO(SF) is there a matching type?
+  onFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void
+  onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void
+  accessibilityAutoComplete?: AccessibilityPropsWeb['accessibilityAutoComplete']
   accessibilityControls?: string
   // eslint-disable-next-line
   [x: string]: any
@@ -91,14 +93,20 @@ const HoliTextInput = ({
     setNumberOfLines(clamp(noOfVisibleLines, noOfVisibleLines, maxNoOfVisibleLines))
   }, [noOfVisibleLines, maxNoOfVisibleLines])
 
-  const handleFocus = useCallback(() => {
-    setFocused(true)
-    onFocus && onFocus()
-  }, [setFocused, onFocus])
-  const handleBlur = useCallback(() => {
-    setFocused(false)
-    onBlur && onBlur()
-  }, [setFocused, onBlur])
+  const handleFocus = useCallback(
+    (event) => {
+      setFocused(true)
+      onFocus && onFocus(event)
+    },
+    [setFocused, onFocus]
+  )
+  const handleBlur = useCallback(
+    (event) => {
+      setFocused(false)
+      onBlur && onBlur(event)
+    },
+    [setFocused, onBlur]
+  )
 
   const { theme } = useTheme()
   const styles = getStyles(theme, inputPaddingVertical)

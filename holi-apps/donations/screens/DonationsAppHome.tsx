@@ -71,7 +71,7 @@ const DonationsAppHome: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) =
   })
 
   return (
-    <DefaultLayout>
+    <DefaultLayout keyboardShouldPersistTaps="handled">
       <HoliModal
         show={showSearchModal}
         onDismiss={closeModal}

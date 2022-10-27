@@ -1,7 +1,7 @@
 import { useLazyQuery } from '@apollo/client'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Keyboard, StyleSheet, TouchableWithoutFeedback, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -42,10 +42,11 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
     logError(error, `[DonationSearchForm.tsx] ${error.message}`)
   }
 
-  const reset = () => {
+  const reset = useCallback(() => {
     setLocationInput('')
     setPlaceSuggestions([])
-  }
+    Keyboard.dismiss()
+  }, [setLocationInput, setPlaceSuggestions])
 
   const getSuggestions = useCallback(
     (input: string) => {
@@ -78,41 +79,42 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
       : undefined
   }, [t, loading, locationInput, placeSuggestions])
 
-  // TODO(SF) no results, test id, on submit
-  // TODO(SF) add own isLoading state to prevent flicker?
   return (
     <HoliModalContentWrapper
       actionButtonText={t('donations:search.submitButton')}
       onActionButtonPress={submit}
       style={styles.modalWrapper}
       testID="donations-search-modal"
+      keyboardShouldPersistTaps="handled"
     >
-      <View style={styles.container}>
-        <View style={styles.headingRow}>
-          <HoliHeading>{t('donations:search.heading')}</HoliHeading>
-          <HoliButton transparent inline label={t('search.filter.reset')} onPress={reset}>
-            <HoliText size="small" style={{ color: colors.fontColorGrey }}>
-              {t('search.filter.reset')}
-            </HoliText>
-          </HoliButton>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={styles.container}>
+          <View style={styles.headingRow}>
+            <HoliHeading>{t('donations:search.heading')}</HoliHeading>
+            <HoliButton transparent inline label={t('search.filter.reset')} onPress={reset}>
+              <HoliText size="small" style={{ color: colors.fontColorGrey }}>
+                {t('search.filter.reset')}
+              </HoliText>
+            </HoliButton>
+          </View>
+          <HoliAutocomplete
+            loading={loading}
+            onChange={getSuggestions}
+            debounce={PLACE_SUGGESTION_DEBOUNCE}
+            suggestions={placeSuggestions}
+            inputLabel={t('donations:search.location.label')}
+            accessibilityLabel={t('donations:search.location.label')}
+            placeholder={t('donations:search.location.placeholder')}
+            value={locationInput}
+            trailingIcon="search"
+            inputProps={{ autoFocus: true, onSubmitEditing: submit }}
+            testID="donations-search-location"
+            validationErrorText={error?.message && t('donations:search.location.autocomplete.error')}
+            helperText={noResultsText}
+            id="donations-search-location"
+          />
         </View>
-        <HoliAutocomplete
-          loading={loading}
-          onChange={getSuggestions}
-          debounce={PLACE_SUGGESTION_DEBOUNCE}
-          suggestions={placeSuggestions}
-          inputLabel={t('donations:search.location.label')}
-          accessibilityLabel={t('donations:search.location.label')}
-          placeholder={t('donations:search.location.placeholder')}
-          value={locationInput}
-          trailingIcon="search"
-          inputProps={{ autoFocus: true, onSubmitEditing: submit }}
-          testID="donations-search-location"
-          validationErrorText={error?.message && t('donations:search.location.autocomplete.error')}
-          helperText={noResultsText}
-          id="donations-search-location"
-        />
-      </View>
+      </TouchableWithoutFeedback>
     </HoliModalContentWrapper>
   )
 }

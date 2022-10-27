@@ -1,9 +1,8 @@
 // based on https://github.com/onmotion/react-native-autocomplete-dropdown/
 import debounce from 'lodash.debounce'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { AccessibilityProps, Keyboard, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
+import { Keyboard, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
 
-import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -60,11 +59,8 @@ const HoliAutocomplete = ({
   id,
 }: HoliAutocompleteProps) => {
   const [searchText, setSearchText] = useState(value || '')
-  const [selectedItem, setSelectedItem] = useState<Suggestion | null>(null)
   const [isOpened, setIsOpened] = useState(false)
   const [focusedItem, setFocusedItem] = useState<string | null>(null)
-
-  // TODO(SF) simplify? is selectedItem actually needed? > yes, probably for i18n
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedOnChange = useCallback(
@@ -90,33 +86,22 @@ const HoliAutocomplete = ({
     setSearchText(value || '')
   }, [value])
 
-  /** Set initial value */
+  // Get suggestions for initial value
   useEffect(() => {
-    if (selectedItem) {
-      // nothing to set or already setted
-      return
-    }
     if (value && !suggestions.length) {
       onChangeText(value)
-    } else {
-      const listItem = suggestions.find((el) => el.id === value)
-
-      if (listItem) {
-        setSelectedItem(listItem)
-      }
     }
-  }, [suggestions, value, setSelectedItem, selectedItem, onChangeText])
+  }, [suggestions, value, onChangeText])
 
   const handleItemSelection = useCallback(
     (item) => {
       onChangeText(item.label)
-      setSelectedItem(item)
       setIsOpened(false)
+      Keyboard.dismiss()
     },
-    [setSelectedItem, setIsOpened, onChangeText]
+    [setIsOpened, onChangeText]
   )
 
-  /** methods */
   const close = useCallback(() => {
     setIsOpened(false)
   }, [setIsOpened])
@@ -125,10 +110,9 @@ const HoliAutocomplete = ({
     setIsOpened(true)
   }, [setIsOpened])
 
-  // Keyboard.dismiss() // TODO(SF) use this somewhere?
-
   const clearFocusAndClose = useCallback(
     (focusId) => {
+      // using setTimeout to make sure no other item was selected in the mean time
       setTimeout(() => {
         setFocusedItem((id) => {
           if (id === focusId) {
@@ -150,14 +134,12 @@ const HoliAutocomplete = ({
     [setFocusedItem, open]
   )
 
-  // TODO(SF) close list if no relevant element is focused anymore
   const onBlur = useCallback(() => {
     clearFocusAndClose(focusedItem)
   }, [clearFocusAndClose, focusedItem])
 
   const renderItem = useCallback(
     (item, index) => {
-      const isSelected = selectedItem?.id === item.id
       const isLast = index === suggestions.length - 1
       return (
         <HoliButton
@@ -168,17 +150,18 @@ const HoliAutocomplete = ({
           transparent
           testID={testID && `${testID}-item-${item.id}`}
           style={[styles.listItem, isLast && styles.listItemLast]}
-          accessibilityRole="option"
-          // accessibilitySelected={isSelected} TODO(SF) needed?
+          accessibilityRole="menuitem"
           id={`${id}-suggestion-${item.id}`}
           onFocus={() => setFocusAndOpen('suggestion' + item.id)}
           onBlur={onBlur}
         >
-          <HoliText numberOfLines={2}>{item.label}</HoliText>
+          <HoliText selectable={false} numberOfLines={2}>
+            {item.label}
+          </HoliText>
         </HoliButton>
       )
     },
-    [testID, suggestions, handleItemSelection, selectedItem, id, setFocusAndOpen, onBlur]
+    [testID, suggestions, handleItemSelection, id, setFocusAndOpen, onBlur]
   )
 
   const trailingComponent = useMemo(() => {
@@ -212,10 +195,9 @@ const HoliAutocomplete = ({
         accessibilityControls={`${id}-suggestions`}
         accessibilityRole="combobox"
         accessibilityExpanded={isOpened}
-        accessibilityActiveDescendant={selectedItem && `${id}-suggestion-${selectedItem.id}`}
-        accessibilityHasPopup="listbox" // TODO(SF) needed?
+        accessibilityHasPopup="menu"
       />
-      <View nativeID={`${id}-suggestions`} accessibilityRole="listbox">
+      <View nativeID={`${id}-suggestions`} accessibilityRole="menu">
         {isOpened ? suggestions.map(renderItem) : <></>}
       </View>
     </View>
