@@ -62,8 +62,9 @@ const HoliAutocomplete = ({
   const [searchText, setSearchText] = useState(value || '')
   const [selectedItem, setSelectedItem] = useState<Suggestion | null>(null)
   const [isOpened, setIsOpened] = useState(false)
+  const [focusedItem, setFocusedItem] = useState<string | null>(null)
 
-  // TODO(SF) simplify? is selectedItem actually needed?
+  // TODO(SF) simplify? is selectedItem actually needed? > yes, probably for i18n
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedOnChange = useCallback(
@@ -124,6 +125,36 @@ const HoliAutocomplete = ({
     setIsOpened(true)
   }, [setIsOpened])
 
+  // Keyboard.dismiss() // TODO(SF) use this somewhere?
+
+  const clearFocusAndClose = useCallback(
+    (focusId) => {
+      setTimeout(() => {
+        setFocusedItem((id) => {
+          if (id === focusId) {
+            close()
+            return null
+          }
+          return id
+        })
+      }, 0)
+    },
+    [setFocusedItem, close]
+  )
+
+  const setFocusAndOpen = useCallback(
+    (focusId) => {
+      open()
+      setFocusedItem(focusId)
+    },
+    [setFocusedItem, open]
+  )
+
+  // TODO(SF) close list if no relevant element is focused anymore
+  const onBlur = useCallback(() => {
+    clearFocusAndClose(focusedItem)
+  }, [clearFocusAndClose, focusedItem])
+
   const renderItem = useCallback(
     (item, index) => {
       const isSelected = selectedItem?.id === item.id
@@ -140,22 +171,15 @@ const HoliAutocomplete = ({
           accessibilityRole="option"
           // accessibilitySelected={isSelected} TODO(SF) needed?
           id={`${id}-suggestion-${item.id}`}
+          onFocus={() => setFocusAndOpen('suggestion' + item.id)}
+          onBlur={onBlur}
         >
           <HoliText numberOfLines={2}>{item.label}</HoliText>
         </HoliButton>
       )
     },
-    [testID, suggestions, handleItemSelection, selectedItem, id]
+    [testID, suggestions, handleItemSelection, selectedItem, id, setFocusAndOpen, onBlur]
   )
-
-  // Keyboard.dismiss() // TODO(SF) use this somewhere?
-
-  // TODO(SF) close list if no relevant element is focused anymore
-  // const onBlur = useCallback(() => {
-  //   if (closeOnBlur) {
-  //     close()
-  //   }
-  // }, [closeOnBlur, close])
 
   const trailingComponent = useMemo(() => {
     const icon = loading ? 'loader-4' : trailingIcon || 'search'
@@ -176,9 +200,14 @@ const HoliAutocomplete = ({
         trailingComponent={trailingComponent}
         testID={testID && `${testID}-input`}
         inputProps={{ ...inputProps }}
-        inputStyle={[styles.textInput, isOpened && suggestions.length && styles.textInputOpened]}
-        onFocus={open}
-        // onBlur={close}
+        inputStyle={[
+          styles.textInput,
+          isOpened && suggestions.length ? styles.textInputOpened : {},
+          focusedItem ? styles.textInputFocused : {},
+        ]}
+        labelStyle={[focusedItem ? styles.textInputLabelFocused : {}]}
+        onFocus={() => setFocusAndOpen('input')}
+        onBlur={onBlur}
         accessibilityAutoComplete="list"
         accessibilityControls={`${id}-suggestions`}
         accessibilityRole="combobox"
@@ -202,6 +231,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
+  },
+  textInputFocused: {
+    borderColor: colors.positivepurple,
+  },
+  textInputLabelFocused: {
+    color: colors.positivepurple,
   },
   listItem: {
     height: 48,

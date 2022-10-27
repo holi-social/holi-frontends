@@ -3,10 +3,12 @@ import {
   AccessibilityProps,
   KeyboardTypeOptions,
   Platform,
+  StyleProp,
   StyleSheet,
   TextInput,
   TextInputIOSProps,
   TextInputProps,
+  TextStyle,
   View,
   ViewStyle,
   useWindowDimensions,
@@ -37,6 +39,7 @@ export type HoliTextInputProps = {
   trailingComponent?: ReactChild
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
   inputStyle?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
+  labelStyle?: StyleProp<TextStyle>
   /** TextInputProps to extend input e.g with'returnKeytype' or 'autofocus' */
   inputProps?: TextInputProps
   testID?: string
@@ -141,6 +144,7 @@ const HoliTextInput = ({
               bold
               style={[
                 styles.label,
+                props.labelStyle,
                 isFocused ? styles.labelFocused : {},
                 hasValidationErrors ? styles.labelHasValidationErrors : {},
               ]}

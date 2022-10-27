@@ -31,6 +31,8 @@ export type HoliButtonProps = {
   disableFocusability?: boolean
   testID?: string
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
+  onFocus?: (event: React.SyntheticEvent | GestureResponderEvent) => void
+  onBlur?: (event: React.SyntheticEvent | GestureResponderEvent) => void
   accessibilityRole?: AccessibilityRoleWeb
   id?: string
 }
@@ -82,6 +84,8 @@ const HoliButton: React.FC<HoliButtonProps> = ({
       testID={props.testID}
       disabled={disabled}
       onPress={onButtonPress}
+      onFocus={props.onFocus}
+      onBlur={props.onBlur}
       nativeID={props.id}
       style={(state) => {
         const result: ViewStyle[] = [styles.base]
