@@ -25,8 +25,8 @@ beforeEach(async () => {
     }
   } else {
     // Logout + navigate back to the home screen before each test
-    await logout()
     await navigateBackToHomeScreen()
+    await logout()
   }
   // https://appium.io/docs/en/commands/session/timeouts/implicit-wait/
   await global.Appium.setImplicitTimeout(10000)

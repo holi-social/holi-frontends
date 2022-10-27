@@ -103,7 +103,21 @@ test.describe('@Donations', () => {
     return 0
   }
 
-  test('should filter donations by location', async ({ page }) => {
+  const resetFilterInModal = async (page: Page) => {
+    // open search modal
+    await clickElementByTestId(page, 'donations-search-button')
+
+    // reset filter
+    await clickElementByTestId(page, 'donations-search-form-reset')
+
+    // close search modal
+    await clickElementByTestId(page, 'donations-search-modal-close-btn')
+
+    // wait for results
+    await waitForElementByTestId(page, 'donations-list-container')
+  }
+
+  test('should filter donations by location and reset', async ({ page }) => {
     // filter for "Germany"
     await filterForLocation(page, 'Germany', { assertAccessibility: true })
 
@@ -116,6 +130,12 @@ test.describe('@Donations', () => {
 
     await checkAccessibility(page)
 
+    // reset filter in list
+    await clickElementByTestId(page, 'donations-list-search-reset')
+
+    // assert reset
+    await waitForElementByTestId(page, 'donations-list-unfiltered')
+
     // filter for "Hamburg"
     await filterForLocation(page, 'Hamburg')
 
@@ -126,6 +146,12 @@ test.describe('@Donations', () => {
     const resultCountHamburg = await extractResultCount(summary)
     expect(resultCountHamburg).toBeGreaterThan(0)
     expect(resultCountHamburg).toBeLessThan(resultCountGermany)
+
+    // reset filter in modal
+    await resetFilterInModal(page)
+
+    // assert reset
+    await waitForElementByTestId(page, 'donations-list-unfiltered')
   })
 
   test('should display details of filter results', async ({ page }) => {
