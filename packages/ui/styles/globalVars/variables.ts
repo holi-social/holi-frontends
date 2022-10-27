@@ -2,6 +2,7 @@ export default {
   fontFamilyWeb: 'Circular Std,Helvetica,Arial,sans-serif',
   fontFamilyMobile: 'Circular Std',
   maxScreenWidth: '1200',
+  maxButtonWidth: '400',
   topBarHeight: '52',
   bottomBarHeight: '52',
   breakpointS: '576',
