@@ -181,12 +181,8 @@ test.describe('@Donations', () => {
     await page.goto('/')
     await waitForElementByTestId(page, 'donations-updates-heading')
     await waitForElementByTestId(page, 'donations-updates-container')
+    await waitForElementByTestId(page, 'donations-updates-item')
     await checkAccessibility(page)
-
-    // check if number of DonationItems is 5
-    const scrollViewItems = await locateElementByTestId(page, 'donations-updates-item')
-    const scrollViewItemsCount = await scrollViewItems.count()
-    expect(scrollViewItemsCount).toBe(5)
 
     // click first element in ScrollView
     await clickElementByTestId(page, 'donations-updates-item')
@@ -200,6 +196,5 @@ test.describe('@Donations', () => {
     // click on "see more" / navigate to donations app
     await clickElementByTestId(page, 'donations-updates-load-more-button')
     await waitForElementByTestId(page, 'donations-list-container')
-    expect(page.url()).toContain('/apps/donations')
   })
 })
