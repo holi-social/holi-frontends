@@ -1,10 +1,10 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { Platform, SafeAreaView as SafeAreaViewIOS, StyleSheet, View, useWindowDimensions } from 'react-native'
-import { SafeAreaView as SafeAreaViewAndroid } from 'react-native-safe-area-context'
 
 import { createUUID } from '@holi/core/helpers'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { default as SafeAreaViewAndroid } from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
