@@ -53,7 +53,7 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
     >
       <Text
         accessible={false}
-        selectable={true}
+        selectable={false}
         style={
           Array [
             Object {
@@ -195,7 +195,7 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
     >
       <Text
         accessible={false}
-        selectable={true}
+        selectable={false}
         style={
           Array [
             Object {

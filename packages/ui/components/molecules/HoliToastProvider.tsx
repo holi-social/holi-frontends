@@ -36,7 +36,7 @@ export const ToastContext = createContext<ToastContextValue>({} as ToastContextV
 export const ToastProvider: React.FC<Partial<ToastContextValue>> = ({ children }) => {
   const [toasts, setToasts] = useState<Toast[]>([])
   const closeToast = useCallback(
-    (id: string) => setToasts((currentToasts: Toast[]) => currentToasts.filter((toast: Toast) => toast.id !== id)),
+    (id: string) => setToasts((currentToasts: Toast[]) => currentToasts.filter((toast) => toast.id !== id)),
     []
   )
   const openToast = useCallback(
@@ -47,7 +47,7 @@ export const ToastProvider: React.FC<Partial<ToastContextValue>> = ({ children }
   const contextValue = useMemo(() => ({ openToast, closeToast }), [closeToast, openToast])
 
   const { width: deviceWidth } = useWindowDimensions()
-  const styles = createStyles(deviceWidth)
+  const styles = useMemo(() => createStyles(deviceWidth), [deviceWidth])
 
   const SafeArea = Platform.OS === 'android' ? SafeAreaViewAndroid : SafeAreaViewIOS
 
@@ -76,7 +76,8 @@ export const useToast = () => useContext(ToastContext)
 export const HoliToast: React.FC<HoliToastProps> = ({ closeToast, type, text, testID }) => {
   const { width: deviceWidth } = useWindowDimensions()
 
-  const styles = createStyles(deviceWidth, type)
+  const styles = useMemo(() => createStyles(deviceWidth, type), [deviceWidth, type])
+
   useEffect(() => {
     const timer = setTimeout(closeToast, TOAST_TIMEOUT)
     return () => clearTimeout(timer)
@@ -91,7 +92,9 @@ export const HoliToast: React.FC<HoliToastProps> = ({ closeToast, type, text, te
       testID={`toast-${testID ? testID : type}`}
     >
       <View style={styles.toastView}>
-        <HoliText style={styles.toastText}>{text}</HoliText>
+        <HoliText style={styles.toastText} selectable={false}>
+          {text}
+        </HoliText>
         <HoliIcon
           icon={type === HoliToastType.SUCCESS ? 'smiley-2' : 'error-warning'}
           size={20}
@@ -114,7 +117,7 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
       width: '100%',
       ...(deviceWidth >= +vars.breakpointL
         ? {
-            maxWidth: 400,
+            maxWidth: +vars.maxButtonWidth,
             marginLeft: 'auto',
             marginRight: 'auto',
             left: 0,
@@ -125,7 +128,7 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
     toast: {
       padding: 20,
       flex: 1,
-      backgroundColor: type === HoliToastType.ERROR ? colors.errorRed : colors.positivepurple,
+      backgroundColor: type === HoliToastType.ERROR ? colors.backgroundColorError : colors.backgroundColorSuccess,
       ...(deviceWidth >= +vars.breakpointL
         ? {
             borderRadius: 10,

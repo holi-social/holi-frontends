@@ -10,7 +10,7 @@ import NavigationContextProvider from '@holi/core/navigation/NavigationContextPr
 import UserContextProvider, { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
-import { ToastProvider } from '@holi/ui/components/molecules/HoliToast'
+import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 
 const styles = StyleSheet.create({

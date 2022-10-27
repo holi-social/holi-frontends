@@ -19,7 +19,7 @@ import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type PostParams = {

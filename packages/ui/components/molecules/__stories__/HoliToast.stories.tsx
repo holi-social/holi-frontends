@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
-import HoliToast, { HoliToastType } from '@holi/ui/components/molecules/HoliToast'
+import HoliToast, { HoliToastType } from '@holi/ui/components/molecules/HoliToastProvider'
 
 export default {
   title: 'Molecules/HoliToast',
