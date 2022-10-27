@@ -67,7 +67,7 @@ const DonationProgress = ({
           {t('donations:donationProgress.percentFunded', { percentage: progressPercentage })}
         </HoliText>
         {!isSmall && (
-          <HoliText size={goalTextSize} bold style={styles.openAmount}>
+          <HoliText size={goalTextSize} bold>
             {t('donations:donationProgress.openAmount', { amount: openAmount })}
           </HoliText>
         )}

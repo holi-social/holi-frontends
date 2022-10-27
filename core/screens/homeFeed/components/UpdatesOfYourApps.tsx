@@ -5,17 +5,20 @@ import { StyleSheet, View, ViewStyle } from 'react-native'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
+
 export type UpdatesOfYourAppsProps = {
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
+
 const UpdatesOfYourApps: React.VFC<UpdatesOfYourAppsProps> = (props: UpdatesOfYourAppsProps) => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
 
   return (
-    <View style={[mixins.container, styles.updatesOfYourApps, props.style]}>
+    <View style={[mixins.container, props.style]}>
       <HoliHeading size="large">{t('apps.updates.headline')}</HoliHeading>
-      <View style={styles.updatesContainer} />
+      <DonationUpdates style={styles.updatesContainer} />
     </View>
   )
 }
@@ -23,7 +26,6 @@ const UpdatesOfYourApps: React.VFC<UpdatesOfYourAppsProps> = (props: UpdatesOfYo
 export default UpdatesOfYourApps
 
 const styles = StyleSheet.create({
-  updatesOfYourApps: {},
   updatesContainer: {
     // dummy ...
     minHeight: 200,
