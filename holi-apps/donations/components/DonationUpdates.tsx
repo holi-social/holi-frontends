@@ -23,13 +23,12 @@ type DonationUpdatesProps = {
 const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: DonationUpdatesProps) => {
   const { t, i18n } = useTranslation()
   const { navigate } = useRouting()
-  const PROJECT_PAGE_SIZE = 8
+
   const { width: screenWidth } = useWindowDimensions()
 
   const { data, error, loading } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
     variables: {
       locale: i18n.language,
-      limit: PROJECT_PAGE_SIZE,
       offset: 0,
       location: locationQuery,
     },
@@ -50,7 +49,7 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery }: Don
         <HoliHeading style={{ marginLeft: 10 }}>{t('donations:app.name')}</HoliHeading>
       </View>
       <ScrollView style={styles.scrollViewContainer} horizontal testID={'donations-updates-container'}>
-        {projects.map((project, index) => {
+        {projects.slice(0, 5).map((project, index) => {
           return <DonationUpdatesItem key={index} project={project} />
         })}
         {loading && (
