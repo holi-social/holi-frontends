@@ -1514,7 +1514,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               "flexDirection": "row",
               "justifyContent": "center",
             },
-            Object {},
+            undefined,
           ]
         }
       >

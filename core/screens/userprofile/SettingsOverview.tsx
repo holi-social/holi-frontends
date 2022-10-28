@@ -24,7 +24,7 @@ const SettingsOverview: React.VFC<ScreenProps> = ({ navigation }) => {
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
 
-  useNavigationHeader(navigation, { title: t('profile.settings.overview.title'), headerLeft: () => <BackButton /> })
+  useNavigationHeader(navigation, { title: t('profile.settings.overview.title'), headerLeft: BackButton })
 
   return (
     <DefaultLayout>
