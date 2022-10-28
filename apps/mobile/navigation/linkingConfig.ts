@@ -15,8 +15,17 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             InsightDetailPage: 'insights/:insightId',
             Post: 'insights/:insightId/posts/:postId',
             OwnProfile: 'profile',
+            SettingsOverview: 'profile/settings',
+            AccountSettings: 'profile/settings/account',
             UserProfile: 'profile/:userId',
             Notifications: 'notifications',
+          },
+        },
+        Spaces: {
+          initialRouteName: 'SpacesHome',
+          screens: {
+            Spaces: 'spaces',
+            SpaceDetails: 'spaces/:spaceId',
           },
         },
         Chat: {

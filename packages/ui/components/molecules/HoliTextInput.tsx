@@ -1,4 +1,4 @@
-import React, { ReactChild, memo, useCallback, useEffect, useState } from 'react'
+import React, { ReactChild, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import {
   AccessibilityProps,
   KeyboardTypeOptions,
@@ -8,6 +8,7 @@ import {
   StyleSheet,
   TargetedEvent,
   TextInput,
+  TextInputContentSizeChangeEventData,
   TextInputIOSProps,
   TextInputProps,
   TextStyle,
@@ -79,9 +80,6 @@ const HoliTextInput = ({
     clamp(noOfVisibleLines, noOfVisibleLines, maxNoOfVisibleLines)
   )
 
-  // used for calculating the height of a textArea with auto-sizing
-  const inputPaddingVertical = 15
-
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     accessible: true,
     accessibilityLabel: props.accessibilityLabel,
@@ -109,7 +107,13 @@ const HoliTextInput = ({
   )
 
   const { theme } = useTheme()
-  const styles = getStyles(theme, inputPaddingVertical)
+  const styles = useMemo(() => getStyles(theme), [theme])
+
+  const adjustInputHeight = (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
+    const inputHeight = event.nativeEvent.contentSize.height
+    const newNumberOfLines = Math.round((inputHeight - 2 * INPUT_VERTICAL_PADDING) / LINE_HEIGHT)
+    setNumberOfLines(clamp(newNumberOfLines, noOfVisibleLines, maxNoOfVisibleLines))
+  }
 
   const keyboardType: KeyboardTypeOptions = (() => {
     if (type === 'email') return 'email-address'
@@ -177,7 +181,7 @@ const HoliTextInput = ({
             style={[
               styles.input,
               inline ? styles.inline : styles.block,
-              { height: numberOfLines * inputLineHeight + 2 * inputPaddingVertical },
+              { height: numberOfLines * LINE_HEIGHT + 2 * INPUT_VERTICAL_PADDING },
             ]}
             numberOfLines={noOfVisibleLines}
             multiline={maxNoOfVisibleLines > 1}
@@ -191,11 +195,7 @@ const HoliTextInput = ({
               if (type === 'number') text = text.replace(/[^0-9]/g, '')
               props.onChange?.(text)
             }}
-            onContentSizeChange={(event) => {
-              const contentSizeHeight = event.nativeEvent.contentSize.height
-              const calcNumberOfLines = Math.round(contentSizeHeight / inputLineHeight)
-              setNumberOfLines(clamp(calcNumberOfLines, noOfVisibleLines, maxNoOfVisibleLines))
-            }}
+            onContentSizeChange={adjustInputHeight}
             keyboardType={keyboardType}
             textContentType={textContentType}
             maxLength={maxNoOfCharacters}
@@ -254,9 +254,10 @@ const HoliTextInput = ({
 
 export default memo(HoliTextInput)
 
-const inputLineHeight = 16 * 1.4
+const LINE_HEIGHT = 16 * 1.4
+const INPUT_VERTICAL_PADDING = 15
 
-const getStyles = (theme: HoliTheme, inputPaddingVertical: number) =>
+const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
       flexDirection: 'row',
@@ -289,8 +290,8 @@ const getStyles = (theme: HoliTheme, inputPaddingVertical: number) =>
       flex: 1,
       fontSize: 16,
       paddingHorizontal: 10,
-      paddingVertical: inputPaddingVertical,
-      lineHeight: inputLineHeight,
+      paddingVertical: INPUT_VERTICAL_PADDING,
+      lineHeight: LINE_HEIGHT,
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
       color: colors.fontColor,

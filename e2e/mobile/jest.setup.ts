@@ -7,6 +7,7 @@ import { navigateBackToHomeScreen, waitForHomeScreen } from './helpers/navigatio
 global.platform = appiumConfig.platform
 
 beforeEach(async () => {
+  // make test name visible in BrowserStack
   appiumConfig.capabilities.name = expect.getState().currentTestName
   global.Appium = await webdriverio.remote(appiumConfig)
   if (appiumConfig.capabilities.app) {

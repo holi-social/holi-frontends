@@ -25,6 +25,7 @@ export const HoliButtonVariants: HoliButtonVariant[] = ['default', 'small'] // k
 export type HoliButtonProps = {
   label: string
   style?: StyleProp<ViewStyle>
+  contentStyle?: StyleProp<ViewStyle>
   inline?: boolean
   type?: HoliButtonType
   variant?: HoliButtonVariant
@@ -112,9 +113,10 @@ const HoliButton: React.FC<HoliButtonProps> = ({
       }}
     >
       <View
-        style={{
-          ...(!transparent ? { alignItems: 'center', flexDirection: 'row', justifyContent: 'center' } : {}),
-        }}
+        style={[
+          !transparent && { alignItems: 'center', flexDirection: 'row', justifyContent: 'center' },
+          props.contentStyle,
+        ]}
         pointerEvents="none"
       >
         {content}
