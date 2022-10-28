@@ -68,10 +68,10 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: 16,
   },
   titleContainer: {
     marginHorizontal: 16,
-    marginBottom: 16,
     flex: 1,
   },
   date: {
