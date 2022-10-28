@@ -121,6 +121,6 @@ test.describe('@Registration', () => {
       },
       'registration'
     )
-    await waitForElementByTestId(page, 'ory-message-4000007')
+    await waitForElementByTestId(page, 'ory-traits-email-input-error-message')
   })
 })
