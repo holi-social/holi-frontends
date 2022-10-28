@@ -34,6 +34,7 @@
   "auth.login.input.placeholder-Sign in": "Sign in",
   "auth.login.link.forgotPassword": "Forgot password",
   "auth.login.message.4000006": "The provided credentials are invalid, check for spelling mistakes in your password or email address.",
+  "auth.login.message.default": "Oops! A technical error occurred!",
   "auth.login.signUp.link.button": "Sign up",
   "auth.login.signUp.link.headline": "No account yet?",
   "auth.login": "Login",

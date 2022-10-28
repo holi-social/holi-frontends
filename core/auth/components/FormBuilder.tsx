@@ -8,15 +8,15 @@ import {
   SubmitSelfServiceRegistrationFlowBody,
   SubmitSelfServiceSettingsFlowBody,
   UiNode,
-  UiText,
 } from '@ory/kratos-client'
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, ViewStyle } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { View, ViewStyle } from 'react-native'
 
 import type { TextInputOverride } from '@holi/core/auth/components/FormInputField'
-import FormMessages from '@holi/core/auth/components/FormMessages'
 import FormNode from '@holi/core/auth/components/FormNode'
 import { getNodeId, oryNodeIsInput, oryNodeIsSubmit } from '@holi/core/auth/helpers/form'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 interface Props<T> {
   flow?: SelfServiceLoginFlow | SelfServiceRegistrationFlow | SelfServiceSettingsFlow | SelfServiceRecoveryFlow
@@ -30,7 +30,6 @@ interface FlowData<T> {
   nodes: UiNode[]
   values: T
   submitType: Record<string, unknown>
-  globalMessages: UiText[] | undefined
 }
 
 const FormBuilder = <
@@ -42,11 +41,13 @@ const FormBuilder = <
   textInputOverride,
   style,
 }: Props<T>) => {
-  const [{ nodes, values, submitType, globalMessages }, setFlowData] = useState<FlowData<T>>({
+  const { t, i18n } = useTranslation()
+  const { openToast } = useToast()
+
+  const [{ nodes, values, submitType }, setFlowData] = useState<FlowData<T>>({
     nodes: [],
     values: {} as T,
     submitType: {},
-    globalMessages: [],
   })
 
   const isEmailField = (name: string) => name === 'identifier' || name === 'traits.email' || name === 'email'
@@ -56,6 +57,7 @@ const FormBuilder = <
       return
     }
 
+    // create view data from flow
     const { nodes, values, submitType, globalMessages } = flow.ui.nodes.reduce(
       (store, node) => {
         const name = getNodeId(node) as keyof T
@@ -99,14 +101,20 @@ const FormBuilder = <
         globalMessages: flow.ui.messages,
       }
     )
-
     setFlowData({
       nodes,
       values,
       submitType,
-      globalMessages,
     })
-  }, [flow, only])
+
+    // show global messages
+    globalMessages?.map((message) => {
+      const messageKey = `auth.login.message.${message.id}`
+      const someGeneralText = t('auth.login.message.default')
+      const messageText = i18n.exists(messageKey) ? t(messageKey) : someGeneralText
+      openToast(messageText, HoliToastType.ERROR, 5000)
+    })
+  }, [flow, only, i18n, openToast, t])
 
   const onChange = (name: string) => (value: string) => {
     setFlowData((currFlowData) => ({
@@ -122,7 +130,6 @@ const FormBuilder = <
 
   return (
     <View style={style}>
-      {flow && <FormMessages messages={globalMessages} style={styles.formMessages} />}
       {flow &&
         nodes.map((node: UiNode, k) => {
           const name = getNodeId(node)
@@ -144,9 +151,3 @@ const FormBuilder = <
 }
 
 export default FormBuilder
-
-const styles = StyleSheet.create({
-  formMessages: {
-    marginVertical: 10,
-  },
-})
