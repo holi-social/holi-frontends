@@ -19,7 +19,7 @@ const AccountSettings: React.VFC<ScreenProps> = ({ navigation }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  useNavigationHeader(navigation, { title: t('profile.settings.account.title'), headerLeft: () => <BackButton /> })
+  useNavigationHeader(navigation, { title: t('profile.settings.account.title'), headerLeft: BackButton })
 
   return (
     <DefaultLayout>
