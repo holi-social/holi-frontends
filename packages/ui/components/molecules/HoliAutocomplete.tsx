@@ -23,7 +23,6 @@ export type HoliAutocompleteProps = {
   validationErrorText?: string
   disabled?: boolean
   onChange?: (value: string) => void
-  inline?: boolean
   trailingIcon?: string
   loading?: boolean
   style?: StyleProp<ViewStyle>
@@ -35,7 +34,6 @@ export type HoliAutocompleteProps = {
 }
 
 const HoliAutocomplete = ({
-  inline = false,
   style = {},
   accessibilityLabel,
   value,
@@ -162,10 +160,9 @@ const HoliAutocomplete = ({
         accessibilityLabel={accessibilityLabel}
         value={searchText}
         placeholder={placeholder}
-        helperText={helperText}
+        helperText={isOpened && suggestions.length ? undefined : helperText}
         validationErrorText={validationErrorText}
         onChange={onChangeText}
-        inline={inline}
         trailingComponent={trailingComponent}
         testID={testID && `${testID}-input`}
         inputProps={{ ...inputProps }}
