@@ -56,7 +56,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -149,7 +149,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -234,7 +234,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -324,7 +324,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -412,7 +412,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -505,7 +505,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -590,7 +590,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -680,7 +680,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -771,7 +771,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -869,7 +869,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -959,7 +959,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -1054,7 +1054,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -1147,7 +1147,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -1245,7 +1245,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -1335,7 +1335,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -1430,7 +1430,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -1520,7 +1520,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -1613,7 +1613,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -1698,7 +1698,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -1788,7 +1788,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -1876,7 +1876,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -1969,7 +1969,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -2054,7 +2054,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -2144,7 +2144,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -2235,7 +2235,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -2333,7 +2333,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -2423,7 +2423,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -2518,7 +2518,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -2611,7 +2611,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -2709,7 +2709,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -2799,7 +2799,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >
@@ -2894,7 +2894,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "flexDirection": "row",
           "justifyContent": "center",
         },
-        Object {},
+        undefined,
       ]
     }
   >

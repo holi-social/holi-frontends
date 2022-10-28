@@ -169,7 +169,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "flexDirection": "row",
                   "justifyContent": "center",
                 },
-                Object {},
+                undefined,
               ]
             }
           >
@@ -256,7 +256,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "flexDirection": "row",
                   "justifyContent": "center",
                 },
-                Object {},
+                undefined,
               ]
             }
           >

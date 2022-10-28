@@ -74,8 +74,8 @@ exports[`renders correctly renders correctly when open 1`] = `
         pointerEvents="none"
         style={
           Array [
-            Object {},
-            Object {},
+            false,
+            undefined,
           ]
         }
       >
@@ -181,8 +181,8 @@ exports[`renders correctly renders correctly when open 1`] = `
               pointerEvents="none"
               style={
                 Array [
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >

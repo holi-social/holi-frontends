@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -26,6 +26,13 @@ const SettingsOverview: React.VFC<ScreenProps> = ({ navigation }) => {
 
   useNavigationHeader(navigation, { title: t('profile.settings.overview.title'), headerLeft: () => <BackButton /> })
 
+  const goTo = useCallback(
+    (url) => () => {
+      navigate(url)
+    },
+    [navigate]
+  )
+
   return (
     <DefaultLayout>
       <LoginProtection loggedOutContent={<LoggedOutView />}>
@@ -34,7 +41,7 @@ const SettingsOverview: React.VFC<ScreenProps> = ({ navigation }) => {
             <SettingsItem
               label={t('profile.settings.account.title')}
               icon="account-circle"
-              navigateTo="/profile/settings/account"
+              onPress={goTo('/profile/settings/account')}
             />
             <SettingsItem label={t('notifications.title')} icon="notification-2" />
             <SettingsItem label={t('help.title')} icon="help" />
