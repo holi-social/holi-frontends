@@ -1,5 +1,3 @@
-import { Platform } from 'react-native'
-
 const calculateNumberOfDaysAgo = (date: Date) => {
   const today = new Date()
   const millisecondsPerDay = 1000 * 60 * 60 * 24
@@ -19,6 +17,9 @@ const calculateNumberOfDaysAgo = (date: Date) => {
  * Intl.RelativeTimeFormat docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat
  */
 export const getRelativeDateString = (dateStr = '', language: string) => {
+  // if no date is provided, return empty string
+  if (!dateStr) return ''
+
   const date = new Date(dateStr)
   let weeksAgo = 0
   const daysAgo = Math.floor(calculateNumberOfDaysAgo(date))
@@ -27,12 +28,9 @@ export const getRelativeDateString = (dateStr = '', language: string) => {
   if (isOverOneDayAgo) {
     weeksAgo = Math.floor(daysAgo / 7)
   }
-  if (Platform.OS !== 'android') {
-    return new Intl.RelativeTimeFormat(language, {
-      style: 'long',
-      numeric: 'auto',
-    }).format(isOverOneDayAgo ? -weeksAgo : -daysAgo, isOverOneDayAgo ? 'weeks' : 'days')
-  }
 
-  return dateStr
+  return new Intl.RelativeTimeFormat(language, {
+    style: 'long',
+    numeric: 'auto',
+  }).format(isOverOneDayAgo ? -weeksAgo : -daysAgo, isOverOneDayAgo ? 'weeks' : 'days')
 }
