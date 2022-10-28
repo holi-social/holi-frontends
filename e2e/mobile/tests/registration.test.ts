@@ -50,7 +50,7 @@ describe('@Registration', () => {
     // try to create a new user with the same credentials
     await defaultAuthSteps({ email, password }, 'registration')
 
-    await waitForElementWithTestId('ory-message-4000007')
+    await waitForElementWithTestId('ory-traits-email-input-error-message')
 
     await goFromRegistrationToHome()
   })
