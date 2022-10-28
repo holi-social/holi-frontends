@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { StyleSheet, Text, TextStyle } from 'react-native'
+import { StyleProp, StyleSheet, Text, TextStyle } from 'react-native'
 
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -11,7 +11,7 @@ export interface HoliTextProps {
   children?: React.ReactNode
   size?: HoliTextSize
   bold?: boolean
-  style?: TextStyle | TextStyle[]
+  style?: StyleProp<TextStyle>
   selectable?: boolean
   testID?: string
   numberOfLines?: number

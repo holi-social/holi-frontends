@@ -39,7 +39,12 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
 >
   <View
     pointerEvents="none"
-    style={Object {}}
+    style={
+      Array [
+        false,
+        undefined,
+      ]
+    }
   >
     <View
       style={
@@ -181,7 +186,12 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
 >
   <View
     pointerEvents="none"
-    style={Object {}}
+    style={
+      Array [
+        false,
+        undefined,
+      ]
+    }
   >
     <View
       style={
