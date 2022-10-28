@@ -77,7 +77,12 @@ exports[`renders correctly renders correctly when there is a title, is editable 
     >
       <View
         pointerEvents="none"
-        style={Object {}}
+        style={
+          Array [
+            false,
+            undefined,
+          ]
+        }
       >
         <Text
           accessible={false}

@@ -1508,11 +1508,14 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
       <View
         pointerEvents="none"
         style={
-          Object {
-            "alignItems": "center",
-            "flexDirection": "row",
-            "justifyContent": "center",
-          }
+          Array [
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+            },
+            undefined,
+          ]
         }
       >
         <Text
