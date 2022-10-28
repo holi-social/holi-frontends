@@ -70,14 +70,14 @@ export default SettingsOverview
 
 const styles = StyleSheet.create({
   settingsOverview: {
-    marginTop: 50,
     paddingHorizontal: 30,
   },
   separator: {
     width: '100%',
     borderBottomWidth: 1,
     borderBottomColor: colors.borderColorGrey,
-    marginBottom: 10,
+    marginTop: -9,
+    marginBottom: 14,
     height: 10,
   },
   logoutButton: {

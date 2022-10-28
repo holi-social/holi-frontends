@@ -37,7 +37,7 @@ export default SettingsItem
 
 const styles = StyleSheet.create({
   settingsItem: {
-    marginVertical: 20,
+    marginVertical: 24,
   },
   itemText: {
     flex: 1,
