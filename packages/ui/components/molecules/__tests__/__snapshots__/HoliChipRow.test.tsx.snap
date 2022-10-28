@@ -79,8 +79,8 @@ exports[`renders correctly renders correctly when there is a title, is editable 
         pointerEvents="none"
         style={
           Array [
-            Object {},
-            Object {},
+            false,
+            undefined,
           ]
         }
       >

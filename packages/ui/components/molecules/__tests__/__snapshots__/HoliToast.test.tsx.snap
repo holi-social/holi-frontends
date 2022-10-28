@@ -41,8 +41,8 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
     pointerEvents="none"
     style={
       Array [
-        Object {},
-        Object {},
+        false,
+        undefined,
       ]
     }
   >
@@ -188,8 +188,8 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
     pointerEvents="none"
     style={
       Array [
-        Object {},
-        Object {},
+        false,
+        undefined,
       ]
     }
   >
