@@ -47,14 +47,6 @@ export interface ProjectsResponse {
   projects: Project[]
 }
 
-interface SubstringMatch {
-  length: number
-  offset: number
-}
-
 export interface Place {
   description: string
-  mainText: string
-  mainTextMatchedSubstrings: SubstringMatch[]
-  secondaryText: string
 }

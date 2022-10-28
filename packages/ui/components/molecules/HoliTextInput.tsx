@@ -39,8 +39,8 @@ export type HoliTextInputProps = {
   inline?: boolean
   trailingIcon?: string
   trailingComponent?: ReactChild
-  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
-  inputStyle?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
+  style?: StyleProp<ViewStyle>
+  inputStyle?: StyleProp<ViewStyle>
   labelStyle?: StyleProp<TextStyle>
   /** TextInputProps to extend input e.g with'returnKeytype' or 'autofocus' */
   inputProps?: TextInputProps
@@ -164,12 +164,12 @@ const HoliTextInput = ({
         <View
           style={[
             styles.inputWrapper,
+            inputStyle,
             inline ? styles.inline : styles.block,
             isHovered && styles.inputWrapperHovered,
             isFocused && styles.inputWrapperFocused,
             props?.disabled && styles.inputWrapperDisabled,
             hasValidationErrors && styles.inputWrapperHasValidationErrors,
-            inputStyle,
           ]}
         >
           <TextInput

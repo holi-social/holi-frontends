@@ -57,21 +57,21 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
         setPlaceSuggestions([])
       }
     },
-    [setLocationInput, fetchSuggestions]
+    [setLocationInput, fetchSuggestions, setPlaceSuggestions]
   )
 
   useEffect(() => {
+    // keep displaying previous suggestions while loading to prevent flickering
     if (loading) {
       return
     }
     const places = data?.appDonations_places || []
-    const newPlaces = places.map(({ description, mainTextMatchedSubstrings }) => ({
+    const newPlaces = places.map(({ description }) => ({
       id: description,
       label: description,
-      highlights: mainTextMatchedSubstrings,
     }))
     setPlaceSuggestions(newPlaces.slice(0, PLACE_SUGGESTION_MAX_COUNT))
-  }, [loading, data])
+  }, [loading, data, setPlaceSuggestions])
 
   const noResultsText = useMemo(() => {
     return !loading && locationInput && !placeSuggestions.length

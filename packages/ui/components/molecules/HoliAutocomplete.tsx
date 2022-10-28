@@ -1,7 +1,7 @@
 // based on https://github.com/onmotion/react-native-autocomplete-dropdown/
 import debounce from 'lodash.debounce'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { Keyboard, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
+import { Keyboard, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -9,15 +9,9 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors } from '@holi/ui/styles/globalVars'
 
-type SuggestionHighlight = {
-  length: number
-  offset: number
-}
-
 export type Suggestion = {
   id: string
   label: string
-  highlights: SuggestionHighlight[]
 }
 
 export type HoliAutocompleteProps = {
@@ -32,7 +26,7 @@ export type HoliAutocompleteProps = {
   inline?: boolean
   trailingIcon?: string
   loading?: boolean
-  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
+  style?: StyleProp<ViewStyle>
   suggestions: Suggestion[]
   debounce: number
   testID?: string
@@ -82,6 +76,7 @@ const HoliAutocomplete = ({
     [setSearchText, debouncedOnChange]
   )
 
+  // Update search text if value changes from outside (e.g. cleared)
   useEffect(() => {
     setSearchText(value || '')
   }, [value])
@@ -102,36 +97,28 @@ const HoliAutocomplete = ({
     [setIsOpened, onChangeText]
   )
 
-  const close = useCallback(() => {
-    setIsOpened(false)
-  }, [setIsOpened])
-
-  const open = useCallback(async () => {
-    setIsOpened(true)
-  }, [setIsOpened])
-
   const clearFocusAndClose = useCallback(
     (focusId) => {
       // using setTimeout to make sure no other item was selected in the mean time
       setTimeout(() => {
         setFocusedItem((id) => {
           if (id === focusId) {
-            close()
+            setIsOpened(false)
             return null
           }
           return id
         })
       }, 0)
     },
-    [setFocusedItem, close]
+    [setFocusedItem, setIsOpened]
   )
 
   const setFocusAndOpen = useCallback(
     (focusId) => {
-      open()
+      setIsOpened(true)
       setFocusedItem(focusId)
     },
-    [setFocusedItem, open]
+    [setFocusedItem, setIsOpened]
   )
 
   const onBlur = useCallback(() => {
@@ -151,8 +138,7 @@ const HoliAutocomplete = ({
           testID={testID && `${testID}-item-${item.id}`}
           style={[styles.listItem, isLast && styles.listItemLast]}
           accessibilityRole="menuitem"
-          id={`${id}-suggestion-${item.id}`}
-          onFocus={() => setFocusAndOpen('suggestion' + item.id)}
+          onFocus={() => setFocusAndOpen('suggestion-' + item.id)}
           onBlur={onBlur}
         >
           <HoliText selectable={false} numberOfLines={2}>
@@ -161,7 +147,7 @@ const HoliAutocomplete = ({
         </HoliButton>
       )
     },
-    [testID, suggestions, handleItemSelection, id, setFocusAndOpen, onBlur]
+    [testID, suggestions, handleItemSelection, setFocusAndOpen, onBlur]
   )
 
   const trailingComponent = useMemo(() => {
@@ -170,7 +156,7 @@ const HoliAutocomplete = ({
   }, [trailingIcon, loading])
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={style}>
       <HoliTextInput
         inputLabel={inputLabel}
         accessibilityLabel={accessibilityLabel}
@@ -184,7 +170,6 @@ const HoliAutocomplete = ({
         testID={testID && `${testID}-input`}
         inputProps={{ ...inputProps }}
         inputStyle={[
-          styles.textInput,
           isOpened && suggestions.length ? styles.textInputOpened : {},
           focusedItem ? styles.textInputFocused : {},
         ]}
@@ -207,8 +192,6 @@ const HoliAutocomplete = ({
 export default memo(HoliAutocomplete)
 
 const styles = StyleSheet.create({
-  container: {},
-  textInput: {},
   textInputOpened: {
     borderBottomWidth: 0,
     borderBottomLeftRadius: 0,

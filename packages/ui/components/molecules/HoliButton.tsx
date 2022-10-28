@@ -36,7 +36,6 @@ export type HoliButtonProps = {
   onFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void
   onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void
   accessibilityRole?: AccessibilityRole
-  id?: string
 }
 
 const HoliButton: React.FC<HoliButtonProps> = ({
@@ -88,7 +87,6 @@ const HoliButton: React.FC<HoliButtonProps> = ({
       onPress={onButtonPress}
       onFocus={props.onFocus}
       onBlur={props.onBlur}
-      nativeID={props.id}
       style={(state) => {
         const result: ViewStyle[] = [styles.base]
         if (!transparent) {

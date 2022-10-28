@@ -87,12 +87,6 @@ export const placesQuery = gql`
   query PlacesSuggestions($input: String!) {
     appDonations_places(input: $input) {
       description
-      mainText
-      mainTextMatchedSubstrings {
-        length
-        offset
-      }
-      secondaryText
     }
   }
 `
