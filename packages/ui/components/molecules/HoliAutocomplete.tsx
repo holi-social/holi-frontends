@@ -195,17 +195,17 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 0,
   },
   textInputFocused: {
-    borderColor: colors.positivepurple,
+    borderColor: colors.secondaryColor,
   },
   textInputLabelFocused: {
-    color: colors.positivepurple,
+    color: colors.secondaryColor,
   },
   listItem: {
     height: 48,
     paddingHorizontal: 12,
     justifyContent: 'center',
     display: 'flex',
-    borderColor: colors.positivepurple,
+    borderColor: colors.secondaryColor,
     borderLeftWidth: 2,
     borderRightWidth: 2,
   },
