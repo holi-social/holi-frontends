@@ -171,21 +171,14 @@ describe('@Donations', () => {
   it('should display donation updates', async () => {
     // navigate to home and check if donation updates are displayed
     await tapOnElementWithTestId('nav-button-back')
+    await scrollToElementWithTestId('donations-updates-item', 'down')
     await waitForElementWithTestId('donations-updates-heading')
     await waitForElementWithTestId('donations-updates-container')
-    await waitForElementWithTestId('donation-updates-item')
 
     // click first element in ScrollView
-    await tapOnElementWithTestId('donation-updates-item')
+    await tapOnElementWithTestId('donations-updates-item')
 
     // expect detail view
-    await waitForElementWithTestId(' donations-project-detail-heading')
-
-    // navigate back
-    await tapOnElementWithTestId('nav-button-back')
-
-    // click on "see more" / navigate to donations app
-    await tapOnElementWithTestId('donations-updates-load-more-button')
-    await waitForElementWithTestId('donations-list-container')
+    await waitForElementWithTestId('donations-project-detail-heading')
   })
 })
