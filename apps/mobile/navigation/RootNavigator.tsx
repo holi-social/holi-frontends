@@ -9,17 +9,19 @@ import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
 import Logout from '@holi/core/auth/screens/Logout'
 import Registration from '@holi/core/auth/screens/Registration'
-import Explore from '@holi/core/screens/Explore'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
 import Post, { PostParams } from '@holi/core/screens/posts/Post'
+import AccountSettings from '@holi/core/screens/userprofile/AccountSettings'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
+import SettingsOverview from '@holi/core/screens/userprofile/SettingsOverview'
 import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
 import HeaderAnimated, { NativeStackNavigationCustomHeaderOptions } from '@holi/mobile/navigation/HeaderAnimated'
+import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -27,19 +29,21 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { BackButton, CenterElement, DownButton, LeftElement, RightElement } from './components'
 
 export type HomeStackScreens = {
+  AccountSettings: undefined
   HomeFeed: undefined
   InsightDetailPage: InsightDetailPageParams
-  Post: PostParams
-  OwnProfile: undefined
-  UserProfile: UserProfileParams
   Notifications: undefined
+  OwnProfile: undefined
+  Post: PostParams
+  SettingsOverview: undefined
+  UserProfile: UserProfileParams
 }
 
 export type BottomTabsScreens = {
   Home: undefined
   Chat: undefined
-  Explore: undefined
   Search: undefined
+  Spaces: undefined
 }
 
 export type RootStackScreens = {
@@ -81,6 +85,28 @@ export const HomeStackNavigator: React.VFC = () => {
       <HomeStack.Screen
         name="OwnProfile"
         component={OwnProfile}
+        options={{
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+          headerTitle: CenterElement,
+          headerLeft: BackButton,
+          headerRight: RightElement,
+        }}
+      />
+      <HomeStack.Screen
+        name="SettingsOverview"
+        component={SettingsOverview}
+        options={{
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+          headerTitle: CenterElement,
+          headerLeft: BackButton,
+          headerRight: RightElement,
+        }}
+      />
+      <HomeStack.Screen
+        name="AccountSettings"
+        component={AccountSettings}
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
@@ -167,6 +193,17 @@ export const BottomTabsNavigator: React.VFC = () => {
         }}
       />
       <BottomTabs.Screen
+        name="Spaces"
+        component={SpacesNavigator}
+        options={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused }) => {
+            return <HoliIcon icon="loader" size={24} filled={focused} style={{ color: iconColor(focused) }} />
+          },
+        }}
+      />
+      <BottomTabs.Screen
         name="Chat"
         component={ChatStackNavigator}
         options={{
@@ -177,19 +214,6 @@ export const BottomTabsNavigator: React.VFC = () => {
           },
           headerStyle: {
             borderBottomColor: 'transparent',
-          },
-        }}
-      />
-      <BottomTabs.Screen
-        name="Explore"
-        component={Explore}
-        options={{
-          headerTitleAlign: 'center',
-          headerShadowVisible: false,
-          tabBarShowLabel: false,
-          headerTitle: CenterElement,
-          tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="loader" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
         }}
       />

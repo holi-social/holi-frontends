@@ -7,6 +7,7 @@ import { navigateBackToHomeScreen, waitForHomeScreen } from './helpers/navigatio
 global.platform = appiumConfig.platform
 
 beforeEach(async () => {
+  // make test name visible in BrowserStack
   appiumConfig.capabilities.name = expect.getState().currentTestName
   global.Appium = await webdriverio.remote(appiumConfig)
   if (appiumConfig.capabilities.app) {
@@ -25,8 +26,8 @@ beforeEach(async () => {
     }
   } else {
     // Logout + navigate back to the home screen before each test
-    await logout()
     await navigateBackToHomeScreen()
+    await logout()
   }
   // https://appium.io/docs/en/commands/session/timeouts/implicit-wait/
   await global.Appium.setImplicitTimeout(10000)

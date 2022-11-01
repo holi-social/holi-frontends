@@ -2,6 +2,7 @@ import * as Font from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import React, { useEffect, useState } from 'react'
+import { Platform } from 'react-native'
 
 import RootProvider from '@holi/core/RootProvider'
 import { initI18n } from '@holi/core/i18n'
@@ -11,6 +12,17 @@ import RootNavigator from '@holi/mobile/navigation/RootNavigator'
 
 const App: React.VoidFunctionComponent = () => {
   const [isReady, setIsReady] = useState(false)
+
+  // Android requires importing Intl polyfills to use APIs such as RelativeTimeFormat
+  if (Platform.OS === 'android') {
+    require('@formatjs/intl-locale/polyfill')
+    require('@formatjs/intl-relativetimeformat/polyfill')
+    require('@formatjs/intl-relativetimeformat/locale-data/en')
+    require('@formatjs/intl-relativetimeformat/locale-data/de')
+    require('@formatjs/intl-pluralrules/polyfill')
+    require('@formatjs/intl-pluralrules/locale-data/en')
+    require('@formatjs/intl-pluralrules/locale-data/de')
+  }
 
   // TODO (mobile): refactor to util function
   const init = async () => {

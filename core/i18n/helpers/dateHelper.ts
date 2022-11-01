@@ -17,6 +17,9 @@ const calculateNumberOfDaysAgo = (date: Date) => {
  * Intl.RelativeTimeFormat docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat
  */
 export const getRelativeDateString = (dateStr = '', language: string) => {
+  // if no date is provided, return empty string
+  if (!dateStr) return ''
+
   const date = new Date(dateStr)
   let weeksAgo = 0
   const daysAgo = Math.floor(calculateNumberOfDaysAgo(date))
@@ -25,6 +28,7 @@ export const getRelativeDateString = (dateStr = '', language: string) => {
   if (isOverOneDayAgo) {
     weeksAgo = Math.floor(daysAgo / 7)
   }
+
   return new Intl.RelativeTimeFormat(language, {
     style: 'long',
     numeric: 'auto',

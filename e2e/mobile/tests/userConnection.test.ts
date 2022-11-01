@@ -19,6 +19,7 @@ describe('@UserConnection', () => {
     await scrollToElementWithTestId('user-suggestions', 'down', { maxAttempts: 5 })
 
     // tap on first user in list
+    await scrollToElementWithTestId('user-card-suggestion-0', 'down', { maxAttempts: 5 })
     await tapOnElementWithTestId('user-card-suggestion-0')
 
     // for the newly created user, the button state should be NOT_CONNECTED

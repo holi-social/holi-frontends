@@ -9,6 +9,7 @@ import {
 
 describe('@HomeScreen', () => {
   it('should work', async () => {
+    await navigateBackToHomeScreen()
     await waitForElementWithTestId('home-feed-insights-heading')
 
     // go to insight screen
@@ -41,6 +42,6 @@ describe('@HomeScreen', () => {
 
     // clean up view
     await logout()
-    await scrollToElementWithTestId('home-feed-topics-heading', 'up')
+    await scrollToElementWithTestId('home-feed-insights-heading', 'up')
   })
 })

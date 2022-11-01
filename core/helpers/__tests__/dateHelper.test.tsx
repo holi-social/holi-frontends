@@ -3,6 +3,12 @@ import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 const language = 'en'
 
 describe('formats date strings to relative date strings correctly', () => {
+  it('returns empty string if no dateStr is given', () => {
+    const formattedDateString = getRelativeDateString(undefined, language)
+
+    expect(formattedDateString).toBe('')
+  })
+
   it('formats correctly todays date', () => {
     const date = new Date()
     const dateString = date.toDateString()
