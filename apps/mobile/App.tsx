@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 
 import RootProvider from '@holi/core/RootProvider'
 import { initI18n } from '@holi/core/i18n'
+import { ScrollYProvider } from '@holi/mobile/navigation/HeaderAnimated'
 import NavigationProvider from '@holi/mobile/navigation/NavigationProvider'
 import RootNavigator from '@holi/mobile/navigation/RootNavigator'
 
@@ -42,7 +43,9 @@ const App: React.VoidFunctionComponent = () => {
       <StatusBar style="dark" />
       <RootProvider>
         <NavigationProvider>
-          <RootNavigator />
+          <ScrollYProvider>
+            <RootNavigator />
+          </ScrollYProvider>
         </NavigationProvider>
       </RootProvider>
     </>

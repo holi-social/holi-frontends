@@ -19,6 +19,7 @@ import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
+import HeaderAnimated, { NativeStackNavigationCustomHeaderOptions } from '@holi/mobile/navigation/HeaderAnimated'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -60,11 +61,7 @@ export const HomeStackNavigator: React.VFC = () => {
     <HomeStack.Navigator
       initialRouteName="HomeFeed"
       screenOptions={{
-        headerShown: true,
-        headerStyle: {
-          backgroundColor: colors.backgroundColorWhite,
-        },
-        headerTitleAlign: 'center',
+        header: HeaderAnimated,
         headerShadowVisible: false,
       }}
     >
@@ -104,9 +101,16 @@ export const HomeStackNavigator: React.VFC = () => {
       <HomeStack.Screen
         name="InsightDetailPage"
         component={InsightDetailPage}
-        options={{
-          headerShown: false,
-        }}
+        options={
+          {
+            headerTransparent: true,
+            headerTintColor: colors.fontColorWhite,
+            headerLeft: BackButton,
+            headerCustomOptions: {
+              headerBackgroundGradient: true,
+            },
+          } as NativeStackNavigationCustomHeaderOptions
+        }
       />
       <HomeStack.Screen
         name="Post"
