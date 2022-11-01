@@ -112,7 +112,7 @@ const FormBuilder = <
       const messageKey = `auth.login.message.${message.id}`
       const someGeneralText = t('auth.login.message.default')
       const messageText = i18n.exists(messageKey) ? t(messageKey) : someGeneralText
-      openToast(messageText, HoliToastType.ERROR, 5000)
+      openToast(messageText, HoliToastType.ERROR, 5000, `message-${message.id}`)
     })
   }, [flow, only, i18n, openToast, t])
 
