@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { memo, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
@@ -23,7 +23,7 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
   else return t('homeFeed.headerTitle.goodNight')
 }
 
-const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
+const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }) => {
   const { isLoggedIn } = useContext(AuthContext)
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(new Date().getHours(), t)
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default HomeFeed
+export default memo(HomeFeed)

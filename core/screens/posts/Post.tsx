@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { faker } from '@faker-js/faker'
-import React from 'react'
+import React, { memo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
@@ -29,7 +29,7 @@ const { useParam } = createParam<PostParams>()
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+const Post: React.VFC<ScreenProps> = ({ navigation }) => {
   const [insightId] = useParam('insightId')
   const [postId] = useParam('postId')
 
@@ -79,4 +79,4 @@ const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   )
 }
 
-export default Post
+export default memo(Post)

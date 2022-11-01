@@ -2,7 +2,7 @@ import { useLazyQuery } from '@apollo/client'
 import { faker } from '@faker-js/faker'
 import { LinearGradient } from 'expo-linear-gradient'
 import { StatusBar } from 'expo-status-bar'
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { ImageBackground, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
@@ -285,4 +285,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default InsightDetailPage
+export default memo(InsightDetailPage)
