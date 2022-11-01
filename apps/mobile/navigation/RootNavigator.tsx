@@ -71,6 +71,8 @@ export const HomeStackNavigator: React.VFC = () => {
         options={{
           headerBackTitleVisible: true,
           headerBackVisible: true,
+          headerTransparent: true,
+          headerStyle: { backgroundColor: colors.backgroundColorWhite },
           headerTitle: CenterElement,
           headerLeft: LeftElement,
           headerRight: RightElement,

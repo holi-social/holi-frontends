@@ -97,7 +97,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
     <>
       <StatusBar style="light" animated />
 
-      <DefaultLayout bounces={false} style={styles.wrapper} onScroll={onScreenScroll} scrollEventThrottle={150}>
+      <DefaultLayout bounces={false} style={styles.wrapper} onScroll={onScreenScroll} scrollEventThrottle={200}>
         {/* Image section */}
         <ImageBackground
           source={{ uri: headerImage }}

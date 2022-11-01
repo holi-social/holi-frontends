@@ -11,6 +11,7 @@ import AppsDrawer from '@holi/core/screens/homeFeed/components/AppsDrawer'
 import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
 import UpdatesOfYourApps from '@holi/core/screens/homeFeed/components/UpdatesOfYourApps'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
+import { useScrollYHandler } from '@holi/mobile/navigation/HeaderAnimated'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 
 type HomeFeedProps = NativeStackScreenProps<HomeStackScreens>
@@ -27,12 +28,13 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }) => {
   const { isLoggedIn } = useContext(AuthContext)
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(new Date().getHours(), t)
+  const onScreenScroll = useScrollYHandler()
 
   useNavigationHeader(navigation, { title: headerTitle })
 
   return (
     <>
-      <DefaultLayout>
+      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={{ paddingTop: 40 }}>
         <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
         <UpdatesOfYourApps style={styles.updatesOfYourApps} />
         {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}
