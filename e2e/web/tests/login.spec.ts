@@ -15,7 +15,7 @@ test.describe('@Login', () => {
     await defaultAuthSteps({ context, page, email: 'asfd@asdf.de', password: '1234' })
     // see https://www.ory.sh/docs/kratos/concepts/ui-user-interface#ui-error-codes
     // for more ory error codes
-    await waitForElementByTestId(page, 'ory-message-4000006')
+    await waitForElementByTestId(page, 'toast-message-4000006')
     await checkAccessibility(page)
     await page.goto('/')
 
