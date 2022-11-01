@@ -2,7 +2,18 @@ import { LinearGradient } from 'expo-linear-gradient'
 import React, { createContext, useContext, useRef, useState } from 'react'
 import { useEffect } from 'react'
 import { useCallback } from 'react'
-import { Animated, Image, ImageBackground, NativeScrollEvent, SafeAreaView, StyleSheet, View } from 'react-native'
+import {
+  Animated,
+  Image,
+  ImageBackground,
+  NativeScrollEvent,
+  Platform,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  View,
+  useWindowDimensions,
+} from 'react-native'
 
 import { Header, HeaderBackButton, getHeaderTitle } from '@react-navigation/elements'
 import { useNavigation } from '@react-navigation/native'
@@ -50,35 +61,44 @@ export const useScrollYHandler = () => {
   return onScroll
 }
 
-const useHeaderHideAnimation = () => {
+const useHeaderHideAnimation = (headerHeight: number) => {
   const scrollY = useScrollYValue()
   const prevScrollY = useRef(scrollY)
+  const isHeaderShown = useRef(true)
   const navigation = useNavigation()
+  const { height } = useWindowDimensions()
 
-  const headerHideAnimation = useRef(new Animated.Value(scrollY)).current
+  const headerSlideAnimation = useRef(new Animated.Value(scrollY)).current
+  const hederHeightAnimation = useRef(new Animated.Value(headerHeight)).current
 
   // on scroll change
   useEffect(() => {
-    Animated.timing(headerHideAnimation, {
-      toValue: scrollY > 200 && scrollY > prevScrollY.current ? 1 : 0,
-      duration: 300,
-      useNativeDriver: false,
-    }).start()
+    const shouldShowHeader = scrollY < height / 3 || scrollY < prevScrollY.current
+
+    if (isHeaderShown.current !== shouldShowHeader) {
+      Animated.timing(headerSlideAnimation, {
+        toValue: shouldShowHeader ? 0 : 1,
+        duration: 300,
+        useNativeDriver: false,
+      }).start()
+
+      isHeaderShown.current = shouldShowHeader
+    }
 
     prevScrollY.current = scrollY
-  }, [scrollY, headerHideAnimation])
+  }, [height, scrollY, headerSlideAnimation, hederHeightAnimation])
 
   // reset header on screen change (navigation from one screen to another)
   useEffect(() => {
     const unsubscribe = navigation.addListener('state', () => {
-      headerHideAnimation.setValue(0)
+      headerSlideAnimation.setValue(0)
     })
     return unsubscribe
-  }, [navigation, headerHideAnimation])
+  }, [navigation, headerSlideAnimation])
 
-  return headerHideAnimation.interpolate({
+  return headerSlideAnimation.interpolate({
     inputRange: [0, 1],
-    outputRange: ['0%', '-100%'],
+    outputRange: [0, -headerHeight],
   })
 }
 
@@ -105,24 +125,20 @@ const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, rout
     ...restOptions
   } = options as NativeStackNavigationCustomHeaderOptions
 
-  const headerHideAnimation = useHeaderHideAnimation()
+  const [headerHeight, setHeaderHeight] = useState(0)
+
+  const headerSlideAnimation = useHeaderHideAnimation(headerHeight)
 
   const canGoBack = back !== undefined
 
   if (headerShown === false) return null
 
   return (
-    <Animated.View
-      style={[
-        { backgroundColor: headerTransparent ? 'transparent' : 'white' },
-        headerStyle,
-        // Header animation
-        {
-          top: headerHideAnimation,
-        },
-      ]}
-    >
-      <View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
+    <Animated.View style={[styles.header, headerStyle, { top: headerSlideAnimation }]}>
+      <View
+        pointerEvents="box-none"
+        style={[StyleSheet.absoluteFill, { backgroundColor: headerTransparent ? 'transparent' : 'white' }]}
+      >
         {headerBackgroundCustom ? (
           headerBackgroundCustom
         ) : (
@@ -131,18 +147,20 @@ const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, rout
               <ImageBackground source={{ uri: headerBackgroundImageURI }} style={StyleSheet.absoluteFill} />
             )}
             {headerBackgroundGradient && (
-              <LinearGradient
-                colors={[colors.shadowColorBlack, 'transparent']}
-                style={[StyleSheet.absoluteFill, styles.headerBackgroundGradient]}
-              />
+              <LinearGradient colors={[colors.shadowColorBlack, 'transparent']} style={StyleSheet.absoluteFill} />
             )}
           </>
         )}
       </View>
 
       <SafeAreaView style={{ marginHorizontal: 12 }}>
-        {/* copied usage of Header from node_modules/@react-navigation/native-stack/src/views/NativeStackView.tsx */}
-        <View>
+        <Animated.View
+          style={{
+            top: headerSlideAnimation,
+          }}
+          onLayout={(event) => setHeaderHeight(event.nativeEvent.layout.height)}
+        >
+          {/* copied usage of Header from node_modules/@react-navigation/native-stack/src/views/NativeStackView.tsx */}
           <Header
             title={getHeaderTitle(options, route.name)}
             headerTintColor={headerTintColor}
@@ -180,7 +198,7 @@ const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, rout
             headerTransparent={headerTransparent}
             {...restOptions}
           />
-        </View>
+        </Animated.View>
       </SafeAreaView>
     </Animated.View>
   )
@@ -189,8 +207,8 @@ const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, rout
 export default HeaderAnimated
 
 const styles = StyleSheet.create({
-  headerBackgroundGradient: {
-    opacity: 0.8,
+  header: {
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   backImage: {
     height: 24,
