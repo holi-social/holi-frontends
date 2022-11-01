@@ -48,7 +48,6 @@ export default AccountSettings
 
 const styles = StyleSheet.create({
   accountSettings: {
-    marginTop: 50,
     paddingHorizontal: 30,
   },
 })

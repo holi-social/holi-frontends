@@ -19,6 +19,7 @@ interface Toast {
   id: string
   type: HoliToastType
   text: string
+  timeout?: number
   testID?: string
 }
 
@@ -27,7 +28,7 @@ export interface HoliToastProps extends Toast {
 }
 
 export interface ToastContextValue {
-  openToast: (text: string, type?: HoliToastType, testID?: string) => void
+  openToast: (text: string, type?: HoliToastType, timeout?: number, testID?: string) => void
   closeToast: (id: string) => void
 }
 
@@ -40,8 +41,8 @@ export const ToastProvider: React.FC<Partial<ToastContextValue>> = ({ children }
     []
   )
   const openToast = useCallback(
-    (text: string, type = HoliToastType.SUCCESS, testID?: string) =>
-      setToasts((currentToasts: Toast[]) => [...currentToasts, { id: createUUID(), text, type, testID }]),
+    (text: string, type = HoliToastType.SUCCESS, timeout = TOAST_TIMEOUT, testID?: string) =>
+      setToasts((currentToasts: Toast[]) => [...currentToasts, { id: createUUID(), text, type, timeout, testID }]),
     []
   )
   const contextValue = useMemo(() => ({ openToast, closeToast }), [closeToast, openToast])
@@ -63,6 +64,7 @@ export const ToastProvider: React.FC<Partial<ToastContextValue>> = ({ children }
             type={toast.type}
             closeToast={() => closeToast(toast.id)}
             text={toast.text}
+            timeout={toast.timeout}
             testID={toast.testID}
           />
         ))}
@@ -73,15 +75,15 @@ export const ToastProvider: React.FC<Partial<ToastContextValue>> = ({ children }
 
 export const useToast = () => useContext(ToastContext)
 
-export const HoliToast: React.FC<HoliToastProps> = ({ closeToast, type, text, testID }) => {
+export const HoliToast: React.FC<HoliToastProps> = ({ closeToast, type, text, timeout = TOAST_TIMEOUT, testID }) => {
   const { width: deviceWidth } = useWindowDimensions()
 
   const styles = useMemo(() => createStyles(deviceWidth, type), [deviceWidth, type])
 
   useEffect(() => {
-    const timer = setTimeout(closeToast, TOAST_TIMEOUT)
+    const timer = setTimeout(closeToast, timeout)
     return () => clearTimeout(timer)
-  }, [closeToast])
+  }, [closeToast, timeout])
 
   return (
     <HoliButton
@@ -95,6 +97,7 @@ export const HoliToast: React.FC<HoliToastProps> = ({ closeToast, type, text, te
         <HoliText style={styles.toastText} selectable={false}>
           {text}
         </HoliText>
+        {/* TODO: Change error icon to sad smiley */}
         <HoliIcon
           icon={type === HoliToastType.SUCCESS ? 'smiley-2' : 'error-warning'}
           size={20}
