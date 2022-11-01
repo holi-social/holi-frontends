@@ -6,7 +6,7 @@ describe('@Login', () => {
     await defaultAuthSteps({ email: 'asfd@asdf.de', password: '1234' })
     // see https://www.ory.sh/docs/kratos/concepts/ui-user-interface#ui-error-codes
     // for more ory error codes
-    await waitForElementWithTestId('ory-message-4000006')
+    await waitForElementWithTestId('toast-message-4000006')
 
     await tapOnElementWithTestId('nav-button-back')
     await tapOnElementWithTestId('nav-button-home')

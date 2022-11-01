@@ -35,6 +35,7 @@
   "auth.login.input.placeholder-Sign in": "Anmeldung abschicken",
   "auth.login.link.forgotPassword": "Passwort vergessen",
   "auth.login.message.4000006": "Die Anmeldedaten sind ungültig, bitte das Passwort oder die Email-Adresse auf Tippfehler prüfen.",
+  "auth.login.message.default": "Ups! Da ist ein technisches Problem aufgetreten!",
   "auth.login.signUp.link.button": "Registrieren",
   "auth.login.signUp.link.headline": "Du hast noch kein Benutzerkonto?",
   "auth.loginProtection.login": "Anmelden",
