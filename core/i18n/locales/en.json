@@ -26,7 +26,7 @@
   "auth.login.input.message.4000002-1": "Please choose a password (at least 8 characters).",
   "auth.login.input.message.4000005-0": "The password seems quite short. Please use at least 8 characters.",
   "auth.login.input.message.4000005-1": "The password has been found in data breaches and must no longer be used.",
-  "auth.login.input.message.4000007": "An account with the same email exists already.",
+  "auth.login.input.message.4000007": "An account with the same email already exists.",
   "auth.login.input.placeholder-E-Mail": "Email...",
   "auth.login.input.placeholder-Email": "Email ...",
   "auth.login.input.placeholder-ID": "Email...",
