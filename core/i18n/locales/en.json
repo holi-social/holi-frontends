@@ -94,6 +94,8 @@
   "insights.post.missingInsightId": "Missing topicId",
   "insights.post.missingPostId": "Missing postId",
   "insights.post.preview.options": "Options",
+  "insights.post.responses": "{{count}} response",
+  "insights.post.responses_plural": "{{count}} responses",
   "insights.post.title": "Post {{postId}}",
   "insights.posts.byAuthor": "post by {{author}}",
   "insights.posts.byAuthor_plural": "{{count}} posts by {{author}}",
