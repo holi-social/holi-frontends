@@ -113,7 +113,7 @@ const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, rout
         )}
       </View>
 
-      <SafeAreaView style={{ marginHorizontal: 12 }}>
+      <SafeAreaView style={{ marginHorizontal: 20 }}>
         <Animated.View
           style={{
             top: headerSlideAnimation,
