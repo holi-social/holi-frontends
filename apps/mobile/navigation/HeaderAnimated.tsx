@@ -1,12 +1,10 @@
 import { LinearGradient } from 'expo-linear-gradient'
-import React, { createContext, useContext, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useEffect } from 'react'
-import { useCallback } from 'react'
 import {
   Animated,
   Image,
   ImageBackground,
-  NativeScrollEvent,
   Platform,
   SafeAreaView,
   StatusBar,
@@ -19,47 +17,8 @@ import { Header, HeaderBackButton, getHeaderTitle } from '@react-navigation/elem
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackHeaderProps, NativeStackNavigationOptions } from '@react-navigation/native-stack'
 
+import { useScrollYValue } from '@holi/core/helpers'
 import { colors } from '@holi/ui/styles/globalVars'
-
-const ScrollYValueContext = createContext(0)
-const ScrollYHandlerContext = createContext<(event: { nativeEvent: NativeScrollEvent }) => void>(() => null)
-
-export const ScrollYProvider: React.FC = ({ children }) => {
-  const [scrollY, setScrollY] = useState(0)
-
-  const onScroll = useCallback(
-    (event: { nativeEvent: NativeScrollEvent }) => {
-      setScrollY(event.nativeEvent?.contentOffset?.y ?? 0)
-    },
-    [setScrollY]
-  )
-
-  return (
-    <ScrollYValueContext.Provider value={scrollY}>
-      <ScrollYHandlerContext.Provider value={onScroll}>{children}</ScrollYHandlerContext.Provider>
-    </ScrollYValueContext.Provider>
-  )
-}
-
-export const useScrollYValue = () => {
-  const scrollY = useContext(ScrollYValueContext)
-
-  if (scrollY == undefined) {
-    throw new Error('useScrollYValue() must be used within a ScrollYProvider')
-  }
-
-  return scrollY
-}
-
-export const useScrollYHandler = () => {
-  const onScroll = useContext(ScrollYHandlerContext)
-
-  if (onScroll == undefined) {
-    throw new Error('useScrollYSetter() must be used within a ScrollYProvider')
-  }
-
-  return onScroll
-}
 
 const useHeaderHideAnimation = (headerHeight: number) => {
   const scrollY = useScrollYValue()

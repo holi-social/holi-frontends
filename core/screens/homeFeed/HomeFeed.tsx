@@ -6,12 +6,12 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import { useScrollYHandler } from '@holi/core/helpers'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import AppsDrawer from '@holi/core/screens/homeFeed/components/AppsDrawer'
 import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
 import UpdatesOfYourApps from '@holi/core/screens/homeFeed/components/UpdatesOfYourApps'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
-import { useScrollYHandler } from '@holi/mobile/navigation/HeaderAnimated'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 
 type HomeFeedProps = NativeStackScreenProps<HomeStackScreens>

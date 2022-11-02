@@ -5,8 +5,8 @@ import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
 import RootProvider from '@holi/core/RootProvider'
+import { ScrollYProvider } from '@holi/core/helpers'
 import { initI18n } from '@holi/core/i18n'
-import { ScrollYProvider } from '@holi/mobile/navigation/HeaderAnimated'
 import NavigationProvider from '@holi/mobile/navigation/NavigationProvider'
 import RootNavigator from '@holi/mobile/navigation/RootNavigator'
 
