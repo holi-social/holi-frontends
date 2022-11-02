@@ -112,6 +112,7 @@ export interface NativeStackNavigationCustomHeaderOptions extends NativeStackNav
 
 const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, route, navigation }) => {
   const {
+    headerTitleAlign = 'center',
     headerTintColor,
     headerLeft,
     headerBackTitle,
@@ -196,6 +197,7 @@ const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, rout
                 : headerTitle
             }
             headerTransparent={headerTransparent}
+            headerTitleAlign={headerTitleAlign}
             {...restOptions}
           />
         </Animated.View>

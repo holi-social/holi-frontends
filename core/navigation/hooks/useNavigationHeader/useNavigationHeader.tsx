@@ -21,6 +21,7 @@ const setNavigationHeader = (
   if (headerProps?.headerCenter) headerOptions.headerCenter = headerProps.headerCenter
   if (headerProps?.headerLeft) headerOptions.headerLeft = headerProps.headerLeft
   if (headerProps?.headerRight) headerOptions.headerRight = headerProps.headerRight
+  if (headerProps?.title) headerOptions.title = headerProps.title
   setOptions?.(headerOptions)
 }
 
@@ -37,9 +38,9 @@ const useNavigationHeader = (navigation: NavigtionProps['navigation'], headerPro
       return () => unsubscribeFocus
     })
 
-    // Important: do not add dependency items here. They will cause too many event subscriptions
+    // Important: has to dependencies array to run on evry rerendering. It is mandatory for async action to update after header props
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
   return ''
 }
 

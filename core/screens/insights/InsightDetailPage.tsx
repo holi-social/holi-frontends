@@ -1,7 +1,7 @@
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery, useQuery } from '@apollo/client'
 import { faker } from '@faker-js/faker'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, useEffect, useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { ImageBackground, Platform, StyleSheet, View } from 'react-native'
 
@@ -48,13 +48,9 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
   const [showCuratorModal, setShowCuratorModal] = useState(false)
   const onScreenScroll = useScrollYHandler()
 
-  const [getInsight, { loading, error, data }] = useLazyQuery<InsightByIdResponse>(insightById, {
+  const { loading, error, data } = useQuery<InsightByIdResponse>(insightById, {
     variables: { id: insightId },
   })
-
-  useEffect(() => {
-    if (insightId) getInsight()
-  }, [insightId, getInsight])
 
   const insight = data?.insightById
 
