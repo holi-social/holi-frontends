@@ -25,13 +25,14 @@ import HeaderAnimated, { NativeStackNavigationCustomHeaderOptions } from '@holi/
 import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
 import {
   BackButton,
   CenterElement,
   DownButton,
-  IconButtonRow,
+  ItemRow,
   LeftElement,
   RightElement,
   TitleLeftElement,
@@ -91,22 +92,21 @@ export const HomeStackNavigator: React.VFC = () => {
           headerStyle: { backgroundColor: colors.backgroundColorWhite },
           headerTitle: () => null,
           headerLeft: TitleLeftElement,
-          headerRight: (props) => (
-            <IconButtonRow
-              {...props}
-              buttonProps={[
-                {
-                  label: t('notifications.title'),
-                  onPress: () => navigate('/notifications'),
-                  icon: 'notification-2',
-                },
-                {
-                  label: t('navigation.search'),
-                  onPress: () => navigate('/search'),
-                  icon: 'search',
-                },
-              ]}
-            />
+          headerRight: ({ tintColor }) => (
+            <ItemRow>
+              <HoliButton
+                label={t('notifications.title')}
+                inline
+                transparent
+                onPress={() => navigate('/notifications')}
+              >
+                <HoliIcon icon="notification-2" size={24} color={tintColor} />
+              </HoliButton>
+
+              <HoliButton label={t('navigation.search')} inline transparent onPress={() => navigate('/search')}>
+                <HoliIcon icon="search" size={24} color={tintColor} />
+              </HoliButton>
+            </ItemRow>
           ),
         }}
       />
