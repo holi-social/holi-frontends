@@ -94,7 +94,7 @@
   "insights.post.missingInsightId": "Missing topicId",
   "insights.post.missingPostId": "Missing postId",
   "insights.post.preview.options": "Options",
-  "insights.post.title": "Post {{postId}} in topic {{insightId}}",
+  "insights.post.title": "Post {{postId}}",
   "insights.posts.byAuthor": "post by {{author}}",
   "insights.posts.byAuthor_plural": "{{count}} posts by {{author}}",
   "modal.backdrop": "Close dialog",

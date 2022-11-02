@@ -1,8 +1,9 @@
 import { useQuery } from '@apollo/client'
 import { faker } from '@faker-js/faker'
+import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -17,9 +18,11 @@ import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/insi
 import type { Insight } from '@holi/core/screens/insights/types'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type PostParams = {
@@ -68,22 +71,52 @@ const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
     avatar: faker.image.avatar(), // TODO: dummy image
   }
 
+  // const post = fakePosts[0]
+
   return (
-    <DefaultLayout>
-      <View style={[mixins.container, { justifyContent: 'center', padding: 10 }]}>
-        <HoliHeading level="1" size="super">
-          {title}
-        </HoliHeading>
-        <HoliText style={{ paddingTop: 10 }}>
-          <Trans i18nKey="insights.post.author" values={{ author: author.fullName, category: category }} />
-        </HoliText>
-        <HoliText style={{ paddingTop: 10 }}>{insight.title}</HoliText>
-        <HoliButton label="click me" onPress={() => openToast('Comment created', HoliToastType.SUCCESS)}>
-          Show toast
-        </HoliButton>
-      </View>
-    </DefaultLayout>
+    <>
+      <StatusBar animated />
+      <DefaultLayout>
+        {/* Post content */}
+        <View style={[mixins.container, styles.postView]}>
+          {/* Post title */}
+          <View>
+            <HoliHeading level="1" size="medium">
+              {title}
+            </HoliHeading>
+            <HoliButton transparent inline label={t('insights.post.preview.options')} style={styles.optionsButton}>
+              <HoliIcon icon="options" size={12} color={colors.fontColorGrey} />
+            </HoliButton>
+          </View>
+
+          {/* Post creator */}
+
+          <HoliText style={{ paddingTop: 10 }}>
+            <Trans i18nKey="insights.post.author" values={{ author: author.fullName, category: category }} />
+          </HoliText>
+          <HoliText style={{ paddingTop: 10 }}>{insight.title}</HoliText>
+          <HoliButton label="click me" onPress={() => openToast('Comment created', HoliToastType.SUCCESS)}>
+            Show toast
+          </HoliButton>
+        </View>
+      </DefaultLayout>
+    </>
   )
 }
+
+const styles = StyleSheet.create({
+  postView: {
+    backgroundColor: colors.backgroundColorWhite,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+    paddingTop: 12,
+    paddingBottom: 24,
+    ...Platform.select({ web: { paddingHorizontal: 20 } }),
+  },
+  optionsButton: {
+    alignSelf: 'flex-start',
+    justifyContent: 'flex-end',
+  },
+})
 
 export default Post
