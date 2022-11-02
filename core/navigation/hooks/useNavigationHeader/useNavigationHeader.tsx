@@ -29,18 +29,18 @@ const useNavigationHeader = (navigation: NavigtionProps['navigation'], headerPro
   const { setOptions } = useNavigation()
   const { setHeaderTitle } = useNavigationContext()
 
+  const { headerCenter, headerLeft, headerRight, title } = headerProps
+
   useLayoutEffect(() => {
     // This duplicate call is to prevent from flickering
+    const headerProps = { headerCenter, headerLeft, headerRight, title }
     setNavigationHeader(headerProps, setHeaderTitle, setOptions)
 
     const unsubscribeFocus = navigation?.addListener('focus', () => {
       setNavigationHeader(headerProps, setHeaderTitle, setOptions)
       return () => unsubscribeFocus
     })
-
-    // Important: has to dependencies array to run on evry rerendering. It is mandatory for async action to update after header props
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  })
+  }, [headerCenter, headerLeft, headerRight, title, navigation, setHeaderTitle, setOptions])
   return ''
 }
 
