@@ -9,6 +9,7 @@ import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
 import Logout from '@holi/core/auth/screens/Logout'
 import Registration from '@holi/core/auth/screens/Registration'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
@@ -26,7 +27,15 @@ import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNav
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
 
-import { BackButton, CenterElement, DownButton, LeftElement, RightElement } from './components'
+import {
+  BackButton,
+  CenterElement,
+  DownButton,
+  IconButtonRow,
+  LeftElement,
+  RightElement,
+  TitleLeftElement,
+} from './components'
 
 export type HomeStackScreens = {
   AccountSettings: undefined
@@ -61,6 +70,9 @@ const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
 export const HomeStackNavigator: React.VFC = () => {
+  const { navigate } = useRouting()
+  const { t } = useTranslation()
+
   return (
     <HomeStack.Navigator
       initialRouteName="HomeFeed"
@@ -77,9 +89,25 @@ export const HomeStackNavigator: React.VFC = () => {
           headerBackVisible: true,
           headerTransparent: true,
           headerStyle: { backgroundColor: colors.backgroundColorWhite },
-          headerTitle: CenterElement,
-          headerLeft: LeftElement,
-          headerRight: RightElement,
+          headerTitle: () => null,
+          headerLeft: TitleLeftElement,
+          headerRight: (props) => (
+            <IconButtonRow
+              {...props}
+              buttonProps={[
+                {
+                  label: t('notifications.title'),
+                  onPress: () => navigate('/notifications'),
+                  icon: 'notification-2',
+                },
+                {
+                  label: t('navigation.search'),
+                  onPress: () => navigate('/search'),
+                  icon: 'search',
+                },
+              ]}
+            />
+          ),
         }}
       />
       <HomeStack.Screen
