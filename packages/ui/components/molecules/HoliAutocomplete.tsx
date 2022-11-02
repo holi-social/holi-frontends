@@ -21,7 +21,6 @@ export type HoliAutocompleteProps = {
   placeholder?: string
   helperText?: string
   validationErrorText?: string
-  disabled?: boolean
   onChange?: (value: string) => void
   trailingIcon?: string
   loading?: boolean
@@ -164,7 +163,7 @@ const HoliAutocomplete = ({
         validationErrorText={validationErrorText}
         onChange={onChangeText}
         trailingComponent={trailingComponent}
-        testID={testID && `${testID}-input`}
+        testID={testID}
         inputProps={{ ...inputProps }}
         inputStyle={[
           isOpened && suggestions.length ? styles.textInputOpened : {},
