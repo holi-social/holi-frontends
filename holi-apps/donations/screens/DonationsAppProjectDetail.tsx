@@ -21,6 +21,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import DonationButton from '@holi-apps/donations/components/DonationButton'
 import DonationImage from '@holi-apps/donations/components/DonationImage'
 import DonationInitiativeButton from '@holi-apps/donations/components/DonationInitiativeButton'
+import DonationNews from '@holi-apps/donations/components/DonationNews'
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { AppDonationsProjectByIdResponse, projectByIdQuery } from '@holi-apps/donations/queries'
 
@@ -84,6 +85,60 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
     return <HoliText>{t('donations:projectDetail.notFound', { projectId })}</HoliText>
   }
 
+  const news = [
+    {
+      title:
+        'We send our rescue ship, the SEA-EYE 4, into the Mediterranean in order to help people in distress at sea. But we need donations. Will you help us?',
+      description: 'some news 1 text',
+      id: '12322475A',
+      publishDate: new Date(Date.now() - Math.random()).toDateString(),
+      author: {
+        avatar: 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/768.jpg',
+        name: 'Some Dude',
+      },
+      body: "Bring your owner a dead bird kitty pounce, trip, faceplant you didn't see that no you didn't definitely didn't lick, lick, lick, and preen away the embarrassment kitty time scoot butt on the rug. Pet my belly, you know you want to; seize the hand and shred it! find something else more interesting. Sitting in a box stare at imaginary bug, so i want to go outside let me go outside nevermind inside is better put butt in owner's face or hiss and stare at nothing then run suddenly away for ask to be pet then attack owners hand that box? i can fit in that box. Meow to be let in found somthing move i bite it tail for intrigued by the shower.",
+      picture:
+        'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/014/049/fill_960x500_bp1658244542_photo_2018-01-29_14-05-38.jpg',
+      source: 'theguardian.co.uk',
+      url: 'https://www.betterplace.org/en/organisations/5147-berliner-obdachlosenhilfe-e-v',
+    },
+    {
+      title: 'Hilfstransport für ukrainische Bevölkerung gestartet',
+      description: 'some news 2 text',
+      id: '12322475B',
+      publishDate: new Date(Date.now() - Math.random()).toDateString(),
+      author: {
+        avatar: 'someImageUrl',
+        name: 'Some Dude',
+      },
+      body: "Bring your owner a dead bird kitty pounce, trip, faceplant you didn't see that no you didn't definitely didn't lick, lick, lick, and preen away the embarrassment kitty time scoot butt on the rug. Pet my belly, you know you want to; seize the hand and shred it! find something else more interesting. Sitting in a box stare at imaginary bug, so i want to go outside let me go outside nevermind inside is better put butt in owner's face or hiss and stare at nothing then run suddenly away for ask to be pet then attack owners hand that box? i can fit in that box. Meow to be let in found somthing move i bite it tail for intrigued by the shower.",
+      url: 'https://www.betterplace.org/en/organisations/5147-berliner-obdachlosenhilfe-e-v',
+    },
+    {
+      title: 'Erste Reaktionen auf die Unruhen in den Nachbarländern betroffener Regionen',
+      description: 'some news 3 text',
+      id: '12322475C',
+      publishDate: new Date(Date.now() - Math.random()).toDateString(),
+      author: {
+        avatar: 'someImageUrl',
+        name: 'Some Dude',
+      },
+      body: "Bring your owner a dead bird kitty pounce, trip, faceplant you didn't see that no you didn't definitely didn't lick, lick, lick, and preen away the embarrassment kitty time scoot butt on the rug. Pet my belly, you know you want to; seize the hand and shred it! find something else more interesting. Sitting in a box stare at imaginary bug, so i want to go outside let me go outside nevermind inside is better put butt in owner's face or hiss and stare at nothing then run suddenly away for ask to be pet then attack owners hand that box? i can fit in that box. Meow to be let in found somthing move i bite it tail for intrigued by the shower.",
+    },
+    {
+      title: 'Timeline des Chaos',
+      description: 'some news 4 text',
+      id: '12322475D',
+      publishDate: new Date(Date.now() - Math.random()).toDateString(),
+      author: {
+        avatar: 'someImageUrl',
+        name: 'Some Dude',
+      },
+      body: "Bring your owner a dead bird kitty pounce, trip, faceplant you didn't see that no you didn't definitely didn't lick, lick, lick, and preen away the embarrassment kitty time scoot butt on the rug. Pet my belly, you know you want to; seize the hand and shred it! find something else more interesting. Sitting in a box stare at imaginary bug, so i want to go outside let me go outside nevermind inside is better put butt in owner's face or hiss and stare at nothing then run suddenly away for ask to be pet then attack owners hand that box? i can fit in that box. Meow to be let in found somthing move i bite it tail for intrigued by the shower.",
+      url: 'https://www.betterplace.org/en/organisations/5147-berliner-obdachlosenhilfe-e-v',
+    },
+  ]
+
   return (
     <View style={{ alignItems: 'center', backgroundColor: colors.backgroundColorGreyLight }}>
       <DefaultLayout style={{ backgroundColor: colors.backgroundColorGreyLight }}>
@@ -109,10 +164,13 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
           />
           <View style={[styles.card, { paddingVertical: 24 }]}>
             <DonationInitiativeButton initiative={project.initiative} />
-            <HoliText size={'large'} bold style={{ marginVertical: 24 }}>
+            <HoliText size={'large'} style={{ marginVertical: 24 }}>
               &ldquo;{project.summary}&rdquo;
             </HoliText>
             <HoliReadMore numberOfLines={5}>{project.description}</HoliReadMore>
+          </View>
+          <View style={[styles.card, { paddingVertical: 24 }]}>
+            <DonationNews totalEntries={4} news={news} />
           </View>
         </View>
       </DefaultLayout>
