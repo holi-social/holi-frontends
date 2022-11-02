@@ -1,8 +1,7 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Image, StyleSheet, View, ViewStyle } from 'react-native'
+import { Image, Linking, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -31,7 +30,7 @@ type DonationNewsProps = {
 }
 
 const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...props }: DonationNewsProps) => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const styles = getStyles()
   const [mainNews, ...otherNews] = news
 
@@ -80,11 +79,11 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
                     <HoliText bold size="small">
                       {entry.title}
                     </HoliText>
-                    {entry.publishDate && 
-                    <HoliText size="small" style={{ color: colors.fontColorGrey }}>
-                      {t('donations:donationNews.publishTime', { time: entry.publishDate })}
-                    </HoliText>
-                    }
+                    {entry.publishDate && (
+                      <HoliText size="small" style={{ color: colors.fontColorGrey }}>
+                        {t('donations:donationNews.publishTime', { time: entry.publishDate })}
+                      </HoliText>
+                    )}
                   </View>
                   <HoliIcon
                     icon="share-box"
