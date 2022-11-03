@@ -2,9 +2,9 @@ import React from 'react'
 import { ViewStyle } from 'react-native'
 
 import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliText, { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
 
-export type HeaderTitleProps = {
+export interface HeaderTitleProps extends HoliTextProps {
   style?: ViewStyle | Record<string, unknown>
   testID?: string
 }
