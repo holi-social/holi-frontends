@@ -108,7 +108,7 @@ const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
         {comments.length > 0 && (
           <View style={[mixins.container, styles.commentsView]}>
             <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
-              {t(`insights.post.response${commenters.length === 1 ? '' : '_plural'}`, { count: comments.length })}
+              {t('insights.post.response', { count: comments.length })}
             </HoliUserAvatarPile>
 
             <CommentConnector style={styles.commentConnector} />
