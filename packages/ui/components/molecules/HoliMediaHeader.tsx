@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { fullName } from '@holi/core/helpers'
+import { userFullName } from '@holi/core/helpers'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -17,10 +17,9 @@ export type MediaHeaderProps = {
   date?: string
   touchHandler?: () => void
   style?: StyleProp<ViewStyle>
-  children?: React.ReactNode
 }
 
-const HoliMediaHeader: React.VFC<MediaHeaderProps> = ({
+const HoliMediaHeader: React.FC<MediaHeaderProps> = ({
   title,
   author,
   boldTitle,
@@ -37,7 +36,7 @@ const HoliMediaHeader: React.VFC<MediaHeaderProps> = ({
     return dateString.charAt(0).toUpperCase() + dateString.slice(1)
   }, [date, i18n.language])
 
-  const authorName = author.name || fullName(author.firstName, author.lastName)
+  const authorName = author.name || userFullName(author)
 
   return (
     <View style={[styles.header, style]}>
@@ -67,7 +66,6 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 16,
   },
   titleContainer: {
     marginHorizontal: 16,

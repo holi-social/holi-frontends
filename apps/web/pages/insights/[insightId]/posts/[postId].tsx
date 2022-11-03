@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 
-import Post from '@holi/core/screens/posts/PostDetailPage'
+import PostDetailPage from '@holi/core/screens/posts/PostDetailPage'
 
-const PostPage: NextPage = () => <Post />
+const PostPage: NextPage = () => <PostDetailPage />
 
 export default PostPage

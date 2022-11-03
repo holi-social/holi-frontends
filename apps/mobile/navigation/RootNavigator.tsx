@@ -13,7 +13,7 @@ import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
-import Post, { PostParams } from '@holi/core/screens/posts/PostDetailPage'
+import PostDetailPage, { PostParams } from '@holi/core/screens/posts/PostDetailPage'
 import AccountSettings from '@holi/core/screens/userprofile/AccountSettings'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 import SettingsOverview from '@holi/core/screens/userprofile/SettingsOverview'
@@ -136,7 +136,7 @@ export const HomeStackNavigator: React.VFC = () => {
       />
       <HomeStack.Screen
         name="Post"
-        component={Post}
+        component={PostDetailPage}
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,

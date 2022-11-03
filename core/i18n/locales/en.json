@@ -93,7 +93,7 @@
   "insights.post.author": "by {{author}} in <0>{{category}}</0>",
   "insights.post.missingInsightId": "Missing topicId",
   "insights.post.missingPostId": "Missing postId",
-  "insights.post.preview.options": "Options",
+  "insights.post.preview.more": "Options",
   "insights.post.response": "{{count}} response",
   "insights.post.response_plural": "{{count}} responses",
   "insights.post.title": "Post {{postId}}",

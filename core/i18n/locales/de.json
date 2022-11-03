@@ -92,7 +92,7 @@
   "insights.post.author": "von {{author}} in <0>{{category}}</0>",
   "insights.post.missingInsightId": "TopicId fehlt",
   "insights.post.missingPostId": "PostId fehlt",
-  "insights.post.preview.options": "Optionen",
+  "insights.post.preview.more": "Optionen",
   "insights.post.response": "{{count}} Antwort",
   "insights.post.response_plural": "{{count}} Antworten",
   "insights.post.title": "Beitrag {{postId}}",

@@ -87,29 +87,37 @@ const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
             <HoliHeading level="1" size="medium">
               {title}
             </HoliHeading>
-            <HoliButton transparent inline label={t('insights.post.preview.options')} style={styles.optionsButton}>
-              <HoliIcon icon="options" size={12} color={colors.fontColorGrey} />
+            <HoliButton transparent inline label={t('insights.post.preview.more')} style={styles.moreButton}>
+              <HoliIcon icon="more" color={colors.fontColorGrey} />
             </HoliButton>
           </View>
 
           {/* Post creator */}
-          <HoliMediaHeader title={author.fullName} author={author} date={post.created} boldTitle />
+          <HoliMediaHeader
+            title={author.fullName}
+            author={author}
+            date={post.created}
+            boldTitle
+            style={styles.mediaHeader}
+          />
 
           <HoliText style={styles.body}>{post.text}</HoliText>
         </View>
 
         {/* Post comments */}
-        <View style={[mixins.container, styles.commentsView]}>
-          <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
-            {t(`insights.post.response${comments.length > 1 ? '_plural' : ''}`, { count: comments.length })}
-          </HoliUserAvatarPile>
+        {comments.length > 0 && (
+          <View style={[mixins.container, styles.commentsView]}>
+            <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
+              {t(`insights.post.response${commenters.length === 1 ? '' : '_plural'}`, { count: comments.length })}
+            </HoliUserAvatarPile>
 
-          <CommentConnector style={styles.commentConnector} />
+            <CommentConnector style={styles.commentConnector} />
 
-          {comments.map((comment) => (
-            <CommentView key={comment.id} comment={comment} />
-          ))}
-        </View>
+            {comments.map((comment) => (
+              <CommentView key={comment.id} comment={comment} style={styles.comment} />
+            ))}
+          </View>
+        )}
       </DefaultLayout>
     </>
   )
@@ -120,16 +128,19 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     ...Platform.select({ web: { paddingHorizontal: 20 } }),
   },
-  optionsButton: {
+  moreButton: {
     alignSelf: 'flex-start',
     justifyContent: 'flex-end',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 20,
+  },
+  mediaHeader: {
+    marginTop: 20,
   },
   body: {
+    marginTop: 16,
     lineHeight: 22,
   },
   commentsView: {
@@ -137,6 +148,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   commentConnector: {
+    marginTop: 12,
+    marginHorizontal: 20,
+  },
+  comment: {
     marginTop: 12,
   },
 })

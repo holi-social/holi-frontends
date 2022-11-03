@@ -16,8 +16,6 @@ const styles = StyleSheet.create({
     minHeight: 24,
     width: 0,
     borderWidth: 0.5,
-    marginHorizontal: 20,
-    marginBottom: 12,
     borderColor: colors.borderColorGrey,
   },
 })

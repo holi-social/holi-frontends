@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { fullName } from '@holi/core/helpers'
+import { userFullName } from '@holi/core/helpers'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -22,18 +22,26 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style }) => {
   const { t } = useTranslation()
 
   const { creator } = comment
-  const name = fullName(creator.firstName, creator.lastName)
+  const name = userFullName(creator)
   return (
     <View style={[styles.wrapper, style]}>
-      <HoliMediaHeader title={name} author={creator} date={comment.created} boldTitle style={styles.header}>
-        <HoliButton transparent inline label={t('insights.post.preview.options')} style={styles.optionsButton}>
-          <HoliIcon icon="options" size={12} color={colors.fontColorGrey} />
+      <HoliMediaHeader title={name} author={creator} date={comment.created} boldTitle>
+        <HoliButton transparent inline label={t('insights.post.preview.more')} style={styles.moreButton}>
+          <HoliIcon icon="more" color={colors.fontColorGrey} />
         </HoliButton>
       </HoliMediaHeader>
 
       <View style={styles.body}>
-        <CommentConnector />
-        <HoliText style={styles.text}>{comment.text}</HoliText>
+        <CommentConnector style={styles.commentConnector} />
+        <View style={styles.commentContent}>
+          <HoliText style={styles.text}>{comment.text}</HoliText>
+          <View style={styles.bottomBar}>
+            <HoliText size="small" style={styles.likesNumber}>
+              0
+            </HoliText>
+            <HoliIcon icon="heart" style={styles.likesIcon} />
+          </View>
+        </View>
       </View>
     </View>
   )
@@ -43,19 +51,36 @@ const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: colors.backgroundColorWhite,
   },
-  optionsButton: {
+  moreButton: {
     alignSelf: 'flex-start',
     justifyContent: 'flex-end',
   },
-  header: { marginBottom: 12 },
   body: {
     flexDirection: 'row',
+    marginTop: 12,
   },
   text: {
     flex: 1,
     lineHeight: 20,
     marginLeft: 12,
-    marginBottom: 44,
+  },
+  commentConnector: {
+    marginHorizontal: 20,
+  },
+  commentContent: {
+    flex: 1,
+  },
+  bottomBar: {
+    marginTop: 21,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  likesNumber: {
+    color: colors.fontColorGrey,
+  },
+  likesIcon: {
+    marginLeft: 9,
   },
 })
 
