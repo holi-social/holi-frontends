@@ -28,16 +28,16 @@ import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type PostParams = {
+export type PostDetailPageParams = {
   insightId: string
   postId: string
 }
 
-const { useParam } = createParam<PostParams>()
+const { useParam } = createParam<PostDetailPageParams>()
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+const PostDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const [insightId] = useParam('insightId')
   const [postId] = useParam('postId')
 
@@ -156,4 +156,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Post
+export default PostDetailPage
