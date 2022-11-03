@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   searchQuery: {
-    color: colors.positivepurple,
+    color: colors.fontColorHighlighted,
   },
   searchFilter: {
     flexDirection: 'row',

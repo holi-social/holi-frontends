@@ -43,7 +43,7 @@ const DonationProgress = ({
         </HoliText>
         {category && (
           <>
-            <HoliText size="small" style={{ color: colors.positivepurple }}>
+            <HoliText size="small" style={{ color: colors.fontColorHighlighted }}>
               {' ∙ '}
             </HoliText>
             <HoliText size="small" style={{ color: colors.fontColorGrey }}>

@@ -1,3 +1,4 @@
+import { Comment } from 'core/screens/comments/types'
 import { User } from 'core/screens/userprofile/types'
 
 export interface Post {
@@ -12,6 +13,7 @@ export interface Post {
   isEdited?: boolean
   isClosed?: boolean
   isDeleted?: boolean
+  comments?: Comment[]
   status?: string // 'P'
   mediaWidth?: number
   mediaHeight?: number
