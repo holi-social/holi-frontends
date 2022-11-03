@@ -1,6 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient'
-import React, { useRef, useState } from 'react'
-import { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   Animated,
   Image,
@@ -96,7 +95,10 @@ const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, rout
     <Animated.View style={[styles.header, headerStyle, { top: headerSlideAnimation }]}>
       <View
         pointerEvents="box-none"
-        style={[StyleSheet.absoluteFill, { backgroundColor: headerTransparent ? 'transparent' : 'white' }]}
+        style={[
+          StyleSheet.absoluteFill,
+          { backgroundColor: headerTransparent ? 'transparent' : colors.backgroundColorWhite },
+        ]}
       >
         {headerBackgroundCustom ? (
           headerBackgroundCustom
