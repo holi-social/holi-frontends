@@ -274,7 +274,7 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: colors.backgroundColor,
     },
     inputWrapperFocused: {
-      borderColor: colors.secondaryColor,
+      borderColor: colors.borderColorSecondary,
     },
     inputWrapperDisabled: {
       borderColor: colors.borderColorBlackDisabled,

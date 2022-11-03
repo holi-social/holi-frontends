@@ -42,12 +42,12 @@ const HoliAutocomplete = ({
   validationErrorText,
   onChange,
   loading,
-  suggestions = [],
-  testID,
   inputProps,
-  debounce: debounceValue,
   trailingIcon,
+  suggestions = [],
+  debounce: debounceValue,
   id,
+  testID,
 }: HoliAutocompleteProps) => {
   const [searchText, setSearchText] = useState(value || '')
   const [isOpened, setIsOpened] = useState(false)
@@ -66,7 +66,7 @@ const HoliAutocomplete = ({
   }, [debouncedOnChange])
 
   const onChangeText = useCallback(
-    async (text) => {
+    async (text: string) => {
       setSearchText(text)
       return debouncedOnChange(text)
     },
@@ -127,16 +127,16 @@ const HoliAutocomplete = ({
       const isLast = index === suggestions.length - 1
       return (
         <HoliButton
-          key={item.id}
-          label={item.label}
-          onPress={() => handleItemSelection(item)}
           inline
           transparent
-          testID={testID && `${testID}-item-${item.id}`}
-          style={[styles.listItem, isLast && styles.listItemLast]}
+          key={item.id}
+          label={item.label}
           accessibilityRole="menuitem"
-          onFocus={() => setFocusAndOpen('suggestion-' + item.id)}
           onBlur={onBlur}
+          style={[styles.listItem, isLast && styles.listItemLast]}
+          onFocus={() => setFocusAndOpen('suggestion-' + item.id)}
+          onPress={() => handleItemSelection(item)}
+          testID={testID && `${testID}-item-${item.id}`}
         >
           <HoliText selectable={false} numberOfLines={2}>
             {item.label}
@@ -156,27 +156,27 @@ const HoliAutocomplete = ({
     <View style={style}>
       <HoliTextInput
         inputLabel={inputLabel}
-        accessibilityLabel={accessibilityLabel}
         value={searchText}
         placeholder={placeholder}
-        helperText={isOpened && suggestions.length ? undefined : helperText}
         validationErrorText={validationErrorText}
-        onChange={onChangeText}
-        trailingComponent={trailingComponent}
-        testID={testID}
-        inputProps={{ ...inputProps }}
-        inputStyle={[
-          isOpened && suggestions.length ? styles.textInputOpened : {},
-          focusedItem ? styles.textInputFocused : {},
-        ]}
-        labelStyle={[focusedItem ? styles.textInputLabelFocused : {}]}
-        onFocus={() => setFocusAndOpen('input')}
-        onBlur={onBlur}
+        helperText={isOpened && suggestions.length ? undefined : helperText}
+        accessibilityLabel={accessibilityLabel}
         accessibilityAutoComplete="list"
         accessibilityControls={`${id}-suggestions`}
         accessibilityRole="combobox"
         accessibilityExpanded={isOpened}
         accessibilityHasPopup="menu"
+        trailingComponent={trailingComponent}
+        inputProps={inputProps}
+        inputStyle={[
+          isOpened && suggestions.length ? styles.textInputOpened : {},
+          focusedItem ? styles.textInputFocused : {},
+        ]}
+        labelStyle={[focusedItem ? styles.textInputLabelFocused : {}]}
+        onChange={onChangeText}
+        onBlur={onBlur}
+        onFocus={() => setFocusAndOpen('input')}
+        testID={testID}
       />
       <View nativeID={`${id}-suggestions`} accessibilityRole="menu">
         {isOpened ? suggestions.map(renderItem) : <></>}
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 0,
   },
   textInputFocused: {
-    borderColor: colors.secondaryColor,
+    borderColor: colors.borderColorSecondary,
   },
   textInputLabelFocused: {
     color: colors.secondaryColor,
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     justifyContent: 'center',
     display: 'flex',
-    borderColor: colors.secondaryColor,
+    borderColor: colors.borderColorSecondary,
     borderLeftWidth: 2,
     borderRightWidth: 2,
   },
