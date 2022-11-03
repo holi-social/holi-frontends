@@ -49,5 +49,7 @@
   "search.heading": "Suche",
   "search.location.label": "Ort",
   "search.location.placeholder": "Ort eingeben...",
-  "search.submitButton": "Passende Projekte anzeigen"
+  "search.submitButton": "Passende Projekte anzeigen",
+  "search.location.autocomplete.error": "Laden der Vorschläge fehlgeschlagen",
+  "search.location.autocomplete.noResults": "Keine Vorschläge gefunden"
 }
