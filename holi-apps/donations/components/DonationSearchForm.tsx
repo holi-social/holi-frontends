@@ -1,13 +1,20 @@
-import React, { useState } from 'react'
+import { useLazyQuery } from '@apollo/client'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Keyboard, StyleSheet, View } from 'react-native'
 
+import { logError } from '@holi/core/errors/helpers'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAutocomplete, { Suggestion } from '@holi/ui/components/molecules/HoliAutocomplete'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors } from '@holi/ui/styles/globalVars'
+
+import { AppDonationsPlacesResponse, placesQuery } from '@holi-apps/donations/queries'
+
+const PLACE_SUGGESTION_DEBOUNCE = 500
+const PLACE_SUGGESTION_MAX_COUNT = 3
 
 type DonationSearchFormProps = {
   locationQuery?: string
@@ -20,13 +27,57 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
 }: DonationSearchFormProps) => {
   const { t } = useTranslation()
   const [locationInput, setLocationInput] = useState(locationQuery || '')
-  const submit = () => {
+  const submit = useCallback(() => {
     onSubmit && onSubmit(locationInput)
+  }, [onSubmit, locationInput])
+  const [placeSuggestions, setPlaceSuggestions] = useState<Suggestion[]>([])
+
+  const [fetchSuggestions, { loading, error, data }] = useLazyQuery<AppDonationsPlacesResponse>(placesQuery, {
+    variables: {
+      input: locationInput,
+    },
+  })
+
+  if (error) {
+    logError(error, `[DonationSearchForm.tsx] ${error.message}`)
   }
 
-  const reset = () => {
+  const reset = useCallback(() => {
     setLocationInput('')
-  }
+    setPlaceSuggestions([])
+    Keyboard.dismiss()
+  }, [setLocationInput, setPlaceSuggestions])
+
+  const getSuggestions = useCallback(
+    (input: string) => {
+      setLocationInput(input)
+      if (input) {
+        fetchSuggestions()
+      } else {
+        setPlaceSuggestions([])
+      }
+    },
+    [setLocationInput, fetchSuggestions, setPlaceSuggestions]
+  )
+
+  useEffect(() => {
+    // keep displaying previous suggestions while loading to prevent flickering
+    if (loading) {
+      return
+    }
+    const places = data?.appDonations_places || []
+    const newPlaces = places.map(({ description }) => ({
+      id: description,
+      label: description,
+    }))
+    setPlaceSuggestions(newPlaces.slice(0, PLACE_SUGGESTION_MAX_COUNT))
+  }, [loading, data, setPlaceSuggestions])
+
+  const noResultsText = useMemo(() => {
+    return !loading && locationInput && !placeSuggestions.length
+      ? t('donations:search.location.autocomplete.noResults')
+      : undefined
+  }, [t, loading, locationInput, placeSuggestions])
 
   return (
     <HoliModalContentWrapper
@@ -34,6 +85,7 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
       onActionButtonPress={submit}
       style={styles.modalWrapper}
       testID="donations-search-modal"
+      keyboardShouldPersistTaps="always"
     >
       <View style={styles.container}>
         <View style={styles.headingRow}>
@@ -50,15 +102,21 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
             </HoliText>
           </HoliButton>
         </View>
-        <HoliTextInput
+        <HoliAutocomplete
+          loading={loading}
+          onChange={getSuggestions}
+          debounce={PLACE_SUGGESTION_DEBOUNCE}
+          suggestions={placeSuggestions}
           inputLabel={t('donations:search.location.label')}
           accessibilityLabel={t('donations:search.location.label')}
           placeholder={t('donations:search.location.placeholder')}
           value={locationInput}
           trailingIcon="search"
-          onChange={setLocationInput}
           inputProps={{ autoFocus: true, onSubmitEditing: submit }}
           testID="donations-search-location"
+          validationErrorText={error?.message && t('donations:search.location.autocomplete.error')}
+          helperText={noResultsText}
+          id="donations-search-location"
         />
       </View>
     </HoliModalContentWrapper>
