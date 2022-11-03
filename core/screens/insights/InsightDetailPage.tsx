@@ -1,18 +1,17 @@
-import { useLazyQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { faker } from '@faker-js/faker'
-import { LinearGradient } from 'expo-linear-gradient'
 import { StatusBar } from 'expo-status-bar'
-import React, { useEffect, useState } from 'react'
+import React, { memo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ImageBackground, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { ImageBackground, Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher, userFullName } from '@holi/core/helpers'
+import { useScrollYHandler } from '@holi/core/helpers'
 import BackButton from '@holi/core/navigation/components/BackButton'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -48,20 +47,17 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
   const postGridItemsInRow = useBreakpointMatcher()
   const { navigate } = useRouting()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
+  const onScreenScroll = useScrollYHandler()
 
-  const [getInsight, { loading, error, data }] = useLazyQuery<InsightByIdResponse>(insightById, {
+  const { loading, error, data } = useQuery<InsightByIdResponse>(insightById, {
     variables: { id: insightId },
   })
-
-  useEffect(() => {
-    if (insightId) getInsight()
-  }, [insightId, getInsight])
 
   const insight = data?.insightById
 
   useNavigationHeader(navigation, {
     title: t('insights.insight.title', { title: insight?.title }),
-    headerLeft: () => <BackButton />,
+    headerLeft: (props) => <BackButton {...props} />,
   })
 
   if (error) {
@@ -99,7 +95,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
     <>
       <StatusBar style="light" animated />
 
-      <DefaultLayout bounces={false} style={styles.wrapper}>
+      <DefaultLayout bounces={false} style={styles.wrapper} onScroll={onScreenScroll} scrollEventThrottle={200}>
         {/* Image section */}
         <ImageBackground
           source={{ uri: headerImage }}
@@ -178,22 +174,6 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
           </View>
         )}
       </DefaultLayout>
-
-      {/* Header */}
-      {Platform.OS !== 'web' && (
-        <View style={styles.mobileHeader}>
-          <LinearGradient colors={[colors.shadowColorBlack, 'transparent']} style={styles.headerBackgroundGradient} />
-          <SafeAreaView style={styles.headerInner}>
-            <View style={styles.headerLeft}>
-              <BackButton tintColor={colors.fontColorWhite} />
-            </View>
-
-            <View style={styles.headerCenter}>
-              <HeaderTitle style={styles.headerTitle} />
-            </View>
-          </SafeAreaView>
-        </View>
-      )}
     </>
   )
 }
@@ -285,4 +265,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default InsightDetailPage
+export default memo(InsightDetailPage)

@@ -21,6 +21,7 @@ const setNavigationHeader = (
   if (headerProps?.headerCenter) headerOptions.headerCenter = headerProps.headerCenter
   if (headerProps?.headerLeft) headerOptions.headerLeft = headerProps.headerLeft
   if (headerProps?.headerRight) headerOptions.headerRight = headerProps.headerRight
+  if (headerProps?.title) headerOptions.title = headerProps.title
   setOptions?.(headerOptions)
 }
 
@@ -28,18 +29,18 @@ const useNavigationHeader = (navigation: NavigtionProps['navigation'], headerPro
   const { setOptions } = useNavigation()
   const { setHeaderTitle } = useNavigationContext()
 
+  const { headerCenter, headerLeft, headerRight, title } = headerProps
+
   useLayoutEffect(() => {
     // This duplicate call is to prevent from flickering
+    const headerProps = { headerCenter, headerLeft, headerRight, title }
     setNavigationHeader(headerProps, setHeaderTitle, setOptions)
 
     const unsubscribeFocus = navigation?.addListener('focus', () => {
       setNavigationHeader(headerProps, setHeaderTitle, setOptions)
       return () => unsubscribeFocus
     })
-
-    // Important: do not add dependency items here. They will cause too many event subscriptions
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [headerCenter, headerLeft, headerRight, title, navigation, setHeaderTitle, setOptions])
   return ''
 }
 

@@ -1,5 +1,5 @@
 import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } from '@ory/kratos-client'
-import React, { useCallback, useContext, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useContext, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
 
@@ -28,7 +28,7 @@ const isWeb = Platform.OS === 'web'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const Registration: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+const Registration: React.VFC<ScreenProps> = ({ navigation }) => {
   const { setUserLoggedIn, isLoggedIn } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
@@ -114,7 +114,7 @@ const Registration: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   )
 }
 
-export default Registration
+export default memo(Registration)
 
 const styles = StyleSheet.create({
   loginForm: {
