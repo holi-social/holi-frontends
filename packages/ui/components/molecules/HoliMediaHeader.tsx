@@ -2,7 +2,9 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { userFullName } from '@holi/core/helpers'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
+import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
@@ -10,19 +12,22 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export type MediaHeaderProps = {
   title: string
-  author: {
-    name: string
-    avatarLabel?: string
-    avatarDefaultColor?: string
-    avatar?: string
-  }
+  author: Partial<User & { name: string }>
+  boldTitle?: boolean
   date?: string
   touchHandler?: () => void
   style?: StyleProp<ViewStyle>
-  children?: React.ReactNode
 }
 
-const HoliMediaHeader: React.VFC<MediaHeaderProps> = ({ title, author, date, touchHandler, children }) => {
+const HoliMediaHeader: React.FC<MediaHeaderProps> = ({
+  title,
+  author,
+  boldTitle,
+  date,
+  touchHandler,
+  style,
+  children,
+}) => {
   const { i18n } = useTranslation()
 
   const formattedDate = useMemo(() => {
@@ -31,18 +36,20 @@ const HoliMediaHeader: React.VFC<MediaHeaderProps> = ({ title, author, date, tou
     return dateString.charAt(0).toUpperCase() + dateString.slice(1)
   }, [date, i18n.language])
 
+  const authorName = author.name || userFullName(author)
+
   return (
-    <View style={styles.header}>
+    <View style={[styles.header, style]}>
       <HoliUserAvatar
         imageSrc={author.avatar}
-        label={author.name}
+        label={authorName}
         initials={author.avatarLabel || ''}
         defaultColor={author.avatarDefaultColor || ''}
         size="small"
       />
       <View style={styles.titleContainer}>
         <HoliButton transparent label={title} onPress={touchHandler}>
-          <HoliText>{title}</HoliText>
+          <HoliText bold={boldTitle}>{title}</HoliText>
         </HoliButton>
         {formattedDate && (
           <HoliText size="small" style={styles.date}>
@@ -59,7 +66,6 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 16,
   },
   titleContainer: {
     marginHorizontal: 16,
