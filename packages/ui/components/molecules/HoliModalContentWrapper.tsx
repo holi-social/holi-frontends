@@ -1,5 +1,5 @@
 import React from 'react'
-import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, ScrollView, ScrollViewProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
 import { useKeyboard } from '@holi/core/helpers'
@@ -17,6 +17,7 @@ export interface HoliModalContentWrapper {
   style?: StyleProp<ViewStyle>
   loading?: boolean
   testID?: string
+  keyboardShouldPersistTaps?: ScrollViewProps['keyboardShouldPersistTaps']
 }
 
 const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
@@ -26,6 +27,7 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
   prependChildren,
   children,
   style,
+  keyboardShouldPersistTaps,
   loading = false,
   testID = 'holi-modal-content',
 }) => {
@@ -44,7 +46,7 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
         </Animated.View>
       )}
 
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
         {!!headlineText?.length && (
           <HoliHeading level="1" style={styles.headline} size="large" testID={`${testID}-heading`}>
             {headlineText}
