@@ -96,3 +96,9 @@ export const fillFieldByTestId = async (testId: string, value: string) => {
     throw new Error("Couldn't fill field with testID: " + testId)
   }
 }
+
+export const submitKeyboard = async () => {
+  // Found here: https://discuss.appium.io/t/how-to-click-enter-after-entering-some-text/3136/21
+  // http://appium.io/docs/en/commands/mobile-command/
+  await Appium.execute('mobile: performEditorAction', { action: 'Done' })
+}

@@ -4,6 +4,7 @@ import {
   locateMultipleElementsWithTestId,
   scrollToElementWithTestId,
   seeTextWithTestId,
+  submitKeyboard,
   tapOnElementWithTestId,
   waitForElementWithTestId,
   waitForElementWithTestIdToBeNull,
@@ -19,6 +20,10 @@ const navigateToDonationsApp = async () => {
 describe('@Donations', () => {
   beforeEach(async () => {
     await navigateToDonationsApp()
+  })
+
+  afterEach(async () => {
+    await tapOnElementWithTestId('nav-button-back', 0)
   })
 
   it('should display multiple projects', async () => {
@@ -57,14 +62,9 @@ describe('@Donations', () => {
     // open search modal
     await tapOnElementWithTestId('donations-search-button')
 
-    // enter location
+    // enter location and submit
     await fillFieldByTestId('donations-search-location-input', location)
-
-    // close keyboard
-    await tapOnElementWithTestId('donations-search-modal')
-
-    // close search modal
-    await tapOnElementWithTestId('donations-search-modal-close-btn')
+    await submitKeyboard()
 
     // wait for results
     await waitForElementWithTestId('donations-list-container')
