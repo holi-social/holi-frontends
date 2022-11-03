@@ -167,18 +167,4 @@ describe('@Donations', () => {
     // expect filtered list
     await seeTextWithTestId('Hamburg', 'donations-list-search-heading')
   })
-
-  it('should display donation updates', async () => {
-    // navigate to home and check if donation updates are displayed
-    await tapOnElementWithTestId('nav-button-back')
-    await scrollToElementWithTestId('donations-updates-item', 'down')
-    await waitForElementWithTestId('donations-updates-heading')
-    await waitForElementWithTestId('donations-updates-container')
-
-    // click first element in ScrollView
-    await tapOnElementWithTestId('donations-updates-item')
-
-    // expect detail view
-    await waitForElementWithTestId('donations-project-detail-heading')
-  })
 })

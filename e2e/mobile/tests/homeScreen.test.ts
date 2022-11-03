@@ -44,4 +44,19 @@ describe('@HomeScreen', () => {
     await logout()
     await scrollToElementWithTestId('home-feed-insights-heading', 'up')
   })
+
+  it('should display donation updates', async () => {
+    // check if donation updates are displayed
+    await scrollToElementWithTestId('donations-updates-item', 'down')
+    await waitForElementWithTestId('donations-updates-heading')
+
+    // click first element in ScrollView
+    await tapOnElementWithTestId('donations-updates-item')
+
+    // expect detail view
+    await waitForElementWithTestId('donations-project-detail-heading')
+
+    // go home
+    await navigateBackToHomeScreen()
+  })
 })
