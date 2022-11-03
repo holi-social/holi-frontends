@@ -11,6 +11,7 @@ import AppsDrawer from '@holi/core/screens/homeFeed/components/AppsDrawer'
 import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
 import UpdatesOfYourApps from '@holi/core/screens/homeFeed/components/UpdatesOfYourApps'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
+import SpacesFilterHeader from '@holi/core/screens/spaces/SpacesFilterHeader'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 
 type HomeFeedProps = NativeStackScreenProps<HomeStackScreens>
@@ -33,6 +34,8 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   return (
     <>
       <DefaultLayout>
+        <SpacesFilterHeader title={'all'} location={'hamburg'} style={styles.spacesContainer} />
+
         <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
         <UpdatesOfYourApps style={styles.updatesOfYourApps} />
         {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}
@@ -58,6 +61,10 @@ const styles = StyleSheet.create({
   },
   userSuggestionsContainer: {
     marginTop: 88,
+  },
+  spacesContainer: {
+    marginVertical: 16,
+    marginHorizontal: 24,
   },
 })
 
