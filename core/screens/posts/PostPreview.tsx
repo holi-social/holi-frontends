@@ -40,7 +40,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post, style }) =>
         touchHandler={() => navigate(`/insights/${insightId}/posts/${post.id}`)}
       >
         <HoliButton transparent inline label={t('insights.post.preview.options')} style={styles.optionsButton}>
-          <HoliIcon icon="options" size={12} color={colors.fontColorGrey} />
+          <HoliIcon icon="more" color={colors.fontColorGrey} />
         </HoliButton>
       </HoliMediaHeader>
 

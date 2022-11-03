@@ -99,7 +99,7 @@ export const HoliToast: React.FC<HoliToastProps> = ({ closeToast, type, text, ti
         </HoliText>
         {/* TODO: Change error icon to sad smiley */}
         <HoliIcon
-          icon={type === HoliToastType.SUCCESS ? 'smiley-2' : 'error-warning'}
+          icon={type === HoliToastType.SUCCESS ? 'user-smile' : 'emotion-unhappy-noeyes'}
           size={20}
           color={colors.fontColorWhite}
           style={styles.toastIcon}

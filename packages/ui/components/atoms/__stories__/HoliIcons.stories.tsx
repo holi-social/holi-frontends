@@ -36,6 +36,7 @@ Primary.argTypes = {
 
 export const All = () => {
   const [filteredIcons, setFilteredIcons] = useState(iconSelection.icons)
+  const [hoveredItem, setHoveredItem] = useState<string | null>()
 
   const filter = (event) => {
     const iconList = iconSelection.icons || []
@@ -47,6 +48,10 @@ export const All = () => {
     setFilteredIcons(filteredItems)
   }
 
+  const setHoveredIcon = (icon: string, active: boolean) => {
+    setHoveredItem(active ? icon : null)
+  }
+
   return (
     <div className="svg-preview">
       <label>
@@ -55,9 +60,14 @@ export const All = () => {
       </label>
       <div className="icons">
         {filteredIcons.map((icon, index) => (
-          <div key={index} className="icon-container">
+          <div
+            key={index}
+            className="icon-container"
+            onMouseEnter={() => setHoveredIcon(icon?.properties?.name, true)}
+            onMouseLeave={() => setHoveredIcon(icon?.properties?.name, false)}
+          >
             <a>
-              <HoliIcon icon={icon?.properties?.name} size={32} />
+              <HoliIcon icon={icon?.properties?.name} filled={icon?.properties?.name === hoveredItem} size={32} />
             </a>
             <div>{icon?.properties?.name}</div>
           </div>
