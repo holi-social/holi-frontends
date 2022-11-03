@@ -1,5 +1,4 @@
 import { useLazyQuery } from '@apollo/client'
-import { faker } from '@faker-js/faker'
 import { LinearGradient } from 'expo-linear-gradient'
 import { StatusBar } from 'expo-status-bar'
 import React, { useEffect, useState } from 'react'
@@ -86,7 +85,6 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
   const author = {
     ...insight.curator,
     fullName: userFullName(insight.curator),
-    avatar: faker.image.avatar(), // TODO: remove, use real avatar instead of dummy image
   }
 
   // TODO: dummy category

@@ -23,6 +23,7 @@ const InsightFragment = gql`
         id
         firstName
         lastName
+        avatar
       }
     }
   }
