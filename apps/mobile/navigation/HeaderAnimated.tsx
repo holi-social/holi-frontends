@@ -28,7 +28,6 @@ const useHeaderHideAnimation = (headerHeight: number) => {
   const { height } = useWindowDimensions()
 
   const headerSlideAnimation = useRef(new Animated.Value(scrollY)).current
-  const hederHeightAnimation = useRef(new Animated.Value(headerHeight)).current
 
   // on scroll change
   useEffect(() => {
@@ -45,7 +44,7 @@ const useHeaderHideAnimation = (headerHeight: number) => {
     }
 
     prevScrollY.current = scrollY
-  }, [height, scrollY, headerSlideAnimation, hederHeightAnimation])
+  }, [height, scrollY, headerSlideAnimation])
 
   // reset header on screen change (navigation from one screen to another)
   useEffect(() => {
