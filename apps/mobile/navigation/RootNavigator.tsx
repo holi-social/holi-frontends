@@ -9,6 +9,7 @@ import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
 import Logout from '@holi/core/auth/screens/Logout'
 import Registration from '@holi/core/auth/screens/Registration'
+import HeaderRight from '@holi/core/navigation/components/HeaderRight'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
@@ -46,13 +47,13 @@ export type HomeStackScreens = {
   OwnProfile: undefined
   Post: PostParams
   SettingsOverview: undefined
-  UserProfile: UserProfileParams
+  Search: undefined
 }
 
 export type BottomTabsScreens = {
   Home: undefined
   Chat: undefined
-  Search: undefined
+  UserProfile: UserProfileParams
   Spaces: undefined
 }
 
@@ -64,6 +65,7 @@ export type RootStackScreens = {
   Logout: undefined
   Registration: undefined
   ForgotPassword: undefined
+  Search: undefined
 }
 
 const HomeStack = createNativeStackNavigator<HomeStackScreens>()
@@ -144,8 +146,8 @@ export const HomeStackNavigator: React.VFC = () => {
         }}
       />
       <HomeStack.Screen
-        name="UserProfile"
-        component={UserProfile}
+        name="Search"
+        component={Search}
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
@@ -246,16 +248,14 @@ export const BottomTabsNavigator: React.VFC = () => {
         }}
       />
       <BottomTabs.Screen
-        name="Search"
-        component={Search}
+        name="UserProfile"
+        component={UserProfile}
         options={{
           headerTitleAlign: 'center',
           headerShadowVisible: false,
           tabBarShowLabel: false,
           headerTitle: CenterElement,
-          tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="search" size={24} filled={focused} style={{ color: iconColor(focused) }} />
-          },
+          tabBarIcon: HeaderRight,
         }}
       />
     </BottomTabs.Navigator>

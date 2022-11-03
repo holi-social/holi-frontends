@@ -11,6 +11,7 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher, userFullName } from '@holi/core/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
+import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -56,6 +57,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
 
   useNavigationHeader(navigation, {
     title: t('insights.insight.title', { title: insight?.title }),
+    headerLeft: (props) => <BackButton {...props} />,
   })
 
   if (error) {
