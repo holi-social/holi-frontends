@@ -4,7 +4,7 @@ import {
   locateMultipleElementsWithTestId,
   scrollToElementWithTestId,
   seeTextWithTestId,
-  submitKeyboard,
+  submit,
   tapOnElementWithTestId,
   waitForElementWithTestId,
   waitForElementWithTestIdToBeNull,
@@ -62,9 +62,12 @@ describe('@Donations', () => {
     // open search modal
     await tapOnElementWithTestId('donations-search-button')
 
-    // enter location and submit
+    // enter location
     await fillFieldByTestId('donations-search-location-input', location)
-    await submitKeyboard()
+
+    // submit form
+    // Not using suggestions here, as they can not be easily identified and selected
+    await submit('donations-search-location-input')
 
     // wait for results
     await waitForElementWithTestId('donations-list-container')
