@@ -40,6 +40,8 @@ export interface Project {
   picture: Picture[]
   initiative: ProjectInitiative
   donationUrl: string
+  news: News[]
+  newsCount: number
 }
 
 export interface ProjectsResponse {

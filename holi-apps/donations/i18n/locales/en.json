@@ -46,6 +46,7 @@
   "donationNews.moreUpdates": "{{count}} more update",
   "donationNews.moreUpdates_plural": "{{count}} more updates",
   "donationNews.publishTime": "published {{time}}",
+  "donationNews.readArticle": "read article",
   "initiative.indication": "by <0>{{name}}</0>",
   "initiative.link.button": "Page of {{name}}",
   "projectDetail.donate": "Donate",
