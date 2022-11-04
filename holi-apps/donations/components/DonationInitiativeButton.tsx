@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   initiativeName: {
-    color: colors.positivepurple,
+    color: colors.fontColorHighlighted,
   },
   initiativeOrigin: {
     color: colors.fontColorGrey,

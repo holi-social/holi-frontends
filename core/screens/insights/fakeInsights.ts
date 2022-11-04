@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { Insight } from 'core/screens/insights/types'
 
+import { Comment } from '@holi/core/screens/comments/types'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
 
@@ -24,6 +25,39 @@ export const getRandomUser = (hasAvatar = false): User => {
   }
 }
 
+export const fakeComments: Comment[] = [
+  {
+    id: '123',
+    created: faker.date.past().toDateString(),
+    creator: getRandomUser(),
+    text: '123 ' + loremIpsum + loremIpsum,
+  },
+  {
+    id: '1234',
+    created: faker.date.past().toDateString(),
+    creator: getRandomUser(),
+    text: '123 ' + loremIpsum + loremIpsum,
+  },
+  {
+    id: '12345',
+    created: faker.date.past().toDateString(),
+    creator: getRandomUser(),
+    text: '123 ' + loremIpsum + loremIpsum,
+  },
+  {
+    id: '123456',
+    created: faker.date.past().toDateString(),
+    creator: getRandomUser(),
+    text: '123 ' + loremIpsum + loremIpsum,
+  },
+  {
+    id: '1234567',
+    created: faker.date.past().toDateString(),
+    creator: getRandomUser(),
+    text: '123 ' + loremIpsum + loremIpsum,
+  },
+]
+
 export const fakePosts: Post[] = [
   {
     id: '123',
@@ -36,6 +70,7 @@ export const fakePosts: Post[] = [
       avatarDefaultColor: faker.color.rgb(),
     },
     text: '123 ' + loremIpsum + loremIpsum + loremIpsum + loremIpsum + loremIpsum,
+    comments: fakeComments,
   },
   {
     id: '321',

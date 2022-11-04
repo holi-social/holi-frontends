@@ -1,5 +1,5 @@
 import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/kratos-client'
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { memo, useCallback, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
 
@@ -25,7 +25,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const Login: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+const Login: React.VFC<ScreenProps> = ({ navigation }) => {
   const { isLoggedIn, setUserLoggedIn } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
   const { replaceRoute } = useRouting()
@@ -105,7 +105,7 @@ const Login: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   )
 }
 
-export default Login
+export default memo(Login)
 
 const styles = StyleSheet.create({
   loginForm: {

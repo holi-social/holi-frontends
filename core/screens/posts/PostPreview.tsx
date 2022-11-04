@@ -39,12 +39,12 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post, style }) =>
         date={post.created}
         touchHandler={() => navigate(`/insights/${insightId}/posts/${post.id}`)}
       >
-        <HoliButton transparent inline label={t('insights.post.preview.options')} style={styles.optionsButton}>
-          <HoliIcon icon="options" size={12} color={colors.fontColorGrey} />
+        <HoliButton transparent inline label={t('insights.post.preview.more')} style={styles.moreButton}>
+          <HoliIcon icon="more" color={colors.fontColorGrey} />
         </HoliButton>
       </HoliMediaHeader>
 
-      <HoliReadMore numberOfLines={10} fontStyle={styles.text}>
+      <HoliReadMore numberOfLines={10} fontStyle={styles.readMoreText} style={styles.readMoreContainer}>
         {post.text}
       </HoliReadMore>
     </View>
@@ -53,11 +53,14 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post, style }) =>
 
 const styles = StyleSheet.create({
   wrapper: { padding: 24, borderRadius: 12, backgroundColor: colors.backgroundColorWhite },
-  optionsButton: {
+  moreButton: {
     alignSelf: 'flex-start',
     justifyContent: 'flex-end',
   },
-  text: {
+  readMoreContainer: {
+    marginTop: 16,
+  },
+  readMoreText: {
     color: colors.fontColor,
     lineHeight: 20,
   },
