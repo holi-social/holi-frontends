@@ -2,9 +2,9 @@ import { waitForHomeScreen } from '../helpers/navigation'
 import {
   fillFieldByTestId,
   locateMultipleElementsWithTestId,
+  pressEnter,
   scrollToElementWithTestId,
   seeTextWithTestId,
-  submit,
   tapOnElementWithTestId,
   waitForElementWithTestId,
   waitForElementWithTestIdToBeNull,
@@ -23,7 +23,10 @@ describe('@Donations', () => {
   })
 
   afterEach(async () => {
-    await tapOnElementWithTestId('nav-button-back', 0)
+    // Speeds up local execution
+    if (target === 'local') {
+      await tapOnElementWithTestId('nav-button-back', 0)
+    }
   })
 
   it('should display multiple projects', async () => {
@@ -67,7 +70,7 @@ describe('@Donations', () => {
 
     // submit form
     // Not using suggestions here, as they can not be easily identified and selected
-    await submit('donations-search-location-input')
+    await pressEnter('donations-search-location-input')
 
     // wait for results
     await waitForElementWithTestId('donations-list-container')

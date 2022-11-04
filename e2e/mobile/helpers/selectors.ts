@@ -98,16 +98,17 @@ export const fillFieldByTestId = async (testId: string, value: string) => {
   }
 }
 
-export const submit = async (inputTestId: string) => {
+export const pressEnter = async (inputTestId: string) => {
   // Found here: https://discuss.appium.io/t/how-to-click-enter-after-entering-some-text/3136/21
   // On iOS we submit text input by sending the "newline" key to the input element,
-  // while on Android we submit using the keyboard
+  // while on Android we submit by sending the key code for "Enter"
   if (platform === 'ios') {
     const inputElement = await waitForElementWithTestId(inputTestId)
     // https://appium.io/docs/en/commands/element/actions/send-keys/index.html
     await inputElement.sendKeys(['\n'])
   } else {
-    // http://appium.io/docs/en/commands/mobile-command/
-    await Appium.execute('mobile: performEditorAction', { action: 'Done' })
+    // https://appium.io/docs/en/commands/device/keys/press-keycode/
+    // 66 is KeyCode for "Enter"
+    await Appium.pressKeyCode(66)
   }
 }
