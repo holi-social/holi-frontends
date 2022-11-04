@@ -41,7 +41,7 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
     const { name, picture } = mainNews.author
 
     return {
-      name: name || '',
+      name: name,
       avatar: picture ? picture.find(({ type }) => type === 'fill')?.url : '',
     }
   }, [mainNews])
