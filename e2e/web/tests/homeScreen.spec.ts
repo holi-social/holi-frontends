@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-import { byTestId, clickElementByTestId, defaultAuthSteps, waitForElementByTestId } from './helpers'
+import { byTestId, checkAccessibility, clickElementByTestId, defaultAuthSteps, waitForElementByTestId } from './helpers'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
@@ -40,5 +40,26 @@ test.describe('@HomeScreen', () => {
     await page.locator(byTestId('nav-button-home')).click()
     await page.waitForSelector(byTestId('user-suggestions'))
     expect(await page.locator(byTestId('user-card-suggestion'))).toHaveCount(10)
+  })
+
+  test('should display donation updates', async ({ page }) => {
+    // navigate to home and check if donation updates are displayed
+    await waitForElementByTestId(page, 'donations-updates-heading')
+    await waitForElementByTestId(page, 'donations-updates-container')
+    await waitForElementByTestId(page, 'donations-updates-item')
+    await checkAccessibility(page)
+
+    // click first element in ScrollView
+    await clickElementByTestId(page, 'donations-updates-item')
+
+    // expect detail view
+    await waitForElementByTestId(page, 'donations-project-detail-heading')
+
+    // navigate back
+    await clickElementByTestId(page, 'nav-button-back')
+
+    // click on "see more" / navigate to donations app
+    await clickElementByTestId(page, 'donations-updates-load-more-button')
+    await waitForElementByTestId(page, 'donations-list-container')
   })
 })
