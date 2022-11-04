@@ -48,71 +48,78 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
 
   return (
     <View style={[props?.style]}>
-      <HoliText bold style={{ marginBottom: 24 }}>
+      <HoliText bold style={{ marginBottom: totalEntries === 0 ? 0 : 24 }}>
         {t('donations:donationNews.total', { count: totalEntries })}
       </HoliText>
-      <View style={{ marginBottom: 24 }}>
-        <HoliText size="large" style={{ marginBottom: 24 }}>
-          {mainNews.title}
-        </HoliText>
-
-        {author ? (
-          <HoliMediaHeader
-            style={{ marginBottom: 12 }}
-            title={author.name}
-            author={author}
-            date={mainNews.publishDate}
-          />
-        ) : (
-          <HoliText size="small" style={{ color: colors.fontColorGrey, marginBottom: 12 }}>
-            {t('donations:donationNews.publishTime', {
-              time: getRelativeDateString(mainNews.publishDate, i18n.language),
-            })}
-          </HoliText>
-        )}
-
-        <HoliReadMore numberOfLines={5} style={{ marginBottom: 12 }}>
-          {mainNews.body}
-        </HoliReadMore>
-
-        {otherNews.length > 0 && (
-          <View>
-            <HoliText bold style={{ marginBottom: 12 }}>
-              {t('donations:donationNews.moreUpdates', { count: totalEntries - 1 })}
+      {mainNews && (
+        <View style={{ marginBottom: 24 }}>
+          <HoliButton
+            label={t('donations:donationNews.readArticle')}
+            transparent
+            disabled={!mainNews.url}
+            onPress={() => mainNews.url && Linking.openURL(mainNews.url)}
+          >
+            <HoliText size="large" style={{ marginBottom: 12 }}>
+              {mainNews.title}
             </HoliText>
 
-            {otherNews.map((entry) => (
-              <HoliButton
-                key={entry.id}
-                label={t('donations:donationNews.readArticle')}
-                transparent
-                disabled={!entry.url}
-                onPress={() => entry.url && Linking.openURL(entry.url)}
-              >
-                <View style={styles.newsListing}>
-                  <View style={{ flex: 1 }}>
-                    <HoliText bold size="small">
-                      {entry.title}
+            {author ? (
+              <HoliMediaHeader
+                style={{ marginBottom: 24 }}
+                title={author.name}
+                author={author}
+                date={mainNews.publishDate}
+              />
+            ) : (
+              <HoliText size="small" style={{ color: colors.fontColorGrey, marginBottom: 24 }}>
+                {t('donations:donationNews.publishTime', {
+                  time: getRelativeDateString(mainNews.publishDate, i18n.language),
+                })}
+              </HoliText>
+            )}
+          </HoliButton>
+
+          <HoliReadMore numberOfLines={5}>{mainNews.body}</HoliReadMore>
+        </View>
+      )}
+
+      {otherNews.length > 0 && (
+        <View>
+          <HoliText bold style={{ marginBottom: 12 }}>
+            {t('donations:donationNews.moreUpdates', { count: totalEntries - 1 })}
+          </HoliText>
+
+          {otherNews.map((entry) => (
+            <HoliButton
+              key={entry.id}
+              label={t('donations:donationNews.readArticle')}
+              transparent
+              disabled={!entry.url}
+              onPress={() => entry.url && Linking.openURL(entry.url)}
+            >
+              <View style={styles.newsListing}>
+                <View style={{ flex: 1 }}>
+                  <HoliText bold size="small" style={{ marginBottom: 6 }}>
+                    {entry.title}
+                  </HoliText>
+                  {entry.publishDate && (
+                    <HoliText size="small" style={{ color: colors.fontColorGrey }}>
+                      {t('donations:donationNews.publishTime', {
+                        time: getRelativeDateString(entry.publishDate, i18n.language),
+                      })}
                     </HoliText>
-                    {entry.publishDate && (
-                      <HoliText size="small" style={{ color: colors.fontColorGrey }}>
-                        {t('donations:donationNews.publishTime', {
-                          time: getRelativeDateString(entry.publishDate, i18n.language),
-                        })}
-                      </HoliText>
-                    )}
-                  </View>
-                  <HoliIcon
-                    icon="share-box"
-                    size={24}
-                    style={{ ...(!entry.url && { display: 'none' }), flexShrink: 0 }}
-                  />
+                  )}
                 </View>
-              </HoliButton>
-            ))}
-          </View>
-        )}
-      </View>
+                <HoliIcon
+                  icon="share-box"
+                  size={24}
+                  style={{ ...(!entry.url && { display: 'none' }), flexShrink: 0 }}
+                />
+              </View>
+            </HoliButton>
+          ))}
+        </View>
+      )}
     </View>
   )
 }
@@ -124,8 +131,8 @@ const getStyles = () =>
     newsListing: {
       borderTopWidth: 1,
       borderColor: colors.borderColorGrey,
-      paddingTop: 12,
-      paddingBottom: 12,
+      paddingTop: 18,
+      marginTop: 18,
       flexDirection: 'row',
       justifyContent: 'space-between',
     },
