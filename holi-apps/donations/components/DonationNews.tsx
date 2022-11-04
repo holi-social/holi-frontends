@@ -57,7 +57,12 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
         </HoliText>
 
         {author ? (
-          <HoliMediaHeader title={author.name} author={author} date={mainNews.publishDate} />
+          <HoliMediaHeader
+            style={{ marginBottom: 12 }}
+            title={author.name}
+            author={author}
+            date={mainNews.publishDate}
+          />
         ) : (
           <HoliText size="small" style={{ color: colors.fontColorGrey, marginBottom: 12 }}>
             {t('donations:donationNews.publishTime', {
