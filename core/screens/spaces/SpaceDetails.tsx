@@ -80,7 +80,7 @@ const SpaceDetails: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
                 size="micro"
               />
               <HoliText>
-                {task.location} | {task.regularity}
+                {task.location} | {t(`spaces.tasks.regularity.${task.regularity}`)}
               </HoliText>
               <HoliText>{task.description}</HoliText>
               <HoliButton

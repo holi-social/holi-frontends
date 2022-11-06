@@ -16,5 +16,5 @@ export interface Task {
   slotsAvailable: number
   slotsTaken: number
   location: string
-  regularity: 'regularly' | 'project-based' | 'one-time'
+  regularity: 'REGULARLY' | 'PROJECT_BASED' | 'ONE_TIME'
 }
