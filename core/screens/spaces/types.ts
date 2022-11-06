@@ -7,3 +7,14 @@ export interface Space {
   created: string
   creator: Partial<User>
 }
+
+export interface Task {
+  id: string
+  name: string
+  description: string
+  creator: Partial<User>
+  slotsAvailable: number
+  slotsTaken: number
+  location: string
+  regularity: 'regularly' | 'project-based' | 'one-time'
+}
