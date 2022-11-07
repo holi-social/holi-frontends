@@ -6,24 +6,29 @@ const PostFragment = gql`
   fragment PostFull on Post {
     id
     title
-    description
-    datePublished
-    curator {
+    text
+    created
+    creator {
       id
       avatar
+      avatarLabel
+      avatarDefaultColor
       firstName
       lastName
       aboutMe
     }
-    headerImage
-    posts {
+    comments {
       id
       text
-      creator {
+      created
+      commenter {
         id
+        avatar
+        avatarLabel
+        avatarDefaultColor
         firstName
         lastName
-        avatar
+        aboutMe
       }
     }
   }

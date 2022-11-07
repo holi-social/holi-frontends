@@ -11,16 +11,17 @@ import { colors } from '@holi/ui/styles/globalVars'
  */
 
 export interface LayoutProps extends ScrollViewProps {
+  ref?: React.Ref<ScrollView>
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
 }
 
-const DefaultLayout: React.FC<LayoutProps> = ({ style, children, ...scrollViewProps }: LayoutProps) => {
+const DefaultLayout: React.FC<LayoutProps> = ({ ref, style, children, ...scrollViewProps }: LayoutProps) => {
   const screenView = <View style={[styles.screenLayout, style]}>{children}</View>
 
   return Platform.OS === 'web' ? (
     screenView
   ) : (
-    <ScrollView {...scrollViewProps} contentContainerStyle={[styles.scrollLayout, style]}>
+    <ScrollView ref={ref} {...scrollViewProps} contentContainerStyle={[styles.scrollLayout, style]}>
       {screenView}
     </ScrollView>
   )

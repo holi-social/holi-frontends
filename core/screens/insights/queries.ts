@@ -11,6 +11,8 @@ const InsightFragment = gql`
     curator {
       id
       avatar
+      avatarLabel
+      avatarDefaultColor
       firstName
       lastName
       aboutMe
@@ -19,11 +21,15 @@ const InsightFragment = gql`
     posts {
       id
       text
+      title
+      created
       creator {
         id
         firstName
         lastName
         avatar
+        avatarLabel
+        avatarDefaultColor
       }
     }
   }

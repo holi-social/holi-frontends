@@ -1,23 +1,23 @@
-import { useQuery } from '@apollo/client'
-import { faker } from '@faker-js/faker'
+import { useLazyQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
-import React from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
-import { userFullName } from '@holi/core/helpers'
+import { useKeyboard, userFullName } from '@holi/core/helpers'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import CommentConnector from '@holi/core/screens/comments/CommentConnector'
 import CommentView from '@holi/core/screens/comments/CommentView'
-import { fakeInsights, fakePosts } from '@holi/core/screens/insights/fakeInsights'
-import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/insights/queries'
-import type { Insight } from '@holi/core/screens/insights/types'
+import CreateCommentView from '@holi/core/screens/comments/CreateCommentView'
+import PostCommentButton from '@holi/core/screens/comments/PostCommentButton'
+import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
+import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -38,18 +38,27 @@ const { useParam } = createParam<PostDetailPageParams>()
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
 const PostDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
-  const [insightId] = useParam('insightId')
+  const [showTextInput, setShowTextInput] = useState(false)
   const [postId] = useParam('postId')
+  const scrollView = useRef<ScrollView>(null)
 
   const { t } = useTranslation()
-  const title = t('insights.post.title', { insightId, postId })
   const mixins = useStyleMixins()
 
+  const { user } = useContext(UserContext)
+
+  const { keyboardHeight } = useKeyboard()
+
+  const [getPost, { loading, error, data }] = useLazyQuery<PostByIdResponse>(PostById, {
+    variables: { id: postId },
+  })
+
+  const title = data?.postById?.title
   useNavigationHeader(navigation, { title: title, headerLeft: () => <BackButton /> })
 
-  const { loading, error, data } = useQuery<LastInsightsResponse>(lastInsightsQuery, {
-    variables: { numberOfItems: 1 },
-  })
+  useEffect(() => {
+    if (postId) getPost()
+  }, [postId, getPost])
 
   if (error) {
     logError(error, `[Post.tsx] ${error.message}`)
@@ -59,66 +68,80 @@ const PostDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => 
   if (loading || error) {
     return <></>
   }
-  const insights: Insight[] = data?.lastInsights?.length ? data.lastInsights : fakeInsights
-  const insight = insights.find((insight) => insight.id == insightId)
-  if (!insight) return <HoliText>{t('insights.insight.notFound', { insightId })}</HoliText>
+
+  const post = data?.postById
+
+  if (!post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
 
   const author = {
-    ...insight.curator,
-    fullName: userFullName(insight.curator),
-    name: userFullName(insight.curator),
-    avatar: faker.image.avatar(), // TODO: dummy image
+    ...post.creator,
+    fullName: userFullName(post.creator),
   }
-
-  const post = fakePosts[0]
 
   const comments = post.comments || []
 
   const commenters = comments?.map((comment) => comment.creator) || []
 
+  if (keyboardHeight > 0) {
+    scrollView.current?.scrollToEnd()
+  }
+
   return (
     <>
-      <StatusBar animated />
-      <DefaultLayout>
-        {/* Post content */}
-        <View style={[mixins.container, styles.postView]}>
-          {/* Post title */}
-          <View style={styles.header}>
-            <HoliHeading level="1" size="medium">
-              {title}
-            </HoliHeading>
-            <HoliButton transparent inline label={t('insights.post.preview.more')} style={styles.moreButton}>
-              <HoliIcon icon="more" color={colors.fontColorGrey} />
-            </HoliButton>
+      <KeyboardAvoidingView behavior="position">
+        <StatusBar animated />
+        <DefaultLayout ref={scrollView} style={{ paddingBottom: 0 }}>
+          {/* Post content */}
+          <View style={[mixins.container, styles.postView]}>
+            {/* Post title */}
+            <View style={styles.header}>
+              <HoliHeading level="1" size="medium">
+                {title}
+              </HoliHeading>
+              <HoliButton transparent inline label={t('insights.post.preview.more')} style={styles.moreButton}>
+                <HoliIcon icon="more" color={colors.fontColorGrey} />
+              </HoliButton>
+            </View>
+
+            {/* Post creator */}
+            <HoliMediaHeader
+              title={author.fullName}
+              author={author}
+              date={post.created}
+              boldTitle
+              style={styles.mediaHeader}
+            />
+
+            <HoliText style={styles.body}>{post.text}</HoliText>
           </View>
 
-          {/* Post creator */}
-          <HoliMediaHeader
-            title={author.fullName}
-            author={author}
-            date={post.created}
-            boldTitle
-            style={styles.mediaHeader}
-          />
+          {/* Post comments */}
+          {comments.length > 0 && (
+            <View style={[mixins.container, styles.commentsView]}>
+              <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
+                {t('insights.post.response', { count: comments.length })}
+              </HoliUserAvatarPile>
 
-          <HoliText style={styles.body}>{post.text}</HoliText>
-        </View>
+              <CommentConnector style={styles.commentConnector} />
 
-        {/* Post comments */}
-        {comments.length > 0 && (
-          <View style={[mixins.container, styles.commentsView]}>
-            <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
-              {t('insights.post.response', { count: comments.length })}
-            </HoliUserAvatarPile>
-
-            <CommentConnector style={styles.commentConnector} />
-
-            {comments.map((comment) => (
-              <CommentView key={comment.id} comment={comment} style={styles.comment} />
-            ))}
-          </View>
-        )}
-      </DefaultLayout>
+              {comments.map((comment) => (
+                <CommentView key={comment.id} comment={comment} style={styles.comment} />
+              ))}
+            </View>
+          )}
+          {/* Create comment block */}
+          {showTextInput && <CreateCommentView user={user} />}
+        </DefaultLayout>
+      </KeyboardAvoidingView>
+      {!showTextInput && (
+        <PostCommentButton
+          onPress={() => {
+            setShowTextInput(true)
+            console.log('scrolling', scrollView.current)
+            scrollView.current?.scrollToEnd()
+          }}
+        />
+      )}
     </>
   )
 }
