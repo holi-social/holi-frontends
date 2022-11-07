@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { memo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -44,7 +44,7 @@ const AccountSettings: React.VFC<ScreenProps> = ({ navigation }) => {
   )
 }
 
-export default AccountSettings
+export default memo(AccountSettings)
 
 const styles = StyleSheet.create({
   accountSettings: {

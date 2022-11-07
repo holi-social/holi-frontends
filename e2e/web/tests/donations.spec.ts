@@ -1,6 +1,13 @@
 import { Locator, Page, expect, test } from '@playwright/test'
 
-import { checkAccessibility, clickElementByTestId, locateElementByTestId, waitForElementByTestId } from './helpers'
+import {
+  checkAccessibility,
+  clickElement,
+  clickElementByTestId,
+  locateElementBySelector,
+  locateElementByTestId,
+  waitForElementByTestId,
+} from './helpers'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/apps/donations')
@@ -75,7 +82,11 @@ test.describe('@Donations', () => {
     await initiativePage.close() // close newly opened tab
   })
 
-  const filterForLocation = async (page: Page, location: string, { assertAccessibility = false } = {}) => {
+  const filterForLocation = async (
+    page: Page,
+    location: string,
+    { assertAccessibility = false, useSuggestion = false } = {}
+  ) => {
     // open search modal
     await clickElementByTestId(page, 'donations-search-button')
 
@@ -86,6 +97,12 @@ test.describe('@Donations', () => {
     // enter location
     const locationInput = await locateElementByTestId(page, 'donations-search-location-input')
     await locationInput.fill(location)
+
+    // expect suggestions
+    const element = await locateElementBySelector(page, '[role="menuitem"]')
+    if (useSuggestion) {
+      await clickElement(element)
+    }
 
     // close search modal
     await clickElementByTestId(page, 'donations-search-modal-close-btn')
@@ -137,7 +154,7 @@ test.describe('@Donations', () => {
     await waitForElementByTestId(page, 'donations-list-unfiltered')
 
     // filter for "Hamburg"
-    await filterForLocation(page, 'Hamburg')
+    await filterForLocation(page, 'Hamburg', { useSuggestion: true })
 
     // assert and compare results
     heading = await locateElementByTestId(page, 'donations-list-search-heading')
@@ -174,27 +191,5 @@ test.describe('@Donations', () => {
     // expect filtered list
     heading = await locateElementByTestId(page, 'donations-list-search-heading')
     await expect(heading).toContainText('Hamburg')
-  })
-
-  test('should display donation updates', async ({ page }) => {
-    // navigate to home and check if donation updates are displayed
-    await page.goto('/')
-    await waitForElementByTestId(page, 'donations-updates-heading')
-    await waitForElementByTestId(page, 'donations-updates-container')
-    await waitForElementByTestId(page, 'donations-updates-item')
-    await checkAccessibility(page)
-
-    // click first element in ScrollView
-    await clickElementByTestId(page, 'donations-updates-item')
-
-    // expect detail view
-    await waitForElementByTestId(page, 'donations-project-detail-heading')
-
-    // navigate back
-    await clickElementByTestId(page, 'nav-button-back')
-
-    // click on "see more" / navigate to donations app
-    await clickElementByTestId(page, 'donations-updates-load-more-button')
-    await waitForElementByTestId(page, 'donations-list-container')
   })
 })

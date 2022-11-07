@@ -10,6 +10,8 @@ import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
 import Logout from '@holi/core/auth/screens/Logout'
 import Registration from '@holi/core/auth/screens/Registration'
+import HeaderRight from '@holi/core/navigation/components/HeaderRight'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
@@ -21,12 +23,22 @@ import SettingsOverview from '@holi/core/screens/userprofile/SettingsOverview'
 import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
+import HeaderAnimated, { NativeStackNavigationCustomHeaderOptions } from '@holi/mobile/navigation/HeaderAnimated'
 import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
-import { BackButton, CenterElement, DownButton, LeftElement, RightElement } from './components'
+import {
+  BackButton,
+  CenterElement,
+  DownButton,
+  ItemRow,
+  LeftElement,
+  RightElement,
+  TitleLeftElement,
+} from './components'
 
 export type HomeStackScreens = {
   AccountSettings: undefined
@@ -36,13 +48,13 @@ export type HomeStackScreens = {
   OwnProfile: undefined
   PostDetailPage: PostDetailPageParams
   SettingsOverview: undefined
-  UserProfile: UserProfileParams
+  Search: undefined
 }
 
 export type BottomTabsScreens = {
   Home: undefined
   Chat: undefined
-  Search: undefined
+  UserProfile: UserProfileParams
   Spaces: undefined
 }
 
@@ -54,6 +66,7 @@ export type RootStackScreens = {
   Logout: undefined
   Registration: undefined
   ForgotPassword: undefined
+  Search: undefined
 }
 
 const HomeStack = createNativeStackNavigator<HomeStackScreens>()
@@ -61,15 +74,14 @@ const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
 export const HomeStackNavigator: React.VFC = () => {
+  const { navigate } = useRouting()
+  const { t } = useTranslation()
+
   return (
     <HomeStack.Navigator
       initialRouteName="HomeFeed"
       screenOptions={{
-        headerShown: true,
-        headerStyle: {
-          backgroundColor: colors.backgroundColorWhite,
-        },
-        headerTitleAlign: 'center',
+        header: HeaderAnimated,
         headerShadowVisible: false,
       }}
     >
@@ -79,9 +91,26 @@ export const HomeStackNavigator: React.VFC = () => {
         options={{
           headerBackTitleVisible: true,
           headerBackVisible: true,
-          headerTitle: CenterElement,
-          headerLeft: LeftElement,
-          headerRight: RightElement,
+          headerTransparent: true,
+          headerStyle: { backgroundColor: colors.backgroundColorWhite },
+          headerTitle: () => null,
+          headerLeft: TitleLeftElement,
+          headerRight: ({ tintColor }) => (
+            <ItemRow>
+              <HoliButton
+                label={t('notifications.title')}
+                inline
+                transparent
+                onPress={() => navigate('/notifications')}
+              >
+                <HoliIcon icon="notification-2" size={24} color={tintColor} />
+              </HoliButton>
+
+              <HoliButton label={t('navigation.search')} inline transparent onPress={() => navigate('/search')}>
+                <HoliIcon icon="search" size={24} color={tintColor} />
+              </HoliButton>
+            </ItemRow>
+          ),
         }}
       />
       <HomeStack.Screen
@@ -118,8 +147,8 @@ export const HomeStackNavigator: React.VFC = () => {
         }}
       />
       <HomeStack.Screen
-        name="UserProfile"
-        component={UserProfile}
+        name="Search"
+        component={Search}
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
@@ -131,9 +160,16 @@ export const HomeStackNavigator: React.VFC = () => {
       <HomeStack.Screen
         name="InsightDetailPage"
         component={InsightDetailPage}
-        options={{
-          headerShown: false,
-        }}
+        options={
+          {
+            headerTransparent: true,
+            headerTintColor: colors.fontColorWhite,
+            headerLeft: BackButton,
+            headerCustomOptions: {
+              headerBackgroundGradient: true,
+            },
+          } as NativeStackNavigationCustomHeaderOptions
+        }
       />
       <HomeStack.Screen
         name="PostDetailPage"
@@ -218,16 +254,14 @@ export const BottomTabsNavigator: React.VFC = () => {
         }}
       />
       <BottomTabs.Screen
-        name="Search"
-        component={Search}
+        name="UserProfile"
+        component={UserProfile}
         options={{
           headerTitleAlign: 'center',
           headerShadowVisible: false,
           tabBarShowLabel: false,
           headerTitle: CenterElement,
-          tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="search" size={24} filled={focused} style={{ color: iconColor(focused) }} />
-          },
+          tabBarIcon: HeaderRight,
         }}
       />
     </BottomTabs.Navigator>

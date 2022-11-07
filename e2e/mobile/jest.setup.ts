@@ -5,6 +5,7 @@ import { logout } from './helpers/auth'
 import { navigateBackToHomeScreen, waitForHomeScreen } from './helpers/navigation'
 
 global.platform = appiumConfig.platform
+global.target = target
 
 beforeEach(async () => {
   // make test name visible in BrowserStack

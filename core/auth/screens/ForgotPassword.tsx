@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform } from 'react-native'
 
@@ -16,7 +16,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const ForgotPassword: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+const ForgotPassword: React.VFC<ScreenProps> = ({ navigation }) => {
   const { t } = useTranslation()
   const [success, setSuccuss] = useState(false)
 
@@ -41,4 +41,4 @@ const ForgotPassword: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => 
   )
 }
 
-export default ForgotPassword
+export default memo(ForgotPassword)

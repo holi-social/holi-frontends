@@ -34,12 +34,12 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             ChatHome: 'chat',
           },
         },
-        Search: {
-          initialRouteName: 'Search',
-          screens: {
-            Search: 'search',
-          },
-        },
+      },
+    },
+    Search: {
+      initialRouteName: 'Search',
+      screens: {
+        Search: 'search',
       },
     },
     // apps from the HOLI store
