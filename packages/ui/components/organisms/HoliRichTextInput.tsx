@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   NativeSyntheticEvent,
   Platform,
@@ -10,11 +10,12 @@ import {
   View,
 } from 'react-native'
 
-import { findMatchByStartPhrase } from '@holi/ui/helper/string'
+import { findMentionMatches } from '@holi/ui/helper/string'
 
 const HoliRichInput: React.VFC = () => {
   const [inputText, setInputText] = useState('')
   const [formattedText, setFormattedText] = useState('')
+  const [mentions, setMentions] = useState([])
   const [selection, setSelection] = useState({
     start: 0,
     end: 0,
@@ -34,21 +35,55 @@ const HoliRichInput: React.VFC = () => {
   }
 
   const onChangeText = (text) => {
-    console.log('onChangeText()', text)
     setInputText(text)
-    // TODO
-    setFormattedText(text)
-    const result = findMatchByStartPhrase(text, '@')
-    console.log('**************** findMatchByStartPhrase()', result)
+    updateDisplayText()
+    const foundMention = findMentionMatches(text)
+
+    console.log('foundMention', foundMention)
+
+    if (foundMention?.replaceableString?.charAt(foundMention?.replaceableString?.length - 1) === ' ') {
+      const newMentions = [...mentions, foundMention]
+      setMentions(newMentions)
+    }
+  }
+
+  useEffect(() => {
+    updateDisplayText()
+    const saveText = getTextWithInfo()
+    console.log('### text to save:', saveText)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mentions])
+
+  const getTextWithInfo = () => {
+    const newFormattedText = mentions.reduce((previousValue, currentValue) => {
+      const newTExt = previousValue.replace(
+        currentValue.replaceableString,
+        `[${currentValue.replaceableString}](${'123'}) `
+      )
+      return newTExt
+    }, inputText)
+    return newFormattedText
+  }
+
+  const updateDisplayText = () => {
+    const newFormattedText = mentions.reduce((previousValue, currentValue) => {
+      const newTExt = previousValue.replace(currentValue.replaceableString, currentValue.matchingString)
+      return newTExt
+    }, inputText)
+
+    setFormattedText(newFormattedText)
+    return newFormattedText
   }
 
   const handleSelectionChange = (event: NativeSyntheticEvent<TextInputSelectionChangeEventData>) => {
     const newSelection = event.nativeEvent.selection
     if (newSelection.end === newSelection.start) return
 
-    console.log('handleSelectionChange()', selection, newSelection)
+    console.log('handleSelectionChange() old:', JSON.stringify(selection))
 
     const newSelc = { ...event.nativeEvent.selection }
+    // console.log('handleSelectionChange() new:', JSON.stringify(newSelc))
+
     // TODO: adjust selections for mentions
     // const prevSelc = selection
     // if (newSelc.start !== newSelc.end) {
@@ -107,7 +142,6 @@ const HoliRichInput: React.VFC = () => {
           autoFocus
           placeholder={'some placeholder'}
           numberOfLines={1}
-          name="message"
           value={inputText}
           onBlur={onBlur}
           onChange={onChange}
