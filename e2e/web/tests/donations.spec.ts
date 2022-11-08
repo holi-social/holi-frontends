@@ -2,6 +2,57 @@ import { Locator, Page, expect, test } from '@playwright/test'
 
 import { checkAccessibility, clickElementByTestId, locateElementByTestId, waitForElementByTestId } from './helpers'
 
+const extractResultCount = async (element: Locator): Promise<number> => {
+  const textContent = await element.textContent()
+  const numberMatch = textContent?.match(/\d+/)
+  if (numberMatch && numberMatch.length) {
+    return parseInt(numberMatch[0], 10)
+  }
+  return 0
+}
+
+const extractNewsCount = async (element: Locator): Promise<number> => {
+  const textContent = await element.textContent()
+  const numberNews = textContent?.match(/\(([^)]+)\)/)
+  if (numberNews && numberNews.length) {
+    return parseInt(numberNews[1], 10)
+  }
+  return 0
+}
+
+const filterForLocation = async (page: Page, location: string, { assertAccessibility = false } = {}) => {
+  // open search modal
+  await clickElementByTestId(page, 'donations-search-button')
+
+  if (assertAccessibility) {
+    await checkAccessibility(page)
+  }
+
+  // enter location
+  const locationInput = await locateElementByTestId(page, 'donations-search-location-input')
+  await locationInput.fill(location)
+
+  // close search modal
+  await clickElementByTestId(page, 'donations-search-modal-close-btn')
+
+  // wait for results
+  await waitForElementByTestId(page, 'donations-list-container')
+}
+
+const resetFilterInModal = async (page: Page) => {
+  // open search modal
+  await clickElementByTestId(page, 'donations-search-button')
+
+  // reset filter
+  await clickElementByTestId(page, 'donations-search-form-reset')
+
+  // close search modal
+  await clickElementByTestId(page, 'donations-search-modal-close-btn')
+
+  // wait for results
+  await waitForElementByTestId(page, 'donations-list-container')
+}
+
 test.beforeEach(async ({ page }) => {
   await page.goto('/apps/donations')
 })
@@ -75,47 +126,22 @@ test.describe('@Donations', () => {
     await initiativePage.close() // close newly opened tab
   })
 
-  const filterForLocation = async (page: Page, location: string, { assertAccessibility = false } = {}) => {
-    // open search modal
-    await clickElementByTestId(page, 'donations-search-button')
-
-    if (assertAccessibility) {
-      await checkAccessibility(page)
-    }
-
-    // enter location
-    const locationInput = await locateElementByTestId(page, 'donations-search-location-input')
-    await locationInput.fill(location)
-
-    // close search modal
-    await clickElementByTestId(page, 'donations-search-modal-close-btn')
-
-    // wait for results
+  test('should display news on project details', async ({ page }) => {
     await waitForElementByTestId(page, 'donations-list-container')
-  }
+    // click first element in list
+    await clickElementByTestId(page, 'donations-list-item')
+    // expect news section with correct count
+    const newsCounter = await locateElementByTestId(page, 'donations-news-count')
+    const newsCount = await extractNewsCount(newsCounter)
+    const spotlightNewsCount = await (await locateElementByTestId(page, 'donation-news-spotlight')).count()
+    const otherNewsCount = await (await locateElementByTestId(page, 'donations-news-other-item')).count()
 
-  const extractResultCount = async (element: Locator): Promise<number> => {
-    const textContent = await element.textContent()
-    const numberMatch = textContent?.match(/\d+/)
-    if (numberMatch && numberMatch.length) {
-      return parseInt(numberMatch[0], 10)
-    }
-    return 0
-  }
-
-  const resetFilterInModal = async (page: Page) => {
-    // open search modal
-    await clickElementByTestId(page, 'donations-search-button')
-
-    // reset filter
-    await clickElementByTestId(page, 'donations-search-form-reset')
-
-    // close search modal
-    await clickElementByTestId(page, 'donations-search-modal-close-btn')
-
-    // wait for results
-    await waitForElementByTestId(page, 'donations-list-container')
-  }
+    expect(newsCount).toBeDefined
+    // spotlight is shown when any news exist
+    expect(spotlightNewsCount).toBe(newsCount === 0 ? 0 : 1)
+    // up to 4 other news are shown after the spotlight
+    expect(otherNewsCount).toBe(newsCount === 0 ? 0 : newsCount >= 5 ? 4 : newsCount - 1)
+  })
 
   test('should filter donations by location and reset', async ({ page }) => {
     // filter for "Germany"
