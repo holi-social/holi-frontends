@@ -14,6 +14,7 @@ import HeaderRight from '@holi/core/navigation/components/HeaderRight'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
+import CreatePostCommentPage, { CreatePostCommentPageParams } from '@holi/core/screens/comments/CreatePostCommentPage'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
 import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
@@ -47,6 +48,7 @@ export type HomeStackScreens = {
   Notifications: undefined
   OwnProfile: undefined
   PostDetailPage: PostDetailPageParams
+  CreatePostCommentPage: CreatePostCommentPageParams
   SettingsOverview: undefined
   Search: undefined
 }
@@ -182,6 +184,16 @@ export const HomeStackNavigator: React.VFC = () => {
         }}
       />
       <HomeStack.Screen
+        name="CreatePostCommentPage"
+        component={CreatePostCommentPage}
+        options={{
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+          headerTitle: CenterElement,
+          headerLeft: BackButton,
+        }}
+      />
+      <HomeStack.Screen
         name="Notifications"
         component={Notifications}
         options={{
@@ -211,7 +223,9 @@ export const BottomTabsNavigator: React.VFC = () => {
             paddingHorizontal: 0,
             borderTopWidth: StyleSheet.hairlineWidth,
             borderTopColor: colors.fontColorGrey,
-            ...(focusedRoute === 'PostDetailPage' ? { display: 'none' } : {}),
+            ...(focusedRoute === 'PostDetailPage' || focusedRoute === 'CreatePostCommentPage'
+              ? { display: 'none' }
+              : {}),
           },
         }
       }}

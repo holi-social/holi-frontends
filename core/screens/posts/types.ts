@@ -1,5 +1,5 @@
-import { Comment } from 'core/screens/comments/types'
-import { User } from 'core/screens/userprofile/types'
+import { Comment } from '@holi/core/screens/comments/types'
+import { User } from '@holi/core/screens/userprofile/types'
 
 export interface Post {
   id: string

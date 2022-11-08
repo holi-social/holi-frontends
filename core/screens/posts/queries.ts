@@ -2,7 +2,7 @@ import { gql } from '@apollo/client/core'
 
 import { Post } from '@holi/core/screens/posts/types'
 
-const PostFragment = gql`
+export const PostFragment = gql`
   fragment PostFull on Post {
     id
     title

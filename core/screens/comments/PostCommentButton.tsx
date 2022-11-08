@@ -1,6 +1,6 @@
 import React from 'react'
-// import { useTranslation } from 'react-i18next'
-import { GestureResponderEvent, StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { GestureResponderEvent, Platform, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -12,11 +12,17 @@ interface PostCommentButtonProps {
 }
 
 const PostCommentButton: React.VFC<PostCommentButtonProps> = ({ onPress, style }) => {
-  // const { t } = useTranslation()
+  const { t } = useTranslation()
 
   return (
-    <HoliButton style={[styles.wrapper, style]} inline label="Leave a response..." transparent onPress={onPress}>
-      <HoliText style={styles.text}>Leave a response...</HoliText>
+    <HoliButton
+      inline
+      transparent
+      style={[styles.wrapper, style]}
+      label={t('insights.posts.comments.create_comment_button')}
+      onPress={onPress}
+    >
+      <HoliText style={styles.text}>{t('insights.posts.comments.create_comment_button')}</HoliText>
     </HoliButton>
   )
 }
@@ -25,14 +31,18 @@ export default PostCommentButton
 
 const styles = StyleSheet.create({
   wrapper: {
-    position: 'fixed',
-    height: 100,
-    bottom: 0,
-    paddingTop: 17,
+    paddingTop: 18,
     paddingBottom: 50,
     paddingHorizontal: 24,
     borderTopColor: colors.borderColorGrey,
+    backgroundColor: colors.backgroundColor,
     borderTopWidth: 1,
+    ...Platform.select({
+      web: {
+        paddingBottom: 100,
+        width: '100%',
+      },
+    }),
   },
   text: {
     color: colors.fontColorGrey,
