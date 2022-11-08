@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   taskTile: {
-    marginRight: 8, // TODO how to take full width? HoliGrid?
+    marginRight: 8,
   },
 })
 

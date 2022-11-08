@@ -14,17 +14,17 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 import { Task } from './types.ts'
 
 export type SpaceTaskTileProps = {
-  styleProp?: StyleProp<ViewStyle>
+  style?: StyleProp<ViewStyle>
   task: Task
 }
 
-const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, styleProp }: SpaceTaskTileProps) => {
+const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTaskTileProps) => {
   const { t } = useTranslation()
   const { width: screenWidth } = useWindowDimensions()
   const styles = getStyles(screenWidth)
 
   return (
-    <View key={task.id} style={[styleProp, styles.taskItem]}>
+    <View key={task.id} style={[style, styles.taskItem]}>
       <View style={styles.headingAvatarContainer}>
         <HoliHeading level="2">{task.name}</HoliHeading>
         <HoliUserAvatar
@@ -53,7 +53,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, styleProp }: Space
       <HoliButton
         label={t('spaces.tasks.cta_claim')}
         onPress={() => ({})} // TODO add action
-        testID={`spaces-tasks-cta-claim-${task.id}`}
+        testID={'spaces-tasks-cta-claim'}
         inline
         style={styles.ctaClaimButton}
       >
@@ -76,7 +76,6 @@ const getStyles = (screenWidth: number) =>
       marginBottom: 16,
     },
     taskItem: {
-      ...Platform.select({ web: { paddingHorizontal: 20 } }),
       borderRadius: 16,
       borderWidth: 1,
       borderColor: colors.borderColorGrey,
