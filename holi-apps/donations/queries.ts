@@ -49,6 +49,23 @@ export const fullProjectFragment = gql`
       }
       url
     }
+    newsCount
+    news(limit: 5) {
+      id
+      title
+      publishDate
+      body
+      url
+      author {
+        name
+        picture {
+          type
+          url
+          width
+          height
+        }
+      }
+    }
   }
 `
 
