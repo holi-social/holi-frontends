@@ -34,20 +34,6 @@ export const PostFragment = gql`
   }
 `
 
-export const lastPostsQuery = gql`
-  ${PostFragment}
-
-  query LastPosts($numberOfItems: Int!) {
-    lastPosts(numberOfItems: $numberOfItems) {
-      ...PostFull
-    }
-  }
-`
-
-export type LastPostsResponse = {
-  lastPosts: Post[]
-}
-
 export const PostById = gql`
   ${PostFragment}
 

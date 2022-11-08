@@ -29,8 +29,6 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
 
   const editors = editorsOfInsight(insight)
 
-  const headerImage = insight.headerImage
-
   return (
     <View {...props}>
       <HoliButton
@@ -39,7 +37,7 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
         onPress={() => navigate(`/insights/${insight.id}`)}
         testID="feed-insight-image-link"
       >
-        <Image source={{ uri: headerImage }} style={styles.mainImage} />
+        <Image source={{ uri: insight.headerImage }} style={styles.mainImage} />
 
         <HoliHeading level="3" selectable={true} size="xSmall" style={[styles.cagetory]}>
           {/* TODO: provide real category */}

@@ -216,7 +216,7 @@ export const BottomTabsNavigator: React.VFC = () => {
       initialRouteName="Home"
       screenOptions={({ route }) => {
         const focusedRoute = getFocusedRouteNameFromRoute(route)
-        console.log(focusedRoute)
+
         return {
           tabBarStyle: {
             backgroundColor: colors.backgroundColorWhite,

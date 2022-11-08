@@ -24,7 +24,6 @@ const PostDetail: React.VFC<PostDetailProps> = ({ post }: PostDetailProps) => {
     ...post.creator,
     fullName: userFullName(post.creator),
   }
-  console.log(author)
 
   return (
     <View style={[mixins.container, styles.postView]}>
