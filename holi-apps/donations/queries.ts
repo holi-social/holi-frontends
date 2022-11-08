@@ -50,7 +50,7 @@ export const fullProjectFragment = gql`
       url
     }
     newsCount
-    news {
+    news(limit: 5) {
       id
       title
       publishDate

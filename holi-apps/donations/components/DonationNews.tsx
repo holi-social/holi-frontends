@@ -10,23 +10,11 @@ import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { colors } from '@holi/ui/styles/globalVars'
 
-import { Picture } from '@holi-apps/donations/typings'
-
-type NewsEntry = {
-  title: string
-  id: string
-  publishDate: string
-  author?: {
-    name: string
-    picture?: Picture[]
-  }
-  body: string
-  url: string
-}
+import { News } from '@holi-apps/donations/typings'
 
 type DonationNewsProps = {
   totalEntries: number
-  news: NewsEntry[]
+  news: News[]
   style?: ViewStyle | ViewStyle[]
 }
 
@@ -111,11 +99,7 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
                     </HoliText>
                   )}
                 </View>
-                <HoliIcon
-                  icon="share-box"
-                  size={24}
-                  style={{ ...(!entry.url && { display: 'none' }), flexShrink: 0 }}
-                />
+                {entry.url && <HoliIcon icon="share-box" size={24} style={{ flexShrink: 0 }} />}
               </View>
             </HoliButton>
           ))}
