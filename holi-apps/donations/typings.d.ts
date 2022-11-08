@@ -24,6 +24,18 @@ export interface ProjectInitiative {
   url: string | undefined
 }
 
+export interface News {
+  title: string
+  id: string
+  publishDate: string
+  author?: {
+    name: string
+    picture?: Picture[]
+  }
+  body: string
+  url: string
+}
+
 export interface Project {
   id: number
   title: string
