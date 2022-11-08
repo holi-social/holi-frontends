@@ -15,6 +15,7 @@ import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/que
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import SpaceTaskTile from './SpaceTaskTile.tsx'
@@ -59,27 +60,39 @@ const SpaceDetails: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
 
   return (
     <DefaultLayout>
-      <View style={[mixins.container, { justifyContent: 'center', padding: 10 }]}>
+      <View style={[mixins.container, { justifyContent: 'center', padding: 24 }]}>
         <HoliHeading level="1">{space.title}</HoliHeading>
         <HoliText style={{ paddingTop: 10 }}>
           <Trans i18nKey="spaces.spaceDetails.creator" values={{ name: creator.fullName || t('Anonymous user') }} />
         </HoliText>
         <HoliText style={{ paddingTop: 10 }}>{space.description}</HoliText>
-        <HoliHeading level="2">{space.tasks.length} ways to act</HoliHeading>
-        <ScrollView horizontal={true} style={{ marginTop: 20 }} contentContainerStyle={styles.appsCarousel}>
-          {space.tasks.map((task: Task) => (
-            <SpaceTaskTile key={task.id} task={task} />
-          ))}
-        </ScrollView>
+        {space.tasks && space.tasks.length > 0 && (
+          <View>
+            <HoliHeading level="2">
+              {space.tasks.length} {t('spaces.spaceDetails.waysToActHeading')}
+            </HoliHeading>
+            <ScrollView horizontal={true} style={{ marginTop: 20 }} contentContainerStyle={styles.tasksContainer}>
+              {space.tasks.map((task: Task) => (
+                <SpaceTaskTile key={task.id} task={task} style={styles.taskTile} />
+              ))}
+            </ScrollView>
+          </View>
+        )}
       </View>
     </DefaultLayout>
   )
 }
 
 const styles = StyleSheet.create({
-  appsCarousel: {
+  container: {
+    backgroundColor: colors.backgroundColorGreyLight,
+  },
+  tasksContainer: {
     justifyContent: 'center',
     marginBottom: 30,
+  },
+  taskTile: {
+    marginRight: 8, // TODO how to take full width? HoliGrid?
   },
 })
 
