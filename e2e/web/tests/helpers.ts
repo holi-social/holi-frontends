@@ -17,11 +17,20 @@ export const locateElementByTestId = async (page: Page, testId: string): Promise
   return page.locator(selector)
 }
 
-export const clickElementByTestId = async (page: Page, testId: string) => {
-  const button = await locateElementByTestId(page, testId)
+export const locateElementBySelector = async (page: Page, selector: string): Promise<Locator> => {
+  await page.waitForSelector(selector)
+  return page.locator(selector)
+}
+
+export const clickElement = async (element: Locator) => {
   await delay(0.5) // source of flakiness and delay. Why do we need this here? Component is there, but click does not work when done too early.
   // potentially there are multiple matches, so we ensure to only click the first element
-  await button.first().click()
+  await element.first().click()
+}
+
+export const clickElementByTestId = async (page: Page, testId: string) => {
+  const button = await locateElementByTestId(page, testId)
+  return clickElement(button)
 }
 
 export const waitForAnimationEnd = async (locator: Locator) => {
