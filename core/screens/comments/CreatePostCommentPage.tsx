@@ -163,6 +163,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
             label={t('insights.posts.comments.button')}
             inline
             onPress={() =>
+              text &&
               createPostComment({
                 variables: {
                   input: { postId, text },

@@ -1,6 +1,6 @@
 import { useLazyQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -18,8 +18,10 @@ import PostCommentButton from '@holi/core/screens/comments/PostCommentButton'
 import { Comment } from '@holi/core/screens/comments/types'
 import PostDetail from '@holi/core/screens/posts/PostDetail'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
+import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -42,9 +44,11 @@ const getPostCommenters = (comments: Comment[]) => {
 }
 
 const PostDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+  const [showLoginConfirmation, setShowLoginConfirmation] = useState(false)
   const [insightId] = useParam('insightId')
   const [postId] = useParam('postId')
   const { navigate } = useRouting()
+  const { user } = useContext(UserContext)
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -103,7 +107,18 @@ const PostDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => 
 
       <PostCommentButton
         style={[styles.postCommentButton, isWeb && mixins.container]}
-        onPress={() => navigate(`/insights/${insightId}/posts/${post.id}/comment`)}
+        onPress={() =>
+          user ? navigate(`/insights/${insightId}/posts/${post.id}/comment`) : setShowLoginConfirmation(true)
+        }
+      />
+      <HoliConfirmation
+        show={showLoginConfirmation}
+        label={t('auth.login.needed.title')}
+        title={t('auth.login.needed.title')}
+        description={t('auth.login.needed.description')}
+        onDismiss={() => setShowLoginConfirmation(false)}
+        dismissText={t('auth.login.needed.dismiss')}
+        testID="post-comment-login-needed"
       />
     </>
   )
