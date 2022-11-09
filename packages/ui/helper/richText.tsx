@@ -1,7 +1,26 @@
+import { dummyUser } from '@holi/ui/helper/dummyUser'
+
+export const findByName = (name: string) => {
+  return dummyUser.filter((user) => user.name.toLowerCase().includes(name.toLowerCase()))
+}
+
 export type Mention = {
   leadOffset: number
   matchingString: string
   replaceableString: string
+}
+
+export type User = {
+  id: string
+  name: string
+}
+
+export const addDistinctItem = (objectArray: object[] = [], newObject: object, distinctPropName: string) => {
+  if (!newObject || !Object.hasOwn(newObject, distinctPropName) || !distinctPropName || distinctPropName.length < 1) {
+    return objectArray
+  }
+  const newArray = [...objectArray, newObject]
+  return [...new Map(newArray.map((item) => [item[distinctPropName], item])).values()]
 }
 
 const PUNCTUATION = '\\.,\\+\\*\\?\\$\\@\\|#{}\\(\\)\\^\\-\\[\\]\\\\/!%\'"~=<>_:;'
@@ -10,10 +29,8 @@ const TRIGGERS = ['@'].join('')
 const LENGTH_LIMIT = 75
 // 50 is the longest alias length limit.
 const ALIAS_LENGTH_LIMIT = 50
-
 // Chars we expect to see in a mention (non-space, non-punctuation).
 const VALID_CHARS = '[^' + TRIGGERS + PUNCTUATION + '\\s]'
-
 // Non-standard series of chars. Each series must be preceded and followed by
 // a valid char.
 const VALID_JOINS =
@@ -24,7 +41,6 @@ const VALID_JOINS =
   PUNCTUATION +
   ']|' + // E.g. "-' in "Salier-Hellendag"
   ')'
-
 const AtSignMentionsRegex = new RegExp(
   '(^|\\s|\\()(' + '[' + TRIGGERS + ']' + '((?:' + VALID_CHARS + VALID_JOINS + '){0,' + LENGTH_LIMIT + '})' + ')$'
 )
