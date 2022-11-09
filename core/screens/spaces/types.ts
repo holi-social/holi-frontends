@@ -6,6 +6,7 @@ export interface Space {
   description: string
   created: string
   creator: Partial<User>
+  tasks?: Task[]
 }
 
 export interface Task {

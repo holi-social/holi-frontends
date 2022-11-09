@@ -11,6 +11,7 @@ import { userFullName } from '@holi/core/helpers'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
+import SpaceTaskTile from '@holi/core/screens/spaces/SpaceTaskTile'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -18,8 +19,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import SpaceTaskTile from './SpaceTaskTile.tsx'
-import { Task } from './types.ts'
+import { Task } from './types'
 
 export type SpaceDetailsParams = {
   spaceId: string

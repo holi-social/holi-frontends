@@ -11,7 +11,7 @@ import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-import { Task } from './types.ts'
+import { Task } from './types'
 
 export type SpaceTaskTileProps = {
   style?: StyleProp<ViewStyle>
@@ -30,8 +30,8 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
         <HoliUserAvatar
           imageSrc={task.creator.avatar}
           label={userFullName(task.creator) || t('spaces.tasks.creator.anonymous')}
-          initials={task.creator.avatarLabel}
-          defaultColor={task.creator.avatarDefaultColor}
+          initials={task.creator.avatarLabel || ''}
+          defaultColor={task.creator.avatarDefaultColor || ''}
           size="micro"
         />
       </View>
@@ -84,7 +84,7 @@ const getStyles = (screenWidth: number) =>
       marginRight: 10,
       width: Platform.select({
         native: screenWidth - 24 - 24 - 20,
-        web: screenWidth > vars.breakpointS ? 300 : screenWidth - 24 - 24 - 20,
+        web: screenWidth > +vars.breakpointS ? 300 : screenWidth - 24 - 24 - 20,
       }),
     },
     descriptionContainer: { marginBottom: 16 },
