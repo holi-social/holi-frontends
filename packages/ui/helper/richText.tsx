@@ -1,3 +1,9 @@
+export type Mention = {
+  leadOffset: number
+  matchingString: string
+  replaceableString: string
+}
+
 const PUNCTUATION = '\\.,\\+\\*\\?\\$\\@\\|#{}\\(\\)\\^\\-\\[\\]\\\\/!%\'"~=<>_:;'
 const NAME = '\\b[A-Z][^\\s' + PUNCTUATION + ']'
 const TRIGGERS = ['@'].join('')
@@ -28,7 +34,7 @@ const AtSignMentionsRegexAliasRegex = new RegExp(
 )
 const CapitalizedNameMentionsRegex = new RegExp('(^|[^#])((?:' + NAME + '{' + 1 + ',})$)')
 
-export const findMentionMatches = (text: string) => {
+export const findMentionMatches = (text: string): Mention | undefined => {
   // 1. simple @-regex
   let match = AtSignMentionsRegex.exec(text)
 
@@ -70,6 +76,7 @@ export const findMentionMatches = (text: string) => {
   }
 }
 
+/* old - not sufficient */
 export const findMatchByStartPhrase = (
   text: string,
   startChar: string,

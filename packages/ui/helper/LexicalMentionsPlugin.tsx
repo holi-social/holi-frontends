@@ -9,7 +9,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
-import { findMentionMatches } from '@holi/ui/helper/string'
+import { findMentionMatches } from '@holi/ui/helper/richText'
 
 import LexicalMentionsDropdown from './LexicalMentionsDropdown'
 import { MentionTypeaheadOption } from './LexicalMentionsDropdown'

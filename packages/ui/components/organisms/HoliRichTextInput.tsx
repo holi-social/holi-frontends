@@ -6,16 +6,21 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TextInputChangeEventData,
+  TextInputContentSizeChangeEventData,
   TextInputSelectionChangeEventData,
   View,
 } from 'react-native'
 
-import { findMentionMatches } from '@holi/ui/helper/string'
+import { findMentionMatches } from '@holi/ui/helper/richText'
+import type { Mention } from '@holi/ui/helper/richText'
 
 const HoliRichInput: React.VFC = () => {
-  const [inputText, setInputText] = useState('')
-  const [formattedText, setFormattedText] = useState('')
-  const [mentions, setMentions] = useState([])
+  const [pureText, setPureText] = useState('')
+  const [inputText, setInputText] = useState<string | JSX.Element | (string | JSX.Element)[]>('')
+  const [richText, setRichText] = useState('')
+  const [mentions, setMentions] = useState<Mention[]>([])
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selection, setSelection] = useState({
     start: 0,
     end: 0,
@@ -26,62 +31,94 @@ const HoliRichInput: React.VFC = () => {
   const scrollView = useRef<ScrollView | null>(null)
 
   const onBlur = () => {
-    // toggle editor
     console.log('onBlur()')
   }
 
-  const onChange = (event) => {
-    console.log('onChange()', event.current)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const onChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+    // console.log('onChange()', event.nativeEvent)
   }
 
-  const onChangeText = (text) => {
-    setInputText(text)
-    updateDisplayText()
-    const foundMention = findMentionMatches(text)
+  const onChangeText = (text: string) => {
+    setPureText(text)
+    setInputText(highlightMentions(text))
 
+    const apiText = getFormattedText()
+    setRichText(apiText)
+
+    const foundMention = findMentionMatches(text)
     console.log('foundMention', foundMention)
 
+    // if (foundMention) {
+    //   console.log('*************** show suggestions ********************')
+    // }
+
+    // This is a workaround (select by hitting enter): TODO: select from dropdown
     if (foundMention?.replaceableString?.charAt(foundMention?.replaceableString?.length - 1) === ' ') {
-      const newMentions = [...mentions, foundMention]
-      setMentions(newMentions)
+      addMention(foundMention)
     }
+
+    // TODO: remove mention
+
+    // TODO: replace mention
+  }
+
+  const addMention = (newMention: Mention) => {
+    if (!newMention) return
+    const trimmedMention = {
+      ...newMention,
+      matchingString: newMention.matchingString.trim(),
+      replaceableString: newMention.replaceableString.trim(),
+    }
+    const newMentions = [...mentions, trimmedMention]
+    const distinctMentions = [...new Map(newMentions.map((item) => [item.matchingString, item])).values()]
+    setMentions(distinctMentions)
   }
 
   useEffect(() => {
-    updateDisplayText()
-    const saveText = getTextWithInfo()
-    console.log('### text to save:', saveText)
+    const apiText = getFormattedText()
+    setRichText(apiText)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mentions])
 
-  const getTextWithInfo = () => {
-    const newFormattedText = mentions.reduce((previousValue, currentValue) => {
-      const newTExt = previousValue.replace(
-        currentValue.replaceableString,
-        `[${currentValue.replaceableString}](${'123'}) `
-      )
-      return newTExt
-    }, inputText)
-    return newFormattedText
+  const highlightMentions = (text: string): string | JSX.Element | (string | JSX.Element)[] => {
+    return text.split(/(\s)/g).map((item) => {
+      const foundMention = findMentionMatches(item)
+      if (foundMention) {
+        return hightlightMention(foundMention)
+      }
+      return item
+    })
   }
 
-  const updateDisplayText = () => {
-    const newFormattedText = mentions.reduce((previousValue, currentValue) => {
-      const newTExt = previousValue.replace(currentValue.replaceableString, currentValue.matchingString)
-      return newTExt
-    }, inputText)
+  const hightlightMention = (mention: Mention) => {
+    return (
+      <Text key={mention.matchingString} style={{ color: 'blue' }}>
+        {mention.replaceableString}
+      </Text>
+    )
+  }
 
-    setFormattedText(newFormattedText)
+  const getFormattedText = () => {
+    if (mentions.length < 1) {
+      return pureText
+    }
+    const newFormattedText = mentions.reduce((previousValue, currentValue) => {
+      const toReplace = currentValue.replaceableString
+      const replacement = `[${toReplace}:${currentValue.matchingString}] `
+      const newTExt = previousValue.replace(toReplace, replacement)
+      return newTExt
+    }, pureText)
     return newFormattedText
   }
 
   const handleSelectionChange = (event: NativeSyntheticEvent<TextInputSelectionChangeEventData>) => {
     const newSelection = event.nativeEvent.selection
-    if (newSelection.end === newSelection.start) return
+    // if (newSelection.end === newSelection.start) return
 
-    console.log('handleSelectionChange() old:', JSON.stringify(selection))
+    // console.log('handleSelectionChange() old:', JSON.stringify(selection))
 
-    const newSelc = { ...event.nativeEvent.selection }
+    const newSelc = { ...newSelection }
     // console.log('handleSelectionChange() new:', JSON.stringify(newSelc))
 
     // TODO: adjust selections for mentions
@@ -106,7 +143,7 @@ const HoliRichInput: React.VFC = () => {
     setSelection(newSelc)
   }
 
-  const onContentSizeChange = (event) => {
+  const onContentSizeChange = (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
     // console.log('onContentSizeChange()')
     if (event) {
       // const iosTextHeight = 20.5
@@ -120,6 +157,7 @@ const HoliRichInput: React.VFC = () => {
 
   return (
     <View style={styles.container}>
+      <Text>{pureText}</Text>
       <ScrollView
         ref={scrollView}
         onContentSizeChange={() => {
@@ -127,33 +165,33 @@ const HoliRichInput: React.VFC = () => {
         }}
         style={[styles.scrollContainer, {}]}
       >
-        {/* <View style={[]}> */}
         <View style={[styles.formmatedTextWrapper]}>
-          {formattedText !== '' ? (
-            <Text style={[styles.formmatedText]}>{formattedText}</Text>
+          {/* api formatted text */}
+          {richText !== '' ? (
+            <Text style={[styles.formmatedText]}>{richText}</Text>
           ) : (
             <Text style={[styles.placeholderText]}>{placeholder}</Text>
           )}
         </View>
         <TextInput
           // ref={input => props.onRef && props.onRef(input)}
-          // style={[styles.input, { height: editorHeight }]}
           multiline
           autoFocus
-          placeholder={'some placeholder'}
+          placeholder={placeholder}
           numberOfLines={1}
-          value={inputText}
-          onBlur={onBlur}
-          onChange={onChange}
-          onChangeText={onChangeText}
+          scrollEnabled={false}
+          // value={inputText}
           // selection={selection}
           selectionColor={'#0f0'}
           onSelectionChange={handleSelectionChange}
           style={[styles.input, { height: editorHeight }]}
+          onBlur={onBlur}
+          onChange={onChange}
+          onChangeText={onChangeText}
           onContentSizeChange={onContentSizeChange}
-          scrollEnabled={false}
-        />
-        {/* </View> */}
+        >
+          <Text>{inputText}</Text>
+        </TextInput>
       </ScrollView>
     </View>
   )
@@ -162,6 +200,7 @@ const HoliRichInput: React.VFC = () => {
 export default HoliRichInput
 
 const styles = StyleSheet.create({
+  username: { color: 'blue' },
   container: {
     width: 300,
     alignSelf: 'center',
@@ -169,17 +208,15 @@ const styles = StyleSheet.create({
   scrollContainer: {
     alignSelf: 'stretch',
     position: 'relative',
-    minHeight: 40,
+    minHeight: 80,
     maxHeight: 240,
     borderWidth: 1,
     borderColor: '#0f0',
   },
   input: {
     fontSize: 16,
-    color: '#000',
-    fontWeight: '400',
     paddingHorizontal: 20,
-    minHeight: 40,
+    minHeight: 80,
     // position: 'absolute',
     // top: 0,
     // color: 'transparent',
@@ -189,7 +226,7 @@ const styles = StyleSheet.create({
     // resizeMode: 'auto',
   },
   formmatedTextWrapper: {
-    minHeight: 40,
+    minHeight: 80,
     // position: 'absolute',
     // top: 0,
     paddingHorizontal: 20,
@@ -198,13 +235,6 @@ const styles = StyleSheet.create({
   },
   formmatedText: {
     fontSize: 16,
-    fontWeight: '400',
-  },
-  mention: {
-    fontSize: 16,
-    fontWeight: '400',
-    backgroundColor: 'rgba(36, 77, 201, 0.05)',
-    color: '#244dc9',
   },
   placeholderText: {
     color: 'rgba(0, 0, 0, 0.1)',
