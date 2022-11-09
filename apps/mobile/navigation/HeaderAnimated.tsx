@@ -2,7 +2,6 @@ import { LinearGradient } from 'expo-linear-gradient'
 import React, { useEffect, useRef, useState } from 'react'
 import {
   Animated,
-  Image,
   ImageBackground,
   Platform,
   SafeAreaView,
@@ -12,11 +11,12 @@ import {
   useWindowDimensions,
 } from 'react-native'
 
-import { Header, HeaderBackButton, getHeaderTitle } from '@react-navigation/elements'
+import { Header, getHeaderTitle } from '@react-navigation/elements'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackHeaderProps, NativeStackNavigationOptions } from '@react-navigation/native-stack'
 
 import { useScrollYValue } from '@holi/core/helpers'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
 const useHeaderHideAnimation = (headerHeight: number) => {
@@ -73,7 +73,6 @@ const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, rout
     headerTintColor,
     headerLeft,
     headerBackTitle,
-    headerBackImageSource,
     headerRight,
     headerTitle,
     headerStyle,
@@ -121,7 +120,6 @@ const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, rout
           }}
           onLayout={(event) => setHeaderHeight(event.nativeEvent.layout.height)}
         >
-          {/* copied usage of Header from node_modules/@react-navigation/native-stack/src/views/NativeStackView.tsx */}
           <Header
             title={getHeaderTitle(options, route.name)}
             headerTintColor={headerTintColor}
@@ -134,18 +132,7 @@ const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, rout
                       label: headerBackTitle,
                     })
                 : headerLeft === undefined && canGoBack
-                ? ({ tintColor }) => (
-                    <HeaderBackButton
-                      tintColor={tintColor}
-                      backImage={
-                        headerBackImageSource !== undefined
-                          ? () => <Image source={headerBackImageSource} style={[styles.backImage, { tintColor }]} />
-                          : undefined
-                      }
-                      onPress={navigation.goBack}
-                      canGoBack={canGoBack}
-                    />
-                  )
+                ? ({ tintColor }) => <HeaderBackButton tintColor={tintColor} onPress={navigation.goBack} />
                 : headerLeft
             }
             headerRight={
