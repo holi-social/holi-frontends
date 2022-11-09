@@ -1,23 +1,26 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const ChatHome: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+const ChatHome: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const title = t('chat.title')
   const mixins = useStyleMixins()
+  const { setOptions } = useUnifiedNavigation()
 
-  useNavigationHeader(navigation, { title: title })
+  useLayoutEffect(() => {
+    setOptions({ title })
+  }, [setOptions, title])
 
   return (
     <DefaultLayout>

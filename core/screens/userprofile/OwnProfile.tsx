@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useContext, useState } from 'react'
+import React, { memo, useCallback, useContext, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -8,7 +8,7 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import BackButton from '@holi/core/navigation/components/BackButton'
-import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import LoggedOutView from '@holi/core/screens/userprofile/components/LoggedOutView'
 import OwnProfileView, { EditModeState } from '@holi/core/screens/userprofile/components/OwnProfileView'
@@ -25,7 +25,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const OwnProfile: React.VFC<ScreenProps> = ({ navigation }) => {
+const OwnProfile: React.VFC<ScreenProps> = () => {
   const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
   const closeModal = useCallback(() => {
@@ -40,26 +40,39 @@ const OwnProfile: React.VFC<ScreenProps> = ({ navigation }) => {
   const mixins = useStyleMixins()
 
   const profileTitle = isLoggedIn && user && user.firstName ? '' : t('profile.title')
-  useNavigationHeader(navigation, {
-    headerLeft: () => <BackButton />,
-    title: profileTitle,
-    headerRight: () =>
-      isLoggedIn && (
-        <HoliButton inline transparent label={t('profile.edit')} onPress={editProfile} style={styles.headerEditButton}>
-          <HoliText size="small" bold style={{ color: colors.fontColorGrey }}>
-            {t('profile.edit')}
-          </HoliText>
-        </HoliButton>
-      ),
-  })
+  const { setOptions } = useUnifiedNavigation()
 
   const toggleEditMode = useCallback((editMode: EditModeState) => {
     setEditMode(editMode)
     setShowModal(true)
   }, [])
+
   const editProfile = useCallback(() => {
     toggleEditMode('profile')
   }, [toggleEditMode])
+
+  useLayoutEffect(
+    () =>
+      setOptions({
+        headerLeft: () => <BackButton />,
+        title: profileTitle,
+        headerRight: () =>
+          isLoggedIn && (
+            <HoliButton
+              inline
+              transparent
+              label={t('profile.edit')}
+              onPress={editProfile}
+              style={styles.headerEditButton}
+            >
+              <HoliText size="small" bold style={{ color: colors.fontColorGrey }}>
+                {t('profile.edit')}
+              </HoliText>
+            </HoliButton>
+          ),
+      }),
+    [setOptions, profileTitle, t, isLoggedIn, editProfile]
+  )
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let EditFormComponent: React.VFC<any> = UserProfileForm

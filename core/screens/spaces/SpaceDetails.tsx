@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
@@ -8,9 +8,8 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { userFullName } from '@holi/core/helpers'
-import BackButton from '@holi/core/navigation/components/BackButton'
-import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -25,13 +24,14 @@ const { useParam } = createParam<SpaceDetailsParams>()
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const SpaceDetails: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+const SpaceDetails: React.VFC<ScreenProps> = () => {
   const [spaceId] = useParam('spaceId')
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const { setOptions } = useUnifiedNavigation()
 
-  useNavigationHeader(navigation, { title: 'Space Details', headerLeft: () => <BackButton /> })
+  useLayoutEffect(() => setOptions({ title: 'Space Details' }), [setOptions])
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { id: spaceId },

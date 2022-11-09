@@ -1,5 +1,5 @@
 import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/kratos-client'
-import React, { memo, useCallback, useContext, useEffect, useState } from 'react'
+import React, { memo, useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
 
@@ -16,8 +16,8 @@ import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { displayError } from '@holi/core/errors/helpers'
 import BackButton from '@holi/core/navigation/components/BackButton'
-import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -25,23 +25,27 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const Login: React.VFC<ScreenProps> = ({ navigation }) => {
+const Login: React.VFC<ScreenProps> = () => {
   const { isLoggedIn, setUserLoggedIn } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
   const { replaceRoute } = useRouting()
   const { t } = useTranslation()
+  const { setOptions } = useUnifiedNavigation()
 
-  const title = t('auth.login')
-  useNavigationHeader(navigation, {
-    title: title,
-    headerCenter: () => (
-      <HoliHeading level="1" size="small">
-        {title}
-      </HoliHeading>
-    ),
-    headerLeft: () => (Platform.OS === 'web' ? <HoliText /> : <BackButton icon="arrow-down-s" />),
-    headerRight: () => (Platform.OS === 'web' ? <BackButton icon="close" /> : <HoliText />),
-  })
+  useLayoutEffect(() => {
+    const title = t('auth.login')
+
+    setOptions({
+      title: title,
+      headerTitle: () => (
+        <HoliHeading level="1" size="small">
+          {title}
+        </HoliHeading>
+      ),
+      headerLeft: () => (Platform.OS === 'web' ? <HoliText /> : <BackButton icon="arrow-down-s" />),
+      headerRight: () => (Platform.OS === 'web' ? <BackButton icon="close" /> : <HoliText />),
+    })
+  }, [setOptions, t])
 
   const initializeFlow = useCallback(() => {
     initLoginFlow()

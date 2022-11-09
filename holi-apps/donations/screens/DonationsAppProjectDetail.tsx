@@ -7,9 +7,8 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { displayError } from '@holi/core/errors/helpers'
-import BackButton from '@holi/core/navigation/components/BackButton'
-import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -32,17 +31,12 @@ const { useParam } = createParam<DonationsAppProjectDetailParams>()
 
 type DonationsAppProjectDetailProps = NativeStackScreenProps<HomeStackScreens>
 
-const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
-  navigation,
-}: DonationsAppProjectDetailProps) => {
+const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () => {
   const [projectId] = useParam('projectId')
   const { t, i18n } = useTranslation()
-  const title = t('donations:app.name')
+  const { setOptions } = useUnifiedNavigation()
 
-  useNavigationHeader(navigation, {
-    title: title,
-    headerLeft: () => <BackButton />,
-  })
+  useLayoutEffect(() => setOptions({ title: t('donations:app.name') }), [setOptions, t])
 
   const mixins = useStyleMixins()
 
@@ -68,7 +62,6 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
 
   if (!projectId || loading) {
     // TODO: replace with proper loading indicator
-    // label={t('donations:donationListing.loading')}
     return (
       <View style={[mixins.container, styles.messageContainer]}>
         <HoliText>{t('donations:donationListing.loading')}</HoliText>

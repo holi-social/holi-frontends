@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { faker } from '@faker-js/faker'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useState } from 'react'
+import React, { memo, useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { ImageBackground, Platform, StyleSheet, View } from 'react-native'
 
@@ -11,10 +11,9 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher, userFullName } from '@holi/core/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
-import BackButton from '@holi/core/navigation/components/BackButton'
-import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { fakePosts } from '@holi/core/screens/insights/fakeInsights'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
 import PostPreview from '@holi/core/screens/posts/PostPreview'
@@ -40,7 +39,7 @@ const { useParam } = createParam<InsightDetailPageParams>()
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+const InsightDetailPage: React.VFC<ScreenProps> = () => {
   const [insightId = ''] = useParam('insightId')
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -48,17 +47,15 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
   const { navigate } = useRouting()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
   const onScreenScroll = useScrollYHandler()
-
+  const { setOptions } = useUnifiedNavigation()
   const { loading, error, data } = useQuery<InsightByIdResponse>(insightById, {
     variables: { id: insightId },
   })
 
   const insight = data?.insightById
+  const headerTitle = t('insights.insight.title', { title: insight?.title })
 
-  useNavigationHeader(navigation, {
-    title: t('insights.insight.title', { title: insight?.title }),
-    headerLeft: (props) => <BackButton {...props} />,
-  })
+  useLayoutEffect(() => setOptions({ headerTitle }), [setOptions, headerTitle])
 
   if (error) {
     console.log('######## InsightDetailPage load error')

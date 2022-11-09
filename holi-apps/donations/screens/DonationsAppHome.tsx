@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View, useWindowDimensions } from 'react-native'
 
@@ -6,8 +6,8 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import BackButton from '@holi/core/navigation/components/BackButton'
-import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -26,7 +26,7 @@ export type DonationsAppHomeParams = {
 
 const { useParam } = createParam<DonationsAppHomeParams>()
 
-const DonationsAppHome: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+const DonationsAppHome: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const title = t('donations:app.name')
   const mixins = useStyleMixins()
@@ -49,26 +49,32 @@ const DonationsAppHome: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) =
     closeModal()
   }, [setLocationQuery, closeModal])
 
-  useNavigationHeader(navigation, {
-    title: title,
-    headerCenter: () => (
-      <HoliHeading level="1" size="small">
-        {title}
-      </HoliHeading>
-    ),
-    headerLeft: () => <BackButton navigateHome icon="arrow-down-s" />,
-    headerRight: () => (
-      <HoliButton
-        label={t('donations:search.heading')}
-        inline
-        transparent
-        onPress={() => setShowSearchModal(true)}
-        testID="donations-search-button"
-      >
-        <HoliIcon icon="search-2" size={24} />
-      </HoliButton>
-    ),
-  })
+  const { setOptions } = useUnifiedNavigation()
+
+  useLayoutEffect(
+    () =>
+      setOptions({
+        title: title,
+        headerTitle: () => (
+          <HoliHeading level="1" size="small">
+            {title}
+          </HoliHeading>
+        ),
+        headerLeft: () => <BackButton navigateHome icon="arrow-down-s" />,
+        headerRight: () => (
+          <HoliButton
+            label={t('donations:search.heading')}
+            inline
+            transparent
+            onPress={() => setShowSearchModal(true)}
+            testID="donations-search-button"
+          >
+            <HoliIcon icon="search-2" size={24} />
+          </HoliButton>
+        ),
+      }),
+    [setOptions, title, t]
+  )
 
   return (
     <DefaultLayout keyboardShouldPersistTaps="always">

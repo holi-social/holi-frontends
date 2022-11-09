@@ -15,8 +15,8 @@ import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { displayError } from '@holi/core/errors/helpers'
 import { useSafeDispatch } from '@holi/core/helpers'
 import BackButton from '@holi/core/navigation/components/BackButton'
-import useNavigationHeader from '@holi/core/navigation/hooks//useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -28,7 +28,7 @@ const isWeb = Platform.OS === 'web'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const Registration: React.VFC<ScreenProps> = ({ navigation }) => {
+const Registration: React.VFC<ScreenProps> = () => {
   const { setUserLoggedIn, isLoggedIn } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
@@ -36,6 +36,7 @@ const Registration: React.VFC<ScreenProps> = ({ navigation }) => {
   const { replaceRoute } = useRouting()
   // use safe versions of this function to prevent updating state of destroyed component
   const safeSetFlow = useSafeDispatch(setFlow)
+  const { setOptions } = useUnifiedNavigation()
 
   const initializeFlow = useCallback(() => {
     if (isLoggedIn) return
@@ -51,17 +52,19 @@ const Registration: React.VFC<ScreenProps> = ({ navigation }) => {
   // When the component is mounted, we initialize a new use login flow:
   useLayoutEffect(() => initializeFlow(), [initializeFlow])
 
-  const title = t('auth.register')
-  useNavigationHeader(navigation, {
-    title: title,
-    headerCenter: () => (
-      <HoliHeading level="1" size="small">
-        {title}
-      </HoliHeading>
-    ),
-    headerLeft: () => (Platform.OS === 'web' ? <HoliText /> : <BackButton icon="arrow-down-s" />),
-    headerRight: () => (Platform.OS === 'web' ? <BackButton icon="close" /> : <HoliText />),
-  })
+  useLayoutEffect(() => {
+    const title = t('auth.register')
+    setOptions({
+      title: title,
+      headerTitle: () => (
+        <HoliHeading level="1" size="small">
+          {title}
+        </HoliHeading>
+      ),
+      headerLeft: () => (Platform.OS === 'web' ? <HoliText /> : <BackButton icon="arrow-down-s" />),
+      headerRight: () => (Platform.OS === 'web' ? <BackButton icon="close" /> : <HoliText />),
+    })
+  }, [setOptions, t])
 
   // This will update the registration flow with the user provided input:
   const onSubmit = (payload: SubmitSelfServiceRegistrationFlowBody): Promise<void> =>

@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { faker } from '@faker-js/faker'
 import { StatusBar } from 'expo-status-bar'
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -10,9 +10,8 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { userFullName } from '@holi/core/helpers'
-import BackButton from '@holi/core/navigation/components/BackButton'
-import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import CommentConnector from '@holi/core/screens/comments/CommentConnector'
 import CommentView from '@holi/core/screens/comments/CommentView'
 import { fakeInsights, fakePosts } from '@holi/core/screens/insights/fakeInsights'
@@ -37,15 +36,16 @@ const { useParam } = createParam<PostParams>()
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+const Post: React.VFC<ScreenProps> = () => {
   const [insightId] = useParam('insightId')
   const [postId] = useParam('postId')
 
   const { t } = useTranslation()
   const title = t('insights.post.title', { insightId, postId })
   const mixins = useStyleMixins()
+  const { setOptions } = useUnifiedNavigation()
 
-  useNavigationHeader(navigation, { title: title, headerLeft: () => <BackButton /> })
+  useLayoutEffect(() => setOptions({ title }), [setOptions, title])
 
   const { loading, error, data } = useQuery<LastInsightsResponse>(lastInsightsQuery, {
     variables: { numberOfItems: 1 },

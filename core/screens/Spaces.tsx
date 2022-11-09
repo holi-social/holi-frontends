@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -7,8 +7,8 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { displayError } from '@holi/core/errors/helpers'
-import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { SpacesResponse, spacesQuery } from '@holi/core/screens/spaces/queries'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -20,13 +20,14 @@ type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
 const SPACES_PAGE_SIZE = 10
 
-const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+const Spaces: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const title = t('spaces.title')
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
+  const { setOptions } = useUnifiedNavigation()
 
-  useNavigationHeader(navigation, { title: title })
+  useLayoutEffect(() => setOptions({ title }), [setOptions, title])
 
   const { loading, data, error } = useQuery<SpacesResponse>(spacesQuery, {
     variables: {
