@@ -15,8 +15,8 @@
   "devDependencies": {
     "@babel/core": "^7.18.2",
     "@babel/preset-env": "^7.18.2",
-    "@types/react": "17.0.2",
-    "@types/react-native": "0.67.7",
+    "@types/react": "18.0.25",
+    "@types/react-native": "0.70.6",
     "@types/tinycolor2": "1.4.3",
     "react-test-renderer": "17.0.2",
     "sass": "1.49.9",
@@ -25,7 +25,7 @@
   "peerDependencies": {
     "lottie-react": "^2.3.1",
     "lottie-react-native": "^5.1.4",
-    "react": "17.0.2",
+    "react": "18.1.0",
     "react-icomoon": "2.4.9",
     "react-native": "0.68.2",
     "react-native-svg": "12.3.0"

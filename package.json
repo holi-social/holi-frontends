@@ -11,10 +11,10 @@
     ]
   },
   "resolutions": {
-    "**/ts-invariant": "0.9.4",
-    "**/tslib": "2.3.1",
+    "**/ts-invariant": "0.10.3",
+    "**/tslib": "2.4.0",
     "**/@storybook/react-docgen-typescript-plugin": "1.0.1",
-    "**/@types/react": "17.0.2"
+    "**/@types/react": "18.0.25"
   },
   "scripts": {
     "mobile:dev": "yarn workspace @holi/mobile dev",
@@ -46,7 +46,7 @@
     "@testing-library/react-native": "^9.1.0",
     "@trivago/prettier-plugin-sort-imports": "^3.2.0",
     "@types/jest": "^28.1.1",
-    "@types/react-test-renderer": "17.0.2",
+    "@types/react-test-renderer": "18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
     "@typescript-eslint/parser": "^5.14.0",
     "babel-jest": "^28.1.1",
@@ -61,7 +61,7 @@
     "jest": "^28.1.1",
     "jest-expo": "^45.0.1",
     "prettier": "^2.5.1",
-    "react-test-renderer": "17.0.2",
+    "react-test-renderer": "18.1.0",
     "turbo": "^1.1.6"
   },
   "packageManager": "yarn@1.22.17"
