@@ -4,7 +4,6 @@ import { Platform, ViewStyle } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import { userFullName } from '@holi/core/helpers'
-import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -19,7 +18,6 @@ export type HeaderRightProps = {
 
 const HeaderRight: React.VFC<HeaderRightProps> = (props) => {
   const { pathname, navigate } = useRouting()
-  const { headerRight } = useNavigationContext()
   const { user } = useContext(UserContext)
   const { isLoggedIn } = useContext(AuthContext)
   const hasUserData = isLoggedIn && user
@@ -35,8 +33,6 @@ const HeaderRight: React.VFC<HeaderRightProps> = (props) => {
       ? '/login'
       : '/profile'
   }
-
-  if (headerRight) return React.cloneElement(headerRight, { style: props.style })
 
   let userAvatar
   if (hasUserData) {
