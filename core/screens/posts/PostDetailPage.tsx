@@ -86,7 +86,7 @@ const PostDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => 
   return (
     <>
       <StatusBar animated />
-      <DefaultLayout style={styles.wrapper}>
+      <DefaultLayout>
         <PostDetail post={post} />
 
         {/* Post comments */}
@@ -125,9 +125,6 @@ const PostDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => 
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    paddingBottom: 60,
-  },
   commentsView: {
     paddingTop: 20,
     paddingHorizontal: 20,
@@ -145,12 +142,11 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   postCommentButton: {
-    position: 'absolute',
     width: '100%',
-    bottom: 0,
     ...Platform.select({
       web: {
         position: 'fixed',
+        bottom: 0,
       },
     }),
   },

@@ -52,7 +52,6 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
   const { useParam } = createParam<CreatePostCommentPageParams>()
   const [insightId] = useParam('insightId')
   const [postId] = useParam('postId')
-  console.log(insightId, postId)
   const scrollViewRef = useRef<ScrollView>(null)
   const { navigate } = useRouting()
 
@@ -184,7 +183,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
 
 const styles = StyleSheet.create({
   wrapper: {
-    maxHeight: '100%',
+    height: '100%',
   },
   inputWrapper: {
     ...Platform.select({ web: { paddingHorizontal: 20 } }),
@@ -207,6 +206,11 @@ const styles = StyleSheet.create({
     marginLeft: 18,
     paddingVertical: 10,
     flex: 1,
+    ...Platform.select({
+      web: {
+        minHeight: 200,
+      },
+    }),
   },
   text: {
     lineHeight: 20,
@@ -217,7 +221,6 @@ const styles = StyleSheet.create({
   bottomBar: {
     bottom: 0,
     padding: 12,
-    position: 'absolute',
     borderTopWidth: 1,
     borderTopColor: colors.borderColorGrey,
     backgroundColor: colors.backgroundColor,
