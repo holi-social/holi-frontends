@@ -1,10 +1,10 @@
-import { Comment } from 'core/screens/comments/types'
-import { User } from 'core/screens/userprofile/types'
+import { Comment } from '@holi/core/screens/comments/types'
+import { User } from '@holi/core/screens/userprofile/types'
 
 export interface Post {
   id: string
   text: string
-  creator: Partial<User>
+  creator: User
   title: string
   created?: string // "2022-10-06T17:50:41.661594+00:00"
   modified?: string // "2022-10-06T17:50:41.661594+00:00"

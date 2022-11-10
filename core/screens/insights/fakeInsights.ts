@@ -68,6 +68,7 @@ export const fakePosts: Post[] = [
       firstName: getRandomName(),
       avatar: faker.image.avatar(),
       avatarDefaultColor: faker.color.rgb(),
+      avatarLabel: faker.random.alpha(2),
     },
     text: '123 ' + loremIpsum + loremIpsum + loremIpsum + loremIpsum + loremIpsum,
     comments: fakeComments,
@@ -81,6 +82,7 @@ export const fakePosts: Post[] = [
       firstName: getRandomName(),
       avatar: faker.image.avatar(),
       avatarDefaultColor: faker.color.rgb(),
+      avatarLabel: faker.random.alpha(2),
     },
     text: '321 ' + loremIpsum + loremIpsum + loremIpsum + loremIpsum + loremIpsum,
   },
@@ -93,6 +95,7 @@ export const fakePosts: Post[] = [
       firstName: getRandomName(),
       avatar: faker.image.avatar(),
       avatarDefaultColor: faker.color.rgb(),
+      avatarLabel: faker.random.alpha(2),
     },
     text: '123a ' + loremIpsum + loremIpsum + loremIpsum + loremIpsum + loremIpsum,
   },
@@ -105,6 +108,7 @@ export const fakePosts: Post[] = [
       firstName: getRandomName(),
       avatar: faker.image.avatar(),
       avatarDefaultColor: faker.color.rgb(),
+      avatarLabel: faker.random.alpha(2),
     },
     text: '321a ' + loremIpsum + loremIpsum + loremIpsum + loremIpsum + loremIpsum,
   },
@@ -126,6 +130,8 @@ export const fakeInsights: Insight[] = [
     curator: {
       id: 'foo',
       firstName: getRandomName(),
+      avatarDefaultColor: faker.color.rgb(),
+      avatarLabel: faker.random.alpha(2),
     },
   },
   {
@@ -140,6 +146,8 @@ export const fakeInsights: Insight[] = [
     curator: {
       id: 'bar',
       firstName: getRandomName(),
+      avatarDefaultColor: faker.color.rgb(),
+      avatarLabel: faker.random.alpha(2),
     },
   },
 ]
