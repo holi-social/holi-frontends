@@ -10,7 +10,7 @@ import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { colors } from '@holi/ui/styles/globalVars'
 
-import { News } from '@holi-apps/donations/typings'
+import { News, NewsAuthor } from '@holi-apps/donations/typings'
 
 type DonationNewsProps = {
   totalEntries: number
@@ -23,11 +23,9 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
   const styles = getStyles()
   const [mainNews, ...otherNews] = news
 
-  const author = useMemo(() => {
+  const author: NewsAuthor | undefined = useMemo(() => {
     if (!mainNews || !mainNews.author) return undefined
-
     const { name, picture } = mainNews.author
-
     return {
       name: name,
       avatar: picture ? picture.find(({ type }) => type === 'fill')?.url : '',
