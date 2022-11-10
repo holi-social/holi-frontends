@@ -58,7 +58,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
 
   const headerHeight = getHeaderHeight()
 
-  const statusBarHeight = StatusBar.currentHeight || 20 // iOS returns zero https://github.com/react-navigation/react-navigation/issues/3971
+  const statusBarHeight = Platform.OS === 'ios' ? 20 : 0 // https://github.com/react-navigation/react-navigation/issues/3971
 
   const keyboardAvoidingViewVerticalOffset = headerHeight + statusBarHeight
 
@@ -136,6 +136,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
                     style={styles.textInput}
                     placeholder={t('insights.posts.comments.placeholder')}
                     placeholderTextColor={colors.fontColorGrey}
+                    textAlignVertical="top"
                     multiline
                   >
                     <HoliText style={[styles.text, (!text && styles.placeholder) || {}]}>{text}</HoliText>
@@ -149,6 +150,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
                     style={styles.textInput}
                     placeholder={t('insights.posts.comments.placeholder')}
                     placeholderTextColor={colors.fontColorGrey}
+                    textAlignVertical="top"
                     multiline
                     value={text}
                   />
@@ -195,11 +197,11 @@ const styles = StyleSheet.create({
     marginTop: 16,
     lineHeight: 22,
     flexDirection: 'row',
+    minHeight: 200,
   },
   textInput: {
     marginLeft: 18,
     paddingVertical: 10,
-    minHeight: 200,
     flex: 1,
   },
   text: {
@@ -211,16 +213,17 @@ const styles = StyleSheet.create({
   bottomBar: {
     bottom: 0,
     padding: 12,
-    position: 'fixed',
+    position: 'absolute',
     borderTopWidth: 1,
     borderTopColor: colors.borderColorGrey,
     backgroundColor: colors.backgroundColor,
     justifyContent: 'center',
     alignItems: 'flex-end',
+    width: '100%',
 
     ...Platform.select({
       web: {
-        width: '100%',
+        position: 'fixed',
         textAlign: 'center',
         paddingBottom: 100,
       },

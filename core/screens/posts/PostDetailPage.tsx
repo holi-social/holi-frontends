@@ -86,7 +86,7 @@ const PostDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => 
   return (
     <>
       <StatusBar animated />
-      <DefaultLayout style={{ paddingBottom: 0 }}>
+      <DefaultLayout style={{ paddingBottom: 60 }}>
         <PostDetail post={post} />
 
         {/* Post comments */}
@@ -128,7 +128,6 @@ const styles = StyleSheet.create({
   commentsView: {
     paddingTop: 20,
     paddingHorizontal: 20,
-    paddingBottom: 60,
     ...Platform.select({
       web: {
         paddingBottom: 120,
@@ -143,7 +142,8 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   postCommentButton: {
-    position: 'fixed',
+    position: 'absolute',
+    width: '100%',
     bottom: 0,
   },
 })
