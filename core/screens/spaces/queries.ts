@@ -15,6 +15,23 @@ const SpaceFragment = gql`
       lastName
       aboutMe
     }
+    tasks {
+      id
+      name
+      description
+      creator {
+        id
+        avatar
+        firstName
+        lastName
+        avatarDefaultColor
+        avatarLabel
+      }
+      slotsAvailable
+      slotsTaken
+      location
+      regularity
+    }
   }
 `
 
