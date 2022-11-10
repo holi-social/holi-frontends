@@ -198,6 +198,7 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     flexDirection: 'row',
     minHeight: 200,
+    paddingBottom: 100,
   },
   textInput: {
     marginLeft: 18,
