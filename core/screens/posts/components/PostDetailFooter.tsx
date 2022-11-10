@@ -6,19 +6,19 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
-interface PostCommentButtonProps {
+interface PostDetailFooterProps {
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
 }
 
-const PostCommentButton: React.VFC<PostCommentButtonProps> = ({ onPress, style }) => {
+const PostDetailFooter: React.VFC<PostDetailFooterProps> = ({ onPress, style }) => {
   const { t } = useTranslation()
 
   return (
     <HoliButton
       inline
       transparent
-      style={[styles.wrapper, style]}
+      style={[styles.button, style]}
       label={t('insights.posts.comments.create_comment_button')}
       onPress={onPress}
     >
@@ -27,10 +27,10 @@ const PostCommentButton: React.VFC<PostCommentButtonProps> = ({ onPress, style }
   )
 }
 
-export default PostCommentButton
+export default PostDetailFooter
 
 const styles = StyleSheet.create({
-  wrapper: {
+  button: {
     paddingTop: 18,
     paddingBottom: 50,
     paddingHorizontal: 24,

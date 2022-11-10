@@ -14,9 +14,9 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import CommentConnector from '@holi/core/screens/comments/components/CommentConnector'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
-import PostCommentButton from '@holi/core/screens/comments/components/PostCommentButton'
 import { Comment } from '@holi/core/screens/comments/types'
-import PostDetail from '@holi/core/screens/posts/PostDetail'
+import PostDetail from '@holi/core/screens/posts/components/PostDetail'
+import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
@@ -105,7 +105,7 @@ const PostDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => 
         )}
       </DefaultLayout>
 
-      <PostCommentButton
+      <PostDetailFooter
         style={[styles.postCommentButton, isWeb && mixins.container]}
         onPress={() =>
           user ? navigate(`/insights/${insightId}/posts/${post.id}/comment`) : setShowLoginConfirmation(true)
