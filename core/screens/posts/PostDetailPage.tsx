@@ -12,9 +12,9 @@ import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import CommentConnector from '@holi/core/screens/comments/CommentConnector'
-import CommentView from '@holi/core/screens/comments/CommentView'
-import PostCommentButton from '@holi/core/screens/comments/PostCommentButton'
+import CommentConnector from '@holi/core/screens/comments/components/CommentConnector'
+import CommentView from '@holi/core/screens/comments/components/CommentView'
+import PostCommentButton from '@holi/core/screens/comments/components/PostCommentButton'
 import { Comment } from '@holi/core/screens/comments/types'
 import PostDetail from '@holi/core/screens/posts/PostDetail'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
@@ -86,7 +86,7 @@ const PostDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => 
   return (
     <>
       <StatusBar animated />
-      <DefaultLayout style={{ paddingBottom: 60 }}>
+      <DefaultLayout style={styles.wrapper}>
         <PostDetail post={post} />
 
         {/* Post comments */}
@@ -125,6 +125,9 @@ const PostDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => 
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    paddingBottom: 60,
+  },
   commentsView: {
     paddingTop: 20,
     paddingHorizontal: 20,
@@ -145,6 +148,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     bottom: 0,
+    ...Platform.select({
+      web: {
+        position: 'fixed',
+      },
+    }),
   },
 })
 

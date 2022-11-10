@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { userFullName } from '@holi/core/helpers'
-import CommentConnector from '@holi/core/screens/comments/CommentConnector'
+import CommentConnector from '@holi/core/screens/comments/components/CommentConnector'
 import { Comment } from '@holi/core/screens/comments/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -21,7 +21,7 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style }) => {
   const { t } = useTranslation()
 
   const { commenter } = comment
-  const name = userFullName(commenter)
+  const name = userFullName(commenter) || t('user.profileView.anonymous')
   return (
     <View style={[styles.wrapper, style]}>
       <HoliMediaHeader title={name} author={commenter} date={comment.created} boldTitle>

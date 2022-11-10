@@ -22,7 +22,7 @@ import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import CommentConnector from '@holi/core/screens/comments/CommentConnector'
+import CommentConnector from '@holi/core/screens/comments/components/CommentConnector'
 import { CreatePostCommentMutation, CreatePostCommentResponse } from '@holi/core/screens/comments/queries'
 import PostDetail from '@holi/core/screens/posts/PostDetail'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
@@ -40,19 +40,19 @@ export type CreatePostCommentPageParams = {
   postId: string
 }
 
-const { useParam } = createParam<CreatePostCommentPageParams>()
-
 type ScreenProps = NativeStackScreenProps<HomeStackScreens> & { style?: StyleProp<ViewStyle> }
 
-const isWeb = Platform.OS === 'web'
-
-// useHeaderHeight may not be used for web, and for web its value can be zero since it doesn't depend on KeyboardAvoidingView
-const getHeaderHeight = isWeb ? () => 0 : useHeaderHeight
-
 const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: ScreenProps) => {
+  const isWeb = Platform.OS === 'web'
+
+  // useHeaderHeight may not be used for web, and for web its value can be zero since it doesn't depend on KeyboardAvoidingView
+  const getHeaderHeight = isWeb ? () => 0 : useHeaderHeight
+
   const [text, setText] = useState('')
+  const { useParam } = createParam<CreatePostCommentPageParams>()
   const [insightId] = useParam('insightId')
   const [postId] = useParam('postId')
+  console.log(insightId, postId)
   const scrollViewRef = useRef<ScrollView>(null)
   const { navigate } = useRouting()
 
@@ -96,6 +96,11 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
     return <></>
   }
 
+  if (!user) {
+    navigate(`/insights/${insightId}/posts/${postId}`)
+    return null
+  }
+
   const post = data?.postById
 
   if (!post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
@@ -113,59 +118,55 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
           <PostDetail post={post} />
 
           {/* Create comment block */}
-          {user && (
-            <View style={[mixins.container, styles.inputWrapper, style]}>
-              <CommentConnector style={styles.commentConnector} />
 
-              <View style={styles.body}>
-                {user && (
-                  <HoliUserAvatar
-                    imageSrc={user.avatar}
-                    label={userFullName(user)}
-                    initials={user.avatarLabel || ''}
-                    defaultColor={user.avatarDefaultColor || ''}
-                    size="small"
-                  />
-                )}
+          <View style={[mixins.container, styles.inputWrapper, style]}>
+            <CommentConnector style={styles.commentConnector} />
 
-                {/* Mobile version */}
-                {!isWeb && (
-                  <TextInput
-                    autoFocus
-                    onChangeText={handleTextChange}
-                    style={styles.textInput}
-                    placeholder={t('insights.posts.comments.placeholder')}
-                    placeholderTextColor={colors.fontColorGrey}
-                    textAlignVertical="top"
-                    multiline
-                  >
-                    <HoliText style={[styles.text, (!text && styles.placeholder) || {}]}>{text}</HoliText>
-                  </TextInput>
-                )}
+            <View style={styles.body}>
+              <HoliUserAvatar
+                imageSrc={user.avatar}
+                label={userFullName(user)}
+                initials={user.avatarLabel || ''}
+                defaultColor={user.avatarDefaultColor || ''}
+                size="small"
+              />
 
-                {/* Web version */}
-                {isWeb && (
-                  <TextInput
-                    onChangeText={handleTextChange}
-                    style={styles.textInput}
-                    placeholder={t('insights.posts.comments.placeholder')}
-                    placeholderTextColor={colors.fontColorGrey}
-                    textAlignVertical="top"
-                    multiline
-                    value={text}
-                  />
-                )}
-              </View>
+              {/* Mobile version */}
+              {!isWeb && (
+                <TextInput
+                  autoFocus
+                  onChangeText={handleTextChange}
+                  style={styles.textInput}
+                  placeholder={t('insights.posts.comments.placeholder')}
+                  placeholderTextColor={colors.fontColorGrey}
+                  textAlignVertical="top"
+                  multiline
+                >
+                  <HoliText style={[styles.text, (!text && styles.placeholder) || {}]}>{text}</HoliText>
+                </TextInput>
+              )}
+
+              {/* Web version */}
+              {isWeb && (
+                <TextInput
+                  onChangeText={handleTextChange}
+                  style={styles.textInput}
+                  placeholder={t('insights.posts.comments.placeholder')}
+                  placeholderTextColor={colors.fontColorGrey}
+                  textAlignVertical="top"
+                  multiline
+                  value={text}
+                />
+              )}
             </View>
-          )}
+          </View>
         </ScrollView>
         <View style={[styles.bottomBar, isWeb && mixins.container]}>
           <HoliButton
-            disabled={createCommentLoading}
+            disabled={!text || createCommentLoading}
             label={t('insights.posts.comments.button')}
             inline
             onPress={() =>
-              text &&
               createPostComment({
                 variables: {
                   input: { postId, text },
