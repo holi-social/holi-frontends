@@ -190,8 +190,10 @@ const styles = StyleSheet.create({
   },
   commentConnector: {
     marginTop: 16,
-    marginBottom: 20,
+    marginBottom: 10,
     marginHorizontal: 20,
+    minHeight: 50,
+    ...Platform.select({ web: { minHeight: 75 } }),
   },
   body: {
     marginTop: 16,
@@ -226,7 +228,7 @@ const styles = StyleSheet.create({
       web: {
         position: 'fixed',
         textAlign: 'center',
-        paddingBottom: 100,
+        paddingBottom: 65,
       },
     }),
   },
