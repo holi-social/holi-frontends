@@ -34,13 +34,11 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
   return (
     <>
       <DefaultLayout>
-        <SpacesFilterHeader title={'all'} location={'hamburg'} style={styles.spacesContainer} />
-
+        <SpacesFilterHeader style={styles.spacesContainer} location={'Berlin'} all />
         <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
         <UpdatesOfYourApps style={styles.updatesOfYourApps} />
         {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}
       </DefaultLayout>
-
       {/* AppsDrawer needs to be outside of the Layout */}
       <AppsDrawer />
     </>

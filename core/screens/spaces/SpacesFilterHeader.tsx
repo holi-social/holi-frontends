@@ -1,46 +1,154 @@
 import React from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import SpacesFilterTag from '@holi/core/screens/spaces/SpacesFilterTag'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpacesFilterHeaderProps = {
-  title: string
   location?: string
+  interests?: string[]
+  all?: boolean
+  onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
 }
 
-const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({ title, location, style }) => {
+const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({ location, interests, all = false, style }) => {
+  const { t } = useTranslation()
+
   return (
     <View style={[styles.headerContainer, style]}>
-      <HoliText size="extralarge">Discover </HoliText>
-      <HoliButton label={'title'} variant="small" style={[styles.spacesFilter, styles.filter]} inline>
-        <HoliText size="extralarge">{title}</HoliText>
-        <HoliIcon icon="filter-3" size={16} style={styles.filterIcon} />
-      </HoliButton>
-      {location ? (
+      {!interests && !location && !all && (
         <>
-          <HoliText size="extralarge"> spaces in </HoliText>
-          <View>
-            <HoliIcon icon="heart" size={32} style={styles.locationIcon} filled />
-            <HoliButton label={'title'} variant="small" style={[styles.spacesFilter, styles.filter]} inline>
-              <HoliText size="extralarge">{location}</HoliText>
-            </HoliButton>
-          </View>
-          <HoliText size="extralarge"> or </HoliText>
+          <HoliText size="extralarge" style={styles.filterText}>
+            Discover
+          </HoliText>
+          <SpacesFilterTag filter={'all'} style={styles.filter} label={t('spaces:filter.all')} />
+          <HoliText size="extralarge" style={styles.filterText}>
+            spaces
+          </HoliText>
         </>
-      ) : (
-        <HoliText size="extralarge"> spaces or </HoliText>
       )}
-      <HoliButton label={'title'} variant="small" style={[styles.createSpace, styles.filter]} inline>
-        <HoliText size="extralarge">create</HoliText>
-      </HoliButton>
-      <HoliText size="extralarge"> your own</HoliText>
+      {!interests && location && !all && (
+        <>
+          <HoliText size="extralarge" style={styles.filterText}>
+            Discover
+          </HoliText>
+          <SpacesFilterTag filter={'all'} style={styles.filter} label={t('spaces:filter.all')} />
+          <HoliText size="extralarge" style={styles.filterText}>
+            spaces
+          </HoliText>
+          <HoliText size="extralarge" style={styles.filterText}>
+            in
+          </HoliText>
+          <SpacesFilterTag
+            filter={'location'}
+            location={location}
+            style={styles.filter}
+            label={t('spaces:filter.location')}
+          />
+        </>
+      )}
+      {all && (
+        <>
+          <SpacesFilterTag filter={'text'} tag={'All'} style={styles.filter} label={t('spaces:filter.all')} />
+          <HoliText size="extralarge" style={styles.filterText}>
+            spaces in
+          </HoliText>
+          <SpacesFilterTag
+            filter={'location'}
+            location={location}
+            style={styles.filter}
+            label={t('spaces:filter.location')}
+          />
+        </>
+      )}
+      {interests && location && (
+        <>
+          {interests?.length === 1 &&
+            interests?.map((interest, index) => (
+              <SpacesFilterTag
+                filter={'interests'}
+                tag={interest}
+                key={index}
+                style={styles.filter}
+                label={t('spaces:filter.interest')}
+              />
+            ))}
+          {interests?.length === 2 &&
+            interests
+              ?.slice(0, 1)
+              .map((interest, index) => (
+                <SpacesFilterTag
+                  filter={'interests'}
+                  tag={interest}
+                  key={index}
+                  style={styles.filter}
+                  label={t('spaces:filter.interest')}
+                />
+              ))}
+          {interests?.length === 2 && (
+            <HoliText size="extralarge" style={styles.filterText}>
+              and
+            </HoliText>
+          )}
+          {interests?.length === 2 &&
+            interests
+              ?.slice(1, 2)
+              .map((interest, index) => (
+                <SpacesFilterTag
+                  filter={'interests'}
+                  tag={interest}
+                  key={index}
+                  style={styles.filter}
+                  label={t('spaces:filter.interest')}
+                />
+              ))}
+          {interests?.length > 2 &&
+            interests
+              ?.slice(0, interests.length - 1)
+              .map((interest, index) => (
+                <SpacesFilterTag
+                  filter={'interests'}
+                  tag={interest}
+                  key={index}
+                  style={styles.filter}
+                  label={t('spaces:filter.interest')}
+                />
+              ))}
+          {interests?.length > 2 && (
+            <HoliText size="extralarge" style={styles.filterText}>
+              or
+            </HoliText>
+          )}
+          {interests?.length > 2 &&
+            interests
+              ?.slice(interests.length - 1, interests.length)
+              .map((interest, index) => (
+                <SpacesFilterTag
+                  filter={'interests'}
+                  tag={interest}
+                  key={index}
+                  style={styles.filter}
+                  label={t('spaces:filter.interest')}
+                />
+              ))}
+          <HoliText size="extralarge" style={styles.filterText}>
+            spaces in
+          </HoliText>
+          <SpacesFilterTag
+            filter={'location'}
+            location={location}
+            style={styles.filter}
+            label={t('spaces:filter.interest')}
+          />
+        </>
+      )}
     </View>
   )
 }
+export default SpacesFilterHeader
 
 const styles = StyleSheet.create({
   createSpace: {
@@ -48,41 +156,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   filter: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 48,
-    borderColor: colors.borderColorBlack,
-    borderWidth: 1,
+    marginRight: 4,
   },
-  filterIcon: {
-    marginLeft: 4,
+  filterText: {
+    marginRight: 4,
+  },
+  font: {
+    fontSize: 28,
+    lineHeight: 28,
   },
   headerContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
   },
-  locationFilter: {
-    backgroundColor: colors.backgroundColorGrey,
-    paddingHorizontal: 10,
-  },
-  locationIcon: {
-    marginRight: 5,
-    color: colors.positivepurple,
-    position: 'absolute',
-    order: 1,
-    left: -6,
-
-    paddingLeft: 18,
-    paddingRight: 10,
-    flexGrow: 0,
-    zIndex: 2,
-  },
-  spacesFilter: {
-    backgroundColor: colors.backgroundColorGrey,
-    zIndex: 1,
-  },
 })
-
-export default SpacesFilterHeader
