@@ -51,13 +51,13 @@ const extractResultCount = async (element: Locator): Promise<number> => {
   return 0
 }
 
-const extractNewsCount = async (element: Locator): Promise<number> => {
+const extractNewsCount = async (element: Locator): Promise<number | undefined> => {
   const textContent = await element.textContent()
   const numberNews = textContent?.match(/\(([^)]+)\)/)
   if (numberNews && numberNews.length) {
     return parseInt(numberNews[1], 10)
   }
-  return 0
+  return undefined
 }
 
 const resetFilterInModal = async (page: Page) => {
@@ -154,12 +154,16 @@ test.describe('@Donations', () => {
     const newsCount = await extractNewsCount(newsCounter)
     const spotlightNewsCount = await (await locateElementByTestId(page, 'donation-news-spotlight')).count()
     const otherNewsCount = await (await locateElementByTestId(page, 'donations-news-other-item')).count()
+    const expectedOtherNewsCount = () => {
+      if (!newsCount) return undefined
+      return newsCount === 0 ? 0 : newsCount >= 5 ? 4 : newsCount - 1
+    }
 
     expect(newsCount).toBeDefined
     // spotlight is shown when any news exist
     expect(spotlightNewsCount).toBe(newsCount === 0 ? 0 : 1)
     // up to 4 other news are shown after the spotlight
-    expect(otherNewsCount).toBe(newsCount === 0 ? 0 : newsCount >= 5 ? 4 : newsCount - 1)
+    expect(otherNewsCount).toBe(expectedOtherNewsCount())
   })
 
   test('should filter donations by location and reset', async ({ page }) => {

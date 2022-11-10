@@ -27,14 +27,14 @@ const extractResultCount = async (testId: string): Promise<number> => {
   return 0
 }
 
-const extractNewsCount = async (testId: string): Promise<number> => {
+const extractNewsCount = async (testId: string): Promise<number | undefined> => {
   const element = await waitForElementWithTestId(testId)
   const textContent = await element.getText()
   const numberNews = textContent?.match(/\(([^)]+)\)/)
   if (numberNews && numberNews.length) {
     return parseInt(numberNews[1], 10)
   }
-  return 0
+  return undefined
 }
 
 const filterForLocation = async (location: string) => {
