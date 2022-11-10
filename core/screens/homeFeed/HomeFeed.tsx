@@ -13,6 +13,7 @@ import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOf
 import UpdatesOfYourApps from '@holi/core/screens/homeFeed/components/UpdatesOfYourApps'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import HoliRichInput from '@holi/ui/components/organisms/HoliRichTextInput'
 
 type HomeFeedProps = NativeStackScreenProps<HomeStackScreens>
 
@@ -35,6 +36,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }) => {
   return (
     <>
       <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={{ paddingTop: 40 }}>
+        <HoliRichInput />
         <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
         <UpdatesOfYourApps style={styles.updatesOfYourApps} />
         {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}
