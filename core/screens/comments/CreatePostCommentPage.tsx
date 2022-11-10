@@ -57,7 +57,9 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
 
   const headerHeight = getHeaderHeight()
 
-  const keyboardAvoidingViewVerticalOffset = headerHeight
+  const statusBarHeight = Platform.OS === 'ios' ? 20 : 0 // https://github.com/react-navigation/react-navigation/issues/3971
+
+  const keyboardAvoidingViewVerticalOffset = headerHeight + statusBarHeight
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
