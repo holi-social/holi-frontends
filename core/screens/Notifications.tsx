@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
@@ -12,7 +12,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const Notifications: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+const Notifications: React.VFC<ScreenProps> = ({ navigation }) => {
   const { t } = useTranslation()
   const title = t('notifications.title')
   const mixins = useStyleMixins()
@@ -30,4 +30,4 @@ const Notifications: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   )
 }
 
-export default Notifications
+export default memo(Notifications)

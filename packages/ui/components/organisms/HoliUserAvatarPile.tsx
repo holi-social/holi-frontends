@@ -37,7 +37,7 @@ const HoliUserAvatarPile: React.FC<HoliUserAvatarPileProps> = ({
 
           return (
             <HoliUserAvatar
-              key={user.id}
+              key={`${user.id}-${Math.round(Math.random() * 100)}`}
               imageSrc={user.avatar}
               label={nameLabel || t('navigation.headerRight.avatarFallbackLabel')}
               initials={user.avatarLabel}

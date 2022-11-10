@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { memo, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
@@ -6,6 +6,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import { useScrollYHandler } from '@holi/core/helpers'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import AppsDrawer from '@holi/core/screens/homeFeed/components/AppsDrawer'
 import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
@@ -24,17 +25,17 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
   else return t('homeFeed.headerTitle.goodNight')
 }
 
-const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }: HomeFeedProps) => {
+const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }) => {
   const { isLoggedIn } = useContext(AuthContext)
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(new Date().getHours(), t)
+  const onScreenScroll = useScrollYHandler()
 
   useNavigationHeader(navigation, { title: headerTitle })
 
   return (
     <>
-      <DefaultLayout>
-        <SpacesFilterHeader style={styles.spacesContainer} location={'Berlin'} all />
+      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={{ paddingTop: 40 }}>
         <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
         <UpdatesOfYourApps style={styles.updatesOfYourApps} />
         {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}
@@ -66,4 +67,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default HomeFeed
+export default memo(HomeFeed)
