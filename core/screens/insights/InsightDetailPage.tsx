@@ -15,7 +15,7 @@ import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
-import PostPreview from '@holi/core/screens/posts/PostPreview'
+import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
