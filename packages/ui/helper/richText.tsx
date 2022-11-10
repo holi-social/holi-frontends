@@ -1,26 +1,29 @@
 import { dummyUser } from '@holi/ui/helper/dummyUser'
 
-export const findByName = (name: string) => {
-  return dummyUser.filter((user) => user.name.toLowerCase().includes(name.toLowerCase()))
+export const findUserByName = (keyword: string) => {
+  return dummyUser.filter((user) => user.name.toLowerCase().includes(keyword.toLowerCase()))
 }
 
-export type Mention = {
-  leadOffset: number
-  matchingString: string
-  replaceableString: string
+const hashtags = [
+  { id: 'todo', name: 'todo' },
+  { id: 'help', name: 'help' },
+  { id: 'loveyou', name: 'loveyou' },
+]
+export const findHashtagByName = (keyword: string) => {
+  return hashtags.filter((one) => one.name.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()))
 }
 
-export type User = {
-  id: string
-  name: string
-}
+export const REGEX_URL =
+  // eslint-disable-next-line no-useless-escape
+  /(https?:\/\/|www\.)[-a-zA-Z0-9@:%._\+~#=]{1,256}\.(xn--)?[a-z0-9-]{2,20}\b([-a-zA-Z0-9@:%_\+\[\],.~#?&\/=]*[-a-zA-Z0-9@:%_\+\]~#?&\/=])*/gi
 
 export const addDistinctItem = (objectArray: object[] = [], newObject: object, distinctPropName: string) => {
   if (!newObject || !Object.hasOwn(newObject, distinctPropName) || !distinctPropName || distinctPropName.length < 1) {
     return objectArray
   }
   const newArray = [...objectArray, newObject]
-  return [...new Map(newArray.map((item) => [item[distinctPropName], item])).values()]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return [...new Map(newArray.map((item: Record<string, any>) => [item[distinctPropName], item])).values()]
 }
 
 const PUNCTUATION = '\\.,\\+\\*\\?\\$\\@\\|#{}\\(\\)\\^\\-\\[\\]\\\\/!%\'"~=<>_:;'
@@ -41,18 +44,24 @@ const VALID_JOINS =
   PUNCTUATION +
   ']|' + // E.g. "-' in "Salier-Hellendag"
   ')'
-const AtSignMentionsRegex = new RegExp(
+export const REGEX_MENTION = new RegExp(
   '(^|\\s|\\()(' + '[' + TRIGGERS + ']' + '((?:' + VALID_CHARS + VALID_JOINS + '){0,' + LENGTH_LIMIT + '})' + ')$'
 )
 // Regex used to match alias.
 const AtSignMentionsRegexAliasRegex = new RegExp(
   '(^|\\s|\\()(' + '[' + TRIGGERS + ']' + '((?:' + VALID_CHARS + '){0,' + ALIAS_LENGTH_LIMIT + '})' + ')$'
 )
-const CapitalizedNameMentionsRegex = new RegExp('(^|[^#])((?:' + NAME + '{' + 1 + ',})$)')
+const CapitalizedNameMentionsRegex = new RegExp('(^|[^#])((?:' + NAME + '{1,})$)')
+
+export type Mention = {
+  leadOffset: number
+  matchingString: string
+  replaceableString: string
+}
 
 export const findMentionMatches = (text: string): Mention | undefined => {
   // 1. simple @-regex
-  let match = AtSignMentionsRegex.exec(text)
+  let match = REGEX_MENTION.exec(text)
 
   // 2. @-alias-regex
   if (match === null) {
@@ -89,26 +98,5 @@ export const findMentionMatches = (text: string): Mention | undefined => {
         replaceableString: matchingString,
       }
     }
-  }
-}
-
-/* old - not sufficient */
-export const findMatchByStartPhrase = (
-  text: string,
-  startChar: string,
-  where: 'anywhere' | 'new-word-only' = 'new-word-only'
-) => {
-  // TODO: special chars missing
-  let pattern = null
-  if (where === 'new-word-only') {
-    pattern = new RegExp(`\\B${startChar}[a-z0-9_-]+|\\B${startChar}gi`)
-  } else {
-    //anywhere
-    pattern = new RegExp(`\\${startChar}[a-z0-9_-]+|\\${startChar}i`)
-  }
-  const keywordArray = text.match(pattern)
-  if (keywordArray && !!keywordArray.length) {
-    const lastKeyword = keywordArray[keywordArray.length - 1]
-    return lastKeyword
   }
 }
