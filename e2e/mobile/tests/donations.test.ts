@@ -27,16 +27,6 @@ const extractResultCount = async (testId: string): Promise<number> => {
   return 0
 }
 
-const extractNewsCount = async (testId: string): Promise<number | undefined> => {
-  const element = await waitForElementWithTestId(testId)
-  const textContent = await element.getText()
-  const numberNews = textContent?.match(/\(([^)]+)\)/)
-  if (numberNews && numberNews.length) {
-    return parseInt(numberNews[1], 10)
-  }
-  return undefined
-}
-
 const filterForLocation = async (location: string) => {
   // open search modal
   await tapOnElementWithTestId('donations-search-button')
@@ -130,15 +120,6 @@ describe('@Donations', () => {
     const resultCountHamburg = await extractResultCount('donations-list-search-summary')
     expect(resultCountHamburg).toBeGreaterThan(0)
     expect(resultCountHamburg).toBeLessThan(resultCountGermany)
-  })
-
-  it('should display news on project details', async () => {
-    // click first element in list
-    await tapOnElementWithTestId('donations-list-item')
-
-    // expect news section with news count
-    const newsCount = await extractNewsCount('donations-news-count')
-    expect(newsCount).toBeDefined
   })
 
   it('should reset donations filter from list', async () => {
