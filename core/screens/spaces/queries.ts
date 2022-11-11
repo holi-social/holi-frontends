@@ -63,7 +63,7 @@ export type SpaceByIdResponse = {
   spaceById: Space
 }
 
-export const filteredSpacesQuery = gql``
+// export const filteredSpacesQuery = gql``
 
 export type FilteredSpacesResponse = {
   filter: {

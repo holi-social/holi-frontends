@@ -8,7 +8,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { displayError } from '@holi/core/errors/helpers'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import TopicSlider from '@holi/core/screens/spaces/components/TopicSlider'
 import {
   FilteredSpacesResponse,
   SpacesResponse, // filteredSpacesQuery,
@@ -16,7 +16,6 @@ import {
 } from '@holi/core/screens/spaces/queries'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
@@ -36,7 +35,6 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const { t } = useTranslation()
   const title = t('spaces.title')
   const mixins = useStyleMixins()
-  const { navigate } = useRouting()
   const [mockData, setMockData] = useState<FilteredSpacesResponse>(MockDefault)
 
   useNavigationHeader(navigation, { title: title })
@@ -97,17 +95,9 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
         </HoliText>
 
         {mockData.matchedSpaces.length ? (
-          <View>
-            <HoliText>MATCHED SPACES</HoliText>
+          <View style={{ marginBottom: 12 }}>
             {mockData.matchedSpaces.map((entry) => (
-              <View key={`unmatched_${entry.topic}`}>
-                <HoliText>{entry.topic}</HoliText>
-                {entry.spaces.map((space) => (
-                  <HoliButton key={space.id} label={space.title} onPress={() => navigate(`/spaces/${space.id}`)}>
-                    <HoliText>{space.title}</HoliText>
-                  </HoliButton>
-                ))}
-              </View>
+              <TopicSlider key={`unmatched_${entry.topic}`} {...entry} />
             ))}
           </View>
         ) : (
@@ -115,17 +105,10 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
         )}
 
         {mockData.unmatchedSpaces.length > 0 && (
-          <View>
-            <HoliText>OTHER SPACES</HoliText>
+          <View style={{ marginBottom: 12 }}>
+            <HoliText>{t('spaces.otherListing')}</HoliText>
             {mockData.unmatchedSpaces.map((entry) => (
-              <View key={`unmatched_${entry.topic}`}>
-                <HoliText>{entry.topic}</HoliText>
-                {entry.spaces.map((space) => (
-                  <HoliButton key={space.id} label={space.title} onPress={() => navigate(`/spaces/${space.id}`)}>
-                    <HoliText>{space.title}</HoliText>
-                  </HoliButton>
-                ))}
-              </View>
+              <TopicSlider key={`unmatched_${entry.topic}`} {...entry} />
             ))}
           </View>
         )}
