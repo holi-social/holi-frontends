@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -13,9 +13,10 @@ export type SpacesFilterTagProps = {
   tag?: string
   label: string
   style?: StyleProp<ViewStyle>
+  onPress: (event: React.SyntheticEvent | GestureResponderEvent) => void
 }
 
-const SpacesFilterTag = ({ location, filter, tag, style, label }: SpacesFilterTagProps) => {
+const SpacesFilterTag = ({ location, filter, tag, style, label, onPress }: SpacesFilterTagProps) => {
   const { navigate } = useRouting()
 
   return (
@@ -23,12 +24,7 @@ const SpacesFilterTag = ({ location, filter, tag, style, label }: SpacesFilterTa
       {filter === 'location' && location && (
         <>
           <HoliIcon icon="location-2" size={33} style={styles.locationIcon} />
-          <HoliButton
-            label={label}
-            style={[styles.locationFilter, styles.filter]}
-            inline
-            onPress={() => navigate('/apps/donations/')}
-          >
+          <HoliButton label={label} style={[styles.locationFilter, styles.filter]} inline onPress={onPress}>
             <HoliText size="extralarge">{location}</HoliText>
           </HoliButton>
         </>
@@ -45,47 +41,23 @@ const SpacesFilterTag = ({ location, filter, tag, style, label }: SpacesFilterTa
         </HoliButton>
       )}
       {filter === 'all' && (
-        <HoliButton
-          label={label}
-          variant="small"
-          style={[styles.spacesFilter, styles.filter]}
-          inline
-          onPress={() => navigate('/apps/donations/')}
-        >
+        <HoliButton label={label} variant="small" style={[styles.spacesFilter, styles.filter]} inline onPress={onPress}>
           <HoliText size="extralarge">all</HoliText>
           <HoliIcon icon="filter-3" size={16} style={styles.filterIcon} />
         </HoliButton>
       )}
       {filter === 'topics' && (
-        <HoliButton
-          label={label}
-          variant="small"
-          style={[styles.topicsFilter, styles.filter]}
-          inline
-          onPress={() => navigate('/apps/donations/')}
-        >
+        <HoliButton label={label} variant="small" style={[styles.topicsFilter, styles.filter]} inline onPress={onPress}>
           <HoliText size="extralarge">{tag}</HoliText>
         </HoliButton>
       )}
       {filter === 'create' && (
-        <HoliButton
-          label={label}
-          variant="small"
-          style={[styles.createSpace, styles.filter]}
-          inline
-          onPress={() => navigate('/apps/donations/')}
-        >
+        <HoliButton label={label} variant="small" style={[styles.createSpace, styles.filter]} inline onPress={onPress}>
           <HoliText size="extralarge">create</HoliText>
         </HoliButton>
       )}
       {filter === 'skills' && (
-        <HoliButton
-          label={label}
-          variant="small"
-          style={[styles.skillsFilter, styles.filter]}
-          inline
-          onPress={() => navigate('/apps/donations/')}
-        >
+        <HoliButton label={label} variant="small" style={[styles.skillsFilter, styles.filter]} inline onPress={onPress}>
           <HoliText size="extralarge">{tag}</HoliText>
         </HoliButton>
       )}
