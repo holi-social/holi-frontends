@@ -24,12 +24,3 @@ export interface Task {
   location: string
   regularity: 'REGULARLY' | 'PROJECT_BASED' | 'ONE_TIME'
 }
-
-export type SpacesResponseProps = {
-  filter: {
-    topics: string[]
-    location?: string
-  }
-  matchedSpaces: SortedSpaces[]
-  unmatchedSpaces: SortedSpaces[]
-}
