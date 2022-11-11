@@ -23,7 +23,7 @@ const SpacesFilterTag = ({ location, filter, tag, style, label, onPress }: Space
     <View style={[styles.headerContainer, style]}>
       {filter === 'location' && location && (
         <>
-          <HoliIcon icon="location-2" size={33} style={styles.locationIcon} />
+          <HoliIcon icon="location-2" size={34} style={styles.locationIcon} />
           <HoliButton label={label} style={[styles.locationFilter, styles.filter]} inline onPress={onPress}>
             <HoliText size="extralarge">{location}</HoliText>
           </HoliButton>
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   locationIcon: {
     marginRight: 5,
     position: 'absolute',
-    top: -4,
+    top: -6,
     left: -6,
     zIndex: 1,
   },

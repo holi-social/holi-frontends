@@ -21,7 +21,7 @@ type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
 const SPACES_PAGE_SIZE = 10
 const location = 'Berlin'
-const topics = ['Animal welfare', 'Children & Youth', 'Education', 'Environment', 'Health', 'Human Rights', 'Poverty']
+const topics = ['Animal welfare', 'Children & Youth']
 
 const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const { t } = useTranslation()
@@ -59,7 +59,7 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
         <HoliHeading level="1" size="super">
           {title}
         </HoliHeading>
-        <SpacesFilterHeader style={styles.spacesContainer} location={location} topics={topics} />
+        <SpacesFilterHeader style={styles.spacesContainer} location={location} topics={topics} allTopics />
         {spaces.map((space) => {
           return (
             <HoliButton key={space.id} label={space.title} onPress={() => navigate(`/spaces/${space.id}`)}>

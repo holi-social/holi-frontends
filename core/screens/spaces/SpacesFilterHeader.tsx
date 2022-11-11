@@ -5,7 +5,6 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpacesFilterTag from '@holi/core/screens/spaces/SpacesFilterTag'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpacesFilterHeaderProps = {
   location?: string
@@ -114,20 +113,12 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({ location, topi
 export default SpacesFilterHeader
 
 const styles = StyleSheet.create({
-  createSpace: {
-    backgroundColor: colors.backgroundColorYellow,
-    paddingHorizontal: 10,
-  },
   filter: {
     marginRight: 4,
-    marginBottom: 4,
+    marginBottom: 6,
   },
   filterText: {
     marginRight: 4,
-  },
-  font: {
-    fontSize: 28,
-    lineHeight: 28,
   },
   headerContainer: {
     flexDirection: 'row',
