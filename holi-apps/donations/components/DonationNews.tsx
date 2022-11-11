@@ -72,7 +72,7 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
       {otherNews.length > 0 && (
         <View testID="donations-news-other">
           <HoliText bold style={{ marginBottom: 12 }}>
-            {t('donations:donationNews.moreUpdates', { count: totalEntries - 1 })}
+            {t('donations:donationNews.moreUpdates')}
           </HoliText>
 
           {otherNews.map((entry) => (

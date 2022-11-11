@@ -115,11 +115,13 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
             </HoliText>
             <HoliReadMore numberOfLines={5}>{project.description}</HoliReadMore>
           </View>
-          <DonationNews
-            totalEntries={project.newsCount}
-            news={project.news}
-            style={[styles.card, { paddingVertical: 24 }]}
-          />
+          {project?.news.length && (
+            <DonationNews
+              totalEntries={project.newsCount}
+              news={project.news}
+              style={[styles.card, { paddingVertical: 24 }]}
+            />
+          )}
         </View>
       </DefaultLayout>
       <View style={[mixins.container, styles.donateButton]}>
