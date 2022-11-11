@@ -33,9 +33,23 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }) => {
 
   useNavigationHeader(navigation, { title: headerTitle })
 
+  const topic = ['Animal welfare']
+  const topics = []
+  const location = 'Berlin'
+  const topicsN = [
+    'Animal welfare',
+    'Children & Youth',
+    'Education',
+    'Environment',
+    'Health',
+    'Human Rights',
+    'Poverty',
+  ]
+
   return (
     <>
       <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={{ paddingTop: 40 }}>
+        <SpacesFilterHeader style={styles.spacesContainer} location={'Berlin'} topics={topics} />
         <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
         <UpdatesOfYourApps style={styles.updatesOfYourApps} />
         {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}

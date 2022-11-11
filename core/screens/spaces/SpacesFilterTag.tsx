@@ -3,14 +3,13 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpacesFilterTagProps = {
   location?: string
-  filter: 'create' | 'all' | 'interests' | 'location' | 'text' | 'skills'
+  filter: 'create' | 'all' | 'topics' | 'location' | 'text' | 'skills'
   tag?: string
   label: string
   style?: StyleProp<ViewStyle>
@@ -23,16 +22,9 @@ const SpacesFilterTag = ({ location, filter, tag, style, label }: SpacesFilterTa
     <View style={[styles.headerContainer, style]}>
       {filter === 'location' && location && (
         <>
-          <HoliLocalImage
-            imageSource={require('./Brand-Icon.png')}
-            style={styles.locationIcon}
-            label={''}
-            width={32}
-            height={32}
-          />
+          <HoliIcon icon="location-2" size={33} style={styles.locationIcon} />
           <HoliButton
             label={label}
-            variant="small"
             style={[styles.locationFilter, styles.filter]}
             inline
             onPress={() => navigate('/apps/donations/')}
@@ -64,11 +56,11 @@ const SpacesFilterTag = ({ location, filter, tag, style, label }: SpacesFilterTa
           <HoliIcon icon="filter-3" size={16} style={styles.filterIcon} />
         </HoliButton>
       )}
-      {filter === 'interests' && (
+      {filter === 'topics' && (
         <HoliButton
           label={label}
           variant="small"
-          style={[styles.interestsFilter, styles.filter]}
+          style={[styles.topicsFilter, styles.filter]}
           inline
           onPress={() => navigate('/apps/donations/')}
         >
@@ -107,7 +99,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundColorYellow,
     paddingHorizontal: 10,
   },
-  interestsFilter: {
+  topicsFilter: {
     backgroundColor: '#ABFF8B',
     paddingHorizontal: 10,
   },
@@ -119,7 +111,7 @@ const styles = StyleSheet.create({
     borderColor: colors.borderColorBlack,
     borderWidth: 1,
     marginRight: 0,
-    paddingVertical: 2,
+    paddingVertical: 4,
   },
   filterIcon: {
     marginLeft: 4,
