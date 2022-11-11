@@ -14,7 +14,7 @@ const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps>
     <View style={[styles.suggestions]}>
       {props.suggestions.map((item) => (
         <HoliButton
-          key={item.id}
+          key={`${item.id}-${Math.random()}`}
           label="xxx" // TODO
           transparent
           style={styles.suggestionItem}
