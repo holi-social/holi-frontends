@@ -9,31 +9,19 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import { displayError } from '@holi/core/errors/helpers'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { SpacesResponse, spacesQuery } from '@holi/core/screens/spaces/queries'
+import {
+  FilteredSpacesResponse,
+  SpacesResponse, // filteredSpacesQuery,
+  spacesQuery,
+} from '@holi/core/screens/spaces/queries'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import { Space } from './spaces/types'
-
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-type SortedSpaces = {
-  topic: string
-  spaces: Space[]
-}
-
-type SpacesResponseProps = {
-  filter: {
-    topics: string[]
-    location?: string
-  }
-  matchedSpaces: SortedSpaces[]
-  unmatchedSpaces: SortedSpaces[]
-}
-
-const MockDefault = {
+const MockDefault: FilteredSpacesResponse = {
   filter: {
     topics: ['All'],
     location: 'Berlin',
@@ -49,7 +37,7 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const title = t('spaces.title')
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
-  const [mockData, setMockData] = useState<SpacesResponseProps>(MockDefault)
+  const [mockData, setMockData] = useState<FilteredSpacesResponse>(MockDefault)
 
   useNavigationHeader(navigation, { title: title })
 
@@ -68,16 +56,19 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
         ...MockDefault,
         matchedSpaces: [
           {
+            id: 1,
             topic: 'Animal Welfare',
             spaces,
           },
         ],
         unmatchedSpaces: [
           {
+            id: 2,
             topic: 'Childcare',
             spaces,
           },
           {
+            id: 3,
             topic: 'Environment',
             spaces,
           },
