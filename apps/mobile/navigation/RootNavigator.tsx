@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
@@ -13,9 +14,10 @@ import HeaderRight from '@holi/core/navigation/components/HeaderRight'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
+import CreatePostCommentPage, { CreatePostCommentPageParams } from '@holi/core/screens/comments/CreatePostCommentPage'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
-import PostDetailPage, { PostParams } from '@holi/core/screens/posts/PostDetailPage'
+import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
 import AccountSettings from '@holi/core/screens/userprofile/AccountSettings'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 import SettingsOverview from '@holi/core/screens/userprofile/SettingsOverview'
@@ -45,7 +47,8 @@ export type HomeStackScreens = {
   InsightDetailPage: InsightDetailPageParams
   Notifications: undefined
   OwnProfile: undefined
-  Post: PostParams
+  PostDetailPage: PostDetailPageParams
+  CreatePostCommentPage: CreatePostCommentPageParams
   SettingsOverview: undefined
   Search: undefined
 }
@@ -171,8 +174,18 @@ export const HomeStackNavigator: React.VFC = () => {
         }
       />
       <HomeStack.Screen
-        name="Post"
+        name="PostDetailPage"
         component={PostDetailPage}
+        options={{
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+          headerTitle: CenterElement,
+          headerLeft: BackButton,
+        }}
+      />
+      <HomeStack.Screen
+        name="CreatePostCommentPage"
+        component={CreatePostCommentPage}
         options={{
           headerBackTitleVisible: false,
           headerBackVisible: false,
@@ -201,13 +214,20 @@ export const BottomTabsNavigator: React.VFC = () => {
   return (
     <BottomTabs.Navigator
       initialRouteName="Home"
-      screenOptions={{
-        tabBarStyle: {
-          backgroundColor: colors.backgroundColorWhite,
-          paddingHorizontal: 0,
-          borderTopWidth: StyleSheet.hairlineWidth,
-          borderTopColor: colors.fontColorGrey,
-        },
+      screenOptions={({ route }) => {
+        const focusedRoute = getFocusedRouteNameFromRoute(route)
+
+        return {
+          tabBarStyle: {
+            backgroundColor: colors.backgroundColorWhite,
+            paddingHorizontal: 0,
+            borderTopWidth: StyleSheet.hairlineWidth,
+            borderTopColor: colors.fontColorGrey,
+            ...(focusedRoute === 'PostDetailPage' || focusedRoute === 'CreatePostCommentPage'
+              ? { display: 'none' }
+              : {}),
+          },
+        }
       }}
     >
       <BottomTabs.Screen

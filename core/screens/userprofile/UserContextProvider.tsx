@@ -21,7 +21,7 @@ export const UserContext = createContext<Context>(initialState)
 UserContext.displayName = 'UserContext'
 
 const UserContextProvider: React.FC = ({ children }) => {
-  const { isLoggedIn } = useContext(AuthContext)
+  const { isLoggedIn, setUserLoggedOut } = useContext(AuthContext)
   const { t } = useTranslation()
 
   const { loading, error, data } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery, {
@@ -31,6 +31,7 @@ const UserContextProvider: React.FC = ({ children }) => {
 
   if (error) {
     displayError(error, t('user.userContext.error.fetching'))
+    setUserLoggedOut()
   }
 
   const user = data?.authenticatedUser

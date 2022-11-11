@@ -17,6 +17,58 @@ const navigateToDonationsApp = async () => {
   await waitForElementWithTestId('donations-list-container')
 }
 
+const extractResultCount = async (testId: string): Promise<number> => {
+  const element = await waitForElementWithTestId(testId)
+  const textContent = await element.getText()
+  const numberMatch = textContent?.match(/\d+/)
+  if (numberMatch && numberMatch.length) {
+    return parseInt(numberMatch[0], 10)
+  }
+  return 0
+}
+
+const extractNewsCount = async (testId: string): Promise<number | undefined> => {
+  const element = await waitForElementWithTestId(testId)
+  const textContent = await element.getText()
+  const numberNews = textContent?.match(/\(([^)]+)\)/)
+  if (numberNews && numberNews.length) {
+    return parseInt(numberNews[1], 10)
+  }
+  return undefined
+}
+
+const filterForLocation = async (location: string) => {
+  // open search modal
+  await tapOnElementWithTestId('donations-search-button')
+
+  // enter location
+  await fillFieldByTestId('donations-search-location-input', location)
+
+  // submit form
+  // Not using suggestions here, as they can not be easily identified and selected
+  await pressEnter('donations-search-location-input')
+
+  // wait for results
+  await waitForElementWithTestId('donations-list-container')
+}
+
+const resetFilterInModal = async () => {
+  // open search modal
+  await tapOnElementWithTestId('donations-search-button')
+
+  // close keyboard
+  await tapOnElementWithTestId('donations-search-modal')
+
+  // reset filter
+  await tapOnElementWithTestId('donations-search-form-reset')
+
+  // close search modal
+  await tapOnElementWithTestId('donations-search-modal-close-btn')
+
+  // wait for results
+  await waitForElementWithTestId('donations-list-container')
+}
+
 describe('@Donations', () => {
   beforeEach(async () => {
     await navigateToDonationsApp()
@@ -61,48 +113,6 @@ describe('@Donations', () => {
     await waitForElementWithTestId('donations-project-initiative-btn')
   })
 
-  const filterForLocation = async (location: string) => {
-    // open search modal
-    await tapOnElementWithTestId('donations-search-button')
-
-    // enter location
-    await fillFieldByTestId('donations-search-location-input', location)
-
-    // submit form
-    // Not using suggestions here, as they can not be easily identified and selected
-    await pressEnter('donations-search-location-input')
-
-    // wait for results
-    await waitForElementWithTestId('donations-list-container')
-  }
-
-  const resetFilterInModal = async () => {
-    // open search modal
-    await tapOnElementWithTestId('donations-search-button')
-
-    // close keyboard
-    await tapOnElementWithTestId('donations-search-modal')
-
-    // reset filter
-    await tapOnElementWithTestId('donations-search-form-reset')
-
-    // close search modal
-    await tapOnElementWithTestId('donations-search-modal-close-btn')
-
-    // wait for results
-    await waitForElementWithTestId('donations-list-container')
-  }
-
-  const extractResultCount = async (testId: string): Promise<number> => {
-    const element = await waitForElementWithTestId(testId)
-    const textContent = await element.getText()
-    const numberMatch = textContent?.match(/\d+/)
-    if (numberMatch && numberMatch.length) {
-      return parseInt(numberMatch[0], 10)
-    }
-    return 0
-  }
-
   it('should filter donations by location', async () => {
     // filter for "Germany"
     await filterForLocation('Germany')
@@ -120,6 +130,15 @@ describe('@Donations', () => {
     const resultCountHamburg = await extractResultCount('donations-list-search-summary')
     expect(resultCountHamburg).toBeGreaterThan(0)
     expect(resultCountHamburg).toBeLessThan(resultCountGermany)
+  })
+
+  it('should display news on project details', async () => {
+    // click first element in list
+    await tapOnElementWithTestId('donations-list-item')
+
+    // expect news section with news count
+    const newsCount = await extractNewsCount('donations-news-count')
+    expect(newsCount).toBeDefined
   })
 
   it('should reset donations filter from list', async () => {
