@@ -32,6 +32,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
+import HoliRichInput from '@holi/ui/components/organisms/HoliRichTextInput'
+import { findHashtagByName, findUserByName } from '@holi/ui/helper/richText'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -104,10 +106,6 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
 
   if (!post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
 
-  const handleTextChange = (inputText: string) => {
-    setText(inputText)
-  }
-
   return (
     <KeyboardAvoidingView behavior="height" keyboardVerticalOffset={keyboardAvoidingViewVerticalOffset}>
       <StatusBar animated />
@@ -132,24 +130,32 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
 
               {/* Mobile version */}
               {!isWeb && (
-                <TextInput
-                  autoFocus
-                  onChangeText={handleTextChange}
-                  style={styles.textInput}
+                <HoliRichInput
                   placeholder={t('insights.posts.comments.placeholder')}
-                  placeholderTextColor={colors.fontColorGrey}
-                  textAlignVertical="top"
-                  multiline
-                >
-                  <HoliText style={[styles.text, (!text && styles.placeholder) || {}]}>{text}</HoliText>
-                </TextInput>
+                  findMentionsByKeyword={findUserByName}
+                  findHashtagsByKeyword={findHashtagByName}
+                  onChange={setText}
+                  style={styles.textInput2}
+                />
+
+                // <TextInput
+                //   autoFocus
+                //   onChangeText={setText}
+                //   style={styles.textInput}
+                //   placeholder={t('insights.posts.comments.placeholder')}
+                //   placeholderTextColor={colors.fontColorGrey}
+                //   textAlignVertical="top"
+                //   multiline
+                // >
+                //   <HoliText style={[styles.text, (!text && styles.placeholder) || {}]}>{text}</HoliText>
+                // </TextInput>
               )}
 
               {/* Web version */}
               {isWeb && (
                 <TextInput
                   autoFocus
-                  onChangeText={handleTextChange}
+                  onChangeText={setText}
                   style={styles.textInput}
                   placeholder={t('insights.posts.comments.placeholder')}
                   placeholderTextColor={colors.fontColorGrey}
@@ -200,8 +206,11 @@ const styles = StyleSheet.create({
     marginTop: 16,
     lineHeight: 22,
     flexDirection: 'row',
-    minHeight: 200,
-    paddingBottom: 100,
+  },
+  textInput2: {
+    marginLeft: 10,
+    marginTop: 5,
+    flex: 1,
   },
   textInput: {
     marginLeft: 18,
