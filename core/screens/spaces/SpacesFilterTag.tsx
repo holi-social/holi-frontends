@@ -69,11 +69,9 @@ export default SpacesFilterTag
 const styles = StyleSheet.create({
   createSpace: {
     backgroundColor: colors.backgroundColorYellow,
-    paddingHorizontal: 10,
   },
   topicsFilter: {
     backgroundColor: '#ABFF8B',
-    paddingHorizontal: 10,
   },
   filter: {
     flexDirection: 'row',
@@ -82,8 +80,8 @@ const styles = StyleSheet.create({
     borderRadius: 48,
     borderColor: colors.borderColorBlack,
     borderWidth: 1,
-    marginRight: 0,
     paddingVertical: 4,
+    paddingHorizontal: 10,
   },
   filterIcon: {
     marginLeft: 4,
@@ -99,7 +97,6 @@ const styles = StyleSheet.create({
   },
   locationFilter: {
     backgroundColor: colors.backgroundColorWhite,
-    paddingRight: 10,
     paddingLeft: 18,
   },
   locationIcon: {
@@ -111,10 +108,8 @@ const styles = StyleSheet.create({
   },
   skillsFilter: {
     backgroundColor: '#90DDFF',
-    paddingHorizontal: 10,
   },
   spacesFilter: {
     backgroundColor: colors.backgroundColorWhite,
-    paddingHorizontal: 10,
   },
 })
