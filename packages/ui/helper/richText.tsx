@@ -1,6 +1,10 @@
 import { dummyUser } from '@holi/ui/helper/dummyUser'
 
-export const findUserByName = (keyword: string) => {
+export type SuggestionItem = {
+  id: string
+  name: string
+}
+export const findUserByName = (keyword: string): SuggestionItem[] => {
   return dummyUser.filter((user) => user.name.toLowerCase().includes(keyword.toLowerCase()))
 }
 
@@ -9,7 +13,7 @@ const hashtags = [
   { id: 'help', name: 'help' },
   { id: 'loveyou', name: 'loveyou' },
 ]
-export const findHashtagByName = (keyword: string) => {
+export const findHashtagByName = (keyword: string): SuggestionItem[] => {
   return hashtags.filter((one) => one.name.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()))
 }
 

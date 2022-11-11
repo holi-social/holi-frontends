@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 import { MentionInput, MentionSuggestionsProps } from 'react-native-controlled-mentions'
 
 import HoliRichTextInputSuggestions from '@holi/ui/components/organisms/HoliRichTextInput.suggestions'
-import { REGEX_URL } from '@holi/ui/helper/richText'
+import { REGEX_URL, SuggestionItem } from '@holi/ui/helper/richText'
 import { colors } from '@holi/ui/styles/globalVars'
 
 // TODOs
@@ -14,12 +14,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 const MIN_SEARCH_CHARS = 1
 
-export type Suggestion = {
-  id: string
-  name: string
-}
-
-export type SearchFunction = (keyword: string) => Suggestion[]
+export type SearchFunction = (keyword: string) => SuggestionItem[]
 
 export type HoliRichTextInputProps = {
   initalValue?: string
@@ -27,7 +22,7 @@ export type HoliRichTextInputProps = {
   findMentionsByKeyword?: SearchFunction
   findHashtagsByKeyword?: SearchFunction
   onChange?: (text: string) => void
-  onSelectSuggestion?: (suggestion: Suggestion) => void
+  onSelectSuggestion?: (suggestion: SuggestionItem) => void
   style?: StyleProp<ViewStyle>
   inputStyle?: StyleProp<ViewStyle>
 }
@@ -41,8 +36,13 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = ''
       if (keyword == null || keyword.length < MIN_SEARCH_CHARS) {
         return null
       }
-      const suggestions = searchFunction(keyword)
-      return <HoliRichTextInputSuggestions suggestions={suggestions} onChooseSuggestion={onSuggestionPress} />
+      const onChooseSuggestion = (suggestion: SuggestionItem) => {
+        onSuggestionPress(suggestion)
+        props.onSelectSuggestion && props.onSelectSuggestion(suggestion)
+      }
+      return (
+        <HoliRichTextInputSuggestions suggestions={searchFunction(keyword)} onChooseSuggestion={onChooseSuggestion} />
+      )
     }
     return onRenderSuggestions
   }
@@ -70,52 +70,37 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = ''
 
   const handleTextChange = useCallback((text: string) => {
     setValue(String(text))
-    // if (props.onChange) {
-    //   props.onChange(String(text))
-    // }
+    // props?.onChange?.(String(value))
   }, [])
 
-  useEffect(() => {
-    if (props.onChange) {
-      props.onChange(String(value))
-    }
-  }, [value, props])
+  useEffect(() => props?.onChange?.(String(value)), [value, props])
 
   return (
-    <View style={styles.inputContainer}>
-      <MentionInput
-        value={value}
-        onChange={handleTextChange}
-        partTypes={suggestionConfig}
-        placeholder={placeholder}
-        containerStyle={styles.mentionsStyles}
-        style={styles.input}
-        // selectionColor={colors.fontColorGrey}
-        // inputRef={inputRef}
-      />
-    </View>
+    <MentionInput
+      value={value}
+      onChange={handleTextChange}
+      partTypes={suggestionConfig}
+      placeholder={placeholder}
+      containerStyle={[styles.mentionsStyles, props.style]}
+      style={styles.input}
+      // selectionColor={colors.fontColorGrey}
+      // inputRef={inputRef}
+    />
   )
 }
 
 export default HoliRichTextInput
 
 const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: 20,
-  },
-  inputContainer: {
-    flexDirection: 'column',
-    zIndex: 1,
-  },
   mentionsStyles: {
     flexDirection: 'column-reverse' /* input on top and suggestions below */,
+    zIndex: 1,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-end',
   },
   input: {
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    borderColor: 'blue',
-    borderRadius: 3,
+    width: '100%',
+    paddingVertical: 10,
     color: colors.fontColor,
     fontSize: 16,
   },
