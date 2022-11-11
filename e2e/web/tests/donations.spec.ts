@@ -154,7 +154,6 @@ test.describe('@Donations', () => {
     test.skip(!(await page.$('data-testid=donations-news-count')), 'page has no news module to test')
 
     const newsCounter = await locateElementByTestId(page, 'donations-news-count')
-
     const newsCount = await extractNewsCount(newsCounter)
     const spotlightNewsCount = await (await locateElementByTestId(page, 'donation-news-spotlight')).count()
     const otherNewsCount = await (await locateElementByTestId(page, 'donations-news-other-item')).count()
