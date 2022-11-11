@@ -211,8 +211,8 @@ const styles = StyleSheet.create({
   },
   textInput2: {
     marginLeft: 10,
-    marginTop: 5,
-    marginBottom: 230, // space below for 5 suggestions
+    // space below for 5 suggestions
+    ...Platform.select({ ios: { marginTop: 5, marginBottom: 230 }, android: { marginBottom: 190 } }),
     flex: 1,
   },
   bottomBar: {

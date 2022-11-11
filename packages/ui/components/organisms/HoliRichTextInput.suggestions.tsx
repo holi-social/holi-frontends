@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   suggestionItem: {
     paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingVertical: 7,
     borderBottomWidth: 0.5,
     borderBottomColor: colors.borderColorGrey,
     minWidth: '100%',
