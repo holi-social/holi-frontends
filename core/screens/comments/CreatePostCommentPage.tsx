@@ -53,7 +53,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
   const [insightId] = useParam('insightId')
   const [postId] = useParam('postId')
   const scrollViewRef = useRef<ScrollView>(null)
-  const { navigate } = useRouting()
+  const { navigate, navigateBack } = useRouting()
 
   const headerHeight = getHeaderHeight()
 
@@ -76,7 +76,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
     useMutation<CreatePostCommentResponse>(CreatePostCommentMutation, {
       onCompleted: () => {
         openToast(t('insights.posts.comments.success'), HoliToastType.SUCCESS)
-        navigate(`/insights/${insightId}/posts/${postId}`)
+        navigateBack()
       },
       onError: () => openToast(t('insights.posts.comments.error'), HoliToastType.ERROR),
     })
@@ -149,6 +149,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
               {/* Web version */}
               {isWeb && (
                 <TextInput
+                  autoFocus
                   onChangeText={handleTextChange}
                   style={styles.textInput}
                   placeholder={t('insights.posts.comments.placeholder')}
