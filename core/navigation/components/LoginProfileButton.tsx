@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, ViewStyle } from 'react-native'
 
 import { colors } from '@holi//ui/styles/globalVars'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
@@ -51,6 +51,7 @@ const LoginProfileButton: React.VFC<LoginProfileButtonProps> = ({ focused, ...pr
           initials={user.avatarLabel}
           defaultColor={user.avatarDefaultColor}
           size="micro"
+          style={focused && styles.userAvatarHighlighted}
         />
       ) : (
         <HoliIcon
@@ -65,3 +66,10 @@ const LoginProfileButton: React.VFC<LoginProfileButtonProps> = ({ focused, ...pr
 }
 
 export default LoginProfileButton
+
+const styles = StyleSheet.create({
+  userAvatarHighlighted: {
+    borderColor: colors.backgroundColorBlack,
+    borderWidth: 2,
+  },
+})
