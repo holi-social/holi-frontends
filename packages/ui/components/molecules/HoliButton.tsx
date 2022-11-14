@@ -22,7 +22,7 @@ export const HoliButtonTypes: HoliButtonType[] = ['primary', 'secondary'] // kee
 type HoliButtonVariant = 'default' | 'small' // for working code completion in vscode
 export const HoliButtonVariants: HoliButtonVariant[] = ['default', 'small'] // keep in sync with all possible HoliButtonVariant values
 
-export type HoliButtonProps = {
+export interface HoliButtonProps {
   label: string
   style?: StyleProp<ViewStyle>
   contentStyle?: StyleProp<ViewStyle>
