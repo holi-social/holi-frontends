@@ -7,6 +7,7 @@ import { ImageBackground, Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
+import { NativeStackNavigationCustomHeaderOptions } from '@holi//mobile/navigation/HeaderAnimated'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher, userFullName } from '@holi/core/helpers'
@@ -53,9 +54,19 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
   })
 
   const insight = data?.insightById
-  const headerTitle = t('insights.insight.title', { title: insight?.title })
 
-  useLayoutEffect(() => setOptions({ headerTitle }), [setOptions, headerTitle])
+  useLayoutEffect(
+    () =>
+      setOptions({
+        title: t('insights.insight.title', { title: insight?.title }),
+        headerTransparent: true,
+        headerTintColor: colors.fontColorWhite,
+        headerCustomOptions: {
+          headerBackgroundGradient: true,
+        },
+      } as NativeStackNavigationCustomHeaderOptions),
+    [setOptions, t, insight?.title]
+  )
 
   if (error) {
     console.log('######## InsightDetailPage load error')
@@ -92,7 +103,13 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
     <>
       <StatusBar style="light" animated />
 
-      <DefaultLayout bounces={false} style={styles.wrapper} onScroll={onScreenScroll} scrollEventThrottle={200}>
+      <DefaultLayout
+        bounces={false}
+        style={styles.wrapper}
+        headerOverlap
+        onScroll={onScreenScroll}
+        scrollEventThrottle={200}
+      >
         {/* Image section */}
         <ImageBackground
           source={{ uri: headerImage }}
