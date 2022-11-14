@@ -132,18 +132,17 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
                 size="small"
               />
 
-              {/* Mobile version */}
+              {/* TODO: get rid of mobile-web-condition */}
               {!isWeb && (
                 <HoliRichInput
                   placeholder={t('insights.posts.comments.placeholder')}
+                  autofocus
                   findMentionsByKeyword={findUserByName}
                   findHashtagsByKeyword={findHashtagByName}
                   onChange={setText}
                   style={styles.textInput2}
                 />
               )}
-
-              {/* Web version */}
               {isWeb && (
                 <TextInput
                   autoFocus

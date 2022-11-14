@@ -4,6 +4,13 @@ export type SuggestionItem = {
   id: string
   name: string
 }
+
+export type Mention = {
+  leadOffset: number
+  matchingString: string
+  replaceableString: string
+}
+
 export const findUserByName = (keyword: string): SuggestionItem[] => {
   return dummyUser.filter((user) => user.name.toLowerCase().includes(keyword.toLowerCase()))
 }
@@ -17,6 +24,7 @@ export const findHashtagByName = (keyword: string): SuggestionItem[] => {
   return hashtags.filter((one) => one.name.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()))
 }
 
+// Copied from: https://github.com/dabakovich/react-native-controlled-mentions/blob/v2.2.4/example/mentions-app.tsx
 export const REGEX_URL =
   // eslint-disable-next-line no-useless-escape
   /(https?:\/\/|www\.)[-a-zA-Z0-9@:%._\+~#=]{1,256}\.(xn--)?[a-z0-9-]{2,20}\b([-a-zA-Z0-9@:%_\+\[\],.~#?&\/=]*[-a-zA-Z0-9@:%_\+\]~#?&\/=])*/gi
@@ -30,6 +38,7 @@ export const addDistinctItem = (objectArray: object[] = [], newObject: object, d
   return [...new Map(newArray.map((item: Record<string, any>) => [item[distinctPropName], item])).values()]
 }
 
+// Copied from https://github.com/facebook/lexical/blob/0.6.1-next.1/packages/lexical-playground/src/plugins/MentionsPlugin/index.tsx
 const PUNCTUATION = '\\.,\\+\\*\\?\\$\\@\\|#{}\\(\\)\\^\\-\\[\\]\\\\/!%\'"~=<>_:;'
 const NAME = '\\b[A-Z][^\\s' + PUNCTUATION + ']'
 const TRIGGERS = ['@'].join('')
@@ -56,12 +65,6 @@ const AtSignMentionsRegexAliasRegex = new RegExp(
   '(^|\\s|\\()(' + '[' + TRIGGERS + ']' + '((?:' + VALID_CHARS + '){0,' + ALIAS_LENGTH_LIMIT + '})' + ')$'
 )
 const CapitalizedNameMentionsRegex = new RegExp('(^|[^#])((?:' + NAME + '{1,})$)')
-
-export type Mention = {
-  leadOffset: number
-  matchingString: string
-  replaceableString: string
-}
 
 export const findMentionMatches = (text: string): Mention | undefined => {
   // 1. simple @-regex

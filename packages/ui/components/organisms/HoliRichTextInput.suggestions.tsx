@@ -5,15 +5,14 @@ import { StyleSheet, View } from 'react-native'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
+import type { SuggestionItem } from '@holi/ui/helper/richText'
 import { colors } from '@holi/ui/styles/globalVars'
 
 const MAX_SUGGESTIONS_COUNT = 5
 
-export type Suggestion = { id: string; name: string }
-
 export type HoliRichTextInputSuggestionsProps = {
-  suggestions: Suggestion[]
-  onChooseSuggestion: (selectedSuggestion: Suggestion) => void
+  suggestions: SuggestionItem[]
+  onChooseSuggestion: (selectedSuggestion: SuggestionItem) => void
 }
 
 const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps> = (props) => {
