@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { ImageBackground, StyleSheet, View } from 'react-native'
 import { Animated } from 'react-native'
 
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { colors, vars } from '@holi/ui/styles/globalVars'
+
+import HeaderAnimatedGradienBackground from './HeaderAnimatedGradienBackground'
 
 export const useHeaderHideAnimation = () => {
   const [scrollY, setScrollY] = useState(0)
@@ -51,15 +53,42 @@ const HeaderAnimated: React.VoidFunctionComponent = () => {
   const { t } = useTranslation()
   const headerHideAnimation = useHeaderHideAnimation()
 
-  const { title, headerTitle, headerLeft, headerRight, headerTintColor } = options
+  const {
+    title,
+    headerStyle,
+    headerTitle,
+    headerLeft,
+    headerRight,
+    headerTransparent,
+    headerTintColor,
+    headerCustomOptions: { headerBackgroundImageURI, headerBackgroundGradient, headerBackgroundCustom } = {},
+  } = options
 
   return (
     <Animated.View
-      style={[styles.headerOuter, { top: headerHideAnimation }]}
+      style={[styles.headerOuter, headerStyle, { top: headerHideAnimation }]}
       accessible={true}
       accessibilityRole="navigation"
       accessibilityLabel={t('navigation.topNavigation')}
     >
+      <View
+        style={[
+          StyleSheet.absoluteFill,
+          { backgroundColor: headerTransparent ? 'transparent' : colors.backgroundColorWhite },
+        ]}
+      >
+        {headerBackgroundCustom ? (
+          headerBackgroundCustom
+        ) : (
+          <>
+            {headerBackgroundImageURI && (
+              <ImageBackground source={{ uri: headerBackgroundImageURI }} style={StyleSheet.absoluteFill} />
+            )}
+            {headerBackgroundGradient && <HeaderAnimatedGradienBackground />}
+          </>
+        )}
+      </View>
+
       <View style={styles.headerContent}>
         <View style={[styles.sideHeaderElement, styles.leftHeaderElement]}>
           {typeof headerLeft === 'function' ? (
@@ -96,7 +125,6 @@ export default HeaderAnimated
 const styles = StyleSheet.create({
   headerOuter: {
     alignItems: 'center',
-    backgroundColor: colors.backgroundColorWhite,
     height: vars.topBarHeight,
     maxHeight: vars.topBarHeight,
     paddingHorizontal: 20,
