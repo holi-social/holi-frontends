@@ -49,7 +49,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
 
     const result = await updateUser({ variables: { input } })
     if (!error && result.data && onSubmit) {
-      onSubmit(result.data.authenticatedUser)
+      onSubmit(result.data.updateAuthenticatedUser)
     }
   }
 

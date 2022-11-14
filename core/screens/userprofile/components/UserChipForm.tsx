@@ -77,7 +77,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
     const result = await updateUser({ variables: { input } })
     if (!error && result.data) {
       setSaved(true)
-      onSubmit && onSubmit(result.data.authenticatedUser)
+      onSubmit && onSubmit(result.data.updateAuthenticatedUser)
     }
   }
 
