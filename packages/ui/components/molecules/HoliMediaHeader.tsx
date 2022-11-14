@@ -50,7 +50,7 @@ const HoliMediaHeader: React.FC<MediaHeaderProps> = ({
         size="small"
       />
       <View style={styles.titleContainer}>
-        <HoliButton transparent label={title} onPress={touchHandler} testID={testID || 'media-header-button'}>
+        <HoliButton transparent label={title} onPress={touchHandler} testID={testID || 'btn-media-header'}>
           <HoliText bold={boldTitle}>{title}</HoliText>
         </HoliButton>
         {formattedDate && (
