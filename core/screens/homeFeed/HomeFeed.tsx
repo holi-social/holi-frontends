@@ -46,7 +46,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
       headerStyle: { backgroundColor: colors.backgroundColorWhite },
       headerTitle: () => null,
       headerLeft: ({ tintColor }) => (
-        <HeaderTitle size="large" tintColor={tintColor}>
+        <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
           {headerTitle}
         </HeaderTitle>
       ),
@@ -66,7 +66,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
 
   return (
     <>
-      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={{ paddingTop: 40 }}>
+      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
         <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
         <UpdatesOfYourApps style={styles.updatesOfYourApps} />
         {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}
