@@ -14,7 +14,6 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             HomeFeed: '',
             InsightDetailPage: 'insights/:insightId',
             Post: 'insights/:insightId/posts/:postId',
-            OwnProfile: 'profile',
             SettingsOverview: 'profile/settings',
             AccountSettings: 'profile/settings/account',
             UserProfile: 'profile/:userId',
@@ -34,10 +33,16 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             ChatHome: 'chat',
           },
         },
+        OwnProfile: {
+          initialRouteName: 'OwnProfile',
+          screens: {
+            OwnProfile: 'profile',
+          },
+        },
       },
     },
     Search: {
-      initialRouteName: 'Search',
+      // initialRouteName: 'Search',
       screens: {
         Search: 'search',
       },
