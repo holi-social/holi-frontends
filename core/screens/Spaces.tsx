@@ -15,6 +15,7 @@ import {
   spacesQuery,
 } from '@holi/core/screens/spaces/queries'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -106,7 +107,9 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
 
         {mockData.unmatchedSpaces.length > 0 && (
           <View style={{ marginBottom: 12 }}>
-            <HoliText>{t('spaces.otherListing')}</HoliText>
+            <HoliHeading size="large" style={{ marginBottom: 24 }}>
+              {t('spaces.otherListing')}
+            </HoliHeading>
             {mockData.unmatchedSpaces.map((entry) => (
               <TopicSlider key={`unmatched_${entry.topic}`} {...entry} />
             ))}
