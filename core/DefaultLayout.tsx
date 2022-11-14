@@ -1,7 +1,7 @@
 import React from 'react'
-import { Platform, ScrollView, ScrollViewProps, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, SafeAreaView, ScrollView, ScrollViewProps, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 /**
  * This is the default screen layout.
@@ -11,29 +11,52 @@ import { colors } from '@holi/ui/styles/globalVars'
  */
 
 export interface LayoutProps extends ScrollViewProps {
+  headerOverlap?: boolean
+  hasFooterTabBar?: boolean
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
 }
 
-const DefaultLayout: React.FC<LayoutProps> = ({ style, children, ...scrollViewProps }: LayoutProps) => {
-  const screenView = <View style={[styles.screenLayout, style]}>{children}</View>
+const DefaultLayout: React.FC<LayoutProps> = ({
+  style,
+  children,
+  headerOverlap,
+  hasFooterTabBar = true,
+  ...scrollViewProps
+}: LayoutProps) => {
+  const screenView = (
+    <View
+      style={[
+        !headerOverlap && scrollViewProps.onScroll && styles.headerPadding,
+        hasFooterTabBar && styles.footerPadding,
+        style,
+      ]}
+    >
+      {children}
+    </View>
+  )
 
-  return Platform.OS === 'web' ? (
-    screenView
-  ) : (
+  if (Platform.OS === 'web') return screenView
+
+  const mobileLayout = (
     <ScrollView {...scrollViewProps} contentContainerStyle={[styles.scrollLayout, style]}>
       {screenView}
     </ScrollView>
   )
+
+  return headerOverlap ? mobileLayout : <SafeAreaView>{mobileLayout}</SafeAreaView>
 }
 
 export default DefaultLayout
 
 const styles = StyleSheet.create({
+  headerPadding: {
+    paddingTop: +vars.topBarHeight,
+  },
+  footerPadding: {
+    paddingBottom: (Platform.OS === 'web' ? +vars.bottomBarHeight : 0) + 50,
+  },
   scrollLayout: {
     justifyContent: 'flex-start',
     backgroundColor: colors.backgroundColorWhite,
-  },
-  screenLayout: {
-    paddingBottom: 50,
   },
 })

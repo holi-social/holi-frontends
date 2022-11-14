@@ -12,28 +12,22 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
-  opacity: 0.9;
+  z-index: 10;
   height: #{$top-bar-height}px;
   max-height: #{$top-bar-height}px;
 }
 
 .main {
   width: 100%;
-  min-height: calc(100vh - #{$top-bar-height}px);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  margin: #{$top-bar-height}px auto auto auto;
+  min-height: 100vh;
   background-color: $background-color-white;
-  padding-bottom: #{$top-bar-height}px;
 }
 
 .footer {
   position: fixed;
   bottom: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 10;
   height: #{$bottom-bar-height}px;
   max-height: #{$bottom-bar-height}px;
 }
