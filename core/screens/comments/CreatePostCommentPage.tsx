@@ -174,6 +174,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
                 },
               })
             }
+            testID="btn-submit-comment"
           >
             {t('insights.posts.comments.button')}
           </HoliButton>
