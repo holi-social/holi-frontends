@@ -17,6 +17,48 @@ const navigateToDonationsApp = async () => {
   await waitForElementWithTestId('donations-list-container')
 }
 
+const extractResultCount = async (testId: string): Promise<number> => {
+  const element = await waitForElementWithTestId(testId)
+  const textContent = await element.getText()
+  const numberMatch = textContent?.match(/\d+/)
+  if (numberMatch && numberMatch.length) {
+    return parseInt(numberMatch[0], 10)
+  }
+  return 0
+}
+
+const filterForLocation = async (location: string) => {
+  // open search modal
+  await tapOnElementWithTestId('donations-search-button')
+
+  // enter location
+  await fillFieldByTestId('donations-search-location-input', location)
+
+  // submit form
+  // Not using suggestions here, as they can not be easily identified and selected
+  await pressEnter('donations-search-location-input')
+
+  // wait for results
+  await waitForElementWithTestId('donations-list-container')
+}
+
+const resetFilterInModal = async () => {
+  // open search modal
+  await tapOnElementWithTestId('donations-search-button')
+
+  // close keyboard
+  await tapOnElementWithTestId('donations-search-modal')
+
+  // reset filter
+  await tapOnElementWithTestId('donations-search-form-reset')
+
+  // close search modal
+  await tapOnElementWithTestId('donations-search-modal-close-btn')
+
+  // wait for results
+  await waitForElementWithTestId('donations-list-container')
+}
+
 describe('@Donations', () => {
   beforeEach(async () => {
     await navigateToDonationsApp()
@@ -60,48 +102,6 @@ describe('@Donations', () => {
     await waitForElementWithTestId('donations-project-detail-donate-btn')
     await waitForElementWithTestId('donations-project-initiative-btn')
   })
-
-  const filterForLocation = async (location: string) => {
-    // open search modal
-    await tapOnElementWithTestId('donations-search-button')
-
-    // enter location
-    await fillFieldByTestId('donations-search-location-input', location)
-
-    // submit form
-    // Not using suggestions here, as they can not be easily identified and selected
-    await pressEnter('donations-search-location-input')
-
-    // wait for results
-    await waitForElementWithTestId('donations-list-container')
-  }
-
-  const resetFilterInModal = async () => {
-    // open search modal
-    await tapOnElementWithTestId('donations-search-button')
-
-    // close keyboard
-    await tapOnElementWithTestId('donations-search-modal')
-
-    // reset filter
-    await tapOnElementWithTestId('donations-search-form-reset')
-
-    // close search modal
-    await tapOnElementWithTestId('donations-search-modal-close-btn')
-
-    // wait for results
-    await waitForElementWithTestId('donations-list-container')
-  }
-
-  const extractResultCount = async (testId: string): Promise<number> => {
-    const element = await waitForElementWithTestId(testId)
-    const textContent = await element.getText()
-    const numberMatch = textContent?.match(/\d+/)
-    if (numberMatch && numberMatch.length) {
-      return parseInt(numberMatch[0], 10)
-    }
-    return 0
-  }
 
   it('should filter donations by location', async () => {
     // filter for "Germany"

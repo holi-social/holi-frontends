@@ -24,6 +24,20 @@ export interface ProjectInitiative {
   url: string | undefined
 }
 
+export interface NewsAuthor {
+  name: string
+  picture?: Picture[]
+}
+
+export interface News {
+  title: string
+  id: string
+  publishDate: string
+  author?: NewsAuthor
+  body: string
+  url: string
+}
+
 export interface Project {
   id: number
   title: string
@@ -40,6 +54,8 @@ export interface Project {
   picture: Picture[]
   initiative: ProjectInitiative
   donationUrl: string
+  news: News[]
+  newsCount: number
 }
 
 export interface ProjectsResponse {

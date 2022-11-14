@@ -1,5 +1,4 @@
 import { useQuery } from '@apollo/client'
-import { faker } from '@faker-js/faker'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -15,9 +14,8 @@ import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import { fakePosts } from '@holi/core/screens/insights/fakeInsights'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
-import PostPreview from '@holi/core/screens/posts/PostPreview'
+import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
@@ -83,21 +81,15 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
   // see here: https://reactjs.org/docs/hooks-rules.html
   if (!insight) return <HoliText>{t('insights.insight.notFound', { insightId })}</HoliText>
 
-  // if there are no posts in the insight from the okuna backend, use fake posts.
-  // This way feature branches still have content and don't look empty.
-  const posts: Post[] = insight.posts?.length ? insight.posts : fakePosts
+  const posts: Post[] = insight.posts || []
 
   const author = {
     ...insight.curator,
     fullName: userFullName(insight.curator),
-    avatar: faker.image.avatar(), // TODO: remove, use real avatar instead of dummy image
   }
 
   // TODO: dummy category
   const category = 'Immigration'
-
-  // TODO: dummy image
-  const headerImage = 'https://image.geo.de/30657478/t/5W/v6/w960/r1.5/-/wer-hat-den-foehn-picture-1238735191.jpg'
 
   return (
     <>
@@ -112,7 +104,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
       >
         {/* Image section */}
         <ImageBackground
-          source={{ uri: headerImage }}
+          source={{ uri: insight?.headerImage }}
           resizeMode="cover"
           style={styles.insightBackgroundImage}
           imageStyle={styles.insightImage}

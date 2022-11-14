@@ -144,8 +144,6 @@ const getStyles = (inline: boolean) =>
       backgroundColor: colors.backgroundColorWhite,
       paddingHorizontal: 32,
       paddingVertical: 13,
-      marginRight: 4, // make the drop shadow not overlap onto other components
-      marginBottom: 4, // make the drop shadow not overlap onto other components
       elevation: 0,
       overflow: 'hidden',
     },

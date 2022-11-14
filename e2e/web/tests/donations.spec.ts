@@ -13,6 +13,67 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/apps/donations')
 })
 
+const filterForLocation = async (
+  page: Page,
+  location: string,
+  { assertAccessibility = false, useSuggestion = false } = {}
+) => {
+  // open search modal
+  await clickElementByTestId(page, 'donations-search-button')
+
+  if (assertAccessibility) {
+    await checkAccessibility(page)
+  }
+
+  // enter location
+  const locationInput = await locateElementByTestId(page, 'donations-search-location-input')
+  await locationInput.fill(location)
+
+  // expect suggestions
+  const element = await locateElementBySelector(page, '[role="menuitem"]')
+  if (useSuggestion) {
+    await clickElement(element)
+  }
+
+  // close search modal
+  await clickElementByTestId(page, 'donations-search-modal-close-btn')
+
+  // wait for results
+  await waitForElementByTestId(page, 'donations-list-container')
+}
+
+const extractResultCount = async (element: Locator): Promise<number> => {
+  const textContent = await element.textContent()
+  const numberMatch = textContent?.match(/\d+/)
+  if (numberMatch && numberMatch.length) {
+    return parseInt(numberMatch[0], 10)
+  }
+  return 0
+}
+
+const extractNewsCount = async (element: Locator): Promise<number | undefined> => {
+  const textContent = await element.textContent()
+  const numberNews = textContent?.match(/\(([^)]+)\)/)
+  if (numberNews && numberNews.length) {
+    return parseInt(numberNews[1], 10)
+  }
+  return undefined
+}
+
+const resetFilterInModal = async (page: Page) => {
+  // open search modal
+  await clickElementByTestId(page, 'donations-search-button')
+
+  // reset filter
+  await clickElementByTestId(page, 'donations-search-form-reset')
+
+  // close search modal
+  await clickElementByTestId(page, 'donations-search-modal-close-btn')
+
+  // wait for results
+  await waitForElementByTestId(page, 'donations-list-container')
+}
+
 test.describe('@Donations', () => {
   test('should be accessible from home screen', async ({ page }) => {
     await page.goto('/')
@@ -82,57 +143,31 @@ test.describe('@Donations', () => {
     await initiativePage.close() // close newly opened tab
   })
 
-  const filterForLocation = async (
-    page: Page,
-    location: string,
-    { assertAccessibility = false, useSuggestion = false } = {}
-  ) => {
-    // open search modal
-    await clickElementByTestId(page, 'donations-search-button')
-
-    if (assertAccessibility) {
-      await checkAccessibility(page)
-    }
-
-    // enter location
-    const locationInput = await locateElementByTestId(page, 'donations-search-location-input')
-    await locationInput.fill(location)
-
-    // expect suggestions
-    const element = await locateElementBySelector(page, '[role="menuitem"]')
-    if (useSuggestion) {
-      await clickElement(element)
-    }
-
-    // close search modal
-    await clickElementByTestId(page, 'donations-search-modal-close-btn')
-
-    // wait for results
+  test('should display correct news count on project details', async ({ page }) => {
     await waitForElementByTestId(page, 'donations-list-container')
-  }
 
-  const extractResultCount = async (element: Locator): Promise<number> => {
-    const textContent = await element.textContent()
-    const numberMatch = textContent?.match(/\d+/)
-    if (numberMatch && numberMatch.length) {
-      return parseInt(numberMatch[0], 10)
+    // click first element in list
+    await clickElementByTestId(page, 'donations-list-item')
+    await waitForElementByTestId(page, 'donations-project-detail-heading')
+
+    // check if this page has a news module
+    test.skip(!(await page.$('data-testid=donations-news-count')), 'page has no news module to test')
+
+    const newsCounter = await locateElementByTestId(page, 'donations-news-count')
+    const newsCount = await extractNewsCount(newsCounter)
+    const spotlightNewsCount = await (await locateElementByTestId(page, 'donation-news-spotlight')).count()
+    const otherNewsCount = await (await locateElementByTestId(page, 'donations-news-other-item')).count()
+    const expectedOtherNewsCount = () => {
+      if (!newsCount) return undefined
+      return newsCount === 0 ? 0 : newsCount >= 5 ? 4 : newsCount - 1
     }
-    return 0
-  }
 
-  const resetFilterInModal = async (page: Page) => {
-    // open search modal
-    await clickElementByTestId(page, 'donations-search-button')
-
-    // reset filter
-    await clickElementByTestId(page, 'donations-search-form-reset')
-
-    // close search modal
-    await clickElementByTestId(page, 'donations-search-modal-close-btn')
-
-    // wait for results
-    await waitForElementByTestId(page, 'donations-list-container')
-  }
+    expect(newsCount).toBeDefined
+    // spotlight is shown when any news exist
+    expect(spotlightNewsCount).toBe(newsCount === 0 ? 0 : 1)
+    // up to 4 other news are shown after the spotlight
+    expect(otherNewsCount).toBe(expectedOtherNewsCount())
+  })
 
   test('should filter donations by location and reset', async ({ page }) => {
     // filter for "Germany"

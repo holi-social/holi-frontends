@@ -13,7 +13,8 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
           screens: {
             HomeFeed: '',
             InsightDetailPage: 'insights/:insightId',
-            Post: 'insights/:insightId/posts/:postId',
+            PostDetailPage: 'insights/:insightId/posts/:postId',
+            CreatePostCommentPage: 'insights/:insightId/posts/:postId/comment',
             SettingsOverview: 'profile/settings',
             AccountSettings: 'profile/settings/account',
             UserProfile: 'profile/:userId',
