@@ -17,6 +17,7 @@ export type MediaHeaderProps = {
   date?: string
   touchHandler?: () => void
   style?: StyleProp<ViewStyle>
+  testID?: string
 }
 
 const HoliMediaHeader: React.FC<MediaHeaderProps> = ({
@@ -27,6 +28,7 @@ const HoliMediaHeader: React.FC<MediaHeaderProps> = ({
   touchHandler,
   style,
   children,
+  testID,
 }) => {
   const { i18n } = useTranslation()
 
@@ -48,7 +50,7 @@ const HoliMediaHeader: React.FC<MediaHeaderProps> = ({
         size="small"
       />
       <View style={styles.titleContainer}>
-        <HoliButton transparent label={title} onPress={touchHandler}>
+        <HoliButton transparent label={title} onPress={touchHandler} testID={testID || 'btn-media-header'}>
           <HoliText bold={boldTitle}>{title}</HoliText>
         </HoliButton>
         {formattedDate && (

@@ -21,6 +21,7 @@ const PostDetailFooter: React.VFC<PostDetailFooterProps> = ({ onPress, style }) 
       style={[styles.button, style]}
       label={t('insights.posts.comments.create_comment_button')}
       onPress={onPress}
+      testID="post-detail-footer"
     >
       <HoliText style={styles.text}>{t('insights.posts.comments.create_comment_button')}</HoliText>
     </HoliButton>
