@@ -2,6 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
+import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -13,12 +14,12 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
   const { navigate, pathname } = useRouting()
   const { t } = useTranslation()
 
-  const isNotifications = pathname.startsWith('/notifications')
-  const isProfile = pathname.startsWith('/profile')
+  const isHome = pathname === '/'
   const isChat = pathname.startsWith('/chat')
   const isSpaces = pathname.startsWith('/spaces')
-  const isSearch = pathname.startsWith('/search')
-  const isHome = !isNotifications && !isProfile && !isChat && !isSearch && !isSpaces
+  const isProfileLoginRefistrationForgotPassword = ['/profile', '/login', '/registration', '/forgotPassword'].some(
+    (path) => pathname.startsWith(path)
+  )
 
   const iconColor = (isActive: boolean) => (isActive ? colors.fontColorBlack : colors.fontColorGrey)
 
@@ -58,15 +59,10 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
         >
           <HoliIcon icon="chat-3" size={24} filled={isChat} style={{ color: iconColor(isChat) }} />
         </HoliButton>
-        <HoliButton
-          label={t('search.title')}
-          inline
-          transparent
-          onPress={() => navigate('/search')}
+        <LoginProfileButton
+          focused={isProfileLoginRefistrationForgotPassword}
           style={{ paddingHorizontal: 20, paddingVertical: 10 }}
-        >
-          <HoliIcon icon="search" size={24} filled={isSearch} style={{ color: iconColor(isSearch) }} />
-        </HoliButton>
+        />
       </View>
     </View>
   )
