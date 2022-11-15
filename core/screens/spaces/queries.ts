@@ -31,6 +31,10 @@ const SpaceFragment = gql`
       slotsTaken
       location
       regularity
+      skills {
+        id
+        title
+      }
     }
   }
 `

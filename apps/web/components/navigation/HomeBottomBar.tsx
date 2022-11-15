@@ -36,7 +36,7 @@ const FooterTabBar: React.VoidFunctionComponent = () => {
           inline
           transparent
           onPress={() => navigate('/')}
-          testID="nav-button-home"
+          testID="btn-to-home-view"
           style={{ paddingHorizontal: 20, paddingVertical: 10 }}
         >
           <HoliIcon icon="home-smile-2" size={24} filled={isHome} style={{ color: iconColor(isHome) }} />
