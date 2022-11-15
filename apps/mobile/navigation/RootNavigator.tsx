@@ -17,10 +17,8 @@ import CreatePostCommentPage, { CreatePostCommentPageParams } from '@holi/core/s
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
 import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
-import AccountSettings from '@holi/core/screens/userprofile/AccountSettings'
-import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
-import SettingsOverview from '@holi/core/screens/userprofile/SettingsOverview'
 import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
+import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
 import HeaderAnimated from '@holi/mobile/navigation/HeaderAnimated'
@@ -29,16 +27,14 @@ import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNav
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
 
-import { BackButton, CenterElement, DownButton, LeftElement, RightElement } from './components'
+import { DownButton, LeftElement, RightElement } from './components'
 
 export type HomeStackScreens = {
-  AccountSettings: undefined
   HomeFeed: undefined
   InsightDetailPage: InsightDetailPageParams
   Notifications: undefined
   PostDetailPage: PostDetailPageParams
   CreatePostCommentPage: CreatePostCommentPageParams
-  SettingsOverview: undefined
   Search: undefined
   UserProfile: UserProfileParams
 }
@@ -47,7 +43,7 @@ export type BottomTabsScreens = {
   Home: undefined
   Chat: undefined
   Spaces: undefined
-  OwnProfile: undefined
+  Auth: undefined
 }
 
 export type RootStackScreens = {
@@ -65,7 +61,6 @@ const HomeStack = createNativeStackNavigator<HomeStackScreens>()
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
-// TODO: remove comments
 export const HomeStackNavigator: React.VFC = () => {
   return (
     <HomeStack.Navigator
@@ -73,115 +68,16 @@ export const HomeStackNavigator: React.VFC = () => {
       screenOptions={{
         header: HeaderAnimated,
         headerShadowVisible: false,
+        headerTransparent: true,
       }}
     >
-      <HomeStack.Screen
-        name="HomeFeed"
-        component={HomeFeed}
-        // options={{
-        //   headerBackTitleVisible: true,
-        //   headerBackVisible: true,
-        //   headerTransparent: true,
-        //   headerStyle: { backgroundColor: colors.backgroundColorWhite },
-        //   headerTitle: () => null,
-        //   headerLeft: TitleLeftElement,
-        //   headerRight: ({ tintColor }) => (
-        //     <ItemRow>
-        //       <HoliButton
-        //         label={t('notifications.title')}
-        //         inline
-        //         transparent
-        //         onPress={() => navigate('/notifications')}
-        //       >
-        //         <HoliIcon icon="notification-2" size={24} color={tintColor} />
-        //       </HoliButton>
-
-        //       <HoliButton label={t('navigation.search')} inline transparent onPress={() => navigate('/search')}>
-        //         <HoliIcon icon="search" size={24} color={tintColor} />
-        //       </HoliButton>
-        //     </ItemRow>
-        //   ),
-        // }}
-      />
-      <HomeStack.Screen
-        name="SettingsOverview"
-        component={SettingsOverview}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-          headerTitle: CenterElement,
-          headerLeft: BackButton,
-          headerRight: RightElement,
-        }}
-      />
-      <HomeStack.Screen
-        name="AccountSettings"
-        component={AccountSettings}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-          headerTitle: CenterElement,
-          headerLeft: BackButton,
-          headerRight: RightElement,
-        }}
-      />
-      <HomeStack.Screen
-        name="Search"
-        component={Search}
-        // options={{
-        //   headerBackTitleVisible: false,
-        //   headerBackVisible: false,
-        //   headerTitle: CenterElement,
-        //   headerLeft: BackButton,
-        //   headerRight: RightElement,
-        // }}
-      />
-      <HomeStack.Screen
-        name="InsightDetailPage"
-        component={InsightDetailPage}
-        // options={
-        //   {
-        //     headerTransparent: true,
-        //     headerTintColor: colors.fontColorWhite,
-        //     headerLeft: BackButton,
-        //     headerCustomOptions: {
-        //       headerBackgroundGradient: true,
-        //     },
-        //   } as NativeStackNavigationCustomHeaderOptions
-        // }
-      />
-      <HomeStack.Screen
-        name="PostDetailPage"
-        component={PostDetailPage}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-          headerTitle: CenterElement,
-          headerLeft: BackButton,
-        }}
-      />
-      <HomeStack.Screen
-        name="CreatePostCommentPage"
-        component={CreatePostCommentPage}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-          headerTitle: CenterElement,
-          headerLeft: BackButton,
-        }}
-      />
-      <HomeStack.Screen
-        name="Notifications"
-        component={Notifications}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-          headerTitle: CenterElement,
-          headerLeft: BackButton,
-          headerRight: RightElement,
-        }}
-      />
-      <BottomTabs.Screen name="UserProfile" component={UserProfile} />
+      <HomeStack.Screen name="HomeFeed" component={HomeFeed} />
+      <HomeStack.Screen name="Search" component={Search} />
+      <HomeStack.Screen name="InsightDetailPage" component={InsightDetailPage} />
+      <HomeStack.Screen name="PostDetailPage" component={PostDetailPage} />
+      <HomeStack.Screen name="CreatePostCommentPage" component={CreatePostCommentPage} />
+      <HomeStack.Screen name="Notifications" component={Notifications} />
+      <HomeStack.Screen name="UserProfile" component={UserProfile} />
     </HomeStack.Navigator>
   )
 }
@@ -227,7 +123,7 @@ export const BottomTabsNavigator: React.VFC = () => {
           headerShown: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="loader" size={24} filled={focused} style={{ color: iconColor(focused) }} />
+            return <HoliIcon icon="spaces" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
         }}
       />
@@ -240,19 +136,14 @@ export const BottomTabsNavigator: React.VFC = () => {
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="chat-3" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
-          headerStyle: {
-            borderBottomColor: 'transparent',
-          },
         }}
       />
       <BottomTabs.Screen
-        name="OwnProfile"
-        component={OwnProfile}
+        name="Auth"
+        component={AuthStackNavigator}
         options={{
-          headerTitleAlign: 'center',
-          headerShadowVisible: false,
+          headerShown: false,
           tabBarShowLabel: false,
-          headerTitle: CenterElement,
           tabBarIcon: LoginProfileButton,
         }}
       />

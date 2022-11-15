@@ -43,12 +43,15 @@ const DefaultLayout: React.FC<LayoutProps> = ({
     </ScrollView>
   )
 
-  return headerOverlap ? mobileLayout : <SafeAreaView>{mobileLayout}</SafeAreaView>
+  return headerOverlap ? mobileLayout : <SafeAreaView style={styles.safeArea}>{mobileLayout}</SafeAreaView>
 }
 
 export default DefaultLayout
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
   headerPadding: {
     paddingTop: +vars.topBarHeight,
   },

@@ -6,6 +6,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
+import { useScrollYHandler } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import LoggedOutView from '@holi/core/screens/userprofile/components/LoggedOutView'
@@ -23,6 +24,7 @@ const SettingsOverview: React.VFC<ScreenProps> = () => {
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
   const { setOptions } = useUnifiedNavigation()
+  const onScreenScroll = useScrollYHandler()
 
   useLayoutEffect(() => setOptions({ title: t('profile.settings.overview.title') }), [setOptions, t])
 
@@ -34,7 +36,7 @@ const SettingsOverview: React.VFC<ScreenProps> = () => {
   )
 
   return (
-    <DefaultLayout>
+    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
       <LoginProtection loggedOutContent={<LoggedOutView />}>
         <>
           <View style={[mixins.container, styles.settingsOverview]}>

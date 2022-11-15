@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client'
-import React, { useContext, useLayoutEffect, useRef, useState } from 'react'
+import React, { memo, useContext, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   KeyboardAvoidingView,
@@ -82,7 +82,14 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ style }: ScreenProps) =
 
   const { setOptions } = useUnifiedNavigation()
 
-  useLayoutEffect(() => setOptions({ title: t('insights.posts.comments.title') }), [setOptions, t])
+  useLayoutEffect(
+    () =>
+      setOptions({
+        title: t('insights.posts.comments.title'),
+        headerStyle: { backgroundColor: colors.backgroundColorWhite },
+      }),
+    [setOptions, t]
+  )
 
   if (createCommentError) {
     logError(createCommentError, `[CreatePostCommentPage.tsx] ${createCommentError.message}`)
@@ -240,4 +247,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default CreatePostCommentPage
+export default memo(CreatePostCommentPage)

@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { useLayoutEffect } from 'react'
+import React, { memo, useLayoutEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View } from 'react-native'
 
@@ -8,6 +8,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { userFullName } from '@holi/core/helpers'
+import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import SpaceTaskTile from '@holi/core/screens/spaces/SpaceTaskTile'
@@ -34,7 +35,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { setOptions } = useUnifiedNavigation()
-
+  const onScreenScroll = useScrollYHandler()
   useLayoutEffect(() => setOptions({ title: 'Space Details' }), [setOptions])
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
@@ -59,7 +60,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   }
 
   return (
-    <DefaultLayout>
+    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
       <View style={[mixins.container, { justifyContent: 'center', padding: 24 }]}>
         <HoliHeading level="1">{space.title}</HoliHeading>
         <HoliText style={{ paddingTop: 10 }}>
@@ -96,4 +97,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default SpaceDetails
+export default memo(SpaceDetails)

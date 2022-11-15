@@ -1,6 +1,6 @@
 import { useLazyQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
-import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
+import React, { memo, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -8,6 +8,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
+import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -22,6 +23,7 @@ import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type PostDetailPageParams = {
@@ -59,9 +61,18 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
     variables: { id: postId },
   })
 
+  const onScreenScroll = useScrollYHandler()
+
   const title = data?.postById?.title
 
-  useLayoutEffect(() => setOptions({ title }), [setOptions, title])
+  useLayoutEffect(
+    () =>
+      setOptions({
+        title,
+        headerStyle: { backgroundColor: colors.backgroundColorWhite },
+      }),
+    [setOptions, title]
+  )
 
   useEffect(() => {
     if (postId) getPost()
@@ -87,7 +98,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
   return (
     <>
       <StatusBar animated />
-      <DefaultLayout>
+      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
         <PostDetail post={post} />
 
         {/* Post comments */}
@@ -153,4 +164,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default PostDetailPage
+export default memo(PostDetailPage)

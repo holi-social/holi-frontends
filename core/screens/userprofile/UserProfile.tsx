@@ -9,6 +9,7 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import NotFound from '@holi/core/errors/components/NotFound'
 import { displayError, isNotFoundError } from '@holi/core/errors/helpers'
+import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -46,7 +47,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
   }, [replaceRoute, isLoggedIn, userId, authenticatedUserId])
 
   const { setOptions } = useUnifiedNavigation()
-
+  const onScreenScroll = useScrollYHandler()
   useLayoutEffect(() => setOptions({ title: t('profile.title') }), [setOptions, t])
 
   const [fetchUser, { loading, error, data }] = useLazyQuery<UserByIdResponse>(userByIdQuery, {
@@ -96,7 +97,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
   const hasInfo = user.engagementLevel || hasInterests || hasSdgs || hasSkills
 
   return (
-    <DefaultLayout>
+    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
       <View style={[mixins.container, styles.container]}>
         <UserProfileView user={user} />
       </View>
