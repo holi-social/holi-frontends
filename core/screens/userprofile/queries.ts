@@ -1,9 +1,7 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
-import type { UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
-
-import { Term } from './types.ts'
+import type { Term, UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
 
 export const userFragment = gql`
   fragment FullUser on User {
