@@ -5,7 +5,7 @@ import { tapOnElementWithTestId, waitForElementWithTestId } from '../helpers/sel
 
 const goFromRegistrationToHome = async () => {
   await tapOnElementWithTestId('nav-button-back')
-  await tapOnElementWithTestId('nav-button-home')
+  await tapOnElementWithTestId('btn-to-home-view')
 }
 
 describe('@Registration', () => {

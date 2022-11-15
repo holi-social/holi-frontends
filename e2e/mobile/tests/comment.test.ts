@@ -4,6 +4,7 @@ import { defaultAuthSteps } from '../helpers/auth'
 import { navigateBackToHomeScreen } from '../helpers/navigation'
 import {
   fillFieldByTestId,
+  scrollToElementWithTestId,
   tapOnElementWithTestId,
   waitForElementWithTestId,
   waitForElementWithTestIdToBeNull,
@@ -22,6 +23,7 @@ describe('@Comment', () => {
     await tapOnElementWithTestId('feed-insight-image-link')
 
     // click first post within the insight
+    await scrollToElementWithTestId('btn-to-post', 'down', { maxAttempts: 5 })
     await waitForElementWithTestId('btn-to-post')
     await tapOnElementWithTestId('btn-to-post')
 

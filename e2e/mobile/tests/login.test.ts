@@ -9,7 +9,7 @@ describe('@Login', () => {
     await waitForElementWithTestId('toast-message-4000006')
 
     await tapOnElementWithTestId('nav-button-back')
-    await tapOnElementWithTestId('nav-button-home')
+    await tapOnElementWithTestId('btn-to-home-view')
   })
 
   it('should work with valid credentials', async () => {
