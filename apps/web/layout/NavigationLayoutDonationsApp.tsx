@@ -4,7 +4,6 @@ import React, { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import HeaderAnimated from '@holi/web/components/navigation/HeaderAnimated'
-import HomeTopBar from '@holi/web/components/navigation/HomeTopBar'
 
 import donationsLayoutStyles from './NavigationLayoutDonationsApp.module.scss'
 import sharedLayoutStyles from './NavigationLayoutRoot.module.scss'
