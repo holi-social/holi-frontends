@@ -16,7 +16,7 @@ test.describe('@Accessibility', () => {
     await waitForElementByTestId(page, 'user-profile-logged-out-heading')
     await checkAccessibility(page)
 
-    const homeButton = await locateElementByTestId(page, 'nav-button-home')
+    const homeButton = await locateElementByTestId(page, 'btn-to-home-view')
     await homeButton.click()
     await waitForElementByTestId(page, 'home-feed-insights-heading') // this weeks insights
     await checkAccessibility(page)

@@ -50,7 +50,7 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
             inline
             transparent
             onPress={() => navigate('/')}
-            testID="nav-button-home"
+            testID="btn-to-home-view"
           >
             <HoliIcon icon="home-smile-2" size={35} color={colors.fontColorBlack} />
           </HoliButton>
