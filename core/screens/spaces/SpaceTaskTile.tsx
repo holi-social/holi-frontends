@@ -25,7 +25,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
 
   return (
     <View key={task.id} style={[style, styles.taskItem]}>
-      <View style={[styles.headingAvatarContainer, styles.container]}>
+      <View style={[styles.headingAvatarContainer, styles.detailContainer]}>
         <HoliHeading level="2">{task.name}</HoliHeading>
         <HoliUserAvatar
           imageSrc={task.creator.avatar}
@@ -35,7 +35,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
           size="micro"
         />
       </View>
-      <View style={[styles.iconsContainer, styles.container]}>
+      <View style={[styles.iconsContainer, styles.detailContainer]}>
         <View style={styles.iconGroupContainer}>
           <HoliIcon icon="global" size={12} color={colors.fontColorGrey} style={styles.iconGroupIcon} filled />
           <HoliText style={styles.iconGroupText} size="extrasmall">
@@ -49,8 +49,8 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
           </HoliText>
         </View>
       </View>
-      {task.skills.length && (
-        <View style={[styles.skillsContainer, styles.container]}>
+      {task.skills.length > 0 && (
+        <View style={[styles.skillsContainer, styles.detailContainer]}>
           {task.skills.map((skill) => {
             return (
               <HoliText key={skill.id} size="small" style={styles.skill} numberOfLines={1}>
@@ -60,7 +60,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
           })}
         </View>
       )}
-      <View style={styles.container}>
+      <View style={styles.detailContainer}>
         <HoliReadMore numberOfLines={3}>
           <HoliText size="small">{task.description}</HoliText>
         </HoliReadMore>
@@ -70,7 +70,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
         onPress={() => ({})} // TODO add action
         testID={'spaces-tasks-cta-claim'}
         inline
-        style={styles.container}
+        style={styles.detailContainer}
       >
         <HoliText size="small">{t('spaces.tasks.cta_claim')}</HoliText>
       </HoliButton>
@@ -83,7 +83,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
 
 const getStyles = (screenWidth: number) =>
   StyleSheet.create({
-    container: {
+    detailContainer: {
       marginBottom: 16,
     },
     headingAvatarContainer: {
