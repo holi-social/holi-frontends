@@ -1,3 +1,12 @@
+export interface Term {
+  id: string
+  title: string
+}
+
+export interface Topic extends Term {}
+export interface SDG extends Term {}
+export interface Skill extends Term {}
+
 export interface User {
   id: string
   avatarLabel: string
@@ -9,9 +18,9 @@ export interface User {
   pronouns?: string
   location?: string
   engagementLevel?: string
-  interests?: UserInterest[]
-  sdgs?: string[]
-  skills?: string[]
+  interests?: Topic[]
+  sdgs?: SDG[]
+  skills?: Skill[]
   connectionStatusToMyself?: UserConnectionStatus
 }
 

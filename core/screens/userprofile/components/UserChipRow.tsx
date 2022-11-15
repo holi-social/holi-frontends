@@ -2,12 +2,10 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
-import { UserChipGeneric } from '@holi/core/screens/userprofile/types'
+import { Term, UserChipGeneric } from '@holi/core/screens/userprofile/types'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
-
-import { toValuesWithTranslation } from './userChipHelper'
 
 type UserChipRowProps = {
   typeMetadata: UserChipGeneric<any> // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -24,7 +22,7 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
   user,
   sortByTranslation = true,
 }) => {
-  const values = user ? (user[typeMetadata.keyInUserObject as keyof typeof user] as string[]) : []
+  const values = user ? (user[typeMetadata.keyInUserObject as keyof typeof user] as Term[]) : []
   const { t } = useTranslation()
 
   const styles = getStyles()
@@ -38,12 +36,12 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
       testID={`user-profile-${typeMetadata.keyInUserObject}`}
     >
       {values.length > 0 ? (
-        toValuesWithTranslation(typeMetadata, values, t, sortByTranslation).map((valueWithT) => (
+        values.map((value) => (
           <HoliChip
             numberOfLines={numberOfLines}
-            key={valueWithT.value}
-            text={valueWithT.t}
-            label={valueWithT.t}
+            key={value.id}
+            text={value.title}
+            label={value.title}
             disabled
             style={styles.chip}
           />

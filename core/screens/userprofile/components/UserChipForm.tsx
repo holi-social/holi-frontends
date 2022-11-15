@@ -9,15 +9,13 @@ import {
   UpdateAuthenticatedUserResponse,
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
-import type { User, UserChipGeneric } from '@holi/core/screens/userprofile/types'
+import type { Term, User, UserChipGeneric } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors } from '@holi/ui/styles/globalVars'
-
-import { ChipValueWithTranslation, toValuesWithTranslation } from './userChipHelper'
 
 type UserChipFormProps = {
   user: User
@@ -35,11 +33,11 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
 }) => {
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
   const [values, setValues] = useState(
-    user ? (user[typeMetadata.keyInUserObject as keyof typeof user] as string[]) : []
+    user ? (user[typeMetadata.keyInUserObject as keyof typeof user] as Term[]) : []
   )
   const [filterString, setFilterString] = useState<string>('')
-  const [orderedValues, setOrderedValues] = useState<ChipValueWithTranslation[]>([])
-  const [filteredValues, setFilteredValues] = useState<ChipValueWithTranslation[]>([])
+  const [orderedValues, setOrderedValues] = useState<Term[]>([])
+  const [filteredValues, setFilteredValues] = useState<Term[]>([])
   const [saved, setSaved] = useState(false)
 
   const { t } = useTranslation()
@@ -53,8 +51,8 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
     */
     const unselectedValues = typeMetadata.allValues.filter((value) => !values.includes(value))
     setOrderedValues([
-      ...toValuesWithTranslation(typeMetadata, values, t, sortByTranslation),
-      ...toValuesWithTranslation(typeMetadata, unselectedValues, t, sortByTranslation),
+      ...values,
+      ...unselectedValues,
     ])
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -63,7 +61,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
       setFilteredValues(
         filterString === ''
           ? orderedValues
-          : orderedValues.filter(({ t: label }) => label.toLowerCase().includes(filterString.toLowerCase()))
+          : orderedValues.filter(({ title: label }) => label.toLowerCase().includes(filterString.toLowerCase()))
       ),
     [orderedValues, filterString]
   )
@@ -77,7 +75,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
     const result = await updateUser({ variables: { input } })
     if (!error && result.data) {
       setSaved(true)
-      onSubmit && onSubmit(result.data.authenticatedUser)
+      onSubmit && onSubmit(result.data.updateAuthenticatedUser.authenticatedUser)
     }
   }
 
@@ -95,7 +93,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
     displayError(error, t('user.profileForm.error.saving'))
   }
 
-  const updateValues = (value: string) => {
+  const updateValues = (value: Term) => {
     if (values.includes(value)) {
       // remove the value
       setValues((previous) => previous.filter((previousName) => previousName !== value))
@@ -128,14 +126,14 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
         />
 
         <HoliChipRow editable={false} editButtonLabel="">
-          {filteredValues.map(({ value, t }) => {
+          {filteredValues.map((term) => {
             return (
               <HoliChip
-                key={value}
-                checked={values.includes(value)}
-                onPress={() => updateValues(value)}
-                text={t}
-                label={t}
+                key={term.id}
+                checked={values.includes(term)}
+                onPress={() => updateValues(term)}
+                text={term.title}
+                label={term.title}
                 style={styles.chip}
               />
             )
