@@ -141,6 +141,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
                   findHashtagsByKeyword={findHashtagByName}
                   onChange={setText}
                   style={styles.textInput2}
+                  testID="post-comment-input"
                 />
               )}
               {isWeb && (
@@ -153,6 +154,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
                   textAlignVertical="top"
                   multiline
                   value={text}
+                  testID="post-comment-input"
                 />
               )}
             </View>
@@ -170,6 +172,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
                 },
               })
             }
+            testID="btn-submit-comment"
           >
             {t('insights.posts.comments.button')}
           </HoliButton>

@@ -20,6 +20,7 @@ export type HoliRichTextInputProps = {
   onSelectSuggestion?: (suggestion: SuggestionItem) => void
   style?: StyleProp<ViewStyle>
   inputStyle?: StyleProp<ViewStyle>
+  testID?: string
 }
 
 const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = '', placeholder = '...', ...props }) => {
@@ -82,6 +83,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = ''
       placeholder={placeholder}
       containerStyle={[styles.mentionsStyles, props.style]}
       style={styles.input}
+      testID={props.testID}
     />
   )
 }
