@@ -13,7 +13,7 @@ export type SearchFunction = (keyword: string) => SuggestionItem[]
 export type HoliRichTextInputProps = {
   initalValue?: string
   placeholder?: string
-  autofocus: boolean
+  autofocus?: boolean
   findMentionsByKeyword?: SearchFunction
   findHashtagsByKeyword?: SearchFunction
   onChange?: (text: string) => void
