@@ -98,7 +98,7 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
         {mockData.matchedSpaces.length ? (
           <View style={{ marginBottom: 12 }}>
             {mockData.matchedSpaces.map((entry) => (
-              <TopicSlider key={`unmatched_${entry.topic}`} {...entry} />
+              <TopicSlider key={`unmatched_${entry.id}`} {...entry} />
             ))}
           </View>
         ) : (
@@ -111,7 +111,7 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
               {t('spaces.otherListing')}
             </HoliHeading>
             {mockData.unmatchedSpaces.map((entry) => (
-              <TopicSlider key={`unmatched_${entry.topic}`} {...entry} />
+              <TopicSlider key={`unmatched_${entry.id}`} {...entry} />
             ))}
           </View>
         )}

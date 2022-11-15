@@ -11,7 +11,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 type TopicSliderProps = {
   topic: string
-  id: number
+  id: string
   spaces: Space[]
   style?: StyleProp<ViewStyle>
 }
@@ -47,6 +47,6 @@ const styles = StyleSheet.create({
   sliderHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'baseline',
   },
 })

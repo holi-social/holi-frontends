@@ -42,7 +42,7 @@ const TopicSliderCard: React.VFC<TopicSliderCardProps> = ({ space, style }: Topi
         )}
       </View>
       {mockMatchedSkills?.length > 0 && (
-        <HoliText size="small" selectable style={{ marginTop: 16, color: colors.fontColorGrey }}>
+        <HoliText size="small" selectable style={{ marginBottom: 4, color: colors.fontColorGrey }}>
           {mockMatchedSkills.join(', ')}
         </HoliText>
       )}
@@ -65,6 +65,7 @@ const getStyles = () =>
       borderRadius: 18,
       width: '100%',
       minHeight: 160,
+      marginBottom: 16,
     },
     mainImage: {
       aspectRatio: 1,

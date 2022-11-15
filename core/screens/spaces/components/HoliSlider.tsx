@@ -3,6 +3,7 @@ import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle, useWindow
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
+import variables from '@holi/ui/styles/globalVars/variables'
 
 type HoliSliderProps = {
   style?: StyleProp<ViewStyle>
@@ -15,7 +16,7 @@ type HoliSliderProps = {
 const HoliSlider: React.VFC<HoliSliderProps> = ({
   style,
   size = 'medium',
-  isLoading = true,
+  isLoading = false,
   testID = 'holi-slider',
   children,
 }: HoliSliderProps) => {
@@ -27,7 +28,7 @@ const HoliSlider: React.VFC<HoliSliderProps> = ({
       <ScrollView style={styles.scrollViewContainer} horizontal testID={testID}>
         {children &&
           children.map((child, index) => (
-            <View key={`holiSlider_item_${index}`} style={[styles.cardContainer, styles[`cardContainer_${size}`]]}>
+            <View key={index} style={[styles.cardContainer, styles[`cardContainer_${size}`]]}>
               {child}
             </View>
           ))}
@@ -48,13 +49,13 @@ const getStyles = (screenWidth: number) =>
       marginRight: 12,
     },
     cardContainer_small: {
-      width: Platform.OS === 'web' ? 160 : screenWidth / 2.5 - 24,
+      width: Platform.OS === 'web' && screenWidth > +variables.breakpointS ? 160 : screenWidth / 2.5 - 24,
     },
     cardContainer_medium: {
-      width: Platform.OS === 'web' ? 260 : screenWidth / 2.1 - 24,
+      width: Platform.OS === 'web' && screenWidth > +variables.breakpointS ? 260 : screenWidth / 2.1 - 24,
     },
     cardContainer_large: {
-      width: Platform.OS === 'web' ? 320 : screenWidth / 1.5 - 12,
+      width: Platform.OS === 'web' && screenWidth > +variables.breakpointS ? 320 : screenWidth / 1.5 - 12,
     },
     scrollViewContainer: {
       paddingVertical: 18,

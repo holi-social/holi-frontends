@@ -1,7 +1,7 @@
 import { User } from 'core/screens/userprofile/types'
 
 export type SortedSpaces = {
-  id: number
+  id: string
   topic: string
   spaces: Space[]
 }
