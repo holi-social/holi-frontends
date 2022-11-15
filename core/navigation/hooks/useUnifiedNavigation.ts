@@ -13,7 +13,7 @@ export const useUnifiedNavigation = () => {
 
   const setOptions = useCallback(
     (options: NativeStackNavigationCustomHeaderOptions) => {
-      setNativeOptions(options)
+      setNativeOptions?.(options)
       setUnifiedOptions(options)
     },
     [setNativeOptions, setUnifiedOptions]
