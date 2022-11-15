@@ -9,7 +9,7 @@ import {
   UpdateAuthenticatedUserResponse,
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
-import type { Term, User, UserChipGeneric } from '@holi/core/screens/userprofile/types'
+import type { Term, User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
@@ -21,20 +21,19 @@ type UserChipFormProps = {
   user: User
   onCancel?: () => void
   onSubmit?: (user: User) => void
-  typeMetadata: UserChipGeneric<any> // eslint-disable-line @typescript-eslint/no-explicit-any
+  keyInUserObject: string
+  availableTerms: Term[]
   sortByTranslation?: boolean
 }
 
 const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
-  onSubmit,
-  typeMetadata,
-  sortByTranslation = true,
   user,
-}) => {
+  onSubmit,
+  keyInUserObject,
+  availableTerms,
+}: UserChipFormProps) => {
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
-  const [values, setValues] = useState(
-    user ? (user[typeMetadata.keyInUserObject as keyof typeof user] as Term[]) : []
-  )
+  const [values, setValues] = useState<Term[]>(user ? (user[keyInUserObject as keyof typeof user] as Term[]) : [])
   const [filterString, setFilterString] = useState<string>('')
   const [orderedValues, setOrderedValues] = useState<Term[]>([])
   const [filteredValues, setFilteredValues] = useState<Term[]>([])
@@ -49,11 +48,8 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
     * currently unselected items go below, alphabetically sorted by translation
     This order is kept until the selection process is done and the layer is closed.
     */
-    const unselectedValues = typeMetadata.allValues.filter((value) => !values.includes(value))
-    setOrderedValues([
-      ...values,
-      ...unselectedValues,
-    ])
+    const unselectedValues = availableTerms.filter((term) => !values.includes(term))
+    setOrderedValues([...values, ...unselectedValues])
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(
@@ -61,7 +57,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
       setFilteredValues(
         filterString === ''
           ? orderedValues
-          : orderedValues.filter(({ title: label }) => label.toLowerCase().includes(filterString.toLowerCase()))
+          : orderedValues.filter((term: Term) => term.title.toLowerCase().includes(filterString.toLowerCase()))
       ),
     [orderedValues, filterString]
   )
@@ -70,7 +66,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
 
   const submit = async () => {
     const input: UpdateAuthenticatedUserInput = {} as UpdateAuthenticatedUserInput
-    ;(input as any)[typeMetadata.keyInUserObject] = values // eslint-disable-line @typescript-eslint/no-explicit-any
+    ;(input as any)[keyInUserObject] = values.map((value: Term) => value.id) // eslint-disable-line @typescript-eslint/no-explicit-any
 
     const result = await updateUser({ variables: { input } })
     if (!error && result.data) {
@@ -93,13 +89,13 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
     displayError(error, t('user.profileForm.error.saving'))
   }
 
-  const updateValues = (value: Term) => {
-    if (values.includes(value)) {
+  const updateValues = (term: Term) => {
+    if (values.includes(term)) {
       // remove the value
-      setValues((previous) => previous.filter((previousName) => previousName !== value))
+      setValues((previousTerms: Term[]) => previousTerms.filter((previousTerm) => previousTerm !== term))
     } else {
       // add the value
-      setValues((previous) => [...previous, value])
+      setValues((previousTerms: Term[]) => [...previousTerms, term])
     }
   }
 
@@ -107,26 +103,26 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
     <HoliModalContentWrapper
       actionButtonText={t('user.profileForm.save')}
       onActionButtonPress={submit}
-      headlineText={t(`user.${typeMetadata.keyInUserObject}.form.headline`)}
+      headlineText={t(`user.${keyInUserObject}.form.headline`)}
       prependChildren={notificationComponent}
       style={styles.modalWrapper}
       loading={loading || saved}
       testID="user-profile-chipform"
     >
       <View style={styles.mainContainer}>
-        <HoliText style={styles.subline}>{t(`user.${typeMetadata.keyInUserObject}.form.subline`)}</HoliText>
+        <HoliText style={styles.subline}>{t(`user.${keyInUserObject}.form.subline`)}</HoliText>
 
         <HoliTextInput
-          accessibilityLabel={t(`profile.${typeMetadata.keyInUserObject}.filter.placeholder`)}
+          accessibilityLabel={t(`profile.${keyInUserObject}.filter.placeholder`)}
           value={filterString}
-          placeholder={t(`profile.${typeMetadata.keyInUserObject}.filter.placeholder`)}
-          onChange={(text) => setFilterString(text)}
+          placeholder={t(`profile.${keyInUserObject}.filter.placeholder`)}
+          onChange={(text: string) => setFilterString(text)}
           trailingIcon="search"
           style={styles.input}
         />
 
         <HoliChipRow editable={false} editButtonLabel="">
-          {filteredValues.map((term) => {
+          {filteredValues.map((term: Term) => {
             return (
               <HoliChip
                 key={term.id}
@@ -141,7 +137,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
         </HoliChipRow>
 
         {filteredValues.length === 0 && (
-          <HoliText style={styles.subline}>{t(`profile.${typeMetadata.keyInUserObject}.filter.empty`)}</HoliText>
+          <HoliText style={styles.subline}>{t(`profile.${keyInUserObject}.filter.empty`)}</HoliText>
         )}
       </View>
     </HoliModalContentWrapper>

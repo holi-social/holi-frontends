@@ -3,6 +3,8 @@ import { z } from 'zod'
 
 import type { UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
 
+import { Term } from './types.ts'
+
 export const userFragment = gql`
   fragment FullUser on User {
     id
@@ -15,9 +17,18 @@ export const userFragment = gql`
     avatarDefaultColor
     avatarLabel
     engagementLevel
-    interests {id, title}
-    sdgs {id, title}
-    skills {id, title}
+    interests {
+      id
+      title
+    }
+    sdgs {
+      id
+      title
+    }
+    skills {
+      id
+      title
+    }
   }
 `
 
@@ -104,3 +115,42 @@ export const updateConnectionWithUserMutation = gql`
     }
   }
 `
+
+export const sdgsQuery = gql`
+  {
+    sdgs {
+      id
+      title
+    }
+  }
+`
+
+export interface SdgsQueryResult {
+  sdgs: Term[]
+}
+
+export const skillsQuery = gql`
+  {
+    skills {
+      id
+      title
+    }
+  }
+`
+
+export interface SkillsQueryResult {
+  skills: Term[]
+}
+
+export const topicsQuery = gql`
+  {
+    topics {
+      id
+      title
+    }
+  }
+`
+
+export interface TopicsQueryResult {
+  topics: Term[]
+}
