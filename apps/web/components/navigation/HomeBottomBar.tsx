@@ -47,7 +47,7 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
           onPress={() => navigate('/spaces')}
           style={{ paddingHorizontal: 20, paddingVertical: 10 }}
         >
-          <HoliIcon icon="loader" size={24} filled={isSpaces} style={{ color: iconColor(isSpaces) }} />
+          <HoliIcon icon="spaces" size={24} filled={isSpaces} style={{ color: iconColor(isSpaces) }} />
         </HoliButton>
         <HoliButton
           label={t('chat.title')}

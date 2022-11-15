@@ -115,7 +115,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
             </HoliText>
             <HoliReadMore numberOfLines={5}>{project.description}</HoliReadMore>
           </View>
-          {project?.news.length && (
+          {project?.news.length > 0 && (
             <DonationNews
               totalEntries={project.newsCount}
               news={project.news}

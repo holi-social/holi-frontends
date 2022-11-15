@@ -249,7 +249,7 @@ export const BottomTabsNavigator: React.VFC = () => {
           headerShown: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon="loader" size={24} filled={focused} style={{ color: iconColor(focused) }} />
+            return <HoliIcon icon="spaces" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
         }}
       />
