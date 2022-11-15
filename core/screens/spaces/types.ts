@@ -9,6 +9,11 @@ export interface Space {
   tasks?: Task[]
 }
 
+export interface Skill {
+  id: string
+  title: string
+}
+
 export interface Task {
   id: string
   name: string
@@ -18,4 +23,5 @@ export interface Task {
   slotsTaken: number
   location: string
   regularity: 'REGULARLY' | 'PROJECT_BASED' | 'ONE_TIME'
+  skills: Skill[]
 }
