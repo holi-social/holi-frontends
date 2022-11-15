@@ -7,7 +7,7 @@ import { createUploadLink } from 'apollo-upload-client'
 import { holiApiUrl } from '@holi/api/config'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 
-import authLink from './authLink'
+import headerLink from './headerLink'
 
 // The HOLI backend needs ~35s for a cold boot (which it does on a regular basis as we scale to zero), timeout respects that
 const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
@@ -34,8 +34,9 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 // Web authentication works using http-only cookies that are transparently added to requests by the Browser
 // Mobile authentication works by adding the `X-Session-Token` header which takes its value from `SecureStorage`
-// `authLink` is therefore only needed on Mobile (i.e. when defined)
-const link = from([authLink, timeoutLink, errorLink, uploadLink].filter((link) => !!link))
+// For mobile it is also necessary to explicitly set the Accept-Language header.
+// `headerLink` is therefore only needed on Mobile (i.e. when defined)
+const link = from([headerLink, timeoutLink, errorLink, uploadLink].filter((link) => !!link))
 
 export const client = new ApolloClient({
   link,

@@ -25,7 +25,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
 
   return (
     <View key={task.id} style={[style, styles.taskItem]}>
-      <View style={styles.headingAvatarContainer}>
+      <View style={[styles.headingAvatarContainer, styles.detailContainer]}>
         <HoliHeading level="2">{task.name}</HoliHeading>
         <HoliUserAvatar
           imageSrc={task.creator.avatar}
@@ -35,19 +35,34 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
           size="micro"
         />
       </View>
-      <View style={styles.iconsContainer}>
+      <View style={[styles.iconsContainer, styles.detailContainer]}>
         <View style={styles.iconGroupContainer}>
-          <HoliIcon icon="global" size={16} color={colors.grey} style={styles.spaced} />
-          <HoliText style={styles.spaced}>{task.location}</HoliText>
+          <HoliIcon icon="global" size={12} color={colors.fontColorGrey} style={styles.iconGroupIcon} filled />
+          <HoliText style={styles.iconGroupText} size="extrasmall">
+            {task.location}
+          </HoliText>
         </View>
         <View style={styles.iconGroupContainer}>
-          <HoliIcon icon="time" size={16} color={colors.grey} style={styles.spaced} />
-          <HoliText style={styles.spaced}>{t(`spaces.tasks.regularity.${task.regularity}`)}</HoliText>
+          <HoliIcon icon="time" size={12} color={colors.fontColorGrey} style={styles.iconGroupIcon} filled />
+          <HoliText style={styles.iconGroupText} size="extrasmall">
+            {t(`spaces.tasks.regularity.${task.regularity}`)}
+          </HoliText>
         </View>
       </View>
-      <View style={styles.descriptionContainer}>
+      {task.skills.length > 0 && (
+        <View style={[styles.skillsContainer, styles.detailContainer]}>
+          {task.skills.map((skill) => {
+            return (
+              <HoliText key={skill.id} size="small" style={styles.skill} numberOfLines={1}>
+                {skill.title}
+              </HoliText>
+            )
+          })}
+        </View>
+      )}
+      <View style={styles.detailContainer}>
         <HoliReadMore numberOfLines={3}>
-          <HoliText>{task.description}</HoliText>
+          <HoliText size="small">{task.description}</HoliText>
         </HoliReadMore>
       </View>
       <HoliButton
@@ -55,25 +70,25 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
         onPress={() => ({})} // TODO add action
         testID={'spaces-tasks-cta-claim'}
         inline
-        style={styles.ctaClaimButton}
+        style={styles.detailContainer}
       >
-        <HoliText>{t('spaces.tasks.cta_claim')}</HoliText>
+        <HoliText size="small">{t('spaces.tasks.cta_claim')}</HoliText>
       </HoliButton>
-      <View style={styles.spotsClaimedContainer}>
-        <HoliText size="small">
-          {t('spaces.tasks.spots_claimed', { taken: task.slotsTaken, available: task.slotsAvailable })}
-        </HoliText>
-      </View>
+      <HoliText size="extrasmall" style={styles.spotsClaimed}>
+        {t('spaces.tasks.spots_claimed', { taken: task.slotsTaken, available: task.slotsAvailable })}
+      </HoliText>
     </View>
   )
 }
 
 const getStyles = (screenWidth: number) =>
   StyleSheet.create({
+    detailContainer: {
+      marginBottom: 16,
+    },
     headingAvatarContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      marginBottom: 16,
     },
     taskItem: {
       borderRadius: 16,
@@ -87,23 +102,39 @@ const getStyles = (screenWidth: number) =>
         web: screenWidth > +vars.breakpointS ? 300 : screenWidth - 24 - 24 - 20,
       }),
     },
-    descriptionContainer: { marginBottom: 16 },
-    ctaClaimButton: { marginBottom: 16 },
     iconsContainer: {
       flexDirection: 'row',
-      marginBottom: 16,
       flexWrap: 'wrap',
     },
     iconGroupContainer: {
       flexDirection: 'row',
       alignItems: 'center',
+      marginRight: 8,
     },
-    spaced: {
-      marginRight: 5,
+    iconGroupIcon: {
+      marginRight: 4,
     },
-    spotsClaimedContainer: {
+    iconGroupText: {
+      color: colors.fontColorGrey,
+    },
+    spotsClaimed: {
+      textAlign: 'right',
+      color: colors.fontColorGrey,
+    },
+    skillsContainer: {
       flexDirection: 'row',
-      justifyContent: 'flex-end',
+      flexWrap: 'wrap',
+    },
+    skill: {
+      borderRadius: 64,
+      borderWidth: 1,
+      borderColor: colors.borderColorGrey,
+      paddingHorizontal: 14,
+      paddingVertical: 8,
+      color: colors.fontColorGrey,
+      height: 33,
+      marginRight: -1,
+      marginBottom: -1,
     },
   })
 
