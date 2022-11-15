@@ -14,8 +14,7 @@ import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { displayError } from '@holi/core/errors/helpers'
 import { useSafeDispatch } from '@holi/core/helpers'
-import BackButton from '@holi/core/navigation/components/BackButton'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -33,10 +32,9 @@ const Registration: React.VFC<ScreenProps> = () => {
   const [flow, setFlow] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { replaceRoute } = useRouting()
   // use safe versions of this function to prevent updating state of destroyed component
   const safeSetFlow = useSafeDispatch(setFlow)
-  const { setOptions } = useUnifiedNavigation()
+  const { setOptions, navigate, navigateBack, replaceRoute } = useUnifiedNavigation()
 
   const initializeFlow = useCallback(() => {
     if (isLoggedIn) return
@@ -53,16 +51,10 @@ const Registration: React.VFC<ScreenProps> = () => {
   useLayoutEffect(() => initializeFlow(), [initializeFlow])
 
   useLayoutEffect(() => {
-    const title = t('auth.register')
     setOptions({
-      title: title,
-      headerTitle: () => (
-        <HoliHeading level="1" size="small">
-          {title}
-        </HoliHeading>
-      ),
-      headerLeft: () => (Platform.OS === 'web' ? <HoliText /> : <BackButton icon="arrow-down-s" />),
-      headerRight: () => (Platform.OS === 'web' ? <BackButton icon="close" /> : <HoliText />),
+      title: t('auth.register'),
+      headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon="arrow-down-s" />),
+      headerRight: () => (Platform.OS === 'web' ? <HeaderBackButton icon="close" /> : null),
     })
   }, [setOptions, t])
 
@@ -104,7 +96,14 @@ const Registration: React.VFC<ScreenProps> = () => {
             variant="small"
             label={t('auth.login')}
             style={mixins.inlineButtonFixSmall}
-            onPress={() => replaceRoute('/login')}
+            onPress={() => {
+              if (Platform.OS === 'web') {
+                replaceRoute('/login')
+              } else {
+                navigateBack()
+                setTimeout(() => navigate('/login'), 300) // use timeout to open new modal after previous was closed
+              }
+            }}
             testID="btn-to-login-form"
           >
             <HoliText size="small" style={styles.loginLinkText}>

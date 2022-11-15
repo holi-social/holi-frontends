@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import HeaderAnimated from '@holi/web/components/navigation/HeaderAnimated'
-import HomeButtonBar from '@holi/web/components/navigation/HomeBottomBar'
+import FooterTabBar from '@holi/web/components/navigation/HomeBottomBar'
 
 import navigationLayoutRootStyles from './NavigationLayoutRoot.module.scss'
 
@@ -29,7 +29,7 @@ const DefaultLayout: React.FunctionComponent = ({ children }) => {
 
       <footer className={navigationLayoutRootStyles.footer}>
         <div className={navigationLayoutRootStyles.footerInner}>
-          <HomeButtonBar />
+          <FooterTabBar />
         </div>
       </footer>
     </>

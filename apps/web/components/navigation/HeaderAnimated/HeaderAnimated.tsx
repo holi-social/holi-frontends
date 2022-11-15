@@ -64,6 +64,8 @@ const HeaderAnimated: React.VoidFunctionComponent = () => {
     headerCustomOptions: { headerBackgroundImageURI, headerBackgroundGradient, headerBackgroundCustom } = {},
   } = options
 
+  console.log(title)
+
   return (
     <Animated.View
       style={[styles.headerOuter, headerStyle, { top: headerHideAnimation }]}
@@ -102,7 +104,7 @@ const HeaderAnimated: React.VoidFunctionComponent = () => {
 
         {typeof headerTitle === 'function' ? (
           headerTitle({ children: title || '', tintColor: headerTintColor })
-        ) : headerLeft !== undefined ? (
+        ) : headerTitle !== undefined ? (
           headerLeft
         ) : (
           <HeaderTitle tintColor={headerTintColor}>{title}</HeaderTitle>
@@ -112,7 +114,7 @@ const HeaderAnimated: React.VoidFunctionComponent = () => {
           <View style={[styles.sideHeaderElement, styles.rightHeaderElement]}>
             {typeof headerRight === 'function'
               ? headerRight({ tintColor: headerTintColor, canGoBack: true })
-              : headerLeft}
+              : headerRight}
           </View>
         )}
       </View>

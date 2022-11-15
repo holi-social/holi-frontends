@@ -10,17 +10,22 @@ import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliB
 export interface HeaderBackButtonProps extends Partial<HoliButtonProps> {
   label?: string
   tintColor?: string
+  icon?: string
   style?: StyleProp<ViewStyle>
   testID?: string
 }
 
-const HeaderBackButton: React.VFC<HeaderBackButtonProps> = ({ tintColor = colors.fontColorBlack, ...props }) => {
+const HeaderBackButton: React.VFC<HeaderBackButtonProps> = ({
+  tintColor = colors.fontColorBlack,
+  icon = 'arrow-left',
+  ...props
+}) => {
   const { navigateBack } = useUnifiedNavigation()
   const { t } = useTranslation()
 
   return (
     <HoliButton label={t('notifications.title')} inline transparent onPress={() => navigateBack()} {...props}>
-      <HoliIcon icon="arrow-left" size={24} color={tintColor} />
+      <HoliIcon icon={icon} size={24} color={tintColor} />
     </HoliButton>
   )
 }

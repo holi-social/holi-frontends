@@ -1,18 +1,17 @@
-import React, { useCallback, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View, useWindowDimensions } from 'react-native'
+import { Platform, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import BackButton from '@holi/core/navigation/components/BackButton'
+import { useScrollYHandler } from '@holi/core/helpers'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListing from '@holi-apps/donations/components/DonationListing'
@@ -43,7 +42,7 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
     },
     [setLocationQuery, closeModal]
   )
-
+  const onScreenScroll = useScrollYHandler()
   const resetSearch = useCallback(() => {
     setLocationQuery(undefined)
     closeModal()
@@ -51,33 +50,18 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
 
   const { setOptions } = useUnifiedNavigation()
 
-  useLayoutEffect(
-    () =>
-      setOptions({
-        title: title,
-        headerTitle: () => (
-          <HoliHeading level="1" size="small">
-            {title}
-          </HoliHeading>
-        ),
-        headerLeft: () => <BackButton navigateHome icon="arrow-down-s" />,
-        headerRight: () => (
-          <HoliButton
-            label={t('donations:search.heading')}
-            inline
-            transparent
-            onPress={() => setShowSearchModal(true)}
-            testID="donations-search-button"
-          >
-            <HoliIcon icon="search-2" size={24} />
-          </HoliButton>
-        ),
-      }),
-    [setOptions, title, t]
-  )
+  useLayoutEffect(() => {
+    setOptions({
+      title,
+      headerTransparent: true,
+      headerStyle: { backgroundColor: colors.backgroundColorWhite },
+      headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon="arrow-down-s" />),
+      headerRight: () => (Platform.OS === 'web' ? <HeaderBackButton icon="close" /> : null),
+    })
+  }, [setOptions, title])
 
   return (
-    <DefaultLayout keyboardShouldPersistTaps="always">
+    <DefaultLayout keyboardShouldPersistTaps="always" onScroll={onScreenScroll} scrollEventThrottle={200}>
       <HoliModal
         show={showSearchModal}
         onDismiss={closeModal}
@@ -97,4 +81,4 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
   )
 }
 
-export default DonationsAppHome
+export default memo(DonationsAppHome)

@@ -8,7 +8,7 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
-const HomeBottomBar: React.VoidFunctionComponent = () => {
+const FooterTabBar: React.VoidFunctionComponent = () => {
   const { width } = useWindowDimensions()
   const styles = getStyles(width)
   const { navigate, pathname } = useRouting()
@@ -68,7 +68,7 @@ const HomeBottomBar: React.VoidFunctionComponent = () => {
   )
 }
 
-export default HomeBottomBar
+export default FooterTabBar
 
 const getStyles = (screenWidth: number) =>
   StyleSheet.create({

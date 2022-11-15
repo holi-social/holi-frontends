@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerPadding: {
-    paddingTop: +vars.topBarHeight,
+    paddingTop: +vars.topBarHeight + (Platform.OS === 'android' ? 32 : 0),
   },
   footerPadding: {
     paddingBottom: (Platform.OS === 'web' ? +vars.bottomBarHeight : 0) + 50,

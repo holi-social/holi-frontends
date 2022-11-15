@@ -15,12 +15,10 @@ import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { displayError } from '@holi/core/errors/helpers'
-import BackButton from '@holi/core/navigation/components/BackButton'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
@@ -28,22 +26,14 @@ type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 const Login: React.VFC<ScreenProps> = () => {
   const { isLoggedIn, setUserLoggedIn } = useContext(AuthContext)
   const [flow, setFlow] = useState<SelfServiceLoginFlow | undefined>(undefined)
-  const { replaceRoute } = useRouting()
   const { t } = useTranslation()
-  const { setOptions } = useUnifiedNavigation()
+  const { setOptions, navigate, navigateBack, replaceRoute } = useUnifiedNavigation()
 
   useLayoutEffect(() => {
-    const title = t('auth.login')
-
     setOptions({
-      title: title,
-      headerTitle: () => (
-        <HoliHeading level="1" size="small">
-          {title}
-        </HoliHeading>
-      ),
-      headerLeft: () => (Platform.OS === 'web' ? <HoliText /> : <BackButton icon="arrow-down-s" />),
-      headerRight: () => (Platform.OS === 'web' ? <BackButton icon="close" /> : <HoliText />),
+      title: t('auth.login'),
+      headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon="arrow-down-s" />),
+      headerRight: () => (Platform.OS === 'web' ? <HeaderBackButton icon="close" /> : null),
     })
   }, [setOptions, t])
 
@@ -85,7 +75,14 @@ const Login: React.VFC<ScreenProps> = () => {
           label={t('auth.login.link.forgotPassword')}
           variant="small"
           style={styles.button}
-          onPress={() => replaceRoute('/forgotPassword')}
+          onPress={() => {
+            if (Platform.OS === 'web') {
+              replaceRoute('/forgotPassword')
+            } else {
+              navigateBack()
+              setTimeout(() => navigate('/forgotPassword'), 300) // use timeout to open new modal after previous was closed
+            }
+          }}
           testID="btn-to-forgot-password-form"
         >
           {t('auth.login.link.forgotPassword')}
@@ -96,7 +93,14 @@ const Login: React.VFC<ScreenProps> = () => {
         </HoliHeading>
 
         <HoliButton
-          onPress={() => replaceRoute('/registration')}
+          onPress={() => {
+            if (Platform.OS === 'web') {
+              replaceRoute('/registration')
+            } else {
+              navigateBack()
+              setTimeout(() => navigate('/registration'), 300) // use timeout to open new modal after previous was closed
+            }
+          }}
           label={t('auth.loginProtection.registration')}
           type="secondary"
           style={styles.button}

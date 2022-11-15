@@ -1,5 +1,4 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -26,8 +25,6 @@ import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
-
-import { DownButton, LeftElement, RightElement } from './components'
 
 export type HomeStackScreens = {
   HomeFeed: undefined
@@ -152,13 +149,13 @@ export const BottomTabsNavigator: React.VFC = () => {
 }
 
 const RootNavigator: React.VFC = () => {
-  const { t } = useTranslation()
-
   return (
     <RootStack.Navigator
       initialRouteName="Core"
       screenOptions={{
         headerShown: false,
+        header: HeaderAnimated,
+        headerShadowVisible: false,
       }}
     >
       <RootStack.Screen name="Core" component={BottomTabsNavigator} />
@@ -168,10 +165,10 @@ const RootNavigator: React.VFC = () => {
         options={{
           animation: 'slide_from_bottom',
           headerShown: false,
-          headerTitleAlign: 'center',
-          headerBackVisible: false,
-          headerBackTitleVisible: false,
-          headerLeft: DownButton,
+          // headerTitleAlign: 'center',
+          // headerBackVisible: false,
+          // headerBackTitleVisible: false,
+          // headerLeft: DownButton,
         }}
       />
       <RootStack.Screen name="VolunteeringApp" component={VolunteeringAppNavigator} />
@@ -181,48 +178,12 @@ const RootNavigator: React.VFC = () => {
           presentation: 'containedModal',
           animation: 'slide_from_bottom',
           headerShown: true,
-          headerTitleAlign: 'center',
-          headerBackVisible: false,
-          headerBackTitleVisible: false,
-          headerLeft: DownButton,
         }}
       >
-        <RootStack.Screen
-          name="Login"
-          component={Login}
-          options={{
-            title: t('auth.login'),
-            headerLeft: LeftElement,
-            headerRight: RightElement,
-          }}
-        />
-        <RootStack.Screen
-          name="Logout"
-          component={Logout}
-          options={{
-            title: t('auth.logout'),
-            headerLeft: LeftElement,
-            headerRight: RightElement,
-          }}
-        />
-        <RootStack.Screen
-          name="Registration"
-          component={Registration}
-          options={{
-            title: t('auth.register'),
-            headerLeft: LeftElement,
-            headerRight: RightElement,
-          }}
-        />
-        <RootStack.Screen
-          name="ForgotPassword"
-          component={ForgotPassword}
-          options={{
-            title: t('auth.forgotPassword'),
-            headerLeft: LeftElement,
-            headerRight: RightElement,
-          }}
-        />
+        <RootStack.Screen name="Login" component={Login} />
+        <RootStack.Screen name="Logout" component={Logout} />
+        <RootStack.Screen name="Registration" component={Registration} />
+        <RootStack.Screen name="ForgotPassword" component={ForgotPassword} />
       </RootStack.Group>
     </RootStack.Navigator>
   )

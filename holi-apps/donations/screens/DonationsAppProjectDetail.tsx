@@ -1,5 +1,5 @@
 import { useLazyQuery } from '@apollo/client'
-import React, { useLayoutEffect } from 'react'
+import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -129,7 +129,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () 
   )
 }
 
-export default DonationsAppProjectDetail
+export default memo(DonationsAppProjectDetail)
 
 const styles = StyleSheet.create({
   messageContainer: {
