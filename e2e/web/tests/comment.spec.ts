@@ -16,7 +16,7 @@ test.describe('@Comment', () => {
     await defaultAuthSteps({ context, page })
 
     // go to home feed
-    await clickElementByTestId(page, 'nav-button-home')
+    await clickElementByTestId(page, 'btn-to-home-view')
 
     // click first insight image link
     await clickElementByTestId(page, 'feed-insight-image-link')
