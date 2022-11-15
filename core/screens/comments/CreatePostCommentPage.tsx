@@ -140,6 +140,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
                   placeholderTextColor={colors.fontColorGrey}
                   textAlignVertical="top"
                   multiline
+                  testID="post-comment-input"
                 >
                   <HoliText style={[styles.text, (!text && styles.placeholder) || {}]}>{text}</HoliText>
                 </TextInput>
@@ -156,6 +157,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
                   textAlignVertical="top"
                   multiline
                   value={text}
+                  testID="post-comment-input"
                 />
               )}
             </View>
@@ -173,6 +175,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
                 },
               })
             }
+            testID="btn-submit-comment"
           >
             {t('insights.posts.comments.button')}
           </HoliButton>

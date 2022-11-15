@@ -38,6 +38,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post, style }) =>
         author={author}
         date={post.created}
         touchHandler={() => navigate(`/insights/${insightId}/posts/${post.id}`)}
+        testID="btn-to-post"
       >
         <HoliButton transparent inline label={t('insights.post.preview.more')} style={styles.moreButton}>
           <HoliIcon icon="more" color={colors.fontColorGrey} />
