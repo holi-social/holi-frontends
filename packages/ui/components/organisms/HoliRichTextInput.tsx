@@ -6,7 +6,7 @@ import HoliRichTextInputSuggestions from '@holi/ui/components/organisms/HoliRich
 import { REGEX_URL, SuggestionItem } from '@holi/ui/helper/richText'
 import { colors } from '@holi/ui/styles/globalVars'
 
-const MIN_SEARCH_CHARS = 1
+const MIN_SEARCH_CHARS = 2
 
 export type SearchFunction = (keyword: string) => SuggestionItem[]
 
@@ -27,15 +27,20 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = ''
 
   const getRenderFunction = (searchFunction: SearchFunction) => {
     const onRenderSuggestions: React.VFC<MentionSuggestionsProps> = ({ keyword, onSuggestionPress }) => {
-      if (keyword == null || keyword.length < MIN_SEARCH_CHARS) {
+      if (keyword == null || keyword.trim().length < MIN_SEARCH_CHARS) {
         return null
       }
       const onChooseSuggestion = (suggestion: SuggestionItem) => {
         onSuggestionPress(suggestion)
         props.onSelectSuggestion && props.onSelectSuggestion(suggestion)
       }
+      console.log('render suggestions with ', searchFunction, keyword)
       return (
-        <HoliRichTextInputSuggestions suggestions={searchFunction(keyword)} onChooseSuggestion={onChooseSuggestion} />
+        <HoliRichTextInputSuggestions
+          keyword={keyword}
+          findSuggestions={searchFunction}
+          onChooseSuggestion={onChooseSuggestion}
+        />
       )
     }
     return onRenderSuggestions

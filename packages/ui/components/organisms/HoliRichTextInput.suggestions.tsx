@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -11,17 +11,28 @@ import { colors } from '@holi/ui/styles/globalVars'
 const MAX_SUGGESTIONS_COUNT = 5
 
 export type HoliRichTextInputSuggestionsProps = {
-  suggestions: SuggestionItem[]
+  keyword: string
+  findSuggestions: (keyword: string) => SuggestionItem[]
   onChooseSuggestion: (selectedSuggestion: SuggestionItem) => void
 }
 
 const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps> = (props) => {
   const { t } = useTranslation()
+  const [suggestions, setSuggestions] = useState<SuggestionItem[]>([])
+
+  const requestSuggestions = useCallback(() => {
+    const newList = props.findSuggestions(props.keyword)
+    setSuggestions(newList)
+  }, [props])
+
+  useEffect(() => {
+    requestSuggestions()
+  }, [requestSuggestions, props.keyword, props.findSuggestions])
 
   return (
     <View style={[styles.suggestions]}>
       <View style={[styles.suggestionsContainer]}>
-        {props.suggestions.slice(0, MAX_SUGGESTIONS_COUNT).map((item) => (
+        {suggestions.slice(0, MAX_SUGGESTIONS_COUNT).map((item) => (
           <HoliButton
             key={item.id}
             label={t('comment.suggestionItem.label', { item: item.name })}
@@ -46,7 +57,10 @@ const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps>
   )
 }
 
-export default HoliRichTextInputSuggestions
+const customComparator = (prevProps: HoliRichTextInputSuggestionsProps, nextProps: HoliRichTextInputSuggestionsProps) =>
+  nextProps.keyword === prevProps.keyword
+
+export default React.memo(HoliRichTextInputSuggestions, customComparator)
 
 const styles = StyleSheet.create({
   suggestions: {
