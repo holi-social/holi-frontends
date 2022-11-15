@@ -27,7 +27,7 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({
     <View style={{ width: titleWidth }}>
       <HoliText
         adjustsFontSizeToFit
-        maxFontSizeMultiplier={0.5}
+        minimumFontScale={0.5}
         bold={size === 'large' ? false : true}
         size={size}
         {...props}
