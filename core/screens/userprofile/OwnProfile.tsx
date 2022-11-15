@@ -36,6 +36,7 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
   const { height: deviceHeight } = useWindowDimensions()
 
   const { user } = useContext(UserContext)
+  const isLoggedIn = !!user
 
   const mixins = useStyleMixins()
 
@@ -52,35 +53,44 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
   }, [toggleEditMode])
 
   useLayoutEffect(() => {
-    setOptions({
-      title,
-      headerBackTitleVisible: true,
-      headerBackVisible: true,
-      headerTransparent: true,
-      headerTitle: () => null,
-      headerLeft: ({ tintColor }) => (
-        <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
-          {title}
-        </HeaderTitle>
-      ),
-      headerRight: ({ tintColor }) => (
-        <HoliHorizontalRow>
-          <HoliButton label={t('profile.share')} inline transparent>
-            <HoliIcon icon="share" size={24} color={tintColor} />
-          </HoliButton>
+    setOptions(
+      isLoggedIn
+        ? {
+            title,
+            headerBackTitleVisible: true,
+            headerBackVisible: true,
+            headerTransparent: true,
+            headerTitle: () => null,
+            headerLeft: ({ tintColor }) => (
+              <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
+                {title}
+              </HeaderTitle>
+            ),
+            headerRight: ({ tintColor }) => (
+              <HoliHorizontalRow>
+                <HoliButton label={t('profile.share')} inline transparent>
+                  <HoliIcon icon="share" size={24} color={tintColor} />
+                </HoliButton>
 
-          <HoliButton
-            label={t('profile.settings.overview.title')}
-            inline
-            transparent
-            onPress={() => navigate('/profile/settings')}
-          >
-            <HoliIcon icon="settings-3" size={24} color={tintColor} />
-          </HoliButton>
-        </HoliHorizontalRow>
-      ),
-    })
-  }, [editProfile, setOptions, navigate, t, title])
+                <HoliButton
+                  label={t('profile.settings.overview.title')}
+                  inline
+                  transparent
+                  onPress={() => navigate('/profile/settings')}
+                >
+                  <HoliIcon icon="settings-3" size={24} color={tintColor} />
+                </HoliButton>
+              </HoliHorizontalRow>
+            ),
+          }
+        : {
+            title: '',
+            headerTitle: () => null,
+            headerLeft: () => null,
+            headerRight: () => null,
+          }
+    )
+  }, [editProfile, setOptions, navigate, t, title, isLoggedIn])
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let EditFormComponent: React.VFC<any> = UserProfileForm
