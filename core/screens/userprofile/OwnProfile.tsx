@@ -8,6 +8,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
+import { logError } from '@holi/core/errors/helpers'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
@@ -77,72 +78,77 @@ const OwnProfile: React.VFC<ScreenProps> = ({ navigation }) => {
     sdgs: false,
   }
 
+  if (error) {
+    logError(error, `[SpaceDetails.tsx] ${error.message}`)
+  }
+
+  // Error and loading states are handled the same way and just hide the component
+  if (loading || error) {
+    return <></>
+  }
+
   // TODO sort sdgs, skills and interests (as it was before)
   // TODO style loading and error states
   return (
     <DefaultLayout>
       <LoginProtection loggedOutContent={<LoggedOutView />}>
-        <>
-          {loading && <HoliText>Loading...</HoliText>}
-          {error && <HoliText>Error loading data</HoliText>}
-          {!loading && user ? (
-            <>
-              {editMode && (
-                <HoliModal
-                  show={showModal}
-                  onDismiss={closeModal}
-                  testID="user-profile-modal"
-                  label={t(`profile.${editMode}.edit`)}
-                  autoHeight={autoHeightFor[editMode]}
-                  // Smaller devices use the whole screen and
-                  // larger ones should have more space above for clicking the backdrop pane
-                  minRelativeHeight={!autoHeightFor[editMode] && deviceHeight > 750 ? 0.85 : 0}
-                >
-                  <>
-                    {editMode === 'profile' && (
-                      <UserProfileForm user={user} onCancel={closeModal} onSubmit={closeModal} />
-                    )}
-                    {editMode === 'engagementLevel' && (
-                      <UserEngagementLevelForm user={user} onCancel={closeModal} onSubmit={closeModal} />
-                    )}
-                    {editMode === 'interests' && (
-                      <UserChipForm
-                        user={user}
-                        onCancel={closeModal}
-                        onSubmit={closeModal}
-                        keyInUserObject={'interests'}
-                        availableTerms={topicsData!.topics}
-                      />
-                    )}
-                    {editMode === 'skills' && (
-                      <UserChipForm
-                        user={user}
-                        onCancel={closeModal}
-                        onSubmit={closeModal}
-                        keyInUserObject={'skills'}
-                        availableTerms={skillsData!.skills}
-                      />
-                    )}
-                    {editMode === 'sdgs' && (
-                      <UserChipForm
-                        user={user}
-                        onCancel={closeModal}
-                        onSubmit={closeModal}
-                        keyInUserObject={'sdgs'}
-                        availableTerms={sdgsData!.sdgs}
-                      />
-                    )}
-                  </>
-                </HoliModal>
-              )}
-              <OwnProfileView toggleEditMode={toggleEditMode} user={user} />
-            </>
-          ) : (
-            <View style={[mixins.container, styles.container]}>
-              <HoliText>{t('user.profileView.noUser')}</HoliText>
-            </View>
-          )}
-        </>
+        {user ? (
+          <>
+            {editMode && (
+              <HoliModal
+                show={showModal}
+                onDismiss={closeModal}
+                testID="user-profile-modal"
+                label={t(`profile.${editMode}.edit`)}
+                autoHeight={autoHeightFor[editMode]}
+                // Smaller devices use the whole screen and
+                // larger ones should have more space above for clicking the backdrop pane
+                minRelativeHeight={!autoHeightFor[editMode] && deviceHeight > 750 ? 0.85 : 0}
+              >
+                <>
+                  {editMode === 'profile' && (
+                    <UserProfileForm user={user} onCancel={closeModal} onSubmit={closeModal} />
+                  )}
+                  {editMode === 'engagementLevel' && (
+                    <UserEngagementLevelForm user={user} onCancel={closeModal} onSubmit={closeModal} />
+                  )}
+                  {editMode === 'interests' && (
+                    <UserChipForm
+                      user={user}
+                      onCancel={closeModal}
+                      onSubmit={closeModal}
+                      keyInUserObject={'interests'}
+                      availableTerms={topicsData!.topics}
+                    />
+                  )}
+                  {editMode === 'skills' && (
+                    <UserChipForm
+                      user={user}
+                      onCancel={closeModal}
+                      onSubmit={closeModal}
+                      keyInUserObject={'skills'}
+                      availableTerms={skillsData!.skills}
+                    />
+                  )}
+                  {editMode === 'sdgs' && (
+                    <UserChipForm
+                      user={user}
+                      onCancel={closeModal}
+                      onSubmit={closeModal}
+                      keyInUserObject={'sdgs'}
+                      availableTerms={sdgsData!.sdgs}
+                    />
+                  )}
+                </>
+              </HoliModal>
+            )}
+            <OwnProfileView toggleEditMode={toggleEditMode} user={user} />
+          </>
+        ) : (
+          <View style={[mixins.container, styles.container]}>
+            <HoliText>{t('user.profileView.noUser')}</HoliText>
+          </View>
+        )}
       </LoginProtection>
     </DefaultLayout>
   )
