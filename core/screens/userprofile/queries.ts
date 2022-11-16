@@ -115,7 +115,7 @@ export const updateConnectionWithUserMutation = gql`
 `
 
 export const sdgsQuery = gql`
-  {
+  query SDGs {
     sdgs {
       id
       title
@@ -128,7 +128,7 @@ export interface SdgsQueryResult {
 }
 
 export const skillsQuery = gql`
-  {
+  query Skills {
     skills {
       id
       title
@@ -141,7 +141,7 @@ export interface SkillsQueryResult {
 }
 
 export const topicsQuery = gql`
-  {
+  query Topics {
     topics {
       id
       title
