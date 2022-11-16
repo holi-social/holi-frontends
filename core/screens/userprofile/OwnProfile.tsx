@@ -87,12 +87,10 @@ const OwnProfile: React.VFC<ScreenProps> = ({ navigation }) => {
     return <></>
   }
 
-  // TODO sort sdgs, skills and interests (as it was before)
-  // TODO style loading and error states
   return (
     <DefaultLayout>
       <LoginProtection loggedOutContent={<LoggedOutView />}>
-        {user ? (
+        {user && topicsData && skillsData && sdgsData ? (
           <>
             {editMode && (
               <HoliModal
@@ -118,7 +116,7 @@ const OwnProfile: React.VFC<ScreenProps> = ({ navigation }) => {
                       onCancel={closeModal}
                       onSubmit={closeModal}
                       keyInUserObject={'interests'}
-                      availableTerms={topicsData!.topics}
+                      availableTerms={topicsData.topics}
                     />
                   )}
                   {editMode === 'skills' && (
@@ -127,7 +125,7 @@ const OwnProfile: React.VFC<ScreenProps> = ({ navigation }) => {
                       onCancel={closeModal}
                       onSubmit={closeModal}
                       keyInUserObject={'skills'}
-                      availableTerms={skillsData!.skills}
+                      availableTerms={skillsData.skills}
                     />
                   )}
                   {editMode === 'sdgs' && (
@@ -136,7 +134,7 @@ const OwnProfile: React.VFC<ScreenProps> = ({ navigation }) => {
                       onCancel={closeModal}
                       onSubmit={closeModal}
                       keyInUserObject={'sdgs'}
-                      availableTerms={sdgsData!.sdgs}
+                      availableTerms={sdgsData.sdgs}
                     />
                   )}
                 </>
