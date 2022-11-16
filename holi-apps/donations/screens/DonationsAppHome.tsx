@@ -1,3 +1,6 @@
+import HoliIcon from 'packages/ui/components/atoms/HoliIcon'
+import HoliButton from 'packages/ui/components/molecules/HoliButton'
+import { HoliHorizontalRow } from 'packages/ui/components/molecules/HoliHorizontalRow'
 import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, View, useWindowDimensions } from 'react-native'
@@ -48,17 +51,37 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
     closeModal()
   }, [setLocationQuery, closeModal])
 
-  const { setOptions } = useUnifiedNavigation()
+  const { setOptions, navigate } = useUnifiedNavigation()
 
   useLayoutEffect(() => {
+    const searchButton = (
+      <HoliButton
+        label={t('donations:search.heading')}
+        inline
+        transparent
+        onPress={() => setShowSearchModal(true)}
+        testID="donations-search-button"
+      >
+        <HoliIcon icon="search-2" size={24} />
+      </HoliButton>
+    )
+
     setOptions({
       title,
       headerTransparent: true,
       headerStyle: { backgroundColor: colors.backgroundColorWhite },
       headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon="arrow-down-s" />),
-      headerRight: () => (Platform.OS === 'web' ? <HeaderBackButton icon="close" /> : null),
+      headerRight: ({ tintColor }) =>
+        Platform.OS === 'web' ? (
+          <HoliHorizontalRow>
+            {searchButton}
+            <HeaderBackButton icon="close" tintColor={tintColor} />
+          </HoliHorizontalRow>
+        ) : (
+          <>{searchButton}</>
+        ),
     })
-  }, [setOptions, title])
+  }, [setOptions, navigate, t, title])
 
   return (
     <DefaultLayout keyboardShouldPersistTaps="always" onScroll={onScreenScroll} scrollEventThrottle={200}>

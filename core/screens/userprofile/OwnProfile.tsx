@@ -37,6 +37,7 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
 
   const { user } = useContext(UserContext)
   const isLoggedIn = !!user
+  console.log(user)
 
   const mixins = useStyleMixins()
 
@@ -77,6 +78,7 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
                   inline
                   transparent
                   onPress={() => navigate('/profile/settings')}
+                  testID="btn-to-settings"
                 >
                   <HoliIcon icon="settings-3" size={24} color={tintColor} />
                 </HoliButton>

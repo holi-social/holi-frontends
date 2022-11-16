@@ -24,7 +24,14 @@ const HeaderBackButton: React.VFC<HeaderBackButtonProps> = ({
   const { t } = useTranslation()
 
   return (
-    <HoliButton label={t('notifications.title')} inline transparent onPress={() => navigateBack()} {...props}>
+    <HoliButton
+      label={t('notifications.title')}
+      inline
+      transparent
+      onPress={() => navigateBack()}
+      testID="nav-button-back"
+      {...props}
+    >
       <HoliIcon icon={icon} size={24} color={tintColor} />
     </HoliButton>
   )
