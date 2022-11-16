@@ -47,7 +47,7 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
     },
   })
 
-  const spaces = useMemo(() => data?.spaces || [], [data])
+  const spaces = useMemo(() => data?.spaces.data || [], [data])
 
   useEffect(() => {
     if (spaces.length > 0) {
@@ -55,19 +55,19 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
         ...MockDefault,
         matchedSpaces: [
           {
-            id: 1,
+            id: '1',
             topic: 'Animal Welfare',
             spaces,
           },
         ],
         unmatchedSpaces: [
           {
-            id: 2,
+            id: '2',
             topic: 'Childcare',
             spaces,
           },
           {
-            id: 3,
+            id: '3',
             topic: 'Environment',
             spaces,
           },

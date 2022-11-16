@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
-import type { UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
+import type { SDG, Skill, Topic, UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
 
 export const userFragment = gql`
   fragment FullUser on User {
@@ -15,9 +15,18 @@ export const userFragment = gql`
     avatarDefaultColor
     avatarLabel
     engagementLevel
-    interests
-    sdgs
-    skills
+    interests {
+      id
+      title
+    }
+    sdgs {
+      id
+      title
+    }
+    skills {
+      id
+      title
+    }
   }
 `
 
@@ -58,9 +67,9 @@ export const UpdateAuthenticatedUserInputSchema = z.object({
   pronouns: z.string().optional(),
   location: z.string().optional(),
   engagementLevel: z.string().optional(),
-  interests: z.array(z.string()).optional(),
-  sdgs: z.array(z.string()).optional(),
-  skills: z.array(z.string()).optional(),
+  interests: z.array(z.string() /* UUID */).optional(),
+  sdgs: z.array(z.string() /* UUID */).optional(),
+  skills: z.array(z.string() /* UUID */).optional(),
 })
 
 export type UpdateAuthenticatedUserInput = z.infer<typeof UpdateAuthenticatedUserInputSchema>
@@ -104,3 +113,48 @@ export const updateConnectionWithUserMutation = gql`
     }
   }
 `
+
+export const sdgsQuery = gql`
+  query SDGs {
+    sdgs {
+      data {
+        id
+        title
+      }
+    }
+  }
+`
+
+export interface SdgsQueryResult {
+  sdgs: SDG[]
+}
+
+export const skillsQuery = gql`
+  query Skills {
+    skills {
+      data {
+        id
+        title
+      }
+    }
+  }
+`
+
+export interface SkillsQueryResult {
+  skills: Skill[]
+}
+
+export const topicsQuery = gql`
+  query Topics {
+    topics {
+      data {
+        id
+        title
+      }
+    }
+  }
+`
+
+export interface TopicsQueryResult {
+  topics: Topic[]
+}

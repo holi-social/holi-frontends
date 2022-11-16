@@ -3707,11 +3707,12 @@
     pretty-format "^29.0.3"
     redent "^3.0.0"
 
-"@testing-library/react-native@^9.1.0":
-  version "9.1.0"
-  resolved "https://registry.yarnpkg.com/@testing-library/react-native/-/react-native-9.1.0.tgz#500698b4ae5ade98211cdea0ffd97d823c61c3ac"
+"@testing-library/react-native@11.4.0":
+  version "11.4.0"
+  resolved "https://registry.yarnpkg.com/@testing-library/react-native/-/react-native-11.4.0.tgz#66546d4c2dd3af82d1ce0ada2c1a9ab0706bc27a"
+  integrity sha512-Pw1T3QoRyoPlnbDPI7pJCRChX/HquEVk6b9XfUuO/LrLJpqAOtZQDYz67eVJfVlhIlTu7hesm57ikIabOWKSlg==
   dependencies:
-    pretty-format "^27.0.0"
+    pretty-format "^29.0.0"
 
 "@testing-library/user-event@^13.2.1":
   version "13.5.0"
@@ -12793,7 +12794,7 @@ pretty-format@^28.1.1:
     ansi-styles "^5.0.0"
     react-is "^18.0.0"
 
-pretty-format@^29.0.3, pretty-format@^29.3.1:
+pretty-format@^29.0.0, pretty-format@^29.0.3, pretty-format@^29.3.1:
   version "29.3.1"
   resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-29.3.1.tgz#1841cac822b02b4da8971dacb03e8a871b4722da"
   integrity sha512-FyLnmb1cYJV8biEIiRyzRFvs2lry7PPIvOqKVe1GCUEYg4YGmlx1qG9EJNMxArYm7piII4qb8UV1Pncq5dxmcg==

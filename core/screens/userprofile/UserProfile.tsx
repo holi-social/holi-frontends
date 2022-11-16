@@ -15,7 +15,6 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { UserByIdResponse, userByIdQuery } from '@holi/core/screens/userprofile/queries'
-import { UserChipInterest, UserChipSDG, UserChipSkill } from '@holi/core/screens/userprofile/types'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
@@ -120,17 +119,17 @@ const UserProfile: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
               ),
               hasInterests && (
                 <View style={[mixins.container, styles.chipRowContainer]} key="interests">
-                  <UserChipRow user={user} typeMetadata={UserChipInterest} numberOfLines={1} />
+                  <UserChipRow user={user} keyInUserObject={'interests'} numberOfLines={1} />
                 </View>
               ),
               hasSdgs && (
                 <View style={[mixins.container, styles.chipRowContainer]} key="sdgs">
-                  <UserChipRow user={user} typeMetadata={UserChipSDG} sortByTranslation={false} numberOfLines={1} />
+                  <UserChipRow user={user} keyInUserObject={'sdgs'} numberOfLines={1} />
                 </View>
               ),
               hasSkills && (
                 <View style={[mixins.container, styles.chipRowContainer]} key="skills">
-                  <UserChipRow user={user} typeMetadata={UserChipSkill} numberOfLines={1} />
+                  <UserChipRow user={user} keyInUserObject={'skills'} numberOfLines={1} />
                 </View>
               ),
               !hasInfo && (
