@@ -49,7 +49,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
         </View>
       </View>
       {task.skills.length > 0 && (
-        <View style={[styles.skillsContainer, styles.detailContainer]}>
+        <View style={styles.skillsContainer}>
           {task.skills.map((skill) => {
             return (
               <HoliText key={skill.id} size="small" style={styles.skill} numberOfLines={1}>
@@ -64,18 +64,20 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
           <HoliText size="small">{task.description}</HoliText>
         </HoliReadMore>
       </View>
-      <HoliButton
-        label={t('spaces.tasks.cta_claim')}
-        onPress={() => ({})} // TODO add action
-        testID={'spaces-tasks-cta-claim'}
-        inline
-        style={styles.detailContainer}
-      >
-        <HoliText size="small">{t('spaces.tasks.cta_claim')}</HoliText>
-      </HoliButton>
-      <HoliText size="extrasmall" style={styles.spotsClaimed}>
+      <View style={styles.buttonContainer}>
+        <HoliButton
+          label={t('spaces.tasks.cta_claim')}
+          onPress={() => ({})} // TODO add action
+          testID={'spaces-tasks-cta-claim'}
+          inline
+        >
+          <HoliText size="small">{t('spaces.tasks.cta_claim')}</HoliText>
+        </HoliButton>
+      </View>
+      {/* TODO: reinsert when claiming is implemented */}
+      {/* <HoliText size="extrasmall" style={styles.spotsClaimed}>
         {t('spaces.tasks.spots_claimed', { taken: task.slotsTaken, available: task.slotsAvailable })}
-      </HoliText>
+      </HoliText> */}
     </View>
   )
 }
@@ -123,6 +125,7 @@ const getStyles = (screenWidth: number) =>
     skillsContainer: {
       flexDirection: 'row',
       flexWrap: 'wrap',
+      marginBottom: 12,
     },
     skill: {
       borderRadius: 64,
@@ -132,8 +135,12 @@ const getStyles = (screenWidth: number) =>
       paddingVertical: 8,
       color: colors.fontColorGrey,
       height: 33,
-      marginRight: -1,
-      marginBottom: -1,
+      marginRight: 4,
+      marginBottom: 4,
+    },
+    buttonContainer: {
+      flex: 1,
+      justifyContent: 'flex-end',
     },
   })
 
