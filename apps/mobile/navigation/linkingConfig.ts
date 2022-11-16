@@ -13,7 +13,8 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
           screens: {
             HomeFeed: '',
             InsightDetailPage: 'insights/:insightId',
-            Post: 'insights/:insightId/posts/:postId',
+            PostDetailPage: 'insights/:insightId/posts/:postId',
+            CreatePostCommentPage: 'insights/:insightId/posts/:postId/comment',
             OwnProfile: 'profile',
             SettingsOverview: 'profile/settings',
             AccountSettings: 'profile/settings/account',
@@ -34,12 +35,12 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             ChatHome: 'chat',
           },
         },
-        Search: {
-          initialRouteName: 'Search',
-          screens: {
-            Search: 'search',
-          },
-        },
+      },
+    },
+    Search: {
+      initialRouteName: 'Search',
+      screens: {
+        Search: 'search',
       },
     },
     // apps from the HOLI store

@@ -21,6 +21,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import DonationButton from '@holi-apps/donations/components/DonationButton'
 import DonationImage from '@holi-apps/donations/components/DonationImage'
 import DonationInitiativeButton from '@holi-apps/donations/components/DonationInitiativeButton'
+import DonationNews from '@holi-apps/donations/components/DonationNews'
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { AppDonationsProjectByIdResponse, projectByIdQuery } from '@holi-apps/donations/queries'
 
@@ -109,11 +110,18 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
           />
           <View style={[styles.card, { paddingVertical: 24 }]}>
             <DonationInitiativeButton initiative={project.initiative} />
-            <HoliText size={'large'} bold style={{ marginVertical: 24 }}>
+            <HoliText size={'large'} style={{ marginVertical: 24 }}>
               &ldquo;{project.summary}&rdquo;
             </HoliText>
             <HoliReadMore numberOfLines={5}>{project.description}</HoliReadMore>
           </View>
+          {project?.news.length > 0 && (
+            <DonationNews
+              totalEntries={project.newsCount}
+              news={project.news}
+              style={[styles.card, { paddingVertical: 24 }]}
+            />
+          )}
         </View>
       </DefaultLayout>
       <View style={[mixins.container, styles.donateButton]}>

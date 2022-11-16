@@ -35,7 +35,7 @@ export const AppNavigation: React.FC = ({ children }) => {
           inline
           transparent
           onPress={() => navigate('/')}
-          testID="nav-button-home"
+          testID="btn-to-home-view"
         >
           <HoliIcon icon="search" size={30} color={colors.fontColorBlack} />
         </HoliButton>

@@ -12,6 +12,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 
 export type HeaderRightProps = {
+  focused?: boolean
   style?: ViewStyle | Record<string, unknown>
   testID?: string
 }
@@ -61,7 +62,7 @@ const HeaderRight: React.VFC<HeaderRightProps> = (props) => {
       style={props.style}
       testID="btn-to-profile-view"
     >
-      {hasUserData ? userAvatar : <HoliIcon icon="account-circle" size={24} />}
+      {hasUserData ? userAvatar : <HoliIcon filled={props.focused} icon="account-circle" size={24} />}
     </HoliButton>
   )
 }

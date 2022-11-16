@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { memo, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -18,7 +18,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
-const Logout: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+
+const Logout: React.VFC<ScreenProps> = ({ navigation }) => {
   const { navigateBack } = useRouting()
   const { setUserLoggedOut } = useContext(AuthContext)
   const { t } = useTranslation()
@@ -65,7 +66,7 @@ const Logout: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   )
 }
 
-export default Logout
+export default memo(Logout)
 
 const styles = StyleSheet.create({
   container: {

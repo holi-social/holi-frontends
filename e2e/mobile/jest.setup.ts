@@ -5,6 +5,7 @@ import { logout } from './helpers/auth'
 import { navigateBackToHomeScreen, waitForHomeScreen } from './helpers/navigation'
 
 global.platform = appiumConfig.platform
+global.target = target
 
 beforeEach(async () => {
   // make test name visible in BrowserStack
@@ -14,6 +15,7 @@ beforeEach(async () => {
     let numAttempts = 5
     let appRunning = false
     // Installing and starting the app on local emulator might take very long
+    // expo app starts quickly, but it takes some time in the expo splash screen until our app is fully functional, therefore we poll wait here.
     const homeScreenTimeout = target === 'local' ? 60000 : 4000
     while (!appRunning && numAttempts) {
       // Wait for the app to start

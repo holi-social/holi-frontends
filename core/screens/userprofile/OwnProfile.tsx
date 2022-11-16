@@ -34,7 +34,7 @@ import {
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const OwnProfile: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+const OwnProfile: React.VFC<ScreenProps> = ({ navigation }) => {
   const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
   const closeModal = useCallback(() => {

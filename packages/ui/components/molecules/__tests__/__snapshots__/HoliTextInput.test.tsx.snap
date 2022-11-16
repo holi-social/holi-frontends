@@ -42,6 +42,7 @@ exports[`renders correctly when disabled 1`] = `
             "borderWidth": 2,
             "flexDirection": "row",
           },
+          Object {},
           Object {
             "alignSelf": "stretch",
             "width": "100%",
@@ -188,6 +189,7 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
             "borderWidth": 2,
             "flexDirection": "row",
           },
+          Object {},
           Object {
             "alignSelf": "stretch",
             "width": "100%",
@@ -331,6 +333,7 @@ exports[`renders correctly when multiline starting with one line 1`] = `
             "borderWidth": 2,
             "flexDirection": "row",
           },
+          Object {},
           Object {
             "alignSelf": "stretch",
             "width": "100%",
@@ -495,6 +498,7 @@ exports[`renders correctly with default props 1`] = `
               Object {
                 "color": "#222326",
               },
+              undefined,
               Object {},
               Object {},
             ],
@@ -515,6 +519,7 @@ exports[`renders correctly with default props 1`] = `
             "borderWidth": 2,
             "flexDirection": "row",
           },
+          Object {},
           Object {
             "maxWidth": "100%",
           },
@@ -679,6 +684,7 @@ exports[`renders correctly with error 1`] = `
               Object {
                 "color": "#222326",
               },
+              undefined,
               Object {},
               Object {
                 "color": "#ee0004",
@@ -701,6 +707,7 @@ exports[`renders correctly with error 1`] = `
             "borderWidth": 2,
             "flexDirection": "row",
           },
+          Object {},
           Object {
             "alignSelf": "stretch",
             "width": "100%",
@@ -925,6 +932,7 @@ exports[`renders correctly with trailing icon 1`] = `
             "borderWidth": 2,
             "flexDirection": "row",
           },
+          Object {},
           Object {
             "alignSelf": "stretch",
             "width": "100%",
@@ -1143,6 +1151,7 @@ exports[`renders correctly with type password 1`] = `
             "borderWidth": 2,
             "flexDirection": "row",
           },
+          Object {},
           Object {
             "alignSelf": "stretch",
             "width": "100%",
@@ -1287,6 +1296,7 @@ exports[`renders correctly without label 1`] = `
             "borderWidth": 2,
             "flexDirection": "row",
           },
+          Object {},
           Object {
             "alignSelf": "stretch",
             "width": "100%",

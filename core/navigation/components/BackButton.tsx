@@ -30,7 +30,7 @@ const BackButton: React.VFC<BackButtonProps> = ({
       label={label || t('navigation.headerLeft.back')}
       inline
       transparent
-      onPress={navigateHome ? () => navigate('/') : () => navigateBack()}
+      onPress={() => (navigateHome ? navigate('/') : navigateBack())}
       style={[{ paddingHorizontal: 0 }, style]}
       testID="nav-button-back"
     >
