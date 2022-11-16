@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client/core'
 
-import { Space } from '@holi/core/screens/spaces/types'
+import { SortedSpaces, Space } from '@holi/core/screens/spaces/types'
 
 const SpaceFragment = gql`
   fragment FullSpace on Space {
@@ -65,4 +65,15 @@ export const spaceByIdQuery = gql`
 
 export type SpaceByIdResponse = {
   spaceById: Space
+}
+
+// export const filteredSpacesQuery = gql``
+
+export type FilteredSpacesResponse = {
+  filter: {
+    topics: string[]
+    location?: string
+  }
+  matchedSpaces: SortedSpaces[]
+  unmatchedSpaces: SortedSpaces[]
 }

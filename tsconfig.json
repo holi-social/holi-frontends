@@ -29,11 +29,5 @@
     "incremental": true
   },
   "include": ["**/*.ts", "**/*.tsx"],
-  "typeRoots": [
-    "./@types",
-    "packages/ui/@types",
-    "./node_modules/@types"
-  ]
+  "typeRoots": ["./@types", "packages/ui/@types", "./node_modules/@types"]
 }
-
-
