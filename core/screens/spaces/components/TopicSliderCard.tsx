@@ -25,7 +25,7 @@ const TopicSliderCard: React.VFC<TopicSliderCardProps> = ({ space, style }: Topi
 
   return (
     <HoliButton
-      label={title}
+      label={`${title} - ${description}`}
       transparent
       onPress={() => navigate(`/spaces/${id}`)}
       style={[style, { width: '100%' }]}
