@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
-import type { Term, UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
+import type { SDG, Skill, Topic, UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
 
 export const userFragment = gql`
   fragment FullUser on User {
@@ -124,7 +124,7 @@ export const sdgsQuery = gql`
 `
 
 export interface SdgsQueryResult {
-  sdgs: Term[]
+  sdgs: SDG[]
 }
 
 export const skillsQuery = gql`
@@ -137,7 +137,7 @@ export const skillsQuery = gql`
 `
 
 export interface SkillsQueryResult {
-  skills: Term[]
+  skills: Skill[]
 }
 
 export const topicsQuery = gql`
@@ -150,5 +150,5 @@ export const topicsQuery = gql`
 `
 
 export interface TopicsQueryResult {
-  topics: Term[]
+  topics: Topic[]
 }
