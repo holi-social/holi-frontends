@@ -71,7 +71,9 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
           testID={'spaces-tasks-cta-claim'}
           inline
         >
-          <HoliText size="small">{t('spaces.tasks.cta_claim')}</HoliText>
+          <HoliText selectable={false} size="small">
+            {t('spaces.tasks.cta_claim')}
+          </HoliText>
         </HoliButton>
       </View>
       {/* TODO: reinsert when claiming is implemented */}
