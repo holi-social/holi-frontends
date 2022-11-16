@@ -22,15 +22,9 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { sdgsQuery, SdgsQueryResult, skillsQuery, SkillsQueryResult, topicsQuery, TopicsQueryResult } from 'core/screens/userprofile/queries'
 
-import {
-  SdgsQueryResult,
-  SkillsQueryResult,
-  TopicsQueryResult,
-  sdgsQuery,
-  skillsQuery,
-  topicsQuery,
-} from './queries.ts'
+
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
@@ -105,7 +99,7 @@ const OwnProfile: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
             >
               {editMode === 'profile' && <UserProfileForm user={user} onCancel={closeModal} onSubmit={closeModal} />}
               {editMode === 'engagementLevel' && (
-                <UserEngagementLevelForm user={user} onCancel={closeModal} onSubmit={closeModal} autoHeight={false} />
+                <UserEngagementLevelForm user={user} onCancel={closeModal} onSubmit={closeModal} />
               )}
               {editMode === 'interests' && (
                 <UserChipForm
@@ -114,7 +108,6 @@ const OwnProfile: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
                   onSubmit={closeModal}
                   keyInUserObject={'interests'}
                   availableTerms={topicsData.topics}
-                  autoHeight={autoHeightFor[editMode]}
                 />
               )}
               {editMode === 'skills' && (
@@ -124,7 +117,6 @@ const OwnProfile: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
                   onSubmit={closeModal}
                   keyInUserObject={'skills'}
                   availableTerms={skillsData.skills}
-                  autoHeight={autoHeightFor[editMode]}
                 />
               )}
               {editMode === 'sdgs' && (
@@ -134,7 +126,6 @@ const OwnProfile: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
                   onSubmit={closeModal}
                   keyInUserObject={'sdgs'}
                   availableTerms={sdgsData.sdgs}
-                  autoHeight={autoHeightFor[editMode]}
                 />
               )}
             </HoliModal>

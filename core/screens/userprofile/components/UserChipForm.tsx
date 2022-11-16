@@ -48,7 +48,8 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
     * currently unselected items go below, alphabetically sorted by translation
     This order is kept until the selection process is done and the layer is closed.
     */
-    const unselectedValues = availableTerms.filter((term) => !values.includes(term))
+    const value_ids = values.map(v => v.id)
+    const unselectedValues = availableTerms.filter((term) => !value_ids.includes(term.id))
     setOrderedValues([...values, ...unselectedValues])
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
