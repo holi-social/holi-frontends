@@ -38,7 +38,7 @@ const UserChipLoader: React.VoidFunctionComponent<UserChipLoaderProps> = ({
       onCancel={onCancel}
       onSubmit={onSubmit}
       keyInUserObject={keyInUserObject}
-      availableTerms={data[keyInUserObject]}
+      availableTerms={data[keyInUserObject].data}
     />
   )
 }

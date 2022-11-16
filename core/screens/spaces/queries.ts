@@ -44,13 +44,17 @@ export const spacesQuery = gql`
 
   query Spaces($offset: Int, $limit: Int) {
     spaces(offset: $offset, limit: $limit) {
-      ...FullSpace
+      data {
+        ...FullSpace
+      }
     }
   }
 `
 
 export type SpacesResponse = {
-  spaces: Space[]
+  spaces: {
+    data: Space[]
+  }
 }
 
 export const spaceByIdQuery = gql`
