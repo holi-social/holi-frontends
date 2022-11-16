@@ -2,29 +2,25 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
-import { UserChipGeneric } from '@holi/core/screens/userprofile/types'
+import { Term, termComparator } from '@holi/core/screens/userprofile/types'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 
-import { toValuesWithTranslation } from './userChipHelper'
-
 type UserChipRowProps = {
-  typeMetadata: UserChipGeneric<any> // eslint-disable-line @typescript-eslint/no-explicit-any
+  keyInUserObject: string
   onPressEdit?: () => void
   numberOfLines?: number
-  sortByTranslation?: boolean
   user: User
 }
 
 const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
-  typeMetadata,
   onPressEdit,
   numberOfLines,
   user,
-  sortByTranslation = true,
-}) => {
-  const values = user ? (user[typeMetadata.keyInUserObject as keyof typeof user] as string[]) : []
+  keyInUserObject,
+}: UserChipRowProps) => {
+  const terms = (user ? (user[keyInUserObject as keyof typeof user] as Term[]) : []).sort(termComparator)
   const { t } = useTranslation()
 
   const styles = getStyles()
@@ -32,18 +28,18 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
   return (
     <HoliChipRow
       editable={!!onPressEdit}
-      title={t(`profile.${typeMetadata.keyInUserObject}`)}
-      editButtonLabel={t(`profile.${typeMetadata.keyInUserObject}.edit`)}
+      title={t(`profile.${keyInUserObject}`)}
+      editButtonLabel={t(`profile.${keyInUserObject}.edit`)}
       onPressEdit={onPressEdit}
-      testID={`user-profile-${typeMetadata.keyInUserObject}`}
+      testID={`user-profile-${keyInUserObject}`}
     >
-      {values.length > 0 ? (
-        toValuesWithTranslation(typeMetadata, values, t, sortByTranslation).map((valueWithT) => (
+      {terms.length > 0 ? (
+        terms.map((term) => (
           <HoliChip
             numberOfLines={numberOfLines}
-            key={valueWithT.value}
-            text={valueWithT.t}
-            label={valueWithT.t}
+            key={term.id}
+            text={term.title}
+            label={term.title}
             disabled
             style={styles.chip}
           />
@@ -53,7 +49,7 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
           text={''}
           key="edit"
           onPress={onPressEdit}
-          label={t(`profile.${typeMetadata.keyInUserObject}.add`)}
+          label={t(`profile.${keyInUserObject}.add`)}
           style={styles.chip}
         />
       )}
