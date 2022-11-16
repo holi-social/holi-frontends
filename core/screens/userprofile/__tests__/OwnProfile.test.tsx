@@ -3,6 +3,7 @@ import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
+import { createCache } from '@holi/api/graphql/client'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 import { sdgsQuery, skillsQuery, topicsQuery } from '@holi/core/screens/userprofile/queries'
@@ -12,30 +13,39 @@ const graphQLMocks = [
     request: {
       query: topicsQuery,
     },
-    result: {
-      data: {
-        topics: [],
-      },
+    result: () => {
+      console.warn('========== topicsMock')
+      return {
+        data: {
+          topics: [],
+        },
+      }
     },
   },
   {
     request: {
       query: sdgsQuery,
     },
-    result: {
-      data: {
-        sdgs: [],
-      },
+    result: () => {
+      console.warn('========== sdgsMock')
+      return {
+        data: {
+          sdgs: [],
+        },
+      }
     },
   },
   {
     request: {
       query: skillsQuery,
     },
-    result: {
-      data: {
-        skills: [],
-      },
+    result: () => {
+      console.warn('========== skillsMock')
+      return {
+        data: {
+          skills: [],
+        },
+      }
     },
   },
 ]
@@ -43,7 +53,7 @@ const graphQLMocks = [
 describe('renders correctly', () => {
   it('renders profile when logged in', async () => {
     render(
-      <MockedProvider mocks={graphQLMocks} addTypename={false}>
+      <MockedProvider mocks={graphQLMocks} cache={createCache()} addTypename={false}>
         <AuthContext.Provider
           value={{ isLoading: false, isLoggedIn: true, setUserLoggedIn: jest.fn(), setUserLoggedOut: jest.fn() }}
         >
@@ -58,8 +68,7 @@ describe('renders correctly', () => {
 
   it('renders login hint when logged out', async () => {
     render(
-      <MockedProvider mocks={graphQLMocks} addTypename={false}>
-        {' '}
+      <MockedProvider mocks={graphQLMocks} cache={createCache()} addTypename={false}>
         <AuthContext.Provider
           value={{ isLoading: false, isLoggedIn: false, setUserLoggedIn: jest.fn(), setUserLoggedOut: jest.fn() }}
         >

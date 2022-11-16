@@ -38,9 +38,8 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 // `headerLink` is therefore only needed on Mobile (i.e. when defined)
 const link = from([headerLink, timeoutLink, errorLink, uploadLink].filter((link) => !!link))
 
-export const client = new ApolloClient({
-  link,
-  cache: new InMemoryCache({
+export const createCache = () =>
+  new InMemoryCache({
     typePolicies: {
       User: {
         fields: {
@@ -73,7 +72,8 @@ export const client = new ApolloClient({
         },
       },
     },
-  }),
-})
+  })
+
+export const client = new ApolloClient({ link, cache: createCache() })
 
 export default client
