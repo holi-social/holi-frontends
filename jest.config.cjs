@@ -9,5 +9,6 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   modulePathIgnorePatterns: ['e2e'],
   setupFiles: ['<rootDir>/jest.setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup-after-env.ts'],
   resetMocks: true,
 }
