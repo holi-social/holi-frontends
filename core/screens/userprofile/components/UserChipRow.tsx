@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
-import { Term } from '@holi/core/screens/userprofile/types'
+import { Term, termComparator } from '@holi/core/screens/userprofile/types'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
@@ -20,7 +20,7 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
   user,
   keyInUserObject,
 }: UserChipRowProps) => {
-  const terms = user ? (user[keyInUserObject as keyof typeof user] as Term[]) : []
+  const terms = (user ? (user[keyInUserObject as keyof typeof user] as Term[]) : []).sort(termComparator)
   const { t } = useTranslation()
 
   const styles = getStyles()

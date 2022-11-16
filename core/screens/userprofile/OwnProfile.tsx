@@ -23,14 +23,7 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import {
-  SdgsQueryResult,
-  SkillsQueryResult,
-  TopicsQueryResult,
-  sdgsQuery,
-  skillsQuery,
-  topicsQuery,
-} from './queries.ts'
+import { SdgsQueryResult, SkillsQueryResult, TopicsQueryResult, sdgsQuery, skillsQuery, topicsQuery } from './queries'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
@@ -89,62 +82,67 @@ const OwnProfile: React.VFC<ScreenProps> = ({ navigation }) => {
   return (
     <DefaultLayout>
       <LoginProtection loggedOutContent={<LoggedOutView />}>
-        {loading && <HoliText>Loading...</HoliText>}
-        {error && <HoliText>Error loading data</HoliText>}
-        {!loading && user ? (
-          <>
-            <HoliModal
-              show={showModal}
-              onDismiss={closeModal}
-              testID="user-profile-modal"
-              label={t(`profile.${editMode}.edit`)}
-              autoHeight={autoHeightFor[editMode]}
-              // Smaller devides use the whole screen and
-              // larger ones should have more space above for clicking the backdrop pane
-              minRelativeHeight={!autoHeightFor[editMode] && deviceHeight > 750 ? 0.85 : 0}
-            >
-              {editMode === 'profile' && <UserProfileForm user={user} onCancel={closeModal} onSubmit={closeModal} />}
-              {editMode === 'engagementLevel' && (
-                <UserEngagementLevelForm user={user} onCancel={closeModal} onSubmit={closeModal} autoHeight={false} />
-              )}
-              {editMode === 'interests' && (
-                <UserChipForm
-                  user={user}
-                  onCancel={closeModal}
-                  onSubmit={closeModal}
-                  keyInUserObject={'interests'}
-                  availableTerms={topicsData.topics}
+        <>
+          {loading && <HoliText>Loading...</HoliText>}
+          {error && <HoliText>Error loading data</HoliText>}
+          {!loading && user ? (
+            <>
+              {editMode && (
+                <HoliModal
+                  show={showModal}
+                  onDismiss={closeModal}
+                  testID="user-profile-modal"
+                  label={t(`profile.${editMode}.edit`)}
                   autoHeight={autoHeightFor[editMode]}
-                />
+                  // Smaller devices use the whole screen and
+                  // larger ones should have more space above for clicking the backdrop pane
+                  minRelativeHeight={!autoHeightFor[editMode] && deviceHeight > 750 ? 0.85 : 0}
+                >
+                  <>
+                    {editMode === 'profile' && (
+                      <UserProfileForm user={user} onCancel={closeModal} onSubmit={closeModal} />
+                    )}
+                    {editMode === 'engagementLevel' && (
+                      <UserEngagementLevelForm user={user} onCancel={closeModal} onSubmit={closeModal} />
+                    )}
+                    {editMode === 'interests' && (
+                      <UserChipForm
+                        user={user}
+                        onCancel={closeModal}
+                        onSubmit={closeModal}
+                        keyInUserObject={'interests'}
+                        availableTerms={topicsData!.topics}
+                      />
+                    )}
+                    {editMode === 'skills' && (
+                      <UserChipForm
+                        user={user}
+                        onCancel={closeModal}
+                        onSubmit={closeModal}
+                        keyInUserObject={'skills'}
+                        availableTerms={skillsData!.skills}
+                      />
+                    )}
+                    {editMode === 'sdgs' && (
+                      <UserChipForm
+                        user={user}
+                        onCancel={closeModal}
+                        onSubmit={closeModal}
+                        keyInUserObject={'sdgs'}
+                        availableTerms={sdgsData!.sdgs}
+                      />
+                    )}
+                  </>
+                </HoliModal>
               )}
-              {editMode === 'skills' && (
-                <UserChipForm
-                  user={user}
-                  onCancel={closeModal}
-                  onSubmit={closeModal}
-                  keyInUserObject={'skills'}
-                  availableTerms={skillsData.skills}
-                  autoHeight={autoHeightFor[editMode]}
-                />
-              )}
-              {editMode === 'sdgs' && (
-                <UserChipForm
-                  user={user}
-                  onCancel={closeModal}
-                  onSubmit={closeModal}
-                  keyInUserObject={'sdgs'}
-                  availableTerms={sdgsData.sdgs}
-                  autoHeight={autoHeightFor[editMode]}
-                />
-              )}
-            </HoliModal>
-            <OwnProfileView toggleEditMode={toggleEditMode} user={user} />
-          </>
-        ) : (
-          <View style={[mixins.container, styles.container]}>
-            <HoliText>{t('user.profileView.noUser')}</HoliText>
-          </View>
-        )}
+              <OwnProfileView toggleEditMode={toggleEditMode} user={user} />
+            </>
+          ) : (
+            <View style={[mixins.container, styles.container]}>
+              <HoliText>{t('user.profileView.noUser')}</HoliText>
+            </View>
+          )}
+        </>
       </LoginProtection>
     </DefaultLayout>
   )

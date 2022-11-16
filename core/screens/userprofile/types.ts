@@ -7,6 +7,8 @@ export type Topic = Term
 export type SDG = Term
 export type Skill = Term
 
+export const termComparator = (a: Term, b: Term) => a.title.localeCompare(b.title)
+
 export interface User {
   id: string
   avatarLabel: string
