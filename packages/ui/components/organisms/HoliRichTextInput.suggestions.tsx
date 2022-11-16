@@ -1,3 +1,4 @@
+import debounce from 'lodash.debounce'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -5,29 +6,57 @@ import { StyleSheet, View } from 'react-native'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
+import { findUserByName } from '@holi/ui/helper/richText'
 import type { SuggestionItem } from '@holi/ui/helper/richText'
 import { colors } from '@holi/ui/styles/globalVars'
 
+// TOOD: replace with API request
+const requestUsers = async (keyword: string) => {
+  const requestPromise = new Promise<SuggestionItem[]>((resolve) => {
+    const suggestionsList = findUserByName(keyword)
+    resolve(suggestionsList)
+  })
+  return requestPromise
+}
+
 const MAX_SUGGESTIONS_COUNT = 5
+const INITIAL_VALUE = ''
 
 export type HoliRichTextInputSuggestionsProps = {
   keyword: string
-  findSuggestions: (keyword: string) => SuggestionItem[]
   onChooseSuggestion: (selectedSuggestion: SuggestionItem) => void
 }
 
 const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps> = (props) => {
   const { t } = useTranslation()
+  const [keyword, setKeyword] = useState<string>(INITIAL_VALUE)
   const [suggestions, setSuggestions] = useState<SuggestionItem[]>([])
 
-  const requestSuggestions = useCallback(() => {
-    const newList = props.findSuggestions(props.keyword)
-    setSuggestions(newList)
-  }, [props])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedSetValue = useCallback(
+    debounce((someValue: string) => {
+      setKeyword(someValue)
+    }, 100),
+    [props.keyword]
+  )
+
+  // Stop the invocation of the debounced function after unmounting
+  useEffect(() => {
+    return () => debouncedSetValue.cancel()
+  }, [debouncedSetValue])
 
   useEffect(() => {
-    requestSuggestions()
-  }, [requestSuggestions, props.keyword, props.findSuggestions])
+    return debouncedSetValue(props.keyword)
+  }, [debouncedSetValue, props.keyword])
+
+  useEffect(() => {
+    if (keyword === INITIAL_VALUE) return
+    const fetchData = async () => {
+      const suggestions = await requestUsers(keyword)
+      setSuggestions(suggestions)
+    }
+    fetchData()
+  }, [keyword])
 
   return (
     <View style={[styles.suggestions]}>

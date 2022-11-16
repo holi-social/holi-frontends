@@ -14,8 +14,6 @@ export type HoliRichTextInputProps = {
   initalValue?: string
   placeholder?: string
   autofocus?: boolean
-  findMentionsByKeyword?: SearchFunction
-  findHashtagsByKeyword?: SearchFunction
   onChange?: (text: string) => void
   onSelectSuggestion?: (suggestion: SuggestionItem) => void
   style?: StyleProp<ViewStyle>
@@ -26,43 +24,32 @@ export type HoliRichTextInputProps = {
 const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = '', placeholder = '...', ...props }) => {
   const [value, setValue] = useState(initalValue)
 
-  const getRenderFunction = (searchFunction: SearchFunction) => {
-    const onRenderSuggestions: React.VFC<MentionSuggestionsProps> = ({ keyword, onSuggestionPress }) => {
-      if (keyword == null || keyword.trim().length < MIN_SEARCH_CHARS) {
-        return null
-      }
-      const onChooseSuggestion = (suggestion: SuggestionItem) => {
-        onSuggestionPress(suggestion)
-        props.onSelectSuggestion && props.onSelectSuggestion(suggestion)
-      }
-      console.log('render suggestions with ', searchFunction, keyword)
-      return (
-        <HoliRichTextInputSuggestions
-          keyword={keyword}
-          findSuggestions={searchFunction}
-          onChooseSuggestion={onChooseSuggestion}
-        />
-      )
+  const renderUserSuggestions: React.VFC<MentionSuggestionsProps> = ({ keyword, onSuggestionPress }) => {
+    if (keyword == null || keyword.trim().length < MIN_SEARCH_CHARS) {
+      return null
     }
-    return onRenderSuggestions
+    const onChooseSuggestion = (suggestion: SuggestionItem) => {
+      onSuggestionPress(suggestion)
+      props.onSelectSuggestion && props.onSelectSuggestion(suggestion)
+    }
+    return <HoliRichTextInputSuggestions keyword={keyword} onChooseSuggestion={onChooseSuggestion} />
   }
 
   const suggestionConfig = []
-  if (props.findMentionsByKeyword) {
-    suggestionConfig.push({
-      trigger: '@',
-      renderSuggestions: getRenderFunction(props.findMentionsByKeyword),
-      textStyle: styles.inlineMention,
-    })
-  }
-  if (props.findHashtagsByKeyword) {
-    suggestionConfig.push({
-      trigger: '#',
-      renderSuggestions: getRenderFunction(props.findHashtagsByKeyword),
-      textStyle: styles.inlineHashtag,
-    })
-  }
-  // nice to have: url highlighting
+  suggestionConfig.push({
+    trigger: '@',
+    renderSuggestions: renderUserSuggestions,
+    textStyle: styles.inlineMention,
+  })
+
+  // TODO: for later usage
+  // suggestionConfig.push({
+  //   trigger: '#',
+  //   renderSuggestions: renderHashtagSuggestions,
+  //   textStyle: styles.inlineHashtag,
+  // })
+
+  // Nice to have: url highlighting
   suggestionConfig.push({
     pattern: REGEX_URL,
     textStyle: styles.inlineUrl,

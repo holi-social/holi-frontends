@@ -33,7 +33,6 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import HoliRichInput from '@holi/ui/components/organisms/HoliRichTextInput'
-import { findHashtagByName, findUserByName } from '@holi/ui/helper/richText'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -137,8 +136,6 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
                 <HoliRichInput
                   placeholder={t('insights.posts.comments.placeholder')}
                   autofocus
-                  findMentionsByKeyword={findUserByName}
-                  findHashtagsByKeyword={findHashtagByName}
                   onChange={setText}
                   style={styles.textInput2}
                   testID="post-comment-input"
