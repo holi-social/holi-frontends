@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/client'
 import React, { memo, useCallback, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
@@ -8,13 +7,12 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
-import { logError } from '@holi/core/errors/helpers'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import LoggedOutView from '@holi/core/screens/userprofile/components/LoggedOutView'
 import OwnProfileView, { EditModeState } from '@holi/core/screens/userprofile/components/OwnProfileView'
-import UserChipForm from '@holi/core/screens/userprofile/components/UserChipForm'
+import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLoader'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
@@ -24,7 +22,7 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import { SdgsQueryResult, SkillsQueryResult, TopicsQueryResult, sdgsQuery, skillsQuery, topicsQuery } from './queries'
+import { sdgsQuery, skillsQuery, topicsQuery } from './queries'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
@@ -39,12 +37,6 @@ const OwnProfile: React.VFC<ScreenProps> = ({ navigation }) => {
 
   const { isLoggedIn } = useContext(AuthContext)
   const { user } = useContext(UserContext)
-
-  const { loading: topicsLoading, data: topicsData, error: topicsError } = useQuery<TopicsQueryResult>(topicsQuery)
-  const { loading: skillsLoading, data: skillsData, error: skillsError } = useQuery<SkillsQueryResult>(skillsQuery)
-  const { loading: sdgsLoading, data: sdgsData, error: sdgsError } = useQuery<SdgsQueryResult>(sdgsQuery)
-  const loading = topicsLoading || skillsLoading || sdgsLoading
-  const error = topicsError || skillsError || sdgsError
 
   const mixins = useStyleMixins()
 
@@ -78,19 +70,10 @@ const OwnProfile: React.VFC<ScreenProps> = ({ navigation }) => {
     sdgs: false,
   }
 
-  if (error) {
-    logError(error, `[SpaceDetails.tsx] ${error.message}`)
-  }
-
-  // Error and loading states are handled the same way and just hide the component
-  if (loading || error) {
-    return <></>
-  }
-
   return (
     <DefaultLayout>
       <LoginProtection loggedOutContent={<LoggedOutView />}>
-        {user && topicsData && skillsData && sdgsData ? (
+        {user ? (
           <>
             {editMode && (
               <HoliModal
@@ -111,30 +94,30 @@ const OwnProfile: React.VFC<ScreenProps> = ({ navigation }) => {
                     <UserEngagementLevelForm user={user} onCancel={closeModal} onSubmit={closeModal} />
                   )}
                   {editMode === 'interests' && (
-                    <UserChipForm
+                    <UserChipLoader
                       user={user}
                       onCancel={closeModal}
                       onSubmit={closeModal}
                       keyInUserObject={'interests'}
-                      availableTerms={topicsData.topics}
+                      queryToUse={topicsQuery}
                     />
                   )}
                   {editMode === 'skills' && (
-                    <UserChipForm
+                    <UserChipLoader
                       user={user}
                       onCancel={closeModal}
                       onSubmit={closeModal}
                       keyInUserObject={'skills'}
-                      availableTerms={skillsData.skills}
+                      queryToUse={skillsQuery}
                     />
                   )}
                   {editMode === 'sdgs' && (
-                    <UserChipForm
+                    <UserChipLoader
                       user={user}
                       onCancel={closeModal}
                       onSubmit={closeModal}
                       keyInUserObject={'sdgs'}
-                      availableTerms={sdgsData.sdgs}
+                      queryToUse={sdgsQuery}
                     />
                   )}
                 </>
