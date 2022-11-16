@@ -51,6 +51,6 @@ describe('@ForgotPassword', () => {
     // await tapOnElementWithTestId('nav-button-back')
     // close login modal
     // await tapOnElementWithTestId('nav-button-back')
-    // await tapOnElementWithTestId('nav-button-home')
+    // await tapOnElementWithTestId('btn-to-home-view')
   })
 })

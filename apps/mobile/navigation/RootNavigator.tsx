@@ -239,7 +239,7 @@ export const BottomTabsNavigator: React.VFC = () => {
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="home-smile-2" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
-          tabBarTestID: 'nav-button-home',
+          tabBarTestID: 'btn-to-home-view',
         }}
       />
       <BottomTabs.Screen
@@ -276,6 +276,7 @@ export const BottomTabsNavigator: React.VFC = () => {
           tabBarShowLabel: false,
           headerTitle: CenterElement,
           tabBarIcon: HeaderRight,
+          tabBarTestID: 'btn-to-profile-view',
         }}
       />
     </BottomTabs.Navigator>
