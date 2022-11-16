@@ -33,7 +33,7 @@ const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps>
   const [suggestions, setSuggestions] = useState<SuggestionItem[]>([])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedSetValue = useCallback(
+  const setValueDebounced = useCallback(
     debounce((someValue: string) => {
       setKeyword(someValue)
     }, 100),
@@ -42,12 +42,12 @@ const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps>
 
   // Stop the invocation of the debounced function after unmounting
   useEffect(() => {
-    return () => debouncedSetValue.cancel()
-  }, [debouncedSetValue])
+    return () => setValueDebounced.cancel()
+  }, [setValueDebounced])
 
   useEffect(() => {
-    return debouncedSetValue(props.keyword)
-  }, [debouncedSetValue, props.keyword])
+    return setValueDebounced(props.keyword)
+  }, [setValueDebounced, props.keyword])
 
   useEffect(() => {
     if (keyword === INITIAL_VALUE) return
