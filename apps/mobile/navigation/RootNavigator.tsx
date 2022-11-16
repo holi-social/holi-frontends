@@ -51,6 +51,7 @@ export type HomeStackScreens = {
   CreatePostCommentPage: CreatePostCommentPageParams
   SettingsOverview: undefined
   Search: undefined
+  UserProfile: UserProfileParams
 }
 
 export type BottomTabsScreens = {
@@ -202,6 +203,16 @@ export const HomeStackNavigator: React.VFC = () => {
           headerTitle: CenterElement,
           headerLeft: BackButton,
           headerRight: RightElement,
+        }}
+      />
+      <HomeStack.Screen
+        name="UserProfile"
+        component={UserProfile}
+        options={{
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
+          headerTitle: CenterElement,
+          headerLeft: BackButton,
         }}
       />
     </HomeStack.Navigator>
