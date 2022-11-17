@@ -149,5 +149,7 @@ export const interestsQuery = gql`
 `
 
 export interface TopicsQueryResult {
-  topics: Topic[]
+  topics: {
+    data: Topic[]
+  }
 }
