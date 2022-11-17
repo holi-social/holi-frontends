@@ -7,6 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { displayError } from '@holi/core/errors/helpers'
+import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
@@ -36,7 +37,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () 
   const [projectId] = useParam('projectId')
   const { t, i18n } = useTranslation()
   const { setOptions } = useUnifiedNavigation()
-
+  const onScreenScroll = useScrollYHandler()
   useLayoutEffect(() => setOptions({ title: t('donations:app.name') }), [setOptions, t])
 
   const mixins = useStyleMixins()
@@ -79,8 +80,12 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () 
   }
 
   return (
-    <View style={{ alignItems: 'center', backgroundColor: colors.backgroundColorGreyLight }}>
-      <DefaultLayout style={{ backgroundColor: colors.backgroundColorGreyLight }}>
+    <View style={{ alignItems: 'center', flex: 1, backgroundColor: colors.backgroundColorGreyLight }}>
+      <DefaultLayout
+        onScroll={onScreenScroll}
+        scrollEventThrottle={200}
+        style={{ backgroundColor: colors.backgroundColorGreyLight }}
+      >
         <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
           <DonationImage picture={project.picture} label={project.title} style={styles.image} />
           <View style={styles.header}>

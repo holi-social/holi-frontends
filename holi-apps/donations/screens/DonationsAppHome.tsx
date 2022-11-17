@@ -1,12 +1,12 @@
-import HoliIcon from 'packages/ui/components/atoms/HoliIcon'
-import HoliButton from 'packages/ui/components/molecules/HoliButton'
-import { HoliHorizontalRow } from 'packages/ui/components/molecules/HoliHorizontalRow'
 import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
+import HoliIcon from '@holi//ui/components/atoms/HoliIcon'
+import HoliButton from '@holi//ui/components/molecules/HoliButton'
+import { HoliHorizontalRow } from '@holi//ui/components/molecules/HoliHorizontalRow'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'

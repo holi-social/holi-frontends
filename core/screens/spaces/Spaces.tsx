@@ -7,7 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { displayError } from '@holi/core/errors/helpers'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation.web'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import TopicSlider from '@holi/core/screens/spaces/components/TopicSlider'
 import {
   FilteredSpacesResponse,
