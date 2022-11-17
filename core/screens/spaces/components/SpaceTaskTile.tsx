@@ -130,7 +130,7 @@ const getStyles = (screenWidth: number) =>
       marginBottom: 12,
     },
     skill: {
-      borderRadius: 64,
+      borderRadius: 16,
       borderWidth: 1,
       borderColor: colors.borderColorGrey,
       paddingHorizontal: 14,
