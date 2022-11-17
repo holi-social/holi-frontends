@@ -40,7 +40,7 @@
     BUILD_PLATFORM: changeme
   script:
     - cd apps/mobile
-    - export EAS_APK_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform $BUILD_PLATFORM --limit 1 | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
+    - export EAS_APK_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform $BUILD_PLATFORM --limit 1 | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
     - export EAS_APK_FILE=$(basename $EAS_APK_URL)
     - curl -L -s -o ../../e2e/mobile/$EAS_APK_FILE $EAS_APK_URL # download .apk from EAS
     - cd ../../e2e/mobile
