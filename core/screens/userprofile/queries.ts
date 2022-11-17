@@ -98,6 +98,8 @@ export const updateUserMutation = gql`
 `
 
 export const updateConnectionWithUserMutation = gql`
+  ${userFragment}
+
   mutation UpdateConnectionWithUser($input: UpdateConnectionWithUserInput!) {
     updateConnectionWithUser(input: $input) {
       ...FullUser
