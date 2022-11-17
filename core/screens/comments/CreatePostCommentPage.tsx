@@ -32,6 +32,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
+import HoliRichInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -104,15 +105,15 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
 
   if (!post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
 
-  const handleTextChange = (inputText: string) => {
-    setText(inputText)
-  }
-
   return (
     <KeyboardAvoidingView behavior="height" keyboardVerticalOffset={keyboardAvoidingViewVerticalOffset}>
       <StatusBar animated />
       <View style={styles.wrapper}>
-        <ScrollView ref={scrollViewRef} onLayout={() => scrollViewRef.current?.scrollToEnd()}>
+        <ScrollView
+          ref={scrollViewRef}
+          onLayout={() => scrollViewRef.current?.scrollToEnd()}
+          onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
+        >
           {/* Post content */}
           <PostDetail post={post} />
 
@@ -121,7 +122,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
           <View style={[mixins.container, styles.inputWrapper, style]}>
             <CommentConnector style={styles.commentConnector} />
 
-            <View style={styles.body}>
+            <View style={styles.inputContainer}>
               <HoliUserAvatar
                 imageSrc={user.avatar}
                 label={userFullName(user)}
@@ -130,27 +131,20 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
                 size="small"
               />
 
-              {/* Mobile version */}
+              {/* TODO: get rid of mobile-web-condition */}
               {!isWeb && (
-                <TextInput
-                  autoFocus
-                  onChangeText={handleTextChange}
-                  style={styles.textInput}
+                <HoliRichInput
                   placeholder={t('insights.posts.comments.placeholder')}
-                  placeholderTextColor={colors.fontColorGrey}
-                  textAlignVertical="top"
-                  multiline
+                  autofocus
+                  onChange={setText}
+                  style={styles.textInput2}
                   testID="post-comment-input"
-                >
-                  <HoliText style={[styles.text, (!text && styles.placeholder) || {}]}>{text}</HoliText>
-                </TextInput>
+                />
               )}
-
-              {/* Web version */}
               {isWeb && (
                 <TextInput
                   autoFocus
-                  onChangeText={handleTextChange}
+                  onChangeText={setText}
                   style={styles.textInput}
                   placeholder={t('insights.posts.comments.placeholder')}
                   placeholderTextColor={colors.fontColorGrey}
@@ -192,19 +186,17 @@ const styles = StyleSheet.create({
   inputWrapper: {
     ...Platform.select({ web: { paddingHorizontal: 20 } }),
   },
+  inputContainer: {
+    marginTop: 16,
+    lineHeight: 22,
+    flexDirection: 'row',
+  },
   commentConnector: {
     marginTop: 16,
     marginBottom: 10,
     marginHorizontal: 20,
     minHeight: 50,
     ...Platform.select({ web: { minHeight: 75 } }),
-  },
-  body: {
-    marginTop: 16,
-    lineHeight: 22,
-    flexDirection: 'row',
-    minHeight: 200,
-    paddingBottom: 100,
   },
   textInput: {
     marginLeft: 18,
@@ -216,11 +208,11 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  text: {
-    lineHeight: 20,
-  },
-  placeholder: {
-    color: colors.fontColorGrey,
+  textInput2: {
+    marginLeft: 10,
+    // space below for 5 suggestions
+    ...Platform.select({ ios: { marginTop: 5, marginBottom: 230 }, android: { marginBottom: 190 } }),
+    flex: 1,
   },
   bottomBar: {
     bottom: 0,
