@@ -173,6 +173,7 @@
   "spaces.filter.all.topics.location": "<0></0> spaces in <1></1>",
   "spaces.filter.create": "erstelle",
   "spaces.filter.discover.location.topics": "Entdecke <0></0> spaces in <1></1>",
+  "spaces.filter.header": "Spaces Filter",
   "spaces.filter.topics": " spaces",
   "spaces.filter.topics.location": "spaces in <0></0>",
   "spaces.title": "Spaces",

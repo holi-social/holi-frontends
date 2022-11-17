@@ -53,9 +53,6 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
 
   const spaces = useMemo(() => data?.spaces.data || [], [data])
 
-  const location = 'Berlin'
-  const topics = ['Animal welfare', 'Children & Youth']
-
   useEffect(() => {
     if (spaces.length > 0) {
       setMockData({
@@ -99,9 +96,11 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
     <DefaultLayout>
       <View style={mixins.container}>
         <SpacesFilterHeader
+          label={t('spaces.filter.header')}
           style={styles.spacesContainer}
           topics={mockData.matchedSpaces.map((space) => space.topic)}
           location={MockDefault.filter.location}
+          allTopics={false}
           onPress={() => navigate('/apps/donations')}
         />
         {mockData.matchedSpaces.length ? (

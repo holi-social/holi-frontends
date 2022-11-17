@@ -9,6 +9,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 
 export type SpacesFilterHeaderProps = {
   location?: string
+  label: string
   topics: string[]
   allTopics?: boolean
   onPress: (event: React.SyntheticEvent | GestureResponderEvent) => void
