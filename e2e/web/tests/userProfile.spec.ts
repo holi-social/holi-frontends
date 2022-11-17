@@ -92,6 +92,7 @@ test.describe('@Profile', () => {
   test('other user profile journey', async ({ page }) => {
     // visit another user's profile page via url
     const userId = process.env.E2E_USER_ID || 'empty'
+    console.log("Visiting User with id: " + userId)
     await page.goto('/profile/' + userId)
     await waitForElementByTestId(page, 'user-profile-full-name')
 
