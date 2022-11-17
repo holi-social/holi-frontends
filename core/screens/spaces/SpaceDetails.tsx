@@ -68,9 +68,7 @@ const SpaceDetails: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
         <HoliText style={{ paddingTop: 10 }}>{space.description}</HoliText>
         {space.tasks && space.tasks.length > 0 && (
           <View>
-            <HoliHeading level="2">
-              {space.tasks.length} {t('spaces.spaceDetails.waysToActHeading')}
-            </HoliHeading>
+            <HoliHeading level="2">{t('spaces.spaceDetails.tasksHeading', { count: space.tasks.length })}</HoliHeading>
             <ScrollView horizontal={true} style={{ marginTop: 20 }} contentContainerStyle={styles.tasksContainer}>
               {space.tasks.map((task: Task) => (
                 <SpaceTaskTile key={task.id} task={task} style={styles.taskTile} />
