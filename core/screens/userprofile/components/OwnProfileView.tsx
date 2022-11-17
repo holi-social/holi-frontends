@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native'
 
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
-import { User, UserChipInterest, UserChipSDG, UserChipSkill } from '@holi/core/screens/userprofile/types'
+import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
@@ -76,7 +76,7 @@ const OwnProfileView: React.VFC<OwnProfileViewProps> = ({ toggleEditMode, user }
               <View style={[mixins.container, styles.chipRowContainer]} key="interests">
                 <UserChipRow
                   user={user}
-                  typeMetadata={UserChipInterest}
+                  keyInUserObject={'interests'}
                   onPressEdit={() => toggleEditMode('interests')}
                   numberOfLines={1}
                 />
@@ -84,8 +84,7 @@ const OwnProfileView: React.VFC<OwnProfileViewProps> = ({ toggleEditMode, user }
               <View style={[mixins.container, styles.chipRowContainer]} key="sdgs">
                 <UserChipRow
                   user={user}
-                  typeMetadata={UserChipSDG}
-                  sortByTranslation={false}
+                  keyInUserObject={'sdgs'}
                   onPressEdit={() => toggleEditMode('sdgs')}
                   numberOfLines={1}
                 />
@@ -93,7 +92,7 @@ const OwnProfileView: React.VFC<OwnProfileViewProps> = ({ toggleEditMode, user }
               <View style={[mixins.container, styles.chipRowContainer]} key="skills">
                 <UserChipRow
                   user={user}
-                  typeMetadata={UserChipSkill}
+                  keyInUserObject={'skills'}
                   onPressEdit={() => toggleEditMode('skills')}
                   numberOfLines={1}
                 />

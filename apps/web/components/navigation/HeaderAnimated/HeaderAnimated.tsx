@@ -64,8 +64,6 @@ const HeaderAnimated: React.VoidFunctionComponent = () => {
     headerCustomOptions: { headerBackgroundImageURI, headerBackgroundGradient, headerBackgroundCustom } = {},
   } = options
 
-  console.log(title)
-
   return (
     <Animated.View
       style={[styles.headerOuter, headerStyle, { top: headerHideAnimation }]}
