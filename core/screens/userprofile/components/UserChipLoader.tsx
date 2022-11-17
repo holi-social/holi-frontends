@@ -12,6 +12,7 @@ type UserChipLoaderProps = {
   keyInUserObject: string
   sortByTranslation?: boolean
   queryToUse: DocumentNode
+  queryTypeName?: string
 }
 
 const UserChipLoader: React.VoidFunctionComponent<UserChipLoaderProps> = ({
@@ -20,6 +21,7 @@ const UserChipLoader: React.VoidFunctionComponent<UserChipLoaderProps> = ({
   onSubmit,
   keyInUserObject,
   queryToUse,
+  queryTypeName,
 }: UserChipLoaderProps) => {
   const { loading, data, error } = useQuery(queryToUse)
 
@@ -38,7 +40,7 @@ const UserChipLoader: React.VoidFunctionComponent<UserChipLoaderProps> = ({
       onCancel={onCancel}
       onSubmit={onSubmit}
       keyInUserObject={keyInUserObject}
-      availableTerms={data[keyInUserObject].data}
+      availableTerms={data[queryTypeName ?? keyInUserObject].data}
     />
   )
 }

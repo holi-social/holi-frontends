@@ -100,6 +100,7 @@ const OwnProfile: React.VFC<ScreenProps> = ({ navigation }) => {
                       onSubmit={closeModal}
                       keyInUserObject={'interests'}
                       queryToUse={topicsQuery}
+                      queryTypeName="topics"
                     />
                   )}
                   {editMode === 'skills' && (
