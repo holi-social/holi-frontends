@@ -234,7 +234,9 @@ export const BottomTabsNavigator: React.VFC = () => {
             paddingHorizontal: 0,
             borderTopWidth: StyleSheet.hairlineWidth,
             borderTopColor: colors.fontColorGrey,
-            ...(focusedRoute === 'PostDetailPage' || focusedRoute === 'CreatePostCommentPage'
+            ...(focusedRoute === 'InsightDetailPage' ||
+            focusedRoute === 'PostDetailPage' ||
+            focusedRoute === 'CreatePostCommentPage'
               ? { display: 'none' }
               : {}),
           },
