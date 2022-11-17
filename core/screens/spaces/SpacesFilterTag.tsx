@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -18,6 +19,7 @@ export type SpacesFilterTagProps = {
 
 const SpacesFilterTag = ({ location, filter, tag, style, label, onPress }: SpacesFilterTagProps) => {
   const { navigate } = useRouting()
+  const { t } = useTranslation()
 
   return (
     <View style={[styles.headerContainer, style]}>
@@ -42,7 +44,7 @@ const SpacesFilterTag = ({ location, filter, tag, style, label, onPress }: Space
       )}
       {filter === 'all' && (
         <HoliButton label={label} variant="small" style={[styles.spacesFilter, styles.filter]} inline onPress={onPress}>
-          <HoliText size="extralarge">all</HoliText>
+          <HoliText size="extralarge">{t('spaces.filter.all')}</HoliText>
           <HoliIcon icon="filter-3" size={16} style={styles.filterIcon} />
         </HoliButton>
       )}
@@ -53,7 +55,7 @@ const SpacesFilterTag = ({ location, filter, tag, style, label, onPress }: Space
       )}
       {filter === 'create' && (
         <HoliButton label={label} variant="small" style={[styles.createSpace, styles.filter]} inline onPress={onPress}>
-          <HoliText size="extralarge">create</HoliText>
+          <HoliText size="extralarge">{t('spaces.filter.create')}</HoliText>
         </HoliButton>
       )}
       {filter === 'skills' && (

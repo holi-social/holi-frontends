@@ -59,7 +59,12 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
         <HoliHeading level="1" size="super">
           {title}
         </HoliHeading>
-        <SpacesFilterHeader style={styles.spacesContainer} location={location} topics={topics} allTopics />
+        <SpacesFilterHeader
+          style={styles.spacesContainer}
+          topics={topics}
+          location={location}
+          onPress={() => navigate('/apps/donations')}
+        />
         {spaces.map((space) => {
           return (
             <HoliButton key={space.id} label={space.title} onPress={() => navigate(`/spaces/${space.id}`)}>

@@ -1,6 +1,7 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Trans, useTranslation } from 'react-i18next'
+import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpacesFilterTag from '@holi/core/screens/spaces/SpacesFilterTag'
@@ -10,6 +11,7 @@ export type SpacesFilterHeaderProps = {
   location?: string
   topics: string[]
   allTopics?: boolean
+  onPress: (event: React.SyntheticEvent | GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
 }
 
@@ -21,81 +23,36 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({ location, topi
   return (
     <View style={[styles.headerContainer, style]}>
       {topics?.length === 0 && !location && (
-        <>
-          {allTopics ? (
+        <HoliText size="extralarge">
+          <Trans t={t} i18nKey="spaces.filter.all.topics" shouldUnescape={true}>
             <SpacesFilterTag
               filter={'text'}
-              tag={'All'}
+              tag={t('spaces.filter.allTopics')}
               style={styles.filter}
               label={t('spaces:filter.all')}
               onPress={onPress}
             />
-          ) : (
-            <>
-              <HoliText size="extralarge" style={styles.filterText}>
-                Discover
-              </HoliText>
-              <SpacesFilterTag filter={'all'} style={styles.filter} label={t('spaces:filter.all')} onPress={onPress} />
-            </>
-          )}
-          <HoliText size="extralarge" style={styles.filterText}>
-            spaces
-          </HoliText>
-        </>
-      )}
-      {location && topics?.length === 0 && (
-        <>
-          {allTopics ? (
             <SpacesFilterTag
-              filter={'text'}
-              tag={'All'}
+              filter={'location'}
+              location={location}
               style={styles.filter}
-              label={t('spaces:filter.all')}
+              label={t('spaces:filter.location')}
               onPress={onPress}
             />
-          ) : (
-            <>
-              <HoliText size="extralarge" style={styles.filterText}>
-                Discover
-              </HoliText>
-              <SpacesFilterTag filter={'all'} style={styles.filter} label={t('spaces:filter.all')} onPress={onPress} />
-            </>
-          )}
-          <HoliText size="extralarge" style={styles.filterText}>
-            spaces
-          </HoliText>
-          <HoliText size="extralarge" style={styles.filterText}>
-            in
-          </HoliText>
-          <SpacesFilterTag
-            filter={'location'}
-            location={location}
-            style={styles.filter}
-            label={t('spaces:filter.location')}
-            onPress={onPress}
-          />
-        </>
+          </Trans>
+        </HoliText>
       )}
-      {topics?.length !== 0 && (
+      {allTopics && location && (
         <>
-          {topics?.map((topic, index) => (
-            <SpacesFilterTag
-              filter={'topics'}
-              tag={topic}
-              key={index}
-              style={styles.filter}
-              label={t('spaces:filter.topic')}
-              onPress={onPress}
-            />
-          ))}
-          <HoliText size="extralarge" style={styles.filterText}>
-            spaces
-          </HoliText>
-          {location && (
-            <>
-              <HoliText size="extralarge" style={styles.filterText}>
-                in
-              </HoliText>
+          <HoliText size="extralarge">
+            <Trans t={t} i18nKey="spaces.filter.all.topics.location" shouldUnescape={true}>
+              <SpacesFilterTag
+                filter={'text'}
+                tag={t('spaces.filter.allTopics')}
+                style={styles.filter}
+                label={t('spaces:filter.all')}
+                onPress={onPress}
+              />
               <SpacesFilterTag
                 filter={'location'}
                 location={location}
@@ -103,8 +60,64 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({ location, topi
                 label={t('spaces:filter.location')}
                 onPress={onPress}
               />
-            </>
-          )}
+            </Trans>
+          </HoliText>
+        </>
+      )}
+      {location && topics?.length === 0 && !allTopics && (
+        <HoliText size="extralarge">
+          <Trans t={t} i18nKey="spaces.filter.discover.location.topics" shouldUnescape={true}>
+            <SpacesFilterTag filter={'all'} label={t('spaces:filter.all')} style={styles.filter} onPress={onPress} />
+            <SpacesFilterTag
+              filter={'location'}
+              location={location}
+              style={styles.filterBottom}
+              label={t('spaces:filter.location')}
+              onPress={onPress}
+            />
+          </Trans>
+        </HoliText>
+      )}
+      {topics?.length !== 0 && !location && (
+        <>
+          {topics?.map((topic, index) => (
+            <SpacesFilterTag
+              filter={'topics'}
+              tag={topic}
+              key={index}
+              style={[styles.filterMap, styles.filterTopics]}
+              label={t('spaces:filter.topic')}
+              onPress={onPress}
+            />
+          ))}
+          <HoliText size="extralarge">
+            <Trans t={t} i18nKey="spaces.filter.topics" shouldUnescape={true} />
+          </HoliText>
+        </>
+      )}
+      {topics?.length !== 0 && !allTopics && location && (
+        <>
+          {topics?.map((topic, index) => (
+            <SpacesFilterTag
+              filter={'topics'}
+              tag={topic}
+              key={index}
+              style={[styles.filterMap, styles.filterTopics]}
+              label={t('spaces:filter.topic')}
+              onPress={onPress}
+            />
+          ))}
+          <HoliText size="extralarge" style={styles.filterMap}>
+            <Trans t={t} i18nKey="spaces.filter.topics.location" shouldUnescape={true}>
+              <SpacesFilterTag
+                filter={'location'}
+                location={location}
+                style={styles.filter}
+                label={t('spaces:filter.location')}
+                onPress={onPress}
+              />
+            </Trans>
+          </HoliText>
         </>
       )}
     </View>
@@ -114,10 +127,15 @@ export default SpacesFilterHeader
 
 const styles = StyleSheet.create({
   filter: {
-    marginRight: 4,
-    marginBottom: 6,
+    marginTop: Platform.OS === 'web' ? 0 : -8,
   },
-  filterText: {
+  filterBottom: {
+    marginVertical: Platform.OS === 'web' ? 0 : -8,
+  },
+  filterMap: {
+    marginBottom: Platform.OS === 'web' ? 8 : 10,
+  },
+  filterTopics: {
     marginRight: 4,
   },
   headerContainer: {
