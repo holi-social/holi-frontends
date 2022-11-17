@@ -22,7 +22,7 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import { sdgsQuery, skillsQuery, topicsQuery } from './queries'
+import { interestsQuery, sdgsQuery, skillsQuery } from './queries'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
@@ -99,7 +99,7 @@ const OwnProfile: React.VFC<ScreenProps> = ({ navigation }) => {
                       onCancel={closeModal}
                       onSubmit={closeModal}
                       keyInUserObject={'interests'}
-                      queryToUse={topicsQuery}
+                      queryToUse={interestsQuery}
                     />
                   )}
                   {editMode === 'skills' && (

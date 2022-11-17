@@ -144,9 +144,9 @@ export interface SkillsQueryResult {
   skills: Skill[]
 }
 
-export const topicsQuery = gql`
+export const interestsQuery = gql`
   query Topics {
-    topics {
+    interests: topics {
       data {
         id
         title
