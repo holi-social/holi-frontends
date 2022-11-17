@@ -27,6 +27,7 @@ export const userFragment = gql`
       id
       title
     }
+    connectionStatusToMyself
   }
 `
 
@@ -50,7 +51,6 @@ export const userByIdQuery = gql`
   query UserById($userId: String!) {
     userById(id: $userId) {
       ...FullUser
-      connectionStatusToMyself
     }
   }
 `
@@ -75,9 +75,7 @@ export const UpdateAuthenticatedUserInputSchema = z.object({
 export type UpdateAuthenticatedUserInput = z.infer<typeof UpdateAuthenticatedUserInputSchema>
 
 export type UpdateAuthenticatedUserResponse = {
-  updateAuthenticatedUser: {
-    authenticatedUser: User
-  }
+  updateAuthenticatedUser: User
 }
 
 export type UpdateConnectionWithUserInput = {
@@ -86,9 +84,7 @@ export type UpdateConnectionWithUserInput = {
 }
 
 export type UpdateConnectionWithUserResponse = {
-  updateConnectionWithUser: {
-    userById: User
-  }
+  updateConnectionWithUser: User
 }
 
 export const updateUserMutation = gql`
@@ -102,10 +98,11 @@ export const updateUserMutation = gql`
 `
 
 export const updateConnectionWithUserMutation = gql`
+  ${userFragment}
+
   mutation UpdateConnectionWithUser($input: UpdateConnectionWithUserInput!) {
     updateConnectionWithUser(input: $input) {
-      id
-      connectionStatusToMyself
+      ...FullUser
     }
   }
 `
