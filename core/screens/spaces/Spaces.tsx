@@ -1,22 +1,26 @@
 import { useQuery } from '@apollo/client'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { displayError } from '@holi/core/errors/helpers'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
-import TopicSlider from '@holi/core/screens/spaces/components/TopicSlider'
+import createParam from '@holi/core/navigation/hooks/useParam'
+import SpacesListing from '@holi/core/screens/spaces/components/SpacesListing'
+import SpacesSearchForm from '@holi/core/screens/spaces/components/SpacesSearchForm'
 import {
   FilteredSpacesResponse,
   SpacesResponse, // filteredSpacesQuery,
   spacesQuery,
 } from '@holi/core/screens/spaces/queries'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
@@ -30,15 +34,51 @@ const MockDefault: FilteredSpacesResponse = {
   unmatchedSpaces: [],
 }
 
+export type SpacesParams = {
+  topics?: string
+  location?: string
+}
+
 const SPACES_PAGE_SIZE = 10
+
+const { useParam } = createParam<SpacesParams>()
 
 const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const { t } = useTranslation()
   const title = t('spaces.title')
   const mixins = useStyleMixins()
+  const { height: deviceHeight } = useWindowDimensions()
+  const [showSearchModal, setShowSearchModal] = useState(false)
+  const closeModal = useCallback(() => {
+    setShowSearchModal(false)
+  }, [])
+  const [topicsQuery, setTopicsQuery] = useParam('topics')
+  const [locationQuery, setLocationQuery] = useParam('location')
+  const submitSearch = useCallback(
+    ({ topics, location }) => {
+      setTopicsQuery(topics)
+      setLocationQuery(location)
+      closeModal()
+    },
+    [setTopicsQuery, setLocationQuery, closeModal]
+  )
+
   const [mockData, setMockData] = useState<FilteredSpacesResponse>(MockDefault)
 
-  useNavigationHeader(navigation, { title: title })
+  useNavigationHeader(navigation, {
+    title: title,
+    headerRight: () => (
+      <HoliButton
+        label={t('donations:search.heading')}
+        inline
+        transparent
+        onPress={() => setShowSearchModal(true)}
+        testID="donations-search-button"
+      >
+        <HoliIcon icon="search-2" size={24} />
+      </HoliButton>
+    ),
+  })
 
   const { loading, data, error } = useQuery<SpacesResponse>(spacesQuery, {
     variables: {
@@ -55,19 +95,19 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
         ...MockDefault,
         matchedSpaces: [
           {
-            id: 1,
+            id: '1',
             topic: 'Animal Welfare',
             spaces,
           },
         ],
         unmatchedSpaces: [
           {
-            id: 2,
+            id: '2',
             topic: 'Childcare',
             spaces,
           },
           {
-            id: 3,
+            id: '3',
             topic: 'Environment',
             spaces,
           },
@@ -90,31 +130,29 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   }
   return (
     <DefaultLayout>
+      <HoliModal
+        show={showSearchModal}
+        onDismiss={closeModal}
+        testID="spaces-search-modal"
+        label={t('search.title')}
+        autoHeight={false}
+        // Smaller devides use the whole screen and
+        // larger ones should have more space above for clicking the backdrop pane
+        minRelativeHeight={deviceHeight > 750 ? 0.85 : 0}
+      >
+        <SpacesSearchForm onSubmit={submitSearch} topicsQuery={topicsQuery} locationQuery={locationQuery} />
+      </HoliModal>
       <View style={mixins.container}>
         <HoliText size="large" style={{ marginTop: 48, marginBottom: 48 }}>
-          {/*PLACEHOLDER FOR FILTER HEADER*/ 'Discover [ALL] spaces in [Berlin].'}
+          {
+            /*
+             * PLACEHOLDER FOR FILTER HEADER
+             * topicsQuery={topicsQuery} locationQuery={locationQuery}
+             */
+            'Discover [ALL] spaces in [Berlin].'
+          }
         </HoliText>
-
-        {mockData.matchedSpaces.length ? (
-          <View style={{ marginBottom: 12 }}>
-            {mockData.matchedSpaces.map((entry) => (
-              <TopicSlider key={`unmatched_${entry.id}`} {...entry} />
-            ))}
-          </View>
-        ) : (
-          <HoliText>No Matches</HoliText>
-        )}
-
-        {mockData.unmatchedSpaces.length > 0 && (
-          <View style={{ marginBottom: 12 }}>
-            <HoliHeading size="large" style={{ marginBottom: 24 }}>
-              {t('spaces.otherListing')}
-            </HoliHeading>
-            {mockData.unmatchedSpaces.map((entry) => (
-              <TopicSlider key={`unmatched_${entry.id}`} {...entry} />
-            ))}
-          </View>
-        )}
+        <SpacesListing data={mockData} />
       </View>
     </DefaultLayout>
   )
