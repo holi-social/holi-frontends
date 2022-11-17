@@ -87,7 +87,7 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
     },
   })
 
-  const spaces = useMemo(() => data?.spaces || [], [data])
+  const spaces = useMemo(() => data?.spaces.data || [], [data])
 
   useEffect(() => {
     if (spaces.length > 0) {

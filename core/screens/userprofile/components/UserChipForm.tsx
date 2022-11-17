@@ -9,7 +9,8 @@ import {
   UpdateAuthenticatedUserResponse,
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
-import type { User, UserChipGeneric } from '@holi/core/screens/userprofile/types'
+import type { Term, User } from '@holi/core/screens/userprofile/types'
+import { termComparator } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
@@ -17,29 +18,28 @@ import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalCont
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors } from '@holi/ui/styles/globalVars'
 
-import { ChipValueWithTranslation, toValuesWithTranslation } from './userChipHelper'
-
 type UserChipFormProps = {
   user: User
   onCancel?: () => void
   onSubmit?: (user: User) => void
-  typeMetadata: UserChipGeneric<any> // eslint-disable-line @typescript-eslint/no-explicit-any
+  keyInUserObject: string
+  availableTerms: Term[]
   sortByTranslation?: boolean
 }
 
 const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
-  onSubmit,
-  typeMetadata,
-  sortByTranslation = true,
   user,
-}) => {
+  onSubmit,
+  keyInUserObject,
+  availableTerms,
+}: UserChipFormProps) => {
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserResponse>(updateUserMutation)
-  const [values, setValues] = useState(
-    user ? (user[typeMetadata.keyInUserObject as keyof typeof user] as string[]) : []
+  const [selectedTerms, setSelectedTerms] = useState<Term[]>(
+    user ? (user[keyInUserObject as keyof typeof user] as Term[]) : []
   )
   const [filterString, setFilterString] = useState<string>('')
-  const [orderedValues, setOrderedValues] = useState<ChipValueWithTranslation[]>([])
-  const [filteredValues, setFilteredValues] = useState<ChipValueWithTranslation[]>([])
+  const [orderedTerms, setOrderedTerms] = useState<Term[]>([])
+  const [filteredTerms, setFilteredTerms] = useState<Term[]>([])
   const [saved, setSaved] = useState(false)
 
   const { t } = useTranslation()
@@ -51,33 +51,30 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
     * currently unselected items go below, alphabetically sorted by translation
     This order is kept until the selection process is done and the layer is closed.
     */
-    const unselectedValues = typeMetadata.allValues.filter((value) => !values.includes(value))
-    setOrderedValues([
-      ...toValuesWithTranslation(typeMetadata, values, t, sortByTranslation),
-      ...toValuesWithTranslation(typeMetadata, unselectedValues, t, sortByTranslation),
-    ])
+    const unselectedTerms = availableTerms.filter((term) => !selectedTerms.find((t) => t.id === term.id))
+    setOrderedTerms([...selectedTerms.sort(termComparator), ...unselectedTerms.sort(termComparator)])
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(
     () =>
-      setFilteredValues(
+      setFilteredTerms(
         filterString === ''
-          ? orderedValues
-          : orderedValues.filter(({ t: label }) => label.toLowerCase().includes(filterString.toLowerCase()))
+          ? orderedTerms
+          : orderedTerms.filter((term: Term) => term.title.toLowerCase().includes(filterString.toLowerCase()))
       ),
-    [orderedValues, filterString]
+    [orderedTerms, filterString]
   )
 
   const styles = getStyles()
 
   const submit = async () => {
     const input: UpdateAuthenticatedUserInput = {} as UpdateAuthenticatedUserInput
-    ;(input as any)[typeMetadata.keyInUserObject] = values // eslint-disable-line @typescript-eslint/no-explicit-any
+    ;(input as any)[keyInUserObject] = selectedTerms.map((value: Term) => value.id) // eslint-disable-line @typescript-eslint/no-explicit-any
 
     const result = await updateUser({ variables: { input } })
     if (!error && result.data) {
       setSaved(true)
-      onSubmit && onSubmit(result.data.authenticatedUser)
+      onSubmit && onSubmit(result.data.updateAuthenticatedUser.authenticatedUser)
     }
   }
 
@@ -95,13 +92,13 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
     displayError(error, t('user.profileForm.error.saving'))
   }
 
-  const updateValues = (value: string) => {
-    if (values.includes(value)) {
+  const updateValues = (term: Term) => {
+    if (selectedTerms.includes(term)) {
       // remove the value
-      setValues((previous) => previous.filter((previousName) => previousName !== value))
+      setSelectedTerms((previousTerms: Term[]) => previousTerms.filter((previousTerm) => previousTerm !== term))
     } else {
       // add the value
-      setValues((previous) => [...previous, value])
+      setSelectedTerms((previousTerms: Term[]) => [...previousTerms, term])
     }
   }
 
@@ -109,41 +106,41 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
     <HoliModalContentWrapper
       actionButtonText={t('user.profileForm.save')}
       onActionButtonPress={submit}
-      headlineText={t(`user.${typeMetadata.keyInUserObject}.form.headline`)}
+      headlineText={t(`user.${keyInUserObject}.form.headline`)}
       prependChildren={notificationComponent}
       style={styles.modalWrapper}
       loading={loading || saved}
       testID="user-profile-chipform"
     >
       <View style={styles.mainContainer}>
-        <HoliText style={styles.subline}>{t(`user.${typeMetadata.keyInUserObject}.form.subline`)}</HoliText>
+        <HoliText style={styles.subline}>{t(`user.${keyInUserObject}.form.subline`)}</HoliText>
 
         <HoliTextInput
-          accessibilityLabel={t(`profile.${typeMetadata.keyInUserObject}.filter.placeholder`)}
+          accessibilityLabel={t(`profile.${keyInUserObject}.filter.placeholder`)}
           value={filterString}
-          placeholder={t(`profile.${typeMetadata.keyInUserObject}.filter.placeholder`)}
-          onChange={(text) => setFilterString(text)}
+          placeholder={t(`profile.${keyInUserObject}.filter.placeholder`)}
+          onChange={(text: string) => setFilterString(text)}
           trailingIcon="search"
           style={styles.input}
         />
 
         <HoliChipRow editable={false} editButtonLabel="">
-          {filteredValues.map(({ value, t }) => {
+          {filteredTerms.map((term: Term) => {
             return (
               <HoliChip
-                key={value}
-                checked={values.includes(value)}
-                onPress={() => updateValues(value)}
-                text={t}
-                label={t}
+                key={term.id}
+                checked={selectedTerms.includes(term)}
+                onPress={() => updateValues(term)}
+                text={term.title}
+                label={term.title}
                 style={styles.chip}
               />
             )
           })}
         </HoliChipRow>
 
-        {filteredValues.length === 0 && (
-          <HoliText style={styles.subline}>{t(`profile.${typeMetadata.keyInUserObject}.filter.empty`)}</HoliText>
+        {filteredTerms.length === 0 && (
+          <HoliText style={styles.subline}>{t(`profile.${keyInUserObject}.filter.empty`)}</HoliText>
         )}
       </View>
     </HoliModalContentWrapper>
