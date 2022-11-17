@@ -1,17 +1,29 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import React, { useEffect } from 'react'
 
-// Lexical React plugins are React components, which makes them
-// highly composable. Furthermore, you can lazy load plugins if
-// desired, so you don't pay the cost for plugins until you
-// actually use them.
-
-const LexicalFocusPlugin: React.FC = () => {
+type SomeProps = {
+  initialValue?: string
+}
+const LexicalFocusPlugin: React.FC<SomeProps> = ({ initialValue }) => {
   const [editor] = useLexicalComposerContext()
 
   useEffect(() => {
-    // Focus the editor when the effect fires!
     editor.focus()
+
+    if (initialValue) {
+      // see https://lexical.dev/docs/concepts/editor-state
+      editor.update(() => {
+        // TODO: hand over inital content here ???
+        // const html = getHtmlFromPureText(initialValue, dummyUser)
+        // const dom = new DOMParser().parseFromString(html || '', 'text/html')
+        // const nodes = $generateNodesFromDOM(editor, dom)
+        // $getRoot().append(nodes[0])
+        // $getRoot().selectEnd()
+        // $getRoot().select()
+        // $insertNodes(nodes)
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor])
 
   return null

@@ -94,6 +94,7 @@ export class LexicalMentionNode extends TextNode {
 
   // display element in input field
   createDOM(config: EditorConfig): HTMLElement {
+    console.log('## config', config)
     const mentionElement = super.createDOM(config)
     mentionElement.setAttribute(MENTION_DATA_ATTRIBUTE, this.__userId)
     mentionElement.style.cssText = mentionStyle

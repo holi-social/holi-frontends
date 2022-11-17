@@ -6,32 +6,21 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin'
 import { EditorState, LexicalEditor } from 'lexical'
+// import { $createParagraphNode, $createTextNode, $getRoot } from 'lexical'
+// import { dummyUser } from 'packages/ui/helper/dummyUser'
 // import { $getRoot, $getSelection, EditorState, LexicalEditor } from 'lexical'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import type { HoliRichTextInputProps } from '@holi/ui/components/organisms/HoliRichTextInput'
 import LexicalFocusPlugin from '@holi/ui/helper/LexicalFocusPlugin'
 import { LexicalMentionNode } from '@holi/ui/helper/LexicalMentionNode'
-import LexicalMentionsPlugin, { getHtmlFromPureText, getPureTextFromHtml } from '@holi/ui/helper/LexicalMentionsPlugin'
-import { dummyUser } from '@holi/ui/helper/dummyUser'
+import LexicalMentionsPlugin, { getPureTextFromHtml } from '@holi/ui/helper/LexicalMentionsPlugin'
 import { colors } from '@holi/ui/styles/globalVars'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = '', placeholder = '...', ...props }) => {
   const inputId = `richtext_input-${Math.random()}`
-
-  // TODO insert initialValue
-  const initalHtml = getHtmlFromPureText(initalValue, dummyUser)
-  console.log('inital html:', initalHtml)
-
-  useEffect(() => {
-    document.getElementById(inputId)?.focus()
-    return () => {
-      console.log('### unmount')
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   // When the editor changes, you can get notified via the
   // LexicalOnChangePlugin!
@@ -54,9 +43,25 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = ''
     console.error(error)
   }
 
+  // TODO: How to insert inital content ?????????????
+  // see https://stackoverflow.com/questions/71976652/with-lexical-how-do-i-set-default-initial-text
+  // const initalJson =
+  //   '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"hello","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+  // const initialJson2 = JSON.stringify(createJsonFromPureText('Hello @0001 and @0002', dummyUser))
+
   const lexicalConfig = {
     namespace: 'HoliRichTextInput',
     nodes: [LexicalMentionNode],
+    // editorState: initalJson,
+    // editorState:
+    //   '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"hello","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}',
+    // editorState: () => {
+    //   const paragraph = $createParagraphNode()
+    //   const text = $createTextNode('sdfsdf')
+    //   paragraph.append(text)
+    //   $getRoot().append(paragraph)
+    //   $getRoot().selectEnd()
+    // },
     onError,
   }
 
@@ -70,7 +75,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = ''
         />
         <OnChangePlugin onChange={onChange} />
         <HistoryPlugin />
-        <LexicalFocusPlugin />
+        <LexicalFocusPlugin initialValue={'Hello @0001 and @0002'} />
         <LexicalMentionsPlugin />
       </LexicalComposer>
     </View>

@@ -45,7 +45,9 @@ const htmlNode = (match?: string) => {
 const mentionNode = (usersList: SuggestionItem[], match?: string) => {
   if (!match) return ''
   const userId = match.slice(1)
-  const userName = usersList.find((user) => user.id === userId)?.name
+  const userName = usersList.find((user) => user.id === userId)?.name || ''
+  // TODO: reuse $createMentionNode !!
+  // return $createMentionNode(userName, userId, `@${userName}`)
   return `<span ${MENTION_DATA_ATTRIBUTE}="${userId}">${userName}</span>`
 }
 export const getHtmlFromPureText = (textWithMentions: string, usersList: SuggestionItem[]): string | undefined => {
@@ -56,7 +58,44 @@ export const getHtmlFromPureText = (textWithMentions: string, usersList: Suggest
     (accumulator, curr, index) => accumulator + htmlNode(curr) + mentionNode(usersList, allMentions?.[index]),
     ''
   )
-  return `<p>${textWithReplacedParts}</p>`
+  return textWithReplacedParts && textWithReplacedParts !== '' ? `<p>${textWithReplacedParts}</p>` : ''
+}
+
+// TODO: FIXME: This is dummy !!!!!!!
+// https://lexical.dev/docs/concepts/serialization
+const createJsonNode = (type: 'root' | 'paragraph' | 'text', text?: string) => {
+  return {
+    direction: 'ltr',
+    format: '',
+    indent: 0,
+    type: type,
+    version: 1,
+    ...(type === 'text' && { text, mode: 'normal' }),
+  }
+}
+export const createJsonFromPureText = (textWithMentions: string, usersList: SuggestionItem[]) => {
+  const regex = /@\w*/g
+  const allMentions = textWithMentions.match(regex)
+  const textParts = textWithMentions.split(regex)
+  const rootNode = createJsonNode('root')
+  const pNode = createJsonNode('paragraph')
+  const children = []
+  textParts.map((part, index) => {
+    if (part && part !== '') {
+      const textNode = createJsonNode('text', part)
+      children.push(textNode)
+    }
+    const mentionString = allMentions?.[index]
+    if (mentionString) {
+      const userId = mentionString.slice(1)
+      const userName = usersList.find((user) => user.id === userId)?.name || ''
+      const mentionNode = $createMentionNode(userName, userId, `@${userName}`)
+      children.push(mentionNode)
+    }
+  })
+  pNode.children = children
+  rootNode.children = [pNode]
+  return rootNode
 }
 
 const useMentionLookupService = (mentionString: string | null) => {
