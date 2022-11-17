@@ -23,7 +23,7 @@
   dependencies: [] # explicitly disable artifact usage
   script:
     - 'cd apps/mobile'
-    - 'eas build --platform $BUILD_PLATFORM --profile $BUILD_PROFILE'
+    - 'eas build --platform $BUILD_PLATFORM --profile $BUILD_PROFILE' --non-interactive
     - 'export ARTIFACT_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform $BUILD_PLATFORM --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
     - >
       if [ "$KEEP_ARTIFACTS" == "true" ]; then
