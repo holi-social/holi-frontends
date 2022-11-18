@@ -2,7 +2,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -23,7 +22,6 @@ export type OwnProfileViewProps = {
 }
 
 const OwnProfileView: React.VFC<OwnProfileViewProps> = ({ toggleEditMode, user }: OwnProfileViewProps) => {
-  const { navigate } = useRouting()
   const { t } = useTranslation()
 
   const mixins = useStyleMixins()
@@ -31,38 +29,19 @@ const OwnProfileView: React.VFC<OwnProfileViewProps> = ({ toggleEditMode, user }
   return (
     <>
       <View style={[mixins.container, styles.container]}>
-        <>
-          <UserProfileView user={user} contactPossible={false} />
-          <HoliButton
-            label={t('profile.edit')}
-            onPress={() => {
-              toggleEditMode('profile')
-            }}
-            transparent
-            inline
-            style={{ marginTop: 16 }}
-            testID="btn-open-profile-edit-view"
-          >
-            {t('profile.edit')}
-          </HoliButton>
-          <HoliButton
-            label={t('profile.logout')}
-            inline
-            onPress={() => navigate('/logout')}
-            transparent
-            testID="btn-to-logout"
-          >
-            {t('profile.logout')}
-          </HoliButton>
-          <HoliButton
-            label={t('profile.settings.overview.title')}
-            inline
-            onPress={() => navigate('/profile/settings')}
-            transparent
-          >
-            {t('profile.settings.overview.title')}
-          </HoliButton>
-        </>
+        <UserProfileView user={user} contactPossible={false} />
+        <HoliButton
+          label={t('profile.edit')}
+          onPress={() => {
+            toggleEditMode('profile')
+          }}
+          transparent
+          inline
+          style={{ marginTop: 16 }}
+          testID="btn-open-profile-edit-view"
+        >
+          {t('profile.edit')}
+        </HoliButton>
       </View>
       <HoliTabs
         style={{ marginTop: 24 }}

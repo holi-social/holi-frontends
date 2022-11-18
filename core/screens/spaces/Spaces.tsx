@@ -1,7 +1,6 @@
 import { useQuery } from '@apollo/client'
-import SpacesByTopic from 'core/screens/spaces/components/SpacesByTopic'
 import partition from 'lodash.partition'
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useLayoutEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -9,7 +8,8 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { displayError } from '@holi/core/errors/helpers'
-import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import SpacesByTopic from '@holi/core/screens/spaces/components/SpacesByTopic'
 import { topicsQuery } from '@holi/core/screens/spaces/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import { TopicsQueryResult } from '@holi/core/screens/userprofile/queries'
@@ -21,12 +21,14 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+const Spaces: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
-  const title = t('spaces.title')
   const mixins = useStyleMixins()
+  const { setOptions } = useUnifiedNavigation()
 
-  useNavigationHeader(navigation, { title: title })
+  useLayoutEffect(() => {
+    setOptions({ title: t('spaces.title') })
+  }, [setOptions, t])
 
   const { loading, data, error } = useQuery<TopicsQueryResult>(topicsQuery)
 
