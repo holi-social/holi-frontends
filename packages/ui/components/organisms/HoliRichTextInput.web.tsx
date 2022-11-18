@@ -68,16 +68,13 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = ''
   }
 
   return (
-    <View>
+    <View style={props.style}>
       {/* The View is needed for positioning the placeholder */}
       <LexicalComposer initialConfig={lexicalConfig}>
         <PlainTextPlugin
           ErrorBoundary={LexicalErrorBoundary}
           contentEditable={
-            <ContentEditable
-              testid={props.testID || 'richtext_input'}
-              style={StyleSheet.flatten([styles.inputDiv, props.style])}
-            />
+            <ContentEditable testid={props.testID || 'richtext_input'} style={StyleSheet.flatten(styles.inputDiv)} />
           }
           placeholder={<span style={styles.placeholder}>{placeholder}</span>}
         />
@@ -94,15 +91,12 @@ export default React.memo(HoliRichTextInput)
 
 const styles = StyleSheet.create({
   inputDiv: {
-    borderWidth: 0.5,
-    borderColor: colors.borderColorGrey,
-    borderStyle: 'solid',
-    borderRadius: 5,
     paddingLeft: 20,
     paddingRigjt: 20,
     paddingTop: 10,
     paddingBottom: 10,
     position: 'relative',
+    outline: 'none',
   },
   placeholder: {
     color: colors.fontColorGrey,
