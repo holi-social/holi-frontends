@@ -12,7 +12,7 @@ import { StyleSheet, View } from 'react-native'
 
 import type { HoliRichTextInputProps } from '@holi/ui/components/organisms/HoliRichTextInput'
 import HoliLexicalFocusPlugin from '@holi/ui/helper/HoliLexicalFocusPlugin'
-import HoliLexicalMentionsPlugin, { getPureTextFromHtml } from '@holi/ui/helper/HoliLexicalMentionsPlugin'
+import HoliLexicalMentionsPlugin, { $getPureTextFromHtml } from '@holi/ui/helper/HoliLexicalMentionsPlugin'
 import { HoliLexicalMentionsPluginNode } from '@holi/ui/helper/HoliLexicalMentionsPlugin.node'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -26,7 +26,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = ''
       // const selection = $getSelection()
       // const json = editorState.toJSON()
       const htmlString = $generateHtmlFromNodes(editor, null)
-      const pureText = getPureTextFromHtml(htmlString)
+      const pureText = $getPureTextFromHtml(htmlString)
       props.onChange?.(pureText)
     })
   }

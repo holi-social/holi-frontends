@@ -33,26 +33,6 @@ export type SerializedMentionNode = Spread<
 export const MENTION_DATA_ATTR_USER_ID = 'data-user-id'
 export const MENTION_DATA_ATTR = 'data-lexical-mention'
 
-const convertMentionElement = (domNode: HTMLElement): DOMConversionOutput | null => {
-  const textContent = domNode.textContent
-  const userId = domNode.getAttribute(MENTION_DATA_ATTR_USER_ID)
-
-  if (textContent !== null && userId) {
-    const node = $createMentionNode(textContent, userId, `@${textContent}`)
-    return {
-      node,
-    }
-  } else {
-    console.error(
-      '[HoliLexicalMentionsPluginNode] convertMentionElement() Couldnt convert element. Data missing.',
-      textContent,
-      userId
-    )
-  }
-
-  return null
-}
-
 export class HoliLexicalMentionsPluginNode extends TextNode {
   __userId: string
   __userName: string
@@ -129,7 +109,7 @@ export class HoliLexicalMentionsPluginNode extends TextNode {
           return null
         }
         return {
-          conversion: convertMentionElement,
+          conversion: $convertDomInJsonElement,
           priority: 1,
         }
       },
@@ -146,7 +126,6 @@ export const $createMentionNode = (
   userId: string,
   displayString?: string
 ): HoliLexicalMentionsPluginNode => {
-  console.log('createMentionNode with', displayString)
   const mentionNode = new HoliLexicalMentionsPluginNode(userName, userId, displayString)
   mentionNode.setMode('segmented').toggleDirectionless()
   return mentionNode
@@ -154,4 +133,24 @@ export const $createMentionNode = (
 
 export const $isMentionNode = (node: LexicalNode | null | undefined): node is HoliLexicalMentionsPluginNode => {
   return node instanceof HoliLexicalMentionsPluginNode
+}
+
+export const $convertDomInJsonElement = (domNode: HTMLElement): DOMConversionOutput | null => {
+  const textContent = domNode.textContent
+  const userId = domNode.getAttribute(MENTION_DATA_ATTR_USER_ID)
+
+  if (textContent !== null && userId) {
+    const node = $createMentionNode(textContent, userId, `@${textContent}`)
+    return {
+      node,
+    }
+  } else {
+    console.error(
+      '[HoliLexicalMentionsPluginNode] $convertDomInJsonElement() Couldnt convert element. Data missing.',
+      textContent,
+      userId
+    )
+  }
+
+  return null
 }

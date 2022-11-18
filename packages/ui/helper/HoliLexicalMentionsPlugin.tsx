@@ -117,7 +117,7 @@ export default HoliLexicalMentionsPlugin
  * E.g. '<p dir="ltr"><span>Hello </span><span data-user-id="Uschi Meyer" data-lexical-mention="true">@0001</span></p>'
  *  => 'Hello @0001'
  */
-export const getPureTextFromHtml = (htmlString: string): string => {
+export const $getPureTextFromHtml = (htmlString: string): string => {
   if (!document) throw new Error('[HoliLexicalMentionsPlugin] No web context.')
   const ele = document.createElement('div')
   ele.innerHTML = htmlString.replaceAll('<br>', '[br]')
@@ -130,12 +130,12 @@ export const getPureTextFromHtml = (htmlString: string): string => {
  * E.g. 'Hello @222222 and @666666'
  *  => '<p><span>Hello </span><span data-user-id="0001">Uschi Meyer</span><span> and </span><span data-user-id="0002">Paul Müller</span></p>'
  */
-const htmlNode = (match?: string) => {
+const createSpan = (match?: string) => {
   if (!match) return ''
   if (match === ' ') return ' '
   return `<span>${match}</span>`
 }
-const mentionNode = (usersList: SuggestionItem[], match?: string) => {
+const createMentionSpan = (usersList: SuggestionItem[], match?: string) => {
   if (!match || !usersList) return ''
   const userId = match.slice(1)
   const userName = usersList.find((user) => user.id === userId)?.name || ''
@@ -143,12 +143,15 @@ const mentionNode = (usersList: SuggestionItem[], match?: string) => {
   // return $createMentionNode(userName, userId, `@${userName}`)
   return `<span ${MENTION_DATA_ATTR}="${userId}">${userName}</span>`
 }
-export const getHtmlFromPureText = (textWithMentions: string, usersList: SuggestionItem[]): string | undefined => {
+export const $getHtmlStringFromPureText = (
+  textWithMentions: string,
+  usersList: SuggestionItem[]
+): string | undefined => {
   const regex = /@\w*/g
   const allMentions = textWithMentions.match(regex)
   const textParts = textWithMentions.split(regex)
   const textWithReplacedParts = textParts.reduce(
-    (accumulator, curr, index) => accumulator + htmlNode(curr) + mentionNode(usersList, allMentions?.[index]),
+    (accumulator, curr, index) => accumulator + createSpan(curr) + createMentionSpan(usersList, allMentions?.[index]),
     ''
   )
   return textWithReplacedParts && textWithReplacedParts !== '' ? `<p>${textWithReplacedParts}</p>` : ''
@@ -164,7 +167,7 @@ export const getHtmlFromPureText = (textWithMentions: string, usersList: Suggest
  * E.g. 'Hello @0001'
  *  => '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Hello ","type":"text","version":1},{"detail":1,"format":0,"mode":"segmented","style":"","text":"Uschi Meyer","type":"mention","version":1,"userId":"0001","userName":"Uschi Meyer","displayString":"@Uschi Meyer"}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
  */
-const createJsonNode = (type: 'root' | 'paragraph' | 'text', text?: string) => {
+const createNode = (type: 'root' | 'paragraph' | 'text', text?: string) => {
   return {
     direction: 'ltr',
     format: '',
@@ -174,16 +177,16 @@ const createJsonNode = (type: 'root' | 'paragraph' | 'text', text?: string) => {
     ...(type === 'text' && { text, mode: 'normal' }),
   }
 }
-export const createJsonFromPureText = (textWithMentions: string, usersList: SuggestionItem[]) => {
+export const $createJsonFromPureText = (textWithMentions: string, usersList: SuggestionItem[]) => {
   const regex = /@\w*/g
   const allMentions = textWithMentions.match(regex)
   const textParts = textWithMentions.split(regex)
-  const rootNode = createJsonNode('root')
-  const pNode = createJsonNode('paragraph')
+  const rootNode = createNode('root')
+  const pNode = createNode('paragraph')
   const children = []
   textParts.map((part, index) => {
     if (part && part !== '') {
-      const textNode = createJsonNode('text', part)
+      const textNode = createNode('text', part)
       children.push(textNode)
     }
     const mentionString = allMentions?.[index]
