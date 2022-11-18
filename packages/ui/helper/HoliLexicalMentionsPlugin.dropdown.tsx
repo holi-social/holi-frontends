@@ -1,29 +1,20 @@
-import { TypeaheadOption } from '@lexical/react/LexicalTypeaheadMenuPlugin'
 import * as React from 'react'
 import { StyleSheet } from 'react-native'
 
 import { colors } from '@holi/ui/styles/globalVars'
 
-export class MentionTypeaheadOption extends TypeaheadOption {
-  id: string
-  name: string
-  picture: JSX.Element
+import DropdownOption from './HoliLexicalMentionsPlugin.dropdownOption'
 
-  constructor(id: string, name: string, picture: JSX.Element) {
-    super(name)
-    this.id = id
-    this.name = name
-    this.picture = picture
-  }
-}
-
-export type LexicalMentionsDropdownProps = {
-  optionslist: MentionTypeaheadOption[]
+export type HoliLexicalMentionsDropdownProps = {
+  optionslist: DropdownOption[]
   selectedIndex: number
-  onClick: (i: number, option: MentionTypeaheadOption) => void
-  onMouseEnter: (i: number, option: MentionTypeaheadOption) => void
+  onClick: (i: number, option: DropdownOption) => void
+  onMouseEnter: (i: number, option: DropdownOption) => void
 }
-const LexicalMentionsDropdown: React.VFC<LexicalMentionsDropdownProps> = (props: LexicalMentionsDropdownProps) => {
+
+const HoliLexicalMentionsDropdown: React.VFC<HoliLexicalMentionsDropdownProps> = (
+  props: HoliLexicalMentionsDropdownProps
+) => {
   return (
     <ul style={styles.suggestionsContainer}>
       {props.optionslist.map((option, i: number) => (
@@ -47,7 +38,7 @@ const LexicalMentionsDropdown: React.VFC<LexicalMentionsDropdownProps> = (props:
   )
 }
 
-export default LexicalMentionsDropdown
+export default HoliLexicalMentionsDropdown
 
 const styles = StyleSheet.create({
   suggestionsContainer: {

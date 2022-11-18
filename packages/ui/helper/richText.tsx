@@ -1,4 +1,4 @@
-import { dummyUser } from '@holi/ui/helper/dummyUser'
+import { dummyUsers } from '@holi/ui/helper/dummyUsers'
 
 export type SuggestionItem = {
   id: string
@@ -12,7 +12,7 @@ export type Mention = {
 }
 
 export const findUserByName = (keyword: string): SuggestionItem[] => {
-  return dummyUser.filter((user) => user.name.toLowerCase().includes(keyword.toLowerCase()))
+  return dummyUsers.filter((user) => user.name.toLowerCase().includes(keyword.toLowerCase()))
 }
 
 const hashtags = [

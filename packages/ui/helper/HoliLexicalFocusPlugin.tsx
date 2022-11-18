@@ -1,7 +1,7 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import React, { useEffect } from 'react'
 
-const LexicalFocusPlugin: React.FC = () => {
+const HoliLexicalFocusPlugin: React.FC = () => {
   const [editor] = useLexicalComposerContext()
 
   useEffect(() => {
@@ -11,4 +11,4 @@ const LexicalFocusPlugin: React.FC = () => {
   return null
 }
 
-export default LexicalFocusPlugin
+export default HoliLexicalFocusPlugin

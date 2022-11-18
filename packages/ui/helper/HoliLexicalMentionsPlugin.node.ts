@@ -17,6 +17,8 @@ import {
   TextNode,
 } from 'lexical'
 
+import { colors } from '@holi/ui/styles/globalVars'
+
 export type SerializedMentionNode = Spread<
   {
     userId: string
@@ -28,20 +30,21 @@ export type SerializedMentionNode = Spread<
   SerializedTextNode
 >
 
-export const MENTION_DATA_ATTRIBUTE = 'data-user-id'
+export const MENTION_DATA_ATTR_USER_ID = 'data-user-id'
+export const MENTION_DATA_ATTR = 'data-lexical-mention'
 
 const convertMentionElement = (domNode: HTMLElement): DOMConversionOutput | null => {
   const textContent = domNode.textContent
-  const userId = domNode.getAttribute(MENTION_DATA_ATTRIBUTE)
+  const userId = domNode.getAttribute(MENTION_DATA_ATTR_USER_ID)
 
   if (textContent !== null && userId) {
-    const node = $createMentionNode(textContent, userId)
+    const node = $createMentionNode(textContent, userId, `@${textContent}`)
     return {
       node,
     }
   } else {
     console.error(
-      '[LexicalMentionNode] convertMentionElement() Couldnt convert element. Data missing.',
+      '[HoliLexicalMentionsPluginNode] convertMentionElement() Couldnt convert element. Data missing.',
       textContent,
       userId
     )
@@ -50,8 +53,7 @@ const convertMentionElement = (domNode: HTMLElement): DOMConversionOutput | null
   return null
 }
 
-const mentionStyle = 'background-color: rgba(24, 119, 232, 0.2)'
-export class LexicalMentionNode extends TextNode {
+export class HoliLexicalMentionsPluginNode extends TextNode {
   __userId: string
   __userName: string
   __displayString: string
@@ -60,12 +62,18 @@ export class LexicalMentionNode extends TextNode {
     return 'mention'
   }
 
-  static clone(node: LexicalMentionNode): LexicalMentionNode {
-    return new LexicalMentionNode(node.__userName, node.__userId, node.__displayString, node.__text, node.__key)
+  static clone(node: HoliLexicalMentionsPluginNode): HoliLexicalMentionsPluginNode {
+    return new HoliLexicalMentionsPluginNode(
+      node.__userName,
+      node.__userId,
+      node.__displayString,
+      node.__text,
+      node.__key
+    )
   }
 
-  static importJSON(serializedNode: SerializedMentionNode): LexicalMentionNode {
-    const node = $createMentionNode(serializedNode.displayString, serializedNode.userId)
+  static importJSON(serializedNode: SerializedMentionNode): HoliLexicalMentionsPluginNode {
+    const node = $createMentionNode(serializedNode.userName, serializedNode.userId, serializedNode.displayString)
     node.setTextContent(serializedNode.text)
     node.setFormat(serializedNode.format)
     node.setDetail(serializedNode.detail)
@@ -94,19 +102,22 @@ export class LexicalMentionNode extends TextNode {
 
   // display element in input field
   createDOM(config: EditorConfig): HTMLElement {
-    console.log('## config', config)
     const mentionElement = super.createDOM(config)
-    mentionElement.setAttribute(MENTION_DATA_ATTRIBUTE, this.__userId)
-    mentionElement.style.cssText = mentionStyle
-    mentionElement.className = 'mention'
+    mentionElement.setAttribute(MENTION_DATA_ATTR_USER_ID, this.__userId)
+    mentionElement.style.cssText = `color: ${colors.fontColorHighlighted}`
+    mentionElement.className = 'holi-mention'
+    // TODO: updating the visible string in the input field causes errors:
+    // 1. after replacement cursor is not behind the new string
+    // 2. if start typing directly, the replaced mention disappears
+    // mentionElement.textContent = this.__displayString
     return mentionElement
   }
 
   // export for save
   exportDOM(): DOMExportOutput {
     const element = document.createElement('span')
-    element.setAttribute(MENTION_DATA_ATTRIBUTE, this.__text)
-    element.setAttribute('data-lexical-mention', 'true')
+    element.setAttribute(MENTION_DATA_ATTR_USER_ID, this.__text)
+    element.setAttribute('MENTION_DATA_ATTR', 'true')
     element.textContent = `@${this.__userId}`
     return { element }
   }
@@ -114,7 +125,7 @@ export class LexicalMentionNode extends TextNode {
   static importDOM(): DOMConversionMap | null {
     return {
       span: (domNode: HTMLElement) => {
-        if (!domNode.hasAttribute('data-lexical-mention')) {
+        if (!domNode.hasAttribute('MENTION_DATA_ATTR')) {
           return null
         }
         return {
@@ -130,12 +141,17 @@ export class LexicalMentionNode extends TextNode {
   }
 }
 
-export const $createMentionNode = (userName: string, userId: string, displayString?: string): LexicalMentionNode => {
-  const mentionNode = new LexicalMentionNode(userName, userId, displayString)
+export const $createMentionNode = (
+  userName: string,
+  userId: string,
+  displayString?: string
+): HoliLexicalMentionsPluginNode => {
+  console.log('createMentionNode with', displayString)
+  const mentionNode = new HoliLexicalMentionsPluginNode(userName, userId, displayString)
   mentionNode.setMode('segmented').toggleDirectionless()
   return mentionNode
 }
 
-export const $isMentionNode = (node: LexicalNode | null | undefined): node is LexicalMentionNode => {
-  return node instanceof LexicalMentionNode
+export const $isMentionNode = (node: LexicalNode | null | undefined): node is HoliLexicalMentionsPluginNode => {
+  return node instanceof HoliLexicalMentionsPluginNode
 }

@@ -11,9 +11,9 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import type { HoliRichTextInputProps } from '@holi/ui/components/organisms/HoliRichTextInput'
-import LexicalFocusPlugin from '@holi/ui/helper/LexicalFocusPlugin'
-import { LexicalMentionNode } from '@holi/ui/helper/LexicalMentionNode'
-import LexicalMentionsPlugin, { getPureTextFromHtml } from '@holi/ui/helper/LexicalMentionsPlugin'
+import HoliLexicalFocusPlugin from '@holi/ui/helper/HoliLexicalFocusPlugin'
+import HoliLexicalMentionsPlugin, { getPureTextFromHtml } from '@holi/ui/helper/HoliLexicalMentionsPlugin'
+import { HoliLexicalMentionsPluginNode } from '@holi/ui/helper/HoliLexicalMentionsPlugin.node'
 import { colors } from '@holi/ui/styles/globalVars'
 
 const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = '', placeholder = '...', ...props }) => {
@@ -51,7 +51,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = ''
 
   const lexicalConfig = {
     namespace: 'HoliRichTextInput',
-    nodes: [LexicalMentionNode],
+    nodes: [HoliLexicalMentionsPluginNode],
     // editorState: initalJson,
     // editorState: () => {
     //   const parser = new DOMParser()
@@ -79,8 +79,8 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = ''
         />
         <OnChangePlugin onChange={onChange} />
         <HistoryPlugin />
-        <LexicalFocusPlugin />
-        <LexicalMentionsPlugin />
+        <HoliLexicalFocusPlugin />
+        <HoliLexicalMentionsPlugin />
       </LexicalComposer>
     </View>
   )
