@@ -12,6 +12,8 @@ import * as ReactDOM from 'react-dom'
 import { findUserByName } from '@holi/ui/helper/richText'
 import { findMentionMatches } from '@holi/ui/helper/richText'
 import type { SuggestionItem } from '@holi/ui/helper/richText'
+// import { useDebounce } from 'lexical/packages/lexical-playground/src/plugins/CodeActionMenuPlugin/utils'
+import { useDebounce } from '@holi/ui/helper/useDebounce'
 
 import { $createMentionNode, MENTION_DATA_ATTRIBUTE } from './LexicalMentionNode'
 import LexicalMentionsDropdown from './LexicalMentionsDropdown'
@@ -20,15 +22,6 @@ import { MentionTypeaheadOption } from './LexicalMentionsDropdown'
 const MAX_SUGGESTION_OPTIONS = 5
 
 const mentionsCache = new Map()
-
-const dummyLookupService = {
-  search: (string: string, callback: (results: Array<SuggestionItem>) => void): void => {
-    setTimeout(() => {
-      const results = findUserByName(string)
-      callback(results)
-    }, 500)
-  },
-}
 
 export const getPureTextFromHtml = (htmlString: string): string => {
   if (!document) throw new Error('[LexicalMentionsPlugin] No web context.')
@@ -101,6 +94,14 @@ export const createJsonFromPureText = (textWithMentions: string, usersList: Sugg
 const useMentionLookupService = (mentionString: string | null) => {
   const [results, setResults] = useState<Array<SuggestionItem>>([])
 
+  const debouncedSearch: (keyword: string) => void = useDebounce((keyword: string) => {
+    setTimeout(() => {
+      const results = findUserByName(keyword)
+      mentionsCache.set(mentionString, results)
+      setResults(results)
+    }, 50)
+  }, 500)
+
   useEffect(() => {
     const cachedResults = mentionsCache.get(mentionString)
 
@@ -117,11 +118,9 @@ const useMentionLookupService = (mentionString: string | null) => {
     }
 
     mentionsCache.set(mentionString, null)
-    dummyLookupService.search(mentionString, (newResults) => {
-      mentionsCache.set(mentionString, newResults)
-      setResults(newResults)
-    })
-  }, [mentionString])
+
+    debouncedSearch(mentionString)
+  }, [mentionString, debouncedSearch])
 
   return results
 }
