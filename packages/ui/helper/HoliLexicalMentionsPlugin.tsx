@@ -5,10 +5,12 @@ import {
   useBasicTypeaheadTriggerMatch,
 } from '@lexical/react/LexicalTypeaheadMenuPlugin'
 import { TextNode } from 'lexical'
+import { colors } from 'packages/ui/styles/globalVars'
 import { useCallback, useMemo, useState } from 'react'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
+import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { findMentionMatches } from '@holi/ui/helper/richText'
 import type { SuggestionItem } from '@holi/ui/helper/richText'
 
@@ -30,9 +32,24 @@ const HoliLexicalMentionsPlugin = (): JSX.Element | null => {
 
   const optionsList = useMemo(
     () =>
-      // TODO: HoliUserAvatar
       results
-        .map((item) => new DropdownOption(item.id, item.name, <i className="icon user" />))
+        .map(
+          (item) =>
+            new DropdownOption(
+              item.id,
+              item.name,
+              (
+                <HoliUserAvatar
+                  imageSrc={undefined}
+                  label={item.name}
+                  initials={item.name.slice(0, 2)}
+                  defaultColor={colors.backgroundColorYellowDark}
+                  size="micro"
+                  style={{ marginRight: 10 }}
+                />
+              )
+            )
+        )
         .slice(0, MAX_SUGGESTION_OPTIONS),
     [results]
   )
