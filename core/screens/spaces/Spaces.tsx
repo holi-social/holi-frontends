@@ -9,7 +9,7 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import { displayError } from '@holi/core/errors/helpers'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import SpacesFilterHeader from '@holi/core/screens/spaces/SpacesFilterHeader'
+import SpacesFilterHeader from '@holi/core/screens/spaces/components/SpacesFilterHeader'
 import TopicSlider from '@holi/core/screens/spaces/components/TopicSlider'
 import {
   FilteredSpacesResponse,

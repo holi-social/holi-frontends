@@ -3,7 +3,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { Platform } from 'react-native'
 
-import SpacesFilterTag from '@holi/core/screens/spaces/SpacesFilterTag'
+import SpacesFilterTag from '@holi/core/screens/spaces/components/SpacesFilterTag'
 import { Term } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
@@ -30,7 +30,50 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({
     }
     return location ? 'spaces.filter.topics.location' : 'spaces.filter.topics'
   }, [location, allTopics])
-  const placeholder = '<0></0>'
+  const topicPlaceholder = '<topicPlaceholder>'
+  const escape = (value) => {
+    if (value === topicPlaceholder) {
+      const offset = location ? 1 : 0
+      return topics.map((topic, index) => `<${index + offset}>${topic.title}</${index + offset}>`).join('')
+    }
+    return value
+  }
+
+  const tags = location
+    ? [
+        <SpacesFilterTag
+          key="location"
+          filter={'location'}
+          style={styles.filter}
+          label={t('spaces.filter.label')}
+          onPress={onPress}
+        />,
+      ]
+    : []
+  if (allTopics) {
+    tags.push(
+      <SpacesFilterTag
+        key="all"
+        filter={'all'}
+        style={styles.filter}
+        label={t('spaces.filter.label')}
+        onPress={onPress}
+      />
+    )
+  }
+  const topicTags = allTopics
+    ? []
+    : topics?.map((topic) => (
+        <SpacesFilterTag
+          filter={'topics'}
+          key={topic.id}
+          style={[styles.filterTopics]}
+          label={t('spaces.filter.label')}
+          onPress={onPress}
+        >
+          {topic.title}
+        </SpacesFilterTag>
+      ))
 
   return (
     <View style={[styles.headerContainer, style]}>
@@ -38,36 +81,12 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({
         <Trans
           t={t}
           i18nKey={i18nKey}
-          values={{ location, placeholder }}
+          values={{ location, topics: topicPlaceholder }}
           style={styles.tagContainer}
+          tOptions={{ interpolation: { escape } }}
           shouldUnescape={true}
-        >
-          {allTopics ? (
-            <SpacesFilterTag filter={'all'} style={styles.filter} label={t('spaces.filter.label')} onPress={onPress} />
-          ) : (
-            <View style={styles.topicContainer}>
-              {topics?.map((topic) => (
-                <SpacesFilterTag
-                  filter={'topics'}
-                  key={topic.id}
-                  style={[styles.filterTopics]}
-                  label={t('spaces.filter.label')}
-                  onPress={onPress}
-                >
-                  {topic.title}
-                </SpacesFilterTag>
-              ))}
-            </View>
-          )}
-          {location && (
-            <SpacesFilterTag
-              filter={'location'}
-              style={styles.filter}
-              label={t('spaces.filter.label')}
-              onPress={onPress}
-            />
-          )}
-        </Trans>
+          components={tags.concat(topicTags)}
+        />
       </HoliText>
     </View>
   )
