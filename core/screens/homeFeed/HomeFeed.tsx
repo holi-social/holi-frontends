@@ -1,4 +1,4 @@
-import React, { memo, useContext, useState } from 'react'
+import React, { memo, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
@@ -13,8 +13,6 @@ import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOf
 import UpdatesOfYourApps from '@holi/core/screens/homeFeed/components/UpdatesOfYourApps'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliRichInput from '@holi/ui/components/organisms/HoliRichTextInput'
 
 type HomeFeedProps = NativeStackScreenProps<HomeStackScreens>
 
@@ -32,15 +30,11 @@ const HomeFeed: React.VFC<HomeFeedProps> = ({ navigation }) => {
   const headerTitle = temporalGreeting(new Date().getHours(), t)
   const onScreenScroll = useScrollYHandler()
 
-  const [value, setValue] = useState('')
-
   useNavigationHeader(navigation, { title: headerTitle })
 
   return (
     <>
       <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={{ paddingTop: 40 }}>
-        <HoliRichInput placeholder="Type here ..." onChange={setValue} />
-        <HoliText>Eingabe: {value}</HoliText>
         <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
         <UpdatesOfYourApps style={styles.updatesOfYourApps} />
         {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}

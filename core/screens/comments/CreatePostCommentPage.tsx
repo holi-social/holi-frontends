@@ -8,7 +8,6 @@ import {
   StatusBar,
   StyleProp,
   StyleSheet,
-  TextInput,
   View,
   ViewStyle,
 } from 'react-native'
@@ -117,8 +116,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
           {/* Post content */}
           <PostDetail post={post} />
 
-          {/* Create comment block */}
-
+          {/* Comment input block */}
           <View style={[mixins.container, styles.inputWrapper, style]}>
             <CommentConnector style={styles.commentConnector} />
 
@@ -130,30 +128,13 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
                 defaultColor={user.avatarDefaultColor || ''}
                 size="small"
               />
-
-              {/* TODO: get rid of mobile-web-condition */}
-              {!isWeb && (
-                <HoliRichInput
-                  placeholder={t('insights.posts.comments.placeholder')}
-                  autofocus
-                  onChange={setText}
-                  style={styles.textInput2}
-                  testID="post-comment-input"
-                />
-              )}
-              {isWeb && (
-                <TextInput
-                  autoFocus
-                  onChangeText={setText}
-                  style={styles.textInput}
-                  placeholder={t('insights.posts.comments.placeholder')}
-                  placeholderTextColor={colors.fontColorGrey}
-                  textAlignVertical="top"
-                  multiline
-                  value={text}
-                  testID="post-comment-input"
-                />
-              )}
+              <HoliRichInput
+                placeholder={t('insights.posts.comments.placeholder')}
+                autofocus
+                onChange={setText}
+                style={styles.textInput2}
+                testID="post-comment-input"
+              />
             </View>
           </View>
         </ScrollView>
