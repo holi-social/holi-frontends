@@ -12,7 +12,7 @@ import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const dummyUserss = Array.from(' '.repeat(6), (_, idx) => getRandomUser(!(idx % 2)))
+const dummyUsers = Array.from(' '.repeat(6), (_, idx) => getRandomUser(!(idx % 2)))
 
 export type InsightsOfTheWeekProps = {
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
@@ -41,7 +41,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
         inline
       >
         <View style={styles.editorsButtonContent}>
-          <HoliUserAvatarPile users={dummyUserss} collapse />
+          <HoliUserAvatarPile users={dummyUsers} collapse />
           <HoliText size="default" testID="avatars-top-title" style={styles.editorsButtonText}>
             {t('insights.editors.editedBy')}
           </HoliText>
@@ -56,7 +56,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
       >
         <HoliUserCardsModalContent
           title={t('insights.editors.modal.title')}
-          users={dummyUserss}
+          users={dummyUsers}
           onDismiss={() => setShowEditorsModal(false)}
           testID="insight-editors"
         />
