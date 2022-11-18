@@ -12,6 +12,7 @@ export const CreatePostCommentMutation = gql`
   ${PostFragment}
   mutation CreatePostComment($input: CreatePostCommentInput!) {
     updatePostComment(input: $input) {
+      postComment
       postById {
         ...PostFull
       }
@@ -20,5 +21,6 @@ export const CreatePostCommentMutation = gql`
 `
 
 export type CreatePostCommentResponse = {
+  postComment: Comment
   postById: Post
 }
