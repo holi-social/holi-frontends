@@ -17,8 +17,6 @@ import { HoliLexicalMentionsPluginNode } from '@holi/ui/helper/HoliLexicalMentio
 import { colors } from '@holi/ui/styles/globalVars'
 
 const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = '', placeholder = '...', ...props }) => {
-  const inputId = `richtext_input-${Math.random()}`
-
   const onChange = (editorState: EditorState, editor: LexicalEditor) => {
     editorState.read(() => {
       // Read the contents of the EditorState here.
@@ -70,11 +68,17 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = ''
   }
 
   return (
-    <View style={{}}>
+    <View>
+      {/* The View is needed for positioning the placeholder */}
       <LexicalComposer initialConfig={lexicalConfig}>
         <PlainTextPlugin
           ErrorBoundary={LexicalErrorBoundary}
-          contentEditable={<ContentEditable id={inputId} style={StyleSheet.flatten([styles.inputDiv, props.style])} />}
+          contentEditable={
+            <ContentEditable
+              testid={props.testID || 'richtext_input'}
+              style={StyleSheet.flatten([styles.inputDiv, props.style])}
+            />
+          }
           placeholder={<span style={styles.placeholder}>{placeholder}</span>}
         />
         <OnChangePlugin onChange={onChange} />
