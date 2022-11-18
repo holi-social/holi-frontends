@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { GestureResponderEvent, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 import { Platform } from 'react-native'
 
 import SpacesFilterTag from '@holi/core/screens/spaces/components/SpacesFilterTag'
@@ -31,13 +31,16 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({
     return location ? 'spaces.filter.topics.location' : 'spaces.filter.topics'
   }, [location, allTopics])
   const topicPlaceholder = '<topicPlaceholder>'
-  const escape = (value) => {
-    if (value === topicPlaceholder) {
-      const offset = location ? 1 : 0
-      return topics.map((topic, index) => `<${index + offset}>${topic.title}</${index + offset}>`).join('')
-    }
-    return value
-  }
+  const escapeTopicPlaceholder = useCallback(
+    (value) => {
+      if (value === topicPlaceholder) {
+        const offset = location ? 1 : 0
+        return topics.map((topic, index) => `<${index + offset}>${topic.title}</${index + offset}>`).join('')
+      }
+      return value
+    },
+    [location, topics]
+  )
 
   const tags = location
     ? [
@@ -50,24 +53,21 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({
         />,
       ]
     : []
-  if (allTopics) {
-    tags.push(
-      <SpacesFilterTag
-        key="all"
-        filter={'all'}
-        style={styles.filter}
-        label={t('spaces.filter.label')}
-        onPress={onPress}
-      />
-    )
-  }
   const topicTags = allTopics
-    ? []
+    ? [
+        <SpacesFilterTag
+          key="all"
+          filter={'all'}
+          style={styles.filter}
+          label={t('spaces.filter.label')}
+          onPress={onPress}
+        />,
+      ]
     : topics?.map((topic) => (
         <SpacesFilterTag
           filter={'topics'}
           key={topic.id}
-          style={[styles.filterTopics]}
+          style={styles.filterTopics}
           label={t('spaces.filter.label')}
           onPress={onPress}
         >
@@ -76,19 +76,16 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({
       ))
 
   return (
-    <View style={[styles.headerContainer, style]}>
-      <HoliText size="extralarge">
-        <Trans
-          t={t}
-          i18nKey={i18nKey}
-          values={{ location, topics: topicPlaceholder }}
-          style={styles.tagContainer}
-          tOptions={{ interpolation: { escape } }}
-          shouldUnescape={true}
-          components={tags.concat(topicTags)}
-        />
-      </HoliText>
-    </View>
+    <HoliText size="extralarge" style={[styles.tagContainer, style]}>
+      <Trans
+        t={t}
+        i18nKey={i18nKey}
+        values={{ location, topics: topicPlaceholder }}
+        tOptions={{ interpolation: { escape: escapeTopicPlaceholder } }}
+        shouldUnescape={true}
+        components={tags.concat(topicTags)}
+      />
+    </HoliText>
   )
 }
 export default SpacesFilterHeader
@@ -99,22 +96,12 @@ const styles = StyleSheet.create({
     marginVertical: Platform.OS === 'web' ? 0 : -8,
   },
   filterTopics: {
-    marginBottom: 8,
+    marginBottom: 4,
     marginRight: 4,
   },
-  topicContainer: {
-    // flexDirection: 'row',
-    // flexWrap: 'wrap',
-    // flex: 0,
-  },
   tagContainer: {
+    display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    flexShrink: 0,
-  },
-  headerContainer: {
-    // flexDirection: 'row',
-    // flexWrap: 'wrap',
-    // alignItems: 'flex-start',
   },
 })

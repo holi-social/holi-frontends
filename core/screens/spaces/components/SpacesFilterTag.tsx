@@ -17,23 +17,21 @@ export type SpacesFilterTagProps = {
 
 const SpacesFilterTag = ({ filter, style, label, onPress, children }: SpacesFilterTagProps) => {
   return (
-    <View style={[styles.headerContainer, style]}>
-      <HoliButton label={label} style={[styles[filter], styles.filter]} inline onPress={onPress}>
-        {filter === 'location' && (
-          <View style={styles.locationIcon}>
-            <HoliLocalImage
-              imageSource={require('@holi/ui/assets/img/icons/location-2.svg')}
-              width={34}
-              height={34}
-              label={''}
-              isSvg
-            />
-          </View>
-        )}
-        <HoliText size="extralarge">{children}</HoliText>
-        {filter === 'all' && <HoliIcon icon="filter-3" size={16} style={styles.filterIcon} />}
-      </HoliButton>
-    </View>
+    <HoliButton label={label} style={[styles.filter, styles[filter], style]} inline onPress={onPress}>
+      {filter === 'location' && (
+        <View style={styles.locationIcon}>
+          <HoliLocalImage
+            imageSource={require('@holi/ui/assets/img/icons/location-2.svg')}
+            width={34}
+            height={34}
+            label={''}
+            isSvg
+          />
+        </View>
+      )}
+      <HoliText size="extralarge">{children}</HoliText>
+      {filter === 'all' && <HoliIcon icon="filter-3" size={16} style={styles.filterIcon} />}
+    </HoliButton>
   )
 }
 export default SpacesFilterTag
@@ -43,9 +41,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#ABFF8B',
   },
   filter: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: 48,
     borderColor: colors.borderColorBlack,
     borderWidth: 1,
@@ -54,11 +49,6 @@ const styles = StyleSheet.create({
   },
   filterIcon: {
     marginLeft: 4,
-  },
-  headerContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
   },
   location: {
     backgroundColor: colors.backgroundColorWhite,

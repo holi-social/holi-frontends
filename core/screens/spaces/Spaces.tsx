@@ -69,7 +69,7 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
             spaces,
           },
           {
-            id: '2',
+            id: '3',
             topic: 'Welfare',
             spaces,
           },
@@ -119,7 +119,7 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
         {mockData.matchedSpaces.length ? (
           <View style={{ marginBottom: 12 }}>
             {mockData.matchedSpaces.map((entry) => (
-              <TopicSlider key={`unmatched_${entry.id}`} {...entry} />
+              <TopicSlider key={`matched_${entry.id}`} {...entry} />
             ))}
           </View>
         ) : (
