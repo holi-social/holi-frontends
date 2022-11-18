@@ -33,14 +33,19 @@ export default PostDetailFooter
 const styles = StyleSheet.create({
   button: {
     paddingTop: 18,
-    paddingBottom: 50,
     paddingHorizontal: 24,
     borderTopColor: colors.borderColorGrey,
     backgroundColor: colors.backgroundColor,
     borderTopWidth: 1,
     ...Platform.select({
+      android: {
+        paddingBottom: 42,
+      },
+      ios: {
+        paddingBottom: 36,
+      },
       web: {
-        paddingBottom: 100,
+        paddingBottom: 89,
         width: '100%',
       },
     }),
