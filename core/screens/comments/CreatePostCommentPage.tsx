@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import {
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView as SafeAreaViewIOS,
+  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleProp,
@@ -14,7 +14,6 @@ import {
   ViewStyle,
 } from 'react-native'
 
-import { useHeaderHeight } from '@react-navigation/elements'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { logError } from '@holi/core/errors/helpers'
@@ -29,7 +28,6 @@ import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { default as SafeAreaViewAndroid } from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
@@ -47,19 +45,12 @@ type ScreenProps = NativeStackScreenProps<HomeStackScreens> & { style?: StylePro
 const CreatePostCommentPage: React.VFC<ScreenProps> = ({ style }: ScreenProps) => {
   const isWeb = Platform.OS === 'web'
 
-  // useHeaderHeight may not be used for web, and for web its value can be zero since it doesn't depend on KeyboardAvoidingView
-  const getHeaderHeight = isWeb ? () => 0 : useHeaderHeight
-
   const [text, setText] = useState('')
   const { useParam } = createParam<CreatePostCommentPageParams>()
   const [insightId] = useParam('insightId')
   const [postId] = useParam('postId')
   const scrollViewRef = useRef<ScrollView>(null)
   const { navigate, navigateBack } = useRouting()
-
-  const headerHeight = getHeaderHeight()
-
-  const keyboardAvoidingViewVerticalOffset = headerHeight
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -113,15 +104,10 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ style }: ScreenProps) =
 
   if (!post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
 
-  const SafeArea = Platform.OS === 'android' ? SafeAreaViewAndroid : SafeAreaViewIOS
-
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={keyboardAvoidingViewVerticalOffset}
-    >
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <StatusBar animated />
-      <SafeArea style={styles.wrapper}>
+      <SafeAreaView style={styles.wrapper}>
         <ScrollView
           ref={scrollViewRef}
           onLayout={() => scrollViewRef.current?.scrollToEnd()}
@@ -187,7 +173,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ style }: ScreenProps) =
             {t('insights.posts.comments.button')}
           </HoliButton>
         </View>
-      </SafeArea>
+      </SafeAreaView>
     </KeyboardAvoidingView>
   )
 }

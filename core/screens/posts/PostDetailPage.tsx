@@ -2,7 +2,7 @@ import { useLazyQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView as SafeAreaViewIOS, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -21,7 +21,6 @@ import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { default as SafeAreaViewAndroid } from '@holi/ui/components/atoms/SafeArea'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -96,8 +95,6 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
 
   const commenters = getPostCommenters(comments)
 
-  const SafeArea = Platform.OS === 'android' ? SafeAreaViewAndroid : SafeAreaViewIOS
-
   return (
     <>
       <StatusBar animated />
@@ -120,14 +117,14 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
         )}
       </DefaultLayout>
 
-      <SafeArea>
+      <SafeAreaView>
         <PostDetailFooter
           style={[styles.postCommentButton, isWeb && mixins.container]}
           onPress={() =>
             user ? navigate(`/insights/${insightId}/posts/${post.id}/comment`) : setShowLoginConfirmation(true)
           }
         />
-      </SafeArea>
+      </SafeAreaView>
       <HoliConfirmation
         show={showLoginConfirmation}
         label={t('auth.login.needed.title')}
