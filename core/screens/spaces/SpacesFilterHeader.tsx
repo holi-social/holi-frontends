@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     marginVertical: Platform.OS === 'web' ? 0 : -8,
   },
   filterMap: {
-    marginBottom: Platform.OS === 'web' ? 8 : 10,
+    marginBottom: 8,
   },
   filterTopics: {
     marginRight: 4,
