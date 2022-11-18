@@ -10,7 +10,7 @@ import {
   updateUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { Term, User } from '@holi/core/screens/userprofile/types'
-import { termComparator } from '@holi/core/screens/userprofile/types'
+import { termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
@@ -52,7 +52,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
     This order is kept until the selection process is done and the layer is closed.
     */
     const unselectedTerms = availableTerms.filter((term) => !selectedTerms.find((t) => t.id === term.id))
-    setOrderedTerms([...selectedTerms.sort(termComparator), ...unselectedTerms.sort(termComparator)])
+    setOrderedTerms([...selectedTerms.sort(termsByTitleComparator), ...unselectedTerms.sort(termsByTitleComparator)])
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(
