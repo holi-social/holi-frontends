@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import { userFullName } from '@holi/core/helpers'
+import { Task } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -10,8 +11,6 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors, vars } from '@holi/ui/styles/globalVars'
-
-import { Task } from './types'
 
 export type SpaceTaskTileProps = {
   style?: StyleProp<ViewStyle>
@@ -50,7 +49,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
         </View>
       </View>
       {task.skills.length > 0 && (
-        <View style={[styles.skillsContainer, styles.detailContainer]}>
+        <View style={styles.skillsContainer}>
           {task.skills.map((skill) => {
             return (
               <HoliText key={skill.id} size="small" style={styles.skill} numberOfLines={1}>
@@ -65,18 +64,22 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
           <HoliText size="small">{task.description}</HoliText>
         </HoliReadMore>
       </View>
-      <HoliButton
-        label={t('spaces.tasks.cta_claim')}
-        onPress={() => ({})} // TODO add action
-        testID={'spaces-tasks-cta-claim'}
-        inline
-        style={styles.detailContainer}
-      >
-        <HoliText size="small">{t('spaces.tasks.cta_claim')}</HoliText>
-      </HoliButton>
-      <HoliText size="extrasmall" style={styles.spotsClaimed}>
+      <View style={styles.buttonContainer}>
+        <HoliButton
+          label={t('spaces.tasks.cta_claim')}
+          onPress={() => ({})} // TODO add action
+          testID={'spaces-tasks-cta-claim'}
+          inline
+        >
+          <HoliText selectable={false} size="small">
+            {t('spaces.tasks.cta_claim')}
+          </HoliText>
+        </HoliButton>
+      </View>
+      {/* TODO: reinsert when claiming is implemented */}
+      {/* <HoliText size="extrasmall" style={styles.spotsClaimed}>
         {t('spaces.tasks.spots_claimed', { taken: task.slotsTaken, available: task.slotsAvailable })}
-      </HoliText>
+      </HoliText> */}
     </View>
   )
 }
@@ -124,17 +127,22 @@ const getStyles = (screenWidth: number) =>
     skillsContainer: {
       flexDirection: 'row',
       flexWrap: 'wrap',
+      marginBottom: 12,
     },
     skill: {
-      borderRadius: 64,
+      borderRadius: 16,
       borderWidth: 1,
       borderColor: colors.borderColorGrey,
       paddingHorizontal: 14,
       paddingVertical: 8,
       color: colors.fontColorGrey,
       height: 33,
-      marginRight: -1,
-      marginBottom: -1,
+      marginRight: 4,
+      marginBottom: 4,
+    },
+    buttonContainer: {
+      flex: 1,
+      justifyContent: 'flex-end',
     },
   })
 

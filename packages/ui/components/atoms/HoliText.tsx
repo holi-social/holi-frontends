@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { StyleProp, StyleSheet, Text, TextStyle } from 'react-native'
+import { StyleProp, StyleSheet, Text, TextProps, TextStyle } from 'react-native'
 
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -7,7 +7,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 type HoliTextSize = 'extralarge' | 'large' | 'default' | 'small' | 'extrasmall' // for working code completion in vscode
 export const HoliTextSizes: HoliTextSize[] = ['large', 'default', 'small', 'extrasmall'] // keep in sync with all possible HoliTextSize values
 
-export interface HoliTextProps {
+export interface HoliTextProps extends TextProps {
   children?: React.ReactNode
   size?: HoliTextSize
   bold?: boolean
