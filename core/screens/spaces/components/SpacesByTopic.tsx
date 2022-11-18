@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import { Term } from 'core/screens/userprofile/types'
+import { Topic } from 'core/screens/userprofile/types'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
@@ -13,7 +13,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 const SPACES_PAGE_SIZE = 10
 
 type SpacesByTopicProps = {
-  topic: Term
+  topic: Topic
   style?: StyleProp<ViewStyle>
 }
 

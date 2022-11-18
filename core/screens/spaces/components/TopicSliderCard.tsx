@@ -3,6 +3,7 @@ import { Image, Platform, StyleProp, StyleSheet, Text, View, ViewStyle } from 'r
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Space } from '@holi/core/screens/spaces/types'
+import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
@@ -13,14 +14,14 @@ type TopicSliderCardProps = {
   style?: StyleProp<ViewStyle>
 }
 
+const createFullMemberList = (creator: User, members: User[]) =>
+  creator ? [creator, ...members.filter((user) => user.id !== creator?.id)] : members
+
 const TopicSliderCard: React.VFC<TopicSliderCardProps> = ({ space, style }: TopicSliderCardProps) => {
   const { navigate } = useRouting()
   const { id, title, description, mainImage, members, creator } = space
 
-  const allMembers = useMemo(
-    () => (creator ? [creator, ...members.filter((user) => user.id !== creator?.id)] : members),
-    [members, creator]
-  )
+  const allMembers = useMemo(() => createFullMemberList(creator, members), [members, creator])
 
   return (
     <HoliButton

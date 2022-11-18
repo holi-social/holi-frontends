@@ -1,4 +1,4 @@
-import { Term, User } from '@holi/core/screens/userprofile/types'
+import { Skill, User } from '@holi/core/screens/userprofile/types'
 
 export interface Space {
   id: string
@@ -21,5 +21,5 @@ export interface Task {
   slotsTaken: number
   location: string
   regularity: 'REGULARLY' | 'PROJECT_BASED' | 'ONE_TIME'
-  skills: Term[]
+  skills: Skill[]
 }

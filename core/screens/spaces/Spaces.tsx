@@ -13,7 +13,7 @@ import SpacesByTopic from '@holi/core/screens/spaces/components/SpacesByTopic'
 import { topicsQuery } from '@holi/core/screens/spaces/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import { TopicsQueryResult } from '@holi/core/screens/userprofile/queries'
-import { termComparator } from '@holi/core/screens/userprofile/types'
+import { termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -32,7 +32,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
 
   const { loading, data, error } = useQuery<TopicsQueryResult>(topicsQuery)
 
-  const topics = useMemo(() => data?.topics.data?.slice().sort(termComparator) || [], [data])
+  const topics = useMemo(() => data?.topics.data?.slice().sort(termsByTitleComparator) || [], [data])
 
   const { user } = useContext(UserContext)
   const [filteredTopics, otherTopics] = useMemo(() => {
