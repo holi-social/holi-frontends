@@ -2,7 +2,7 @@ import { useLazyQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -117,12 +117,14 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
         )}
       </DefaultLayout>
 
-      <PostDetailFooter
-        style={[styles.postCommentButton, isWeb && mixins.container]}
-        onPress={() =>
-          user ? navigate(`/insights/${insightId}/posts/${post.id}/comment`) : setShowLoginConfirmation(true)
-        }
-      />
+      <SafeAreaView>
+        <PostDetailFooter
+          style={[styles.postCommentButton, isWeb && mixins.container]}
+          onPress={() =>
+            user ? navigate(`/insights/${insightId}/posts/${post.id}/comment`) : setShowLoginConfirmation(true)
+          }
+        />
+      </SafeAreaView>
       <HoliConfirmation
         show={showLoginConfirmation}
         label={t('auth.login.needed.title')}
