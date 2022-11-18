@@ -7,6 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { displayError } from '@holi/core/errors/helpers'
+import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import TopicSlider from '@holi/core/screens/spaces/components/TopicSlider'
 import {
@@ -16,7 +17,11 @@ import {
 } from '@holi/core/screens/spaces/queries'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
@@ -36,11 +41,40 @@ const Spaces: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const [mockData, setMockData] = useState<FilteredSpacesResponse>(MockDefault)
-  const { setOptions } = useUnifiedNavigation()
+  const { setOptions, navigate } = useUnifiedNavigation()
 
   useLayoutEffect(() => {
     setOptions({ title: t('spaces.title') })
   }, [setOptions, t])
+
+  useLayoutEffect(() => {
+    const title = t('spaces.title')
+
+    setOptions({
+      title,
+      headerBackTitleVisible: true,
+      headerBackVisible: true,
+      headerTransparent: true,
+      headerStyle: { backgroundColor: colors.backgroundColorWhite },
+      headerTitle: () => null,
+      headerLeft: ({ tintColor }) => (
+        <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
+          {title}
+        </HeaderTitle>
+      ),
+      headerRight: ({ tintColor }) => (
+        <HoliHorizontalRow>
+          <HoliButton label={t('notifications.title')} inline transparent onPress={() => navigate('/notifications')}>
+            <HoliIcon icon="notification-2" size={24} color={tintColor} />
+          </HoliButton>
+
+          <HoliButton label={t('navigation.search')} inline transparent onPress={() => navigate('/search')}>
+            <HoliIcon icon="search" size={24} color={tintColor} />
+          </HoliButton>
+        </HoliHorizontalRow>
+      ),
+    })
+  }, [setOptions, navigate, t])
 
   const { loading, data, error } = useQuery<SpacesResponse>(spacesQuery, {
     variables: {
