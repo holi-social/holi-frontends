@@ -3,9 +3,8 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import ChatHome from '@holi/core/screens/ChatHome'
+import HeaderAnimated from '@holi/mobile/navigation/HeaderAnimated'
 import { colors } from '@holi/ui/styles/globalVars'
-
-import { CenterElement, LeftElement, RightElement } from './components'
 
 export type ChatStackScreensList = {
   ChatHome: undefined
@@ -17,25 +16,14 @@ const ChatStackNavigator: React.VFC = () => {
     <ChatStack.Navigator
       initialRouteName="ChatHome"
       screenOptions={{
-        headerShown: true,
+        header: HeaderAnimated,
+        headerTransparent: true,
         headerStyle: {
           backgroundColor: colors.backgroundColorWhite,
         },
-        headerTitleAlign: 'center',
-        headerShadowVisible: false,
       }}
     >
-      <ChatStack.Screen
-        name="ChatHome"
-        component={ChatHome}
-        options={{
-          headerBackTitleVisible: true,
-          headerBackVisible: true,
-          headerTitle: CenterElement,
-          headerLeft: LeftElement,
-          headerRight: RightElement,
-        }}
-      />
+      <ChatStack.Screen name="ChatHome" component={ChatHome} />
     </ChatStack.Navigator>
   )
 }

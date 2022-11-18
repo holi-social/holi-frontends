@@ -9,9 +9,10 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import NotFound from '@holi/core/errors/components/NotFound'
 import { displayError, isNotFoundError } from '@holi/core/errors/helpers'
-import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
+import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { UserByIdResponse, userByIdQuery } from '@holi/core/screens/userprofile/queries'
@@ -30,7 +31,7 @@ const { useParam } = createParam<UserProfileParams>()
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const UserProfile: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+const UserProfile: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const { replaceRoute } = useRouting()
   const mixins = useStyleMixins()
@@ -44,8 +45,17 @@ const UserProfile: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
     }
   }, [replaceRoute, isLoggedIn, userId, authenticatedUserId])
 
-  const profileTitle = t('profile.title')
-  useNavigationHeader(navigation, { title: profileTitle })
+  const { setOptions } = useUnifiedNavigation()
+  const onScreenScroll = useScrollYHandler()
+  useLayoutEffect(
+    () =>
+      setOptions({
+        title: t('profile.title'),
+        headerTransparent: true,
+        headerStyle: { backgroundColor: colors.backgroundColorWhite },
+      }),
+    [setOptions, t]
+  )
 
   const [fetchUser, { loading, error, data }] = useLazyQuery<UserByIdResponse>(userByIdQuery, {
     variables: { userId },
@@ -94,7 +104,7 @@ const UserProfile: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   const hasInfo = user.engagementLevel || hasInterests || hasSdgs || hasSkills
 
   return (
-    <DefaultLayout>
+    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
       <View style={[mixins.container, styles.container]}>
         <UserProfileView user={user} />
       </View>
