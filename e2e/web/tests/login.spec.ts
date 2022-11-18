@@ -23,8 +23,9 @@ test.describe('@Login', () => {
     // Login
     await defaultAuthSteps({ context, page })
     // Logout
+    await clickElementByTestId(page, 'btn-to-settings')
     await clickElementByTestId(page, 'btn-to-logout')
     await clickElementByTestId(page, 'confirm-logout-button')
-    await waitForElementByTestId(page, 'btn-to-login-form')
+    await waitForElementByTestId(page, 'home-feed-insights-heading')
   })
 })

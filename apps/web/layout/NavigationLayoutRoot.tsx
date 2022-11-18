@@ -2,8 +2,8 @@ import Head from 'next/head'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import HomeButtonBar from '@holi/web/components/navigation/HomeBottomBar'
-import HomeTopBar from '@holi/web/components/navigation/HomeTopBar'
+import HeaderAnimated from '@holi/web/components/navigation/HeaderAnimated'
+import FooterTabBar from '@holi/web/components/navigation/HomeBottomBar'
 
 import navigationLayoutRootStyles from './NavigationLayoutRoot.module.scss'
 
@@ -22,13 +22,15 @@ const DefaultLayout: React.FunctionComponent = ({ children }) => {
         Rule: https://dequeuniversity.com/rules/axe/4.4/region
       */}
       <header className={navigationLayoutRootStyles.header}>
-        <HomeTopBar />
+        <HeaderAnimated />
       </header>
 
       <main className={navigationLayoutRootStyles.main}>{children}</main>
 
       <footer className={navigationLayoutRootStyles.footer}>
-        <HomeButtonBar />
+        <div className={navigationLayoutRootStyles.footerInner}>
+          <FooterTabBar />
+        </div>
       </footer>
     </>
   )

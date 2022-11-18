@@ -3,7 +3,7 @@ import Head from 'next/head'
 import React, { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import HomeTopBar from '@holi/web/components/navigation/HomeTopBar'
+import HeaderAnimated from '@holi/web/components/navigation/HeaderAnimated'
 
 import donationsLayoutStyles from './NavigationLayoutDonationsApp.module.scss'
 import sharedLayoutStyles from './NavigationLayoutRoot.module.scss'
@@ -26,7 +26,7 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
         Rule: https://dequeuniversity.com/rules/axe/4.4/region
       */}
       <header className={mergedStyles.header}>
-        <HomeTopBar />
+        <HeaderAnimated />
       </header>
 
       <main className={mergedStyles.main}>{children}</main>

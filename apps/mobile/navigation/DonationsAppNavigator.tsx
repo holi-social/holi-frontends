@@ -2,15 +2,13 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import BackButton from '@holi/core/navigation/components/BackButton'
+import HeaderAnimated from '@holi//mobile/navigation/HeaderAnimated'
 import { colors } from '@holi/ui/styles/globalVars'
 
 import DonationsAppHome, { DonationsAppHomeParams } from '@holi-apps/donations/screens/DonationsAppHome'
 import DonationsAppProjectDetail, {
   DonationsAppProjectDetailParams,
 } from '@holi-apps/donations/screens/DonationsAppProjectDetail'
-
-import { CenterElement } from './components'
 
 export type DonationsAppScreensList = {
   DonationsAppHome: DonationsAppHomeParams
@@ -24,31 +22,16 @@ const DonationsAppNavigator: React.VFC = () => {
     <DonationsAppStack.Navigator
       initialRouteName="DonationsAppHome"
       screenOptions={{
+        header: HeaderAnimated,
         headerShown: true,
+        headerTransparent: true,
         headerStyle: {
           backgroundColor: colors.backgroundColorWhite,
         },
-        headerTitleAlign: 'center',
       }}
     >
-      <DonationsAppStack.Screen
-        name="DonationsAppHome"
-        component={DonationsAppHome}
-        options={{
-          headerBackVisible: false,
-          headerTitle: CenterElement,
-        }}
-      />
-      <DonationsAppStack.Screen
-        name="DonationsAppProjectDetail"
-        component={DonationsAppProjectDetail}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-          headerLeft: BackButton,
-          headerTitle: CenterElement,
-        }}
-      />
+      <DonationsAppStack.Screen name="DonationsAppHome" component={DonationsAppHome} />
+      <DonationsAppStack.Screen name="DonationsAppProjectDetail" component={DonationsAppProjectDetail} />
     </DonationsAppStack.Navigator>
   )
 }
