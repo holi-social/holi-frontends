@@ -143,6 +143,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ style }: ScreenProps) =
                 style={styles.textInput}
                 testID="post-comment-input"
               />
+              <HoliText>xx: {text}</HoliText>
             </View>
           </View>
         </ScrollView>

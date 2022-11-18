@@ -59,7 +59,10 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = ''
     setValue(String(text))
   }, [])
 
-  useEffect(() => props?.onChange?.(String(value)), [value, props])
+  useEffect(() => {
+    // TODO: replace `@[Uschi Meyer](123456)` with `@123456`
+    props?.onChange?.(String(value))
+  }, [value, props])
 
   return (
     <MentionInput
