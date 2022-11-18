@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { Platform } from 'react-native'
@@ -8,7 +8,6 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 
 export type SpacesFilterHeaderProps = {
   location?: string
-  label: string
   topics: string[]
   allTopics?: boolean
   onPress: (event: React.SyntheticEvent | GestureResponderEvent) => void
@@ -24,111 +23,49 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({
 }) => {
   const { t } = useTranslation()
 
+  const i18nKey = useMemo(() => {
+    if (allTopics) {
+      return location ? 'spaces.filter.all.location' : 'spaces.filter.all'
+    }
+    return location ? 'spaces.filter.topics.location' : 'spaces.filter.topics'
+  }, [location, allTopics])
+
   return (
     <View style={[styles.headerContainer, style]}>
-      {topics?.length === 0 && !location && (
-        <HoliText size="extralarge">
-          <Trans t={t} i18nKey="spaces.filter.all.topics" shouldUnescape={true}>
+      <HoliText size="extralarge">
+        <Trans t={t} i18nKey={i18nKey} values={{ location }}>
+          {allTopics ? (
             <SpacesFilterTag
-              filter={'text'}
-              tag={t('spaces.filter.allTopics')}
+              filter={'all'}
               style={styles.filter}
               label={t('spaces.filter.label.allTopics')}
               onPress={onPress}
             />
+          ) : (
+            <>
+              {topics?.map((topic, index) => (
+                <SpacesFilterTag
+                  filter={'topics'}
+                  key={index}
+                  style={[styles.filterMap, styles.filterTopics]}
+                  label={t('spaces.filter.label.topic')}
+                  onPress={onPress}
+                >
+                  {topic}
+                </SpacesFilterTag>
+              ))}
+            </>
+          )}
+          {location && (
             <SpacesFilterTag
               filter={'location'}
-              location={location}
               style={styles.filter}
               label={t('spaces:filter.label.location')}
               onPress={onPress}
             />
-          </Trans>
-        </HoliText>
-      )}
-      {allTopics && location && (
-        <>
-          <HoliText size="extralarge">
-            <Trans t={t} i18nKey="spaces.filter.all.topics.location" shouldUnescape={true}>
-              <SpacesFilterTag
-                filter={'text'}
-                tag={t('spaces.filter.allTopics')}
-                style={styles.filter}
-                label={t('spaces.filter.label.allTopics')}
-                onPress={onPress}
-              />
-              <SpacesFilterTag
-                filter={'location'}
-                location={location}
-                style={styles.filter}
-                label={t('spaces.filter.label.location')}
-                onPress={onPress}
-              />
-            </Trans>
-          </HoliText>
-        </>
-      )}
-      {location && topics?.length === 0 && !allTopics && (
-        <HoliText size="extralarge">
-          <Trans t={t} i18nKey="spaces.filter.discover.location.topics" shouldUnescape={true}>
-            <SpacesFilterTag
-              filter={'all'}
-              label={t('spaces.filter.label.all')}
-              style={styles.filter}
-              onPress={onPress}
-            />
-            <SpacesFilterTag
-              filter={'location'}
-              location={location}
-              style={styles.filterBottom}
-              label={t('spaces.filter.label.location')}
-              onPress={onPress}
-            />
-          </Trans>
-        </HoliText>
-      )}
-      {topics?.length !== 0 && !location && (
-        <>
-          {topics?.map((topic, index) => (
-            <SpacesFilterTag
-              filter={'topics'}
-              tag={topic}
-              key={index}
-              style={[styles.filterMap, styles.filterTopics]}
-              label={t('spaces.filter.label.topic')}
-              onPress={onPress}
-            />
-          ))}
-          <HoliText size="extralarge">
-            <Trans t={t} i18nKey="spaces.filter.topics" shouldUnescape={true} />
-          </HoliText>
-        </>
-      )}
-      {topics?.length !== 0 && !allTopics && location && (
-        <>
-          {topics?.map((topic, index) => (
-            <SpacesFilterTag
-              filter={'topics'}
-              tag={topic}
-              key={index}
-              style={[styles.filterMap, styles.filterTopics]}
-              label={t('spaces.filter.label.topic')}
-              onPress={onPress}
-            />
-          ))}
-          <HoliText size="extralarge" style={styles.filterMap}>
-            <Trans t={t} i18nKey="spaces.filter.topics.location" shouldUnescape={true}>
-              <SpacesFilterTag
-                filter={'location'}
-                location={location}
-                style={styles.filter}
-                label={t('spaces.filter.label.location')}
-                onPress={onPress}
-              />
-            </Trans>
-          </HoliText>
-        </>
-      )}
+          )}
+        </Trans>
+      </HoliText>
     </View>
   )
 }

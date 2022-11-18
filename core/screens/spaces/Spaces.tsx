@@ -63,6 +63,16 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
             topic: 'Animal Welfare',
             spaces,
           },
+          {
+            id: '2',
+            topic: 'Animal',
+            spaces,
+          },
+          {
+            id: '2',
+            topic: 'Welfare',
+            spaces,
+          },
         ],
         unmatchedSpaces: [
           {
@@ -96,7 +106,6 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
     <DefaultLayout>
       <View style={mixins.container}>
         <SpacesFilterHeader
-          label={t('spaces.filter.header')}
           style={styles.spacesContainer}
           topics={mockData.matchedSpaces.map((space) => space.topic)}
           location={MockDefault.filter.location}
