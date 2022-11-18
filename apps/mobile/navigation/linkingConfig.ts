@@ -43,7 +43,6 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
       },
     },
     Search: {
-      // initialRouteName: 'Search',
       screens: {
         Search: 'search',
       },

@@ -67,7 +67,7 @@ const HeaderAnimated: React.VoidFunctionComponent = () => {
   return (
     <Animated.View
       style={[styles.headerOuter, headerStyle, { top: headerHideAnimation }]}
-      accessible={true}
+      accessible
       accessibilityRole="navigation"
       accessibilityLabel={t('navigation.topNavigation')}
     >
@@ -100,13 +100,15 @@ const HeaderAnimated: React.VoidFunctionComponent = () => {
           )}
         </View>
 
-        {typeof headerTitle === 'function' ? (
-          headerTitle({ children: title || '', tintColor: headerTintColor })
-        ) : headerTitle !== undefined ? (
-          headerLeft
-        ) : (
-          <HeaderTitle tintColor={headerTintColor}>{title}</HeaderTitle>
-        )}
+        <View style={{ maxWidth: '70%' }}>
+          {typeof headerTitle === 'function' ? (
+            headerTitle({ children: title || '', tintColor: headerTintColor })
+          ) : headerTitle !== undefined ? (
+            headerLeft
+          ) : (
+            <HeaderTitle tintColor={headerTintColor}>{title}</HeaderTitle>
+          )}
+        </View>
 
         {headerRight && (
           <View style={[styles.sideHeaderElement, styles.rightHeaderElement]}>

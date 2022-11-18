@@ -28,10 +28,10 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({
       <HoliText
         adjustsFontSizeToFit
         minimumFontScale={0.5}
-        bold={size === 'large' ? false : true}
+        bold={size !== 'large'}
         size={size}
         {...props}
-        numberOfLines={2}
+        numberOfLines={1}
         style={[{ color: tintColor }, style]}
       >
         {children}

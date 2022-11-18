@@ -166,10 +166,6 @@ const RootNavigator: React.VFC = () => {
         options={{
           animation: 'slide_from_bottom',
           headerShown: false,
-          // headerTitleAlign: 'center',
-          // headerBackVisible: false,
-          // headerBackTitleVisible: false,
-          // headerLeft: DownButton,
         }}
       />
       <RootStack.Screen name="VolunteeringApp" component={VolunteeringAppNavigator} />

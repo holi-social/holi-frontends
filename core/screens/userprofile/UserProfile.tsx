@@ -47,7 +47,15 @@ const UserProfile: React.VFC<ScreenProps> = () => {
 
   const { setOptions } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
-  useLayoutEffect(() => setOptions({ title: t('profile.title') }), [setOptions, t])
+  useLayoutEffect(
+    () =>
+      setOptions({
+        title: t('profile.title'),
+        headerTransparent: true,
+        headerStyle: { backgroundColor: colors.backgroundColorWhite },
+      }),
+    [setOptions, t]
+  )
 
   const [fetchUser, { loading, error, data }] = useLazyQuery<UserByIdResponse>(userByIdQuery, {
     variables: { userId },
