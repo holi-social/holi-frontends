@@ -29,7 +29,7 @@ const HoliLocalImage: React.VoidFunctionComponent<HoliLocalImageProps> = ({
       width={width}
       height={height}
       objectFit={resizeModeForWeb(resizeMode)}
-      style={style}
+      style={[style]}
     />
   )
   //  } else {

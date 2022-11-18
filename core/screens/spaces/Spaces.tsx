@@ -107,7 +107,11 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
       <View style={mixins.container}>
         <SpacesFilterHeader
           style={styles.spacesContainer}
-          topics={mockData.matchedSpaces.map((space) => space.topic)}
+          topics={[
+            { id: '1', title: 'Animal Welfare' },
+            { id: '2', title: 'Animal' },
+            { id: '3', title: 'Welfare' },
+          ]}
           location={MockDefault.filter.location}
           allTopics={false}
           onPress={() => navigate('/apps/donations')}
