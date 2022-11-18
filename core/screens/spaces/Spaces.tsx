@@ -135,6 +135,6 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   spacesContainer: {
-    marginVertical: 16,
+    paddingVertical: 24,
   },
 })

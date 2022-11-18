@@ -3,7 +3,6 @@ import { Trans, useTranslation } from 'react-i18next'
 import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { Platform } from 'react-native'
 
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpacesFilterTag from '@holi/core/screens/spaces/SpacesFilterTag'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
@@ -16,10 +15,14 @@ export type SpacesFilterHeaderProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({ location, topics, allTopics = false, style }) => {
+const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({
+  location,
+  topics,
+  allTopics = false,
+  onPress,
+  style,
+}) => {
   const { t } = useTranslation()
-  const { navigate } = useRouting()
-  const onPress = () => navigate('/apps/donations')
 
   return (
     <View style={[styles.headerContainer, style]}>
@@ -30,14 +33,14 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({ location, topi
               filter={'text'}
               tag={t('spaces.filter.allTopics')}
               style={styles.filter}
-              label={t('spaces:filter.all')}
+              label={t('spaces.filter.label.allTopics')}
               onPress={onPress}
             />
             <SpacesFilterTag
               filter={'location'}
               location={location}
               style={styles.filter}
-              label={t('spaces:filter.location')}
+              label={t('spaces:filter.label.location')}
               onPress={onPress}
             />
           </Trans>
@@ -51,14 +54,14 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({ location, topi
                 filter={'text'}
                 tag={t('spaces.filter.allTopics')}
                 style={styles.filter}
-                label={t('spaces:filter.all')}
+                label={t('spaces.filter.label.allTopics')}
                 onPress={onPress}
               />
               <SpacesFilterTag
                 filter={'location'}
                 location={location}
                 style={styles.filter}
-                label={t('spaces:filter.location')}
+                label={t('spaces.filter.label.location')}
                 onPress={onPress}
               />
             </Trans>
@@ -68,12 +71,17 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({ location, topi
       {location && topics?.length === 0 && !allTopics && (
         <HoliText size="extralarge">
           <Trans t={t} i18nKey="spaces.filter.discover.location.topics" shouldUnescape={true}>
-            <SpacesFilterTag filter={'all'} label={t('spaces:filter.all')} style={styles.filter} onPress={onPress} />
+            <SpacesFilterTag
+              filter={'all'}
+              label={t('spaces.filter.label.all')}
+              style={styles.filter}
+              onPress={onPress}
+            />
             <SpacesFilterTag
               filter={'location'}
               location={location}
               style={styles.filterBottom}
-              label={t('spaces:filter.location')}
+              label={t('spaces.filter.label.location')}
               onPress={onPress}
             />
           </Trans>
@@ -87,7 +95,7 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({ location, topi
               tag={topic}
               key={index}
               style={[styles.filterMap, styles.filterTopics]}
-              label={t('spaces:filter.topic')}
+              label={t('spaces.filter.label.topic')}
               onPress={onPress}
             />
           ))}
@@ -104,7 +112,7 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({ location, topi
               tag={topic}
               key={index}
               style={[styles.filterMap, styles.filterTopics]}
-              label={t('spaces:filter.topic')}
+              label={t('spaces.filter.label.topic')}
               onPress={onPress}
             />
           ))}
@@ -114,7 +122,7 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({ location, topi
                 filter={'location'}
                 location={location}
                 style={styles.filter}
-                label={t('spaces:filter.location')}
+                label={t('spaces.filter.label.location')}
                 onPress={onPress}
               />
             </Trans>
