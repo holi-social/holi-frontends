@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   mainImage: {
-    aspectRatio: 1,
+    aspectRatio: 256 / 160,
     borderRadius: 8,
     height: Platform.OS === 'web' ? '100%' : 'auto',
   },
