@@ -103,6 +103,10 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
           allTopics={false}
           onPress={() => navigate('/apps/donations')}
         />
+        <HoliText size="large" style={{ marginTop: 48, marginBottom: 48 }}>
+          {/*PLACEHOLDER FOR FILTER HEADER*/ 'Discover [ALL] spaces in [Berlin].'}
+        </HoliText>
+
         {mockData.matchedSpaces.length ? (
           <View style={{ marginBottom: 12 }}>
             {mockData.matchedSpaces.map((entry) => (
