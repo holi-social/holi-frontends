@@ -2,7 +2,7 @@ import { useLazyQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
 import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView as SafeAreaViewIOS, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -21,6 +21,7 @@ import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { default as SafeAreaViewAndroid } from '@holi/ui/components/atoms/SafeArea'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -83,6 +84,8 @@ const PostDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => 
 
   const commenters = getPostCommenters(comments)
 
+  const SafeArea = Platform.OS === 'android' ? SafeAreaViewAndroid : SafeAreaViewIOS
+
   return (
     <>
       <StatusBar animated />
@@ -105,12 +108,14 @@ const PostDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => 
         )}
       </DefaultLayout>
 
-      <PostDetailFooter
-        style={[styles.postCommentButton, isWeb && mixins.container]}
-        onPress={() =>
-          user ? navigate(`/insights/${insightId}/posts/${post.id}/comment`) : setShowLoginConfirmation(true)
-        }
-      />
+      <SafeArea>
+        <PostDetailFooter
+          style={[styles.postCommentButton, isWeb && mixins.container]}
+          onPress={() =>
+            user ? navigate(`/insights/${insightId}/posts/${post.id}/comment`) : setShowLoginConfirmation(true)
+          }
+        />
+      </SafeArea>
       <HoliConfirmation
         show={showLoginConfirmation}
         label={t('auth.login.needed.title')}

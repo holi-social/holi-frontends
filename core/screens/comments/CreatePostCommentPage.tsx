@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import {
   KeyboardAvoidingView,
   Platform,
+  SafeAreaView as SafeAreaViewIOS,
   ScrollView,
   StatusBar,
   StyleProp,
@@ -17,7 +18,7 @@ import { useHeaderHeight } from '@react-navigation/elements'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { logError } from '@holi/core/errors/helpers'
-import { useKeyboard, userFullName } from '@holi/core/helpers'
+import { userFullName } from '@holi/core/helpers'
 import BackButton from '@holi/core/navigation/components/BackButton'
 import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
@@ -29,6 +30,7 @@ import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { default as SafeAreaViewAndroid } from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
@@ -57,11 +59,8 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
   const { navigate, navigateBack } = useRouting()
 
   const headerHeight = getHeaderHeight()
-  const { keyboardHeight } = useKeyboard()
 
-  const statusBarHeight = Platform.OS === 'ios' && !!keyboardHeight ? 20 : 0 // https://github.com/react-navigation/react-navigation/issues/3971
-
-  const keyboardAvoidingViewVerticalOffset = headerHeight + statusBarHeight
+  const keyboardAvoidingViewVerticalOffset = headerHeight
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -106,13 +105,15 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
 
   if (!post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
 
+  const SafeArea = Platform.OS === 'android' ? SafeAreaViewAndroid : SafeAreaViewIOS
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={keyboardAvoidingViewVerticalOffset}
     >
       <StatusBar animated />
-      <View style={styles.wrapper}>
+      <SafeArea style={styles.wrapper}>
         <ScrollView
           ref={scrollViewRef}
           onLayout={() => scrollViewRef.current?.scrollToEnd()}
@@ -178,7 +179,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
             {t('insights.posts.comments.button')}
           </HoliButton>
         </View>
-      </View>
+      </SafeArea>
     </KeyboardAvoidingView>
   )
 }

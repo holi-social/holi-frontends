@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         paddingBottom: 42,
       },
       ios: {
-        paddingBottom: 56,
+        paddingBottom: 36,
       },
       web: {
         paddingBottom: 89,
