@@ -53,13 +53,13 @@ const App: React.VoidFunctionComponent = () => {
   return (
     <>
       <StatusBar style="dark" />
-      <RootProvider>
-        <NavigationProvider>
+      <NavigationProvider>
+        <RootProvider>
           <ScrollYProvider>
             <RootNavigator />
           </ScrollYProvider>
-        </NavigationProvider>
-      </RootProvider>
+        </RootProvider>
+      </NavigationProvider>
     </>
   )
 }

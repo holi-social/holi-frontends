@@ -32,7 +32,7 @@ test.describe('@Profile', () => {
 
       // create a new user
       await defaultAuthSteps({ context, page, email, password }, 'registration')
-      await waitForElementByTestId(page, 'btn-to-logout')
+      await waitForElementByTestId(page, 'btn-to-settings')
     })
 
     test.afterAll(async () => {
@@ -41,7 +41,7 @@ test.describe('@Profile', () => {
 
     test.beforeEach(async () => {
       // visit own profile page via url
-      await page.goto('/profile/')
+      await page.goto('/profile')
     })
 
     test('view profile', async () => {
