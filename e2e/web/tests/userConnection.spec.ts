@@ -24,7 +24,7 @@ test.describe('@UserConnection', () => {
   test('request connection from another user profile page', async ({ context, page }) => {
     // create a new user
     await defaultAuthSteps({ context, page, email, password }, 'registration')
-    await waitForElementByTestId(page, 'btn-to-logout')
+    await waitForElementByTestId(page, 'btn-to-settings')
 
     // visit another user's profile page via url
     const userId = process.env.E2E_USER_ID || 'empty'
@@ -43,7 +43,7 @@ test.describe('@UserConnection', () => {
   test('cancel connection request from another user profile page', async ({ context, page }) => {
     // create a new user
     await defaultAuthSteps({ context, page, email, password }, 'login')
-    await waitForElementByTestId(page, 'btn-to-logout')
+    await waitForElementByTestId(page, 'btn-to-settings')
 
     // visit another user's profile page via url
     const userId = process.env.E2E_USER_ID || 'empty'

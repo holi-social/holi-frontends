@@ -1,0 +1,10 @@
+@import '@holi/ui/styles/globalVars/colors';
+
+.headerGradient {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-image: linear-gradient(to bottom, $background-color-black, transparentize($background-color-black, 0.4) 60%, transparentize($background-color-white, 1) 100%);
+}

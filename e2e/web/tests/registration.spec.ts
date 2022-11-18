@@ -98,16 +98,17 @@ test.describe('@Registration', () => {
       'registration'
     )
 
-    await waitForElementByTestId(page, 'btn-to-logout')
+    await waitForElementByTestId(page, 'btn-to-settings')
 
     // try to go to registration or login page with logged in user
     await page.goto('/registration')
-    await waitForElementByTestId(page, 'btn-to-logout')
+    await waitForElementByTestId(page, 'btn-to-settings')
 
     await page.goto('/login')
-    await waitForElementByTestId(page, 'btn-to-logout')
+    await waitForElementByTestId(page, 'btn-to-settings')
 
     // logout
+    await clickElementByTestId(page, 'btn-to-settings')
     await clickElementByTestId(page, 'btn-to-logout')
     await clickElementByTestId(page, 'confirm-logout-button')
 

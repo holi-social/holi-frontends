@@ -3,7 +3,7 @@ import { useCallback } from 'react'
 import { getActionFromState, getStateFromPath } from '@react-navigation/core'
 import { StackActions, useLinkTo, useNavigation } from '@react-navigation/native'
 
-import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
+import { useNavigationContext } from '@holi/core/navigation/hooks/NavigationContextProvider/NavigationContext'
 import { UseRouting } from '@holi/core/navigation/hooks/useRouting/types'
 import linkingConfig from '@holi/mobile/navigation/linkingConfig'
 
