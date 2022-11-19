@@ -44,15 +44,15 @@ export const createCache = () =>
       User: {
         fields: {
           interests: {
-            // fixes warning "Cache data may be lost when replacing the interests field of a User object."
+            // fixes warning "Cache data may be lost when replacing the `interests` field of a User object."
             merge: (existing, incoming) => incoming,
           },
           skills: {
-            // fixes warning "Cache data may be lost when replacing the skills field of a User object."
+            // fixes warning "Cache data may be lost when replacing the `skills` field of a User object."
             merge: (existing, incoming) => incoming,
           },
           sdgs: {
-            // fixes warning "Cache data may be lost when replacing the sdgs field of a User object."
+            // fixes warning "Cache data may be lost when replacing the `sdgs` field of a User object."
             merge: (existing, incoming) => incoming,
           },
         },
