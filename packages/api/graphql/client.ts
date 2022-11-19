@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache, from } from '@apollo/client'
+import { FieldPolicy, Reference } from '@apollo/client/cache'
 import { onError } from '@apollo/client/link/error'
-import { offsetLimitPagination } from '@apollo/client/utilities'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 
@@ -59,7 +59,7 @@ export const createCache = () =>
       },
       AppDonations_ProjectsResponse: {
         fields: {
-          projects: offsetLimitPagination(),
+          projects: indexAwareOffsetLimitPagination(),
         },
       },
       Query: {
@@ -73,6 +73,58 @@ export const createCache = () =>
       },
     },
   })
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type KeyArgs = FieldPolicy<any>['keyArgs']
+
+/**
+ * Provides an index-aware pagination function. an index-aware pagination function takes both offset and limit arguments
+ * into account, whereas Apollos built-in offsetLimitPagination ignores the limit part. The resulting issue (see also
+ * HOLI-2400) is that, given a cached query result of 5 items and a query with the same offset but 10 items, will result
+ * in no query being executed to fetch the missing 5 items.
+ *
+ * The implementation works by "remembering" individual items offsets and assuming a cache miss if any item requested
+ * (any item within the range between offset and offset+limit) is not present.
+ */
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+export function indexAwareOffsetLimitPagination<T = Reference>(keyArgs?: KeyArgs): FieldPolicy<T[]> {
+  return {
+    keyArgs,
+    merge: (existing, incoming, { variables }) => {
+      const offset = variables && variables.offset
+      const limit = variables && variables.limit
+      if (!existing) {
+        // empty cache
+        return incoming
+      } else if (offset === 0 && incoming.length >= existing.length) {
+        // incoming "overwrites" existing
+        return incoming
+      } else if (existing.length >= offset + limit) {
+        // within range of existing -> incoming overwrites at the correct indices
+        const prefix = existing.slice(0, offset)
+        const suffix = existing.slice(offset + limit)
+        return prefix.concat(incoming.concat(suffix))
+      } else {
+        // existing and incoming are not overlapping -> fill with empty values in between
+        const fill = Array(offset - existing.length).fill(null)
+        return existing.concat(fill).concat(incoming)
+      }
+    },
+    read: (existing, { variables }) => {
+      const offset = variables && variables.offset
+      const limit = variables && variables.limit
+      if (existing === undefined || existing.length < offset + limit) {
+        // cache miss if cache empty or existing contains fewer entries than requested
+        return undefined
+      } else if (existing.some((e) => e === null)) {
+        // cache miss if cache is missing individual items
+        return undefined
+      } else {
+        return existing
+      }
+    },
+  }
+}
 
 export const client = new ApolloClient({ link, cache: createCache() })
 
