@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { defaultAuthSteps } from '../helpers/auth'
+import { defaultAuthSteps, logout } from '../helpers/auth'
 import { navigateBackToHomeScreen } from '../helpers/navigation'
 import {
   fillFieldByTestId,
@@ -40,5 +40,11 @@ describe('@Comment', () => {
 
     // check if submit comment button disappears accordingly
     await waitForElementWithTestIdToBeNull('btn-submit-comment')
+
+    // clean up view
+    await scrollToElementWithTestId('nav-button-back', 'up')
+    await tapOnElementWithTestId('nav-button-back', 0)
+    await logout()
+    await scrollToElementWithTestId('home-feed-insights-heading', 'up', { maxAttempts: 3 })
   })
 })

@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client/core'
 
-import { PostFragment } from '@holi/core/screens/posts/queries'
+import { PostCommentFragment, PostFragment } from '@holi/core/screens/posts/queries'
 import { Post } from '@holi/core/screens/posts/types'
 
 export type CreatePostCommentInput = {
@@ -10,8 +10,13 @@ export type CreatePostCommentInput = {
 
 export const CreatePostCommentMutation = gql`
   ${PostFragment}
+  ${PostCommentFragment}
+
   mutation CreatePostComment($input: CreatePostCommentInput!) {
     updatePostComment(input: $input) {
+      postComment {
+        ...PostCommentFull
+      }
       postById {
         ...PostFull
       }
