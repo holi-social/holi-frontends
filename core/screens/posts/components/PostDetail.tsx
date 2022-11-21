@@ -20,10 +20,7 @@ const PostDetail: React.VFC<PostDetailProps> = ({ post }: PostDetailProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  const author = {
-    ...post.creator,
-    fullName: userFullName(post.creator),
-  }
+  const author = post.creator
 
   return (
     <View style={[mixins.container, styles.postView]}>

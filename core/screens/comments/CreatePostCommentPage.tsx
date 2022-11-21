@@ -16,7 +16,6 @@ import {
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { logError } from '@holi/core/errors/helpers'
-import { userFullName } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -122,7 +121,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ style }: ScreenProps) =
             <View style={styles.inputContainer}>
               <HoliUserAvatar
                 imageSrc={user.avatar}
-                label={userFullName(user)}
+                label={user.fullName}
                 initials={user.avatarLabel || ''}
                 defaultColor={user.avatarDefaultColor || ''}
                 size="small"

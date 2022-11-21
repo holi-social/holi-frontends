@@ -6,7 +6,7 @@ export interface Insight {
   title: string
   description: string
   datePublished: string
-  curator: User
+  creator: User
   headerImage: string
   topic: Topic
   posts: Post[]

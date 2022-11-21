@@ -118,10 +118,6 @@ export const sdgsQuery = gql`
   }
 `
 
-export interface SdgsQueryResult {
-  sdgs: SDG[]
-}
-
 export const skillsQuery = gql`
   query Skills {
     skills {
@@ -132,10 +128,6 @@ export const skillsQuery = gql`
     }
   }
 `
-
-export interface SkillsQueryResult {
-  skills: Skill[]
-}
 
 export const interestsQuery = gql`
   query Topics {
