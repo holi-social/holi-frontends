@@ -57,6 +57,7 @@ You need to install [Appium](https://appium.io/docs/en/about-appium/getting-star
 2. run `appium-doctor`
    (Then do all the things appium-doctor tells you to do / shows as error.)
    (You can also pass arguments to only check for a specific platform: `--ios` resp. `--android`)
+
    appium needs the following Android SDK Tools, that are not automatically installed and need to be installed via Android Studios SDK Manager:
 
    - Android SDK Platform-Tools

@@ -1,6 +1,17 @@
 import { gql } from '@apollo/client/core'
 
-import { SortedSpaces, Space } from '@holi/core/screens/spaces/types'
+import { Space } from '@holi/core/screens/spaces/types'
+
+const UserAvatarFragment = gql`
+  fragment UserAvatar on User {
+    id
+    avatar
+    firstName
+    lastName
+    avatarDefaultColor
+    avatarLabel
+  }
+`
 
 const SpaceFragment = gql`
   fragment FullSpace on Space {
@@ -9,23 +20,19 @@ const SpaceFragment = gql`
     description
     created
     creator {
-      id
-      avatar
-      firstName
-      lastName
-      aboutMe
+      ...UserAvatar
+    }
+    mainImage
+    location
+    members {
+      ...UserAvatar
     }
     tasks {
       id
       name
       description
       creator {
-        id
-        avatar
-        firstName
-        lastName
-        avatarDefaultColor
-        avatarLabel
+        ...UserAvatar
       }
       slotsAvailable
       slotsTaken
@@ -39,11 +46,23 @@ const SpaceFragment = gql`
   }
 `
 
+export const topicsQuery = gql`
+  query Topics {
+    topics {
+      data {
+        id
+        title
+      }
+    }
+  }
+`
+
 export const spacesQuery = gql`
   ${SpaceFragment}
+  ${UserAvatarFragment}
 
-  query Spaces($offset: Int, $limit: Int) {
-    spaces(offset: $offset, limit: $limit) {
+  query Spaces($topicId: UUID, $location: String, $offset: Int, $limit: Int) {
+    spaces(topicId: $topicId, location: $location, offset: $offset, limit: $limit) {
       data {
         ...FullSpace
       }
@@ -59,6 +78,7 @@ export type SpacesResponse = {
 
 export const spaceByIdQuery = gql`
   ${SpaceFragment}
+  ${UserAvatarFragment}
 
   query SpaceById($id: String!) {
     spaceById(id: $id) {
@@ -69,15 +89,4 @@ export const spaceByIdQuery = gql`
 
 export type SpaceByIdResponse = {
   spaceById: Space
-}
-
-// export const filteredSpacesQuery = gql``
-
-export type FilteredSpacesResponse = {
-  filter: {
-    topics: string[]
-    location?: string
-  }
-  matchedSpaces: SortedSpaces[]
-  unmatchedSpaces: SortedSpaces[]
 }
