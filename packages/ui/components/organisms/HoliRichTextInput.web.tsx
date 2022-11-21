@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     position: 'relative',
-    outline: 'none',
   },
   placeholder: {
     color: colors.fontColorGrey,

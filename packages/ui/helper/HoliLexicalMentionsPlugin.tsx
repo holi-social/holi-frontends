@@ -17,7 +17,7 @@ import type { SuggestionItem } from '@holi/ui/helper/richText'
 import HoliLexicalMentionsDropdown from './HoliLexicalMentionsPlugin.dropdown'
 import DropdownOption from './HoliLexicalMentionsPlugin.dropdownOption'
 import { $createMentionNode, MENTION_DATA_ATTR } from './HoliLexicalMentionsPlugin.node'
-import useDebouncedQuery from './HoliLexicalMentionsPlugin.query'
+import useDebouncedQuery from './HoliLexicalMentionsPlugin.suggestions'
 
 const MAX_SUGGESTION_OPTIONS = 5
 

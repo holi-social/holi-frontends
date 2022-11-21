@@ -134,7 +134,6 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ style }: ScreenProps) =
                 style={styles.textInput}
                 testID="post-comment-input"
               />
-              <HoliText>xx: {text}</HoliText>
             </View>
           </View>
         </ScrollView>
@@ -189,7 +188,6 @@ const styles = StyleSheet.create({
       web: {
         minHeight: 200,
         marginLeft: 18,
-        paddingVertical: 10,
       },
     }),
   },
