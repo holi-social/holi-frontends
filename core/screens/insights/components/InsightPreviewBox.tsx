@@ -39,10 +39,11 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
       >
         <Image source={{ uri: insight.headerImage }} style={styles.mainImage} />
 
-        <HoliHeading level="3" selectable={true} size="xSmall" style={[styles.cagetory]}>
-          {/* TODO: provide real category */}
-          Immigration
-        </HoliHeading>
+        {insight.topic && (
+          <HoliHeading level="3" selectable={true} size="xSmall" style={[styles.cagetory]}>
+            {insight.topic.title}
+          </HoliHeading>
+        )}
 
         <HoliHeading level="2" selectable={true} size="small" numberOfLines={3} style={styles.spaceTop}>
           {insight.title}

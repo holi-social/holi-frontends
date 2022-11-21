@@ -1,5 +1,5 @@
 import { Post } from 'core/screens/posts/types'
-import { User } from 'core/screens/userprofile/types'
+import { Topic, User } from 'core/screens/userprofile/types'
 
 export interface Insight {
   id: string
@@ -8,5 +8,6 @@ export interface Insight {
   datePublished: string
   curator: User
   headerImage: string
+  topic: Topic
   posts: Post[]
 }
