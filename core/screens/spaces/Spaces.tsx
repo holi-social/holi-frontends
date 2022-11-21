@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client'
-import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
+import partition from 'lodash.partition'
+import React, { useContext, useLayoutEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -7,76 +8,67 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { displayError } from '@holi/core/errors/helpers'
+import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import TopicSlider from '@holi/core/screens/spaces/components/TopicSlider'
-import {
-  FilteredSpacesResponse,
-  SpacesResponse, // filteredSpacesQuery,
-  spacesQuery,
-} from '@holi/core/screens/spaces/queries'
+import SpacesByTopic from '@holi/core/screens/spaces/components/SpacesByTopic'
+import { topicsQuery } from '@holi/core/screens/spaces/queries'
+import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
+import { TopicsQueryResult } from '@holi/core/screens/userprofile/queries'
+import { termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const MockDefault: FilteredSpacesResponse = {
-  filter: {
-    topics: ['All'],
-    location: 'Berlin',
-  },
-  matchedSpaces: [],
-  unmatchedSpaces: [],
-}
-
-const SPACES_PAGE_SIZE = 10
-
 const Spaces: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const [mockData, setMockData] = useState<FilteredSpacesResponse>(MockDefault)
-  const { setOptions } = useUnifiedNavigation()
+  const { setOptions, navigate } = useUnifiedNavigation()
 
   useLayoutEffect(() => {
-    setOptions({ title: t('spaces.title') })
-  }, [setOptions, t])
+    const title = t('spaces.title')
 
-  const { loading, data, error } = useQuery<SpacesResponse>(spacesQuery, {
-    variables: {
-      limit: SPACES_PAGE_SIZE,
-      offset: 0,
-    },
-  })
+    setOptions({
+      title,
+      headerBackTitleVisible: true,
+      headerBackVisible: true,
+      headerTransparent: true,
+      headerStyle: { backgroundColor: colors.backgroundColorWhite },
+      headerTitle: () => null,
+      headerLeft: ({ tintColor }) => (
+        <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
+          {title}
+        </HeaderTitle>
+      ),
+      headerRight: ({ tintColor }) => (
+        <HoliHorizontalRow>
+          <HoliButton label={t('notifications.title')} inline transparent onPress={() => navigate('/notifications')}>
+            <HoliIcon icon="notification-2" size={24} color={tintColor} />
+          </HoliButton>
 
-  const spaces = useMemo(() => data?.spaces.data || [], [data])
+          <HoliButton label={t('navigation.search')} inline transparent onPress={() => navigate('/search')}>
+            <HoliIcon icon="search" size={24} color={tintColor} />
+          </HoliButton>
+        </HoliHorizontalRow>
+      ),
+    })
+  }, [setOptions, navigate, t])
 
-  useEffect(() => {
-    if (spaces.length > 0) {
-      setMockData({
-        ...MockDefault,
-        matchedSpaces: [
-          {
-            id: '1',
-            topic: 'Animal Welfare',
-            spaces,
-          },
-        ],
-        unmatchedSpaces: [
-          {
-            id: '2',
-            topic: 'Childcare',
-            spaces,
-          },
-          {
-            id: '3',
-            topic: 'Environment',
-            spaces,
-          },
-        ],
-      })
-    }
-  }, [spaces])
+  const { loading, data, error } = useQuery<TopicsQueryResult>(topicsQuery)
+
+  const topics = useMemo(() => data?.topics.data?.slice().sort(termsByTitleComparator) || [], [data])
+
+  const { user } = useContext(UserContext)
+  const [filteredTopics, otherTopics] = useMemo(() => {
+    const userInterestIds = (user?.interests || []).map((topic) => topic.id)
+    return partition(topics, (topic) => userInterestIds.includes(topic.id))
+  }, [topics, user])
 
   if (error) {
     displayError(error, t('spaces.spaceListing.error'))
@@ -90,6 +82,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
       </View>
     )
   }
+
   return (
     <DefaultLayout>
       <View style={mixins.container}>
@@ -97,35 +90,28 @@ const Spaces: React.VFC<ScreenProps> = () => {
           {/*PLACEHOLDER FOR FILTER HEADER*/ 'Discover [ALL] spaces in [Berlin].'}
         </HoliText>
 
-        {mockData.matchedSpaces.length ? (
-          <View style={{ marginBottom: 12 }}>
-            {mockData.matchedSpaces.map((entry) => (
-              <TopicSlider key={`unmatched_${entry.id}`} {...entry} />
-            ))}
-          </View>
-        ) : (
-          <HoliText>No Matches</HoliText>
-        )}
+        {filteredTopics.map((topic) => (
+          <SpacesByTopic key={topic.id} topic={topic} style={{ marginBottom: 12 }} />
+        ))}
 
-        {mockData.unmatchedSpaces.length > 0 && (
-          <View style={{ marginBottom: 12 }}>
-            <HoliHeading size="large" style={{ marginBottom: 24 }}>
-              {t('spaces.otherListing')}
-            </HoliHeading>
-            {mockData.unmatchedSpaces.map((entry) => (
-              <TopicSlider key={`unmatched_${entry.id}`} {...entry} />
-            ))}
-          </View>
+        {filteredTopics.length > 0 && otherTopics.length > 0 && (
+          <HoliHeading size="large" style={{ marginBottom: 24 }}>
+            {t('spaces.otherListing')}
+          </HoliHeading>
         )}
+        {otherTopics.map((topic) => (
+          <SpacesByTopic key={topic.id} topic={topic} style={{ marginBottom: 12 }} />
+        ))}
       </View>
     </DefaultLayout>
   )
 }
 
-export default Spaces
 const styles = StyleSheet.create({
   messageContainer: {
     alignItems: 'center',
     marginTop: 50,
   },
 })
+
+export default Spaces
