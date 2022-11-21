@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import partition from 'lodash.partition'
 import React, { useContext, useLayoutEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -100,7 +100,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
             ]
           }
           location={'Berlin'}
-          allTopics={false}
+          allTopics={true}
           onPress={() => ({})}
         />
         {filteredTopics.map((topic) => (
@@ -126,16 +126,8 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   spacesContainer: {
-    // marginVertical: 48,
-    marginBottom: 32,
-    ...Platform.select({
-      web: {
-        marginTop: 24,
-      },
-      native: {
-        marginTop: 16,
-      },
-    }),
+    marginTop: 40,
+    marginBottom: 48,
   },
 })
 
