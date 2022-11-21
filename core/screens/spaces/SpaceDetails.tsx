@@ -61,7 +61,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   return (
     <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
-      <View style={[mixins.container, { justifyContent: 'center', padding: 24 }]}>
+      <View style={[mixins.container, { justifyContent: 'center', padding: 24 }]} testID="space-details-container">
         <HoliHeading level="1">{space.title}</HoliHeading>
         <HoliText style={{ paddingTop: 10 }}>
           <Trans i18nKey="spaces.spaceDetails.creator" values={{ name: creator.fullName || t('Anonymous user') }} />

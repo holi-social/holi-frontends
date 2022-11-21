@@ -124,6 +124,7 @@ export const BottomTabsNavigator: React.VFC = () => {
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="spaces" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
+          tabBarTestID: 'btn-to-spaces',
         }}
       />
       <BottomTabs.Screen

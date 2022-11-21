@@ -85,10 +85,10 @@ const Spaces: React.VFC<ScreenProps> = () => {
 
   return (
     <DefaultLayout>
-      <View style={mixins.container}>
-        <HoliText size="large" style={{ marginTop: 48, marginBottom: 48 }}>
+      <View style={mixins.container} testID="spaces-container">
+        <HoliHeading level="1" size="large" style={{ marginTop: 48, marginBottom: 48 }}>
           {/*PLACEHOLDER FOR FILTER HEADER*/ 'Discover [ALL] spaces in [Berlin].'}
-        </HoliText>
+        </HoliHeading>
 
         {filteredTopics.map((topic) => (
           <SpacesByTopic key={topic.id} topic={topic} style={{ marginBottom: 12 }} />
