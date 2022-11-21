@@ -22,10 +22,10 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestions
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
-  const numberOfItems = 10
+  const limit = 10
 
   const { loading, error, data } = useQuery<UserSuggestionsResponse>(userSuggestionsQuery, {
-    variables: { numberOfItems },
+    variables: { limit },
   })
 
   if (error) {
@@ -33,7 +33,7 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestions
   }
 
   // Error and loading states are handled the same way and just hide the component
-  if (loading || error || !data?.userSuggestions?.length) {
+  if (loading || error || !data?.userSuggestions?.data?.length) {
     return <></>
   }
 
@@ -46,7 +46,7 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestions
       </HoliHeading>
 
       <ScrollView style={styles.scrollviewContainer} horizontal>
-        {userSuggestions.map((user, index) => {
+        {userSuggestions.data.map((user, index) => {
           const nameLabel = user.fullName
           return (
             <HoliButton
