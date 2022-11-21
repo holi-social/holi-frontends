@@ -18,6 +18,10 @@ const InsightFragment = gql`
       aboutMe
     }
     headerImage
+    topic {
+      id
+      title
+    }
     posts {
       id
       text

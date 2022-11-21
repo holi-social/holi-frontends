@@ -6,7 +6,6 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { logError } from '@holi/core/errors/helpers/logError'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import InsightPreviewBox from '@holi/core/screens/insights/components/InsightPreviewBox'
-import { fakeInsights } from '@holi/core/screens/insights/fakeInsights'
 import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { Insight } from '@holi/core/screens/insights/types'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
@@ -38,7 +37,7 @@ const InsightList: React.VFC<InsightsProps> = (props) => {
 
   // if there are no insights in the okuna backend, use fake insights.
   // This way feature branches still have content and don't look empty.
-  const insights: Insight[] = data?.lastInsights?.length ? data.lastInsights : fakeInsights
+  const insights: Insight[] = data?.lastInsights ? data.lastInsights : []
 
   return (
     <View style={props.style}>
