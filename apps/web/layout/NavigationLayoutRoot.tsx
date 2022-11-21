@@ -2,8 +2,8 @@ import Head from 'next/head'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
+import FooterTabBar from '@holi/web/components/navigation/FooterTabBar'
 import HeaderAnimated from '@holi/web/components/navigation/HeaderAnimated'
-import FooterTabBar from '@holi/web/components/navigation/HomeBottomBar'
 
 import navigationLayoutRootStyles from './NavigationLayoutRoot.module.scss'
 
