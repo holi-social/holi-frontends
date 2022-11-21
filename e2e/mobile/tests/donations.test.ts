@@ -67,6 +67,8 @@ describe('@Donations', () => {
   afterEach(async () => {
     // Speeds up local execution
     if (target === 'local') {
+      // navigate back
+      await scrollToElementWithTestId('nav-button-back', 'up')
       await tapOnElementWithTestId('nav-button-back', 0)
     }
   })
@@ -79,7 +81,7 @@ describe('@Donations', () => {
 
   it('should allow pagination', async () => {
     // scroll to button and count elements in viewport
-    await scrollToElementWithTestId('btn-donation-list-load-more', 'down', { maxAttempts: 5 })
+    await scrollToElementWithTestId('btn-donation-list-load-more', 'down', { maxAttempts: 10 })
     const listItemsBefore = await locateMultipleElementsWithTestId('donations-list-item')
 
     // load more
@@ -168,6 +170,7 @@ describe('@Donations', () => {
     await waitForElementWithTestId('donations-project-detail-heading')
 
     // navigate back
+    await scrollToElementWithTestId('nav-button-back', 'up')
     await tapOnElementWithTestId('nav-button-back')
 
     // expect filtered list
