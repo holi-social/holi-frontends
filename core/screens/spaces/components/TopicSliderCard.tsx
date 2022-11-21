@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { Image, Platform, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -51,7 +51,7 @@ const TopicSliderCard: React.VFC<TopicSliderCardProps> = ({ space, style }: Topi
     </HoliButton>
   )
 }
-export default TopicSliderCard
+export default memo(TopicSliderCard)
 
 const styles = StyleSheet.create({
   mainImageWrapper: {

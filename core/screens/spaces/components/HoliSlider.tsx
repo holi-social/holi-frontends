@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -41,7 +41,7 @@ const HoliSlider: React.VFC<HoliSliderProps> = ({
     </View>
   )
 }
-export default HoliSlider
+export default memo(HoliSlider)
 
 const getStyles = (screenWidth: number) =>
   StyleSheet.create({

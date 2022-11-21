@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
@@ -29,7 +29,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
         {task.creator && (
           <HoliUserAvatar
             imageSrc={task.creator.avatar}
-            label={userFullName(task.creator) || t('spaces.tasks.creator.anonymous')}
+            label={userFullName(task.creator) || t('user.profileView.anonymous')}
             initials={task.creator.avatarLabel || ''}
             defaultColor={task.creator.avatarDefaultColor || ''}
             size="micro"
@@ -148,4 +148,4 @@ const getStyles = (screenWidth: number) =>
     },
   })
 
-export default SpaceTaskTile
+export default memo(SpaceTaskTile)

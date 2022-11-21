@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -40,7 +40,7 @@ const TopicSlider: React.VFC<TopicSliderProps> = ({ topic, spaces, style }: Topi
     </View>
   )
 }
-export default TopicSlider
+export default memo(TopicSlider)
 
 const styles = StyleSheet.create({
   sliderHeader: {

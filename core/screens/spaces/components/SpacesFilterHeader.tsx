@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { GestureResponderEvent, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
@@ -28,7 +28,7 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({ location, topi
     </HoliHeading>
   )
 }
-export default SpacesFilterHeader
+export default memo(SpacesFilterHeader)
 
 const styles = StyleSheet.create({
   tagContainer: {
