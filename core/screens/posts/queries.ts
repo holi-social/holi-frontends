@@ -2,7 +2,26 @@ import { gql } from '@apollo/client/core'
 
 import { Post } from '@holi/core/screens/posts/types'
 
+export const PostCommentFragment = gql`
+  fragment PostCommentFull on PostComment {
+    id
+    text
+    created
+    commenter {
+      id
+      avatar
+      avatarLabel
+      avatarDefaultColor
+      firstName
+      lastName
+      aboutMe
+    }
+  }
+`
+
 export const PostFragment = gql`
+  ${PostCommentFragment}
+
   fragment PostFull on Post {
     id
     title
@@ -18,18 +37,7 @@ export const PostFragment = gql`
       aboutMe
     }
     comments {
-      id
-      text
-      created
-      commenter {
-        id
-        avatar
-        avatarLabel
-        avatarDefaultColor
-        firstName
-        lastName
-        aboutMe
-      }
+      ...PostCommentFull
     }
   }
 `
