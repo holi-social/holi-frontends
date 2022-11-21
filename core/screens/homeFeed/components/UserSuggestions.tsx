@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
-import { userFullName } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserSuggestionsResponse, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'

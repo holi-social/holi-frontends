@@ -2,7 +2,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { userFullName } from '@holi/core/helpers'
 import CommentConnector from '@holi/core/screens/comments/components/CommentConnector'
 import { Comment } from '@holi/core/screens/comments/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
