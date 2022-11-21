@@ -32,6 +32,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
   const mixins = useStyleMixins()
   const { setOptions, navigate } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
+
   useLayoutEffect(() => {
     const title = t('spaces.title')
 

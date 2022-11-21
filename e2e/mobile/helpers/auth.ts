@@ -56,6 +56,11 @@ export const logout = async () => {
     await tapOnElementWithTestId('btn-to-profile-view')
   }
 
+  const settingsButtonExists = await checkIfElementWithTestIdExists('btn-to-settings')
+  if (settingsButtonExists) {
+    await tapOnElementWithTestId('btn-to-settings')
+  }
+
   const logoutButtonExists = await checkIfElementWithTestIdExists('btn-to-logout')
   if (logoutButtonExists) {
     await tapOnElementWithTestId('btn-to-logout')
