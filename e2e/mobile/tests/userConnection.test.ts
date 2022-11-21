@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { defaultAuthSteps } from '../helpers/auth'
+import { defaultAuthSteps, logout } from '../helpers/auth'
 import { navigateBackToHomeScreen } from '../helpers/navigation'
 import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../helpers/selectors'
 
@@ -36,5 +36,9 @@ describe('@UserConnection', () => {
 
     // the connection button state should be back to NOT_CONNECTED
     await waitForElementWithTestId('user-connection-button-NOT_CONNECTED')
+
+    // clean up view
+    await logout()
+    await scrollToElementWithTestId('home-feed-insights-heading', 'up', { maxAttempts: 3 })
   })
 })
