@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import partition from 'lodash.partition'
 import React, { useContext, useLayoutEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -12,6 +12,7 @@ import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import SpacesByTopic from '@holi/core/screens/spaces/components/SpacesByTopic'
+import SpacesFilterHeader from '@holi/core/screens/spaces/components/SpacesFilterHeader'
 import { topicsQuery } from '@holi/core/screens/spaces/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import { TopicsQueryResult } from '@holi/core/screens/userprofile/queries'
@@ -88,10 +89,20 @@ const Spaces: React.VFC<ScreenProps> = () => {
   return (
     <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
       <View style={mixins.container}>
-        <HoliText size="large" style={{ marginTop: 48, marginBottom: 48 }}>
-          {/*PLACEHOLDER FOR FILTER HEADER*/ 'Discover [ALL] spaces in [Berlin].'}
-        </HoliText>
-
+        <SpacesFilterHeader
+          style={styles.spacesContainer}
+          topics={
+            user?.interests || [
+              { id: '1', title: 'Animal Welfare' },
+              { id: '2', title: 'Animal' },
+              { id: '3', title: 'Wel' },
+              { id: '4', title: 'Fare' },
+            ]
+          }
+          location={'Berlin'}
+          allTopics={false}
+          onPress={() => ({})}
+        />
         {filteredTopics.map((topic) => (
           <SpacesByTopic key={topic.id} topic={topic} style={{ marginBottom: 12 }} />
         ))}
@@ -113,6 +124,18 @@ const styles = StyleSheet.create({
   messageContainer: {
     alignItems: 'center',
     marginTop: 50,
+  },
+  spacesContainer: {
+    // marginVertical: 48,
+    marginBottom: 32,
+    ...Platform.select({
+      web: {
+        marginTop: 24,
+      },
+      native: {
+        marginTop: 16,
+      },
+    }),
   },
 })
 
