@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
+import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
 import Logout from '@holi/core/auth/screens/Logout'
@@ -81,6 +83,8 @@ export const HomeStackNavigator: React.VFC = () => {
 
 export const BottomTabsNavigator: React.VFC = () => {
   const iconColor = (isActive: boolean) => (isActive ? colors.fontColorBlack : colors.fontColorGrey)
+  const { t } = useTranslation()
+  const { isLoggedIn } = useContext(AuthContext)
 
   return (
     <BottomTabs.Navigator
@@ -99,7 +103,13 @@ export const BottomTabsNavigator: React.VFC = () => {
             focusedRoute === 'CreatePostCommentPage'
               ? { display: 'none' }
               : {}),
+            tabBarShowLabel: true,
+            tabBarLabelStyle: {
+              color: 'black',
+            },
           },
+          tabBarActiveTintColor: colors.fontColorBlack,
+          tabBarInactiveTintColor: colors.fontColorGrey,
         }
       }}
     >
@@ -107,8 +117,8 @@ export const BottomTabsNavigator: React.VFC = () => {
         name="Home"
         component={HomeStackNavigator}
         options={{
+          tabBarLabel: t('navigation.home'),
           headerShown: false,
-          tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="home-smile-2" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
@@ -119,8 +129,8 @@ export const BottomTabsNavigator: React.VFC = () => {
         name="Spaces"
         component={SpacesNavigator}
         options={{
+          tabBarLabel: t('spaces.title'),
           headerShown: false,
-          tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="spaces" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
@@ -131,8 +141,8 @@ export const BottomTabsNavigator: React.VFC = () => {
         name="Chat"
         component={ChatStackNavigator}
         options={{
+          tabBarLabel: t('chat.title'),
           headerShown: false,
-          tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon="chat-3" size={24} filled={focused} style={{ color: iconColor(focused) }} />
           },
@@ -142,8 +152,8 @@ export const BottomTabsNavigator: React.VFC = () => {
         name="Auth"
         component={AuthStackNavigator}
         options={{
+          tabBarLabel: isLoggedIn ? t('profile.title') : t('auth.login'),
           headerShown: false,
-          tabBarShowLabel: false,
           tabBarIcon: LoginProfileButton,
           tabBarTestID: 'btn-to-profile-view',
         }}

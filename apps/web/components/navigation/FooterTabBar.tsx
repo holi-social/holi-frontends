@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
+import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
@@ -13,6 +15,7 @@ const FooterTabBar: React.VoidFunctionComponent = () => {
   const styles = getStyles(width)
   const { navigate, pathname } = useRouting()
   const { t } = useTranslation()
+  const { isLoggedIn } = useContext(AuthContext)
 
   const isHome = pathname === '/'
   const isChat = pathname.startsWith('/chat')
@@ -20,8 +23,6 @@ const FooterTabBar: React.VoidFunctionComponent = () => {
   const isProfileLoginRefistrationForgotPassword = ['/profile', '/login', '/registration', '/forgotPassword'].some(
     (path) => pathname.startsWith(path)
   )
-
-  const iconColor = (isActive: boolean) => (isActive ? colors.fontColorBlack : colors.fontColorGrey)
 
   return (
     <View
@@ -37,33 +38,77 @@ const FooterTabBar: React.VoidFunctionComponent = () => {
           transparent
           onPress={() => navigate('/')}
           testID="btn-to-home-view"
-          style={{ paddingHorizontal: 20, paddingVertical: 10 }}
+          contentStyle={styles.button}
         >
-          <HoliIcon icon="home-smile-2" size={24} filled={isHome} style={{ color: iconColor(isHome) }} />
+          <HoliIcon
+            icon="home-smile-2"
+            size={24}
+            filled={isHome}
+            style={isHome ? styles.activeTintColor : styles.inactiveTintColor}
+          />
+          <HoliText
+            size="extrasmall"
+            style={[styles.buttonLabel, isHome ? styles.activeTintColor : styles.inactiveTintColor]}
+          >
+            {t('navigation.home')}
+          </HoliText>
         </HoliButton>
+
         <HoliButton
           label={t('spaces.title')}
           inline
           transparent
           onPress={() => navigate('/spaces')}
           testID="btn-to-spaces"
-          style={{ paddingHorizontal: 20, paddingVertical: 10 }}
+          contentStyle={styles.button}
         >
-          <HoliIcon icon="spaces" size={24} filled={isSpaces} style={{ color: iconColor(isSpaces) }} />
+          <HoliIcon
+            icon="spaces"
+            size={24}
+            filled={isSpaces}
+            style={isSpaces ? styles.activeTintColor : styles.inactiveTintColor}
+          />
+          <HoliText
+            size="extrasmall"
+            style={[styles.buttonLabel, isSpaces ? styles.activeTintColor : styles.inactiveTintColor]}
+          >
+            {t('spaces.title')}
+          </HoliText>
         </HoliButton>
+
         <HoliButton
           label={t('chat.title')}
           inline
           transparent
           onPress={() => navigate('/chat')}
-          style={{ paddingHorizontal: 20, paddingVertical: 10 }}
+          contentStyle={styles.button}
         >
-          <HoliIcon icon="chat-3" size={24} filled={isChat} style={{ color: iconColor(isChat) }} />
+          <HoliIcon
+            icon="chat-3"
+            size={24}
+            filled={isChat}
+            style={isChat ? styles.activeTintColor : styles.inactiveTintColor}
+          />
+          <HoliText
+            size="extrasmall"
+            style={[styles.buttonLabel, isChat ? styles.activeTintColor : styles.inactiveTintColor]}
+          >
+            {t('chat.title')}
+          </HoliText>
         </HoliButton>
-        <LoginProfileButton
-          focused={isProfileLoginRefistrationForgotPassword}
-          style={{ paddingHorizontal: 20, paddingVertical: 10 }}
-        />
+
+        <View style={styles.button}>
+          <LoginProfileButton focused={isProfileLoginRefistrationForgotPassword} />
+          <HoliText
+            size="extrasmall"
+            style={[
+              styles.buttonLabel,
+              isProfileLoginRefistrationForgotPassword ? styles.activeTintColor : styles.inactiveTintColor,
+            ]}
+          >
+            {isLoggedIn ? t('profile.title') : t('auth.login')}
+          </HoliText>
+        </View>
       </View>
     </View>
   )
@@ -90,5 +135,20 @@ const getStyles = (screenWidth: number) =>
       justifyContent: 'space-between',
       height: vars.bottomBarHeight,
       maxHeight: vars.bottomBarHeight,
+    },
+    button: {
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+      alignItems: 'center',
+    },
+    activeTintColor: {
+      color: colors.fontColorBlack,
+      fontWeight: '500',
+    },
+    inactiveTintColor: {
+      color: colors.fontColorGrey,
+    },
+    buttonLabel: {
+      paddingTop: 8,
     },
   })

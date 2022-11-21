@@ -11,7 +11,7 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const appSwiperDummyApps: HoliApp[] = [
@@ -96,7 +96,7 @@ const borderGrey = tinycolor(colors.borderColorGrey).darken(5).toString()
 const styles = StyleSheet.create({
   overlayButton: {
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    bottom: Platform.OS === 'web' ? 60 : 15,
+    bottom: (Platform.OS === 'web' ? +vars.bottomBarHeight : 0) + 15,
     right: Platform.OS === 'web' ? 0 : 5,
     backgroundColor: colors.backgroundColorWhite,
     justifyContent: 'center',
