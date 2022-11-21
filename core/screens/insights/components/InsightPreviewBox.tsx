@@ -17,7 +17,7 @@ interface InsightPreviewBoxProps {
 }
 
 const editorsOfInsight = (insight: Insight) => {
-  const editors = [insight.curator, ...insight.posts.map(({ creator }) => creator)]
+  const editors = [insight.creator, ...insight.posts.map(({ creator }) => creator)]
 
   // remove duplicates
   return editors.filter((user, index, self) => !!user && self.findIndex((editor) => editor.id === user.id) === index)
@@ -50,7 +50,7 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
         </HoliHeading>
 
         <HoliText size="small" style={[styles.spaceTop, styles.textGrey]} selectable={true}>
-          {t('insights.posts.byAuthor', { author: userFullName(insight.curator), count: insight.posts.length })}
+          {t('insights.posts.byAuthor', { author: insight.creator.fullName, count: insight.posts.length })}
         </HoliText>
 
         {editors.length && (

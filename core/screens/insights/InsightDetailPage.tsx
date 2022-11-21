@@ -83,10 +83,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
 
   const posts: Post[] = insight.posts || []
 
-  const author = {
-    ...insight.curator,
-    fullName: userFullName(insight.curator),
-  }
+  const author = insight.creator
 
   // TODO: dummy category
   const category = 'Immigration'

@@ -12,6 +12,7 @@ export const userSuggestionsQuery = gql`
     avatar
     firstName
     lastName
+    fullName
     avatarDefaultColor
     avatarLabel
   }

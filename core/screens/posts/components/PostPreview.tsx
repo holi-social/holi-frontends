@@ -2,7 +2,6 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { fullName } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -24,7 +23,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post, style }) =>
   const author = useMemo(() => {
     const { avatar, avatarLabel, avatarDefaultColor } = post.creator
     return {
-      name: fullName(post.creator.firstName, post.creator.lastName),
+      name: post.creator.fullName,
       avatarLabel,
       avatarDefaultColor,
       avatar,

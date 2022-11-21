@@ -8,6 +8,7 @@ const UserAvatarFragment = gql`
     avatar
     firstName
     lastName
+    fullName
     avatarDefaultColor
     avatarLabel
   }

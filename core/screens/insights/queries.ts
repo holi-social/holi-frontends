@@ -8,13 +8,14 @@ const InsightFragment = gql`
     title
     description
     datePublished
-    curator {
+    creator {
       id
       avatar
       avatarLabel
       avatarDefaultColor
       firstName
       lastName
+      fullName
       aboutMe
     }
     headerImage
@@ -31,6 +32,7 @@ const InsightFragment = gql`
         id
         firstName
         lastName
+        fullName
         avatar
         avatarLabel
         avatarDefaultColor
@@ -42,15 +44,19 @@ const InsightFragment = gql`
 export const lastInsightsQuery = gql`
   ${InsightFragment}
 
-  query LastInsights($numberOfItems: Int!) {
-    lastInsights(numberOfItems: $numberOfItems) {
-      ...InsightFull
+  query LastInsights($limit: Int!) {
+    lastInsights(limit: $limit) {
+      data {
+        ...InsightFull
+      }
     }
   }
 `
 
 export type LastInsightsResponse = {
-  lastInsights: Insight[]
+  lastInsights: {
+    data: Insight[]
+  }
 }
 
 export const insightById = gql`

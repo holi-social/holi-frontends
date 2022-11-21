@@ -36,7 +36,7 @@ const { useParam } = createParam<PostDetailPageParams>()
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
 const getPostCommenters = (comments: Comment[]) => {
-  const commenters = comments?.map((comment) => comment.commenter) || []
+  const commenters = comments?.map((comment) => comment.creator) || []
 
   // remove duplicates
   return commenters.filter(

@@ -48,7 +48,7 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestions
 
       <ScrollView style={styles.scrollviewContainer} horizontal>
         {userSuggestions.map((user, index) => {
-          const nameLabel = userFullName(user)
+          const nameLabel = user.fullName
           return (
             <HoliButton
               label={nameLabel || t('user.profileView.anonymous')}

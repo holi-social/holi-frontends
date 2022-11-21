@@ -54,10 +54,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   if (!space) return <HoliText>{t('spaces.spaceDetails.notFound', { spaceId })}</HoliText>
 
-  const creator = {
-    ...space.creator,
-    fullName: userFullName(space.creator),
-  }
+  const creator = space.creator
 
   return (
     <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
