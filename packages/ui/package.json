@@ -11,11 +11,11 @@
     "clean": "echo 'nothing to be done'",
     "clean:all": "rimraf node_modules"
   },
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.18.2",
     "@babel/preset-env": "^7.18.2",
     "@types/react": "17.0.2",
-    "@types/react-dom": "^18.0.9",
     "@types/react-native": "0.67.7",
     "@types/tinycolor2": "1.4.3",
     "react-test-renderer": "17.0.2",
