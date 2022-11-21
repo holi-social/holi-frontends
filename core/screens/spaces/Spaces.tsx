@@ -91,16 +91,9 @@ const Spaces: React.VFC<ScreenProps> = () => {
       <View style={mixins.container}>
         <SpacesFilterHeader
           style={styles.spacesContainer}
-          topics={
-            user?.interests || [
-              { id: '1', title: 'Animal Welfare' },
-              { id: '2', title: 'Animal' },
-              { id: '3', title: 'Wel' },
-              { id: '4', title: 'Fare' },
-            ]
-          }
-          location={'Berlin'}
-          allTopics={true}
+          topics={user?.interests || []}
+          location={user?.location}
+          allTopics={!user?.interests?.length}
           onPress={() => ({})}
         />
         {filteredTopics.map((topic) => (
