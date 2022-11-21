@@ -46,6 +46,7 @@ const FooterTabBar: React.VoidFunctionComponent = () => {
           inline
           transparent
           onPress={() => navigate('/spaces')}
+          testID="btn-to-spaces"
           style={{ paddingHorizontal: 20, paddingVertical: 10 }}
         >
           <HoliIcon icon="spaces" size={24} filled={isSpaces} style={{ color: iconColor(isSpaces) }} />

@@ -85,7 +85,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
 
   return (
     <DefaultLayout>
-      <View style={mixins.container}>
+      <View style={mixins.container} testID="spaces-container">
         <HoliText size="large" style={{ marginTop: 48, marginBottom: 48 }}>
           {/*PLACEHOLDER FOR FILTER HEADER*/ 'Discover [ALL] spaces in [Berlin].'}
         </HoliText>
