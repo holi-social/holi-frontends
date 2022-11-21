@@ -37,7 +37,7 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestions
     return <></>
   }
 
-  const { userSuggestions } = data
+  const userSuggestions = data.userSuggestions.data
 
   return (
     <View style={[mixins.container, props.style]} testID="user-suggestions">
@@ -46,7 +46,7 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestions
       </HoliHeading>
 
       <ScrollView style={styles.scrollviewContainer} horizontal>
-        {userSuggestions.data.map((user, index) => {
+        {userSuggestions.map((user, index) => {
           const nameLabel = user.fullName
           return (
             <HoliButton
