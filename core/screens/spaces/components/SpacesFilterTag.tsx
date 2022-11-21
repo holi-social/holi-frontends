@@ -1,5 +1,5 @@
 import React from 'react'
-import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { GestureResponderEvent, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -17,8 +17,15 @@ export type SpacesFilterTagProps = {
 
 const SpacesFilterTag = ({ filter, style, label, onPress, children }: SpacesFilterTagProps) => {
   return (
-    <HoliButton label={label} style={[styles.filter, styles[filter], style]} inline onPress={onPress}>
-      {filter === 'location' && (
+    <HoliButton
+      label={label}
+      style={[styles.filterButton]}
+      contentStyle={[styles.filter, styles[filter], style]}
+      transparent
+      inline
+      onPress={onPress}
+    >
+      {/* {filter === 'location' && (
         <View style={styles.locationIcon}>
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/icons/location-2.svg')}
@@ -28,7 +35,7 @@ const SpacesFilterTag = ({ filter, style, label, onPress, children }: SpacesFilt
             isSvg
           />
         </View>
-      )}
+      )} */}
       <HoliText size="extralarge">{children}</HoliText>
       {filter === 'all' && <HoliIcon icon="filter-3" size={16} style={styles.filterIcon} />}
     </HoliButton>
@@ -47,6 +54,10 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 10,
   },
+  filterButton: {
+    paddingVertical: 8,
+    marginVertical: -8,
+  },
   filterIcon: {
     marginLeft: 4,
   },
@@ -57,8 +68,16 @@ const styles = StyleSheet.create({
   },
   locationIcon: {
     position: 'absolute',
-    left: -24,
-    top: -12,
+    ...Platform.select({
+      native: {
+        left: -4,
+        top: -8,
+      },
+      web: {
+        left: -24,
+        top: -12,
+      },
+    }),
   },
   all: {
     backgroundColor: colors.backgroundColorWhite,

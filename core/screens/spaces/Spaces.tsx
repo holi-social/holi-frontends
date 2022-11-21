@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -70,7 +70,12 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
           },
           {
             id: '3',
-            topic: 'Welfare',
+            topic: 'Wel',
+            spaces,
+          },
+          {
+            id: '4',
+            topic: 'Fare',
             spaces,
           },
         ],
@@ -110,7 +115,8 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
           topics={[
             { id: '1', title: 'Animal Welfare' },
             { id: '2', title: 'Animal' },
-            { id: '3', title: 'Welfare' },
+            { id: '3', title: 'Wel' },
+            { id: '4', title: 'Fare' },
           ]}
           location={MockDefault.filter.location}
           allTopics={false}
@@ -148,6 +154,14 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   spacesContainer: {
-    paddingVertical: 24,
+    marginBottom: 32,
+    ...Platform.select({
+      web: {
+        marginTop: 24,
+      },
+      native: {
+        marginTop: 16,
+      },
+    }),
   },
 })

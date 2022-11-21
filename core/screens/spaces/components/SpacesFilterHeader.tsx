@@ -63,11 +63,11 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({
           onPress={onPress}
         />,
       ]
-    : topics?.map((topic) => (
+    : topics?.map((topic, index) => (
         <SpacesFilterTag
           filter={'topics'}
           key={topic.id}
-          style={styles.filterTopics}
+          style={[styles.filter, styles.filterTopics, index === topics.length - 1 && styles.filterTopicsLast]}
           label={t('spaces.filter.label')}
           onPress={onPress}
         >
@@ -92,16 +92,38 @@ export default SpacesFilterHeader
 
 const styles = StyleSheet.create({
   filter: {
-    marginTop: Platform.OS === 'web' ? 0 : -8,
-    marginVertical: Platform.OS === 'web' ? 0 : -8,
+    ...Platform.select({
+      native: {
+        marginTop: 8,
+      },
+      web: {
+        marginBottom: 8,
+      },
+    }),
   },
   filterTopics: {
-    marginBottom: 4,
+    marginTop: 0,
     marginRight: 4,
+  },
+  filterTopicsLast: {
+    marginRight: 0,
   },
   tagContainer: {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    ...Platform.select({
+      web: {
+        alignItems: 'baseline',
+      },
+    }),
+    backgroundColor: 'yellow',
+    ...Platform.select({
+      web: {},
+      native: {
+        marginVertical: -16,
+      },
+    }),
+    alignItems: 'baseline',
   },
 })
