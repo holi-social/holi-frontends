@@ -1,9 +1,10 @@
 import { useMutation, useQuery } from '@apollo/client'
-import React, { useContext, useRef, useState } from 'react'
+import React, { memo, useContext, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   KeyboardAvoidingView,
   Platform,
+  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleProp,
@@ -13,15 +14,13 @@ import {
   ViewStyle,
 } from 'react-native'
 
-import { useHeaderHeight } from '@react-navigation/elements'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { logError } from '@holi/core/errors/helpers'
 import { userFullName } from '@holi/core/helpers'
-import BackButton from '@holi/core/navigation/components/BackButton'
-import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import CommentConnector from '@holi/core/screens/comments/components/CommentConnector'
 import { CreatePostCommentMutation, CreatePostCommentResponse } from '@holi/core/screens/comments/queries'
 import PostDetail from '@holi/core/screens/posts/components/PostDetail'
@@ -43,11 +42,8 @@ export type CreatePostCommentPageParams = {
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens> & { style?: StyleProp<ViewStyle> }
 
-const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: ScreenProps) => {
+const CreatePostCommentPage: React.VFC<ScreenProps> = ({ style }: ScreenProps) => {
   const isWeb = Platform.OS === 'web'
-
-  // useHeaderHeight may not be used for web, and for web its value can be zero since it doesn't depend on KeyboardAvoidingView
-  const getHeaderHeight = isWeb ? () => 0 : useHeaderHeight
 
   const [text, setText] = useState('')
   const { useParam } = createParam<CreatePostCommentPageParams>()
@@ -55,12 +51,6 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
   const [postId] = useParam('postId')
   const scrollViewRef = useRef<ScrollView>(null)
   const { navigate, navigateBack } = useRouting()
-
-  const headerHeight = getHeaderHeight()
-
-  const statusBarHeight = Platform.OS === 'ios' ? 20 : 0 // https://github.com/react-navigation/react-navigation/issues/3971
-
-  const keyboardAvoidingViewVerticalOffset = headerHeight + statusBarHeight
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -82,7 +72,16 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
       onError: () => openToast(t('insights.posts.comments.error'), HoliToastType.ERROR),
     })
 
-  useNavigationHeader(navigation, { title: t('insights.posts.comments.title'), headerLeft: () => <BackButton /> })
+  const { setOptions } = useUnifiedNavigation()
+
+  useLayoutEffect(
+    () =>
+      setOptions({
+        title: t('insights.posts.comments.title'),
+        headerStyle: { backgroundColor: colors.backgroundColorWhite },
+      }),
+    [setOptions, t]
+  )
 
   if (createCommentError) {
     logError(createCommentError, `[CreatePostCommentPage.tsx] ${createCommentError.message}`)
@@ -106,9 +105,9 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
   if (!post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
 
   return (
-    <KeyboardAvoidingView behavior="height" keyboardVerticalOffset={keyboardAvoidingViewVerticalOffset}>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <StatusBar animated />
-      <View style={styles.wrapper}>
+      <SafeAreaView style={styles.wrapper}>
         <ScrollView
           ref={scrollViewRef}
           onLayout={() => scrollViewRef.current?.scrollToEnd()}
@@ -137,7 +136,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
                   placeholder={t('insights.posts.comments.placeholder')}
                   autofocus
                   onChange={setText}
-                  style={styles.textInput2}
+                  style={styles.textInputMobile}
                   testID="post-comment-input"
                 />
               )}
@@ -145,7 +144,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
                 <TextInput
                   autoFocus
                   onChangeText={setText}
-                  style={styles.textInput}
+                  style={styles.textInputWeb}
                   placeholder={t('insights.posts.comments.placeholder')}
                   placeholderTextColor={colors.fontColorGrey}
                   textAlignVertical="top"
@@ -159,13 +158,13 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
         </ScrollView>
         <View style={[styles.bottomBar, isWeb && mixins.container]}>
           <HoliButton
-            disabled={!text || createCommentLoading}
+            disabled={!text.trim().length || createCommentLoading}
             label={t('insights.posts.comments.button')}
             inline
             onPress={() =>
               createPostComment({
                 variables: {
-                  input: { postId, text },
+                  input: { postId, text: text.trim() },
                 },
               })
             }
@@ -174,7 +173,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ navigation, style }: Sc
             {t('insights.posts.comments.button')}
           </HoliButton>
         </View>
-      </View>
+      </SafeAreaView>
     </KeyboardAvoidingView>
   )
 }
@@ -198,7 +197,7 @@ const styles = StyleSheet.create({
     minHeight: 50,
     ...Platform.select({ web: { minHeight: 75 } }),
   },
-  textInput: {
+  textInputWeb: {
     marginLeft: 18,
     paddingVertical: 10,
     flex: 1,
@@ -208,11 +207,12 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  textInput2: {
-    marginLeft: 10,
-    // space below for 5 suggestions
-    ...Platform.select({ ios: { marginTop: 5, marginBottom: 230 }, android: { marginBottom: 190 } }),
+  textInputMobile: {
     flex: 1,
+    marginLeft: 10,
+    marginBottom: '20%',
+    // space below for 5 suggestions
+    ...Platform.select({ ios: { marginTop: 5 } }),
   },
   bottomBar: {
     bottom: 0,
@@ -234,4 +234,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default CreatePostCommentPage
+export default memo(CreatePostCommentPage)

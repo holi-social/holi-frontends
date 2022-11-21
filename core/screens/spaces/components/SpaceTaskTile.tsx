@@ -26,13 +26,15 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
     <View key={task.id} style={[style, styles.taskItem]}>
       <View style={[styles.headingAvatarContainer, styles.detailContainer]}>
         <HoliHeading level="2">{task.name}</HoliHeading>
-        <HoliUserAvatar
-          imageSrc={task.creator.avatar}
-          label={userFullName(task.creator) || t('spaces.tasks.creator.anonymous')}
-          initials={task.creator.avatarLabel || ''}
-          defaultColor={task.creator.avatarDefaultColor || ''}
-          size="micro"
-        />
+        {task.creator && (
+          <HoliUserAvatar
+            imageSrc={task.creator.avatar}
+            label={userFullName(task.creator) || t('spaces.tasks.creator.anonymous')}
+            initials={task.creator.avatarLabel || ''}
+            defaultColor={task.creator.avatarDefaultColor || ''}
+            size="micro"
+          />
+        )}
       </View>
       <View style={[styles.iconsContainer, styles.detailContainer]}>
         <View style={styles.iconGroupContainer}>

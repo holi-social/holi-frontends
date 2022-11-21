@@ -5,7 +5,7 @@ import { Platform } from 'react-native'
 
 import SpacesFilterTag from '@holi/core/screens/spaces/components/SpacesFilterTag'
 import { Term } from '@holi/core/screens/userprofile/types'
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 
 export type SpacesFilterHeaderProps = {
   location?: string
@@ -76,7 +76,7 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({
       ))
 
   return (
-    <HoliText size="extralarge" style={[styles.tagContainer, style]}>
+    <HoliHeading level="1" size="large" style={[styles.tagContainer, style]}>
       <Trans
         t={t}
         i18nKey={i18nKey}
@@ -85,7 +85,7 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({
         shouldUnescape={true}
         components={tags.concat(topicTags)}
       />
-    </HoliText>
+    </HoliHeading>
   )
 }
 export default SpacesFilterHeader
@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
     marginRight: 0,
   },
   tagContainer: {
+    fontWeight: '400',
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',

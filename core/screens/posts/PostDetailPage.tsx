@@ -1,17 +1,17 @@
 import { useLazyQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { memo, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
-import BackButton from '@holi/core/navigation/components/BackButton'
-import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
+import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import CommentConnector from '@holi/core/screens/comments/components/CommentConnector'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
 import { Comment } from '@holi/core/screens/comments/types'
@@ -23,6 +23,7 @@ import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type PostDetailPageParams = {
@@ -43,7 +44,7 @@ const getPostCommenters = (comments: Comment[]) => {
   )
 }
 
-const PostDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+const PostDetailPage: React.VFC<ScreenProps> = () => {
   const [showLoginConfirmation, setShowLoginConfirmation] = useState(false)
   const [insightId] = useParam('insightId')
   const [postId] = useParam('postId')
@@ -52,6 +53,7 @@ const PostDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => 
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const { setOptions } = useUnifiedNavigation()
 
   const isWeb = Platform.OS === 'web'
 
@@ -59,8 +61,18 @@ const PostDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => 
     variables: { id: postId },
   })
 
+  const onScreenScroll = useScrollYHandler()
+
   const title = data?.postById?.title
-  useNavigationHeader(navigation, { title: title, headerLeft: () => <BackButton /> })
+
+  useLayoutEffect(
+    () =>
+      setOptions({
+        title,
+        headerStyle: { backgroundColor: colors.backgroundColorWhite },
+      }),
+    [setOptions, title]
+  )
 
   useEffect(() => {
     if (postId) getPost()
@@ -86,7 +98,7 @@ const PostDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => 
   return (
     <>
       <StatusBar animated />
-      <DefaultLayout>
+      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
         <PostDetail post={post} />
 
         {/* Post comments */}
@@ -105,12 +117,14 @@ const PostDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => 
         )}
       </DefaultLayout>
 
-      <PostDetailFooter
-        style={[styles.postCommentButton, isWeb && mixins.container]}
-        onPress={() =>
-          user ? navigate(`/insights/${insightId}/posts/${post.id}/comment`) : setShowLoginConfirmation(true)
-        }
-      />
+      <SafeAreaView>
+        <PostDetailFooter
+          style={[styles.postCommentButton, isWeb && mixins.container]}
+          onPress={() =>
+            user ? navigate(`/insights/${insightId}/posts/${post.id}/comment`) : setShowLoginConfirmation(true)
+          }
+        />
+      </SafeAreaView>
       <HoliConfirmation
         show={showLoginConfirmation}
         label={t('auth.login.needed.title')}
@@ -152,4 +166,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default PostDetailPage
+export default memo(PostDetailPage)

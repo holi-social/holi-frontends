@@ -11,7 +11,6 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 type TopicSliderProps = {
   topic: string
-  id: string
   spaces: Space[]
   style?: StyleProp<ViewStyle>
 }

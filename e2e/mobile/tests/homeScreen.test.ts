@@ -16,7 +16,7 @@ describe('@HomeScreen', () => {
     await waitForElementWithTestId('feed-insight-image-link')
     await tapOnElementWithTestId('feed-insight-image-link')
 
-    await waitForElementWithTestId('home-feed-insights-heading')
+    await waitForElementWithTestId('insight-headline')
 
     // go home
     await navigateBackToHomeScreen()
@@ -42,7 +42,7 @@ describe('@HomeScreen', () => {
 
     // clean up view
     await logout()
-    await scrollToElementWithTestId('home-feed-insights-heading', 'up')
+    await scrollToElementWithTestId('home-feed-insights-heading', 'up', { maxAttempts: 3 })
   })
 
   it('should display donation updates', async () => {

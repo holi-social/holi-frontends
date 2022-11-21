@@ -1,7 +1,7 @@
 import { SelfServiceRecoveryFlow, SubmitSelfServiceRecoveryFlowWithLinkMethodBody } from '@ory/kratos-client'
 import React, { useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, View, ViewStyle } from 'react-native'
 
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { initPasswordRecoveryFlow } from '@holi/core/auth/helpers/auth'
@@ -23,7 +23,7 @@ export type RecoverPasswordFormProps = {
 
 const RecoverPasswordForm: React.VFC<RecoverPasswordFormProps> = (props: RecoverPasswordFormProps) => {
   const { t } = useTranslation()
-  const { replaceRoute } = useRouting()
+  const { navigateBack, navigate, replaceRoute } = useRouting()
   const mixins = useStyleMixins()
 
   const [flow, setFlow] = useState<SelfServiceRecoveryFlow>()
@@ -69,7 +69,14 @@ const RecoverPasswordForm: React.VFC<RecoverPasswordFormProps> = (props: Recover
           variant="small"
           label={t('auth.login')}
           style={mixins.inlineButtonFixSmall}
-          onPress={() => replaceRoute('/login')}
+          onPress={() => {
+            if (Platform.OS === 'web') {
+              replaceRoute('/login')
+            } else {
+              navigateBack()
+              setTimeout(() => navigate('/login'), 300) // use timeout to open new modal after previous was closed
+            }
+          }}
           testID="btn-to-login-form"
         >
           <HoliText size="small" style={styles.loginLinkText}>
@@ -83,7 +90,14 @@ const RecoverPasswordForm: React.VFC<RecoverPasswordFormProps> = (props: Recover
       </HoliHeading>
 
       <HoliButton
-        onPress={() => replaceRoute('/registration')}
+        onPress={() => {
+          if (Platform.OS === 'web') {
+            replaceRoute('/registration')
+          } else {
+            navigateBack()
+            setTimeout(() => navigate('/registration'), 300) // use timeout to open new modal after previous was closed
+          }
+        }}
         label={t('auth.loginProtection.registration')}
         type="secondary"
         style={styles.button}

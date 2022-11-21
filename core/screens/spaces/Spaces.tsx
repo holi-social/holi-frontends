@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client'
-import React, { useEffect, useMemo, useState } from 'react'
+import partition from 'lodash.partition'
+import React, { useContext, useLayoutEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -7,93 +8,70 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { displayError } from '@holi/core/errors/helpers'
-import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useScrollYHandler } from '@holi/core/helpers'
+import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import SpacesByTopic from '@holi/core/screens/spaces/components/SpacesByTopic'
 import SpacesFilterHeader from '@holi/core/screens/spaces/components/SpacesFilterHeader'
-import TopicSlider from '@holi/core/screens/spaces/components/TopicSlider'
-import {
-  FilteredSpacesResponse,
-  SpacesResponse, // filteredSpacesQuery,
-  spacesQuery,
-} from '@holi/core/screens/spaces/queries'
+import { topicsQuery } from '@holi/core/screens/spaces/queries'
+import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
+import { TopicsQueryResult } from '@holi/core/screens/userprofile/queries'
+import { termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const MockDefault: FilteredSpacesResponse = {
-  filter: {
-    topics: ['All'],
-    location: 'Berlin',
-  },
-  matchedSpaces: [],
-  unmatchedSpaces: [],
-}
-
-const SPACES_PAGE_SIZE = 10
-
-const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+const Spaces: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
-  const title = t('spaces.title')
   const mixins = useStyleMixins()
-  const { navigate } = useRouting()
+  const { setOptions, navigate } = useUnifiedNavigation()
+  const onScreenScroll = useScrollYHandler()
 
-  const [mockData, setMockData] = useState<FilteredSpacesResponse>(MockDefault)
+  useLayoutEffect(() => {
+    const title = t('spaces.title')
 
-  useNavigationHeader(navigation, { title: title })
+    setOptions({
+      title,
+      headerBackTitleVisible: true,
+      headerBackVisible: true,
+      headerTransparent: true,
+      headerStyle: { backgroundColor: colors.backgroundColorWhite },
+      headerTitle: () => null,
+      headerLeft: ({ tintColor }) => (
+        <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
+          {title}
+        </HeaderTitle>
+      ),
+      headerRight: ({ tintColor }) => (
+        <HoliHorizontalRow>
+          <HoliButton label={t('notifications.title')} inline transparent onPress={() => navigate('/notifications')}>
+            <HoliIcon icon="notification-2" size={24} color={tintColor} />
+          </HoliButton>
 
-  const { loading, data, error } = useQuery<SpacesResponse>(spacesQuery, {
-    variables: {
-      limit: SPACES_PAGE_SIZE,
-      offset: 0,
-    },
-  })
+          <HoliButton label={t('navigation.search')} inline transparent onPress={() => navigate('/search')}>
+            <HoliIcon icon="search" size={24} color={tintColor} />
+          </HoliButton>
+        </HoliHorizontalRow>
+      ),
+    })
+  }, [setOptions, navigate, t])
 
-  const spaces = useMemo(() => data?.spaces.data || [], [data])
+  const { loading, data, error } = useQuery<TopicsQueryResult>(topicsQuery)
 
-  useEffect(() => {
-    if (spaces.length > 0) {
-      setMockData({
-        ...MockDefault,
-        matchedSpaces: [
-          {
-            id: '1',
-            topic: 'Animal Welfare',
-            spaces,
-          },
-          {
-            id: '2',
-            topic: 'Animal',
-            spaces,
-          },
-          {
-            id: '3',
-            topic: 'Wel',
-            spaces,
-          },
-          {
-            id: '4',
-            topic: 'Fare',
-            spaces,
-          },
-        ],
-        unmatchedSpaces: [
-          {
-            id: '2',
-            topic: 'Childcare',
-            spaces,
-          },
-          {
-            id: '3',
-            topic: 'Environment',
-            spaces,
-          },
-        ],
-      })
-    }
-  }, [spaces])
+  const topics = useMemo(() => data?.topics.data?.slice().sort(termsByTitleComparator) || [], [data])
+
+  const { user } = useContext(UserContext)
+  const [filteredTopics, otherTopics] = useMemo(() => {
+    const userInterestIds = (user?.interests || []).map((topic) => topic.id)
+    return partition(topics, (topic) => userInterestIds.includes(topic.id))
+  }, [topics, user])
 
   if (error) {
     displayError(error, t('spaces.spaceListing.error'))
@@ -107,53 +85,48 @@ const Spaces: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
       </View>
     )
   }
+
   return (
-    <DefaultLayout>
+    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
       <View style={mixins.container}>
         <SpacesFilterHeader
           style={styles.spacesContainer}
-          topics={[
-            { id: '1', title: 'Animal Welfare' },
-            { id: '2', title: 'Animal' },
-            { id: '3', title: 'Wel' },
-            { id: '4', title: 'Fare' },
-          ]}
-          location={MockDefault.filter.location}
+          topics={
+            user?.interests || [
+              { id: '1', title: 'Animal Welfare' },
+              { id: '2', title: 'Animal' },
+              { id: '3', title: 'Wel' },
+              { id: '4', title: 'Fare' },
+            ]
+          }
+          location={'Berlin'}
           allTopics={false}
-          onPress={() => navigate('/apps/donations')}
+          onPress={() => ({})}
         />
-        {mockData.matchedSpaces.length ? (
-          <View style={{ marginBottom: 12 }}>
-            {mockData.matchedSpaces.map((entry) => (
-              <TopicSlider key={`matched_${entry.id}`} {...entry} />
-            ))}
-          </View>
-        ) : (
-          <HoliText>No Matches</HoliText>
-        )}
+        {filteredTopics.map((topic) => (
+          <SpacesByTopic key={topic.id} topic={topic} style={{ marginBottom: 12 }} />
+        ))}
 
-        {mockData.unmatchedSpaces.length > 0 && (
-          <View style={{ marginBottom: 12 }}>
-            <HoliHeading size="large" style={{ marginBottom: 24 }}>
-              {t('spaces.otherListing')}
-            </HoliHeading>
-            {mockData.unmatchedSpaces.map((entry) => (
-              <TopicSlider key={`unmatched_${entry.id}`} {...entry} />
-            ))}
-          </View>
+        {filteredTopics.length > 0 && otherTopics.length > 0 && (
+          <HoliHeading size="large" style={{ marginBottom: 24 }}>
+            {t('spaces.otherListing')}
+          </HoliHeading>
         )}
+        {otherTopics.map((topic) => (
+          <SpacesByTopic key={topic.id} topic={topic} style={{ marginBottom: 12 }} />
+        ))}
       </View>
     </DefaultLayout>
   )
 }
 
-export default Spaces
 const styles = StyleSheet.create({
   messageContainer: {
     alignItems: 'center',
     marginTop: 50,
   },
   spacesContainer: {
+    // marginVertical: 48,
     marginBottom: 32,
     ...Platform.select({
       web: {
@@ -165,3 +138,5 @@ const styles = StyleSheet.create({
     }),
   },
 })
+
+export default Spaces

@@ -1,22 +1,15 @@
-import { User } from 'core/screens/userprofile/types'
+import { Skill, User } from '@holi/core/screens/userprofile/types'
 
-export type SortedSpaces = {
-  id: string
-  topic: string
-  spaces: Space[]
-}
 export interface Space {
   id: string
   title: string
   description: string
   created: string
-  creator: Partial<User>
+  creator: User
+  mainImage: string
+  location: string
+  members: User[]
   tasks?: Task[]
-}
-
-export interface Skill {
-  id: string
-  title: string
 }
 
 export interface Task {
