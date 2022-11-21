@@ -2,7 +2,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { userFullName } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Insight } from '@holi/core/screens/insights/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
