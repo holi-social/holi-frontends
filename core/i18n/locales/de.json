@@ -160,7 +160,6 @@
   "search.title": "Suche",
   "spaces.filter.all": "Entdecke alle Spaces",
   "spaces.filter.all.location": "Entdecke alle Spaces in {{location}}",
-  "spaces.filter.label": "Filter anpassen",
   "spaces.filter.topics": "{{topics}} Spaces",
   "spaces.filter.topics.location": "{{topics}} Spaces in {{location}}",
   "spaces.otherListing": "Andere Spaces, die dich interessieren könnten.",
