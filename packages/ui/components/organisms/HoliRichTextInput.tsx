@@ -3,7 +3,7 @@ import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 import { MentionInput, MentionSuggestionsProps } from 'react-native-controlled-mentions'
 
 import HoliRichTextInputSuggestions from '@holi/ui/components/organisms/HoliRichTextInput.suggestions'
-import { REGEX_URL, REGEX_USER_MENTION, SuggestionItem } from '@holi/ui/helper/richText'
+import { REGEX_URL, REGEX_USER_MENTIONS_WITH_NAME, SuggestionItem } from '@holi/ui/helper/richText'
 import { colors } from '@holi/ui/styles/globalVars'
 
 const MIN_SEARCH_CHARS = 2
@@ -65,7 +65,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   }, [])
 
   useEffect(() => {
-    const holiFormattedString = String(value).replace(REGEX_USER_MENTION, '@$1')
+    const holiFormattedString = String(value).replace(REGEX_USER_MENTIONS_WITH_NAME, '@$1')
     onChange?.(holiFormattedString)
   }, [value, onChange])
 

@@ -11,17 +11,9 @@ export type Mention = {
   replaceableString: string
 }
 
+// TODO: dummy
 export const findUserByName = (keyword: string): SuggestionItem[] => {
   return dummyUsers.filter((user) => user.name.toLowerCase().includes(keyword.toLowerCase()))
-}
-
-const hashtags = [
-  { id: 'todo', name: 'todo' },
-  { id: 'help', name: 'help' },
-  { id: 'loveyou', name: 'loveyou' },
-]
-export const findHashtagByName = (keyword: string): SuggestionItem[] => {
-  return hashtags.filter((one) => one.name.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()))
 }
 
 // Copied from: https://github.com/dabakovich/react-native-controlled-mentions/blob/v2.2.4/example/mentions-app.tsx
@@ -29,20 +21,18 @@ export const REGEX_URL =
   // eslint-disable-next-line no-useless-escape
   /(https?:\/\/|www\.)[-a-zA-Z0-9@:%._\+~#=]{1,256}\.(xn--)?[a-z0-9-]{2,20}\b([-a-zA-Z0-9@:%_\+\[\],.~#?&\/=]*[-a-zA-Z0-9@:%_\+\]~#?&\/=])*/gi
 
-// Finds all occurrencies of '@[Paul Müller](a00-02)' and extracts the id out of it
-// Usage: aString.replace(/@\[.{1,30}\]\(+([^\][]+)\)/g, '@$1')
+// @<USER-ID>
+export const REGEX_USER_MENTIONS = /@.{3,36}/g
+// export const REGEX_USER_MENTIONS = /@[0-9a-fA-F-]{36}/g
+
+// @[<USER-Name>](<USER-ID>)
+// Usage: aString.replace(REGEX_USER_MENTIONS_WITH_NAME, '@$1')
 // e.g. '@[Paul Müller](a00-02)' => '@a00-02'
-export const REGEX_USER_MENTION = /@\[.{1,30}\]\(+([^\][]+)\)/g
+export const REGEX_USER_MENTIONS_WITH_NAME = /@\[.{3,36}\]\(+([^\][]+)\)/g
+// export const REGEX_USER_MENTIONS_WITH_NAME = /@\[[0-9a-fA-F-]{36}\]\(+([^\][]+)\)/g
 
-export const addDistinctItem = (objectArray: object[] = [], newObject: object, distinctPropName: string) => {
-  if (!newObject || !Object.hasOwn(newObject, distinctPropName) || !distinctPropName || distinctPropName.length < 1) {
-    return objectArray
-  }
-  const newArray = [...objectArray, newObject]
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return [...new Map(newArray.map((item: Record<string, any>) => [item[distinctPropName], item])).values()]
-}
-
+// @<ANY_STRING_WITH_SPECIAL_CHARS>
+// Regex for "@SomeUserName" or "@some user name" or "@some-user_name"
 // Copied from https://github.com/facebook/lexical/blob/0.6.1-next.1/packages/lexical-playground/src/plugins/MentionsPlugin/index.tsx
 const PUNCTUATION = '\\.,\\+\\*\\?\\$\\@\\|#{}\\(\\)\\^\\-\\[\\]\\\\/!%\'"~=<>_:;'
 const NAME = '\\b[A-Z][^\\s' + PUNCTUATION + ']'
