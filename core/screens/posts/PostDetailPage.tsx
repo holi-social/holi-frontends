@@ -19,6 +19,7 @@ import PostDetail from '@holi/core/screens/posts/components/PostDetail'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
+import { User } from '@holi/core/screens/userprofile/types'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
@@ -35,13 +36,13 @@ const { useParam } = createParam<PostDetailPageParams>()
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const getPostCommenters = (comments: Comment[]) => {
-  const commenters = comments?.map((comment) => comment.commenter) || []
+const getPostCommenters = (comments: Comment[] = []) => {
+  const dicCommenters = comments.reduce((acc, { commenter }) => {
+    acc[commenter.id] ??= commenter
+    return acc
+  }, {} as Record<string, User>)
 
-  // remove duplicates
-  return commenters.filter(
-    (user, index, self) => !!user && self.findIndex((commenter) => commenter.id === user.id) === index
-  )
+  return Object.values(dicCommenters)
 }
 
 const PostDetailPage: React.VFC<ScreenProps> = () => {

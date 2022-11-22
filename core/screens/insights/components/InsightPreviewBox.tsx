@@ -5,6 +5,7 @@ import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { userFullName } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Insight } from '@holi/core/screens/insights/types'
+import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -16,18 +17,22 @@ interface InsightPreviewBoxProps {
   style?: StyleProp<ViewStyle>
 }
 
-const editorsOfInsight = (insight: Insight) => {
+const getInsightEditors = (insight: Insight) => {
   const editors = [insight.curator, ...insight.posts.map(({ creator }) => creator)]
 
-  // remove duplicates
-  return editors.filter((user, index, self) => !!user && self.findIndex((editor) => editor.id === user.id) === index)
+  const dicEditors = editors.reduce((acc, editor) => {
+    acc[editor.id] ??= editor
+    return acc
+  }, {} as Record<string, User>)
+
+  return Object.values(dicEditors)
 }
 
 const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...props }) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
 
-  const editors = editorsOfInsight(insight)
+  const editors = getInsightEditors(insight)
 
   return (
     <View {...props}>
