@@ -55,7 +55,6 @@ export class HoliLexicalMentionsPluginNode extends TextNode {
   static importJSON(serializedNode: SerializedMentionNode): HoliLexicalMentionsPluginNode {
     const node = $createMentionNode(serializedNode.userName, serializedNode.userId, serializedNode.displayString)
     node.setTextContent(serializedNode.text)
-    console.log('[SuggNode] text:', serializedNode.text)
     node.setFormat(serializedNode.format)
     node.setDetail(serializedNode.detail)
     node.setMode(serializedNode.mode)

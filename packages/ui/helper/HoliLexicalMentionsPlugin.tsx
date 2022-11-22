@@ -123,8 +123,6 @@ export const $getPureTextFromHtml = (htmlString: string): string => {
   const ele = document.createElement('div')
   ele.innerHTML = htmlString.replaceAll('<br>', '[br]')
   const pureText = ele.textContent?.replaceAll('[br]', '\n') || ''
-  console.log('html:', htmlString)
-  console.log('pure:', pureText)
   return pureText
 }
 
