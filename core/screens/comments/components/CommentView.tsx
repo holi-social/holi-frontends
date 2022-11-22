@@ -2,7 +2,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { userFullName } from '@holi/core/helpers'
 import CommentConnector from '@holi/core/screens/comments/components/CommentConnector'
 import { Comment } from '@holi/core/screens/comments/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -20,11 +19,11 @@ export type CommentProps = {
 const CommentView: React.VFC<CommentProps> = ({ comment, style }) => {
   const { t } = useTranslation()
 
-  const { commenter } = comment
-  const name = userFullName(commenter) || t('user.profileView.anonymous')
+  const { creator } = comment
+  const name = creator.fullName || t('user.profileView.anonymous')
   return (
     <View style={[styles.wrapper, style]}>
-      <HoliMediaHeader title={name} author={commenter} date={comment.created} boldTitle>
+      <HoliMediaHeader title={name} author={creator} date={comment.created} boldTitle>
         <HoliButton transparent inline label={t('insights.post.preview.more')} style={styles.moreButton}>
           <HoliIcon icon="more" color={colors.fontColorGrey} />
         </HoliButton>

@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
-import { userFullName } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserSuggestionsResponse, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -23,10 +22,10 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestions
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const mixins = useStyleMixins()
-  const numberOfItems = 10
+  const limit = 10
 
   const { loading, error, data } = useQuery<UserSuggestionsResponse>(userSuggestionsQuery, {
-    variables: { numberOfItems },
+    variables: { limit },
   })
 
   if (error) {
@@ -34,11 +33,11 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestions
   }
 
   // Error and loading states are handled the same way and just hide the component
-  if (loading || error || !data?.userSuggestions?.length) {
+  if (loading || error || !data?.userSuggestions?.data?.length) {
     return <></>
   }
 
-  const { userSuggestions } = data
+  const userSuggestions = data.userSuggestions.data
 
   return (
     <View style={[mixins.container, props.style]} testID="user-suggestions">
@@ -48,7 +47,7 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestions
 
       <ScrollView style={styles.scrollviewContainer} horizontal>
         {userSuggestions.map((user, index) => {
-          const nameLabel = userFullName(user)
+          const nameLabel = user.fullName
           return (
             <HoliButton
               label={nameLabel || t('user.profileView.anonymous')}

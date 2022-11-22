@@ -2,7 +2,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { userFullName } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Insight } from '@holi/core/screens/insights/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -17,7 +16,7 @@ interface InsightPreviewBoxProps {
 }
 
 const editorsOfInsight = (insight: Insight) => {
-  const editors = [insight.curator, ...insight.posts.map(({ creator }) => creator)]
+  const editors = [insight.creator, ...insight.posts.map(({ creator }) => creator)]
 
   // remove duplicates
   return editors.filter((user, index, self) => !!user && self.findIndex((editor) => editor.id === user.id) === index)
@@ -39,17 +38,18 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
       >
         <Image source={{ uri: insight.headerImage }} style={styles.mainImage} />
 
-        <HoliHeading level="3" selectable={true} size="xSmall" style={[styles.cagetory]}>
-          {/* TODO: provide real category */}
-          Immigration
-        </HoliHeading>
+        {insight.topic && (
+          <HoliHeading level="3" selectable={true} size="xSmall" style={[styles.cagetory]}>
+            {insight.topic.title}
+          </HoliHeading>
+        )}
 
         <HoliHeading level="2" selectable={true} size="small" numberOfLines={3} style={styles.spaceTop}>
           {insight.title}
         </HoliHeading>
 
         <HoliText size="small" style={[styles.spaceTop, styles.textGrey]} selectable={true}>
-          {t('insights.posts.byAuthor', { author: userFullName(insight.curator), count: insight.posts.length })}
+          {t('insights.posts.byAuthor', { author: insight.creator.fullName, count: insight.posts.length })}
         </HoliText>
 
         {editors.length && (
