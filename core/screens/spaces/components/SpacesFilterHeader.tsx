@@ -13,15 +13,13 @@ export type SpacesFilterHeaderProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({ location, topics, allTopics = false, style }) => {
+const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({ location, topics, style }) => {
   const { t } = useTranslation()
 
   const i18nKey = useMemo(() => {
-    if (allTopics) {
-      return location ? 'spaces.filter.all.location' : 'spaces.filter.all'
-    }
-    return location ? 'spaces.filter.topics.location' : 'spaces.filter.topics'
-  }, [location, allTopics])
+    return location ? 'spaces.filter.all.location' : 'spaces.filter.all'
+    /*   return location ? 'spaces.filter.topics.location' : 'spaces.filter.topics' */
+  }, [location])
   const topicsNames = useMemo(() => topics.map((topic) => topic.title).join(', '), [topics])
 
   return (
