@@ -10,7 +10,7 @@ import { findUserByName } from '@holi/ui/helper/richText'
 import type { SuggestionItem } from '@holi/ui/helper/richText'
 import { colors } from '@holi/ui/styles/globalVars'
 
-// TOOD: replace with API request
+// TODO: replace with API, see HOLI-2533
 const requestUsers = async (keyword: string) => {
   const requestPromise = new Promise<SuggestionItem[]>((resolve) => {
     const suggestionsList = findUserByName(keyword)

@@ -29,6 +29,11 @@ export const REGEX_URL =
   // eslint-disable-next-line no-useless-escape
   /(https?:\/\/|www\.)[-a-zA-Z0-9@:%._\+~#=]{1,256}\.(xn--)?[a-z0-9-]{2,20}\b([-a-zA-Z0-9@:%_\+\[\],.~#?&\/=]*[-a-zA-Z0-9@:%_\+\]~#?&\/=])*/gi
 
+// Finds all occurrencies of '@[Paul Müller](a00-02)' and extracts the id out of it
+// Usage: aString.replace(/@\[.{1,30}\]\(+([^\][]+)\)/g, '@$1')
+// e.g. '@[Paul Müller](a00-02)' => '@a00-02'
+export const REGEX_USER_MENTION = /@\[.{1,30}\]\(+([^\][]+)\)/g
+
 export const addDistinctItem = (objectArray: object[] = [], newObject: object, distinctPropName: string) => {
   if (!newObject || !Object.hasOwn(newObject, distinctPropName) || !distinctPropName || distinctPropName.length < 1) {
     return objectArray

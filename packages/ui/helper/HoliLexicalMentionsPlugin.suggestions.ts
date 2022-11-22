@@ -9,7 +9,7 @@ const useDebouncedQuery = (mentionString: string | null) => {
   const [results, setResults] = useState<Array<SuggestionItem>>([])
 
   const debouncedSearch: (keyword: string) => void = useDebounce((keyword: string) => {
-    // TODO: replace with API
+    // TODO: replace with API, see HOLI-2533
     setTimeout(() => {
       const results = findUserByName(keyword)
       setResults(results)

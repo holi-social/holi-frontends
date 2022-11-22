@@ -10,6 +10,7 @@ import { useCallback, useMemo, useState } from 'react'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
+import { useSafeDispatch } from '@holi/core/helpers'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { findMentionMatches } from '@holi/ui/helper/richText'
 import type { SuggestionItem } from '@holi/ui/helper/richText'
@@ -24,6 +25,7 @@ const MAX_SUGGESTION_OPTIONS = 5
 const HoliLexicalMentionsPlugin = (): JSX.Element | null => {
   const [editor] = useLexicalComposerContext()
   const [queryString, setQueryString] = useState<string | null>(null)
+  const setSafeResult = useSafeDispatch(setQueryString)
   const results = useDebouncedQuery(queryString)
 
   const checkForSlashTriggerMatch = useBasicTypeaheadTriggerMatch('/', {
@@ -73,7 +75,6 @@ const HoliLexicalMentionsPlugin = (): JSX.Element | null => {
         if (nodeToReplace) {
           nodeToReplace.replace(mentionNode)
         }
-        // mentionNode.select(displayString.length, displayString.length)
         mentionNode.select()
         closeMenu()
       })
@@ -83,7 +84,7 @@ const HoliLexicalMentionsPlugin = (): JSX.Element | null => {
 
   return (
     <LexicalTypeaheadMenuPlugin<DropdownOption>
-      onQueryChange={setQueryString}
+      onQueryChange={setSafeResult}
       onSelectOption={replaceTextWithMentionNode}
       triggerFn={checkForMentionMatch}
       options={optionsList}
@@ -121,7 +122,10 @@ export const $getPureTextFromHtml = (htmlString: string): string => {
   if (!document) throw new Error('[HoliLexicalMentionsPlugin] No web context.')
   const ele = document.createElement('div')
   ele.innerHTML = htmlString.replaceAll('<br>', '[br]')
-  return ele.textContent?.replaceAll('[br]', '\n') || ''
+  const pureText = ele.textContent?.replaceAll('[br]', '\n') || ''
+  console.log('html:', htmlString)
+  console.log('pure:', pureText)
+  return pureText
 }
 
 /**
