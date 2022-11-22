@@ -1,9 +1,11 @@
+import { useQuery } from '@apollo/client'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
+import { logError } from '@holi/core/errors/helpers/logError'
 import InsightList from '@holi/core/screens/insights/InsightList'
-import { getRandomUser } from '@holi/core/screens/insights/fakeInsights'
+import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -11,8 +13,6 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-const dummyUsers = Array.from(' '.repeat(6), (_, idx) => getRandomUser(!(idx % 2)))
 
 export type InsightsOfTheWeekProps = {
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
@@ -23,6 +23,23 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
   const mixins = useStyleMixins()
 
   const [showEditorsModal, setShowEditorsModal] = useState(false)
+
+  const numberOfInsights = 2
+  const { loading, error, data } = useQuery<LastInsightsResponse>(lastInsightsQuery, {
+    variables: { limit: numberOfInsights },
+  })
+
+  if (error) {
+    logError(error, `[InsightsOfTheWeek.tsx] ${error.message}`)
+  }
+
+  // Error and loading states are handled the same way and just hide the component
+  if (loading || error) {
+    return <></>
+  }
+
+  const insights = data?.lastInsights?.data ? data.lastInsights.data : []
+  const insightsCreators = insights.map((insight) => insight.creator)
 
   return (
     <View style={[mixins.container, props.style]}>
@@ -41,7 +58,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
         inline
       >
         <View style={styles.editorsButtonContent}>
-          <HoliUserAvatarPile users={dummyUsers} collapse />
+          <HoliUserAvatarPile users={insightsCreators} collapse />
           <HoliText size="default" testID="avatars-top-title" style={styles.editorsButtonText}>
             {t('insights.editors.editedBy')}
           </HoliText>
@@ -56,13 +73,13 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
       >
         <HoliUserCardsModalContent
           title={t('insights.editors.modal.title')}
-          users={dummyUsers}
+          users={insightsCreators}
           onDismiss={() => setShowEditorsModal(false)}
           testID="insight-editors"
         />
       </HoliModal>
 
-      <InsightList style={styles.insightList} />
+      <InsightList style={styles.insightList} insights={insights} />
     </View>
   )
 }

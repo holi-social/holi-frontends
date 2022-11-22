@@ -7,7 +7,6 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
-import { userFullName } from '@holi/core/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -54,10 +53,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   if (!space) return <HoliText>{t('spaces.spaceDetails.notFound', { spaceId })}</HoliText>
 
-  const creator = {
-    ...space.creator,
-    fullName: userFullName(space.creator),
-  }
+  const creator = space.creator
 
   return (
     <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>

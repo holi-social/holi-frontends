@@ -7,13 +7,14 @@ export const PostCommentFragment = gql`
     id
     text
     created
-    commenter {
+    creator {
       id
       avatar
       avatarLabel
       avatarDefaultColor
       firstName
       lastName
+      fullName
       aboutMe
     }
   }
@@ -34,6 +35,7 @@ export const PostFragment = gql`
       avatarDefaultColor
       firstName
       lastName
+      fullName
       aboutMe
     }
     comments {
