@@ -1,9 +1,8 @@
 import * as React from 'react'
 import { StyleSheet } from 'react-native'
 
+import DropdownOption from '@holi/ui/helper/HoliLexicalMentionsPlugin.dropdownOption'
 import { colors } from '@holi/ui/styles/globalVars'
-
-import DropdownOption from './HoliLexicalMentionsPlugin.dropdownOption'
 
 export type HoliLexicalMentionsDropdownProps = {
   optionslist: DropdownOption[]

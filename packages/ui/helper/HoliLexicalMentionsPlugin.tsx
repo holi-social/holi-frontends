@@ -12,13 +12,12 @@ import * as ReactDOM from 'react-dom'
 
 import { useSafeDispatch } from '@holi/core/helpers'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
+import HoliLexicalMentionsDropdown from '@holi/ui/helper/HoliLexicalMentionsPlugin.dropdown'
+import DropdownOption from '@holi/ui/helper/HoliLexicalMentionsPlugin.dropdownOption'
+import { $createMentionNode, MENTION_DATA_ATTR } from '@holi/ui/helper/HoliLexicalMentionsPlugin.node'
+import useDebouncedQuery from '@holi/ui/helper/HoliLexicalMentionsPlugin.suggestions'
 import { findMentionMatches } from '@holi/ui/helper/richText'
 import type { SuggestionItem } from '@holi/ui/helper/richText'
-
-import HoliLexicalMentionsDropdown from './HoliLexicalMentionsPlugin.dropdown'
-import DropdownOption from './HoliLexicalMentionsPlugin.dropdownOption'
-import { $createMentionNode, MENTION_DATA_ATTR } from './HoliLexicalMentionsPlugin.node'
-import useDebouncedQuery from './HoliLexicalMentionsPlugin.suggestions'
 
 const MAX_SUGGESTION_OPTIONS = 5
 

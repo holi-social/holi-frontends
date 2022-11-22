@@ -21,7 +21,12 @@ export type HoliRichTextInputProps = {
   testID?: string
 }
 
-const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = '', placeholder = '...', ...props }) => {
+const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
+  initalValue = '',
+  placeholder = '...',
+  onChange,
+  ...props
+}) => {
   const [value, setValue] = useState(initalValue)
 
   const renderUserSuggestions: React.VFC<MentionSuggestionsProps> = ({ keyword, onSuggestionPress }) => {
@@ -61,8 +66,8 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = ''
 
   useEffect(() => {
     const holiFormattedString = String(value).replace(REGEX_USER_MENTION, '@$1')
-    props?.onChange?.(holiFormattedString)
-  }, [value, props])
+    onChange?.(holiFormattedString)
+  }, [value, onChange])
 
   return (
     <MentionInput
