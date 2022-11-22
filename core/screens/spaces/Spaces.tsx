@@ -8,9 +8,11 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { displayError } from '@holi/core/errors/helpers'
+import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import SpacesByTopic from '@holi/core/screens/spaces/components/SpacesByTopic'
+import SpacesFilterHeader from '@holi/core/screens/spaces/components/SpacesFilterHeader'
 import { topicsQuery } from '@holi/core/screens/spaces/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import { TopicsQueryResult } from '@holi/core/screens/userprofile/queries'
@@ -30,6 +32,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { setOptions, navigate } = useUnifiedNavigation()
+  const onScreenScroll = useScrollYHandler()
 
   useLayoutEffect(() => {
     const title = t('spaces.title')
@@ -84,12 +87,15 @@ const Spaces: React.VFC<ScreenProps> = () => {
   }
 
   return (
-    <DefaultLayout>
+    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
       <View style={mixins.container}>
-        <HoliText size="large" style={{ marginTop: 48, marginBottom: 48 }}>
-          {/*PLACEHOLDER FOR FILTER HEADER*/ 'Discover [ALL] spaces in [Berlin].'}
-        </HoliText>
-
+        <SpacesFilterHeader
+          style={styles.spacesContainer}
+          topics={user?.interests || []}
+          location={user?.location}
+          allTopics={!user?.interests?.length}
+          onPress={() => ({})}
+        />
         {filteredTopics.map((topic) => (
           <SpacesByTopic key={topic.id} topic={topic} style={{ marginBottom: 12 }} />
         ))}
@@ -111,6 +117,10 @@ const styles = StyleSheet.create({
   messageContainer: {
     alignItems: 'center',
     marginTop: 50,
+  },
+  spacesContainer: {
+    marginTop: 40,
+    marginBottom: 48,
   },
 })
 

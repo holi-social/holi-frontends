@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
       web: {
         position: 'fixed',
         textAlign: 'center',
-        paddingBottom: 65,
+        paddingBottom: 78,
       },
     }),
   },

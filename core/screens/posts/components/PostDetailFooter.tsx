@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         paddingBottom: 36,
       },
       web: {
-        paddingBottom: 89,
+        paddingBottom: 102,
         width: '100%',
       },
     }),

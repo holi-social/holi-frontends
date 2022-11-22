@@ -77,7 +77,6 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
         <UpdatesOfYourApps style={styles.updatesOfYourApps} />
         {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}
       </DefaultLayout>
-
       {/* AppsDrawer needs to be outside of the Layout */}
       <AppsDrawer />
     </>
