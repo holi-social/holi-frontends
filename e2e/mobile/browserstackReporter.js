@@ -1,5 +1,6 @@
 'use strict'
 
+// eslint-disable-next-line
 const https = require('https')
 
 const markBrowserStack = (sessionId, status, reason = '') => {
