@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -7,7 +7,6 @@ import SpaceTaskTile from '@holi/core/screens/spaces/components/SpaceTaskTile'
 import { Space, Task } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
 
 type SpaceDetailViewProps = {
   space: Space
@@ -23,7 +22,7 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
   }
 
   return (
-    <View style={[{ justifyContent: 'center', padding: 24 }, style]} testID="space-details-container">
+    <View style={[styles.container, style]} testID="space-details-container">
       <HoliHeading level="1">{space.title}</HoliHeading>
       <HoliText style={{ paddingTop: 10 }}>
         <Trans
@@ -32,11 +31,11 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
         />
       </HoliText>
       <HoliText style={{ paddingTop: 10 }}>{space.description}</HoliText>
-      {space.tasks && space.tasks.length > 0 && (
+      {(space.tasks?.length || 0) > 0 && (
         <View>
-          <HoliHeading level="2">{t('spaces.spaceDetails.tasksHeading', { count: space.tasks.length })}</HoliHeading>
+          <HoliHeading level="2">{t('spaces.spaceDetails.tasksHeading', { count: space.tasks?.length })}</HoliHeading>
           <ScrollView horizontal={true} style={{ marginTop: 20 }} contentContainerStyle={styles.tasksContainer}>
-            {space.tasks.map((task: Task) => (
+            {space.tasks?.map((task: Task) => (
               <SpaceTaskTile key={task.id} task={task} style={styles.taskTile} />
             ))}
           </ScrollView>
@@ -48,7 +47,8 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.backgroundColorGreyLight,
+    justifyContent: 'center',
+    padding: 24,
   },
   tasksContainer: {
     justifyContent: 'center',
@@ -59,4 +59,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default memo(SpaceDetailView)
+export default SpaceDetailView

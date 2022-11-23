@@ -1,13 +1,10 @@
 import partition from 'lodash.partition'
 import React, { memo, useMemo } from 'react'
-// import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpacesByTopic from '@holi/core/screens/spaces/components/SpacesByTopic'
 import SpacesFilterHeader from '@holi/core/screens/spaces/components/SpacesFilterHeader'
 import { Topic, User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
-
-// import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 
 type SpacesViewProps = {
   user?: User
@@ -39,7 +36,8 @@ const SpacesView: React.VFC<SpacesViewProps> = ({ topics, user, style }) => {
         <SpacesByTopic key={topic.id} topic={topic} style={{ marginBottom: 12 }} />
       ))}
 
-      {/* {filteredTopics.length > 0 && otherTopics.length > 0 && (
+      {/* Will be added again once we introduce filtering
+      {filteredTopics.length > 0 && otherTopics.length > 0 && (
         <HoliHeading size="large" style={{ marginBottom: 24 }}>
           {t('spaces.otherListing')}
         </HoliHeading>

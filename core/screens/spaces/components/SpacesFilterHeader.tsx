@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { GestureResponderEvent, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
@@ -23,12 +23,12 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({ location, topi
   const topicsNames = useMemo(() => topics.map((topic) => topic.title).join(', '), [topics])
 
   return (
-    <HoliHeading level="1" size="large" style={[styles.tagContainer, style]}>
+    <HoliHeading level="1" size="large" style={[styles.tagContainer, style]} testID="spaces-filter-header">
       <Trans t={t} i18nKey={i18nKey} values={{ location, topics: topicsNames }} />
     </HoliHeading>
   )
 }
-export default memo(SpacesFilterHeader)
+export default SpacesFilterHeader
 
 const styles = StyleSheet.create({
   tagContainer: {

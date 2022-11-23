@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import SpacesView from 'core/screens/spaces/components/SpacesView'
-import React, { useContext, useLayoutEffect, useMemo } from 'react'
+import React, { useContext, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -61,7 +61,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
 
   const { loading, data, error } = useQuery<TopicsQueryResult>(topicsQuery)
 
-  const topics = useMemo(() => data?.topics.data || [], [data])
+  const topics = data?.topics.data || []
 
   const { user } = useContext(UserContext)
 

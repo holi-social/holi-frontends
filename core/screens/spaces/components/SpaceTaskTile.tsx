@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
@@ -148,4 +148,4 @@ const getStyles = (screenWidth: number) =>
     },
   })
 
-export default memo(SpaceTaskTile)
+export default SpaceTaskTile
