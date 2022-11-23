@@ -11,6 +11,8 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 import VolunteeringAppHome from '@holi-apps/volunteering/screens/VolunteeringAppHome'
 
+import { RouteName } from './types'
+
 export type VolunteeringAppScreensList = {
   VolunteeringAppHome: undefined
 }
@@ -52,7 +54,7 @@ const VolunteeringAppNavigator: React.VFC = () => {
   return (
     <View style={{ height: '100%' }}>
       <VolunteeringAppStack.Navigator
-        initialRouteName="VolunteeringAppHome"
+        initialRouteName={RouteName.VolunteeringAppHome}
         screenOptions={{
           headerShown: true,
           headerStyle: {
@@ -61,7 +63,7 @@ const VolunteeringAppNavigator: React.VFC = () => {
           headerTitleAlign: 'center',
         }}
       >
-        <VolunteeringAppStack.Screen name="VolunteeringAppHome" component={VolunteeringAppHome} />
+        <VolunteeringAppStack.Screen name={RouteName.VolunteeringAppHome} component={VolunteeringAppHome} />
       </VolunteeringAppStack.Navigator>
       <AppNavigation />
     </View>

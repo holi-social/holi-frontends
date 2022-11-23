@@ -10,6 +10,8 @@ import DonationsAppProjectDetail, {
   DonationsAppProjectDetailParams,
 } from '@holi-apps/donations/screens/DonationsAppProjectDetail'
 
+import { RouteName } from './types'
+
 export type DonationsAppScreensList = {
   DonationsAppHome: DonationsAppHomeParams
   DonationsAppProjectDetail: DonationsAppProjectDetailParams
@@ -20,7 +22,7 @@ const DonationsAppStack = createNativeStackNavigator<DonationsAppScreensList>()
 const DonationsAppNavigator: React.VFC = () => {
   return (
     <DonationsAppStack.Navigator
-      initialRouteName="DonationsAppHome"
+      initialRouteName={RouteName.DonationsAppHome}
       screenOptions={{
         header: HeaderAnimated,
         headerShown: true,
@@ -30,8 +32,8 @@ const DonationsAppNavigator: React.VFC = () => {
         },
       }}
     >
-      <DonationsAppStack.Screen name="DonationsAppHome" component={DonationsAppHome} />
-      <DonationsAppStack.Screen name="DonationsAppProjectDetail" component={DonationsAppProjectDetail} />
+      <DonationsAppStack.Screen name={RouteName.DonationsAppHome} component={DonationsAppHome} />
+      <DonationsAppStack.Screen name={RouteName.DonationsAppProjectDetail} component={DonationsAppProjectDetail} />
     </DonationsAppStack.Navigator>
   )
 }
