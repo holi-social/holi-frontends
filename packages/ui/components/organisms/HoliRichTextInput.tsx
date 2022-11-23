@@ -3,7 +3,7 @@ import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 import { MentionInput, MentionSuggestionsProps } from 'react-native-controlled-mentions'
 
 import HoliRichTextInputSuggestions from '@holi/ui/components/organisms/HoliRichTextInput.suggestions'
-import { REGEX_URL, SuggestionItem } from '@holi/ui/helper/richText'
+import { REGEX_URL, REGEX_USER_MENTIONS_WITH_NAME, SuggestionItem } from '@holi/ui/helper/richText'
 import { colors } from '@holi/ui/styles/globalVars'
 
 const MIN_SEARCH_CHARS = 2
@@ -21,7 +21,12 @@ export type HoliRichTextInputProps = {
   testID?: string
 }
 
-const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = '', placeholder = '...', ...props }) => {
+const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
+  initalValue = '',
+  placeholder = '...',
+  onChange,
+  ...props
+}) => {
   const [value, setValue] = useState(initalValue)
 
   const renderUserSuggestions: React.VFC<MentionSuggestionsProps> = ({ keyword, onSuggestionPress }) => {
@@ -55,17 +60,20 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = ''
     textStyle: styles.inlineUrl,
   })
 
-  const handleTextChange = useCallback((text: string) => {
+  const onInputChange = useCallback((text: string) => {
     setValue(String(text))
   }, [])
 
-  useEffect(() => props?.onChange?.(String(value)), [value, props])
+  useEffect(() => {
+    const holiFormattedString = String(value).replace(REGEX_USER_MENTIONS_WITH_NAME, '@$1')
+    onChange?.(holiFormattedString)
+  }, [value, onChange])
 
   return (
     <MentionInput
       value={value}
       autoFocus
-      onChange={handleTextChange}
+      onChange={onInputChange}
       partTypes={suggestionConfig}
       placeholder={placeholder}
       containerStyle={[styles.mentionsStyles, props.style]}

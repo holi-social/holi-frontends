@@ -52,7 +52,7 @@ const HoliUserAvatar = ({ size = 'medium', defaultColor, imageSrc, initials, lab
   )
 }
 
-export default HoliUserAvatar
+export default React.memo(HoliUserAvatar)
 
 const getStyles = (width: number, defaultColor: string, imageIsAvailable: boolean) => {
   const initialsFontSize = (width / 10) * 4.5

@@ -15,6 +15,7 @@ interface HoliUserAvatarPileProps {
   collapse?: boolean
   counter?: boolean
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
+  testID?: string
 }
 
 const HoliUserAvatarPile: React.FC<HoliUserAvatarPileProps> = ({
@@ -25,19 +26,24 @@ const HoliUserAvatarPile: React.FC<HoliUserAvatarPileProps> = ({
   collapse = false,
   counter = false,
   style,
+  testID = 'holi-user-avatar-pile',
 }) => {
   const { t } = useTranslation()
 
+  const uniqueUsers = users.reduce((newArr: User[], nextUser: User) => {
+    return newArr.some((user) => user.id === nextUser.id) ? newArr : [...newArr, nextUser]
+  }, [])
+
   return (
     <>
-      <View style={[style, styles.container]}>
-        {users.slice(0, usersToShow).map((user, idx) => {
+      <View style={[style, styles.container]} testID={testID}>
+        {uniqueUsers.slice(0, usersToShow).map((user, idx) => {
           const nameLabel = userFullName(user)
           const collapseDistance = collapse ? avatarSizes[size] / -2.4 : -4
 
           return (
             <HoliUserAvatar
-              key={`${user.id}-${Math.round(Math.random() * 100)}`}
+              key={`${testID}-${user.id}`}
               imageSrc={user.avatar}
               label={nameLabel || t('navigation.headerRight.avatarFallbackLabel')}
               initials={user.avatarLabel}
