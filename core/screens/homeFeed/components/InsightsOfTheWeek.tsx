@@ -6,6 +6,7 @@ import { StyleSheet, View, ViewStyle } from 'react-native'
 import { logError } from '@holi/core/errors/helpers/logError'
 import InsightList from '@holi/core/screens/insights/InsightList'
 import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/insights/queries'
+import { Insight } from '@holi/core/screens/insights/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -16,6 +17,13 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type InsightsOfTheWeekProps = {
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
+}
+
+const getInsightCreators = (insights: Insight[]) => {
+  const creators = insights?.map((insight) => insight.creator) || []
+
+  // remove duplicates
+  return creators.filter((user, index, self) => !!user && self.findIndex((creator) => creator.id === user.id) === index)
 }
 
 const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfTheWeekProps) => {
@@ -39,7 +47,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
   }
 
   const insights = data?.lastInsights?.data ? data.lastInsights.data : []
-  const insightsCreators = insights.map((insight) => insight.creator)
+  const insightsCreators = getInsightCreators(insights)
 
   return (
     <View style={[mixins.container, props.style]}>
