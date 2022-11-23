@@ -88,7 +88,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
 
   return (
     <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
-      <View style={mixins.container}>
+      <View style={mixins.container} testID="spaces-container">
         <SpacesFilterHeader
           style={styles.spacesContainer}
           topics={user?.interests || []}
@@ -96,6 +96,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
           allTopics={!user?.interests?.length}
           onPress={() => ({})}
         />
+
         {filteredTopics.map((topic) => (
           <SpacesByTopic key={topic.id} topic={topic} style={{ marginBottom: 12 }} />
         ))}
