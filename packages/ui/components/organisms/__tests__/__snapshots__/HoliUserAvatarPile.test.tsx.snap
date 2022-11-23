@@ -11,6 +11,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       },
     ]
   }
+  testID="holi-user-avatar-pile"
 >
   <View
     style={
