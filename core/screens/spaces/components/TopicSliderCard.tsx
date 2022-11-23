@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { Image, Platform, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -28,7 +28,7 @@ const TopicSliderCard: React.VFC<TopicSliderCardProps> = ({ space, style }: Topi
       label={`${title} - ${description}`}
       transparent
       onPress={() => navigate(`/spaces/${id}`)}
-      style={[style, { width: '100%' }]}
+      style={[style, styles.card]}
       inline
       testID="btn-to-space"
     >
@@ -45,13 +45,13 @@ const TopicSliderCard: React.VFC<TopicSliderCardProps> = ({ space, style }: Topi
       <HoliText size="small" bold numberOfLines={2} selectable>
         {title}
       </HoliText>
-      <HoliText size="small" numberOfLines={2} selectable style={{ marginTop: 6, color: colors.fontColorGrey }}>
+      <HoliText size="small" numberOfLines={2} selectable style={styles.description}>
         {description}
       </HoliText>
     </HoliButton>
   )
 }
-export default TopicSliderCard
+export default memo(TopicSliderCard)
 
 const styles = StyleSheet.create({
   mainImageWrapper: {
@@ -76,5 +76,12 @@ const styles = StyleSheet.create({
     paddingRight: 8,
     borderRadius: 24,
     margin: 6,
+  },
+  card: {
+    width: '100%',
+  },
+  description: {
+    marginTop: 6,
+    color: colors.fontColorGrey,
   },
 })

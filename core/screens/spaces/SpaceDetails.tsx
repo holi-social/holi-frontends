@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
+import SpaceDetailView from 'core/screens/spaces/components/SpaceDetailView'
 import React, { memo, useLayoutEffect } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -10,15 +10,10 @@ import { logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import SpaceTaskTile from '@holi/core/screens/spaces/components/SpaceTaskTile'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-import { Task } from './types'
 
 export type SpaceDetailsParams = {
   spaceId: string
@@ -53,42 +48,11 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   if (!space) return <HoliText>{t('spaces.spaceDetails.notFound', { spaceId })}</HoliText>
 
-  const creator = space.creator
-
   return (
     <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
-      <View style={[mixins.container, { justifyContent: 'center', padding: 24 }]} testID="space-details-container">
-        <HoliHeading level="1">{space.title}</HoliHeading>
-        <HoliText style={{ paddingTop: 10 }}>
-          <Trans i18nKey="spaces.spaceDetails.creator" values={{ name: creator.fullName || t('Anonymous user') }} />
-        </HoliText>
-        <HoliText style={{ paddingTop: 10 }}>{space.description}</HoliText>
-        {space.tasks && space.tasks.length > 0 && (
-          <View>
-            <HoliHeading level="2">{t('spaces.spaceDetails.tasksHeading', { count: space.tasks.length })}</HoliHeading>
-            <ScrollView horizontal={true} style={{ marginTop: 20 }} contentContainerStyle={styles.tasksContainer}>
-              {space.tasks.map((task: Task) => (
-                <SpaceTaskTile key={task.id} task={task} style={styles.taskTile} />
-              ))}
-            </ScrollView>
-          </View>
-        )}
-      </View>
+      <SpaceDetailView style={mixins.container} space={space} />
     </DefaultLayout>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.backgroundColorGreyLight,
-  },
-  tasksContainer: {
-    justifyContent: 'center',
-    marginBottom: 30,
-  },
-  taskTile: {
-    marginRight: 8,
-  },
-})
 
 export default memo(SpaceDetails)
