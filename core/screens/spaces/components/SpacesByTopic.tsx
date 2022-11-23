@@ -1,12 +1,12 @@
 import { useQuery } from '@apollo/client'
-import { Topic } from 'core/screens/userprofile/types'
-import React, { useMemo } from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { displayError } from '@holi/core/errors/helpers'
 import TopicSlider from '@holi/core/screens/spaces/components/TopicSlider'
 import { SpacesResponse, spacesQuery } from '@holi/core/screens/spaces/queries'
+import { Topic } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -29,7 +29,7 @@ const SpacesByTopic: React.VFC<SpacesByTopicProps> = ({ topic, style }: SpacesBy
     },
   })
 
-  const spaces = useMemo(() => data?.spaces.data || [], [data])
+  const spaces = data?.spaces.data || []
 
   if (error) {
     displayError(error, t('spaces.spaceListing.error'))
@@ -58,4 +58,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default SpacesByTopic
+export default memo(SpacesByTopic)
