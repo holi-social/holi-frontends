@@ -30,6 +30,7 @@ const TopicSliderCard: React.VFC<TopicSliderCardProps> = ({ space, style }: Topi
       onPress={() => navigate(`/spaces/${id}`)}
       style={[style, { width: '100%' }]}
       inline
+      testID="btn-to-space"
     >
       <View style={styles.mainImageWrapper}>
         {<Image source={{ uri: mainImage }} style={styles.mainImage} />}
