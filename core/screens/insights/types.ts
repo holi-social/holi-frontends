@@ -1,5 +1,5 @@
-import { Post } from 'core/screens/posts/types'
-import { Topic, User } from 'core/screens/userprofile/types'
+import { Post } from '@holi/core/screens/posts/types'
+import { Topic, User } from '@holi/core/screens/userprofile/types'
 
 export interface Insight {
   id: string
