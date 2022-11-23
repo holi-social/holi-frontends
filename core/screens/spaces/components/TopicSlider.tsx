@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -20,7 +20,7 @@ const TopicSlider: React.VFC<TopicSliderProps> = ({ topic, spaces, style }: Topi
   // const { navigate } = useRouting()
 
   return (
-    <View style={[{ marginBottom: 24 }, style]} testID="spaces-topic-container">
+    <View style={[styles.slider, style]} testID="spaces-topic-container">
       <View style={styles.sliderHeader}>
         <HoliText size="large">{topic}</HoliText>
         <HoliButton
@@ -40,9 +40,12 @@ const TopicSlider: React.VFC<TopicSliderProps> = ({ topic, spaces, style }: Topi
     </View>
   )
 }
-export default TopicSlider
+export default memo(TopicSlider)
 
 const styles = StyleSheet.create({
+  slider: {
+    marginBottom: 24,
+  },
   sliderHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',

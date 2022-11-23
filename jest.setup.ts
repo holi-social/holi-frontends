@@ -2,7 +2,7 @@ import { initReactI18next } from 'react-i18next'
 
 import i18n from '@holi/core/i18n'
 
-global.mockLinkTo = jest.fn()
+global.mockNavigate = jest.fn()
 global.captureSentryException = jest.fn()
 global.console = {
   ...console,
@@ -21,7 +21,7 @@ jest.mock('@react-navigation/native', () => {
         index: 0,
       })),
     }),
-    useLinkTo: () => global.mockLinkTo,
+    useLinkTo: () => global.mockNavigate,
   }
 })
 

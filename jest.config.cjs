@@ -7,7 +7,7 @@ module.exports = {
       '<rootDir>/jestFileTransformer.js',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  modulePathIgnorePatterns: ['e2e'],
+  modulePathIgnorePatterns: ['e2e', 'testData'],
   setupFiles: ['<rootDir>/jest.setup.ts'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup-after-env.ts'],
   resetMocks: true,

@@ -29,7 +29,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
         {task.creator && (
           <HoliUserAvatar
             imageSrc={task.creator.avatar}
-            label={userFullName(task.creator) || t('spaces.tasks.creator.anonymous')}
+            label={userFullName(task.creator) || t('user.profileView.anonymous')}
             initials={task.creator.avatarLabel || ''}
             defaultColor={task.creator.avatarDefaultColor || ''}
             size="micro"
