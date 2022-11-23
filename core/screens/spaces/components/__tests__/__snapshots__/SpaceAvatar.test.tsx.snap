@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`React tree renders correctly 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#f7f6f3",
+        "borderRadius": 8,
+        "justifyContent": "center",
+        "overflow": "hidden",
+      },
+      undefined,
+      Object {
+        "borderColor": "#222326",
+        "borderWidth": 2,
+        "height": 64,
+        "width": 64,
+      },
+    ]
+  }
+>
+  <Image
+    accessibilityLabel="Communal Cooking by XR"
+    accessibilityRole="image"
+    accessible={false}
+    source={
+      Object {
+        "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
+      }
+    }
+    style={
+      Object {
+        "height": "100%",
+        "width": "100%",
+      }
+    }
+  />
+</View>
+`;
+
+exports[`React tree renders default grey background, when given image prop is empty 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#f7f6f3",
+        "borderRadius": 8,
+        "justifyContent": "center",
+        "overflow": "hidden",
+      },
+      undefined,
+      Object {
+        "borderColor": "#222326",
+        "borderWidth": 2,
+        "height": 64,
+        "width": 64,
+      },
+    ]
+  }
+>
+  <Image
+    accessibilityLabel="Communcal Cooking by XR"
+    accessibilityRole="image"
+    accessible={false}
+    source={
+      Object {
+        "uri": undefined,
+      }
+    }
+    style={
+      Object {
+        "height": "100%",
+        "width": "100%",
+      }
+    }
+  />
+</View>
+`;

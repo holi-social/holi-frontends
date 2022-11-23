@@ -9,6 +9,7 @@ export interface Space {
   mainImage: string
   location: string
   members: User[]
+  avatar?: string
   tasks?: Task[]
 }
 

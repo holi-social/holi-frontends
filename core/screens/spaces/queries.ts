@@ -20,6 +20,7 @@ const SpaceFragment = gql`
     title
     description
     created
+    avatar @client
     creator {
       ...UserAvatar
     }
