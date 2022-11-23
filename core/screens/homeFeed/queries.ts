@@ -12,17 +12,22 @@ export const userSuggestionsQuery = gql`
     avatar
     firstName
     lastName
+    fullName
     avatarDefaultColor
     avatarLabel
   }
 
-  query UserSuggestions($numberOfItems: Int!) {
-    userSuggestions(numberOfItems: $numberOfItems) {
-      ...UserSuggestion
+  query UserSuggestions($limit: Int!) {
+    userSuggestions(limit: $limit) {
+      data {
+        ...UserSuggestion
+      }
     }
   }
 `
 
 export type UserSuggestionsResponse = {
-  userSuggestions: User[]
+  userSuggestions: {
+    data: User[]
+  }
 }

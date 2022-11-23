@@ -7,7 +7,6 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import { useScrollYHandler } from '@holi/core/helpers'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import AppsDrawer from '@holi/core/screens/homeFeed/components/AppsDrawer'
 import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
@@ -15,6 +14,7 @@ import UpdatesOfYourApps from '@holi/core/screens/homeFeed/components/UpdatesOfY
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -45,10 +45,16 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
       headerTransparent: true,
       headerStyle: { backgroundColor: colors.backgroundColorWhite },
       headerTitle: () => null,
-      headerLeft: ({ tintColor }) => (
-        <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
-          {headerTitle}
-        </HeaderTitle>
+      headerLeft: () => (
+        <HoliButton label={t('navigation.home')} inline transparent onPress={() => navigate('/')}>
+          <HoliLocalImage
+            imageSource={require('@holi/ui/assets/img/holi/holi.svg')}
+            isSvg
+            width={56}
+            height={24}
+            label="Holi"
+          />
+        </HoliButton>
       ),
       headerRight: ({ tintColor }) => (
         <HoliHorizontalRow>
@@ -71,7 +77,6 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
         <UpdatesOfYourApps style={styles.updatesOfYourApps} />
         {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}
       </DefaultLayout>
-
       {/* AppsDrawer needs to be outside of the Layout */}
       <AppsDrawer />
     </>

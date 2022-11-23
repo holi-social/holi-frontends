@@ -16,6 +16,7 @@ export interface User {
   avatar?: string
   firstName?: string
   lastName?: string
+  fullName: string
   aboutMe?: string
   pronouns?: string
   location?: string

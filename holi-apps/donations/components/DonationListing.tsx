@@ -114,13 +114,15 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
           <HoliText style={styles.noResultsHint}>{t('donations:donationListing.search.noResults')}</HoliText>
         </View>
       )}
-      {projects.map((project) =>
-        isFiltering ? (
-          <DonationListingItemFiltered key={project.id} project={project} />
-        ) : (
-          <DonationListingItem key={project.id} project={project} />
-        )
-      )}
+      {projects
+        // FIX: duplication in projects after loading more
+        .map((project) =>
+          isFiltering ? (
+            <DonationListingItemFiltered key={project.id} project={project} />
+          ) : (
+            <DonationListingItem key={project.id} project={project} />
+          )
+        )}
       {canFetchMore && (
         <DonationButton
           label={fetchMoreButtonText}

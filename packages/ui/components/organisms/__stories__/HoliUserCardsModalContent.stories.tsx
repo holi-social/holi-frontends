@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { getRandomUser } from 'packages/ui/helper/fakeUsers'
 import React from 'react'
 
-import { getRandomUser } from '@holi/core/screens/insights/fakeInsights'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 
 const users = Array.from(' '.repeat(6), (_, idx) => getRandomUser(!(idx % 2)))

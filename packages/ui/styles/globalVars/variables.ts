@@ -4,7 +4,7 @@ export default {
   maxScreenWidth: '1200',
   maxButtonWidth: '400',
   topBarHeight: '52',
-  bottomBarHeight: '52',
+  bottomBarHeight: '66',
   breakpointS: '576',
   breakpointM: '768',
   breakpointL: '992',

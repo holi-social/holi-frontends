@@ -2,7 +2,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import { userFullName } from '@holi/core/helpers'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -20,10 +19,7 @@ const PostDetail: React.VFC<PostDetailProps> = ({ post }: PostDetailProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  const author = {
-    ...post.creator,
-    fullName: userFullName(post.creator),
-  }
+  const author = post.creator
 
   return (
     <View style={[mixins.container, styles.postView]}>
