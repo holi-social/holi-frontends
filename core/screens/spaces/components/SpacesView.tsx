@@ -1,5 +1,5 @@
 import partition from 'lodash.partition'
-import React, { memo, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpacesByTopic from '@holi/core/screens/spaces/components/SpacesByTopic'
@@ -56,4 +56,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default memo(SpacesView)
+export default SpacesView

@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import SpacesView from 'core/screens/spaces/components/SpacesView'
-import React, { useContext, useLayoutEffect } from 'react'
+import React, { memo, useContext, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -92,4 +92,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Spaces
+export default memo(Spaces)
