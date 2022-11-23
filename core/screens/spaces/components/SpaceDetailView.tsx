@@ -2,7 +2,6 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { userFullName } from '@holi/core/helpers'
 import SpaceTaskTile from '@holi/core/screens/spaces/components/SpaceTaskTile'
 import { Space, Task } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -16,10 +15,7 @@ type SpaceDetailViewProps = {
 const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
   const { t } = useTranslation()
 
-  const creator = {
-    ...space.creator,
-    fullName: userFullName(space.creator),
-  }
+  const creator = space.creator
 
   return (
     <View style={[styles.container, style]} testID="space-details-container">
