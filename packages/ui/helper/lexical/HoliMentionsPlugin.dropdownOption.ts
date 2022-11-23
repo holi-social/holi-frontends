@@ -1,6 +1,6 @@
 import { TypeaheadOption } from '@lexical/react/LexicalTypeaheadMenuPlugin'
 
-class HoliLexicalMentionsPluginDropdownOption extends TypeaheadOption {
+class HoliMentionsPluginDropdownOption extends TypeaheadOption {
   id: string
   name: string
   picture: JSX.Element
@@ -12,4 +12,4 @@ class HoliLexicalMentionsPluginDropdownOption extends TypeaheadOption {
     this.picture = picture
   }
 }
-export default HoliLexicalMentionsPluginDropdownOption
+export default HoliMentionsPluginDropdownOption

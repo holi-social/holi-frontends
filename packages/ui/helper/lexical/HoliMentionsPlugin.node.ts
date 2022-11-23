@@ -1,10 +1,3 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
 import type { Spread } from 'lexical'
 import {
   DOMConversionMap,
@@ -33,7 +26,7 @@ export type SerializedMentionNode = Spread<
 export const MENTION_DATA_ATTR_USER_ID = 'data-user-id'
 export const MENTION_DATA_ATTR = 'data-lexical-mention'
 
-export class HoliLexicalMentionsPluginNode extends TextNode {
+export class HoliMentionsPluginNode extends TextNode {
   __userId: string
   __userName: string
   __displayString: string
@@ -42,17 +35,11 @@ export class HoliLexicalMentionsPluginNode extends TextNode {
     return 'mention'
   }
 
-  static clone(node: HoliLexicalMentionsPluginNode): HoliLexicalMentionsPluginNode {
-    return new HoliLexicalMentionsPluginNode(
-      node.__userName,
-      node.__userId,
-      node.__displayString,
-      node.__text,
-      node.__key
-    )
+  static clone(node: HoliMentionsPluginNode): HoliMentionsPluginNode {
+    return new HoliMentionsPluginNode(node.__userName, node.__userId, node.__displayString, node.__text, node.__key)
   }
 
-  static importJSON(serializedNode: SerializedMentionNode): HoliLexicalMentionsPluginNode {
+  static importJSON(serializedNode: SerializedMentionNode): HoliMentionsPluginNode {
     const node = $createMentionNode(serializedNode.userName, serializedNode.userId, serializedNode.displayString)
     node.setTextContent(serializedNode.text)
     node.setFormat(serializedNode.format)
@@ -125,14 +112,14 @@ export const $createMentionNode = (
   userName: string,
   userId: string,
   displayString?: string
-): HoliLexicalMentionsPluginNode => {
-  const mentionNode = new HoliLexicalMentionsPluginNode(userName, userId, displayString)
+): HoliMentionsPluginNode => {
+  const mentionNode = new HoliMentionsPluginNode(userName, userId, displayString)
   mentionNode.setMode('segmented').toggleDirectionless()
   return mentionNode
 }
 
-export const $isMentionNode = (node: LexicalNode | null | undefined): node is HoliLexicalMentionsPluginNode => {
-  return node instanceof HoliLexicalMentionsPluginNode
+export const $isMentionNode = (node: LexicalNode | null | undefined): node is HoliMentionsPluginNode => {
+  return node instanceof HoliMentionsPluginNode
 }
 
 export const $convertDomInJsonElement = (domNode: HTMLElement): DOMConversionOutput | null => {
@@ -146,7 +133,7 @@ export const $convertDomInJsonElement = (domNode: HTMLElement): DOMConversionOut
     }
   } else {
     console.error(
-      '[HoliLexicalMentionsPluginNode] $convertDomInJsonElement() Couldnt convert element. Data missing.',
+      '[HoliMentionsPluginNode] $convertDomInJsonElement() Couldnt convert element. Data missing.',
       textContent,
       userId
     )

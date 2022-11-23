@@ -11,15 +11,14 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import type { HoliRichTextInputProps } from '@holi/ui/components/organisms/HoliRichTextInput'
-import HoliLexicalFocusPlugin from '@holi/ui/helper/HoliLexicalFocusPlugin'
-import HoliLexicalMentionsPlugin, { $getPureTextFromHtml } from '@holi/ui/helper/HoliLexicalMentionsPlugin'
-import { HoliLexicalMentionsPluginNode } from '@holi/ui/helper/HoliLexicalMentionsPlugin.node'
+import HoliFocusPlugin from '@holi/ui/helper/lexical/HoliFocusPlugin'
+import HoliMentionsPlugin, { $getPureTextFromHtml } from '@holi/ui/helper/lexical/HoliMentionsPlugin'
+import { HoliMentionsPluginNode } from '@holi/ui/helper/lexical/HoliMentionsPlugin.node'
 import { colors } from '@holi/ui/styles/globalVars'
 
 const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = '', placeholder = '...', ...props }) => {
   const onChange = (editorState: EditorState, editor: LexicalEditor) => {
     editorState.read(() => {
-      // Read the contents of the EditorState here.
       // const root = $getRoot()
       // const selection = $getSelection()
       // const json = editorState.toJSON()
@@ -29,9 +28,6 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = ''
     })
   }
 
-  // Catch any errors that occur during Lexical updates and log them
-  // or throw them as needed. If you don't throw them, Lexical will
-  // try to recover gracefully without losing user data.
   const onError = (error: Error) => {
     console.error(error)
   }
@@ -49,7 +45,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = ''
 
   const lexicalConfig = {
     namespace: 'HoliRichTextInput',
-    nodes: [HoliLexicalMentionsPluginNode],
+    nodes: [HoliMentionsPluginNode],
     // editorState: initalJson,
     // editorState: () => {
     //   const parser = new DOMParser()
@@ -80,8 +76,8 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = ''
         />
         <OnChangePlugin onChange={onChange} />
         <HistoryPlugin />
-        <HoliLexicalFocusPlugin />
-        <HoliLexicalMentionsPlugin />
+        <HoliFocusPlugin />
+        <HoliMentionsPlugin />
       </LexicalComposer>
     </View>
   )

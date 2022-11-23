@@ -5,23 +5,23 @@ import {
   useBasicTypeaheadTriggerMatch,
 } from '@lexical/react/LexicalTypeaheadMenuPlugin'
 import { TextNode } from 'lexical'
-import { colors } from 'packages/ui/styles/globalVars'
 import { useCallback, useMemo, useState } from 'react'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
 import { useSafeDispatch } from '@holi/core/helpers'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
-import HoliLexicalMentionsDropdown from '@holi/ui/helper/HoliLexicalMentionsPlugin.dropdown'
-import DropdownOption from '@holi/ui/helper/HoliLexicalMentionsPlugin.dropdownOption'
-import { $createMentionNode, MENTION_DATA_ATTR } from '@holi/ui/helper/HoliLexicalMentionsPlugin.node'
-import useDebouncedQuery from '@holi/ui/helper/HoliLexicalMentionsPlugin.suggestions'
+import HoliLexicalMentionsDropdown from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdown'
+import DropdownOption from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdownOption'
+import { $createMentionNode, MENTION_DATA_ATTR } from '@holi/ui/helper/lexical/HoliMentionsPlugin.node'
+import useDebouncedQuery from '@holi/ui/helper/lexical/HoliMentionsPlugin.suggestions'
 import { findMentionMatches } from '@holi/ui/helper/richText'
 import type { SuggestionItem } from '@holi/ui/helper/richText'
+import { colors } from '@holi/ui/styles/globalVars'
 
 const MAX_SUGGESTION_OPTIONS = 5
 
-const HoliLexicalMentionsPlugin = (): JSX.Element | null => {
+const HoliMentionsPlugin = (): JSX.Element | null => {
   const [editor] = useLexicalComposerContext()
   const [queryString, setQueryString] = useState<string | null>(null)
   const setSafeResult = useSafeDispatch(setQueryString)
@@ -109,7 +109,7 @@ const HoliLexicalMentionsPlugin = (): JSX.Element | null => {
   )
 }
 
-export default HoliLexicalMentionsPlugin
+export default HoliMentionsPlugin
 
 /**
  * Get pure text from html
@@ -118,7 +118,7 @@ export default HoliLexicalMentionsPlugin
  *  => 'Hello @0001'
  */
 export const $getPureTextFromHtml = (htmlString: string): string => {
-  if (!document) throw new Error('[HoliLexicalMentionsPlugin] No web context.')
+  if (!document) throw new Error('[HoliMentionsPlugin] No web context.')
   const ele = document.createElement('div')
   ele.innerHTML = htmlString.replaceAll('<br>', '[br]')
   const pureText = ele.textContent?.replaceAll('[br]', '\n') || ''
