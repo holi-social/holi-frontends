@@ -36,6 +36,7 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
       offset: 0,
       location: locationQuery,
     },
+    fetchPolicy: 'cache-and-network',
   })
 
   const { projects = [], totalResults = 0 } = data?.appDonations_projects || {}
