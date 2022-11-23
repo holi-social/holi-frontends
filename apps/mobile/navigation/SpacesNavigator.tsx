@@ -4,12 +4,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import SpaceDetails, { SpaceDetailsParams } from '@holi/core/screens/spaces/SpaceDetails'
 import Spaces from '@holi/core/screens/spaces/Spaces'
+import SpacesForTopic, { SpacesForTopicParams } from '@holi/core/screens/spaces/SpacesForTopic'
 import HeaderAnimated from '@holi/mobile/navigation/HeaderAnimated'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpacesStackScreensList = {
   SpacesHome: undefined
   SpaceDetails: SpaceDetailsParams
+  SpacesForTopic: SpacesForTopicParams
 }
 
 const SpacesStack = createNativeStackNavigator<SpacesStackScreensList>()
@@ -28,6 +30,7 @@ const SpacesStackNavigator: React.VFC = () => {
     >
       <SpacesStack.Screen name="SpacesHome" component={Spaces} />
       <SpacesStack.Screen name="SpaceDetails" component={SpaceDetails} />
+      <SpacesStack.Screen name="SpacesForTopic" component={SpacesForTopic} />
     </SpacesStack.Navigator>
   )
 }

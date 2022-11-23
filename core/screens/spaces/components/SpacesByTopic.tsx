@@ -48,7 +48,7 @@ const SpacesByTopic: React.VFC<SpacesByTopicProps> = ({ topic, style }: SpacesBy
     return <></>
   }
 
-  return <TopicSlider topic={topic.title} style={style} spaces={spaces} />
+  return <TopicSlider topic={topic} style={style} spaces={spaces} />
 }
 
 const styles = StyleSheet.create({
