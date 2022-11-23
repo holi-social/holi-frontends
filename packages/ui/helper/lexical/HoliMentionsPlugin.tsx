@@ -6,26 +6,38 @@ import {
 } from '@lexical/react/LexicalTypeaheadMenuPlugin'
 import { TextNode } from 'lexical'
 import { useCallback, useMemo, useState } from 'react'
-import * as React from 'react'
+import React, { useEffect } from 'react'
 import * as ReactDOM from 'react-dom'
 
 import { useSafeDispatch } from '@holi/core/helpers'
+import type { User } from '@holi/core/screens/userprofile/types'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import HoliLexicalMentionsDropdown from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdown'
 import DropdownOption from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdownOption'
 import { $createMentionNode, MENTION_DATA_ATTR } from '@holi/ui/helper/lexical/HoliMentionsPlugin.node'
-import useDebouncedQuery from '@holi/ui/helper/lexical/HoliMentionsPlugin.suggestions'
 import { findMentionMatches } from '@holi/ui/helper/richText'
 import type { SuggestionItem } from '@holi/ui/helper/richText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useDebounce } from '@holi/ui/helper/useDebounce'
+
+export type HoliMentionsPluginProps = {
+  findUsersByName: (substring: string) => Promise<User[]>
+}
 
 const MAX_SUGGESTION_OPTIONS = 5
+const DEBOUNCE_DELAY = 300
 
-const HoliMentionsPlugin = (): JSX.Element | null => {
+const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({ findUsersByName }): JSX.Element | null => {
   const [editor] = useLexicalComposerContext()
   const [queryString, setQueryString] = useState<string | null>(null)
-  const setSafeResult = useSafeDispatch(setQueryString)
-  const results = useDebouncedQuery(queryString)
+  const setSafeQueryString = useSafeDispatch(setQueryString)
+  const [results, setResults] = useState<Array<User>>([])
+  const setSafeResult = useSafeDispatch(setResults)
+
+  const debouncedSearch: (keyword?: string) => void = useDebounce((keyword?: string) => {
+    keyword && findUsersByName(keyword).then(setSafeResult)
+  }, DEBOUNCE_DELAY)
+
+  useEffect(() => debouncedSearch(queryString || undefined), [queryString, debouncedSearch])
 
   const checkForSlashTriggerMatch = useBasicTypeaheadTriggerMatch('/', {
     minLength: 0,
@@ -38,13 +50,13 @@ const HoliMentionsPlugin = (): JSX.Element | null => {
           (item) =>
             new DropdownOption(
               item.id,
-              item.name,
+              item.fullName,
               (
                 <HoliUserAvatar
-                  imageSrc={undefined}
-                  label={item.name}
-                  initials={item.name.slice(0, 2)}
-                  defaultColor={colors.backgroundColorYellowDark}
+                  imageSrc={item.avatar}
+                  label={item.fullName}
+                  initials={item.avatarLabel}
+                  defaultColor={item.avatarDefaultColor}
                   size="micro"
                   style={{ marginRight: 10 }}
                 />
@@ -83,7 +95,7 @@ const HoliMentionsPlugin = (): JSX.Element | null => {
 
   return (
     <LexicalTypeaheadMenuPlugin<DropdownOption>
-      onQueryChange={setSafeResult}
+      onQueryChange={setSafeQueryString}
       onSelectOption={replaceTextWithMentionNode}
       triggerFn={checkForMentionMatch}
       options={optionsList}

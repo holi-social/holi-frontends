@@ -17,6 +17,12 @@ export const PostCommentFragment = gql`
       fullName
       aboutMe
     }
+    mentions {
+      id
+      firstName
+      lastName
+      fullName
+    }
   }
 `
 

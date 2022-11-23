@@ -29,6 +29,13 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
 }) => {
   const [value, setValue] = useState(initalValue)
 
+  // import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprofile/queries'
+  // const [getUserByName, { loading, error, data }] = useLazyQuery<UserByNameResponse>(userByNameQuery, {
+  //   variables: {
+  //     substring: '',
+  //   },
+  // })
+
   const renderUserSuggestions: React.VFC<MentionSuggestionsProps> = ({ keyword, onSuggestionPress }) => {
     if (keyword == null || keyword.trim().length < MIN_SEARCH_CHARS) {
       return null
