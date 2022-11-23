@@ -20,7 +20,7 @@ const TopicSlider: React.VFC<TopicSliderProps> = ({ topic, spaces, style }: Topi
   // const { navigate } = useRouting()
 
   return (
-    <View style={[{ marginBottom: 24 }, style]}>
+    <View style={[{ marginBottom: 24 }, style]} testID="spaces-topic-container">
       <View style={styles.sliderHeader}>
         <HoliText size="large">{topic}</HoliText>
         <HoliButton

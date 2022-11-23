@@ -43,7 +43,7 @@ class BrowserstackReporter {
   }
 
   onTestCaseResult(test, testCaseResult) {
-    if (process.env.APPIUM_TARGET === 'browserstack') {
+    if (!process.env['APPIUM_TARGET'] || process.env.APPIUM_TARGET === 'browserstack') {
       if (testCaseResult.status === 'failed') {
         console.log('Marking test failed in Browserstack')
         markBrowserStack(global.sessionHolder.id, testCaseResult.status, String(testCaseResult.failureMessages))

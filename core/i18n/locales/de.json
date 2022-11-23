@@ -59,6 +59,7 @@
   "comment.suggestionItem.label": "Auswahl: {{item}}",
   "component.readMore.readLess": "Zeige weniger",
   "component.readMore.readMore": "Weiterlesen",
+  "comment.suggestionItem.label": "Auswahl: {{item}}",
   "confirmation.confirm": "Ja",
   "confirmation.dismiss": "Nein",
   "date": "{{date, D. MMM}}",

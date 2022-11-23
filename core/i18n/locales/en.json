@@ -60,6 +60,7 @@
   "comment.suggestionItem.label": "Select {{item}}",
   "component.readMore.readLess": "Read less",
   "component.readMore.readMore": "Read more",
+  "comment.suggestionItem.label": "Select {{item}}",
   "confirmation.confirm": "Yes",
   "confirmation.dismiss": "No",
   "date": "{{date, MMM, D}}",
