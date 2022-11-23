@@ -78,13 +78,13 @@ export const createCache = () =>
 type KeyArgs = FieldPolicy<any>['keyArgs']
 
 /**
- * Provides an index-aware pagination function. an index-aware pagination function takes both offset and limit arguments
- * into account, whereas Apollos built-in offsetLimitPagination ignores the limit part. The resulting issue (see also
- * HOLI-2400) is that, given a cached query result of 5 items and a query with the same offset but 10 items, will result
- * in no query being executed to fetch the missing 5 items.
+ * An index-aware pagination policy for Apollo Clients cache. An index-aware pagination function takes both offset and
+ * limit arguments into account, whereas Apollos built-in offsetLimitPagination ignores the limit part. The resulting
+ * issue (see also HOLI-2400) is that, given a cached query result of 5 items and a query with the same offset but 10
+ * items, will result in no query being executed to fetch the missing 5 items.
  *
- * The implementation works by "remembering" individual items offsets and assuming a cache miss if any item requested
- * (any item within the range between offset and offset+limit) is not present.
+ * This implementation works by "remembering" individual items offsets and assuming a cache miss if any item requested
+ * (any item within the range [offset, offset+limit]) is not present.
  */
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function indexAwareOffsetLimitPagination<T = Reference>(keyArgs?: KeyArgs): FieldPolicy<T[]> {

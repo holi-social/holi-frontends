@@ -1,61 +1,60 @@
-import { ApolloClient, InMemoryCache, Resolver, Resolvers, gql } from '@apollo/client'
-import { describe, expect, test } from '@jest/globals'
+import { expect, test } from '@jest/globals'
 
 import { indexAwareOffsetLimitPagination } from './client'
-import { MockedResponse, MockLink } from "@apollo/client/testing"
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const resolver: Resolver = (obj, args, context, info) => {
-  console.log('resolver was called')
-  return undefined
-}
+const one = { id: 1, __ref: 'TestType' }
+const two = { id: 2, __ref: 'TestType' }
+const three = { id: 3, __ref: 'TestType' }
+const four = { id: 4, __ref: 'TestType' }
+const five = { id: 5, __ref: 'TestType' }
 
-const resolvers: Resolvers = {
-  Query: {
-    appDonations_projects: resolver,
-  },
-}
-
-const cache = new InMemoryCache({
-  typePolicies: {
-    AppDonations_ProjectsResponse: {
-      fields: {
-        projects: indexAwareOffsetLimitPagination(),
-      },
-    },
-    Query: {
-      fields: {
-        // here, we can specify e.g. pagination behavior, depending on the
-        // query, see https://www.apollographql.com/docs/react/pagination/overview
-        appDonations_projects: {
-          keyArgs: ['locale', 'location'],
-        },
-      },
-    },
-  },
+test('merge adds new entries to empty cache', () => {
+  const policy = indexAwareOffsetLimitPagination([])
+  const result = policy.merge(undefined, [one, two], { variables: { offset: 0, limit: 2 } })
+  expect(result).toStrictEqual([one, two])
 })
 
-const client = new ApolloClient({ cache, resolvers, link: new MockLink([mockedResponse]) })
+test('merge adds new entries to non-empty cache', () => {
+  const policy = indexAwareOffsetLimitPagination([])
+  const result = policy.merge([one, two], [three, four], { variables: { offset: 2, limit: 2 } })
+  expect(result).toStrictEqual([one, two, three, four])
+})
 
-const projectsQuery = gql`
-  query Projects($offset: Int, $limit: Int, $locale: String, $location: String) {
-    appDonations_projects(offset: $offset, limit: $limit, locale: $locale, location: $location) {
-      totalResults
-      projects {
-        id
-        title
-      }
-    }
-  }
-`
+test('merge adds new entries to non-empty cache (with empty slots)', () => {
+  const policy = indexAwareOffsetLimitPagination([])
+  const result = policy.merge([one, two], [four, five], { variables: { offset: 3, limit: 2 } })
+  expect(result).toStrictEqual([one, two, null, four, five])
+})
 
-test('test the test', async() => {
-  const result = await client.query({
-    query: projectsQuery,
-    variables: {
-      offset: 0,
-      limit: 5,
-    },
-  })
-  console.log('result', result)
+test('read returns miss for empty cache', () => {
+  const policy = indexAwareOffsetLimitPagination([])
+  const result = policy.read(undefined, { variables: { offset: 0, limit: 2 } })
+  expect(result).toStrictEqual(undefined)
+})
+
+test('read returns hit if result is present', () => {
+  const policy = indexAwareOffsetLimitPagination([])
+  const result = policy.read([one, two], { variables: { offset: 0, limit: 2 } })
+  expect(result).toStrictEqual([one, two])
+})
+
+test('read returns hit with all cached data', () => {
+  // we want read to always return all cached data, otherwise fetchMore wouldn't work
+  const policy = indexAwareOffsetLimitPagination([])
+  const result = policy.read([one, two, three, four, five], { variables: { offset: 0, limit: 2 } })
+  expect(result).toStrictEqual([one, two, three, four, five])
+})
+
+test('read returns miss if cache contains empty slots (not within requested range)', () => {
+  // given that we always return all cached data, we shouldn't display lists with empty values
+  // returning undefined results in Apollo Client executing a network query after which required data will be present
+  const policy = indexAwareOffsetLimitPagination([])
+  const result = policy.read([one, two, null, four, five], { variables: { offset: 0, limit: 2 } })
+  expect(result).toStrictEqual(undefined)
+})
+
+test('read returns miss if cache contains empty slots (within requested range)', () => {
+  const policy = indexAwareOffsetLimitPagination([])
+  const result = policy.read([one, two, null, four, five], { variables: { offset: 0, limit: 5 } })
+  expect(result).toStrictEqual(undefined)
 })
