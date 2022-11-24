@@ -16,6 +16,8 @@ type SpaceDetailViewProps = {
 const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
   const { t } = useTranslation()
 
+  console.log(space.members)
+
   return (
     <View style={[styles.container, style]} testID="space-details-container">
       <SpaceHeader space={space} />

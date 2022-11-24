@@ -26,16 +26,7 @@ const SpacesStackNavigator: React.VFC = () => {
       }}
     >
       <SpacesStack.Screen name="SpacesHome" component={Spaces} />
-      <SpacesStack.Screen
-        name="SpaceDetails"
-        options={{
-          animation: 'slide_from_bottom',
-          headerTitleStyle: {
-            color: 'transparent',
-          },
-        }}
-        component={SpaceDetails}
-      />
+      <SpacesStack.Screen name="SpaceDetails" component={SpaceDetails} />
     </SpacesStack.Navigator>
   )
 }

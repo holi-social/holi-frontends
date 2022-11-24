@@ -1,13 +1,16 @@
 import { useQuery } from '@apollo/client'
-import React, { memo } from 'react'
+import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Platform } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
@@ -28,6 +31,18 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const onScreenScroll = useScrollYHandler()
+
+  const { setOptions } = useUnifiedNavigation()
+
+  useLayoutEffect(() => {
+    setOptions({
+      animation: 'slide_from_bottom',
+      headerTransparent: true,
+      headerTitle: () => null,
+      headerLeft: () =>
+        Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left-s" /> : <HeaderBackButton icon="arrow-down-s" />,
+    })
+  }, [setOptions])
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { id: spaceId },

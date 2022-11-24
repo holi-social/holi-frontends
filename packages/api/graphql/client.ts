@@ -56,6 +56,9 @@ export const createCache = () =>
             // fixes warning "Cache data may be lost when replacing the `sdgs` field of a User object."
             merge: (existing, incoming) => incoming,
           },
+          isAdmin: {
+            read: () => faker.datatype.boolean(),
+          },
         },
       },
       AppDonations_ProjectsResponse: {
