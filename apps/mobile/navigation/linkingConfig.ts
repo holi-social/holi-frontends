@@ -24,6 +24,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
           screens: {
             Spaces: 'spaces',
             SpaceDetails: 'spaces/:spaceId',
+            SpacesForTopic: 'spaces/topic/:topicId',
           },
         },
         Chat: {
