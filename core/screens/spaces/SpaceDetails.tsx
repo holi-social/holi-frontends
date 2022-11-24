@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet } from 'react-native'
+import { Platform, StatusBar, StyleSheet } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -38,6 +38,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
     setOptions({
       animation: 'slide_from_bottom',
       headerTransparent: true,
+      headerStyle: { backgroundColor: 'transparent' },
       headerTitle: () => null,
       headerLeft: () =>
         Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left-s" /> : <HeaderBackButton icon="arrow-down-s" />,
@@ -64,13 +65,16 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   return (
     <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.defaultLayout}>
-      <SpaceDetailView style={mixins.container} space={space} />
+      <SpaceDetailView style={[mixins.container, styles.spaceDetailView]} space={space} />
     </DefaultLayout>
   )
 }
 
 const styles = StyleSheet.create({
   defaultLayout: {
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 8,
+  },
+  spaceDetailView: {
     paddingTop: 0,
   },
 })

@@ -6,6 +6,7 @@ import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import { Space } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -26,6 +27,7 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
   return (
     <View style={[styles.container, style]} testID="space-header">
       <SpaceAvatar label={space.title} imageSrc={space.avatar} width={avatarWidth} />
+
       <HoliHeading level="1" size="medium" style={styles.title}>
         {space.title}
       </HoliHeading>
@@ -50,6 +52,14 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
           </HoliText>
         </HoliUserAvatarPile>
       </View>
+      <View style={styles.actionButtons}>
+        <HoliButton inline label={t('spaces.follow')} type="secondary">
+          Follow +
+        </HoliButton>
+        <HoliButton inline label={t('spaces.join')} style={styles.actionButtonJoin}>
+          Ask to join...
+        </HoliButton>
+      </View>
     </View>
   )
 }
@@ -57,7 +67,6 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    top: 0,
   },
   title: {
     paddingTop: 24,
@@ -72,6 +81,17 @@ const styles = StyleSheet.create({
   },
   avatarPileText: {
     color: colors.fontColorBlack,
+  },
+  actionButtons: {
+    marginTop: 32,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '100%',
+    maxWidth: 420,
+  },
+  actionButtonJoin: {
+    flex: 1,
+    marginLeft: 8,
   },
 })
 
