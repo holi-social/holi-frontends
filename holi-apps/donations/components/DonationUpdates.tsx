@@ -79,7 +79,6 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery, style
             <HoliText style={styles.seeMoreText} size="small" bold>
               {t('donations:donationListing.loadMoreButton.text')}
             </HoliText>
-            <HoliIcon icon="arrow-right-up" size={18} style={styles.seeMoreText} />
           </View>
         </HoliButton>
       </ScrollView>
