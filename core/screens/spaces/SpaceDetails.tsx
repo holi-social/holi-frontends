@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -63,10 +63,16 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   if (!space) return <HoliText>{t('spaces.spaceDetails.notFound', { spaceId })}</HoliText>
 
   return (
-    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={{ paddingTop: 0 }}>
+    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.defaultLayout}>
       <SpaceDetailView style={mixins.container} space={space} />
     </DefaultLayout>
   )
 }
+
+const styles = StyleSheet.create({
+  defaultLayout: {
+    paddingTop: 0,
+  },
+})
 
 export default memo(SpaceDetails)

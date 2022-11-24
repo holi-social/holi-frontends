@@ -11,7 +11,7 @@ export type SpaceAvatarProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceAvatar = ({ width = 64, imageSrc, label, testID, style, ...props }: SpaceAvatarProps) => {
+const SpaceAvatar = ({ label, imageSrc, width = 64, testID, style }: SpaceAvatarProps) => {
   const styles = getStyles(width)
   const imageUri: ImageSourcePropType = { uri: imageSrc }
 
@@ -22,7 +22,7 @@ const SpaceAvatar = ({ width = 64, imageSrc, label, testID, style, ...props }: S
   }
 
   return (
-    <View {...props} style={[styles.spaceAvatar, style]} testID={testID || 'space-avatar'}>
+    <View style={[styles.spaceAvatar, style]} testID={testID || 'space-avatar'}>
       <Image source={imageUri} style={styles.image} {...accessibilityProps} />
     </View>
   )

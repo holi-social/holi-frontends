@@ -6,6 +6,7 @@ import SpaceDetails, { SpaceDetailsParams } from '@holi/core/screens/spaces/Spac
 import Spaces from '@holi/core/screens/spaces/Spaces'
 import SpacesForTopic, { SpacesForTopicParams } from '@holi/core/screens/spaces/SpacesForTopic'
 import HeaderAnimated from '@holi/mobile/navigation/HeaderAnimated'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpacesStackScreensList = {
   SpacesHome: undefined
@@ -23,7 +24,7 @@ const SpacesStackNavigator: React.VFC = () => {
         header: HeaderAnimated,
         headerTransparent: true,
         headerStyle: {
-          backgroundColor: 'transparent',
+          backgroundColor: colors.backgroundColorWhite,
         },
       }}
     >
