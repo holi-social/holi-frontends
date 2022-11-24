@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import HoliImage from '@holi//ui/components/atoms/HoliImage'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -32,27 +33,43 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post, style }) =>
 
   return (
     <View style={[styles.wrapper, style]}>
-      <HoliMediaHeader
-        title={post.title}
-        author={author}
-        date={post.created}
-        touchHandler={() => navigate(`/insights/${insightId}/posts/${post.id}`)}
-        testID="btn-to-post"
-      >
-        <HoliButton transparent inline label={t('insights.post.preview.more')} style={styles.moreButton}>
-          <HoliIcon icon="more" color={colors.fontColorGrey} />
-        </HoliButton>
-      </HoliMediaHeader>
+      <View style={styles.paddingHorizontal}>
+        <HoliMediaHeader
+          title={post.title}
+          author={author}
+          date={post.created}
+          touchHandler={() => navigate(`/insights/${insightId}/posts/${post.id}`)}
+          testID="btn-to-post"
+        >
+          <HoliButton transparent inline label={t('insights.post.preview.more')} style={styles.moreButton}>
+            <HoliIcon icon="more" color={colors.fontColorGrey} />
+          </HoliButton>
+        </HoliMediaHeader>
 
-      <HoliReadMore numberOfLines={10} fontStyle={styles.readMoreText} style={styles.readMoreContainer}>
-        {post.text}
-      </HoliReadMore>
+        <HoliReadMore numberOfLines={10} fontStyle={styles.readMoreText} style={styles.readMoreContainer}>
+          {post.text}
+        </HoliReadMore>
+      </View>
+
+      {/* TODO: use post image data from BE */}
+      <HoliImage
+        source={{ uri: 'https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/325466_1100-800x825.jpg' }}
+        label=""
+        style={styles.postImage}
+      />
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  wrapper: { padding: 24, borderRadius: 12, backgroundColor: colors.backgroundColorWhite },
+  wrapper: {
+    paddingVertical: 24,
+    borderRadius: 12,
+    backgroundColor: colors.backgroundColorWhite,
+  },
+  paddingHorizontal: {
+    paddingHorizontal: 24,
+  },
   moreButton: {
     alignSelf: 'flex-start',
     justifyContent: 'flex-end',
@@ -63,6 +80,12 @@ const styles = StyleSheet.create({
   readMoreText: {
     color: colors.fontColor,
     lineHeight: 20,
+  },
+  postImage: {
+    aspectRatio: 343 / 236,
+    backgroundColor: colors.backgroundColorGreyLight,
+    marginTop: 26,
+    width: '100%',
   },
 })
 
