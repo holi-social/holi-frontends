@@ -39,7 +39,8 @@ module.exports = {
       'error',
       {
         // Allows relative imports only within the current directory, forbids all other relative imports
-        patterns: ['..*'],
+        // Also forbid imports to yarn workspaces without @holi prefix as this breaks mobile builds
+        patterns: ['..*', 'core/*', 'packages/*', 'holi-apps/*'],
       },
     ],
     'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
