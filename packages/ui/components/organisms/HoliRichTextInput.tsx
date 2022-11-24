@@ -1,21 +1,23 @@
+import { useLazyQuery } from '@apollo/client'
 import React, { useCallback, useEffect, useState } from 'react'
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 import { MentionInput, MentionSuggestionsProps } from 'react-native-controlled-mentions'
 
+import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprofile/queries'
+import type { User } from '@holi/core/screens/userprofile/types'
 import HoliRichTextInputSuggestions from '@holi/ui/components/organisms/HoliRichTextInput.suggestions'
-import { REGEX_URL, REGEX_USER_MENTIONS_WITH_NAME, SuggestionItem } from '@holi/ui/helper/richText'
+import { REGEX_URL, REGEX_USER_MENTIONS_WITH_NAME } from '@holi/ui/helper/richText'
 import { colors } from '@holi/ui/styles/globalVars'
-
-const MIN_SEARCH_CHARS = 2
-
-export type SearchFunction = (keyword: string) => SuggestionItem[]
 
 export type HoliRichTextInputProps = {
   initalValue?: string
   placeholder?: string
   autofocus?: boolean
+  minSearchChars?: number
+  maxSuggestionOptions?: number
+  debounceDelay?: number
   onChange?: (text: string) => void
-  onSelectSuggestion?: (suggestion: SuggestionItem) => void
+  onSelectSuggestion?: (suggestion: User) => void
   style?: StyleProp<ViewStyle>
   inputStyle?: StyleProp<ViewStyle>
   testID?: string
@@ -24,27 +26,44 @@ export type HoliRichTextInputProps = {
 const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   initalValue = '',
   placeholder = '...',
+  minSearchChars = 2,
+  maxSuggestionOptions = 5,
+  debounceDelay = 300,
   onChange,
   ...props
 }) => {
   const [value, setValue] = useState(initalValue)
-
-  // import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprofile/queries'
-  // const [getUserByName, { loading, error, data }] = useLazyQuery<UserByNameResponse>(userByNameQuery, {
-  //   variables: {
-  //     substring: '',
-  //   },
-  // })
+  const [findUsersByName] = useLazyQuery<UserByNameResponse>(userByNameQuery)
+  const findUserMapped: Promise<User[]> = (substring: string) => {
+    return new Promise((resolve, reject) => {
+      findUsersByName({
+        variables: {
+          substring,
+        },
+      })
+        .then((response) => resolve(response?.data?.userByName.data))
+        .catch(reject)
+    })
+  }
 
   const renderUserSuggestions: React.VFC<MentionSuggestionsProps> = ({ keyword, onSuggestionPress }) => {
-    if (keyword == null || keyword.trim().length < MIN_SEARCH_CHARS) {
+    if (keyword == null || keyword.trim().length < minSearchChars) {
       return null
     }
-    const onChooseSuggestion = (suggestion: SuggestionItem) => {
-      onSuggestionPress(suggestion)
-      props.onSelectSuggestion && props.onSelectSuggestion(suggestion)
+    const onChooseSuggestion = (user: User) => {
+      onSuggestionPress({ id: user.id, name: user.fullName })
+      props.onSelectSuggestion && props.onSelectSuggestion(user)
     }
-    return <HoliRichTextInputSuggestions keyword={keyword} onChooseSuggestion={onChooseSuggestion} />
+    return (
+      <HoliRichTextInputSuggestions
+        keyword={keyword}
+        minSearchChars={minSearchChars}
+        maxSuggestionOptions={maxSuggestionOptions}
+        debounceDelay={debounceDelay}
+        findUsersByName={findUserMapped}
+        onChooseSuggestion={onChooseSuggestion}
+      />
+    )
   }
 
   const suggestionConfig = []
