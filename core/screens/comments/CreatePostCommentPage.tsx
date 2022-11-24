@@ -1,21 +1,12 @@
 import { useMutation, useQuery } from '@apollo/client'
-import React, { memo, useContext, useLayoutEffect, useRef, useState } from 'react'
+import React, { memo, useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  KeyboardAvoidingView,
-  Platform,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from 'react-native'
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { logError } from '@holi/core/errors/helpers'
+import { useKeyboard } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -38,23 +29,21 @@ export type CreatePostCommentPageParams = {
   postId: string
 }
 
-type ScreenProps = NativeStackScreenProps<HomeStackScreens> & { style?: StyleProp<ViewStyle> }
+type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const CreatePostCommentPage: React.VFC<ScreenProps> = ({ style }: ScreenProps) => {
-  const isWeb = Platform.OS === 'web'
-
-  const [text, setText] = useState('')
+const CreatePostCommentPage: React.VFC<ScreenProps> = () => {
   const { useParam } = createParam<CreatePostCommentPageParams>()
   const [insightId] = useParam('insightId')
   const [postId] = useParam('postId')
+  const [text, setText] = useState('')
+  const [scrollContentHeight, setScrollContentHeight] = useState(0)
+  const [bottomPadding, setBottomPadding] = useState(0)
   const scrollViewRef = useRef<ScrollView>(null)
   const { navigate, navigateBack } = useRouting()
-
+  const { keyboardHeight } = useKeyboard()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-
   const { openToast } = useToast()
-
   const { user } = useContext(UserContext)
 
   const { loading, error, data } = useQuery<PostByIdResponse>(PostById, {
@@ -81,6 +70,27 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ style }: ScreenProps) =
     [setOptions, t]
   )
 
+  const scrollIntoView = useCallback(() => {
+    if (Platform.OS === 'web') {
+      scrollViewRef.current?.scrollToEnd({ animated: true })
+    } else {
+      // TODO: was sind das für 300 px ????????????
+      scrollViewRef.current?.scrollTo({
+        animated: true,
+        y: scrollContentHeight - 300,
+      })
+    }
+  }, [scrollContentHeight])
+
+  useEffect(() => {
+    if (Platform.OS === 'web') {
+      setBottomPadding(keyboardHeight)
+    } else {
+      // TODO: was sind das für 250 px ????????????
+      setBottomPadding(keyboardHeight + 250)
+    }
+  }, [keyboardHeight])
+
   if (createCommentError) {
     logError(createCommentError, `[CreatePostCommentPage.tsx] ${createCommentError.message}`)
   }
@@ -103,19 +113,18 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ style }: ScreenProps) =
   if (!post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <StatusBar animated />
-      <SafeAreaView style={styles.wrapper}>
-        <ScrollView
-          ref={scrollViewRef}
-          onLayout={() => scrollViewRef.current?.scrollToEnd()}
-          onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
-        >
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.root}>
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: bottomPadding }}
+        onContentSizeChange={scrollIntoView}
+        ref={scrollViewRef}
+      >
+        <View onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)}>
           {/* Post content */}
           <PostDetail post={post} />
 
           {/* Comment input block */}
-          <View style={[mixins.container, styles.inputWrapper, style]}>
+          <View style={mixins.container}>
             <CommentConnector style={styles.commentConnector} />
 
             <View style={styles.inputContainer}>
@@ -135,35 +144,42 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ style }: ScreenProps) =
               />
             </View>
           </View>
-        </ScrollView>
-        <View style={[styles.bottomBar, isWeb && mixins.container]}>
-          <HoliButton
-            disabled={!text.trim().length || createCommentLoading}
-            label={t('insights.posts.comments.button')}
-            inline
-            onPress={() =>
-              createPostComment({
-                variables: {
-                  input: { postId, text: text.trim() },
-                },
-              })
-            }
-            testID="btn-submit-comment"
-          >
-            {t('insights.posts.comments.button')}
-          </HoliButton>
         </View>
-      </SafeAreaView>
+      </ScrollView>
+
+      <View style={[styles.bottomBar, Platform.OS === 'web' && mixins.container]}>
+        <HoliButton
+          disabled={!text.trim().length || createCommentLoading}
+          label={t('insights.posts.comments.button')}
+          inline
+          onPress={() =>
+            createPostComment({
+              variables: {
+                input: { postId, text: text.trim() },
+              },
+            })
+          }
+          testID="btn-submit-comment"
+        >
+          {t('insights.posts.comments.button')}
+        </HoliButton>
+      </View>
     </KeyboardAvoidingView>
   )
 }
 
+// TODO: fix page layout !!!!
+const HEADER_HEIGHT = 52
+const FOOTER_HEIGHT = 66
+const BOTTOM_BAR_HEIGHT = 74
+const SUGGESTIONS_DROPDOWN_HEIGHT = 200
+
 const styles = StyleSheet.create({
-  wrapper: {
-    height: '100%',
-  },
-  inputWrapper: {
-    ...Platform.select({ web: { paddingHorizontal: 20 } }),
+  root: {
+    paddingTop: HEADER_HEIGHT,
+    height: '100%', // prevents double scrollbars
+    ...Platform.select({ web: { height: '100vh' } }),
+    paddingBottom: FOOTER_HEIGHT + BOTTOM_BAR_HEIGHT,
   },
   inputContainer: {
     marginTop: 16,
@@ -180,13 +196,13 @@ const styles = StyleSheet.create({
   textInput: {
     flex: 1,
     marginLeft: 10,
-    marginBottom: '20%',
-    // space below for 5 suggestions
-    ...Platform.select({ ios: { marginTop: 5 } }),
+    marginBottom: SUGGESTIONS_DROPDOWN_HEIGHT,
     ...Platform.select({
       web: {
-        minHeight: 200,
         marginLeft: 18,
+      },
+      ios: {
+        marginTop: 5,
       },
     }),
   },
@@ -199,12 +215,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-end',
     width: '100%',
-
     ...Platform.select({
       web: {
         position: 'fixed',
-        textAlign: 'center',
-        paddingBottom: 78,
+        bottom: FOOTER_HEIGHT,
       },
     }),
   },
