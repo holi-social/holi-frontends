@@ -14,6 +14,7 @@ const nextConfig = {
       // Transform all direct 'react-native' imports to 'react-native-web'
       'react-native$': 'react-native-web',
       'react-native-svg': 'react-native-svg-web',
+      'react-native-image-pan-zoom': 'react-native-web-image-pan-zoom',
     }
     config.resolve.extensions = ['.web.js', '.web.ts', '.web.tsx', ...config.resolve.extensions]
     return config
