@@ -7,19 +7,20 @@ exports[`React tree renders correctly 1`] = `
       Object {
         "alignItems": "center",
         "backgroundColor": "#f7f6f3",
-        "borderRadius": 8,
-        "justifyContent": "center",
-        "overflow": "hidden",
-      },
-      undefined,
-      Object {
         "borderColor": "#222326",
+        "borderRadius": 8,
         "borderWidth": 2,
         "height": 64,
+        "justifyContent": "center",
+        "maxHeight": 128,
+        "maxWidth": 128,
+        "overflow": "hidden",
         "width": 64,
       },
+      undefined,
     ]
   }
+  testID="space-avatar"
 >
   <Image
     accessibilityLabel="Communal Cooking by XR"
@@ -47,19 +48,20 @@ exports[`React tree renders default grey background, when given image prop is em
       Object {
         "alignItems": "center",
         "backgroundColor": "#f7f6f3",
-        "borderRadius": 8,
-        "justifyContent": "center",
-        "overflow": "hidden",
-      },
-      undefined,
-      Object {
         "borderColor": "#222326",
+        "borderRadius": 8,
         "borderWidth": 2,
         "height": 64,
+        "justifyContent": "center",
+        "maxHeight": 128,
+        "maxWidth": 128,
+        "overflow": "hidden",
         "width": 64,
       },
+      undefined,
     ]
   }
+  testID="space-avatar"
 >
   <Image
     accessibilityLabel="Communcal Cooking by XR"

@@ -1,10 +1,12 @@
-import { Space, Task } from '@holi/core/screens/spaces/types'
-import { Topic, User } from '@holi/core/screens/userprofile/types'
+import { Space, SpaceMember, Task } from '@holi/core/screens/spaces/types'
+import { Topic } from '@holi/core/screens/userprofile/types'
 
-export const user: User = {
+export const member: SpaceMember = {
   id: '1',
   firstName: 'Some',
   lastName: 'Body',
+  fullName: 'Some Body',
+  isAdmin: false,
   avatar: 'https://www.example.com/avatar.jpg',
   avatarLabel: 'SB',
   avatarDefaultColor: '#FFFFFF',
@@ -15,12 +17,12 @@ export const user: User = {
 }
 
 export const userWithLocation = {
-  ...user,
+  ...member,
   location: 'Hamburg, Germany',
 }
 
-const users = [1, 2, 3].map((id) => ({
-  ...user,
+const members = [1, 2, 3].map((id) => ({
+  ...member,
   id: `user-${id}`,
 }))
 
@@ -28,7 +30,7 @@ export const task: Task = {
   id: 'id',
   name: 'Task title',
   description: 'Task description',
-  creator: user,
+  creator: member,
   slotsAvailable: 3,
   slotsTaken: 1,
   location: 'Hamburg, Germany',
@@ -49,8 +51,8 @@ export const space: Space = {
   title: 'Space title',
   description: 'Space description',
   mainImage: 'https://www.example.com/space1.jpg',
-  members: users,
-  creator: user,
+  members,
+  creator: member,
   created: '2022-11-21T12:34:56Z',
   location: 'Hamburg, Germany',
   tasks,

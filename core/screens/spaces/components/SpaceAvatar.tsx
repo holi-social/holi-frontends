@@ -6,21 +6,12 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type SpaceAvatarProps = {
   label: string
   imageSrc?: string
-  size?: 'micro' | 'small' | 'medium' | 'large' | 'extralarge'
+  width?: number
   testID?: string
   style?: StyleProp<ViewStyle>
 }
 
-const sizes = {
-  micro: 24,
-  small: 40,
-  medium: 52,
-  large: 64,
-  extralarge: 128,
-}
-
-const SpaceAvatar = ({ size = 'large', imageSrc, label, style, ...props }: SpaceAvatarProps) => {
-  const width = sizes[size]
+const SpaceAvatar = ({ width = 64, imageSrc, label, testID, style, ...props }: SpaceAvatarProps) => {
   const styles = getStyles(width)
   const imageUri: ImageSourcePropType = { uri: imageSrc }
 
@@ -31,7 +22,7 @@ const SpaceAvatar = ({ size = 'large', imageSrc, label, style, ...props }: Space
   }
 
   return (
-    <View {...props} style={[styles.spaceAvatar, style, styles[size]]}>
+    <View {...props} style={[styles.spaceAvatar, style]} testID={testID || 'space-avatar'}>
       <Image source={imageUri} style={styles.image} {...accessibilityProps} />
     </View>
   )
@@ -47,30 +38,12 @@ const getStyles = (width: number) =>
       alignItems: 'center',
       justifyContent: 'center',
       overflow: 'hidden',
-    },
-    micro: {
-      width,
-      height: width,
-    },
-    small: {
-      width,
-      height: width,
-    },
-    medium: {
-      width,
-      height: width,
-    },
-    large: {
       width,
       height: width,
       borderWidth: 2,
       borderColor: colors.softblack,
-    },
-    extralarge: {
-      width,
-      height: width,
-      borderWidth: 2,
-      borderColor: colors.softblack,
+      maxWidth: 128,
+      maxHeight: 128,
     },
     image: {
       height: '100%',

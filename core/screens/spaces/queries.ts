@@ -11,7 +11,6 @@ const SpaceMemberFragment = gql`
     fullName
     avatarDefaultColor
     avatarLabel
-    isAdmin @client
   }
 `
 
