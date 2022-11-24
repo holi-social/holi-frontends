@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { useMemo } from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -29,7 +29,7 @@ const SpacesByTopic: React.VFC<SpacesByTopicProps> = ({ topic, style }: SpacesBy
     },
   })
 
-  const spaces = useMemo(() => data?.spaces.data || [], [data])
+  const spaces = data?.spaces.data || []
 
   if (error) {
     displayError(error, t('spaces.spaceListing.error'))
@@ -48,7 +48,7 @@ const SpacesByTopic: React.VFC<SpacesByTopicProps> = ({ topic, style }: SpacesBy
     return <></>
   }
 
-  return <TopicSlider topic={topic.title} style={style} spaces={spaces} />
+  return <TopicSlider topic={topic} style={style} spaces={spaces} />
 }
 
 const styles = StyleSheet.create({
@@ -58,4 +58,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default SpacesByTopic
+export default memo(SpacesByTopic)
