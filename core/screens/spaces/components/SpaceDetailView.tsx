@@ -3,9 +3,11 @@ import { Trans, useTranslation } from 'react-i18next'
 import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpaceTaskTile from '@holi/core/screens/spaces/components/SpaceTaskTile'
+import SpacesWelcome from '@holi/core/screens/spaces/components/SpacesWelcome'
 import { Space, Task } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { colors } from '@holi/ui/styles/globalVars'
 
 type SpaceDetailViewProps = {
   space: Space
@@ -26,9 +28,9 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
           values={{ name: creator.fullName || t('user.profileView.anonymous') }}
         />
       </HoliText>
-      <HoliText style={{ paddingTop: 10 }}>{space.description}</HoliText>
+      <SpacesWelcome space={space} style={{ marginTop: 24 }} />
       {(space.tasks?.length || 0) > 0 && (
-        <View>
+        <View style={{ marginTop: 64 }}>
           <HoliHeading level="2">{t('spaces.spaceDetails.tasksHeading', { count: space.tasks?.length })}</HoliHeading>
           <ScrollView horizontal={true} style={{ marginTop: 20 }} contentContainerStyle={styles.tasksContainer}>
             {space.tasks?.map((task: Task) => (
@@ -45,6 +47,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     padding: 24,
+    backgroundColor: colors.backgroundColorGrey,
   },
   tasksContainer: {
     justifyContent: 'center',
