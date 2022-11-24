@@ -55,7 +55,11 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post, style }) =>
 }
 
 const styles = StyleSheet.create({
-  wrapper: { padding: 24, borderRadius: 12, backgroundColor: colors.backgroundColorWhite },
+  wrapper: {
+    padding: 24,
+    borderRadius: 12,
+    backgroundColor: colors.backgroundColorWhite,
+  },
   moreButton: {
     alignSelf: 'flex-start',
     justifyContent: 'flex-end',
