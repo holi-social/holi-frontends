@@ -1,5 +1,4 @@
 import { useQuery } from '@apollo/client'
-import { Topic } from 'core/screens/userprofile/types'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
@@ -7,6 +6,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { displayError } from '@holi/core/errors/helpers'
 import TopicSlider from '@holi/core/screens/spaces/components/TopicSlider'
 import { SpacesResponse, spacesQuery } from '@holi/core/screens/spaces/queries'
+import { Topic } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
