@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import LinkPreview from '@holi/core/screens/posts/components/LinkPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -47,6 +48,8 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post, style }) =>
       <HoliReadMore numberOfLines={10} fontStyle={styles.readMoreText} style={styles.readMoreContainer}>
         {post.text}
       </HoliReadMore>
+
+      <LinkPreview style={styles.linkPreview} />
     </View>
   )
 }
@@ -63,6 +66,10 @@ const styles = StyleSheet.create({
   readMoreText: {
     color: colors.fontColor,
     lineHeight: 20,
+  },
+  linkPreview: {
+    marginTop: 16,
+    maxWidth: 296,
   },
 })
 
