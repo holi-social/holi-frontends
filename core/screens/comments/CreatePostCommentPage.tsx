@@ -21,7 +21,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import HoliRichInput from '@holi/ui/components/organisms/HoliRichTextInput'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type CreatePostCommentPageParams = {
@@ -93,7 +93,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = () => {
     if (Platform.OS === 'web') {
       setBottomPadding(keyboardHeight)
     } else {
-      // TODO: calculate 250 px (SUGGESTIONS_DROPDOWN_HEIGHT + BOTTOM_BAR_HEIGHT) ?!
+      // TODO: calculate 250 px (SUGGESTIONS_DROPDOWN_HEIGHT + SUBMIT_BUTTON_CONTAINER_HEIGHT) ?!
       setBottomPadding(keyboardHeight + 250)
     }
   }, [keyboardHeight])
@@ -175,17 +175,15 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = () => {
   )
 }
 
-const HEADER_HEIGHT = 52
-const FOOTER_HEIGHT = 66
-const BOTTOM_BAR_HEIGHT = 74
+const SUBMIT_BUTTON_CONTAINER_HEIGHT = 74
 const SUGGESTIONS_DROPDOWN_HEIGHT = 200
 
 const styles = StyleSheet.create({
   root: {
-    paddingTop: HEADER_HEIGHT,
+    paddingTop: vars.topBarHeight,
+    paddingBottom: vars.bottomBarHeight + SUBMIT_BUTTON_CONTAINER_HEIGHT,
     height: '100%', // prevents double scrollbars
     ...Platform.select({ web: { height: '100vh' } }),
-    paddingBottom: FOOTER_HEIGHT + BOTTOM_BAR_HEIGHT,
   },
   inputContainer: {
     marginTop: 16,
@@ -221,11 +219,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-end',
     width: '100%',
+    height: SUBMIT_BUTTON_CONTAINER_HEIGHT,
     ...Platform.select({
       web: {
         // bottom nav is only visible in web
         position: 'fixed',
-        bottom: FOOTER_HEIGHT,
+        bottom: vars.bottomBarHeight,
       },
     }),
   },
