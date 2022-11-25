@@ -29,11 +29,12 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
     if (this.state.error) {
       return (
-        <SafeArea style={{ padding: 10, alignItems: 'center' }}>
+        <SafeArea style={{ padding: 24, alignItems: 'center' }}>
           <HoliText>{t('error.errorBoundary.heading')}</HoliText>
           <HoliButton label={t('error.errorBoundary.retry')} inline onPress={() => this.setState({ error: null })}>
             <HoliText>{t('error.errorBoundary.retry')}</HoliText>
           </HoliButton>
+          <HoliText style={{ marginTop: 24 }}>{this.state.error?.message}</HoliText>
         </SafeArea>
       )
     }

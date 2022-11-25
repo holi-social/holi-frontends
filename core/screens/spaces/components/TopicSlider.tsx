@@ -1,33 +1,35 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-// import useRouting from '@holi/core/navigation/hooks/useRouting'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliSlider from '@holi/core/screens/spaces/components/HoliSlider'
 import TopicSliderCard from '@holi/core/screens/spaces/components/TopicSliderCard'
 import { Space } from '@holi/core/screens/spaces/types'
+import { Topic } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 type TopicSliderProps = {
-  topic: string
+  topic: Topic
   spaces: Space[]
   style?: StyleProp<ViewStyle>
 }
 
 const TopicSlider: React.VFC<TopicSliderProps> = ({ topic, spaces, style }: TopicSliderProps) => {
   const { t } = useTranslation()
-  // const { navigate } = useRouting()
+  const { navigate } = useRouting()
 
   return (
-    <View style={[{ marginBottom: 24 }, style]}>
+    <View style={[styles.slider, style]} testID="spaces-topic-container">
       <View style={styles.sliderHeader}>
-        <HoliText size="large">{topic}</HoliText>
+        <HoliText size="large">{topic.title}</HoliText>
         <HoliButton
           label={`${topic} - ${t('spaces.viewAll')}`}
-          // onPress={() =>  navigate(`/spaces/topics/${id}`)}
+          onPress={() => navigate(`/spaces/topic/${topic.id}`)}
           transparent
           inline
+          testID="btn-to-topic"
         >
           <HoliText size="small">{t('spaces.viewAll')}</HoliText>
         </HoliButton>
@@ -40,9 +42,12 @@ const TopicSlider: React.VFC<TopicSliderProps> = ({ topic, spaces, style }: Topi
     </View>
   )
 }
-export default TopicSlider
+export default memo(TopicSlider)
 
 const styles = StyleSheet.create({
+  slider: {
+    marginBottom: 24,
+  },
   sliderHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',

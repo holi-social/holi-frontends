@@ -9,7 +9,6 @@ import {
   StatusBar,
   StyleProp,
   StyleSheet,
-  TextInput,
   View,
   ViewStyle,
 } from 'react-native'
@@ -116,8 +115,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ style }: ScreenProps) =
           {/* Post content */}
           <PostDetail post={post} />
 
-          {/* Create comment block */}
-
+          {/* Comment input block */}
           <View style={[mixins.container, styles.inputWrapper, style]}>
             <CommentConnector style={styles.commentConnector} />
 
@@ -129,30 +127,13 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ style }: ScreenProps) =
                 defaultColor={user.avatarDefaultColor || ''}
                 size="small"
               />
-
-              {/* TODO: get rid of mobile-web-condition */}
-              {!isWeb && (
-                <HoliRichInput
-                  placeholder={t('insights.posts.comments.placeholder')}
-                  autofocus
-                  onChange={setText}
-                  style={styles.textInputMobile}
-                  testID="post-comment-input"
-                />
-              )}
-              {isWeb && (
-                <TextInput
-                  autoFocus
-                  onChangeText={setText}
-                  style={styles.textInputWeb}
-                  placeholder={t('insights.posts.comments.placeholder')}
-                  placeholderTextColor={colors.fontColorGrey}
-                  textAlignVertical="top"
-                  multiline
-                  value={text}
-                  testID="post-comment-input"
-                />
-              )}
+              <HoliRichInput
+                placeholder={t('insights.posts.comments.placeholder')}
+                autofocus
+                onChange={setText}
+                style={styles.textInput}
+                testID="post-comment-input"
+              />
             </View>
           </View>
         </ScrollView>
@@ -197,22 +178,18 @@ const styles = StyleSheet.create({
     minHeight: 50,
     ...Platform.select({ web: { minHeight: 75 } }),
   },
-  textInputWeb: {
-    marginLeft: 18,
-    paddingVertical: 10,
-    flex: 1,
-    ...Platform.select({
-      web: {
-        minHeight: 200,
-      },
-    }),
-  },
-  textInputMobile: {
+  textInput: {
     flex: 1,
     marginLeft: 10,
     marginBottom: '20%',
     // space below for 5 suggestions
     ...Platform.select({ ios: { marginTop: 5 } }),
+    ...Platform.select({
+      web: {
+        minHeight: 200,
+        marginLeft: 18,
+      },
+    }),
   },
   bottomBar: {
     bottom: 0,

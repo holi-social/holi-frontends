@@ -1,6 +1,5 @@
 import { useQuery } from '@apollo/client'
-import partition from 'lodash.partition'
-import React, { useContext, useLayoutEffect, useMemo } from 'react'
+import React, { memo, useContext, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -11,14 +10,11 @@ import { displayError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import SpacesByTopic from '@holi/core/screens/spaces/components/SpacesByTopic'
-import SpacesFilterHeader from '@holi/core/screens/spaces/components/SpacesFilterHeader'
+import SpacesView from '@holi/core/screens/spaces/components/SpacesView'
 import { topicsQuery } from '@holi/core/screens/spaces/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import { TopicsQueryResult } from '@holi/core/screens/userprofile/queries'
-import { termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
-//import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -65,13 +61,9 @@ const Spaces: React.VFC<ScreenProps> = () => {
 
   const { loading, data, error } = useQuery<TopicsQueryResult>(topicsQuery)
 
-  const topics = useMemo(() => data?.topics.data?.slice().sort(termsByTitleComparator) || [], [data])
+  const topics = data?.topics.data || []
 
   const { user } = useContext(UserContext)
-  const [filteredTopics, otherTopics] = useMemo(() => {
-    const userInterestIds = (user?.interests || []).map((topic) => topic.id)
-    return partition(topics, (topic) => userInterestIds.includes(topic.id))
-  }, [topics, user])
 
   if (error) {
     displayError(error, t('spaces.spaceListing.error'))
@@ -88,27 +80,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
 
   return (
     <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
-      <View style={mixins.container}>
-        <SpacesFilterHeader
-          style={styles.spacesContainer}
-          topics={user?.interests || []}
-          location={user?.location}
-          allTopics={!user?.interests?.length}
-          onPress={() => ({})}
-        />
-        {filteredTopics.map((topic) => (
-          <SpacesByTopic key={topic.id} topic={topic} style={{ marginBottom: 12 }} />
-        ))}
-        {/* 
-        {filteredTopics.length > 0 && otherTopics.length > 0 && (
-          <HoliHeading size="large" style={{ marginBottom: 24 }}>
-            {t('spaces.otherListing')}
-          </HoliHeading>
-        )} */}
-        {otherTopics.map((topic) => (
-          <SpacesByTopic key={topic.id} topic={topic} style={{ marginBottom: 12 }} />
-        ))}
-      </View>
+      <SpacesView style={mixins.container} user={user} topics={topics} />
     </DefaultLayout>
   )
 }
@@ -118,10 +90,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 50,
   },
-  spacesContainer: {
-    marginTop: 40,
-    marginBottom: 48,
-  },
 })
 
-export default Spaces
+export default memo(Spaces)

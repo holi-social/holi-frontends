@@ -35,6 +35,7 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery, style
       offset: 0,
       location: locationQuery,
     },
+    fetchPolicy: 'cache-and-network',
   })
 
   if (error) {
