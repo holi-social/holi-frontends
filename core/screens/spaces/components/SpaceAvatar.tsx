@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { AccessibilityProps, ImageSourcePropType, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { ImageSourcePropType, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -16,15 +16,9 @@ const SpaceAvatar = ({ label, imageSrc, width = 64, testID, style }: SpaceAvatar
   const styles = getStyles(width)
   const imageUri: ImageSourcePropType = { uri: imageSrc }
 
-  const accessibilityProps: AccessibilityProps & { accessibilityPressed?: boolean } = {
-    accessible: false,
-    accessibilityLabel: label,
-    accessibilityRole: 'image',
-  }
-
   return (
     <View style={[styles.spaceAvatar, style]} testID={testID || 'space-avatar'}>
-      <HoliImage label={label} source={imageUri} style={styles.image} {...accessibilityProps} />
+      <HoliImage label={label} source={imageUri} style={styles.image} />
     </View>
   )
 }

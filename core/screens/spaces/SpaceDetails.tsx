@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StatusBar, StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -72,7 +72,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
 const styles = StyleSheet.create({
   defaultLayout: {
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 8,
+    paddingTop: 8,
   },
   spaceDetailView: {
     paddingTop: 0,
