@@ -1,6 +1,5 @@
 import { ApolloClient, InMemoryCache, from } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
-import { faker } from '@faker-js/faker'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 
@@ -69,13 +68,6 @@ export const createCache = () =>
           // query, see https://www.apollographql.com/docs/react/pagination/overview
           appDonations_projects: {
             keyArgs: ['locale', 'location'],
-          },
-        },
-      },
-      Space: {
-        fields: {
-          avatar: {
-            read: () => faker.image.avatar(),
           },
         },
       },
