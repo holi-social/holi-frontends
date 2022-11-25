@@ -181,9 +181,13 @@ const SUGGESTIONS_DROPDOWN_HEIGHT = 200
 const styles = StyleSheet.create({
   root: {
     paddingTop: vars.topBarHeight,
-    paddingBottom: vars.bottomBarHeight + SUBMIT_BUTTON_CONTAINER_HEIGHT,
     height: '100%', // prevents double scrollbars
-    ...Platform.select({ web: { height: '100vh' } }),
+    ...Platform.select({
+      web: { height: '100vh' },
+      ios: {
+        paddingBottom: vars.bottomBarHeight + SUBMIT_BUTTON_CONTAINER_HEIGHT,
+      },
+    }),
   },
   inputContainer: {
     marginTop: 16,
