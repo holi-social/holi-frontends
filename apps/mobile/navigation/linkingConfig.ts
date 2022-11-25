@@ -15,7 +15,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.HomeFeed]: '',
             [RouteName.InsightDetailPage]: 'insights/:insightId',
             [RouteName.PostDetailPage]: 'insights/:insightId/posts/:postId',
-            [RouteName.CreatePostCommentPage]: 'insights/:insightId/posts/:postId/comment',
+            [RouteName.CommentInputPage]: 'insights/:insightId/posts/:postId/comment',
             [RouteName.UserProfile]: 'profile/:userId',
             [RouteName.Notifications]: 'notifications',
           },

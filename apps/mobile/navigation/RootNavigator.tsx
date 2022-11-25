@@ -14,9 +14,9 @@ import Registration from '@holi/core/auth/screens/Registration'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
-import CreatePostCommentPage, { CreatePostCommentPageParams } from '@holi/core/screens/comments/CreatePostCommentPage'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
+import CommentInputPage, { CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
 import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
 import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
@@ -34,7 +34,7 @@ export type HomeStackScreens = {
   [RouteName.InsightDetailPage]: InsightDetailPageParams
   [RouteName.Notifications]: undefined
   [RouteName.PostDetailPage]: PostDetailPageParams
-  [RouteName.CreatePostCommentPage]: CreatePostCommentPageParams
+  [RouteName.CommentInputPage]: CommentInputPageParams
   [RouteName.Search]: undefined
   [RouteName.UserProfile]: UserProfileParams
 }
@@ -75,7 +75,7 @@ export const HomeStackNavigator: React.VFC = () => {
       <HomeStack.Screen name={RouteName.Search} component={Search} />
       <HomeStack.Screen name={RouteName.InsightDetailPage} component={InsightDetailPage} />
       <HomeStack.Screen name={RouteName.PostDetailPage} component={PostDetailPage} />
-      <HomeStack.Screen name={RouteName.CreatePostCommentPage} component={CreatePostCommentPage} />
+      <HomeStack.Screen name={RouteName.CommentInputPage} component={CommentInputPage} />
       <HomeStack.Screen name={RouteName.Notifications} component={Notifications} />
       <HomeStack.Screen name={RouteName.UserProfile} component={UserProfile} />
     </HomeStack.Navigator>
@@ -101,7 +101,7 @@ export const BottomTabsNavigator: React.VFC = () => {
             borderTopColor: colors.fontColorGrey,
             ...(focusedRoute === RouteName.InsightDetailPage ||
             focusedRoute === RouteName.PostDetailPage ||
-            focusedRoute === RouteName.CreatePostCommentPage
+            focusedRoute === RouteName.CommentInputPage
               ? { display: 'none' }
               : {}),
             tabBarShowLabel: true,

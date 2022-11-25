@@ -10,9 +10,9 @@ import { useKeyboard } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import CommentConnector from '@holi/core/screens/comments/components/CommentConnector'
-import { CreatePostCommentMutation, CreatePostCommentResponse } from '@holi/core/screens/comments/queries'
 import PostDetail from '@holi/core/screens/posts/components/PostDetail'
+import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
+import { CreatePostCommentMutation, CreatePostCommentResponse } from '@holi/core/screens/posts/queries'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
@@ -24,15 +24,15 @@ import HoliRichInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type CreatePostCommentPageParams = {
+export type CommentInputPageParams = {
   insightId: string
   postId: string
 }
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const CreatePostCommentPage: React.VFC<ScreenProps> = () => {
-  const { useParam } = createParam<CreatePostCommentPageParams>()
+const CommentInputPage: React.VFC<ScreenProps> = () => {
+  const { useParam } = createParam<CommentInputPageParams>()
   const [insightId] = useParam('insightId')
   const [postId] = useParam('postId')
   const [text, setText] = useState('')
@@ -93,11 +93,11 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = () => {
     keyboardHeight + (Platform.OS === 'web' ? 0 : SUGGESTIONS_DROPDOWN_HEIGHT + SUBMIT_BUTTON_CONTAINER_HEIGHT)
 
   if (createCommentError) {
-    logError(createCommentError, `[CreatePostCommentPage.tsx] ${createCommentError.message}`)
+    logError(createCommentError, `[CommentInputPage.tsx] ${createCommentError.message}`)
   }
 
   if (error) {
-    logError(error, `[CreatePostCommentPage.tsx] ${error.message}`)
+    logError(error, `[CommentInputPage.tsx] ${error.message}`)
   }
 
   if (loading || error) {
@@ -126,7 +126,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = () => {
 
           {/* Comment input block */}
           <View style={mixins.container}>
-            <CommentConnector style={styles.commentConnector} />
+            <VerticalLine style={styles.verticalLine} />
 
             <View style={styles.inputContainer}>
               <HoliUserAvatar
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     flexDirection: 'row',
   },
-  commentConnector: {
+  verticalLine: {
     marginTop: 16,
     marginBottom: 10,
     marginHorizontal: 20,
@@ -227,4 +227,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default memo(CreatePostCommentPage)
+export default memo(CommentInputPage)

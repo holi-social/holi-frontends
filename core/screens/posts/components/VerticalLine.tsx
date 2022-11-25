@@ -7,7 +7,7 @@ export type CommentConnectorProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const CommentConnector: React.VFC<CommentConnectorProps> = ({ style }) => {
+const VerticalLine: React.VFC<CommentConnectorProps> = ({ style }) => {
   return <View style={[styles.connector, style]} />
 }
 
@@ -20,4 +20,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default CommentConnector
+export default VerticalLine
