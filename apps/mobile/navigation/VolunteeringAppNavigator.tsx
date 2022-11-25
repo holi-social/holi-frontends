@@ -5,6 +5,7 @@ import { View } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { RouteName } from '@holi/mobile/navigation/routeName'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -52,7 +53,7 @@ const VolunteeringAppNavigator: React.VFC = () => {
   return (
     <View style={{ height: '100%' }}>
       <VolunteeringAppStack.Navigator
-        initialRouteName="VolunteeringAppHome"
+        initialRouteName={RouteName.VolunteeringAppHome}
         screenOptions={{
           headerShown: true,
           headerStyle: {
@@ -61,7 +62,7 @@ const VolunteeringAppNavigator: React.VFC = () => {
           headerTitleAlign: 'center',
         }}
       >
-        <VolunteeringAppStack.Screen name="VolunteeringAppHome" component={VolunteeringAppHome} />
+        <VolunteeringAppStack.Screen name={RouteName.VolunteeringAppHome} component={VolunteeringAppHome} />
       </VolunteeringAppStack.Navigator>
       <AppNavigation />
     </View>

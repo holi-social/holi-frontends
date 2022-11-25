@@ -77,6 +77,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ style }: ScreenProps) =
       setOptions({
         title: t('insights.posts.comments.title'),
         headerStyle: { backgroundColor: colors.backgroundColorWhite },
+        headerTransparent: false,
       }),
     [setOptions, t]
   )
