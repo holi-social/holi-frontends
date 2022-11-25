@@ -6,9 +6,8 @@ import AccountSettings from '@holi/core/screens/userprofile/AccountSettings'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 import SettingsOverview from '@holi/core/screens/userprofile/SettingsOverview'
 import HeaderAnimated from '@holi/mobile/navigation/HeaderAnimated'
+import { RouteName } from '@holi/mobile/navigation/routeName'
 import { colors } from '@holi/ui/styles/globalVars'
-
-import { RouteName } from './types'
 
 export type AuthStackScreensList = {
   Profile: undefined

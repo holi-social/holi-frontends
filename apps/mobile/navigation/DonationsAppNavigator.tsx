@@ -3,14 +3,13 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import HeaderAnimated from '@holi//mobile/navigation/HeaderAnimated'
+import { RouteName } from '@holi/mobile/navigation/routeName'
 import { colors } from '@holi/ui/styles/globalVars'
 
 import DonationsAppHome, { DonationsAppHomeParams } from '@holi-apps/donations/screens/DonationsAppHome'
 import DonationsAppProjectDetail, {
   DonationsAppProjectDetailParams,
 } from '@holi-apps/donations/screens/DonationsAppProjectDetail'
-
-import { RouteName } from './types'
 
 export type DonationsAppScreensList = {
   DonationsAppHome: DonationsAppHomeParams

@@ -4,9 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import ChatHome from '@holi/core/screens/ChatHome'
 import HeaderAnimated from '@holi/mobile/navigation/HeaderAnimated'
+import { RouteName } from '@holi/mobile/navigation/routeName'
 import { colors } from '@holi/ui/styles/globalVars'
-
-import { RouteName } from './types'
 
 export type ChatStackScreensList = {
   ChatHome: undefined

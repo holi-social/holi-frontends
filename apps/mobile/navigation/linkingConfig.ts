@@ -1,8 +1,7 @@
 import type { LinkingOptions } from '@react-navigation/native'
 
 import { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
-
-import { RouteName } from './types'
+import { RouteName } from '@holi/mobile/navigation/routeName'
 
 const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
   initialRouteName: RouteName.Core,

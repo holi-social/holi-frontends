@@ -25,10 +25,9 @@ import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator
 import HeaderAnimated from '@holi/mobile/navigation/HeaderAnimated'
 import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
+import { RouteName } from '@holi/mobile/navigation/routeName'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
-
-import { RouteName } from './types'
 
 export type HomeStackScreens = {
   [RouteName.HomeFeed]: undefined
