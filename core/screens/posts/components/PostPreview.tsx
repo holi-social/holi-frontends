@@ -2,8 +2,8 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import HoliImage from '@holi//ui/components/atoms/HoliImage'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import PostImage from '@holi/core/screens/posts/components/PostImage'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -16,6 +16,9 @@ export type PostPreviewProps = {
   post: Post
   style?: StyleProp<ViewStyle>
 }
+
+// TODO: remove
+const imageUrl = 'https://ipbes.net/sites/default/files/default_images/deliverables-banner-bg_0.jpg'
 
 const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post, style }) => {
   const { navigate } = useRouting()
@@ -52,11 +55,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post, style }) =>
       </View>
 
       {/* TODO: use post image data from BE */}
-      <HoliImage
-        source={{ uri: 'https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/325466_1100-800x825.jpg' }}
-        label=""
-        style={styles.postImage}
-      />
+      <PostImage uri={imageUrl} postTitle={post.title} />
     </View>
   )
 }
@@ -80,12 +79,6 @@ const styles = StyleSheet.create({
   readMoreText: {
     color: colors.fontColor,
     lineHeight: 20,
-  },
-  postImage: {
-    aspectRatio: 343 / 236,
-    backgroundColor: colors.backgroundColorGreyLight,
-    marginTop: 26,
-    width: '100%',
   },
 })
 
