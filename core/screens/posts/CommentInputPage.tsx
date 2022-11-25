@@ -65,7 +65,6 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
       setOptions({
         title: t('insights.posts.comments.title'),
         headerStyle: { backgroundColor: colors.backgroundColorWhite },
-        headerTransparent: false,
       }),
     [setOptions, t]
   )
@@ -174,6 +173,7 @@ const SUGGESTIONS_DROPDOWN_HEIGHT = 200
 
 const styles = StyleSheet.create({
   root: {
+    paddingTop: vars.topBarHeight,
     height: '100%', // prevents double scrollbars
     ...Platform.select({
       web: { height: '100vh' },
