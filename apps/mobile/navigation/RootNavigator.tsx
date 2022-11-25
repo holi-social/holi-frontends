@@ -98,6 +98,7 @@ export const BottomTabsNavigator: React.VFC = () => {
             paddingHorizontal: 0,
             borderTopWidth: StyleSheet.hairlineWidth,
             borderTopColor: colors.fontColorGrey,
+            // TODO: make this views it a modal!
             ...(focusedRoute === 'InsightDetailPage' ||
             focusedRoute === 'PostDetailPage' ||
             focusedRoute === 'CreatePostCommentPage'

@@ -70,11 +70,18 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = () => {
     [setOptions, t]
   )
 
+  /**
+   * The view should:
+   * - scroll input field into viewport (with open keyboard)
+   * - scroll down when input field increases
+   * - leave scrolling space to show 5 suggestions below
+   * - prevent double scrollbars in web (no main page scrolling)
+   */
   const scrollIntoView = useCallback(() => {
     if (Platform.OS === 'web') {
       scrollViewRef.current?.scrollToEnd({ animated: true })
     } else {
-      // TODO: was sind das für 300 px ????????????
+      // TODO: calculate 300 px !!
       scrollViewRef.current?.scrollTo({
         animated: true,
         y: scrollContentHeight - 300,
@@ -86,7 +93,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = () => {
     if (Platform.OS === 'web') {
       setBottomPadding(keyboardHeight)
     } else {
-      // TODO: was sind das für 250 px ????????????
+      // TODO: calculate 250 px (SUGGESTIONS_DROPDOWN_HEIGHT + BOTTOM_BAR_HEIGHT) ?!
       setBottomPadding(keyboardHeight + 250)
     }
   }, [keyboardHeight])
@@ -168,7 +175,6 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = () => {
   )
 }
 
-// TODO: fix page layout !!!!
 const HEADER_HEIGHT = 52
 const FOOTER_HEIGHT = 66
 const BOTTOM_BAR_HEIGHT = 74
@@ -217,6 +223,7 @@ const styles = StyleSheet.create({
     width: '100%',
     ...Platform.select({
       web: {
+        // bottom nav is only visible in web
         position: 'fixed',
         bottom: FOOTER_HEIGHT,
       },
