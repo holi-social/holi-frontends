@@ -6,7 +6,7 @@ import {
 } from '@lexical/react/LexicalTypeaheadMenuPlugin'
 import { TextNode } from 'lexical'
 import { useCallback, useMemo, useState } from 'react'
-import React, { useEffect } from 'react'
+import React from 'react'
 import * as ReactDOM from 'react-dom'
 
 import { useSafeDispatch } from '@holi/core/helpers'
@@ -32,7 +32,6 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
   findUsersByName,
 }): JSX.Element | null => {
   const [editor] = useLexicalComposerContext()
-  const [queryString, setQueryString] = useState<string | null>(null)
   const [results, setResults] = useState<Array<User>>([])
   const setSafeResult = useSafeDispatch(setResults)
 
@@ -41,8 +40,6 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
     findUsersByName(keyword).then(setSafeResult)
   }, debounceDelay)
 
-  useEffect(() => debouncedSearch(queryString || undefined), [queryString, debouncedSearch])
-
   const checkForSlashTriggerMatch = useBasicTypeaheadTriggerMatch('/', {
     minLength: 0,
   })
@@ -50,6 +47,7 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
   const optionsList = useMemo(
     () =>
       results
+        .slice(0, maxSuggestionOptions)
         .map(
           (item) =>
             new DropdownOption(
@@ -66,8 +64,7 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
                 />
               )
             )
-        )
-        .slice(0, maxSuggestionOptions),
+        ),
     [results, maxSuggestionOptions]
   )
 
@@ -99,7 +96,7 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
 
   return (
     <LexicalTypeaheadMenuPlugin<DropdownOption>
-      onQueryChange={setQueryString}
+      onQueryChange={debouncedSearch}
       onSelectOption={replaceTextWithMentionNode}
       triggerFn={checkForMentionMatch}
       options={optionsList}

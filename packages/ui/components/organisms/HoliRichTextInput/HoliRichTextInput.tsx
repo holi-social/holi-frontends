@@ -5,7 +5,7 @@ import { MentionInput, MentionSuggestionsProps } from 'react-native-controlled-m
 
 import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
-import HoliRichTextInputSuggestions from '@holi/ui/components/organisms/HoliRichTextInput.suggestions'
+import HoliRichTextInputSuggestions from '@holi/ui/components/organisms/HoliRichTextInput/Suggestions'
 import { REGEX_URL, REGEX_USER_MENTIONS_WITH_NAME } from '@holi/ui/helper/richText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -34,17 +34,21 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
 }) => {
   const [value, setValue] = useState(initalValue)
   const [findUsersByName] = useLazyQuery<UserByNameResponse>(userByNameQuery)
-  const findUserMapped: Promise<User[]> = (substring: string) => {
-    return new Promise((resolve, reject) => {
-      findUsersByName({
-        variables: {
-          substring,
-        },
+
+  const findUserMapped: Promise<User[]> = useCallback(
+    (substring: string) => {
+      return new Promise((resolve, reject) => {
+        findUsersByName({
+          variables: {
+            substring,
+          },
+        })
+          .then((response) => resolve(response?.data?.userByName.data))
+          .catch(reject)
       })
-        .then((response) => resolve(response?.data?.userByName.data))
-        .catch(reject)
-    })
-  }
+    },
+    [findUsersByName]
+  )
 
   const renderUserSuggestions: React.VFC<MentionSuggestionsProps> = ({ keyword, onSuggestionPress }) => {
     if (keyword == null || keyword.trim().length < minSearchChars) {
@@ -52,7 +56,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
     }
     const onChooseSuggestion = (user: User) => {
       onSuggestionPress({ id: user.id, name: user.fullName })
-      props.onSelectSuggestion && props.onSelectSuggestion(user)
+      props.onSelectSuggestion?.(user)
     }
     return (
       <HoliRichTextInputSuggestions

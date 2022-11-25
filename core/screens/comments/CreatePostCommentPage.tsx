@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client'
-import React, { memo, useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { memo, useCallback, useContext, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
@@ -37,7 +37,6 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = () => {
   const [postId] = useParam('postId')
   const [text, setText] = useState('')
   const [scrollContentHeight, setScrollContentHeight] = useState(0)
-  const [bottomPadding, setBottomPadding] = useState(0)
   const scrollViewRef = useRef<ScrollView>(null)
   const { navigate, navigateBack } = useRouting()
   const { keyboardHeight } = useKeyboard()
@@ -66,6 +65,7 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = () => {
       setOptions({
         title: t('insights.posts.comments.title'),
         headerStyle: { backgroundColor: colors.backgroundColorWhite },
+        headerTransparent: false,
       }),
     [setOptions, t]
   )
@@ -81,22 +81,16 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = () => {
     if (Platform.OS === 'web') {
       scrollViewRef.current?.scrollToEnd({ animated: true })
     } else {
-      // TODO: calculate 300 px !!
+      const paddingTop = 20
       scrollViewRef.current?.scrollTo({
         animated: true,
-        y: scrollContentHeight - 300,
+        y: scrollContentHeight - SUGGESTIONS_DROPDOWN_HEIGHT - SUBMIT_BUTTON_CONTAINER_HEIGHT - paddingTop,
       })
     }
   }, [scrollContentHeight])
 
-  useEffect(() => {
-    if (Platform.OS === 'web') {
-      setBottomPadding(keyboardHeight)
-    } else {
-      // TODO: calculate 250 px (SUGGESTIONS_DROPDOWN_HEIGHT + SUBMIT_BUTTON_CONTAINER_HEIGHT) ?!
-      setBottomPadding(keyboardHeight + 250)
-    }
-  }, [keyboardHeight])
+  const bottomPadding =
+    keyboardHeight + (Platform.OS === 'web' ? 0 : SUGGESTIONS_DROPDOWN_HEIGHT + SUBMIT_BUTTON_CONTAINER_HEIGHT)
 
   if (createCommentError) {
     logError(createCommentError, `[CreatePostCommentPage.tsx] ${createCommentError.message}`)
@@ -180,7 +174,6 @@ const SUGGESTIONS_DROPDOWN_HEIGHT = 200
 
 const styles = StyleSheet.create({
   root: {
-    paddingTop: vars.topBarHeight,
     height: '100%', // prevents double scrollbars
     ...Platform.select({
       web: { height: '100vh' },
