@@ -3,6 +3,17 @@ import { z } from 'zod'
 
 import type { Topic, UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
 
+export const userAvatarFragment = gql`
+  fragment UserAvatar on User {
+    id
+    avatar
+    avatarLabel
+    avatarDefaultColor
+    firstName
+    lastName
+  }
+`
+
 export const userFragment = gql`
   fragment FullUser on User {
     id

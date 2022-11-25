@@ -12,7 +12,7 @@ describe('TopicSliderCard', () => {
     expect(getByText('Space description')).toBeDefined()
 
     const images = getAllByRole('image')
-    expect(images.length).toBe(3)
+    expect(images.length).toBe(1)
     expect(images[0]).toHaveProp('source', { uri: 'https://www.example.com/avatar.jpg' })
     expect(images[0]).toHaveProp('accessibilityLabel', 'Some Body')
   })
