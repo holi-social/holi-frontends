@@ -10,7 +10,7 @@ export enum RouteName {
   // Spaces
   SpacesHome = 'SpacesHome',
   SpaceDetails = 'SpaceDetails',
-  SpacesForTopic = 'SpacesForTopic',
+  FilteredSpaces = 'FilteredSpaces',
 
   // Chat Stack
   ChatHome = 'ChatHome',
