@@ -30,7 +30,14 @@ const HoliModalFullscreen: React.FC<HoliModalFullscreenProps> = ({
         <View style={[styles.modalContent, style, { backgroundColor: backgroundColor }]}>
           <SafeAreaView style={styles.closeBtnSafeArea}>
             <View style={styles.closeBtnWrapper}>
-              <HoliButton label={t('modal.backdrop')} onPress={onDismiss} inline transparent style={styles.closeBtn}>
+              <HoliButton
+                label={t('modal.close')}
+                onPress={onDismiss}
+                inline
+                transparent
+                style={styles.closeBtn}
+                testID="fullscreen-modal-close-btn"
+              >
                 <HoliIcon icon="close" color={colors.fontColorModalLight} />
               </HoliButton>
             </View>

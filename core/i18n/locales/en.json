@@ -113,6 +113,7 @@
   "insights.posts.image.show": "Show fullscreen image for post {{title}}",
   "insights.posts.image.modal": "Fullscreen image for post {{title}}",
   "modal.backdrop": "Close dialog",
+  "modal.close": "Close dialog",
   "navigation.bottomNavigation": "Bottom Navigation",
   "navigation.closeWindow": "Close window",
   "navigation.headerLeft.back": "Go back",
