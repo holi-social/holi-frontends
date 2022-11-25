@@ -1,3 +1,4 @@
+import { useLazyQuery } from '@apollo/client'
 import { $generateHtmlFromNodes } from '@lexical/html'
 import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
@@ -7,16 +8,42 @@ import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin'
 import { EditorState, LexicalEditor } from 'lexical'
 // import { $createParagraphNode, $createTextNode, $getRoot, $getSelection } from 'lexical'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
 
+import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprofile/queries'
+import type { User } from '@holi/core/screens/userprofile/types'
 import type { HoliRichTextInputProps } from '@holi/ui/components/organisms/HoliRichTextInput'
 import HoliFocusPlugin from '@holi/ui/helper/lexical/HoliFocusPlugin'
 import HoliMentionsPlugin, { $getPureTextFromHtml } from '@holi/ui/helper/lexical/HoliMentionsPlugin'
 import { HoliMentionsPluginNode } from '@holi/ui/helper/lexical/HoliMentionsPlugin.node'
 import { colors } from '@holi/ui/styles/globalVars'
 
-const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = '', placeholder = '...', ...props }) => {
+const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
+  initalValue = '',
+  placeholder = '...',
+  minSearchChars = 2,
+  maxSuggestionOptions = 5,
+  debounceDelay = 300,
+  ...props
+}) => {
+  const [findUsersByName] = useLazyQuery<UserByNameResponse>(userByNameQuery)
+
+  const findUserMapped: Promise<User[]> = useCallback(
+    (substring: string) => {
+      return new Promise((resolve, reject) => {
+        findUsersByName({
+          variables: {
+            substring,
+          },
+        })
+          .then((response) => resolve(response?.data?.userByName.data))
+          .catch(reject)
+      })
+    },
+    [findUsersByName]
+  )
+
   const onChange = (editorState: EditorState, editor: LexicalEditor) => {
     editorState.read(() => {
       // const root = $getRoot()
@@ -77,7 +104,12 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({ initalValue = ''
         <OnChangePlugin onChange={onChange} />
         <HistoryPlugin />
         <HoliFocusPlugin />
-        <HoliMentionsPlugin />
+        <HoliMentionsPlugin
+          findUsersByName={findUserMapped}
+          minSearchChars={minSearchChars}
+          maxSuggestionOptions={maxSuggestionOptions}
+          debounceDelay={debounceDelay}
+        />
       </LexicalComposer>
     </View>
   )

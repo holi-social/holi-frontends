@@ -59,6 +59,28 @@ export type UserByIdResponse = {
   userById: User
 }
 
+export const userByNameQuery = gql`
+  query UserByName($substring: String!, $limit: Int, $offset: Int) {
+    userByName(substring: $substring, limit: $limit, offset: $offset) {
+      data {
+        id
+        avatar
+        avatarLabel
+        avatarDefaultColor
+        fullName
+        firstName
+        lastName
+      }
+    }
+  }
+`
+
+export type UserByNameResponse = {
+  userByName: {
+    data: User[]
+  }
+}
+
 export const UpdateAuthenticatedUserInputSchema = z.object({
   avatar: z.instanceof(Object).optional(),
   firstName: z.string().min(2, { message: 'Should be at least 2 characters' }).optional(),

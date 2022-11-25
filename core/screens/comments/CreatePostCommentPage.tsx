@@ -1,21 +1,12 @@
 import { useMutation, useQuery } from '@apollo/client'
-import React, { memo, useContext, useLayoutEffect, useRef, useState } from 'react'
+import React, { memo, useCallback, useContext, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  KeyboardAvoidingView,
-  Platform,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from 'react-native'
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { logError } from '@holi/core/errors/helpers'
+import { useKeyboard } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -30,7 +21,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import HoliRichInput from '@holi/ui/components/organisms/HoliRichTextInput'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type CreatePostCommentPageParams = {
@@ -38,23 +29,20 @@ export type CreatePostCommentPageParams = {
   postId: string
 }
 
-type ScreenProps = NativeStackScreenProps<HomeStackScreens> & { style?: StyleProp<ViewStyle> }
+type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const CreatePostCommentPage: React.VFC<ScreenProps> = ({ style }: ScreenProps) => {
-  const isWeb = Platform.OS === 'web'
-
-  const [text, setText] = useState('')
+const CreatePostCommentPage: React.VFC<ScreenProps> = () => {
   const { useParam } = createParam<CreatePostCommentPageParams>()
   const [insightId] = useParam('insightId')
   const [postId] = useParam('postId')
+  const [text, setText] = useState('')
+  const [scrollContentHeight, setScrollContentHeight] = useState(0)
   const scrollViewRef = useRef<ScrollView>(null)
   const { navigate, navigateBack } = useRouting()
-
+  const { keyboardHeight } = useKeyboard()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-
   const { openToast } = useToast()
-
   const { user } = useContext(UserContext)
 
   const { loading, error, data } = useQuery<PostByIdResponse>(PostById, {
@@ -82,6 +70,28 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ style }: ScreenProps) =
     [setOptions, t]
   )
 
+  /**
+   * The view should:
+   * - scroll input field into viewport (with open keyboard)
+   * - scroll down when input field increases
+   * - leave scrolling space to show 5 suggestions below
+   * - prevent double scrollbars in web (no main page scrolling)
+   */
+  const scrollIntoView = useCallback(() => {
+    if (Platform.OS === 'web') {
+      scrollViewRef.current?.scrollToEnd({ animated: true })
+    } else {
+      const paddingTop = 20
+      scrollViewRef.current?.scrollTo({
+        animated: true,
+        y: scrollContentHeight - SUGGESTIONS_DROPDOWN_HEIGHT - SUBMIT_BUTTON_CONTAINER_HEIGHT - paddingTop,
+      })
+    }
+  }, [scrollContentHeight])
+
+  const bottomPadding =
+    keyboardHeight + (Platform.OS === 'web' ? 0 : SUGGESTIONS_DROPDOWN_HEIGHT + SUBMIT_BUTTON_CONTAINER_HEIGHT)
+
   if (createCommentError) {
     logError(createCommentError, `[CreatePostCommentPage.tsx] ${createCommentError.message}`)
   }
@@ -104,19 +114,18 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ style }: ScreenProps) =
   if (!post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <StatusBar animated />
-      <SafeAreaView style={styles.wrapper}>
-        <ScrollView
-          ref={scrollViewRef}
-          onLayout={() => scrollViewRef.current?.scrollToEnd()}
-          onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
-        >
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.root}>
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: bottomPadding }}
+        onContentSizeChange={scrollIntoView}
+        ref={scrollViewRef}
+      >
+        <View onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)}>
           {/* Post content */}
           <PostDetail post={post} />
 
           {/* Comment input block */}
-          <View style={[mixins.container, styles.inputWrapper, style]}>
+          <View style={mixins.container}>
             <CommentConnector style={styles.commentConnector} />
 
             <View style={styles.inputContainer}>
@@ -136,35 +145,42 @@ const CreatePostCommentPage: React.VFC<ScreenProps> = ({ style }: ScreenProps) =
               />
             </View>
           </View>
-        </ScrollView>
-        <View style={[styles.bottomBar, isWeb && mixins.container]}>
-          <HoliButton
-            disabled={!text.trim().length || createCommentLoading}
-            label={t('insights.posts.comments.button')}
-            inline
-            onPress={() =>
-              createPostComment({
-                variables: {
-                  input: { postId, text: text.trim() },
-                },
-              })
-            }
-            testID="btn-submit-comment"
-          >
-            {t('insights.posts.comments.button')}
-          </HoliButton>
         </View>
-      </SafeAreaView>
+      </ScrollView>
+
+      <View style={[styles.bottomBar, Platform.OS === 'web' && mixins.container]}>
+        <HoliButton
+          disabled={!text.trim().length || createCommentLoading}
+          label={t('insights.posts.comments.button')}
+          inline
+          onPress={() =>
+            createPostComment({
+              variables: {
+                input: { postId, text: text.trim() },
+              },
+            })
+          }
+          testID="btn-submit-comment"
+        >
+          {t('insights.posts.comments.button')}
+        </HoliButton>
+      </View>
     </KeyboardAvoidingView>
   )
 }
 
+const SUBMIT_BUTTON_CONTAINER_HEIGHT = 74
+const SUGGESTIONS_DROPDOWN_HEIGHT = 200
+
 const styles = StyleSheet.create({
-  wrapper: {
-    height: '100%',
-  },
-  inputWrapper: {
-    ...Platform.select({ web: { paddingHorizontal: 20 } }),
+  root: {
+    height: '100%', // prevents double scrollbars
+    ...Platform.select({
+      web: { height: '100vh' },
+      ios: {
+        paddingBottom: vars.bottomBarHeight + SUBMIT_BUTTON_CONTAINER_HEIGHT,
+      },
+    }),
   },
   inputContainer: {
     marginTop: 16,
@@ -181,13 +197,13 @@ const styles = StyleSheet.create({
   textInput: {
     flex: 1,
     marginLeft: 10,
-    marginBottom: '20%',
-    // space below for 5 suggestions
-    ...Platform.select({ ios: { marginTop: 5 } }),
+    marginBottom: SUGGESTIONS_DROPDOWN_HEIGHT,
     ...Platform.select({
       web: {
-        minHeight: 200,
         marginLeft: 18,
+      },
+      ios: {
+        marginTop: 5,
       },
     }),
   },
@@ -200,12 +216,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-end',
     width: '100%',
-
+    height: SUBMIT_BUTTON_CONTAINER_HEIGHT,
     ...Platform.select({
       web: {
+        // bottom nav is only visible in web
         position: 'fixed',
-        textAlign: 'center',
-        paddingBottom: 78,
+        bottom: vars.bottomBarHeight,
       },
     }),
   },
