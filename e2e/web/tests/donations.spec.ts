@@ -74,6 +74,10 @@ const resetFilterInModal = async (page: Page) => {
   await waitForElementByTestId(page, 'donations-list-container')
 }
 
+// sometimes responses to Betterplace take a little longer (10s < response latency < 30s)
+// increase timeout from default of 5 seconds to 30 seconds
+const betterplaceTimeout = { timeout: 30_000 }
+
 test.describe('@Donations', () => {
   test('should be accessible from home screen', async ({ page }) => {
     await page.goto('/')
@@ -102,7 +106,7 @@ test.describe('@Donations', () => {
     await expect.poll(countListItems).toBeGreaterThan(0)
     const listItemCountBefore = await countListItems()
     await clickElementByTestId(page, 'btn-donation-list-load-more')
-    await expect.poll(countListItems).toBeGreaterThan(listItemCountBefore)
+    await expect.poll(countListItems, betterplaceTimeout).toBeGreaterThan(listItemCountBefore)
   })
 
   test('should display project details', async ({ page, context }) => {
