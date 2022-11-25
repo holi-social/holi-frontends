@@ -1,23 +1,21 @@
 import { useQuery } from '@apollo/client'
-import { faker } from '@faker-js/faker'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useState } from 'react'
+import React, { memo, useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { ImageBackground, Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
+import { NativeStackNavigationCustomHeaderOptions } from '@holi//mobile/navigation/HeaderAnimated'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
-import { useBreakpointMatcher, userFullName } from '@holi/core/helpers'
+import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
-import BackButton from '@holi/core/navigation/components/BackButton'
-import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { fakePosts } from '@holi/core/screens/insights/fakeInsights'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
-import PostPreview from '@holi/core/screens/posts/PostPreview'
+import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
@@ -40,7 +38,7 @@ const { useParam } = createParam<InsightDetailPageParams>()
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+const InsightDetailPage: React.VFC<ScreenProps> = () => {
   const [insightId = ''] = useParam('insightId')
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -48,17 +46,25 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
   const { navigate } = useRouting()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
   const onScreenScroll = useScrollYHandler()
-
+  const { setOptions } = useUnifiedNavigation()
   const { loading, error, data } = useQuery<InsightByIdResponse>(insightById, {
     variables: { id: insightId },
   })
 
   const insight = data?.insightById
 
-  useNavigationHeader(navigation, {
-    title: t('insights.insight.title', { title: insight?.title }),
-    headerLeft: (props) => <BackButton {...props} />,
-  })
+  useLayoutEffect(
+    () =>
+      setOptions({
+        title: t('insights.insight.title', { title: insight?.title }),
+        headerTransparent: true,
+        headerTintColor: colors.fontColorWhite,
+        headerCustomOptions: {
+          headerBackgroundGradient: true,
+        },
+      } as NativeStackNavigationCustomHeaderOptions),
+    [setOptions, t, insight?.title]
+  )
 
   if (error) {
     console.log('######## InsightDetailPage load error')
@@ -75,30 +81,27 @@ const InsightDetailPage: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) 
   // see here: https://reactjs.org/docs/hooks-rules.html
   if (!insight) return <HoliText>{t('insights.insight.notFound', { insightId })}</HoliText>
 
-  // if there are no posts in the insight from the okuna backend, use fake posts.
-  // This way feature branches still have content and don't look empty.
-  const posts: Post[] = insight.posts?.length ? insight.posts : fakePosts
+  const posts: Post[] = insight.posts || []
 
-  const author = {
-    ...insight.curator,
-    fullName: userFullName(insight.curator),
-    avatar: faker.image.avatar(), // TODO: remove, use real avatar instead of dummy image
-  }
+  const author = insight.creator
 
   // TODO: dummy category
   const category = 'Immigration'
-
-  // TODO: dummy image
-  const headerImage = 'https://image.geo.de/30657478/t/5W/v6/w960/r1.5/-/wer-hat-den-foehn-picture-1238735191.jpg'
 
   return (
     <>
       <StatusBar style="light" animated />
 
-      <DefaultLayout bounces={false} style={styles.wrapper} onScroll={onScreenScroll} scrollEventThrottle={200}>
+      <DefaultLayout
+        bounces={false}
+        style={styles.wrapper}
+        headerOverlap
+        onScroll={onScreenScroll}
+        scrollEventThrottle={200}
+      >
         {/* Image section */}
         <ImageBackground
-          source={{ uri: headerImage }}
+          source={{ uri: insight?.headerImage }}
           resizeMode="cover"
           style={styles.insightBackgroundImage}
           imageStyle={styles.insightImage}

@@ -7,9 +7,11 @@ describe('@Login', () => {
     // see https://www.ory.sh/docs/kratos/concepts/ui-user-interface#ui-error-codes
     // for more ory error codes
     await waitForElementWithTestId('toast-message-4000006')
+    await tapOnElementWithTestId('toast-message-4000006')
 
+    await waitForElementWithTestId('nav-button-back')
     await tapOnElementWithTestId('nav-button-back')
-    await tapOnElementWithTestId('nav-button-home')
+    await tapOnElementWithTestId('btn-to-home-view')
   })
 
   it('should work with valid credentials', async () => {

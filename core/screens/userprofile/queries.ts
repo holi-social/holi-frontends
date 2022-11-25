@@ -1,7 +1,18 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
-import type { UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
+import type { Topic, UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
+
+export const userAvatarFragment = gql`
+  fragment UserAvatar on User {
+    id
+    avatar
+    avatarLabel
+    avatarDefaultColor
+    firstName
+    lastName
+  }
+`
 
 export const userFragment = gql`
   fragment FullUser on User {
@@ -15,9 +26,19 @@ export const userFragment = gql`
     avatarDefaultColor
     avatarLabel
     engagementLevel
-    interests
-    sdgs
-    skills
+    interests {
+      id
+      title
+    }
+    sdgs {
+      id
+      title
+    }
+    skills {
+      id
+      title
+    }
+    connectionStatusToMyself
   }
 `
 
@@ -41,13 +62,34 @@ export const userByIdQuery = gql`
   query UserById($userId: String!) {
     userById(id: $userId) {
       ...FullUser
-      connectionStatusToMyself
     }
   }
 `
 
 export type UserByIdResponse = {
   userById: User
+}
+
+export const userByNameQuery = gql`
+  query UserByName($substring: String!, $limit: Int, $offset: Int) {
+    userByName(substring: $substring, limit: $limit, offset: $offset) {
+      data {
+        id
+        avatar
+        avatarLabel
+        avatarDefaultColor
+        fullName
+        firstName
+        lastName
+      }
+    }
+  }
+`
+
+export type UserByNameResponse = {
+  userByName: {
+    data: User[]
+  }
 }
 
 export const UpdateAuthenticatedUserInputSchema = z.object({
@@ -58,17 +100,15 @@ export const UpdateAuthenticatedUserInputSchema = z.object({
   pronouns: z.string().optional(),
   location: z.string().optional(),
   engagementLevel: z.string().optional(),
-  interests: z.array(z.string()).optional(),
-  sdgs: z.array(z.string()).optional(),
-  skills: z.array(z.string()).optional(),
+  interests: z.array(z.string() /* UUID */).optional(),
+  sdgs: z.array(z.string() /* UUID */).optional(),
+  skills: z.array(z.string() /* UUID */).optional(),
 })
 
 export type UpdateAuthenticatedUserInput = z.infer<typeof UpdateAuthenticatedUserInputSchema>
 
 export type UpdateAuthenticatedUserResponse = {
-  updateAuthenticatedUser: {
-    authenticatedUser: User
-  }
+  updateAuthenticatedUser: User
 }
 
 export type UpdateConnectionWithUserInput = {
@@ -77,9 +117,7 @@ export type UpdateConnectionWithUserInput = {
 }
 
 export type UpdateConnectionWithUserResponse = {
-  updateConnectionWithUser: {
-    userById: User
-  }
+  updateConnectionWithUser: User
 }
 
 export const updateUserMutation = gql`
@@ -87,20 +125,56 @@ export const updateUserMutation = gql`
 
   mutation UpdateAuthenticatedUser($input: UpdateAuthenticatedUserInput!) {
     updateAuthenticatedUser(input: $input) {
-      authenticatedUser {
-        ...FullUser
-      }
+      ...FullUser
     }
   }
 `
 
 export const updateConnectionWithUserMutation = gql`
+  ${userFragment}
+
   mutation UpdateConnectionWithUser($input: UpdateConnectionWithUserInput!) {
     updateConnectionWithUser(input: $input) {
-      userById {
+      ...FullUser
+    }
+  }
+`
+
+export const sdgsQuery = gql`
+  query SDGs {
+    sdgs {
+      data {
         id
-        connectionStatusToMyself
+        title
       }
     }
   }
 `
+
+export const skillsQuery = gql`
+  query Skills {
+    skills {
+      data {
+        id
+        title
+      }
+    }
+  }
+`
+
+export const interestsQuery = gql`
+  query Topics {
+    interests: topics {
+      data {
+        id
+        title
+      }
+    }
+  }
+`
+
+export interface TopicsQueryResult {
+  topics: {
+    data: Topic[]
+  }
+}

@@ -1,5 +1,5 @@
 import { useLazyQuery } from '@apollo/client'
-import React, { useLayoutEffect } from 'react'
+import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -7,9 +7,9 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { displayError } from '@holi/core/errors/helpers'
-import BackButton from '@holi/core/navigation/components/BackButton'
-import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
+import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -33,17 +33,12 @@ const { useParam } = createParam<DonationsAppProjectDetailParams>()
 
 type DonationsAppProjectDetailProps = NativeStackScreenProps<HomeStackScreens>
 
-const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
-  navigation,
-}: DonationsAppProjectDetailProps) => {
+const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () => {
   const [projectId] = useParam('projectId')
   const { t, i18n } = useTranslation()
-  const title = t('donations:app.name')
-
-  useNavigationHeader(navigation, {
-    title: title,
-    headerLeft: () => <BackButton />,
-  })
+  const { setOptions } = useUnifiedNavigation()
+  const onScreenScroll = useScrollYHandler()
+  useLayoutEffect(() => setOptions({ title: t('donations:app.name') }), [setOptions, t])
 
   const mixins = useStyleMixins()
 
@@ -69,7 +64,6 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
 
   if (!projectId || loading) {
     // TODO: replace with proper loading indicator
-    // label={t('donations:donationListing.loading')}
     return (
       <View style={[mixins.container, styles.messageContainer]}>
         <HoliText>{t('donations:donationListing.loading')}</HoliText>
@@ -86,8 +80,12 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
   }
 
   return (
-    <View style={{ alignItems: 'center', backgroundColor: colors.backgroundColorGreyLight }}>
-      <DefaultLayout style={{ backgroundColor: colors.backgroundColorGreyLight }}>
+    <View style={{ alignItems: 'center', flex: 1, backgroundColor: colors.backgroundColorGreyLight }}>
+      <DefaultLayout
+        onScroll={onScreenScroll}
+        scrollEventThrottle={200}
+        style={{ backgroundColor: colors.backgroundColorGreyLight }}
+      >
         <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
           <DonationImage picture={project.picture} label={project.title} style={styles.image} />
           <View style={styles.header}>
@@ -115,11 +113,13 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
             </HoliText>
             <HoliReadMore numberOfLines={5}>{project.description}</HoliReadMore>
           </View>
-          <DonationNews
-            totalEntries={project.newsCount}
-            news={project.news}
-            style={[styles.card, { paddingVertical: 24 }]}
-          />
+          {project?.news.length > 0 && (
+            <DonationNews
+              totalEntries={project.newsCount}
+              news={project.news}
+              style={[styles.card, { paddingVertical: 24 }]}
+            />
+          )}
         </View>
       </DefaultLayout>
       <View style={[mixins.container, styles.donateButton]}>
@@ -134,7 +134,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = ({
   )
 }
 
-export default DonationsAppProjectDetail
+export default memo(DonationsAppProjectDetail)
 
 const styles = StyleSheet.create({
   messageContainer: {

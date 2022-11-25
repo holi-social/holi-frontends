@@ -24,14 +24,16 @@ export interface ProjectInitiative {
   url: string | undefined
 }
 
+export interface NewsAuthor {
+  name: string
+  picture?: Picture[]
+}
+
 export interface News {
   title: string
   id: string
   publishDate: string
-  author?: {
-    name: string
-    picture?: Picture[]
-  }
+  author?: NewsAuthor
   body: string
   url: string
 }

@@ -8,7 +8,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
-import HomeTopBar from '@holi/web/components/navigation/HomeTopBar'
+import HeaderAnimated from '@holi/web/components/navigation/HeaderAnimated'
 
 import sharedLayoutStyles from './NavigationLayoutRoot.module.scss'
 import volunteeringLayoutStyles from './NavigationLayoutVolunteeringApp.module.scss'
@@ -33,7 +33,7 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
         Rule: https://dequeuniversity.com/rules/axe/4.4/region
       */}
       <header className={mergedStyles.header}>
-        <HomeTopBar />
+        <HeaderAnimated />
       </header>
 
       <main className={mergedStyles.main}>{children}</main>
@@ -50,7 +50,7 @@ export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildr
             inline
             transparent
             onPress={() => navigate('/')}
-            testID="nav-button-home"
+            testID="btn-to-home-view"
           >
             <HoliIcon icon="home-smile-2" size={35} color={colors.fontColorBlack} />
           </HoliButton>

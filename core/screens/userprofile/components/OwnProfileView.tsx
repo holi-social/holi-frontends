@@ -2,10 +2,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
-import { User, UserChipInterest, UserChipSDG, UserChipSkill } from '@holi/core/screens/userprofile/types'
+import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
@@ -23,7 +22,6 @@ export type OwnProfileViewProps = {
 }
 
 const OwnProfileView: React.VFC<OwnProfileViewProps> = ({ toggleEditMode, user }: OwnProfileViewProps) => {
-  const { navigate } = useRouting()
   const { t } = useTranslation()
 
   const mixins = useStyleMixins()
@@ -31,38 +29,19 @@ const OwnProfileView: React.VFC<OwnProfileViewProps> = ({ toggleEditMode, user }
   return (
     <>
       <View style={[mixins.container, styles.container]}>
-        <>
-          <UserProfileView user={user} contactPossible={false} />
-          <HoliButton
-            label={t('profile.edit')}
-            onPress={() => {
-              toggleEditMode('profile')
-            }}
-            transparent
-            inline
-            style={{ marginTop: 16 }}
-            testID="btn-open-profile-edit-view"
-          >
-            {t('profile.edit')}
-          </HoliButton>
-          <HoliButton
-            label={t('profile.logout')}
-            inline
-            onPress={() => navigate('/logout')}
-            transparent
-            testID="btn-to-logout"
-          >
-            {t('profile.logout')}
-          </HoliButton>
-          <HoliButton
-            label={t('profile.settings.overview.title')}
-            inline
-            onPress={() => navigate('/profile/settings')}
-            transparent
-          >
-            {t('profile.settings.overview.title')}
-          </HoliButton>
-        </>
+        <UserProfileView user={user} contactPossible={false} />
+        <HoliButton
+          label={t('profile.edit')}
+          onPress={() => {
+            toggleEditMode('profile')
+          }}
+          transparent
+          inline
+          style={{ marginTop: 16 }}
+          testID="btn-open-profile-edit-view"
+        >
+          {t('profile.edit')}
+        </HoliButton>
       </View>
       <HoliTabs
         style={{ marginTop: 24 }}
@@ -97,7 +76,7 @@ const OwnProfileView: React.VFC<OwnProfileViewProps> = ({ toggleEditMode, user }
               <View style={[mixins.container, styles.chipRowContainer]} key="interests">
                 <UserChipRow
                   user={user}
-                  typeMetadata={UserChipInterest}
+                  keyInUserObject={'interests'}
                   onPressEdit={() => toggleEditMode('interests')}
                   numberOfLines={1}
                 />
@@ -105,8 +84,7 @@ const OwnProfileView: React.VFC<OwnProfileViewProps> = ({ toggleEditMode, user }
               <View style={[mixins.container, styles.chipRowContainer]} key="sdgs">
                 <UserChipRow
                   user={user}
-                  typeMetadata={UserChipSDG}
-                  sortByTranslation={false}
+                  keyInUserObject={'sdgs'}
                   onPressEdit={() => toggleEditMode('sdgs')}
                   numberOfLines={1}
                 />
@@ -114,7 +92,7 @@ const OwnProfileView: React.VFC<OwnProfileViewProps> = ({ toggleEditMode, user }
               <View style={[mixins.container, styles.chipRowContainer]} key="skills">
                 <UserChipRow
                   user={user}
-                  typeMetadata={UserChipSkill}
+                  keyInUserObject={'skills'}
                   onPressEdit={() => toggleEditMode('skills')}
                   numberOfLines={1}
                 />

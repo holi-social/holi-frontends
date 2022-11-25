@@ -48,6 +48,6 @@ describe('allows user to log in', () => {
 
     fireEvent.press(getByText('auth.loginProtection.login'))
 
-    expect(mockLinkTo).toHaveBeenCalledWith('/login')
+    expect(mockNavigate).toHaveBeenCalledWith('/login')
   })
 })

@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useContext, useState } from 'react'
+import React, { memo, useCallback, useContext, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -7,25 +7,28 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
-import BackButton from '@holi/core/navigation/components/BackButton'
-import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
+import { useScrollYHandler } from '@holi/core/helpers'
+import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import LoggedOutView from '@holi/core/screens/userprofile/components/LoggedOutView'
 import OwnProfileView, { EditModeState } from '@holi/core/screens/userprofile/components/OwnProfileView'
-import UserChipForm from '@holi/core/screens/userprofile/components/UserChipForm'
+import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLoader'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
-import { userChipTypes } from '@holi/core/screens/userprofile/types'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+
+import { interestsQuery, sdgsQuery, skillsQuery } from './queries'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const OwnProfile: React.VFC<ScreenProps> = ({ navigation }) => {
+const OwnProfile: React.VFC<ScreenProps> = () => {
   const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
   const closeModal = useCallback(() => {
@@ -39,71 +42,118 @@ const OwnProfile: React.VFC<ScreenProps> = ({ navigation }) => {
 
   const mixins = useStyleMixins()
 
-  const profileTitle = isLoggedIn && user && user.firstName ? '' : t('profile.title')
-  useNavigationHeader(navigation, {
-    headerLeft: () => <BackButton />,
-    title: profileTitle,
-    headerRight: () =>
-      isLoggedIn && (
-        <HoliButton inline transparent label={t('profile.edit')} onPress={editProfile} style={styles.headerEditButton}>
-          <HoliText size="small" bold style={{ color: colors.fontColorGrey }}>
-            {t('profile.edit')}
-          </HoliText>
-        </HoliButton>
-      ),
-  })
+  const { setOptions, navigate } = useUnifiedNavigation()
+  const onScreenScroll = useScrollYHandler()
+
+  useLayoutEffect(() => {
+    const title = t('profile.title')
+
+    setOptions(
+      isLoggedIn
+        ? {
+            title,
+            headerBackTitleVisible: true,
+            headerBackVisible: true,
+            headerTransparent: true,
+            headerTitle: () => null,
+            headerLeft: ({ tintColor }) => (
+              <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
+                {title}
+              </HeaderTitle>
+            ),
+            headerRight: ({ tintColor }) => (
+              <HoliHorizontalRow>
+                <HoliButton label={t('profile.share')} inline transparent>
+                  <HoliIcon icon="share" size={24} color={tintColor} />
+                </HoliButton>
+
+                <HoliButton
+                  label={t('profile.settings.overview.title')}
+                  inline
+                  transparent
+                  onPress={() => navigate('/profile/settings')}
+                  testID="btn-to-settings"
+                >
+                  <HoliIcon icon="settings-3" size={24} color={tintColor} />
+                </HoliButton>
+              </HoliHorizontalRow>
+            ),
+          }
+        : {
+            title: '',
+            headerTitle: () => null,
+            headerLeft: () => null,
+            headerRight: () => null,
+          }
+    )
+  }, [setOptions, navigate, t, isLoggedIn])
 
   const toggleEditMode = useCallback((editMode: EditModeState) => {
     setEditMode(editMode)
     setShowModal(true)
   }, [])
-  const editProfile = useCallback(() => {
-    toggleEditMode('profile')
-  }, [toggleEditMode])
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let EditFormComponent: React.VFC<any> = UserProfileForm
-  let autoHeight = true
-
-  switch (editMode) {
-    case 'profile':
-      EditFormComponent = UserProfileForm
-      break
-    case 'engagementLevel':
-      EditFormComponent = UserEngagementLevelForm
-      autoHeight = false
-      break
-    case 'interests':
-    case 'skills':
-    case 'sdgs':
-      EditFormComponent = UserChipForm
-      autoHeight = false
-      break
+  const autoHeightFor: Record<EditModeState, boolean> = {
+    profile: true,
+    engagementLevel: false,
+    interests: false,
+    skills: false,
+    sdgs: false,
   }
 
   return (
-    <DefaultLayout>
+    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
       <LoginProtection loggedOutContent={<LoggedOutView />}>
         {user ? (
           <>
-            <HoliModal
-              show={showModal}
-              onDismiss={closeModal}
-              testID="user-profile-modal"
-              label={t(`profile.${editMode}.edit`)}
-              autoHeight={autoHeight}
-              // Smaller devides use the whole screen and
-              // larger ones should have more space above for clicking the backdrop pane
-              minRelativeHeight={!autoHeight && deviceHeight > 750 ? 0.85 : 0}
-            >
-              <EditFormComponent
-                user={user}
-                typeMetadata={editMode && userChipTypes[editMode]}
-                onCancel={closeModal}
-                onSubmit={closeModal}
-              />
-            </HoliModal>
-
+            {editMode && (
+              <HoliModal
+                show={showModal}
+                onDismiss={closeModal}
+                testID="user-profile-modal"
+                label={t(`profile.${editMode}.edit`)}
+                autoHeight={autoHeightFor[editMode]}
+                // Smaller devices use the whole screen and
+                // larger ones should have more space above for clicking the backdrop pane
+                minRelativeHeight={!autoHeightFor[editMode] && deviceHeight > 750 ? 0.85 : 0}
+              >
+                <>
+                  {editMode === 'profile' && (
+                    <UserProfileForm user={user} onCancel={closeModal} onSubmit={closeModal} />
+                  )}
+                  {editMode === 'engagementLevel' && (
+                    <UserEngagementLevelForm user={user} onCancel={closeModal} onSubmit={closeModal} />
+                  )}
+                  {editMode === 'interests' && (
+                    <UserChipLoader
+                      user={user}
+                      onCancel={closeModal}
+                      onSubmit={closeModal}
+                      keyInUserObject={'interests'}
+                      queryToUse={interestsQuery}
+                    />
+                  )}
+                  {editMode === 'skills' && (
+                    <UserChipLoader
+                      user={user}
+                      onCancel={closeModal}
+                      onSubmit={closeModal}
+                      keyInUserObject={'skills'}
+                      queryToUse={skillsQuery}
+                    />
+                  )}
+                  {editMode === 'sdgs' && (
+                    <UserChipLoader
+                      user={user}
+                      onCancel={closeModal}
+                      onSubmit={closeModal}
+                      keyInUserObject={'sdgs'}
+                      queryToUse={sdgsQuery}
+                    />
+                  )}
+                </>
+              </HoliModal>
+            )}
             <OwnProfileView toggleEditMode={toggleEditMode} user={user} />
           </>
         ) : (

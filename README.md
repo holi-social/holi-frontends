@@ -9,7 +9,11 @@
       - [Docker (optional)](#docker-optional)
     - [Running](#running)
     - [Automated Testing](#automated-testing)
+      - [Unit tests](#unit-tests)
+        - [Execution](#execution)
+        - [Conventions](#conventions)
       - [Web e2e tests](#web-e2e-tests)
+      - [Mobile e2e tests](#mobile-e2e-tests)
   - [Monorepo - and why](#monorepo---and-why)
     - [Yarn Workspaces](#yarn-workspaces)
     - [Workspaces / Package Structure](#workspaces--package-structure)
@@ -41,7 +45,7 @@
     - [Web](#web-1)
   - [Exploring the GraphQL API (via graphiql)](#exploring-the-graphql-api-via-graphiql)
   - [Continuous Integration and Deployment](#continuous-integration-and-deployment)
-    - [Feature Branches & Environments](#feature-branches--environments)
+    - [Feature Branches \& Environments](#feature-branches--environments)
     - [Skipping parts of CI](#skipping-parts-of-ci)
       - [noenv Branches](#noenv-branches)
       - [noweb / nomobile Branches](#noweb--nomobile-branches)
@@ -109,26 +113,55 @@ phone.
 
 ### Automated Testing
 
+#### Unit tests
+
 The unit tests are written with [jest](https://jestjs.io/) and [@testing-library/react-native](https://callstack.github.io/react-native-testing-library/).
 
+We also use custom matchers like `toHaveTextContent` defined by [jest-native](https://github.com/testing-library/jest-native).
+
+##### Execution
+
 Running `yarn test` in the root of this repository (or within any package that has unit tests) will run jest on
-all files with unit tests. To run with watch mode, simply use `yarn test:watch` to run tests on uncommitted files,
+all files with unit tests.
+
+To run with watch mode, simply use `yarn test:watch` to run tests on uncommitted files,
 or `yarn test:watchAll` to run tests in all files.
 
+To execute only a single test or test suite, you can run commands like
+
+```sh
+yarn test -t SpaceTaskTile
+# or
+yarn test -t 'SpaceTaskTile renders correctly'
+```
+
+##### Conventions
+
 We are using a jest convention to locate test files within a `__tests__` folder. Jest will run all test files
-within those folders, or any files that end with a suffix of .spec.js or .test.js by default.
+within those folders, or any files that end with a suffix of `.spec.js` or `.test.js` by default. Files named `testData.ts[x]` are excluded.
 
 We use [snapshot tests](https://jestjs.io/docs/snapshot-testing) which generates a `__snapshots__` folder next to
 the test file. The goal with snapshot tests is to "make sure your UI does not change unexpectedly".
 If there is an intentional change to the UI, you can run `yarn test:update` and it will update the snapshots.
 It is recommended to always commit the snapshots folder and keep it in version control.
+Currently we only use these kinds of tests for Holi components (i.e. components defined in `@holi/ui`).
+
+We do not want to rely on actual translations, so `i18next` is configured in `jest.setup.ts` without any translations and will only render the i18n-keys instead.
+
+There is a global mock to check for navigation behaviour (`mockNavigate`, used e.g. in `core/auth/components/__tests__/LoginProtection.test.tsx`).
 
 #### Web e2e tests
 
 The web e2e tests are built with [Playwright](https://playwright.dev/). They are executed in the CI pipeline against
 feature branches and the staging system (before a live deployment).
 
-You can run them locally. You need to have Docker installed. Then, follow the instructions in the [README](./e2e/web/README.md)
+You can run them locally. You need to have Docker installed. Then, follow the instructions in the [README](./e2e/web/README.md).
+
+#### Mobile e2e tests
+
+Mobile e2e tests are written with [jest](https://jestjs.io/) and use [Appium](https://appium.io/docs/en/about-appium/getting-started/). The tests are run against real devices on [BrowserStack](https://www.browserstack.com) in CI pipelines, but can be run locally as well.
+
+For more information see the respective [README](./e2e/mobile/README.md).
 
 ## Monorepo - and why
 

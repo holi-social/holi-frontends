@@ -1,55 +1,82 @@
-import { useQuery } from '@apollo/client'
-import { faker } from '@faker-js/faker'
+import { useLazyQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
-import React from 'react'
+import React, { memo, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
-import { userFullName } from '@holi/core/helpers'
-import BackButton from '@holi/core/navigation/components/BackButton'
-import useNavigationHeader from '@holi/core/navigation/hooks/useNavigationHeader'
+import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import CommentConnector from '@holi/core/screens/comments/CommentConnector'
-import CommentView from '@holi/core/screens/comments/CommentView'
-import { fakeInsights, fakePosts } from '@holi/core/screens/insights/fakeInsights'
-import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/insights/queries'
-import type { Insight } from '@holi/core/screens/insights/types'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import CommentView from '@holi/core/screens/posts/components/CommentView'
+import PostDetail from '@holi/core/screens/posts/components/PostDetail'
+import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
+import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
+import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
+import { Comment } from '@holi/core/screens/posts/types'
+import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
+import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type PostParams = {
+export type PostDetailPageParams = {
   insightId: string
   postId: string
 }
 
-const { useParam } = createParam<PostParams>()
+const { useParam } = createParam<PostDetailPageParams>()
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
-const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
+const getPostCommenters = (comments: Comment[]) => {
+  const commenters = comments?.map((comment) => comment.creator) || []
+
+  // remove duplicates
+  return commenters.filter(
+    (user, index, self) => !!user && self.findIndex((commenter) => commenter.id === user.id) === index
+  )
+}
+
+const PostDetailPage: React.VFC<ScreenProps> = () => {
+  const [showLoginConfirmation, setShowLoginConfirmation] = useState(false)
   const [insightId] = useParam('insightId')
   const [postId] = useParam('postId')
+  const { navigate } = useRouting()
+  const { user } = useContext(UserContext)
 
   const { t } = useTranslation()
-  const title = t('insights.post.title', { insightId, postId })
   const mixins = useStyleMixins()
+  const { setOptions } = useUnifiedNavigation()
 
-  useNavigationHeader(navigation, { title: title, headerLeft: () => <BackButton /> })
+  const isWeb = Platform.OS === 'web'
 
-  const { loading, error, data } = useQuery<LastInsightsResponse>(lastInsightsQuery, {
-    variables: { numberOfItems: 1 },
+  const [getPost, { loading, error, data }] = useLazyQuery<PostByIdResponse>(PostById, {
+    variables: { id: postId },
   })
+
+  const onScreenScroll = useScrollYHandler()
+
+  const title = data?.postById?.title
+
+  useLayoutEffect(
+    () =>
+      setOptions({
+        title,
+        headerStyle: { backgroundColor: colors.backgroundColorWhite },
+      }),
+    [setOptions, title]
+  )
+
+  useEffect(() => {
+    if (postId) getPost()
+  }, [postId, getPost])
 
   if (error) {
     logError(error, `[Post.tsx] ${error.message}`)
@@ -59,50 +86,20 @@ const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
   if (loading || error) {
     return <></>
   }
-  const insights: Insight[] = data?.lastInsights?.length ? data.lastInsights : fakeInsights
-  const insight = insights.find((insight) => insight.id == insightId)
-  if (!insight) return <HoliText>{t('insights.insight.notFound', { insightId })}</HoliText>
 
-  const author = {
-    ...insight.curator,
-    fullName: userFullName(insight.curator),
-    name: userFullName(insight.curator),
-    avatar: faker.image.avatar(), // TODO: dummy image
-  }
+  const post = data?.postById
 
-  const post = fakePosts[0]
+  if (!post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
 
   const comments = post.comments || []
 
-  const commenters = comments?.map((comment) => comment.creator) || []
+  const commenters = getPostCommenters(comments)
 
   return (
     <>
       <StatusBar animated />
-      <DefaultLayout>
-        {/* Post content */}
-        <View style={[mixins.container, styles.postView]}>
-          {/* Post title */}
-          <View style={styles.header}>
-            <HoliHeading level="1" size="medium">
-              {title}
-            </HoliHeading>
-            <HoliButton transparent inline label={t('insights.post.preview.more')} style={styles.moreButton}>
-              <HoliIcon icon="more" color={colors.fontColorGrey} />
-            </HoliButton>
-          </View>
-
-          {/* Post creator */}
-          <HoliMediaHeader
-            title={author.fullName}
-            author={author}
-            date={post.created}
-            boldTitle
-            style={styles.mediaHeader}
-          />
-
-          <HoliText style={styles.body}>{post.text}</HoliText>
-        </View>
+      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
+        <PostDetail post={post} />
 
         {/* Post comments */}
         {comments.length > 0 && (
@@ -111,7 +108,7 @@ const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
               {t('insights.post.response', { count: comments.length })}
             </HoliUserAvatarPile>
 
-            <CommentConnector style={styles.commentConnector} />
+            <VerticalLine style={styles.commentConnector} />
 
             {comments.map((comment) => (
               <CommentView key={comment.id} comment={comment} style={styles.comment} />
@@ -119,33 +116,37 @@ const Post: React.VFC<ScreenProps> = ({ navigation }: ScreenProps) => {
           </View>
         )}
       </DefaultLayout>
+
+      <SafeAreaView>
+        <PostDetailFooter
+          style={[styles.postCommentButton, isWeb && mixins.container]}
+          onPress={() =>
+            user ? navigate(`/insights/${insightId}/posts/${post.id}/comment`) : setShowLoginConfirmation(true)
+          }
+        />
+      </SafeAreaView>
+      <HoliConfirmation
+        show={showLoginConfirmation}
+        label={t('auth.login.needed.title')}
+        title={t('auth.login.needed.title')}
+        description={t('auth.login.needed.description')}
+        onDismiss={() => setShowLoginConfirmation(false)}
+        dismissText={t('auth.login.needed.dismiss')}
+        testID="post-comment-login-needed"
+      />
     </>
   )
 }
 
 const styles = StyleSheet.create({
-  postView: {
-    paddingTop: 12,
-    ...Platform.select({ web: { paddingHorizontal: 20 } }),
-  },
-  moreButton: {
-    alignSelf: 'flex-start',
-    justifyContent: 'flex-end',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  mediaHeader: {
-    marginTop: 20,
-  },
-  body: {
-    marginTop: 16,
-    lineHeight: 22,
-  },
   commentsView: {
     paddingTop: 20,
     paddingHorizontal: 20,
+    ...Platform.select({
+      web: {
+        paddingBottom: 120,
+      },
+    }),
   },
   commentConnector: {
     marginTop: 12,
@@ -154,6 +155,15 @@ const styles = StyleSheet.create({
   comment: {
     marginTop: 12,
   },
+  postCommentButton: {
+    width: '100%',
+    ...Platform.select({
+      web: {
+        position: 'fixed',
+        bottom: 0,
+      },
+    }),
+  },
 })
 
-export default Post
+export default memo(PostDetailPage)

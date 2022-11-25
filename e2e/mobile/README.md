@@ -24,19 +24,19 @@
 
 ## Building via EAS
 
-*Note for iOS:* There are two options on how to build an application for iOS: simulator build and archive build. The
+_Note for iOS:_ There are two options on how to build an application for iOS: simulator build and archive build. The
 former can be used to run your application within a simulator, the latter is used for installation on real devices /
 distribution via app stores. Browserstack works on real devices, so archive builds are needed there.
 
 This requires the [EAS command line tool](https://github.com/expo/eas-cli) to be installed.
 
-|Platform       |Yarn Command                   |Alternatively run within `apps/mobile`          |
-|---------------|-------------------------------|------------------------------------------------|
-|iOS (Simulator)|`yarn mobile:build_ios_sim`    |`eas build --platform ios --profile simulator`  |
-|iOS            |`yarn mobile:build_ios`        |`eas build --platform ios`                      |
-|Android        |`yarn mobile:build_android`    |`eas build --platform android`                  |
-|Android (APK)  |`yarn mobile:build_android_apk`|`eas build --platform android --profile preview`|
-|Both           |`yarn mobile:build_all`        |`eas build --platform all`                      |
+| Platform        | Yarn Command                    | Alternatively run within `apps/mobile`           |
+| --------------- | ------------------------------- | ------------------------------------------------ |
+| iOS (Simulator) | `yarn mobile:build_ios_sim`     | `eas build --platform ios --profile simulator`   |
+| iOS             | `yarn mobile:build_ios`         | `eas build --platform ios`                       |
+| Android         | `yarn mobile:build_android`     | `eas build --platform android`                   |
+| Android (APK)   | `yarn mobile:build_android_apk` | `eas build --platform android --profile preview` |
+| Both            | `yarn mobile:build_all`         | `eas build --platform all`                       |
 
 **Alternatively**, you can use application binaries that have already been built by the build pipeline. It produces iOS
 and Android artifacts in the stages `mobile_staging_build` and `mobile_production_build`. These can either be downloaded
@@ -55,10 +55,15 @@ You need to install [Appium](https://appium.io/docs/en/about-appium/getting-star
 
 1. `npm i -g appium appium-doctor`
 2. run `appium-doctor`
-  (Then do all the things appium-doctor tells you to do / shows as error.)
-  (You can also pass arguments to only check for a specific platform: `--ios` resp. `--android`)
+   (Then do all the things appium-doctor tells you to do / shows as error.)
+   (You can also pass arguments to only check for a specific platform: `--ios` resp. `--android`)
 
-    When appium-doctor is successful, you can run appium:
+   appium needs the following Android SDK Tools, that are not automatically installed and need to be installed via Android Studios SDK Manager:
+
+   - Android SDK Platform-Tools
+   - Android SDK Tools (Obsolete) <- This is only shown when you uncheck "Hide Obsolete Packages"
+
+When appium-doctor is successful, you can run appium:
 
 3. run `appium`
 
@@ -79,6 +84,7 @@ For [Android](#android) there is a script that takes care of starting the applic
 1. Configure environment variables `E2E_ANDROID_VIRTUAL_DEVICE_NAME` and `ANDROID_HOME` (see `.envrc.local.template`, maybe `ANDROID_HOME` is already set up globally)
 
    You can use an emulator of your own by using its name as value of `E2E_ANDROID_VIRTUAL_DEVICE_NAME` or use an actual device (run `adb devices` to make sure it is properly connected).
+
 2. run `yarn workspace @holi/e2e-mobile prepare:android`
 
    This script starts and maybe creates an emulator if necessary, runs `appium` and starts the mobile application locally (using the staging backend).
@@ -86,6 +92,7 @@ For [Android](#android) there is a script that takes care of starting the applic
    If the emulator is run for the first time, Expo Go might open some onboarding layer that should be clicked away.
 
    If the app was running before, maybe close and reopen it (making sure the newest version is used).
+
 3. run `yarn test:android`
 
    This starts the actual test execution.

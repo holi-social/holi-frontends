@@ -37,7 +37,7 @@ test.describe('@HomeScreen', () => {
 
   test('shows 10 user suggestions if logged in.', async ({ page, context }) => {
     await defaultAuthSteps({ page, context })
-    await page.locator(byTestId('nav-button-home')).click()
+    await page.locator(byTestId('btn-to-home-view')).click()
     await page.waitForSelector(byTestId('user-suggestions'))
     expect(await page.locator(byTestId('user-card-suggestion'))).toHaveCount(10)
   })

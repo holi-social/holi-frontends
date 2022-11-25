@@ -1,23 +1,42 @@
 import React from 'react'
-import { ViewStyle } from 'react-native'
+import { StyleProp, View, ViewStyle, useWindowDimensions } from 'react-native'
 
-import { useNavigationContext } from '@holi/core/navigation/NavigationContextProvider'
 import HoliText, { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
+import { colors } from '@holi/ui/styles/globalVars'
 
-export interface HeaderTitleProps extends HoliTextProps {
-  style?: ViewStyle | Record<string, unknown>
+export interface HeaderTitleProps extends Partial<HoliTextProps> {
+  style?: StyleProp<ViewStyle>
+  tintColor?: string
+  color?: string
+  widthOfScreen?: number
   testID?: string
 }
 
-const HeaderTitle: React.VFC<HeaderTitleProps> = (props: HeaderTitleProps) => {
-  const navigationContext = useNavigationContext()
-
-  if (navigationContext.titleElement) return React.cloneElement(navigationContext.titleElement, { style: props.style })
+const HeaderTitle: React.FC<HeaderTitleProps> = ({
+  children,
+  tintColor = colors.fontColorBlack,
+  widthOfScreen,
+  size,
+  style,
+  ...props
+}) => {
+  const { width: screenWidth } = useWindowDimensions()
+  const titleWidth = widthOfScreen ? Math.min(1, widthOfScreen) * screenWidth : undefined
 
   return (
-    <HoliText bold {...props}>
-      {navigationContext.headerTitle}
-    </HoliText>
+    <View style={{ width: titleWidth }}>
+      <HoliText
+        adjustsFontSizeToFit
+        minimumFontScale={0.5}
+        bold={size !== 'large'}
+        size={size}
+        {...props}
+        numberOfLines={1}
+        style={[{ color: tintColor }, style]}
+      >
+        {children}
+      </HoliText>
+    </View>
   )
 }
 

@@ -1,8 +1,8 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
-import { getRandomUser } from '@holi/core/screens/insights/fakeInsights'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
+import { getRandomUser } from '@holi/ui/helper/fakeUsers'
 
 const users = Array.from(' '.repeat(6), (_, idx) => getRandomUser(!(idx % 2)))
 

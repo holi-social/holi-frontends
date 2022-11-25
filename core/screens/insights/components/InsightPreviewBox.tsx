@@ -1,9 +1,7 @@
-import { faker } from '@faker-js/faker'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { userFullName } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Insight } from '@holi/core/screens/insights/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -17,21 +15,18 @@ interface InsightPreviewBoxProps {
   style?: StyleProp<ViewStyle>
 }
 
-// TODO: decide on how to work with User Partials
-const editorsOfInsight = (insight: Insight) =>
-  [insight.curator, ...insight.posts.map(({ creator }) => creator)]
-    .filter((user) => !!user)
-    .map((user) => (!user.avatar ? { ...user, avatar: faker.image.avatar() } : user)) // TODO: remove, use real avatar instead of dummy image
+const editorsOfInsight = (insight: Insight) => {
+  const editors = [insight.creator, ...insight.posts.map(({ creator }) => creator)]
+
+  // remove duplicates
+  return editors.filter((user, index, self) => !!user && self.findIndex((editor) => editor.id === user.id) === index)
+}
 
 const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...props }) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
 
   const editors = editorsOfInsight(insight)
-
-  // TODO: remove dummy image
-  // const headerImage = insight.headerImage
-  const headerImage = 'https://image.geo.de/30657478/t/5W/v6/w960/r1.5/-/wer-hat-den-foehn-picture-1238735191.jpg'
 
   return (
     <View {...props}>
@@ -41,19 +36,20 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
         onPress={() => navigate(`/insights/${insight.id}`)}
         testID="feed-insight-image-link"
       >
-        <Image source={{ uri: headerImage }} style={styles.mainImage} />
+        <Image source={{ uri: insight.headerImage }} style={styles.mainImage} />
 
-        <HoliHeading level="3" selectable={true} size="xSmall" style={[styles.cagetory]}>
-          {/* TODO: provide real category */}
-          Immigration
-        </HoliHeading>
+        {insight.topic && (
+          <HoliHeading level="3" selectable={true} size="xSmall" style={[styles.cagetory]}>
+            {insight.topic.title}
+          </HoliHeading>
+        )}
 
         <HoliHeading level="2" selectable={true} size="small" numberOfLines={3} style={styles.spaceTop}>
           {insight.title}
         </HoliHeading>
 
         <HoliText size="small" style={[styles.spaceTop, styles.textGrey]} selectable={true}>
-          {t('insights.posts.byAuthor', { author: userFullName(insight.curator), count: insight.posts.length })}
+          {t('insights.posts.byAuthor', { author: insight.creator.fullName, count: insight.posts.length })}
         </HoliText>
 
         {editors.length && (

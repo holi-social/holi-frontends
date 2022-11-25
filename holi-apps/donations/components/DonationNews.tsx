@@ -10,7 +10,7 @@ import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { colors } from '@holi/ui/styles/globalVars'
 
-import { News } from '@holi-apps/donations/typings'
+import { News, NewsAuthor } from '@holi-apps/donations/typings'
 
 type DonationNewsProps = {
   totalEntries: number
@@ -23,11 +23,9 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
   const styles = getStyles()
   const [mainNews, ...otherNews] = news
 
-  const author = useMemo(() => {
-    if (!mainNews.author) return undefined
-
+  const author: NewsAuthor | undefined = useMemo(() => {
+    if (!mainNews || !mainNews.author) return undefined
     const { name, picture } = mainNews.author
-
     return {
       name: name,
       avatar: picture ? picture.find(({ type }) => type === 'fill')?.url : '',
@@ -36,11 +34,11 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
 
   return (
     <View style={[props?.style]}>
-      <HoliText bold style={{ marginBottom: totalEntries === 0 ? 0 : 24 }}>
+      <HoliText bold style={{ marginBottom: totalEntries === 0 ? 0 : 24 }} testID="donations-news-count">
         {t('donations:donationNews.total', { count: totalEntries })}
       </HoliText>
       {mainNews && (
-        <View style={{ marginBottom: 24 }}>
+        <View testID="donation-news-spotlight" style={{ marginBottom: 24 }}>
           <HoliButton
             label={t('donations:donationNews.readArticle')}
             transparent
@@ -72,9 +70,9 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
       )}
 
       {otherNews.length > 0 && (
-        <View>
+        <View testID="donations-news-other">
           <HoliText bold style={{ marginBottom: 12 }}>
-            {t('donations:donationNews.moreUpdates', { count: totalEntries - 1 })}
+            {t('donations:donationNews.moreUpdates')}
           </HoliText>
 
           {otherNews.map((entry) => (
@@ -84,6 +82,7 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
               transparent
               disabled={!entry.url}
               onPress={() => entry.url && Linking.openURL(entry.url)}
+              testID="donations-news-other-item"
             >
               <View style={styles.newsListing}>
                 <View style={{ flex: 1 }}>

@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.16.7",
+    "@lexical/react": "^0.6.0",
     "@ory/integrations": "^0.2.6",
     "@react-native-async-storage/async-storage": "^1.17.3",
     "@sentry/nextjs": "^6.19.7",
@@ -25,6 +26,7 @@
     "cookies": "^0.8.0",
     "http-proxy": "^1.18.1",
     "i18next-browser-languagedetector": "^6.1.4",
+    "lexical": "^0.6.0",
     "lottie-react": "^2.3.1",
     "next": "13.0.2",
     "next-compose-plugins": "^2.2.1",
@@ -41,6 +43,7 @@
     "@babel/core": "^7.18.2",
     "@types/react": "18.0.25",
     "@types/react-native": "0.70.6",
+    "@types/react-dom": "^18.0.9",
     "babel-loader": "^8.2.5",
     "eslint": "8.15.0",
     "eslint-config-next": "12.0.10",

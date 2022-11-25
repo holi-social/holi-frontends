@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native'
 import client from '@holi/api/graphql/client'
 import AuthContextProvider, { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
-import NavigationContextProvider from '@holi/core/navigation/NavigationContextProvider'
+import { NavigationContextProvider } from '@holi/core/navigation/hooks/NavigationContextProvider'
 import UserContextProvider, { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
@@ -33,13 +33,15 @@ const Children: React.VFC<{ children: React.ReactElement | React.ReactNode }> = 
   const { t } = useTranslation()
 
   return authContext.isLoading || userContext.isLoading ? (
-    <SafeArea style={styles.loadingContainer}>
-      <HoliText style={{ textAlign: 'center' }}>
-        {/* TODO put loading spinner or something even nicer */}
-        {authContext.isLoading && t('rootProvider.loading.login')}
-        {userContext.isLoading && t('rootProvider.loading.profile')}
-      </HoliText>
-    </SafeArea>
+    <NavigationContextProvider>
+      <SafeArea style={styles.loadingContainer}>
+        <HoliText style={{ textAlign: 'center' }}>
+          {/* TODO put loading spinner or something even nicer */}
+          {authContext.isLoading && t('rootProvider.loading.login')}
+          {userContext.isLoading && t('rootProvider.loading.profile')}
+        </HoliText>
+      </SafeArea>
+    </NavigationContextProvider>
   ) : (
     <NavigationContextProvider>{children}</NavigationContextProvider>
   )
