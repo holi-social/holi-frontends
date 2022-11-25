@@ -1,16 +1,23 @@
 import { gql } from '@apollo/client/core'
 
 import { Space } from '@holi/core/screens/spaces/types'
+import { userFragment } from '@holi/core/screens/userprofile/queries'
 
 const SpaceMemberFragment = gql`
-  fragment SpaceMember on User {
+  fragment FullSpaceMember on SpaceMember {
     id
-    avatar
-    firstName
-    lastName
-    fullName
-    avatarDefaultColor
-    avatarLabel
+    user {
+      id
+      avatar
+      firstName
+      lastName
+      aboutMe
+      avatarDefaultColor
+      avatarLabel
+    }
+    isAdministrator
+    isModerator
+    created
   }
 `
 
@@ -20,21 +27,21 @@ const SpaceFragment = gql`
     title
     description
     created
-    avatar @client
+    avatar
     creator {
-      ...SpaceMember
+      ...FullUser
     }
     mainImage
     location
-    members {
-      ...SpaceMember
+    memberships {
+      ...FullSpaceMember
     }
     tasks {
       id
       name
       description
       creator {
-        ...SpaceMember
+        ...FullUser
       }
       slotsAvailable
       slotsTaken
@@ -60,6 +67,7 @@ export const topicsQuery = gql`
 `
 
 export const spacesQuery = gql`
+  ${userFragment}
   ${SpaceFragment}
   ${SpaceMemberFragment}
 
@@ -79,6 +87,7 @@ export type SpacesResponse = {
 }
 
 export const spaceByIdQuery = gql`
+  ${userFragment}
   ${SpaceFragment}
   ${SpaceMemberFragment}
 

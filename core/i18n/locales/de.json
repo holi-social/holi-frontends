@@ -159,6 +159,8 @@
   "rootProvider.loading.profile": "Lädt Benutzerprofil...",
   "search.filter.reset": "Filter löschen",
   "search.title": "Suche",
+  "spaces.follow": "Folgen",
+  "spaces.join": "Frage zum mitmachen...",
   "spaces.filter.all": "Entdecke alle Spaces",
   "spaces.filter.all.location": "Entdecke alle Spaces in {{location}}",
   "spaces.filter.topics": "{{topics}} Spaces",

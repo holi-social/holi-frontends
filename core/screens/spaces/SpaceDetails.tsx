@@ -76,6 +76,11 @@ const styles = StyleSheet.create({
   },
   spaceDetailView: {
     paddingTop: 0,
+    ...Platform.select({
+      web: {
+        paddingTop: 12,
+      },
+    }),
   },
 })
 

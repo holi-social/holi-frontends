@@ -32,10 +32,15 @@ exports[`React tree renders correctly 1`] = `
       }
     }
     style={
-      Object {
-        "height": "100%",
-        "width": "100%",
-      }
+      Array [
+        Object {
+          "height": "100%",
+          "width": "100%",
+        },
+        Object {
+          "resizeMode": "cover",
+        },
+      ]
     }
   />
 </View>
@@ -73,10 +78,15 @@ exports[`React tree renders default grey background, when given image prop is em
       }
     }
     style={
-      Object {
-        "height": "100%",
-        "width": "100%",
-      }
+      Array [
+        Object {
+          "height": "100%",
+          "width": "100%",
+        },
+        Object {
+          "resizeMode": "cover",
+        },
+      ]
     }
   />
 </View>

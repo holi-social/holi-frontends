@@ -13,7 +13,7 @@ describe('TopicSlider', () => {
 
     const images = getAllByRole('image')
     // expect 3 spaces with 3 members each
-    expect(images.length).toBe(9)
+    expect(images.length).toBe(3)
     expect(images[0]).toHaveProp('source', { uri: 'https://www.example.com/avatar.jpg' })
     expect(images[0]).toHaveProp('accessibilityLabel', 'Some Body')
   })

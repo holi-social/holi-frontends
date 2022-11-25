@@ -1,7 +1,11 @@
 import { Skill, User } from '@holi/core/screens/userprofile/types'
 
-export interface SpaceMember extends User {
-  isAdmin: boolean
+export interface SpaceMember {
+  id: string
+  user: User
+  isAdministrator?: boolean
+  isModerator?: boolean
+  created: string
 }
 
 export interface Space {
@@ -12,7 +16,7 @@ export interface Space {
   creator: User
   mainImage: string
   location: string
-  members: SpaceMember[]
+  memberships: SpaceMember[]
   avatar?: string
   tasks?: Task[]
 }

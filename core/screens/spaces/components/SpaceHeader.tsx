@@ -1,4 +1,5 @@
-import React from 'react'
+import partition from 'lodash.partition'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
@@ -18,8 +19,10 @@ type SpaceHeaderProps = {
 const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
   const { t } = useTranslation()
 
-  const admins = space.members.filter((member) => member.isAdmin)
-  const members = space.members.filter((member) => !member.isAdmin)
+  const [adminMemberships, regularMemberships] = useMemo(() => partition(space.memberships, 'isAdministrator'), [space])
+
+  const admins = adminMemberships.map((membership) => membership.user)
+  const members = regularMemberships.map((membership) => membership.user)
 
   const { width: deviceWidth } = useWindowDimensions()
   const avatarWidth = deviceWidth / 5 // make avatar responsive (SpaceAvatar has a maxWidth)
@@ -33,20 +36,20 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
       </HoliHeading>
       <View style={styles.avatarPileContainer}>
         {admins.length > 0 && (
-          <HoliUserAvatarPile
-            users={admins}
-            usersToShow={3}
-            counter
-            collapse
-            style={styles.avatarPileAdmins}
-            testID="space-admins"
-          >
+          <HoliUserAvatarPile users={admins} usersToShow={3} counter collapse testID="space-admins">
             <HoliText size="small" style={styles.avatarPileText}>
               {t('spaces.members.admin', { count: admins.length })}
             </HoliText>
           </HoliUserAvatarPile>
         )}
-        <HoliUserAvatarPile users={members} usersToShow={3} counter collapse testID="space-members">
+        <HoliUserAvatarPile
+          users={members}
+          usersToShow={3}
+          counter
+          collapse
+          style={styles.avatarPileMembers}
+          testID="space-members"
+        >
           <HoliText size="small" style={styles.avatarPileText}>
             {t('spaces.members.member', { count: members.length })}
           </HoliText>
@@ -54,10 +57,10 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
       </View>
       <View style={styles.actionButtons}>
         <HoliButton inline label={t('spaces.follow')} type="secondary">
-          Follow +
+          <HoliText>{t('spaces.follow')}</HoliText>
         </HoliButton>
         <HoliButton inline label={t('spaces.join')} style={styles.actionButtonJoin}>
-          Ask to join...
+          <HoliText>{t('spaces.join')}</HoliText>
         </HoliButton>
       </View>
     </View>
@@ -76,7 +79,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
   },
-  avatarPileAdmins: {
+  avatarPileMembers: {
     marginLeft: 16,
   },
   avatarPileText: {
