@@ -23,7 +23,7 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({ location, topi
   const topicsNames = useMemo(() => topics.map((topic) => topic.title).join(', '), [topics])
 
   return (
-    <HoliHeading level="1" size="large" style={[styles.tagContainer, style]}>
+    <HoliHeading level="1" size="large" style={[styles.tagContainer, style]} testID="spaces-filter-header">
       <Trans t={t} i18nKey={i18nKey} values={{ location, topics: topicsNames }} />
     </HoliHeading>
   )

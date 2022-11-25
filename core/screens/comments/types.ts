@@ -1,4 +1,4 @@
-import { User } from 'core/screens/userprofile/types'
+import { User } from '@holi/core/screens/userprofile/types'
 
 export interface Comment {
   id: string

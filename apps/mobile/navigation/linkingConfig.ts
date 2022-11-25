@@ -1,69 +1,71 @@
 import type { LinkingOptions } from '@react-navigation/native'
 
 import { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import { RouteName } from '@holi/mobile/navigation/routeName'
 
 const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
-  initialRouteName: 'Core',
+  initialRouteName: RouteName.Core,
   screens: {
     // the actual app
-    Core: {
+    [RouteName.Core]: {
       screens: {
-        Home: {
-          initialRouteName: 'HomeFeed',
+        [RouteName.Home]: {
+          initialRouteName: RouteName.HomeFeed,
           screens: {
-            HomeFeed: '',
-            InsightDetailPage: 'insights/:insightId',
-            PostDetailPage: 'insights/:insightId/posts/:postId',
-            CreatePostCommentPage: 'insights/:insightId/posts/:postId/comment',
-            UserProfile: 'profile/:userId',
-            Notifications: 'notifications',
+            [RouteName.HomeFeed]: '',
+            [RouteName.InsightDetailPage]: 'insights/:insightId',
+            [RouteName.PostDetailPage]: 'insights/:insightId/posts/:postId',
+            [RouteName.CreatePostCommentPage]: 'insights/:insightId/posts/:postId/comment',
+            [RouteName.UserProfile]: 'profile/:userId',
+            [RouteName.Notifications]: 'notifications',
           },
         },
-        Spaces: {
-          initialRouteName: 'SpacesHome',
+        [RouteName.Spaces]: {
+          initialRouteName: RouteName.SpacesHome,
           screens: {
-            Spaces: 'spaces',
-            SpaceDetails: 'spaces/:spaceId',
+            [RouteName.SpacesHome]: 'spaces',
+            [RouteName.SpaceDetails]: 'spaces/:spaceId',
+            [RouteName.SpacesForTopic]: 'spaces/topic/:topicId',
           },
         },
-        Chat: {
-          initialRouteName: 'ChatHome',
+        [RouteName.Chat]: {
+          initialRouteName: RouteName.ChatHome,
           screens: {
-            ChatHome: 'chat',
+            [RouteName.ChatHome]: 'chat',
           },
         },
-        Auth: {
-          initialRouteName: 'OwnProfile',
+        [RouteName.Auth]: {
+          initialRouteName: RouteName.Profile,
           screens: {
-            OwnProfile: 'profile',
-            SettingsOverview: 'profile/settings',
-            AccountSettings: 'profile/settings/account',
+            [RouteName.Profile]: 'profile',
+            [RouteName.SettingsOverview]: 'profile/settings',
+            [RouteName.AccountSettings]: 'profile/settings/account',
           },
         },
       },
     },
-    Search: {
+    [RouteName.Search]: {
       screens: {
-        Search: 'search',
+        [RouteName.Search]: 'search',
       },
     },
     // apps from the HOLI store
-    DonationsApp: {
+    [RouteName.DonationsApp]: {
       screens: {
-        DonationsAppHome: 'apps/donations',
-        DonationsAppProjectDetail: 'apps/donations/project/:projectId',
+        [RouteName.DonationsAppHome]: 'apps/donations',
+        [RouteName.DonationsAppProjectDetail]: 'apps/donations/project/:projectId',
       },
     },
-    VolunteeringApp: {
+    [RouteName.VolunteeringApp]: {
       screens: {
-        VolunteeringAppHome: 'apps/volunteering',
+        [RouteName.VolunteeringAppHome]: 'apps/volunteering',
       },
     },
     // all modals
-    Login: 'login',
-    Logout: 'logout',
-    Registration: 'registration',
-    ForgotPassword: 'forgotPassword',
+    [RouteName.Login]: 'login',
+    [RouteName.Logout]: 'logout',
+    [RouteName.Registration]: 'registration',
+    [RouteName.ForgotPassword]: 'forgotPassword',
   },
 }
 
