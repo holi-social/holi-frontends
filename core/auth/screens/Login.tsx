@@ -31,7 +31,11 @@ const Login: React.VFC<ScreenProps> = () => {
 
   useLayoutEffect(() => {
     setOptions({
-      title: t('auth.login'),
+      headerTitle: () => (
+        <HoliHeading level="1" size="small">
+          {t('auth.login')}
+        </HoliHeading>
+      ),
       headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon="arrow-down-s" />),
       headerRight: () => (Platform.OS === 'web' ? <HeaderBackButton icon="close" /> : null),
     })
