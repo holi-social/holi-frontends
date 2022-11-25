@@ -2,7 +2,7 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 
 import SpacesView from '@holi/core/screens/spaces/components/SpacesView'
-import { user, userWithLocation } from '@holi/core/screens/spaces/components/__tests__/testData'
+import { member, userWithLocation } from '@holi/core/screens/spaces/components/__tests__/testData'
 
 describe('SpacesView', () => {
   it('renders correctly without user', () => {
@@ -12,7 +12,7 @@ describe('SpacesView', () => {
   })
 
   it('renders correctly for user', () => {
-    const { getByTestId } = render(<SpacesView topics={[]} user={user} />)
+    const { getByTestId } = render(<SpacesView topics={[]} user={member} />)
 
     expect(getByTestId('spaces-filter-header')).toHaveTextContent('spaces.filter.all')
   })
