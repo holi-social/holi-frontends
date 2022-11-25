@@ -5,8 +5,10 @@
   "description": "",
   "scripts": {
     "test": "docker run -v $PWD:/tests -w /tests -e BASE_URL=$BASE_URL -e E2E_USER_USERNAME=$E2E_USER_USERNAME -e E2E_USER_PASSWORD=$E2E_USER_PASSWORD -e E2E_USER_ID=$E2E_USER_ID --rm -it --ipc=host mcr.microsoft.com/playwright:v1.27.0-focal yarn run playwright test",
-    "test:localhost": "docker run -v $PWD:/tests -w /tests -e BASE_URL=http://host.docker.internal:3000 -e HEADLESS=true -e E2E_USER_USERNAME=$E2E_USER_USERNAME -e E2E_USER_PASSWORD=$E2E_USER_PASSWORD -e E2E_USER_ID=$E2E_USER_ID --rm -it --ipc=host --add-host=host.docker.internal:host-gateway --network=host mcr.microsoft.com/playwright:v1.27.0-focal yarn run playwright test",
-    "test:debug": "BASE_URL=http://localhost:3000 yarn run playwright test --headed --debug",
+    "test:localhost": "BASE_URL=http://localhost:3000 yarn run playwright test",
+    "test:localhost:docker": "docker run -v $PWD:/tests -w /tests -e BASE_URL=http://host.docker.internal:3000 -e HEADLESS=true -e E2E_USER_USERNAME=$E2E_USER_USERNAME -e E2E_USER_PASSWORD=$E2E_USER_PASSWORD -e E2E_USER_ID=$E2E_USER_ID --rm -it --ipc=host --add-host=host.docker.internal:host-gateway --network=host mcr.microsoft.com/playwright:v1.27.0-focal yarn run playwright test",
+    "test:localhost:debug": "BASE_URL=http://localhost:3000 yarn run playwright test --headed --debug",
+    "test:localhost:headed": "BASE_URL=http://localhost:3000 yarn run playwright test --headed",
     "clean": "rimraf output",
     "clean:all": "yarn clean && rimraf node_modules"
   },
