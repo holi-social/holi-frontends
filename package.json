@@ -62,7 +62,7 @@
     "jest": "^28.1.1",
     "jest-expo": "^45.0.1",
     "prettier": "^2.5.1",
-    "react-test-renderer": "18.1.0",
+    "react-test-renderer": "18.2.0",
     "turbo": "^1.6.3"
   },
   "packageManager": "yarn@1.22.17"
