@@ -39,7 +39,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
   }
 
   const insights = data?.lastInsights?.data ? data.lastInsights.data : []
-  const insightsCreators = insights.map((insight) => insight.creator)
+  const insightsCreators = insights.map((insight) => insight.creator) || []
 
   return (
     <View style={[mixins.container, props.style]}>

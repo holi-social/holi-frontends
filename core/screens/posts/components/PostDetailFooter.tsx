@@ -39,18 +39,19 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     ...Platform.select({
       android: {
-        paddingBottom: 42,
+        paddingBottom: 32,
       },
       ios: {
-        paddingBottom: 36,
+        paddingBottom: 27,
       },
       web: {
-        paddingBottom: 102,
+        paddingBottom: 93,
         width: '100%',
       },
     }),
   },
   text: {
+    paddingTop: 9,
     color: colors.fontColorGrey,
   },
 })
