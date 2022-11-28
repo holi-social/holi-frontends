@@ -93,8 +93,6 @@ storybook_publish:
     - holi-big
   only:
     - main
-    - HOLI-2551_publish-storybook # TODO remove at end of review and set CHROMATIC_PROJECT_TOKEN to masked in CI variables
-
 
 web_build_docker:
   needs: ['web_build']
