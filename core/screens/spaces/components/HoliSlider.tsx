@@ -46,7 +46,7 @@ export default memo(HoliSlider)
 const getStyles = (screenWidth: number) =>
   StyleSheet.create({
     cardContainer: {
-      marginRight: 12,
+      marginRight: 8,
     },
     cardContainer_small: {
       width: Platform.OS === 'web' && screenWidth > +variables.breakpointS ? 160 : screenWidth / 2.5 - 24,

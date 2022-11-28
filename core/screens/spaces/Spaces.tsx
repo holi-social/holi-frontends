@@ -1,5 +1,6 @@
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { StyleSheet, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -22,6 +23,8 @@ const Spaces: React.VFC<ScreenProps> = () => {
   const mixins = useStyleMixins()
   const { setOptions, navigate } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
+  const { height: deviceHeight } = useWindowDimensions()
+  const styles = getStyles(deviceHeight)
 
   useLayoutEffect(() => {
     const title = t('spaces.title')
@@ -53,10 +56,18 @@ const Spaces: React.VFC<ScreenProps> = () => {
   }, [setOptions, navigate, t])
 
   return (
-    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
+    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.wrapper}>
       <DiscoverSpaces style={mixins.container} />
     </DefaultLayout>
   )
 }
+
+const getStyles = (deviceHeight: number) =>
+  StyleSheet.create({
+    wrapper: {
+      backgroundColor: colors.backgroundColorGrey,
+      minHeight: deviceHeight,
+    },
+  })
 
 export default memo(Spaces)

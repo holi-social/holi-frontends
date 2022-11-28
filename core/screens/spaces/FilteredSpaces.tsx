@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -15,6 +15,7 @@ import { SpacesResponse, spacesQuery } from '@holi/core/screens/spaces/queries'
 import { topicsQuery } from '@holi/core/screens/spaces/queries'
 import { TopicsQueryResult } from '@holi/core/screens/userprofile/queries'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceFilterParams = {
@@ -34,6 +35,8 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
   const mixins = useStyleMixins()
   const { setOptions } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
+  const { height: deviceHeight } = useWindowDimensions()
+  const styles = getStyles(deviceHeight)
 
   const { data: topicsData } = useQuery<TopicsQueryResult>(topicsQuery)
 
@@ -69,16 +72,21 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
   }
 
   return (
-    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
+    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.wrapper}>
       <SpacesGrid style={[mixins.container, styles.grid]} spaces={spaces} />
     </DefaultLayout>
   )
 }
 
-const styles = StyleSheet.create({
-  grid: {
-    marginTop: 32,
-  },
-})
+const getStyles = (deviceHeight: number) =>
+  StyleSheet.create({
+    wrapper: {
+      backgroundColor: colors.backgroundColorGrey,
+      minHeight: deviceHeight,
+    },
+    grid: {
+      marginTop: 32,
+    },
+  })
 
 export default memo(FilteredSpaces)
