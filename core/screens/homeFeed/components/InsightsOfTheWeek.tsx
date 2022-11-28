@@ -6,8 +6,6 @@ import { StyleSheet, View, ViewStyle } from 'react-native'
 import { logError } from '@holi/core/errors/helpers/logError'
 import InsightList from '@holi/core/screens/insights/InsightList'
 import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/insights/queries'
-import { Insight } from '@holi/core/screens/insights/types'
-import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -18,17 +16,6 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type InsightsOfTheWeekProps = {
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
-}
-
-const getInsightCreators = (insights: Insight[]) => {
-  const creators = insights?.map((insight) => insight.creator) || []
-
-  const dicCreators = creators.reduce((acc, creator) => {
-    acc[creator.id] ??= creator
-    return acc
-  }, {} as Record<string, User>)
-
-  return Object.values(dicCreators)
 }
 
 const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfTheWeekProps) => {
@@ -52,7 +39,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
   }
 
   const insights = data?.lastInsights?.data ? data.lastInsights.data : []
-  const insightsCreators = getInsightCreators(insights)
+  const insightsCreators = insights.map((insight) => insight.creator) || []
 
   return (
     <View style={[mixins.container, props.style]}>
