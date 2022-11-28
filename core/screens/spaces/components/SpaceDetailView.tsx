@@ -4,11 +4,9 @@ import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native
 
 import SpaceHeader from '@holi/core/screens/spaces/components/SpaceHeader'
 import SpaceTaskTile from '@holi/core/screens/spaces/components/SpaceTaskTile'
-import SpacesWelcome from '@holi/core/screens/spaces/components/SpacesWelcome'
 import { Space, Task } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
 
 type SpaceDetailViewProps = {
   space: Space
