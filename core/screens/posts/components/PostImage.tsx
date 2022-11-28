@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Dimensions, Image, Platform, StyleSheet, View } from 'react-native'
-import ImageZoom from 'react-native-image-pan-zoom'
+import { StyleSheet } from 'react-native'
 
 import HoliImage from '@holi//ui/components/atoms/HoliImage'
+import ImagePanZoom from '@holi/core/screens/posts/components/ImagePanZoom'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalFullscreen from '@holi/ui/components/molecules/HoliModalFullscreen'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -16,18 +16,10 @@ export type PostImageProps = {
 const PostImage: React.VFC<PostImageProps> = ({ uri, postTitle }) => {
   const { t } = useTranslation()
   const [showFullscreenImage, setShowFullscreenImage] = useState(false)
-  const [imageSize, setImageSize] = useState(() => ({ width: 0, height: 0 }))
 
   const showImageFullScreen = useCallback(() => {
-    // find image's size for ImageZoom mobile component
-    !(Platform.OS === 'web') &&
-      Image.getSize(uri, (width, height) => {
-        const multiplier = Math.min(Dimensions.get('window').width / width, Dimensions.get('window').height / height, 1)
-        setImageSize({ width: width * multiplier, height: height * multiplier })
-      })
-
     setShowFullscreenImage(true)
-  }, [uri, setShowFullscreenImage])
+  }, [setShowFullscreenImage])
 
   const hideFullscreenImage = useCallback(() => {
     setShowFullscreenImage(false)
@@ -51,28 +43,7 @@ const PostImage: React.VFC<PostImageProps> = ({ uri, postTitle }) => {
         onDismiss={hideFullscreenImage}
         testID="post-image-modal"
       >
-        {Platform.OS === 'web' ? (
-          <View style={styles.webModalImageContainer}>
-            <HoliImage
-              style={styles.webModalImage}
-              source={{ uri }}
-              label={t('insights.posts.image.modal', { title: postTitle })}
-            />
-          </View>
-        ) : (
-          <ImageZoom
-            cropWidth={Dimensions.get('window').width}
-            cropHeight={Dimensions.get('window').height}
-            imageWidth={imageSize.width}
-            imageHeight={imageSize.height}
-          >
-            <HoliImage
-              style={{ width: '100%', height: '100%' }}
-              source={{ uri }}
-              label={t('insights.posts.image.modal', { title: postTitle })}
-            />
-          </ImageZoom>
-        )}
+        <ImagePanZoom uri={uri} postTitle={postTitle} />
       </HoliModalFullscreen>
     </>
   )
