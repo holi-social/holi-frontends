@@ -77,6 +77,10 @@ web_build:
 
 storybook_publish:
   needs: ['web_build']
+  environment:
+    name: storybook-main
+    url: https://main--63846e9768032326df3b0c75.chromatic.com
+    deployment_tier: staging
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas' # too much, but since it is there...
   script:
     - yarn storybook:publish
@@ -89,7 +93,7 @@ storybook_publish:
     - holi-big
   only:
     - main
-    - HOLI-2551_publish-storybook # TODO remove at end of review
+    - HOLI-2551_publish-storybook # TODO remove at end of review and set CHROMATIC_PROJECT_TOKEN to masked in CI variables
 
 
 web_build_docker:
