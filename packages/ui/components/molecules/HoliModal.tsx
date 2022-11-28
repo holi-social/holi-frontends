@@ -1,15 +1,6 @@
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  AccessibilityProps,
-  Animated,
-  Modal,
-  ModalProps,
-  Platform,
-  StyleSheet,
-  View,
-  useWindowDimensions,
-} from 'react-native'
+import { Animated, ModalProps, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import {
   GestureEvent,
   GestureHandlerRootView,
@@ -17,12 +8,11 @@ import {
   PanGestureHandler,
 } from 'react-native-gesture-handler'
 
-import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import { colors } from '@holi/ui/styles/globalVars'
 import { vars } from '@holi/ui/styles/globalVars'
-import { useTheme } from '@holi/ui/styles/theme'
 
 export type HoliModalProps = ModalProps & {
   show: boolean
@@ -45,17 +35,8 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
   const { show = false, relativeHeight = 0.96, minRelativeHeight, onDismiss, autoHeight = true, children } = props
   const { t } = useTranslation()
   const [visible, setVisible] = useState(show)
-  const { setModalIsOpen } = useTheme()
   const { width: deviceWidth } = useWindowDimensions()
   const [isTouch, setIsTouch] = useState(true)
-
-  const setModalOpen = useCallback(
-    (isOpen: boolean) => {
-      setVisible(isOpen)
-      setModalIsOpen(isOpen)
-    },
-    [setVisible, setModalIsOpen]
-  )
 
   // value for appearance animation
   const animShift = useRef(new Animated.Value(0)).current
@@ -87,7 +68,7 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
 
   useEffect(() => {
     if (show) {
-      setModalOpen(show)
+      setVisible(show)
       Animated.timing(animShift, {
         toValue: 0,
         duration: 350,
@@ -101,11 +82,11 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
         useNativeDriver: false,
       }).start(() => {
         // only dismiss the Modal once the animation is done
-        setModalOpen(false)
+        setVisible(false)
         gestureShift.setValue(0)
       })
     }
-  }, [show, animShift, gestureShift, setModalOpen])
+  }, [show, animShift, gestureShift, setVisible])
 
   useLayoutEffect(() => {
     if (Platform.OS === 'web') {
@@ -113,25 +94,13 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
     }
   }, [])
 
-  const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
-    ...(Platform.OS === 'web' ? { accessibilityModal: true } : {}),
-    accessibilityLabel: props.label,
-  }
-
   const maxHeight = relativeHeight * 100
   const minHeight = minRelativeHeight ? Math.min(minRelativeHeight, relativeHeight) * 100 : '0'
   const fixedHeight = minRelativeHeight ? Math.min(minRelativeHeight, relativeHeight) * 100 : maxHeight
 
   return (
     <>
-      <Modal
-        {...accessibilityProps}
-        visible={visible}
-        transparent={true}
-        animationType="fade"
-        onRequestClose={onDismiss}
-        testID={props.testID}
-      >
+      <ModalBasic show={visible} transparent={true} onDismiss={onDismiss} label={props.label} testID={props.testID}>
         <GestureHandlerRootView style={styles.rootView} accessible={false}>
           <HoliButton
             label={t('modal.backdrop')}
@@ -181,7 +150,7 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
             {children}
           </Animated.View>
         </GestureHandlerRootView>
-      </Modal>
+      </ModalBasic>
     </>
   )
 }

@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HoliModalFullscreen.tsx renders correctly image 1`] = `
+Array [
+  <View
+    accessibilityLabel="insights.posts.image.show"
+    accessibilityRole="button"
+    accessibilityState={
+      Object {
+        "disabled": false,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Array [
+        Array [
+          Object {
+            "width": "auto",
+          },
+        ],
+        undefined,
+      ]
+    }
+    testID="post-image"
+  >
+    <View
+      pointerEvents="none"
+      style={
+        Array [
+          false,
+          undefined,
+        ]
+      }
+    >
+      <Image
+        accessibilityLabel="insights.posts.image"
+        accessibilityRole="image"
+        accessible={false}
+        source={
+          Object {
+            "uri": "",
+          }
+        }
+        style={
+          Array [
+            Object {
+              "aspectRatio": 1.4533898305084745,
+              "backgroundColor": "#eff0f1",
+              "marginTop": 26,
+              "width": "100%",
+            },
+            Object {
+              "resizeMode": "cover",
+            },
+          ]
+        }
+      />
+    </View>
+  </View>,
+  <Modal
+    accessibilityLabel="insights.posts.image.modal"
+    animationType="fade"
+    hardwareAccelerated={false}
+    onRequestClose={[Function]}
+    testID="post-image-modal"
+    visible={false}
+  />,
+]
+`;
