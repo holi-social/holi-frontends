@@ -386,6 +386,11 @@ Say you wanted to create the route "/profile/:id" which opened the profile page 
 ```ts
 import createParam from '@holi/core/navigation/hooks/useParam'
 
+export type UserProfileParams = {
+  userId: string
+}
+const { useParam } = createParam<UserProfileParams>()
+
 const [userId = ''] = useParam('userId')
 ```
 
