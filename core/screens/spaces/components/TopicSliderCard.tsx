@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { Image, Platform, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -15,26 +15,28 @@ type TopicSliderCardProps = {
 }
 
 const createFullMemberList = (creator: User, members: User[]) =>
-  creator ? [creator, ...members.filter((user) => user.id !== creator?.id)] : members
+  creator ? [creator, ...members.filter((member) => member.id !== creator?.id)] : members
 
 const TopicSliderCard: React.VFC<TopicSliderCardProps> = ({ space, style }: TopicSliderCardProps) => {
   const { navigate } = useRouting()
-  const { id, title, description, mainImage, members, creator } = space
+  const { id, title, description, mainImage, memberships, creator } = space
 
-  const allMembers = useMemo(() => createFullMemberList(creator, members), [members, creator])
+  const spaceMembers = memberships.map((membership) => membership.user)
+
+  const allMembers = useMemo(() => createFullMemberList(creator, spaceMembers), [spaceMembers, creator])
 
   return (
     <HoliButton
       label={`${title} - ${description}`}
       transparent
       onPress={() => navigate(`/spaces/${id}`)}
-      style={[style, { width: '100%' }]}
+      style={[style, styles.card]}
       inline
       testID="btn-to-space"
     >
       <View style={styles.mainImageWrapper}>
         {<Image source={{ uri: mainImage }} style={styles.mainImage} />}
-        {members?.length > 0 && (
+        {memberships?.length > 0 && (
           <View style={styles.userPile}>
             <HoliUserAvatarPile users={allMembers} usersToShow={3} counter collapse>
               <Text>{allMembers.length}</Text>
@@ -45,13 +47,13 @@ const TopicSliderCard: React.VFC<TopicSliderCardProps> = ({ space, style }: Topi
       <HoliText size="small" bold numberOfLines={2} selectable>
         {title}
       </HoliText>
-      <HoliText size="small" numberOfLines={2} selectable style={{ marginTop: 6, color: colors.fontColorGrey }}>
+      <HoliText size="small" numberOfLines={2} selectable style={styles.description}>
         {description}
       </HoliText>
     </HoliButton>
   )
 }
-export default TopicSliderCard
+export default memo(TopicSliderCard)
 
 const styles = StyleSheet.create({
   mainImageWrapper: {
@@ -76,5 +78,12 @@ const styles = StyleSheet.create({
     paddingRight: 8,
     borderRadius: 24,
     margin: 6,
+  },
+  card: {
+    width: '100%',
+  },
+  description: {
+    marginTop: 6,
+    color: colors.fontColorGrey,
   },
 })

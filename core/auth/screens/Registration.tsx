@@ -52,7 +52,11 @@ const Registration: React.VFC<ScreenProps> = () => {
 
   useLayoutEffect(() => {
     setOptions({
-      title: t('auth.register'),
+      headerTitle: () => (
+        <HoliHeading level="1" size="small">
+          {t('auth.register')}
+        </HoliHeading>
+      ),
       headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon="arrow-down-s" />),
       headerRight: () => (Platform.OS === 'web' ? <HeaderBackButton icon="close" /> : null),
     })

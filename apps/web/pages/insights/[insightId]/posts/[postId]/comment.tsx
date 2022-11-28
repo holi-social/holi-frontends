@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 
-import CreatePostCommentPage from '@holi/core/screens/comments/CreatePostCommentPage'
+import CommentInputPage from '@holi/core/screens/posts/CommentInputPage'
 
-const PostPage: NextPage = () => <CreatePostCommentPage />
+const PostPage: NextPage = () => <CommentInputPage />
 
 export default PostPage

@@ -1,12 +1,12 @@
 import { ApolloClient, InMemoryCache, from } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
-import { offsetLimitPagination } from '@apollo/client/utilities'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import { createUploadLink } from 'apollo-upload-client'
 
 import { holiApiUrl } from '@holi/api/config'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 
+import { indexAwareOffsetLimitPagination } from './cachePolicies'
 import headerLink from './headerLink'
 
 // The HOLI backend needs ~35s for a cold boot (which it does on a regular basis as we scale to zero), timeout respects that
@@ -44,22 +44,22 @@ export const createCache = () =>
       User: {
         fields: {
           interests: {
-            // fixes warning "Cache data may be lost when replacing the interests field of a User object."
+            // fixes warning "Cache data may be lost when replacing the `interests` field of a User object."
             merge: (existing, incoming) => incoming,
           },
           skills: {
-            // fixes warning "Cache data may be lost when replacing the skills field of a User object."
+            // fixes warning "Cache data may be lost when replacing the `skills` field of a User object."
             merge: (existing, incoming) => incoming,
           },
           sdgs: {
-            // fixes warning "Cache data may be lost when replacing the sdgs field of a User object."
+            // fixes warning "Cache data may be lost when replacing the `sdgs` field of a User object."
             merge: (existing, incoming) => incoming,
           },
         },
       },
       AppDonations_ProjectsResponse: {
         fields: {
-          projects: offsetLimitPagination(),
+          projects: indexAwareOffsetLimitPagination(),
         },
       },
       Query: {

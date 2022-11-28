@@ -13,6 +13,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -67,7 +68,11 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
     )
 
     setOptions({
-      title,
+      headerTitle: () => (
+        <HoliHeading level="1" size="small">
+          {title}
+        </HoliHeading>
+      ),
       headerTransparent: true,
       headerStyle: { backgroundColor: colors.backgroundColorWhite },
       headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon="arrow-down-s" />),

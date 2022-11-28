@@ -1,24 +1,21 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useLayoutEffect } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { Platform, StatusBar, StyleSheet } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import SpaceTaskTile from '@holi/core/screens/spaces/components/SpaceTaskTile'
+import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-import { Task } from './types'
 
 export type SpaceDetailsParams = {
   spaceId: string
@@ -33,13 +30,27 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { setOptions } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
-  useLayoutEffect(() => setOptions({ title: 'Space Details' }), [setOptions])
+
+  const { setOptions } = useUnifiedNavigation()
+
+  useLayoutEffect(() => {
+    setOptions({
+      animation: 'slide_from_bottom',
+      headerTransparent: true,
+      headerStyle: { backgroundColor: 'transparent' },
+      headerTitle: () => null,
+      headerLeft: () =>
+        Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left-s" /> : <HeaderBackButton icon="arrow-down-s" />,
+      headerRight: () => <HeaderBackButton icon="more" />,
+    })
+  }, [setOptions])
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { id: spaceId },
   })
+
+  const space = data?.spaceById
 
   if (error) {
     logError(error, `[SpaceDetails.tsx] ${error.message}`)
@@ -49,45 +60,27 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   if (loading || error) {
     return <></>
   }
-  const space = data?.spaceById
 
   if (!space) return <HoliText>{t('spaces.spaceDetails.notFound', { spaceId })}</HoliText>
 
-  const creator = space.creator
-
   return (
-    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
-      <View style={[mixins.container, { justifyContent: 'center', padding: 24 }]} testID="space-details-container">
-        <HoliHeading level="1">{space.title}</HoliHeading>
-        <HoliText style={{ paddingTop: 10 }}>
-          <Trans i18nKey="spaces.spaceDetails.creator" values={{ name: creator.fullName || t('Anonymous user') }} />
-        </HoliText>
-        <HoliText style={{ paddingTop: 10 }}>{space.description}</HoliText>
-        {space.tasks && space.tasks.length > 0 && (
-          <View>
-            <HoliHeading level="2">{t('spaces.spaceDetails.tasksHeading', { count: space.tasks.length })}</HoliHeading>
-            <ScrollView horizontal={true} style={{ marginTop: 20 }} contentContainerStyle={styles.tasksContainer}>
-              {space.tasks.map((task: Task) => (
-                <SpaceTaskTile key={task.id} task={task} style={styles.taskTile} />
-              ))}
-            </ScrollView>
-          </View>
-        )}
-      </View>
+    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.defaultLayout}>
+      <SpaceDetailView style={[mixins.container, styles.spaceDetailView]} space={space} />
     </DefaultLayout>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.backgroundColorGreyLight,
+  defaultLayout: {
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 8,
   },
-  tasksContainer: {
-    justifyContent: 'center',
-    marginBottom: 30,
-  },
-  taskTile: {
-    marginRight: 8,
+  spaceDetailView: {
+    paddingTop: 0,
+    ...Platform.select({
+      web: {
+        paddingTop: 12,
+      },
+    }),
   },
 })
 

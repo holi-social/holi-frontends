@@ -3,6 +3,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import HeaderAnimated from '@holi//mobile/navigation/HeaderAnimated'
+import { RouteName } from '@holi/mobile/navigation/routeName'
 import { colors } from '@holi/ui/styles/globalVars'
 
 import DonationsAppHome, { DonationsAppHomeParams } from '@holi-apps/donations/screens/DonationsAppHome'
@@ -20,7 +21,7 @@ const DonationsAppStack = createNativeStackNavigator<DonationsAppScreensList>()
 const DonationsAppNavigator: React.VFC = () => {
   return (
     <DonationsAppStack.Navigator
-      initialRouteName="DonationsAppHome"
+      initialRouteName={RouteName.DonationsAppHome}
       screenOptions={{
         header: HeaderAnimated,
         headerShown: true,
@@ -30,8 +31,8 @@ const DonationsAppNavigator: React.VFC = () => {
         },
       }}
     >
-      <DonationsAppStack.Screen name="DonationsAppHome" component={DonationsAppHome} />
-      <DonationsAppStack.Screen name="DonationsAppProjectDetail" component={DonationsAppProjectDetail} />
+      <DonationsAppStack.Screen name={RouteName.DonationsAppHome} component={DonationsAppHome} />
+      <DonationsAppStack.Screen name={RouteName.DonationsAppProjectDetail} component={DonationsAppProjectDetail} />
     </DonationsAppStack.Navigator>
   )
 }
