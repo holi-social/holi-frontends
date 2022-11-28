@@ -10,7 +10,7 @@ export const REGEX_URL =
   /(https?:\/\/|www\.)[-a-zA-Z0-9@:%._\+~#=]{1,256}\.(xn--)?[a-z0-9-]{2,20}\b([-a-zA-Z0-9@:%_\+\[\],.~#?&\/=]*[-a-zA-Z0-9@:%_\+\]~#?&\/=])*/gi
 
 // @<USER-ID>
-export const REGEX_USER_MENTIONS = /@.{3,36}/g
+export const REGEX_USER_MENTIONS = /(@.{3,36})/g
 // export const REGEX_USER_MENTIONS = /@[0-9a-fA-F-]{36}/g
 
 // @[<USER-Name>](<USER-ID>)
