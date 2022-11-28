@@ -1,7 +1,8 @@
 import React from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import SpaceHeader from '@holi/core/screens/spaces/components/SpaceHeader'
 import SpaceTaskTile from '@holi/core/screens/spaces/components/SpaceTaskTile'
 import SpacesWelcome from '@holi/core/screens/spaces/components/SpacesWelcome'
 import { Space, Task } from '@holi/core/screens/spaces/types'
@@ -17,18 +18,10 @@ type SpaceDetailViewProps = {
 const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
   const { t } = useTranslation()
 
-  const creator = space.creator
-
   return (
     <View style={[styles.container, style]} testID="space-details-container">
-      <HoliHeading level="1">{space.title}</HoliHeading>
-      <HoliText style={{ paddingTop: 10 }}>
-        <Trans
-          i18nKey="spaces.spaceDetails.creator"
-          values={{ name: creator.fullName || t('user.profileView.anonymous') }}
-        />
-      </HoliText>
-      <SpacesWelcome space={space} style={{ marginTop: 24 }} />
+      <SpaceHeader space={space} />
+      <HoliText style={{ paddingTop: 10 }}>{space.description}</HoliText>
       {(space.tasks?.length || 0) > 0 && (
         <View style={{ marginTop: 64 }}>
           <HoliHeading level="2">{t('spaces.spaceDetails.tasksHeading', { count: space.tasks?.length })}</HoliHeading>
@@ -46,8 +39,7 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    padding: 24,
-    backgroundColor: colors.backgroundColorGrey,
+    paddingTop: 12,
   },
   tasksContainer: {
     justifyContent: 'center',

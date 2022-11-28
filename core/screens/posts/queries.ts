@@ -17,6 +17,12 @@ export const PostCommentFragment = gql`
       fullName
       aboutMe
     }
+    mentions {
+      id
+      firstName
+      lastName
+      fullName
+    }
   }
 `
 
@@ -55,5 +61,31 @@ export const PostById = gql`
 `
 
 export type PostByIdResponse = {
+  postById: Post
+}
+
+export type CreatePostCommentInput = {
+  postId: string
+  text: string
+}
+
+export const CreatePostCommentMutation = gql`
+  ${PostFragment}
+  ${PostCommentFragment}
+
+  mutation CreatePostComment($input: CreatePostCommentInput!) {
+    updatePostComment(input: $input) {
+      postComment {
+        ...PostCommentFull
+      }
+      postById {
+        ...PostFull
+      }
+    }
+  }
+`
+
+export type CreatePostCommentResponse = {
+  postComment: Comment
   postById: Post
 }

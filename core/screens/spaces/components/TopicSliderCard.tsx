@@ -15,13 +15,15 @@ type TopicSliderCardProps = {
 }
 
 const createFullMemberList = (creator: User, members: User[]) =>
-  creator ? [creator, ...members.filter((user) => user.id !== creator?.id)] : members
+  creator ? [creator, ...members.filter((member) => member.id !== creator?.id)] : members
 
 const TopicSliderCard: React.VFC<TopicSliderCardProps> = ({ space, style }: TopicSliderCardProps) => {
   const { navigate } = useRouting()
-  const { id, title, description, mainImage, members, creator } = space
+  const { id, title, description, mainImage, memberships, creator } = space
 
-  const allMembers = useMemo(() => createFullMemberList(creator, members), [members, creator])
+  const spaceMembers = memberships.map((membership) => membership.user)
+
+  const allMembers = useMemo(() => createFullMemberList(creator, spaceMembers), [spaceMembers, creator])
 
   return (
     <HoliButton
@@ -34,7 +36,7 @@ const TopicSliderCard: React.VFC<TopicSliderCardProps> = ({ space, style }: Topi
     >
       <View style={styles.mainImageWrapper}>
         {<Image source={{ uri: mainImage }} style={styles.mainImage} />}
-        {members?.length > 0 && (
+        {memberships?.length > 0 && (
           <View style={styles.userPile}>
             <HoliUserAvatarPile users={allMembers} usersToShow={3} counter collapse>
               <Text>{allMembers.length}</Text>

@@ -6,26 +6,39 @@ import {
 } from '@lexical/react/LexicalTypeaheadMenuPlugin'
 import { TextNode } from 'lexical'
 import { useCallback, useMemo, useState } from 'react'
-import * as React from 'react'
+import React from 'react'
 import * as ReactDOM from 'react-dom'
 
 import { useSafeDispatch } from '@holi/core/helpers'
+import type { User } from '@holi/core/screens/userprofile/types'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import HoliLexicalMentionsDropdown from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdown'
 import DropdownOption from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdownOption'
 import { $createMentionNode, MENTION_DATA_ATTR } from '@holi/ui/helper/lexical/HoliMentionsPlugin.node'
-import useDebouncedQuery from '@holi/ui/helper/lexical/HoliMentionsPlugin.suggestions'
 import { findMentionMatches } from '@holi/ui/helper/richText'
-import type { SuggestionItem } from '@holi/ui/helper/richText'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useDebounce } from '@holi/ui/helper/useDebounce'
 
-const MAX_SUGGESTION_OPTIONS = 5
+export type HoliMentionsPluginProps = {
+  minSearchChars: number
+  maxSuggestionOptions: number
+  debounceDelay: number
+  findUsersByName: (substring: string) => Promise<User[]>
+}
 
-const HoliMentionsPlugin = (): JSX.Element | null => {
+const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
+  minSearchChars,
+  maxSuggestionOptions,
+  debounceDelay,
+  findUsersByName,
+}): JSX.Element | null => {
   const [editor] = useLexicalComposerContext()
-  const [queryString, setQueryString] = useState<string | null>(null)
-  const setSafeResult = useSafeDispatch(setQueryString)
-  const results = useDebouncedQuery(queryString)
+  const [results, setResults] = useState<Array<User>>([])
+  const setSafeResult = useSafeDispatch(setResults)
+
+  const debouncedSearch: (keyword?: string) => void = useDebounce((keyword?: string) => {
+    if (!keyword || keyword.length < minSearchChars) return
+    findUsersByName(keyword).then(setSafeResult)
+  }, debounceDelay)
 
   const checkForSlashTriggerMatch = useBasicTypeaheadTriggerMatch('/', {
     minLength: 0,
@@ -34,25 +47,25 @@ const HoliMentionsPlugin = (): JSX.Element | null => {
   const optionsList = useMemo(
     () =>
       results
+        .slice(0, maxSuggestionOptions)
         .map(
           (item) =>
             new DropdownOption(
               item.id,
-              item.name,
+              item.fullName,
               (
                 <HoliUserAvatar
-                  imageSrc={undefined}
-                  label={item.name}
-                  initials={item.name.slice(0, 2)}
-                  defaultColor={colors.backgroundColorYellowDark}
+                  imageSrc={item.avatar}
+                  label={item.fullName}
+                  initials={item.avatarLabel}
+                  defaultColor={item.avatarDefaultColor}
                   size="micro"
                   style={{ marginRight: 10 }}
                 />
               )
             )
-        )
-        .slice(0, MAX_SUGGESTION_OPTIONS),
-    [results]
+        ),
+    [results, maxSuggestionOptions]
   )
 
   // check for mentions
@@ -83,7 +96,7 @@ const HoliMentionsPlugin = (): JSX.Element | null => {
 
   return (
     <LexicalTypeaheadMenuPlugin<DropdownOption>
-      onQueryChange={setSafeResult}
+      onQueryChange={debouncedSearch}
       onSelectOption={replaceTextWithMentionNode}
       triggerFn={checkForMentionMatch}
       options={optionsList}
@@ -136,7 +149,7 @@ const createSpan = (match?: string) => {
   if (match === ' ') return ' '
   return `<span>${match}</span>`
 }
-const createMentionSpan = (usersList: SuggestionItem[], match?: string) => {
+const createMentionSpan = (usersList: User[], match?: string) => {
   if (!match || !usersList) return ''
   const userId = match.slice(1)
   const userName = usersList.find((user) => user.id === userId)?.name || ''
@@ -144,10 +157,7 @@ const createMentionSpan = (usersList: SuggestionItem[], match?: string) => {
   // return $createMentionNode(userName, userId, `@${userName}`)
   return `<span ${MENTION_DATA_ATTR}="${userId}">${userName}</span>`
 }
-export const $getHtmlStringFromPureText = (
-  textWithMentions: string,
-  usersList: SuggestionItem[]
-): string | undefined => {
+export const $getHtmlStringFromPureText = (textWithMentions: string, usersList: User[]): string | undefined => {
   const regex = /@\w*/g
   const allMentions = textWithMentions.match(regex)
   const textParts = textWithMentions.split(regex)
@@ -178,7 +188,7 @@ const createNode = (type: 'root' | 'paragraph' | 'text', text?: string) => {
     ...(type === 'text' && { text, mode: 'normal' }),
   }
 }
-export const $createJsonFromPureText = (textWithMentions: string, usersList: SuggestionItem[]) => {
+export const $createJsonFromPureText = (textWithMentions: string, usersList: User[]) => {
   const regex = /@\w*/g
   const allMentions = textWithMentions.match(regex)
   const textParts = textWithMentions.split(regex)
@@ -193,7 +203,7 @@ export const $createJsonFromPureText = (textWithMentions: string, usersList: Sug
     const mentionString = allMentions?.[index]
     if (mentionString) {
       const userId = mentionString.slice(1)
-      const userName = usersList.find((user) => user.id === userId)?.name || ''
+      const userName = usersList.find((user) => user.id === userId)?.fullName || ''
       const mentionNode = $createMentionNode(userName, userId, `@${userName}`)
       children.push(mentionNode)
     }
