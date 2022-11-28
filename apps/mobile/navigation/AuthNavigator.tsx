@@ -6,6 +6,7 @@ import AccountSettings from '@holi/core/screens/userprofile/AccountSettings'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 import SettingsOverview from '@holi/core/screens/userprofile/SettingsOverview'
 import HeaderAnimated from '@holi/mobile/navigation/HeaderAnimated'
+import { RouteName } from '@holi/mobile/navigation/routeName'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type AuthStackScreensList = {
@@ -19,7 +20,7 @@ const AuthStack = createNativeStackNavigator<AuthStackScreensList>()
 const AuthStackNavigator: React.VFC = () => {
   return (
     <AuthStack.Navigator
-      initialRouteName="Profile"
+      initialRouteName={RouteName.Profile}
       screenOptions={{
         header: HeaderAnimated,
         headerTransparent: true,
@@ -28,9 +29,9 @@ const AuthStackNavigator: React.VFC = () => {
         },
       }}
     >
-      <AuthStack.Screen name="Profile" component={OwnProfile} />
+      <AuthStack.Screen name={RouteName.Profile} component={OwnProfile} />
       <AuthStack.Screen
-        name="SettingsOverview"
+        name={RouteName.SettingsOverview}
         component={SettingsOverview}
         options={{
           headerBackTitleVisible: false,
@@ -38,7 +39,7 @@ const AuthStackNavigator: React.VFC = () => {
         }}
       />
       <AuthStack.Screen
-        name="AccountSettings"
+        name={RouteName.AccountSettings}
         component={AccountSettings}
         options={{
           headerBackTitleVisible: false,

@@ -1,20 +1,23 @@
 import React from 'react'
-import { Image, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { Space } from '@holi/core/screens/spaces/types'
+import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
-type SpacesWelcomeProps = {
+type SpaceWelcomeProps = {
   space: Space
   style?: StyleProp<ViewStyle>
 }
 
-const SpacesWelcome: React.VFC<SpacesWelcomeProps> = ({ space, style }) => {
+const IMAGE_ASPECT_RATIO = 327 / 210
+
+const SpaceWelcome: React.VFC<SpaceWelcomeProps> = ({ space, style }) => {
   return (
     <View style={style}>
       <View style={styles.imageContainer}>
-        <Image source={{ uri: space.mainImage }} style={styles.mainImage} />
+        <HoliImage source={{ uri: space.mainImage }} style={styles.mainImage} label={space.title} />
       </View>
       <HoliText style={styles.description}>{space.description} </HoliText>
     </View>
@@ -27,7 +30,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: '100%',
-    aspectRatio: 327 / 210,
+    aspectRatio: IMAGE_ASPECT_RATIO,
     height: Platform.OS === 'web' ? '100%' : 'auto',
     padding: 8,
     borderWidth: 1,
@@ -43,4 +46,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default SpacesWelcome
+export default SpaceWelcome

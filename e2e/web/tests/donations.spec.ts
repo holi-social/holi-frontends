@@ -74,6 +74,10 @@ const resetFilterInModal = async (page: Page) => {
   await waitForElementByTestId(page, 'donations-list-container')
 }
 
+// sometimes responses to Betterplace take a little longer (10s < response latency < 30s)
+// increase timeout from default of 5 seconds to 30 seconds
+const betterplaceTimeout = { timeout: 30_000 }
+
 test.describe('@Donations', () => {
   test('should be accessible from home screen', async ({ page }) => {
     await page.goto('/')
@@ -102,7 +106,7 @@ test.describe('@Donations', () => {
     await expect.poll(countListItems).toBeGreaterThan(0)
     const listItemCountBefore = await countListItems()
     await clickElementByTestId(page, 'btn-donation-list-load-more')
-    await expect.poll(countListItems).toBeGreaterThan(listItemCountBefore)
+    await expect.poll(countListItems, betterplaceTimeout).toBeGreaterThan(listItemCountBefore)
   })
 
   test('should display project details', async ({ page, context }) => {
@@ -144,29 +148,27 @@ test.describe('@Donations', () => {
   })
 
   test('should display correct news count on project details', async ({ page }) => {
+    const countSpotlightNews = async () => await (await locateElementByTestId(page, 'donation-news-spotlight')).count()
+    const countOtherNews = async () => await (await page.locator('data-testid=donations-news-other-item')).count()
+
     await waitForElementByTestId(page, 'donations-list-container')
 
-    // click first element in list
+    // open first donation opportunity
     await clickElementByTestId(page, 'donations-list-item')
     await waitForElementByTestId(page, 'donations-project-detail-heading')
 
-    // check if this page has a news module
-    test.skip(!(await page.$('data-testid=donations-news-count')), 'page has no news module to test')
+    const hasNews = await page.$('data-testid=donations-news-count')
+    test.skip(!hasNews, 'donation opportunity has no news, skipping assertions')
 
-    const newsCounter = await locateElementByTestId(page, 'donations-news-count')
-    const newsCount = await extractNewsCount(newsCounter)
-    const spotlightNewsCount = await (await locateElementByTestId(page, 'donation-news-spotlight')).count()
-    const otherNewsCount = await (await locateElementByTestId(page, 'donations-news-other-item')).count()
-    const expectedOtherNewsCount = () => {
-      if (!newsCount) return undefined
-      return newsCount === 0 ? 0 : newsCount >= 5 ? 4 : newsCount - 1
-    }
-
-    expect(newsCount).toBeDefined
+    const newsCount = await extractNewsCount(await locateElementByTestId(page, 'donations-news-count'))
     // spotlight is shown when any news exist
-    expect(spotlightNewsCount).toBe(newsCount === 0 ? 0 : 1)
+    const expectedSpotlightCount = newsCount === 0 ? 0 : 1
     // up to 4 other news are shown after the spotlight
-    expect(otherNewsCount).toBe(expectedOtherNewsCount())
+    const expectedOtherCount = !newsCount || newsCount === 0 ? 0 : newsCount >= 5 ? 4 : newsCount - 1
+
+    expect(newsCount).toBeDefined()
+    await expect.poll(countSpotlightNews, { timeout: 10000 }).toBe(expectedSpotlightCount)
+    await expect.poll(countOtherNews, { timeout: 10000 }).toBe(expectedOtherCount)
   })
 
   test('should filter donations by location and reset', async ({ page }) => {

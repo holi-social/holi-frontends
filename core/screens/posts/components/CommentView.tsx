@@ -2,8 +2,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import CommentConnector from '@holi/core/screens/comments/components/CommentConnector'
-import { Comment } from '@holi/core/screens/comments/types'
+import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
+import { Comment } from '@holi/core/screens/posts/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -30,7 +30,7 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style }) => {
       </HoliMediaHeader>
 
       <View style={styles.body}>
-        <CommentConnector style={styles.commentConnector} />
+        <VerticalLine style={styles.commentConnector} />
         <View style={styles.commentContent}>
           <HoliText style={styles.text}>{comment.text}</HoliText>
           <View style={styles.bottomBar}>
