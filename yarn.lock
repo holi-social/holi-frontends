@@ -13725,11 +13725,6 @@ react-native-url-polyfill@^1.3.0:
   dependencies:
     whatwg-url-without-unicode "8.0.0-3"
 
-react-native-web-image-pan-zoom@^2.1.13:
-  version "2.1.13"
-  resolved "https://registry.yarnpkg.com/react-native-web-image-pan-zoom/-/react-native-web-image-pan-zoom-2.1.13.tgz#0d7a75c79f7b9f0cf1e301e9a08dfb5edb3d70a7"
-  integrity sha512-EwxLAlJ+50n7P/sT+kO8szv9xsMlMI36iwFhZnHoY0AKKpA0/JJPfL2EI0UYh1KTabwI9t2ZbwG/90H0Oloqpw==
-
 react-native-web@^0.18.7:
   version "0.18.7"
   resolved "https://registry.yarnpkg.com/react-native-web/-/react-native-web-0.18.7.tgz#2b688502b3d389c49346fa3d8c9a20cfd52f507f"
