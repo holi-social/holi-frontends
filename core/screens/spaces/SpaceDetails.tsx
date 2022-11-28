@@ -15,7 +15,6 @@ import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailVie
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceDetailsParams = {
   spaceId: string
@@ -29,7 +28,6 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   const [spaceId] = useParam('spaceId')
 
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
   const onScreenScroll = useScrollYHandler()
 
   const { setOptions } = useUnifiedNavigation()
@@ -65,7 +63,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   return (
     <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.defaultLayout}>
-      <SpaceDetailView style={[mixins.container, styles.spaceDetailView]} space={space} />
+      <SpaceDetailView style={styles.spaceDetailView} space={space} />
     </DefaultLayout>
   )
 }
@@ -73,6 +71,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 const styles = StyleSheet.create({
   defaultLayout: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 8,
+    paddingBottom: 0,
   },
   spaceDetailView: {
     paddingTop: 0,
