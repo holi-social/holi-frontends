@@ -7,11 +7,10 @@ import { useNavigationContext } from '@holi/core/navigation/hooks/NavigationCont
 import { UseRouting } from '@holi/core/navigation/hooks/useRouting/types'
 import linkingConfig from '@holi/mobile/navigation/linkingConfig'
 
-const useRouting: UseRouting = <T extends Record<string, string>>() => {
+const useRouting: UseRouting = () => {
   const { pathname, setPathname } = useNavigationContext()
   const linkTo = useLinkTo()
   const navigation = useNavigation()
-  const currentRoute = navigation.getState().routes[navigation.getState().index]
 
   const navigate = useCallback(
     (routeName: string) => {
@@ -62,7 +61,6 @@ const useRouting: UseRouting = <T extends Record<string, string>>() => {
     navigate,
     navigateBack,
     replaceRoute,
-    query: currentRoute.params as T,
     pathname,
   }
 }

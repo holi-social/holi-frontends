@@ -44,7 +44,7 @@ export const scrollToElementWithTestId = async (
     while (scrollCounter < maxAttempts) {
       scrollCounter++
       try {
-        await Appium.execute('mobile: scroll', { direction })
+        await Appium.execute('mobile: scroll', { direction: direction })
 
         return await waitForElementWithTestId(testId)
       } catch (e) {

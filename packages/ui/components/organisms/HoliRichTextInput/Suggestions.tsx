@@ -3,41 +3,44 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import { useSafeDispatch } from '@holi/core/helpers'
+import type { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
-import { findUserByName } from '@holi/ui/helper/richText'
-import type { SuggestionItem } from '@holi/ui/helper/richText'
 import { colors } from '@holi/ui/styles/globalVars'
 
-// TODO: replace with API, see HOLI-2533
-const requestUsers = async (keyword: string) => {
-  const requestPromise = new Promise<SuggestionItem[]>((resolve) => {
-    const suggestionsList = findUserByName(keyword)
-    resolve(suggestionsList)
-  })
-  return requestPromise
-}
-
-const MAX_SUGGESTIONS_COUNT = 5
 const INITIAL_VALUE = ''
 
 export type HoliRichTextInputSuggestionsProps = {
   keyword: string
-  onChooseSuggestion: (selectedSuggestion: SuggestionItem) => void
+  minSearchChars: number
+  maxSuggestionOptions: number
+  debounceDelay: number
+  findUsersByName: (substring: string) => Promise<User[]>
+  onChooseSuggestion: (selectedSuggestion: User) => void
 }
 
-const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps> = (props) => {
+const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps> = ({
+  keyword,
+  minSearchChars,
+  maxSuggestionOptions,
+  debounceDelay,
+  findUsersByName,
+  onChooseSuggestion,
+}) => {
   const { t } = useTranslation()
-  const [keyword, setKeyword] = useState<string>(INITIAL_VALUE)
-  const [suggestions, setSuggestions] = useState<SuggestionItem[]>([])
+  const [debouncedKeyword, setDebouncedKeyword] = useState<string>(INITIAL_VALUE)
+  const setSafeDebouncedKeyword = useSafeDispatch(setDebouncedKeyword)
+  const [suggestions, setSuggestions] = useState<User[]>([])
+  const setSafeSuggestions = useSafeDispatch(setSuggestions)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const setValueDebounced = useCallback(
     debounce((someValue: string) => {
-      setKeyword(someValue)
-    }, 100),
-    [props.keyword]
+      setSafeDebouncedKeyword(someValue)
+    }, debounceDelay),
+    [keyword]
   )
 
   // Stop the invocation of the debounced function after unmounting
@@ -46,39 +49,35 @@ const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps>
   }, [setValueDebounced])
 
   useEffect(() => {
-    return setValueDebounced(props.keyword)
-  }, [setValueDebounced, props.keyword])
+    return setValueDebounced(keyword)
+  }, [setValueDebounced, keyword])
 
   useEffect(() => {
-    if (keyword === INITIAL_VALUE) return
-    const fetchData = async () => {
-      const suggestions = await requestUsers(keyword)
-      setSuggestions(suggestions)
-    }
-    fetchData()
-  }, [keyword])
+    if (debouncedKeyword === INITIAL_VALUE) return
+    if (debouncedKeyword.length < minSearchChars) return
+    findUsersByName(debouncedKeyword).then(setSafeSuggestions)
+  }, [debouncedKeyword, minSearchChars, findUsersByName, setSafeSuggestions])
 
   return (
     <View style={[styles.suggestions]}>
       <View style={[styles.suggestionsContainer]}>
-        {suggestions.slice(0, MAX_SUGGESTIONS_COUNT).map((item) => (
+        {suggestions.slice(0, maxSuggestionOptions).map((item) => (
           <HoliButton
             key={item.id}
-            label={t('comment.suggestionItem.label', { item: item.name })}
+            label={t('comment.suggestionItem.label', { item: item.fullName })}
             transparent
             style={styles.suggestionItem}
             contentStyle={{ alignItems: 'center', flexDirection: 'row' }}
-            onPress={() => props.onChooseSuggestion(item)}
+            onPress={() => onChooseSuggestion(item)}
           >
-            {/* TODO: add real user data */}
             <HoliUserAvatar
-              imageSrc={undefined}
-              label={item.name}
-              initials={item.name.slice(0, 2)}
-              defaultColor={'pink'}
+              imageSrc={item.avatar}
+              label={item.fullName}
+              initials={item.avatarLabel}
+              defaultColor={item.avatarDefaultColor}
               size="micro"
             />
-            <HoliText style={styles.suggestionItemText}>{item.name}</HoliText>
+            <HoliText style={styles.suggestionItemText}>{item.fullName}</HoliText>
           </HoliButton>
         ))}
       </View>

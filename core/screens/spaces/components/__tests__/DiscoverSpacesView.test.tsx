@@ -1,24 +1,24 @@
 import { render } from '@testing-library/react-native'
 import React from 'react'
 
-import SpacesView from '@holi/core/screens/spaces/components/SpacesView'
+import DiscoverSpacesView from '@holi/core/screens/spaces/components/DiscoverSpacesView'
 import { user, userWithLocation } from '@holi/core/screens/spaces/components/__tests__/testData'
 
-describe('SpacesView', () => {
+describe('DiscoverSpacesView', () => {
   it('renders correctly without user', () => {
-    const { getByTestId } = render(<SpacesView topics={[]} />)
+    const { getByTestId } = render(<DiscoverSpacesView topics={[]} onSelectTopic={jest.fn()} />)
 
     expect(getByTestId('spaces-filter-header')).toHaveTextContent('spaces.filter.all')
   })
 
   it('renders correctly for user', () => {
-    const { getByTestId } = render(<SpacesView topics={[]} user={user} />)
+    const { getByTestId } = render(<DiscoverSpacesView topics={[]} user={user} onSelectTopic={jest.fn()} />)
 
     expect(getByTestId('spaces-filter-header')).toHaveTextContent('spaces.filter.all')
   })
 
   it('renders correctly for user with location', () => {
-    const { getByTestId } = render(<SpacesView topics={[]} user={userWithLocation} />)
+    const { getByTestId } = render(<DiscoverSpacesView topics={[]} user={userWithLocation} onSelectTopic={jest.fn()} />)
 
     expect(getByTestId('spaces-filter-header')).toHaveTextContent('spaces.filter.all.location')
   })

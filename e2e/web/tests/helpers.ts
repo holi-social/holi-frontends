@@ -8,7 +8,7 @@ export const delay = (time: number) => new Promise((resolve) => setTimeout(resol
 
 export const waitForElementByTestId = async (page: Page, testId: string): Promise<string> => {
   const selector = byTestId(testId)
-  await page.waitForSelector(selector)
+  await page.waitForSelector(selector) // default timeout: 30s
   return selector
 }
 

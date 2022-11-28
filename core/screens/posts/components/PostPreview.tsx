@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import LinkPreview from '@holi/core/screens/posts/components/LinkPreview'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -56,6 +57,10 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post, style }) =>
 
       {/* TODO: use post image data from BE */}
       <PostImage uri={imageUrl} postTitle={post.title} />
+
+      <View style={styles.paddingHorizontal}>
+        <LinkPreview style={styles.linkPreview} />
+      </View>
     </View>
   )
 }
@@ -79,6 +84,10 @@ const styles = StyleSheet.create({
   readMoreText: {
     color: colors.fontColor,
     lineHeight: 20,
+  },
+  linkPreview: {
+    marginTop: 16,
+    maxWidth: 320,
   },
 })
 

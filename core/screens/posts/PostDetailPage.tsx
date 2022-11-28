@@ -12,12 +12,12 @@ import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import CommentConnector from '@holi/core/screens/comments/components/CommentConnector'
-import CommentView from '@holi/core/screens/comments/components/CommentView'
-import { Comment } from '@holi/core/screens/comments/types'
+import CommentView from '@holi/core/screens/posts/components/CommentView'
 import PostDetail from '@holi/core/screens/posts/components/PostDetail'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
+import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
+import { Comment } from '@holi/core/screens/posts/types'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -108,7 +108,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
               {t('insights.post.response', { count: comments.length })}
             </HoliUserAvatarPile>
 
-            <CommentConnector style={styles.commentConnector} />
+            <VerticalLine style={styles.commentConnector} />
 
             {comments.map((comment) => (
               <CommentView key={comment.id} comment={comment} style={styles.comment} />
