@@ -27,6 +27,7 @@ const SpacesByTopic: React.VFC<SpacesByTopicProps> = ({ topic, style }: SpacesBy
       limit: SPACES_PAGE_SIZE,
       offset: 0,
     },
+    fetchPolicy: 'cache-and-network',
   })
 
   const spaces = data?.spaces.data || []
@@ -47,8 +48,7 @@ const SpacesByTopic: React.VFC<SpacesByTopicProps> = ({ topic, style }: SpacesBy
   if (!spaces.length) {
     return <></>
   }
-
-  return <TopicSlider topic={topic} style={style} spaces={spaces} />
+  return <TopicSlider topic={topic} style={style} spaces={spaces.slice(0, SPACES_PAGE_SIZE)} />
 }
 
 const styles = StyleSheet.create({
