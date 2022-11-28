@@ -1,19 +1,7 @@
-import { dummyUsers } from '@holi/ui/helper/dummyUsers'
-
-export type SuggestionItem = {
-  id: string
-  name: string
-}
-
 export type Mention = {
   leadOffset: number
   matchingString: string
   replaceableString: string
-}
-
-// TODO: dummy
-export const findUserByName = (keyword: string): SuggestionItem[] => {
-  return dummyUsers.filter((user) => user.name.toLowerCase().includes(keyword.toLowerCase()))
 }
 
 // Copied from: https://github.com/dabakovich/react-native-controlled-mentions/blob/v2.2.4/example/mentions-app.tsx

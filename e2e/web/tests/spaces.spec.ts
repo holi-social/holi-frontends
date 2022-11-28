@@ -4,6 +4,7 @@ import { checkAccessibility, clickElementByTestId, locateElementByTestId, waitFo
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/spaces')
+  await expect.poll(() => page.url()).toContain('/spaces')
 })
 
 test.describe('@Spaces', () => {
@@ -16,11 +17,13 @@ test.describe('@Spaces', () => {
   })
 
   test('should display multiple topics with spaces', async ({ page }) => {
+    const countTopics = async () => await (await locateElementByTestId(page, 'spaces-topic-container')).count()
+    const countSpaces = async () => await (await locateElementByTestId(page, 'btn-to-space')).count()
+
     await waitForElementByTestId(page, 'spaces-container')
-    const topics = await locateElementByTestId(page, 'spaces-topic-container')
-    expect(await topics.count()).toBeGreaterThan(1)
-    const spaces = await locateElementByTestId(page, 'btn-to-space')
-    expect(await spaces.count()).toBeGreaterThan(1)
+
+    await expect.poll(countTopics, { timeout: 10000 }).toBeGreaterThan(1)
+    await expect.poll(countSpaces, { timeout: 10000 }).toBeGreaterThan(1)
 
     await checkAccessibility(page)
   })

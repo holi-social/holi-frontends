@@ -11,6 +11,7 @@ import RecoverPasswordSent from '@holi/core/auth/components/RecoverPasswordSent'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
@@ -22,7 +23,11 @@ const ForgotPassword: React.VFC<ScreenProps> = () => {
   useLayoutEffect(
     () =>
       setOptions({
-        title: t('auth.forgotPassword'),
+        headerTitle: () => (
+          <HoliHeading level="1" size="small">
+            {t('auth.forgotPassword')}
+          </HoliHeading>
+        ),
         headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon="arrow-down-s" />),
         headerRight: () => (Platform.OS === 'web' ? <HeaderBackButton icon="close" /> : null),
       }),

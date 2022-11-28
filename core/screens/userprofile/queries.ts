@@ -3,6 +3,17 @@ import { z } from 'zod'
 
 import type { Topic, UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
 
+export const userAvatarFragment = gql`
+  fragment UserAvatar on User {
+    id
+    avatar
+    avatarLabel
+    avatarDefaultColor
+    firstName
+    lastName
+  }
+`
+
 export const userFragment = gql`
   fragment FullUser on User {
     id
@@ -57,6 +68,28 @@ export const userByIdQuery = gql`
 
 export type UserByIdResponse = {
   userById: User
+}
+
+export const userByNameQuery = gql`
+  query UserByName($substring: String!, $limit: Int, $offset: Int) {
+    userByName(substring: $substring, limit: $limit, offset: $offset) {
+      data {
+        id
+        avatar
+        avatarLabel
+        avatarDefaultColor
+        fullName
+        firstName
+        lastName
+      }
+    }
+  }
+`
+
+export type UserByNameResponse = {
+  userByName: {
+    data: User[]
+  }
 }
 
 export const UpdateAuthenticatedUserInputSchema = z.object({
