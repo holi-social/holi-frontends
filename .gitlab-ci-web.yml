@@ -75,6 +75,22 @@ web_build:
   except:
     - /^noweb\/.*/
 
+storybook_publish:
+  needs: ['web_build']
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas' # too much, but since it is there...
+  script:
+    - yarn storybook:publish
+  artifacts:
+    paths:
+      - apps/storybook/build-storybook.log
+    expire_in: 1 week
+  interruptible: true
+  tags:
+    - holi-big
+  only:
+    - main
+    - HOLI-2551_publish-storybook # TODO remove at end of review
+
 
 web_build_docker:
   needs: ['web_build']
