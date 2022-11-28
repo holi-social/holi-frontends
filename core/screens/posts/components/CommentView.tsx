@@ -8,7 +8,7 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
-import { REGEX_USER_MENTIONS } from '@holi/ui/helper/richText'
+import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type CommentProps = {
@@ -20,32 +20,8 @@ export type CommentProps = {
 const CommentView: React.VFC<CommentProps> = ({ comment, style }) => {
   const { t } = useTranslation()
 
-  const { creator, mentions } = comment
+  const { creator } = comment
   const name = creator.fullName || t('user.profileView.anonymous')
-
-  const getNameById = (id: string) => mentions?.find((mention) => mention.id === id)?.fullName || ''
-
-  /**
-   * Replaces each @<USER-ID>
-   * with the highlighted fullName
-   */
-  const textWithMentions = (() => {
-    const textParts: React.ReactChild[] = []
-    comment.text.split(REGEX_USER_MENTIONS).forEach((textPart, index) => {
-      const isMatch = textPart.match(REGEX_USER_MENTIONS)
-      const replaced = isMatch ? textPart.replace(REGEX_USER_MENTIONS, getNameById(textPart.slice(1))) : undefined
-      if (replaced) {
-        textParts.push(
-          <HoliText key={index} style={{ color: colors.fontColorHighlighted }}>
-            @{replaced}
-          </HoliText>
-        )
-      } else {
-        textParts.push(<HoliText key={index}>{textPart}</HoliText>)
-      }
-    })
-    return textParts
-  })()
 
   return (
     <View style={[styles.wrapper, style]}>
@@ -58,7 +34,7 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style }) => {
       <View style={styles.body}>
         <VerticalLine style={styles.commentConnector} />
         <View style={styles.commentContent}>
-          <HoliText style={styles.text}>{textWithMentions}</HoliText>
+          <HoliRichTextOutput comment={comment} style={styles.text} />
           <View style={styles.bottomBar}>
             <HoliText size="small" style={styles.likesNumber}>
               0
@@ -86,7 +62,7 @@ const styles = StyleSheet.create({
   text: {
     flex: 1,
     lineHeight: 20,
-    marginLeft: 12,
+    marginLeft: 15,
   },
   commentConnector: {
     marginHorizontal: 20,
