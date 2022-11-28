@@ -26,7 +26,7 @@ const TopicSlider: React.VFC<TopicSliderProps> = ({ topic, spaces, style }: Topi
         <HoliText size="large">{topic.title}</HoliText>
         <HoliButton
           label={`${topic} - ${t('spaces.viewAll')}`}
-          onPress={() => navigate(`/spaces/topic/${topic.id}`)}
+          onPress={() => navigate(`/spaces/filter?topicId=${topic.id}`)}
           transparent
           inline
           testID="btn-to-topic"
