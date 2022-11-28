@@ -4,10 +4,10 @@ import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliModalBasic, { HoliModalBasicProps } from '@holi/ui/components/molecules/HoliModalBasic'
+import ModalBasic, { ModalBasicProps } from '@holi/ui/components/molecules/ModalBasic'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export interface HoliModalFullscreenProps extends HoliModalBasicProps {
+export interface HoliModalFullscreenProps extends ModalBasicProps {
   backgroundColor?: string
 }
 
@@ -26,26 +26,26 @@ const HoliModalFullscreen: React.FC<HoliModalFullscreenProps> = ({
     <>
       <StatusBar animated backgroundColor={backgroundColor} />
 
-      <HoliModalBasic show={show} label={label} onDismiss={onDismiss} animationType="fade" testID={testID}>
+      <ModalBasic show={show} label={label} onDismiss={onDismiss} animationType="fade" testID={testID}>
         <View style={[styles.modalContent, style, { backgroundColor: backgroundColor }]}>
           <SafeAreaView style={styles.closeBtnSafeArea}>
-            <View style={styles.closeBtnWrapper}>
-              <HoliButton
-                label={t('modal.close')}
-                onPress={onDismiss}
-                inline
-                transparent
-                style={styles.closeBtn}
-                testID="fullscreen-modal-close-btn"
-              >
-                <HoliIcon icon="close" color={colors.fontColorModalLight} />
-              </HoliButton>
-            </View>
+            {/* <View style={styles.closeBtnWrapper}> */}
+            <HoliButton
+              label={t('modal.close')}
+              onPress={onDismiss}
+              inline
+              transparent
+              style={styles.closeBtn}
+              testID="fullscreen-modal-close-btn"
+            >
+              <HoliIcon icon="close" color={colors.fontColorModalLight} />
+            </HoliButton>
+            {/* </View> */}
           </SafeAreaView>
 
           {children}
         </View>
-      </HoliModalBasic>
+      </ModalBasic>
     </>
   )
 }

@@ -4,21 +4,14 @@ import { AccessibilityProps, Modal, ModalProps, Platform } from 'react-native'
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import { useTheme } from '@holi/ui/styles/theme'
 
-export type HoliModalBasicProps = ModalProps & {
+export type ModalBasicProps = ModalProps & {
   show: boolean
   onDismiss: () => void
   testID?: string
   label: string
 }
 
-const HoliModalBasic: React.FC<HoliModalBasicProps> = ({
-  show,
-  onDismiss,
-  testID,
-  label,
-  children,
-  ...nativeModalProps
-}) => {
+const ModalBasic: React.FC<ModalBasicProps> = ({ show, onDismiss, testID, label, children, ...nativeModalProps }) => {
   const { setModalIsOpen } = useTheme()
 
   useEffect(() => {
@@ -46,4 +39,4 @@ const HoliModalBasic: React.FC<HoliModalBasicProps> = ({
   )
 }
 
-export default HoliModalBasic
+export default ModalBasic

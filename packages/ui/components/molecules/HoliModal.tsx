@@ -10,7 +10,7 @@ import {
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliModalBasic from '@holi/ui/components/molecules/HoliModalBasic'
+import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import { colors } from '@holi/ui/styles/globalVars'
 import { vars } from '@holi/ui/styles/globalVars'
 
@@ -100,7 +100,7 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
 
   return (
     <>
-      <HoliModalBasic show={visible} transparent={true} onDismiss={onDismiss} label={props.label} testID={props.testID}>
+      <ModalBasic show={visible} transparent={true} onDismiss={onDismiss} label={props.label} testID={props.testID}>
         <GestureHandlerRootView style={styles.rootView} accessible={false}>
           <HoliButton
             label={t('modal.backdrop')}
@@ -150,7 +150,7 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
             {children}
           </Animated.View>
         </GestureHandlerRootView>
-      </HoliModalBasic>
+      </ModalBasic>
     </>
   )
 }
