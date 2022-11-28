@@ -101,7 +101,6 @@ const getStyles = (screenWidth: number) =>
       borderColor: colors.borderColorGrey,
       backgroundColor: colors.backgroundColorWhite,
       padding: 24,
-      marginRight: 10,
       width: Platform.select({
         native: screenWidth - 24 - 24 - 20,
         web: screenWidth > +vars.breakpointS ? 300 : screenWidth - 24 - 24 - 20,
