@@ -177,6 +177,7 @@
   "spaces.tasks.spots_claimed": "{{taken}} von {{available}} Plätzen vergeben",
   "spaces.title": "Spaces",
   "spaces.viewAll": "Alle anzeigen",
+  "spaces.seeMore": "Weitere Spaces",
   "user.cards.modal.close": "Schließen",
   "user.cards.modal.showInfo": "Weitere Informationen zu {{name}} anzeigen",
   "user.cards.modal.title": "Nutzer*innen",

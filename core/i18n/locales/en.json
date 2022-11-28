@@ -178,6 +178,7 @@
   "spaces.tasks.spots_claimed": "{{taken}} of {{available}} Spots claimed",
   "spaces.title": "Spaces",
   "spaces.viewAll": "View all",
+  "spaces.seeMore": "See more",
   "user.cards.modal.close": "Got it",
   "user.cards.modal.showInfo": "Show more information about {{name}}",
   "user.cards.modal.title": "Users",
