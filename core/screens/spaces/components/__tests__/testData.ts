@@ -1,7 +1,7 @@
 import { Space, SpaceMember, Task } from '@holi/core/screens/spaces/types'
 import { Topic, User } from '@holi/core/screens/userprofile/types'
 
-const user: User = {
+export const user: User = {
   id: '1',
   firstName: 'Some',
   lastName: 'Body',

@@ -8,7 +8,7 @@ import { NativeStackNavigationCustomHeaderOptions } from '@holi/mobile/navigatio
 
 export const useUnifiedNavigation = () => {
   const { setOptions: setUnifiedOptions, ...context } = useNavigationContext()
-  const { navigate, navigateBack, replaceRoute, query } = useRouting()
+  const { navigate, navigateBack, replaceRoute } = useRouting()
   const { setOptions: setNativeOptions } = useNavigation()
 
   const setOptions = useCallback(
@@ -23,7 +23,6 @@ export const useUnifiedNavigation = () => {
     navigate,
     navigateBack,
     replaceRoute,
-    query,
     ...context,
     setOptions,
   }

@@ -6,13 +6,13 @@ import SpacesByTopic from '@holi/core/screens/spaces/components/SpacesByTopic'
 import SpacesFilterHeader from '@holi/core/screens/spaces/components/SpacesFilterHeader'
 import { Topic, User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 
-type SpacesViewProps = {
+type DiscoverSpacesViewProps = {
   user?: User
   topics: Topic[]
   style?: StyleProp<ViewStyle>
 }
 
-const SpacesView: React.VFC<SpacesViewProps> = ({ topics, user, style }) => {
+const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({ topics, user, style }) => {
   // const { t } = useTranslation()
 
   const sortedTopics = useMemo(() => topics.slice().sort(termsByTitleComparator) || [], [topics])
@@ -56,4 +56,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default SpacesView
+export default DiscoverSpacesView
