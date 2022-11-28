@@ -34,7 +34,7 @@ const LinkPreview: React.VFC<Partial<HoliButtonProps>> = ({ onPress, ...props })
 
         <View style={styles.contentContainer}>
           <View style={styles.textContainer}>
-            <HoliHeading size="xSmall" numberOfLines={2} style={styles.fontColor}>
+            <HoliHeading size="xSmall" numberOfLines={3} style={styles.fontColor}>
               {linkData.title}
             </HoliHeading>
 
