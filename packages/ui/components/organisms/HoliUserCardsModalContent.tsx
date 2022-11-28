@@ -30,6 +30,10 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
 }: HoliUserCardsModalContentProps) => {
   const { t } = useTranslation()
 
+  const uniqueUsers = users.reduce((newArr: User[], nextUser: User) => {
+    return newArr.some((user) => user.id === nextUser.id) ? newArr : [...newArr, nextUser]
+  }, [])
+
   return (
     <HoliModalContentWrapper
       actionButtonText={t('user.cards.modal.close')}
@@ -40,7 +44,7 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
     >
       <HoliCarousel
         marginHorizontal={20}
-        slides={users.map((user) => {
+        slides={uniqueUsers.map((user) => {
           const userCard = <HoliUserCard style={styles.userCard} user={user} category={category} disableFocusability />
 
           return {
