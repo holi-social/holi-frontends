@@ -1,8 +1,15 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import {
+  GestureResponderEvent,
+  Platform,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+  useWindowDimensions,
+} from 'react-native'
 
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -11,16 +18,16 @@ import { colors } from '@holi/ui/styles/globalVars'
 type SpacesSeeMoreProps = {
   imageHeight: number
   style?: StyleProp<ViewStyle>
+  onPress: (event: React.SyntheticEvent | GestureResponderEvent) => void
 }
 
-const SpacesSeeMore: React.VFC<SpacesSeeMoreProps> = ({ style, imageHeight }: SpacesSeeMoreProps) => {
+const SpacesSeeMore: React.VFC<SpacesSeeMoreProps> = ({ style, imageHeight, onPress }: SpacesSeeMoreProps) => {
   const { t } = useTranslation()
-  const { navigate } = useRouting()
   const { width: screenWidth } = useWindowDimensions()
   const styles = getStyles(screenWidth, imageHeight)
 
   return (
-    <HoliButton label={t('spaces.seeMore')} style={style} onPress={() => navigate('/spaces')} transparent inline>
+    <HoliButton label={t('spaces.seeMore')} style={style} onPress={onPress} transparent inline>
       <View style={styles.illustration}>
         <HoliLocalImage
           imageSource={require('@holi/ui/assets/img/icons/Spaces-See-More-Icon.svg')}
