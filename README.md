@@ -379,26 +379,38 @@ Say you wanted to create the route "/profile/:id" which opened the profile page 
 
 #### core
 
-- create core/profile/id.tsx
+- create `core/screens/userProfile/UserProfile.tsx`
   - implement a shared view for the profile you want to render
-  - use `const { query: { id } } = useRouting()` hook retrieve the id query param
+  - in order to retrieve the `userId` query parameter:
+
+```ts
+import createParam from '@holi/core/navigation/hooks/useParam'
+
+export type UserProfileParams = {
+  userId: string
+}
+const { useParam } = createParam<UserProfileParams>()
+
+const [userId = ''] = useParam('userId')
+```
 
 #### web
 
-- create web/pages/profile/[id].tsx
-  - render the shared screen within the
+- create `web/pages/profile/[userId].tsx`
+  - render the shared screen within
 
 ```ts
-const ProfilePage: NextPage = () => <ProfileScreen / >
-export default ProfilePage
+const UserProfilePage: NextPage = () => <UserProfile />
+export default UserProfilePage
 ```
 
 #### mobile
 
+- define the route name in `apps/mobile/navigation/routeName.ts`
 - create a route in `apps/mobile/navigation/RootNavigator.tsx` e.g. in the RootStack and use the shared screen component to render
 
-```ts
-<RootStack.Screen name = "Profile" component =  {ProfileScreen} />
+```tsx
+<RootStack.Screen name={RouteName.UserProfile} component={UserProfile} />
 ```
 
 - create a linking mapping in `core/navigation/index.tsx` between the navigator route name and the web url
@@ -408,7 +420,7 @@ export default ProfilePage
 config: {
     screens: {
         // ...
-        Profile: '/profile/:id',
+        [RouteName.UserProfile]: 'profile/:userId',
     }
 }
 ```

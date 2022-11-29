@@ -25,7 +25,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
           screens: {
             [RouteName.SpacesHome]: 'spaces',
             [RouteName.SpaceDetails]: 'spaces/:spaceId',
-            [RouteName.SpacesForTopic]: 'spaces/topic/:topicId',
+            [RouteName.FilteredSpaces]: 'spaces/filter',
           },
         },
         [RouteName.Chat]: {

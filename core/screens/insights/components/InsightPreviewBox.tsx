@@ -1,10 +1,11 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Insight } from '@holi/core/screens/insights/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
@@ -36,7 +37,7 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
         onPress={() => navigate(`/insights/${insight.id}`)}
         testID="feed-insight-image-link"
       >
-        <Image source={{ uri: insight.headerImage }} style={styles.mainImage} />
+        <HoliImage source={{ uri: insight.headerImage }} label={insight.title} style={styles.mainImage} />
 
         {insight.topic && (
           <HoliHeading level="3" selectable={true} size="xSmall" style={[styles.cagetory]}>

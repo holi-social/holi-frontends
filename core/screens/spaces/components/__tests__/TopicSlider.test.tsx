@@ -23,6 +23,6 @@ describe('TopicSlider', () => {
 
     fireEvent.press(getByTestId('btn-to-topic'))
 
-    expect(mockNavigate).toHaveBeenCalledWith('/spaces/topic/TEST_TOPIC')
+    expect(mockNavigate).toHaveBeenCalledWith('/spaces/filter?topicId=TEST_TOPIC')
   })
 })

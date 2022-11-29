@@ -17,17 +17,17 @@ import { TopicsQueryResult } from '@holi/core/screens/userprofile/queries'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type SpacesForTopicParams = {
+export type SpaceFilterParams = {
   topicId: string
 }
 
-const { useParam } = createParam<SpacesForTopicParams>()
+const { useParam } = createParam<SpaceFilterParams>()
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
 const SPACES_PAGE_SIZE = 20
 
-const SpacesForTopic: React.VFC<ScreenProps> = () => {
+const FilteredSpaces: React.VFC<ScreenProps> = () => {
   const [topicId] = useParam('topicId')
 
   const { t } = useTranslation()
@@ -53,7 +53,7 @@ const SpacesForTopic: React.VFC<ScreenProps> = () => {
   })
 
   if (error) {
-    logError(error, `[SpacesForTopic.tsx] ${error.message}`)
+    logError(error, `[FilteredSpaces.tsx] ${error.message}`)
   }
 
   // Error and loading states are handled the same way and just hide the component
@@ -81,4 +81,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default memo(SpacesForTopic)
+export default memo(FilteredSpaces)
