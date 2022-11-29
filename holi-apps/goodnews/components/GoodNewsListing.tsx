@@ -27,14 +27,12 @@ const GoodNewsListing: React.VFC<GoodNewsListingProps> = () => {
       },
     }
   )
-
+  const articles = data?.appGoodNews_articles.articles
   const oldestDate: string | undefined = useMemo(() => {
-    return !data
-      ? undefined
-      : data.appGoodNews_articles.length
-      ? data.appGoodNews_articles[data.appGoodNews_articles.length - 1].date
-      : undefined
-  }, [data])
+    return articles ? articles[articles.length - 1].date : undefined
+  }, [articles])
+
+  console.log('data', data, oldestDate)
 
   const memoizedFetchMore = useCallback(() => {
     return fetchMore({
@@ -63,7 +61,7 @@ const GoodNewsListing: React.VFC<GoodNewsListingProps> = () => {
     <>
       {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        data!.appGoodNews_articles.map((article) => {
+        articles!.map((article) => {
           return <HoliText key={article.id}>{article.headline}</HoliText>
         })
       }

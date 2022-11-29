@@ -62,6 +62,14 @@ export const createCache = () =>
           projects: indexAwareOffsetLimitPagination(),
         },
       },
+      AppGoodNews_GoodNewsArticlesQueryResponse: {
+        fields: {
+          articles: {
+            merge: (existing, incoming) => (existing || []).concat(incoming),
+            read: (existing) => existing,
+          },
+        },
+      },
       Query: {
         fields: {
           // here, we can specify e.g. pagination behavior, depending on the
@@ -71,8 +79,6 @@ export const createCache = () =>
           },
           appGoodNews_articles: {
             keyArgs: ['locale'],
-            merge: (existing, incoming) => (existing || []).concat(incoming),
-            read: (existing) => existing,
           },
         },
       },
