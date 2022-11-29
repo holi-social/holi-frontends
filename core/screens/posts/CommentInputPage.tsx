@@ -20,7 +20,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
-import HoliRichInput from '@holi/ui/components/organisms/HoliRichTextInput'
+import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -135,7 +135,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
                 defaultColor={user.avatarDefaultColor || ''}
                 size="small"
               />
-              <HoliRichInput
+              <HoliRichTextInput
                 placeholder={t('insights.posts.comments.placeholder')}
                 autofocus
                 onChange={setText}
@@ -174,11 +174,12 @@ const SUGGESTIONS_DROPDOWN_HEIGHT = 200
 const styles = StyleSheet.create({
   root: {
     paddingTop: vars.topBarHeight,
+    paddingBottom: vars.bottomBarHeight + SUBMIT_BUTTON_CONTAINER_HEIGHT,
     height: '100%', // prevents double scrollbars
     ...Platform.select({
       web: { height: '100vh' },
-      ios: {
-        paddingBottom: vars.bottomBarHeight + SUBMIT_BUTTON_CONTAINER_HEIGHT,
+      android: {
+        paddingBottom: 0,
       },
     }),
   },
