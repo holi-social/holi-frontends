@@ -6,19 +6,19 @@ import { user, userWithLocation } from '@holi/core/screens/spaces/components/__t
 
 describe('DiscoverSpacesView', () => {
   it('renders correctly without user', () => {
-    const { getByTestId } = render(<DiscoverSpacesView topics={[]} onSelectTopic={jest.fn()} />)
+    const { getByTestId } = render(<DiscoverSpacesView topics={[]} />)
 
     expect(getByTestId('spaces-filter-header')).toHaveTextContent('spaces.filter.all')
   })
 
   it('renders correctly for user', () => {
-    const { getByTestId } = render(<DiscoverSpacesView topics={[]} user={user} onSelectTopic={jest.fn()} />)
+    const { getByTestId } = render(<DiscoverSpacesView topics={[]} user={user} />)
 
     expect(getByTestId('spaces-filter-header')).toHaveTextContent('spaces.filter.all')
   })
 
   it('renders correctly for user with location', () => {
-    const { getByTestId } = render(<DiscoverSpacesView topics={[]} user={userWithLocation} onSelectTopic={jest.fn()} />)
+    const { getByTestId } = render(<DiscoverSpacesView topics={[]} user={userWithLocation} />)
 
     expect(getByTestId('spaces-filter-header')).toHaveTextContent('spaces.filter.all.location')
   })
