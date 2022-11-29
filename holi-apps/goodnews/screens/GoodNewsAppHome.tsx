@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -20,6 +21,7 @@ const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
   const title = t('goodnews:app.name')
   const mixins = useStyleMixins()
 
+  const onScreenScroll = useScrollYHandler()
   const { setOptions, navigate } = useUnifiedNavigation()
 
   useLayoutEffect(() => {
@@ -42,8 +44,8 @@ const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
   }, [setOptions, navigate, t, title])
 
   return (
-    <DefaultLayout>
-      <View style={[mixins.container, { paddingTop: 10 }]} testID={'goodnews-list-container'}>
+    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
+      <View style={[mixins.container]} testID={'goodnews-list-container'}>
         <HoliText size={'extralarge'}>{title}</HoliText>
         <GoodNewsListing />
       </View>

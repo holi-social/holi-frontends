@@ -14,7 +14,7 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const appSwiperDummyApps: HoliApp[] = [
+const appSwiperApps: HoliApp[] = [
   {
     id: 'donations',
     icon: 'hand-heart',
@@ -79,7 +79,7 @@ const AppsDrawer: React.FC = () => {
         <View style={[styles.modalContent, mixins.container]}>
           <HoliHeading level="2">{t('apps.drawer.headline')}</HoliHeading>
           <ScrollView horizontal={true} style={{ marginTop: 20 }} contentContainerStyle={styles.appsCarousel}>
-            {appSwiperDummyApps.map((app) => (
+            {appSwiperApps.map((app) => (
               <AppTile appData={app} key={app.id} onPress={onAppButtonClick} />
             ))}
           </ScrollView>

@@ -18,27 +18,23 @@ type GoodNewsListingProps = Record<string, never>
 const GoodNewsListing: React.VFC<GoodNewsListingProps> = () => {
   const { t, i18n } = useTranslation()
   const [fetchingMore, setFetchingMore] = useState(false)
-  const {
-    loading,
-    error,
-    data: response,
-    fetchMore,
-  } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(GoodNewsArticlesQuery, {
-    variables: {
-      locale: i18n.language,
-      lastDate: undefined,
-    },
-  })
+  const { loading, error, data, fetchMore } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
+    GoodNewsArticlesQuery,
+    {
+      variables: {
+        locale: i18n.language,
+        lastDate: undefined,
+      },
+    }
+  )
 
   const oldestDate: string | undefined = useMemo(() => {
-    return !response
+    return !data
       ? undefined
-      : response.appGoodNews_articles.reduce((prev, curr) => {
-          if (!prev) return curr
-          else if (curr.date.localeCompare(prev.date) === -1) return curr
-          else return prev
-        }, response.appGoodNews_articles[0]).date
-  }, [response])
+      : data.appGoodNews_articles.length
+      ? data.appGoodNews_articles[data.appGoodNews_articles.length - 1].date
+      : undefined
+  }, [data])
 
   const memoizedFetchMore = useCallback(() => {
     return fetchMore({
@@ -63,13 +59,17 @@ const GoodNewsListing: React.VFC<GoodNewsListingProps> = () => {
     return <></>
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   return (
     <>
-      {response!.appGoodNews_articles.map((article) => {
-        return <HoliText key={article.pictureUrl}>{article.headline}</HoliText>
-      })}
-      <HoliButton label={fetchMoreButtonText} onPress={memoizedFetchMore} />
+      {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        data!.appGoodNews_articles.map((article) => {
+          return <HoliText key={article.id}>{article.headline}</HoliText>
+        })
+      }
+      <HoliButton label={fetchMoreButtonText} onPress={memoizedFetchMore}>
+        {fetchMoreButtonText}
+      </HoliButton>
     </>
   )
 }
