@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "start-storybook -p 6006",
     "build": "build-storybook",
-    "lint": "TIMING=1 eslint .",
-    "test": "echo 'unit testing goes here'",
     "clean": "rimraf storybook-static",
-    "clean:all": "yarn clean && rimraf node_modules"
+    "clean:all": "yarn clean && rimraf node_modules",
+    "dev": "start-storybook -p 6006",
+    "lint": "TIMING=1 eslint .",
+    "publish-library": "yarn run chromatic --ci -b build --exit-zero-on-changes",
+    "test": "echo 'unit testing goes here'"
   },
   "resolutions": {
     "**/@storybook/react-docgen-typescript-plugin": "1.0.1"
@@ -36,6 +37,7 @@
     "@types/react": "17.0.2",
     "babel-loader": "^8.2.5",
     "babel-plugin-react-native-web": "^0.18.7",
+    "chromatic": "^6.11.4",
     "eslint": "8.15.0",
     "react-dom": "17.0.2",
     "react-native-web": "^0.18.7",
