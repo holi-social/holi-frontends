@@ -27,7 +27,10 @@ const HoliLexicalMentionsDropdown: React.VFC<HoliLexicalMentionsDropdownProps> =
           id={'typeahead-item-' + i}
           onMouseEnter={() => props.onMouseEnter(i, option)}
           onClick={() => props.onClick(i, option)}
-          style={styles.suggestionItem}
+          style={{
+            ...StyleSheet.flatten(styles.suggestionItem),
+            ...(props.selectedIndex === i && { backgroundColor: colors.backgroundColorGreyLight }),
+          }}
         >
           {option.picture}
           <span className="text">{option.name}</span>
