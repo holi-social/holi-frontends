@@ -28,22 +28,19 @@ const HoliRichTextOutput: React.VFC<HoliRichTextOutputProps> = ({
   const getNameById = (id: string) => users?.find((user) => user.id === id)?.fullName || ''
 
   const textWithMentions = (() => {
-    const textParts: React.ReactChild[] = []
-    text.split(REGEX_USER_MENTIONS).forEach((textPart, index) => {
+    return text.split(REGEX_USER_MENTIONS).map((textPart, index) => {
       const isMatch = textPart.match(REGEX_USER_MENTIONS)
       const replaced = isMatch ? textPart.replace(REGEX_USER_MENTIONS, getNameById(textPart.slice(1))) : undefined
       if (replaced) {
-        textParts.push(
+        return (
           <HoliText key={index} style={mentionStyle}>
             {Platform.OS !== 'web' && '@'}
             {replaced}
           </HoliText>
         )
-      } else {
-        textParts.push(<HoliText key={index}>{textPart}</HoliText>)
       }
+      return <HoliText key={index}>{textPart}</HoliText>
     })
-    return textParts
   })()
 
   return (
