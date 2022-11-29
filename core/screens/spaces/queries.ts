@@ -27,6 +27,10 @@ const SpaceFragment = gql`
     avatar
     mainImage
     location
+    links {
+      type
+      url
+    }
     memberships {
       ...FullSpaceMember
     }
