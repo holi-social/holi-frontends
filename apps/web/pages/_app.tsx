@@ -40,11 +40,15 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
     })
   }, [])
 
+  // defaultProps can be used to pass page specific props to the DefaultLayout component (such as the hideFooter prop)
+  const { defaultProps = {} } = Component
+
   // TODO: alternatively to this approach, we could choose <AppLayout> for every route with '/apps/' prefix
 
   // taken from https://nextjs.org/docs/basic-features/layouts#with-typescript
   // Use the layout defined at the page level, if available
-  const getLayout = Component.getLayout ?? ((page) => <NavigationLayoutRoot>{page}</NavigationLayoutRoot>)
+  const getLayout =
+    Component.getLayout ?? ((page) => <NavigationLayoutRoot {...defaultProps}>{page}</NavigationLayoutRoot>)
 
   return translationsLoaded ? (
     <I18nextProvider i18n={i18n}>

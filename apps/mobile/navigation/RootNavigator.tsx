@@ -101,7 +101,8 @@ export const BottomTabsNavigator: React.VFC = () => {
             borderTopColor: colors.fontColorGrey,
             ...(focusedRoute === RouteName.InsightDetailPage ||
             focusedRoute === RouteName.PostDetailPage ||
-            focusedRoute === RouteName.CommentInputPage
+            focusedRoute === RouteName.CommentInputPage ||
+            focusedRoute === RouteName.SpaceDetails
               ? { display: 'none' }
               : {}),
             tabBarShowLabel: true,
