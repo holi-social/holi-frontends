@@ -12,10 +12,13 @@ describe('TopicSlider', () => {
     expect(getAllByText('Space title').length).toBe(3)
 
     const images = getAllByRole('image')
-    // expect 3 spaces with 3 members each
-    expect(images.length).toBe(3)
-    expect(images[0]).toHaveProp('source', { uri: 'https://www.example.com/avatar.jpg' })
-    expect(images[0]).toHaveProp('accessibilityLabel', 'Some Body')
+    // expect 3 spaces with 2 images each
+    expect(images.length).toBe(6)
+    const [mainImage, avatarImage] = images
+    expect(mainImage).toHaveProp('source', { uri: 'https://www.example.com/space1.jpg' })
+    expect(mainImage).toHaveProp('accessibilityLabel', 'Space title')
+    expect(avatarImage).toHaveProp('source', { uri: 'https://www.example.com/avatar.jpg' })
+    expect(avatarImage).toHaveProp('accessibilityLabel', 'Some Body')
   })
 
   it('navigates to topic screen', () => {

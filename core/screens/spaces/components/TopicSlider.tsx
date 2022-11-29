@@ -4,7 +4,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliSlider from '@holi/core/screens/spaces/components/HoliSlider'
-import TopicSliderCard from '@holi/core/screens/spaces/components/TopicSliderCard'
+import SpaceCard from '@holi/core/screens/spaces/components/SpaceCard'
 import { Space } from '@holi/core/screens/spaces/types'
 import { Topic } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -36,7 +36,7 @@ const TopicSlider: React.VFC<TopicSliderProps> = ({ topic, spaces, style }: Topi
       </View>
       <HoliSlider size="large">
         {spaces.map((space) => (
-          <TopicSliderCard key={space.id} space={space} />
+          <SpaceCard key={space.id} space={space} />
         ))}
       </HoliSlider>
     </View>
