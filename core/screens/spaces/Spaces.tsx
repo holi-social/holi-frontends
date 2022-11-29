@@ -9,6 +9,7 @@ import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import DiscoverSpaces from '@holi/core/screens/spaces/components/DiscoverSpaces'
+import SpaceFilterModal from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -56,9 +57,12 @@ const Spaces: React.VFC<ScreenProps> = () => {
   }, [setOptions, navigate, t])
 
   return (
-    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.wrapper}>
-      <DiscoverSpaces style={mixins.container} />
-    </DefaultLayout>
+    <>
+      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.wrapper}>
+        <DiscoverSpaces style={mixins.container} />
+      </DefaultLayout>
+      <SpaceFilterModal />
+    </>
   )
 }
 
