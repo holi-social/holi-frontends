@@ -1,3 +1,5 @@
 {
-  "app.name": "Good News"
+  "app.name": "Good News",
+  "goodnewsListing.loadMoreButton.loading": "Loading",
+  "goodnewsListing.loadMoreButton.text": "See more"
 }

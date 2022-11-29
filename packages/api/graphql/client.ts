@@ -69,6 +69,11 @@ export const createCache = () =>
           appDonations_projects: {
             keyArgs: ['locale', 'location'],
           },
+          appGoodNews_articles: {
+            keyArgs: ['locale'],
+            merge: (existing, incoming) => (existing || []).concat(incoming),
+            read: (existing) => existing,
+          },
         },
       },
     },
