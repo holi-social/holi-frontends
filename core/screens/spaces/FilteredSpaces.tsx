@@ -97,8 +97,8 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
       {canFetchMore && (
         <View style={[mixins.container, styles.buttonContainer]}>
           <HoliButton label={fetchMoreButtonText} disabled={fetchingMore} onPress={memoizedFetchMore}>
-            <HoliText style={{ marginRight: 6 }}>{fetchMoreButtonText}</HoliText>
-            {fetchingMore && <HoliIcon spinning={true} icon="loader-4" size={16} />}
+            <HoliText style={fetchingMore && styles.buttonText}>{fetchMoreButtonText}</HoliText>
+            {fetchingMore && <HoliIcon spinning icon="loader-4" size={16} />}
           </HoliButton>
         </View>
       )}
@@ -117,6 +117,9 @@ const getStyles = (deviceHeight: number) =>
     },
     buttonContainer: {
       marginTop: 20,
+    },
+    buttonText: {
+      marginRight: 6,
     },
   })
 

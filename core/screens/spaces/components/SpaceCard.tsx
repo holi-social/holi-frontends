@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   card: {
     padding: 8,
-    height: '100%',
+    flex: 1,
   },
   normal: {
     width: '100%',
