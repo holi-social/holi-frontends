@@ -1,20 +1,22 @@
 import React from 'react'
 import { Platform, StyleProp, ViewStyle } from 'react-native'
 
-import { Comment } from '@holi/core/screens/posts/types'
+import type { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { REGEX_USER_MENTIONS } from '@holi/ui/helper/richText'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type HoliRichTextOutputProps = {
-  comment: Comment
+  text: string
+  users?: User[]
   style?: StyleProp<ViewStyle>
   mentionStyle?: StyleProp<ViewStyle>
   testID?: string
 }
 
 const HoliRichTextOutput: React.VFC<HoliRichTextOutputProps> = ({
-  comment,
+  text,
+  users = [],
   style,
   mentionStyle = { color: colors.fontColorHighlighted },
   testID,
@@ -23,11 +25,11 @@ const HoliRichTextOutput: React.VFC<HoliRichTextOutputProps> = ({
    * Replaces each @<USER-ID>
    * with the highlighted fullName
    */
-  const getNameById = (id: string) => comment.mentions?.find((mention) => mention.id === id)?.fullName || ''
+  const getNameById = (id: string) => users?.find((user) => user.id === id)?.fullName || ''
 
   const textWithMentions = (() => {
     const textParts: React.ReactChild[] = []
-    comment.text.split(REGEX_USER_MENTIONS).forEach((textPart, index) => {
+    text.split(REGEX_USER_MENTIONS).forEach((textPart, index) => {
       const isMatch = textPart.match(REGEX_USER_MENTIONS)
       const replaced = isMatch ? textPart.replace(REGEX_USER_MENTIONS, getNameById(textPart.slice(1))) : undefined
       if (replaced) {

@@ -45,13 +45,15 @@ export const Example: ComponentStory<typeof HoliRichTextOutput> = ({ ...args }) 
     </View>
 
     <HoliText style={{ color: colors.fontColorGrey, marginRight: 10 }}>OUTPUT: </HoliText>
-    <HoliRichTextOutput comment={args.comment} />
+    <HoliRichTextOutput text={args.text} users={args.users} />
   </>
 )
 Example.argTypes = {
-  comment: { description: 'A post comment' },
+  text: { description: 'The input text including user mentions' },
+  users: { description: 'List of users which are mentioned within the text' },
 }
 
 Example.args = {
-  comment: DUMMY_COMMENT,
+  text: DUMMY_COMMENT.text,
+  users: DUMMY_COMMENT.mentions,
 }

@@ -34,7 +34,7 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style }) => {
       <View style={styles.body}>
         <VerticalLine style={styles.commentConnector} />
         <View style={styles.commentContent}>
-          <HoliRichTextOutput comment={comment} style={styles.text} />
+          <HoliRichTextOutput text={comment.text} users={comment.mentions} style={styles.text} />
           <View style={styles.bottomBar}>
             <HoliText size="small" style={styles.likesNumber}>
               0
