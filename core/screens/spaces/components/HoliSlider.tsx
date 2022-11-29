@@ -60,7 +60,7 @@ const getStyles = (screenWidth: number) =>
     scrollViewContainer: {
       paddingVertical: 18,
       marginHorizontal: -20,
-      paddingLeft: 24,
+      paddingLeft: 20,
     },
     loadingContainer: {
       height: 160,

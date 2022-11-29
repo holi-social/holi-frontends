@@ -26,12 +26,12 @@ const SpaceCard: React.VFC<SpaceCardProps> = ({ space, style, size = 'normal' }:
       label={title}
       transparent
       onPress={() => navigate(`/spaces/${id}`)}
-      style={[style, styles.card, styles[size as keyof typeof styles]]}
+      style={[style, styles.card, styles[size]]}
       inline
       testID="btn-to-space"
     >
       <View style={styles.mainImageWrapper}>
-        {<HoliImage source={{ uri: mainImage }} style={styles.mainImage} label={title} resizeMode={'cover'} />}
+        {<HoliImage source={{ uri: mainImage }} style={styles.mainImage} label={title} resizeMode="cover" />}
         {members.length > 0 && (
           <View style={styles.userPile}>
             <HoliUserAvatarPile users={members} usersToShow={3} counter collapse>
