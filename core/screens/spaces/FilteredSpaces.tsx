@@ -10,7 +10,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import SpaceFilterModal from '@holi/core/screens/spaces/components/SpaceFilterModal'
+import SpaceFilterModal, { SpaceFilterParams } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import SpacesGrid from '@holi/core/screens/spaces/components/SpacesGrid'
 import { SpacesResponse, spacesQuery } from '@holi/core/screens/spaces/queries'
 import { topicsQuery } from '@holi/core/screens/spaces/queries'
@@ -22,10 +22,6 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type SpaceFilterParams = {
-  topicId: string
-}
-
 const { useParam } = createParam<SpaceFilterParams>()
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
@@ -33,7 +29,20 @@ type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 const SPACES_PAGE_SIZE = 20
 
 const FilteredSpaces: React.VFC<ScreenProps> = () => {
-  const [topicId] = useParam('topicId')
+  const [topicId, setTopicId] = useParam('topicId')
+  const [location, setLocation] = useParam('location')
+
+  const applyFilters = useCallback(
+    (filters) => {
+      if (filters.topicId != topicId) {
+        setTopicId(filters.topicId)
+      }
+      if (filters.location != location) {
+        setLocation(filters.location)
+      }
+    },
+    [topicId, setTopicId, location, setLocation]
+  )
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -45,14 +54,15 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
 
   const { data: topicsData } = useQuery<TopicsQueryResult>(topicsQuery)
 
-  const topic = (topicsData?.topics.data || []).find((topic) => topic.id === topicId)
+  const topics = topicsData?.topics.data || []
+  const topic = topics.find((topic) => topic.id === topicId)
 
   const fallbackTitle = t('spaces.title')
   useLayoutEffect(() => {
     setOptions({ title: topic?.title || fallbackTitle })
   }, [setOptions, topic, fallbackTitle])
 
-  const { data, error, fetchMore } = useQuery<SpacesResponse>(spacesQuery, {
+  const { loading, data, error, fetchMore } = useQuery<SpacesResponse>(spacesQuery, {
     variables: {
       topicId: topicId,
       limit: SPACES_PAGE_SIZE,
@@ -87,15 +97,20 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
     return <></>
   }
 
-  if (!spaces.length) {
-    // TODO: handle not found
-    return <></>
-  }
-
   return (
     <>
       <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.wrapper}>
-        <SpacesGrid style={[mixins.container, styles.grid]} spaces={spaces} />
+        {spaces.length > 0 && <SpacesGrid style={[mixins.container, styles.grid]} spaces={spaces} />}
+        {!spaces.length &&
+          (loading ? (
+            // TODO: replace with proper loading indicator
+            <View style={[mixins.container, styles.messageContainer]}>
+              <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
+            </View>
+          ) : (
+            // TODO: properly handle not found
+            <HoliText>No results</HoliText>
+          ))}
         {canFetchMore && (
           <View style={[mixins.container, styles.buttonContainer]}>
             <HoliButton label={fetchMoreButtonText} disabled={fetchingMore} onPress={memoizedFetchMore}>
@@ -105,7 +120,7 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
           </View>
         )}
       </DefaultLayout>
-      <SpaceFilterModal />
+      <SpaceFilterModal filters={{ topicId, location }} applyFilters={applyFilters} topics={topics} />
     </>
   )
 }
@@ -124,6 +139,10 @@ const getStyles = (deviceHeight: number) =>
     },
     buttonText: {
       marginRight: 6,
+    },
+    messageContainer: {
+      alignItems: 'center',
+      marginTop: 50,
     },
   })
 
