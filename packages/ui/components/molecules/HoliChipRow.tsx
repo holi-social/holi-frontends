@@ -63,7 +63,6 @@ export default HoliChipRow
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    // paddingTop: 24,
     paddingBottom: 0,
   },
   header: {
