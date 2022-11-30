@@ -41,9 +41,7 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
 
   const { projects = [], totalResults = 0 } = data?.appDonations_projects || {}
 
-  const canFetchMore = useMemo(() => {
-    return projects.length < totalResults
-  }, [projects, totalResults])
+  const canFetchMore = projects.length < totalResults
 
   const memoizedFetchMore = useCallback(() => {
     setFetchingMore(true)

@@ -40,9 +40,11 @@ const SpaceCard: React.VFC<SpaceCardProps> = ({ space, style, size = 'normal' }:
           </View>
         )}
       </View>
-      <HoliText size="extrasmall" style={styles.location}>
-        {location}
-      </HoliText>
+      {location && (
+        <HoliText size="extrasmall" style={styles.location}>
+          {location}
+        </HoliText>
+      )}
       <HoliText size="small" bold numberOfLines={1} style={styles.title}>
         {title}
       </HoliText>
@@ -80,6 +82,7 @@ const styles = StyleSheet.create({
   },
   card: {
     padding: 8,
+    flex: 1,
   },
   normal: {
     width: '100%',
