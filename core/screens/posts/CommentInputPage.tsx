@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client'
-import React, { memo, useCallback, useContext, useLayoutEffect, useRef, useState } from 'react'
+import React, { memo, useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
@@ -81,12 +81,15 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
       scrollViewRef.current?.scrollToEnd({ animated: true })
     } else {
       const paddingTop = 20
+      if (scrollContentHeight <= 0) return
       scrollViewRef.current?.scrollTo({
         animated: true,
         y: scrollContentHeight - SUGGESTIONS_DROPDOWN_HEIGHT - SUBMIT_BUTTON_CONTAINER_HEIGHT - paddingTop,
       })
     }
   }, [scrollContentHeight])
+
+  useEffect(scrollIntoView, [scrollContentHeight, scrollIntoView])
 
   const bottomPadding =
     keyboardHeight + (Platform.OS === 'web' ? 0 : SUGGESTIONS_DROPDOWN_HEIGHT + SUBMIT_BUTTON_CONTAINER_HEIGHT)
