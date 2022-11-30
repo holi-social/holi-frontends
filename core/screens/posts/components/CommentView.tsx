@@ -8,6 +8,7 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
+import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type CommentProps = {
@@ -21,6 +22,7 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style }) => {
 
   const { creator } = comment
   const name = creator.fullName || t('user.profileView.anonymous')
+
   return (
     <View style={[styles.wrapper, style]}>
       <HoliMediaHeader title={name} author={creator} date={comment.created} boldTitle>
@@ -32,7 +34,7 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style }) => {
       <View style={styles.body}>
         <VerticalLine style={styles.commentConnector} />
         <View style={styles.commentContent}>
-          <HoliText style={styles.text}>{comment.text}</HoliText>
+          <HoliRichTextOutput text={comment.text} users={comment.mentions} style={styles.text} />
           <View style={styles.bottomBar}>
             <HoliText size="small" style={styles.likesNumber}>
               0
@@ -60,7 +62,7 @@ const styles = StyleSheet.create({
   text: {
     flex: 1,
     lineHeight: 20,
-    marginLeft: 12,
+    marginLeft: 15,
   },
   commentConnector: {
     marginHorizontal: 20,

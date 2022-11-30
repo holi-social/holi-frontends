@@ -33,11 +33,11 @@ const SpaceSocialLink: React.VFC<SpaceSocialLinkProps> = ({ link, style }: Space
       testID="btn-to-social-link"
     >
       <HoliIcon
-        size={20}
+        size={24}
         color={colors.fontColorGrey}
         icon={type === SpaceLinkType.OTHER ? 'links' : type.toLowerCase()}
       />
-      <HoliText size="small" style={styles.text}>
+      <HoliText size="small" bold style={styles.text}>
         {t(`spaces.link.${type}`)}
       </HoliText>
     </HoliButton>

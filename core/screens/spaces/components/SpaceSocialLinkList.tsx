@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   link: {
-    marginRight: 24,
-    marginBottom: 24,
+    marginRight: 20,
+    marginBottom: 20,
   },
 })
