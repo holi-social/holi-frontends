@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client'
 import React, { memo, useCallback, useContext, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -147,34 +147,36 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
         </View>
       </ScrollView>
 
-      <View style={[styles.bottomBar, Platform.OS === 'web' && mixins.container]}>
-        <HoliButton
-          disabled={!text.trim().length || createCommentLoading}
-          label={t('insights.posts.comments.button')}
-          inline
-          onPress={() =>
-            createPostComment({
-              variables: {
-                input: { postId, text: text.trim() },
-              },
-            })
-          }
-          testID="btn-submit-comment"
-        >
-          {t('insights.posts.comments.button')}
-        </HoliButton>
-      </View>
+      <SafeAreaView>
+        <View style={[styles.bottomBar, Platform.OS === 'web' && mixins.container]}>
+          <HoliButton
+            disabled={!text.trim().length || createCommentLoading}
+            label={t('insights.posts.comments.button')}
+            inline
+            onPress={() =>
+              createPostComment({
+                variables: {
+                  input: { postId, text: text.trim() },
+                },
+              })
+            }
+            testID="btn-submit-comment"
+          >
+            {t('insights.posts.comments.button')}
+          </HoliButton>
+        </View>
+      </SafeAreaView>
     </KeyboardAvoidingView>
   )
 }
 
-const SUBMIT_BUTTON_CONTAINER_HEIGHT = 74
+const SUBMIT_BUTTON_CONTAINER_HEIGHT = +vars.bottomBarHeightComment
 const SUGGESTIONS_DROPDOWN_HEIGHT = 200
 
 const styles = StyleSheet.create({
   root: {
     paddingTop: vars.topBarHeight,
-    paddingBottom: vars.bottomBarHeight + SUBMIT_BUTTON_CONTAINER_HEIGHT,
+    paddingBottom: SUBMIT_BUTTON_CONTAINER_HEIGHT,
     height: '100%', // prevents double scrollbars
     ...Platform.select({
       web: { height: '100vh' },
@@ -210,7 +212,7 @@ const styles = StyleSheet.create({
   },
   bottomBar: {
     bottom: 0,
-    padding: 12,
+    paddingHorizontal: 12,
     borderTopWidth: 1,
     borderTopColor: colors.borderColorGrey,
     backgroundColor: colors.backgroundColor,
@@ -220,9 +222,7 @@ const styles = StyleSheet.create({
     height: SUBMIT_BUTTON_CONTAINER_HEIGHT,
     ...Platform.select({
       web: {
-        // bottom nav is only visible in web
         position: 'fixed',
-        bottom: vars.bottomBarHeight,
       },
     }),
   },

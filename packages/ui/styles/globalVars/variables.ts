@@ -5,6 +5,7 @@ export default {
   maxButtonWidth: '400',
   topBarHeight: '52',
   bottomBarHeight: '66',
+  bottomBarHeightComment: '74',
   breakpointS: '576',
   breakpointM: '768',
   breakpointL: '992',

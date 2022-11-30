@@ -106,7 +106,7 @@ export const BottomTabsNavigator: React.VFC = () => {
             paddingHorizontal: 0,
             borderTopWidth: StyleSheet.hairlineWidth,
             borderTopColor: colors.fontColorGrey,
-            ...(focusedRoute && screensWithoutFooter.includes(focusedRoute) ? { display: 'none' } : {}),
+            ...(focusedRoute && screensWithoutFooter.includes(focusedRoute) ? { display: 'none', height: 0 } : {}),
             tabBarShowLabel: true,
             tabBarLabelStyle: {
               color: 'black',
