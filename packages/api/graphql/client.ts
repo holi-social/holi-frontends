@@ -62,12 +62,20 @@ export const createCache = () =>
           projects: indexAwareOffsetLimitPagination(),
         },
       },
+      PagedSpaceList: {
+        fields: {
+          data: indexAwareOffsetLimitPagination(),
+        },
+      },
       Query: {
         fields: {
           // here, we can specify e.g. pagination behavior, depending on the
           // query, see https://www.apollographql.com/docs/react/pagination/overview
           appDonations_projects: {
             keyArgs: ['locale', 'location'],
+          },
+          spaces: {
+            keyArgs: ['topicId'],
           },
         },
       },
