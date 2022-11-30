@@ -7,7 +7,11 @@ import HeaderAnimated from '@holi/web/components/navigation/HeaderAnimated'
 
 import navigationLayoutRootStyles from './NavigationLayoutRoot.module.scss'
 
-const DefaultLayout: React.FunctionComponent = ({ children }) => {
+type DefaultLayoutProps = {
+  hideFooter?: boolean
+}
+
+const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children, hideFooter = false }) => {
   const { t } = useTranslation()
 
   return (
@@ -27,11 +31,13 @@ const DefaultLayout: React.FunctionComponent = ({ children }) => {
 
       <main className={navigationLayoutRootStyles.main}>{children}</main>
 
-      <footer className={navigationLayoutRootStyles.footer}>
-        <div className={navigationLayoutRootStyles.footerInner}>
-          <FooterTabBar />
-        </div>
-      </footer>
+      {!hideFooter && (
+        <footer className={navigationLayoutRootStyles.footer}>
+          <div className={navigationLayoutRootStyles.footerInner}>
+            <FooterTabBar />
+          </div>
+        </footer>
+      )}
     </>
   )
 }
