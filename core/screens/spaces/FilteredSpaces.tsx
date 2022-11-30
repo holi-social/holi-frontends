@@ -10,6 +10,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import SpaceFilterModal from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import SpacesGrid from '@holi/core/screens/spaces/components/SpacesGrid'
 import { SpacesResponse, spacesQuery } from '@holi/core/screens/spaces/queries'
 import { topicsQuery } from '@holi/core/screens/spaces/queries'
@@ -92,17 +93,20 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
   }
 
   return (
-    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.wrapper}>
-      <SpacesGrid style={[mixins.container, styles.grid]} spaces={spaces} />
-      {canFetchMore && (
-        <View style={[mixins.container, styles.buttonContainer]}>
-          <HoliButton label={fetchMoreButtonText} disabled={fetchingMore} onPress={memoizedFetchMore}>
-            <HoliText style={fetchingMore && styles.buttonText}>{fetchMoreButtonText}</HoliText>
-            {fetchingMore && <HoliIcon spinning icon="loader-4" size={16} />}
-          </HoliButton>
-        </View>
-      )}
-    </DefaultLayout>
+    <>
+      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.wrapper}>
+        <SpacesGrid style={[mixins.container, styles.grid]} spaces={spaces} />
+        {canFetchMore && (
+          <View style={[mixins.container, styles.buttonContainer]}>
+            <HoliButton label={fetchMoreButtonText} disabled={fetchingMore} onPress={memoizedFetchMore}>
+              <HoliText style={fetchingMore && styles.buttonText}>{fetchMoreButtonText}</HoliText>
+              {fetchingMore && <HoliIcon spinning icon="loader-4" size={16} />}
+            </HoliButton>
+          </View>
+        )}
+      </DefaultLayout>
+      <SpaceFilterModal />
+    </>
   )
 }
 
