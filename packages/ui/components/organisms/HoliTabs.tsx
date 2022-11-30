@@ -3,6 +3,7 @@ import {
   NativeScrollEvent,
   Platform,
   ScrollView,
+  StyleProp,
   StyleSheet,
   Text,
   View,
@@ -10,16 +11,17 @@ import {
   useWindowDimensions,
 } from 'react-native'
 
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type HoliTabsProps = {
   id: string
-  tabs: { title: string; children: React.ReactNode }[]
-  relativeHeight?: number
+  tabs: { title: string; titleIcon?: string; children: React.ReactNode }[]
+  centeredButtons?: boolean
   testID?: string
-  style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
+  style?: StyleProp<ViewStyle>
 }
 
 const isWeb = Platform.OS === 'web'
@@ -27,6 +29,7 @@ const isWeb = Platform.OS === 'web'
 const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
   id,
   tabs,
+  centeredButtons,
   style,
   testID = 'tabs-module',
 }: HoliTabsProps) => {
@@ -36,7 +39,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
   const { width: screenWidth } = useWindowDimensions()
 
   const mixins = useStyleMixins()
-  const styles = getStyles()
+  const styles = getStyles(centeredButtons)
 
   const handleScrollEnd = ({ nativeEvent }: { nativeEvent: NativeScrollEvent }) => {
     if (!nativeEvent || !nativeEvent.contentOffset) {
@@ -77,6 +80,14 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
                 accessibilityControls={`${id}-panel-${index}`}
                 testID={`${testID}-button-${index}-${isActive ? 'active' : 'inactive'}`}
               >
+                {tab.titleIcon && (
+                  <HoliIcon
+                    icon="spaces"
+                    size={22}
+                    color={isActive ? colors.fontColor : colors.fontColorGrey}
+                    style={styles.tabButtonIcon}
+                  />
+                )}
                 <Text style={[styles.tabButtonText, isActive ? styles.activeTabButtonText : {}]}>{tab.title}</Text>
               </HoliTabButton>
             )
@@ -129,7 +140,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
 
 export default HoliTabs
 
-const getStyles = () =>
+const getStyles = (centeredButtons = false) =>
   StyleSheet.create({
     container: {
       flex: 1,
@@ -149,6 +160,7 @@ const getStyles = () =>
     },
     tabButtonsContainer: {
       flexDirection: 'row',
+      justifyContent: centeredButtons ? 'center' : 'flex-start',
     },
     tabButton: {
       paddingVertical: 12,
@@ -159,6 +171,9 @@ const getStyles = () =>
       borderBottomWidth: 2,
       top: 2, // must be the same value as the tabButtonsContainer borderWidth
       borderBottomColor: 'transparent',
+    },
+    tabButtonIcon: {
+      marginRight: 8,
     },
     tabButtonText: {
       fontSize: 16,
