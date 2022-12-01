@@ -16,8 +16,16 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = (prop
       <HoliText>Date: {article.date}</HoliText>
       <HoliText>Headline: {article.headline}</HoliText>
       <HoliText>Teaser: {article.teaserText}</HoliText>
-      <HoliImage source={{ uri: article.pictureUrl }} label="bla" width="100" height="80" />
-      <HoliText>Picture Source: {article.pictureSource}</HoliText>
+      <HoliText>Picture URL: {article.pictureUrl}</HoliText>
+      <HoliImage
+        source={{ uri: article.pictureUrl }}
+        label={article.pictureCredit || ''}
+        style={{
+          height: 100,
+          width: 'auto',
+        }}
+      />
+      <HoliText>Picture Credit: {article.pictureCredit}</HoliText>
       <HoliText>Article URL: {article.articleUrl}</HoliText>
       <HoliText>Article Source: {article.source}</HoliText>
       <HoliText>Category: {article.category}</HoliText>
