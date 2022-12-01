@@ -3,7 +3,6 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { logError } from '@holi/core/errors/helpers'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 import {
@@ -11,6 +10,9 @@ import {
   GoodNewsArticlesQueryArgs,
   GoodNewsArticlesQueryResponse,
 } from '@holi-apps/goodnews/queries'
+import { GoodNewsArticle } from '@holi-apps/goodnews/types'
+
+import GoodNewsArticleComponent from './GoodNewsArticleComponent'
 
 type GoodNewsListingProps = Record<string, never>
 
@@ -59,9 +61,9 @@ const GoodNewsListing: React.VFC<GoodNewsListingProps> = () => {
     <>
       {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        articles!.map((article) => {
-          return <HoliText key={article.id}>{article.headline}</HoliText>
-        })
+        articles!.map((article: GoodNewsArticle) => (
+          <GoodNewsArticleComponent article={article} key={article.id} />
+        ))
       }
       <HoliButton label={fetchMoreButtonText} onPress={memoizedFetchMore}>
         {fetchMoreButtonText}
