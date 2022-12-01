@@ -19,6 +19,7 @@ export type HoliRichTextInputSuggestionsProps = {
   debounceDelay: number
   findUsersByName: (substring: string) => Promise<User[]>
   onChooseSuggestion: (selectedSuggestion: User) => void
+  testID: string
 }
 
 const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps> = ({
@@ -28,6 +29,7 @@ const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps>
   debounceDelay,
   findUsersByName,
   onChooseSuggestion,
+  testID,
 }) => {
   const { t } = useTranslation()
   const [debouncedKeyword, setDebouncedKeyword] = useState<string>(INITIAL_VALUE)
@@ -50,7 +52,7 @@ const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps>
 
   useEffect(() => {
     return setValueDebounced(keyword)
-  }, [setValueDebounced, keyword])
+  }, [keyword, setValueDebounced])
 
   useEffect(() => {
     if (debouncedKeyword === INITIAL_VALUE) return
@@ -59,7 +61,7 @@ const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps>
   }, [debouncedKeyword, minSearchChars, findUsersByName, setSafeSuggestions])
 
   return (
-    <View style={[styles.suggestions]}>
+    <View style={[styles.suggestions]} testID={testID || 'holi-rich-text-input-suggestions'}>
       <View style={[styles.suggestionsContainer]}>
         {suggestions.slice(0, maxSuggestionOptions).map((item) => (
           <HoliButton
@@ -69,6 +71,7 @@ const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps>
             style={styles.suggestionItem}
             contentStyle={{ alignItems: 'center', flexDirection: 'row' }}
             onPress={() => onChooseSuggestion(item)}
+            testID={testID ? `${testID}-item` : 'holi-rich-text-input-suggestions-item'}
           >
             <HoliUserAvatar
               imageSrc={item.avatar}

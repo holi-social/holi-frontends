@@ -91,13 +91,16 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   }
 
   return (
-    <View style={props.style}>
+    <View style={props.style} testID={props.testID || 'richtext-component'}>
       {/* The View is needed for positioning the placeholder */}
       <LexicalComposer initialConfig={lexicalConfig}>
         <PlainTextPlugin
           ErrorBoundary={LexicalErrorBoundary}
           contentEditable={
-            <ContentEditable testid={props.testID || 'richtext_input'} style={StyleSheet.flatten(styles.inputDiv)} />
+            <ContentEditable
+              testid={props.testID ? `${props.testID}-input` : 'richtext-component-input'}
+              style={StyleSheet.flatten(styles.inputDiv)}
+            />
           }
           placeholder={<span style={styles.placeholder}>{placeholder}</span>}
         />
