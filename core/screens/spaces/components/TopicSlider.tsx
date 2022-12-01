@@ -1,42 +1,43 @@
 import React, { memo } from 'react'
-import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliSlider from '@holi/core/screens/spaces/components/HoliSlider'
 import SpaceCard from '@holi/core/screens/spaces/components/SpaceCard'
 import { Space } from '@holi/core/screens/spaces/types'
 import { Topic } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 type TopicSliderProps = {
   topic: Topic
   spaces: Space[]
   style?: StyleProp<ViewStyle>
+  paddingVertical: number
+  slideGap: number
 }
 
-const TopicSlider: React.VFC<TopicSliderProps> = ({ topic, spaces, style }: TopicSliderProps) => {
-  const { t } = useTranslation()
-  const { navigate } = useRouting()
-
+const TopicSlider: React.VFC<TopicSliderProps> = ({
+  topic,
+  spaces,
+  style,
+  paddingVertical = 8,
+  slideGap = 8,
+}: TopicSliderProps) => {
   return (
     <View style={[styles.slider, style]} testID="spaces-topic-container">
       <View style={styles.sliderHeader}>
         <HoliText size="large">{topic.title}</HoliText>
-        <HoliButton
-          label={`${topic} - ${t('spaces.viewAll')}`}
-          onPress={() => navigate(`/spaces/filter?topicId=${topic.id}`)}
-          transparent
-          inline
-          testID="btn-to-topic"
-        >
-          <HoliText size="small">{t('spaces.viewAll')}</HoliText>
-        </HoliButton>
       </View>
-      <HoliSlider size="large">
+      <HoliSlider topic={topic} paddingVertical={paddingVertical} slideGap={slideGap}>
         {spaces.map((space) => (
-          <SpaceCard key={space.id} space={space} />
+          <SpaceCard
+            key={space.id}
+            space={space}
+            style={{
+              paddingVertical: paddingVertical,
+              paddingHorizontal: slideGap,
+              marginRight: slideGap,
+            }}
+          />
         ))}
       </HoliSlider>
     </View>

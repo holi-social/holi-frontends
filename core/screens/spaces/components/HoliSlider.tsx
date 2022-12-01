@@ -1,42 +1,58 @@
 import React, { memo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import SpacesSeeMore from '@holi/core/screens/spaces/components/SpacesSeeMore'
+import { Topic } from '@holi/core/screens/userprofile/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
-import variables from '@holi/ui/styles/globalVars/variables'
 
 type HoliSliderProps = {
   style?: StyleProp<ViewStyle>
-  size?: 'small' | 'medium' | 'large'
+  topic: Topic
   isLoading?: boolean
   testID?: string
   children?: React.ReactNode[]
+  paddingVertical: number
+  slideGap: number
 }
 
 const HoliSlider: React.VFC<HoliSliderProps> = ({
   style,
-  size = 'medium',
+  topic,
   isLoading = false,
   testID = 'holi-slider',
   children,
+  paddingVertical,
+  slideGap,
 }: HoliSliderProps) => {
+  const { t } = useTranslation()
   const { width: screenWidth } = useWindowDimensions()
   const styles = getStyles(screenWidth)
+  const { navigate } = useRouting()
+  const SEE_MORE_IMAGE_HEIGHT = Platform.OS === 'web' ? 160 : screenWidth / 2 - 38
 
   return (
     <View style={style}>
       <ScrollView style={styles.scrollViewContainer} horizontal testID={testID}>
         {children &&
           children.map((child, index) => (
-            <View key={index} style={[styles.cardContainer, styles[`cardContainer_${size}`]]}>
+            <View key={index} style={[{ marginRight: slideGap }, styles.cardContainer]}>
               {child}
             </View>
           ))}
         {isLoading && (
-          <View style={[styles.loadingContainer, styles[`cardContainer_${size}`]]}>
+          <View style={[styles.loadingContainer, styles.cardContainer]}>
             <HoliIcon icon="loader-4" size={50} color={colors.fontColorGrey} spinning />
           </View>
         )}
+        <SpacesSeeMore
+          style={{ paddingVertical, marginRight: 20 }}
+          label={t('spaces.seeMore')}
+          imageHeight={SEE_MORE_IMAGE_HEIGHT}
+          onPress={() => navigate(`/spaces/filter?topicId=${topic.id}`)}
+        />
       </ScrollView>
     </View>
   )
@@ -46,16 +62,7 @@ export default memo(HoliSlider)
 const getStyles = (screenWidth: number) =>
   StyleSheet.create({
     cardContainer: {
-      marginRight: 8,
-    },
-    cardContainer_small: {
-      width: Platform.OS === 'web' && screenWidth > +variables.breakpointS ? 160 : screenWidth / 2.5 - 24,
-    },
-    cardContainer_medium: {
-      width: Platform.OS === 'web' && screenWidth > +variables.breakpointS ? 260 : screenWidth / 2.1 - 24,
-    },
-    cardContainer_large: {
-      width: Platform.OS === 'web' && screenWidth > +variables.breakpointS ? 320 : screenWidth / 1.5 - 12,
+      width: Platform.OS === 'web' ? 320 : screenWidth / 1.5 - 12,
     },
     scrollViewContainer: {
       paddingVertical: 18,
