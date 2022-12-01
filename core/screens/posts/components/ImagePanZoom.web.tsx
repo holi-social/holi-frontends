@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
+import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
 
 import HoliImage from '@holi//ui/components/atoms/HoliImage'
 
@@ -14,11 +15,15 @@ const ImagePanZoom: React.VFC<ImagePanZoomProps> = ({ uri, postTitle }) => {
 
   return (
     <View style={styles.webModalImageContainer}>
-      <HoliImage
-        style={styles.webModalImage}
-        source={{ uri }}
-        label={t('insights.posts.image.modal', { title: postTitle })}
-      />
+      <TransformWrapper centerOnInit>
+        <TransformComponent wrapperStyle={{ flex: 1, width: '100%' }}>
+          <HoliImage
+            style={styles.webModalImage}
+            source={{ uri }}
+            label={t('insights.posts.image.modal', { title: postTitle })}
+          />
+        </TransformComponent>
+      </TransformWrapper>
     </View>
   )
 }
