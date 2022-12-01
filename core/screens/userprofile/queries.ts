@@ -9,6 +9,7 @@ export const userAvatarFragment = gql`
     avatar
     avatarLabel
     avatarDefaultColor
+    fullName
     firstName
     lastName
   }
@@ -71,16 +72,11 @@ export type UserByIdResponse = {
 }
 
 export const userByNameQuery = gql`
+  ${userAvatarFragment}
   query UserByName($substring: String!, $limit: Int, $offset: Int) {
     userByName(substring: $substring, limit: $limit, offset: $offset) {
       data {
-        id
-        avatar
-        avatarLabel
-        avatarDefaultColor
-        fullName
-        firstName
-        lastName
+        ...UserAvatar
       }
     }
   }
