@@ -66,6 +66,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
         debounceDelay={debounceDelay}
         findUsersByName={findUserMapped}
         onChooseSuggestion={onChooseSuggestion}
+        testID={props.testID ? `${props.testID}-suggestions` : 'richtext-input-suggestions'}
       />
     )
   }
@@ -108,7 +109,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
       placeholder={placeholder}
       containerStyle={[styles.mentionsStyles, props.style]}
       style={styles.input}
-      testID={props.testID}
+      testID={props.testID || 'richtext-input'}
     />
   )
 }
