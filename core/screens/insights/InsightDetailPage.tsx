@@ -6,11 +6,11 @@ import { ImageBackground, Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { NativeStackNavigationCustomHeaderOptions } from '@holi//mobile/navigation/HeaderAnimated'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
+import type { NavigationContextOptions } from '@holi/core/navigation/hooks/NavigationContextProvider/NavigationContext'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -62,7 +62,8 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
         headerCustomOptions: {
           headerBackgroundGradient: true,
         },
-      } as NativeStackNavigationCustomHeaderOptions),
+        showFooter: false,
+      } as NavigationContextOptions),
     [setOptions, t, insight?.title]
   )
 

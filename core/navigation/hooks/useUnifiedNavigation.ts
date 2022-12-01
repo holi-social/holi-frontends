@@ -3,8 +3,8 @@ import { useCallback } from 'react'
 import { useNavigation } from '@react-navigation/native'
 
 import { useNavigationContext } from '@holi/core/navigation/hooks/NavigationContextProvider'
+import type { NavigationContextOptions } from '@holi/core/navigation/hooks/NavigationContextProvider/NavigationContext'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { NativeStackNavigationCustomHeaderOptions } from '@holi/mobile/navigation/HeaderAnimated'
 
 export const useUnifiedNavigation = () => {
   const { setOptions: setUnifiedOptions, ...context } = useNavigationContext()
@@ -12,7 +12,7 @@ export const useUnifiedNavigation = () => {
   const { setOptions: setNativeOptions } = useNavigation()
 
   const setOptions = useCallback(
-    (options: NativeStackNavigationCustomHeaderOptions) => {
+    (options: NavigationContextOptions) => {
       setNativeOptions?.(options)
       setUnifiedOptions(options)
     },

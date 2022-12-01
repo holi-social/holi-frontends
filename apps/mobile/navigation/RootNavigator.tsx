@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
+import { createNavigationContainerRef } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
@@ -12,6 +12,7 @@ import Login from '@holi/core/auth/screens/Login'
 import Logout from '@holi/core/auth/screens/Logout'
 import Registration from '@holi/core/auth/screens/Registration'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
@@ -29,6 +30,8 @@ import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNav
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
+
+export const navigationRef = createNavigationContainerRef()
 
 export type HomeStackScreens = {
   [RouteName.HomeFeed]: undefined
@@ -63,12 +66,12 @@ const HomeStack = createNativeStackNavigator<HomeStackScreens>()
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
-const screensWithoutFooter = [
-  RouteName.InsightDetailPage,
-  RouteName.PostDetailPage,
-  RouteName.CommentInputPage,
-  RouteName.SpaceDetails,
-]
+// const screensWithoutFooter = [
+//   RouteName.InsightDetailPage,
+//   RouteName.PostDetailPage,
+//   RouteName.CommentInputPage,
+//   RouteName.SpaceDetails,
+// ]
 
 export const HomeStackNavigator: React.VFC = () => {
   return (
@@ -92,15 +95,25 @@ export const HomeStackNavigator: React.VFC = () => {
 }
 
 export const BottomTabsNavigator: React.VFC = () => {
+  const { options } = useUnifiedNavigation()
   const iconColor = (isActive: boolean) => (isActive ? colors.fontColorBlack : colors.fontColorGrey)
   const { t } = useTranslation()
   const { isLoggedIn } = useContext(AuthContext)
 
+  let showFooter = options.showFooter
+
   return (
     <BottomTabs.Navigator
       initialRouteName={RouteName.Home}
-      screenOptions={({ route }) => {
-        const focusedRoute = getFocusedRouteNameFromRoute(route) as RouteName | undefined
+      screenOptions={() => {
+        // This fixes a really strange reactNavigation issue:
+        // sometimes (rarely) the options element is not actual.
+        // And only in this specific cases the navigationRef has a more actual version.
+        if (navigationRef.isReady()) {
+          if (typeof showFooter === 'undefined') {
+            showFooter = navigationRef?.getCurrentOptions()?.showFooter
+          }
+        }
 
         return {
           tabBarStyle: {
@@ -108,7 +121,7 @@ export const BottomTabsNavigator: React.VFC = () => {
             paddingHorizontal: 0,
             borderTopWidth: StyleSheet.hairlineWidth,
             borderTopColor: colors.fontColorGrey,
-            ...(focusedRoute && screensWithoutFooter.includes(focusedRoute) ? { display: 'none' } : {}),
+            ...(showFooter === false ? { display: 'none' } : {}),
             tabBarShowLabel: true,
             tabBarLabelStyle: {
               color: 'black',

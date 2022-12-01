@@ -2,11 +2,15 @@ import { createContext, useContext } from 'react'
 
 import { NativeStackNavigationCustomHeaderOptions } from '@holi/mobile/navigation/HeaderAnimated'
 
+export interface NavigationContextOptions extends NativeStackNavigationCustomHeaderOptions {
+  showFooter?: boolean
+}
+
 export interface NavigationContextType {
   pathname: string
   setPathname: (pathName: string) => void
-  options: NativeStackNavigationCustomHeaderOptions
-  setOptions: (options: NativeStackNavigationCustomHeaderOptions) => void
+  options: NavigationContextOptions
+  setOptions: (options: NavigationContextOptions) => void
 }
 
 export const NavigationContext = createContext<NavigationContextType>({
@@ -25,7 +29,7 @@ export const useNavigationContext = () => {
   return context
 }
 
-export const initialScreenOptions: NativeStackNavigationCustomHeaderOptions = {
+export const initialScreenOptions: NavigationContextOptions = {
   title: undefined,
   header: undefined,
   headerBackVisible: undefined,
@@ -70,4 +74,5 @@ export const initialScreenOptions: NativeStackNavigationCustomHeaderOptions = {
   presentation: undefined,
   orientation: undefined,
   freezeOnBlur: undefined,
+  showFooter: true,
 }

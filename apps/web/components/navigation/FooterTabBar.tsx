@@ -5,17 +5,23 @@ import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 const FooterTabBar: React.VoidFunctionComponent = () => {
+  const { options } = useUnifiedNavigation()
   const { width } = useWindowDimensions()
   const styles = getStyles(width)
   const { navigate, pathname } = useRouting()
   const { t } = useTranslation()
   const { isLoggedIn } = useContext(AuthContext)
+
+  if (options.showFooter === false) {
+    return <></>
+  }
 
   const isHome = pathname === '/'
   const isChat = pathname.startsWith('/chat')
