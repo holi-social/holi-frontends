@@ -61,6 +61,13 @@ const HomeStack = createNativeStackNavigator<HomeStackScreens>()
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
+const screensWithoutFooter = [
+  RouteName.InsightDetailPage,
+  RouteName.PostDetailPage,
+  RouteName.CommentInputPage,
+  RouteName.SpaceDetails,
+]
+
 export const HomeStackNavigator: React.VFC = () => {
   return (
     <HomeStack.Navigator
@@ -91,7 +98,7 @@ export const BottomTabsNavigator: React.VFC = () => {
     <BottomTabs.Navigator
       initialRouteName={RouteName.Home}
       screenOptions={({ route }) => {
-        const focusedRoute = getFocusedRouteNameFromRoute(route)
+        const focusedRoute = getFocusedRouteNameFromRoute(route) as RouteName | undefined
 
         return {
           tabBarStyle: {
@@ -99,11 +106,7 @@ export const BottomTabsNavigator: React.VFC = () => {
             paddingHorizontal: 0,
             borderTopWidth: StyleSheet.hairlineWidth,
             borderTopColor: colors.fontColorGrey,
-            ...(focusedRoute === RouteName.InsightDetailPage ||
-            focusedRoute === RouteName.PostDetailPage ||
-            focusedRoute === RouteName.CommentInputPage
-              ? { display: 'none' }
-              : {}),
+            ...(focusedRoute && screensWithoutFooter.includes(focusedRoute) ? { display: 'none' } : {}),
             tabBarShowLabel: true,
             tabBarLabelStyle: {
               color: 'black',

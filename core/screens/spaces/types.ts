@@ -8,6 +8,20 @@ export interface SpaceMember {
   created: string
 }
 
+export enum SpaceLinkType {
+  DISCORD = 'DISCORD',
+  FACEBOOK = 'FACEBOOK',
+  INSTAGRAM = 'INSTAGRAM',
+  LINKEDIN = 'LINKEDIN',
+  OTHER = 'OTHER',
+  TWITTER = 'TWITTER',
+  WHATSAPP = 'WHATSAPP',
+}
+export interface SpaceLink {
+  url: string
+  type: SpaceLinkType
+}
+
 export interface Space {
   id: string
   title: string
@@ -17,6 +31,7 @@ export interface Space {
   mainImage: string
   location: string
   memberships: SpaceMember[]
+  links?: SpaceLink[]
   avatar?: string
   tasks?: Task[]
 }
