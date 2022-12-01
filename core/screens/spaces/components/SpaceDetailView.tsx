@@ -32,6 +32,7 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
         tabs={[
           {
             title: 'Goals',
+            titleIcon: 'pushpin',
             children: [
               <SpaceWelcome space={space} style={[mixins.container, styles.subtitleMargin]} key="space-welcome" />,
               <SpaceSocialLinkList
@@ -43,6 +44,7 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
           },
           {
             title: 'Actions',
+            titleIcon: 'sun',
             children: space.tasks && space.tasks.length > 0 && (
               <SpaceTaskList
                 style={[mixins.container, styles.subtitleMargin, styles.pageBottom]}

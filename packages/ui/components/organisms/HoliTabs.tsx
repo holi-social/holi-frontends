@@ -82,10 +82,11 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
               >
                 {tab.titleIcon && (
                   <HoliIcon
-                    icon="spaces"
+                    icon={tab.titleIcon}
                     size={22}
                     color={isActive ? colors.fontColor : colors.fontColorGrey}
                     style={styles.tabButtonIcon}
+                    filled={isActive}
                   />
                 )}
                 <Text style={[styles.tabButtonText, isActive ? styles.activeTabButtonText : {}]}>{tab.title}</Text>
