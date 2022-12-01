@@ -27,8 +27,6 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
 
   if (!space.tasks?.length) return <></>
 
-  console.log(itemsInRow)
-
   return (
     <View style={style}>
       <HoliHeading level="2">{t('spaces.spaceDetails.tasksHeading', { count: space.tasks?.length })}</HoliHeading>
