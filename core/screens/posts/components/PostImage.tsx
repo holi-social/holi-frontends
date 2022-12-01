@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
 
 import HoliImage from '@holi//ui/components/atoms/HoliImage'
-import { getTransformedImageUri, useContainerSizeForImage } from '@holi/core/helpers'
+import { getSizes, getTransformedImageUri, useContainerSizeForImage } from '@holi/core/helpers'
 import ImagePanZoom from '@holi/core/screens/posts/components/ImagePanZoom'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalFullscreen from '@holi/ui/components/molecules/HoliModalFullscreen'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 export type PostImageProps = {
   uri: string
@@ -16,10 +16,27 @@ export type PostImageProps = {
   postTitle: string
 }
 
-const POST_IMAGE_SIZES: [number, number][] = [
-  [728, 501],
-  [464, 319],
-  [588, 404],
+const POST_IMAGE_SIZES: { breakpoint: number; width: number }[] = [
+  {
+    breakpoint: +vars.breakpointXs,
+    width: +vars.breakpointXs - 40,
+  },
+  {
+    breakpoint: +vars.breakpointS,
+    width: +vars.breakpointS - 40,
+  },
+  {
+    breakpoint: +vars.breakpointM,
+    width: +vars.breakpointM - 40,
+  },
+  {
+    breakpoint: +vars.breakpointL,
+    width: +vars.breakpointL / 2 - 12,
+  },
+  {
+    breakpoint: +vars.breakpointXl,
+    width: +vars.breakpointXl / 2 - 12,
+  },
 ]
 
 const PostImage: React.VFC<PostImageProps> = ({ uri, width, height, postTitle }) => {
@@ -28,11 +45,12 @@ const PostImage: React.VFC<PostImageProps> = ({ uri, width, height, postTitle })
   const imageSrcSet = POST_IMAGE_SIZES.map((transformSize) =>
     getTransformedImageUri({
       imageUri: uri,
-      imageSize: [width, height],
+      imageSize: { width, height },
       transformSize,
       aspectRatio: '343-236',
     })
   )
+  const imageSizes = getSizes(POST_IMAGE_SIZES)
   const { uri: mobileImageUri, onLayout } = useContainerSizeForImage(uri, true)
 
   const showImageFullScreen = useCallback(() => {
@@ -54,10 +72,10 @@ const PostImage: React.VFC<PostImageProps> = ({ uri, width, height, postTitle })
       >
         <HoliImage
           source={Platform.OS === 'web' ? imageSrcSet : { uri: mobileImageUri }}
+          sizes={imageSizes}
           label={t('insights.posts.image', { title: postTitle })}
           style={styles.postImage}
           onLayout={onLayout}
-          key={mobileImageUri}
         />
       </HoliButton>
 
