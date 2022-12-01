@@ -25,6 +25,10 @@ const config: I18nConfig = {
       en: require('@holi-apps/donations/i18n/locales/en.json'),
       de: require('@holi-apps/donations/i18n/locales/de.json'),
     },
+    goodnews: {
+      en: require('@holi-apps/goodnews/i18n/locales/en.json'),
+      de: require('@holi-apps/goodnews/i18n/locales/de.json'),
+    },
   },
 }
 
