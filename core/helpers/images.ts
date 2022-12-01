@@ -1,10 +1,10 @@
 import { useCallback, useRef, useState } from 'react'
-import { LayoutChangeEvent } from 'react-native'
+import { ImageURISource, LayoutChangeEvent } from 'react-native'
 
 interface GetTransformedImageUriOptions {
   imageUri: string
-  imageSize?: [number, number]
-  transformSize: [number, number]
+  imageSize?: { width: number; height: number }
+  transformSize: { width: number; height?: number }
   aspectRatio?: string
 }
 
@@ -12,9 +12,10 @@ interface GetTransformedImageUriOptions {
  *
  * Function to get URI for transformed Image from Imagekit.io
  * "imageSize" and "transformSize" params are of type array where first element is "width" and second is "height" (tuple like)
+ * height in "transformSize" (second element) is optional, so if not defined, default aspect ratio of image will be kept
  * if "imageSize" is not passed, always perform transformation
  * if widht or height in "transformSize" is smaller than in "imageSize", perform transformation
- * if "aspectRatio" is passed, use only "width" and "aspectRatio" for treansformation
+ * if "aspectRatio" is passed, use only "width" and "aspectRatio" for transformation
  *
  */
 export const getTransformedImageUri = ({
@@ -22,14 +23,14 @@ export const getTransformedImageUri = ({
   imageSize, // if "imageSize" not passed, always transform
   transformSize,
   aspectRatio,
-}: GetTransformedImageUriOptions) => {
-  const [width, height] = transformSize
+}: GetTransformedImageUriOptions): ImageURISource => {
+  const { width, height } = transformSize
 
-  const shouldResize = !imageSize || imageSize[0] > width || imageSize[1] > height
+  const shouldResize = !imageSize || imageSize.width > width || imageSize.height > (height ?? 0)
   const imageUriArray = imageUri.split('/')
 
   if (shouldResize) {
-    imageUriArray.splice(-1, 0, `tr:w-${width},${aspectRatio ? `ar-${aspectRatio}` : `h-${height}`}`)
+    imageUriArray.splice(-1, 0, `tr:w-${width},${aspectRatio ? `ar-${aspectRatio}` : height ? `h-${height}` : ''}`)
   }
 
   return {
@@ -57,7 +58,7 @@ export const useContainerSizeForImage = (imageUri: string, getLayoutOnce = false
       const { width, height } = event.nativeEvent.layout
       const { uri } = getTransformedImageUri({
         imageUri,
-        transformSize: [width, height],
+        transformSize: { width, height },
         aspectRatio: '343-236',
       })
 
@@ -68,4 +69,12 @@ export const useContainerSizeForImage = (imageUri: string, getLayoutOnce = false
   )
 
   return { uri: transformedUri, onLayout }
+}
+
+export const getSizes = (breakpointWidthMatches: { breakpoint: number; width: number }[]) => {
+  const sortedDescendingMatches = [...breakpointWidthMatches].sort(({ breakpoint: a }, { breakpoint: b }) => b - a)
+  return (
+    sortedDescendingMatches.map(({ breakpoint, width }) => `(min-width: ${breakpoint}px) ${width}px`).join(', ') +
+    ', 100wv'
+  )
 }
