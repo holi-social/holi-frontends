@@ -9,7 +9,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 import GoodNewsAppHome from '@holi-apps/goodnews/screens/GoodNewsAppHome'
 
 export type GoodNewsAppScreensList = {
-  GoodNewsAppHome: undefined
+  [RouteName.GoodNewsAppHome]: undefined
 }
 
 const GoodNewsAppStack = createNativeStackNavigator<GoodNewsAppScreensList>()

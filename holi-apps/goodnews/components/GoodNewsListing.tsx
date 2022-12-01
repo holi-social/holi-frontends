@@ -32,8 +32,6 @@ const GoodNewsListing: React.VFC<GoodNewsListingProps> = () => {
     return articles ? articles[articles.length - 1].date : undefined
   }, [articles])
 
-  console.log('data', data, oldestDate)
-
   const memoizedFetchMore = useCallback(() => {
     return fetchMore({
       variables: {
