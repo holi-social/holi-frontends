@@ -24,7 +24,7 @@ describe('TopicSlider', () => {
   it('navigates to topic screen', () => {
     const { getByTestId } = render(<TopicSlider topic={topic} spaces={spaces} />)
 
-    fireEvent.press(getByTestId('btn-to-topic'))
+    fireEvent.press(getByTestId('spaces-see-more-btn'))
 
     expect(mockNavigate).toHaveBeenCalledWith('/spaces/filter?topicId=TEST_TOPIC')
   })
