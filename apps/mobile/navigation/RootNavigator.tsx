@@ -22,6 +22,7 @@ import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/U
 import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
+import GoodNewsAppNavigator from '@holi/mobile/navigation/GoodNewsAppNavigator'
 import HeaderAnimated from '@holi/mobile/navigation/HeaderAnimated'
 import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
@@ -50,6 +51,7 @@ export type RootStackScreens = {
   [RouteName.Core]: undefined
   [RouteName.DonationsApp]: undefined
   [RouteName.VolunteeringApp]: undefined
+  [RouteName.GoodNewsApp]: undefined
   [RouteName.Login]: undefined
   [RouteName.Logout]: undefined
   [RouteName.Registration]: undefined
@@ -180,6 +182,14 @@ const RootNavigator: React.VFC = () => {
       <RootStack.Screen
         name={RouteName.DonationsApp}
         component={DonationsAppNavigator}
+        options={{
+          animation: 'slide_from_bottom',
+          headerShown: false,
+        }}
+      />
+      <RootStack.Screen
+        name={RouteName.GoodNewsApp}
+        component={GoodNewsAppNavigator}
         options={{
           animation: 'slide_from_bottom',
           headerShown: false,
