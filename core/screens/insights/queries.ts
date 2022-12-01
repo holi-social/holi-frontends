@@ -2,7 +2,22 @@ import { gql } from '@apollo/client/core'
 
 import { Insight } from '@holi/core/screens/insights/types'
 
+const LinkFragment = gql`
+  fragment LinkFragment on LinkPreview {
+    requestedUrl
+    url
+    title
+    description
+    type
+    image
+    siteName
+    origin
+  }
+`
+
 const InsightFragment = gql`
+  ${LinkFragment}
+
   fragment InsightFull on Insight {
     id
     title
@@ -38,14 +53,7 @@ const InsightFragment = gql`
         avatarDefaultColor
       }
       links {
-        requestedUrl
-        url
-        title
-        description
-        type
-        image
-        siteName
-        origin
+        ...LinkFragment
       }
       mentions {
         id
