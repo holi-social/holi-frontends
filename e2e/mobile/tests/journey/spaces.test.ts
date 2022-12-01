@@ -1,9 +1,9 @@
-import { waitForHomeScreen } from '../helpers/navigation'
+import { waitForHomeScreen } from '../../helpers/navigation'
 import {
   locateMultipleElementsWithTestId,
   tapOnElementWithTestId,
   waitForElementWithTestId,
-} from '../helpers/selectors'
+} from '../../helpers/selectors'
 
 const navigateToSpaces = async () => {
   await waitForHomeScreen()

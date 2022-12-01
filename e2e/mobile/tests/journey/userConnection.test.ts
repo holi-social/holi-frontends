@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
 
-import { defaultAuthSteps, logout } from '../helpers/auth'
-import { navigateBackToHomeScreen } from '../helpers/navigation'
-import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../helpers/selectors'
+import { defaultAuthSteps, logout } from '../../helpers/auth'
+import { navigateBackToHomeScreen } from '../../helpers/navigation'
+import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
 describe('@UserConnection', () => {
   const email = `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`

@@ -1,5 +1,5 @@
-import { waitForHomeScreen } from '../helpers/navigation'
-import { tapOnElementWithTestId, waitForElementWithTestId } from '../helpers/selectors'
+import { waitForHomeScreen } from '../../helpers/navigation'
+import { tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
 describe('@HoliModal', () => {
   it('find selectors', async () => {

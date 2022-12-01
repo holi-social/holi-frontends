@@ -1,6 +1,6 @@
-import { defaultAuthSteps, logout } from '../helpers/auth'
-import { navigateBackToHomeScreen } from '../helpers/navigation'
-import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../helpers/selectors'
+import { defaultAuthSteps, logout } from '../../helpers/auth'
+import { navigateBackToHomeScreen } from '../../helpers/navigation'
+import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
 describe('@Profile', () => {
   it('should navigate to user from suggestions', async () => {

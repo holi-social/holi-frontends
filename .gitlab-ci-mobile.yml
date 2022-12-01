@@ -38,6 +38,7 @@
   dependencies: [] # explicitly disable artifact usage
   variables:
     BUILD_PLATFORM: changeme
+    TEST_SUITES: changeme
   script:
     - cd apps/mobile
     - export EAS_APK_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform $BUILD_PLATFORM --limit 1 | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
@@ -47,7 +48,7 @@
     - yarn install
     - export BROWSERSTACK_UPLOAD_RESPONSE=$(curl -s -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@${EAS_APK_FILE}")
     - export BROWSERSTACK_APP_URL=$(echo "${BROWSERSTACK_UPLOAD_RESPONSE}" | jq -r '.app_url')
-    - APPIUM_PLATFORM=$BUILD_PLATFORM yarn run jest --runInBand
+    - APPIUM_PLATFORM=$BUILD_PLATFORM yarn run jest --testPathPattern=/$TEST_SUITES/ --runInBand
   allow_failure: false
   interruptible: true
   tags:
@@ -129,6 +130,8 @@ mobile_review_build_ios:
 mobile_review_e2e_android:
   extends: .mobile_e2e_android
   needs: ['mobile_review_build_android']
+  variables:
+    TEST_SUITES: (smoke|integration)
   except:
     - main
     - /^noenv\/.*/
@@ -137,6 +140,8 @@ mobile_review_e2e_android:
 mobile_review_e2e_ios:
   extends: .mobile_e2e_ios
   needs: ['mobile_review_build_ios', 'mobile_review_e2e_android']
+  variables:
+    TEST_SUITES: (smoke|integration)
   except:
     - main
     - /^noenv\/.*/
@@ -187,12 +192,16 @@ mobile_staging_build_ios:
 mobile_staging_e2e_android:
   extends: .mobile_e2e_android
   needs: ['mobile_staging_build_android']
+  variables:
+    TEST_SUITES: smoke
   only:
     - main
 
 mobile_staging_e2e_ios:
   extends: .mobile_e2e_ios
   needs: ['mobile_staging_build_ios']
+  variables:
+    TEST_SUITES: smoke
   only:
     - main
 
