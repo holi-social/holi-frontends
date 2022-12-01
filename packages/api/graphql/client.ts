@@ -70,6 +70,11 @@ export const createCache = () =>
           },
         },
       },
+      PagedSpaceList: {
+        fields: {
+          data: indexAwareOffsetLimitPagination(),
+        },
+      },
       Query: {
         fields: {
           // here, we can specify e.g. pagination behavior, depending on the
@@ -79,6 +84,9 @@ export const createCache = () =>
           },
           appGoodNews_articles: {
             keyArgs: ['locale'],
+          },
+          spaces: {
+            keyArgs: ['topicId'],
           },
         },
       },

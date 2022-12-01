@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpaceHeader from '@holi/core/screens/spaces/components/SpaceHeader'
+import SpaceSocialLinkList from '@holi/core/screens/spaces/components/SpaceSocialLinkList'
 import SpaceTaskTile from '@holi/core/screens/spaces/components/SpaceTaskTile'
 import SpaceWelcome from '@holi/core/screens/spaces/components/SpaceWelcome'
 import { Space } from '@holi/core/screens/spaces/types'
@@ -53,6 +54,9 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
             </ScrollView>
           </View>
         )}
+
+        {/* Social Links */}
+        <SpaceSocialLinkList space={space} style={[mixins.container, styles.socialLinks]} />
       </View>
     </View>
   )
@@ -70,7 +74,7 @@ const styles = StyleSheet.create({
   },
   body: {
     paddingTop: 24,
-    paddingBottom: 50,
+    paddingBottom: 100,
     backgroundColor: colors.backgroundColorGrey,
   },
   waysToAct: {
@@ -81,7 +85,6 @@ const styles = StyleSheet.create({
   },
   tasksContainer: {
     justifyContent: 'center',
-    paddingBottom: 30,
   },
   taskTile: {
     marginRight: 8,
@@ -93,6 +96,9 @@ const styles = StyleSheet.create({
         marginRight: 40,
       },
     }),
+  },
+  socialLinks: {
+    marginTop: 64,
   },
 })
 

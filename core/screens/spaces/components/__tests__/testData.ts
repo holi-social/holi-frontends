@@ -1,4 +1,4 @@
-import { Space, SpaceMember, Task } from '@holi/core/screens/spaces/types'
+import { Space, SpaceLink, SpaceLinkType, SpaceMember, Task } from '@holi/core/screens/spaces/types'
 import { Topic, User } from '@holi/core/screens/userprofile/types'
 
 export const user: User = {
@@ -52,6 +52,17 @@ const tasks = [1, 2, 3].map((id) => ({
   id: `task-${id}`,
 }))
 
+export const links: SpaceLink[] = [
+  {
+    url: 'www.facebook.com',
+    type: SpaceLinkType.FACEBOOK,
+  },
+  {
+    url: 'https://www.twitter.com',
+    type: SpaceLinkType.TWITTER,
+  },
+]
+
 export const space: Space = {
   id: '1',
   title: 'Space title',
@@ -62,6 +73,7 @@ export const space: Space = {
   created: '2022-11-21T12:34:56Z',
   location: 'Hamburg, Germany',
   tasks,
+  links,
 }
 
 export const spaces = [1, 2, 3].map((id) => ({

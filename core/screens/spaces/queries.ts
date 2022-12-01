@@ -27,6 +27,10 @@ const SpaceFragment = gql`
     avatar
     mainImage
     location
+    links {
+      type
+      url
+    }
     memberships {
       ...FullSpaceMember
     }
@@ -67,6 +71,7 @@ export const spacesQuery = gql`
 
   query Spaces($topicId: UUID, $location: String, $offset: Int, $limit: Int) {
     spaces(topicId: $topicId, location: $location, offset: $offset, limit: $limit) {
+      totalResults
       data {
         ...FullSpace
       }
@@ -76,6 +81,7 @@ export const spacesQuery = gql`
 
 export type SpacesResponse = {
   spaces: {
+    totalResults: number
     data: Space[]
   }
 }

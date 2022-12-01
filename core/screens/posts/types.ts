@@ -1,4 +1,3 @@
-import { Comment } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
 
 export interface Post {
@@ -25,4 +24,5 @@ export interface Comment {
   text: string
   creator: User
   created?: string // "2022-10-06T17:50:41.661594+00:00"
+  mentions?: User[]
 }

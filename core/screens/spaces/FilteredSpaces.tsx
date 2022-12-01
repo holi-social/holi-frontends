@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
-import React, { memo, useLayoutEffect } from 'react'
+import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -10,11 +10,16 @@ import { logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import SpaceFilterModal from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import SpacesGrid from '@holi/core/screens/spaces/components/SpacesGrid'
 import { SpacesResponse, spacesQuery } from '@holi/core/screens/spaces/queries'
 import { topicsQuery } from '@holi/core/screens/spaces/queries'
 import { TopicsQueryResult } from '@holi/core/screens/userprofile/queries'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceFilterParams = {
@@ -34,6 +39,9 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
   const mixins = useStyleMixins()
   const { setOptions } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
+  const { height: deviceHeight } = useWindowDimensions()
+  const styles = getStyles(deviceHeight)
+  const [fetchingMore, setFetchingMore] = useState(false)
 
   const { data: topicsData } = useQuery<TopicsQueryResult>(topicsQuery)
 
@@ -44,24 +52,40 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
     setOptions({ title: topic?.title || fallbackTitle })
   }, [setOptions, topic, fallbackTitle])
 
-  const { loading, data, error } = useQuery<SpacesResponse>(spacesQuery, {
+  const { data, error, fetchMore } = useQuery<SpacesResponse>(spacesQuery, {
     variables: {
       topicId: topicId,
       limit: SPACES_PAGE_SIZE,
       offset: 0,
     },
+    fetchPolicy: 'cache-and-network',
   })
 
   if (error) {
     logError(error, `[FilteredSpaces.tsx] ${error.message}`)
   }
 
-  // Error and loading states are handled the same way and just hide the component
-  if (loading || error) {
+  const { data: spaces = [], totalResults = 0 } = data?.spaces || {}
+
+  const canFetchMore = spaces.length < totalResults
+
+  const memoizedFetchMore = useCallback(() => {
+    setFetchingMore(true)
+    return fetchMore({
+      variables: {
+        offset: spaces.length,
+      },
+    }).finally(() => setFetchingMore(false))
+  }, [fetchMore, spaces.length])
+
+  const fetchMoreButtonText = fetchingMore
+    ? t('spaces.spaceListing.loadMoreButton.loading')
+    : t('spaces.spaceListing.loadMoreButton.text')
+
+  // Error state just hides the component
+  if (error) {
     return <></>
   }
-
-  const spaces = data?.spaces.data || []
 
   if (!spaces.length) {
     // TODO: handle not found
@@ -69,16 +93,38 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
   }
 
   return (
-    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
-      <SpacesGrid style={[mixins.container, styles.grid]} spaces={spaces} />
-    </DefaultLayout>
+    <>
+      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.wrapper}>
+        <SpacesGrid style={[mixins.container, styles.grid]} spaces={spaces} />
+        {canFetchMore && (
+          <View style={[mixins.container, styles.buttonContainer]}>
+            <HoliButton label={fetchMoreButtonText} disabled={fetchingMore} onPress={memoizedFetchMore}>
+              <HoliText style={fetchingMore && styles.buttonText}>{fetchMoreButtonText}</HoliText>
+              {fetchingMore && <HoliIcon spinning icon="loader-4" size={16} />}
+            </HoliButton>
+          </View>
+        )}
+      </DefaultLayout>
+      <SpaceFilterModal />
+    </>
   )
 }
 
-const styles = StyleSheet.create({
-  grid: {
-    marginTop: 32,
-  },
-})
+const getStyles = (deviceHeight: number) =>
+  StyleSheet.create({
+    wrapper: {
+      backgroundColor: colors.backgroundColorGrey,
+      minHeight: deviceHeight,
+    },
+    grid: {
+      marginTop: 32,
+    },
+    buttonContainer: {
+      marginTop: 20,
+    },
+    buttonText: {
+      marginRight: 6,
+    },
+  })
 
 export default memo(FilteredSpaces)

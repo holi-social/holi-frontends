@@ -1,5 +1,6 @@
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { StyleSheet, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -8,6 +9,7 @@ import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import DiscoverSpaces from '@holi/core/screens/spaces/components/DiscoverSpaces'
+import SpaceFilterModal from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -22,6 +24,8 @@ const Spaces: React.VFC<ScreenProps> = () => {
   const mixins = useStyleMixins()
   const { setOptions, navigate } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
+  const { height: deviceHeight } = useWindowDimensions()
+  const styles = getStyles(deviceHeight)
 
   useLayoutEffect(() => {
     const title = t('spaces.title')
@@ -53,10 +57,21 @@ const Spaces: React.VFC<ScreenProps> = () => {
   }, [setOptions, navigate, t])
 
   return (
-    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
-      <DiscoverSpaces style={mixins.container} />
-    </DefaultLayout>
+    <>
+      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.wrapper}>
+        <DiscoverSpaces style={mixins.container} />
+      </DefaultLayout>
+      <SpaceFilterModal />
+    </>
   )
 }
+
+const getStyles = (deviceHeight: number) =>
+  StyleSheet.create({
+    wrapper: {
+      backgroundColor: colors.backgroundColorGrey,
+      minHeight: deviceHeight,
+    },
+  })
 
 export default memo(Spaces)

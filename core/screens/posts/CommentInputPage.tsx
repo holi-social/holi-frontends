@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client'
-import React, { memo, useCallback, useContext, useLayoutEffect, useRef, useState } from 'react'
+import React, { memo, useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
@@ -20,7 +20,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
-import HoliRichInput from '@holi/ui/components/organisms/HoliRichTextInput'
+import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -81,12 +81,15 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
       scrollViewRef.current?.scrollToEnd({ animated: true })
     } else {
       const paddingTop = 20
+      if (scrollContentHeight <= 0) return
       scrollViewRef.current?.scrollTo({
         animated: true,
         y: scrollContentHeight - SUGGESTIONS_DROPDOWN_HEIGHT - SUBMIT_BUTTON_CONTAINER_HEIGHT - paddingTop,
       })
     }
   }, [scrollContentHeight])
+
+  useEffect(scrollIntoView, [scrollContentHeight, scrollIntoView])
 
   const bottomPadding =
     keyboardHeight + (Platform.OS === 'web' ? 0 : SUGGESTIONS_DROPDOWN_HEIGHT + SUBMIT_BUTTON_CONTAINER_HEIGHT)
@@ -135,7 +138,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
                 defaultColor={user.avatarDefaultColor || ''}
                 size="small"
               />
-              <HoliRichInput
+              <HoliRichTextInput
                 placeholder={t('insights.posts.comments.placeholder')}
                 autofocus
                 onChange={setText}
@@ -174,11 +177,12 @@ const SUGGESTIONS_DROPDOWN_HEIGHT = 200
 const styles = StyleSheet.create({
   root: {
     paddingTop: vars.topBarHeight,
+    paddingBottom: vars.bottomBarHeight + SUBMIT_BUTTON_CONTAINER_HEIGHT,
     height: '100%', // prevents double scrollbars
     ...Platform.select({
       web: { height: '100vh' },
-      ios: {
-        paddingBottom: vars.bottomBarHeight + SUBMIT_BUTTON_CONTAINER_HEIGHT,
+      android: {
+        paddingBottom: 0,
       },
     }),
   },
