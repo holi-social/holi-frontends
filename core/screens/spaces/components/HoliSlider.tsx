@@ -48,7 +48,7 @@ const HoliSlider: React.VFC<HoliSliderProps> = ({
           </View>
         )}
         <SpacesSeeMore
-          style={{ paddingVertical, marginRight: 20 }}
+          style={{ paddingVertical, marginRight: 40 }}
           label={t('spaces.seeMore')}
           imageHeight={SEE_MORE_IMAGE_HEIGHT}
           onPress={() => navigate(`/spaces/filter?topicId=${topic.id}`)}
