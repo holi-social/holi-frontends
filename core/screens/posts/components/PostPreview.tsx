@@ -10,6 +10,7 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
+import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type PostPreviewProps = {
@@ -51,16 +52,15 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post, style }) =>
         </HoliMediaHeader>
 
         <HoliReadMore numberOfLines={10} fontStyle={styles.readMoreText} style={styles.readMoreContainer}>
-          {post.text}
+          <HoliRichTextOutput text={post.text} users={post.mentions} />
         </HoliReadMore>
       </View>
-
-      {/* TODO: use post image data from BE */}
       <PostImage uri={imageUrl} postTitle={post.title} />
-
-      <View style={styles.paddingHorizontal}>
-        <LinkPreview style={styles.linkPreview} />
-      </View>
+      {post.links && post.links?.length > 0 && (
+        <View style={styles.paddingHorizontal}>
+          <LinkPreview style={styles.linkPreview} previewData={post.links[0]} label={post.links[0].title} />
+        </View>
+      )}
     </View>
   )
 }

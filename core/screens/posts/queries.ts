@@ -19,8 +19,6 @@ export const PostCommentFragment = gql`
     }
     mentions {
       id
-      firstName
-      lastName
       fullName
     }
   }
@@ -46,6 +44,10 @@ export const PostFragment = gql`
     }
     comments {
       ...PostCommentFull
+    }
+    mentions {
+      id
+      fullName
     }
   }
 `

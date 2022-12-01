@@ -37,6 +37,20 @@ const InsightFragment = gql`
         avatarLabel
         avatarDefaultColor
       }
+      links {
+        requestedUrl
+        url
+        title
+        description
+        type
+        image
+        siteName
+        origin
+      }
+      mentions {
+        id
+        fullName
+      }
     }
   }
 `
