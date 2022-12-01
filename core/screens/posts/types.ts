@@ -17,6 +17,7 @@ export interface Post {
   mediaWidth?: number
   mediaHeight?: number
   mediaThumbnail?: string // "posts/8cf625cc-670c-4a79-875c-44fd7a6dbf47/fedd0ef0-2f7e-402c-ab6c-523e135acaef.jpg"
+  image?: PostImage
 }
 
 export interface Comment {
@@ -25,4 +26,11 @@ export interface Comment {
   creator: User
   created?: string // "2022-10-06T17:50:41.661594+00:00"
   mentions?: User[]
+}
+
+export interface PostImage {
+  id: string
+  url: string
+  height: number
+  width: number
 }

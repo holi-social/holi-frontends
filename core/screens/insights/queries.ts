@@ -1,8 +1,11 @@
 import { gql } from '@apollo/client/core'
 
 import { Insight } from '@holi/core/screens/insights/types'
+import { PostImageFragment } from '@holi/core/screens/posts/queries'
 
 const InsightFragment = gql`
+  ${PostImageFragment}
+
   fragment InsightFull on Insight {
     id
     title
@@ -36,6 +39,9 @@ const InsightFragment = gql`
         avatar
         avatarLabel
         avatarDefaultColor
+      }
+      image {
+        ...PostImageData
       }
     }
   }
