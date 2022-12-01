@@ -45,6 +45,11 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
   const { setOptions, navigate } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
 
+  const toggleEditMode = useCallback((editMode: EditModeState) => {
+    setEditMode(editMode)
+    setShowModal(true)
+  }, [])
+
   useLayoutEffect(() => {
     const title = t('profile.title')
 
@@ -63,6 +68,18 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
             ),
             headerRight: ({ tintColor }) => (
               <HoliHorizontalRow>
+                <HoliButton
+                  label={t('profile.edit')}
+                  onPress={() => {
+                    toggleEditMode('profile')
+                  }}
+                  transparent
+                  inline
+                  testID="btn-open-profile-edit-view"
+                >
+                  <HoliIcon icon="edit-2" size={24} color={tintColor} />
+                </HoliButton>
+
                 <HoliButton label={t('profile.share')} inline transparent>
                   <HoliIcon icon="share" size={24} color={tintColor} />
                 </HoliButton>
@@ -86,12 +103,7 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
             headerRight: () => null,
           }
     )
-  }, [setOptions, navigate, t, isLoggedIn])
-
-  const toggleEditMode = useCallback((editMode: EditModeState) => {
-    setEditMode(editMode)
-    setShowModal(true)
-  }, [])
+  }, [setOptions, navigate, t, isLoggedIn, toggleEditMode])
 
   const autoHeightFor: Record<EditModeState, boolean> = {
     profile: true,
