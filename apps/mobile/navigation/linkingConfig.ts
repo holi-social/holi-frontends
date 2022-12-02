@@ -13,9 +13,9 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
           initialRouteName: RouteName.HomeFeed,
           screens: {
             [RouteName.HomeFeed]: '',
-            [RouteName.InsightDetailPage]: 'insights/:insightId',
-            [RouteName.PostDetailPage]: 'insights/:insightId/posts/:postId',
-            [RouteName.CommentInputPage]: 'insights/:insightId/posts/:postId/comment',
+            // [RouteName.InsightDetailPage]: 'insights/:insightId',
+            // [RouteName.PostDetailPage]: 'insights/:insightId/posts/:postId',
+            // [RouteName.CommentInputPage]: 'insights/:insightId/posts/:postId/comment',
             [RouteName.UserProfile]: 'profile/:userId',
             [RouteName.Notifications]: 'notifications',
           },
@@ -42,6 +42,13 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.AccountSettings]: 'profile/settings/account',
           },
         },
+      },
+    },
+    [RouteName.Insights]: {
+      screens: {
+        [RouteName.InsightDetailPage]: 'insights/:insightId',
+        [RouteName.PostDetailPage]: 'insights/:insightId/posts/:postId',
+        [RouteName.CommentInputPage]: 'insights/:insightId/posts/:postId/comment',
       },
     },
     [RouteName.Search]: {

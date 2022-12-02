@@ -1,0 +1,24 @@
+@import '@holi/ui/styles/globalVars/colors';
+@import '@holi/ui/styles/globalVars/variables';
+
+.container {
+  padding: 0 2rem;
+  background-color: $background-color-white;
+}
+
+.header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  height: #{$top-bar-height}px;
+  max-height: #{$top-bar-height}px;
+}
+
+.main {
+  width: 100%;
+  min-height: 100vh;
+  background-color: $background-color-white;
+}

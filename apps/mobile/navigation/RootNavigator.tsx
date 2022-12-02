@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
+// import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
@@ -15,15 +15,16 @@ import LoginProfileButton from '@holi/core/navigation/components/LoginProfileBut
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
-import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
-import CommentInputPage, { CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
-import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
+// import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
+// import CommentInputPage, { CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
+// import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
 import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
 import GoodNewsAppNavigator from '@holi/mobile/navigation/GoodNewsAppNavigator'
 import HeaderAnimated from '@holi/mobile/navigation/HeaderAnimated'
+import InsightsNavigator from '@holi/mobile/navigation/InsightsNavigator'
 import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import { RouteName } from '@holi/mobile/navigation/routeName'
@@ -32,10 +33,10 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export type HomeStackScreens = {
   [RouteName.HomeFeed]: undefined
-  [RouteName.InsightDetailPage]: InsightDetailPageParams
+  // [RouteName.InsightDetailPage]: InsightDetailPageParams
   [RouteName.Notifications]: undefined
-  [RouteName.PostDetailPage]: PostDetailPageParams
-  [RouteName.CommentInputPage]: CommentInputPageParams
+  // [RouteName.PostDetailPage]: PostDetailPageParams
+  // [RouteName.CommentInputPage]: CommentInputPageParams
   [RouteName.Search]: undefined
   [RouteName.UserProfile]: UserProfileParams
 }
@@ -49,6 +50,7 @@ export type BottomTabsScreens = {
 
 export type RootStackScreens = {
   [RouteName.Core]: undefined
+  [RouteName.Insights]: undefined
   [RouteName.DonationsApp]: undefined
   [RouteName.VolunteeringApp]: undefined
   [RouteName.GoodNewsApp]: undefined
@@ -63,12 +65,12 @@ const HomeStack = createNativeStackNavigator<HomeStackScreens>()
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
-const screensWithoutFooter = [
-  RouteName.InsightDetailPage,
-  RouteName.PostDetailPage,
-  RouteName.CommentInputPage,
-  RouteName.SpaceDetails,
-]
+// const screensWithoutFooter = [
+//   RouteName.InsightDetailPage,
+//   RouteName.PostDetailPage,
+//   RouteName.CommentInputPage,
+//   RouteName.SpaceDetails,
+// ]
 
 export const HomeStackNavigator: React.VFC = () => {
   return (
@@ -82,9 +84,9 @@ export const HomeStackNavigator: React.VFC = () => {
     >
       <HomeStack.Screen name={RouteName.HomeFeed} component={HomeFeed} />
       <HomeStack.Screen name={RouteName.Search} component={Search} />
-      <HomeStack.Screen name={RouteName.InsightDetailPage} component={InsightDetailPage} />
+      {/* <HomeStack.Screen name={RouteName.InsightDetailPage} component={InsightDetailPage} />
       <HomeStack.Screen name={RouteName.PostDetailPage} component={PostDetailPage} />
-      <HomeStack.Screen name={RouteName.CommentInputPage} component={CommentInputPage} />
+      <HomeStack.Screen name={RouteName.CommentInputPage} component={CommentInputPage} /> */}
       <HomeStack.Screen name={RouteName.Notifications} component={Notifications} />
       <HomeStack.Screen name={RouteName.UserProfile} component={UserProfile} />
     </HomeStack.Navigator>
@@ -99,8 +101,8 @@ export const BottomTabsNavigator: React.VFC = () => {
   return (
     <BottomTabs.Navigator
       initialRouteName={RouteName.Home}
-      screenOptions={({ route }) => {
-        const focusedRoute = getFocusedRouteNameFromRoute(route) as RouteName | undefined
+      screenOptions={() => {
+        // const focusedRoute = getFocusedRouteNameFromRoute(route) as RouteName | undefined
 
         return {
           tabBarStyle: {
@@ -108,7 +110,7 @@ export const BottomTabsNavigator: React.VFC = () => {
             paddingHorizontal: 0,
             borderTopWidth: StyleSheet.hairlineWidth,
             borderTopColor: colors.fontColorGrey,
-            ...(focusedRoute && screensWithoutFooter.includes(focusedRoute) ? { display: 'none' } : {}),
+            // ...(focusedRoute && screensWithoutFooter.includes(focusedRoute) ? { display: 'none', height: 0 } : {}),
             tabBarShowLabel: true,
             tabBarLabelStyle: {
               color: 'black',
@@ -179,6 +181,14 @@ const RootNavigator: React.VFC = () => {
       }}
     >
       <RootStack.Screen name={RouteName.Core} component={BottomTabsNavigator} />
+      <RootStack.Screen
+        name={RouteName.Insights}
+        component={InsightsNavigator}
+        options={{
+          animation: 'slide_from_bottom',
+          headerShown: false,
+        }}
+      />
       <RootStack.Screen
         name={RouteName.DonationsApp}
         component={DonationsAppNavigator}
