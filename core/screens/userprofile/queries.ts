@@ -10,8 +10,6 @@ export const userAvatarFragment = gql`
     avatarLabel
     avatarDefaultColor
     fullName
-    firstName
-    lastName
     aboutMe
   }
 `
