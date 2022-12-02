@@ -14,9 +14,8 @@ export interface Post {
   isDeleted?: boolean
   comments?: Comment[]
   status?: string // 'P'
-  mediaWidth?: number
-  mediaHeight?: number
-  mediaThumbnail?: string // "posts/8cf625cc-670c-4a79-875c-44fd7a6dbf47/fedd0ef0-2f7e-402c-ab6c-523e135acaef.jpg"
+  links?: Link[]
+  mentions?: User[]
 }
 
 export interface Comment {
@@ -25,4 +24,15 @@ export interface Comment {
   creator: User
   created?: string // "2022-10-06T17:50:41.661594+00:00"
   mentions?: User[]
+}
+
+export interface Link {
+  requestedUrl: string
+  url: string
+  title: string
+  description: string
+  type: string
+  image: string
+  siteName: string
+  origin: string
 }
