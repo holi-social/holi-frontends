@@ -1,10 +1,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { GestureResponderEvent, Platform, StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { GestureResponderEvent, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 interface PostDetailFooterProps {
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
@@ -19,6 +19,7 @@ const PostDetailFooter: React.VFC<PostDetailFooterProps> = ({ onPress, style }) 
       inline
       transparent
       style={[styles.button, style]}
+      contentStyle={styles.buttonContent}
       label={t('insights.posts.comments.create_comment_button')}
       onPress={onPress}
       testID="post-detail-footer"
@@ -32,26 +33,18 @@ export default PostDetailFooter
 
 const styles = StyleSheet.create({
   button: {
-    paddingTop: 18,
     paddingHorizontal: 24,
     borderTopColor: colors.borderColorGrey,
     backgroundColor: colors.backgroundColor,
+    height: +vars.bottomBarHeightComment,
     borderTopWidth: 1,
-    ...Platform.select({
-      android: {
-        paddingBottom: 32,
-      },
-      ios: {
-        paddingBottom: 27,
-      },
-      web: {
-        paddingBottom: 93,
-        width: '100%',
-      },
-    }),
+    width: '100%',
+  },
+  buttonContent: {
+    height: '100%',
+    justifyContent: 'center',
   },
   text: {
-    paddingTop: 9,
     color: colors.fontColorGrey,
   },
 })
