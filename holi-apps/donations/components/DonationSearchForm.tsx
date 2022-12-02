@@ -11,7 +11,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import { colors } from '@holi/ui/styles/globalVars'
 
-import { AppDonationsPlacesResponse, placesQuery } from '@holi-apps/donations/queries'
+import { GeoPlacesResponse, geoPlacesQuery } from '@holi-apps/donations/queries'
 
 const PLACE_SUGGESTION_DEBOUNCE = 500
 const PLACE_SUGGESTION_MAX_COUNT = 3
@@ -32,7 +32,7 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
   }, [onSubmit, locationInput])
   const [placeSuggestions, setPlaceSuggestions] = useState<Suggestion[]>([])
 
-  const [fetchSuggestions, { loading, error, data }] = useLazyQuery<AppDonationsPlacesResponse>(placesQuery, {
+  const [fetchSuggestions, { loading, error, data }] = useLazyQuery<GeoPlacesResponse>(geoPlacesQuery, {
     variables: {
       input: locationInput,
     },
@@ -65,7 +65,7 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
     if (loading) {
       return
     }
-    const places = data?.appDonations_places || []
+    const places = data?.geo_places || []
     const newPlaces = places.map(({ description }) => ({
       id: description,
       label: description,
