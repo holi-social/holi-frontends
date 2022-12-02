@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -7,14 +8,24 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 type SpacesSeeMoreProps = {
   imageHeight: number
-  label: string
+  label?: string
   style?: StyleProp<ViewStyle>
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
 }
 
 const SpacesSeeMore: React.VFC<SpacesSeeMoreProps> = ({ style, label, imageHeight, onPress }: SpacesSeeMoreProps) => {
+  const { t } = useTranslation()
+  const defaultLabel = t('spaces.seeMore')
+
   return (
-    <HoliButton label={label} style={style} onPress={onPress} transparent inline testID="spaces-see-more-btn">
+    <HoliButton
+      label={label || defaultLabel}
+      style={style}
+      onPress={onPress}
+      transparent
+      inline
+      testID="spaces-see-more-btn"
+    >
       <HoliLocalImage
         imageSource={require('@holi/ui/assets/img/illustrations/illustration_see_more_rebrand.svg')}
         width={imageHeight}
@@ -24,7 +35,7 @@ const SpacesSeeMore: React.VFC<SpacesSeeMoreProps> = ({ style, label, imageHeigh
       />
       <View style={styles.seeMoreContainer}>
         <HoliText style={styles.seeMoreText} size="small" bold>
-          {label}
+          {label || defaultLabel}
         </HoliText>
       </View>
     </HoliButton>

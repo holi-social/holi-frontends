@@ -1,5 +1,4 @@
 import React, { memo } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -27,7 +26,6 @@ const HoliSlider: React.VFC<HoliSliderProps> = ({
   paddingVertical,
   slideGap,
 }: HoliSliderProps) => {
-  const { t } = useTranslation()
   const { width: screenWidth } = useWindowDimensions()
   const styles = getStyles(screenWidth)
   const { navigate } = useRouting()
@@ -49,7 +47,6 @@ const HoliSlider: React.VFC<HoliSliderProps> = ({
         )}
         <SpacesSeeMore
           style={{ paddingVertical, marginRight: 40 }}
-          label={t('spaces.seeMore')}
           imageHeight={SEE_MORE_IMAGE_HEIGHT}
           onPress={() => navigate(`/spaces/filter?topicId=${topic.id}`)}
         />
