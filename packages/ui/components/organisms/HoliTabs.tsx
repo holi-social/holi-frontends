@@ -18,7 +18,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type HoliTabsProps = {
   id: string
-  tabs: { title: string; titleIcon?: string; children: React.ReactNode }[]
+  tabs: { title: string; children: React.ReactNode; titleIcon?: string; style?: StyleProp<ViewStyle> }[]
   centeredButtons?: boolean
   testID?: string
   style?: StyleProp<ViewStyle>
@@ -39,7 +39,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
   const { width: screenWidth } = useWindowDimensions()
 
   const mixins = useStyleMixins()
-  const styles = getStyles(centeredButtons)
+  const styles = getStyles(screenWidth, centeredButtons)
 
   const handleScrollEnd = ({ nativeEvent }: { nativeEvent: NativeScrollEvent }) => {
     if (!nativeEvent || !nativeEvent.contentOffset) {
@@ -109,9 +109,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
           <View style={styles.tabContainer}>
             {tabs.map((tab, i) => (
               <View
-                style={{
-                  width: screenWidth,
-                }}
+                style={[styles.tab, tab.style]}
                 accessibilityLabelledBy={`${id}-tab-${i}`}
                 nativeID={`${id}-panel-${i}`}
                 testID={`${testID}-panel-${i}-${currentSlide === i ? 'active' : 'inactive'}`}
@@ -126,7 +124,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
 
       {isWeb && (
         <View
-          style={styles.tabContainer}
+          style={[styles.tabContainer, tabs[currentSlide].style]}
           accessibilityRole="tabpanel"
           accessibilityLabelledBy={`${id}-tab-${currentSlide}`}
           nativeID={`${id}-panel-${currentSlide}`}
@@ -141,7 +139,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
 
 export default HoliTabs
 
-const getStyles = (centeredButtons = false) =>
+const getStyles = (screenWidth: number, centeredButtons = false) =>
   StyleSheet.create({
     container: {
       flex: 1,
@@ -195,5 +193,8 @@ const getStyles = (centeredButtons = false) =>
           flexDirection: 'row',
         },
       }),
+    },
+    tab: {
+      width: screenWidth,
     },
   })

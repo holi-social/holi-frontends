@@ -33,11 +33,16 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
           {
             title: 'Goals',
             titleIcon: 'pushpin',
+            style: styles.tabStyle,
             children: [
-              <SpaceWelcome space={space} style={[mixins.container, styles.subtitleMargin]} key="space-welcome" />,
+              <SpaceWelcome
+                space={space}
+                style={[mixins.container, styles.tabItem, styles.tabItemFirst]}
+                key="space-welcome"
+              />,
               <SpaceSocialLinkList
                 space={space}
-                style={[mixins.container, styles.subtitleMargin, styles.pageBottom]}
+                style={[mixins.container, styles.tabItem]}
                 key="space-social-link-list"
               />,
             ],
@@ -45,9 +50,10 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
           {
             title: 'Actions',
             titleIcon: 'sun',
+            style: styles.tabStyle,
             children: space.tasks && space.tasks.length > 0 && (
               <SpaceTaskList
-                style={[mixins.container, styles.subtitleMargin, styles.pageBottom]}
+                style={[mixins.container, styles.tabItem, styles.tabItemFirst]}
                 space={space}
                 key="space-task-list"
               />
@@ -68,11 +74,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundColorWhite,
     paddingBottom: 24,
   },
-  subtitleMargin: {
-    marginTop: 32,
-  },
-  pageBottom: {
+  tabItem: {
     paddingBottom: 32,
+  },
+  tabItemFirst: {
+    paddingTop: 32,
+  },
+  tabStyle: {
+    backgroundColor: colors.backgroundColorGrey,
   },
 })
 

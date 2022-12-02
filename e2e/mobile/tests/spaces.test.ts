@@ -36,6 +36,16 @@ describe('@Spaces', () => {
 
     await waitForElementWithTestId('space-details-container')
 
+    await waitForElementWithTestId('space-header')
+
+    await waitForElementWithTestId('space-avatar')
+
+    await waitForElementWithTestId('space-title')
+
+    await waitForElementWithTestId('space-members')
+
+    await waitForElementWithTestId('space-description')
+
     // Speeds up local execution
     if (target === 'local') {
       // navigate back

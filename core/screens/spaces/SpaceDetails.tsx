@@ -14,6 +14,7 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
 export type SpaceDetailsParams = {
@@ -40,7 +41,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
       headerTitle: () => null,
       headerLeft: () =>
         Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left-s" /> : <HeaderBackButton icon="arrow-down-s" />,
-      headerRight: () => <HeaderBackButton icon="more" />,
+      headerRight: () => <HoliIcon icon="more" />,
     })
   }, [setOptions])
 

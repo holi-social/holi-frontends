@@ -19,7 +19,7 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
   const { t } = useTranslation()
 
   const itemsInRow = useBreakpointMatcher([
-    [+vars.breakpointS, 1],
+    [0, 1],
     [+vars.breakpointM, 2],
     [+vars.breakpointL, 3],
     [+vars.breakpointXxl, 4],

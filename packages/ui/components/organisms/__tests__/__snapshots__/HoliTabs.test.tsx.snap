@@ -213,9 +213,12 @@ exports[`renders correctly renders correctly when open 1`] = `
           accessibilityLabelledBy="test-tabs-tab-0"
           nativeID="test-tabs-panel-0"
           style={
-            Object {
-              "width": 750,
-            }
+            Array [
+              Object {
+                "width": 750,
+              },
+              undefined,
+            ]
           }
           testID="tabs-module-panel-0-active"
         >
@@ -248,9 +251,12 @@ exports[`renders correctly renders correctly when open 1`] = `
           accessibilityLabelledBy="test-tabs-tab-1"
           nativeID="test-tabs-panel-1"
           style={
-            Object {
-              "width": 750,
-            }
+            Array [
+              Object {
+                "width": 750,
+              },
+              undefined,
+            ]
           }
           testID="tabs-module-panel-1-inactive"
         >

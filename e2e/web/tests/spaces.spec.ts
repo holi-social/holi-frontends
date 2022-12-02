@@ -35,6 +35,16 @@ test.describe('@Spaces', () => {
 
     await waitForElementByTestId(page, 'space-details-container')
 
+    await waitForElementByTestId(page, 'space-header')
+
+    await waitForElementByTestId(page, 'space-avatar')
+
+    await waitForElementByTestId(page, 'space-title')
+
+    await waitForElementByTestId(page, 'space-members')
+
+    await waitForElementByTestId(page, 'space-description')
+
     await checkAccessibility(page)
 
     const spaceUrlPrefix = '/spaces/'
