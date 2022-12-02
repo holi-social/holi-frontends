@@ -1,10 +1,9 @@
-import { User } from 'core/screens/userprofile/types'
-import { waitForElementWithTestIdToBeNull } from 'e2e/mobile/helpers/selectors'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
+import { User } from '@holi/core/screens/userprofile/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -12,7 +11,7 @@ import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { colors } from '@holi/ui/styles/globalVars'
 
-import { News, NewsAuthor } from '@holi-apps/donations/typings'
+import { News } from '@holi-apps/donations/typings'
 
 type DonationNewsProps = {
   totalEntries: number
