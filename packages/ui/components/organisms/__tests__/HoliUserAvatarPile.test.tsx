@@ -11,14 +11,16 @@ import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile
 const users: User[] = [
   {
     id: '1',
+    fullName: 'Dima Rosmait',
     firstName: 'Dima',
     lastName: 'Rosmait',
     avatarLabel: 'D',
     avatarDefaultColor: 'green',
-    avatar: 'avatar-1',
+    avatar: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
   },
   {
     id: '2',
+    fullName: 'Max Mustermann',
     firstName: 'Max',
     lastName: 'Mustermann',
     avatarLabel: 'M',
@@ -26,14 +28,16 @@ const users: User[] = [
   },
   {
     id: '3',
+    fullName: 'Thomas Mueller',
     firstName: 'Thomas',
     lastName: 'Mueller',
     avatarLabel: 'T',
     avatarDefaultColor: 'blue',
-    avatar: 'avatar-2',
+    avatar: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
   },
   {
     id: '4',
+    fullName: 'Sandra Kasandra',
     firstName: 'Sandra',
     lastName: 'Kasandra',
     avatarLabel: 'S',
@@ -41,14 +45,16 @@ const users: User[] = [
   },
   {
     id: '5',
+    fullName: 'Peter Pan',
     firstName: 'Peter',
     lastName: 'Pan',
     avatarLabel: 'P',
     avatarDefaultColor: 'grey',
-    avatar: 'avatar-3',
+    avatar: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
   },
   {
     id: '6',
+    fullName: 'Donald Duck',
     firstName: 'Donald',
     lastName: 'Duck',
     avatarLabel: 'D',
@@ -56,11 +62,12 @@ const users: User[] = [
   },
   {
     id: '7',
+    fullName: 'Lionel Messi',
     firstName: 'Lionel',
     lastName: 'Messi',
     avatarLabel: 'L',
     avatarDefaultColor: 'black',
-    avatar: 'avatar-4',
+    avatar: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
   },
 ]
 

@@ -1,3 +1,5 @@
+import { User } from 'core/screens/userprofile/types'
+import { waitForElementWithTestIdToBeNull } from 'e2e/mobile/helpers/selectors'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View, ViewStyle } from 'react-native'
@@ -23,12 +25,15 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
   const styles = getStyles()
   const [mainNews, ...otherNews] = news
 
-  const author: NewsAuthor | undefined = useMemo(() => {
+  const author: User | undefined = useMemo(() => {
     if (!mainNews || !mainNews.author) return undefined
     const { name, picture } = mainNews.author
     return {
-      name: name,
+      fullName: name,
       avatar: picture ? picture.find(({ type }) => type === 'fill')?.url : '',
+      id: '',
+      avatarLabel: '',
+      avatarDefaultColor: '',
     }
   }, [mainNews])
 
@@ -52,7 +57,7 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
             {author ? (
               <HoliMediaHeader
                 style={{ marginBottom: 24 }}
-                title={author.name}
+                title={author.fullName}
                 author={author}
                 date={mainNews.publishDate}
               />

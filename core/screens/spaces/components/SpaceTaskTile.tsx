@@ -2,7 +2,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
-import { userFullName } from '@holi/core/helpers'
 import { Task } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -29,7 +28,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
         {task.creator && (
           <HoliUserAvatar
             imageSrc={task.creator.avatar}
-            label={userFullName(task.creator) || t('user.profileView.anonymous')}
+            label={task.creator.fullName || t('user.profileView.anonymous')}
             initials={task.creator.avatarLabel || ''}
             defaultColor={task.creator.avatarDefaultColor || ''}
             size="micro"

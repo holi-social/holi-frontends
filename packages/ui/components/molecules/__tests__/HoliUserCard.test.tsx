@@ -7,6 +7,7 @@ import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
 
 const user: User = {
   id: '1',
+  fullName: 'Dima Rosmait',
   firstName: 'Dima',
   lastName: 'Rosmait',
   avatarLabel: 'D',

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -26,22 +26,12 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post, style }) =>
   const { navigate } = useRouting()
   const { t } = useTranslation()
 
-  const author = useMemo(() => {
-    const { avatar, avatarLabel, avatarDefaultColor } = post.creator
-    return {
-      name: post.creator.fullName,
-      avatarLabel,
-      avatarDefaultColor,
-      avatar,
-    }
-  }, [post])
-
   return (
     <View style={[styles.wrapper, style]}>
       <View style={styles.paddingHorizontal}>
         <HoliMediaHeader
           title={post.title}
-          author={author}
+          author={post.creator}
           date={post.created}
           touchHandler={() => navigate(`/insights/${insightId}/posts/${post.id}`)}
           testID="btn-to-post"
