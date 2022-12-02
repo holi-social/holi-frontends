@@ -8,24 +8,24 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 type SpacesSeeMoreProps = {
   imageHeight: number
+  testID: string
   label?: string
   style?: StyleProp<ViewStyle>
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
 }
 
-const SpacesSeeMore: React.VFC<SpacesSeeMoreProps> = ({ style, label, imageHeight, onPress }: SpacesSeeMoreProps) => {
+const SpacesSeeMore: React.VFC<SpacesSeeMoreProps> = ({
+  style,
+  label,
+  imageHeight,
+  testID,
+  onPress,
+}: SpacesSeeMoreProps) => {
   const { t } = useTranslation()
   const defaultLabel = t('spaces.seeMore')
 
   return (
-    <HoliButton
-      label={label || defaultLabel}
-      style={style}
-      onPress={onPress}
-      transparent
-      inline
-      testID="spaces-see-more-btn"
-    >
+    <HoliButton label={label || defaultLabel} style={style} onPress={onPress} transparent inline testID={testID}>
       <HoliLocalImage
         imageSource={require('@holi/ui/assets/img/illustrations/illustration_see_more_rebrand.svg')}
         width={imageHeight}

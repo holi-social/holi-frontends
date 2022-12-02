@@ -1,35 +1,28 @@
 import React, { memo } from 'react'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-import SpacesSeeMore from '@holi/core/screens/spaces/components/SpacesSeeMore'
-import { Topic } from '@holi/core/screens/userprofile/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type HoliSliderProps = {
   style?: StyleProp<ViewStyle>
-  topic: Topic
+  seeMoreButton?: React.ReactNode
   isLoading?: boolean
   testID?: string
   children?: React.ReactNode[]
-  paddingVertical: number
   slideGap: number
 }
 
 const HoliSlider: React.VFC<HoliSliderProps> = ({
   style,
-  topic,
   isLoading = false,
   testID = 'holi-slider',
+  seeMoreButton,
   children,
-  paddingVertical,
   slideGap,
 }: HoliSliderProps) => {
   const { width: screenWidth } = useWindowDimensions()
   const styles = getStyles(screenWidth)
-  const { navigate } = useRouting()
-  const SEE_MORE_IMAGE_HEIGHT = Platform.OS === 'web' ? 160 : screenWidth / 2 - 38
 
   return (
     <View style={style}>
@@ -45,11 +38,7 @@ const HoliSlider: React.VFC<HoliSliderProps> = ({
             <HoliIcon icon="loader-4" size={50} color={colors.fontColorGrey} spinning />
           </View>
         )}
-        <SpacesSeeMore
-          style={{ paddingVertical, marginRight: 40 }}
-          imageHeight={SEE_MORE_IMAGE_HEIGHT}
-          onPress={() => navigate(`/spaces/filter?topicId=${topic.id}`)}
-        />
+        {seeMoreButton && <>{seeMoreButton}</>}
       </ScrollView>
     </View>
   )
