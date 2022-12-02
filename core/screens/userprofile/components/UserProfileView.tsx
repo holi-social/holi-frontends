@@ -2,7 +2,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { userFullName } from '@holi/core/helpers'
 import UserConnectionButton from '@holi/core/screens/userprofile/components/UserConnectionButton'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -20,7 +19,7 @@ type UserProfileViewProps = {
 const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossible = true }) => {
   const { t } = useTranslation()
 
-  const fullName = user.firstName ? userFullName(user) : t('user.profileView.anonymous')
+  const fullName = user.fullName || t('user.profileView.anonymous')
 
   return (
     <View style={styles.header}>
