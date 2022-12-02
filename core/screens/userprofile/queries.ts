@@ -9,8 +9,8 @@ export const userAvatarFragment = gql`
     avatar
     avatarLabel
     avatarDefaultColor
-    firstName
-    lastName
+    fullName
+    aboutMe
   }
 `
 
@@ -18,6 +18,7 @@ export const userFragment = gql`
   fragment FullUser on User {
     id
     avatar
+    fullName
     firstName
     lastName
     aboutMe
@@ -71,16 +72,11 @@ export type UserByIdResponse = {
 }
 
 export const userByNameQuery = gql`
+  ${userAvatarFragment}
   query UserByName($substring: String!, $limit: Int, $offset: Int) {
     userByName(substring: $substring, limit: $limit, offset: $offset) {
       data {
-        id
-        avatar
-        avatarLabel
-        avatarDefaultColor
-        fullName
-        firstName
-        lastName
+        ...UserAvatar
       }
     }
   }

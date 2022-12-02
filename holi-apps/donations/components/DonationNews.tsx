@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
+import { User } from '@holi/core/screens/userprofile/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -10,7 +11,7 @@ import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { colors } from '@holi/ui/styles/globalVars'
 
-import { News, NewsAuthor } from '@holi-apps/donations/typings'
+import { News } from '@holi-apps/donations/typings'
 
 type DonationNewsProps = {
   totalEntries: number
@@ -23,12 +24,15 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
   const styles = getStyles()
   const [mainNews, ...otherNews] = news
 
-  const author: NewsAuthor | undefined = useMemo(() => {
+  const author: User | undefined = useMemo(() => {
     if (!mainNews || !mainNews.author) return undefined
     const { name, picture } = mainNews.author
     return {
-      name: name,
+      fullName: name,
       avatar: picture ? picture.find(({ type }) => type === 'fill')?.url : '',
+      id: '',
+      avatarLabel: '',
+      avatarDefaultColor: '',
     }
   }, [mainNews])
 
@@ -52,7 +56,7 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
             {author ? (
               <HoliMediaHeader
                 style={{ marginBottom: 24 }}
-                title={author.name}
+                title={author.fullName}
                 author={author}
                 date={mainNews.publishDate}
               />
