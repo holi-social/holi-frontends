@@ -45,6 +45,8 @@ test.describe('@Spaces', () => {
 
     // check if there is at least one space card (button to space)
     await waitForElementByTestId(page, 'btn-to-space')
+
+    await checkAccessibility(page)
   })
 
   test('should display space details', async ({ page }) => {
