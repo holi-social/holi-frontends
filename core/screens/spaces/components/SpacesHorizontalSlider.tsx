@@ -38,7 +38,7 @@ const HoliSlider: React.VFC<HoliSliderProps> = ({
             <HoliIcon icon="loader-4" size={50} color={colors.fontColorGrey} spinning />
           </View>
         )}
-        {seeMoreButton && <>{seeMoreButton}</>}
+        {seeMoreButton}
       </ScrollView>
     </View>
   )
