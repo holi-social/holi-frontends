@@ -110,7 +110,9 @@ exports[`HoliUserCard renders correctly 1`] = `
           },
         ]
       }
-    />
+    >
+      aboutMe
+    </Text>
   </View>
 </View>
 `;

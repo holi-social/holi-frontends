@@ -13,7 +13,7 @@ const users: User[] = [
     lastName: 'Rosmait',
     avatarLabel: 'D',
     avatarDefaultColor: 'green',
-    avatar: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
+    avatar: 'avatar-1',
   },
   {
     id: '2',
@@ -30,7 +30,7 @@ const users: User[] = [
     lastName: 'Mueller',
     avatarLabel: 'T',
     avatarDefaultColor: 'blue',
-    avatar: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
+    avatar: 'avatar-2',
   },
   {
     id: '4',
@@ -47,7 +47,7 @@ const users: User[] = [
     lastName: 'Pan',
     avatarLabel: 'P',
     avatarDefaultColor: 'grey',
-    avatar: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
+    avatar: 'avatar-3',
   },
   {
     id: '6',
@@ -64,7 +64,7 @@ const users: User[] = [
     lastName: 'Messi',
     avatarLabel: 'L',
     avatarDefaultColor: 'black',
-    avatar: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
+    avatar: 'avatar-4',
   },
 ]
 

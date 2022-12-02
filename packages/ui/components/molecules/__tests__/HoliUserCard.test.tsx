@@ -13,6 +13,7 @@ const user: User = {
   avatarLabel: 'D',
   avatarDefaultColor: 'green',
   avatar: 'avatar-1',
+  aboutMe: 'aboutMe',
 }
 
 describe('HoliUserCard', () => {

@@ -14,6 +14,7 @@ const users: User[] = [
     avatarLabel: 'D',
     avatarDefaultColor: 'green',
     avatar: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
+    aboutMe: 'Lorem ipsum dolor sit amet, consectetur adipisici elit.',
   },
   {
     id: '2',
@@ -22,6 +23,7 @@ const users: User[] = [
     lastName: 'Mustermann',
     avatarLabel: 'M',
     avatarDefaultColor: 'red',
+    aboutMe: 'Lorem ipsum dolor sit amet, consectetur adipisici elit.',
   },
   {
     id: '3',
@@ -31,6 +33,7 @@ const users: User[] = [
     avatarLabel: 'T',
     avatarDefaultColor: 'blue',
     avatar: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
+    aboutMe: 'Lorem ipsum dolor sit amet, consectetur adipisici elit.',
   },
   {
     id: '4',
@@ -39,6 +42,7 @@ const users: User[] = [
     lastName: 'Kasandra',
     avatarLabel: 'S',
     avatarDefaultColor: 'yellow',
+    aboutMe: 'Lorem ipsum dolor sit amet, consectetur adipisici elit.',
   },
   {
     id: '5',
@@ -48,6 +52,7 @@ const users: User[] = [
     avatarLabel: 'P',
     avatarDefaultColor: 'grey',
     avatar: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
+    aboutMe: 'Lorem ipsum dolor sit amet, consectetur adipisici elit.',
   },
   {
     id: '6',
@@ -56,6 +61,7 @@ const users: User[] = [
     lastName: 'Duck',
     avatarLabel: 'D',
     avatarDefaultColor: 'purple',
+    aboutMe: 'Lorem ipsum dolor sit amet, consectetur adipisici elit.',
   },
   {
     id: '7',
@@ -65,6 +71,7 @@ const users: User[] = [
     avatarLabel: 'L',
     avatarDefaultColor: 'black',
     avatar: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
+    aboutMe: 'Lorem ipsum dolor sit amet, consectetur adipisici elit.',
   },
 ]
 

@@ -12,6 +12,7 @@ export const userAvatarFragment = gql`
     fullName
     firstName
     lastName
+    aboutMe
   }
 `
 
