@@ -60,7 +60,9 @@ const HoliTabButton: React.FC<HoliTabButtonProps> = ({
       }}
       style={[props.style, styles.base]}
     >
-      <View pointerEvents="none">{content}</View>
+      <View pointerEvents="none" style={styles.content}>
+        {content}
+      </View>
     </Pressable>
   )
 }
@@ -75,6 +77,9 @@ const styles = StyleSheet.create({
       },
     }),
     width: 'auto',
+  },
+  content: {
+    flexDirection: 'row',
   },
   textDisabled: {
     color: colors.fontColorGrey,

@@ -33,6 +33,11 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
 >
   <View
     pointerEvents="none"
+    style={
+      Object {
+        "flexDirection": "row",
+      }
+    }
   >
     <Text
       accessible={false}
@@ -95,6 +100,11 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
 >
   <View
     pointerEvents="none"
+    style={
+      Object {
+        "flexDirection": "row",
+      }
+    }
   >
     <Text
       accessible={false}
@@ -157,6 +167,11 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
 >
   <View
     pointerEvents="none"
+    style={
+      Object {
+        "flexDirection": "row",
+      }
+    }
   >
     <Text
       accessible={false}
@@ -221,6 +236,11 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
 >
   <View
     pointerEvents="none"
+    style={
+      Object {
+        "flexDirection": "row",
+      }
+    }
   >
     <Text
       accessible={false}
