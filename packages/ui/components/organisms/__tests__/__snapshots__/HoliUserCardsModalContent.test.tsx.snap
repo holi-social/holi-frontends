@@ -1079,6 +1079,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           >
             <View
               pointerEvents="none"
+              style={
+                Object {
+                  "flexDirection": "row",
+                }
+              }
             >
               <View
                 style={
@@ -1136,6 +1141,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           >
             <View
               pointerEvents="none"
+              style={
+                Object {
+                  "flexDirection": "row",
+                }
+              }
             >
               <View
                 style={
@@ -1190,6 +1200,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           >
             <View
               pointerEvents="none"
+              style={
+                Object {
+                  "flexDirection": "row",
+                }
+              }
             >
               <View
                 style={
@@ -1244,6 +1259,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           >
             <View
               pointerEvents="none"
+              style={
+                Object {
+                  "flexDirection": "row",
+                }
+              }
             >
               <View
                 style={
@@ -1298,6 +1318,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           >
             <View
               pointerEvents="none"
+              style={
+                Object {
+                  "flexDirection": "row",
+                }
+              }
             >
               <View
                 style={
@@ -1352,6 +1377,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           >
             <View
               pointerEvents="none"
+              style={
+                Object {
+                  "flexDirection": "row",
+                }
+              }
             >
               <View
                 style={
@@ -1406,6 +1436,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           >
             <View
               pointerEvents="none"
+              style={
+                Object {
+                  "flexDirection": "row",
+                }
+              }
             >
               <View
                 style={
