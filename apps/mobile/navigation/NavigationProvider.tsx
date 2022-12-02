@@ -4,7 +4,7 @@ import React from 'react'
 import type { LinkingOptions, Theme } from '@react-navigation/native'
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native'
 
-import { navigationRef } from '@holi/mobile/navigation/RootNavigator'
+import { navigationRef } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import linkingConfig from '@holi/mobile/navigation/linkingConfig'
 import { colors } from '@holi/ui/styles/globalVars'

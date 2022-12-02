@@ -19,7 +19,7 @@ const FooterTabBar: React.VoidFunctionComponent = () => {
   const { t } = useTranslation()
   const { isLoggedIn } = useContext(AuthContext)
 
-  if (options.showFooter === false) {
+  if (options.navigationCustomOptions?.footerShown === false) {
     return <></>
   }
 

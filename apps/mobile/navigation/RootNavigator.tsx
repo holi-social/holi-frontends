@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { createNavigationContainerRef } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
@@ -30,8 +29,6 @@ import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNav
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
-
-export const navigationRef = createNavigationContainerRef()
 
 export type HomeStackScreens = {
   [RouteName.HomeFeed]: undefined
@@ -100,28 +97,17 @@ export const BottomTabsNavigator: React.VFC = () => {
   const { t } = useTranslation()
   const { isLoggedIn } = useContext(AuthContext)
 
-  let showFooter = options.showFooter
-
   return (
     <BottomTabs.Navigator
       initialRouteName={RouteName.Home}
       screenOptions={() => {
-        // This fixes a really strange reactNavigation issue:
-        // sometimes (rarely) the options element is not actual.
-        // And only in this specific cases the navigationRef has a more actual version.
-        if (navigationRef.isReady()) {
-          if (typeof showFooter === 'undefined') {
-            showFooter = navigationRef?.getCurrentOptions()?.showFooter
-          }
-        }
-
         return {
           tabBarStyle: {
             backgroundColor: colors.backgroundColorWhite,
             paddingHorizontal: 0,
             borderTopWidth: StyleSheet.hairlineWidth,
             borderTopColor: colors.fontColorGrey,
-            ...(showFooter === false ? { display: 'none' } : {}),
+            ...(options.navigationCustomOptions?.footerShown === false ? { display: 'none' } : {}),
             tabBarShowLabel: true,
             tabBarLabelStyle: {
               color: 'black',
