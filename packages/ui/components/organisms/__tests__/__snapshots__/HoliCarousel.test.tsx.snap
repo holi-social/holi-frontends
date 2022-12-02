@@ -1048,6 +1048,11 @@ exports[`renders correctly renders correctly when open 1`] = `
     >
       <View
         pointerEvents="none"
+        style={
+          Object {
+            "flexDirection": "row",
+          }
+        }
       >
         <View
           style={
@@ -1105,6 +1110,11 @@ exports[`renders correctly renders correctly when open 1`] = `
     >
       <View
         pointerEvents="none"
+        style={
+          Object {
+            "flexDirection": "row",
+          }
+        }
       >
         <View
           style={
@@ -1159,6 +1169,11 @@ exports[`renders correctly renders correctly when open 1`] = `
     >
       <View
         pointerEvents="none"
+        style={
+          Object {
+            "flexDirection": "row",
+          }
+        }
       >
         <View
           style={
@@ -1213,6 +1228,11 @@ exports[`renders correctly renders correctly when open 1`] = `
     >
       <View
         pointerEvents="none"
+        style={
+          Object {
+            "flexDirection": "row",
+          }
+        }
       >
         <View
           style={
@@ -1267,6 +1287,11 @@ exports[`renders correctly renders correctly when open 1`] = `
     >
       <View
         pointerEvents="none"
+        style={
+          Object {
+            "flexDirection": "row",
+          }
+        }
       >
         <View
           style={
@@ -1321,6 +1346,11 @@ exports[`renders correctly renders correctly when open 1`] = `
     >
       <View
         pointerEvents="none"
+        style={
+          Object {
+            "flexDirection": "row",
+          }
+        }
       >
         <View
           style={
@@ -1375,6 +1405,11 @@ exports[`renders correctly renders correctly when open 1`] = `
     >
       <View
         pointerEvents="none"
+        style={
+          Object {
+            "flexDirection": "row",
+          }
+        }
       >
         <View
           style={
