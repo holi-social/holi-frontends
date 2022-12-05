@@ -4,7 +4,7 @@ import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle, useWindow
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
 
-type HoliSliderProps = {
+type SpacesHorizontalSliderProps = {
   style?: StyleProp<ViewStyle>
   seeMoreButton?: React.ReactNode
   isLoading?: boolean
@@ -13,14 +13,14 @@ type HoliSliderProps = {
   slideGap: number
 }
 
-const HoliSlider: React.VFC<HoliSliderProps> = ({
+const SpacesHorizontalSlider: React.VFC<SpacesHorizontalSliderProps> = ({
   style,
   isLoading = false,
   testID = 'holi-slider',
   seeMoreButton,
   children,
   slideGap,
-}: HoliSliderProps) => {
+}: SpacesHorizontalSliderProps) => {
   const { width: screenWidth } = useWindowDimensions()
   const styles = getStyles(screenWidth)
 
@@ -43,7 +43,7 @@ const HoliSlider: React.VFC<HoliSliderProps> = ({
     </View>
   )
 }
-export default memo(HoliSlider)
+export default memo(SpacesHorizontalSlider)
 
 const getStyles = (screenWidth: number) =>
   StyleSheet.create({

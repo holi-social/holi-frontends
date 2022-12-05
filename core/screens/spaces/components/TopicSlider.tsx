@@ -13,8 +13,9 @@ type TopicSliderProps = {
   topic: Topic
   spaces: Space[]
   style?: StyleProp<ViewStyle>
-  paddingVertical: number
-  slideGap: number
+  paddingVertical?: number
+  slideGap?: number
+  hasMore?: boolean
 }
 
 const TopicSlider: React.VFC<TopicSliderProps> = ({
@@ -23,33 +24,38 @@ const TopicSlider: React.VFC<TopicSliderProps> = ({
   style,
   paddingVertical = 8,
   slideGap = 8,
+  hasMore = false,
 }: TopicSliderProps) => {
   const { navigate } = useRouting()
   const { width: screenWidth } = useWindowDimensions()
-  const IMAGE_HEIGHT = Platform.OS === 'web' ? 160 : screenWidth / 2 - 40
   const testID = 'spaces-topic-container'
+  const imageHeight = Platform.OS === 'web' ? 160 : screenWidth / 2 - 40
 
   return (
     <View style={[styles.slider, style]} testID={testID}>
       <View style={styles.sliderHeader}>
-        <HoliText size="large">{topic.title}</HoliText>
+        <HoliText size="large" testID="spaces-topic-title">
+          {topic.title}
+        </HoliText>
       </View>
       <SpacesHorizontalSlider
         slideGap={slideGap}
         seeMoreButton={
-          <SpacesSeeMore
-            style={{ paddingVertical, marginRight: 40 }}
-            imageHeight={IMAGE_HEIGHT}
-            onPress={() => navigate(`/spaces/filter?topicId=${topic.id}`)}
-            testID={`${testID}-see-more`}
-          />
+          hasMore && (
+            <SpacesSeeMore
+              style={{ paddingVertical, marginRight: 40 }}
+              imageHeight={imageHeight}
+              onPress={() => navigate(`/spaces/filter?topicId=${topic.id}`)}
+              testID={`${testID}-see-more`}
+            />
+          )
         }
       >
         {spaces.map((space) => (
           <SpaceCard
             key={space.id}
             space={space}
-            imageHeight={IMAGE_HEIGHT}
+            imageHeight={imageHeight}
             style={{
               paddingVertical: paddingVertical,
               paddingHorizontal: slideGap,

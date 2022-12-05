@@ -40,7 +40,7 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
     })
   }, [])
 
-  // defaultProps can be used to pass page specific props to the DefaultLayout component (such as the hideFooter prop)
+  // defaultProps can be used to pass page specific props to the DefaultLayout component
   const { defaultProps = {} } = Component
 
   // TODO: alternatively to this approach, we could choose <AppLayout> for every route with '/apps/' prefix

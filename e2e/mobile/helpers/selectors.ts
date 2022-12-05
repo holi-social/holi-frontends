@@ -1,6 +1,8 @@
 // https://webdriver.io/docs/selectors
 const byTestId = (testID: string) => (platform === 'ios' ? `~${testID}` : `//*[@resource-id='${testID}']`)
 
+const byText = (text: string) => `*${text}`
+
 const waitForElement = async (elementSelector: string, timeout?: number) => {
   // https://webdriver.io/docs/api/browser/$
   const element = await Appium.$(elementSelector)
@@ -10,6 +12,9 @@ const waitForElement = async (elementSelector: string, timeout?: number) => {
 
   return element
 }
+
+export const waitForElementWithInnerText = async (text: string, timeout?: number) =>
+  waitForElement(byText(text), timeout)
 
 export const waitForElementWithTestId = async (testId: string, timeout?: number) =>
   waitForElement(byTestId(testId), timeout)
