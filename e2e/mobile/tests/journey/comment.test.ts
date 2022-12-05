@@ -1,14 +1,14 @@
 import { faker } from '@faker-js/faker'
 
-import { defaultAuthSteps, logout } from '../helpers/auth'
-import { navigateBackToHomeScreen } from '../helpers/navigation'
+import { defaultAuthSteps, logout } from '../../helpers/auth'
+import { navigateBackToHomeScreen } from '../../helpers/navigation'
 import {
   fillFieldByTestId,
   scrollToElementWithTestId,
   tapOnElementWithTestId,
   waitForElementWithTestId,
   waitForElementWithTestIdToBeNull,
-} from '../helpers/selectors'
+} from '../../helpers/selectors'
 
 describe('@Comment', () => {
   test('creates a comment and displays it in the post page.', async () => {
