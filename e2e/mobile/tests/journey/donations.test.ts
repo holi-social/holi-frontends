@@ -1,4 +1,4 @@
-import { waitForHomeScreen } from '../helpers/navigation'
+import { waitForHomeScreen } from '../../helpers/navigation'
 import {
   fillFieldByTestId,
   locateMultipleElementsWithTestId,
@@ -8,7 +8,7 @@ import {
   tapOnElementWithTestId,
   waitForElementWithTestId,
   waitForElementWithTestIdToBeNull,
-} from '../helpers/selectors'
+} from '../../helpers/selectors'
 
 const navigateToDonationsApp = async () => {
   await waitForHomeScreen()

@@ -2,7 +2,7 @@ import {
   tapOnElementWithTestId,
   waitForElementWithTestId,
   waitForElementWithTestIdToBeNull,
-} from '../helpers/selectors'
+} from '../../helpers/selectors'
 
 describe('@AppsDrawer', () => {
   it('should be visible and opens drawer', async () => {
