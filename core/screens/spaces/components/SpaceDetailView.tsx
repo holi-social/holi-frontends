@@ -51,7 +51,7 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
             title: 'Actions',
             titleIcon: 'sun',
             style: styles.tabStyle,
-            children: space.tasks && space.tasks.length > 0 && (
+            children: (
               <SpaceTaskList
                 style={[mixins.container, styles.tabItem, styles.tabItemFirst]}
                 space={space}

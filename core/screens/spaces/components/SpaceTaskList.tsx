@@ -8,6 +8,7 @@ import { Space } from '@holi/core/screens/spaces/types'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import { vars } from '@holi/ui/styles/globalVars'
 
 export type SpaceTaskListProps = {
@@ -25,11 +26,16 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
     [+vars.breakpointXxl, 4],
   ])
 
-  if (!space.tasks?.length) return <></>
+  if (!space.tasks?.length)
+    return (
+      <View style={[style, styles.empty]}>
+        <HoliText>{t('spaces.spaceDetails.tasks.empty')}</HoliText>
+      </View>
+    )
 
   return (
     <View style={style}>
-      <HoliHeading level="2">{t('spaces.spaceDetails.tasksHeading', { count: space.tasks?.length })}</HoliHeading>
+      <HoliHeading level="2">{t('spaces.spaceDetails.tasks.heading', { count: space.tasks?.length })}</HoliHeading>
 
       <HoliGridWrapper itemsInRow={itemsInRow} style={styles.tasksList}>
         {space.tasks.map((task) => (
@@ -43,6 +49,10 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
 }
 
 const styles = StyleSheet.create({
+  empty: {
+    alignItems: 'center',
+    paddingTop: 60,
+  },
   tasksList: {
     paddingTop: 20,
   },

@@ -18,17 +18,7 @@ type SpaceHeaderProps = {
 }
 
 const sortUsersByFirstName = (users: User[]) =>
-  users.sort((userA, userB) => {
-    const { firstName: userAFirstName = '' } = userA
-    const { firstName: userBFirstName = '' } = userB
-    if (userAFirstName < userBFirstName) {
-      return -1
-    }
-    if (userAFirstName > userBFirstName) {
-      return 1
-    }
-    return 0
-  })
+  users.sort((userA, userB) => (userA.firstName || '').localeCompare(userB.firstName || ''))
 
 const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
   const { t } = useTranslation()

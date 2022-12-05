@@ -73,8 +73,14 @@ const styles = StyleSheet.create({
   defaultLayout: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 8,
     paddingBottom: 0,
+    ...Platform.select({
+      web: {
+        minHeight: '100vh',
+      },
+    }),
   },
   spaceDetailView: {
+    flex: 1,
     paddingTop: 0,
     ...Platform.select({
       web: {

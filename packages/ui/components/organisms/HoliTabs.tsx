@@ -45,6 +45,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
     if (!nativeEvent || !nativeEvent.contentOffset) {
       return
     }
+
     // Using Math.round means that when scrolling more than half of the slide width, it will move slides
     setCurrentSlide(Math.round(nativeEvent.contentOffset.x / screenWidth))
   }
@@ -102,8 +103,6 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}
-          snapToAlignment={'center'}
-          decelerationRate={0}
           onMomentumScrollEnd={handleScrollEnd}
         >
           <View style={styles.tabContainer}>
