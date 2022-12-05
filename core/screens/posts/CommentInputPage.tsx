@@ -143,7 +143,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
                 autofocus
                 onChange={setText}
                 style={styles.textInput}
-                testID="post-comment-input"
+                testID="post-comment"
               />
             </View>
           </View>
