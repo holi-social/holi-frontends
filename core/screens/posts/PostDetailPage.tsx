@@ -16,8 +16,8 @@ import CommentView from '@holi/core/screens/posts/components/CommentView'
 import PostDetail from '@holi/core/screens/posts/components/PostDetail'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
+import { getPostCommenters } from '@holi/core/screens/posts/components/helpers'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
-import { Comment } from '@holi/core/screens/posts/types'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -34,15 +34,6 @@ export type PostDetailPageParams = {
 const { useParam } = createParam<PostDetailPageParams>()
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
-
-const getPostCommenters = (comments: Comment[]) => {
-  const commenters = comments?.map((comment) => comment.creator) || []
-
-  // remove duplicates
-  return commenters.filter(
-    (user, index, self) => !!user && self.findIndex((commenter) => commenter.id === user.id) === index
-  )
-}
 
 const PostDetailPage: React.VFC<ScreenProps> = () => {
   const [showLoginConfirmation, setShowLoginConfirmation] = useState(false)
