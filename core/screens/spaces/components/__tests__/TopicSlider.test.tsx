@@ -21,10 +21,16 @@ describe('TopicSlider', () => {
     expect(avatarImage).toHaveProp('accessibilityLabel', 'Some Body')
   })
 
-  it('navigates to topic screen', () => {
-    const { getByTestId } = render(<TopicSlider topic={topic} spaces={spaces} />)
+  it('does not display "see more" element if there is nothing more to see', () => {
+    const { queryByTestId } = render(<TopicSlider topic={topic} spaces={spaces} />)
 
-    fireEvent.press(getByTestId('btn-to-topic'))
+    expect(queryByTestId('spaces-topic-container-see-more')).toBeFalsy()
+  })
+
+  it('navigates to topic screen if there is more to see', () => {
+    const { getByTestId } = render(<TopicSlider topic={topic} spaces={spaces} hasMore={true} />)
+
+    fireEvent.press(getByTestId('spaces-topic-container-see-more'))
 
     expect(mockNavigate).toHaveBeenCalledWith('/spaces/filter?topicId=TEST_TOPIC')
   })
