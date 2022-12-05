@@ -62,6 +62,14 @@ export const createCache = () =>
           projects: indexAwareOffsetLimitPagination(),
         },
       },
+      AppGoodNews_GoodNewsArticlesQueryResponse: {
+        fields: {
+          articles: {
+            merge: (existing, incoming) => (existing || []).concat(incoming),
+            read: (existing) => existing,
+          },
+        },
+      },
       PagedSpaceList: {
         fields: {
           data: indexAwareOffsetLimitPagination(),
@@ -73,6 +81,9 @@ export const createCache = () =>
           // query, see https://www.apollographql.com/docs/react/pagination/overview
           appDonations_projects: {
             keyArgs: ['locale', 'location'],
+          },
+          appGoodNews_articles: {
+            keyArgs: ['locale'],
           },
           spaces: {
             keyArgs: ['topicId'],

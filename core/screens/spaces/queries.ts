@@ -4,15 +4,10 @@ import { Space } from '@holi/core/screens/spaces/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
 
 const SpaceMemberFragment = gql`
+  ${userAvatarFragment}
   fragment FullSpaceMember on SpaceMember {
     user {
-      id
-      avatar
-      firstName
-      lastName
-      aboutMe
-      avatarDefaultColor
-      avatarLabel
+      ...UserAvatar
     }
     isAdministrator
   }
@@ -27,6 +22,10 @@ const SpaceFragment = gql`
     avatar
     mainImage
     location
+    links {
+      type
+      url
+    }
     memberships {
       ...FullSpaceMember
     }

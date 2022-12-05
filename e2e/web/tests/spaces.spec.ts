@@ -1,6 +1,12 @@
 import { expect, test } from '@playwright/test'
 
-import { checkAccessibility, clickElementByTestId, locateElementByTestId, waitForElementByTestId } from './helpers'
+import {
+  checkAccessibility,
+  clickElementByTestId,
+  locateElementByTestId,
+  waitForElementByInnerText,
+  waitForElementByTestId,
+} from './helpers'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/spaces')
@@ -26,6 +32,19 @@ test.describe('@Spaces', () => {
     await expect.poll(countSpaces, { timeout: 10000 }).toBeGreaterThan(1)
 
     await checkAccessibility(page)
+  })
+
+  test('should go to filtered spaces page and display multiple spaces with that filter', async ({ page }) => {
+    const topicTitleElement = await locateElementByTestId(page, 'spaces-topic-title')
+    const [topicTitle] = await topicTitleElement.allInnerTexts()
+
+    await clickElementByTestId(page, 'btn-to-topic')
+
+    // check if page title is the same as topic title
+    await waitForElementByInnerText(page, topicTitle)
+
+    // check if there is at least one space card (button to space)
+    await waitForElementByTestId(page, 'btn-to-space')
   })
 
   test('should display space details', async ({ page }) => {

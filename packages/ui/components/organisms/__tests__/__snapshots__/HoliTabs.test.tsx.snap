@@ -36,6 +36,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           },
           Object {
             "flexDirection": "row",
+            "justifyContent": "flex-start",
           },
         ]
       }
@@ -89,6 +90,11 @@ exports[`renders correctly renders correctly when open 1`] = `
       >
         <View
           pointerEvents="none"
+          style={
+            Object {
+              "flexDirection": "row",
+            }
+          }
         >
           <Text
             style={
@@ -155,6 +161,11 @@ exports[`renders correctly renders correctly when open 1`] = `
       >
         <View
           pointerEvents="none"
+          style={
+            Object {
+              "flexDirection": "row",
+            }
+          }
         >
           <Text
             style={

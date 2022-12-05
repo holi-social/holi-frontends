@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Keyboard, StyleProp, TextInputProps, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
-import { AppDonationsPlacesResponse, placesQuery } from '@holi/core/location/queries'
+import { GeoPlacesResponse, geoPlacesQuery } from '@holi/core/location/queries'
 import HoliAutocomplete, { Suggestion } from '@holi/ui/components/molecules/HoliAutocomplete'
 
 const PLACE_SUGGESTION_DEBOUNCE = 500
@@ -51,7 +51,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
     }
   }, [value])
 
-  const [fetchSuggestions, { loading, error, data }] = useLazyQuery<AppDonationsPlacesResponse>(placesQuery, {
+  const [fetchSuggestions, { loading, error, data }] = useLazyQuery<GeoPlacesResponse>(geoPlacesQuery, {
     variables: {
       input: locationInput,
     },
@@ -79,7 +79,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
     if (loading) {
       return
     }
-    const places = data?.appDonations_places || []
+    const places = data?.geo_places || []
     const newPlaces = places.map(({ description }) => ({
       id: description,
       label: description,

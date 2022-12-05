@@ -1,0 +1,1670 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SpaceTaskList renders correctly when there are no tasks within space 1`] = `null`;
+
+exports[`SpaceTaskList renders correctly when there are tasks within space 1`] = `
+<View>
+  <Text
+    role="header"
+    selectable={true}
+    style={
+      Array [
+        Object {
+          "color": "#222326",
+          "fontFamily": "Circular Std Medium",
+          "fontWeight": "500",
+        },
+        Object {
+          "fontSize": 21,
+          "lineHeight": 25.2,
+        },
+        undefined,
+      ]
+    }
+  >
+    spaces.spaceDetails.tasksHeading
+  </Text>
+  <View
+    style={
+      Object {
+        "overflow": "hidden",
+      }
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "paddingTop": 20,
+          },
+          Object {
+            "flexDirection": "row",
+            "flexWrap": "wrap",
+          },
+          Object {
+            "margin": -12,
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            undefined,
+            Object {
+              "padding": 12,
+              "width": "50%",
+            },
+          ]
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "flex": 1,
+              },
+              Object {
+                "backgroundColor": "#fff",
+                "borderColor": "#eff0f1",
+                "borderRadius": 16,
+                "borderWidth": 1,
+                "flexShrink": 1,
+                "padding": 24,
+              },
+            ]
+          }
+          testID="space-task-tile"
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                },
+                Object {
+                  "marginBottom": 16,
+                },
+              ]
+            }
+          >
+            <Text
+              role="header"
+              selectable={true}
+              style={
+                Array [
+                  Object {
+                    "color": "#222326",
+                    "fontFamily": "Circular Std Medium",
+                    "fontWeight": "500",
+                  },
+                  Object {
+                    "fontSize": 21,
+                    "lineHeight": 25.2,
+                  },
+                  undefined,
+                ]
+              }
+            >
+              Task title
+            </Text>
+            <View
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#f7f6f3",
+                    "borderRadius": 12,
+                    "justifyContent": "center",
+                    "overflow": "hidden",
+                  },
+                  undefined,
+                  Object {
+                    "height": 24,
+                    "width": 24,
+                  },
+                ]
+              }
+            >
+              <Image
+                accessibilityLabel="Some Body"
+                accessibilityRole="image"
+                accessible={false}
+                source={
+                  Object {
+                    "uri": "https://www.example.com/avatar.jpg",
+                  }
+                }
+                style={
+                  Object {
+                    "height": "100%",
+                    "width": "100%",
+                  }
+                }
+              />
+            </View>
+          </View>
+          <View
+            style={
+              Array [
+                Object {
+                  "flexDirection": "row",
+                  "flexWrap": "wrap",
+                },
+                Object {
+                  "marginBottom": 16,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "marginRight": 8,
+                }
+              }
+            >
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight={12}
+                bbWidth={12}
+                color={4285493377}
+                focusable={false}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    Object {
+                      "borderStyle": "solid",
+                      "borderWidth": 0,
+                      "color": "#6f7081",
+                      "display": "flex",
+                      "fill": "currentColor",
+                      "flexDirection": "row",
+                      "flexWrap": "wrap",
+                      "height": 12,
+                      "marginRight": 4,
+                      "stroke": "currentColor",
+                      "width": 12,
+                    },
+                    Object {
+                      "flex": 0,
+                      "height": 12,
+                      "width": 12,
+                    },
+                  ]
+                }
+                tintColor={4285493377}
+                vbHeight={1024}
+                vbWidth={1024}
+              >
+                <RNSVGGroup
+                  fill={
+                    Array [
+                      2,
+                    ]
+                  }
+                  propList={
+                    Array [
+                      "fill",
+                      "stroke",
+                    ]
+                  }
+                  stroke={
+                    Array [
+                      2,
+                    ]
+                  }
+                >
+                  <RNSVGPath
+                    d="M87.458 554.667h233.685c7.301 135.117 50.37 265.873 124.8 378.88-93.229-14.643-178.978-59.772-243.839-128.32-64.861-68.553-105.178-156.663-114.646-250.56zM87.458 469.333c9.469-93.897 49.785-182.009 114.646-250.56s150.61-113.676 243.839-128.32c-74.43 113.007-117.499 243.761-124.8 378.88h-233.685zM936.525 469.333h-233.685c-7.3-135.119-50.368-265.873-124.8-378.88 93.231 14.644 178.978 59.769 243.84 128.32s105.178 156.663 114.645 250.56zM936.525 554.667c-9.468 93.897-49.783 182.007-114.645 250.56-64.862 68.548-150.609 113.677-243.84 128.32 74.432-113.007 117.5-243.763 124.8-378.88h233.685zM406.605 554.667h210.773c-7.023 115.179-43.294 226.662-105.387 323.925-62.093-97.263-98.364-208.747-105.387-323.925zM406.605 469.333c7.023-115.178 43.294-226.664 105.387-323.925 62.093 97.261 98.364 208.747 105.387 323.925h-210.773z"
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
+              <Text
+                accessible={false}
+                selectable={true}
+                style={
+                  Array [
+                    Object {
+                      "color": "#222326",
+                      "fontFamily": "Circular Std Book",
+                      "fontWeight": "400",
+                    },
+                    Object {
+                      "fontSize": 12,
+                      "lineHeight": 14.399999999999999,
+                    },
+                    Object {},
+                    Object {
+                      "color": "#6f7081",
+                    },
+                  ]
+                }
+              >
+                Hamburg, Germany
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "marginRight": 8,
+                }
+              }
+            >
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight={12}
+                bbWidth={12}
+                color={4285493377}
+                focusable={false}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    Object {
+                      "borderStyle": "solid",
+                      "borderWidth": 0,
+                      "color": "#6f7081",
+                      "display": "flex",
+                      "fill": "currentColor",
+                      "flexDirection": "row",
+                      "flexWrap": "wrap",
+                      "height": 12,
+                      "marginRight": 4,
+                      "stroke": "currentColor",
+                      "width": 12,
+                    },
+                    Object {
+                      "flex": 0,
+                      "height": 12,
+                      "width": 12,
+                    },
+                  ]
+                }
+                tintColor={4285493377}
+                vbHeight={1024}
+                vbWidth={1024}
+              >
+                <RNSVGGroup
+                  fill={
+                    Array [
+                      2,
+                    ]
+                  }
+                  propList={
+                    Array [
+                      "fill",
+                      "stroke",
+                    ]
+                  }
+                  stroke={
+                    Array [
+                      2,
+                    ]
+                  }
+                >
+                  <RNSVGPath
+                    d="M512 938.667c-235.648 0-426.667-191.019-426.667-426.667s191.019-426.667 426.667-426.667c235.648 0 426.667 191.019 426.667 426.667s-191.019 426.667-426.667 426.667zM554.667 512v-213.333h-85.333v298.667h256v-85.333h-170.667z"
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
+              <Text
+                accessible={false}
+                selectable={true}
+                style={
+                  Array [
+                    Object {
+                      "color": "#222326",
+                      "fontFamily": "Circular Std Book",
+                      "fontWeight": "400",
+                    },
+                    Object {
+                      "fontSize": 12,
+                      "lineHeight": 14.399999999999999,
+                    },
+                    Object {},
+                    Object {
+                      "color": "#6f7081",
+                    },
+                  ]
+                }
+              >
+                spaces.tasks.regularity.PROJECT_BASED
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+                "flexWrap": "wrap",
+                "marginBottom": 12,
+              }
+            }
+          >
+            <Text
+              accessible={false}
+              numberOfLines={1}
+              selectable={true}
+              style={
+                Array [
+                  Object {
+                    "color": "#222326",
+                    "fontFamily": "Circular Std Book",
+                    "fontWeight": "400",
+                  },
+                  Object {
+                    "fontSize": 14,
+                    "lineHeight": 16.8,
+                  },
+                  Object {},
+                  Object {
+                    "borderColor": "#eff0f1",
+                    "borderRadius": 16,
+                    "borderWidth": 1,
+                    "color": "#6f7081",
+                    "height": 33,
+                    "marginBottom": 4,
+                    "marginRight": 4,
+                    "paddingHorizontal": 14,
+                    "paddingVertical": 8,
+                  },
+                ]
+              }
+            >
+              Communication skills
+            </Text>
+            <Text
+              accessible={false}
+              numberOfLines={1}
+              selectable={true}
+              style={
+                Array [
+                  Object {
+                    "color": "#222326",
+                    "fontFamily": "Circular Std Book",
+                    "fontWeight": "400",
+                  },
+                  Object {
+                    "fontSize": 14,
+                    "lineHeight": 16.8,
+                  },
+                  Object {},
+                  Object {
+                    "borderColor": "#eff0f1",
+                    "borderRadius": 16,
+                    "borderWidth": 1,
+                    "color": "#6f7081",
+                    "height": 33,
+                    "marginBottom": 4,
+                    "marginRight": 4,
+                    "paddingHorizontal": 14,
+                    "paddingVertical": 8,
+                  },
+                ]
+              }
+            >
+              Creativity
+            </Text>
+          </View>
+          <View
+            style={
+              Object {
+                "marginBottom": 16,
+              }
+            }
+          >
+            <View
+              style={Object {}}
+            >
+              <Text
+                ellipsizeMode="tail"
+                numberOfLines={3}
+                onTextLayout={[Function]}
+                style={
+                  Object {
+                    "alignContent": "flex-start",
+                    "justifyContent": "center",
+                  }
+                }
+              >
+                <Text
+                  accessible={false}
+                  selectable={true}
+                  style={
+                    Array [
+                      Object {
+                        "color": "#222326",
+                        "fontFamily": "Circular Std Book",
+                        "fontWeight": "400",
+                      },
+                      Object {
+                        "fontSize": 16,
+                        "lineHeight": 19.2,
+                      },
+                      Object {},
+                      Array [
+                        Object {
+                          "color": "#6f7081",
+                        },
+                        Object {},
+                      ],
+                    ]
+                  }
+                >
+                  <Text
+                    accessible={false}
+                    selectable={true}
+                    style={
+                      Array [
+                        Object {
+                          "color": "#222326",
+                          "fontFamily": "Circular Std Book",
+                          "fontWeight": "400",
+                        },
+                        Object {
+                          "fontSize": 14,
+                          "lineHeight": 16.8,
+                        },
+                        Object {},
+                        Object {},
+                      ]
+                    }
+                  >
+                    Task description
+                  </Text>
+                   
+                </Text>
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "justifyContent": "flex-end",
+              }
+            }
+          >
+            <View
+              accessibilityLabel="spaces.tasks.cta_claim"
+              accessibilityRole="button"
+              accessibilityState={
+                Object {
+                  "disabled": false,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Array [
+                  Array [
+                    Object {
+                      "width": "auto",
+                    },
+                    Object {
+                      "backgroundColor": "#fff",
+                      "borderColor": "#222326",
+                      "borderRadius": 28,
+                      "borderWidth": 2,
+                      "elevation": 0,
+                      "overflow": "hidden",
+                      "paddingHorizontal": 32,
+                      "paddingVertical": 13,
+                    },
+                    Object {
+                      "backgroundColor": "#f3f360",
+                    },
+                  ],
+                  undefined,
+                ]
+              }
+              testID="spaces-tasks-cta-claim"
+            >
+              <View
+                pointerEvents="none"
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                      "justifyContent": "center",
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                <Text
+                  accessible={false}
+                  selectable={false}
+                  style={
+                    Array [
+                      Object {
+                        "color": "#222326",
+                        "fontFamily": "Circular Std Book",
+                        "fontWeight": "400",
+                      },
+                      Object {
+                        "fontSize": 14,
+                        "lineHeight": 16.8,
+                      },
+                      Object {},
+                      Object {},
+                    ]
+                  }
+                >
+                  spaces.tasks.cta_claim
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Array [
+            undefined,
+            Object {
+              "padding": 12,
+              "width": "50%",
+            },
+          ]
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "flex": 1,
+              },
+              Object {
+                "backgroundColor": "#fff",
+                "borderColor": "#eff0f1",
+                "borderRadius": 16,
+                "borderWidth": 1,
+                "flexShrink": 1,
+                "padding": 24,
+              },
+            ]
+          }
+          testID="space-task-tile"
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                },
+                Object {
+                  "marginBottom": 16,
+                },
+              ]
+            }
+          >
+            <Text
+              role="header"
+              selectable={true}
+              style={
+                Array [
+                  Object {
+                    "color": "#222326",
+                    "fontFamily": "Circular Std Medium",
+                    "fontWeight": "500",
+                  },
+                  Object {
+                    "fontSize": 21,
+                    "lineHeight": 25.2,
+                  },
+                  undefined,
+                ]
+              }
+            >
+              Task title
+            </Text>
+            <View
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#f7f6f3",
+                    "borderRadius": 12,
+                    "justifyContent": "center",
+                    "overflow": "hidden",
+                  },
+                  undefined,
+                  Object {
+                    "height": 24,
+                    "width": 24,
+                  },
+                ]
+              }
+            >
+              <Image
+                accessibilityLabel="Some Body"
+                accessibilityRole="image"
+                accessible={false}
+                source={
+                  Object {
+                    "uri": "https://www.example.com/avatar.jpg",
+                  }
+                }
+                style={
+                  Object {
+                    "height": "100%",
+                    "width": "100%",
+                  }
+                }
+              />
+            </View>
+          </View>
+          <View
+            style={
+              Array [
+                Object {
+                  "flexDirection": "row",
+                  "flexWrap": "wrap",
+                },
+                Object {
+                  "marginBottom": 16,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "marginRight": 8,
+                }
+              }
+            >
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight={12}
+                bbWidth={12}
+                color={4285493377}
+                focusable={false}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    Object {
+                      "borderStyle": "solid",
+                      "borderWidth": 0,
+                      "color": "#6f7081",
+                      "display": "flex",
+                      "fill": "currentColor",
+                      "flexDirection": "row",
+                      "flexWrap": "wrap",
+                      "height": 12,
+                      "marginRight": 4,
+                      "stroke": "currentColor",
+                      "width": 12,
+                    },
+                    Object {
+                      "flex": 0,
+                      "height": 12,
+                      "width": 12,
+                    },
+                  ]
+                }
+                tintColor={4285493377}
+                vbHeight={1024}
+                vbWidth={1024}
+              >
+                <RNSVGGroup
+                  fill={
+                    Array [
+                      2,
+                    ]
+                  }
+                  propList={
+                    Array [
+                      "fill",
+                      "stroke",
+                    ]
+                  }
+                  stroke={
+                    Array [
+                      2,
+                    ]
+                  }
+                >
+                  <RNSVGPath
+                    d="M87.458 554.667h233.685c7.301 135.117 50.37 265.873 124.8 378.88-93.229-14.643-178.978-59.772-243.839-128.32-64.861-68.553-105.178-156.663-114.646-250.56zM87.458 469.333c9.469-93.897 49.785-182.009 114.646-250.56s150.61-113.676 243.839-128.32c-74.43 113.007-117.499 243.761-124.8 378.88h-233.685zM936.525 469.333h-233.685c-7.3-135.119-50.368-265.873-124.8-378.88 93.231 14.644 178.978 59.769 243.84 128.32s105.178 156.663 114.645 250.56zM936.525 554.667c-9.468 93.897-49.783 182.007-114.645 250.56-64.862 68.548-150.609 113.677-243.84 128.32 74.432-113.007 117.5-243.763 124.8-378.88h233.685zM406.605 554.667h210.773c-7.023 115.179-43.294 226.662-105.387 323.925-62.093-97.263-98.364-208.747-105.387-323.925zM406.605 469.333c7.023-115.178 43.294-226.664 105.387-323.925 62.093 97.261 98.364 208.747 105.387 323.925h-210.773z"
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
+              <Text
+                accessible={false}
+                selectable={true}
+                style={
+                  Array [
+                    Object {
+                      "color": "#222326",
+                      "fontFamily": "Circular Std Book",
+                      "fontWeight": "400",
+                    },
+                    Object {
+                      "fontSize": 12,
+                      "lineHeight": 14.399999999999999,
+                    },
+                    Object {},
+                    Object {
+                      "color": "#6f7081",
+                    },
+                  ]
+                }
+              >
+                Hamburg, Germany
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "marginRight": 8,
+                }
+              }
+            >
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight={12}
+                bbWidth={12}
+                color={4285493377}
+                focusable={false}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    Object {
+                      "borderStyle": "solid",
+                      "borderWidth": 0,
+                      "color": "#6f7081",
+                      "display": "flex",
+                      "fill": "currentColor",
+                      "flexDirection": "row",
+                      "flexWrap": "wrap",
+                      "height": 12,
+                      "marginRight": 4,
+                      "stroke": "currentColor",
+                      "width": 12,
+                    },
+                    Object {
+                      "flex": 0,
+                      "height": 12,
+                      "width": 12,
+                    },
+                  ]
+                }
+                tintColor={4285493377}
+                vbHeight={1024}
+                vbWidth={1024}
+              >
+                <RNSVGGroup
+                  fill={
+                    Array [
+                      2,
+                    ]
+                  }
+                  propList={
+                    Array [
+                      "fill",
+                      "stroke",
+                    ]
+                  }
+                  stroke={
+                    Array [
+                      2,
+                    ]
+                  }
+                >
+                  <RNSVGPath
+                    d="M512 938.667c-235.648 0-426.667-191.019-426.667-426.667s191.019-426.667 426.667-426.667c235.648 0 426.667 191.019 426.667 426.667s-191.019 426.667-426.667 426.667zM554.667 512v-213.333h-85.333v298.667h256v-85.333h-170.667z"
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
+              <Text
+                accessible={false}
+                selectable={true}
+                style={
+                  Array [
+                    Object {
+                      "color": "#222326",
+                      "fontFamily": "Circular Std Book",
+                      "fontWeight": "400",
+                    },
+                    Object {
+                      "fontSize": 12,
+                      "lineHeight": 14.399999999999999,
+                    },
+                    Object {},
+                    Object {
+                      "color": "#6f7081",
+                    },
+                  ]
+                }
+              >
+                spaces.tasks.regularity.PROJECT_BASED
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+                "flexWrap": "wrap",
+                "marginBottom": 12,
+              }
+            }
+          >
+            <Text
+              accessible={false}
+              numberOfLines={1}
+              selectable={true}
+              style={
+                Array [
+                  Object {
+                    "color": "#222326",
+                    "fontFamily": "Circular Std Book",
+                    "fontWeight": "400",
+                  },
+                  Object {
+                    "fontSize": 14,
+                    "lineHeight": 16.8,
+                  },
+                  Object {},
+                  Object {
+                    "borderColor": "#eff0f1",
+                    "borderRadius": 16,
+                    "borderWidth": 1,
+                    "color": "#6f7081",
+                    "height": 33,
+                    "marginBottom": 4,
+                    "marginRight": 4,
+                    "paddingHorizontal": 14,
+                    "paddingVertical": 8,
+                  },
+                ]
+              }
+            >
+              Communication skills
+            </Text>
+            <Text
+              accessible={false}
+              numberOfLines={1}
+              selectable={true}
+              style={
+                Array [
+                  Object {
+                    "color": "#222326",
+                    "fontFamily": "Circular Std Book",
+                    "fontWeight": "400",
+                  },
+                  Object {
+                    "fontSize": 14,
+                    "lineHeight": 16.8,
+                  },
+                  Object {},
+                  Object {
+                    "borderColor": "#eff0f1",
+                    "borderRadius": 16,
+                    "borderWidth": 1,
+                    "color": "#6f7081",
+                    "height": 33,
+                    "marginBottom": 4,
+                    "marginRight": 4,
+                    "paddingHorizontal": 14,
+                    "paddingVertical": 8,
+                  },
+                ]
+              }
+            >
+              Creativity
+            </Text>
+          </View>
+          <View
+            style={
+              Object {
+                "marginBottom": 16,
+              }
+            }
+          >
+            <View
+              style={Object {}}
+            >
+              <Text
+                ellipsizeMode="tail"
+                numberOfLines={3}
+                onTextLayout={[Function]}
+                style={
+                  Object {
+                    "alignContent": "flex-start",
+                    "justifyContent": "center",
+                  }
+                }
+              >
+                <Text
+                  accessible={false}
+                  selectable={true}
+                  style={
+                    Array [
+                      Object {
+                        "color": "#222326",
+                        "fontFamily": "Circular Std Book",
+                        "fontWeight": "400",
+                      },
+                      Object {
+                        "fontSize": 16,
+                        "lineHeight": 19.2,
+                      },
+                      Object {},
+                      Array [
+                        Object {
+                          "color": "#6f7081",
+                        },
+                        Object {},
+                      ],
+                    ]
+                  }
+                >
+                  <Text
+                    accessible={false}
+                    selectable={true}
+                    style={
+                      Array [
+                        Object {
+                          "color": "#222326",
+                          "fontFamily": "Circular Std Book",
+                          "fontWeight": "400",
+                        },
+                        Object {
+                          "fontSize": 14,
+                          "lineHeight": 16.8,
+                        },
+                        Object {},
+                        Object {},
+                      ]
+                    }
+                  >
+                    Task description
+                  </Text>
+                   
+                </Text>
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "justifyContent": "flex-end",
+              }
+            }
+          >
+            <View
+              accessibilityLabel="spaces.tasks.cta_claim"
+              accessibilityRole="button"
+              accessibilityState={
+                Object {
+                  "disabled": false,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Array [
+                  Array [
+                    Object {
+                      "width": "auto",
+                    },
+                    Object {
+                      "backgroundColor": "#fff",
+                      "borderColor": "#222326",
+                      "borderRadius": 28,
+                      "borderWidth": 2,
+                      "elevation": 0,
+                      "overflow": "hidden",
+                      "paddingHorizontal": 32,
+                      "paddingVertical": 13,
+                    },
+                    Object {
+                      "backgroundColor": "#f3f360",
+                    },
+                  ],
+                  undefined,
+                ]
+              }
+              testID="spaces-tasks-cta-claim"
+            >
+              <View
+                pointerEvents="none"
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                      "justifyContent": "center",
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                <Text
+                  accessible={false}
+                  selectable={false}
+                  style={
+                    Array [
+                      Object {
+                        "color": "#222326",
+                        "fontFamily": "Circular Std Book",
+                        "fontWeight": "400",
+                      },
+                      Object {
+                        "fontSize": 14,
+                        "lineHeight": 16.8,
+                      },
+                      Object {},
+                      Object {},
+                    ]
+                  }
+                >
+                  spaces.tasks.cta_claim
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Array [
+            undefined,
+            Object {
+              "padding": 12,
+              "width": "50%",
+            },
+          ]
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "flex": 1,
+              },
+              Object {
+                "backgroundColor": "#fff",
+                "borderColor": "#eff0f1",
+                "borderRadius": 16,
+                "borderWidth": 1,
+                "flexShrink": 1,
+                "padding": 24,
+              },
+            ]
+          }
+          testID="space-task-tile"
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                },
+                Object {
+                  "marginBottom": 16,
+                },
+              ]
+            }
+          >
+            <Text
+              role="header"
+              selectable={true}
+              style={
+                Array [
+                  Object {
+                    "color": "#222326",
+                    "fontFamily": "Circular Std Medium",
+                    "fontWeight": "500",
+                  },
+                  Object {
+                    "fontSize": 21,
+                    "lineHeight": 25.2,
+                  },
+                  undefined,
+                ]
+              }
+            >
+              Task title
+            </Text>
+            <View
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#f7f6f3",
+                    "borderRadius": 12,
+                    "justifyContent": "center",
+                    "overflow": "hidden",
+                  },
+                  undefined,
+                  Object {
+                    "height": 24,
+                    "width": 24,
+                  },
+                ]
+              }
+            >
+              <Image
+                accessibilityLabel="Some Body"
+                accessibilityRole="image"
+                accessible={false}
+                source={
+                  Object {
+                    "uri": "https://www.example.com/avatar.jpg",
+                  }
+                }
+                style={
+                  Object {
+                    "height": "100%",
+                    "width": "100%",
+                  }
+                }
+              />
+            </View>
+          </View>
+          <View
+            style={
+              Array [
+                Object {
+                  "flexDirection": "row",
+                  "flexWrap": "wrap",
+                },
+                Object {
+                  "marginBottom": 16,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "marginRight": 8,
+                }
+              }
+            >
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight={12}
+                bbWidth={12}
+                color={4285493377}
+                focusable={false}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    Object {
+                      "borderStyle": "solid",
+                      "borderWidth": 0,
+                      "color": "#6f7081",
+                      "display": "flex",
+                      "fill": "currentColor",
+                      "flexDirection": "row",
+                      "flexWrap": "wrap",
+                      "height": 12,
+                      "marginRight": 4,
+                      "stroke": "currentColor",
+                      "width": 12,
+                    },
+                    Object {
+                      "flex": 0,
+                      "height": 12,
+                      "width": 12,
+                    },
+                  ]
+                }
+                tintColor={4285493377}
+                vbHeight={1024}
+                vbWidth={1024}
+              >
+                <RNSVGGroup
+                  fill={
+                    Array [
+                      2,
+                    ]
+                  }
+                  propList={
+                    Array [
+                      "fill",
+                      "stroke",
+                    ]
+                  }
+                  stroke={
+                    Array [
+                      2,
+                    ]
+                  }
+                >
+                  <RNSVGPath
+                    d="M87.458 554.667h233.685c7.301 135.117 50.37 265.873 124.8 378.88-93.229-14.643-178.978-59.772-243.839-128.32-64.861-68.553-105.178-156.663-114.646-250.56zM87.458 469.333c9.469-93.897 49.785-182.009 114.646-250.56s150.61-113.676 243.839-128.32c-74.43 113.007-117.499 243.761-124.8 378.88h-233.685zM936.525 469.333h-233.685c-7.3-135.119-50.368-265.873-124.8-378.88 93.231 14.644 178.978 59.769 243.84 128.32s105.178 156.663 114.645 250.56zM936.525 554.667c-9.468 93.897-49.783 182.007-114.645 250.56-64.862 68.548-150.609 113.677-243.84 128.32 74.432-113.007 117.5-243.763 124.8-378.88h233.685zM406.605 554.667h210.773c-7.023 115.179-43.294 226.662-105.387 323.925-62.093-97.263-98.364-208.747-105.387-323.925zM406.605 469.333c7.023-115.178 43.294-226.664 105.387-323.925 62.093 97.261 98.364 208.747 105.387 323.925h-210.773z"
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
+              <Text
+                accessible={false}
+                selectable={true}
+                style={
+                  Array [
+                    Object {
+                      "color": "#222326",
+                      "fontFamily": "Circular Std Book",
+                      "fontWeight": "400",
+                    },
+                    Object {
+                      "fontSize": 12,
+                      "lineHeight": 14.399999999999999,
+                    },
+                    Object {},
+                    Object {
+                      "color": "#6f7081",
+                    },
+                  ]
+                }
+              >
+                Hamburg, Germany
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "marginRight": 8,
+                }
+              }
+            >
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight={12}
+                bbWidth={12}
+                color={4285493377}
+                focusable={false}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    Object {
+                      "borderStyle": "solid",
+                      "borderWidth": 0,
+                      "color": "#6f7081",
+                      "display": "flex",
+                      "fill": "currentColor",
+                      "flexDirection": "row",
+                      "flexWrap": "wrap",
+                      "height": 12,
+                      "marginRight": 4,
+                      "stroke": "currentColor",
+                      "width": 12,
+                    },
+                    Object {
+                      "flex": 0,
+                      "height": 12,
+                      "width": 12,
+                    },
+                  ]
+                }
+                tintColor={4285493377}
+                vbHeight={1024}
+                vbWidth={1024}
+              >
+                <RNSVGGroup
+                  fill={
+                    Array [
+                      2,
+                    ]
+                  }
+                  propList={
+                    Array [
+                      "fill",
+                      "stroke",
+                    ]
+                  }
+                  stroke={
+                    Array [
+                      2,
+                    ]
+                  }
+                >
+                  <RNSVGPath
+                    d="M512 938.667c-235.648 0-426.667-191.019-426.667-426.667s191.019-426.667 426.667-426.667c235.648 0 426.667 191.019 426.667 426.667s-191.019 426.667-426.667 426.667zM554.667 512v-213.333h-85.333v298.667h256v-85.333h-170.667z"
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
+              <Text
+                accessible={false}
+                selectable={true}
+                style={
+                  Array [
+                    Object {
+                      "color": "#222326",
+                      "fontFamily": "Circular Std Book",
+                      "fontWeight": "400",
+                    },
+                    Object {
+                      "fontSize": 12,
+                      "lineHeight": 14.399999999999999,
+                    },
+                    Object {},
+                    Object {
+                      "color": "#6f7081",
+                    },
+                  ]
+                }
+              >
+                spaces.tasks.regularity.PROJECT_BASED
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+                "flexWrap": "wrap",
+                "marginBottom": 12,
+              }
+            }
+          >
+            <Text
+              accessible={false}
+              numberOfLines={1}
+              selectable={true}
+              style={
+                Array [
+                  Object {
+                    "color": "#222326",
+                    "fontFamily": "Circular Std Book",
+                    "fontWeight": "400",
+                  },
+                  Object {
+                    "fontSize": 14,
+                    "lineHeight": 16.8,
+                  },
+                  Object {},
+                  Object {
+                    "borderColor": "#eff0f1",
+                    "borderRadius": 16,
+                    "borderWidth": 1,
+                    "color": "#6f7081",
+                    "height": 33,
+                    "marginBottom": 4,
+                    "marginRight": 4,
+                    "paddingHorizontal": 14,
+                    "paddingVertical": 8,
+                  },
+                ]
+              }
+            >
+              Communication skills
+            </Text>
+            <Text
+              accessible={false}
+              numberOfLines={1}
+              selectable={true}
+              style={
+                Array [
+                  Object {
+                    "color": "#222326",
+                    "fontFamily": "Circular Std Book",
+                    "fontWeight": "400",
+                  },
+                  Object {
+                    "fontSize": 14,
+                    "lineHeight": 16.8,
+                  },
+                  Object {},
+                  Object {
+                    "borderColor": "#eff0f1",
+                    "borderRadius": 16,
+                    "borderWidth": 1,
+                    "color": "#6f7081",
+                    "height": 33,
+                    "marginBottom": 4,
+                    "marginRight": 4,
+                    "paddingHorizontal": 14,
+                    "paddingVertical": 8,
+                  },
+                ]
+              }
+            >
+              Creativity
+            </Text>
+          </View>
+          <View
+            style={
+              Object {
+                "marginBottom": 16,
+              }
+            }
+          >
+            <View
+              style={Object {}}
+            >
+              <Text
+                ellipsizeMode="tail"
+                numberOfLines={3}
+                onTextLayout={[Function]}
+                style={
+                  Object {
+                    "alignContent": "flex-start",
+                    "justifyContent": "center",
+                  }
+                }
+              >
+                <Text
+                  accessible={false}
+                  selectable={true}
+                  style={
+                    Array [
+                      Object {
+                        "color": "#222326",
+                        "fontFamily": "Circular Std Book",
+                        "fontWeight": "400",
+                      },
+                      Object {
+                        "fontSize": 16,
+                        "lineHeight": 19.2,
+                      },
+                      Object {},
+                      Array [
+                        Object {
+                          "color": "#6f7081",
+                        },
+                        Object {},
+                      ],
+                    ]
+                  }
+                >
+                  <Text
+                    accessible={false}
+                    selectable={true}
+                    style={
+                      Array [
+                        Object {
+                          "color": "#222326",
+                          "fontFamily": "Circular Std Book",
+                          "fontWeight": "400",
+                        },
+                        Object {
+                          "fontSize": 14,
+                          "lineHeight": 16.8,
+                        },
+                        Object {},
+                        Object {},
+                      ]
+                    }
+                  >
+                    Task description
+                  </Text>
+                   
+                </Text>
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "justifyContent": "flex-end",
+              }
+            }
+          >
+            <View
+              accessibilityLabel="spaces.tasks.cta_claim"
+              accessibilityRole="button"
+              accessibilityState={
+                Object {
+                  "disabled": false,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Array [
+                  Array [
+                    Object {
+                      "width": "auto",
+                    },
+                    Object {
+                      "backgroundColor": "#fff",
+                      "borderColor": "#222326",
+                      "borderRadius": 28,
+                      "borderWidth": 2,
+                      "elevation": 0,
+                      "overflow": "hidden",
+                      "paddingHorizontal": 32,
+                      "paddingVertical": 13,
+                    },
+                    Object {
+                      "backgroundColor": "#f3f360",
+                    },
+                  ],
+                  undefined,
+                ]
+              }
+              testID="spaces-tasks-cta-claim"
+            >
+              <View
+                pointerEvents="none"
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                      "justifyContent": "center",
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                <Text
+                  accessible={false}
+                  selectable={false}
+                  style={
+                    Array [
+                      Object {
+                        "color": "#222326",
+                        "fontFamily": "Circular Std Book",
+                        "fontWeight": "400",
+                      },
+                      Object {
+                        "fontSize": 14,
+                        "lineHeight": 16.8,
+                      },
+                      Object {},
+                      Object {},
+                    ]
+                  }
+                >
+                  spaces.tasks.cta_claim
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;

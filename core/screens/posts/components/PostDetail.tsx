@@ -8,6 +8,7 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
+import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -42,7 +43,9 @@ const PostDetail: React.VFC<PostDetailProps> = ({ post }: PostDetailProps) => {
         style={styles.mediaHeader}
       />
 
-      <HoliText style={styles.body}>{post.text}</HoliText>
+      <HoliText style={styles.body}>
+        <HoliRichTextOutput text={post.text} users={post.mentions} />
+      </HoliText>
     </View>
   )
 }

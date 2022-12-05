@@ -2,7 +2,6 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
-import { userFullName } from '@holi/core/helpers'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliUserAvatar, { sizes as avatarSizes } from '@holi/ui/components/molecules/HoliUserAvatar'
@@ -38,14 +37,13 @@ const HoliUserAvatarPile: React.FC<HoliUserAvatarPileProps> = ({
     <>
       <View style={[style, styles.container]} testID={testID}>
         {uniqueUsers.slice(0, usersToShow).map((user, idx) => {
-          const nameLabel = userFullName(user)
           const collapseDistance = collapse ? avatarSizes[size] / -2.4 : -4
 
           return (
             <HoliUserAvatar
               key={`${testID}-${user.id}`}
               imageSrc={user.avatar}
-              label={nameLabel || t('navigation.headerRight.avatarFallbackLabel')}
+              label={user.fullName || t('navigation.headerRight.avatarFallbackLabel')}
               initials={user.avatarLabel}
               defaultColor={user.avatarDefaultColor}
               size={size}

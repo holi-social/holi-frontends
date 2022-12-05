@@ -57,7 +57,7 @@ const getValidationErrorText = (
   if (context && id === OryErrorCode.INVALID_PASSWORD) {
     const { reason } = context as { reason: string }
 
-    const possibleReasons = ['password length', 'password has been found in data breaches']
+    const possibleReasons = ['password length', 'password has been found in data breaches', 'password is too similar']
     const modifier = possibleReasons.findIndex((str) => reason.includes(str))
     const messageKeyModifier = `${messageKey}-${modifier}`
 
