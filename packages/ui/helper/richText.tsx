@@ -4,10 +4,11 @@ export type Mention = {
   replaceableString: string
 }
 
-// Copied from: https://github.com/dabakovich/react-native-controlled-mentions/blob/v2.2.4/example/mentions-app.tsx
+// Before weas copied from: https://github.com/dabakovich/react-native-controlled-mentions/blob/v2.2.4/example/mentions-app.tsx
+// Copied from: https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
 export const REGEX_URL =
   // eslint-disable-next-line no-useless-escape
-  /(https?:\/\/|www\.)[-a-zA-Z0-9@:%._\+~#=]{1,256}\.(xn--)?[a-z0-9-]{2,20}\b([-a-zA-Z0-9@:%_\+\[\],.~#?&\/=]*[-a-zA-Z0-9@:%_\+\]~#?&\/=])*/gi
+  /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi
 
 // @<USER-ID>
 export const REGEX_USER_MENTIONS = /(@[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})/g
