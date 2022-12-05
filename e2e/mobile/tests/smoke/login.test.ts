@@ -1,7 +1,7 @@
-import { defaultAuthSteps, logout } from '../helpers/auth'
-import { tapOnElementWithTestId, waitForElementWithTestId } from '../helpers/selectors'
+import { defaultAuthSteps, logout } from '../../helpers/auth'
+import { tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
-describe('@Login', () => {
+describe('@Login test1', () => {
   it('should not work with invalid credentials', async () => {
     await defaultAuthSteps({ email: 'asfd@asdf.de', password: '1234' })
     // see https://www.ory.sh/docs/kratos/concepts/ui-user-interface#ui-error-codes
@@ -13,7 +13,6 @@ describe('@Login', () => {
     await tapOnElementWithTestId('nav-button-back')
     await tapOnElementWithTestId('btn-to-home-view')
   })
-
   it('should work with valid credentials', async () => {
     // Login
     await defaultAuthSteps()

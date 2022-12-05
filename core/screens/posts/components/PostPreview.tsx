@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -10,6 +10,7 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
+import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type PostPreviewProps = {
@@ -22,22 +23,12 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post, style }) =>
   const { navigate } = useRouting()
   const { t } = useTranslation()
 
-  const author = useMemo(() => {
-    const { avatar, avatarLabel, avatarDefaultColor } = post.creator
-    return {
-      name: post.creator.fullName,
-      avatarLabel,
-      avatarDefaultColor,
-      avatar,
-    }
-  }, [post])
-
   return (
     <View style={[styles.wrapper, style]}>
       <View style={styles.paddingHorizontal}>
         <HoliMediaHeader
           title={post.title}
-          author={author}
+          author={post.creator}
           date={post.created}
           touchHandler={() => navigate(`/insights/${insightId}/posts/${post.id}`)}
           testID="btn-to-post"
@@ -48,7 +39,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post, style }) =>
         </HoliMediaHeader>
 
         <HoliReadMore numberOfLines={10} fontStyle={styles.readMoreText} style={styles.readMoreContainer}>
-          {post.text}
+          <HoliRichTextOutput text={post.text} users={post.mentions} />
         </HoliReadMore>
       </View>
 
@@ -56,9 +47,11 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post, style }) =>
         <PostImage uri={post.image.url} height={post.image.height} width={post.image.width} postTitle={post.title} />
       )}
 
-      <View style={styles.paddingHorizontal}>
-        <LinkPreview style={styles.linkPreview} />
-      </View>
+      {!!post.links?.length && (
+        <View style={styles.paddingHorizontal}>
+          <LinkPreview style={styles.linkPreview} previewData={post.links[0]} label={post.links[0].title} />
+        </View>
+      )}
     </View>
   )
 }

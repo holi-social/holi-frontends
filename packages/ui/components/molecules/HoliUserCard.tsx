@@ -42,15 +42,14 @@ const HoliUserCard: React.VFC<HoliUserCardProps> = ({
     return <View style={[styles.cardContainer, style]} />
   }
 
-  const { firstName, lastName, avatar, avatarLabel, avatarDefaultColor, aboutMe } = user
+  const { fullName, avatar, avatarLabel, avatarDefaultColor, aboutMe } = user
 
-  const nameLabel = `${firstName || ''} ${lastName || ''}`.trim()
   return (
     <>
       <View {...accessibilityProps} style={[styles.cardContainer, style]} testID={testID || 'user-card'}>
         <HoliUserAvatar
           imageSrc={avatar}
-          label={nameLabel === '' ? t('user.profileView.anonymous') : nameLabel}
+          label={fullName || t('user.profileView.anonymous')}
           initials={avatarLabel}
           defaultColor={avatarDefaultColor}
           size="extralarge"
@@ -58,7 +57,7 @@ const HoliUserCard: React.VFC<HoliUserCardProps> = ({
         {variant === 'normal' && (
           <>
             <HoliText style={styles.textStyle} bold>
-              {nameLabel}
+              {fullName}
             </HoliText>
             {category && <HoliChip style={styles.chip} text={category} label={category} checked hideIcon disabled />}
             <View style={styles.aboutMeContainer}>
@@ -70,7 +69,7 @@ const HoliUserCard: React.VFC<HoliUserCardProps> = ({
       {variant === 'small' && (
         <View style={styles.textContainer}>
           <HoliText style={styles.textStyleSmall} size="small">
-            {nameLabel === '' ? t('user.profileView.anonymous') : nameLabel}
+            {fullName || t('user.profileView.anonymous')}
           </HoliText>
         </View>
       )}

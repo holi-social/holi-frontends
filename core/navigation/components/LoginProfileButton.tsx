@@ -4,7 +4,6 @@ import { Platform, StyleSheet, ViewStyle } from 'react-native'
 
 import { colors } from '@holi//ui/styles/globalVars'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
-import { userFullName } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -47,7 +46,7 @@ const LoginProfileButton: React.VFC<LoginProfileButtonProps> = ({ focused, ...pr
       {hasUserData ? (
         <HoliUserAvatar
           imageSrc={user.avatar}
-          label={userFullName(user) || t('user.profileView.anonymous')}
+          label={user.fullName || t('user.profileView.anonymous')}
           initials={user.avatarLabel}
           defaultColor={user.avatarDefaultColor}
           size="micro"

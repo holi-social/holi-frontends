@@ -11,6 +11,7 @@ import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile
 const users: User[] = [
   {
     id: '1',
+    fullName: 'Dima Rosmait',
     firstName: 'Dima',
     lastName: 'Rosmait',
     avatarLabel: 'D',
@@ -19,6 +20,7 @@ const users: User[] = [
   },
   {
     id: '2',
+    fullName: 'Max Mustermann',
     firstName: 'Max',
     lastName: 'Mustermann',
     avatarLabel: 'M',
@@ -26,6 +28,7 @@ const users: User[] = [
   },
   {
     id: '3',
+    fullName: 'Thomas Mueller',
     firstName: 'Thomas',
     lastName: 'Mueller',
     avatarLabel: 'T',
@@ -34,6 +37,7 @@ const users: User[] = [
   },
   {
     id: '4',
+    fullName: 'Sandra Kasandra',
     firstName: 'Sandra',
     lastName: 'Kasandra',
     avatarLabel: 'S',
@@ -41,6 +45,7 @@ const users: User[] = [
   },
   {
     id: '5',
+    fullName: 'Peter Pan',
     firstName: 'Peter',
     lastName: 'Pan',
     avatarLabel: 'P',
@@ -49,6 +54,7 @@ const users: User[] = [
   },
   {
     id: '6',
+    fullName: 'Donald Duck',
     firstName: 'Donald',
     lastName: 'Duck',
     avatarLabel: 'D',
@@ -56,6 +62,7 @@ const users: User[] = [
   },
   {
     id: '7',
+    fullName: 'Lionel Messi',
     firstName: 'Lionel',
     lastName: 'Messi',
     avatarLabel: 'L',

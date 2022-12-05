@@ -35,16 +35,19 @@
     "prepare": "husky install",
     "clean": "yarn workspaces run clean",
     "clean:all": "yarn workspaces run clean:all && rimraf node_modules",
-    "test": "jest",
-    "test:update": "jest -u",
-    "test:watch": "jest --watch",
-    "test:watchAll": "jest --watchAll",
+    "test": "jest --maxWorkers=50%",
+    "test:update": "jest --maxWorkers=50% -u",
+    "test:watch": "jest --maxWorkers=25% --watch",
+    "test:watchAll": "jest --maxWorkers=25% --watchAll",
     "e2e:android": "yarn workspace @holi/e2e-mobile test:android",
-    "e2e:ios": "yarn workspace @holi/e2e-mobile test:ios"
+    "e2e:android:smoke": "yarn workspace @holi/e2e-mobile test:android:smoke",
+    "e2e:ios": "yarn workspace @holi/e2e-mobile test:ios",
+    "e2e:ios:smoke": "yarn workspace @holi/e2e-mobile test:ios:smoke"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.3.0",
     "@testing-library/jest-native": "^5.3.0",
+    "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react-native": "11.4.0",
     "@trivago/prettier-plugin-sort-imports": "^3.2.0",
     "@types/jest": "^28.1.1",
@@ -62,9 +65,11 @@
     "husky": "^7.0.4",
     "jest": "^28.1.1",
     "jest-expo": "^45.0.1",
+    "jest-offline": "^1.0.1",
     "prettier": "^2.5.1",
     "react-test-renderer": "17.0.2",
     "turbo": "^1.6.3"
   },
-  "packageManager": "yarn@1.22.17"
+  "packageManager": "yarn@1.22.17",
+  "dependencies": {}
 }

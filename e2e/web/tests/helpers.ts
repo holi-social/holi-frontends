@@ -17,6 +17,10 @@ export const locateElementByTestId = async (page: Page, testId: string): Promise
   return page.locator(selector)
 }
 
+export const waitForElementByInnerText = async (page: Page, text: string): Promise<void> => {
+  return await page.locator(`text=${text}`).waitFor()
+}
+
 export const locateElementBySelector = async (page: Page, selector: string): Promise<Locator> => {
   await page.waitForSelector(selector)
   return page.locator(selector)
