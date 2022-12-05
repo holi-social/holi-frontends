@@ -6,7 +6,6 @@ import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
@@ -30,18 +29,6 @@ const OwnProfileView: React.VFC<OwnProfileViewProps> = ({ toggleEditMode, user }
     <>
       <View style={[mixins.container, styles.container]}>
         <UserProfileView user={user} contactPossible={false} />
-        <HoliButton
-          label={t('profile.edit')}
-          onPress={() => {
-            toggleEditMode('profile')
-          }}
-          transparent
-          inline
-          style={{ marginTop: 16 }}
-          testID="btn-open-profile-edit-view"
-        >
-          {t('profile.edit')}
-        </HoliButton>
       </View>
       <HoliTabs
         style={{ marginTop: 24 }}

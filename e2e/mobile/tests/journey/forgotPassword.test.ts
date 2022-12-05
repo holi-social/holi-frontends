@@ -4,7 +4,7 @@ import {
   tapOnElementWithTestId,
   waitForElementWithTestId,
   waitForElementWithTestIdToBeNull,
-} from '../helpers/selectors'
+} from '../../helpers/selectors'
 
 const submitForm = async () => {
   await waitForElementWithTestId('ory-submit-method')
