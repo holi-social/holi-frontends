@@ -1,7 +1,7 @@
 import { useLazyQuery } from '@apollo/client'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Keyboard, StyleProp, TextInputProps, ViewStyle } from 'react-native'
+import { StyleProp, TextInputProps, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { GeoPlacesResponse, geoPlacesQuery } from '@holi/core/location/queries'
@@ -42,16 +42,16 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
     [onSubmit]
   )
   const [placeSuggestions, setPlaceSuggestions] = useState<Suggestion[]>([])
+
   // Handle reset from outside
   useEffect(() => {
     if (!value) {
       setLocationInput('')
       setPlaceSuggestions([])
-      Keyboard.dismiss()
     }
   }, [value])
 
-  const [fetchSuggestions, { loading, error, data }] = useLazyQuery<GeoPlacesResponse>(geoPlacesQuery, {
+  const [fetchSuggestions, { loading, error, data, called }] = useLazyQuery<GeoPlacesResponse>(geoPlacesQuery, {
     variables: {
       input: locationInput,
     },
@@ -64,15 +64,22 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
   const getSuggestions = useCallback(
     (input: string) => {
       setLocationInput(input)
+      onChange && onChange(input)
       if (input) {
         fetchSuggestions()
       } else {
         setPlaceSuggestions([])
       }
-      onChange && onChange(input)
     },
     [setLocationInput, fetchSuggestions, setPlaceSuggestions, onChange]
   )
+
+  // Trigger loading suggestions for initial value
+  useEffect(() => {
+    if (value && !called) {
+      getSuggestions(value)
+    }
+  }, [called, value, getSuggestions])
 
   useEffect(() => {
     // keep displaying previous suggestions while loading to prevent flickering
@@ -103,7 +110,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
       inputLabel={label}
       accessibilityLabel={label}
       placeholder={placeholder}
-      value={locationInput}
+      value={value}
       trailingIcon="search"
       inputProps={inputProps}
       onSubmit={submit}

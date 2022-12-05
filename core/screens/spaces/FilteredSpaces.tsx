@@ -65,6 +65,7 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
   const { loading, data, error, fetchMore } = useQuery<SpacesResponse>(spacesQuery, {
     variables: {
       topicId: topicId,
+      location: location,
       limit: SPACES_PAGE_SIZE,
       offset: 0,
     },

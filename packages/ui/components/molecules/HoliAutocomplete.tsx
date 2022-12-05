@@ -80,13 +80,6 @@ const HoliAutocomplete = ({
     setSearchText(value || '')
   }, [value])
 
-  // Get suggestions for initial value
-  useEffect(() => {
-    if (value && !suggestions.length) {
-      onChangeText(value)
-    }
-  }, [suggestions, value, onChangeText])
-
   const handleItemSelection = useCallback(
     (item) => {
       onChangeText(item.label)
