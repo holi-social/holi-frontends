@@ -2,7 +2,6 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { userFullName } from '@holi/core/helpers'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -12,7 +11,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export type MediaHeaderProps = {
   title: string
-  author: Partial<User & { name: string }>
+  author: User
   boldTitle?: boolean
   date?: string
   touchHandler?: () => void
@@ -30,7 +29,7 @@ const HoliMediaHeader: React.FC<MediaHeaderProps> = ({
   children,
   testID,
 }) => {
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const formattedDate = useMemo(() => {
     if (!date) return undefined
@@ -38,7 +37,7 @@ const HoliMediaHeader: React.FC<MediaHeaderProps> = ({
     return dateString.charAt(0).toUpperCase() + dateString.slice(1)
   }, [date, i18n.language])
 
-  const authorName = author.name || userFullName(author)
+  const authorName = author.fullName || t('user.profileView.anonymous')
 
   return (
     <View style={[styles.header, style]}>

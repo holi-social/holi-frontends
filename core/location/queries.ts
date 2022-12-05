@@ -2,14 +2,14 @@ import { gql } from '@apollo/client'
 
 import { Place } from '@holi/core/location/typings'
 
-export const placesQuery = gql`
+export const geoPlacesQuery = gql`
   query PlacesSuggestions($input: String!) {
-    appDonations_places(input: $input) {
+    geo_places(input: $input) {
       description
     }
   }
 `
 
-export type AppDonationsPlacesResponse = {
-  appDonations_places: Place[]
+export type GeoPlacesResponse = {
+  geo_places: Place[]
 }

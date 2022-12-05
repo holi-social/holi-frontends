@@ -1,22 +1,32 @@
 import { gql } from '@apollo/client/core'
 
 import { Insight } from '@holi/core/screens/insights/types'
+import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
+
+const LinkFragment = gql`
+  fragment LinkFragment on LinkPreview {
+    requestedUrl
+    url
+    title
+    description
+    type
+    image
+    siteName
+    origin
+  }
+`
 
 const InsightFragment = gql`
+  ${userAvatarFragment}
+  ${LinkFragment}
+
   fragment InsightFull on Insight {
     id
     title
     description
     datePublished
     creator {
-      id
-      avatar
-      avatarLabel
-      avatarDefaultColor
-      firstName
-      lastName
-      fullName
-      aboutMe
+      ...UserAvatar
     }
     headerImage
     topic {
@@ -29,13 +39,14 @@ const InsightFragment = gql`
       title
       created
       creator {
+        ...UserAvatar
+      }
+      links {
+        ...LinkFragment
+      }
+      mentions {
         id
-        firstName
-        lastName
         fullName
-        avatar
-        avatarLabel
-        avatarDefaultColor
       }
     }
   }

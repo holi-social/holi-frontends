@@ -24,7 +24,10 @@ export enum RouteName {
   DonationsAppHome = 'DonationsAppHome',
   DonationsAppProjectDetail = 'DonationsAppProjectDetail',
 
-  // Volonteering app
+  // GoodNews app
+  GoodNewsAppHome = 'GoodNewsAppHome',
+
+  // Volunteering app
   VolunteeringAppHome = 'VolunteeringAppHome',
 
   // separate Stacks
@@ -36,6 +39,7 @@ export enum RouteName {
   Search = 'Search',
   DonationsApp = 'DonationsApp',
   VolunteeringApp = 'VolunteeringApp',
+  GoodNewsApp = 'GoodNewsApp',
 
   // Root Stack
   Login = 'Login',

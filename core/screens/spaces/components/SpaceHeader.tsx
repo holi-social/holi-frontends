@@ -70,7 +70,6 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    // backgroundColor: colors.backgroundColorWhite,
   },
   title: {
     paddingTop: 24,
