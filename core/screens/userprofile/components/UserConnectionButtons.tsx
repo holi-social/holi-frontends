@@ -13,18 +13,17 @@ import { UpdateConnectionWithUserActions, User, UserConnectionStatus } from '@ho
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 
-type UserConnectionButtonProps = {
+type UserConnectionButtonsProps = {
   user: User
   fullName: string
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
 
-const UserConnectionButton: React.VFC<UserConnectionButtonProps> = ({ user, fullName, style }) => {
+const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, fullName, style }) => {
   const [updateConnectionWithUser, { loading, error }] = useMutation<UpdateConnectionWithUserResponse>(
-    updateConnectionWithUserMutation,
-    { onCompleted: () => setShowConfirmation(false) }
+    updateConnectionWithUserMutation
   )
-  const [showConfirmation, setShowConfirmation] = useState(false)
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const { t } = useTranslation()
 
   if (error) {
@@ -35,29 +34,25 @@ const UserConnectionButton: React.VFC<UserConnectionButtonProps> = ({ user, full
   const connectionStatusToMyself = user.connectionStatusToMyself || UserConnectionStatus.NOT_LOGGED_IN
   const connectionRequested = connectionStatusToMyself === UserConnectionStatus.REQUESTED
 
-  const updateUserConnectionStatus = () => {
+  const updateUserConnectionStatus = (action: UpdateConnectionWithUserActions) => {
     updateConnectionWithUser({
       variables: {
         input: {
           userId: user.id,
-          action:
-            connectionStatusToMyself === UserConnectionStatus.NOT_CONNECTED ||
-            connectionStatusToMyself === UserConnectionStatus.PENDING_CONFIRMATION
-              ? UpdateConnectionWithUserActions.CONNECT
-              : UpdateConnectionWithUserActions.DISCONNECT,
+          action,
         },
       },
     })
   }
 
-  const onPress = () => {
+  const onPrimaryPress = () => {
     if (
-      connectionStatusToMyself !== UserConnectionStatus.NOT_CONNECTED &&
-      connectionStatusToMyself !== UserConnectionStatus.PENDING_CONFIRMATION
+      connectionStatusToMyself === UserConnectionStatus.NOT_CONNECTED ||
+      connectionStatusToMyself === UserConnectionStatus.PENDING_CONFIRMATION
     ) {
-      setShowConfirmation(true)
+      updateUserConnectionStatus(UpdateConnectionWithUserActions.CONNECT)
     } else {
-      updateUserConnectionStatus()
+      setShowConfirmationModal(true)
     }
   }
 
@@ -68,33 +63,54 @@ const UserConnectionButton: React.VFC<UserConnectionButtonProps> = ({ user, full
         inline
         label={t(`user.profileView.connection.button.${connectionStatusToMyself}`)}
         style={style}
-        onPress={onPress}
+        onPress={onPrimaryPress}
         disabled={loading}
         testID={`user-connection-button-${connectionStatusToMyself}`}
       >
         {t(`user.profileView.connection.button.${connectionStatusToMyself}`)}{' '}
         {connectionRequested && <HoliIcon icon="time" style={styles.requestedStatusButtonIcon} />}
       </HoliButton>
+
+      {connectionStatusToMyself === UserConnectionStatus.PENDING_CONFIRMATION && (
+        <HoliButton
+          inline
+          type="secondary"
+          label={t('user.profileView.connection.button.IGNORE')}
+          style={style}
+          onPress={() => updateUserConnectionStatus(UpdateConnectionWithUserActions.DISCONNECT)}
+          disabled={loading}
+          testID={'user-connection-button-ignore'}
+        >
+          {t('user.profileView.connection.button.IGNORE')}
+        </HoliButton>
+      )}
+
       <HoliConfirmation
-        show={showConfirmation}
+        show={showConfirmationModal}
         label={t(`user.profileView.connection.confirmation.title.${connectionStatusToMyself}`)}
         title={t(`user.profileView.connection.confirmation.title.${connectionStatusToMyself}`)}
         description={t(`user.profileView.connection.confirmation.description.${connectionStatusToMyself}`, {
           fullName,
         })}
-        onDismiss={() => setShowConfirmation(false)}
+        onDismiss={() => setShowConfirmationModal(false)}
         dismissText={t(`user.profileView.connection.confirmation.dismiss.${connectionStatusToMyself}`)}
         confirmText={t(`user.profileView.connection.confirmation.confirm.${connectionStatusToMyself}`)}
         testID="user-connection"
+        // onConfirm needs to be null if not logged in to hide the confirm button inside the dialog
         {...(connectionStatusToMyself !== UserConnectionStatus.NOT_LOGGED_IN
-          ? { onConfirm: updateUserConnectionStatus }
+          ? {
+              onConfirm: () => {
+                setShowConfirmationModal(false)
+                updateUserConnectionStatus(UpdateConnectionWithUserActions.DISCONNECT)
+              },
+            }
           : {})}
       />
     </>
   )
 }
 
-export default UserConnectionButton
+export default UserConnectionButtons
 
 const styles = StyleSheet.create({
   requestedStatusButtonIcon: {

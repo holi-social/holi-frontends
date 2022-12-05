@@ -230,6 +230,7 @@
   "user.profileView.connection.button.NOT_LOGGED_IN": "Verbinden",
   "user.profileView.connection.button.PENDING_CONFIRMATION": "Akzeptieren",
   "user.profileView.connection.button.REQUESTED": "Angefragt",
+  "user.profileView.connection.button.IGNORE": "Ignorieren",
   "user.profileView.connection.confirmation.confirm.CONNECTED": "Ja",
   "user.profileView.connection.confirmation.confirm.REQUESTED": "Ja",
   "user.profileView.connection.confirmation.description.CONNECTED": "Möchtest du {{fullName}} als Verbindung entfernen?",
