@@ -1,46 +1,69 @@
 import React, { memo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import HoliSlider from '@holi/core/screens/spaces/components/HoliSlider'
 import SpaceCard from '@holi/core/screens/spaces/components/SpaceCard'
+import SpacesHorizontalSlider from '@holi/core/screens/spaces/components/SpacesHorizontalSlider'
+import SpacesSeeMore from '@holi/core/screens/spaces/components/SpacesSeeMore'
 import { Space } from '@holi/core/screens/spaces/types'
 import { Topic } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 type TopicSliderProps = {
   topic: Topic
   spaces: Space[]
   style?: StyleProp<ViewStyle>
+  paddingVertical?: number
+  slideGap?: number
+  hasMore?: boolean
 }
 
-const TopicSlider: React.VFC<TopicSliderProps> = ({ topic, spaces, style }: TopicSliderProps) => {
-  const { t } = useTranslation()
+const TopicSlider: React.VFC<TopicSliderProps> = ({
+  topic,
+  spaces,
+  style,
+  paddingVertical = 8,
+  slideGap = 8,
+  hasMore = false,
+}: TopicSliderProps) => {
   const { navigate } = useRouting()
+  const { width: screenWidth } = useWindowDimensions()
+  const testID = 'spaces-topic-container'
+  const imageHeight = Platform.OS === 'web' ? 160 : screenWidth / 2 - 40
 
   return (
-    <View style={[styles.slider, style]} testID="spaces-topic-container">
+    <View style={[styles.slider, style]} testID={testID}>
       <View style={styles.sliderHeader}>
         <HoliText size="large" testID="spaces-topic-title">
           {topic.title}
         </HoliText>
-        <HoliButton
-          label={`${topic} - ${t('spaces.viewAll')}`}
-          onPress={() => navigate(`/spaces/filter?topicId=${topic.id}`)}
-          transparent
-          inline
-          testID="btn-to-topic"
-        >
-          <HoliText size="small">{t('spaces.viewAll')}</HoliText>
-        </HoliButton>
       </View>
-      <HoliSlider size="large">
+      <SpacesHorizontalSlider
+        slideGap={slideGap}
+        seeMoreButton={
+          hasMore && (
+            <SpacesSeeMore
+              style={{ paddingVertical, marginRight: 40 }}
+              imageHeight={imageHeight}
+              onPress={() => navigate(`/spaces/filter?topicId=${topic.id}`)}
+              testID={`${testID}-see-more`}
+            />
+          )
+        }
+      >
         {spaces.map((space) => (
-          <SpaceCard key={space.id} space={space} />
+          <SpaceCard
+            key={space.id}
+            space={space}
+            imageHeight={imageHeight}
+            style={{
+              paddingVertical: paddingVertical,
+              paddingHorizontal: slideGap,
+              marginRight: slideGap,
+            }}
+          />
         ))}
-      </HoliSlider>
+      </SpacesHorizontalSlider>
     </View>
   )
 }

@@ -70,7 +70,7 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestions
         >
           <View style={styles.moreSuggestionsImageContainer}>
             <HoliLocalImage
-              imageSource={require('@holi/ui/assets/img/illustrations/illustration_user_suggestions.png')}
+              imageSource={require('@holi/ui/assets/img/illustrations/illustration_see_more.png')}
               width={125.6}
               height={125.6}
               label=""
