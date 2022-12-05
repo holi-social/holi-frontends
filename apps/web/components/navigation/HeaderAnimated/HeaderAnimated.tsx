@@ -61,7 +61,7 @@ const HeaderAnimated: React.VoidFunctionComponent = () => {
     headerRight,
     headerTransparent,
     headerTintColor,
-    headerCustomOptions: { headerBackgroundImageURI, headerBackgroundGradient, headerBackgroundCustom } = {},
+    navigationCustomOptions: { headerBackgroundImageURI, headerBackgroundGradient, headerBackgroundCustom } = {},
   } = options
 
   return (

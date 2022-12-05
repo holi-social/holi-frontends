@@ -19,9 +19,19 @@ export const PostCommentFragment = gql`
   }
 `
 
+export const PostImageFragment = gql`
+  fragment PostImageData on PostImage {
+    id
+    url
+    height
+    width
+  }
+`
+
 export const PostFragment = gql`
   ${userAvatarFragment}
   ${PostCommentFragment}
+  ${PostImageFragment}
 
   fragment PostFull on Post {
     id
@@ -33,6 +43,9 @@ export const PostFragment = gql`
     }
     comments {
       ...PostCommentFull
+    }
+    image {
+      ...PostImageData
     }
     mentions {
       id

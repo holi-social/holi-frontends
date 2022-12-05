@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
@@ -12,6 +11,7 @@ import Login from '@holi/core/auth/screens/Login'
 import Logout from '@holi/core/auth/screens/Logout'
 import Registration from '@holi/core/auth/screens/Registration'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
@@ -63,12 +63,12 @@ const HomeStack = createNativeStackNavigator<HomeStackScreens>()
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
-const screensWithoutFooter = [
-  RouteName.InsightDetailPage,
-  RouteName.PostDetailPage,
-  RouteName.CommentInputPage,
-  RouteName.SpaceDetails,
-]
+// const screensWithoutFooter = [
+//   RouteName.InsightDetailPage,
+//   RouteName.PostDetailPage,
+//   RouteName.CommentInputPage,
+//   RouteName.SpaceDetails,
+// ]
 
 export const HomeStackNavigator: React.VFC = () => {
   return (
@@ -92,6 +92,7 @@ export const HomeStackNavigator: React.VFC = () => {
 }
 
 export const BottomTabsNavigator: React.VFC = () => {
+  const { options } = useUnifiedNavigation()
   const iconColor = (isActive: boolean) => (isActive ? colors.fontColorBlack : colors.fontColorGrey)
   const { t } = useTranslation()
   const { isLoggedIn } = useContext(AuthContext)
@@ -99,16 +100,14 @@ export const BottomTabsNavigator: React.VFC = () => {
   return (
     <BottomTabs.Navigator
       initialRouteName={RouteName.Home}
-      screenOptions={({ route }) => {
-        const focusedRoute = getFocusedRouteNameFromRoute(route) as RouteName | undefined
-
+      screenOptions={() => {
         return {
           tabBarStyle: {
             backgroundColor: colors.backgroundColorWhite,
             paddingHorizontal: 0,
             borderTopWidth: StyleSheet.hairlineWidth,
             borderTopColor: colors.fontColorGrey,
-            ...(focusedRoute && screensWithoutFooter.includes(focusedRoute) ? { display: 'none' } : {}),
+            ...(options.navigationCustomOptions?.footerShown === false ? { display: 'none' } : {}),
             tabBarShowLabel: true,
             tabBarLabelStyle: {
               color: 'black',
