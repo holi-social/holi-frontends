@@ -7,7 +7,7 @@ import { displayError } from '@holi/core/errors/helpers'
 import { AuthenticatedUserResponse, authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 
-interface Context {
+interface UserContext {
   isLoading: boolean
   user: User | undefined
 }
@@ -17,7 +17,7 @@ const initialState = {
   user: undefined,
 }
 
-export const UserContext = createContext<Context>(initialState)
+export const UserContext = createContext<UserContext>(initialState)
 UserContext.displayName = 'UserContext'
 
 const UserContextProvider: React.FC = ({ children }) => {
