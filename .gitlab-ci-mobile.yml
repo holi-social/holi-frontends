@@ -131,7 +131,7 @@ mobile_review_e2e_android:
   extends: .mobile_e2e_android
   needs: ['mobile_review_build_android']
   variables:
-    TEST_SUITES: (smoke|integration)
+    TEST_SUITES: (smoke|journey)
   except:
     - main
     - /^noenv\/.*/
@@ -141,7 +141,7 @@ mobile_review_e2e_ios:
   extends: .mobile_e2e_ios
   needs: ['mobile_review_build_ios', 'mobile_review_e2e_android']
   variables:
-    TEST_SUITES: (smoke|integration)
+    TEST_SUITES: (smoke|journey)
   except:
     - main
     - /^noenv\/.*/
