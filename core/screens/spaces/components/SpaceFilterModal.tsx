@@ -28,15 +28,17 @@ type SpaceFilterModalProps = {
 const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, applyFilters, topics }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const [topicId, setTopicId] = useState(filters.topicId)
+  const [location, setLocation] = useState(filters.location)
   const [showFilterModal, setShowFilterModal] = useState(false)
   const closeModal = useCallback(() => {
+    setTopicId(filters.topicId)
+    setLocation(filters.location)
     setShowFilterModal(false)
-  }, [setShowFilterModal])
+  }, [setShowFilterModal, setTopicId, setLocation, filters])
   const openModal = useCallback(() => {
     setShowFilterModal(true)
   }, [setShowFilterModal])
-  const [topicId, setTopicId] = useState(filters.topicId)
-  const [location, setLocation] = useState(filters.location)
   const submit = useCallback(() => {
     closeModal()
     applyFilters({
