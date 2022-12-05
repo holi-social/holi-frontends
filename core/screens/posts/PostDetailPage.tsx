@@ -141,6 +141,8 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
   )
 }
 
+const COMMENT_BUTTON_CONTAINER_HEIGHT = 74
+
 const styles = StyleSheet.create({
   commentsView: {
     paddingTop: 20,
@@ -160,6 +162,7 @@ const styles = StyleSheet.create({
   },
   postCommentButton: {
     width: '100%',
+    height: COMMENT_BUTTON_CONTAINER_HEIGHT,
     ...Platform.select({
       web: {
         position: 'fixed',

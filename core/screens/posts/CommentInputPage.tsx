@@ -65,6 +65,9 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
       setOptions({
         title: t('insights.posts.comments.title'),
         headerStyle: { backgroundColor: colors.backgroundColorWhite },
+        navigationCustomOptions: {
+          footerShown: false,
+        },
       }),
     [setOptions, t]
   )
@@ -177,10 +180,13 @@ const SUGGESTIONS_DROPDOWN_HEIGHT = 200
 const styles = StyleSheet.create({
   root: {
     paddingTop: vars.topBarHeight,
-    paddingBottom: vars.bottomBarHeight + SUBMIT_BUTTON_CONTAINER_HEIGHT,
+
     height: '100%', // prevents double scrollbars
     ...Platform.select({
       web: { height: '100vh' },
+      ios: {
+        paddingBottom: vars.bottomBarHeight + SUBMIT_BUTTON_CONTAINER_HEIGHT,
+      },
       android: {
         paddingBottom: 0,
       },
@@ -223,9 +229,8 @@ const styles = StyleSheet.create({
     height: SUBMIT_BUTTON_CONTAINER_HEIGHT,
     ...Platform.select({
       web: {
-        // bottom nav is only visible in web
         position: 'fixed',
-        bottom: vars.bottomBarHeight,
+        bottom: 0,
       },
     }),
   },

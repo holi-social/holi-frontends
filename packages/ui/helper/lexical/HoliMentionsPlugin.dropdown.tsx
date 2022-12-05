@@ -18,7 +18,7 @@ const HoliLexicalMentionsDropdown: React.VFC<HoliLexicalMentionsDropdownProps> =
     <ul style={styles.suggestionsContainer}>
       {props.optionslist.map((option, i: number) => (
         <li
-          key={option.key}
+          key={`${option.key}-${i}`}
           tabIndex={-1}
           className={`item ${props.selectedIndex === i && 'selected'}`}
           ref={option.setRefElement}

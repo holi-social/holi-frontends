@@ -21,7 +21,6 @@ export const useUnifiedNavigation = () => {
     if (navigationRef.isReady()) {
       if (context.options.navigationCustomOptions?.footerShown !== navigationRefOptions) {
         setUnifiedOptions((currentOptions: NavigationCustomOptions) => {
-          console.log('navigationRefOptions: ', navigationRefOptions)
           return {
             ...currentOptions,
             navigationCustomOptions: {
