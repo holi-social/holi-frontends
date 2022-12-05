@@ -3,13 +3,13 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import LinkPreview from '@holi/core/screens/posts/components/LinkPreview'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
+import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -49,7 +49,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post, style }) =>
 
       {!!post.links?.length && (
         <View style={styles.paddingHorizontal}>
-          <LinkPreview style={styles.linkPreview} previewData={post.links[0]} label={post.links[0].title} />
+          <HoliLinkPreview style={styles.linkPreview} previewData={post.links[0]} />
         </View>
       )}
     </View>
