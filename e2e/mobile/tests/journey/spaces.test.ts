@@ -1,9 +1,10 @@
-import { waitForHomeScreen } from '../helpers/navigation'
+import { waitForHomeScreen } from '../../helpers/navigation'
 import {
   locateMultipleElementsWithTestId,
   tapOnElementWithTestId,
+  waitForElementWithInnerText,
   waitForElementWithTestId,
-} from '../helpers/selectors'
+} from '../../helpers/selectors'
 
 const navigateToSpaces = async () => {
   await waitForHomeScreen()
@@ -28,6 +29,19 @@ describe('@Spaces', () => {
     expect(topics.length).toBeGreaterThan(1)
     const spaces = await locateMultipleElementsWithTestId('btn-to-space')
     expect(spaces.length).toBeGreaterThan(1)
+  })
+
+  it('should go to filtered spaces page and display multiple spaces with that filter', async () => {
+    const topicElement = await waitForElementWithTestId('spaces-topic-title')
+    const topicTitle = await topicElement.getText()
+
+    await tapOnElementWithTestId('spaces-topic-title')
+
+    // check if page title is the same as topic title
+    await waitForElementWithInnerText(topicTitle)
+
+    // check if there is at least one space card (button to space)
+    await waitForElementWithTestId('btn-to-space')
   })
 
   it('should display space details', async () => {

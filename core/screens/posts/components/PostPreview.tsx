@@ -46,7 +46,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post, style }) =>
         </HoliReadMore>
       </View>
       <PostImage uri={imageUrl} postTitle={post.title} />
-      {post.links && post.links?.length > 0 && (
+      {!!post.links?.length && (
         <View style={styles.paddingHorizontal}>
           <LinkPreview style={styles.linkPreview} previewData={post.links[0]} label={post.links[0].title} />
         </View>

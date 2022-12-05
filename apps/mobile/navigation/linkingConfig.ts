@@ -61,6 +61,11 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.VolunteeringAppHome]: 'apps/volunteering',
       },
     },
+    [RouteName.GoodNewsApp]: {
+      screens: {
+        [RouteName.GoodNewsAppHome]: 'apps/goodnews',
+      },
+    },
     // all modals
     [RouteName.Login]: 'login',
     [RouteName.Logout]: 'logout',
