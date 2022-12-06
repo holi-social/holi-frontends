@@ -2,7 +2,7 @@ import Head from 'next/head'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import FooterTabBar from '@holi/web/components/navigation/FooterTabBar'
+import Footer from '@holi/web/components/navigation/Footer'
 import HeaderAnimated from '@holi/web/components/navigation/HeaderAnimated'
 
 import navigationLayoutRootStyles from './NavigationLayoutRoot.module.scss'
@@ -27,11 +27,7 @@ const DefaultLayout: React.FC = ({ children }) => {
 
       <main className={navigationLayoutRootStyles.main}>{children}</main>
 
-      <footer className={navigationLayoutRootStyles.footer}>
-        <div className={navigationLayoutRootStyles.footerInner}>
-          <FooterTabBar />
-        </div>
-      </footer>
+      <Footer className={navigationLayoutRootStyles.footer} />
     </>
   )
 }
