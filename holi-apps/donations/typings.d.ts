@@ -62,7 +62,3 @@ export interface ProjectsResponse {
   totalResults: number
   projects: Project[]
 }
-
-export interface Place {
-  description: string
-}
