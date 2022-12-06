@@ -1,4 +1,4 @@
-import { waitForHomeScreen } from '../../helpers/navigation'
+import { navigateToAppById } from '../../helpers/navigation'
 import {
   fillFieldByTestId,
   locateMultipleElementsWithTestId,
@@ -9,13 +9,6 @@ import {
   waitForElementWithTestId,
   waitForElementWithTestIdToBeNull,
 } from '../../helpers/selectors'
-
-const navigateToDonationsApp = async () => {
-  await waitForHomeScreen()
-  await tapOnElementWithTestId('home-apps-button')
-  await tapOnElementWithTestId('app-tile-donations')
-  await waitForElementWithTestId('donations-list-container')
-}
 
 const extractResultCount = async (testId: string): Promise<number> => {
   const element = await waitForElementWithTestId(testId)
@@ -61,7 +54,7 @@ const resetFilterInModal = async () => {
 
 describe('@Donations', () => {
   beforeEach(async () => {
-    await navigateToDonationsApp()
+    await navigateToAppById('donations')
   })
 
   afterEach(async () => {
