@@ -19,9 +19,6 @@ export type PostPreviewProps = {
   style?: StyleProp<ViewStyle>
 }
 
-// TODO: remove
-const imageUrl = 'https://ipbes.net/sites/default/files/default_images/deliverables-banner-bg_0.jpg'
-
 const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post, style }) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
@@ -45,7 +42,11 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ insightId, post, style }) =>
           <HoliRichTextOutput text={post.text} users={post.mentions} />
         </HoliReadMore>
       </View>
-      <PostImage uri={imageUrl} postTitle={post.title} />
+
+      {post.image && (
+        <PostImage uri={post.image.url} height={post.image.height} width={post.image.width} postTitle={post.title} />
+      )}
+
       {!!post.links?.length && (
         <View style={styles.paddingHorizontal}>
           <LinkPreview style={styles.linkPreview} previewData={post.links[0]} label={post.links[0].title} />

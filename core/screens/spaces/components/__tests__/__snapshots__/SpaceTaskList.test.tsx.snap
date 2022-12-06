@@ -1,6 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SpaceTaskList renders correctly when there are no tasks within space 1`] = `null`;
+exports[`SpaceTaskList renders correctly when there are no tasks within space 1`] = `
+<View
+  style={
+    Array [
+      undefined,
+      Object {
+        "alignItems": "center",
+        "paddingTop": 60,
+      },
+    ]
+  }
+>
+  <Text
+    accessible={false}
+    selectable={true}
+    style={
+      Array [
+        Object {
+          "color": "#222326",
+          "fontFamily": "Circular Std Book",
+          "fontWeight": "400",
+        },
+        Object {
+          "fontSize": 16,
+          "lineHeight": 19.2,
+        },
+        Object {},
+        Object {},
+      ]
+    }
+  >
+    spaces.spaceDetails.tasks.empty
+  </Text>
+</View>
+`;
 
 exports[`SpaceTaskList renders correctly when there are tasks within space 1`] = `
 <View>
@@ -22,7 +56,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
       ]
     }
   >
-    spaces.spaceDetails.tasksHeading
+    spaces.spaceDetails.tasks.heading
   </Text>
   <View
     style={

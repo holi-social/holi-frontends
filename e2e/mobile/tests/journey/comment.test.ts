@@ -33,7 +33,7 @@ describe('@Comment', () => {
 
     // create e2e comment and fill the textinput
     const comment = `e2e comment ${faker.random.alphaNumeric(5)}`
-    await fillFieldByTestId('post-comment-input', comment)
+    await fillFieldByTestId('post-comment', comment)
 
     // submit comment
     await tapOnElementWithTestId('btn-submit-comment')

@@ -3,23 +3,24 @@ import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle, useWindow
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
-import variables from '@holi/ui/styles/globalVars/variables'
 
-type HoliSliderProps = {
+type SpacesHorizontalSliderProps = {
   style?: StyleProp<ViewStyle>
-  size?: 'small' | 'medium' | 'large'
+  seeMoreButton?: React.ReactNode
   isLoading?: boolean
   testID?: string
   children?: React.ReactNode[]
+  slideGap: number
 }
 
-const HoliSlider: React.VFC<HoliSliderProps> = ({
+const SpacesHorizontalSlider: React.VFC<SpacesHorizontalSliderProps> = ({
   style,
-  size = 'medium',
   isLoading = false,
   testID = 'holi-slider',
+  seeMoreButton,
   children,
-}: HoliSliderProps) => {
+  slideGap,
+}: SpacesHorizontalSliderProps) => {
   const { width: screenWidth } = useWindowDimensions()
   const styles = getStyles(screenWidth)
 
@@ -28,34 +29,26 @@ const HoliSlider: React.VFC<HoliSliderProps> = ({
       <ScrollView style={styles.scrollViewContainer} horizontal testID={testID}>
         {children &&
           children.map((child, index) => (
-            <View key={index} style={[styles.cardContainer, styles[`cardContainer_${size}`]]}>
+            <View key={index} style={[{ marginRight: slideGap }, styles.cardContainer]}>
               {child}
             </View>
           ))}
         {isLoading && (
-          <View style={[styles.loadingContainer, styles[`cardContainer_${size}`]]}>
+          <View style={[styles.loadingContainer, styles.cardContainer]}>
             <HoliIcon icon="loader-4" size={50} color={colors.fontColorGrey} spinning />
           </View>
         )}
+        {seeMoreButton}
       </ScrollView>
     </View>
   )
 }
-export default memo(HoliSlider)
+export default memo(SpacesHorizontalSlider)
 
 const getStyles = (screenWidth: number) =>
   StyleSheet.create({
     cardContainer: {
-      marginRight: 8,
-    },
-    cardContainer_small: {
-      width: Platform.OS === 'web' && screenWidth > +variables.breakpointS ? 160 : screenWidth / 2.5 - 24,
-    },
-    cardContainer_medium: {
-      width: Platform.OS === 'web' && screenWidth > +variables.breakpointS ? 260 : screenWidth / 2.1 - 24,
-    },
-    cardContainer_large: {
-      width: Platform.OS === 'web' && screenWidth > +variables.breakpointS ? 320 : screenWidth / 1.5 - 12,
+      width: Platform.OS === 'web' ? 320 : screenWidth / 1.5 - 12,
     },
     scrollViewContainer: {
       paddingVertical: 18,
