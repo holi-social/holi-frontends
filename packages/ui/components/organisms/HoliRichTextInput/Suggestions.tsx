@@ -55,8 +55,8 @@ const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps>
   }, [keyword, setValueDebounced])
 
   useEffect(() => {
-    if (debouncedKeyword === INITIAL_VALUE) return
-    if (debouncedKeyword.length < minSearchChars) return
+    if (debouncedKeyword === INITIAL_VALUE) return setSafeSuggestions([])
+    if (debouncedKeyword.length < minSearchChars) return setSafeSuggestions([])
     findUsersByName(debouncedKeyword).then(setSafeSuggestions)
   }, [debouncedKeyword, minSearchChars, findUsersByName, setSafeSuggestions])
 
