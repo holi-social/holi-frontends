@@ -40,7 +40,7 @@ export const scrollToElementWithTestId = async (
   // scrollIntoView is not supported for iOS and webdriverio currently requires a manual scroll down, instead of a scroll into element
   // https://github.com/webdriverio/webdriverio/issues/6537 and https://stackoverflow.com/questions/42656872/how-to-do-scroll-on-ios-native-app-with-webdriver-io
   if (platform !== 'ios') {
-    Appium.$(`android=new UiScrollable(new UiSelector().resourceId("scroll-container")).scrollToBeginning(10, 10)`)
+    Appium.$('android=new UiScrollable(new UiSelector().resourceId("scroll-container")).scrollToBeginning(10, 10)')
   }
   let scrollCounter = 0
   while (scrollCounter < maxAttempts) {
