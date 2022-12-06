@@ -1,8 +1,9 @@
 import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ViewStyle } from 'react-native'
+import { StyleSheet, ViewStyle } from 'react-native'
 
+import HoliIcon from '@holi//ui/components/atoms/HoliIcon'
 import { displayError } from '@holi/core/errors/helpers'
 import {
   UpdateConnectionWithUserResponse,
@@ -32,6 +33,7 @@ const UserConnectionButton: React.VFC<UserConnectionButtonProps> = ({ user, full
 
   // when not logged in, user has connectionStatusToMyself as null
   const connectionStatusToMyself = user.connectionStatusToMyself || UserConnectionStatus.NOT_LOGGED_IN
+  const connectionRequested = connectionStatusToMyself === UserConnectionStatus.REQUESTED
 
   const updateUserConnectionStatus = () => {
     updateConnectionWithUser({
@@ -62,6 +64,7 @@ const UserConnectionButton: React.VFC<UserConnectionButtonProps> = ({ user, full
   return (
     <>
       <HoliButton
+        type={connectionRequested ? 'secondary' : 'primary'}
         inline
         label={t(`user.profileView.connection.button.${connectionStatusToMyself}`)}
         style={style}
@@ -69,7 +72,8 @@ const UserConnectionButton: React.VFC<UserConnectionButtonProps> = ({ user, full
         disabled={loading}
         testID={`user-connection-button-${connectionStatusToMyself}`}
       >
-        {t(`user.profileView.connection.button.${connectionStatusToMyself}`)}
+        {t(`user.profileView.connection.button.${connectionStatusToMyself}`)}{' '}
+        {connectionRequested && <HoliIcon icon="time" style={styles.requestedStatusButtonIcon} />}
       </HoliButton>
       <HoliConfirmation
         show={showConfirmation}
@@ -91,3 +95,9 @@ const UserConnectionButton: React.VFC<UserConnectionButtonProps> = ({ user, full
 }
 
 export default UserConnectionButton
+
+const styles = StyleSheet.create({
+  requestedStatusButtonIcon: {
+    marginLeft: 4,
+  },
+})
