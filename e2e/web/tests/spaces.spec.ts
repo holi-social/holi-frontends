@@ -37,9 +37,6 @@ test.describe('@Spaces', () => {
   test('should go to filtered spaces page and display multiple spaces with that filter', async ({ page }) => {
     await clickElementByTestId(page, 'spaces-topic-container-see-more')
 
-    // check if topic title is displayed
-    await locateElementByTestId(page, 'spaces-topic-title')
-
     // check if there is at least one space card (button to space)
     await waitForElementByTestId(page, 'btn-to-space')
 
