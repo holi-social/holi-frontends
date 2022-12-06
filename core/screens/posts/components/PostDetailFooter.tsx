@@ -38,14 +38,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundColor,
     borderTopWidth: 1,
     ...Platform.select({
-      android: {
-        paddingBottom: 32,
-      },
-      ios: {
-        paddingBottom: 27,
-      },
       web: {
-        paddingBottom: 93,
         width: '100%',
       },
     }),
