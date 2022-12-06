@@ -112,7 +112,6 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
               <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
             </View>
           ) : (
-            // TODO: properly handle not found
             <FilteredNoResults onPress={() => navigate('/spaces')} style={styles.noResults} />
           ))}
         {canFetchMore && (

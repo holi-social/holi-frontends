@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -11,16 +12,18 @@ type FilteredNoResultsProps = {
 }
 
 const FilteredNoResults: React.VFC<FilteredNoResultsProps> = ({ style, onPress }) => {
+  const { t } = useTranslation()
+
   return (
     <View style={[style, styles.container]}>
       <HoliText size="small" style={styles.title}>
-        No results yet
+        {t('spaces.filter.notFound.title')}
       </HoliText>
       <HoliText size="large" style={styles.description}>
-        We couldn&apos;t find any opportunities that match your filters.
+        {t('spaces.filter.notFound.description')}
       </HoliText>
-      <HoliButton label={''} style={styles.createBtn} onPress={onPress}>
-        <HoliText>Clear filters</HoliText>
+      <HoliButton label={''} style={styles.clearBtn} onPress={onPress}>
+        <HoliText>{t('spaces.filter.clear.btn')}</HoliText>
       </HoliButton>
     </View>
   )
@@ -35,7 +38,7 @@ const styles = StyleSheet.create({
     borderColor: colors.borderColorGrey,
     backgroundColor: colors.backgroundColorWhite,
   },
-  createBtn: {
+  clearBtn: {
     marginTop: 24,
     width: 'auto',
     borderWidth: 1,
