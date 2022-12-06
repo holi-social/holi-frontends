@@ -73,16 +73,12 @@ describe('@Donations', () => {
     }
   })
 
-  it('should display multiple projects', async () => {
-    // listItems only contains elements visible in viewport
-    const listItems = await locateMultipleElementsWithTestId('donations-list-item')
-    expect(listItems.length).toBeGreaterThan(1)
-  })
-
-  it('should allow pagination', async () => {
+  it('should do many things', async () => {
     // scroll to button and count elements in viewport
     await scrollToElementWithTestId('btn-donation-list-load-more', 'down', { maxAttempts: 10 })
     const listItemsBefore = await locateMultipleElementsWithTestId('donations-list-item')
+    // it should display multiple projects
+    expect(listItemsBefore.length).toBeGreaterThan(1)
 
     // load more
     await tapOnElementWithTestId('btn-donation-list-load-more')
@@ -92,20 +88,19 @@ describe('@Donations', () => {
 
     // expect more elements in viewport than before (as the button has been pushed down)
     const listItemsAfter = await locateMultipleElementsWithTestId('donations-list-item')
+    // it should allow pagination
     expect(listItemsAfter.length).toBeGreaterThan(listItemsBefore.length)
-  })
 
-  it('should display project details', async () => {
-    // click first element in list
+    // it should display project details
     await tapOnElementWithTestId('donations-list-item')
-
     await waitForElementWithTestId('donations-project-detail-heading')
-
     await waitForElementWithTestId('donations-project-detail-donate-btn')
     await waitForElementWithTestId('donations-project-initiative-btn')
-  })
 
-  it('should filter donations by location', async () => {
+    await scrollToElementWithTestId('nav-button-back', 'up')
+    await tapOnElementWithTestId('nav-button-back', 0)
+
+    // it should filter donations by location
     // filter for "Germany"
     await filterForLocation('Germany')
 
@@ -122,58 +117,28 @@ describe('@Donations', () => {
     const resultCountHamburg = await extractResultCount('donations-list-search-summary')
     expect(resultCountHamburg).toBeGreaterThan(0)
     expect(resultCountHamburg).toBeLessThan(resultCountGermany)
-  })
-
-  it('should reset donations filter from list', async () => {
-    // filter for "Germany"
-    await filterForLocation('Germany')
-
-    // assert results
-    await seeTextWithTestId('Germany', 'donations-list-search-heading')
-    const resultCountGermany = await extractResultCount('donations-list-search-summary')
-    expect(resultCountGermany).toBeGreaterThan(0)
 
     // reset filter in list
     await tapOnElementWithTestId('donations-list-search-reset')
-
-    // assert reset
+    // it should reset donations filter from list
     expect(await waitForElementWithTestId('donations-list-unfiltered'))
-  })
 
-  it('should reset donations filter from modal', async () => {
+    // it should display details of filter results
     // filter for "Germany"
-    await filterForLocation('Germany')
-
-    // assert results
-    await seeTextWithTestId('Germany', 'donations-list-search-heading')
-    const resultCountGermany = await extractResultCount('donations-list-search-summary')
-    expect(resultCountGermany).toBeGreaterThan(0)
-
-    // reset filter in modal
-    await resetFilterInModal()
-
-    // assert reset
-    await waitForElementWithTestId('donations-list-unfiltered')
-  })
-
-  it('should display details of filter results', async () => {
-    // filter for "Hamburg"
     await filterForLocation('Hamburg')
-
-    // expect filtered list
-    await seeTextWithTestId('Hamburg', 'donations-list-search-heading')
-
     // click first element in list
     await tapOnElementWithTestId('donations-list-item')
-
     // expect detail view
     await waitForElementWithTestId('donations-project-detail-heading')
-
     // navigate back
     await scrollToElementWithTestId('nav-button-back', 'up')
     await tapOnElementWithTestId('nav-button-back')
-
     // expect filtered list
     await seeTextWithTestId('Hamburg', 'donations-list-search-heading')
+
+    // it should reset donations filter from modal
+    await resetFilterInModal()
+    // assert reset
+    await waitForElementWithTestId('donations-list-unfiltered')
   })
 })
