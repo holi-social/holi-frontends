@@ -14,27 +14,15 @@ const HoliLocalImage: React.VoidFunctionComponent<HoliLocalImageProps> = ({
   label,
   width,
   height,
-  style,
   resizeMode = 'cover',
 }: HoliLocalImageProps) => {
   const pathFromRequire = imageSource.src
   const pathFromImport = imageSource.default?.src
   const path = pathFromRequire || pathFromImport || `/${imageSource}`
 
-  //  if (width && height) {
   return (
-    <Image
-      src={path as string}
-      alt={label}
-      width={width}
-      height={height}
-      objectFit={resizeModeForWeb(resizeMode)}
-      style={style}
-    />
+    <Image src={path as string} alt={label} width={width} height={height} objectFit={resizeModeForWeb(resizeMode)} />
   )
-  //  } else {
-  //    return <Image src={path as string} alt={label} layout="fill" style={styleWithResizeMode} />
-  //  }
 }
 
 export default HoliLocalImage

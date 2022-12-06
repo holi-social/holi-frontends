@@ -19,7 +19,7 @@ export const useLogout = () => {
       .then(() => setUserLoggedOut())
       .then(() => {
         console.info('[Logout] logout successful')
-        navigate('/')
+        navigate('/profile')
       })
       .catch((e) => {
         console.warn('[Logout] logout failed, removing session from storage')
