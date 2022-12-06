@@ -9,7 +9,9 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import FilteredNoResults from '@holi/core/screens/spaces/FilteredNoResults'
 import SpaceFilterModal, { SpaceFilterParams } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import SpacesGrid from '@holi/core/screens/spaces/components/SpacesGrid'
 import { SpacesResponse, spacesQuery } from '@holi/core/screens/spaces/queries'
@@ -51,6 +53,7 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
   const { height: deviceHeight } = useWindowDimensions()
   const styles = getStyles(deviceHeight)
   const [fetchingMore, setFetchingMore] = useState(false)
+  const { navigate } = useRouting()
 
   const { data: topicsData } = useQuery<TopicsQueryResult>(topicsQuery)
 
@@ -110,7 +113,7 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
             </View>
           ) : (
             // TODO: properly handle not found
-            <HoliText>No results</HoliText>
+            <FilteredNoResults onPress={() => navigate('/spaces')} style={styles.noResults} />
           ))}
         {canFetchMore && (
           <View style={[mixins.container, styles.buttonContainer]}>
@@ -144,6 +147,14 @@ const getStyles = (deviceHeight: number) =>
     messageContainer: {
       alignItems: 'center',
       marginTop: 50,
+    },
+    noResults: {
+      paddingVertical: 40,
+      paddingHorizontal: 24,
+      margin: 24,
+    },
+    searchQuery: {
+      color: colors.fontColorHighlighted,
     },
   })
 
