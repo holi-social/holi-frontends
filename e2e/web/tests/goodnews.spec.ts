@@ -6,8 +6,6 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/apps/goodnews')
 })
 
-// sometimes responses to goodnews take a little longer (10s < response latency < 30s)
-// increase timeout from default of 5 seconds to 30 seconds
 const goodnewsTimeout = { timeout: 30_000 }
 
 test.describe('@GoodNews', () => {
