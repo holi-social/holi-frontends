@@ -48,7 +48,7 @@ const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossibl
       {user.aboutMe && <HoliReadMore style={styles.aboutMe}>{user.aboutMe}</HoliReadMore>}
       {contactPossible && (
         <View style={{ flexDirection: 'row', marginTop: 16 }}>
-          <UserConnectionButtons style={{ marginRight: 8 }} user={user} fullName={fullName} />
+          <UserConnectionButtons style={{ marginRight: 8 }} user={user} />
 
           <HoliButton type="secondary" inline disabled label={t('user.profileView.message')} style={{ marginRight: 8 }}>
             {t('user.profileView.message')}

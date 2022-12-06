@@ -15,11 +15,10 @@ import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 
 type UserConnectionButtonsProps = {
   user: User
-  fullName: string
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
 
-const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, fullName, style }) => {
+const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, style }) => {
   const [updateConnectionWithUser, { loading, error }] = useMutation<UpdateConnectionWithUserResponse>(
     updateConnectionWithUserMutation
   )
@@ -90,7 +89,7 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, fu
         label={t(`user.profileView.connection.confirmation.title.${connectionStatusToMyself}`)}
         title={t(`user.profileView.connection.confirmation.title.${connectionStatusToMyself}`)}
         description={t(`user.profileView.connection.confirmation.description.${connectionStatusToMyself}`, {
-          fullName,
+          name: user.fullName,
         })}
         onDismiss={() => setShowConfirmationModal(false)}
         dismissText={t(`user.profileView.connection.confirmation.dismiss.${connectionStatusToMyself}`)}

@@ -233,7 +233,7 @@
   "user.profileView.connection.button.IGNORE": "Ignorieren",
   "user.profileView.connection.confirmation.confirm.CONNECTED": "Ja",
   "user.profileView.connection.confirmation.confirm.REQUESTED": "Ja",
-  "user.profileView.connection.confirmation.description.CONNECTED": "Möchtest du {{fullName}} als Verbindung entfernen?",
+  "user.profileView.connection.confirmation.description.CONNECTED": "Möchtest du {{name}} als Verbindung entfernen?",
   "user.profileView.connection.confirmation.description.NOT_LOGGED_IN": "Bitte melden Sie sich an, bevor Sie Verbindungsanfragen stellen.",
   "user.profileView.connection.confirmation.description.REQUESTED": "Möchtest du die Verbindungsanfrage zurückziehen?",
   "user.profileView.connection.confirmation.dismiss.CONNECTED": "Nein, abbrechen",
