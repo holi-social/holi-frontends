@@ -230,7 +230,7 @@
   "user.profileView.connection.button.NOT_CONNECTED": "Connect",
   "user.profileView.connection.button.NOT_LOGGED_IN": "Connect",
   "user.profileView.connection.button.PENDING_CONFIRMATION": "Accept",
-  "user.profileView.connection.button.REQUESTED": "Requested",
+  "user.profileView.connection.button.REQUESTED": "Pending",
   "user.profileView.connection.confirmation.confirm.CONNECTED": "Yes",
   "user.profileView.connection.confirmation.confirm.REQUESTED": "Yes",
   "user.profileView.connection.confirmation.description.CONNECTED": "Would you like to remove {{fullName}} as a connection?",
