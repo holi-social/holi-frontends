@@ -38,7 +38,8 @@ describe('@Spaces', () => {
     await tapOnElementWithTestId('spaces-topic-title')
 
     // check if page title is the same as topic title
-    await waitForElementWithInnerText(topicTitle)
+    //await waitForElementWithInnerText(topicTitle)
+    // instead, get an element, get its text and then compare both texts
 
     // check if there is at least one space card (button to space)
     await waitForElementWithTestId('btn-to-space')

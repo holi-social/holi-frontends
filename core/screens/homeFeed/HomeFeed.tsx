@@ -72,7 +72,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
 
   return (
     <>
-      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
+      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} testID="scroll-container">
         <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
         <UpdatesOfYourApps style={styles.updatesOfYourApps} />
         {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}

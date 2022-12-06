@@ -38,7 +38,7 @@ const DefaultLayout: React.FC<LayoutProps> = ({
   if (Platform.OS === 'web') return screenView
 
   const mobileLayout = (
-    <ScrollView {...scrollViewProps} contentContainerStyle={[styles.scrollLayout, style]}>
+    <ScrollView {...scrollViewProps} contentContainerStyle={[styles.scrollLayout, style]} testID="scroll-view">
       {screenView}
     </ScrollView>
   )
