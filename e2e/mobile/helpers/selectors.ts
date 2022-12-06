@@ -67,12 +67,13 @@ export const scrollToElementWithTestId = async (
   return waitForElement(selector, timeout)
 }
 
-const locateMultipleElements = async (elementSelector: string) => {
+const locateMultipleElements = async (elementSelector: string): Promise<Record<string, unknown>[]> => {
   // https://webdriver.io/docs/api/browser/$$
   return await Appium.$$(elementSelector)
 }
 
-export const locateMultipleElementsWithTestId = async (testId: string) => locateMultipleElements(byTestId(testId))
+export const locateMultipleElementsWithTestId = async (testId: string): Promise<Record<string, unknown>[]> =>
+  locateMultipleElements(byTestId(testId))
 
 export const seeTextWithTestId = async (expectedText: string, testId: string) => {
   const element = await waitForElementWithTestId(testId)
