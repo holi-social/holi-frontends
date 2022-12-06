@@ -19,7 +19,9 @@ const SpaceWelcome: React.VFC<SpaceWelcomeProps> = ({ space, style }) => {
       <View style={styles.imageContainer}>
         <HoliImage source={{ uri: space.mainImage }} style={styles.mainImage} label={space.title} />
       </View>
-      <HoliText style={styles.description}>{space.description} </HoliText>
+      <HoliText style={styles.description} testID="space-description">
+        {space.description}
+      </HoliText>
     </View>
   )
 }
