@@ -53,6 +53,7 @@
   "auth.logout.confirmation.dismiss": "No, cancel",
   "auth.logout.error": "Logout failed",
   "auth.logout.heading": "Do you want to log out?",
+  "auth.logout.success": "Successfully logged out",
   "auth.register": "Register",
   "auth.registration.alreadyHasAccount": "Already got an account?",
   "auth.registration.error.initialization": "Initializing registration flow failed",

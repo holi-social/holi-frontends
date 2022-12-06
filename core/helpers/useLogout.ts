@@ -6,11 +6,13 @@ import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
 import { displayError } from '@holi/core/errors/helpers'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 export const useLogout = () => {
   const { setUserLoggedOut } = useContext(AuthContext)
   const { navigate } = useUnifiedNavigation()
   const { t } = useTranslation()
+  const { openToast } = useToast()
 
   return useCallback(() => {
     getSessionFromStorage()
@@ -20,6 +22,7 @@ export const useLogout = () => {
       .then(() => {
         console.info('[Logout] logout successful')
         navigate('/profile')
+        openToast(t('auth.logout.success'), HoliToastType.SUCCESS)
       })
       .catch((e) => {
         console.warn('[Logout] logout failed, removing session from storage')
@@ -28,5 +31,5 @@ export const useLogout = () => {
         // not displaying an user-facing error messages as with the removal from the storage logout should be done
       })
       .catch((error) => displayError(error, t('auth.logout.error')))
-  }, [navigate, setUserLoggedOut, t])
+  }, [navigate, openToast, setUserLoggedOut, t])
 }
