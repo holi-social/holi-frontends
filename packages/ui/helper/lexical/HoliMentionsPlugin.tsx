@@ -36,7 +36,7 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
   const setSafeResult = useSafeDispatch(setResults)
 
   const debouncedSearch: (keyword?: string) => void = useDebounce((keyword?: string) => {
-    if (!keyword || keyword.length < minSearchChars) return
+    if (!keyword || keyword.length < minSearchChars) return setResults([])
     findUsersByName(keyword).then(setSafeResult)
   }, debounceDelay)
 
