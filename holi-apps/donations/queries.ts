@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client/core'
 
-import { Place, Project, ProjectsResponse } from '@holi-apps/donations/typings'
+import { Project, ProjectsResponse } from '@holi-apps/donations/typings'
 
 export const projectFragment = gql`
   fragment Project on AppDonations_Project {
@@ -98,16 +98,4 @@ export const projectByIdQuery = gql`
 
 export type AppDonationsProjectByIdResponse = {
   appDonations_project: Project
-}
-
-export const geoPlacesQuery = gql`
-  query PlacesSuggestions($input: String!) {
-    geo_places(input: $input) {
-      description
-    }
-  }
-`
-
-export type GeoPlacesResponse = {
-  geo_places: Place[]
 }
