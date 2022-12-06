@@ -49,6 +49,8 @@
   "auth.loginProtection.text": "You're not logged in",
   "auth.logout": "Logout",
   "auth.logout.button": "Log out",
+  "auth.logout.confirmation.confirm": "Yes",
+  "auth.logout.confirmation.dismiss": "No, cancel",
   "auth.logout.error": "Logout failed",
   "auth.logout.heading": "Do you want to log out?",
   "auth.register": "Register",

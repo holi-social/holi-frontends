@@ -50,6 +50,8 @@
   "auth.logout.button": "Abmelden",
   "auth.logout.error": "Abmelden fehlgeschlagen",
   "auth.logout.heading": "Willst du dich abmelden?",
+  "auth.logout.confirmation.confirm": "Ja",
+  "auth.logout.confirmation.dismiss": "Nein, abbrechen",
   "auth.register": "Registrieren",
   "auth.registration.alreadyHasAccount": "Sie haben bereits ein Konto?",
   "auth.registration.error.initialization": "Initialisierung der Registrierung ist fehlgeschlagen",
