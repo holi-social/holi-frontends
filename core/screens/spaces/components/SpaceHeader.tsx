@@ -5,6 +5,7 @@ import { StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'rea
 
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import { Space } from '@holi/core/screens/spaces/types'
+import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -16,6 +17,9 @@ type SpaceHeaderProps = {
   style?: StyleProp<ViewStyle>
 }
 
+const sortUsersByFirstName = (users: User[]) =>
+  users.sort((userA, userB) => (userA.firstName || '').localeCompare(userB.firstName || ''))
+
 const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
   const { t } = useTranslation()
 
@@ -24,34 +28,22 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
   const admins = adminMemberships.map((membership) => membership.user)
   const members = regularMemberships.map((membership) => membership.user)
 
+  const sortedMembersList = [...sortUsersByFirstName(admins), ...sortUsersByFirstName(members)]
+
   const { width: deviceWidth } = useWindowDimensions()
   const avatarWidth = deviceWidth / 5 // make avatar responsive (SpaceAvatar has a maxWidth)
 
   return (
     <View style={[styles.container, style]} testID="space-header">
-      <SpaceAvatar label={space.title} imageSrc={space.avatar} width={avatarWidth} />
+      <SpaceAvatar label={space.title} imageSrc={space.avatar} width={avatarWidth} testID="space-avatar" />
 
-      <HoliHeading level="1" size="medium" style={styles.title}>
+      <HoliHeading level="1" size="medium" style={styles.title} testID="space-title">
         {space.title}
       </HoliHeading>
       <View style={styles.avatarPileContainer}>
-        {admins.length > 0 && (
-          <HoliUserAvatarPile users={admins} usersToShow={3} counter collapse testID="space-admins">
-            <HoliText size="small" style={styles.avatarPileText}>
-              {t('spaces.members.admin', { count: admins.length })}
-            </HoliText>
-          </HoliUserAvatarPile>
-        )}
-        <HoliUserAvatarPile
-          users={members}
-          usersToShow={3}
-          counter
-          collapse
-          style={styles.avatarPileMembers}
-          testID="space-members"
-        >
+        <HoliUserAvatarPile users={sortedMembersList} usersToShow={3} counter collapse testID="space-members">
           <HoliText size="small" style={styles.avatarPileText}>
-            {t('spaces.members.member', { count: members.length })}
+            {t('spaces.members.member', { count: sortedMembersList.length })}
           </HoliText>
         </HoliUserAvatarPile>
       </View>
@@ -78,9 +70,6 @@ const styles = StyleSheet.create({
     marginTop: 16,
     flexDirection: 'row',
     justifyContent: 'center',
-  },
-  avatarPileMembers: {
-    marginLeft: 16,
   },
   avatarPileText: {
     color: colors.fontColorBlack,

@@ -18,7 +18,6 @@ const SpacesFilterHeader: React.VFC<SpacesFilterHeaderProps> = ({ location, topi
 
   const i18nKey = useMemo(() => {
     return location ? 'spaces.filter.all.location' : 'spaces.filter.all'
-    /*   return location ? 'spaces.filter.topics.location' : 'spaces.filter.topics' */
   }, [location])
   const topicsNames = useMemo(() => topics.map((topic) => topic.title).join(', '), [topics])
 
