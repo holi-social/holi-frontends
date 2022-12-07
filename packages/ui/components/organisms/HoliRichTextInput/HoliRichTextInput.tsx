@@ -75,6 +75,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   suggestionConfig.push({
     trigger: '@',
     renderSuggestions: renderUserSuggestions,
+    isBottomMentionSuggestionsRender: false,
     textStyle: styles.inlineMention,
   })
 
