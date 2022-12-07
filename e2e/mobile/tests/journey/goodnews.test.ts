@@ -20,20 +20,20 @@ describe('@GoodNews', () => {
     // preparation of test
     await navigateToAppById('goodnews')
 
-    const listItemsBefore = await assertListItems()
+    const listItemsBefore = await assertListItemsExisting()
 
     await assertAllowsPagination(listItemsBefore)
   })
 })
 
-const assertListItems = async () => {
+const assertListItemsExisting = async () => {
   const listItemsBefore = await locateMultipleElementsWithTestId('goodnews-list-item')
   expect(listItemsBefore.length).toBeGreaterThan(1)
 
   return listItemsBefore
 }
 
-const assertAllowsPagination = async (listItemsBefore: Record<string, unknown>[]) => {
+const assertAllowsPagination = async (listItems: Record<string, unknown>[]) => {
   await scrollToElementWithTestId('btn-goodnews-list-load-more', 'down', { maxAttempts: 10 })
   // load more
   await tapOnElementWithTestId('btn-goodnews-list-load-more')
@@ -41,5 +41,6 @@ const assertAllowsPagination = async (listItemsBefore: Record<string, unknown>[]
   await waitForElementWithTestIdToBeNull('btn-goodnews-list-load-more')
   // expect more elements in viewport than before (as the button has been pushed down)
   const listItemsAfter = await locateMultipleElementsWithTestId('goodnews-list-item')
-  expect(listItemsAfter.length).toBeGreaterThan(listItemsBefore.length)
+
+  expect(listItemsAfter.length).toBeGreaterThan(listItems.length)
 }
