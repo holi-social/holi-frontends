@@ -14,7 +14,7 @@ const App: React.VoidFunctionComponent = () => {
   const [isReady, setIsReady] = useState(false)
 
   // Android requires importing Intl polyfills to use APIs such as RelativeTimeFormat
-  if (Platform.OS === 'android') {
+  if (Platform.OS !== 'web') {
     require('@formatjs/intl-locale/polyfill')
     require('@formatjs/intl-relativetimeformat/polyfill')
     require('@formatjs/intl-relativetimeformat/locale-data/en')
