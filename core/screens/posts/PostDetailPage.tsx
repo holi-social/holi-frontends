@@ -15,6 +15,7 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import CommentView from '@holi/core/screens/posts/components/CommentView'
 import PostDetail from '@holi/core/screens/posts/components/PostDetail'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
+import PostImage from '@holi/core/screens/posts/components/PostImage'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { getPostCommenters } from '@holi/core/screens/posts/components/helpers'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
@@ -95,6 +96,10 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
       <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
         <PostDetail post={post} />
 
+        {post.image && (
+          <PostImage uri={post.image.url} height={post.image.height} width={post.image.width} postTitle={post.title} />
+        )}
+
         {/* Post comments */}
         {comments.length > 0 && (
           <View style={[mixins.container, styles.commentsView]}>
@@ -119,6 +124,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
           }
         />
       </SafeAreaView>
+
       <HoliConfirmation
         show={showLoginConfirmation}
         label={t('auth.login.needed.title')}
