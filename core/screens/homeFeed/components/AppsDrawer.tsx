@@ -23,7 +23,7 @@ const appSwiperApps: HoliApp[] = [
     hasUpdates: false,
   },
   {
-    id: 'goodNews',
+    id: 'goodnews',
     icon: 'newspaper',
     translationKey: 'goodnews:app.name',
     path: '/apps/goodnews',
