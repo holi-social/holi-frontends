@@ -1,17 +1,17 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
+import { View, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+//import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserSuggestionsResponse, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+//import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
-import { colors } from '@holi/ui/styles/globalVars'
+//import HoliButton from '@holi/ui/components/molecules/HoliButton'
+//import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
+//import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type UserSuggestionsProps = {
@@ -20,7 +20,7 @@ export type UserSuggestionsProps = {
 
 const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestionsProps) => {
   const { t } = useTranslation()
-  const { navigate } = useRouting()
+  //  const { navigate } = useRouting()
   const mixins = useStyleMixins()
   const limit = 10
 
@@ -37,7 +37,7 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestions
     return <></>
   }
 
-  const userSuggestions = data.userSuggestions.data
+  //  const userSuggestions = data.userSuggestions.data
 
   return (
     <View style={[mixins.container, props.style]} testID="user-suggestions">
@@ -93,7 +93,7 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestions
 
 export default UserSuggestions
 
-const styles = StyleSheet.create({
+/*const styles = StyleSheet.create({
   scrollviewContainer: {
     paddingVertical: 16, // paddingBottom is necessary for the scroll bar not to touch the user names
   },
@@ -114,4 +114,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 16,
   },
-})
+})*/

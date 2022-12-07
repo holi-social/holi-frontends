@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
 
-import { defaultAuthSteps, logout } from '../../helpers/auth'
+import { defaultAuthSteps } from '../../helpers/auth'
 import { navigateBackToHomeScreen } from '../../helpers/navigation'
-import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
+import { scrollToElementWithTestId } from '../../helpers/selectors'
 
 describe('@UserConnection', () => {
   const email = `${faker.internet.userName()}${faker.random.numeric(4)}@e2etest.com`
@@ -17,9 +17,10 @@ describe('@UserConnection', () => {
 
     // user suggestions element should be visible
     await scrollToElementWithTestId('user-suggestions', 'down', { maxAttempts: 5 })
+    await scrollToElementWithTestId('user-suggestions-text', 'down', { maxAttempts: 5 })
 
     // tap on first user in list
-    await scrollToElementWithTestId('user-card-suggestion-0', 'down', { maxAttempts: 5 })
+    //await scrollToElementWithTestId('user-card-suggestion-0', 'down', { maxAttempts: 5 })
     //  await tapOnElementWithTestId('user-card-suggestion-0')
 
     // for the newly created user, the button state should be NOT_CONNECTED
