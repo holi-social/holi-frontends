@@ -2,12 +2,33 @@
 
 exports[`HoliLinkPreview matches previous snapshot 1`] = `
 <View>
-  <a
-    aria-label="Donate to animals on betterplace.org"
-    href="http://betterplace.org/en/discover/1-animals"
-    onClick={[Function]}
-    onMouseEnter={[Function]}
-    target="_blank"
+  <Text
+    accessibilityLabel="Donate to animals on betterplace.org"
+    accessibilityRole="button"
+    accessible={true}
+    onPress={[Function]}
+    selectable={true}
+    style={
+      Array [
+        Object {
+          "color": "#222326",
+          "fontFamily": "Circular Std Book",
+          "fontWeight": "400",
+        },
+        Object {
+          "fontSize": 16,
+          "lineHeight": 19.2,
+        },
+        Object {},
+        Array [
+          Object {
+            "color": "#6267e7",
+          },
+          undefined,
+        ],
+      ]
+    }
+    testID="text-link"
   >
     <View
       style={
@@ -210,6 +231,6 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
         </RNSVGSvgView>
       </View>
     </View>
-  </a>
+  </Text>
 </View>
 `;
