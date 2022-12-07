@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
+import { View } from 'react-native'
 
 import { HoliLocalImageProps } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import { resizeModeForWeb } from '@holi/ui/components/atoms/imageUtils'
@@ -14,6 +15,7 @@ const HoliLocalImage: React.VoidFunctionComponent<HoliLocalImageProps> = ({
   label,
   width,
   height,
+  style,
   resizeMode = 'cover',
 }: HoliLocalImageProps) => {
   const pathFromRequire = imageSource.src
@@ -21,7 +23,9 @@ const HoliLocalImage: React.VoidFunctionComponent<HoliLocalImageProps> = ({
   const path = pathFromRequire || pathFromImport || `/${imageSource}`
 
   return (
-    <Image src={path as string} alt={label} width={width} height={height} objectFit={resizeModeForWeb(resizeMode)} />
+    <View style={style}>
+      <Image src={path as string} alt={label} width={width} height={height} objectFit={resizeModeForWeb(resizeMode)} />
+    </View>
   )
 }
 
