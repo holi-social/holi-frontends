@@ -10,6 +10,7 @@ import { useKeyboard } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { PortalGate } from '@holi/core/provider/PortalProvider'
 import PostDetail from '@holi/core/screens/posts/components/PostDetail'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { CreatePostCommentMutation, CreatePostCommentResponse } from '@holi/core/screens/posts/queries'
@@ -153,9 +154,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
         </View>
       </ScrollView>
 
-      <ScrollView style={styles.suggestionsScrollView}>
-        <View style={styles.suggestions} />
-      </ScrollView>
+      <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
 
       <View style={[styles.bottomBar, Platform.OS === 'web' && mixins.container]}>
         <HoliButton
@@ -179,7 +178,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
 }
 
 const SUBMIT_BUTTON_CONTAINER_HEIGHT = 74
-const SUGGESTIONS_DROPDOWN_HEIGHT = 200
+const SUGGESTIONS_DROPDOWN_HEIGHT = 150
 
 const styles = StyleSheet.create({
   pageView: {
@@ -206,6 +205,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
     lineHeight: 22,
     flexDirection: 'row',
+    marginBottom: SUGGESTIONS_DROPDOWN_HEIGHT,
   },
   textInput: {
     flex: 1,
@@ -221,12 +221,20 @@ const styles = StyleSheet.create({
     }),
   },
   suggestionsScrollView: {
-    height: 100,
+    height: SUGGESTIONS_DROPDOWN_HEIGHT,
+    borderRadius: 12,
+    paddingTop: 10,
+    marginBottom: -10,
+    paddingBottom: 10,
+    boxShadow: `0px 2px 16px ${colors.backgroundColorOverlay}, 0px 4px 8px ${colors.backgroundColorOverlay}`,
+    borderTopWidth: 1,
+    borderTopColor: colors.borderColorGrey,
+    position: 'absolute',
+    bottom: SUBMIT_BUTTON_CONTAINER_HEIGHT,
+    left: 0,
+    right: 0,
   },
-  suggestions: {
-    height: 500,
-    backgroundColor: 'pink',
-  },
+  suggestionsContainer: {},
   bottomBar: {
     bottom: 0,
     padding: 12,

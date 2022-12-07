@@ -122,10 +122,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
 export default React.memo(HoliRichTextInput)
 
 const styles = StyleSheet.create({
-  outerView: {
-    borderWidth: 1,
-    borderColor: '#0f0',
-  },
+  outerView: {},
   inputDiv: {
     paddingLeft: 20,
     paddingRigjt: 20,

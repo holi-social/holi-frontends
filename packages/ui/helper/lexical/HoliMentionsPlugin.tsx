@@ -1,10 +1,11 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { QueryMatch, useBasicTypeaheadTriggerMatch } from '@lexical/react/LexicalTypeaheadMenuPlugin'
-import { $getSelection, $isRangeSelection, LexicalEditor, RangeSelection } from 'lexical'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { $getSelection, $isRangeSelection, LexicalEditor, RangeSelection, TextNode } from 'lexical'
+import { useCallback, useEffect, useState } from 'react'
 import React from 'react'
 
 import { useSafeDispatch } from '@holi/core/helpers'
+import { usePortals } from '@holi/core/provider/PortalProvider'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliLexicalMentionsDropdown from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdown'
 import DropdownOption from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdownOption'
@@ -28,17 +29,24 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
   const [editor] = useLexicalComposerContext()
   const [results, setResults] = useState<Array<User>>([])
   const setSafeResult = useSafeDispatch(setResults)
+  const { teleport } = usePortals()
 
   const debouncedSearch: (keyword?: string) => void = useDebounce((keyword?: string) => {
     if (!keyword || keyword.length < minSearchChars) return setResults([])
-    findUsersByName(keyword).then(setSafeResult)
+    findUsersByName(keyword)
+      .then(setSafeResult)
+      .catch((error) => {
+        console.error('[HoliMentionsPlugin] ', error)
+        setSafeResult([])
+      })
   }, debounceDelay)
 
+  // check input text for slash
   const checkForSlashTriggerMatch = useBasicTypeaheadTriggerMatch('/', {
     minLength: 0,
   })
 
-  // check for mentions
+  // check input text for mentions
   const checkForMentionMatch = useCallback(
     (text: string) => {
       const mentionMatch = findMentionMatches(text) as QueryMatch
@@ -73,45 +81,7 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
     return text
   }, [])
 
-  // const isSelectionOnEntityBoundary = (editor: LexicalEditor, offset: number): boolean => {
-  //   if (offset !== 0) {
-  //     return false
-  //   }
-  //   return editor.getEditorState().read(() => {
-  //     const selection = $getSelection()
-  //     if ($isRangeSelection(selection)) {
-  //       const anchor = selection.anchor
-  //       const anchorNode = anchor.getNode()
-  //       const prevSibling = anchorNode.getPreviousSibling()
-  //       return $isTextNode(prevSibling) && prevSibling.isTextEntity()
-  //     }
-  //     return false
-  //   })
-  // }
-
-  // const tryToPositionRange = (leadOffset: number, range: Range): boolean => {
-  //   const domSelection = window.getSelection()
-  //   if (domSelection === null || !domSelection.isCollapsed) {
-  //     return false
-  //   }
-  //   const anchorNode = domSelection.anchorNode
-  //   const startOffset = leadOffset
-  //   const endOffset = domSelection.anchorOffset
-
-  //   if (anchorNode == null || endOffset == null) {
-  //     return false
-  //   }
-
-  //   try {
-  //     range.setStart(anchorNode, startOffset)
-  //     range.setEnd(anchorNode, endOffset)
-  //   } catch (error) {
-  //     return false
-  //   }
-
-  //   return true
-  // }
-
+  // on input text
   useEffect(() => {
     const updateListener = () => {
       editor.getEditorState().read(() => {
@@ -119,36 +89,13 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
         const selection = $getSelection()
         const text = getQueryTextForSearch(editor)
 
-        console.log('range:', range)
-        console.log('selection:', selection)
-        console.log('text:', text)
-
         if (!$isRangeSelection(selection) || !selection.isCollapsed() || text === null || range === null) {
-          // closeTypeahead()
           setSafeResult([])
           return
         }
 
         const match = checkForMentionMatch(text)
-        // search for mentions
         debouncedSearch(match ? match.matchingString : undefined)
-
-        // if (
-        //   match !== null &&
-        //   !isSelectionOnEntityBoundary(editor, match.leadOffset)
-        // ) {
-        //   const isRangePositioned = tryToPositionRange(match.leadOffset, range);
-        //   if (isRangePositioned !== null) {
-        //     startTransition(() =>
-        //       openTypeahead({
-        //         getRect: () => range.getBoundingClientRect(),
-        //         match,
-        //       }),
-        //     );
-        //     return;
-        //   }
-        // }
-        // closeTypeahead();
       })
     }
 
@@ -159,64 +106,89 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
     }
   }, [editor, checkForMentionMatch, debouncedSearch, getQueryTextForSearch, setSafeResult])
 
-  const optionsList = useMemo(
-    () => results.slice(0, maxSuggestionOptions).map((user) => new DropdownOption(user)),
-    [results, maxSuggestionOptions]
+  // on suggestions change
+  useEffect(() => {
+    const options = results.slice(0, maxSuggestionOptions).map((user) => new DropdownOption(user))
+    const optionsElement = (
+      <HoliLexicalMentionsDropdown
+        optionslist={options}
+        onClick={(i, option) => {
+          selectOptionAndCleanUp(option)
+        }}
+      />
+    )
+    teleport('suggestions', options.length ? optionsElement : null)
+    // `teleport` in the dependencies list causes endless loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [results, maxSuggestionOptions])
+
+  const getFullMatchOffset = (documentText: string, entryText: string, offset: number): number => {
+    let triggerOffset = offset
+    for (let i = triggerOffset; i <= entryText.length; i++) {
+      if (documentText.substr(-i) === entryText.substr(0, i)) {
+        triggerOffset = i
+      }
+    }
+    return triggerOffset
+  }
+  const splitNodeContainingQuery = useCallback((editor: LexicalEditor, match: QueryMatch): TextNode | null => {
+    const selection = $getSelection()
+    if (!$isRangeSelection(selection) || !selection.isCollapsed()) {
+      return null
+    }
+    const anchor = selection.anchor
+    if (anchor.type !== 'text') {
+      return null
+    }
+    const anchorNode = anchor.getNode()
+    if (!anchorNode.isSimpleText()) {
+      return null
+    }
+    const selectionOffset = anchor.offset
+    const textContent = anchorNode.getTextContent().slice(0, selectionOffset)
+    const characterOffset = match.replaceableString.length
+    const queryOffset = getFullMatchOffset(textContent, match.matchingString, characterOffset)
+    const startOffset = selectionOffset - queryOffset
+    if (startOffset < 0) {
+      return null
+    }
+    let newNode
+    if (startOffset === 0) {
+      // eslint-disable-next-line @typescript-eslint/no-extra-semi
+      ;[newNode] = anchorNode.splitText(selectionOffset)
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-extra-semi
+      ;[, newNode] = anchorNode.splitText(startOffset, selectionOffset)
+    }
+
+    return newNode
+  }, [])
+
+  const selectOptionAndCleanUp = useCallback(
+    (selectedOption: DropdownOption) => {
+      editor.update(() => {
+        const text = getQueryTextForSearch(editor)
+
+        const nodeToReplace = splitNodeContainingQuery(editor, {
+          leadOffset: text?.length || 0,
+          matchingString: text || '',
+          replaceableString: text || '',
+        })
+
+        editor.update(() => {
+          const displayString = `@${selectedOption.user.fullName}`
+          const mentionNode = $createMentionNode(selectedOption.user.fullName, selectedOption.user.id, displayString)
+          if (nodeToReplace) {
+            nodeToReplace.replace(mentionNode)
+          }
+          mentionNode.select()
+        })
+      })
+    },
+    [editor, getQueryTextForSearch, splitNodeContainingQuery]
   )
 
-  // replace in editor
-  // const replaceTextWithMentionNode = useCallback(
-  //   (selectedOption: DropdownOption, nodeToReplace: TextNode | null, closeMenu: () => void) => {
-  //     editor.update(() => {
-  //       const displayString = `@${selectedOption.user.fullName}`
-  //       const mentionNode = $createMentionNode(selectedOption.user.fullName, selectedOption.user.id, displayString)
-  //       if (nodeToReplace) {
-  //         nodeToReplace.replace(mentionNode)
-  //       }
-  //       mentionNode.select()
-  //       closeMenu()
-  //     })
-  //   },
-  //   [editor]
-  // )
-
-  return (
-    <HoliLexicalMentionsDropdown
-      optionslist={optionsList}
-      selectedIndex={0}
-      onClick={() => {
-        // setHighlightedIndex(i)
-        // selectOptionAndCleanUp(option)
-      }}
-      onMouseEnter={() => {
-        // setHighlightedIndex(i)
-      }}
-    />
-    // <LexicalTypeaheadMenuPlugin<DropdownOption>
-    //   onQueryChange={debouncedSearch}
-    //   onSelectOption={replaceTextWithMentionNode}
-    //   triggerFn={checkForMentionMatch}
-    //   options={optionsList}
-    //   menuRenderFn={(anchorElementRef, { selectedIndex, selectOptionAndCleanUp, setHighlightedIndex }) =>
-    //     anchorElementRef.current && results.length
-    //       ? ReactDOM.createPortal(
-    //           <HoliLexicalMentionsDropdown
-    //             optionslist={optionsList}
-    //             selectedIndex={selectedIndex}
-    //             onClick={(i, option) => {
-    //               setHighlightedIndex(i)
-    //               selectOptionAndCleanUp(option)
-    //             }}
-    //             onMouseEnter={(i) => {
-    //               setHighlightedIndex(i)
-    //             }}
-    //           />,
-    //           anchorElementRef.current
-    //         )
-    //       : null
-    //   }
-    // />
-  )
+  return null
 }
 
 export default HoliMentionsPlugin
