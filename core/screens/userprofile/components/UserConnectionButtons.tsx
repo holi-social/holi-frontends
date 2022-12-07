@@ -10,6 +10,7 @@ import {
   updateConnectionWithUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import { UpdateConnectionWithUserActions, User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 
@@ -66,8 +67,8 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
         disabled={loading}
         testID={`user-connection-button-${connectionStatusToMyself}`}
       >
-        {t(`user.profileView.connection.button.${connectionStatusToMyself}`)}{' '}
-        {connectionRequested && <HoliIcon icon="time" style={styles.requestedStatusButtonIcon} />}
+        <HoliText>{t(`user.profileView.connection.button.${connectionStatusToMyself}`)}</HoliText>
+        {connectionRequested && <HoliIcon icon="time" size={19} style={styles.requestedStatusButtonIcon} />}
       </HoliButton>
 
       {connectionStatusToMyself === UserConnectionStatus.PENDING_CONFIRMATION && (

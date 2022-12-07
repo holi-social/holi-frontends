@@ -47,10 +47,16 @@ const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossibl
       </View>
       {user.aboutMe && <HoliReadMore style={styles.aboutMe}>{user.aboutMe}</HoliReadMore>}
       {contactPossible && (
-        <View style={{ flexDirection: 'row', marginTop: 16 }}>
-          <UserConnectionButtons style={{ marginRight: 8 }} user={user} />
+        <View style={styles.profileButtonWrapper}>
+          <UserConnectionButtons style={styles.profileButton} user={user} />
 
-          <HoliButton type="secondary" inline disabled label={t('user.profileView.message')} style={{ marginRight: 8 }}>
+          <HoliButton
+            type="secondary"
+            inline
+            disabled
+            label={t('user.profileView.message')}
+            style={styles.profileButton}
+          >
             {t('user.profileView.message')}
           </HoliButton>
         </View>
@@ -67,6 +73,14 @@ const styles = StyleSheet.create({
   },
   avatarName: {
     flexDirection: 'row',
+  },
+  profileButtonWrapper: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  profileButton: {
+    marginTop: 16,
+    marginRight: 8,
   },
   nameContainer: {
     marginTop: 8,
