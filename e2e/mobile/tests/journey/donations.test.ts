@@ -1,4 +1,4 @@
-import { waitForHomeScreen } from '../../helpers/navigation'
+import { navigateToAppById } from '../../helpers/navigation'
 import {
   fillFieldByTestId,
   locateMultipleElementsWithTestId,
@@ -22,7 +22,7 @@ describe('@Donations', () => {
 
   it('should support the user journey', async () => {
     // preparation of test
-    await navigateToDonationsApp()
+    await navigateToAppById('donations')
 
     const listItemsBefore = await assertDisplaysMultipleProjects()
 
@@ -105,13 +105,6 @@ const assertDisplaysMultipleProjects = async () => {
   const listItemsBefore = await locateMultipleElementsWithTestId('donations-list-item')
   expect(listItemsBefore.length).toBeGreaterThan(1)
   return listItemsBefore
-}
-
-const navigateToDonationsApp = async () => {
-  await waitForHomeScreen()
-  await tapOnElementWithTestId('home-apps-button')
-  await tapOnElementWithTestId('app-tile-donations')
-  await waitForElementWithTestId('donations-list-container')
 }
 
 const extractResultCount = async (testId: string): Promise<number> => {

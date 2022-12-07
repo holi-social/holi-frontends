@@ -65,7 +65,7 @@ const GoodNewsListing: React.VFC<GoodNewsListingProps> = () => {
           <GoodNewsArticleComponent article={article} key={article.id} />
         ))
       }
-      <HoliButton label={fetchMoreButtonText} onPress={memoizedFetchMore}>
+      <HoliButton label={fetchMoreButtonText} onPress={memoizedFetchMore} testID="btn-goodnews-list-load-more">
         {fetchMoreButtonText}
       </HoliButton>
     </>
