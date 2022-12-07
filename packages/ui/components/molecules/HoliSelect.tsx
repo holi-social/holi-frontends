@@ -11,20 +11,23 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 const LINE_HEIGHT = 16 * 1.4
 const INPUT_HEIGHT = 56
 
+export type HoliSelectOptions = OptionType[]
+
 export type HoliSelectProps = {
   inputLabel?: string
   accessibilityLabel: string
   placeholder?: string
-  openDropdownLabel: string
+  dropdownIconLabel: string
   noOptionsText?: string
   value?: string
   onChange?: (value: string) => void
   style?: StyleProp<ViewStyle>
   textInputProps?: TextInputProps
-  options: OptionType[]
+  options: HoliSelectOptions
   searchable?: boolean
   clearable?: boolean
   clearLabel?: string
+  inModal?: boolean
 }
 
 const HoliSelect = ({
@@ -33,7 +36,7 @@ const HoliSelect = ({
   inputLabel,
   accessibilityLabel,
   placeholder,
-  openDropdownLabel,
+  dropdownIconLabel,
   noOptionsText,
   textInputProps,
   clearable = false,
@@ -41,6 +44,7 @@ const HoliSelect = ({
   value,
   onChange,
   searchable = false,
+  inModal = false,
 }: HoliSelectProps) => {
   const ref = useRef<SelectRef>(null)
   const { theme } = useTheme()
@@ -78,24 +82,55 @@ const HoliSelect = ({
       const state = ref.current?.getState()
       if (state?.openedPosition) {
         displayList({
-          top: INPUT_HEIGHT + 20,
-          left: 0,
-          marginTop: -state?.openedPosition.top + INPUT_HEIGHT + 20,
-          marginLeft: -state?.openedPosition.left,
+          marginTop: inModal ? -state?.openedPosition.top + INPUT_HEIGHT + 20 : -2,
+          marginLeft: inModal ? -state?.openedPosition.left : 0,
           display: 'flex',
         })
       }
     }, 50)
-  }, [setListStyle])
+  }, [setListStyle, inModal])
   const onCloseDropdown = useCallback(() => {
     setFocused(false)
   }, [setFocused])
 
-  // TODO(SF) modal provider only necessary if displayed in modal > add prop?
   const NoOptionComponent = (
     <View style={[styles.option, styles.noOption]}>
       <HoliText>{noOptionsText}</HoliText>
     </View>
+  )
+
+  const select = (
+    <Select
+      ref={ref}
+      options={options}
+      defaultOption={initialSelection}
+      placeholderText={placeholder}
+      selectControlOpenDropdownA11yLabel={dropdownIconLabel}
+      selectControlClearOptionA11yLabel={clearLabel}
+      clearable={clearable}
+      scrollToSelectedOption={false}
+      onSelect={handleSelect}
+      onDropdownOpened={onOpenDropdown}
+      onDropdownClosed={onCloseDropdown}
+      optionsListStyle={[styles.optionsList, listStyle]}
+      selectControlStyle={[
+        styles.selectControl,
+        isHovered && styles.selectControlHovered,
+        isFocused && styles.selectControlFocused,
+      ]}
+      selectControlTextStyle={styles.textStyle}
+      placeholderTextColor={tinycolor(colors.fontColorGrey).lighten(30).toString()}
+      selectControlArrowImageStyle={styles.icon}
+      selectControlClearOptionImageStyle={styles.icon}
+      selectControlClearOptionButtonStyle={styles.clearIcon}
+      selectControlButtonsContainerStyle={styles.iconContainer}
+      optionStyle={styles.option}
+      optionSelectedStyle={styles.selectedOption}
+      optionTextStyle={styles.textStyle}
+      searchable={searchable}
+      NoOptionsComponent={NoOptionComponent}
+      textInputProps={inputProps}
+    />
   )
 
   return (
@@ -105,37 +140,7 @@ const HoliSelect = ({
           {inputLabel}
         </HoliText>
       </View>
-      <SelectModalProvider>
-        <Select
-          ref={ref}
-          options={options}
-          defaultOption={initialSelection}
-          placeholderText={placeholder}
-          selectControlOpenDropdownA11yLabel={openDropdownLabel}
-          selectControlClearOptionA11yLabel={clearLabel}
-          clearable={clearable}
-          scrollToSelectedOption={false}
-          onSelect={handleSelect}
-          onDropdownOpened={onOpenDropdown}
-          onDropdownClosed={onCloseDropdown}
-          optionsListStyle={[styles.optionsList, listStyle]}
-          selectControlStyle={[
-            styles.selectControl,
-            isHovered && styles.selectControlHovered,
-            isFocused && styles.selectControlFocused,
-          ]}
-          selectControlTextStyle={styles.textStyle}
-          placeholderTextColor={tinycolor(colors.fontColorGrey).lighten(30).toString()}
-          selectControlArrowImageStyle={styles.icon}
-          selectControlClearOptionImageStyle={styles.icon}
-          optionStyle={styles.option}
-          optionSelectedStyle={styles.selectedOption}
-          optionTextStyle={styles.textStyle}
-          searchable={searchable}
-          NoOptionsComponent={NoOptionComponent}
-          textInputProps={inputProps}
-        />
-      </SelectModalProvider>
+      {inModal ? <SelectModalProvider>{select}</SelectModalProvider> : select}
     </View>
   )
 }
@@ -160,6 +165,9 @@ const getStyles = (theme: HoliTheme) =>
     },
     icon: {
       tintColor: colors.fontColor,
+    },
+    clearIcon: {
+      // TODO: change style of clear icon for web?
     },
     selectControlFocused: {
       borderColor: colors.borderColorSecondary,

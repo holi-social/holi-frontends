@@ -95,7 +95,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
               inputLabel={t('spaces.filter.topics.label')}
               accessibilityLabel={t('spaces.filter.topics.label')}
               placeholder={t('spaces.filter.topics.placeholder')}
-              openDropdownLabel={t('spaces.filter.topics.dropdown')}
+              dropdownIconLabel={t('spaces.filter.topics.dropdown')}
               noOptionsText={t('spaces.filter.topics.noMatches')}
               style={styles.filterOption}
               value={topicId}
