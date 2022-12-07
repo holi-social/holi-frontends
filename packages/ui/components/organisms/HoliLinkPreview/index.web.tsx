@@ -1,6 +1,7 @@
-import Link from 'next/link'
 import React from 'react'
 import { View } from 'react-native'
+
+import HoliLink from '@holi/ui/components/molecules/HoliLink'
 
 import LinkContent from './LinkContent'
 import { HoliLinkPreviewProps } from './holiLinkPreviewProps'
@@ -8,11 +9,9 @@ import { HoliLinkPreviewProps } from './holiLinkPreviewProps'
 const HoliLinkPreview: React.VFC<HoliLinkPreviewProps> = ({ previewData, onPress, label, style }) => {
   return (
     <View style={style}>
-      <Link href={previewData.requestedUrl}>
-        <a target="_blank" aria-label={label || previewData.title} onClick={onPress}>
-          <LinkContent {...previewData} />
-        </a>
-      </Link>
+      <HoliLink href={previewData.requestedUrl} label={label || previewData.title} external onPress={onPress}>
+        <LinkContent {...previewData} />
+      </HoliLink>
     </View>
   )
 }

@@ -4,7 +4,7 @@ export type Mention = {
   replaceableString: string
 }
 
-// Before weas copied from: https://github.com/dabakovich/react-native-controlled-mentions/blob/v2.2.4/example/mentions-app.tsx
+// Before was copied from: https://github.com/dabakovich/react-native-controlled-mentions/blob/v2.2.4/example/mentions-app.tsx
 // Copied from: https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
 export const REGEX_URL =
   // eslint-disable-next-line no-useless-escape

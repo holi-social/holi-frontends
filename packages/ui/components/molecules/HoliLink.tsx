@@ -14,7 +14,7 @@ export type HoliLink = {
   testID?: string
 }
 
-const HoliLink: React.FC<HoliLink> = ({ href, label, external, onPress, style, children, testID = 'link-text' }) => {
+const HoliLink: React.FC<HoliLink> = ({ href, label, external, onPress, style, children, testID = 'text-link' }) => {
   const { navigate } = useUnifiedNavigation()
 
   const onLinkPress = React.useCallback(() => {
