@@ -22,6 +22,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import { interestsQuery, sdgsQuery, skillsQuery } from './queries'
@@ -60,6 +61,7 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
             headerBackTitleVisible: true,
             headerBackVisible: true,
             headerTransparent: true,
+            headerStyle: { backgroundColor: colors.backgroundColorWhite },
             headerTitle: () => null,
             headerLeft: ({ tintColor }) => (
               <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
