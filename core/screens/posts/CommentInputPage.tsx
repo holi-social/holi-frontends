@@ -121,7 +121,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.root}>
       <ScrollView
-        contentContainerStyle={{ paddingBottom: bottomPadding }}
+        contentContainerStyle={{ paddingBottom: bottomPadding, paddingTop: vars.topBarHeight }}
         onContentSizeChange={scrollIntoView}
         ref={scrollViewRef}
       >

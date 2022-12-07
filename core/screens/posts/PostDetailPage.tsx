@@ -15,7 +15,6 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import CommentView from '@holi/core/screens/posts/components/CommentView'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
-import PostImage from '@holi/core/screens/posts/components/PostImage'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
@@ -87,10 +86,6 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
       <StatusBar animated />
       <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
         <PostContent post={post} hasHeader style={styles.postContent} />
-
-        {post.image && (
-          <PostImage uri={post.image.url} height={post.image.height} width={post.image.width} postTitle={post.title} />
-        )}
 
         {/* Post comments */}
         {comments.length > 0 && (
