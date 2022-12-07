@@ -119,7 +119,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   if (!post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.root}>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
       <ScrollView
         contentContainerStyle={{ paddingBottom: bottomPadding }}
         onContentSizeChange={scrollIntoView}
@@ -153,6 +153,10 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
         </View>
       </ScrollView>
 
+      <ScrollView style={styles.suggestionsScrollView}>
+        <View style={styles.suggestions} />
+      </ScrollView>
+
       <View style={[styles.bottomBar, Platform.OS === 'web' && mixins.container]}>
         <HoliButton
           disabled={!text.trim().length || createCommentLoading}
@@ -178,9 +182,8 @@ const SUBMIT_BUTTON_CONTAINER_HEIGHT = 74
 const SUGGESTIONS_DROPDOWN_HEIGHT = 200
 
 const styles = StyleSheet.create({
-  root: {
+  pageView: {
     paddingTop: vars.topBarHeight,
-
     height: '100%', // prevents double scrollbars
     ...Platform.select({
       web: { height: '100vh' },
@@ -192,17 +195,17 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  inputContainer: {
-    marginTop: 16,
-    lineHeight: 22,
-    flexDirection: 'row',
-  },
   verticalLine: {
     marginTop: 16,
     marginBottom: 10,
     marginHorizontal: 20,
     minHeight: 50,
     ...Platform.select({ web: { minHeight: 75 } }),
+  },
+  inputContainer: {
+    marginTop: 16,
+    lineHeight: 22,
+    flexDirection: 'row',
   },
   textInput: {
     flex: 1,
@@ -217,6 +220,13 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  suggestionsScrollView: {
+    height: 100,
+  },
+  suggestions: {
+    height: 500,
+    backgroundColor: 'pink',
+  },
   bottomBar: {
     bottom: 0,
     padding: 12,
@@ -227,12 +237,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     width: '100%',
     height: SUBMIT_BUTTON_CONTAINER_HEIGHT,
-    ...Platform.select({
-      web: {
-        position: 'fixed',
-        bottom: 0,
-      },
-    }),
   },
 })
 

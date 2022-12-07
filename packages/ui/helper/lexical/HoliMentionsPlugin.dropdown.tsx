@@ -53,9 +53,16 @@ export default HoliLexicalMentionsDropdown
 
 const styles = StyleSheet.create({
   suggestionsContainer: {
+    // position: 'absolute',
+    // left: 0,
+    // bottom: 0,
+    // right: 0,
+    // zIndex: 100,
+    height: 100,
     display: 'inline-block',
     marginTop: 25,
     backgroundColor: colors.backgroundColor,
+    backgroundColor: 'pink',
     borderTopWidth: 1,
     borderTopColor: colors.borderColorGrey,
     borderTopStyle: 'solid',

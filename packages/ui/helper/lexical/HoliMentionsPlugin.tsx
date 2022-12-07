@@ -1,13 +1,8 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
-import {
-  LexicalTypeaheadMenuPlugin,
-  QueryMatch,
-  useBasicTypeaheadTriggerMatch,
-} from '@lexical/react/LexicalTypeaheadMenuPlugin'
-import { TextNode } from 'lexical'
-import { useCallback, useMemo, useState } from 'react'
+import { QueryMatch, useBasicTypeaheadTriggerMatch } from '@lexical/react/LexicalTypeaheadMenuPlugin'
+import { $getSelection, $isRangeSelection, LexicalEditor, RangeSelection } from 'lexical'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import React from 'react'
-import * as ReactDOM from 'react-dom'
 
 import { useSafeDispatch } from '@holi/core/helpers'
 import type { User } from '@holi/core/screens/userprofile/types'
@@ -43,11 +38,6 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
     minLength: 0,
   })
 
-  const optionsList = useMemo(
-    () => results.slice(0, maxSuggestionOptions).map((user) => new DropdownOption(user)),
-    [results, maxSuggestionOptions]
-  )
-
   // check for mentions
   const checkForMentionMatch = useCallback(
     (text: string) => {
@@ -58,47 +48,174 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
     [checkForSlashTriggerMatch, editor]
   )
 
-  // replace in editor
-  const replaceTextWithMentionNode = useCallback(
-    (selectedOption: DropdownOption, nodeToReplace: TextNode | null, closeMenu: () => void) => {
-      editor.update(() => {
-        const displayString = `@${selectedOption.user.fullName}`
-        const mentionNode = $createMentionNode(selectedOption.user.fullName, selectedOption.user.id, displayString)
-        if (nodeToReplace) {
-          nodeToReplace.replace(mentionNode)
+  const getTextUpToAnchor = (selection: RangeSelection): string | null => {
+    const anchor = selection.anchor
+    if (anchor.type !== 'text') {
+      return null
+    }
+    const anchorNode = anchor.getNode()
+    if (!anchorNode.isSimpleText()) {
+      return null
+    }
+    const anchorOffset = anchor.offset
+    return anchorNode.getTextContent().slice(0, anchorOffset)
+  }
+
+  const getQueryTextForSearch = useCallback((editor: LexicalEditor): string | null => {
+    let text = null
+    editor.getEditorState().read(() => {
+      const selection = $getSelection()
+      if (!$isRangeSelection(selection)) {
+        return
+      }
+      text = getTextUpToAnchor(selection)
+    })
+    return text
+  }, [])
+
+  // const isSelectionOnEntityBoundary = (editor: LexicalEditor, offset: number): boolean => {
+  //   if (offset !== 0) {
+  //     return false
+  //   }
+  //   return editor.getEditorState().read(() => {
+  //     const selection = $getSelection()
+  //     if ($isRangeSelection(selection)) {
+  //       const anchor = selection.anchor
+  //       const anchorNode = anchor.getNode()
+  //       const prevSibling = anchorNode.getPreviousSibling()
+  //       return $isTextNode(prevSibling) && prevSibling.isTextEntity()
+  //     }
+  //     return false
+  //   })
+  // }
+
+  // const tryToPositionRange = (leadOffset: number, range: Range): boolean => {
+  //   const domSelection = window.getSelection()
+  //   if (domSelection === null || !domSelection.isCollapsed) {
+  //     return false
+  //   }
+  //   const anchorNode = domSelection.anchorNode
+  //   const startOffset = leadOffset
+  //   const endOffset = domSelection.anchorOffset
+
+  //   if (anchorNode == null || endOffset == null) {
+  //     return false
+  //   }
+
+  //   try {
+  //     range.setStart(anchorNode, startOffset)
+  //     range.setEnd(anchorNode, endOffset)
+  //   } catch (error) {
+  //     return false
+  //   }
+
+  //   return true
+  // }
+
+  useEffect(() => {
+    const updateListener = () => {
+      editor.getEditorState().read(() => {
+        const range = document.createRange()
+        const selection = $getSelection()
+        const text = getQueryTextForSearch(editor)
+
+        console.log('range:', range)
+        console.log('selection:', selection)
+        console.log('text:', text)
+
+        if (!$isRangeSelection(selection) || !selection.isCollapsed() || text === null || range === null) {
+          // closeTypeahead()
+          setSafeResult([])
+          return
         }
-        mentionNode.select()
-        closeMenu()
+
+        const match = checkForMentionMatch(text)
+        // search for mentions
+        debouncedSearch(match ? match.matchingString : undefined)
+
+        // if (
+        //   match !== null &&
+        //   !isSelectionOnEntityBoundary(editor, match.leadOffset)
+        // ) {
+        //   const isRangePositioned = tryToPositionRange(match.leadOffset, range);
+        //   if (isRangePositioned !== null) {
+        //     startTransition(() =>
+        //       openTypeahead({
+        //         getRect: () => range.getBoundingClientRect(),
+        //         match,
+        //       }),
+        //     );
+        //     return;
+        //   }
+        // }
+        // closeTypeahead();
       })
-    },
-    [editor]
+    }
+
+    const removeUpdateListener = editor.registerUpdateListener(updateListener)
+
+    return () => {
+      removeUpdateListener()
+    }
+  }, [editor, checkForMentionMatch, debouncedSearch, getQueryTextForSearch, setSafeResult])
+
+  const optionsList = useMemo(
+    () => results.slice(0, maxSuggestionOptions).map((user) => new DropdownOption(user)),
+    [results, maxSuggestionOptions]
   )
 
+  // replace in editor
+  // const replaceTextWithMentionNode = useCallback(
+  //   (selectedOption: DropdownOption, nodeToReplace: TextNode | null, closeMenu: () => void) => {
+  //     editor.update(() => {
+  //       const displayString = `@${selectedOption.user.fullName}`
+  //       const mentionNode = $createMentionNode(selectedOption.user.fullName, selectedOption.user.id, displayString)
+  //       if (nodeToReplace) {
+  //         nodeToReplace.replace(mentionNode)
+  //       }
+  //       mentionNode.select()
+  //       closeMenu()
+  //     })
+  //   },
+  //   [editor]
+  // )
+
   return (
-    <LexicalTypeaheadMenuPlugin<DropdownOption>
-      onQueryChange={debouncedSearch}
-      onSelectOption={replaceTextWithMentionNode}
-      triggerFn={checkForMentionMatch}
-      options={optionsList}
-      menuRenderFn={(anchorElementRef, { selectedIndex, selectOptionAndCleanUp, setHighlightedIndex }) =>
-        anchorElementRef.current && results.length
-          ? ReactDOM.createPortal(
-              <HoliLexicalMentionsDropdown
-                optionslist={optionsList}
-                selectedIndex={selectedIndex}
-                onClick={(i, option) => {
-                  setHighlightedIndex(i)
-                  selectOptionAndCleanUp(option)
-                }}
-                onMouseEnter={(i) => {
-                  setHighlightedIndex(i)
-                }}
-              />,
-              anchorElementRef.current
-            )
-          : null
-      }
+    <HoliLexicalMentionsDropdown
+      optionslist={optionsList}
+      selectedIndex={0}
+      onClick={() => {
+        // setHighlightedIndex(i)
+        // selectOptionAndCleanUp(option)
+      }}
+      onMouseEnter={() => {
+        // setHighlightedIndex(i)
+      }}
     />
+    // <LexicalTypeaheadMenuPlugin<DropdownOption>
+    //   onQueryChange={debouncedSearch}
+    //   onSelectOption={replaceTextWithMentionNode}
+    //   triggerFn={checkForMentionMatch}
+    //   options={optionsList}
+    //   menuRenderFn={(anchorElementRef, { selectedIndex, selectOptionAndCleanUp, setHighlightedIndex }) =>
+    //     anchorElementRef.current && results.length
+    //       ? ReactDOM.createPortal(
+    //           <HoliLexicalMentionsDropdown
+    //             optionslist={optionsList}
+    //             selectedIndex={selectedIndex}
+    //             onClick={(i, option) => {
+    //               setHighlightedIndex(i)
+    //               selectOptionAndCleanUp(option)
+    //             }}
+    //             onMouseEnter={(i) => {
+    //               setHighlightedIndex(i)
+    //             }}
+    //           />,
+    //           anchorElementRef.current
+    //         )
+    //       : null
+    //   }
+    // />
   )
 }
 
