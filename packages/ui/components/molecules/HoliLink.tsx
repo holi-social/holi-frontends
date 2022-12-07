@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Linking, StyleProp, StyleSheet, TextStyle } from 'react-native'
 
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -14,10 +15,12 @@ export type HoliLink = {
 }
 
 const HoliLink: React.FC<HoliLink> = ({ href, label, external, onPress, style, children, testID = 'link-text' }) => {
+  const { navigate } = useUnifiedNavigation()
+
   const onLinkPress = React.useCallback(() => {
     onPress?.()
-    external && Linking.openURL(href)
-  }, [external, href, onPress])
+    external ? Linking.openURL(href) : navigate(href)
+  }, [external, href, navigate, onPress])
 
   return (
     <HoliText

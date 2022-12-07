@@ -29,23 +29,23 @@ const HoliRichTextOutput: React.VFC<HoliRichTextOutputProps> = ({
    * Replaces each @<USER-ID>
    * with the highlighted fullName
    */
-  const getNameById = (id: string) => users?.find((user) => user.id === id)?.fullName || ''
 
   const textWithMentions = (() => {
     return text
       .split(REGEX_USER_MENTIONS)
       .map((textPart, index) => {
-        const isMatch = textPart.match(REGEX_USER_MENTIONS)
-        const replaced = isMatch ? textPart.replace(REGEX_USER_MENTIONS, getNameById(textPart.slice(1))) : undefined
-        if (replaced) {
-          return (
-            <HoliText key={index} style={mentionStyle}>
-              {Platform.OS !== 'web' && '@'}
-              {replaced}
-            </HoliText>
-          )
-        }
-        return textPart
+        const foundId = textPart.slice(1)
+        const user = users?.find((user) => user.id === foundId)
+        const replaced = user ? textPart.replace(REGEX_USER_MENTIONS, user.fullName) : undefined
+
+        return user && replaced ? (
+          <HoliLink label={user.fullName ?? ''} href={`/profile/${user.id}`} key={index} style={mentionStyle}>
+            {Platform.OS !== 'web' && '@'}
+            {replaced}
+          </HoliLink>
+        ) : (
+          textPart
+        )
       })
       .flatMap((item) => {
         if (typeof item !== 'string') return item
