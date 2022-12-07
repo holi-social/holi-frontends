@@ -101,6 +101,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
               value={topicId}
               onChange={setTopicId}
               clearable={true}
+              inModal={true}
             />
           </View>
         </HoliModalContentWrapper>
