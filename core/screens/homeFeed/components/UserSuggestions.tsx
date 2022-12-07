@@ -44,7 +44,12 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestions
       <HoliHeading level="2" size="large">
         {t('homeFeed.userSuggestions.title')}
       </HoliHeading>
-
+      <HoliText testID="user-suggestions-text">
+        Foobarbaz fdsjsaklfjdf safd safjkld safjkldsjaf kldsjaklf jdsalkjf dksajf lkdsajf klsdajf lkdsajkfl
+        dsjalkfjdsklf jdsklaj flkdsajf kldsajf kldsaj fkldsaj flkdsjklf jdsakl fjdslkajfkldsa jfkldsa jflkdsajf
+        lkdsajaklf dsjakl fjdslk fjlkds flkdsja flkjsda l
+      </HoliText>
+      {/* 
       <ScrollView style={styles.scrollviewContainer} horizontal>
         {userSuggestions.map((user, index) => {
           const nameLabel = user.fullName
@@ -81,6 +86,7 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestions
           </HoliText>
         </HoliButton>
       </ScrollView>
+      */}
     </View>
   )
 }

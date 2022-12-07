@@ -1,6 +1,8 @@
 // https://webdriver.io/docs/selectors
 const byTestId = (testID: string) => (platform === 'ios' ? `~${testID}` : `//*[@resource-id='${testID}']`)
 
+const byText = (text: string) => `*${text}`
+
 const waitForElement = async (elementSelector: string, timeout?: number) => {
   // https://webdriver.io/docs/api/browser/$
   const element = await Appium.$(elementSelector)
@@ -10,6 +12,9 @@ const waitForElement = async (elementSelector: string, timeout?: number) => {
 
   return element
 }
+
+export const waitForElementWithInnerText = async (text: string, timeout?: number) =>
+  waitForElement(byText(text), timeout)
 
 export const waitForElementWithTestId = async (testId: string, timeout?: number) =>
   waitForElement(byTestId(testId), timeout)
@@ -39,30 +44,27 @@ export const scrollToElementWithTestId = async (
 ) => {
   // scrollIntoView is not supported for iOS and webdriverio currently requires a manual scroll down, instead of a scroll into element
   // https://github.com/webdriverio/webdriverio/issues/6537 and https://stackoverflow.com/questions/42656872/how-to-do-scroll-on-ios-native-app-with-webdriver-io
-  if (platform !== 'ios') {
-    Appium.$('android=new UiScrollable(new UiSelector().resourceId("scroll-container")).scrollToBeginning(10, 10)')
-  }
-  let scrollCounter = 0
-  while (scrollCounter < maxAttempts) {
-    scrollCounter++
-    try {
-      if (platform === 'ios') {
+  if (platform === 'ios') {
+    let scrollCounter = 0
+    while (scrollCounter < maxAttempts) {
+      scrollCounter++
+      try {
         await Appium.execute('mobile: scroll', { direction: direction })
-      } else {
-        // platform === android
-        const method = direction === 'up' ? 'scrollBackward' : 'scrollForward'
-        // See https://developer.android.com/reference/androidx/test/uiautomator/UiScrollable +
-        // https://developer.android.com/reference/androidx/test/uiautomator/UiSelector
-        Appium.$(`android=new UiScrollable(new UiSelector().resourceId("scroll-container")).${method}()`)
-      }
-      return await waitForElementWithTestId(testId, timeout)
-    } catch (e) {
-      // element not visible yet, throw if max attempt count reached
-      if (scrollCounter === maxAttempts) {
-        throw e
+
+        return await waitForElementWithTestId(testId)
+      } catch (e) {
+        // element not visible yet, throw if max attempt count reached
+        if (scrollCounter === maxAttempts) {
+          throw e
+        }
       }
     }
   }
+
+  // See https://developer.android.com/reference/androidx/test/uiautomator/UiScrollable +
+  // https://developer.android.com/reference/androidx/test/uiautomator/UiSelector
+  const selector = `android=new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().resourceId("${testId}"))`
+  return waitForElement(selector, timeout)
 }
 
 const locateMultipleElements = async (elementSelector: string): Promise<Record<string, unknown>[]> => {

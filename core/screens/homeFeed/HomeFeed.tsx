@@ -74,7 +74,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
     <>
       <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} testID="scroll-container">
         <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
-        <UpdatesOfYourApps style={styles.updatesOfYourApps} />
+        {/*<UpdatesOfYourApps style={styles.updatesOfYourApps} />*/}
         {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}
       </DefaultLayout>
       {/* AppsDrawer needs to be outside of the Layout */}
