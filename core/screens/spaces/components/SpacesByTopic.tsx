@@ -30,7 +30,7 @@ const SpacesByTopic: React.VFC<SpacesByTopicProps> = ({ topic, style }: SpacesBy
     fetchPolicy: 'cache-and-network',
   })
 
-  const spaces = data?.spaces.data || []
+  const { totalResults = 0, data: spaces = [] } = data?.spaces || {}
 
   if (error) {
     displayError(error, t('spaces.spaceListing.error'))
@@ -48,7 +48,16 @@ const SpacesByTopic: React.VFC<SpacesByTopicProps> = ({ topic, style }: SpacesBy
   if (!spaces.length) {
     return <></>
   }
-  return <TopicSlider topic={topic} style={style} spaces={spaces.slice(0, SPACES_PAGE_SIZE)} />
+  return (
+    <TopicSlider
+      topic={topic}
+      style={style}
+      spaces={spaces.slice(0, SPACES_PAGE_SIZE)}
+      paddingVertical={8}
+      slideGap={8}
+      hasMore={totalResults > SPACES_PAGE_SIZE}
+    />
+  )
 }
 
 const styles = StyleSheet.create({

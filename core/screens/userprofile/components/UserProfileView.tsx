@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import UserConnectionButton from '@holi/core/screens/userprofile/components/UserConnectionButton'
+import UserConnectionButtons from '@holi/core/screens/userprofile/components/UserConnectionButtons'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -47,10 +47,16 @@ const UserProfileView: React.VFC<UserProfileViewProps> = ({ user, contactPossibl
       </View>
       {user.aboutMe && <HoliReadMore style={styles.aboutMe}>{user.aboutMe}</HoliReadMore>}
       {contactPossible && (
-        <View style={{ flexDirection: 'row', marginTop: 16 }}>
-          <UserConnectionButton style={{ marginRight: 8 }} user={user} fullName={fullName} />
+        <View style={styles.profileButtonWrapper}>
+          <UserConnectionButtons style={styles.profileButton} user={user} />
 
-          <HoliButton type="secondary" inline disabled label={t('user.profileView.message')} style={{ marginRight: 8 }}>
+          <HoliButton
+            type="secondary"
+            inline
+            disabled
+            label={t('user.profileView.message')}
+            style={styles.profileButton}
+          >
             {t('user.profileView.message')}
           </HoliButton>
         </View>
@@ -67,6 +73,14 @@ const styles = StyleSheet.create({
   },
   avatarName: {
     flexDirection: 'row',
+  },
+  profileButtonWrapper: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  profileButton: {
+    marginTop: 16,
+    marginRight: 8,
   },
   nameContainer: {
     marginTop: 8,

@@ -55,8 +55,8 @@ const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps>
   }, [keyword, setValueDebounced])
 
   useEffect(() => {
-    if (debouncedKeyword === INITIAL_VALUE) return
-    if (debouncedKeyword.length < minSearchChars) return
+    if (debouncedKeyword === INITIAL_VALUE) return setSafeSuggestions([])
+    if (debouncedKeyword.length < minSearchChars) return setSafeSuggestions([])
     findUsersByName(debouncedKeyword).then(setSafeSuggestions)
   }, [debouncedKeyword, minSearchChars, findUsersByName, setSafeSuggestions])
 
@@ -101,18 +101,24 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     backgroundColor: colors.backgroundColor,
-    borderWidth: 1,
-    borderLeftColor: colors.borderColorGrey,
-    borderTopColor: colors.borderColorGrey,
-    borderRightColor: colors.borderColorGrey,
-    borderBottomColor: colors.backgroundColor,
+    borderRadius: 10,
+    padding: 5,
+    shadowColor: colors.shadowColorBlack,
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 4,
   },
   suggestionItem: {
-    paddingHorizontal: 10,
-    paddingVertical: 7,
-    borderBottomWidth: 0.5,
-    borderBottomColor: colors.borderColorGrey,
-    minWidth: '100%',
+    display: 'flex',
+    whiteSpace: 'nowrap',
+    paddingLeft: 10,
+    paddingRight: 20,
+    paddingTop: 7,
+    paddingBottom: 7,
   },
   suggestionItemText: {
     fontSize: 16,

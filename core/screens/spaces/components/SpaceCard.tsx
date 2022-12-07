@@ -12,12 +12,14 @@ import { colors } from '@holi/ui/styles/globalVars'
 type SpaceCardProps = {
   space: Space
   size?: 'small' | 'normal'
+  imageHeight: number
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceCard: React.VFC<SpaceCardProps> = ({ space, style, size = 'normal' }: SpaceCardProps) => {
+const SpaceCard: React.VFC<SpaceCardProps> = ({ space, style, size = 'normal', imageHeight }: SpaceCardProps) => {
   const { navigate } = useRouting()
   const { id, title, description, mainImage, memberships, location } = space
+  const styles = getStyles(imageHeight)
 
   const members = memberships.map((membership) => membership.user)
 
@@ -56,48 +58,49 @@ const SpaceCard: React.VFC<SpaceCardProps> = ({ space, style, size = 'normal' }:
 }
 export default memo(SpaceCard)
 
-const styles = StyleSheet.create({
-  mainImageWrapper: {
-    position: 'relative',
-    backgroundColor: colors.backgroundColorGrey,
-    borderRadius: 18,
-    width: '100%',
-    marginBottom: 16,
-  },
-  mainImage: {
-    aspectRatio: 240 / 160,
-    borderRadius: 8,
-    height: Platform.OS === 'web' ? 160 : 'auto',
-    width: Platform.OS === 'web' ? '100%' : 'auto',
-  },
-  userPile: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    backgroundColor: colors.white,
-    padding: 4,
-    paddingRight: 8,
-    borderRadius: 24,
-    margin: 6,
-  },
-  card: {
-    padding: 8,
-    flex: 1,
-  },
-  normal: {
-    width: '100%',
-    backgroundColor: colors.white,
-    borderRadius: 16,
-  },
-  small: {},
-  location: {
-    color: colors.fontColorGrey,
-  },
-  title: {
-    marginVertical: 4,
-  },
-  description: {
-    color: colors.fontColorGrey,
-    marginBottom: 8,
-  },
-})
+const getStyles = (imageHeight: number) =>
+  StyleSheet.create({
+    mainImageWrapper: {
+      position: 'relative',
+      backgroundColor: colors.backgroundColorGrey,
+      borderRadius: 18,
+      width: '100%',
+      marginBottom: 16,
+    },
+    mainImage: {
+      aspectRatio: 240 / 160,
+      borderRadius: 8,
+      height: imageHeight,
+      width: Platform.OS === 'web' ? '100%' : 'auto',
+    },
+    userPile: {
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      backgroundColor: colors.white,
+      padding: 4,
+      paddingRight: 8,
+      borderRadius: 24,
+      margin: 6,
+    },
+    card: {
+      padding: 8,
+      flex: 1,
+    },
+    normal: {
+      width: '100%',
+      backgroundColor: colors.white,
+      borderRadius: 16,
+    },
+    small: {},
+    location: {
+      color: colors.fontColorGrey,
+    },
+    title: {
+      marginVertical: 4,
+    },
+    description: {
+      color: colors.fontColorGrey,
+      marginBottom: 8,
+    },
+  })

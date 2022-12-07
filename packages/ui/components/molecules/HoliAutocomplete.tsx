@@ -30,6 +30,7 @@ export type HoliAutocompleteProps = {
   testID?: string
   inputProps?: TextInputProps
   id: string
+  onSubmit?: (value: string) => void
 }
 
 const HoliAutocomplete = ({
@@ -48,6 +49,7 @@ const HoliAutocomplete = ({
   debounce: debounceValue,
   id,
   testID,
+  onSubmit,
 }: HoliAutocompleteProps) => {
   const [searchText, setSearchText] = useState(value || '')
   const [isOpened, setIsOpened] = useState(false)
@@ -77,13 +79,6 @@ const HoliAutocomplete = ({
   useEffect(() => {
     setSearchText(value || '')
   }, [value])
-
-  // Get suggestions for initial value
-  useEffect(() => {
-    if (value && !suggestions.length) {
-      onChangeText(value)
-    }
-  }, [suggestions, value, onChangeText])
 
   const handleItemSelection = useCallback(
     (item) => {
@@ -121,6 +116,11 @@ const HoliAutocomplete = ({
   const onBlur = useCallback(() => {
     clearFocusAndClose(focusedItem)
   }, [clearFocusAndClose, focusedItem])
+
+  const onSubmitEditing = useCallback(() => {
+    onSubmit && onSubmit(searchText || '')
+    setIsOpened(false)
+  }, [onSubmit, setIsOpened, searchText])
 
   const renderItem = useCallback(
     (item, index) => {
@@ -167,7 +167,7 @@ const HoliAutocomplete = ({
         accessibilityExpanded={isOpened}
         accessibilityHasPopup="menu"
         trailingComponent={trailingComponent}
-        inputProps={inputProps}
+        inputProps={{ ...inputProps, onSubmitEditing }}
         inputStyle={[
           isOpened && suggestions.length ? styles.textInputOpened : {},
           focusedItem ? styles.textInputFocused : {},

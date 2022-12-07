@@ -43,6 +43,11 @@ const InsightFragment = gql`
       creator {
         ...UserAvatar
       }
+      comments {
+        creator {
+          ...UserAvatar
+        }
+      }
       links {
         ...LinkFragment
       }

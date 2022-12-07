@@ -13,11 +13,12 @@ import { StyleSheet, View } from 'react-native'
 
 import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
-import type { HoliRichTextInputProps } from '@holi/ui/components/organisms/HoliRichTextInput'
 import HoliFocusPlugin from '@holi/ui/helper/lexical/HoliFocusPlugin'
 import HoliMentionsPlugin, { $getPureTextFromHtml } from '@holi/ui/helper/lexical/HoliMentionsPlugin'
 import { HoliMentionsPluginNode } from '@holi/ui/helper/lexical/HoliMentionsPlugin.node'
 import { colors } from '@holi/ui/styles/globalVars'
+
+import type { HoliRichTextInputProps } from './HoliRichTextInput'
 
 const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   initalValue = '',

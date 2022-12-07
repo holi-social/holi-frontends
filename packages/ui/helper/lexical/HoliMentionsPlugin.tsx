@@ -11,7 +11,6 @@ import * as ReactDOM from 'react-dom'
 
 import { useSafeDispatch } from '@holi/core/helpers'
 import type { User } from '@holi/core/screens/userprofile/types'
-import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import HoliLexicalMentionsDropdown from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdown'
 import DropdownOption from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdownOption'
 import { $createMentionNode, MENTION_DATA_ATTR } from '@holi/ui/helper/lexical/HoliMentionsPlugin.node'
@@ -36,7 +35,7 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
   const setSafeResult = useSafeDispatch(setResults)
 
   const debouncedSearch: (keyword?: string) => void = useDebounce((keyword?: string) => {
-    if (!keyword || keyword.length < minSearchChars) return
+    if (!keyword || keyword.length < minSearchChars) return setResults([])
     findUsersByName(keyword).then(setSafeResult)
   }, debounceDelay)
 
@@ -45,26 +44,7 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
   })
 
   const optionsList = useMemo(
-    () =>
-      results
-        .slice(0, maxSuggestionOptions)
-        .map(
-          (item) =>
-            new DropdownOption(
-              item.id,
-              item.fullName,
-              (
-                <HoliUserAvatar
-                  imageSrc={item.avatar}
-                  label={item.fullName}
-                  initials={item.avatarLabel}
-                  defaultColor={item.avatarDefaultColor}
-                  size="micro"
-                  style={{ marginRight: 10 }}
-                />
-              )
-            )
-        ),
+    () => results.slice(0, maxSuggestionOptions).map((user) => new DropdownOption(user)),
     [results, maxSuggestionOptions]
   )
 
@@ -82,8 +62,8 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
   const replaceTextWithMentionNode = useCallback(
     (selectedOption: DropdownOption, nodeToReplace: TextNode | null, closeMenu: () => void) => {
       editor.update(() => {
-        const displayString = `@${selectedOption.name}`
-        const mentionNode = $createMentionNode(selectedOption.name, selectedOption.id, displayString)
+        const displayString = `@${selectedOption.user.fullName}`
+        const mentionNode = $createMentionNode(selectedOption.user.fullName, selectedOption.user.id, displayString)
         if (nodeToReplace) {
           nodeToReplace.replace(mentionNode)
         }
