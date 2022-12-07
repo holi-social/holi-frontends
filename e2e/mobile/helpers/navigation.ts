@@ -4,6 +4,13 @@ const homeScreenTestId = 'home-feed-insights-heading'
 
 export const waitForHomeScreen = async (timeout?: number) => waitForElementWithTestId(homeScreenTestId, timeout)
 
+export const navigateToAppById = async (id: 'donations' | 'goodnews' | 'volunteering') => {
+  await waitForHomeScreen()
+  await tapOnElementWithTestId('home-apps-button')
+  await tapOnElementWithTestId(`app-tile-${id}`)
+  await waitForElementWithTestId(`${id}-list-container`)
+}
+
 export const navigateBackToHomeScreen = async () => {
   let homeScreenReached = false
   let firstRun = true
