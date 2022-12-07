@@ -21,7 +21,7 @@ const HoliLink: React.FC<HoliLink> = ({
   onPress,
   children,
   style,
-  testID = 'link-text',
+  testID = 'text-link',
 }) => {
   return (
     <Link href={href}>
@@ -29,11 +29,9 @@ const HoliLink: React.FC<HoliLink> = ({
         onClick={onPress as React.MouseEventHandler<HTMLAnchorElement>}
         aria-label={label}
         target={external ? '_blank' : undefined}
-        style={{ color: colors.fontColorHighlighted }}
+        data-testid={testID}
       >
-        <HoliText style={[styles.link, style]} testID={testID}>
-          {children}
-        </HoliText>
+        <HoliText style={[styles.link, style]}>{children}</HoliText>
       </a>
     </Link>
   )
