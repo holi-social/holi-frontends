@@ -28,10 +28,24 @@ export const PostImageFragment = gql`
   }
 `
 
+export const LinkFragment = gql`
+  fragment LinkFragment on LinkPreview {
+    requestedUrl
+    url
+    title
+    description
+    type
+    image
+    siteName
+    origin
+  }
+`
+
 export const PostFragment = gql`
   ${userAvatarFragment}
   ${PostCommentFragment}
   ${PostImageFragment}
+  ${LinkFragment}
 
   fragment PostFull on Post {
     id
@@ -46,6 +60,9 @@ export const PostFragment = gql`
     }
     image {
       ...PostImageData
+    }
+    links {
+      ...LinkFragment
     }
     mentions {
       id
