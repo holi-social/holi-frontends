@@ -11,7 +11,7 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { PortalGate } from '@holi/core/provider/PortalProvider'
-import PostDetail from '@holi/core/screens/posts/components/PostDetail'
+import PostContent from '@holi/core/screens/posts/components/PostContent'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { CreatePostCommentMutation, CreatePostCommentResponse } from '@holi/core/screens/posts/queries'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
@@ -126,7 +126,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
       <ScrollView onContentSizeChange={scrollIntoView} ref={scrollViewRef}>
         <View onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)}>
           {/* Post content */}
-          <PostDetail post={post} />
+          <PostContent post={post} hasHeader minimized style={styles.postContent} />
 
           {/* Comment input block */}
           <View style={mixins.container}>
@@ -180,7 +180,7 @@ const SUGGESTIONS_DROPDOWN_HEIGHT = 150
 
 const styles = StyleSheet.create({
   pageView: {
-    paddingTop: vars.topBarHeight,
+    paddingTop: vars.topBarHeight + 10,
     height: '100%', // prevents double scrollbars
     ...Platform.select({
       web: { height: '100vh' },
@@ -188,6 +188,9 @@ const styles = StyleSheet.create({
         paddingBottom: 0,
       },
     }),
+  },
+  postContent: {
+    marginTop: 12,
   },
   verticalLine: {
     marginTop: 16,

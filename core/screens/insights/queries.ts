@@ -1,26 +1,12 @@
 import { gql } from '@apollo/client/core'
 
 import { Insight } from '@holi/core/screens/insights/types'
-import { PostImageFragment } from '@holi/core/screens/posts/queries'
+import { PostFragment } from '@holi/core/screens/posts/queries'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
-
-const LinkFragment = gql`
-  fragment LinkFragment on LinkPreview {
-    requestedUrl
-    url
-    title
-    description
-    type
-    image
-    siteName
-    origin
-  }
-`
 
 const InsightFragment = gql`
   ${userAvatarFragment}
-  ${LinkFragment}
-  ${PostImageFragment}
+  ${PostFragment}
 
   fragment InsightFull on Insight {
     id
@@ -36,28 +22,7 @@ const InsightFragment = gql`
       title
     }
     posts {
-      id
-      text
-      title
-      created
-      creator {
-        ...UserAvatar
-      }
-      comments {
-        creator {
-          ...UserAvatar
-        }
-      }
-      links {
-        ...LinkFragment
-      }
-      mentions {
-        id
-        fullName
-      }
-      image {
-        ...PostImageData
-      }
+      ...PostFull
     }
   }
 `
