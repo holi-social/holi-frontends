@@ -10,7 +10,7 @@ import { useKeyboard } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import PostDetail from '@holi/core/screens/posts/components/PostDetail'
+import PostContent from '@holi/core/screens/posts/components/PostContent'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { CreatePostCommentMutation, CreatePostCommentResponse } from '@holi/core/screens/posts/queries'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
@@ -65,6 +65,9 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
       setOptions({
         title: t('insights.posts.comments.title'),
         headerStyle: { backgroundColor: colors.backgroundColorWhite },
+        navigationCustomOptions: {
+          footerShown: false,
+        },
       }),
     [setOptions, t]
   )
@@ -118,13 +121,13 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.root}>
       <ScrollView
-        contentContainerStyle={{ paddingBottom: bottomPadding }}
+        contentContainerStyle={{ paddingBottom: bottomPadding, paddingTop: vars.topBarHeight }}
         onContentSizeChange={scrollIntoView}
         ref={scrollViewRef}
       >
         <View onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)}>
           {/* Post content */}
-          <PostDetail post={post} />
+          <PostContent post={post} hasHeader minimized style={styles.postContent} />
 
           {/* Comment input block */}
           <View style={mixins.container}>
@@ -177,14 +180,20 @@ const SUGGESTIONS_DROPDOWN_HEIGHT = 200
 const styles = StyleSheet.create({
   root: {
     paddingTop: vars.topBarHeight,
-    paddingBottom: vars.bottomBarHeight + SUBMIT_BUTTON_CONTAINER_HEIGHT,
+
     height: '100%', // prevents double scrollbars
     ...Platform.select({
       web: { height: '100vh' },
+      ios: {
+        paddingBottom: vars.bottomBarHeight + SUBMIT_BUTTON_CONTAINER_HEIGHT,
+      },
       android: {
         paddingBottom: 0,
       },
     }),
+  },
+  postContent: {
+    marginTop: 12,
   },
   inputContainer: {
     marginTop: 16,
@@ -223,9 +232,8 @@ const styles = StyleSheet.create({
     height: SUBMIT_BUTTON_CONTAINER_HEIGHT,
     ...Platform.select({
       web: {
-        // bottom nav is only visible in web
         position: 'fixed',
-        bottom: vars.bottomBarHeight,
+        bottom: 0,
       },
     }),
   },

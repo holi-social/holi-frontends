@@ -1,6 +1,6 @@
-import { useLazyQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useContext, useEffect, useLayoutEffect, useState } from 'react'
+import React, { memo, useContext, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
@@ -13,16 +13,14 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import CommentView from '@holi/core/screens/posts/components/CommentView'
-import PostDetail from '@holi/core/screens/posts/components/PostDetail'
+import PostContent from '@holi/core/screens/posts/components/PostContent'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
-import { getPostCommenters } from '@holi/core/screens/posts/components/helpers'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
-import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -48,7 +46,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
 
   const isWeb = Platform.OS === 'web'
 
-  const [getPost, { loading, error, data }] = useLazyQuery<PostByIdResponse>(PostById, {
+  const { loading, error, data } = useQuery<PostByIdResponse>(PostById, {
     variables: { id: postId },
   })
 
@@ -68,10 +66,6 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
     [setOptions, title]
   )
 
-  useEffect(() => {
-    if (postId) getPost()
-  }, [postId, getPost])
-
   if (error) {
     logError(error, `[Post.tsx] ${error.message}`)
   }
@@ -87,21 +81,15 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
 
   const comments = post.comments || []
 
-  const commenters = getPostCommenters(comments)
-
   return (
     <>
       <StatusBar animated />
       <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
-        <PostDetail post={post} />
+        <PostContent post={post} hasHeader style={styles.postContent} />
 
         {/* Post comments */}
         {comments.length > 0 && (
           <View style={[mixins.container, styles.commentsView]}>
-            <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
-              {t('insights.post.response', { count: comments.length })}
-            </HoliUserAvatarPile>
-
             <VerticalLine style={styles.commentConnector} />
 
             {comments.map((comment) => (
@@ -119,6 +107,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
           }
         />
       </SafeAreaView>
+
       <HoliConfirmation
         show={showLoginConfirmation}
         label={t('auth.login.needed.title')}
@@ -132,9 +121,13 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
   )
 }
 
+const COMMENT_BUTTON_CONTAINER_HEIGHT = 74
+
 const styles = StyleSheet.create({
+  postContent: {
+    marginTop: 12,
+  },
   commentsView: {
-    paddingTop: 20,
     paddingHorizontal: 20,
     ...Platform.select({
       web: {
@@ -151,6 +144,7 @@ const styles = StyleSheet.create({
   },
   postCommentButton: {
     width: '100%',
+    height: COMMENT_BUTTON_CONTAINER_HEIGHT,
     ...Platform.select({
       web: {
         position: 'fixed',

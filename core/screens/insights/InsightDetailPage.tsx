@@ -10,12 +10,11 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
-import type { NavigationContextOptions } from '@holi/core/navigation/hooks/NavigationContextProvider/NavigationContext'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
-import PostPreview from '@holi/core/screens/posts/components/PostPreview'
+import PostContent from '@holi/core/screens/posts/components/PostContent'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
@@ -63,7 +62,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
           headerBackgroundGradient: true,
           footerShown: false,
         },
-      } as NavigationContextOptions),
+      }),
     [setOptions, t, insight?.title]
   )
 
@@ -171,7 +170,12 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
             <HoliGridWrapper itemsInRow={postGridItemsInRow}>
               {posts.map((post) => (
                 <HoliGridCell key={post.id}>
-                  <PostPreview insightId={insightId} post={post} />
+                  <PostContent
+                    post={post}
+                    collapseContent
+                    onMediaHeaderPressed={() => navigate(`/insights/${insightId}/posts/${post.id}`)}
+                    style={styles.postItem}
+                  />
                 </HoliGridCell>
               ))}
             </HoliGridWrapper>
@@ -266,6 +270,10 @@ const styles = StyleSheet.create({
   },
   postList: {
     marginTop: 24,
+  },
+  postItem: {
+    borderRadius: 12,
+    paddingVertical: 24,
   },
 })
 

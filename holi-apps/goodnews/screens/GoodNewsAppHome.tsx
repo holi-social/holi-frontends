@@ -45,7 +45,7 @@ const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
 
   return (
     <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
-      <View style={[mixins.container]} testID={'goodnews-list-container'}>
+      <View style={[mixins.container]} testID="goodnews-list-container">
         <HoliText size={'extralarge'}>{title}</HoliText>
         <GoodNewsListing />
       </View>

@@ -1,0 +1,39 @@
+import { render } from '@testing-library/react-native'
+import React from 'react'
+import renderer from 'react-test-renderer'
+
+import { Link } from '@holi/core/screens/posts/types'
+import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview/index.web'
+
+const linkData: Link = {
+  description:
+    "Discover projects that help animals. Whether it's dogs, elephant babies, cheetahs or squirrels – your donation saves animals' lives!",
+  image: '',
+  origin: 'http://betterplace.org',
+  requestedUrl: 'http://betterplace.org/en/discover/1-animals',
+  siteName: 'betterplace.org',
+  title: 'Donate to animals on betterplace.org',
+  type: 'website',
+  url: 'https://www.betterplace.org/en/discover/1-animals',
+}
+
+describe('HoliLinkPreview', () => {
+  it('matches previous snapshot', () => {
+    const tree = renderer.create(<HoliLinkPreview previewData={linkData} />).toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('renders correctly', () => {
+    const { getByRole, getByText } = render(<HoliLinkPreview previewData={linkData} />)
+
+    getByRole('image', {
+      name: new RegExp(linkData.title, 'gi'),
+    })
+
+    getByText(new RegExp(linkData.title, 'gi'))
+
+    getByText(new RegExp(linkData.description, 'gi'))
+
+    getByText(new RegExp(linkData.origin, 'gi'))
+  })
+})

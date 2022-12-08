@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react-native'
 import * as React from 'react'
 
+import { Link } from '@holi/core/screens/posts/types'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 
@@ -24,6 +25,18 @@ const DUMMY_USERS = [
     avatarDefaultColor: '',
   },
 ]
+
+const linkData: Link = {
+  description:
+    "Discover projects that help animals. Whether it's dogs, elephant babies, cheetahs or squirrels – your donation saves animals' lives!",
+  image: '',
+  origin: 'http://betterplace.org',
+  requestedUrl: 'http://betterplace.org/en/discover/1-animals',
+  siteName: 'betterplace.org',
+  title: 'Donate to animals on betterplace.org',
+  type: 'website',
+  url: 'https://www.betterplace.org/en/discover/1-animals',
+}
 
 describe('HoliRichTextOutput', () => {
   it('replaces multiple mentions within the text', () => {
@@ -49,6 +62,16 @@ describe('HoliRichTextOutput', () => {
     const inputText = `Hello @${DUMMY_USERS[2].id}, what's going on?`
     const expectedOutput = `Hello @${DUMMY_USERS[2].fullName}, what's going on?`
     const { getByTestId } = render(<HoliRichTextOutput users={DUMMY_USERS} text={inputText} testID={testId} />)
+    expect(getByTestId(testId)).toHaveTextContent(expectedOutput)
+  })
+
+  it('replaces links correctly', () => {
+    const testId = 'the-rich-text-output-element'
+    const inputText = `Here is link: ${linkData.requestedUrl}`
+    const expectedOutput = `Here is link: ${linkData.title}`
+    const { getByTestId } = render(
+      <HoliRichTextOutput users={DUMMY_USERS} text={inputText} testID={testId} links={[linkData]} />
+    )
     expect(getByTestId(testId)).toHaveTextContent(expectedOutput)
   })
 })

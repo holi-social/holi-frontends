@@ -20,16 +20,13 @@ export const useUnifiedNavigation = () => {
   useLayoutEffect(() => {
     if (navigationRef.isReady()) {
       if (context.options.navigationCustomOptions?.footerShown !== navigationRefOptions) {
-        setUnifiedOptions((currentOptions: NavigationCustomOptions) => {
-          console.log('navigationRefOptions: ', navigationRefOptions)
-          return {
-            ...currentOptions,
-            navigationCustomOptions: {
-              ...(currentOptions.navigationCustomOptions || {}),
-              footerShown: navigationRefOptions,
-            },
-          }
-        })
+        setUnifiedOptions((currentOptions: NavigationCustomOptions) => ({
+          ...currentOptions,
+          navigationCustomOptions: {
+            ...(currentOptions.navigationCustomOptions || {}),
+            footerShown: navigationRefOptions,
+          },
+        }))
       }
     }
   }, [navigationRefOptions, context.options.navigationCustomOptions?.footerShown, setUnifiedOptions])
