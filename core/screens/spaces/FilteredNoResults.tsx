@@ -23,7 +23,7 @@ const FilteredNoResults: React.VFC<FilteredNoResultsProps> = ({ style, onPress }
         {t('spaces.filter.notFound.description')}
       </HoliText>
       <HoliButton label={''} style={styles.clearBtn} onPress={onPress}>
-        <HoliText>{t('spaces.filter.clear.btn')}</HoliText>
+        <HoliText>{t('search.filter.reset')}</HoliText>
       </HoliButton>
     </View>
   )

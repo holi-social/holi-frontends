@@ -169,7 +169,6 @@
   "spaces.filter.all.location": "Discover all spaces in <0>{{location}}",
   "spaces.filter.button.label": "Filter spaces",
   "spaces.filter.button.text": "Filters",
-  "spaces.filter.clear.btn": "Clear filters",
   "spaces.filter.heading": "Filter spaces",
   "spaces.filter.location.label": "Location",
   "spaces.filter.location.placeholder": "Location...",
