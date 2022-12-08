@@ -201,7 +201,7 @@ mobile_staging_e2e_ios:
   extends: .mobile_e2e_ios
   needs: ['mobile_staging_build_ios']
   variables:
-    TEST_SUITES: smoke
+    TEST_SUITES: (smoke|journey)
   only:
     - main
 

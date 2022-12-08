@@ -171,6 +171,8 @@
   "spaces.filter.heading": "Spaces filtern",
   "spaces.filter.location.label": "Ort",
   "spaces.filter.location.placeholder": "Ort...",
+  "spaces.filter.notFound.title": "Keine Ergebnisse gefunden",
+  "spaces.filter.notFound.description": "Wir konnten keinen Space finden, der deinen Filtern entspricht.",
   "spaces.filter.submit": "Spaces anzeigen",
   "spaces.filter.topics.dropdown": "Interesse auswählen",
   "spaces.filter.topics.label": "Interessen",

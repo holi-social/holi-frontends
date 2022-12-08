@@ -1,4 +1,5 @@
 import React from 'react'
+import { View } from 'react-native'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -12,7 +13,7 @@ type GoodNewsArticleComponentProps = {
 const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = (props: GoodNewsArticleComponentProps) => {
   const article = props.article
   return (
-    <>
+    <View testID="goodnews-list-item">
       <HoliText>Date: {article.date}</HoliText>
       <HoliText>Headline: {article.headline}</HoliText>
       <HoliText>Teaser: {article.teaserText}</HoliText>
@@ -30,7 +31,7 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = (prop
       <HoliText>Article Source: {article.source}</HoliText>
       <HoliText>Category: {article.category}</HoliText>
       <HoliText>-------------------------------------------</HoliText>
-    </>
+    </View>
   )
 }
 
