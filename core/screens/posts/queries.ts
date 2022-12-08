@@ -43,6 +43,39 @@ export const LinkFragment = gql`
 
 export const PostFragment = gql`
   ${userAvatarFragment}
+  ${PostImageFragment}
+  ${LinkFragment}
+
+  fragment PostFragment on Post {
+    id
+    title
+    text
+    created
+    creator {
+      ...UserAvatar
+    }
+    numberOfComments
+    involvedUsers {
+      totalResults
+      data {
+        ...UserAvatar
+      }
+    }
+    image {
+      ...PostImageData
+    }
+    links {
+      ...LinkFragment
+    }
+    mentions {
+      id
+      fullName
+    }
+  }
+`
+
+export const PostDetailsFragment = gql`
+  ${userAvatarFragment}
   ${PostCommentFragment}
   ${PostImageFragment}
   ${LinkFragment}
@@ -54,6 +87,13 @@ export const PostFragment = gql`
     created
     creator {
       ...UserAvatar
+    }
+    numberOfComments
+    involvedUsers {
+      totalResults
+      data {
+        ...UserAvatar
+      }
     }
     comments {
       ...PostCommentFull
@@ -72,7 +112,7 @@ export const PostFragment = gql`
 `
 
 export const PostById = gql`
-  ${PostFragment}
+  ${PostDetailsFragment}
 
   query PostById($id: String!) {
     postById(id: $id) {
@@ -91,7 +131,7 @@ export type CreatePostCommentInput = {
 }
 
 export const CreatePostCommentMutation = gql`
-  ${PostFragment}
+  ${PostDetailsFragment}
   ${PostCommentFragment}
 
   mutation CreatePostComment($input: CreatePostCommentInput!) {

@@ -22,18 +22,36 @@ const InsightFragment = gql`
       title
     }
     posts {
-      ...PostFull
+      ...PostFragment
     }
   }
 `
 
 export const lastInsightsQuery = gql`
-  ${InsightFragment}
+  ${userAvatarFragment}
 
   query LastInsights($limit: Int!) {
     lastInsights(limit: $limit) {
       data {
-        ...InsightFull
+        id
+        title
+        description
+        datePublished
+        creator {
+          ...UserAvatar
+        }
+        headerImage
+        topic {
+          id
+          title
+        }
+        numberOfPosts
+        involvedUsers {
+          totalResults
+          data {
+            ...UserAvatar
+          }
+        }
       }
     }
   }
