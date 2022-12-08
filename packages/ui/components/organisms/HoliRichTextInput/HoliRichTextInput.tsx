@@ -1,7 +1,7 @@
 import { useLazyQuery } from '@apollo/client'
 import debounce from 'lodash.debounce'
-import React, { useCallback, useEffect, useState } from 'react'
-import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { StyleProp, StyleSheet, TextInput, ViewStyle } from 'react-native'
 import { MentionInput, MentionSuggestionsProps } from 'react-native-controlled-mentions'
 
 import { useSafeDispatch } from '@holi/core/helpers'
@@ -35,6 +35,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   onChange,
   ...props
 }) => {
+  const inputRef = useRef<TextInput>(null)
   const [value, setValue] = useState(initalValue)
   const setSafeValue = useSafeDispatch(setValue)
   const [suggestions, setSuggestions] = useState<User[]>([])
@@ -124,6 +125,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
     onChooseOptionRef = (user: User) => {
       onSuggestionPress({ id: user.id, name: user.fullName })
       props.onSelectSuggestion?.(user)
+      inputRef?.current?.focus()
     }
     return null
   }
@@ -150,6 +152,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
 
   return (
     <MentionInput
+      inputRef={inputRef}
       value={value}
       autoFocus
       onChange={onInputChange}
