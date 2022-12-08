@@ -1,12 +1,15 @@
 import { useLazyQuery } from '@apollo/client'
+import debounce from 'lodash.debounce'
 import React, { useCallback, useEffect, useState } from 'react'
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 import { MentionInput, MentionSuggestionsProps } from 'react-native-controlled-mentions'
 
+import { useSafeDispatch } from '@holi/core/helpers'
+import { usePortals } from '@holi/core/provider/PortalProvider'
 import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliRichTextInputSuggestions from '@holi/ui/components/organisms/HoliRichTextInput/Suggestions'
-import { REGEX_URL, REGEX_USER_MENTIONS_WITH_NAME } from '@holi/ui/helper/richText'
+import { REGEX_URL } from '@holi/ui/helper/richText'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type HoliRichTextInputProps = {
@@ -33,9 +36,40 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   ...props
 }) => {
   const [value, setValue] = useState(initalValue)
-  const [findUsersByName] = useLazyQuery<UserByNameResponse>(userByNameQuery)
+  const setSafeValue = useSafeDispatch(setValue)
+  const [suggestions, setSuggestions] = useState<User[]>([])
+  const setSafeSuggestions = useSafeDispatch(setSuggestions)
 
-  const findUserMapped: Promise<User[]> = useCallback(
+  const [findUsersByName] = useLazyQuery<UserByNameResponse>(userByNameQuery)
+  const { teleport } = usePortals()
+
+  const INITIAL_KEYWORD = ''
+  const [keyword, setKeyword] = useState(initalValue)
+  const setSafeKeyword = useSafeDispatch(setKeyword)
+  const [debouncedKeyword, setDebouncedKeyword] = useState<string>(INITIAL_KEYWORD)
+  const setSafeDebouncedKeyword = useSafeDispatch(setDebouncedKeyword)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const setKeywordDebounced = useCallback(
+    debounce((someValue: string) => {
+      setSafeDebouncedKeyword(someValue)
+    }, debounceDelay),
+    [keyword]
+  )
+
+  let onChooseOptionRef: (user: User) => void = () => null
+
+  // on mount / unmount
+  useEffect(() => {
+    // Stop the invocation of the debounced function after unmounting
+    return () => setKeywordDebounced.cancel()
+  }, [setKeywordDebounced])
+
+  // on value change
+  useEffect(() => {
+    return setKeywordDebounced(keyword)
+  }, [keyword, setKeywordDebounced])
+
+  const findUserMapped = useCallback(
     (substring: string) => {
       return new Promise((resolve, reject) => {
         findUsersByName({
@@ -43,39 +77,61 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
             substring,
           },
         })
-          .then((response) => resolve(response?.data?.userByName.data))
+          .then((response) => resolve(response?.data?.userByName?.data?.slice(0, maxSuggestionOptions)))
           .catch(reject)
       })
     },
-    [findUsersByName]
+    [findUsersByName, maxSuggestionOptions]
+  )
+
+  // on debounced value change
+  useEffect(() => {
+    if (debouncedKeyword === INITIAL_KEYWORD) return setSafeSuggestions([])
+    if (!debouncedKeyword || debouncedKeyword.length < minSearchChars) return setSafeSuggestions([])
+    findUserMapped(debouncedKeyword).then(setSafeSuggestions)
+  }, [debouncedKeyword, minSearchChars, findUserMapped, setSafeSuggestions])
+
+  // on suggestions change
+  useEffect(
+    () => {
+      if (!suggestions.length) return teleport('suggestions', null)
+
+      const element = (
+        <HoliRichTextInputSuggestions
+          options={suggestions}
+          onChooseSuggestion={onChooseOptionRef}
+          testID={props.testID ? `${props.testID}-suggestions` : 'richtext-input-suggestions'}
+        />
+      )
+      teleport('suggestions', element)
+    },
+    // `teleport` in the dependencies list causes endless loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [suggestions]
+  )
+
+  const onInputChange = useCallback(
+    (text: string) => {
+      setSafeValue(`${text}`)
+      onChange?.(`${text}`)
+    },
+    [onChange, setSafeValue]
   )
 
   const renderUserSuggestions: React.VFC<MentionSuggestionsProps> = ({ keyword, onSuggestionPress }) => {
-    if (keyword == null || keyword.trim().length < minSearchChars) {
-      return null
-    }
-    const onChooseSuggestion = (user: User) => {
+    setSafeKeyword(keyword)
+
+    onChooseOptionRef = (user: User) => {
       onSuggestionPress({ id: user.id, name: user.fullName })
       props.onSelectSuggestion?.(user)
     }
-    return (
-      <HoliRichTextInputSuggestions
-        keyword={keyword}
-        minSearchChars={minSearchChars}
-        maxSuggestionOptions={maxSuggestionOptions}
-        debounceDelay={debounceDelay}
-        findUsersByName={findUserMapped}
-        onChooseSuggestion={onChooseSuggestion}
-        testID={props.testID ? `${props.testID}-suggestions` : 'richtext-input-suggestions'}
-      />
-    )
+    return null
   }
 
   const suggestionConfig = []
   suggestionConfig.push({
     trigger: '@',
     renderSuggestions: renderUserSuggestions,
-    isBottomMentionSuggestionsRender: false,
     textStyle: styles.inlineMention,
   })
 
@@ -91,15 +147,6 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
     pattern: REGEX_URL,
     textStyle: styles.inlineUrl,
   })
-
-  const onInputChange = useCallback((text: string) => {
-    setValue(String(text))
-  }, [])
-
-  useEffect(() => {
-    const holiFormattedString = String(value).replace(REGEX_USER_MENTIONS_WITH_NAME, '@$1')
-    onChange?.(holiFormattedString)
-  }, [value, onChange])
 
   return (
     <MentionInput
