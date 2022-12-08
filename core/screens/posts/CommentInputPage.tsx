@@ -84,19 +84,21 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
     if (Platform.OS === 'web') {
       scrollViewRef.current?.scrollToEnd({ animated: true })
     } else {
-      const paddingTop = 20
+      const paddingTop = 90
       if (scrollContentHeight <= 0) return
       scrollViewRef.current?.scrollTo({
         animated: true,
-        y: scrollContentHeight - SUGGESTIONS_DROPDOWN_HEIGHT - SUBMIT_BUTTON_CONTAINER_HEIGHT - paddingTop,
+        y:
+          scrollContentHeight -
+          keyboardHeight -
+          SUGGESTIONS_DROPDOWN_HEIGHT +
+          SUBMIT_BUTTON_CONTAINER_HEIGHT -
+          paddingTop,
       })
     }
-  }, [scrollContentHeight])
+  }, [scrollContentHeight, keyboardHeight])
 
   useEffect(scrollIntoView, [scrollContentHeight, scrollIntoView])
-
-  const bottomPadding =
-    keyboardHeight + (Platform.OS === 'web' ? 0 : SUGGESTIONS_DROPDOWN_HEIGHT + SUBMIT_BUTTON_CONTAINER_HEIGHT)
 
   if (createCommentError) {
     logError(createCommentError, `[CommentInputPage.tsx] ${createCommentError.message}`)
@@ -121,11 +123,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
-      <ScrollView
-        contentContainerStyle={{ paddingBottom: bottomPadding }}
-        onContentSizeChange={scrollIntoView}
-        ref={scrollViewRef}
-      >
+      <ScrollView onContentSizeChange={scrollIntoView} ref={scrollViewRef}>
         <View onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)}>
           {/* Post content */}
           <PostDetail post={post} />
@@ -186,9 +184,6 @@ const styles = StyleSheet.create({
     height: '100%', // prevents double scrollbars
     ...Platform.select({
       web: { height: '100vh' },
-      ios: {
-        paddingBottom: vars.bottomBarHeight + SUBMIT_BUTTON_CONTAINER_HEIGHT,
-      },
       android: {
         paddingBottom: 0,
       },
@@ -222,29 +217,34 @@ const styles = StyleSheet.create({
   },
   suggestionsScrollView: {
     height: SUGGESTIONS_DROPDOWN_HEIGHT,
+    maxHeight: SUGGESTIONS_DROPDOWN_HEIGHT,
+    minHeight: SUGGESTIONS_DROPDOWN_HEIGHT,
     borderRadius: 12,
     paddingTop: 10,
     marginBottom: -10,
     paddingBottom: 10,
+    backgroundColor: colors.backgroundColor,
     boxShadow: `0px 2px 16px ${colors.backgroundColorOverlay}, 0px 4px 8px ${colors.backgroundColorOverlay}`,
     borderTopWidth: 1,
     borderTopColor: colors.borderColorGrey,
-    position: 'absolute',
-    bottom: SUBMIT_BUTTON_CONTAINER_HEIGHT,
-    left: 0,
-    right: 0,
+    ...Platform.select({
+      web: {
+        position: 'absolute',
+        bottom: SUBMIT_BUTTON_CONTAINER_HEIGHT,
+        left: 0,
+        right: 0,
+      },
+    }),
   },
-  suggestionsContainer: {},
   bottomBar: {
-    bottom: 0,
-    padding: 12,
-    borderTopWidth: 1,
-    borderTopColor: colors.borderColorGrey,
-    backgroundColor: colors.backgroundColor,
     justifyContent: 'center',
     alignItems: 'flex-end',
     width: '100%',
     height: SUBMIT_BUTTON_CONTAINER_HEIGHT,
+    padding: 12,
+    borderTopWidth: 1,
+    borderTopColor: colors.borderColorGrey,
+    backgroundColor: colors.backgroundColor,
   },
 })
 

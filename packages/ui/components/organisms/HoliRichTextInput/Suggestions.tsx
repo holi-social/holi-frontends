@@ -6,7 +6,6 @@ import type { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
-import { colors } from '@holi/ui/styles/globalVars'
 
 export type HoliRichTextInputSuggestionsProps = {
   options: User[]
@@ -56,7 +55,6 @@ export default React.memo(HoliRichTextInputSuggestions, customComparator)
 const styles = StyleSheet.create({
   suggestionsContainer: {
     width: '100%',
-    backgroundColor: colors.backgroundColor,
   },
   suggestionItem: {
     display: 'flex',
