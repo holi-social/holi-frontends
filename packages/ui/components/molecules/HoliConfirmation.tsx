@@ -84,7 +84,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
                 inline
                 label={confirmText || t('confirmation.confirm')}
                 onPress={onConfirm}
-                style={styles.button}
+                style={[styles.button, styles.marginLeft]}
                 {...(testID ? { testID: `${testID}-confirmation-confirm` } : {})}
               >
                 {confirmText || t('confirmation.confirm')}
@@ -135,5 +135,8 @@ const styles = StyleSheet.create({
   },
   button: {
     minWidth: 110,
+  },
+  marginLeft: {
+    marginLeft: 20,
   },
 })

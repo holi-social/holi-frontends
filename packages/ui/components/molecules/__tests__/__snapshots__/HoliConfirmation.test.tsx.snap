@@ -237,9 +237,14 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "backgroundColor": "#f3f360",
                 },
               ],
-              Object {
-                "minWidth": 110,
-              },
+              Array [
+                Object {
+                  "minWidth": 110,
+                },
+                Object {
+                  "marginLeft": 20,
+                },
+              ],
             ]
           }
         >
