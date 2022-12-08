@@ -19,7 +19,7 @@ type SpaceCollaboratorsProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, style }) => {
+const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space /* style */ }) => {
   return (
     <DefaultLayout>
       {/* Header */}
