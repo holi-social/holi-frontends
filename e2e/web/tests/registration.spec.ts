@@ -110,7 +110,7 @@ test.describe('@Registration', () => {
     // logout
     await clickElementByTestId(page, 'btn-to-settings')
     await clickElementByTestId(page, 'btn-to-logout')
-    await clickElementByTestId(page, 'confirm-logout-button')
+    await clickElementByTestId(page, 'modal-logout-confirmation-confirm')
 
     // try to create a new user with the same credentials and assert that this fails
     await defaultAuthSteps(

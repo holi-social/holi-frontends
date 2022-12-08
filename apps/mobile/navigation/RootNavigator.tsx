@@ -8,7 +8,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
-import Logout from '@holi/core/auth/screens/Logout'
 import Registration from '@holi/core/auth/screens/Registration'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -53,7 +52,6 @@ export type RootStackScreens = {
   [RouteName.VolunteeringApp]: undefined
   [RouteName.GoodNewsApp]: undefined
   [RouteName.Login]: undefined
-  [RouteName.Logout]: undefined
   [RouteName.Registration]: undefined
   [RouteName.ForgotPassword]: undefined
   [RouteName.Search]: undefined
@@ -204,7 +202,6 @@ const RootNavigator: React.VFC = () => {
         }}
       >
         <RootStack.Screen name={RouteName.Login} component={Login} />
-        <RootStack.Screen name={RouteName.Logout} component={Logout} />
         <RootStack.Screen name={RouteName.Registration} component={Registration} />
         <RootStack.Screen name={RouteName.ForgotPassword} component={ForgotPassword} />
       </RootStack.Group>
