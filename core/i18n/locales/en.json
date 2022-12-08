@@ -172,6 +172,8 @@
   "spaces.filter.heading": "Filter spaces",
   "spaces.filter.location.label": "Location",
   "spaces.filter.location.placeholder": "Location...",
+  "spaces.filter.notFound.title": "No results yet",
+  "spaces.filter.notFound.description": "We couldn't find a space to match your filters.",
   "spaces.filter.submit": "Show spaces",
   "spaces.filter.topics.label": "Interests",
   "spaces.filter.topics.placeholder": "All interests",
