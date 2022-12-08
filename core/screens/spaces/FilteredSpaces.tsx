@@ -152,9 +152,6 @@ const getStyles = (deviceHeight: number) =>
       paddingHorizontal: 24,
       margin: 24,
     },
-    searchQuery: {
-      color: colors.fontColorHighlighted,
-    },
   })
 
 export default memo(FilteredSpaces)

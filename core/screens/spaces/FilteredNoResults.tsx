@@ -16,15 +16,15 @@ const FilteredNoResults: React.VFC<FilteredNoResultsProps> = ({ style, onPress }
 
   return (
     <View style={[style, styles.container]}>
-      <HoliText size="small" style={styles.title}>
-        {t('spaces.filter.notFound.title')}
-      </HoliText>
+      <HoliText size="small">{t('spaces.filter.notFound.title')}</HoliText>
       <HoliText size="large" style={styles.description}>
         {t('spaces.filter.notFound.description')}
       </HoliText>
-      <HoliButton label={''} style={styles.clearBtn} onPress={onPress}>
-        <HoliText>{t('search.filter.reset')}</HoliText>
-      </HoliButton>
+      {onPress && (
+        <HoliButton label={''} style={styles.clearBtn} onPress={onPress}>
+          <HoliText>{t('search.filter.reset')}</HoliText>
+        </HoliButton>
+      )}
     </View>
   )
 }
@@ -47,7 +47,6 @@ const styles = StyleSheet.create({
     marginTop: 16,
     textAlign: 'center',
   },
-  title: {},
 })
 
 export default FilteredNoResults
