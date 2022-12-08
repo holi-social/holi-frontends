@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Platform, ScrollView, StatusBar, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Space } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -18,6 +19,8 @@ type SpaceCollaboratorsProps = {
 
 const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismiss, show = false, style }) => {
   const [visible, setVisible] = useState(show)
+  const { navigate } = useRouting()
+
   const { memberships } = space
 
   const members = memberships.map((membership) => membership.user)
@@ -80,7 +83,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
                   style={styles.avatar}
                 />
                 <View style={styles.titleContainer}>
-                  <HoliButton transparent label={''}>
+                  <HoliButton transparent label={''} onPress={() => navigate('/profile/' + collaborator.id)}>
                     <HoliText>{collaborator.fullName}</HoliText>
                     {/*                     {date && (
                       <HoliText size="small" style={styles.date}>
