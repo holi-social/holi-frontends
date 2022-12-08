@@ -66,10 +66,10 @@ const PostContent: React.VFC<PostContentProps> = ({
 
         {collapseContent ? (
           <HoliReadMore numberOfLines={10} fontStyle={styles.readMoreText} style={styles.description}>
-            <HoliRichTextOutput text={post.text} users={post.mentions} />
+            <HoliRichTextOutput text={post.text} users={post.mentions} links={post.links} />
           </HoliReadMore>
         ) : (
-          <HoliRichTextOutput text={post.text} users={post.mentions} style={styles.description} />
+          <HoliRichTextOutput text={post.text} users={post.mentions} links={post.links} style={styles.description} />
         )}
       </View>
 
