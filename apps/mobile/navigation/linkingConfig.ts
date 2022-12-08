@@ -68,7 +68,6 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     },
     // all modals
     [RouteName.Login]: 'login',
-    [RouteName.Logout]: 'logout',
     [RouteName.Registration]: 'registration',
     [RouteName.ForgotPassword]: 'forgotPassword',
   },
