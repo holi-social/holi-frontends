@@ -172,7 +172,7 @@
   "spaces.filter.location.label": "Ort",
   "spaces.filter.location.placeholder": "Ort...",
   "spaces.filter.notFound.title": "Keine Ergebnisse gefunden",
-  "spaces.filter.notFound.description": "Wir konnten keine Angebote finden, die Ihren Filtern entsprechen.",
+  "spaces.filter.notFound.description": "Wir konnten keinen Space finden, der deinen Filtern entspricht.",
   "spaces.filter.submit": "Spaces anzeigen",
   "spaces.filter.topics.label": "Interessen",
   "spaces.filter.topics.placeholder": "Alle Interessen",

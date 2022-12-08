@@ -173,7 +173,7 @@
   "spaces.filter.location.label": "Location",
   "spaces.filter.location.placeholder": "Location...",
   "spaces.filter.notFound.title": "No results yes",
-  "spaces.filter.notFound.description": "We couldn't find any opportunities that match your filters.",
+  "spaces.filter.notFound.description": "We couldn't find a space to match your filters.",
   "spaces.filter.submit": "Show spaces",
   "spaces.filter.topics.label": "Interests",
   "spaces.filter.topics.placeholder": "All interests",
