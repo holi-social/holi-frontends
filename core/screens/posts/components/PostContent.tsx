@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import PostImage from '@holi/core/screens/posts/components/PostImage'
-import { getPostCommenters } from '@holi/core/screens/posts/components/helpers'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -33,8 +32,7 @@ const PostContent: React.VFC<PostContentProps> = ({
   style,
 }) => {
   const { t } = useTranslation()
-  const comments = post.comments
-  const commenters = getPostCommenters(comments ?? [])
+  const commenters = post.commenters.data
 
   return (
     <View style={[styles.wrapper, style]}>
@@ -90,10 +88,10 @@ const PostContent: React.VFC<PostContentProps> = ({
             </View>
           )}
 
-          {!!comments?.length && (
+          {!!post.numberOfComments && (
             <View style={[styles.paddingHorizontal, styles.commentsPile]}>
               <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
-                {t('insights.post.response', { count: comments.length })}
+                {t('insights.post.response', { count: post.numberOfComments })}
               </HoliUserAvatarPile>
             </View>
           )}

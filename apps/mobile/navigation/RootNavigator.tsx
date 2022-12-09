@@ -49,8 +49,8 @@ export type BottomTabsScreens = {
 export type RootStackScreens = {
   [RouteName.Core]: undefined
   [RouteName.DonationsApp]: undefined
-  [RouteName.VolunteeringApp]: undefined
   [RouteName.GoodNewsApp]: undefined
+  [RouteName.VolunteeringApp]: undefined
   [RouteName.Login]: undefined
   [RouteName.Registration]: undefined
   [RouteName.ForgotPassword]: undefined
@@ -192,7 +192,14 @@ const RootNavigator: React.VFC = () => {
           headerShown: false,
         }}
       />
-      <RootStack.Screen name={RouteName.VolunteeringApp} component={VolunteeringAppNavigator} />
+      <RootStack.Screen
+        name={RouteName.VolunteeringApp}
+        component={VolunteeringAppNavigator}
+        options={{
+          animation: 'slide_from_bottom',
+          headerShown: false,
+        }}
+      />
       {/* modals are only correctly rendered on android when in root navigator */}
       <RootStack.Group
         screenOptions={{
