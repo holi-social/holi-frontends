@@ -83,7 +83,15 @@ export const HomeStackNavigator: React.VFC = () => {
       <HomeStack.Screen name={RouteName.InsightDetailPage} component={InsightDetailPage} />
       <HomeStack.Screen name={RouteName.PostDetailPage} component={PostDetailPage} />
       <HomeStack.Screen name={RouteName.CommentInputPage} component={CommentInputPage} />
-      <HomeStack.Screen name={RouteName.Notifications} component={Notifications} />
+      <HomeStack.Screen
+        name={RouteName.Notifications}
+        options={{
+          presentation: 'containedModal',
+          animation: 'slide_from_bottom',
+          headerShown: true,
+        }}
+        component={Notifications}
+      />
       <HomeStack.Screen name={RouteName.UserProfile} component={UserProfile} />
     </HomeStack.Navigator>
   )
