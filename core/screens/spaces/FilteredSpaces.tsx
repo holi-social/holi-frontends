@@ -60,10 +60,12 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
   const topics = topicsData?.topics.data || []
   const topic = topics.find((topic) => topic.id === topicId)
 
-  const fallbackTitle = t('spaces.title')
+  const fallbackTitle = t('spaces.title.filtered')
+
   useLayoutEffect(() => {
-    setOptions({ title: topic?.title || fallbackTitle })
-  }, [setOptions, topic, fallbackTitle])
+    // if more than one filter is applied, use the fallback title, otherwise use the current filter's title
+    setOptions({ title: location && topic ? fallbackTitle : topic?.title || location })
+  }, [setOptions, topic, location, fallbackTitle])
 
   const { loading, data, error, fetchMore } = useQuery<SpacesResponse>(spacesQuery, {
     variables: {
