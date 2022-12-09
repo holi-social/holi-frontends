@@ -12,6 +12,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type SpaceCollaboratorsProps = {
   space: Space
@@ -27,6 +28,8 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
   const { t } = useTranslation()
   const [visible, setVisible] = useState(show)
   const { navigate } = useRouting()
+
+  const mixins = useStyleMixins()
 
   const [adminMemberships, regularMemberships] = useMemo(() => partition(space.memberships, 'isAdministrator'), [space])
 
@@ -65,7 +68,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
         testID={'spaces-collaborators-modal'}
         onDismiss={onDismiss}
       >
-        <View style={styles.wrapper}>
+        <View style={[mixins.container, styles.wrapper]}>
           <View style={styles.header}>
             <HoliButton
               style={styles.closeModal}
@@ -92,7 +95,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
                 <HoliUserAvatar
                   imageSrc={collaborator.avatar}
                   label={collaborator.fullName || t('navigation.headerRight.avatarFallbackLabel')}
-                  initials={''}
+                  initials={collaborator.avatarLabel}
                   defaultColor={collaborator.avatarDefaultColor}
                   size="small"
                   style={styles.avatar}
