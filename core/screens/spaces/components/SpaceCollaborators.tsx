@@ -39,15 +39,15 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
         style={[styles.defaultLayout, style]}
         show={visible}
         animationType="slide"
-        label={'props.label'}
-        testID={'props.testID'}
+        label={'spaces.collaborators.modal'}
+        testID={'spaces-collaborators-modal'}
         onDismiss={onDismiss}
       >
         <View style={styles.wrapper}>
           <View style={styles.header}>
             {Platform.OS === 'web' ? (
               <HoliButton
-                style={{ margin: -8 }}
+                style={{ flex: 1 }}
                 label={'notifications.title'}
                 inline
                 transparent
@@ -58,7 +58,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
               </HoliButton>
             ) : (
               <HoliButton
-                style={{ marginLeft: -8 }}
+                style={{ flex: 1, marginLeft: -6, marginRight: 6 }}
                 label={'notifications.title'}
                 transparent
                 inline
@@ -68,8 +68,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
                 <HoliIcon icon="arrow-down-s" />
               </HoliButton>
             )}
-            <HoliText style={{ marginLeft: -16 }}>Collaborators</HoliText>
-            <HoliText>{''}</HoliText>
+            <HoliText style={{ flex: 2 }}>Collaborators</HoliText>
           </View>
           <ScrollView>
             {members.map((collaborator, index) => (
