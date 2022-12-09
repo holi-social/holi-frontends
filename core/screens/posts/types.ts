@@ -47,5 +47,5 @@ export interface Post {
   links?: Link[]
   mentions?: User[]
   numberOfComments: number
-  involvedUsers: Paged<User>
+  commenters: Paged<User>
 }

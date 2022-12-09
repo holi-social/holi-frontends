@@ -55,7 +55,7 @@ export const PostFragment = gql`
       ...UserAvatar
     }
     numberOfComments
-    involvedUsers {
+    commenters {
       totalResults
       data {
         ...UserAvatar
@@ -89,7 +89,7 @@ export const PostDetailsFragment = gql`
       ...UserAvatar
     }
     numberOfComments
-    involvedUsers {
+    commenters {
       totalResults
       data {
         ...UserAvatar

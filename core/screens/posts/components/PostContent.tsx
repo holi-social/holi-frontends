@@ -32,7 +32,7 @@ const PostContent: React.VFC<PostContentProps> = ({
   style,
 }) => {
   const { t } = useTranslation()
-  const commenters = post.involvedUsers.data
+  const commenters = post.commenters.data
 
   return (
     <View style={[styles.wrapper, style]}>
