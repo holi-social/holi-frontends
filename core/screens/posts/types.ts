@@ -1,4 +1,5 @@
 import { User } from '@holi/core/screens/userprofile/types'
+import { Paged } from '@holi/core/types'
 
 export interface Comment {
   id: string
@@ -45,4 +46,6 @@ export interface Post {
   image?: PostImage
   links?: Link[]
   mentions?: User[]
+  numberOfComments: number
+  commenters: Paged<User>
 }

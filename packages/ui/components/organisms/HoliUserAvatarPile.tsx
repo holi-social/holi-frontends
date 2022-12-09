@@ -15,6 +15,7 @@ interface HoliUserAvatarPileProps {
   counter?: boolean
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
   testID?: string
+  usersTotal?: number
 }
 
 const HoliUserAvatarPile: React.FC<HoliUserAvatarPileProps> = ({
@@ -26,6 +27,7 @@ const HoliUserAvatarPile: React.FC<HoliUserAvatarPileProps> = ({
   counter = false,
   style,
   testID = 'holi-user-avatar-pile',
+  usersTotal = users.length,
 }) => {
   const { t } = useTranslation()
 
@@ -55,7 +57,7 @@ const HoliUserAvatarPile: React.FC<HoliUserAvatarPileProps> = ({
 
         {(children || counter) && (
           <HoliText size="small" style={[styles.counter, styles.textGrey]}>
-            {children || t('insights.editors.discussing', { count: users.length })}
+            {children || t('insights.editors.discussing', { count: usersTotal })}
           </HoliText>
         )}
       </View>

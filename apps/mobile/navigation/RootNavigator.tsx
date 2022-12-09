@@ -8,7 +8,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
-import Logout from '@holi/core/auth/screens/Logout'
 import Registration from '@holi/core/auth/screens/Registration'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -50,10 +49,9 @@ export type BottomTabsScreens = {
 export type RootStackScreens = {
   [RouteName.Core]: undefined
   [RouteName.DonationsApp]: undefined
-  [RouteName.VolunteeringApp]: undefined
   [RouteName.GoodNewsApp]: undefined
+  [RouteName.VolunteeringApp]: undefined
   [RouteName.Login]: undefined
-  [RouteName.Logout]: undefined
   [RouteName.Registration]: undefined
   [RouteName.ForgotPassword]: undefined
   [RouteName.Search]: undefined
@@ -194,7 +192,14 @@ const RootNavigator: React.VFC = () => {
           headerShown: false,
         }}
       />
-      <RootStack.Screen name={RouteName.VolunteeringApp} component={VolunteeringAppNavigator} />
+      <RootStack.Screen
+        name={RouteName.VolunteeringApp}
+        component={VolunteeringAppNavigator}
+        options={{
+          animation: 'slide_from_bottom',
+          headerShown: false,
+        }}
+      />
       {/* modals are only correctly rendered on android when in root navigator */}
       <RootStack.Group
         screenOptions={{
@@ -204,7 +209,6 @@ const RootNavigator: React.VFC = () => {
         }}
       >
         <RootStack.Screen name={RouteName.Login} component={Login} />
-        <RootStack.Screen name={RouteName.Logout} component={Logout} />
         <RootStack.Screen name={RouteName.Registration} component={Registration} />
         <RootStack.Screen name={RouteName.ForgotPassword} component={ForgotPassword} />
       </RootStack.Group>
