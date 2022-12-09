@@ -38,8 +38,8 @@ export enum RouteName {
   Auth = 'Auth',
   Search = 'Search',
   DonationsApp = 'DonationsApp',
-  VolunteeringApp = 'VolunteeringApp',
   GoodNewsApp = 'GoodNewsApp',
+  VolunteeringApp = 'VolunteeringApp',
 
   // Root Stack
   Login = 'Login',
