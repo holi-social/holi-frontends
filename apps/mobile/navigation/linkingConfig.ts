@@ -56,14 +56,14 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.DonationsAppProjectDetail]: 'apps/donations/project/:projectId',
       },
     },
-    [RouteName.VolunteeringApp]: {
-      screens: {
-        [RouteName.VolunteeringAppHome]: 'apps/volunteering',
-      },
-    },
     [RouteName.GoodNewsApp]: {
       screens: {
         [RouteName.GoodNewsAppHome]: 'apps/goodnews',
+      },
+    },
+    [RouteName.VolunteeringApp]: {
+      screens: {
+        [RouteName.VolunteeringAppHome]: 'apps/volunteering',
       },
     },
     // all modals
