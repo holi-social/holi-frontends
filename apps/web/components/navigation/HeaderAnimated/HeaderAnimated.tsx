@@ -66,7 +66,7 @@ const HeaderAnimated: React.VoidFunctionComponent = () => {
 
   return (
     <Animated.View
-      style={[styles.headerOuter, headerStyle, { top: headerHideAnimation }]}
+      style={[styles.headerOuter, { top: headerHideAnimation }]}
       accessible
       accessibilityRole="navigation"
       accessibilityLabel={t('navigation.topNavigation')}
@@ -75,6 +75,7 @@ const HeaderAnimated: React.VoidFunctionComponent = () => {
         style={[
           StyleSheet.absoluteFill,
           { backgroundColor: headerTransparent ? 'transparent' : colors.backgroundColorWhite },
+          headerStyle,
         ]}
       >
         {headerBackgroundCustom ? (
