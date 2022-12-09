@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useContext, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -21,7 +21,7 @@ import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type PostDetailPageParams = {
@@ -43,6 +43,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { setOptions } = useUnifiedNavigation()
+  const { width: screenWidth } = useWindowDimensions()
 
   const isWeb = Platform.OS === 'web'
 
@@ -85,27 +86,31 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
     <>
       <StatusBar animated />
       <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
-        <PostContent post={post} hasHeader style={styles.postContent} />
+        <View style={screenWidth > +vars.breakpointXl && mixins.container}>
+          <PostContent post={post} hasHeader style={styles.postContent} />
 
-        {/* Post comments */}
-        {comments.length > 0 && (
-          <View style={[mixins.container, styles.commentsView]}>
-            <VerticalLine style={styles.commentConnector} />
+          {/* Post comments */}
+          {comments.length > 0 && (
+            <View style={styles.commentsView}>
+              <VerticalLine style={styles.commentConnector} />
 
-            {comments.map((comment) => (
-              <CommentView key={comment.id} comment={comment} style={styles.comment} />
-            ))}
-          </View>
-        )}
+              {comments.map((comment) => (
+                <CommentView key={comment.id} comment={comment} style={styles.comment} />
+              ))}
+            </View>
+          )}
+        </View>
       </DefaultLayout>
 
       <SafeAreaView>
-        <PostDetailFooter
-          style={[styles.postCommentButton, isWeb && mixins.container]}
-          onPress={() =>
-            user ? navigate(`/insights/${insightId}/posts/${post.id}/comment`) : setShowLoginConfirmation(true)
-          }
-        />
+        <View style={styles.postCommentWrapper}>
+          <PostDetailFooter
+            style={[styles.postCommentButton, isWeb && mixins.container]}
+            onPress={() =>
+              user ? navigate(`/insights/${insightId}/posts/${post.id}/comment`) : setShowLoginConfirmation(true)
+            }
+          />
+        </View>
       </SafeAreaView>
 
       <HoliConfirmation
@@ -142,7 +147,9 @@ const styles = StyleSheet.create({
   comment: {
     marginTop: 12,
   },
-  postCommentButton: {
+  postCommentWrapper: {
+    borderTopColor: colors.borderColorGrey,
+    borderTopWidth: 1,
     width: '100%',
     height: COMMENT_BUTTON_CONTAINER_HEIGHT,
     ...Platform.select({
@@ -151,6 +158,10 @@ const styles = StyleSheet.create({
         bottom: 0,
       },
     }),
+  },
+  postCommentButton: {
+    paddingTop: 18,
+    flex: 1,
   },
 })
 
