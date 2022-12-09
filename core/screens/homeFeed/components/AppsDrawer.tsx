@@ -32,7 +32,7 @@ const appSwiperApps: HoliApp[] = [
   {
     id: 'volunteering',
     icon: 'hearts',
-    translationKey: 'apps.name.volunteering',
+    translationKey: 'volunteering:app.name',
     path: '/apps/volunteering',
     hasUpdates: true,
   },
