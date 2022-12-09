@@ -1,9 +1,10 @@
 import partition from 'lodash.partition'
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
+import SpaceCollaborators from '@holi/core/screens/spaces/components/SpaceCollaborators'
 import { Space } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -33,19 +34,27 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
   const { width: deviceWidth } = useWindowDimensions()
   const avatarWidth = deviceWidth / 5 // make avatar responsive (SpaceAvatar has a maxWidth)
 
+  const [modalVisible, setModalVisible] = useState(false)
+
+  const openModal = useCallback(() => {
+    setModalVisible(true)
+  }, [setModalVisible])
+
   return (
     <View style={[styles.container, style]} testID="space-header">
+      <SpaceCollaborators space={space} show={modalVisible} onDismiss={() => setModalVisible(false)} />
       <SpaceAvatar label={space.title} imageSrc={space.avatar} width={avatarWidth} testID="space-avatar" />
-
       <HoliHeading level="1" size="medium" style={styles.title} testID="space-title">
         {space.title}
       </HoliHeading>
       <View style={styles.avatarPileContainer}>
-        <HoliUserAvatarPile users={sortedMembersList} usersToShow={3} counter collapse testID="space-members">
-          <HoliText size="small" style={styles.avatarPileText}>
-            {t('spaces.members.member', { count: sortedMembersList.length })}
-          </HoliText>
-        </HoliUserAvatarPile>
+        <HoliButton label={t('spaces.collaborators.showModal')} transparent inline onPress={openModal}>
+          <HoliUserAvatarPile users={sortedMembersList} usersToShow={3} counter collapse testID="space-members">
+            <HoliText size="small" style={styles.avatarPileText}>
+              {t('spaces.members.member', { count: sortedMembersList.length })}
+            </HoliText>
+          </HoliUserAvatarPile>
+        </HoliButton>
       </View>
       <View style={styles.actionButtons}>
         <HoliButton inline label={t('spaces.follow')} type="secondary">

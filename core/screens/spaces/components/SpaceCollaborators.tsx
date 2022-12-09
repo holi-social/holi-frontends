@@ -1,5 +1,6 @@
 import partition from 'lodash.partition'
 import React, { useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StatusBar, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -23,6 +24,7 @@ const sortUsersByFirstName = (users: User[]) =>
   users.sort((userA, userB) => (userA.fullName || '').localeCompare(userB.fullName || ''))
 
 const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismiss, show = false, style }) => {
+  const { t } = useTranslation()
   const [visible, setVisible] = useState(show)
   const { navigate } = useRouting()
 
@@ -59,7 +61,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
         style={[styles.defaultLayout, style]}
         show={visible}
         animationType="slide"
-        label={'spaces.collaborators.modal'}
+        label={t('spaces.collaborators')}
         testID={'spaces-collaborators-modal'}
         onDismiss={onDismiss}
       >
@@ -67,8 +69,8 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
           <View style={styles.header}>
             {Platform.OS === 'web' ? (
               <HoliButton
-                style={{ flex: 1 }}
-                label={'notifications.title'}
+                style={styles.closeModal}
+                label={t('modal.backdrop')}
                 inline
                 transparent
                 onPress={onDismiss}
@@ -78,8 +80,8 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
               </HoliButton>
             ) : (
               <HoliButton
-                style={{ flex: 1, marginLeft: -6, marginRight: 6 }}
-                label={'notifications.title'}
+                style={styles.closeModal}
+                label={t('modal.backdrop')}
                 transparent
                 inline
                 onPress={onDismiss}
@@ -88,30 +90,37 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
                 <HoliIcon icon="arrow-down-s" />
               </HoliButton>
             )}
-            <HoliText style={{ flex: 2 }}>Collaborators</HoliText>
+            <HoliText style={styles.title}>{t('spaces.collaborators')}</HoliText>
           </View>
           <ScrollView>
             {sortedMembersList.map((collaborator, index) => (
-              <View style={styles.collaborators} key={index}>
+              <HoliButton
+                contentStyle={styles.collaborators}
+                inline
+                transparent
+                label={t('user.visitProfile', { name: collaborator.fullName })}
+                onPress={() => handleNavigation(collaborator.id)}
+                key={index}
+              >
                 <HoliUserAvatar
                   imageSrc={collaborator.avatar}
-                  label={'Space'}
+                  label={collaborator.fullName || t('navigation.headerRight.avatarFallbackLabel')}
                   initials={''}
                   defaultColor={'#000'}
                   size="small"
                   style={styles.avatar}
                 />
                 <View style={styles.titleContainer}>
-                  <HoliButton transparent label={''} onPress={() => handleNavigation(collaborator.id)}>
-                    <HoliText>{collaborator.fullName || 'Anonymous'}</HoliText>
-                  </HoliButton>
+                  <HoliText ellipsizeMode="tail" numberOfLines={1}>
+                    {collaborator.fullName || 'Anonymous'}
+                  </HoliText>
                 </View>
                 {isAdmin(collaborator) && (
                   <HoliText size="extrasmall" style={styles.admin}>
                     ADMIN
                   </HoliText>
                 )}
-              </View>
+              </HoliButton>
             ))}
           </ScrollView>
         </View>
@@ -123,11 +132,16 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
 const styles = StyleSheet.create({
   admin: {
     color: colors.fontColorGrey,
+    paddingLeft: 8,
   },
   avatar: {
     borderWidth: 1,
   },
+  closeModal: {
+    position: 'absolute',
+  },
   collaborators: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -138,11 +152,14 @@ const styles = StyleSheet.create({
     color: colors.fontColorGrey,
   },
   defaultLayout: {
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 8,
+    paddingTop: 8,
     paddingBottom: 0,
     ...Platform.select({
       web: {
         minHeight: '100vh',
+      },
+      android: {
+        paddingTop: StatusBar.currentHeight || 0,
       },
     }),
   },
@@ -151,6 +168,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 21,
+  },
+  title: {
+    flex: 1,
+    textAlign: 'center',
   },
   titleContainer: {
     marginLeft: 16,
