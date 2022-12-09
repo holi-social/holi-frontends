@@ -1,12 +1,12 @@
 import { useLazyQuery } from '@apollo/client'
-import React, { memo, useContext, useLayoutEffect } from 'react'
+import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import NotFound from '@holi/core/errors/components/NotFound'
 import { displayError, isNotFoundError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
@@ -36,7 +36,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
   const { replaceRoute } = useRouting()
   const mixins = useStyleMixins()
 
-  const { isLoggedIn, userId: authenticatedUserId } = useContext(AuthContext)
+  const { isLoggedIn, userId: authenticatedUserId } = useAuth()
   const [userId = ''] = useParam('userId')
 
   useLayoutEffect(() => {

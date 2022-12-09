@@ -1,12 +1,12 @@
 import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } from '@ory/kratos-client'
-import React, { memo, useCallback, useContext, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
@@ -28,7 +28,7 @@ const isWeb = Platform.OS === 'web'
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
 const Registration: React.VFC<ScreenProps> = () => {
-  const { setUserLoggedIn, isLoggedIn } = useContext(AuthContext)
+  const { setUserLoggedIn, isLoggedIn } = useAuth()
   const [flow, setFlow] = useState<SelfServiceRegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
   const mixins = useStyleMixins()
