@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import partition from 'lodash.partition'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Platform, ScrollView, StatusBar, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Space } from '@holi/core/screens/spaces/types'
+import { User } from '@holi/core/screens/userprofile/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -17,13 +19,24 @@ type SpaceCollaboratorsProps = {
   style?: StyleProp<ViewStyle>
 }
 
+const sortUsersByFirstName = (users: User[]) =>
+  users.sort((userA, userB) => (userA.fullName || '').localeCompare(userB.fullName || ''))
+
 const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismiss, show = false, style }) => {
   const [visible, setVisible] = useState(show)
   const { navigate } = useRouting()
 
-  const { memberships } = space
+  const [adminMemberships, regularMemberships] = useMemo(() => partition(space.memberships, 'isAdministrator'), [space])
 
-  const members = memberships.map((membership) => membership.user)
+  const admins = adminMemberships.map((membership) => membership.user)
+  const members = regularMemberships.map((membership) => membership.user)
+
+  const sortedMembersList = [...sortUsersByFirstName(admins), ...sortUsersByFirstName(members)]
+
+  const isAdmin = (collaborator: User) => {
+    const membership = space.memberships.find((membership) => membership.user.id === collaborator.id)
+    return membership?.isAdministrator
+  }
 
   useEffect(() => {
     if (show) {
@@ -32,6 +45,13 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
       setVisible(false)
     }
   }, [show, setVisible])
+
+  const handleNavigation = (id: string) => {
+    onDismiss()
+    setTimeout(() => {
+      navigate('/profile/' + id)
+    })
+  }
 
   return (
     <>
@@ -71,8 +91,8 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
             <HoliText style={{ flex: 2 }}>Collaborators</HoliText>
           </View>
           <ScrollView>
-            {members.map((collaborator, index) => (
-              <View style={styles.itemHeader} key={index}>
+            {sortedMembersList.map((collaborator, index) => (
+              <View style={styles.collaborators} key={index}>
                 <HoliUserAvatar
                   imageSrc={collaborator.avatar}
                   label={'Space'}
@@ -82,18 +102,13 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
                   style={styles.avatar}
                 />
                 <View style={styles.titleContainer}>
-                  <HoliButton transparent label={''} onPress={() => navigate('/profile/' + collaborator.id)}>
-                    <HoliText>{collaborator.fullName}</HoliText>
-                    {/*                     {date && (
-                      <HoliText size="small" style={styles.date}>
-                        {collaborator.date}
-                      </HoliText>
-                    )} */}
+                  <HoliButton transparent label={''} onPress={() => handleNavigation(collaborator.id)}>
+                    <HoliText>{collaborator.fullName || 'Anonymous'}</HoliText>
                   </HoliButton>
                 </View>
-                {collaborator.engagementLevel === 'ADMIN' && (
+                {isAdmin(collaborator) && (
                   <HoliText size="extrasmall" style={styles.admin}>
-                    {collaborator.engagementLevel}
+                    ADMIN
                   </HoliText>
                 )}
               </View>
@@ -112,31 +127,15 @@ const styles = StyleSheet.create({
   avatar: {
     borderWidth: 1,
   },
-  itemHeader: {
+  collaborators: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginVertical: 8,
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 21,
-  },
-  titleContainer: {
-    marginHorizontal: 16,
-    flex: 1,
-  },
   date: {
     marginTop: 4,
     color: colors.fontColorGrey,
-  },
-  wrapper: {
-    justifyContent: 'center',
-    paddingTop: 66,
-    marginHorizontal: 24,
-    height: '100%',
   },
   defaultLayout: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 8,
@@ -146,6 +145,22 @@ const styles = StyleSheet.create({
         minHeight: '100vh',
       },
     }),
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 21,
+  },
+  titleContainer: {
+    marginLeft: 16,
+    flex: 1,
+  },
+  wrapper: {
+    justifyContent: 'center',
+    paddingTop: 66,
+    marginHorizontal: 24,
+    height: '100%',
   },
 })
 
