@@ -148,10 +148,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 8,
   },
-  date: {
-    marginTop: 4,
-    color: colors.fontColorGrey,
-  },
   defaultLayout: {
     paddingTop: 8,
     paddingBottom: 0,
