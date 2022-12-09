@@ -207,6 +207,7 @@
   "spaces.tasks.regularity.REGULARLY": "regelmäßig",
   "spaces.tasks.spots_claimed": "{{taken}} von {{available}} Plätzen vergeben",
   "spaces.title": "Spaces",
+  "spaces.title.filtered": "Suchergebnisse",
   "user.cards.modal.close": "Schließen",
   "user.cards.modal.showInfo": "Weitere Informationen zu {{name}} anzeigen",
   "user.cards.modal.title": "Nutzer*innen",
