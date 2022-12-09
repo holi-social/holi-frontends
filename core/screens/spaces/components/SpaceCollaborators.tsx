@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
   },
   closeModal: {
     position: 'absolute',
+    zIndex: 1,
   },
   collaborators: {
     flex: 1,
