@@ -67,29 +67,16 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
       >
         <View style={styles.wrapper}>
           <View style={styles.header}>
-            {Platform.OS === 'web' ? (
-              <HoliButton
-                style={styles.closeModal}
-                label={t('modal.backdrop')}
-                inline
-                transparent
-                onPress={onDismiss}
-                testID="nav-button-down"
-              >
-                <HoliIcon icon="arrow-left-s" />
-              </HoliButton>
-            ) : (
-              <HoliButton
-                style={styles.closeModal}
-                label={t('modal.backdrop')}
-                transparent
-                inline
-                onPress={onDismiss}
-                testID="nav-button-back"
-              >
-                <HoliIcon icon="arrow-down-s" />
-              </HoliButton>
-            )}
+            <HoliButton
+              style={styles.closeModal}
+              label={t('modal.backdrop')}
+              inline
+              transparent
+              onPress={onDismiss}
+              testID={Platform.OS === 'web' ? 'nav-button-down' : 'nav-button-back'}
+            >
+              <HoliIcon icon={Platform.OS === 'web' ? 'arrow-left-s' : 'arrow-down-s'} />
+            </HoliButton>
             <HoliText style={styles.title}>{t('spaces.collaborators')}</HoliText>
           </View>
           <ScrollView>
@@ -106,7 +93,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
                   imageSrc={collaborator.avatar}
                   label={collaborator.fullName || t('navigation.headerRight.avatarFallbackLabel')}
                   initials={''}
-                  defaultColor={'#000'}
+                  defaultColor={collaborator.avatarDefaultColor}
                   size="small"
                   style={styles.avatar}
                 />
@@ -117,7 +104,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
                 </View>
                 {isAdmin(collaborator) && (
                   <HoliText size="extrasmall" style={styles.admin}>
-                    ADMIN
+                    {t('spaces.collaborators.isAdmin')}
                   </HoliText>
                 )}
               </HoliButton>

@@ -167,6 +167,7 @@
   "search.filter.reset": "Filter löschen",
   "search.title": "Suche",
   "spaces.collaborators": "Mitwirkende",
+  "spaces.collaborators.isAdmin": "ADMIN",
   "spaces.collaborators.showModal": "Mitwirkende anzeigen",
   "spaces.filter.all": "Entdecke alle Spaces",
   "spaces.filter.all.location": "Entdecke alle Spaces in {{location}}",

@@ -168,6 +168,7 @@
   "search.filter.reset": "Clear filter",
   "search.title": "Search",
   "spaces.collaborators": "Collaborators",
+  "spaces.collaborators.isAdmin": "ADMIN",
   "spaces.collaborators.showModal": "Show collaborators",
   "spaces.filter.all": "Discover all spaces",
   "spaces.filter.all.location": "Discover all spaces in <0>{{location}}",
