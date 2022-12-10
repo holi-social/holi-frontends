@@ -7,10 +7,10 @@ import { Topic } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAutocomplete from '@holi/ui/components/molecules/HoliAutocomplete'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
+import HoliSelect from '@holi/ui/components/molecules/HoliSelect'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -46,11 +46,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
       location,
     })
   }, [topicId, location, applyFilters, closeModal])
-  const setTopicIdFromTitle = useCallback(
-    (topicTitle) => setTopicId(topics.find((topic) => topic.title === topicTitle)?.id),
-    [topics, setTopicId]
-  )
-  const selectedTopicTitle = topics.find((topic) => topic.id === topicId)?.title
+  const topicOptions = topics.map((topic) => ({ value: topic.id, label: topic.title }))
 
   return (
     <>
@@ -80,7 +76,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
           actionButtonText={t('spaces.filter.submit')}
           onActionButtonPress={submit}
           style={styles.modalWrapper}
-          keyboardShouldPersistTaps="always"
+          scrollable={false}
         >
           <View style={[mixins.container]}>
             <HoliHeading level="2">{t('spaces.filter.heading')}</HoliHeading>
@@ -94,18 +90,18 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
               style={styles.filterOption}
               inputProps={{ autoFocus: true }}
             />
-            {/* TODO: replace by proper dropdown */}
-            <HoliAutocomplete
-              accessibilityLabel={t('spaces.filter.topics.label')}
-              suggestions={topics.map((topic) => ({ id: topic.id, label: topic.title }))}
-              debounce={0}
-              id="spaces-filter-topics"
-              onChange={setTopicIdFromTitle}
-              onSubmit={setTopicIdFromTitle}
-              placeholder={t('spaces.filter.topics.placeholder')}
+            <HoliSelect
+              options={topicOptions}
               inputLabel={t('spaces.filter.topics.label')}
+              accessibilityLabel={t('spaces.filter.topics.label')}
+              placeholder={t('spaces.filter.topics.placeholder')}
+              dropdownIconLabel={t('spaces.filter.topics.dropdown')}
+              noOptionsText={t('spaces.filter.topics.noMatches')}
               style={styles.filterOption}
-              value={selectedTopicTitle}
+              value={topicId}
+              onChange={setTopicId}
+              clearable={true}
+              inModal={true}
             />
           </View>
         </HoliModalContentWrapper>

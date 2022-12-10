@@ -18,6 +18,7 @@ export interface HoliModalContentWrapper {
   loading?: boolean
   testID?: string
   keyboardShouldPersistTaps?: ScrollViewProps['keyboardShouldPersistTaps']
+  scrollable?: boolean
 }
 
 const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
@@ -30,9 +31,23 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
   keyboardShouldPersistTaps,
   loading = false,
   testID = 'holi-modal-content',
+  scrollable = true,
 }) => {
   const { keyboardHeight } = useKeyboard()
   const mixins = useStyleMixins()
+  const content = (
+    <>
+      {!!headlineText?.length && (
+        <HoliHeading level="1" style={styles.headline} size="large" testID={`${testID}-heading`}>
+          {headlineText}
+        </HoliHeading>
+      )}
+
+      {children}
+
+      <View style={styles.placeHolder} />
+    </>
+  )
 
   return (
     <View style={[styles.container, style]} testID={testID}>
@@ -46,17 +61,7 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
         </Animated.View>
       )}
 
-      <ScrollView keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
-        {!!headlineText?.length && (
-          <HoliHeading level="1" style={styles.headline} size="large" testID={`${testID}-heading`}>
-            {headlineText}
-          </HoliHeading>
-        )}
-
-        {children}
-
-        <View style={styles.placeHolder} />
-      </ScrollView>
+      {scrollable ? <ScrollView keyboardShouldPersistTaps={keyboardShouldPersistTaps}>{content}</ScrollView> : content}
 
       <View style={[styles.actionButtonContainer, keyboardHeight > 0 && styles.hiddenButton]}>
         <HoliButton
