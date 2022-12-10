@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -10,7 +10,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import HoliSelect from '@holi/ui/components/molecules/HoliSelect'
+import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -28,8 +28,11 @@ type SpaceFilterModalProps = {
 const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, applyFilters, topics }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const [topicOptions, setTopicOptions] = useState<HoliSelectOption[]>([])
+
   const [topicId, setTopicId] = useState(filters.topicId)
   const [location, setLocation] = useState(filters.location)
+
   const [showFilterModal, setShowFilterModal] = useState(false)
   const closeModal = useCallback(() => {
     setTopicId(filters.topicId)
@@ -42,11 +45,30 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
   const submit = useCallback(() => {
     closeModal()
     applyFilters({
+      // TODO: once we start filtering for multiple topics, we should applyFilters with list of topics with selected === true
       topicId,
       location,
     })
   }, [topicId, location, applyFilters, closeModal])
-  const topicOptions = topics.map((topic) => ({ value: topic.id, label: topic.title }))
+
+  useEffect(
+    () =>
+      setTopicOptions(
+        topics.map((topic) => ({
+          id: topic.id,
+          title: topic.title,
+          // TODO: once we start filtering for multiple topics, this check should be updated for all current active filters by topicId
+          selected: filters.topicId === topic.id,
+        }))
+      ),
+    [topics, filters]
+  )
+
+  const toggleTopicSelection = (topic: HoliSelectOption) => {
+    setTopicOptions((options) =>
+      options.map((option) => (option.id === topic.id ? { ...option, selected: !option.selected } : option))
+    )
+  }
 
   return (
     <>
@@ -95,13 +117,9 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
               inputLabel={t('spaces.filter.topics.label')}
               accessibilityLabel={t('spaces.filter.topics.label')}
               placeholder={t('spaces.filter.topics.placeholder')}
-              dropdownIconLabel={t('spaces.filter.topics.dropdown')}
-              noOptionsText={t('spaces.filter.topics.noMatches')}
               style={styles.filterOption}
-              value={topicId}
-              onChange={setTopicId}
-              clearable={true}
-              inModal={true}
+              onChange={toggleTopicSelection}
+              id="spaces-filter-interests"
             />
           </View>
         </HoliModalContentWrapper>

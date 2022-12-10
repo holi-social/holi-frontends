@@ -1657,13 +1657,6 @@
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
 
-"@gorhom/portal@1.0.14":
-  version "1.0.14"
-  resolved "https://registry.yarnpkg.com/@gorhom/portal/-/portal-1.0.14.tgz#1953edb76aaba80fb24021dc774550194a18e111"
-  integrity sha512-MXyL4xvCjmgaORr/rtryDNFy3kU4qUbKlwtQqqsygd0xX3mhKjOLn6mQK8wfu0RkoE0pBE0nAasRoHua+/QZ7A==
-  dependencies:
-    nanoid "^3.3.1"
-
 "@graphql-typed-document-node/core@^3.1.0", "@graphql-typed-document-node/core@^3.1.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.1.1.tgz#076d78ce99822258cf813ecc1e7fa460fa74d052"
@@ -2279,13 +2272,6 @@
 "@mdx-js/util@1.6.22":
   version "1.6.22"
   resolved "https://registry.yarnpkg.com/@mdx-js/util/-/util-1.6.22.tgz#219dfd89ae5b97a8801f015323ffa4b62f45718b"
-
-"@mobile-reality/react-native-select-pro@^1.13.1":
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/@mobile-reality/react-native-select-pro/-/react-native-select-pro-1.13.1.tgz#ba47f26e0e558c8270a62dce041628a20b7d407f"
-  integrity sha512-1SKSYD8HYoJoua0vZNBloRmdrjmS9+RiApKYCGRi5EAbF2CIuP7iF3ybtyz+QDGISfHT3I1Wp3wbvBrIdOugCA==
-  dependencies:
-    "@gorhom/portal" "1.0.14"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"

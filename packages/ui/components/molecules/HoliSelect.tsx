@@ -1,211 +1,204 @@
-import { OptionType, Select, SelectModalProvider, SelectRef } from '@mobile-reality/react-native-select-pro'
-import React, { memo, useCallback, useRef, useState } from 'react'
-import { AccessibilityProps, Platform, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
-import tinycolor from 'tinycolor2'
+// based on https://github.com/onmotion/react-native-autocomplete-dropdown/
+import React, { memo, useCallback, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { ScrollView, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
 
-import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-const LINE_HEIGHT = 16 * 1.4
-const INPUT_HEIGHT = 56
-
-export type HoliSelectOptions = OptionType[]
+export type HoliSelectOption = {
+  id: string
+  title: string
+  selected: boolean
+}
 
 export type HoliSelectProps = {
   inputLabel?: string
   accessibilityLabel: string
   placeholder?: string
-  dropdownIconLabel: string
-  noOptionsText?: string
-  value?: string
-  onChange?: (value: string) => void
+  helperText?: string
+  validationErrorText?: string
+  onChange: (option: HoliSelectOption) => void
   style?: StyleProp<ViewStyle>
-  textInputProps?: TextInputProps
-  options: HoliSelectOptions
-  searchable?: boolean
-  clearable?: boolean
-  clearLabel?: string
-  inModal?: boolean
+  options: HoliSelectOption[]
+  testID?: string
+  inputProps?: TextInputProps
+  id: string
+  onSubmit?: (value: string) => void
 }
 
 const HoliSelect = ({
   style = {},
-  options = [],
-  inputLabel,
   accessibilityLabel,
+  inputLabel,
   placeholder,
-  dropdownIconLabel,
-  noOptionsText,
-  textInputProps,
-  clearable = false,
-  clearLabel,
-  value,
+  helperText,
+  validationErrorText,
   onChange,
-  searchable = false,
-  inModal = false,
+  inputProps,
+  options,
+  id,
+  testID,
+  onSubmit,
 }: HoliSelectProps) => {
-  const ref = useRef<SelectRef>(null)
-  const { theme } = useTheme()
-  const styles = getStyles(theme)
-  const initialSelection = options.find((option) => option.value === value)
-  const [isFocused, setFocused] = useState(false)
-  const [isHovered, setHovered] = useState(false)
-  const hoverPropsForWeb = Platform.select({
-    web: {
-      onMouseOver: () => setHovered(true),
-      onMouseOut: () => setHovered(false),
+  const { t } = useTranslation()
+  const [searchText, setSearchText] = useState('')
+  const [isOpened, setIsOpened] = useState(false)
+  const [focusedItem, setFocusedItem] = useState<string | null>(null)
+
+  const onChangeText = useCallback(async (text: string) => setSearchText(text), [setSearchText])
+
+  const clearFocusAndClose = useCallback(
+    (focusId) => {
+      // without the timeout the dropdown closes upon selecting an item
+      setTimeout(() => {
+        setFocusedItem((id) => {
+          if (id === focusId) {
+            setIsOpened(false)
+            return null
+          }
+          return id
+        })
+      }, 0)
     },
-  })
-  const handleSelect = useCallback(
-    (option) => {
-      option && onChange && onChange(option.value)
-    },
-    [onChange]
+    [setFocusedItem, setIsOpened]
   )
 
-  const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
-    accessible: true,
-    accessibilityLabel,
-  }
-  const inputProps = {
-    ...accessibilityProps,
-    ...textInputProps,
-  }
-  const [listStyle, setListStyle] = useState<ViewStyle>({})
-  const onOpenDropdown = useCallback(() => {
-    setFocused(true)
-    // TODO: workaround for list positioning
-    const displayList = setListStyle
-    setTimeout(() => {
-      const state = ref.current?.getState()
-      if (state?.openedPosition) {
-        displayList({
-          marginTop: inModal ? -state?.openedPosition.top + INPUT_HEIGHT + 20 : -2,
-          marginLeft: inModal ? -state?.openedPosition.left : 0,
-          display: 'flex',
-        })
-      }
-    }, 50)
-  }, [setListStyle, inModal])
-  const onCloseDropdown = useCallback(() => {
-    setFocused(false)
-  }, [setFocused])
+  const setFocusAndOpen = useCallback(
+    (focusId) => {
+      setIsOpened(true)
+      setFocusedItem(focusId)
+    },
+    [setFocusedItem, setIsOpened]
+  )
 
-  const NoOptionComponent = (
-    <View style={[styles.option, styles.noOption]}>
-      <HoliText>{noOptionsText}</HoliText>
+  const onBlur = useCallback(() => {
+    clearFocusAndClose(focusedItem)
+  }, [clearFocusAndClose, focusedItem])
+
+  const onSubmitEditing = useCallback(() => {
+    onSubmit && onSubmit(searchText || '')
+    setIsOpened(false)
+  }, [onSubmit, setIsOpened, searchText])
+
+  const renderItem = useCallback(
+    (item) => (
+      <HoliButton
+        inline
+        transparent
+        key={item.id}
+        label={item.title}
+        accessibilityRole="menuitem"
+        onBlur={onBlur}
+        style={[styles.listItem, item.selected && styles.listItemSelected]}
+        contentStyle={styles.listItemContent}
+        onFocus={() => setFocusAndOpen('option-' + item.id)}
+        onPress={() => onChange(item)}
+        testID={testID && `${testID}-item-${item.id}`}
+      >
+        <HoliText selectable={false} numberOfLines={2}>
+          {item.title}
+        </HoliText>
+        {item.selected && <HoliIcon icon="check" size={20} />}
+      </HoliButton>
+    ),
+    [testID, setFocusAndOpen, onBlur, onChange]
+  )
+
+  const noOptions = (
+    <View style={styles.listItem}>
+      <HoliText>{t('multiselect.empty')}</HoliText>
     </View>
   )
 
-  const select = (
-    <Select
-      ref={ref}
-      options={options}
-      defaultOption={initialSelection}
-      placeholderText={placeholder}
-      selectControlOpenDropdownA11yLabel={dropdownIconLabel}
-      selectControlClearOptionA11yLabel={clearLabel}
-      clearable={clearable}
-      scrollToSelectedOption={false}
-      onSelect={handleSelect}
-      onDropdownOpened={onOpenDropdown}
-      onDropdownClosed={onCloseDropdown}
-      optionsListStyle={[styles.optionsList, listStyle]}
-      selectControlStyle={[
-        styles.selectControl,
-        isHovered && styles.selectControlHovered,
-        isFocused && styles.selectControlFocused,
-      ]}
-      selectControlTextStyle={styles.textStyle}
-      placeholderTextColor={tinycolor(colors.fontColorGrey).lighten(30).toString()}
-      selectControlArrowImageStyle={styles.icon}
-      selectControlClearOptionImageStyle={styles.icon}
-      selectControlClearOptionButtonStyle={styles.clearIcon}
-      selectControlButtonsContainerStyle={styles.iconContainer}
-      optionStyle={styles.option}
-      optionSelectedStyle={styles.selectedOption}
-      optionTextStyle={styles.textStyle}
-      searchable={searchable}
-      NoOptionsComponent={NoOptionComponent}
-      textInputProps={inputProps}
-    />
+  const trailingComponent = useMemo(
+    () => (
+      <HoliButton
+        label={t(isOpened ? 'multiselect.close' : 'multiselect.open')}
+        transparent
+        onPress={() => setIsOpened((isOpened) => !isOpened)}
+      >
+        <HoliIcon icon={isOpened ? 'arrow-up-s' : 'arrow-down-s'} size={22} />
+      </HoliButton>
+    ),
+    [isOpened, t]
   )
 
+  const selectedOptions = options.filter((option) => option.selected)
+  const filteredOptions = options.filter((option) => !searchText || option.title.match(new RegExp(searchText, 'i')))
+
   return (
-    <View style={[styles.wrapper, style]} {...hoverPropsForWeb}>
-      <View style={styles.labelWrapper}>
-        <HoliText size="small" bold style={[styles.label, isFocused && styles.labelFocused]}>
-          {inputLabel}
-        </HoliText>
-      </View>
-      {inModal ? <SelectModalProvider>{select}</SelectModalProvider> : select}
+    <View style={style}>
+      {selectedOptions.length > 0 && (
+        <View style={styles.selectedOptionsPreview}>
+          <HoliText size="extrasmall">{selectedOptions.map((option) => option.title).join(', ')}</HoliText>
+        </View>
+      )}
+      <HoliTextInput
+        inputLabel={inputLabel}
+        value={searchText}
+        placeholder={placeholder}
+        validationErrorText={validationErrorText}
+        helperText={isOpened && options.length ? undefined : helperText}
+        accessibilityLabel={accessibilityLabel}
+        accessibilityAutoComplete="list"
+        accessibilityControls={`${id}-options`}
+        accessibilityRole="combobox"
+        accessibilityExpanded={isOpened}
+        accessibilityHasPopup="menu"
+        trailingComponent={trailingComponent}
+        inputProps={{ ...inputProps, onSubmitEditing }}
+        inputStyle={isOpened && options.length ? styles.textInputOpened : {}}
+        labelStyle={isOpened ? styles.textInputLabelOpened : {}}
+        onChange={onChangeText}
+        onBlur={onBlur}
+        onFocus={() => setFocusAndOpen('input')}
+        testID={testID}
+      />
+      <ScrollView style={isOpened && styles.optionsMenu} nativeID={`${id}-options`} accessibilityRole="menu">
+        {filteredOptions.length > 0 && isOpened ? filteredOptions.map(renderItem) : isOpened ? noOptions : <></>}
+      </ScrollView>
     </View>
   )
 }
 
 export default memo(HoliSelect)
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    selectControl: {
-      borderWidth: 2,
-      borderColor: colors.borderColorGrey,
-      borderRadius: 4,
-      backgroundColor: colors.backgroundColor,
-      height: INPUT_HEIGHT,
-    },
-    textStyle: {
-      fontSize: 16,
-      lineHeight: LINE_HEIGHT,
-      fontWeight: '400',
-      fontFamily: theme.fontFamily.default('Book'),
-      color: colors.fontColor,
-    },
-    icon: {
-      tintColor: colors.fontColor,
-    },
-    clearIcon: {
-      // TODO: change style of clear icon for web?
-    },
-    selectControlFocused: {
-      borderColor: colors.borderColorSecondary,
-    },
-    selectControlHovered: {
-      borderColor: tinycolor(colors.borderColorBlack).lighten(35).toString(),
-    },
-    optionsList: {
-      display: 'none', // Hidden until positioned properly
-      borderColor: colors.borderColorSecondary,
-      borderWidth: 2,
-      borderTopWidth: 0,
-      borderBottomLeftRadius: 4,
-      borderBottomRightRadius: 4,
-      backgroundColor: colors.backgroundColor,
-      elevation: 0,
-    },
-    option: {
-      height: 48,
-    },
-    selectedOption: {
-      backgroundColor: colors.backgroundColorGrey,
-    },
-    noOption: {
-      paddingHorizontal: 12,
-      justifyContent: 'center',
-    },
-    labelWrapper: {
-      marginBottom: 6,
-    },
-    label: {
-      color: colors.fontColor,
-    },
-    labelFocused: {
-      color: colors.secondaryColor,
-    },
-    // TODO: workaround to move container that prevents clicking on web
-    wrapper: {
-      marginBottom: Platform.OS === 'web' ? 120 : 0,
-    },
-  })
+const styles = StyleSheet.create({
+  selectedOptionsPreview: {
+    marginBottom: 6,
+  },
+  textInputOpened: {
+    borderBottomWidth: 0,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    borderColor: colors.borderColorSecondary,
+  },
+  textInputLabelOpened: {
+    color: colors.secondaryColor,
+  },
+  optionsMenu: {
+    maxHeight: 300,
+    borderColor: colors.borderColorSecondary,
+    borderWidth: 2,
+    borderTopWidth: 0,
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
+  },
+  listItem: {
+    height: 48,
+    display: 'flex',
+    paddingHorizontal: 12,
+    justifyContent: 'center',
+  },
+  listItemContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  listItemSelected: {
+    backgroundColor: colors.backgroundColorGreyLight,
+  },
+})

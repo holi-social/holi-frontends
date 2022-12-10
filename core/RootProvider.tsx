@@ -1,5 +1,4 @@
 import { ApolloProvider } from '@apollo/client'
-import { SelectProvider } from '@mobile-reality/react-native-select-pro'
 import React, { Suspense, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
@@ -66,11 +65,9 @@ const RootProvider: React.VoidFunctionComponent<{ children: React.ReactElement |
           <ApolloProvider client={client}>
             <AuthContextProvider>
               <UserContextProvider>
-                <SelectProvider>
-                  <ToastProvider>
-                    <Children>{children}</Children>
-                  </ToastProvider>
-                </SelectProvider>
+                <ToastProvider>
+                  <Children>{children}</Children>
+                </ToastProvider>
               </UserContextProvider>
             </AuthContextProvider>
           </ApolloProvider>

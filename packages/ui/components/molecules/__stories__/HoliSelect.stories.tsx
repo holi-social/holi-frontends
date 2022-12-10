@@ -1,8 +1,7 @@
-import { SelectProvider } from '@mobile-reality/react-native-select-pro'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import React from 'react'
+import React, { useState } from 'react'
 
-import HoliSelect, { HoliSelectOptions } from '@holi/ui/components/molecules/HoliSelect'
+import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 
 export default {
   title: 'Molecules/HoliSelect',
@@ -16,63 +15,115 @@ export default {
   },
 } as ComponentMeta<typeof HoliSelect>
 
-const options: HoliSelectOptions = [
+const options: HoliSelectOption[] = [
   {
-    value: '1',
-    label: 'Animal Welfare',
+    id: '1',
+    title: 'Animal Welfare',
+    selected: false,
   },
   {
-    value: '2',
-    label: 'Children & Youth',
+    id: '2',
+    title: 'Children & Youth',
+    selected: false,
   },
   {
-    value: '3',
-    label: 'Climate Protection',
+    id: '3',
+    title: 'Climate Protection',
+    selected: false,
   },
   {
-    value: '4',
-    label: 'Corona',
+    id: '4',
+    title: 'Corona',
+    selected: false,
   },
   {
-    value: '5',
-    label: 'Culture & History',
+    id: '5',
+    title: 'Culture & History',
+    selected: false,
   },
   {
-    value: '6',
-    label: 'Development Cooperation',
+    id: '6',
+    title: 'Development Cooperation',
+    selected: false,
   },
   {
-    value: '7',
-    label: 'Digitalization',
+    id: '7',
+    title: 'Digitalization',
+    selected: false,
   },
   {
-    value: '8',
-    label: 'Disaster Protection',
+    id: '8',
+    title: 'Disaster Protection',
+    selected: false,
   },
 ]
 
 const Template: ComponentStory<typeof HoliSelect> = ({ ...args }) => {
-  return (
-    <SelectProvider>
-      <HoliSelect {...args} />
-    </SelectProvider>
-  )
+  const initialOptions: HoliSelectOption[] = [
+    {
+      id: '1',
+      title: 'Animal Welfare',
+      selected: false,
+    },
+    {
+      id: '2',
+      title: 'Children & Youth',
+      selected: false,
+    },
+    {
+      id: '3',
+      title: 'Climate Protection',
+      selected: false,
+    },
+    {
+      id: '4',
+      title: 'Corona',
+      selected: false,
+    },
+    {
+      id: '5',
+      title: 'Culture & History',
+      selected: false,
+    },
+    {
+      id: '6',
+      title: 'Development Cooperation',
+      selected: false,
+    },
+    {
+      id: '7',
+      title: 'Digitalization',
+      selected: false,
+    },
+    {
+      id: '8',
+      title: 'Disaster Protection',
+      selected: false,
+    },
+  ]
+
+  const [options, setOptions] = useState<HoliSelectOption[]>(initialOptions)
+
+  const toggleTopicSelection = (topic: HoliSelectOption) => {
+    setOptions((options) =>
+      options.map((option) => (option.id === topic.id ? { ...option, selected: !option.selected } : option))
+    )
+  }
+
+  return <HoliSelect {...args} options={options} onChange={toggleTopicSelection} />
 }
 
 export const Primary: ComponentStory<typeof HoliSelect> = Template.bind({})
 
 Primary.args = {
-  options: options,
   inputLabel: 'Label',
   accessibilityLabel: 'Accessibility label',
-  dropdownIconLabel: 'Dropdown icon label',
   placeholder: 'Nothing selected',
-  clearable: true,
+  options,
 }
 Primary.argTypes = {
   inputLabel: { description: 'Label', required: true, control: { type: 'text' } },
   accessibilityLabel: { description: 'Accessibility Label', required: true, control: { type: 'text' } },
-  dropdownIconLabel: { description: 'Dropdown Icon Label', required: true, control: { type: 'text' } },
   placeholder: { description: 'Placeholder', control: { type: 'text' } },
-  options: { description: 'Options', control: false },
+  options: { description: 'Options', control: { type: 'object' } },
 }
