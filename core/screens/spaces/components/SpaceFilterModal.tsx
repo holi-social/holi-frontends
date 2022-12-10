@@ -30,26 +30,24 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
   const mixins = useStyleMixins()
   const [topicOptions, setTopicOptions] = useState<HoliSelectOption[]>([])
 
-  const [topicId, setTopicId] = useState(filters.topicId)
   const [location, setLocation] = useState(filters.location)
 
   const [showFilterModal, setShowFilterModal] = useState(false)
   const closeModal = useCallback(() => {
-    setTopicId(filters.topicId)
     setLocation(filters.location)
     setShowFilterModal(false)
-  }, [setShowFilterModal, setTopicId, setLocation, filters])
+  }, [setShowFilterModal, setLocation, filters])
   const openModal = useCallback(() => {
     setShowFilterModal(true)
   }, [setShowFilterModal])
   const submit = useCallback(() => {
     closeModal()
     applyFilters({
-      // TODO: once we start filtering for multiple topics, we should applyFilters with list of topics with selected === true
-      topicId,
+      // TODO: once we start filtering for multiple topics, we can remove the [0].id and search all selected topicOptions
+      topicId: topicOptions.filter((option) => option.selected)[0].id,
       location,
     })
-  }, [topicId, location, applyFilters, closeModal])
+  }, [location, applyFilters, closeModal, topicOptions])
 
   useEffect(
     () =>
