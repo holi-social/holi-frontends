@@ -1,5 +1,5 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/AuthProvider.tsx
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { displayError } from '@holi/core/errors/helpers'
@@ -43,7 +43,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
   const { t } = useTranslation()
 
   // intended to be called from outside the context provider (e.g. login form)
-  const setUserLoggedIn = (session: OrySessionContext): Promise<void> => {
+  const setUserLoggedIn = useCallback((session: OrySessionContext): Promise<void> => {
     console.debug('[AuthContextProvider] setUserLoggedIn')
     return setSessionInStorage(session).then(() =>
       setState({
@@ -52,10 +52,10 @@ const AuthContextProvider: React.FC = ({ children }) => {
         isLoggedIn: true,
       })
     )
-  }
+  }, [])
 
   // intended to be called from outside the context provider (e.g. logout form)
-  const setUserLoggedOut = (): Promise<void> => {
+  const setUserLoggedOut = useCallback((): Promise<void> => {
     console.debug('[AuthContextProvider] setUserLoggedOut')
     return removeSessionFromStorage().then(() =>
       setState({
@@ -64,7 +64,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
         isLoggedIn: false,
       })
     )
-  }
+  }, [])
 
   const validateSessionWithOry = (orySessionToken: OrySessionToken): Promise<SessionState> => {
     return (

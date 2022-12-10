@@ -2,6 +2,7 @@ import { gql } from '@apollo/client/core'
 
 import { Space } from '@holi/core/screens/spaces/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
+import { Paged } from '@holi/core/types'
 
 const SpaceMemberFragment = gql`
   ${userAvatarFragment}
@@ -75,10 +76,7 @@ export const spacesQuery = gql`
 `
 
 export type SpacesResponse = {
-  spaces: {
-    totalResults: number
-    data: Space[]
-  }
+  spaces: Paged<Space>
 }
 
 export const spaceByIdQuery = gql`
