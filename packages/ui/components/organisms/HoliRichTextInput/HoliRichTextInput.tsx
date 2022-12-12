@@ -2,7 +2,7 @@ import { useLazyQuery } from '@apollo/client'
 import debounce from 'lodash.debounce'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { StyleProp, StyleSheet, TextInput, ViewStyle } from 'react-native'
-import { MentionInput, MentionSuggestionsProps } from 'react-native-controlled-mentions'
+import { MentionInput, MentionSuggestionsProps, Suggestion } from 'react-native-controlled-mentions'
 
 import { useSafeDispatch } from '@holi/core/helpers'
 import { usePortals } from '@holi/core/provider/PortalProvider'
@@ -57,7 +57,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
     [keyword]
   )
 
-  let onChooseOptionRef: (user: User) => void = () => null
+  const onChooseOptionRef = useRef<(suggestion: Suggestion) => void | null>(() => null)
 
   // on mount / unmount
   useEffect(() => {
@@ -97,10 +97,14 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
     () => {
       if (!suggestions.length) return teleport('suggestions', null)
 
-      const element = (
+      const element = () => (
         <HoliRichTextInputSuggestions
           options={suggestions}
-          onChooseSuggestion={onChooseOptionRef}
+          onChooseSuggestion={(user: User) => {
+            onChooseOptionRef.current({ id: user.id, name: user.fullName })
+            props.onSelectSuggestion?.(user)
+            inputRef?.current?.focus()
+          }}
           testID={props.testID ? `${props.testID}-suggestions` : 'richtext-input-suggestions'}
         />
       )
@@ -119,16 +123,13 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
     [onChange, setSafeValue]
   )
 
-  const renderUserSuggestions: React.VFC<MentionSuggestionsProps> = ({ keyword, onSuggestionPress }) => {
-    setSafeKeyword(keyword)
-
-    onChooseOptionRef = (user: User) => {
-      onSuggestionPress({ id: user.id, name: user.fullName })
-      props.onSelectSuggestion?.(user)
-      inputRef?.current?.focus()
-    }
-    return null
-  }
+  const renderUserSuggestions = useCallback(
+    ({ keyword, onSuggestionPress }: MentionSuggestionsProps) => {
+      setSafeKeyword(!keyword ? '' : keyword)
+      onChooseOptionRef.current = onSuggestionPress
+    },
+    [setSafeKeyword]
+  )
 
   const suggestionConfig = []
   suggestionConfig.push({
