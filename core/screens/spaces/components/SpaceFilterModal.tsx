@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -28,45 +28,36 @@ type SpaceFilterModalProps = {
 const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, applyFilters, topics }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const [topicOptions, setTopicOptions] = useState<HoliSelectOption[]>([])
+  const [topicId, setTopicId] = useState(filters.topicId)
 
   const [location, setLocation] = useState(filters.location)
 
   const [showFilterModal, setShowFilterModal] = useState(false)
   const closeModal = useCallback(() => {
-    setLocation(filters.location)
     setShowFilterModal(false)
-  }, [setShowFilterModal, setLocation, filters])
-  const openModal = useCallback(() => {
-    setShowFilterModal(true)
   }, [setShowFilterModal])
+  const openModal = useCallback(() => {
+    setTopicId(filters.topicId)
+    setLocation(filters.location)
+    setShowFilterModal(true)
+  }, [setShowFilterModal, setTopicId, setLocation, filters])
   const submit = useCallback(() => {
-    closeModal()
     applyFilters({
-      // TODO: once we start filtering for multiple topics, we can remove the [0].id and search all selected topicOptions
-      topicId: topicOptions.filter((option) => option.selected)[0].id,
+      topicId,
       location,
     })
-  }, [location, applyFilters, closeModal, topicOptions])
+    setShowFilterModal(false)
+  }, [topicId, location, applyFilters, setShowFilterModal])
 
-  useEffect(
-    () =>
-      setTopicOptions(
-        topics.map((topic) => ({
-          id: topic.id,
-          title: topic.title,
-          // TODO: once we start filtering for multiple topics, this check should be updated for all current active filters by topicId
-          selected: filters.topicId === topic.id,
-        }))
-      ),
-    [topics, filters]
+  const topicOptions = topics.map((currentTopic) => ({
+    id: currentTopic.id,
+    title: currentTopic.title,
+    selected: topicId === currentTopic.id,
+  }))
+  const toggleTopicSelection = useCallback(
+    (option: HoliSelectOption) => setTopicId(option.selected ? undefined : option.id),
+    [setTopicId]
   )
-
-  const toggleTopicSelection = (topic: HoliSelectOption) => {
-    setTopicOptions((options) =>
-      options.map((option) => (option.id === topic.id ? { ...option, selected: !option.selected } : option))
-    )
-  }
 
   return (
     <>

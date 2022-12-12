@@ -1,7 +1,8 @@
 // based on https://github.com/onmotion/react-native-autocomplete-dropdown/
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
+import { Keyboard, ScrollView, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
+import tinycolor from 'tinycolor2'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -42,14 +43,19 @@ const HoliSelect = ({
   options,
   id,
   testID,
-  onSubmit,
 }: HoliSelectProps) => {
   const { t } = useTranslation()
   const [searchText, setSearchText] = useState('')
   const [isOpened, setIsOpened] = useState(false)
   const [focusedItem, setFocusedItem] = useState<string | null>(null)
 
-  const onChangeText = useCallback(async (text: string) => setSearchText(text), [setSearchText])
+  const onChangeText = useCallback(
+    (text: string) => {
+      setIsOpened(true)
+      return setSearchText(text)
+    },
+    [setSearchText, setIsOpened]
+  )
 
   const clearFocusAndClose = useCallback(
     (focusId) => {
@@ -58,13 +64,15 @@ const HoliSelect = ({
         setFocusedItem((id) => {
           if (id === focusId) {
             setIsOpened(false)
+            setSearchText('')
+            Keyboard.dismiss()
             return null
           }
           return id
         })
       }, 0)
     },
-    [setFocusedItem, setIsOpened]
+    [setFocusedItem, setIsOpened, setSearchText]
   )
 
   const setFocusAndOpen = useCallback(
@@ -79,10 +87,18 @@ const HoliSelect = ({
     clearFocusAndClose(focusedItem)
   }, [clearFocusAndClose, focusedItem])
 
-  const onSubmitEditing = useCallback(() => {
-    onSubmit && onSubmit(searchText || '')
-    setIsOpened(false)
-  }, [onSubmit, setIsOpened, searchText])
+  const onSelect = useCallback(
+    (option) => {
+      onChange(option)
+      setIsOpened(false)
+      setSearchText('')
+    },
+    [onChange, setIsOpened, setSearchText]
+  )
+  // TODO(SF): first toggle on web closes again
+  const toggleMenu = useCallback(() => {
+    return isOpened ? onBlur() : setFocusAndOpen('toggle')
+  }, [isOpened, onBlur, setFocusAndOpen])
 
   const renderItem = useCallback(
     (item) => (
@@ -96,7 +112,7 @@ const HoliSelect = ({
         style={[styles.listItem, item.selected && styles.listItemSelected]}
         contentStyle={styles.listItemContent}
         onFocus={() => setFocusAndOpen('option-' + item.id)}
-        onPress={() => onChange(item)}
+        onPress={() => onSelect(item)}
         testID={testID && `${testID}-item-${item.id}`}
       >
         <HoliText selectable={false} numberOfLines={2}>
@@ -105,7 +121,7 @@ const HoliSelect = ({
         {item.selected && <HoliIcon icon="check" size={20} />}
       </HoliButton>
     ),
-    [testID, setFocusAndOpen, onBlur, onChange]
+    [testID, setFocusAndOpen, onBlur, onSelect]
   )
 
   const noOptions = (
@@ -119,28 +135,34 @@ const HoliSelect = ({
       <HoliButton
         label={t(isOpened ? 'multiselect.close' : 'multiselect.open')}
         transparent
-        onPress={() => setIsOpened((isOpened) => !isOpened)}
+        onPress={toggleMenu}
+        onFocus={() => setFocusAndOpen('toggle')}
+        onBlur={onBlur}
       >
         <HoliIcon icon={isOpened ? 'arrow-up-s' : 'arrow-down-s'} size={22} />
       </HoliButton>
     ),
-    [isOpened, t]
+    [isOpened, t, toggleMenu, setFocusAndOpen, onBlur]
   )
 
-  const selectedOptions = options.filter((option) => option.selected)
-  const filteredOptions = options.filter((option) => !searchText || option.title.match(new RegExp(searchText, 'i')))
+  const regex = useMemo(() => searchText && new RegExp(searchText, 'i'), [searchText])
+  const selectedText = options
+    .filter((option) => option.selected)
+    .map((option) => option.title)
+    .join(', ')
+  const filteredOptions = useMemo(
+    () => options.filter((option) => !regex || option.title.match(regex)),
+    [options, regex]
+  )
 
+  const placeholderTextColor = selectedText ? colors.fontColor : tinycolor(colors.fontColorGrey).lighten(30).toString()
+  // TODO(SF) list above other content
   return (
     <View style={style}>
-      {selectedOptions.length > 0 && (
-        <View style={styles.selectedOptionsPreview}>
-          <HoliText size="extrasmall">{selectedOptions.map((option) => option.title).join(', ')}</HoliText>
-        </View>
-      )}
       <HoliTextInput
         inputLabel={inputLabel}
         value={searchText}
-        placeholder={placeholder}
+        placeholder={selectedText || placeholder}
         validationErrorText={validationErrorText}
         helperText={isOpened && options.length ? undefined : helperText}
         accessibilityLabel={accessibilityLabel}
@@ -150,15 +172,20 @@ const HoliSelect = ({
         accessibilityExpanded={isOpened}
         accessibilityHasPopup="menu"
         trailingComponent={trailingComponent}
-        inputProps={{ ...inputProps, onSubmitEditing }}
-        inputStyle={isOpened && options.length ? styles.textInputOpened : {}}
+        inputProps={{ ...inputProps, placeholderTextColor }}
+        inputStyle={isOpened ? styles.textInputOpened : {}}
         labelStyle={isOpened ? styles.textInputLabelOpened : {}}
         onChange={onChangeText}
         onBlur={onBlur}
         onFocus={() => setFocusAndOpen('input')}
         testID={testID}
       />
-      <ScrollView style={isOpened && styles.optionsMenu} nativeID={`${id}-options`} accessibilityRole="menu">
+      <ScrollView
+        style={isOpened && styles.optionsMenu}
+        nativeID={`${id}-options`}
+        accessibilityRole="menu"
+        keyboardShouldPersistTaps="always"
+      >
         {filteredOptions.length > 0 && isOpened ? filteredOptions.map(renderItem) : isOpened ? noOptions : <></>}
       </ScrollView>
     </View>

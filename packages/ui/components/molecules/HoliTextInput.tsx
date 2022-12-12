@@ -168,10 +168,10 @@ const HoliTextInput = ({
         <View
           style={[
             styles.inputWrapper,
-            inputStyle,
             inline ? styles.inline : styles.block,
             isHovered && styles.inputWrapperHovered,
             isFocused && styles.inputWrapperFocused,
+            inputStyle,
             props?.disabled && styles.inputWrapperDisabled,
             hasValidationErrors && styles.inputWrapperHasValidationErrors,
           ]}
