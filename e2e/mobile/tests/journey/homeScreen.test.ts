@@ -34,12 +34,12 @@ const assertShowsInsights = async () => {
   await tapOnElementWithTestId('feed-insight-image-link')
 
   await waitForElementWithTestId('insight-headline')
+
+  // go home
+  await navigateBackToHomeScreen()
 }
 
 const assertShowsDonationUpdates = async () => {
-  // go home
-  await navigateBackToHomeScreen()
-
   // check if donation updates are displayed
   await scrollToElementWithTestId('donations-updates-item', 'down')
   await waitForElementWithTestId('donations-updates-heading')

@@ -47,24 +47,21 @@ export const scrollToElementWithTestId = async (
   await Appium.setImplicitTimeout(timeout)
   while (scrollCounter < maxAttempts) {
     // is the element in the viewport?
-    if (await checkIfElementWithTestIdExists(testId)) {
+    try {
+      const elem = await waitForElementWithTestId(testId, 1)
+      // reset the timeout before exiting the function
       await Appium.setImplicitTimeout(implicitTimeout)
-      return await waitForElementWithTestId(testId, 1)
-    } else {
+      return elem
+    } catch (e) {
       console.log(
         `${new Date().getTime()}: element with testID ${testId} not found after scrolling ${scrollCounter}/${maxAttempts} times `
       )
     }
-    if (platform === 'ios') {
-      // scrollIntoView is not supported for iOS and webdriverio currently requires a manual scroll down, instead of a scroll into element
-      // https://github.com/webdriverio/webdriverio/issues/6537 and https://stackoverflow.com/questions/42656872/how-to-do-scroll-on-ios-native-app-with-webdriver-io
-      await Appium.execute('mobile: scroll', { direction: direction })
-    } else {
-      // On Android, a scrollToElement only works when it is lower on the page
-      // hypothesis: scrolling up starts in the header area and the header suppresses the scroll
-      // Therefore, we do scrolling via finger actions
-      await scroll(direction)
-    }
+    // On Android, a scrollToElement only works when it is lower on the page
+    // hypothesis: scrolling up starts in the header area and the header suppresses the scroll
+    // Therefore, we do scrolling via finger actions
+    // Luckily, this also works on iOS
+    await scroll(direction)
     scrollCounter++
   }
   await Appium.setImplicitTimeout(implicitTimeout)
