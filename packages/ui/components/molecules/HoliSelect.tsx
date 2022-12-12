@@ -28,7 +28,6 @@ export type HoliSelectProps = {
   testID?: string
   inputProps?: TextInputProps
   id: string
-  onSubmit?: (value: string) => void
 }
 
 const HoliSelect = ({
@@ -138,11 +137,12 @@ const HoliSelect = ({
         onPress={toggleMenu}
         onFocus={() => setFocusAndOpen('toggle')}
         onBlur={onBlur}
+        testID={testID && `${testID}-toggle-menu`}
       >
         <HoliIcon icon={isOpened ? 'arrow-up-s' : 'arrow-down-s'} size={22} />
       </HoliButton>
     ),
-    [isOpened, t, toggleMenu, setFocusAndOpen, onBlur]
+    [isOpened, t, toggleMenu, setFocusAndOpen, onBlur, testID]
   )
 
   const regex = useMemo(() => searchText && new RegExp(searchText, 'i'), [searchText])

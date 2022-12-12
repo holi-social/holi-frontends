@@ -1,0 +1,1914 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HoliSelect SingleSelect correctly filters options 1`] = `
+<View
+  style={Object {}}
+>
+  <View
+    style={
+      Array [
+        Object {
+          "flexDirection": "row",
+        },
+        Object {
+          "alignSelf": "stretch",
+          "width": "100%",
+        },
+        Object {},
+      ]
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "minWidth": 190,
+          },
+          Object {
+            "maxWidth": 750,
+          },
+          Object {
+            "alignSelf": "stretch",
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "marginBottom": 6,
+            },
+            Object {
+              "alignSelf": "stretch",
+              "width": "100%",
+            },
+          ]
+        }
+      >
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              Object {
+                "fontSize": 14,
+                "lineHeight": 16.8,
+              },
+              Object {
+                "fontFamily": "Circular Std Medium",
+                "fontWeight": "500",
+              },
+              Array [
+                Object {
+                  "color": "#222326",
+                },
+                Object {
+                  "color": "#6267e7",
+                },
+                Object {},
+                Object {},
+              ],
+            ]
+          }
+        >
+          Label
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#fff",
+              "borderColor": "#eff0f1",
+              "borderRadius": 4,
+              "borderWidth": 2,
+              "flexDirection": "row",
+            },
+            Object {
+              "alignSelf": "stretch",
+              "width": "100%",
+            },
+            false,
+            false,
+            Object {
+              "borderBottomLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderBottomWidth": 0,
+              "borderColor": "#6267e7",
+            },
+            undefined,
+            false,
+          ]
+        }
+      >
+        <TextInput
+          accessibilityAutoComplete="list"
+          accessibilityControls="undefined-options"
+          accessibilityLabel="Accessibility label"
+          accessible={true}
+          autoCapitalize="none"
+          autoComplete="off"
+          autoCorrect={false}
+          blurOnSubmit={true}
+          editable={true}
+          keyboardType="default"
+          maxLength={5000}
+          multiline={false}
+          numberOfLines={1}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onContentSizeChange={[Function]}
+          onFocus={[Function]}
+          placeholder="Nothing selected"
+          placeholderTextColor="#c0c1c9"
+          secureTextEntry={false}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "flex": 1,
+                "fontFamily": "Circular Std Book",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 22.4,
+                "overflow": "scroll",
+                "paddingHorizontal": 10,
+                "paddingVertical": 15,
+              },
+              Object {
+                "alignSelf": "stretch",
+                "width": "100%",
+              },
+              Object {
+                "height": 52.4,
+              },
+            ]
+          }
+          testID="test-input"
+          value="di"
+        />
+        <View
+          style={
+            Array [
+              Object {
+                "height": 22,
+                "justifyContent": "center",
+                "marginRight": 12,
+                "width": 22,
+              },
+              false,
+            ]
+          }
+        >
+          <View
+            accessibilityLabel="multiselect.close"
+            accessibilityRole="button"
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Array [
+                Array [
+                  Object {
+                    "width": "100%",
+                  },
+                ],
+                undefined,
+              ]
+            }
+            testID="test-toggle-menu"
+          >
+            <View
+              pointerEvents="none"
+              style={
+                Array [
+                  false,
+                  undefined,
+                ]
+              }
+            >
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight={22}
+                bbWidth={22}
+                color={4280427302}
+                focusable={false}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    Object {
+                      "borderStyle": "solid",
+                      "borderWidth": 0,
+                      "color": "#222326",
+                      "display": "flex",
+                      "fill": "currentColor",
+                      "flexDirection": "row",
+                      "flexWrap": "wrap",
+                      "height": 22,
+                      "stroke": "currentColor",
+                      "width": 22,
+                    },
+                    Object {
+                      "flex": 0,
+                      "height": 22,
+                      "width": 22,
+                    },
+                  ]
+                }
+                tintColor={4280427302}
+                vbHeight={1024}
+                vbWidth={1024}
+              >
+                <RNSVGGroup
+                  fill={
+                    Array [
+                      2,
+                    ]
+                  }
+                  propList={
+                    Array [
+                      "fill",
+                      "stroke",
+                    ]
+                  }
+                  stroke={
+                    Array [
+                      2,
+                    ]
+                  }
+                >
+                  <RNSVGPath
+                    d="M512 461.995l-211.2 211.2-60.331-60.331 271.531-271.531 271.531 271.531-60.331 60.331z"
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <RCTScrollView
+    accessibilityRole="menu"
+    keyboardShouldPersistTaps="always"
+    nativeID="undefined-options"
+    style={
+      Object {
+        "borderBottomLeftRadius": 4,
+        "borderBottomRightRadius": 4,
+        "borderColor": "#6267e7",
+        "borderTopWidth": 0,
+        "borderWidth": 2,
+        "maxHeight": 300,
+      }
+    }
+  >
+    <View>
+      <View
+        accessibilityLabel="Digitalization"
+        accessibilityRole="menuitem"
+        accessibilityState={
+          Object {
+            "disabled": false,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Array [
+            Array [
+              Object {
+                "width": "auto",
+              },
+            ],
+            Array [
+              Object {
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "paddingHorizontal": 12,
+              },
+              false,
+            ],
+          ]
+        }
+        testID="test-item-7"
+      >
+        <View
+          pointerEvents="none"
+          style={
+            Array [
+              false,
+              Object {
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+              },
+            ]
+          }
+        >
+          <Text
+            accessible={false}
+            numberOfLines={2}
+            selectable={false}
+            style={
+              Array [
+                Object {
+                  "color": "#222326",
+                  "fontFamily": "Circular Std Book",
+                  "fontWeight": "400",
+                },
+                Object {
+                  "fontSize": 16,
+                  "lineHeight": 19.2,
+                },
+                Object {},
+                Object {},
+              ]
+            }
+          >
+            Digitalization
+          </Text>
+        </View>
+      </View>
+      <View
+        accessibilityLabel="Disaster Protection"
+        accessibilityRole="menuitem"
+        accessibilityState={
+          Object {
+            "disabled": false,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Array [
+            Array [
+              Object {
+                "width": "auto",
+              },
+            ],
+            Array [
+              Object {
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "paddingHorizontal": 12,
+              },
+              false,
+            ],
+          ]
+        }
+        testID="test-item-8"
+      >
+        <View
+          pointerEvents="none"
+          style={
+            Array [
+              false,
+              Object {
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+              },
+            ]
+          }
+        >
+          <Text
+            accessible={false}
+            numberOfLines={2}
+            selectable={false}
+            style={
+              Array [
+                Object {
+                  "color": "#222326",
+                  "fontFamily": "Circular Std Book",
+                  "fontWeight": "400",
+                },
+                Object {
+                  "fontSize": 16,
+                  "lineHeight": 19.2,
+                },
+                Object {},
+                Object {},
+              ]
+            }
+          >
+            Disaster Protection
+          </Text>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</View>
+`;
+
+exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
+<View
+  style={Object {}}
+>
+  <View
+    style={
+      Array [
+        Object {
+          "flexDirection": "row",
+        },
+        Object {
+          "alignSelf": "stretch",
+          "width": "100%",
+        },
+        Object {},
+      ]
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "minWidth": 190,
+          },
+          Object {
+            "maxWidth": 750,
+          },
+          Object {
+            "alignSelf": "stretch",
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "marginBottom": 6,
+            },
+            Object {
+              "alignSelf": "stretch",
+              "width": "100%",
+            },
+          ]
+        }
+      >
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              Object {
+                "fontSize": 14,
+                "lineHeight": 16.8,
+              },
+              Object {
+                "fontFamily": "Circular Std Medium",
+                "fontWeight": "500",
+              },
+              Array [
+                Object {
+                  "color": "#222326",
+                },
+                Object {},
+                Object {},
+                Object {},
+              ],
+            ]
+          }
+        >
+          Label
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#fff",
+              "borderColor": "#eff0f1",
+              "borderRadius": 4,
+              "borderWidth": 2,
+              "flexDirection": "row",
+            },
+            Object {
+              "alignSelf": "stretch",
+              "width": "100%",
+            },
+            false,
+            false,
+            Object {},
+            undefined,
+            false,
+          ]
+        }
+      >
+        <TextInput
+          accessibilityAutoComplete="list"
+          accessibilityControls="undefined-options"
+          accessibilityLabel="Accessibility label"
+          accessible={true}
+          autoCapitalize="none"
+          autoComplete="off"
+          autoCorrect={false}
+          blurOnSubmit={true}
+          editable={true}
+          keyboardType="default"
+          maxLength={5000}
+          multiline={false}
+          numberOfLines={1}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onContentSizeChange={[Function]}
+          onFocus={[Function]}
+          placeholder="Children & Youth"
+          placeholderTextColor="#222326"
+          secureTextEntry={false}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "flex": 1,
+                "fontFamily": "Circular Std Book",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 22.4,
+                "overflow": "scroll",
+                "paddingHorizontal": 10,
+                "paddingVertical": 15,
+              },
+              Object {
+                "alignSelf": "stretch",
+                "width": "100%",
+              },
+              Object {
+                "height": 52.4,
+              },
+            ]
+          }
+          testID="test-input"
+          value=""
+        />
+        <View
+          style={
+            Array [
+              Object {
+                "height": 22,
+                "justifyContent": "center",
+                "marginRight": 12,
+                "width": 22,
+              },
+              false,
+            ]
+          }
+        >
+          <View
+            accessibilityLabel="multiselect.open"
+            accessibilityRole="button"
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Array [
+                Array [
+                  Object {
+                    "width": "100%",
+                  },
+                ],
+                undefined,
+              ]
+            }
+            testID="test-toggle-menu"
+          >
+            <View
+              pointerEvents="none"
+              style={
+                Array [
+                  false,
+                  undefined,
+                ]
+              }
+            >
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight={22}
+                bbWidth={22}
+                color={4280427302}
+                focusable={false}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    Object {
+                      "borderStyle": "solid",
+                      "borderWidth": 0,
+                      "color": "#222326",
+                      "display": "flex",
+                      "fill": "currentColor",
+                      "flexDirection": "row",
+                      "flexWrap": "wrap",
+                      "height": 22,
+                      "stroke": "currentColor",
+                      "width": 22,
+                    },
+                    Object {
+                      "flex": 0,
+                      "height": 22,
+                      "width": 22,
+                    },
+                  ]
+                }
+                tintColor={4280427302}
+                vbHeight={1024}
+                vbWidth={1024}
+              >
+                <RNSVGGroup
+                  fill={
+                    Array [
+                      2,
+                    ]
+                  }
+                  propList={
+                    Array [
+                      "fill",
+                      "stroke",
+                    ]
+                  }
+                  stroke={
+                    Array [
+                      2,
+                    ]
+                  }
+                >
+                  <RNSVGPath
+                    d="M512.030 562.014l211.2-211.201 60.331 60.331-271.531 271.532-271.53-271.532 60.331-60.331 211.199 211.201z"
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <RCTScrollView
+    accessibilityRole="menu"
+    keyboardShouldPersistTaps="always"
+    nativeID="undefined-options"
+    style={false}
+  >
+    <View />
+  </RCTScrollView>
+</View>
+`;
+
+exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
+<View
+  style={Object {}}
+>
+  <View
+    style={
+      Array [
+        Object {
+          "flexDirection": "row",
+        },
+        Object {
+          "alignSelf": "stretch",
+          "width": "100%",
+        },
+        Object {},
+      ]
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "minWidth": 190,
+          },
+          Object {
+            "maxWidth": 750,
+          },
+          Object {
+            "alignSelf": "stretch",
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "marginBottom": 6,
+            },
+            Object {
+              "alignSelf": "stretch",
+              "width": "100%",
+            },
+          ]
+        }
+      >
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              Object {
+                "fontSize": 14,
+                "lineHeight": 16.8,
+              },
+              Object {
+                "fontFamily": "Circular Std Medium",
+                "fontWeight": "500",
+              },
+              Array [
+                Object {
+                  "color": "#222326",
+                },
+                Object {},
+                Object {},
+                Object {},
+              ],
+            ]
+          }
+        >
+          Label
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#fff",
+              "borderColor": "#eff0f1",
+              "borderRadius": 4,
+              "borderWidth": 2,
+              "flexDirection": "row",
+            },
+            Object {
+              "alignSelf": "stretch",
+              "width": "100%",
+            },
+            false,
+            false,
+            Object {},
+            undefined,
+            false,
+          ]
+        }
+      >
+        <TextInput
+          accessibilityAutoComplete="list"
+          accessibilityControls="undefined-options"
+          accessibilityLabel="Accessibility label"
+          accessible={true}
+          autoCapitalize="none"
+          autoComplete="off"
+          autoCorrect={false}
+          blurOnSubmit={true}
+          editable={true}
+          keyboardType="default"
+          maxLength={5000}
+          multiline={false}
+          numberOfLines={1}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onContentSizeChange={[Function]}
+          onFocus={[Function]}
+          placeholder="Nothing selected"
+          placeholderTextColor="#c0c1c9"
+          secureTextEntry={false}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "flex": 1,
+                "fontFamily": "Circular Std Book",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 22.4,
+                "overflow": "scroll",
+                "paddingHorizontal": 10,
+                "paddingVertical": 15,
+              },
+              Object {
+                "alignSelf": "stretch",
+                "width": "100%",
+              },
+              Object {
+                "height": 52.4,
+              },
+            ]
+          }
+          testID="holi-text-input"
+          value=""
+        />
+        <View
+          style={
+            Array [
+              Object {
+                "height": 22,
+                "justifyContent": "center",
+                "marginRight": 12,
+                "width": 22,
+              },
+              false,
+            ]
+          }
+        >
+          <View
+            accessibilityLabel="multiselect.open"
+            accessibilityRole="button"
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Array [
+                Array [
+                  Object {
+                    "width": "100%",
+                  },
+                ],
+                undefined,
+              ]
+            }
+          >
+            <View
+              pointerEvents="none"
+              style={
+                Array [
+                  false,
+                  undefined,
+                ]
+              }
+            >
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight={22}
+                bbWidth={22}
+                color={4280427302}
+                focusable={false}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    Object {
+                      "borderStyle": "solid",
+                      "borderWidth": 0,
+                      "color": "#222326",
+                      "display": "flex",
+                      "fill": "currentColor",
+                      "flexDirection": "row",
+                      "flexWrap": "wrap",
+                      "height": 22,
+                      "stroke": "currentColor",
+                      "width": 22,
+                    },
+                    Object {
+                      "flex": 0,
+                      "height": 22,
+                      "width": 22,
+                    },
+                  ]
+                }
+                tintColor={4280427302}
+                vbHeight={1024}
+                vbWidth={1024}
+              >
+                <RNSVGGroup
+                  fill={
+                    Array [
+                      2,
+                    ]
+                  }
+                  propList={
+                    Array [
+                      "fill",
+                      "stroke",
+                    ]
+                  }
+                  stroke={
+                    Array [
+                      2,
+                    ]
+                  }
+                >
+                  <RNSVGPath
+                    d="M512.030 562.014l211.2-211.201 60.331 60.331-271.531 271.532-271.53-271.532 60.331-60.331 211.199 211.201z"
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <RCTScrollView
+    accessibilityRole="menu"
+    keyboardShouldPersistTaps="always"
+    nativeID="undefined-options"
+    style={false}
+  >
+    <View />
+  </RCTScrollView>
+</View>
+`;
+
+exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
+<View
+  style={Object {}}
+>
+  <View
+    style={
+      Array [
+        Object {
+          "flexDirection": "row",
+        },
+        Object {
+          "alignSelf": "stretch",
+          "width": "100%",
+        },
+        Object {},
+      ]
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "minWidth": 190,
+          },
+          Object {
+            "maxWidth": 750,
+          },
+          Object {
+            "alignSelf": "stretch",
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "marginBottom": 6,
+            },
+            Object {
+              "alignSelf": "stretch",
+              "width": "100%",
+            },
+          ]
+        }
+      >
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              Object {
+                "fontSize": 14,
+                "lineHeight": 16.8,
+              },
+              Object {
+                "fontFamily": "Circular Std Medium",
+                "fontWeight": "500",
+              },
+              Array [
+                Object {
+                  "color": "#222326",
+                },
+                Object {
+                  "color": "#6267e7",
+                },
+                Object {},
+                Object {},
+              ],
+            ]
+          }
+        >
+          Label
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#fff",
+              "borderColor": "#eff0f1",
+              "borderRadius": 4,
+              "borderWidth": 2,
+              "flexDirection": "row",
+            },
+            Object {
+              "alignSelf": "stretch",
+              "width": "100%",
+            },
+            false,
+            false,
+            Object {
+              "borderBottomLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderBottomWidth": 0,
+              "borderColor": "#6267e7",
+            },
+            undefined,
+            false,
+          ]
+        }
+      >
+        <TextInput
+          accessibilityAutoComplete="list"
+          accessibilityControls="undefined-options"
+          accessibilityLabel="Accessibility label"
+          accessible={true}
+          autoCapitalize="none"
+          autoComplete="off"
+          autoCorrect={false}
+          blurOnSubmit={true}
+          editable={true}
+          keyboardType="default"
+          maxLength={5000}
+          multiline={false}
+          numberOfLines={1}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onContentSizeChange={[Function]}
+          onFocus={[Function]}
+          placeholder="Nothing selected"
+          placeholderTextColor="#c0c1c9"
+          secureTextEntry={false}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "flex": 1,
+                "fontFamily": "Circular Std Book",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 22.4,
+                "overflow": "scroll",
+                "paddingHorizontal": 10,
+                "paddingVertical": 15,
+              },
+              Object {
+                "alignSelf": "stretch",
+                "width": "100%",
+              },
+              Object {
+                "height": 52.4,
+              },
+            ]
+          }
+          testID="test-input"
+          value=""
+        />
+        <View
+          style={
+            Array [
+              Object {
+                "height": 22,
+                "justifyContent": "center",
+                "marginRight": 12,
+                "width": 22,
+              },
+              false,
+            ]
+          }
+        >
+          <View
+            accessibilityLabel="multiselect.close"
+            accessibilityRole="button"
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Array [
+                Array [
+                  Object {
+                    "width": "100%",
+                  },
+                ],
+                undefined,
+              ]
+            }
+            testID="test-toggle-menu"
+          >
+            <View
+              pointerEvents="none"
+              style={
+                Array [
+                  false,
+                  undefined,
+                ]
+              }
+            >
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight={22}
+                bbWidth={22}
+                color={4280427302}
+                focusable={false}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    Object {
+                      "borderStyle": "solid",
+                      "borderWidth": 0,
+                      "color": "#222326",
+                      "display": "flex",
+                      "fill": "currentColor",
+                      "flexDirection": "row",
+                      "flexWrap": "wrap",
+                      "height": 22,
+                      "stroke": "currentColor",
+                      "width": 22,
+                    },
+                    Object {
+                      "flex": 0,
+                      "height": 22,
+                      "width": 22,
+                    },
+                  ]
+                }
+                tintColor={4280427302}
+                vbHeight={1024}
+                vbWidth={1024}
+              >
+                <RNSVGGroup
+                  fill={
+                    Array [
+                      2,
+                    ]
+                  }
+                  propList={
+                    Array [
+                      "fill",
+                      "stroke",
+                    ]
+                  }
+                  stroke={
+                    Array [
+                      2,
+                    ]
+                  }
+                >
+                  <RNSVGPath
+                    d="M512 461.995l-211.2 211.2-60.331-60.331 271.531-271.531 271.531 271.531-60.331 60.331z"
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <RCTScrollView
+    accessibilityRole="menu"
+    keyboardShouldPersistTaps="always"
+    nativeID="undefined-options"
+    style={
+      Object {
+        "borderBottomLeftRadius": 4,
+        "borderBottomRightRadius": 4,
+        "borderColor": "#6267e7",
+        "borderTopWidth": 0,
+        "borderWidth": 2,
+        "maxHeight": 300,
+      }
+    }
+  >
+    <View>
+      <View
+        accessibilityLabel="Animal Welfare"
+        accessibilityRole="menuitem"
+        accessibilityState={
+          Object {
+            "disabled": false,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Array [
+            Array [
+              Object {
+                "width": "auto",
+              },
+            ],
+            Array [
+              Object {
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "paddingHorizontal": 12,
+              },
+              false,
+            ],
+          ]
+        }
+        testID="test-item-1"
+      >
+        <View
+          pointerEvents="none"
+          style={
+            Array [
+              false,
+              Object {
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+              },
+            ]
+          }
+        >
+          <Text
+            accessible={false}
+            numberOfLines={2}
+            selectable={false}
+            style={
+              Array [
+                Object {
+                  "color": "#222326",
+                  "fontFamily": "Circular Std Book",
+                  "fontWeight": "400",
+                },
+                Object {
+                  "fontSize": 16,
+                  "lineHeight": 19.2,
+                },
+                Object {},
+                Object {},
+              ]
+            }
+          >
+            Animal Welfare
+          </Text>
+        </View>
+      </View>
+      <View
+        accessibilityLabel="Children & Youth"
+        accessibilityRole="menuitem"
+        accessibilityState={
+          Object {
+            "disabled": false,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Array [
+            Array [
+              Object {
+                "width": "auto",
+              },
+            ],
+            Array [
+              Object {
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "paddingHorizontal": 12,
+              },
+              false,
+            ],
+          ]
+        }
+        testID="test-item-2"
+      >
+        <View
+          pointerEvents="none"
+          style={
+            Array [
+              false,
+              Object {
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+              },
+            ]
+          }
+        >
+          <Text
+            accessible={false}
+            numberOfLines={2}
+            selectable={false}
+            style={
+              Array [
+                Object {
+                  "color": "#222326",
+                  "fontFamily": "Circular Std Book",
+                  "fontWeight": "400",
+                },
+                Object {
+                  "fontSize": 16,
+                  "lineHeight": 19.2,
+                },
+                Object {},
+                Object {},
+              ]
+            }
+          >
+            Children & Youth
+          </Text>
+        </View>
+      </View>
+      <View
+        accessibilityLabel="Climate Protection"
+        accessibilityRole="menuitem"
+        accessibilityState={
+          Object {
+            "disabled": false,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Array [
+            Array [
+              Object {
+                "width": "auto",
+              },
+            ],
+            Array [
+              Object {
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "paddingHorizontal": 12,
+              },
+              false,
+            ],
+          ]
+        }
+        testID="test-item-3"
+      >
+        <View
+          pointerEvents="none"
+          style={
+            Array [
+              false,
+              Object {
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+              },
+            ]
+          }
+        >
+          <Text
+            accessible={false}
+            numberOfLines={2}
+            selectable={false}
+            style={
+              Array [
+                Object {
+                  "color": "#222326",
+                  "fontFamily": "Circular Std Book",
+                  "fontWeight": "400",
+                },
+                Object {
+                  "fontSize": 16,
+                  "lineHeight": 19.2,
+                },
+                Object {},
+                Object {},
+              ]
+            }
+          >
+            Climate Protection
+          </Text>
+        </View>
+      </View>
+      <View
+        accessibilityLabel="Corona"
+        accessibilityRole="menuitem"
+        accessibilityState={
+          Object {
+            "disabled": false,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Array [
+            Array [
+              Object {
+                "width": "auto",
+              },
+            ],
+            Array [
+              Object {
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "paddingHorizontal": 12,
+              },
+              false,
+            ],
+          ]
+        }
+        testID="test-item-4"
+      >
+        <View
+          pointerEvents="none"
+          style={
+            Array [
+              false,
+              Object {
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+              },
+            ]
+          }
+        >
+          <Text
+            accessible={false}
+            numberOfLines={2}
+            selectable={false}
+            style={
+              Array [
+                Object {
+                  "color": "#222326",
+                  "fontFamily": "Circular Std Book",
+                  "fontWeight": "400",
+                },
+                Object {
+                  "fontSize": 16,
+                  "lineHeight": 19.2,
+                },
+                Object {},
+                Object {},
+              ]
+            }
+          >
+            Corona
+          </Text>
+        </View>
+      </View>
+      <View
+        accessibilityLabel="Culture & History"
+        accessibilityRole="menuitem"
+        accessibilityState={
+          Object {
+            "disabled": false,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Array [
+            Array [
+              Object {
+                "width": "auto",
+              },
+            ],
+            Array [
+              Object {
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "paddingHorizontal": 12,
+              },
+              false,
+            ],
+          ]
+        }
+        testID="test-item-5"
+      >
+        <View
+          pointerEvents="none"
+          style={
+            Array [
+              false,
+              Object {
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+              },
+            ]
+          }
+        >
+          <Text
+            accessible={false}
+            numberOfLines={2}
+            selectable={false}
+            style={
+              Array [
+                Object {
+                  "color": "#222326",
+                  "fontFamily": "Circular Std Book",
+                  "fontWeight": "400",
+                },
+                Object {
+                  "fontSize": 16,
+                  "lineHeight": 19.2,
+                },
+                Object {},
+                Object {},
+              ]
+            }
+          >
+            Culture & History
+          </Text>
+        </View>
+      </View>
+      <View
+        accessibilityLabel="Development Cooperation"
+        accessibilityRole="menuitem"
+        accessibilityState={
+          Object {
+            "disabled": false,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Array [
+            Array [
+              Object {
+                "width": "auto",
+              },
+            ],
+            Array [
+              Object {
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "paddingHorizontal": 12,
+              },
+              false,
+            ],
+          ]
+        }
+        testID="test-item-6"
+      >
+        <View
+          pointerEvents="none"
+          style={
+            Array [
+              false,
+              Object {
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+              },
+            ]
+          }
+        >
+          <Text
+            accessible={false}
+            numberOfLines={2}
+            selectable={false}
+            style={
+              Array [
+                Object {
+                  "color": "#222326",
+                  "fontFamily": "Circular Std Book",
+                  "fontWeight": "400",
+                },
+                Object {
+                  "fontSize": 16,
+                  "lineHeight": 19.2,
+                },
+                Object {},
+                Object {},
+              ]
+            }
+          >
+            Development Cooperation
+          </Text>
+        </View>
+      </View>
+      <View
+        accessibilityLabel="Digitalization"
+        accessibilityRole="menuitem"
+        accessibilityState={
+          Object {
+            "disabled": false,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Array [
+            Array [
+              Object {
+                "width": "auto",
+              },
+            ],
+            Array [
+              Object {
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "paddingHorizontal": 12,
+              },
+              false,
+            ],
+          ]
+        }
+        testID="test-item-7"
+      >
+        <View
+          pointerEvents="none"
+          style={
+            Array [
+              false,
+              Object {
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+              },
+            ]
+          }
+        >
+          <Text
+            accessible={false}
+            numberOfLines={2}
+            selectable={false}
+            style={
+              Array [
+                Object {
+                  "color": "#222326",
+                  "fontFamily": "Circular Std Book",
+                  "fontWeight": "400",
+                },
+                Object {
+                  "fontSize": 16,
+                  "lineHeight": 19.2,
+                },
+                Object {},
+                Object {},
+              ]
+            }
+          >
+            Digitalization
+          </Text>
+        </View>
+      </View>
+      <View
+        accessibilityLabel="Disaster Protection"
+        accessibilityRole="menuitem"
+        accessibilityState={
+          Object {
+            "disabled": false,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Array [
+            Array [
+              Object {
+                "width": "auto",
+              },
+            ],
+            Array [
+              Object {
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "paddingHorizontal": 12,
+              },
+              false,
+            ],
+          ]
+        }
+        testID="test-item-8"
+      >
+        <View
+          pointerEvents="none"
+          style={
+            Array [
+              false,
+              Object {
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+              },
+            ]
+          }
+        >
+          <Text
+            accessible={false}
+            numberOfLines={2}
+            selectable={false}
+            style={
+              Array [
+                Object {
+                  "color": "#222326",
+                  "fontFamily": "Circular Std Book",
+                  "fontWeight": "400",
+                },
+                Object {
+                  "fontSize": 16,
+                  "lineHeight": 19.2,
+                },
+                Object {},
+                Object {},
+              ]
+            }
+          >
+            Disaster Protection
+          </Text>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</View>
+`;
