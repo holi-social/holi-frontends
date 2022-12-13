@@ -220,7 +220,6 @@ const styles = StyleSheet.create({
   },
   suggestionsScrollView: {
     height: SUGGESTIONS_DROPDOWN_HEIGHT,
-    maxHeight: SUGGESTIONS_DROPDOWN_HEIGHT,
     minHeight: SUGGESTIONS_DROPDOWN_HEIGHT,
     borderRadius: 12,
     paddingTop: 10,

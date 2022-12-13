@@ -8,13 +8,13 @@ import DropdownOption from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdownO
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type HoliLexicalMentionsDropdownProps = {
-  optionslist: DropdownOption[]
+  optionsList: DropdownOption[]
   onClick: (i: number, option: DropdownOption) => void
   onMouseEnter?: (i: number, option: DropdownOption) => void
 }
 
 const HoliLexicalMentionsDropdown: React.VFC<HoliLexicalMentionsDropdownProps> = ({
-  optionslist,
+  optionsList,
   onClick,
   onMouseEnter = () => null,
 }) => {
@@ -28,11 +28,11 @@ const HoliLexicalMentionsDropdown: React.VFC<HoliLexicalMentionsDropdownProps> =
     [onMouseEnter, setHightlightedIndex]
   )
 
-  if (optionslist.length < 1) return null
+  if (optionsList.length < 1) return null
 
   return (
     <View style={styles.suggestionsContainer}>
-      {optionslist.map((option, i: number) => (
+      {optionsList.map((option, i: number) => (
         /* The div is needed for the native onMouseEnter function.
          * onFocus does not work within a Portal
          */

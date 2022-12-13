@@ -1,5 +1,4 @@
 import { useLazyQuery } from '@apollo/client'
-import debounce from 'lodash.debounce'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { StyleProp, StyleSheet, TextInput, ViewStyle } from 'react-native'
 import { MentionInput, MentionSuggestionsProps, Suggestion } from 'react-native-controlled-mentions'
@@ -10,6 +9,7 @@ import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprof
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliRichTextInputSuggestions from '@holi/ui/components/organisms/HoliRichTextInput/Suggestions'
 import { REGEX_URL } from '@holi/ui/helper/richText'
+import { useDebounce } from '@holi/ui/helper/useDebounce'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type HoliRichTextInputProps = {
@@ -37,7 +37,6 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
 }) => {
   const inputRef = useRef<TextInput>(null)
   const [value, setValue] = useState(initalValue)
-  const setSafeValue = useSafeDispatch(setValue)
   const [suggestions, setSuggestions] = useState<User[]>([])
   const setSafeSuggestions = useSafeDispatch(setSuggestions)
 
@@ -48,14 +47,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   const [keyword, setKeyword] = useState(initalValue)
   const setSafeKeyword = useSafeDispatch(setKeyword)
   const [debouncedKeyword, setDebouncedKeyword] = useState<string>(INITIAL_KEYWORD)
-  const setSafeDebouncedKeyword = useSafeDispatch(setDebouncedKeyword)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const setKeywordDebounced = useCallback(
-    debounce((someValue: string) => {
-      setSafeDebouncedKeyword(someValue)
-    }, debounceDelay),
-    [keyword]
-  )
+  const setKeywordDebounced = useDebounce(useSafeDispatch(setDebouncedKeyword), debounceDelay)
 
   const onChooseOptionRef = useRef<(suggestion: Suggestion) => void | null>(() => null)
 
@@ -67,6 +59,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
 
   // on value change
   useEffect(() => {
+    console.log('## keyword change')
     return setKeywordDebounced(keyword)
   }, [keyword, setKeywordDebounced])
 
@@ -87,6 +80,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
 
   // on debounced value change
   useEffect(() => {
+    console.log('****** debounced keyword change')
     if (debouncedKeyword === INITIAL_KEYWORD) return setSafeSuggestions([])
     if (!debouncedKeyword || debouncedKeyword.length < minSearchChars) return setSafeSuggestions([])
     findUserMapped(debouncedKeyword).then(setSafeSuggestions)
@@ -117,10 +111,10 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
 
   const onInputChange = useCallback(
     (text: string) => {
-      setSafeValue(`${text}`)
+      setValue(`${text}`)
       onChange?.(`${text}`)
     },
-    [onChange, setSafeValue]
+    [onChange, setValue]
   )
 
   const renderUserSuggestions = useCallback(

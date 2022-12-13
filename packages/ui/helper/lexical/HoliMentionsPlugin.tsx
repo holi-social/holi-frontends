@@ -111,7 +111,7 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
     const options = results.slice(0, maxSuggestionOptions).map((user) => new DropdownOption(user))
     const optionsElement = (
       <HoliLexicalMentionsDropdown
-        optionslist={options}
+        optionsList={options}
         onClick={(i, option) => {
           selectOptionAndCleanUp(option)
         }}

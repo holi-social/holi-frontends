@@ -8,7 +8,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 
 export type HoliRichTextInputSuggestionsProps = {
-  options: User[]
+  options?: User[]
   onChooseSuggestion: (selectedSuggestion: User) => void
   testID: string
 }
@@ -28,7 +28,7 @@ const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps>
           label={t('comment.suggestionItem.label', { item: item.fullName })}
           transparent
           style={styles.suggestionItem}
-          contentStyle={{ alignItems: 'center', flexDirection: 'row' }}
+          contentStyle={styles.suggestionButton}
           onPress={() => onChooseSuggestion(item)}
           testID={testID ? `${testID}-item` : 'holi-rich-text-input-suggestions-item'}
         >
@@ -38,7 +38,7 @@ const HoliRichTextInputSuggestions: React.VFC<HoliRichTextInputSuggestionsProps>
             initials={item.avatarLabel}
             defaultColor={item.avatarDefaultColor}
             size="micro"
-            style={{ marginRight: 10 }}
+            style={styles.suggestionItemImage}
           />
           <HoliText>{item.fullName}</HoliText>
         </HoliButton>
@@ -63,5 +63,12 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     paddingTop: 7,
     paddingBottom: 7,
+  },
+  suggestionButton: {
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  suggestionItemImage: {
+    marginRight: 10,
   },
 })

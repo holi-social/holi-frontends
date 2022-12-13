@@ -92,7 +92,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   }
 
   return (
-    <View style={[styles.outerView, props.style]} testID={props.testID || 'richtext-component'}>
+    <View style={props.style} testID={props.testID || 'richtext-component'}>
       {/* The View is needed for positioning the placeholder */}
       <LexicalComposer initialConfig={lexicalConfig}>
         <PlainTextPlugin
@@ -122,7 +122,6 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
 export default React.memo(HoliRichTextInput)
 
 const styles = StyleSheet.create({
-  outerView: {},
   inputDiv: {
     paddingLeft: 20,
     paddingRigjt: 20,
