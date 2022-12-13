@@ -1,7 +1,7 @@
 // based on https://github.com/onmotion/react-native-autocomplete-dropdown/
-import React, { memo, useCallback, useMemo, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Keyboard, ScrollView, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
+import { FlatList, Keyboard, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
 import tinycolor from 'tinycolor2'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -56,23 +56,26 @@ const HoliSelect = ({
     [setSearchText, setIsOpened]
   )
 
-  const clearFocusAndClose = useCallback(
-    (focusId) => {
+  const clearFocus = useCallback(
+    (focusToClear) => {
       // without the timeout the dropdown closes upon selecting an item
-      setTimeout(() => {
-        setFocusedItem((id) => {
-          if (id === focusId) {
-            setIsOpened(false)
-            setSearchText('')
-            Keyboard.dismiss()
-            return null
-          }
-          return id
-        })
+      // we should first wait if another element is focused in the meantime
+      const timer = setTimeout(() => {
+        setFocusedItem((currentlyFocusedItem) => (currentlyFocusedItem === focusToClear ? null : currentlyFocusedItem))
       }, 0)
+      return () => clearTimeout(timer)
     },
-    [setFocusedItem, setIsOpened, setSearchText]
+    [setFocusedItem]
   )
+
+  // Reset component if not focused anymore
+  useEffect(() => {
+    if (!focusedItem) {
+      setIsOpened(false)
+      setSearchText('')
+      Keyboard.dismiss()
+    }
+  }, [focusedItem, setIsOpened, setSearchText])
 
   const setFocusAndOpen = useCallback(
     (focusId) => {
@@ -82,10 +85,6 @@ const HoliSelect = ({
     [setFocusedItem, setIsOpened]
   )
 
-  const onBlur = useCallback(() => {
-    clearFocusAndClose(focusedItem)
-  }, [clearFocusAndClose, focusedItem])
-
   const onSelect = useCallback(
     (option) => {
       onChange(option)
@@ -94,20 +93,24 @@ const HoliSelect = ({
     },
     [onChange, setIsOpened, setSearchText]
   )
-  // TODO(SF): first toggle on web closes again
   const toggleMenu = useCallback(() => {
-    return isOpened ? onBlur() : setFocusAndOpen('toggle')
-  }, [isOpened, onBlur, setFocusAndOpen])
+    if (isOpened) {
+      clearFocus('toggle')
+    } else {
+      setFocusAndOpen('toggle')
+    }
+    return true
+  }, [isOpened, clearFocus, setFocusAndOpen])
 
   const renderItem = useCallback(
-    (item) => (
+    ({ item }) => (
       <HoliButton
         inline
         transparent
         key={item.id}
         label={item.title}
         accessibilityRole="menuitem"
-        onBlur={onBlur}
+        onBlur={() => clearFocus('option-' + item.id)}
         style={[styles.listItem, item.selected && styles.listItemSelected]}
         contentStyle={styles.listItemContent}
         onFocus={() => setFocusAndOpen('option-' + item.id)}
@@ -120,7 +123,7 @@ const HoliSelect = ({
         {item.selected && <HoliIcon icon="check" size={20} />}
       </HoliButton>
     ),
-    [testID, setFocusAndOpen, onBlur, onSelect]
+    [testID, setFocusAndOpen, clearFocus, onSelect]
   )
 
   const noOptions = (
@@ -135,14 +138,14 @@ const HoliSelect = ({
         label={t(isOpened ? 'multiselect.close' : 'multiselect.open')}
         transparent
         onPress={toggleMenu}
-        onFocus={() => setFocusAndOpen('toggle')}
-        onBlur={onBlur}
+        onFocus={() => setFocusedItem('toggle')}
+        onBlur={() => clearFocus('toggle')}
         testID={testID && `${testID}-toggle-menu`}
       >
         <HoliIcon icon={isOpened ? 'arrow-up-s' : 'arrow-down-s'} size={22} />
       </HoliButton>
     ),
-    [isOpened, t, toggleMenu, setFocusAndOpen, onBlur, testID]
+    [isOpened, t, toggleMenu, setFocusedItem, clearFocus, testID]
   )
 
   const regex = useMemo(() => searchText && new RegExp(searchText, 'i'), [searchText])
@@ -176,18 +179,24 @@ const HoliSelect = ({
         inputStyle={isOpened ? styles.textInputOpened : {}}
         labelStyle={isOpened ? styles.textInputLabelOpened : {}}
         onChange={onChangeText}
-        onBlur={onBlur}
+        onBlur={() => clearFocus('input')}
         onFocus={() => setFocusAndOpen('input')}
         testID={testID}
       />
-      <ScrollView
-        style={isOpened && styles.optionsMenu}
-        nativeID={`${id}-options`}
-        accessibilityRole="menu"
-        keyboardShouldPersistTaps="always"
-      >
-        {filteredOptions.length > 0 && isOpened ? filteredOptions.map(renderItem) : isOpened ? noOptions : <></>}
-      </ScrollView>
+      {isOpened && (
+        <FlatList
+          bounces={false}
+          ListEmptyComponent={noOptions}
+          data={filteredOptions}
+          renderItem={renderItem}
+          keyExtractor={(option) => option.id}
+          style={isOpened && styles.optionsMenu}
+          nativeID={`${id}-options`}
+          accessibilityRole="menu"
+          keyboardShouldPersistTaps="always"
+          persistentScrollbar={true}
+        />
+      )}
     </View>
   )
 }
