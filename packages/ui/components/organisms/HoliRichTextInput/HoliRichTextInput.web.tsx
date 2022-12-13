@@ -127,7 +127,6 @@ const styles = StyleSheet.create({
     paddingRigjt: 20,
     paddingTop: 10,
     paddingBottom: 10,
-    position: 'relative',
   },
   placeholder: {
     color: colors.fontColorGrey,

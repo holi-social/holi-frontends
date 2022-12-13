@@ -10,6 +10,7 @@ import { useKeyboard } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { PortalGate } from '@holi/core/provider/PortalProvider'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { CreatePostCommentMutation, CreatePostCommentResponse } from '@holi/core/screens/posts/queries'
@@ -83,19 +84,21 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
     if (Platform.OS === 'web') {
       scrollViewRef.current?.scrollToEnd({ animated: true })
     } else {
-      const paddingTop = 20
+      const paddingTop = 90
       if (scrollContentHeight <= 0) return
       scrollViewRef.current?.scrollTo({
         animated: true,
-        y: scrollContentHeight - SUGGESTIONS_DROPDOWN_HEIGHT - SUBMIT_BUTTON_CONTAINER_HEIGHT - paddingTop,
+        y:
+          scrollContentHeight -
+          keyboardHeight -
+          SUGGESTIONS_DROPDOWN_HEIGHT +
+          SUBMIT_BUTTON_CONTAINER_HEIGHT -
+          paddingTop,
       })
     }
-  }, [scrollContentHeight])
+  }, [scrollContentHeight, keyboardHeight])
 
   useEffect(scrollIntoView, [scrollContentHeight, scrollIntoView])
-
-  const bottomPadding =
-    keyboardHeight + (Platform.OS === 'web' ? 0 : SUGGESTIONS_DROPDOWN_HEIGHT + SUBMIT_BUTTON_CONTAINER_HEIGHT)
 
   if (createCommentError) {
     logError(createCommentError, `[CommentInputPage.tsx] ${createCommentError.message}`)
@@ -119,12 +122,8 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   if (!post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.root}>
-      <ScrollView
-        contentContainerStyle={{ paddingBottom: bottomPadding, paddingTop: vars.topBarHeight }}
-        onContentSizeChange={scrollIntoView}
-        ref={scrollViewRef}
-      >
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
+      <ScrollView onContentSizeChange={scrollIntoView} ref={scrollViewRef}>
         <View onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)}>
           {/* Post content */}
           <PostContent post={post} hasHeader minimized style={styles.postContent} />
@@ -153,6 +152,8 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
         </View>
       </ScrollView>
 
+      <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
+
       <View style={[styles.bottomBar, Platform.OS === 'web' && mixins.container]}>
         <HoliButton
           disabled={!text.trim().length || createCommentLoading}
@@ -175,18 +176,14 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
 }
 
 const SUBMIT_BUTTON_CONTAINER_HEIGHT = 74
-const SUGGESTIONS_DROPDOWN_HEIGHT = 200
+const SUGGESTIONS_DROPDOWN_HEIGHT = 150
 
 const styles = StyleSheet.create({
-  root: {
-    paddingTop: vars.topBarHeight,
-
+  pageView: {
+    paddingTop: vars.topBarHeight + 10,
     height: '100%', // prevents double scrollbars
     ...Platform.select({
       web: { height: '100vh' },
-      ios: {
-        paddingBottom: vars.bottomBarHeight + SUBMIT_BUTTON_CONTAINER_HEIGHT,
-      },
       android: {
         paddingBottom: 0,
       },
@@ -195,17 +192,18 @@ const styles = StyleSheet.create({
   postContent: {
     marginTop: 12,
   },
-  inputContainer: {
-    marginTop: 16,
-    lineHeight: 22,
-    flexDirection: 'row',
-  },
   verticalLine: {
     marginTop: 16,
     marginBottom: 10,
     marginHorizontal: 20,
     minHeight: 50,
     ...Platform.select({ web: { minHeight: 75 } }),
+  },
+  inputContainer: {
+    marginTop: 16,
+    lineHeight: 22,
+    flexDirection: 'row',
+    marginBottom: SUGGESTIONS_DROPDOWN_HEIGHT,
   },
   textInput: {
     flex: 1,
@@ -220,22 +218,35 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  bottomBar: {
-    bottom: 0,
-    padding: 12,
+  suggestionsScrollView: {
+    height: SUGGESTIONS_DROPDOWN_HEIGHT,
+    minHeight: SUGGESTIONS_DROPDOWN_HEIGHT,
+    borderRadius: 12,
+    paddingTop: 10,
+    marginBottom: -10,
+    paddingBottom: 10,
+    backgroundColor: colors.backgroundColor,
+    boxShadow: `0px 2px 16px ${colors.backgroundColorOverlay}, 0px 4px 8px ${colors.backgroundColorOverlay}`,
     borderTopWidth: 1,
     borderTopColor: colors.borderColorGrey,
-    backgroundColor: colors.backgroundColor,
+    ...Platform.select({
+      web: {
+        position: 'absolute',
+        bottom: SUBMIT_BUTTON_CONTAINER_HEIGHT,
+        left: 0,
+        right: 0,
+      },
+    }),
+  },
+  bottomBar: {
     justifyContent: 'center',
     alignItems: 'flex-end',
     width: '100%',
     height: SUBMIT_BUTTON_CONTAINER_HEIGHT,
-    ...Platform.select({
-      web: {
-        position: 'fixed',
-        bottom: 0,
-      },
-    }),
+    padding: 12,
+    borderTopWidth: 1,
+    borderTopColor: colors.borderColorGrey,
+    backgroundColor: colors.backgroundColor,
   },
 })
 

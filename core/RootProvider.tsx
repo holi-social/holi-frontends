@@ -7,6 +7,7 @@ import client from '@holi/api/graphql/client'
 import AuthContextProvider, { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { NavigationContextProvider } from '@holi/core/navigation/hooks/NavigationContextProvider'
+import PortalProvider from '@holi/core/provider/PortalProvider'
 import UserContextProvider, { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
@@ -65,9 +66,11 @@ const RootProvider: React.VoidFunctionComponent<{ children: React.ReactElement |
           <ApolloProvider client={client}>
             <AuthContextProvider>
               <UserContextProvider>
-                <ToastProvider>
-                  <Children>{children}</Children>
-                </ToastProvider>
+                <PortalProvider>
+                  <ToastProvider>
+                    <Children>{children}</Children>
+                  </ToastProvider>
+                </PortalProvider>
               </UserContextProvider>
             </AuthContextProvider>
           </ApolloProvider>
