@@ -199,16 +199,6 @@ const isLastWeek = (date: Date) => {
   return date >= start && date <= end
 }
 
-const isThisMonth = (date: Date) => {
-  const now = new Date()
-
-  const start = new Date(now)
-  start.setDate(1)
-  start.setHours(0, 0, 0, 0)
-
-  return date >= start && date <= now
-}
-
 interface NotificationGroup {
   title: string
   data: Notification[]
@@ -223,10 +213,8 @@ const sortNotificationsByDate = (notifications: Notification[]) => {
         acc[0].data.push(notification)
       } else if (isLastWeek(created)) {
         acc[1].data.push(notification)
-      } else if (isThisMonth(created)) {
-        acc[2].data.push(notification)
       } else {
-        acc[3].data.push(notification)
+        acc[2].data.push(notification)
       }
 
       return acc
@@ -241,14 +229,10 @@ const sortNotificationsByDate = (notifications: Notification[]) => {
         data: [],
       },
       {
-        title: i18n.t('notifications.created.thisMonth'),
-        data: [],
-      },
-      {
         title: i18n.t('notifications.created.older'),
         data: [],
       },
-    ] as [NotificationGroup, NotificationGroup, NotificationGroup, NotificationGroup]
+    ] as [NotificationGroup, NotificationGroup, NotificationGroup]
   )
 }
 

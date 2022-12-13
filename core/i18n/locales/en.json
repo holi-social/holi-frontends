@@ -130,7 +130,6 @@
   "notifications.title": "Notifications",
   "notifications.created.thisWeek": "This week",
   "notifications.created.lastWeek": "Last week",
-  "notifications.created.thisMonth": "This month",
   "notifications.created.older": "Older",
   "notifications.connection.accept": "Accept",
   "notifications.connection.decline": "Decline",
