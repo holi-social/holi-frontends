@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useState } from 'react'
 import { ScrollView, StyleProp, ViewStyle } from 'react-native'
 
-export type GateElement = React.VFC | null | undefined
+export type GateElement = JSX.Element | null | undefined
 
 export interface PortalContextValue {
   gates: Record<string, GateElement>

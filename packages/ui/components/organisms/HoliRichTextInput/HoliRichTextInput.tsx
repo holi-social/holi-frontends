@@ -59,8 +59,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
 
   // on value change
   useEffect(() => {
-    console.log('## keyword change')
-    return setKeywordDebounced(keyword)
+    setKeywordDebounced(keyword)
   }, [keyword, setKeywordDebounced])
 
   const findUserMapped = useCallback(
@@ -80,7 +79,6 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
 
   // on debounced value change
   useEffect(() => {
-    console.log('****** debounced keyword change')
     if (debouncedKeyword === INITIAL_KEYWORD) return setSafeSuggestions([])
     if (!debouncedKeyword || debouncedKeyword.length < minSearchChars) return setSafeSuggestions([])
     findUserMapped(debouncedKeyword).then(setSafeSuggestions)
@@ -91,7 +89,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
     () => {
       if (!suggestions.length) return teleport('suggestions', null)
 
-      const element = () => (
+      const element = (
         <HoliRichTextInputSuggestions
           options={suggestions}
           onChooseSuggestion={(user: User) => {
@@ -119,7 +117,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
 
   const renderUserSuggestions = useCallback(
     ({ keyword, onSuggestionPress }: MentionSuggestionsProps) => {
-      setSafeKeyword(!keyword ? '' : keyword)
+      setImmediate(() => setSafeKeyword(!keyword ? '' : keyword))
       onChooseOptionRef.current = onSuggestionPress
     },
     [setSafeKeyword]
