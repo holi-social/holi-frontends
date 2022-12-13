@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ImageBackground, StyleSheet, View } from 'react-native'
 import { Animated } from 'react-native'
 
+import { useScrollYValue } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -12,7 +13,8 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 import HeaderAnimatedGradienBackground from './HeaderAnimatedGradienBackground'
 
 export const useHeaderHideAnimation = () => {
-  const [scrollY, setScrollY] = useState(0)
+  const scrollYValue = useScrollYValue()
+  const [scrollY, setScrollY] = useState(scrollYValue)
   const prevScrollY = useRef(scrollY)
   const isHeaderShown = useRef(true)
 
@@ -24,6 +26,10 @@ export const useHeaderHideAnimation = () => {
     window.addEventListener('scroll', onWindowScroll)
     return () => window.removeEventListener('scroll', onWindowScroll)
   }, [])
+
+  useEffect(() => {
+    setScrollY(scrollYValue)
+  }, [scrollYValue, setScrollY])
 
   // adjust animation on scrollY change
   useEffect(() => {
