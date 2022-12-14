@@ -35,7 +35,13 @@ test.describe('@Spaces', () => {
   })
 
   test('should go to filtered spaces page and display multiple spaces with that filter', async ({ page }) => {
+    await waitForElementByTestId(page, 'spaces-topic-container-see-more')
     await clickElementByTestId(page, 'spaces-topic-container-see-more')
+
+    // check if we are in the correct page with the filter queries
+    await page.waitForNavigation()
+    const spaceFilterUrlPrefix = '/spaces/filter'
+    expect(page.url()).toContain(spaceFilterUrlPrefix)
 
     // check if there is at least one space card (button to space)
     await waitForElementByTestId(page, 'btn-to-space')
