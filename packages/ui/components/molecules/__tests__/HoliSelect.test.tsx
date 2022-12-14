@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
 
+import HoliSelect from '@holi/ui/components/molecules/HoliSelect'
 import { SingleSelect } from '@holi/ui/components/molecules/__stories__/HoliSelect.stories'
 
 describe('HoliSelect', () => {
@@ -33,10 +34,19 @@ describe('HoliSelect', () => {
 
     it('calls onChange with selection', () => {
       const onChange = jest.fn()
-      render(<SingleSelect {...SingleSelect.args} testID="test" onChange={onChange} />)
+      render(<HoliSelect {...SingleSelect.args} testID="test" onChange={onChange} />)
       fireEvent.press(screen.getByTestId('test-toggle-menu'))
       fireEvent.press(screen.getByTestId('test-item-2'))
       expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ id: '2' }))
+    })
+
+    it('clears text input', () => {
+      render(<SingleSelect {...SingleSelect.args} testID="test" />)
+      fireEvent.press(screen.getByTestId('test-toggle-menu'))
+      fireEvent(screen.getByTestId('test-input'), 'onChange', { nativeEvent: { text: 'di' } })
+      expect(screen.getByTestId('test-input')).toHaveProp('value', 'di')
+      fireEvent.press(screen.getByTestId('test-clear-input'))
+      expect(screen.getByTestId('test-input')).toHaveProp('value', '')
     })
   })
 })

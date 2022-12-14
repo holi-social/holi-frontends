@@ -111,7 +111,7 @@ const HoliSelect = ({
         label={item.title}
         accessibilityRole="menuitem"
         onBlur={() => clearFocus('option-' + item.id)}
-        style={[styles.listItem, item.selected && styles.listItemSelected]}
+        style={styles.listItem}
         contentStyle={styles.listItemContent}
         onFocus={() => setFocusAndOpen('option-' + item.id)}
         onPress={() => onSelect(item)}
@@ -120,7 +120,9 @@ const HoliSelect = ({
         <HoliText selectable={false} numberOfLines={2}>
           {item.title}
         </HoliText>
-        {item.selected && <HoliIcon icon="check" size={20} />}
+        <View style={[styles.listItemIconContainer, item.selected && styles.listItemIconContainerSelected]}>
+          {item.selected && <HoliIcon icon="check" size={20} color={colors.fontColorWhite} />}
+        </View>
       </HoliButton>
     ),
     [testID, setFocusAndOpen, clearFocus, onSelect]
@@ -132,7 +134,7 @@ const HoliSelect = ({
     </View>
   )
 
-  const trailingComponent = useMemo(
+  const toggleMenuButton = useMemo(
     () => (
       <HoliButton
         label={t(isOpened ? 'multiselect.close' : 'multiselect.open')}
@@ -147,6 +149,28 @@ const HoliSelect = ({
     ),
     [isOpened, t, toggleMenu, setFocusedItem, clearFocus, testID]
   )
+  const clearInputButton = useMemo(() => {
+    return (
+      <HoliButton
+        label={t('multiselect.clear')}
+        transparent
+        onPress={() => onChangeText('')}
+        onFocus={() => setFocusedItem('clear')}
+        onBlur={() => clearFocus('clear')}
+        testID={testID && `${testID}-clear-input`}
+      >
+        <HoliIcon icon="close" filled size={16} />
+      </HoliButton>
+    )
+  }, [t, testID, onChangeText, setFocusedItem, clearFocus])
+  const trailingComponent = useMemo(() => {
+    return (
+      <View style={styles.trailingIconContainer}>
+        {!!searchText && clearInputButton}
+        {toggleMenuButton}
+      </View>
+    )
+  }, [clearInputButton, searchText, toggleMenuButton])
 
   const regex = useMemo(() => searchText && new RegExp(searchText, 'i'), [searchText])
   const selectedText = options
@@ -223,11 +247,11 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     borderBottomLeftRadius: 4,
     borderBottomRightRadius: 4,
-    position: 'absolute',
-    width: '100%',
-    top: 77, // TODO(SF) textinput height
-    zIndex: 2,
-    backgroundColor: colors.backgroundColorWhite,
+    // position: 'absolute',
+    // width: '100%',
+    // top: 77, // TODO(SF) textinput height
+    // zIndex: 2,
+    // backgroundColor: colors.backgroundColorWhite,
   },
   listItem: {
     height: 48,
@@ -239,7 +263,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  listItemSelected: {
-    backgroundColor: colors.backgroundColorGreyLight,
+  listItemIconContainer: {
+    width: 24,
+    height: 24,
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: tinycolor(colors.borderColorGrey).darken(5).toString(),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  listItemIconContainerSelected: {
+    borderWidth: 0,
+    backgroundColor: colors.fontColorBlack,
+  },
+  trailingIconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
   },
 })

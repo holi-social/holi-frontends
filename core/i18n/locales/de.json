@@ -117,6 +117,7 @@
   "location.placesAutocomplete.noResults": "Keine Vorschläge gefunden",
   "modal.backdrop": "Dialog Schließen",
   "modal.close": "Dialog Schließen",
+  "multiselect.clear": "Eingabe zurücksetzen",
   "multiselect.close": "Schließen",
   "multiselect.empty": "Keine Optionen gefunden",
   "multiselect.open": "Öffnen",
