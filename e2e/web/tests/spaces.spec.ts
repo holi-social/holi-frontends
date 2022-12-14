@@ -39,7 +39,7 @@ test.describe('@Spaces', () => {
     await clickElementByTestId(page, 'spaces-topic-container-see-more')
 
     // check if we are in the correct page with the filter queries
-    await page.waitForNavigation()
+    await page.waitForNavigation({ url: '**/spaces/**' })
     const spaceFilterUrlPrefix = '/spaces/filter'
     expect(page.url()).toContain(spaceFilterUrlPrefix)
 
