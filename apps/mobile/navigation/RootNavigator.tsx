@@ -11,7 +11,6 @@ import Login from '@holi/core/auth/screens/Login'
 import Registration from '@holi/core/auth/screens/Registration'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import { navigationRef } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
@@ -62,6 +61,13 @@ const HomeStack = createNativeStackNavigator<HomeStackScreens>()
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
+// const screensWithoutFooter = [
+//   RouteName.InsightDetailPage,
+//   RouteName.PostDetailPage,
+//   RouteName.CommentInputPage,
+//   RouteName.SpaceDetails,
+// ]
+
 export const HomeStackNavigator: React.VFC = () => {
   return (
     <HomeStack.Navigator
@@ -89,15 +95,6 @@ export const BottomTabsNavigator: React.VFC = () => {
   const { t } = useTranslation()
   const { isLoggedIn } = useContext(AuthContext)
 
-  // Fix for not hidden bottom nav (HOLI-2718)
-  let showFooter = options.navigationCustomOptions?.footerShown
-  if (navigationRef.isReady()) {
-    const valueInNavigationRef = navigationRef?.getCurrentOptions()?.navigationCustomOptions?.footerShown
-    if (typeof showFooter === 'undefined' && showFooter !== valueInNavigationRef) {
-      showFooter = valueInNavigationRef
-    }
-  }
-
   return (
     <BottomTabs.Navigator
       initialRouteName={RouteName.Home}
@@ -108,7 +105,7 @@ export const BottomTabsNavigator: React.VFC = () => {
             paddingHorizontal: 0,
             borderTopWidth: StyleSheet.hairlineWidth,
             borderTopColor: colors.fontColorGrey,
-            ...(showFooter === false ? { display: 'none', maxHeight: 0 } : {}),
+            ...(options.navigationCustomOptions?.footerShown === false ? { display: 'none', maxHeight: 0 } : {}),
             tabBarShowLabel: true,
             tabBarLabelStyle: {
               color: 'black',
