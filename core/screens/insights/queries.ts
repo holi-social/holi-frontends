@@ -4,11 +4,11 @@ import { Insight } from '@holi/core/screens/insights/types'
 import { PostFragment } from '@holi/core/screens/posts/queries'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
 
-const InsightFragment = gql`
+const InsightWithPostsFragment = gql`
   ${userAvatarFragment}
   ${PostFragment}
 
-  fragment InsightFull on Insight {
+  fragment InsightWithPosts on Insight {
     id
     title
     description
@@ -22,18 +22,36 @@ const InsightFragment = gql`
       title
     }
     posts {
-      ...PostFull
+      ...PostFragment
     }
   }
 `
 
 export const lastInsightsQuery = gql`
-  ${InsightFragment}
+  ${userAvatarFragment}
 
   query LastInsights($limit: Int!) {
     lastInsights(limit: $limit) {
       data {
-        ...InsightFull
+        id
+        title
+        description
+        datePublished
+        creator {
+          ...UserAvatar
+        }
+        headerImage
+        topic {
+          id
+          title
+        }
+        numberOfPosts
+        involvedUsers {
+          totalResults
+          data {
+            ...UserAvatar
+          }
+        }
       }
     }
   }
@@ -46,11 +64,11 @@ export type LastInsightsResponse = {
 }
 
 export const insightById = gql`
-  ${InsightFragment}
+  ${InsightWithPostsFragment}
 
   query InsightById($id: String!) {
     insightById(id: $id) {
-      ...InsightFull
+      ...InsightWithPosts
     }
   }
 `

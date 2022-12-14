@@ -36,6 +36,7 @@ export interface HoliButtonProps {
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
   onFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void
   onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void
+  onMouseEnter?: (event: NativeSyntheticEvent<TargetedEvent>) => void
   accessibilityRole?: AccessibilityRole
 }
 

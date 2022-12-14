@@ -16,18 +16,11 @@ interface InsightPreviewBoxProps {
   style?: StyleProp<ViewStyle>
 }
 
-const editorsOfInsight = (insight: Insight) => {
-  const editors = [insight.creator, ...insight.posts.map(({ creator }) => creator)]
-
-  // remove duplicates
-  return editors.filter((user, index, self) => !!user && self.findIndex((editor) => editor.id === user.id) === index)
-}
-
 const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...props }) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
 
-  const editors = editorsOfInsight(insight)
+  const editors = insight.involvedUsers.data
 
   return (
     <View {...props}>
@@ -50,11 +43,18 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
         </HoliHeading>
 
         <HoliText size="small" style={[styles.spaceTop, styles.textGrey]} selectable={true}>
-          {t('insights.posts.byAuthor', { author: insight.creator.fullName, count: insight.posts.length })}
+          {t('insights.posts.byAuthor', { author: insight.creator.fullName, count: insight.numberOfPosts })}
         </HoliText>
 
         {editors.length && (
-          <HoliUserAvatarPile users={editors} usersToShow={3} counter collapse style={styles.avatarPile} />
+          <HoliUserAvatarPile
+            users={editors}
+            usersToShow={3}
+            usersTotal={insight.involvedUsers.totalResults}
+            counter
+            collapse
+            style={styles.avatarPile}
+          />
         )}
       </HoliButton>
     </View>
