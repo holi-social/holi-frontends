@@ -223,6 +223,11 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     borderBottomLeftRadius: 4,
     borderBottomRightRadius: 4,
+    position: 'absolute',
+    width: '100%',
+    top: 77, // TODO(SF) textinput height
+    zIndex: 2,
+    backgroundColor: colors.backgroundColorWhite,
   },
   listItem: {
     height: 48,

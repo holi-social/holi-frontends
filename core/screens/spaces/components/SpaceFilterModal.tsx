@@ -91,6 +91,15 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
         >
           <View style={[mixins.container]}>
             <HoliHeading level="2">{t('spaces.filter.heading')}</HoliHeading>
+            <HoliSelect
+              options={topicOptions}
+              inputLabel={t('spaces.filter.topics.label')}
+              accessibilityLabel={t('spaces.filter.topics.label')}
+              placeholder={t('spaces.filter.topics.placeholder')}
+              style={[styles.filterOption, { zIndex: 1 }]}
+              onChange={toggleTopicSelection}
+              id="spaces-filter-interests"
+            />
             <PlacesAutocomplete
               label={t('spaces.filter.location.label')}
               placeholder={t('spaces.filter.location.placeholder')}
@@ -98,17 +107,8 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
               id="spaces-filter-location"
               onChange={setLocation}
               onSubmit={setLocation}
-              style={styles.filterOption}
+              style={[styles.filterOption, { zIndex: 0 }]}
               inputProps={{ autoFocus: true }}
-            />
-            <HoliSelect
-              options={topicOptions}
-              inputLabel={t('spaces.filter.topics.label')}
-              accessibilityLabel={t('spaces.filter.topics.label')}
-              placeholder={t('spaces.filter.topics.placeholder')}
-              style={styles.filterOption}
-              onChange={toggleTopicSelection}
-              id="spaces-filter-interests"
             />
           </View>
         </HoliModalContentWrapper>
