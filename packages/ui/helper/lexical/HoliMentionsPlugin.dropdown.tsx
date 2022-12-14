@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useCallback, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -8,42 +8,59 @@ import DropdownOption from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdownO
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type HoliLexicalMentionsDropdownProps = {
-  optionslist: DropdownOption[]
-  selectedIndex: number
-  onClick: (i: number, option: DropdownOption) => void
-  onMouseEnter: (i: number, option: DropdownOption) => void
+  optionsList: DropdownOption[]
+  selectedIndex?: number
+  onChooseOption: (i: number, option: DropdownOption) => void
+  onMouseEnter?: (i: number, option: DropdownOption) => void
 }
 
-const HoliLexicalMentionsDropdown: React.VFC<HoliLexicalMentionsDropdownProps> = (
-  props: HoliLexicalMentionsDropdownProps
-) => {
+const HoliLexicalMentionsDropdown: React.VFC<HoliLexicalMentionsDropdownProps> = ({
+  optionsList,
+  selectedIndex = 0,
+  onChooseOption,
+  onMouseEnter = () => null,
+}) => {
+  const [hightlightedIndex, setHightlightedIndex] = useState<number>(0)
+
+  const onNativeMouseEnter = useCallback(
+    (index: number, option: DropdownOption) => {
+      setHightlightedIndex(index)
+      onMouseEnter?.(index, option)
+    },
+    [onMouseEnter, setHightlightedIndex]
+  )
+
+  if (optionsList.length < 1) return null
+
   return (
     <View style={styles.suggestionsContainer}>
-      {props.optionslist.map((option, i: number) => (
-        <HoliButton
-          key={`${option.key}-${i}`}
-          label={option.user.fullName}
-          transparent
-          inline
-          onFocus={() => props.onMouseEnter(i, option)}
-          onPress={() => props.onClick(i, option)}
-          testID={'typeahead-item-' + i}
-          style={[
-            styles.suggestionItem,
-            props.selectedIndex === i && { backgroundColor: colors.backgroundColorGreyLight },
-          ]}
-          contentStyle={{ alignItems: 'center', flexDirection: 'row' }}
-        >
-          <HoliUserAvatar
-            imageSrc={option.user.avatar}
+      {optionsList.map((option, i: number) => (
+        /* The div is needed for the native onMouseEnter function.
+         * onFocus does not work within a Portal
+         */
+        <div key={`${option.key}-${i}`} tabIndex={i} onMouseEnter={() => onNativeMouseEnter(i, option)}>
+          <HoliButton
             label={option.user.fullName}
-            initials={option.user.avatarLabel}
-            defaultColor={option.user.avatarDefaultColor}
-            size="micro"
-            style={{ marginRight: 10 }}
-          />
-          <HoliText style={{ whiteSpace: 'nowrap' }}>{option.user.fullName}</HoliText>
-        </HoliButton>
+            transparent
+            inline
+            onPress={() => onChooseOption(i, option)}
+            style={[
+              styles.suggestionItem,
+              (hightlightedIndex === i || selectedIndex === i) && { backgroundColor: colors.backgroundColorGreyLight },
+            ]}
+            contentStyle={{ alignItems: 'center', flexDirection: 'row' }}
+          >
+            <HoliUserAvatar
+              imageSrc={option.user.avatar}
+              label={option.user.fullName}
+              initials={option.user.avatarLabel}
+              defaultColor={option.user.avatarDefaultColor}
+              size="micro"
+              style={{ marginRight: 10 }}
+            />
+            <HoliText style={{ whiteSpace: 'nowrap' }}>{option.user.fullName}</HoliText>
+          </HoliButton>
+        </div>
       ))}
     </View>
   )
@@ -53,20 +70,13 @@ export default HoliLexicalMentionsDropdown
 
 const styles = StyleSheet.create({
   suggestionsContainer: {
-    display: 'inline-block',
-    marginTop: 25,
+    width: '100%',
     backgroundColor: colors.backgroundColor,
-    borderTopWidth: 1,
-    borderTopColor: colors.borderColorGrey,
-    borderTopStyle: 'solid',
-    borderRadius: 10,
-    padding: 5,
-    boxShadow: `0px 0px 16px ${colors.backgroundColorOverlay}`,
   },
   suggestionItem: {
     display: 'flex',
     whiteSpace: 'nowrap',
-    paddingLeft: 10,
+    paddingLeft: 20,
     paddingRight: 20,
     paddingTop: 7,
     paddingBottom: 7,
