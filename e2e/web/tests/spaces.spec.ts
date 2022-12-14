@@ -74,21 +74,12 @@ test.describe('@Spaces', () => {
     await clickElementByTestId(page, 'btn-to-space')
     await waitForElementByTestId(page, 'space-details-container')
 
-    await checkAccessibility(page)
-
     // check if collaborators are displayed
     await waitForElementByTestId(page, 'space-members')
     await clickElementByTestId(page, 'space-members')
-    await waitForElementByTestId(page, 'spaces-collaborators-modal')
-
-    // check if on click the arrow down the modal layer is closed
-    await waitForElementByTestId(page, 'nav-button-down')
-    await clickElementByTestId(page, 'nav-button-down')
-    await waitForElementByTestId(page, 'space-details-container')
+    await waitForElementByTestId(page, 'spaces-collaborators-item')
 
     // check if on click the user profile is displayed
-    await clickElementByTestId(page, 'space-members')
-    await waitForElementByTestId(page, 'spaces-collaborators-item')
     await clickElementByTestId(page, 'spaces-collaborators-item')
     await waitForElementByTestId(page, 'user-profile-full-name')
 
