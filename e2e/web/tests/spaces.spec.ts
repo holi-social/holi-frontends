@@ -36,10 +36,13 @@ test.describe('@Spaces', () => {
 
   test('should go to filtered spaces page and display multiple spaces with that filter', async ({ page }) => {
     await waitForElementByTestId(page, 'spaces-topic-container-see-more')
-    await clickElementByTestId(page, 'spaces-topic-container-see-more')
 
     // check if we are in the correct page with the filter queries
-    await page.waitForNavigation({ url: '**/spaces/**' })
+    await Promise.all([
+      clickElementByTestId(page, 'spaces-topic-container-see-more'),
+      page.waitForNavigation({ url: '**/spaces/**' }),
+    ])
+
     const spaceFilterUrlPrefix = '/spaces/filter'
     expect(page.url()).toContain(spaceFilterUrlPrefix)
 
