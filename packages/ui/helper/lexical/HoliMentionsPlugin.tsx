@@ -1,6 +1,17 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { QueryMatch, useBasicTypeaheadTriggerMatch } from '@lexical/react/LexicalTypeaheadMenuPlugin'
-import { $getSelection, $isRangeSelection, LexicalEditor, RangeSelection, TextNode } from 'lexical'
+import {
+  $getSelection,
+  $isRangeSelection,
+  COMMAND_PRIORITY_EDITOR,
+  COMMAND_PRIORITY_NORMAL,
+  KEY_ARROW_DOWN_COMMAND,
+  KEY_ARROW_UP_COMMAND,
+  KEY_ENTER_COMMAND,
+  LexicalEditor,
+  RangeSelection,
+  TextNode,
+} from 'lexical'
 import { useCallback, useEffect, useState } from 'react'
 import React from 'react'
 
@@ -29,6 +40,7 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
   const [editor] = useLexicalComposerContext()
   const [results, setResults] = useState<Array<User>>([])
   const setSafeResult = useSafeDispatch(setResults)
+  const [selectedOptionIndex, setSelectedOptionIndex] = useState(0)
   const { teleport } = usePortals()
 
   const debouncedSearch: (keyword?: string) => void = useDebounce((keyword?: string) => {
@@ -39,6 +51,7 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
         console.error('[HoliMentionsPlugin] ', error)
         setSafeResult([])
       })
+      .finally(() => setSelectedOptionIndex(0))
   }, debounceDelay)
 
   // check input text for slash
@@ -81,56 +94,6 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
     return text
   }, [])
 
-  // on input text
-  useEffect(() => {
-    const updateListener = () => {
-      editor.getEditorState().read(() => {
-        const range = document.createRange()
-        const selection = $getSelection()
-        const text = getQueryTextForSearch(editor)
-
-        if (!$isRangeSelection(selection) || !selection.isCollapsed() || text === null || range === null) {
-          setSafeResult([])
-          return
-        }
-
-        const match = checkForMentionMatch(text)
-        debouncedSearch(match ? match.matchingString : undefined)
-      })
-    }
-
-    const removeUpdateListener = editor.registerUpdateListener(updateListener)
-
-    return () => {
-      removeUpdateListener()
-    }
-  }, [editor, checkForMentionMatch, debouncedSearch, getQueryTextForSearch, setSafeResult])
-
-  // on suggestions change
-  useEffect(() => {
-    const options = results.slice(0, maxSuggestionOptions).map((user) => new DropdownOption(user))
-    const optionsElement = (
-      <HoliLexicalMentionsDropdown
-        optionsList={options}
-        onClick={(i, option) => {
-          selectOptionAndCleanUp(option)
-        }}
-      />
-    )
-    teleport('suggestions', options.length ? optionsElement : null)
-    // `teleport` in the dependencies list causes endless loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [results, maxSuggestionOptions])
-
-  const getFullMatchOffset = (documentText: string, entryText: string, offset: number): number => {
-    let triggerOffset = offset
-    for (let i = triggerOffset; i <= entryText.length; i++) {
-      if (documentText.substr(-i) === entryText.substr(0, i)) {
-        triggerOffset = i
-      }
-    }
-    return triggerOffset
-  }
   const splitNodeContainingQuery = useCallback((editor: LexicalEditor, match: QueryMatch): TextNode | null => {
     const selection = $getSelection()
     if (!$isRangeSelection(selection) || !selection.isCollapsed()) {
@@ -187,6 +150,130 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
     },
     [editor, getQueryTextForSearch, splitNodeContainingQuery]
   )
+
+  const onEnter = useCallback(
+    (event: KeyboardEvent | null) => {
+      const selection = $getSelection()
+      if (!$isRangeSelection(selection)) {
+        return false
+      }
+
+      const selectedOption = results[selectedOptionIndex]
+      if (selectedOption) {
+        selectOptionAndCleanUp(new DropdownOption(selectedOption))
+        event?.preventDefault()
+        event?.stopPropagation()
+        return true // stops propagation
+      }
+
+      return false
+    },
+    [selectedOptionIndex, selectOptionAndCleanUp, results]
+  )
+
+  const onArrowUp = useCallback(
+    (event: KeyboardEvent | null) => {
+      const newIndex = selectedOptionIndex <= 0 ? 0 : selectedOptionIndex - 1
+      setSelectedOptionIndex(newIndex)
+      event?.preventDefault()
+      event?.stopPropagation()
+      return true
+    },
+    [selectedOptionIndex, setSelectedOptionIndex]
+  )
+
+  const onArrowDown = useCallback(
+    (event: KeyboardEvent | null) => {
+      const maxIndex = results.length > maxSuggestionOptions ? maxSuggestionOptions : results.length
+      const newIndex = selectedOptionIndex >= maxIndex ? maxIndex : selectedOptionIndex + 1
+      setSelectedOptionIndex(newIndex)
+      event?.preventDefault()
+      event?.stopPropagation()
+      return true
+    },
+    [maxSuggestionOptions, results, selectedOptionIndex, setSelectedOptionIndex]
+  )
+
+  // on input text
+  useEffect(() => {
+    const updateListener = () => {
+      editor.getEditorState().read(() => {
+        const range = document.createRange()
+        const selection = $getSelection()
+        const text = getQueryTextForSearch(editor)
+
+        if (!$isRangeSelection(selection) || !selection.isCollapsed() || text === null || range === null) {
+          setSafeResult([])
+          return
+        }
+
+        const match = checkForMentionMatch(text)
+        debouncedSearch(match ? match.matchingString : undefined)
+      })
+    }
+    const removeUpdateListener = editor.registerUpdateListener(updateListener)
+
+    const stopEnterListener = editor.registerCommand<KeyboardEvent | null>(
+      KEY_ENTER_COMMAND,
+      onEnter,
+      COMMAND_PRIORITY_NORMAL
+    )
+
+    const stopArrowUpListener = editor.registerCommand<KeyboardEvent | null>(
+      KEY_ARROW_UP_COMMAND,
+      onArrowUp,
+      COMMAND_PRIORITY_EDITOR
+    )
+
+    const stopArrowDownListener = editor.registerCommand<KeyboardEvent | null>(
+      KEY_ARROW_DOWN_COMMAND,
+      onArrowDown,
+      COMMAND_PRIORITY_EDITOR
+    )
+
+    return () => {
+      removeUpdateListener()
+      stopEnterListener()
+      stopArrowUpListener()
+      stopArrowDownListener()
+    }
+  }, [
+    editor,
+    checkForMentionMatch,
+    debouncedSearch,
+    getQueryTextForSearch,
+    setSafeResult,
+    onEnter,
+    onArrowDown,
+    onArrowUp,
+  ])
+
+  // on suggestions change
+  useEffect(() => {
+    const options = results.slice(0, maxSuggestionOptions).map((user) => new DropdownOption(user))
+    const optionsElement = (
+      <HoliLexicalMentionsDropdown
+        optionsList={options}
+        selectedIndex={selectedOptionIndex}
+        onChooseOption={(i, option) => {
+          selectOptionAndCleanUp(option)
+        }}
+      />
+    )
+    teleport('suggestions', options.length ? optionsElement : null)
+    // `teleport` in the dependencies list causes endless loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedOptionIndex, results, maxSuggestionOptions])
+
+  const getFullMatchOffset = (documentText: string, entryText: string, offset: number): number => {
+    let triggerOffset = offset
+    for (let i = triggerOffset; i <= entryText.length; i++) {
+      if (documentText.substr(-i) === entryText.substr(0, i)) {
+        triggerOffset = i
+      }
+    }
+    return triggerOffset
+  }
 
   return null
 }
