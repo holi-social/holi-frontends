@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useWindowDimensions } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -10,15 +11,15 @@ import {
   GoodNewsArticlesQueryArgs,
   GoodNewsArticlesQueryResponse,
 } from '@holi-apps/goodnews/queries'
-import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
-import GoodNewsArticleComponent from './GoodNewsArticleComponent'
+import GoodNewsCarousel from './GoodNewsCarousel'
 
 type GoodNewsListingProps = Record<string, never>
 
 /** This is a temporary component and should be replaced by a carousel-style component later */
 const GoodNewsListing: React.VFC<GoodNewsListingProps> = () => {
   const { t, i18n } = useTranslation()
+  const { width } = useWindowDimensions()
   const [fetchingMore, setFetchingMore] = useState(false)
   const { loading, error, data, fetchMore } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
     GoodNewsArticlesQuery,
@@ -59,12 +60,7 @@ const GoodNewsListing: React.VFC<GoodNewsListingProps> = () => {
 
   return (
     <>
-      {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        articles!.map((article: GoodNewsArticle) => (
-          <GoodNewsArticleComponent article={article} key={article.id} />
-        ))
-      }
+      <GoodNewsCarousel articles={articles!} width={width} />
       <HoliButton label={fetchMoreButtonText} onPress={memoizedFetchMore} testID="btn-goodnews-list-load-more">
         {fetchMoreButtonText}
       </HoliButton>
