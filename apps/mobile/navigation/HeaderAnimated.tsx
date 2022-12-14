@@ -56,7 +56,7 @@ const useHeaderHideAnimation = (headerHeight: number) => {
 
   return headerSlideAnimation.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, -headerHeight * 1.1], // use 1.1 multiplier for bigger Safe Area on iPhone 14 Pro with Dynamic Island
+    outputRange: [0, -headerHeight],
   })
 }
 
