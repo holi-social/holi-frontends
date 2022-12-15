@@ -9,13 +9,15 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export type HoliLexicalMentionsDropdownProps = {
   optionsList: DropdownOption[]
-  onClick: (i: number, option: DropdownOption) => void
+  selectedIndex?: number
+  onChooseOption: (i: number, option: DropdownOption) => void
   onMouseEnter?: (i: number, option: DropdownOption) => void
 }
 
 const HoliLexicalMentionsDropdown: React.VFC<HoliLexicalMentionsDropdownProps> = ({
   optionsList,
-  onClick,
+  selectedIndex = 0,
+  onChooseOption,
   onMouseEnter = () => null,
 }) => {
   const [hightlightedIndex, setHightlightedIndex] = useState<number>(0)
@@ -41,10 +43,10 @@ const HoliLexicalMentionsDropdown: React.VFC<HoliLexicalMentionsDropdownProps> =
             label={option.user.fullName}
             transparent
             inline
-            onPress={() => onClick(i, option)}
+            onPress={() => onChooseOption(i, option)}
             style={[
               styles.suggestionItem,
-              hightlightedIndex === i && { backgroundColor: colors.backgroundColorGreyLight },
+              (hightlightedIndex === i || selectedIndex === i) && { backgroundColor: colors.backgroundColorGreyLight },
             ]}
             contentStyle={{ alignItems: 'center', flexDirection: 'row' }}
           >

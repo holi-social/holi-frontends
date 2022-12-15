@@ -91,7 +91,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
                 label={t('user.visitProfile', { name: collaborator.fullName })}
                 onPress={() => handleNavigation(collaborator.id)}
                 key={index}
-                testID="spaces-collaborators-item"
+                testID={'spaces-collaborators-item'}
               >
                 <HoliUserAvatar
                   imageSrc={collaborator.avatar}

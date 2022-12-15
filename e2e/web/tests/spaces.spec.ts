@@ -35,10 +35,16 @@ test.describe('@Spaces', () => {
   })
 
   test('should go to filtered spaces page and display multiple spaces with that filter', async ({ page }) => {
-    await clickElementByTestId(page, 'spaces-topic-container-see-more')
+    await waitForElementByTestId(page, 'spaces-topic-container-see-more')
 
-    // check if topic title is displayed
-    await locateElementByTestId(page, 'spaces-topic-title')
+    // check if we are in the correct page with the filter queries
+    await Promise.all([
+      clickElementByTestId(page, 'spaces-topic-container-see-more'),
+      page.waitForNavigation({ url: '**/spaces/**' }),
+    ])
+
+    const spaceFilterUrlPrefix = '/spaces/filter'
+    expect(page.url()).toContain(spaceFilterUrlPrefix)
 
     // check if there is at least one space card (button to space)
     await waitForElementByTestId(page, 'btn-to-space')
@@ -67,5 +73,23 @@ test.describe('@Spaces', () => {
 
     const spaceUrlPrefix = '/spaces/'
     expect(page.url()).toContain(spaceUrlPrefix)
+  })
+
+  test('should display space collaborators', async ({ page }) => {
+    await waitForElementByTestId(page, 'spaces-container')
+    await clickElementByTestId(page, 'btn-to-space')
+    await waitForElementByTestId(page, 'space-details-container')
+
+    // check if collaborators are displayed
+    await waitForElementByTestId(page, 'space-members')
+    await clickElementByTestId(page, 'space-members')
+    await waitForElementByTestId(page, 'spaces-collaborators-item')
+
+    // check if on click the user profile is displayed
+    await clickElementByTestId(page, 'spaces-collaborators-item')
+    await waitForElementByTestId(page, 'user-profile-full-name')
+
+    const profilePrefix = '/profile/'
+    expect(page.url()).toContain(profilePrefix)
   })
 })
