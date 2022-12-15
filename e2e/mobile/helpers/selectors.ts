@@ -40,7 +40,7 @@ export const checkIfElementWithTestIdExists = async (testId: string) => {
 export const scrollToElementWithTestId = async (
   testId: string,
   direction: 'up' | 'down',
-  { timeout = 1000, maxAttempts = 1 }: { timeout?: number; maxAttempts?: number } = {}
+  { timeout = 1000, maxAttempts = 5 }: { timeout?: number; maxAttempts?: number } = {}
 ) => {
   let scrollCounter = 0
   const implicitTimeout = Appium.options.waitforTimeout
@@ -53,9 +53,9 @@ export const scrollToElementWithTestId = async (
       await Appium.setImplicitTimeout(implicitTimeout)
       return elem
     } catch (e) {
-      console.log(
-        `${new Date().getTime()}: element with testID ${testId} not found after scrolling ${scrollCounter}/${maxAttempts} times `
-      )
+      //console.log(
+      //  `${new Date().getTime()}: element with testID ${testId} not found after scrolling ${scrollCounter}/${maxAttempts} times `
+      //)
     }
     // On Android, a scrollToElement only works when it is lower on the page
     // hypothesis: scrolling up starts in the header area and the header suppresses the scroll
