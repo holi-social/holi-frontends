@@ -158,6 +158,7 @@ const HoliSelect = ({
         onFocus={() => setFocusedItem('clear')}
         onBlur={() => clearFocus('clear')}
         testID={testID && `${testID}-clear-input`}
+        style={styles.clearInputButton}
       >
         <HoliIcon icon="close" filled size={16} />
       </HoliButton>
@@ -227,6 +228,8 @@ const HoliSelect = ({
 
 export default memo(HoliSelect)
 
+const LIST_ITEM_HEIGHT = 48
+
 const styles = StyleSheet.create({
   selectedOptionsPreview: {
     marginBottom: 6,
@@ -241,7 +244,7 @@ const styles = StyleSheet.create({
     color: colors.secondaryColor,
   },
   optionsMenu: {
-    maxHeight: 300,
+    maxHeight: LIST_ITEM_HEIGHT * 4,
     borderColor: colors.borderColorSecondary,
     borderWidth: 2,
     borderTopWidth: 0,
@@ -254,7 +257,7 @@ const styles = StyleSheet.create({
     // backgroundColor: colors.backgroundColorWhite,
   },
   listItem: {
-    height: 48,
+    height: LIST_ITEM_HEIGHT,
     display: 'flex',
     paddingHorizontal: 12,
     justifyContent: 'center',
@@ -279,6 +282,8 @@ const styles = StyleSheet.create({
   trailingIconContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+  },
+  clearInputButton: {
+    width: 22,
   },
 })

@@ -210,9 +210,7 @@ const HoliTextInput = ({
             testID={`${props?.testID || 'holi-text'}-input`}
           />
           {(hasValidationErrors || props?.trailingIcon || props?.trailingComponent) && (
-            <View
-              style={[styles.trailingIconWrapper, hasValidationErrors && styles.trailingIconWrapperHasValidationErrors]}
-            >
+            <View style={styles.trailingIconWrapper}>
               {(props?.trailingIcon || props?.trailingComponent) &&
                 !hasValidationErrors &&
                 (props?.trailingComponent || <HoliIcon icon={props?.trailingIcon || ''} size={22} color={iconColor} />)}
@@ -361,12 +359,8 @@ const getStyles = (theme: HoliTheme) =>
       color: colors.errorRed,
     },
     trailingIconWrapper: {
-      width: 22,
       height: 22,
       justifyContent: 'center',
       marginRight: 12,
-    },
-    trailingIconWrapperHasValidationErrors: {
-      width: 16,
     },
   })

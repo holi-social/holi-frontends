@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly when disabled 1`] = `
+exports[`HoliTextInput renders correctly when disabled 1`] = `
 <View
   style={
     Array [
@@ -147,7 +147,7 @@ exports[`renders correctly when disabled 1`] = `
 </View>
 `;
 
-exports[`renders correctly when multiline starting with more than one line 1`] = `
+exports[`HoliTextInput renders correctly when multiline starting with more than one line 1`] = `
 <View
   style={
     Array [
@@ -291,7 +291,7 @@ exports[`renders correctly when multiline starting with more than one line 1`] =
 </View>
 `;
 
-exports[`renders correctly when multiline starting with one line 1`] = `
+exports[`HoliTextInput renders correctly when multiline starting with one line 1`] = `
 <View
   style={
     Array [
@@ -435,7 +435,7 @@ exports[`renders correctly when multiline starting with one line 1`] = `
 </View>
 `;
 
-exports[`renders correctly with default props 1`] = `
+exports[`HoliTextInput renders correctly with default props 1`] = `
 <View
   style={
     Array [
@@ -618,7 +618,7 @@ exports[`renders correctly with default props 1`] = `
 </View>
 `;
 
-exports[`renders correctly with error 1`] = `
+exports[`HoliTextInput renders correctly with error 1`] = `
 <View
   style={
     Array [
@@ -767,17 +767,11 @@ exports[`renders correctly with error 1`] = `
       />
       <View
         style={
-          Array [
-            Object {
-              "height": 22,
-              "justifyContent": "center",
-              "marginRight": 12,
-              "width": 22,
-            },
-            Object {
-              "width": 16,
-            },
-          ]
+          Object {
+            "height": 22,
+            "justifyContent": "center",
+            "marginRight": 12,
+          }
         }
       >
         <RNSVGSvgView
@@ -890,7 +884,7 @@ exports[`renders correctly with error 1`] = `
 </View>
 `;
 
-exports[`renders correctly with trailing icon 1`] = `
+exports[`HoliTextInput renders correctly with trailing icon 1`] = `
 <View
   style={
     Array [
@@ -990,15 +984,11 @@ exports[`renders correctly with trailing icon 1`] = `
       />
       <View
         style={
-          Array [
-            Object {
-              "height": 22,
-              "justifyContent": "center",
-              "marginRight": 12,
-              "width": 22,
-            },
-            false,
-          ]
+          Object {
+            "height": 22,
+            "justifyContent": "center",
+            "marginRight": 12,
+          }
         }
       >
         <RNSVGSvgView
@@ -1109,7 +1099,7 @@ exports[`renders correctly with trailing icon 1`] = `
 </View>
 `;
 
-exports[`renders correctly with type password 1`] = `
+exports[`HoliTextInput renders correctly with type password 1`] = `
 <View
   style={
     Array [
@@ -1254,7 +1244,7 @@ exports[`renders correctly with type password 1`] = `
 </View>
 `;
 
-exports[`renders correctly without label 1`] = `
+exports[`HoliTextInput renders correctly without label 1`] = `
 <View
   style={
     Array [

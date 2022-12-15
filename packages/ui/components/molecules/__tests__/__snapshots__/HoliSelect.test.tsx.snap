@@ -157,15 +157,11 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
         />
         <View
           style={
-            Array [
-              Object {
-                "height": 22,
-                "justifyContent": "center",
-                "marginRight": 12,
-                "width": 22,
-              },
-              false,
-            ]
+            Object {
+              "height": 22,
+              "justifyContent": "center",
+              "marginRight": 12,
+            }
           }
         >
           <View
@@ -173,7 +169,6 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               Object {
                 "alignItems": "center",
                 "flexDirection": "row",
-                "justifyContent": "flex-end",
               }
             }
           >
@@ -204,7 +199,9 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                       "width": "100%",
                     },
                   ],
-                  undefined,
+                  Object {
+                    "width": 22,
+                  },
                 ]
               }
               testID="test-clear-input"
@@ -447,7 +444,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
         "borderColor": "#6267e7",
         "borderTopWidth": 0,
         "borderWidth": 2,
-        "maxHeight": 300,
+        "maxHeight": 192,
       }
     }
     viewabilityConfigCallbackPairs={Array []}
@@ -796,15 +793,11 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
         />
         <View
           style={
-            Array [
-              Object {
-                "height": 22,
-                "justifyContent": "center",
-                "marginRight": 12,
-                "width": 22,
-              },
-              false,
-            ]
+            Object {
+              "height": 22,
+              "justifyContent": "center",
+              "marginRight": 12,
+            }
           }
         >
           <View
@@ -812,11 +805,9 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
               Object {
                 "alignItems": "center",
                 "flexDirection": "row",
-                "justifyContent": "flex-end",
               }
             }
           >
-            
             <View
               accessibilityLabel="multiselect.open"
               accessibilityRole="button"
@@ -1079,15 +1070,11 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
         />
         <View
           style={
-            Array [
-              Object {
-                "height": 22,
-                "justifyContent": "center",
-                "marginRight": 12,
-                "width": 22,
-              },
-              false,
-            ]
+            Object {
+              "height": 22,
+              "justifyContent": "center",
+              "marginRight": 12,
+            }
           }
         >
           <View
@@ -1095,11 +1082,9 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
               Object {
                 "alignItems": "center",
                 "flexDirection": "row",
-                "justifyContent": "flex-end",
               }
             }
           >
-            
             <View
               accessibilityLabel="multiselect.open"
               accessibilityRole="button"
@@ -1368,15 +1353,11 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         />
         <View
           style={
-            Array [
-              Object {
-                "height": 22,
-                "justifyContent": "center",
-                "marginRight": 12,
-                "width": 22,
-              },
-              false,
-            ]
+            Object {
+              "height": 22,
+              "justifyContent": "center",
+              "marginRight": 12,
+            }
           }
         >
           <View
@@ -1384,11 +1365,9 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               Object {
                 "alignItems": "center",
                 "flexDirection": "row",
-                "justifyContent": "flex-end",
               }
             }
           >
-            
             <View
               accessibilityLabel="multiselect.close"
               accessibilityRole="button"
@@ -1585,7 +1564,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         "borderColor": "#6267e7",
         "borderTopWidth": 0,
         "borderWidth": 2,
-        "maxHeight": 300,
+        "maxHeight": 192,
       }
     }
     viewabilityConfigCallbackPairs={Array []}

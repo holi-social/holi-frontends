@@ -156,15 +156,11 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
         />
         <View
           style={
-            Array [
-              Object {
-                "height": 22,
-                "justifyContent": "center",
-                "marginRight": 12,
-                "width": 22,
-              },
-              false,
-            ]
+            Object {
+              "height": 22,
+              "justifyContent": "center",
+              "marginRight": 12,
+            }
           }
         >
           <RNSVGSvgView
@@ -400,17 +396,11 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
         />
         <View
           style={
-            Array [
-              Object {
-                "height": 22,
-                "justifyContent": "center",
-                "marginRight": 12,
-                "width": 22,
-              },
-              Object {
-                "width": 16,
-              },
-            ]
+            Object {
+              "height": 22,
+              "justifyContent": "center",
+              "marginRight": 12,
+            }
           }
         >
           <RNSVGSvgView
