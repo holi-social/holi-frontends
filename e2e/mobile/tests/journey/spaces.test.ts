@@ -66,4 +66,21 @@ describe('@Spaces', () => {
       await tapOnElementWithTestId('nav-button-back')
     }
   })
+
+  it('should display space collaborators', async () => {
+    // click first element on page
+    await tapOnElementWithTestId('btn-to-space')
+    await waitForElementWithTestId('space-details-container')
+
+    // open modal
+    await waitForElementWithTestId('space-header')
+    await tapOnElementWithTestId('btn-to-open-space-collaborators-modal', 1000)
+
+    // check if collaborators are displayed
+    await waitForElementWithTestId('spaces-collaborators-item')
+
+    // check if on click the user profile is displayed
+    await tapOnElementWithTestId('spaces-collaborators-item', 1000)
+    await waitForElementWithTestId('user-profile-full-name')
+  })
 })
