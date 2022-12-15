@@ -16,12 +16,12 @@ describe('@Spaces', () => {
     await navigateToSpaces()
   })
 
-  /*   afterEach(async () => {
+  afterEach(async () => {
     // Speeds up local execution
     if (target === 'local') {
       await tapOnElementWithTestId('btn-to-home-view', 0)
     }
-  }) */
+  })
 
   it('should display multiple topics with spaces', async () => {
     const topics = await locateMultipleElementsWithTestId('spaces-topic-container')
@@ -66,33 +66,6 @@ describe('@Spaces', () => {
       await tapOnElementWithTestId('nav-button-back')
     }
   })
-  /* 
-  test('should display space collaborators', async ({ page }) => {
-    await waitForElementByTestId(page, 'spaces-container')
-    await clickElementByTestId(page, 'btn-to-space')
-    await waitForElementByTestId(page, 'space-details-container')
-
-    await checkAccessibility(page)
-
-    // check if collaborators are displayed
-    await waitForElementByTestId(page, 'space-members')
-    await clickElementByTestId(page, 'space-members')
-    await waitForElementByTestId(page, 'spaces-collaborators-modal')
-
-    // check if on click the arrow down the modal layer is closed
-    await waitForElementByTestId(page, 'nav-button-down')
-    await clickElementByTestId(page, 'nav-button-down')
-    await waitForElementByTestId(page, 'space-details-container')
-
-    // check if on click the user profile is displayed
-    await clickElementByTestId(page, 'space-members')
-    await waitForElementByTestId(page, 'spaces-collaborators-item')
-    await clickElementByTestId(page, 'spaces-collaborators-item')
-    await waitForElementByTestId(page, 'user-profile-full-name')
-
-    const profilePrefix = '/profile/'
-    expect(page.url()).toContain(profilePrefix)
-  }) */
 
   it('should display space collaborators', async () => {
     // click first element on page
@@ -102,5 +75,12 @@ describe('@Spaces', () => {
     // open modal
     await waitForElementWithTestId('space-header')
     await tapOnElementWithTestId('space-members-modal-btn', 1000)
+
+    // check if collaborators are displayed
+    await waitForElementWithTestId('spaces-collaborators-item')
+
+    // check if on click the user profile is displayed
+    await tapOnElementWithTestId('spaces-collaborators-item', 1000)
+    await waitForElementWithTestId('user-profile-full-name')
   })
 })
