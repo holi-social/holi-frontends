@@ -1,15 +1,11 @@
-import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, ViewStyle } from 'react-native'
 
 import HoliIcon from '@holi//ui/components/atoms/HoliIcon'
 import { displayError } from '@holi/core/errors/helpers'
-import {
-  UpdateConnectionWithUserResponse,
-  updateConnectionWithUserMutation,
-} from '@holi/core/screens/userprofile/queries'
-import { UpdateConnectionWithUserActions, User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
+import { useUserConnection } from '@holi/core/helpers'
+import { User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
@@ -20,9 +16,7 @@ type UserConnectionButtonsProps = {
 }
 
 const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, style }) => {
-  const [updateConnectionWithUser, { loading, error }] = useMutation<UpdateConnectionWithUserResponse>(
-    updateConnectionWithUserMutation
-  )
+  const { connect, disconnect, error, loading } = useUserConnection()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const { t } = useTranslation()
 
@@ -34,23 +28,12 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
   const connectionStatusToMyself = user.connectionStatusToMyself || UserConnectionStatus.NOT_LOGGED_IN
   const connectionRequested = connectionStatusToMyself === UserConnectionStatus.REQUESTED
 
-  const updateUserConnectionStatus = (action: UpdateConnectionWithUserActions) => {
-    updateConnectionWithUser({
-      variables: {
-        input: {
-          userId: user.id,
-          action,
-        },
-      },
-    })
-  }
-
   const onPrimaryPress = () => {
     if (
       connectionStatusToMyself === UserConnectionStatus.NOT_CONNECTED ||
       connectionStatusToMyself === UserConnectionStatus.PENDING_CONFIRMATION
     ) {
-      updateUserConnectionStatus(UpdateConnectionWithUserActions.CONNECT)
+      connect(user.id)
     } else {
       setShowConfirmationModal(true)
     }
@@ -77,7 +60,7 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
           type="secondary"
           label={t('user.profileView.connection.button.IGNORE')}
           style={style}
-          onPress={() => updateUserConnectionStatus(UpdateConnectionWithUserActions.DISCONNECT)}
+          onPress={() => disconnect(user.id)}
           disabled={loading}
           testID={'user-connection-button-ignore'}
         >
@@ -101,7 +84,7 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
           ? {
               onConfirm: () => {
                 setShowConfirmationModal(false)
-                updateUserConnectionStatus(UpdateConnectionWithUserActions.DISCONNECT)
+                disconnect(user.id)
               },
             }
           : {})}
