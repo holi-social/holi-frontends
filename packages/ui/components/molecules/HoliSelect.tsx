@@ -96,6 +96,7 @@ const HoliSelect = ({
       onChange(option)
       setIsOpened(false)
       setSearchText('')
+      Keyboard.dismiss()
     },
     [onChange, setIsOpened, setSearchText]
   )
