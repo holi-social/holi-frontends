@@ -49,11 +49,11 @@ const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
 
       <DefaultLayout
         bounces={false}
-        style={styles.wrapper}
         headerOverlap
-        hasFooterTabBar={true}
+        hasFooterTabBar={false}
         onScroll={onScreenScroll}
         scrollEventThrottle={200}
+        style={{ paddingBottom: 0, height: '100%', backgroundColor: colors.backgroundColorGreyLight }}
       >
         <GoodNewsCarousel />
       </DefaultLayout>

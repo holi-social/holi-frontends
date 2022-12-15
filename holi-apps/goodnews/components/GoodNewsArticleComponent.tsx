@@ -22,6 +22,7 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = (prop
   const article = props.article
   const { setOptions } = useUnifiedNavigation()
 
+  // TODO only execute when this article is visible
   useLayoutEffect(
     () =>
       setOptions({
@@ -38,12 +39,15 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = (prop
   )
 
   return (
-    <>
-      <View style={styles.headerContainer}>
-        <ImageBackground source={{ uri: article.pictureUrl }} resizeMode="cover" style={styles.headerBackgroundImage}>
-          <HoliText style={[styles.pictureCredit, styles.iconShadow]}>{article.pictureCredit}</HoliText>
-        </ImageBackground>
-      </View>
+    <View
+      style={{
+        flex: 1,
+        flexGrow: 1,
+      }}
+    >
+      <ImageBackground source={{ uri: article.pictureUrl }} resizeMode="cover" style={styles.headerBackgroundImage}>
+        <HoliText style={[styles.pictureCredit, styles.iconShadow]}>{article.pictureCredit}</HoliText>
+      </ImageBackground>
       <View style={[mixins.container, styles.textContent]} testID="goodnews-list-item">
         <HoliText size={'small'} style={{ paddingBottom: 8 }}>
           {article.source || ''}
@@ -64,7 +68,7 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = (prop
           <HoliIcon icon={'share-box'} />
         </HoliButton>
       </View>
-    </>
+    </View>
   )
 }
 
@@ -72,16 +76,14 @@ export default GoodNewsArticleComponent
 
 const styles = StyleSheet.create({
   /* HEADER AREA */
-  headerContainer: {
-    borderBottomWidth: 1,
-    borderBottomStyle: 'solid',
-    borderBottomColor: colors.borderColorBlack,
-  },
   headerBackgroundImage: {
-    height: Platform.select({ web: 680, native: 340 }),
     justifyContent: 'flex-end',
-    flexGrow: 0,
+    alignContent: 'stretch',
+    flexGrow: 500,
     flexShrink: 1,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: colors.borderColorBlack,
   },
   pictureCredit: {
     color: colors.fontColorWhite,
@@ -92,7 +94,6 @@ const styles = StyleSheet.create({
   /* CONTENT AREA */
   textContent: {
     flexGrow: 1,
-    flexShrink: 1,
     backgroundColor: colors.backgroundColorGreyLight,
     paddingTop: 16,
     paddingBottom: 24,

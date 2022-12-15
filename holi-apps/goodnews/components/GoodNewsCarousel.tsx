@@ -14,6 +14,7 @@ import {
 import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 import GoodNewsArticleComponent from './GoodNewsArticleComponent'
+import HoliButton from "@holi/ui/components/molecules/HoliButton"
 
 type GoodNewsCarouselProps = Record<string, never>
 
@@ -74,7 +75,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
         onSnapToItem={(index) => setActiveSlide(index)}
         sliderWidth={width}
         itemWidth={width}
-        contentContainerCustomStyle={{ flexBasis: 'auto', flexGrow: 1, flexShrink: 0 }}
+        contentContainerCustomStyle={{ flexBasis: 'auto', flexGrow: 1 }}
       />
       <Pagination
         tappableDots={true}
@@ -87,11 +88,9 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
         inactiveDotScale={0.6}
         containerStyle={{ flexBasis: 'auto', flexGrow: 0, flexShrink: 1 }}
       />
-      {/*
-      <HoliButton label={fetchMoreButtonText} onPress={memoizedFetchMore} testID="btn-goodnews-list-load-more">
+      {/*<HoliButton label={fetchMoreButtonText} onPress={memoizedFetchMore} testID="btn-goodnews-list-load-more">
         {fetchMoreButtonText}
-      </HoliButton>
-      #*/}
+      </HoliButton>*/}
     </>
   )
 }
