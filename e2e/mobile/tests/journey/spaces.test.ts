@@ -74,7 +74,7 @@ describe('@Spaces', () => {
 
     // open modal
     await waitForElementWithTestId('space-header')
-    await tapOnElementWithTestId('space-members-modal-btn', 1000)
+    await tapOnElementWithTestId('space-collaborators-modal-btn', 1000)
 
     // check if collaborators are displayed
     await waitForElementWithTestId('spaces-collaborators-item')
