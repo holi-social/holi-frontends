@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
   placeHolder: {
     // space behind the action button
     // and room when the keyboard is open
+    zIndex: -1, // necessary to avoid it being on top of absolute positioned elements
     height: 120,
   },
   actionButtonContainer: {

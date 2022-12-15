@@ -2,6 +2,7 @@
 
 exports[`HoliSelect SingleSelect correctly filters options 1`] = `
 <View
+  onLayout={[Function]}
   style={Object {}}
 >
   <View
@@ -302,7 +303,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                 Array [
                   Array [
                     Object {
-                      "width": "100%",
+                      "width": "auto",
                     },
                   ],
                   undefined,
@@ -439,12 +440,16 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
     stickyHeaderIndices={Array []}
     style={
       Object {
+        "backgroundColor": "#fff",
         "borderBottomLeftRadius": 4,
         "borderBottomRightRadius": 4,
         "borderColor": "#6267e7",
         "borderTopWidth": 0,
         "borderWidth": 2,
         "maxHeight": 192,
+        "position": "absolute",
+        "top": 0,
+        "width": "100%",
       }
     }
     viewabilityConfigCallbackPairs={Array []}
@@ -645,6 +650,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
 
 exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
 <View
+  onLayout={[Function]}
   style={Object {}}
 >
   <View
@@ -832,7 +838,7 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
                 Array [
                   Array [
                     Object {
-                      "width": "100%",
+                      "width": "auto",
                     },
                   ],
                   undefined,
@@ -922,6 +928,7 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
 
 exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
 <View
+  onLayout={[Function]}
   style={Object {}}
 >
   <View
@@ -1109,7 +1116,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
                 Array [
                   Array [
                     Object {
-                      "width": "100%",
+                      "width": "auto",
                     },
                   ],
                   undefined,
@@ -1198,6 +1205,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
 
 exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
 <View
+  onLayout={[Function]}
   style={Object {}}
 >
   <View
@@ -1392,7 +1400,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                 Array [
                   Array [
                     Object {
-                      "width": "100%",
+                      "width": "auto",
                     },
                   ],
                   undefined,
@@ -1559,12 +1567,16 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
     stickyHeaderIndices={Array []}
     style={
       Object {
+        "backgroundColor": "#fff",
         "borderBottomLeftRadius": 4,
         "borderBottomRightRadius": 4,
         "borderColor": "#6267e7",
         "borderTopWidth": 0,
         "borderWidth": 2,
         "maxHeight": 192,
+        "position": "absolute",
+        "top": 0,
+        "width": "100%",
       }
     }
     viewabilityConfigCallbackPairs={Array []}

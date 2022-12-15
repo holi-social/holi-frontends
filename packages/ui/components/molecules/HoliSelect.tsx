@@ -47,6 +47,9 @@ const HoliSelect = ({
   const [searchText, setSearchText] = useState('')
   const [isOpened, setIsOpened] = useState(false)
   const [focusedItem, setFocusedItem] = useState<string | null>(null)
+  const [textInputHeight, setTextInputHeight] = useState(0)
+
+  const styles = useMemo(() => getStyles(textInputHeight), [textInputHeight])
 
   const onChangeText = useCallback(
     (text: string) => {
@@ -61,7 +64,10 @@ const HoliSelect = ({
       // without the timeout the dropdown closes upon selecting an item
       // we should first wait if another element is focused in the meantime
       const timer = setTimeout(() => {
-        setFocusedItem((currentlyFocusedItem) => (currentlyFocusedItem === focusToClear ? null : currentlyFocusedItem))
+        setFocusedItem((currentlyFocusedItem) => {
+          if (focusToClear === 'toggle') return null // always close when clicked on the toggle button
+          return currentlyFocusedItem === focusToClear ? null : currentlyFocusedItem
+        })
       }, 0)
       return () => clearTimeout(timer)
     },
@@ -125,7 +131,7 @@ const HoliSelect = ({
         </View>
       </HoliButton>
     ),
-    [testID, setFocusAndOpen, clearFocus, onSelect]
+    [testID, setFocusAndOpen, clearFocus, onSelect, styles]
   )
 
   const noOptions = (
@@ -139,6 +145,7 @@ const HoliSelect = ({
       <HoliButton
         label={t(isOpened ? 'multiselect.close' : 'multiselect.open')}
         transparent
+        inline
         onPress={toggleMenu}
         onFocus={() => setFocusedItem('toggle')}
         onBlur={() => clearFocus('toggle')}
@@ -163,7 +170,7 @@ const HoliSelect = ({
         <HoliIcon icon="close" filled size={16} />
       </HoliButton>
     )
-  }, [t, testID, onChangeText, setFocusedItem, clearFocus])
+  }, [t, testID, onChangeText, setFocusedItem, clearFocus, styles])
   const trailingComponent = useMemo(() => {
     return (
       <View style={styles.trailingIconContainer}>
@@ -171,7 +178,7 @@ const HoliSelect = ({
         {toggleMenuButton}
       </View>
     )
-  }, [clearInputButton, searchText, toggleMenuButton])
+  }, [clearInputButton, searchText, toggleMenuButton, styles])
 
   const regex = useMemo(() => searchText && new RegExp(searchText, 'i'), [searchText])
   const selectedText = options
@@ -184,9 +191,16 @@ const HoliSelect = ({
   )
 
   const placeholderTextColor = selectedText ? colors.fontColor : tinycolor(colors.fontColorGrey).lighten(30).toString()
-  // TODO(SF) list above other content
+
+  /**
+   * TODO:
+   * - Check onLayout the screen position of the element in order to avoid the dropdown list items
+   * overflowing the screen (we might need a fullscreen dropdown depending on screen height and y position)
+   *
+   * - Add a modal wrapper to close the dropdown when clicking outside (needed for mobile)
+   */
   return (
-    <View style={style}>
+    <View style={style} onLayout={(event) => setTextInputHeight(event.nativeEvent.layout.height)}>
       <HoliTextInput
         inputLabel={inputLabel}
         value={searchText}
@@ -230,60 +244,60 @@ export default memo(HoliSelect)
 
 const LIST_ITEM_HEIGHT = 48
 
-const styles = StyleSheet.create({
-  selectedOptionsPreview: {
-    marginBottom: 6,
-  },
-  textInputOpened: {
-    borderBottomWidth: 0,
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-    borderColor: colors.borderColorSecondary,
-  },
-  textInputLabelOpened: {
-    color: colors.secondaryColor,
-  },
-  optionsMenu: {
-    maxHeight: LIST_ITEM_HEIGHT * 4,
-    borderColor: colors.borderColorSecondary,
-    borderWidth: 2,
-    borderTopWidth: 0,
-    borderBottomLeftRadius: 4,
-    borderBottomRightRadius: 4,
-    // position: 'absolute',
-    // width: '100%',
-    // top: 77, // TODO(SF) textinput height
-    // zIndex: 2,
-    // backgroundColor: colors.backgroundColorWhite,
-  },
-  listItem: {
-    height: LIST_ITEM_HEIGHT,
-    display: 'flex',
-    paddingHorizontal: 12,
-    justifyContent: 'center',
-  },
-  listItemContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  listItemIconContainer: {
-    width: 24,
-    height: 24,
-    borderRadius: 24,
-    borderWidth: 1,
-    borderColor: tinycolor(colors.borderColorGrey).darken(5).toString(),
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  listItemIconContainerSelected: {
-    borderWidth: 0,
-    backgroundColor: colors.fontColorBlack,
-  },
-  trailingIconContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  clearInputButton: {
-    width: 22,
-  },
-})
+const getStyles = (textInputHeight: number) =>
+  StyleSheet.create({
+    selectedOptionsPreview: {
+      marginBottom: 6,
+    },
+    textInputOpened: {
+      borderBottomWidth: 0,
+      borderBottomLeftRadius: 0,
+      borderBottomRightRadius: 0,
+      borderColor: colors.borderColorSecondary,
+    },
+    textInputLabelOpened: {
+      color: colors.secondaryColor,
+    },
+    optionsMenu: {
+      maxHeight: LIST_ITEM_HEIGHT * 4,
+      borderColor: colors.borderColorSecondary,
+      borderWidth: 2,
+      borderTopWidth: 0,
+      borderBottomLeftRadius: 4,
+      borderBottomRightRadius: 4,
+      position: 'absolute',
+      width: '100%',
+      top: textInputHeight,
+      backgroundColor: colors.backgroundColorWhite,
+    },
+    listItem: {
+      height: LIST_ITEM_HEIGHT,
+      display: 'flex',
+      paddingHorizontal: 12,
+      justifyContent: 'center',
+    },
+    listItemContent: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    listItemIconContainer: {
+      width: 24,
+      height: 24,
+      borderRadius: 24,
+      borderWidth: 1,
+      borderColor: tinycolor(colors.borderColorGrey).darken(5).toString(),
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    listItemIconContainerSelected: {
+      borderWidth: 0,
+      backgroundColor: colors.fontColorBlack,
+    },
+    trailingIconContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    clearInputButton: {
+      width: 22,
+    },
+  })
