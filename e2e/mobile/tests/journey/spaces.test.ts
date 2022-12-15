@@ -2,7 +2,6 @@ import { waitForHomeScreen } from '../../helpers/navigation'
 import {
   locateMultipleElementsWithTestId,
   tapOnElementWithTestId,
-  waitForElementWithInnerText,
   waitForElementWithTestId,
 } from '../../helpers/selectors'
 
@@ -32,13 +31,14 @@ describe('@Spaces', () => {
   })
 
   it('should go to filtered spaces page and display multiple spaces with that filter', async () => {
-    const topicElement = await waitForElementWithTestId('spaces-topic-title')
-    const topicTitle = await topicElement.getText()
+    //const topicElement = await waitForElementWithTestId('spaces-topic-title')
+    //const topicTitle = await topicElement.getText()
 
     await tapOnElementWithTestId('spaces-topic-title')
 
     // check if page title is the same as topic title
-    await waitForElementWithInnerText(topicTitle)
+    //await waitForElementWithInnerText(topicTitle)
+    // instead, get an element, get its text and then compare both texts
 
     // check if there is at least one space card (button to space)
     await waitForElementWithTestId('btn-to-space')
@@ -65,5 +65,22 @@ describe('@Spaces', () => {
       // navigate back
       await tapOnElementWithTestId('nav-button-back')
     }
+  })
+
+  it('should display space collaborators', async () => {
+    // click first element on page
+    await tapOnElementWithTestId('btn-to-space')
+    await waitForElementWithTestId('space-details-container')
+
+    // open modal
+    await waitForElementWithTestId('space-header')
+    await tapOnElementWithTestId('btn-to-open-space-collaborators-modal', 1000)
+
+    // check if collaborators are displayed
+    await waitForElementWithTestId('spaces-collaborators-item')
+
+    // check if on click the user profile is displayed
+    await tapOnElementWithTestId('spaces-collaborators-item', 1000)
+    await waitForElementWithTestId('user-profile-full-name')
   })
 })

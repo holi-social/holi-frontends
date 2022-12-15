@@ -40,31 +40,69 @@ export const checkIfElementWithTestIdExists = async (testId: string) => {
 export const scrollToElementWithTestId = async (
   testId: string,
   direction: 'up' | 'down',
-  { timeout, maxAttempts = 1 }: { timeout?: number; maxAttempts?: number } = {}
+  { timeout = 1000, maxAttempts = 5 }: { timeout?: number; maxAttempts?: number } = {}
 ) => {
-  // scrollIntoView is not supported for iOS and webdriverio currently requires a manual scroll down, instead of a scroll into element
-  // https://github.com/webdriverio/webdriverio/issues/6537 and https://stackoverflow.com/questions/42656872/how-to-do-scroll-on-ios-native-app-with-webdriver-io
-  if (platform === 'ios') {
-    let scrollCounter = 0
-    while (scrollCounter < maxAttempts) {
-      scrollCounter++
-      try {
-        await Appium.execute('mobile: scroll', { direction: direction })
-
-        return await waitForElementWithTestId(testId)
-      } catch (e) {
-        // element not visible yet, throw if max attempt count reached
-        if (scrollCounter === maxAttempts) {
-          throw e
-        }
-      }
+  let scrollCounter = 0
+  const implicitTimeout = Appium.options.waitforTimeout
+  await Appium.setImplicitTimeout(timeout)
+  while (scrollCounter < maxAttempts) {
+    // is the element in the viewport?
+    try {
+      const elem = await waitForElementWithTestId(testId, 1)
+      // reset the timeout before exiting the function
+      await Appium.setImplicitTimeout(implicitTimeout)
+      return elem
+    } catch (e) {
+      //console.log(
+      //  `${new Date().getTime()}: element with testID ${testId} not found after scrolling ${scrollCounter}/${maxAttempts} times `
+      //)
     }
+    // On Android, a scrollToElement only works when it is lower on the page
+    // hypothesis: scrolling up starts in the header area and the header suppresses the scroll
+    // Therefore, we do scrolling via finger actions
+    // Luckily, this also works on iOS
+    await scroll(direction)
+    scrollCounter++
   }
+  await Appium.setImplicitTimeout(implicitTimeout)
+  // last try
+  return await waitForElementWithTestId(testId, 1)
+}
 
-  // See https://developer.android.com/reference/androidx/test/uiautomator/UiScrollable +
-  // https://developer.android.com/reference/androidx/test/uiautomator/UiSelector
-  const selector = `android=new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().resourceId("${testId}"))`
-  return waitForElement(selector, timeout)
+export const scroll = async (
+  direction: 'up' | 'down',
+  { scrollDuration = 150, repetitions = 1 }: { scrollDuration?: number; repetitions?: number } = {}
+) => {
+  const upperPercentage = 20 // hypothesis: if this is too small, scroll up does not work because scroll movement starts in the header area
+  const lowerPercentage = 80
+  const anchorPercentage = 50
+
+  const { width, height } = await Appium.getWindowSize()
+  // might be needed for some devices (retina style displays?), leaving it as a reference.
+  //const density = (await driver.getDisplayDensity()) / 100
+  const anchor = (width * anchorPercentage) / 100
+  const upperPoint = (height * upperPercentage) / 100
+  const lowerPoint = (height * lowerPercentage) / 100
+  const startPoint = direction == 'down' ? lowerPoint : upperPoint
+  const movementY = direction == 'down' ? upperPoint - lowerPoint : lowerPoint - upperPoint
+
+  for (let rep = 0; rep < repetitions; rep++) {
+    await Appium.performActions([
+      {
+        type: 'pointer',
+        id: 'finger1',
+        parameters: { pointerType: 'touch' },
+        actions: [
+          { type: 'pointerMove', duration: 0, x: anchor, y: startPoint },
+          { type: 'pointerDown', button: 0 },
+          { type: 'pause', duration: 100 },
+          { type: 'pointerMove', duration: scrollDuration, origin: 'pointer', x: 0, y: movementY },
+          { type: 'pointerUp', button: 0 },
+          { type: 'pause', duration: 100 },
+        ],
+      },
+    ])
+  }
 }
 
 const locateMultipleElements = async (elementSelector: string): Promise<Record<string, unknown>[]> => {
