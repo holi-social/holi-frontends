@@ -53,7 +53,7 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
           transparent
           inline
           onPress={openModal}
-          testID="space-collaborators-modal-btn"
+          testID="btn-to-open-space-collaborators-modal"
         >
           <HoliUserAvatarPile users={sortedMembersList} usersToShow={3} counter collapse testID="space-members">
             <HoliText size="small" style={styles.avatarPileText}>
