@@ -1,7 +1,8 @@
 // based on https://github.com/onmotion/react-native-autocomplete-dropdown/
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, Keyboard, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
+import { Keyboard, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler'
 import tinycolor from 'tinycolor2'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
