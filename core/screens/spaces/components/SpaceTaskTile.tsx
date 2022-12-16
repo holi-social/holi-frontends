@@ -6,7 +6,6 @@ import { Task } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -63,7 +62,8 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
           <HoliText size="small">{task.description}</HoliText>
         </HoliReadMore>
       </View>
-      <View style={styles.buttonContainer}>
+      {/* TODO: reinsert when claiming is implemented */}
+      {/* <View style={styles.buttonContainer}>
         <HoliButton
           label={t('spaces.tasks.cta_claim')}
           onPress={() => ({})} // TODO add action
@@ -74,8 +74,7 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
             {t('spaces.tasks.cta_claim')}
           </HoliText>
         </HoliButton>
-      </View>
-      {/* TODO: reinsert when claiming is implemented */}
+      </View> */}
       {/* <HoliText size="extrasmall" style={styles.spotsClaimed}>
         {t('spaces.tasks.spots_claimed', { taken: task.slotsTaken, available: task.slotsAvailable })}
       </HoliText> */}
