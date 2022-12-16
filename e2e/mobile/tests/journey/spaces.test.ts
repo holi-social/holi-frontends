@@ -1,5 +1,4 @@
 import { waitForHomeScreen } from '../../helpers/navigation'
-import { itif } from '../../helpers/platform'
 import {
   fillFieldByTestId,
   locateMultipleElementsWithTestId,
