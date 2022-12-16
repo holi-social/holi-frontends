@@ -14,7 +14,7 @@ export type LoginRedirectProps = {
 }
 
 export type LoginRedirectContextType = {
-  openLoginDialog: (props: LoginRedirectProps) => void
+  openLoginDialog: (props?: LoginRedirectProps) => void
 }
 
 export const LoginRedirectContext = createContext<LoginRedirectContextType>({
@@ -27,7 +27,7 @@ export const LoginRedirectProvider: React.FC = ({ children }) => {
   const [confirmVisible, setConfirmVisible] = useState(false)
   const [props, setProps] = useState<LoginRedirectProps>({
     title: t('loginRedirect.title'),
-    text: '',
+    text: t('loginRedirect.text'),
     btnTextConfirm: t('loginRedirect.btnConfirm'),
     btnTextDismiss: t('global.decline'),
     onConfirm: () => true,
