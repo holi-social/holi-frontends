@@ -59,6 +59,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     [RouteName.GoodNewsApp]: {
       screens: {
         [RouteName.GoodNewsAppHome]: 'apps/goodnews',
+        [RouteName.GoodNewsArticleTeaser]: 'apps/goodnews/teaser',
       },
     },
     [RouteName.VolunteeringApp]: {

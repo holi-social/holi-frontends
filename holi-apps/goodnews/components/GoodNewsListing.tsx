@@ -3,6 +3,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { logError } from '@holi/core/errors/helpers'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 import {
@@ -34,6 +35,8 @@ const GoodNewsListing: React.VFC<GoodNewsListingProps> = () => {
     return articles ? articles[articles.length - 1].date : undefined
   }, [articles])
 
+  const { navigate } = useRouting()
+
   const memoizedFetchMore = useCallback(() => {
     return fetchMore({
       variables: {
@@ -62,7 +65,11 @@ const GoodNewsListing: React.VFC<GoodNewsListingProps> = () => {
       {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         articles!.map((article: GoodNewsArticle) => (
-          <GoodNewsArticleComponent article={article} key={article.id} />
+          <>
+            <HoliButton label={''} onPress={() => navigate('/apps/goodnews/teaser')} testID="btn-goodnews-list-item">
+              <GoodNewsArticleComponent article={article} key={article.id} />
+            </HoliButton>
+          </>
         ))
       }
       <HoliButton label={fetchMoreButtonText} onPress={memoizedFetchMore} testID="btn-goodnews-list-load-more">
