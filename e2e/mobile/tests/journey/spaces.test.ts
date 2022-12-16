@@ -31,7 +31,7 @@ describe('@Spaces', () => {
     expect(spaces.length).toBeGreaterThan(1)
   })
 
-  test('should open the spaces filter menu and filter spaces with multiple filters', async () => {
+  it('should open the spaces filter menu and filter spaces with multiple filters', async () => {
     await waitForElementWithTestId('btn-filter-spaces')
 
     await tapOnElementWithTestId('btn-filter-spaces')
