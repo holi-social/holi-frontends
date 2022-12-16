@@ -1,7 +1,7 @@
 // based on https://github.com/onmotion/react-native-autocomplete-dropdown/
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Keyboard, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
+import { Keyboard, Platform, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import tinycolor from 'tinycolor2'
 
@@ -52,6 +52,11 @@ const HoliSelect = ({
 
   const styles = useMemo(() => getStyles(textInputHeight), [textInputHeight])
 
+  const determineTextInputHeight = useCallback(
+    (event) => setTextInputHeight(event.nativeEvent.layout.height),
+    [setTextInputHeight]
+  )
+
   const onChangeText = useCallback(
     (text: string) => {
       setIsOpened(true)
@@ -66,7 +71,8 @@ const HoliSelect = ({
       // we should first wait if another element is focused in the meantime
       const timer = setTimeout(() => {
         setFocusedItem((currentlyFocusedItem) => {
-          if (focusToClear === 'toggle') return null // always close when clicked on the toggle button
+          // always close when clicking on the toggle button on mobile
+          if (Platform.OS !== 'web' && focusToClear === 'toggle') return null
           return currentlyFocusedItem === focusToClear ? null : currentlyFocusedItem
         })
       }, 0)
@@ -80,7 +86,7 @@ const HoliSelect = ({
     if (!focusedItem) {
       setIsOpened(false)
       setSearchText('')
-      Keyboard.dismiss()
+      Platform.OS !== 'web' && Keyboard.dismiss()
     }
   }, [focusedItem, setIsOpened, setSearchText])
 
@@ -202,7 +208,7 @@ const HoliSelect = ({
    * - Add a modal wrapper to close the dropdown when clicking outside (needed for mobile)
    */
   return (
-    <View style={style} onLayout={(event) => setTextInputHeight(event.nativeEvent.layout.height)}>
+    <View style={style} onLayout={determineTextInputHeight}>
       <HoliTextInput
         inputLabel={inputLabel}
         value={searchText}
@@ -252,7 +258,6 @@ const getStyles = (textInputHeight: number) =>
       marginBottom: 6,
     },
     textInputOpened: {
-      borderBottomWidth: 0,
       borderBottomLeftRadius: 0,
       borderBottomRightRadius: 0,
       borderColor: colors.borderColorSecondary,
@@ -269,7 +274,7 @@ const getStyles = (textInputHeight: number) =>
       borderBottomRightRadius: 4,
       position: 'absolute',
       width: '100%',
-      top: textInputHeight,
+      top: textInputHeight - 3, // Display above bottom border of input field
       backgroundColor: colors.backgroundColorWhite,
     },
     listItem: {
