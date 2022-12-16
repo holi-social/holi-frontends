@@ -5,21 +5,33 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type HoliLink = {
+export type HoliLinkProps = {
   href: string
   label: string
   external?: boolean
   onPress?: CallableFunction
   style?: StyleProp<TextStyle>
+  textStyle?: StyleProp<TextStyle>
   testID?: string
 }
 
-const HoliLink: React.FC<HoliLink> = ({ href, label, external, onPress, style, children, testID = 'text-link' }) => {
+const HoliLink: React.FC<HoliLinkProps> = ({
+  href,
+  label,
+  external,
+  onPress,
+  style,
+  textStyle,
+  children,
+  testID = 'text-link',
+}) => {
   const { navigate } = useUnifiedNavigation()
 
   const onLinkPress = React.useCallback(() => {
-    onPress?.()
-    external ? Linking.openURL(href) : navigate(href)
+    const confirmPropagation = onPress?.()
+    if (confirmPropagation) {
+      external ? Linking.openURL(href) : navigate(href)
+    }
   }, [external, href, navigate, onPress])
 
   return (
@@ -27,7 +39,7 @@ const HoliLink: React.FC<HoliLink> = ({ href, label, external, onPress, style, c
       accessibilityRole={'button'}
       accessibilityLabel={label}
       accessible
-      style={[styles.link, style]}
+      style={[styles.link, style, textStyle]}
       onPress={onLinkPress}
       testID={testID}
     >
