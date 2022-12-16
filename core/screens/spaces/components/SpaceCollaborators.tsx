@@ -1,7 +1,7 @@
 import partition from 'lodash.partition'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StatusBar, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, SafeAreaView, ScrollView, StatusBar, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Space } from '@holi/core/screens/spaces/types'
@@ -61,7 +61,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
   return (
     <>
       <ModalBasic
-        style={[styles.defaultLayout, style]}
+        style={style}
         show={visible}
         animationType="slide"
         label={t('spaces.collaborators')}
@@ -69,19 +69,21 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
         onDismiss={onDismiss}
       >
         <View style={[mixins.container, styles.wrapper]}>
-          <View style={styles.header}>
-            <HoliButton
-              style={styles.closeModal}
-              label={t('modal.backdrop')}
-              inline
-              transparent
-              onPress={onDismiss}
-              testID={Platform.OS === 'web' ? 'nav-button-down' : 'nav-button-back'}
-            >
-              <HoliIcon icon={Platform.OS === 'web' ? 'arrow-left' : 'arrow-down-s'} />
-            </HoliButton>
-            <HoliText style={styles.title}>{t('spaces.collaborators')}</HoliText>
-          </View>
+          <SafeAreaView style={styles.safeArea}>
+            <View style={styles.header}>
+              <HoliButton
+                style={styles.closeModal}
+                label={t('modal.backdrop')}
+                inline
+                transparent
+                onPress={onDismiss}
+                testID={Platform.OS === 'web' ? 'nav-button-down' : 'nav-button-back'}
+              >
+                <HoliIcon icon={Platform.OS === 'web' ? 'arrow-left' : 'arrow-down-s'} />
+              </HoliButton>
+              <HoliText style={styles.title}>{t('spaces.collaborators')}</HoliText>
+            </View>
+          </SafeAreaView>
           <ScrollView>
             {sortedMembersList.map((collaborator, index) => (
               <HoliButton
@@ -139,23 +141,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 8,
   },
-  defaultLayout: {
-    paddingTop: 8,
-    paddingBottom: 0,
-    ...Platform.select({
-      web: {
-        minHeight: '100vh',
-      },
-      android: {
-        paddingTop: StatusBar.currentHeight || 0,
-      },
-    }),
-  },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 21,
+  },
+  safeArea: {
+    ...Platform.select({
+      web: {
+        paddingTop: 18,
+      },
+      android: {
+        paddingTop: StatusBar.currentHeight || 0,
+      },
+    }),
   },
   title: {
     flex: 1,
@@ -167,7 +167,6 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     justifyContent: 'center',
-    paddingTop: Platform.OS === 'web' ? 16.5 : 66,
     marginHorizontal: 24,
     height: '100%',
   },
