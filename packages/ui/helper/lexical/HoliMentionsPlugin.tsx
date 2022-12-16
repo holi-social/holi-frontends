@@ -64,7 +64,8 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
     (text: string) => {
       const mentionMatch = findMentionMatches(text) as QueryMatch
       const slashMatch = checkForSlashTriggerMatch(text, editor)
-      return !slashMatch && mentionMatch ? mentionMatch : null
+      const match = !slashMatch && mentionMatch ? mentionMatch : null
+      return match
     },
     [checkForSlashTriggerMatch, editor]
   )
@@ -131,11 +132,12 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
     (selectedOption: DropdownOption) => {
       editor.update(() => {
         const text = getQueryTextForSearch(editor)
+        const match = checkForMentionMatch(text || '')
 
         const nodeToReplace = splitNodeContainingQuery(editor, {
-          leadOffset: text?.length || 0,
-          matchingString: text || '',
-          replaceableString: text || '',
+          leadOffset: match?.replaceableString?.length || 0,
+          matchingString: match?.matchingString || '',
+          replaceableString: match?.replaceableString || '',
         })
 
         editor.update(() => {
@@ -148,7 +150,7 @@ const HoliMentionsPlugin: React.VFC<HoliMentionsPluginProps> = ({
         })
       })
     },
-    [editor, getQueryTextForSearch, splitNodeContainingQuery]
+    [editor, getQueryTextForSearch, splitNodeContainingQuery, checkForMentionMatch]
   )
 
   const onEnter = useCallback(
