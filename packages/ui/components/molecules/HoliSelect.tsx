@@ -129,7 +129,7 @@ const HoliSelect = ({
         contentStyle={styles.listItemContent}
         onFocus={() => setFocusAndOpen('option-' + item.id)}
         onPress={() => onSelect(item)}
-        testID={testID && `${testID}-item-${item.id}`}
+        testID={testID && `${testID}-item`}
       >
         <HoliText selectable={false} numberOfLines={2}>
           {item.title}

@@ -1,12 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-import {
-  checkAccessibility,
-  clickElementByTestId,
-  locateElementByTestId,
-  waitForElementByInnerText,
-  waitForElementByTestId,
-} from './helpers'
+import { checkAccessibility, clickElementByTestId, locateElementByTestId, waitForElementByTestId } from './helpers'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/spaces')
@@ -34,7 +28,9 @@ test.describe('@Spaces', () => {
     await checkAccessibility(page)
   })
 
-  test('should go to filtered spaces page and display multiple spaces with that filter', async ({ page }) => {
+  test('should click on "see more" button for a topic and go to filtered spaces page and display spaces with that topicId', async ({
+    page,
+  }) => {
     await waitForElementByTestId(page, 'spaces-topic-container-see-more')
 
     // check if we are in the correct page with the filter queries
@@ -50,6 +46,30 @@ test.describe('@Spaces', () => {
     await waitForElementByTestId(page, 'btn-to-space')
 
     await checkAccessibility(page)
+  })
+
+  test('should open the spaces filter menu and filter spaces with multiple filters', async ({ page }) => {
+    await waitForElementByTestId(page, 'btn-filter-spaces')
+
+    await clickElementByTestId(page, 'btn-filter-spaces')
+
+    const locationInput = await locateElementByTestId(page, 'spaces-filter-location-input')
+    await locationInput.fill('Berlin')
+
+    // open topics dropdown
+    await clickElementByTestId(page, 'spaces-filter-interests-input')
+
+    // click on first topic in the list
+    await clickElementByTestId(page, 'spaces-filter-interests-item')
+
+    // click filter confirmation button and check if we are in the correct page with the filter queries
+    await Promise.all([
+      await clickElementByTestId(page, 'holi-modal-content-close-btn'),
+      page.waitForNavigation({ url: '**/spaces/**' }),
+    ])
+
+    // check if there is at least one space card (button to space)
+    await waitForElementByTestId(page, 'btn-to-space')
   })
 
   test('should display space details', async ({ page }) => {
