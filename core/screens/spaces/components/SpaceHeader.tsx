@@ -48,7 +48,13 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
         {space.title}
       </HoliHeading>
       <View style={styles.avatarPileContainer}>
-        <HoliButton label={t('spaces.collaborators.showModal')} transparent inline onPress={openModal}>
+        <HoliButton
+          label={t('spaces.collaborators.showModal')}
+          transparent
+          inline
+          onPress={openModal}
+          testID="btn-to-open-space-collaborators-modal"
+        >
           <HoliUserAvatarPile users={sortedMembersList} usersToShow={3} counter collapse testID="space-members">
             <HoliText size="small" style={styles.avatarPileText}>
               {t('spaces.members.member', { count: sortedMembersList.length })}
