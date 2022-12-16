@@ -28,8 +28,8 @@ const HoliLink: React.FC<HoliLinkProps> = ({
   const { navigate } = useUnifiedNavigation()
 
   const onLinkPress = React.useCallback(() => {
-    const confirmPropagation = onPress?.()
-    if (confirmPropagation) {
+    const stopPropagation = onPress?.()
+    if (stopPropagation !== false) {
       external ? Linking.openURL(href) : navigate(href)
     }
   }, [external, href, navigate, onPress])

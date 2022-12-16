@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { StyleSheet } from 'react-native'
 
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLink from '@holi/ui/components/molecules/HoliLink'
 
 export default {
@@ -16,12 +17,16 @@ export default {
 
 export const Preview = ({ ...args }) => (
   <>
-    <h3>Try out:</h3>
+    <HoliHeading size="medium" level="3" style={styles.headline}>
+      Try out:
+    </HoliHeading>
     <HoliLink href={args.href} label={args.label} external>
       This is a link
     </HoliLink>
 
-    <h3>Examples:</h3>
+    <HoliHeading size="medium" level="3" style={styles.headline}>
+      Examples:
+    </HoliHeading>
     <HoliLink href="/" label="An internal link" style={styles.paddingTop}>
       Internal Link
     </HoliLink>
@@ -40,7 +45,7 @@ export const Preview = ({ ...args }) => (
       label="with extra onPress"
       onPress={() => {
         alert('Ups, I am pressed ;-)')
-        return true // stops propagation
+        return false // stops propagation
       }}
       external
       style={[styles.paddingTop, styles.borderedLink]}
@@ -74,5 +79,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 10,
     borderRadius: 5,
+  },
+  headline: {
+    display: 'block',
+    paddingVertical: 20,
   },
 })
