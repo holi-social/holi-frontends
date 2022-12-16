@@ -11,10 +11,10 @@ import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import DiscoverSpacesView from '@holi/core/screens/spaces/components/DiscoverSpacesView'
-import SpaceFilterModal from '@holi/core/screens/spaces/components/SpaceFilterModal'
+import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import { topicsQuery } from '@holi/core/screens/spaces/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
-import { TopicsQueryResult } from '@holi/core/screens/userprofile/queries'
+import { SkillsQueryResult, TopicsQueryResult, skillsQuery } from '@holi/core/screens/userprofile/queries'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -33,7 +33,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
   const { height: deviceHeight } = useWindowDimensions()
   const styles = getStyles(deviceHeight)
   const applyFilters = useCallback(
-    (filters) => {
+    (filters: SpaceFilter) => {
       const params = new URLSearchParams()
       if (filters.topicId) {
         params.set('topicId', filters.topicId)
@@ -41,6 +41,9 @@ const Spaces: React.VFC<ScreenProps> = () => {
       if (filters.location) {
         params.set('location', filters.location)
       }
+      filters.skillIds?.forEach((skillId) => {
+        params.append('skillId', skillId)
+      })
       const paramsString = params.toString()
       paramsString && navigate('/spaces/filter?' + paramsString)
     },
@@ -48,11 +51,15 @@ const Spaces: React.VFC<ScreenProps> = () => {
   )
   const { user } = useContext(UserContext)
 
-  const { loading, data, error } = useQuery<TopicsQueryResult>(topicsQuery)
-  const topics = data?.topics.data || []
+  const { loading, data: topicsData, error: topicsError } = useQuery<TopicsQueryResult>(topicsQuery)
+  const topics = topicsData?.topics.data || []
 
-  if (error) {
-    displayError(error, t('spaces.spaceListing.error'))
+  const { data: skillsData, error: skillsError } = useQuery<SkillsQueryResult>(skillsQuery)
+  const skills = skillsData?.skills.data || []
+
+  const combinedError = topicsError || skillsError
+  if (combinedError) {
+    displayError(combinedError, t('spaces.spaceListing.error'))
   }
 
   useLayoutEffect(() => {
@@ -96,7 +103,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
           <DiscoverSpacesView style={mixins.container} user={user} topics={topics} />
         )}
       </DefaultLayout>
-      <SpaceFilterModal applyFilters={applyFilters} topics={topics} />
+      <SpaceFilterModal applyFilters={applyFilters} topics={topics} skills={skills} />
     </>
   )
 }

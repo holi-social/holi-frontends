@@ -8,15 +8,15 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParam, { arrayParamConfig, singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import FilteredNoResults from '@holi/core/screens/spaces/FilteredNoResults'
-import SpaceFilterModal, { SpaceFilterParams } from '@holi/core/screens/spaces/components/SpaceFilterModal'
+import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import SpacesGrid from '@holi/core/screens/spaces/components/SpacesGrid'
 import { SpacesResponse, spacesQuery } from '@holi/core/screens/spaces/queries'
 import { topicsQuery } from '@holi/core/screens/spaces/queries'
-import { TopicsQueryResult } from '@holi/core/screens/userprofile/queries'
+import { SkillsQueryResult, TopicsQueryResult, skillsQuery } from '@holi/core/screens/userprofile/queries'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -24,31 +24,36 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const { useParam } = createParam<SpaceFilterParams>()
+export type FilteredSpacesParams = {
+  topicId?: string
+  location?: string
+  skillId?: string[]
+}
+
+const { useParam, useUpdateParams } = createParam<FilteredSpacesParams>()
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
 const SPACES_PAGE_SIZE = 20
 
 const FilteredSpaces: React.VFC<ScreenProps> = () => {
-  const [topicId, setTopicId] = useParam('topicId')
-  const [location, setLocation] = useParam('location')
+  const [topicId] = useParam('topicId', singleParamConfig)
+  const [location] = useParam('location', singleParamConfig)
+  const [skillIds] = useParam('skillId', arrayParamConfig)
+  const updateParams = useUpdateParams()
   const { navigate } = useRouting()
 
   const applyFilters = useCallback(
-    (filters) => {
-      if (!filters.topicId && !filters.location) {
+    (filters: SpaceFilter) => {
+      if (!filters.topicId && !filters.location && !filters.skillIds?.length) {
         navigate('/spaces')
       } else {
-        if (filters.topicId != topicId) {
-          setTopicId(filters.topicId)
-        }
-        if (filters.location != location) {
-          setLocation(filters.location)
-        }
+        // TODO(SF) check if changed?
+        // TODO(SF) does not always work reliably?
+        updateParams({ ...filters, skillId: filters.skillIds })
       }
     },
-    [topicId, setTopicId, location, setLocation, navigate]
+    [updateParams, navigate]
   )
 
   const { t } = useTranslation()
@@ -59,30 +64,40 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
   const styles = getStyles(deviceHeight)
   const [fetchingMore, setFetchingMore] = useState(false)
 
-  const { data: topicsData } = useQuery<TopicsQueryResult>(topicsQuery)
-
+  // TODO(SF) handle loading topics + skills
+  const { data: topicsData, error: topicsError } = useQuery<TopicsQueryResult>(topicsQuery)
   const topics = topicsData?.topics.data || []
   const topic = topics.find((topic) => topic.id === topicId)
 
-  const fallbackTitle = t('spaces.title.filtered')
+  const { data: skillsData, error: skillsError } = useQuery<SkillsQueryResult>(skillsQuery)
+  const skills = skillsData?.skills.data || []
 
+  // if more than one filter is applied, use the fallback title, otherwise use the current filter's title
+  const fallbackTitle = t('spaces.title.filtered')
+  const skillTitle =
+    (skillIds.length === 1 && skills.find((skill) => skill.id === skillIds[0]))?.title ||
+    (skillIds.length > 1 && fallbackTitle)
   useLayoutEffect(() => {
-    // if more than one filter is applied, use the fallback title, otherwise use the current filter's title
-    setOptions({ title: location && topic ? fallbackTitle : topic?.title || location })
-  }, [setOptions, topic, location, fallbackTitle])
+    const titles = [location, topic?.title, skillTitle].filter((title) => !!title)
+
+    setOptions({ title: titles.length === 1 ? titles[0] : fallbackTitle })
+  }, [setOptions, topic, location, skillTitle, fallbackTitle])
 
   const { loading, data, error, fetchMore } = useQuery<SpacesResponse>(spacesQuery, {
     variables: {
       topicId: topicId,
       location: location,
+      skillIds: skillIds,
       limit: SPACES_PAGE_SIZE,
       offset: 0,
     },
     fetchPolicy: 'cache-and-network',
   })
 
-  if (error) {
-    logError(error, `[FilteredSpaces.tsx] ${error.message}`)
+  const combinedError = error || topicsError || skillsError
+
+  if (combinedError) {
+    logError(combinedError, `[FilteredSpaces.tsx] ${combinedError.message}`)
   }
 
   const { data: spaces = [], totalResults = 0 } = data?.spaces || {}
@@ -103,7 +118,7 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
     : t('spaces.spaceListing.loadMoreButton.text')
 
   // Error state just hides the component
-  if (error) {
+  if (combinedError) {
     return <></>
   }
 
@@ -129,7 +144,12 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
           </View>
         )}
       </DefaultLayout>
-      <SpaceFilterModal filters={{ topicId, location }} applyFilters={applyFilters} topics={topics} />
+      <SpaceFilterModal
+        filters={{ topicId, location, skillIds }}
+        applyFilters={applyFilters}
+        topics={topics}
+        skills={skills}
+      />
     </>
   )
 }

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import PlacesAutocomplete from '@holi/core/location/components/PlacesAutocomplete'
-import { Topic } from '@holi/core/screens/userprofile/types'
+import { Skill, Topic } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -14,23 +14,25 @@ import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/Holi
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type SpaceFilterParams = {
+export type SpaceFilter = {
   topicId?: string
   location?: string
+  skillIds?: string[]
 }
 
 type SpaceFilterModalProps = {
-  filters?: SpaceFilterParams
-  applyFilters: (filter: SpaceFilterParams) => void
+  filters?: SpaceFilter
+  applyFilters: (filter: SpaceFilter) => void
   topics: Topic[]
+  skills: Skill[]
 }
 
-const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, applyFilters, topics }) => {
+const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, applyFilters, topics, skills }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const [topicId, setTopicId] = useState(filters.topicId)
-
   const [location, setLocation] = useState(filters.location)
+  const [skillIds, setSkillIds] = useState(filters.skillIds)
 
   const [showFilterModal, setShowFilterModal] = useState(false)
   const closeModal = useCallback(() => {
@@ -39,24 +41,45 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
   const openModal = useCallback(() => {
     setTopicId(filters.topicId)
     setLocation(filters.location)
+    setSkillIds(filters.skillIds)
     setShowFilterModal(true)
-  }, [setShowFilterModal, setTopicId, setLocation, filters])
+  }, [setShowFilterModal, setTopicId, setLocation, setSkillIds, filters])
   const submit = useCallback(() => {
     applyFilters({
       topicId,
       location,
+      skillIds,
     })
     setShowFilterModal(false)
-  }, [topicId, location, applyFilters, setShowFilterModal])
+  }, [topicId, location, skillIds, applyFilters, setShowFilterModal])
 
-  const topicOptions = topics.map((currentTopic) => ({
-    id: currentTopic.id,
-    title: currentTopic.title,
-    selected: topicId === currentTopic.id,
+  const topicOptions = topics.map((topic) => ({
+    id: topic.id,
+    title: topic.title,
+    selected: topicId === topic.id,
   }))
   const toggleTopicSelection = useCallback(
     (option: HoliSelectOption) => setTopicId(option.selected ? undefined : option.id),
     [setTopicId]
+  )
+  const skillOptions = skills.map((skill) => ({
+    id: skill.id,
+    title: skill.title,
+    selected: skillIds?.includes(skill.id) || false,
+  }))
+  const toggleSkillSelection = useCallback(
+    (option: HoliSelectOption) =>
+      setSkillIds((list = []) => {
+        const index = list.indexOf(option.id)
+        if (index < 0 && !option.selected) {
+          list.push(option.id)
+        } else if (index >= 0 && option.selected) {
+          list.splice(index, 1)
+        }
+        // create new object to enforce rerender
+        return [...list]
+      }),
+    [setSkillIds]
   )
 
   return (
@@ -98,7 +121,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
               id="spaces-filter-location"
               onChange={setLocation}
               onSubmit={setLocation}
-              style={[styles.filterOption, { zIndex: 0 }]}
+              style={[styles.filterOption, { zIndex: 2 }]}
               inputProps={{ autoFocus: true }}
             />
             <HoliSelect
@@ -109,6 +132,15 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
               style={[styles.filterOption, { zIndex: 1 }]}
               onChange={toggleTopicSelection}
               id="spaces-filter-interests"
+            />
+            <HoliSelect
+              options={skillOptions}
+              inputLabel={t('spaces.filter.skills.label')}
+              accessibilityLabel={t('spaces.filter.skills.label')}
+              placeholder={t('spaces.filter.skills.placeholder')}
+              style={[styles.filterOption, { zIndex: 0 }]}
+              onChange={toggleSkillSelection}
+              id="spaces-filter-skills"
             />
           </View>
         </HoliModalContentWrapper>

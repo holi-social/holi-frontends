@@ -6,6 +6,8 @@ import Router, { useRouter } from 'next/router'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Platform } from 'react-native'
 
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+
 import { useRoute } from './useRoute'
 
 const useStable = <T>(value: T) => {
@@ -76,6 +78,19 @@ type Returns<
     ? NullableUnparsedParsedType
     : NonNullable<NullableUnparsedParsedType>
 > = readonly [state: ParsedType | InitialValue, setState: (value: ParsedType) => void]
+
+type UpdateOptions = {
+  web?: {
+    replace?: boolean
+  }
+}
+
+const parseString = (value?: string | string[]): string | undefined =>
+  Array.isArray(value) ? (value.length ? value[0] : undefined) : value
+const parseArray = (value?: string | string[]): string[] => (!value ? [] : Array.isArray(value) ? value : [value])
+
+export const singleParamConfig = { initial: undefined, parse: parseString }
+export const arrayParamConfig = { initial: [], parse: parseArray }
 
 const createParam = <Props extends Record<string, unknown> = Record<string, string>>() => {
   const useParam = <
@@ -167,8 +182,48 @@ const createParam = <Props extends Record<string, unknown> = Record<string, stri
     return [state, setState]
   }
 
+  const useUpdateParams = (): ((props: Partial<Props>, options?: UpdateOptions) => void) => {
+    const { setParams } = useUnifiedNavigation()
+
+    const setNativeStateFromParams = useCallback(
+      (value: Partial<Props>) => {
+        setParams(value)
+      },
+      [setParams]
+    )
+
+    const setWebState = useCallback((value: Partial<Props>, options?: UpdateOptions) => {
+      const { pathname, query } = Router
+      const newQuery = { ...query, ...value }
+      for (const key in value) {
+        if (value[key] == null || value[key] === '') {
+          delete newQuery[key]
+        }
+      }
+
+      const action = options?.web?.replace ? Router.replace : Router.push
+
+      action(
+        {
+          pathname,
+          query: newQuery,
+        },
+        undefined,
+        {
+          shallow: true,
+        }
+      )
+    }, [])
+
+    return Platform.select({
+      web: setWebState,
+      default: setNativeStateFromParams,
+    })
+  }
+
   return {
     useParam,
+    useUpdateParams,
   }
 }
 

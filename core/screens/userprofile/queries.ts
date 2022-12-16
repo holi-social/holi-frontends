@@ -174,3 +174,9 @@ export interface TopicsQueryResult {
     data: Topic[]
   }
 }
+
+export interface SkillsQueryResult {
+  skills: {
+    data: Skill[]
+  }
+}
