@@ -78,7 +78,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
               onPress={onDismiss}
               testID={Platform.OS === 'web' ? 'nav-button-down' : 'nav-button-back'}
             >
-              <HoliIcon icon={Platform.OS === 'web' ? 'arrow-left-s' : 'arrow-down-s'} />
+              <HoliIcon icon={Platform.OS === 'web' ? 'arrow-left' : 'arrow-down-s'} />
             </HoliButton>
             <HoliText style={styles.title}>{t('spaces.collaborators')}</HoliText>
           </View>
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     justifyContent: 'center',
-    paddingTop: 66,
+    paddingTop: Platform.OS === 'web' ? 16.5 : 66,
     marginHorizontal: 24,
     height: '100%',
   },
