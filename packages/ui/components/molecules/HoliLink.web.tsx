@@ -1,37 +1,47 @@
 import Link from 'next/link'
-import * as React from 'react'
-import { StyleProp, StyleSheet, TextStyle } from 'react-native'
+import React, { SyntheticEvent } from 'react'
+import { StyleSheet } from 'react-native'
 
 import HoliText from '@holi//ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type HoliLink = {
-  href: string
-  label: string
-  external?: boolean
-  onPress?: CallableFunction
-  style?: StyleProp<TextStyle>
-  testID?: string
-}
+import type { HoliLinkProps } from './HoliLink'
+import webStyles from './HoliLink.module.scss'
 
-const HoliLink: React.FC<HoliLink> = ({
+const HoliLink: React.FC<HoliLinkProps> = ({
   href,
   label,
   external = false,
   onPress,
   children,
   style,
+  textStyle,
   testID = 'text-link',
 }) => {
+  const onLinkPress = React.useCallback(
+    (event: SyntheticEvent<HTMLAnchorElement, Event>) => {
+      const stopPropagation = onPress?.()
+      if (stopPropagation === false) {
+        event?.preventDefault()
+        event?.stopPropagation()
+        return false
+      }
+    },
+    [onPress]
+  )
+
   return (
     <Link href={href}>
       <a
-        onClick={onPress as React.MouseEventHandler<HTMLAnchorElement>}
         aria-label={label}
+        title={label}
         target={external ? '_blank' : undefined}
+        className={webStyles.link}
+        style={StyleSheet.flatten([style])}
+        onClick={onLinkPress}
         data-testid={testID}
       >
-        <HoliText style={[styles.link, style]}>{children}</HoliText>
+        <HoliText style={[styles.linkText, textStyle]}>{children}</HoliText>
       </a>
     </Link>
   )
@@ -40,7 +50,7 @@ const HoliLink: React.FC<HoliLink> = ({
 export default HoliLink
 
 const styles = StyleSheet.create({
-  link: {
+  linkText: {
     color: colors.fontColorHighlighted,
   },
 })
