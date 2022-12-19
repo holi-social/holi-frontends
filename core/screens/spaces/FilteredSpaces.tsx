@@ -47,9 +47,8 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
       if (!filters.topicId && !filters.location && !filters.skillIds?.length) {
         navigate('/spaces')
       } else {
-        // TODO(SF) check if changed?
-        // TODO(SF) does not always work reliably?
-        updateParams({ ...filters, skillId: filters.skillIds })
+        const { topicId, location } = filters
+        updateParams({ topicId, location, skillId: filters.skillIds })
       }
     },
     [updateParams, navigate]

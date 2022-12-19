@@ -117,13 +117,19 @@ const createParam = <Props extends Record<string, unknown> = Record<string, stri
     const nextRouter = useRouter()
     const nativeRoute = useRoute()
 
-    const [nativeState, setNativeState] = useState<ParsedType | InitialValue>(
-      () => (nativeRoute?.params as any)?.[name] ?? (initial as InitialValue)
-    )
-
-    const stableStringify = useStableCallback(stringify)
     const stableParse = useStableCallback(parse)
+    const stableStringify = useStableCallback(stringify)
     const stableParamsToClear = useStable(paramsToClearOnSetState)
+
+    const [nativeState, setNativeState] = useState<ParsedType | InitialValue>(() => {
+      const state = (nativeRoute?.params as any)?.[name]
+      return (stableParse(state) as ParsedType) ?? (initial as InitialValue)
+    })
+
+    useEffect(() => {
+      const state = (nativeRoute?.params as any)?.[name]
+      setNativeState((stableParse(state) as ParsedType) || (initial as InitialValue))
+    }, [setNativeState, stableParse, nativeRoute?.params, name, initial])
 
     const initialValue = useRef(initial)
     const hasSetState = useRef(false)
