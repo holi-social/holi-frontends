@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
 
 import HoliSelect from '@holi/ui/components/molecules/HoliSelect'
-import { SingleSelect } from '@holi/ui/components/molecules/__stories__/HoliSelect.stories'
+import { MultiSelect, SingleSelect } from '@holi/ui/components/molecules/__stories__/HoliSelect.stories'
 
 describe('HoliSelect', () => {
   describe('SingleSelect', () => {
@@ -47,6 +47,36 @@ describe('HoliSelect', () => {
       expect(screen.getByTestId('test-input')).toHaveProp('value', 'di')
       fireEvent.press(screen.getByTestId('test-clear-input'))
       expect(screen.getByTestId('test-input')).toHaveProp('value', '')
+    })
+  })
+
+  describe('MultiSelect', () => {
+    it('renders correctly when closed', () => {
+      render(<MultiSelect {...MultiSelect.args} />)
+      expect(screen.toJSON()).toMatchSnapshot()
+    })
+
+    it('renders correctly when opened', () => {
+      render(<MultiSelect {...MultiSelect.args} testID="test" />)
+      fireEvent.press(screen.getByTestId('test-toggle-menu'))
+      expect(screen.toJSON()).toMatchSnapshot()
+    })
+
+    it('renders correctly after single selection', () => {
+      render(<MultiSelect {...MultiSelect.args} testID="test" />)
+      fireEvent.press(screen.getByTestId('test-toggle-menu'))
+      fireEvent.press(screen.getByTestId('test-item-2'))
+      expect(screen.getByPlaceholderText('Children & Youth')).toBeDefined()
+      expect(screen.toJSON()).toMatchSnapshot()
+    })
+
+    it('renders correctly after multiple selections', () => {
+      render(<MultiSelect {...MultiSelect.args} testID="test" />)
+      fireEvent.press(screen.getByTestId('test-toggle-menu'))
+      fireEvent.press(screen.getByTestId('test-item-2'))
+      fireEvent.press(screen.getByTestId('test-item-3'))
+      expect(screen.getByPlaceholderText('Label · 2')).toBeDefined()
+      expect(screen.toJSON()).toMatchSnapshot()
     })
   })
 })
