@@ -28,7 +28,6 @@ export interface User {
 }
 
 export enum UserConnectionStatus {
-  NOT_LOGGED_IN = 'NOT_LOGGED_IN',
   NOT_CONNECTED = 'NOT_CONNECTED',
   CONNECTED = 'CONNECTED',
   REQUESTED = 'REQUESTED', // requested by currently authenticated user
