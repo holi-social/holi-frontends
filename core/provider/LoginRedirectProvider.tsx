@@ -70,6 +70,7 @@ export const LoginRedirectProvider: React.FC = ({ children }) => {
         dismissText={props.btnTextDismiss}
         onConfirm={onConfirm}
         onDismiss={onDismiss}
+        testID="huhu"
       />
     </LoginRedirectContext.Provider>
   )

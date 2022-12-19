@@ -253,6 +253,9 @@ exports[`renders correctly renders correctly when open 1`] = `
                 Object {
                   "marginTop": 24,
                 },
+                Object {
+                  "marginLeft": 5,
+                },
               ],
             ]
           }

@@ -93,7 +93,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
                 label={dismissText || t('confirmation.dismiss')}
                 onPress={onDismiss}
                 style={styles.button}
-                testID={testID ?? `${testID}-confirmation-dismiss`}
+                {...(testID ? { testID: `${testID}-confirmation-dismiss` } : {})}
               >
                 {dismissText || t('confirmation.dismiss')}
               </HoliButton>
@@ -104,7 +104,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
                 label={confirmText || t('confirmation.confirm')}
                 onPress={onConfirm}
                 style={[styles.button, { marginLeft: screenWidth <= smallDevice ? 0 : 5 }]}
-                testID={testID ?? `${testID}-confirmation-confirm`}
+                {...(testID ? { testID: `${testID}-confirmation-confirm` } : {})}
               >
                 {confirmText || t('confirmation.confirm')}
               </HoliButton>
