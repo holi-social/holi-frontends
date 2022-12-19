@@ -79,6 +79,33 @@ export type SpacesResponse = {
   spaces: Paged<Space>
 }
 
+export const spacesQueryMultipleTopics = gql`
+  ${userAvatarFragment}
+  ${SpaceFragment}
+  ${SpaceMemberFragment}
+
+  query Spaces($topicIds: [UUID]!, $location: String, $offset: Int, $limit: Int) {
+    spacesByTopic(topicIds: $topicIds, location: $location, offset: $offset, limit: $limit) {
+      topicId
+      spaces {
+        totalResults
+        data {
+          ...FullSpace
+        }
+      }
+    }
+  }
+`
+
+export type SpacesByTopicResponse = {
+  spacesByTopic: [
+    {
+      topicId: string
+      spaces: Paged<Space>
+    }
+  ]
+}
+
 export const spaceByIdQuery = gql`
   ${userAvatarFragment}
   ${SpaceFragment}
