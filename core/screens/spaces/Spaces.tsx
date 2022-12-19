@@ -10,7 +10,7 @@ import { displayError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import DiscoverSpacesView from '@holi/core/screens/spaces/components/DiscoverSpacesView'
+import DiscoverSpaces from '@holi/core/screens/spaces/components/DiscoverSpaces'
 import SpaceFilterModal from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import { topicsQuery } from '@holi/core/screens/spaces/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
@@ -93,7 +93,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
             <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
           </View>
         ) : (
-          <DiscoverSpacesView style={mixins.container} user={user} topics={topics} />
+          <DiscoverSpaces style={mixins.container} user={user} topics={topics} />
         )}
       </DefaultLayout>
       <SpaceFilterModal applyFilters={applyFilters} topics={topics} />
