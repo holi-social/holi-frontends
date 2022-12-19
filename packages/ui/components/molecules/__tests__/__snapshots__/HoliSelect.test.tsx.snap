@@ -497,7 +497,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               },
             ]
           }
-          testID="test-item-7"
+          testID="test-item"
         >
           <View
             pointerEvents="none"
@@ -591,7 +591,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               },
             ]
           }
-          testID="test-item-8"
+          testID="test-item"
         >
           <View
             pointerEvents="none"
@@ -1627,7 +1627,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               },
             ]
           }
-          testID="test-item-1"
+          testID="test-item"
         >
           <View
             pointerEvents="none"
@@ -1721,7 +1721,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               },
             ]
           }
-          testID="test-item-2"
+          testID="test-item"
         >
           <View
             pointerEvents="none"
@@ -1815,7 +1815,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               },
             ]
           }
-          testID="test-item-3"
+          testID="test-item"
         >
           <View
             pointerEvents="none"
@@ -1909,7 +1909,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               },
             ]
           }
-          testID="test-item-4"
+          testID="test-item"
         >
           <View
             pointerEvents="none"
@@ -2003,7 +2003,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               },
             ]
           }
-          testID="test-item-5"
+          testID="test-item"
         >
           <View
             pointerEvents="none"
@@ -2097,7 +2097,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               },
             ]
           }
-          testID="test-item-6"
+          testID="test-item"
         >
           <View
             pointerEvents="none"
@@ -2191,7 +2191,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               },
             ]
           }
-          testID="test-item-7"
+          testID="test-item"
         >
           <View
             pointerEvents="none"
@@ -2285,7 +2285,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               },
             ]
           }
-          testID="test-item-8"
+          testID="test-item"
         >
           <View
             pointerEvents="none"
