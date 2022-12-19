@@ -1,10 +1,11 @@
 import { useQuery } from '@apollo/client'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel'
 
 import { logError } from '@holi/core/errors/helpers'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -20,9 +21,11 @@ type GoodNewsCarouselProps = Record<string, never>
 
 /** This is a temporary component and should be replaced by a carousel-style component later */
 const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { width, height } = useWindowDimensions()
   const styles = useMemo(() => createStyles(width, height), [width, height])
+  const { setOptions } = useUnifiedNavigation()
+  const title = t('goodnews:app.name')
   const { loading, error, data } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
     GoodNewsArticlesQuery,
     {
@@ -54,7 +57,25 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
   }, [fetchingMore, t])
   */
 
-  const [activeSlide, setActiveSlide] = useState<number>(0)
+  const [activeArticleIndex, setActiveArticleIndex] = useState<number>(0)
+
+  useEffect(() => {
+    const dateFormat = new Intl.DateTimeFormat(i18n.language)
+    setOptions({
+      headerTitle: ({ tintColor }) => (
+        <View>
+          <HoliText size={'large'} style={[{ color: tintColor }, styles.iconShadow]}>
+            {title}
+          </HoliText>
+          {articles && articles[activeArticleIndex] && (
+            <HoliText style={[{ color: tintColor, alignSelf: 'center' }, styles.iconShadow]}>
+              {dateFormat.format(Date.parse(articles[activeArticleIndex].date))}
+            </HoliText>
+          )}
+        </View>
+      ),
+    })
+  }, [setOptions, title, t, articles, activeArticleIndex, styles.iconShadow, i18n.language])
 
   if (error) {
     logError(error, `[GoodNewsCarousel.tsx] ${error.message}`)
@@ -79,12 +100,12 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
         loop={false}
         data={articles}
         renderItem={({ item }) => <GoodNewsArticleComponent article={item} key={item.id} />}
-        onSnapToItem={(index) => setActiveSlide(index)}
+        onSnapToItem={(index) => setActiveArticleIndex(index)}
         scrollAnimationDuration={250}
       />
       <View style={styles.paginationDotArea}>
         <HoliText>
-          {activeSlide + 1} / {articles.length} {/* TODO render dots */}
+          {activeArticleIndex + 1} / {articles.length} {/* TODO render dots */}
         </HoliText>
       </View>
       {/* TODO for usage in paging (HOLI-2508)
@@ -119,6 +140,13 @@ const createStyles = (width: number, height: number) => {
     },
     paginationDotInactive: {
       // Define styles for inactive dots here
+    },
+    /* COMMON */
+    iconShadow: {
+      shadowColor: 'rgba(0,0,0,1)',
+      shadowOffset: { width: 0, height: 0 },
+      shadowOpacity: 0.5,
+      shadowRadius: 3,
     },
   })
 }

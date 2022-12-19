@@ -33,7 +33,7 @@ const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
         headerTintColor: colors.fontColorWhite,
         headerLeft: ({ tintColor }) =>
           Platform.OS === 'web' ? null : (
-            <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} contentStyle={styles.iconShadow} />
+            <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} contentStyle={styles.pictureCreditShadow} />
           ),
         navigationCustomOptions: {
           headerBackgroundGradient: true,
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: colors.backgroundColorGreyDark,
   },
-  iconShadow: {
+  pictureCreditShadow: {
     shadowColor: 'rgba(0,0,0,1)',
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.5,
