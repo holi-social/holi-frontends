@@ -12,7 +12,7 @@ const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props
     case NotificationType.CONNECTION_CONFIRMED:
       return <NotificationConnectionItem notification={notification} {...props} />
 
-    case NotificationType.POST_COMMENT:
+    case NotificationType.POST_COMMENT_USER_MENTION:
       return <NotificationPostItem notification={notification} {...props} />
 
     default:

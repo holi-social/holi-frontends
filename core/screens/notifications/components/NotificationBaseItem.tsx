@@ -10,18 +10,27 @@ import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
 interface NotificationBaseProps<T = Notification> extends NotificationProps<T> {
+  href?: string
   content?: React.ReactNode
   i18nKey?: string
 }
 
-const NotificationBaseItem: React.FC<NotificationBaseProps> = ({ notification, content, children, i18nKey, style }) => {
+const NotificationBaseItem: React.FC<NotificationBaseProps> = ({
+  notification,
+  content,
+  children,
+  href,
+  i18nKey,
+  style,
+}) => {
   const { created, read } = notification
   const { id: userId, avatar, avatarDefaultColor, avatarLabel, fullName } = notification.options.user
   const { t, i18n } = useTranslation()
+  href ??= `/profile/${userId}`
 
   return (
     <View style={style}>
-      <HoliLink href={`/profile/${userId}`} label={fullName}>
+      <HoliLink href={href} label={fullName} mobileNavigateBackFirst>
         <View style={styles.link}>
           <HoliUserAvatar
             imageSrc={avatar}

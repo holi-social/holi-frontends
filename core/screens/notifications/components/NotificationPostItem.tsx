@@ -4,7 +4,19 @@ import NotificationBaseItem from '@holi/core/screens/notifications/components/No
 import { NotificationPost, NotificationProps } from '@holi/core/screens/notifications/components/types'
 
 const NotificationPostItem: React.VFC<NotificationProps<NotificationPost>> = ({ notification, style }) => {
-  return <NotificationBaseItem notification={notification} i18nKey="notifications.post.mention.message" style={style} />
+  const {
+    id: commentId,
+    post: { id: postId },
+  } = notification.options.postComment
+
+  return (
+    <NotificationBaseItem
+      notification={notification}
+      i18nKey="notifications.post.mention.message"
+      href={`/posts/${postId}?commentId=${commentId}`}
+      style={style}
+    />
+  )
 }
 
 export default NotificationPostItem
