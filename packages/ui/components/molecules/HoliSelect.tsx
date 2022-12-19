@@ -29,10 +29,12 @@ export type HoliSelectProps = {
   testID?: string
   inputProps?: TextInputProps
   id: string
+  multiSelect?: boolean
 }
 
 const HoliSelect = ({
   style = {},
+  multiSelect = false,
   accessibilityLabel,
   inputLabel,
   placeholder,
@@ -101,11 +103,13 @@ const HoliSelect = ({
   const onSelect = useCallback(
     (option) => {
       onChange(option)
-      setIsOpened(false)
-      setSearchText('')
-      Keyboard.dismiss()
+      if (!multiSelect) {
+        setIsOpened(false)
+        setSearchText('')
+        Keyboard.dismiss()
+      }
     },
-    [onChange, setIsOpened, setSearchText]
+    [onChange, setIsOpened, setSearchText, multiSelect]
   )
   const toggleMenu = useCallback(() => {
     if (isOpened) {
@@ -134,12 +138,18 @@ const HoliSelect = ({
         <HoliText selectable={false} numberOfLines={2}>
           {item.title}
         </HoliText>
-        <View style={[styles.listItemIconContainer, item.selected && styles.listItemIconContainerSelected]}>
+        <View
+          style={[
+            styles.listItemIconContainer,
+            multiSelect && styles.listItemIconContainerMultiSelect,
+            item.selected && styles.listItemIconContainerSelected,
+          ]}
+        >
           {item.selected && <HoliIcon icon="check" size={20} color={colors.fontColorWhite} />}
         </View>
       </HoliButton>
     ),
-    [testID, setFocusAndOpen, clearFocus, onSelect, styles]
+    [testID, setFocusAndOpen, clearFocus, onSelect, styles, multiSelect]
   )
 
   const noOptions = (
@@ -189,10 +199,11 @@ const HoliSelect = ({
   }, [clearInputButton, searchText, toggleMenuButton, styles])
 
   const regex = useMemo(() => searchText && new RegExp(searchText, 'i'), [searchText])
-  const selectedText = options
-    .filter((option) => option.selected)
-    .map((option) => option.title)
-    .join(', ')
+  const selectedOptions = options.filter((option) => option.selected)
+  const selectedText =
+    selectedOptions.length === 1
+      ? selectedOptions[0].title
+      : selectedOptions.length > 1 && `${inputLabel} · ${selectedOptions.length}`
   const filteredOptions = useMemo(
     () => options.filter((option) => !regex || option.title.match(regex)),
     [options, regex]
@@ -295,6 +306,9 @@ const getStyles = (textInputHeight: number) =>
       borderColor: tinycolor(colors.borderColorGrey).darken(5).toString(),
       alignItems: 'center',
       justifyContent: 'center',
+    },
+    listItemIconContainerMultiSelect: {
+      borderRadius: 4,
     },
     listItemIconContainerSelected: {
       borderWidth: 0,
