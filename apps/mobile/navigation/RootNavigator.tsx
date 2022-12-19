@@ -33,9 +33,11 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type HomeStackScreens = {
   [RouteName.HomeFeed]: undefined
   [RouteName.InsightDetailPage]: InsightDetailPageParams
-  [RouteName.Notifications]: undefined
+  [RouteName.InsightPostDetailPage]: PostDetailPageParams
+  [RouteName.InsightPostCommentInputPage]: CommentInputPageParams
   [RouteName.PostDetailPage]: PostDetailPageParams
-  [RouteName.CommentInputPage]: CommentInputPageParams
+  [RouteName.PostCommentInputPage]: CommentInputPageParams
+  [RouteName.Notifications]: undefined
   [RouteName.Search]: undefined
   [RouteName.UserProfile]: UserProfileParams
 }
@@ -75,8 +77,10 @@ export const HomeStackNavigator: React.VFC = () => {
       <HomeStack.Screen name={RouteName.HomeFeed} component={HomeFeed} />
       <HomeStack.Screen name={RouteName.Search} component={Search} />
       <HomeStack.Screen name={RouteName.InsightDetailPage} component={InsightDetailPage} />
+      <HomeStack.Screen name={RouteName.InsightPostDetailPage} component={PostDetailPage} />
+      <HomeStack.Screen name={RouteName.InsightPostCommentInputPage} component={CommentInputPage} />
       <HomeStack.Screen name={RouteName.PostDetailPage} component={PostDetailPage} />
-      <HomeStack.Screen name={RouteName.CommentInputPage} component={CommentInputPage} />
+      <HomeStack.Screen name={RouteName.PostCommentInputPage} component={CommentInputPage} />
       <HomeStack.Screen
         name={RouteName.Notifications}
         options={{
