@@ -92,16 +92,16 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
               "borderWidth": 2,
               "flexDirection": "row",
             },
-            Array [
-              Object {},
-              Object {},
-            ],
             Object {
               "alignSelf": "stretch",
               "width": "100%",
             },
             false,
             false,
+            Array [
+              Object {},
+              Object {},
+            ],
             undefined,
             false,
           ]
@@ -156,15 +156,11 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
         />
         <View
           style={
-            Array [
-              Object {
-                "height": 22,
-                "justifyContent": "center",
-                "marginRight": 12,
-                "width": 22,
-              },
-              false,
-            ]
+            Object {
+              "height": 22,
+              "justifyContent": "center",
+              "marginRight": 12,
+            }
           }
         >
           <RNSVGSvgView
@@ -334,16 +330,16 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
               "borderWidth": 2,
               "flexDirection": "row",
             },
-            Array [
-              Object {},
-              Object {},
-            ],
             Object {
               "alignSelf": "stretch",
               "width": "100%",
             },
             false,
             false,
+            Array [
+              Object {},
+              Object {},
+            ],
             undefined,
             Object {
               "borderColor": "#ee0004",
@@ -400,17 +396,11 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
         />
         <View
           style={
-            Array [
-              Object {
-                "height": 22,
-                "justifyContent": "center",
-                "marginRight": 12,
-                "width": 22,
-              },
-              Object {
-                "width": 16,
-              },
-            ]
+            Object {
+              "height": 22,
+              "justifyContent": "center",
+              "marginRight": 12,
+            }
           }
         >
           <RNSVGSvgView

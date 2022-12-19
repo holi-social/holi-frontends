@@ -8,7 +8,7 @@ import { usePortals } from '@holi/core/provider/PortalProvider'
 import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliRichTextInputSuggestions from '@holi/ui/components/organisms/HoliRichTextInput/Suggestions'
-import { REGEX_URL } from '@holi/ui/helper/richText'
+import { REGEX_URL, REGEX_USER_MENTIONS_WITH_NAME } from '@holi/ui/helper/richText'
 import { useDebounce } from '@holi/ui/helper/useDebounce'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -110,7 +110,8 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   const onInputChange = useCallback(
     (text: string) => {
       setValue(`${text}`)
-      onChange?.(`${text}`)
+      const holiFormattedString = String(text).replace(REGEX_USER_MENTIONS_WITH_NAME, '@$1')
+      onChange?.(holiFormattedString)
     },
     [onChange, setValue]
   )

@@ -69,22 +69,21 @@ export const scrollToElementWithTestId = async (
   return await waitForElementWithTestId(testId, 1)
 }
 
-export const scroll = async (
-  direction: 'up' | 'down',
-  { scrollDuration = 150, repetitions = 1 }: { scrollDuration?: number; repetitions?: number } = {}
-) => {
+export const scroll = async (direction: 'up' | 'down', { repetitions = 1 }: { repetitions?: number } = {}) => {
   const upperPercentage = 20 // hypothesis: if this is too small, scroll up does not work because scroll movement starts in the header area
   const lowerPercentage = 80
   const anchorPercentage = 50
 
   const { width, height } = await Appium.getWindowSize()
-  // might be needed for some devices (retina style displays?), leaving it as a reference.
-  //const density = (await driver.getDisplayDensity()) / 100
   const anchor = (width * anchorPercentage) / 100
   const upperPoint = (height * upperPercentage) / 100
   const lowerPoint = (height * lowerPercentage) / 100
   const startPoint = direction == 'down' ? lowerPoint : upperPoint
-  const movementY = direction == 'down' ? upperPoint - lowerPoint : lowerPoint - upperPoint
+  // y-value is platform dependent, empirically measured by watching videos of the scroll behaviour on browserstack
+  // The way it's set up here both platforms scroll almost a full page.
+  const movementYAndroid = direction == 'down' ? upperPoint - lowerPoint : lowerPoint - upperPoint
+  const movementYIOS = movementYAndroid / 4
+  const movementY = platform === 'ios' ? movementYIOS : movementYAndroid
 
   for (let rep = 0; rep < repetitions; rep++) {
     await Appium.performActions([
@@ -96,7 +95,7 @@ export const scroll = async (
           { type: 'pointerMove', duration: 0, x: anchor, y: startPoint },
           { type: 'pointerDown', button: 0 },
           { type: 'pause', duration: 100 },
-          { type: 'pointerMove', duration: scrollDuration, origin: 'pointer', x: 0, y: movementY },
+          { type: 'pointerMove', duration: 200, origin: 'pointer', x: 0, y: movementY },
           { type: 'pointerUp', button: 0 },
           { type: 'pause', duration: 100 },
         ],
