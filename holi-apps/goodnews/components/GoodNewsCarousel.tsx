@@ -1,12 +1,11 @@
 import { useQuery } from '@apollo/client'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import { StyleSheet, Text, View, useWindowDimensions } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel'
 
 import { logError } from '@holi/core/errors/helpers'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
 import {
@@ -19,6 +18,28 @@ import GoodNewsArticleComponent from './GoodNewsArticleComponent'
 import GoodNewsHeader from './GoodNewsHeader'
 
 type GoodNewsCarouselProps = Record<string, never>
+
+type PaginationDotProps = {
+  active: boolean
+}
+
+const PaginationDot: React.VFC<PaginationDotProps> = ({ active }) => (
+  <Text style={[paginationDotStyles.paginationDot, active && paginationDotStyles.paginationDotActive]}>·</Text>
+)
+
+const paginationDotStyles = {
+  paginationDot: {
+    color: 'rgba(34, 34, 34, 0.12)',
+    fontSize: 40,
+    lineHeight: 30,
+    fontWeight: 'bold',
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  paginationDotActive: {
+    color: '#262424',
+  },
+}
 
 /** This is a temporary component and should be replaced by a carousel-style component later */
 const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
@@ -101,9 +122,9 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
         scrollAnimationDuration={250}
       />
       <View style={styles.paginationDotArea}>
-        <HoliText>
-          {activeArticleIndex + 1} / {articles.length} {/* TODO render dots */}
-        </HoliText>
+        {articles.map((_article, index) => {
+          return <PaginationDot key={index} active={activeArticleIndex === index} />
+        })}
       </View>
       {/* TODO for usage in paging (HOLI-2508)
       <HoliButton label={fetchMoreButtonText} onPress={memoizedFetchMore} testID="btn-goodnews-list-load-more">
@@ -128,6 +149,7 @@ const createStyles = (width: number, height: number) => {
       minHeight: paginationDotAreaHeight,
       height: paginationDotAreaHeight,
       alignSelf: 'center',
+      flexDirection: 'row',
     },
   })
 }
