@@ -8,6 +8,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+import { commonStyles } from '@holi-apps/goodnews/common_styles'
 import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 type GoodNewsArticleComponentProps = {
@@ -20,23 +21,18 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = (prop
   const article = props.article
 
   return (
-    <View
-      style={{
-        flex: 1,
-        flexGrow: 1,
-      }}
-    >
+    <View style={styles.container}>
       <ImageBackground source={{ uri: article.pictureUrl }} resizeMode="cover" style={styles.headerBackgroundImage}>
-        <HoliText style={[styles.pictureCredit, styles.headerTextShadow]}>{article.pictureCredit}</HoliText>
+        <HoliText style={[styles.pictureCredit, commonStyles.headerTextShadow]}>{article.pictureCredit}</HoliText>
       </ImageBackground>
-      <View style={[mixins.container, styles.textContent]} testID="goodnews-list-item">
-        <HoliText size={'small'} style={{ paddingBottom: 8 }}>
+      <View style={[mixins.container, styles.contentContainer]} testID="goodnews-list-item">
+        <HoliText size={'small'} style={styles.source}>
           {article.source || ''}
         </HoliText>
-        <HoliText size={'extralarge'} style={{ paddingBottom: 8 }}>
+        <HoliText size={'extralarge'} style={styles.headline}>
           {article.headline}
         </HoliText>
-        <HoliText size={'large'} style={{ paddingBottom: 16 }}>
+        <HoliText size={'large'} style={styles.teaserText}>
           {article.teaserText}
         </HoliText>
         {/* TODO refactoring to modify <HoliLink /> so that it works as/with a button, too */}
@@ -57,7 +53,11 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = (prop
 export default GoodNewsArticleComponent
 
 const styles = StyleSheet.create({
-  /* HEADER AREA */
+  container: {
+    flex: 1,
+    flexGrow: 1,
+  },
+  /* HEADER CONTAINER */
   headerBackgroundImage: {
     justifyContent: 'flex-end',
     alignContent: 'stretch',
@@ -67,26 +67,23 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderColor: colors.borderColorBlack,
   },
-  headerTextShadow: {
-    shadowColor: 'rgba(0,0,0,1)',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.5,
-    shadowRadius: 3,
-  },
   pictureCredit: {
     color: colors.fontColorWhite,
     paddingBottom: 9,
     paddingRight: 16,
     alignSelf: 'flex-end',
   },
-  /* CONTENT AREA */
-  textContent: {
+  /* CONTENT CONTAINER */
+  contentContainer: {
     flexGrow: 1,
     backgroundColor: colors.backgroundColorGreyLight,
     paddingTop: 16,
     paddingBottom: 24,
     ...Platform.select({ web: { paddingHorizontal: 20 } }),
   },
+  source: { paddingBottom: 8 },
+  headline: { paddingBottom: 8 },
+  teaserText: { paddingBottom: 16 },
   externalLinkButtonText: {
     paddingRight: 6,
   },
