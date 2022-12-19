@@ -4,7 +4,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpacesByTopic from '@holi/core/screens/spaces/components/SpacesByTopic'
 import SpacesFilterHeader from '@holi/core/screens/spaces/components/SpacesFilterHeader'
-import { TopicToSpaces } from '@holi/core/screens/spaces/queries'
+import { SpacesForTopic } from '@holi/core/screens/spaces/queries'
 import { Space } from '@holi/core/screens/spaces/types'
 import { Topic, User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
@@ -13,7 +13,7 @@ type DiscoverSpacesViewProps = {
   user?: User
   topics: Topic[]
   style?: StyleProp<ViewStyle>
-  spaces: TopicToSpaces[]
+  spaces: SpacesForTopic[]
 }
 
 const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({ topics, user, style, spaces }) => {
