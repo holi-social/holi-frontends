@@ -13,7 +13,7 @@ export const useUserConnection = () => {
   )
 
   const updateUserConnectionStatus = useCallback(
-    (action: UpdateConnectionWithUserActions, userId: string) => {
+    (action: UpdateConnectionWithUserActions, userId: string) =>
       updateConnectionWithUser({
         variables: {
           input: {
@@ -21,8 +21,7 @@ export const useUserConnection = () => {
             action,
           },
         },
-      })
-    },
+      }),
     [updateConnectionWithUser]
   )
 
