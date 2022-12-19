@@ -15,7 +15,7 @@ export type GoodNewsArticle = {
   pictureUrl: string
   pictureCredit: string | undefined
   articleUrl: string
-  source: string
+  source: string | undefined
   sortKey: number
   category: GoodNewsCategory | undefined
   language: 'de' | 'en'
