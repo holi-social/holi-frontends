@@ -63,6 +63,8 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
     accessibilityLabel: label,
   }
 
+  const smallDevice = parseInt(vars.breakpointXs, 10) + 50
+
   return (
     <Modal
       {...accessibilityProps}
@@ -83,12 +85,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
             {title}
           </HoliHeading>
           <HoliText style={styles.description}>{description}</HoliText>
-          <View
-            style={[
-              styles.buttonContainer,
-              screenWidth <= parseInt(vars.breakpointXs, 10) + 50 && styles.buttonContainerSmall,
-            ]}
-          >
+          <View style={[styles.buttonContainer, screenWidth <= smallDevice && styles.buttonContainerSmall]}>
             {onDismiss && (
               <HoliButton
                 inline
@@ -96,7 +93,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
                 label={dismissText || t('confirmation.dismiss')}
                 onPress={onDismiss}
                 style={styles.button}
-                {...(testID ? { testID: `${testID}-confirmation-dismiss` } : {})}
+                testID={testID ?? `${testID}-confirmation-dismiss`}
               >
                 {dismissText || t('confirmation.dismiss')}
               </HoliButton>
@@ -106,8 +103,8 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
                 inline
                 label={confirmText || t('confirmation.confirm')}
                 onPress={onConfirm}
-                style={[styles.button]}
-                {...(testID ? { testID: `${testID}-confirmation-confirm` } : {})}
+                style={[styles.button, { marginLeft: screenWidth <= smallDevice ? 0 : 5 }]}
+                testID={testID ?? `${testID}-confirmation-confirm`}
               >
                 {confirmText || t('confirmation.confirm')}
               </HoliButton>

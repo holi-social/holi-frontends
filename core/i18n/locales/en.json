@@ -250,9 +250,7 @@
   "user.profileForm.pronounsPlaceholder": "Insert your preferred pronouns",
   "user.profileForm.save": "Save",
   "user.profileView.anonymous": "Anonymous user",
-
   "user.profileView.connection.notLoggedIn.message": "Please login before making connection requests.",
-
   "user.profileView.connection.button.CONNECTED": "Connected",
   "user.profileView.connection.button.NOT_CONNECTED": "Connect",
   "user.profileView.connection.button.PENDING_CONFIRMATION": "Accept",

@@ -24,7 +24,7 @@ export const LoginRedirectContext = createContext<LoginRedirectContextType>({
 export const LoginRedirectProvider: React.FC = ({ children }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const [confirmVisible, setConfirmVisible] = useState(false)
+  const [dialogIsOpen, setDialogIsOpen] = useState(false)
   const [props, setProps] = useState<LoginRedirectProps>({
     title: t('loginRedirect.title'),
     text: t('loginRedirect.text'),
@@ -37,23 +37,23 @@ export const LoginRedirectProvider: React.FC = ({ children }) => {
   const openLoginDialog = useCallback(
     (dialogProps: LoginRedirectProps) => {
       setProps({ ...props, ...dialogProps })
-      setConfirmVisible(true)
+      setDialogIsOpen(true)
     },
     [props, setProps]
   )
 
   const onConfirm = useCallback(() => {
     const confirmPropagation = props.onConfirm?.()
-    if (confirmPropagation) {
-      setConfirmVisible(false)
+    if (confirmPropagation !== false) {
+      setDialogIsOpen(false)
       navigate('/login')
     }
   }, [navigate, props])
 
   const onDismiss = useCallback(() => {
     const confirmPropagation = props.onDismiss?.()
-    if (confirmPropagation) {
-      setConfirmVisible(false)
+    if (confirmPropagation !== false) {
+      setDialogIsOpen(false)
     }
   }, [props])
 
@@ -62,7 +62,7 @@ export const LoginRedirectProvider: React.FC = ({ children }) => {
       {children}
 
       <HoliConfirmation
-        show={confirmVisible}
+        show={dialogIsOpen}
         label={props.title || ''}
         title={props.title || ''}
         description={props.text || ''}

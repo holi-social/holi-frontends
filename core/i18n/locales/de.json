@@ -249,9 +249,7 @@
   "user.profileForm.pronounsPlaceholder": "Fügen Sie Ihre bevorzugten Pronomen ein",
   "user.profileForm.save": "Speichern",
   "user.profileView.anonymous": "Anonymer Nutzer",
-
   "user.profileView.connection.notLoggedIn.message": "Bitte melden Sie sich an, bevor Sie Verbindungsanfragen stellen.",
-
   "user.profileView.connection.button.CONNECTED": "Verbunden",
   "user.profileView.connection.button.NOT_CONNECTED": "Verbinden",
   "user.profileView.connection.button.PENDING_CONFIRMATION": "Akzeptieren",

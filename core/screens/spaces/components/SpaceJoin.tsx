@@ -21,7 +21,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ state = 'open', onStateChange = 
   const { t } = useTranslation()
   const { isLoggedIn } = useContext(AuthContext)
   const { openLoginDialog } = useLoginRedirect()
-  const [withdrawConfirmVisible, setWithdrawConfirmVisible] = useState(false)
+  const [withdrawDialogIsOpen, setWithdrawDialogIsOpen] = useState(false)
 
   const sendJoinRequest = useCallback(() => {
     if (!isLoggedIn) {
@@ -33,19 +33,11 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ state = 'open', onStateChange = 
     onStateChange('pending')
   }, [isLoggedIn, onStateChange, openLoginDialog, t])
 
-  const withdrawJoinRequest = useCallback(() => {
-    setWithdrawConfirmVisible(true)
-  }, [])
-
-  const onWithdrawConfirmConfirm = useCallback(() => {
-    setWithdrawConfirmVisible(false)
+  const submitWithdraw = useCallback(() => {
+    setWithdrawDialogIsOpen(false)
     // TODO: make request
     onStateChange('open')
   }, [onStateChange])
-
-  const onWithdrawConfirmDismiss = useCallback(() => {
-    setWithdrawConfirmVisible(false)
-  }, [])
 
   return (
     <>
@@ -64,7 +56,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ state = 'open', onStateChange = 
           type="secondary"
           inline
           label={t('spaces.join.btnPending')}
-          onPress={withdrawJoinRequest}
+          onPress={() => setWithdrawDialogIsOpen(true)}
           style={[styles.actionButtonJoin, props.style]}
         >
           <HoliText>{t('spaces.join.btnPending')}</HoliText>
@@ -73,14 +65,14 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ state = 'open', onStateChange = 
       )}
 
       <HoliConfirmation
-        show={withdrawConfirmVisible}
+        show={withdrawDialogIsOpen}
         label={t('spaces.join.withdraw.confirm.headline')}
         title={t('spaces.join.withdraw.confirm.headline')}
         description={t('spaces.join.withdraw.confirm.text')}
-        onDismiss={onWithdrawConfirmDismiss}
         dismissText={t('spaces.join.withdraw.confirm.dismiss')}
         confirmText={t('spaces.join.withdraw.confirm.accept')}
-        onConfirm={onWithdrawConfirmConfirm}
+        onConfirm={submitWithdraw}
+        onDismiss={() => setWithdrawDialogIsOpen(false)}
       />
     </>
   )
