@@ -32,8 +32,6 @@ describe('@Spaces', () => {
   })
 
   it('should open the spaces filter menu and filter spaces with multiple filters', async () => {
-    await waitForElementWithTestId('btn-filter-spaces')
-
     await tapOnElementWithTestId('btn-filter-spaces')
 
     const locationFilterValue = 'Berlin'
@@ -48,8 +46,8 @@ describe('@Spaces', () => {
     // click filter confirmation button
     await tapOnElementWithTestId('holi-modal-content-close-btn')
 
-    // check if there is at least one space card (button to space)
-    await waitForElementWithTestId('btn-to-space')
+    // check if the filtered spaces container is shown
+    await waitForElementWithTestId('filtered-spaces-container')
 
     // Speeds up local execution
     if (target === 'local') {
@@ -75,27 +73,15 @@ describe('@Spaces', () => {
 
     await waitForElementWithTestId('space-description')
 
-    // Speeds up local execution
-    if (target === 'local') {
-      // navigate back
-      await tapOnElementWithTestId('nav-button-back')
-    }
-  })
-
-  it('should display space collaborators', async () => {
-    // click first element on page
-    await tapOnElementWithTestId('btn-to-space')
-    await waitForElementWithTestId('space-details-container')
-
-    // open modal
-    await waitForElementWithTestId('space-header')
     await tapOnElementWithTestId('btn-to-open-space-collaborators-modal', 1000)
 
-    // check if collaborators are displayed
+    // check if space collaborators are displayed
     await waitForElementWithTestId('spaces-collaborators-item')
 
-    // check if on click the user profile is displayed
-    await tapOnElementWithTestId('spaces-collaborators-item', 1000)
-    await waitForElementWithTestId('user-profile-full-name')
+    // close space collaborators modal
+    await tapOnElementWithTestId('nav-button-back', 1000)
+
+    // close space details page
+    await tapOnElementWithTestId('nav-button-back', 1000)
   })
 })
