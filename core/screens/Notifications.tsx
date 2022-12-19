@@ -9,6 +9,8 @@ import { useScrollYHandler } from '@holi/core/helpers'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
@@ -27,6 +29,19 @@ const Notifications: React.VFC<ScreenProps> = () => {
         <HoliHeading level="1" size="super">
           {title}
         </HoliHeading>
+
+        {/* Example space join notification -- start -- */}
+        <HoliHeading level="1" size="super">
+          {t('notifications.join.request', { fullName: 'Uschi' })}
+        </HoliHeading>
+        <HoliText>Holi Moli Space</HoliText>
+        <HoliButton inline label={t('notifications.join.request.accept')}>
+          <HoliText>{t('notifications.join.request.accept')}</HoliText>
+        </HoliButton>
+        <HoliButton inline label={t('notifications.join.request.decline')}>
+          <HoliText>{t('notifications.join.request.decline')}</HoliText>
+        </HoliButton>
+        {/* Example space join notification -- end -- */}
       </View>
     </DefaultLayout>
   )
