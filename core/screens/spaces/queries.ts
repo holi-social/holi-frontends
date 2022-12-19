@@ -97,13 +97,13 @@ export const spacesQueryMultipleTopics = gql`
   }
 `
 
+export type TopicToSpaces = {
+  topicId: string
+  spaces: Paged<Space>
+}
+
 export type SpacesByTopicResponse = {
-  spacesByTopic: [
-    {
-      topicId: string
-      spaces: Paged<Space>
-    }
-  ]
+  spacesByTopic: TopicToSpaces[]
 }
 
 export const spaceByIdQuery = gql`
