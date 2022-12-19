@@ -1,8 +1,7 @@
-import React, { useLayoutEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageBackground, Linking, Platform, StyleSheet, View } from 'react-native'
 
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -17,26 +16,8 @@ type GoodNewsArticleComponentProps = {
 
 const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = (props: GoodNewsArticleComponentProps) => {
   const { t } = useTranslation()
-  const title = t('goodnews:app.name')
   const mixins = useStyleMixins()
   const article = props.article
-  const { setOptions } = useUnifiedNavigation()
-
-  // TODO only execute when this article is visible
-  useLayoutEffect(
-    () =>
-      setOptions({
-        headerTitle: ({ tintColor }) => (
-          <View>
-            <HoliText size={'large'} style={[{ color: tintColor }, styles.iconShadow]}>
-              {title}
-            </HoliText>
-            <HoliText style={[{ color: tintColor, alignSelf: 'center' }, styles.iconShadow]}>{article.date}</HoliText>
-          </View>
-        ),
-      }),
-    [setOptions, title, t, article.date]
-  )
 
   return (
     <View
@@ -46,7 +27,7 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = (prop
       }}
     >
       <ImageBackground source={{ uri: article.pictureUrl }} resizeMode="cover" style={styles.headerBackgroundImage}>
-        <HoliText style={[styles.pictureCredit, styles.iconShadow]}>{article.pictureCredit}</HoliText>
+        <HoliText style={[styles.pictureCredit, styles.headerTextShadow]}>{article.pictureCredit}</HoliText>
       </ImageBackground>
       <View style={[mixins.container, styles.textContent]} testID="goodnews-list-item">
         <HoliText size={'small'} style={{ paddingBottom: 8 }}>
@@ -86,6 +67,12 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderColor: colors.borderColorBlack,
   },
+  headerTextShadow: {
+    shadowColor: 'rgba(0,0,0,1)',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.5,
+    shadowRadius: 3,
+  },
   pictureCredit: {
     color: colors.fontColorWhite,
     paddingBottom: 9,
@@ -102,12 +89,5 @@ const styles = StyleSheet.create({
   },
   externalLinkButtonText: {
     paddingRight: 6,
-  },
-  /* COMMON */
-  iconShadow: {
-    shadowColor: 'rgba(0,0,0,1)',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.5,
-    shadowRadius: 3,
   },
 })

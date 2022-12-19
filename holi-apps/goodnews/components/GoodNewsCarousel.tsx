@@ -1,10 +1,11 @@
 import { useQuery } from '@apollo/client'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel'
 
 import { logError } from '@holi/core/errors/helpers'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -15,6 +16,7 @@ import {
 } from '@holi-apps/goodnews/queries'
 
 import GoodNewsArticleComponent from './GoodNewsArticleComponent'
+import GoodNewsHeader from './GoodNewsHeader'
 
 type GoodNewsCarouselProps = Record<string, never>
 
@@ -23,6 +25,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
   const { i18n } = useTranslation()
   const { width, height } = useWindowDimensions()
   const styles = useMemo(() => createStyles(width, height), [width, height])
+  const { setOptions } = useUnifiedNavigation()
   const { loading, error, data } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
     GoodNewsArticlesQuery,
     {
@@ -54,7 +57,22 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
   }, [fetchingMore, t])
   */
 
-  const [activeSlide, setActiveSlide] = useState<number>(0)
+  const [activeArticleIndex, setActiveArticleIndex] = useState<number>(0)
+
+  useEffect(() => {
+    setOptions({
+      headerTitle: ({ tintColor }) => (
+        <GoodNewsHeader tintColor={tintColor} article={articles && articles[activeArticleIndex]} />
+      ),
+      headerTransparent: true,
+      headerStyle: { backgroundColor: 'transparent' },
+      headerTintColor: colors.fontColorWhite,
+      navigationCustomOptions: {
+        headerBackgroundGradient: true,
+        footerShown: false,
+      },
+    })
+  }, [setOptions, articles, activeArticleIndex])
 
   if (error) {
     logError(error, `[GoodNewsCarousel.tsx] ${error.message}`)
@@ -79,12 +97,12 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
         loop={false}
         data={articles}
         renderItem={({ item }) => <GoodNewsArticleComponent article={item} key={item.id} />}
-        onSnapToItem={(index) => setActiveSlide(index)}
+        onSnapToItem={(index) => setActiveArticleIndex(index)}
         scrollAnimationDuration={250}
       />
       <View style={styles.paginationDotArea}>
         <HoliText>
-          {activeSlide + 1} / {articles.length} {/* TODO render dots */}
+          {activeArticleIndex + 1} / {articles.length} {/* TODO render dots */}
         </HoliText>
       </View>
       {/* TODO for usage in paging (HOLI-2508)
@@ -110,15 +128,6 @@ const createStyles = (width: number, height: number) => {
       minHeight: paginationDotAreaHeight,
       height: paginationDotAreaHeight,
       alignSelf: 'center',
-    },
-    paginationDot: {
-      width: 6,
-      height: 6,
-      borderRadius: 16,
-      marginHorizontal: 0,
-    },
-    paginationDotInactive: {
-      // Define styles for inactive dots here
     },
   })
 }
