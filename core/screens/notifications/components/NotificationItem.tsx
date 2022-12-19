@@ -9,6 +9,7 @@ const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props
 
   switch (notificationType) {
     case NotificationType.CONNECTION_REQUEST:
+    case NotificationType.CONNECTION_ACCEPTED:
     case NotificationType.CONNECTION_CONFIRMED:
       return <NotificationConnectionItem notification={notification} {...props} />
 

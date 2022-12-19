@@ -8,6 +8,7 @@ export enum NotificationType {
   POST_COMMENT_REPLY = 'PCR',
   POST_COMMENT_REACTION = 'PCRA',
   CONNECTION_REQUEST = 'CR',
+  CONNECTION_ACCEPTED = 'CA',
   CONNECTION_CONFIRMED = 'CC',
   FOLLOW = 'F',
   FOLLOW_REQUEST = 'FR',
@@ -29,7 +30,10 @@ export interface NotificationBase {
 }
 
 export interface NotificationConnection extends NotificationBase {
-  notificationType: NotificationType.CONNECTION_REQUEST | NotificationType.CONNECTION_CONFIRMED
+  notificationType:
+    | NotificationType.CONNECTION_REQUEST
+    | NotificationType.CONNECTION_ACCEPTED
+    | NotificationType.CONNECTION_CONFIRMED
   options: {
     user: User
   }
