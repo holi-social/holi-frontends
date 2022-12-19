@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import PlacesAutocomplete from '@holi/core/location/components/PlacesAutocomplete'
-import { Skill, Topic } from '@holi/core/screens/userprofile/types'
+import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -23,16 +23,16 @@ export type SpaceFilter = {
 type SpaceFilterModalProps = {
   filters?: SpaceFilter
   applyFilters: (filter: SpaceFilter) => void
-  topics: Topic[]
-  skills: Skill[]
 }
 
-const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, applyFilters, topics, skills }) => {
+const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, applyFilters }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const [topicId, setTopicId] = useState(filters.topicId)
   const [location, setLocation] = useState(filters.location)
   const [skillIds, setSkillIds] = useState(filters.skillIds)
+
+  const { loading, loadingFailed, topics, skills } = useContext(SpaceTermContext)
 
   const [showFilterModal, setShowFilterModal] = useState(false)
   const closeModal = useCallback(() => {
@@ -81,6 +81,11 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
       }),
     [setSkillIds]
   )
+
+  // Loading or error state just hides the component
+  if (loading || loadingFailed) {
+    return <></>
+  }
 
   return (
     <>

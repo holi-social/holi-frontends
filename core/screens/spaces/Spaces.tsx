@@ -1,23 +1,19 @@
-import { useQuery } from '@apollo/client'
 import React, { memo, useCallback, useContext, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import { StyleSheet, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { displayError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import DiscoverSpacesView from '@holi/core/screens/spaces/components/DiscoverSpacesView'
 import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
-import { topicsQuery } from '@holi/core/screens/spaces/queries'
+import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
-import { SkillsQueryResult, TopicsQueryResult, skillsQuery } from '@holi/core/screens/userprofile/queries'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -51,17 +47,6 @@ const Spaces: React.VFC<ScreenProps> = () => {
   )
   const { user } = useContext(UserContext)
 
-  const { loading, data: topicsData, error: topicsError } = useQuery<TopicsQueryResult>(topicsQuery)
-  const topics = topicsData?.topics.data || []
-
-  const { data: skillsData, error: skillsError } = useQuery<SkillsQueryResult>(skillsQuery)
-  const skills = skillsData?.skills.data || []
-
-  const combinedError = topicsError || skillsError
-  if (combinedError) {
-    displayError(combinedError, t('spaces.spaceListing.error'))
-  }
-
   useLayoutEffect(() => {
     const title = t('spaces.title')
 
@@ -92,19 +77,12 @@ const Spaces: React.VFC<ScreenProps> = () => {
   }, [setOptions, navigate, t])
 
   return (
-    <>
+    <SpaceTermContextProvider>
       <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.wrapper}>
-        {loading ? (
-          // TODO: replace with proper loading indicator
-          <View style={[mixins.container, styles.messageContainer]}>
-            <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
-          </View>
-        ) : (
-          <DiscoverSpacesView style={mixins.container} user={user} topics={topics} />
-        )}
+        <DiscoverSpacesView style={mixins.container} user={user} />
       </DefaultLayout>
-      <SpaceFilterModal applyFilters={applyFilters} topics={topics} skills={skills} />
-    </>
+      <SpaceFilterModal applyFilters={applyFilters} />
+    </SpaceTermContextProvider>
   )
 }
 
