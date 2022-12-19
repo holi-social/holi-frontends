@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import { StyleSheet, useWindowDimensions } from 'react-native'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 
 import { logError } from '@holi/core/errors/helpers'
@@ -14,7 +14,6 @@ import {
 import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 import GoodNewsArticleComponent from './GoodNewsArticleComponent'
-import HoliButton from "@holi/ui/components/molecules/HoliButton"
 
 type GoodNewsCarouselProps = Record<string, never>
 
@@ -65,6 +64,10 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
     console.error('[GoodNewsCarousel.tsx] articles array is empty')
     return <></>
   }
+
+  // TODO render dots as in design and fix behavior
+  // TODO separate into presenting and data fetching components
+  // TODO fix deprecation warning, e.g. using patch-package as in https://github.com/meliorence/react-native-snap-carousel/issues/966
 
   return (
     <>

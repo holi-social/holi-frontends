@@ -58,13 +58,14 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = (prop
         <HoliText size={'large'} style={{ paddingBottom: 16 }}>
           {article.teaserText}
         </HoliText>
-        {/* TODO refactoring to modify <HoliLink /> so that it works as a button, too */}
+        {/* TODO refactoring to modify <HoliLink /> so that it works as/with a button, too */}
         <HoliButton
           label={t('goodnews:button.readArticle')}
           onPress={() => Linking.openURL(article.articleUrl)}
           testID="btn-to-article-external"
         >
           <HoliText style={styles.externalLinkButtonText}>{t('goodnews:button.readArticle')}</HoliText>
+          {/* TODO external link (part of HoliLink) ? */}
           <HoliIcon icon={'share-box'} />
         </HoliButton>
       </View>
