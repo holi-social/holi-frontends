@@ -1,17 +1,18 @@
 import { useQuery } from '@apollo/client'
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, useWindowDimensions } from 'react-native'
-import Carousel, { Pagination } from 'react-native-snap-carousel'
+import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import Carousel from 'react-native-reanimated-carousel'
 
 import { logError } from '@holi/core/errors/helpers'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import { colors } from '@holi/ui/styles/globalVars'
 
 import {
   GoodNewsArticlesQuery,
   GoodNewsArticlesQueryArgs,
   GoodNewsArticlesQueryResponse,
 } from '@holi-apps/goodnews/queries'
-import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 import GoodNewsArticleComponent from './GoodNewsArticleComponent'
 
@@ -19,10 +20,10 @@ type GoodNewsCarouselProps = Record<string, never>
 
 /** This is a temporary component and should be replaced by a carousel-style component later */
 const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
-  const { t, i18n } = useTranslation()
-  const { width } = useWindowDimensions()
-  const [fetchingMore, setFetchingMore] = useState(false)
-  const { loading, error, data, fetchMore } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
+  const { i18n } = useTranslation()
+  const { width, height } = useWindowDimensions()
+  const styles = useMemo(() => createStyles(width, height), [width, height])
+  const { loading, error, data } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
     GoodNewsArticlesQuery,
     {
       variables: {
@@ -32,6 +33,10 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
     }
   )
   const articles = data?.appGoodNews_articles.articles
+
+  /* TODO for usage in paging (HOLI-2508)
+  const [fetchingMore, setFetchingMore] = useState(false)
+
   const oldestDate: string | undefined = useMemo(() => {
     return articles ? articles[articles.length - 1].date : undefined
   }, [articles])
@@ -47,8 +52,8 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
   const fetchMoreButtonText = useMemo(() => {
     return fetchingMore ? t('goodnews:listing.loadMoreButton.loading') : t('goodnews:listing.loadMoreButton.text')
   }, [fetchingMore, t])
+  */
 
-  const carouselRef = useRef<Carousel<GoodNewsArticle> | null>(null)
   const [activeSlide, setActiveSlide] = useState<number>(0)
 
   if (error) {
@@ -65,49 +70,55 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
     return <></>
   }
 
-  // TODO render dots as in design and fix behavior
-  // TODO separate into presenting and data fetching components
-  // TODO fix deprecation warning, e.g. using patch-package as in https://github.com/meliorence/react-native-snap-carousel/issues/966
-
   return (
     <>
+      {/* props documentation https://github.com/dohooo/react-native-reanimated-carousel/blob/HEAD/docs/props.md */}
       <Carousel
-        ref={(c) => (carouselRef.current = c)}
+        width={width}
+        style={styles.carousel}
+        loop={false}
         data={articles}
         renderItem={({ item }) => <GoodNewsArticleComponent article={item} key={item.id} />}
         onSnapToItem={(index) => setActiveSlide(index)}
-        sliderWidth={width}
-        itemWidth={width}
-        contentContainerCustomStyle={{ flexBasis: 'auto', flexGrow: 1 }}
+        scrollAnimationDuration={250}
       />
-      <Pagination
-        tappableDots={true}
-        carouselRef={carouselRef}
-        dotsLength={articles.length}
-        activeDotIndex={activeSlide}
-        dotStyle={styles.paginationDot}
-        inactiveDotStyle={styles.paginationDotInactive}
-        inactiveDotOpacity={0.4}
-        inactiveDotScale={0.6}
-        containerStyle={{ flexBasis: 'auto', flexGrow: 0, flexShrink: 1 }}
-      />
-      {/*<HoliButton label={fetchMoreButtonText} onPress={memoizedFetchMore} testID="btn-goodnews-list-load-more">
+      <View style={styles.paginationDotArea}>
+        <HoliText>
+          {activeSlide + 1} / {articles.length} {/* TODO render dots */}
+        </HoliText>
+      </View>
+      {/* TODO for usage in paging (HOLI-2508)
+      <HoliButton label={fetchMoreButtonText} onPress={memoizedFetchMore} testID="btn-goodnews-list-load-more">
         {fetchMoreButtonText}
-      </HoliButton>*/}
+      </HoliButton>
+      */}
     </>
   )
 }
 
 export default GoodNewsCarousel
 
-const styles = StyleSheet.create({
-  paginationDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 16,
-    marginHorizontal: 0,
-  },
-  paginationDotInactive: {
-    // Define styles for inactive dots here
-  },
-})
+const createStyles = (width: number, height: number) => {
+  const paginationDotAreaHeight = 40
+  return StyleSheet.create({
+    carousel: {
+      width: width,
+      height: height - paginationDotAreaHeight,
+    },
+    paginationDotArea: {
+      backgroundColor: colors.backgroundColorGreyLight,
+      minHeight: paginationDotAreaHeight,
+      height: paginationDotAreaHeight,
+      alignSelf: 'center',
+    },
+    paginationDot: {
+      width: 6,
+      height: 6,
+      borderRadius: 16,
+      marginHorizontal: 0,
+    },
+    paginationDotInactive: {
+      // Define styles for inactive dots here
+    },
+  })
+}
