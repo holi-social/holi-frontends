@@ -16,16 +16,16 @@ import {
 } from '@holi-apps/goodnews/queries'
 
 import GoodNewsArticleComponent from './GoodNewsArticleComponent'
+import GoodNewsHeader from './GoodNewsHeader'
 
 type GoodNewsCarouselProps = Record<string, never>
 
 /** This is a temporary component and should be replaced by a carousel-style component later */
 const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
-  const { t, i18n } = useTranslation()
+  const { i18n } = useTranslation()
   const { width, height } = useWindowDimensions()
   const styles = useMemo(() => createStyles(width, height), [width, height])
   const { setOptions } = useUnifiedNavigation()
-  const title = t('goodnews:app.name')
   const { loading, error, data } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
     GoodNewsArticlesQuery,
     {
@@ -60,22 +60,19 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
   const [activeArticleIndex, setActiveArticleIndex] = useState<number>(0)
 
   useEffect(() => {
-    const dateFormat = new Intl.DateTimeFormat(i18n.language)
     setOptions({
       headerTitle: ({ tintColor }) => (
-        <View>
-          <HoliText size={'large'} style={[{ color: tintColor }, styles.iconShadow]}>
-            {title}
-          </HoliText>
-          {articles && articles[activeArticleIndex] && (
-            <HoliText style={[{ color: tintColor, alignSelf: 'center' }, styles.iconShadow]}>
-              {dateFormat.format(Date.parse(articles[activeArticleIndex].date))}
-            </HoliText>
-          )}
-        </View>
+        <GoodNewsHeader tintColor={tintColor} article={articles && articles[activeArticleIndex]} />
       ),
+      headerTransparent: true,
+      headerStyle: { backgroundColor: 'transparent' },
+      headerTintColor: colors.fontColorWhite,
+      navigationCustomOptions: {
+        headerBackgroundGradient: true,
+        footerShown: false,
+      },
     })
-  }, [setOptions, title, t, articles, activeArticleIndex, styles.iconShadow, i18n.language])
+  }, [setOptions, articles, activeArticleIndex])
 
   if (error) {
     logError(error, `[GoodNewsCarousel.tsx] ${error.message}`)
@@ -131,22 +128,6 @@ const createStyles = (width: number, height: number) => {
       minHeight: paginationDotAreaHeight,
       height: paginationDotAreaHeight,
       alignSelf: 'center',
-    },
-    paginationDot: {
-      width: 6,
-      height: 6,
-      borderRadius: 16,
-      marginHorizontal: 0,
-    },
-    paginationDotInactive: {
-      // Define styles for inactive dots here
-    },
-    /* COMMON */
-    iconShadow: {
-      shadowColor: 'rgba(0,0,0,1)',
-      shadowOffset: { width: 0, height: 0 },
-      shadowOpacity: 0.5,
-      shadowRadius: 3,
     },
   })
 }

@@ -27,7 +27,7 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = (prop
       }}
     >
       <ImageBackground source={{ uri: article.pictureUrl }} resizeMode="cover" style={styles.headerBackgroundImage}>
-        <HoliText style={[styles.pictureCredit, styles.pictureCreditShadow]}>{article.pictureCredit}</HoliText>
+        <HoliText style={[styles.pictureCredit, styles.headerTextShadow]}>{article.pictureCredit}</HoliText>
       </ImageBackground>
       <View style={[mixins.container, styles.textContent]} testID="goodnews-list-item">
         <HoliText size={'small'} style={{ paddingBottom: 8 }}>
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderColor: colors.borderColorBlack,
   },
-  pictureCreditShadow: {
+  headerTextShadow: {
     shadowColor: 'rgba(0,0,0,1)',
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.5,
