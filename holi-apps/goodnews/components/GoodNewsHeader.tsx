@@ -1,0 +1,33 @@
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { View } from 'react-native'
+
+import HoliText from '@holi/ui/components/atoms/HoliText'
+
+import { commonStyles } from '@holi-apps/goodnews/common_styles'
+import { GoodNewsArticle } from '@holi-apps/goodnews/types'
+
+export type GoodNewsHeaderProps = {
+  tintColor: string | undefined
+  article?: GoodNewsArticle | undefined
+}
+
+const GoodNewsHeader: React.VFC<GoodNewsHeaderProps> = ({ article = undefined, ...props }) => {
+  const { t, i18n } = useTranslation()
+  const title = t('goodnews:app.name')
+  const dateFormat = new Intl.DateTimeFormat(i18n.language)
+  return (
+    <View>
+      <HoliText size={'large'} style={[commonStyles.headerTextShadow, { color: props.tintColor }]}>
+        {title}
+      </HoliText>
+      {article && (
+        <HoliText style={[commonStyles.headerTextShadow, { color: props.tintColor, alignSelf: 'center' }]}>
+          {dateFormat.format(Date.parse(article.date))}
+        </HoliText>
+      )}
+    </View>
+  )
+}
+
+export default GoodNewsHeader
