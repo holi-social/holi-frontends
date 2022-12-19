@@ -45,11 +45,13 @@ export interface NotificationPost extends NotificationBase {
     | NotificationType.POST_USER_MENTION
   options: {
     user: User
-    post: {
-      id: string
-    }
+
     postComment: {
       id: string
+      text: string
+      post: {
+        id: string
+      }
     }
   }
 }

@@ -25,11 +25,11 @@ export const notificationsQuery = gql`
           user {
             ...UserAvatar
           }
-          post {
-            id
-          }
           postComment {
             id
+            post {
+              id
+            }
           }
         }
       }
