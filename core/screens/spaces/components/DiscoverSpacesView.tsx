@@ -4,23 +4,30 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpacesByTopic from '@holi/core/screens/spaces/components/SpacesByTopic'
 import SpacesFilterHeader from '@holi/core/screens/spaces/components/SpacesFilterHeader'
+import { SpacesForTopic } from '@holi/core/screens/spaces/queries'
+import { Space } from '@holi/core/screens/spaces/types'
 import { Topic, User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
+import { Paged } from '@holi/core/types'
 
 type DiscoverSpacesViewProps = {
   user?: User
   topics: Topic[]
   style?: StyleProp<ViewStyle>
+  spaces: SpacesForTopic[]
 }
 
-const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({ topics, user, style }) => {
-  // const { t } = useTranslation()
-
+const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({ topics, user, style, spaces }) => {
   const sortedTopics = useMemo(() => topics.slice().sort(termsByTitleComparator) || [], [topics])
 
   const [filteredTopics, otherTopics] = useMemo(() => {
     const userInterestIds = (user?.interests || []).map((topic) => topic.id)
     return partition(sortedTopics, (topic) => userInterestIds.includes(topic.id))
   }, [sortedTopics, user])
+
+  const spacesForTopic = (topicId: string): Paged<Space> => {
+    const result = spaces.find((spacesByTopic) => spacesByTopic.topicId === topicId)?.spaces
+    return result || { totalResults: 0, data: [] }
+  }
 
   return (
     <View style={style} testID="spaces-container">
@@ -33,7 +40,7 @@ const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({ topics, user, 
       />
 
       {filteredTopics.map((topic) => (
-        <SpacesByTopic key={topic.id} topic={topic} style={{ marginBottom: 12 }} />
+        <SpacesByTopic key={topic.id} topic={topic} spaces={spacesForTopic(topic.id)} style={{ marginBottom: 12 }} />
       ))}
 
       {/* Will be added again once we introduce filtering
@@ -43,7 +50,7 @@ const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({ topics, user, 
         </HoliHeading>
       )} */}
       {otherTopics.map((topic) => (
-        <SpacesByTopic key={topic.id} topic={topic} style={{ marginBottom: 12 }} />
+        <SpacesByTopic key={topic.id} topic={topic} spaces={spacesForTopic(topic.id)} style={{ marginBottom: 12 }} />
       ))}
     </View>
   )
@@ -53,6 +60,10 @@ const styles = StyleSheet.create({
   headerContainer: {
     marginTop: 40,
     marginBottom: 48,
+  },
+  messageContainer: {
+    alignItems: 'center',
+    marginTop: 50,
   },
 })
 
