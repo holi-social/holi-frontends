@@ -7,7 +7,8 @@ import SpacesHorizontalSlider from '@holi/core/screens/spaces/components/SpacesH
 import SpacesSeeMore from '@holi/core/screens/spaces/components/SpacesSeeMore'
 import { Space } from '@holi/core/screens/spaces/types'
 import { Topic } from '@holi/core/screens/userprofile/types'
-import HoliText from '@holi/ui/components/atoms/HoliText'
+
+import SpacesFilterPill from './SpacesFilterPill'
 
 type TopicSliderProps = {
   topic: Topic
@@ -34,9 +35,12 @@ const TopicSlider: React.VFC<TopicSliderProps> = ({
   return (
     <View style={[styles.slider, style]} testID={testID}>
       <View style={styles.sliderHeader}>
-        <HoliText size="large" testID="spaces-topic-title">
-          {topic.title}
-        </HoliText>
+        <SpacesFilterPill
+          testID="spaces-topic-title"
+          label={topic.title}
+          filterType="topic"
+          onPress={() => navigate(`/spaces/filter?topicId=${topic.id}`)}
+        />
       </View>
       <SpacesHorizontalSlider
         slideGap={slideGap}
