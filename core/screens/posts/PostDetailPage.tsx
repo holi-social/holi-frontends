@@ -90,7 +90,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
       isWeb
         ? target.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' })
         : scrollViewRef.current?.scrollTo({
-            y: y + height + COMMENT_VIEW_PADDING_BOTTOM,
+            y: y + height + COMMENT_VIEW_PADDING_BOTTOM * 2, // mobile scrolling does not work reliable, it is why '2' multiplier is used
             animated: true,
           })
     },
