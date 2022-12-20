@@ -14,6 +14,7 @@ export interface LayoutProps extends ScrollViewProps {
   headerOverlap?: boolean
   hasFooterTabBar?: boolean
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
+  testID?: string
 }
 
 const DefaultLayout: React.FC<LayoutProps> = ({
@@ -21,6 +22,7 @@ const DefaultLayout: React.FC<LayoutProps> = ({
   children,
   headerOverlap,
   hasFooterTabBar = true,
+  testID,
   ...scrollViewProps
 }: LayoutProps) => {
   const screenView = (
@@ -30,6 +32,7 @@ const DefaultLayout: React.FC<LayoutProps> = ({
         hasFooterTabBar && styles.footerPadding,
         style,
       ]}
+      testID={testID}
     >
       {children}
     </View>
@@ -38,7 +41,7 @@ const DefaultLayout: React.FC<LayoutProps> = ({
   if (Platform.OS === 'web') return screenView
 
   const mobileLayout = (
-    <ScrollView {...scrollViewProps} contentContainerStyle={[styles.scrollLayout, style]}>
+    <ScrollView {...scrollViewProps} contentContainerStyle={[styles.scrollLayout, style]} testID={testID}>
       {screenView}
     </ScrollView>
   )

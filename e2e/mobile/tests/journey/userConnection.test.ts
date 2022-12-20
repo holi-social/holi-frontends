@@ -39,6 +39,6 @@ describe('@UserConnection', () => {
 
     // clean up view
     await logout()
-    await scrollToElementWithTestId('home-feed-insights-heading', 'up', { maxAttempts: 3 })
+    await navigateBackToHomeScreen()
   })
 })

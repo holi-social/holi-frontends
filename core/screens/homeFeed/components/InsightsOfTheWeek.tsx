@@ -24,7 +24,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
 
   const [showEditorsModal, setShowEditorsModal] = useState(false)
 
-  const numberOfInsights = 2
+  const numberOfInsights = 3
   const { loading, error, data } = useQuery<LastInsightsResponse>(lastInsightsQuery, {
     variables: { limit: numberOfInsights },
   })

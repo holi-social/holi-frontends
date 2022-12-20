@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -8,15 +8,14 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParam, { arrayParamConfig, singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import FilteredNoResults from '@holi/core/screens/spaces/FilteredNoResults'
-import SpaceFilterModal, { SpaceFilterParams } from '@holi/core/screens/spaces/components/SpaceFilterModal'
+import FilteredSpacesHeading from '@holi/core/screens/spaces/components/FilteredSpacesHeading'
+import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
+import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import SpacesGrid from '@holi/core/screens/spaces/components/SpacesGrid'
 import { SpacesResponse, spacesQuery } from '@holi/core/screens/spaces/queries'
-import { topicsQuery } from '@holi/core/screens/spaces/queries'
-import { TopicsQueryResult } from '@holi/core/screens/userprofile/queries'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -24,53 +23,49 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const { useParam } = createParam<SpaceFilterParams>()
+export type FilteredSpacesParams = {
+  topicId?: string
+  location?: string
+  skillId?: string[]
+}
+
+const { useParam, useUpdateParams } = createParam<FilteredSpacesParams>()
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
 const SPACES_PAGE_SIZE = 20
 
 const FilteredSpaces: React.VFC<ScreenProps> = () => {
-  const [topicId, setTopicId] = useParam('topicId')
-  const [location, setLocation] = useParam('location')
+  const [topicId] = useParam('topicId', singleParamConfig)
+  const [location] = useParam('location', singleParamConfig)
+  const [skillIds] = useParam('skillId', arrayParamConfig)
+  const updateParams = useUpdateParams()
+  const { navigate } = useRouting()
 
   const applyFilters = useCallback(
-    (filters) => {
-      if (filters.topicId != topicId) {
-        setTopicId(filters.topicId)
-      }
-      if (filters.location != location) {
-        setLocation(filters.location)
+    (filters: SpaceFilter) => {
+      if (!filters.topicId && !filters.location && !filters.skillIds?.length) {
+        navigate('/spaces')
+      } else {
+        const { topicId, location } = filters
+        updateParams({ topicId, location, skillId: filters.skillIds })
       }
     },
-    [topicId, setTopicId, location, setLocation]
+    [updateParams, navigate]
   )
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { setOptions } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
   const { height: deviceHeight } = useWindowDimensions()
   const styles = getStyles(deviceHeight)
   const [fetchingMore, setFetchingMore] = useState(false)
-  const { navigate } = useRouting()
-
-  const { data: topicsData } = useQuery<TopicsQueryResult>(topicsQuery)
-
-  const topics = topicsData?.topics.data || []
-  const topic = topics.find((topic) => topic.id === topicId)
-
-  const fallbackTitle = t('spaces.title.filtered')
-
-  useLayoutEffect(() => {
-    // if more than one filter is applied, use the fallback title, otherwise use the current filter's title
-    setOptions({ title: location && topic ? fallbackTitle : topic?.title || location })
-  }, [setOptions, topic, location, fallbackTitle])
 
   const { loading, data, error, fetchMore } = useQuery<SpacesResponse>(spacesQuery, {
     variables: {
       topicId: topicId,
       location: location,
+      skillIds: skillIds,
       limit: SPACES_PAGE_SIZE,
       offset: 0,
     },
@@ -103,9 +98,17 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
     return <></>
   }
 
+  const filters = { topicId, location, skillIds }
+
   return (
-    <>
-      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.wrapper}>
+    <SpaceTermContextProvider>
+      <DefaultLayout
+        onScroll={onScreenScroll}
+        scrollEventThrottle={200}
+        style={styles.wrapper}
+        testID="filtered-spaces-container"
+      >
+        <FilteredSpacesHeading {...filters} />
         {spaces.length > 0 && <SpacesGrid style={[mixins.container, styles.grid]} spaces={spaces} />}
         {!spaces.length &&
           (loading ? (
@@ -125,8 +128,8 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
           </View>
         )}
       </DefaultLayout>
-      <SpaceFilterModal filters={{ topicId, location }} applyFilters={applyFilters} topics={topics} />
-    </>
+      <SpaceFilterModal filters={filters} applyFilters={applyFilters} />
+    </SpaceTermContextProvider>
   )
 }
 

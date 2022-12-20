@@ -1464,6 +1464,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
         style={
           Object {
             "height": 120,
+            "zIndex": -1,
           }
         }
       />

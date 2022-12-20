@@ -1,11 +1,21 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AccessibilityProps, Modal, ModalProps, Platform, StyleSheet, View } from 'react-native'
+import {
+  AccessibilityProps,
+  Modal,
+  ModalProps,
+  Platform,
+  Pressable,
+  StyleSheet,
+  View,
+  useWindowDimensions,
+} from 'react-native'
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 
 export type HoliConfirmationProps = ModalProps & {
@@ -34,6 +44,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
   const { t } = useTranslation()
   const [visible, setVisible] = useState(show)
   const { setModalIsOpen } = useTheme()
+  const { width: screenWidth } = useWindowDimensions()
 
   const setModalOpen = useCallback(
     (isOpen: boolean) => {
@@ -52,6 +63,8 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
     accessibilityLabel: label,
   }
 
+  const smallDevice = parseInt(vars.breakpointXs, 10) + 50
+
   return (
     <Modal
       {...accessibilityProps}
@@ -61,12 +74,18 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
       {...(testID ? { testID: `${testID}-confirmation-dialog` } : {})}
     >
       <View style={styles.modalContainer}>
-        <View style={styles.backdrop} {...(testID ? { testID: `${testID}-confirmation-backdrop` } : {})} />
+        <Pressable
+          onPress={onDismiss}
+          style={styles.backdrop}
+          {...(testID ? { testID: `${testID}-confirmation-backdrop` } : {})}
+        />
 
         <View style={styles.modalView}>
-          <HoliText bold>{title}</HoliText>
+          <HoliHeading level="4" size="small">
+            {title}
+          </HoliHeading>
           <HoliText style={styles.description}>{description}</HoliText>
-          <View style={styles.buttonContainer}>
+          <View style={[styles.buttonContainer, screenWidth <= smallDevice && styles.buttonContainerSmall]}>
             {onDismiss && (
               <HoliButton
                 inline
@@ -84,7 +103,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
                 inline
                 label={confirmText || t('confirmation.confirm')}
                 onPress={onConfirm}
-                style={[styles.button, styles.marginLeft]}
+                style={[styles.button, { marginLeft: screenWidth <= smallDevice ? 0 : 5 }]}
                 {...(testID ? { testID: `${testID}-confirmation-confirm` } : {})}
               >
                 {confirmText || t('confirmation.confirm')}
@@ -110,6 +129,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   modalView: {
+    maxWidth: 460,
     padding: 24,
     margin: 25,
     alignSelf: 'center',
@@ -127,16 +147,17 @@ const styles = StyleSheet.create({
   },
   description: {
     marginTop: 8,
-    marginBottom: 16,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    flexWrap: 'wrap',
+  },
+  buttonContainerSmall: {
+    marginLeft: -14,
+    marginRight: -14,
   },
   button: {
-    minWidth: 110,
-  },
-  marginLeft: {
-    marginLeft: 20,
+    marginTop: 24,
   },
 })
