@@ -1,8 +1,9 @@
-import { useQuery } from '@apollo/client'
-import React, { memo, useLayoutEffect } from 'react'
+import { useLazyQuery } from '@apollo/client'
+import React, { memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, SectionList, StyleSheet, View } from 'react-native'
 
+import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { isLastWeek, isThisWeek, useScrollYHandler } from '@holi/core/helpers'
 import i18n from '@holi/core/i18n'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -59,10 +60,16 @@ const Notifications: React.VFC = () => {
   const mixins = useStyleMixins()
   const { setOptions } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
+  const { isLoggedIn } = useAuth()
 
-  const { data, error, loading } = useQuery<NotificationsResponse>(notificationsQuery, {
+  const [getNotifications, { data, error, loading }] = useLazyQuery<NotificationsResponse>(notificationsQuery, {
     variables: { offset: 0, limit: 100 },
   })
+
+  // Fetch notifications only if user is logged in
+  useEffect(() => {
+    isLoggedIn && getNotifications()
+  }, [getNotifications, isLoggedIn])
 
   useLayoutEffect(
     () =>
@@ -80,7 +87,7 @@ const Notifications: React.VFC = () => {
     [setOptions, title]
   )
 
-  if (loading || error || !data) return null
+  if (loading || error || !data) return <View style={styles.mainWrapper} />
 
   const sortedNotificationsByDate = sortNotificationsByDate(data.notifications.data)
 
