@@ -40,8 +40,6 @@ const GoodNewsArticleTeaser: React.VFC<GoodNewsArticleTeaserProps> = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     paddingTop: 94,
   },
   clearBtn: {
@@ -53,18 +51,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   lookingForMore: {
-    flex: 1,
+    flexShrink: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 16,
+    paddingVertical: 72,
   },
   title: {
     paddingHorizontal: 16,
   },
   mainImage: {
     borderColor: colors.borderColorBlack,
-    display: 'flex',
-    flex: 1.3,
+    flex: 1,
+    flexGrow: 1,
     width: '100%',
     borderRadius: 28,
     borderWidth: 1,
