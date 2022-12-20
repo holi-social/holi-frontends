@@ -3,13 +3,12 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 
 export const useUnifiedNavigation = () => {
   const context = useNavigationContext()
-  const { navigate, navigateBack, replaceRoute, query } = useRouting()
+  const { navigate, navigateBack, replaceRoute } = useRouting()
 
   return {
     navigate,
     navigateBack,
     replaceRoute,
-    query,
     ...context,
   }
 }

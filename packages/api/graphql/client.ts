@@ -86,7 +86,7 @@ export const createCache = () =>
             keyArgs: ['locale'],
           },
           spaces: {
-            keyArgs: ['topicId'],
+            keyArgs: ['topicId', 'location', 'skillIds'],
           },
         },
       },
