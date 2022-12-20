@@ -14,6 +14,7 @@ export interface LayoutProps extends ScrollViewProps {
   headerOverlap?: boolean
   hasFooterTabBar?: boolean
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
+  testID?: string
 }
 
 const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(

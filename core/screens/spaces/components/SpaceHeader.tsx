@@ -5,6 +5,7 @@ import { StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'rea
 
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceCollaborators from '@holi/core/screens/spaces/components/SpaceCollaborators'
+import SpaceJoin, { SpaceJoinState } from '@holi/core/screens/spaces/components/SpaceJoin'
 import { Space } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -40,6 +41,8 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
     setModalVisible(true)
   }, [setModalVisible])
 
+  const [joinRequestState, setJoinRequestState] = useState<SpaceJoinState>('open')
+
   return (
     <View style={[styles.container, style]} testID="space-header">
       <SpaceCollaborators space={space} show={modalVisible} onDismiss={() => setModalVisible(false)} />
@@ -48,7 +51,13 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
         {space.title}
       </HoliHeading>
       <View style={styles.avatarPileContainer}>
-        <HoliButton label={t('spaces.collaborators.showModal')} transparent inline onPress={openModal}>
+        <HoliButton
+          label={t('spaces.collaborators.showModal')}
+          transparent
+          inline
+          onPress={openModal}
+          testID="btn-to-open-space-collaborators-modal"
+        >
           <HoliUserAvatarPile users={sortedMembersList} usersToShow={3} counter collapse testID="space-members">
             <HoliText size="small" style={styles.avatarPileText}>
               {t('spaces.members.member', { count: sortedMembersList.length })}
@@ -56,13 +65,13 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
           </HoliUserAvatarPile>
         </HoliButton>
       </View>
+
       <View style={styles.actionButtons}>
         <HoliButton inline label={t('spaces.follow')} type="secondary">
           <HoliText>{t('spaces.follow')}</HoliText>
         </HoliButton>
-        <HoliButton inline label={t('spaces.join')} style={styles.actionButtonJoin}>
-          <HoliText>{t('spaces.join')}</HoliText>
-        </HoliButton>
+
+        <SpaceJoin state={joinRequestState} onStateChange={setJoinRequestState} />
       </View>
     </View>
   )
@@ -86,13 +95,8 @@ const styles = StyleSheet.create({
   actionButtons: {
     marginTop: 32,
     flexDirection: 'row',
-    justifyContent: 'center',
-    width: '100%',
     maxWidth: 420,
-  },
-  actionButtonJoin: {
-    flex: 1,
-    marginLeft: 8,
+    flexWrap: 'wrap',
   },
 })
 

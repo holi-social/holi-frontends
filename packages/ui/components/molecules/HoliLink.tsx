@@ -1,27 +1,29 @@
 import React, { useCallback } from 'react'
-import { Linking, Platform, StyleProp, StyleSheet, TextStyle } from 'react-native'
+import { Linking, StyleProp, StyleSheet, TextStyle } from 'react-native'
 
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type HoliLink = {
+export type HoliLinkProps = {
   href: string
   label: string
   external?: boolean
   onPress?: CallableFunction
   style?: StyleProp<TextStyle>
+  textStyle?: StyleProp<TextStyle>
   // if 'HoliLink' is used in Modal Screen use 'mobileNavigateBackFirst' on mobile to close modal first and then navigate to HREF
   mobileNavigateBackFirst?: boolean
   testID?: string
 }
 
-const HoliLink: React.FC<HoliLink> = ({
+const HoliLink: React.FC<HoliLinkProps> = ({
   href,
   label,
   external,
   onPress,
   style,
+  textStyle,
   children,
   mobileNavigateBackFirst,
   testID = 'text-link',
@@ -29,18 +31,21 @@ const HoliLink: React.FC<HoliLink> = ({
   const { navigate, navigateBack } = useUnifiedNavigation()
 
   const onLinkPress = useCallback(() => {
+    const stopPropagation = onPress?.()
+
+    if (stopPropagation === false) return
+
     if (external) {
       Linking.openURL(href)
     } else {
       // for Modal on mobile go back first to close Modal and then navigate to HREF
-      if (!(Platform.OS === 'web') && mobileNavigateBackFirst) {
+      if (mobileNavigateBackFirst) {
         navigateBack()
-        setTimeout(() => navigate(href))
+        setTimeout(() => navigate(href), 300)
       } else {
         navigate(href)
       }
     }
-    onPress?.()
   }, [external, href, mobileNavigateBackFirst, navigate, navigateBack, onPress])
 
   return (
@@ -48,7 +53,7 @@ const HoliLink: React.FC<HoliLink> = ({
       accessibilityRole={'button'}
       accessibilityLabel={label}
       accessible
-      style={[styles.link, style]}
+      style={[styles.link, style, textStyle]}
       onPress={onLinkPress}
       testID={testID}
     >

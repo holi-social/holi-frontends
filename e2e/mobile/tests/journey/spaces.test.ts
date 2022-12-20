@@ -1,8 +1,8 @@
 import { waitForHomeScreen } from '../../helpers/navigation'
 import {
+  fillFieldByTestId,
   locateMultipleElementsWithTestId,
   tapOnElementWithTestId,
-  waitForElementWithInnerText,
   waitForElementWithTestId,
 } from '../../helpers/selectors'
 
@@ -31,19 +31,32 @@ describe('@Spaces', () => {
     expect(spaces.length).toBeGreaterThan(1)
   })
 
-  it('should go to filtered spaces page and display multiple spaces with that filter', async () => {
-    const topicElement = await waitForElementWithTestId('spaces-topic-title')
-    const topicTitle = await topicElement.getText()
+  it('should open the spaces filter menu and filter spaces with multiple filters', async () => {
+    await tapOnElementWithTestId('btn-filter-spaces')
 
-    await tapOnElementWithTestId('spaces-topic-title')
+    const locationFilterValue = 'Berlin'
+    await fillFieldByTestId('spaces-filter-location-input', locationFilterValue)
 
-    // check if page title is the same as topic title
-    await waitForElementWithInnerText(topicTitle)
+    // open topics dropdown
+    await tapOnElementWithTestId('spaces-filter-interests-input')
 
-    // check if there is at least one space card (button to space)
-    await waitForElementWithTestId('btn-to-space')
+    // click on first topic in the list
+    await tapOnElementWithTestId('spaces-filter-interests-item')
+
+    // click filter confirmation button
+    await tapOnElementWithTestId('holi-modal-content-close-btn')
+
+    // check if the filtered spaces container is shown
+    await waitForElementWithTestId('filtered-spaces-container')
+
+    // Speeds up local execution
+    if (target === 'local') {
+      // navigate back
+      await tapOnElementWithTestId('nav-button-back')
+    }
   })
 
+  // fails on ios: element ("~space-members") still not displayed after 10000ms
   it('should display space details', async () => {
     // click first element on page
     await tapOnElementWithTestId('btn-to-space')
@@ -56,14 +69,19 @@ describe('@Spaces', () => {
 
     await waitForElementWithTestId('space-title')
 
-    await waitForElementWithTestId('space-members')
+    await waitForElementWithTestId('btn-to-open-space-collaborators-modal')
 
     await waitForElementWithTestId('space-description')
 
-    // Speeds up local execution
-    if (target === 'local') {
-      // navigate back
-      await tapOnElementWithTestId('nav-button-back')
-    }
+    await tapOnElementWithTestId('btn-to-open-space-collaborators-modal', 1000)
+
+    // check if space collaborators are displayed
+    await waitForElementWithTestId('spaces-collaborators-item')
+
+    // close space collaborators modal
+    await tapOnElementWithTestId('nav-button-back', 1000)
+
+    // close space details page
+    await tapOnElementWithTestId('nav-button-back', 1000)
   })
 })

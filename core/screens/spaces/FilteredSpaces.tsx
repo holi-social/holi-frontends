@@ -33,17 +33,22 @@ const SPACES_PAGE_SIZE = 20
 const FilteredSpaces: React.VFC<ScreenProps> = () => {
   const [topicId, setTopicId] = useParam('topicId')
   const [location, setLocation] = useParam('location')
+  const { navigate } = useRouting()
 
   const applyFilters = useCallback(
     (filters) => {
-      if (filters.topicId != topicId) {
-        setTopicId(filters.topicId)
-      }
-      if (filters.location != location) {
-        setLocation(filters.location)
+      if (!filters.topicId && !filters.location) {
+        navigate('/spaces')
+      } else {
+        if (filters.topicId != topicId) {
+          setTopicId(filters.topicId)
+        }
+        if (filters.location != location) {
+          setLocation(filters.location)
+        }
       }
     },
-    [topicId, setTopicId, location, setLocation]
+    [topicId, setTopicId, location, setLocation, navigate]
   )
 
   const { t } = useTranslation()
@@ -53,7 +58,6 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
   const { height: deviceHeight } = useWindowDimensions()
   const styles = getStyles(deviceHeight)
   const [fetchingMore, setFetchingMore] = useState(false)
-  const { navigate } = useRouting()
 
   const { data: topicsData } = useQuery<TopicsQueryResult>(topicsQuery)
 
@@ -105,7 +109,12 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.wrapper}>
+      <DefaultLayout
+        onScroll={onScreenScroll}
+        scrollEventThrottle={200}
+        style={styles.wrapper}
+        testID="filtered-spaces-container"
+      >
         {spaces.length > 0 && <SpacesGrid style={[mixins.container, styles.grid]} spaces={spaces} />}
         {!spaces.length &&
           (loading ? (

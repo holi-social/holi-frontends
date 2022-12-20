@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useCallback, useContext, useLayoutEffect, useRef, useState } from 'react'
+import React, { memo, useCallback, useContext, useLayoutEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   LayoutChangeEvent,
@@ -15,20 +15,20 @@ import {
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import { logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
 import CommentView from '@holi/core/screens/posts/components/CommentView'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
-import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -46,12 +46,12 @@ const COMMENT_BUTTON_CONTAINER_HEIGHT = 74
 const COMMENT_VIEW_PADDING_BOTTOM = 120
 
 const PostDetailPage: React.VFC<ScreenProps> = () => {
-  const [showLoginConfirmation, setShowLoginConfirmation] = useState(false)
   const [insightId = ''] = useParam('insightId')
   const [postId] = useParam('postId')
   const [commentId] = useParam('commentId')
   const { navigate } = useRouting()
-  const { user } = useContext(UserContext)
+  const { isLoggedIn } = useContext(AuthContext)
+  const { openLoginDialog } = useLoginRedirect()
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
@@ -143,23 +143,13 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
           <PostDetailFooter
             style={[styles.postCommentButton, isWeb && mixins.container]}
             onPress={() =>
-              user
+              isLoggedIn
                 ? navigate(`${insightId && `/insights/${insightId}`}/posts/${post.id}/comment`)
-                : setShowLoginConfirmation(true)
+                : openLoginDialog()
             }
           />
         </View>
       </SafeAreaView>
-
-      <HoliConfirmation
-        show={showLoginConfirmation}
-        label={t('auth.login.needed.title')}
-        title={t('auth.login.needed.title')}
-        description={t('auth.login.needed.description')}
-        onDismiss={() => setShowLoginConfirmation(false)}
-        dismissText={t('auth.login.needed.dismiss')}
-        testID="post-comment-login-needed"
-      />
     </>
   )
 }

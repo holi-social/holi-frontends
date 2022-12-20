@@ -1,5 +1,6 @@
 {
   "app.name": "Good News",
-  "goodnewsListing.loadMoreButton.loading": "Lädt",
-  "goodnewsListing.loadMoreButton.text": "Weiter lesen"
+  "listing.loadMoreButton.loading": "Lädt",
+  "listing.loadMoreButton.text": "Weiter lesen",
+  "button.readArticle": "Artikel lesen"
 }

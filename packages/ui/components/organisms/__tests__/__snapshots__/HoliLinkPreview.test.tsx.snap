@@ -25,6 +25,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
             "color": "#6267e7",
           },
           undefined,
+          undefined,
         ],
       ]
     }
