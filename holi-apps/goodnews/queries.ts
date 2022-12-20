@@ -11,10 +11,10 @@ export const FullArticleFragment = gql`
     pictureUrl
     pictureCredit
     articleUrl
-    source
     sortKey
     category
     language
+    source
   }
 `
 
