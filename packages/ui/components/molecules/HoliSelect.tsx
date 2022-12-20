@@ -14,7 +14,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type HoliSelectOption = {
   id: string
   title: string
-  selected: boolean
+  selected?: boolean
 }
 
 export type HoliSelectProps = {
