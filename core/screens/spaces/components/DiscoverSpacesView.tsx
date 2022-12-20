@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     marginTop: 37,
   },
   spacesByTopic: {
-    marginBottom: 12,
+    marginBottom: 31,
   },
 })
 
