@@ -123,6 +123,7 @@
   "multiselect.close": "Schließen",
   "multiselect.empty": "Keine Optionen gefunden",
   "multiselect.open": "Öffnen",
+  "multiselect.options": "Liste der Optionen",
   "navigation.bottomNavigation": "Untere Navigation",
   "navigation.closeWindow": "Fenster schließen",
   "navigation.headerLeft.back": "Zurück",

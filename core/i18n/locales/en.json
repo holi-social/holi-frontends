@@ -124,6 +124,7 @@
   "multiselect.close": "Close",
   "multiselect.empty": "No options found",
   "multiselect.open": "Open",
+  "multiselect.options": "Option list",
   "navigation.bottomNavigation": "Bottom Navigation",
   "navigation.closeWindow": "Close window",
   "navigation.headerLeft.back": "Go back",

@@ -134,6 +134,8 @@ const HoliSelect = ({
         onFocus={() => setFocusAndOpen('option-' + item.id)}
         onPress={() => onSelect(item)}
         testID={testID && `${testID}-item`}
+        accessibilityChecked={item.selected}
+        accessibilityState={{ checked: true }}
       >
         <HoliText selectable={false} numberOfLines={2}>
           {item.title}
@@ -248,11 +250,13 @@ const HoliSelect = ({
           data={filteredOptions}
           renderItem={renderItem}
           keyExtractor={(option) => option.id}
-          style={isOpened && styles.optionsMenu}
+          style={styles.optionsMenu}
           nativeID={`${id}-options`}
           accessibilityRole="menu"
           keyboardShouldPersistTaps="always"
           persistentScrollbar={true}
+          accessibilityLabel={t('multiselect.options')}
+          accessibilityState={{ expanded: true }}
         />
       )}
     </View>
