@@ -171,3 +171,9 @@ export const interestsQuery = gql`
 export interface TopicsQueryResult {
   topics: Paged<Topic>
 }
+
+export interface SkillsQueryResult {
+  skills: {
+    data: Skill[]
+  }
+}

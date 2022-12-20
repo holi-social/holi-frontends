@@ -8,6 +8,7 @@ global.console = {
   ...console,
   error: jest.fn(),
 }
+global.mockSetOptions = jest.fn()
 
 jest.mock('@react-navigation/native', () => {
   const actualNav = jest.requireActual('@react-navigation/native')
@@ -20,6 +21,7 @@ jest.mock('@react-navigation/native', () => {
         routes: [{}],
         index: 0,
       })),
+      setOptions: global.mockSetOptions,
     }),
     useLinkTo: () => global.mockNavigate,
   }

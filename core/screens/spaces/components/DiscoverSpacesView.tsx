@@ -1,22 +1,24 @@
 import partition from 'lodash.partition'
-import React, { useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import SpacesByTopic from '@holi/core/screens/spaces/components/SpacesByTopic'
 import SpacesFilterHeader from '@holi/core/screens/spaces/components/SpacesFilterHeader'
 import { SpacesForTopic } from '@holi/core/screens/spaces/queries'
 import { Space } from '@holi/core/screens/spaces/types'
-import { Topic, User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
+import { User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
 
 type DiscoverSpacesViewProps = {
   user?: User
-  topics: Topic[]
   style?: StyleProp<ViewStyle>
   spaces: SpacesForTopic[]
 }
 
-const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({ topics, user, style, spaces }) => {
+const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({ user, style, spaces }) => {
+  const { topics } = useContext(SpaceTermContext)
+
   const sortedTopics = useMemo(() => topics.slice().sort(termsByTitleComparator) || [], [topics])
 
   const [filteredTopics, otherTopics] = useMemo(() => {
