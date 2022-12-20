@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
-import type { Topic, UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
+import type { Skill, Topic, UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
 
 export const userAvatarFragment = gql`
@@ -173,7 +173,5 @@ export interface TopicsQueryResult {
 }
 
 export interface SkillsQueryResult {
-  skills: {
-    data: Skill[]
-  }
+  skills: Paged<Skill>
 }
