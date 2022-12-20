@@ -116,8 +116,8 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
       <View style={styles.paginationDotArea}>
         {!fetchingMore && (
           <PaginationDot
-            activeDotColor={'#262424'}
-            inactiveDotColor={colors.fontColorGrey}
+            activeDotColor={colors.backgroundColorModalDark}
+            inactiveDotColor={colors.grey}
             curPage={activeArticleIndex}
             maxPage={carouselItems.length}
             sizeRatio={1.0}
