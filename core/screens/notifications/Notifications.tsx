@@ -60,7 +60,9 @@ const Notifications: React.VFC = () => {
   const { setOptions } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
 
-  const { data, error, loading } = useQuery<NotificationsResponse>(notificationsQuery)
+  const { data, error, loading } = useQuery<NotificationsResponse>(notificationsQuery, {
+    variables: { offset: 0, limit: 100 },
+  })
 
   useLayoutEffect(
     () =>
