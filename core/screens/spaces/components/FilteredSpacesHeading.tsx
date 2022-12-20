@@ -15,8 +15,8 @@ const FilteredSpacesHeading: React.VFC<SpaceFilter> = ({ topicId, location, skil
   const singleSkill = skillIds.length === 1 ? skills.find((skill) => skill.id === skillIds[0]) : undefined
   const titles = [location, topic?.title, singleSkill?.title].filter((title) => !!title)
   // if more than one filter is applied, use the fallback title, otherwise use the current filter's title
-  const useFallbackTItle = loading || loadingFailed || skillIds.length > 1 || titles.length !== 1
-  const title = useFallbackTItle ? fallbackTitle : titles[0]
+  const useFallbackTitle = loading || loadingFailed || skillIds.length > 1 || titles.length !== 1
+  const title = useFallbackTitle ? fallbackTitle : titles[0]
 
   useLayoutEffect(() => {
     setOptions({ title })

@@ -65,7 +65,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
   const skillOptions = skills.map((skill) => ({
     id: skill.id,
     title: skill.title,
-    selected: skillIds?.includes(skill.id) || false,
+    selected: skillIds?.includes(skill.id),
   }))
   const toggleSkillSelection = useCallback(
     (option: HoliSelectOption) =>
