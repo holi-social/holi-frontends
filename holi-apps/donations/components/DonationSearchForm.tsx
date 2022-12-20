@@ -32,6 +32,7 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
       style={styles.modalWrapper}
       testID="donations-search-modal"
       keyboardShouldPersistTaps="always"
+      scrollable={false}
     >
       <View style={styles.container}>
         <View style={styles.headingRow}>

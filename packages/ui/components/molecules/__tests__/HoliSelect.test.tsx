@@ -32,9 +32,9 @@ describe('HoliSelect', () => {
       expect(screen.toJSON()).toMatchSnapshot()
     })
 
-    it('calls onChange with selection', () => {
+    it('calls onSelectOption with selection', () => {
       const onChange = jest.fn()
-      render(<HoliSelect {...SingleSelect.args} testID="test" onChange={onChange} />)
+      render(<HoliSelect {...SingleSelect.args} testID="test" onSelectOption={onChange} />)
 
       fireEvent.press(screen.getByTestId('test-toggle-menu'))
 

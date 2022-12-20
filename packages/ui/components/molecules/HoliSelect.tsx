@@ -1,5 +1,5 @@
 // based on https://github.com/onmotion/react-native-autocomplete-dropdown/
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { ReactChild, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Keyboard, Platform, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
@@ -23,31 +23,47 @@ export type HoliSelectProps = {
   placeholder?: string
   helperText?: string
   validationErrorText?: string
-  onChange: (option: HoliSelectOption) => void
+  initialSearchText?: string
+  onSelectOption: (option: HoliSelectOption) => void
   style?: StyleProp<ViewStyle>
   options: HoliSelectOption[]
   testID?: string
   inputProps?: TextInputProps
   id: string
   multiSelect?: boolean
+  onChangeText?: (value: string) => void
+  filterOptions?: boolean
+  trailingIcon?: ReactChild
+  selectionAsPlaceholder?: boolean
+  onSubmit?: (value: string) => void
+  noResultsText?: string
+  hideListWithoutOptions?: boolean
 }
 
 const HoliSelect = ({
   style = {},
   multiSelect = false,
+  filterOptions = true,
+  selectionAsPlaceholder = true,
+  hideListWithoutOptions = false,
   accessibilityLabel,
   inputLabel,
   placeholder,
   helperText,
   validationErrorText,
-  onChange,
+  initialSearchText,
+  noResultsText,
+  onSelectOption,
+  onChangeText,
+  onSubmit,
   inputProps,
   options,
+  trailingIcon,
   id,
   testID,
 }: HoliSelectProps) => {
   const { t } = useTranslation()
-  const [searchText, setSearchText] = useState('')
+  const [searchText, setSearchText] = useState(initialSearchText || '')
   const [isOpened, setIsOpened] = useState(false)
   const [focusedItem, setFocusedItem] = useState<string | null>(null)
   const [textInputHeight, setTextInputHeight] = useState(0)
@@ -59,18 +75,19 @@ const HoliSelect = ({
     [setTextInputHeight]
   )
 
-  const onChangeText = useCallback(
+  const handleTextChange = useCallback(
     (text: string) => {
       setIsOpened(true)
-      return setSearchText(text)
+      setSearchText(text)
+      return onChangeText && onChangeText(text)
     },
-    [setSearchText, setIsOpened]
+    [setSearchText, setIsOpened, onChangeText]
   )
 
   const clearFocus = useCallback(
     (focusToClear) => {
       // without the timeout the dropdown closes upon selecting an item
-      // we should first wait if another element is focused in the meantime
+      // we first wait if another element is focused in the meantime
       const timer = setTimeout(() => {
         setFocusedItem((currentlyFocusedItem) => {
           // always close when clicking on the toggle button on mobile
@@ -87,10 +104,17 @@ const HoliSelect = ({
   useEffect(() => {
     if (!focusedItem) {
       setIsOpened(false)
-      setSearchText('')
+      if (selectionAsPlaceholder) {
+        setSearchText('')
+      }
       Platform.OS !== 'web' && Keyboard.dismiss()
     }
-  }, [focusedItem, setIsOpened, setSearchText])
+  }, [focusedItem, setIsOpened, setSearchText, selectionAsPlaceholder])
+
+  // Update search text if value changes from outside (e.g. cleared)
+  useEffect(() => {
+    !selectionAsPlaceholder && setSearchText(initialSearchText || '')
+  }, [selectionAsPlaceholder, initialSearchText])
 
   const setFocusAndOpen = useCallback(
     (focusId) => {
@@ -100,17 +124,25 @@ const HoliSelect = ({
     [setFocusedItem, setIsOpened]
   )
 
-  const onSelect = useCallback(
+  const handleOptionSelection = useCallback(
     (option) => {
-      onChange(option)
+      onSelectOption(option)
       if (!multiSelect) {
         setIsOpened(false)
-        setSearchText('')
+        setSearchText(selectionAsPlaceholder ? '' : option.title)
         Keyboard.dismiss()
       }
     },
-    [onChange, setIsOpened, setSearchText, multiSelect]
+    [onSelectOption, setIsOpened, setSearchText, multiSelect, selectionAsPlaceholder]
   )
+
+  const onSubmitEditing = useCallback(() => {
+    if (onSubmit) {
+      onSubmit(searchText || '')
+      clearFocus('input')
+    }
+  }, [onSubmit, searchText, clearFocus])
+
   const toggleMenu = useCallback(() => {
     if (isOpened) {
       clearFocus('toggle')
@@ -132,7 +164,7 @@ const HoliSelect = ({
         style={styles.listItem}
         contentStyle={styles.listItemContent}
         onFocus={() => setFocusAndOpen('option-' + item.id)}
-        onPress={() => onSelect(item)}
+        onPress={() => handleOptionSelection(item)}
         testID={testID && `${testID}-item`}
         accessibilityChecked={item.selected}
         accessibilityState={{ checked: true }}
@@ -151,12 +183,12 @@ const HoliSelect = ({
         </View>
       </HoliButton>
     ),
-    [testID, setFocusAndOpen, clearFocus, onSelect, styles, multiSelect]
+    [testID, setFocusAndOpen, clearFocus, handleOptionSelection, styles, multiSelect]
   )
 
   const noOptions = (
     <View style={styles.listItem}>
-      <HoliText>{t('multiselect.empty')}</HoliText>
+      <HoliText>{noResultsText || t('multiselect.empty')}</HoliText>
     </View>
   )
 
@@ -171,17 +203,17 @@ const HoliSelect = ({
         onBlur={() => clearFocus('toggle')}
         testID={testID && `${testID}-toggle-menu`}
       >
-        <HoliIcon icon={isOpened ? 'arrow-up-s' : 'arrow-down-s'} size={22} />
+        {trailingIcon || <HoliIcon icon={isOpened ? 'arrow-up-s' : 'arrow-down-s'} size={22} />}
       </HoliButton>
     ),
-    [isOpened, t, toggleMenu, setFocusedItem, clearFocus, testID]
+    [isOpened, t, toggleMenu, setFocusedItem, clearFocus, testID, trailingIcon]
   )
   const clearInputButton = useMemo(() => {
     return (
       <HoliButton
         label={t('multiselect.clear')}
         transparent
-        onPress={() => onChangeText('')}
+        onPress={() => handleTextChange('')}
         onFocus={() => setFocusedItem('clear')}
         onBlur={() => clearFocus('clear')}
         testID={testID && `${testID}-clear-input`}
@@ -190,7 +222,7 @@ const HoliSelect = ({
         <HoliIcon icon="close" filled size={16} />
       </HoliButton>
     )
-  }, [t, testID, onChangeText, setFocusedItem, clearFocus, styles])
+  }, [t, testID, handleTextChange, setFocusedItem, clearFocus, styles])
   const trailingComponent = useMemo(() => {
     return (
       <View style={styles.trailingIconContainer}>
@@ -207,11 +239,13 @@ const HoliSelect = ({
       ? selectedOptions[0].title
       : selectedOptions.length > 1 && `${inputLabel} · ${selectedOptions.length}`
   const filteredOptions = useMemo(
-    () => options.filter((option) => !regex || option.title.match(regex)),
-    [options, regex]
+    () => (filterOptions ? options.filter((option) => !regex || option.title.match(regex)) : options),
+    [options, regex, filterOptions]
   )
+  const listVisible = isOpened && (filteredOptions.length > 0 || !hideListWithoutOptions)
 
-  const placeholderTextColor = selectedText ? colors.fontColor : tinycolor(colors.fontColorGrey).lighten(30).toString()
+  const placeholderTextColor =
+    selectionAsPlaceholder && selectedText ? colors.fontColor : tinycolor(colors.fontColorGrey).lighten(30).toString()
 
   /**
    * TODO:
@@ -225,7 +259,7 @@ const HoliSelect = ({
       <HoliTextInput
         inputLabel={inputLabel}
         value={searchText}
-        placeholder={selectedText || placeholder}
+        placeholder={(selectionAsPlaceholder && selectedText) || placeholder}
         validationErrorText={validationErrorText}
         helperText={isOpened && options.length ? undefined : helperText}
         accessibilityLabel={accessibilityLabel}
@@ -235,15 +269,15 @@ const HoliSelect = ({
         accessibilityExpanded={isOpened}
         accessibilityHasPopup="menu"
         trailingComponent={trailingComponent}
-        inputProps={{ ...inputProps, placeholderTextColor }}
-        inputStyle={isOpened ? styles.textInputOpened : {}}
+        inputProps={{ ...inputProps, placeholderTextColor, onSubmitEditing }}
+        inputStyle={[(!!focusedItem || listVisible) && styles.textInputFocused, listVisible && styles.textInputOpened]}
         labelStyle={isOpened ? styles.textInputLabelOpened : {}}
-        onChange={onChangeText}
+        onChange={handleTextChange}
         onBlur={() => clearFocus('input')}
         onFocus={() => setFocusAndOpen('input')}
         testID={testID}
       />
-      {isOpened && (
+      {listVisible && (
         <FlatList
           bounces={false}
           ListEmptyComponent={noOptions}
@@ -272,10 +306,12 @@ const getStyles = (textInputHeight: number) =>
     selectedOptionsPreview: {
       marginBottom: 6,
     },
+    textInputFocused: {
+      borderColor: colors.borderColorSecondary,
+    },
     textInputOpened: {
       borderBottomLeftRadius: 0,
       borderBottomRightRadius: 0,
-      borderColor: colors.borderColorSecondary,
     },
     textInputLabelOpened: {
       color: colors.secondaryColor,

@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 
 import iconSetRegular from '@holi/ui/assets/fonts/HoliIcons/filled/selection.json'
-import HoliAutocomplete, { Suggestion } from '@holi/ui/components/molecules/HoliAutocomplete'
+import HoliAutocomplete from '@holi/ui/components/molecules/HoliAutocomplete'
+import { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 
 export default {
   title: 'Molecules/HoliAutocomplete',
@@ -17,27 +18,27 @@ export default {
 const allSuggestions = [
   {
     id: '1',
-    label: 'Hamburg, Germany',
+    title: 'Hamburg, Germany',
   },
   {
     id: '2',
-    label: 'Berlin, Germany',
+    title: 'Berlin, Germany',
   },
   {
     id: '3',
-    label: 'Munich, Germany',
+    title: 'Munich, Germany',
   },
 ]
 
 export const Primary = ({ ...args }) => {
+  const [value, setValue] = useState('')
   const [loading, setLoading] = useState(false)
-  const [suggestions, setSuggestions] = useState<Suggestion[]>([])
-  const [helperText, setHelperText] = useState('')
+  const [suggestions, setSuggestions] = useState<HoliSelectOption[]>([])
   const onChange = (input: string) => {
     setLoading(true)
+    setValue(input)
     setTimeout(() => {
       setSuggestions(input ? allSuggestions.slice(0, input.length % (allSuggestions.length + 1)) : [])
-      setHelperText(input && !suggestions.length ? 'No suggestions found' : '')
       setLoading(false)
     }, 1000)
   }
@@ -48,10 +49,10 @@ export const Primary = ({ ...args }) => {
       debounce={args.debounce}
       id={args.id}
       {...args}
+      value={value}
       onChange={onChange}
       suggestions={suggestions}
       loading={loading}
-      helperText={helperText}
     />
   )
 }
@@ -60,7 +61,8 @@ Primary.args = {
   inputLabel: 'Label',
   accessibilityLabel: 'accessibility label',
   placeholder: 'Start typing...',
-  debounce: 500,
+  noResultsText: 'No suggestions found',
+  debounce: 250,
   trailingIcon: 'search',
   id: 'autocomplete-primary',
 }
@@ -68,6 +70,7 @@ const argTypes = {
   inputLabel: { description: 'Label', required: true, control: { type: 'text' } },
   accessibilityLabel: { description: 'Accessibility Label', required: true, control: { type: 'text' } },
   placeholder: { description: 'Placeholder', control: { type: 'text' } },
+  noResultsText: { description: 'Text to display when there are no results', control: { type: 'text' } },
   debounce: { description: 'Delay after typing before search starts', control: { type: 'number' } },
   trailingIcon: {
     type: 'select',
@@ -93,9 +96,9 @@ WithError.args = {
   inputLabel: 'Label',
   accessibilityLabel: 'accessibility label',
   placeholder: 'Start typing...',
-  helperText: 'No suggestions found',
+  noResultsText: 'No suggestions found',
   id: 'autocomplete-error',
-  debounce: 500,
+  debounce: 250,
   trailingIcon: 'search',
   validationErrorText: 'Error retrieving suggestions',
   suggestions: [],
