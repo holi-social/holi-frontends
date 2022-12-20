@@ -186,39 +186,10 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
   )
 }
 
-const headerLeftWidth = 50
 const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: colors.backgroundColorGreyDark,
     ...Platform.select({ web: { flex: 1 } }),
-  },
-  mobileHeader: {
-    position: 'absolute',
-    top: 0,
-    flexDirection: 'row',
-    height: 100,
-  },
-  headerBackgroundGradient: {
-    ...StyleSheet.absoluteFillObject,
-    opacity: 0.6,
-  },
-  headerInner: {
-    flexDirection: 'row',
-    width: '100%',
-  },
-  headerLeft: {
-    width: headerLeftWidth,
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-  },
-  headerCenter: {
-    flex: 1,
-    marginRight: headerLeftWidth,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  headerTitle: {
-    color: colors.fontColorWhite,
   },
   insightBackgroundImage: {
     height: Platform.OS === 'web' ? 680 : 340,

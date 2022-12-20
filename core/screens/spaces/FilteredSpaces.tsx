@@ -109,7 +109,12 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.wrapper}>
+      <DefaultLayout
+        onScroll={onScreenScroll}
+        scrollEventThrottle={200}
+        style={styles.wrapper}
+        testID="filtered-spaces-container"
+      >
         {spaces.length > 0 && <SpacesGrid style={[mixins.container, styles.grid]} spaces={spaces} />}
         {!spaces.length &&
           (loading ? (
