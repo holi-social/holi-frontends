@@ -1,13 +1,14 @@
 import partition from 'lodash.partition'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, ScrollView, StatusBar, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, ScrollView, StatusBar, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Space } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
@@ -69,7 +70,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
         onDismiss={onDismiss}
       >
         <View style={[mixins.container, styles.wrapper]}>
-          <SafeAreaView style={styles.safeArea}>
+          <SafeArea style={styles.safeArea}>
             <View style={styles.header}>
               <HoliButton
                 style={styles.closeModal}
@@ -81,9 +82,11 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
               >
                 <HoliIcon icon={Platform.OS === 'web' ? 'arrow-left' : 'arrow-down-s'} />
               </HoliButton>
-              <HoliText style={styles.title}>{t('spaces.collaborators')}</HoliText>
+              <HoliText bold style={styles.title}>
+                {t('spaces.collaborators')}
+              </HoliText>
             </View>
-          </SafeAreaView>
+          </SafeArea>
           <ScrollView>
             {sortedMembersList.map((collaborator, index) => (
               <HoliButton
@@ -139,7 +142,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical: 8,
+    marginTop: 16,
   },
   header: {
     flexDirection: 'row',
@@ -154,6 +157,9 @@ const styles = StyleSheet.create({
       },
       android: {
         paddingTop: StatusBar.currentHeight || 0,
+      },
+      ios: {
+        paddingTop: 66,
       },
     }),
   },
