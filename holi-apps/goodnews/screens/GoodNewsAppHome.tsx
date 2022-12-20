@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useScrollYHandler } from '@holi/core/helpers'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -23,6 +24,9 @@ const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
     () =>
       setOptions({
         headerTitle: ({ tintColor }) => <GoodNewsHeader tintColor={tintColor} />,
+        headerLeft: ({ tintColor }) => (
+          <HeaderBackButton icon={Platform.OS === 'web' ? 'arrow-left-s' : 'arrow-down-s'} tintColor={tintColor} />
+        ),
         headerTransparent: true,
         headerStyle: { backgroundColor: 'transparent' },
         headerTintColor: colors.fontColorWhite,
