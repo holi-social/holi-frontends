@@ -99,6 +99,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
         renderItem={({ item }) => <GoodNewsArticleComponent article={item} key={item.id} />}
         onSnapToItem={(index) => setActiveArticleIndex(index)}
         scrollAnimationDuration={250}
+        testID={'goodnews-carousel'}
       />
       <View style={styles.paginationDotArea}>
         <HoliText>

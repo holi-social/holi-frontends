@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useScrollYHandler } from '@holi/core/helpers'
@@ -34,7 +35,7 @@ const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
   )
 
   return (
-    <>
+    <View testID={'goodnews-app-home'}>
       <StatusBar style="light" animated />
 
       <DefaultLayout
@@ -47,7 +48,7 @@ const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
       >
         <GoodNewsCarousel />
       </DefaultLayout>
-    </>
+    </View>
   )
 }
 

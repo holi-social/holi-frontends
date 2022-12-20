@@ -21,7 +21,7 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = (prop
   const article = props.article
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID={'goodnews-article-component'}>
       <ImageBackground source={{ uri: article.pictureUrl }} resizeMode="cover" style={styles.headerBackgroundImage}>
         <HoliText style={[styles.pictureCredit, commonStyles.headerTextShadow]}>{article.pictureCredit}</HoliText>
       </ImageBackground>
