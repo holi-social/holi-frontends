@@ -27,7 +27,7 @@ describe('HoliSelect', () => {
     it('renders correctly after selection', () => {
       render(<SingleSelect {...SingleSelect.args} testID="test" />)
       fireEvent.press(screen.getByTestId('test-toggle-menu'))
-      fireEvent.press(screen.getByTestId('test-item-2'))
+      fireEvent.press(screen.getAllByTestId('test-item')[1])
       expect(screen.getByPlaceholderText('Children & Youth')).toBeDefined()
       expect(screen.toJSON()).toMatchSnapshot()
     })
@@ -35,8 +35,10 @@ describe('HoliSelect', () => {
     it('calls onChange with selection', () => {
       const onChange = jest.fn()
       render(<HoliSelect {...SingleSelect.args} testID="test" onChange={onChange} />)
+
       fireEvent.press(screen.getByTestId('test-toggle-menu'))
-      fireEvent.press(screen.getByTestId('test-item-2'))
+
+      fireEvent.press(screen.getAllByTestId('test-item')[1])
       expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ id: '2' }))
     })
 

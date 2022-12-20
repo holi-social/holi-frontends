@@ -124,6 +124,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
               placeholder={t('spaces.filter.location.placeholder')}
               value={location}
               id="spaces-filter-location"
+              testID="spaces-filter-location"
               onChange={setLocation}
               onSubmit={setLocation}
               style={[styles.filterOption, { zIndex: 2 }]}
@@ -137,6 +138,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
               style={[styles.filterOption, { zIndex: 1 }]}
               onChange={toggleTopicSelection}
               id="spaces-filter-interests"
+              testID="spaces-filter-interests"
             />
             <HoliSelect
               options={skillOptions}

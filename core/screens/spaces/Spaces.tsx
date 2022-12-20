@@ -8,7 +8,7 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import DiscoverSpacesView from '@holi/core/screens/spaces/components/DiscoverSpacesView'
+import DiscoverSpaces from '@holi/core/screens/spaces/components/DiscoverSpaces'
 import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
@@ -79,7 +79,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
   return (
     <SpaceTermContextProvider>
       <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.wrapper}>
-        <DiscoverSpacesView style={mixins.container} user={user} />
+        <DiscoverSpaces style={mixins.container} user={user} />
       </DefaultLayout>
       <SpaceFilterModal applyFilters={applyFilters} />
     </SpaceTermContextProvider>
