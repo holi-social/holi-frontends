@@ -1,12 +1,12 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 
-import TopicSlider from '@holi/core/screens/spaces/components/TopicSlider'
+import SpacesGroupSlider from '@holi/core/screens/spaces/components/SpacesGroupSlider'
 import { spaces, topic } from '@holi/core/screens/spaces/components/__tests__/testData'
 
-describe('TopicSlider', () => {
+describe('SpacesGroupSlider', () => {
   it('renders correctly', () => {
-    const { getByText, getAllByText, getAllByRole } = render(<TopicSlider topic={topic} spaces={spaces} />)
+    const { getByText, getAllByText, getAllByRole } = render(<SpacesGroupSlider topic={topic} spaces={spaces} />)
 
     expect(getByText('Topic title')).toBeDefined()
     expect(getAllByText('Space title').length).toBe(3)
@@ -22,15 +22,15 @@ describe('TopicSlider', () => {
   })
 
   it('does not display "see more" element if there is nothing more to see', () => {
-    const { queryByTestId } = render(<TopicSlider topic={topic} spaces={spaces} />)
+    const { queryByTestId } = render(<SpacesGroupSlider topic={topic} spaces={spaces} />)
 
-    expect(queryByTestId('spaces-topic-container-see-more')).toBeFalsy()
+    expect(queryByTestId('spaces-group-slider-see-more')).toBeFalsy()
   })
 
   it('navigates to topic screen if there is more to see', () => {
-    const { getByTestId } = render(<TopicSlider topic={topic} spaces={spaces} hasMore={true} />)
+    const { getByTestId } = render(<SpacesGroupSlider topic={topic} spaces={spaces} hasMore={true} />)
 
-    fireEvent.press(getByTestId('spaces-topic-container-see-more'))
+    fireEvent.press(getByTestId('spaces-group-slider-see-more'))
 
     expect(mockNavigate).toHaveBeenCalledWith('/spaces/filter?topicId=TEST_TOPIC')
   })

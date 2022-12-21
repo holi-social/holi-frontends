@@ -5,7 +5,7 @@ import DiscoverSpacesView from '@holi/core/screens/spaces/components/DiscoverSpa
 
 describe('DiscoverSpacesView', () => {
   it('renders correctly', () => {
-    const { getByTestId } = render(<DiscoverSpacesView spaces={[]} />)
+    const { getByTestId } = render(<DiscoverSpacesView userSpecificSpacesGroups={[]} defaultSpacesGroups={[]} />)
 
     expect(getByTestId('discover-spaces-header')).toHaveTextContent('spaces.discover.welcome')
     expect(getByTestId('discover-spaces-description')).toHaveTextContent('spaces.discover.description')

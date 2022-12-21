@@ -16,24 +16,24 @@ test.describe('@Spaces', () => {
     expect(page.url()).toContain('/spaces')
   })
 
-  test('should display multiple topics with spaces', async ({ page }) => {
-    const countTopics = async () => await (await locateElementByTestId(page, 'spaces-topic-container')).count()
+  test('should display multiple groups with spaces', async ({ page }) => {
+    const countGroups = async () => await (await locateElementByTestId(page, 'spaces-group-slider')).count()
     const countSpaces = async () => await (await locateElementByTestId(page, 'btn-to-space')).count()
 
     await waitForElementByTestId(page, 'spaces-container')
 
-    await expect.poll(countTopics, { timeout: 10000 }).toBeGreaterThan(1)
+    await expect.poll(countGroups, { timeout: 10000 }).toBeGreaterThan(1)
     await expect.poll(countSpaces, { timeout: 10000 }).toBeGreaterThan(1)
 
     await checkAccessibility(page)
   })
 
-  test('should click on "see more" button for a topic and go to filtered spaces page and display spaces with that topicId', async ({
+  test('should click on "see more" button for a group and go to filtered spaces page and display spaces with that filter', async ({
     page,
   }) => {
     // check if we are in the correct page with the filter queries
     await Promise.all([
-      clickElementByTestId(page, 'spaces-topic-container-see-more'),
+      clickElementByTestId(page, 'spaces-group-slider-see-more'),
       page.waitForNavigation({ url: '**/spaces/**' }),
     ])
 

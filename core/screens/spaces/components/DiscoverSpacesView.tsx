@@ -1,39 +1,29 @@
-import partition from 'lodash.partition'
-import React, { useContext, useMemo } from 'react'
+import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
-import SpacesByTopic from '@holi/core/screens/spaces/components/SpacesByTopic'
+import SpacesGroup from '@holi/core/screens/spaces/components/SpacesGroup'
 import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
-import { Space } from '@holi/core/screens/spaces/types'
-import { User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
-import { Paged } from '@holi/core/types'
+import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
 type DiscoverSpacesViewProps = {
   user?: User
   style?: StyleProp<ViewStyle>
-  spacesGroups: DiscoverSpacesGroup[]
+  userSpecificSpacesGroups: DiscoverSpacesGroup[]
+  defaultSpacesGroups: DiscoverSpacesGroup[]
 }
 
-const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({ user, style, spacesGroups }) => {
-  const { topics } = useContext(SpaceTermContext)
+const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({
+  style,
+  userSpecificSpacesGroups,
+  defaultSpacesGroups,
+}) => {
+  const { topics, skills } = useContext(SpaceTermContext)
 
   const { t } = useTranslation()
-
-  const sortedTopics = useMemo(() => topics.slice().sort(termsByTitleComparator) || [], [topics])
-
-  const [filteredTopics, otherTopics] = useMemo(() => {
-    const userInterestIds = (user?.interests || []).map((topic) => topic.id)
-    return partition(sortedTopics, (topic) => userInterestIds.includes(topic.id))
-  }, [sortedTopics, user])
-
-  const spacesGroup = (topicId: string): Paged<Space> => {
-    const result = spacesGroups.find((spacesByTopic) => spacesByTopic.topicId === topicId)?.spaces
-    return result || { totalResults: 0, data: [] }
-  }
 
   return (
     <View style={style} testID="spaces-container">
@@ -45,18 +35,32 @@ const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({ user, style, s
       </HoliText>
 
       <View style={styles.body}>
-        {filteredTopics.map((topic) => (
-          <SpacesByTopic key={topic.id} topic={topic} spaces={spacesGroup(topic.id)} style={styles.spacesByTopic} />
+        {/* User specific spaces suggestions */}
+        {userSpecificSpacesGroups.map((group, index) => (
+          <SpacesGroup
+            key={index}
+            topic={topics.find((topic) => topic.id === group.topicId)}
+            skill={skills.find((skill) => skill.id === group.skillId)}
+            location={group.location}
+            spaces={group.spaces}
+            style={styles.spacesGroup}
+          />
         ))}
 
-        {/* Will be added again once we introduce filtering
-        {filteredTopics.length > 0 && otherTopics.length > 0 && (
-          <HoliHeading size="large" style={{ marginBottom: 24 }}>
-            {t('spaces.otherListing')}
-          </HoliHeading>
-        )} */}
-        {otherTopics.map((topic) => (
-          <SpacesByTopic key={topic.id} topic={topic} spaces={spacesGroup(topic.id)} style={styles.spacesByTopic} />
+        {userSpecificSpacesGroups.length > 0 && defaultSpacesGroups.length > 0 && (
+          <HoliText style={styles.othersTitle}>{t('spaces.discover.others')}</HoliText>
+        )}
+
+        {/* Default spaces suggestions */}
+        {defaultSpacesGroups.map((group, index) => (
+          <SpacesGroup
+            key={index}
+            topic={topics.find((topic) => topic.id === group.topicId)}
+            skill={skills.find((skill) => skill.id === group.skillId)}
+            location={group.location}
+            spaces={group.spaces}
+            style={styles.spacesGroup}
+          />
         ))}
       </View>
     </View>
@@ -75,8 +79,12 @@ const styles = StyleSheet.create({
   body: {
     marginTop: 37,
   },
-  spacesByTopic: {
-    marginBottom: 31,
+  spacesGroup: {
+    marginBottom: 30,
+  },
+  othersTitle: {
+    marginTop: 18,
+    marginBottom: 48,
   },
 })
 
