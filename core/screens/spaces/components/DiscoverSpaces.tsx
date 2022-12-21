@@ -6,7 +6,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { displayError } from '@holi/core/errors/helpers'
 import DiscoverSpacesView from '@holi/core/screens/spaces/components/DiscoverSpacesView'
 import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
-import { SpacesByTopicResponse, spacesQueryMultipleTopics } from '@holi/core/screens/spaces/queries'
+import { DiscoverSpacesResponse, discoverSpacesQuery } from '@holi/core/screens/spaces/queries'
 import { User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -25,9 +25,11 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
   const { loading: topicsLoading, topics } = useContext(SpaceTermContext)
   const sortedTopics = useMemo(() => topics.slice().sort(termsByTitleComparator) || [], [topics])
 
-  const { loading, data, error } = useQuery<SpacesByTopicResponse>(spacesQueryMultipleTopics, {
+  const { loading, data, error } = useQuery<DiscoverSpacesResponse>(discoverSpacesQuery, {
     variables: {
       topicIds: sortedTopics.map((t) => t.id),
+      skillIds: (user?.skills || []).map((skill) => skill.id),
+      location: 'Germany',
       limit: SPACES_PAGE_SIZE,
       offset: 0,
     },
@@ -47,7 +49,9 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
     )
   }
 
-  return <DiscoverSpacesView style={style} user={user} spaces={data?.spacesByTopic ?? []} />
+  console.log(data)
+
+  return <DiscoverSpacesView style={style} user={user} spacesGroups={data?.discoverSpaces ?? []} />
 }
 
 const styles = StyleSheet.create({
