@@ -69,8 +69,8 @@ exports[`SpacesFilterPill renders correctly 1`] = `
             "fontSize": 16,
             "lineHeight": 19.2,
           },
-          Object {},
-          Object {},
+          false,
+          undefined,
         ]
       }
     >
@@ -149,8 +149,8 @@ exports[`SpacesFilterPill renders correctly 2`] = `
             "fontSize": 16,
             "lineHeight": 19.2,
           },
-          Object {},
-          Object {},
+          false,
+          undefined,
         ]
       }
     >
@@ -229,8 +229,8 @@ exports[`SpacesFilterPill renders correctly 3`] = `
             "fontSize": 16,
             "lineHeight": 19.2,
           },
-          Object {},
-          Object {},
+          false,
+          undefined,
         ]
       }
     >
@@ -309,8 +309,8 @@ exports[`SpacesFilterPill renders correctly 4`] = `
             "fontSize": 16,
             "lineHeight": 19.2,
           },
-          Object {},
-          Object {},
+          false,
+          undefined,
         ]
       }
     >
