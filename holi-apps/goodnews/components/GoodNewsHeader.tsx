@@ -18,11 +18,12 @@ const GoodNewsHeader: React.VFC<GoodNewsHeaderProps> = ({ article = undefined, .
   const dateFormat = new Intl.DateTimeFormat(i18n.language)
   return (
     <View>
-      <HoliText size={'large'} style={[commonStyles.headerTextShadow, { color: props.tintColor }]}>
-        {title}
-      </HoliText>
+      <HoliText style={[commonStyles.headerTextShadow, { color: props.tintColor }]}>{title}</HoliText>
       {article && (
-        <HoliText style={[commonStyles.headerTextShadow, { color: props.tintColor, alignSelf: 'center' }]}>
+        <HoliText
+          size="extrasmall"
+          style={[commonStyles.headerTextShadow, { color: props.tintColor, alignSelf: 'center' }]}
+        >
           {dateFormat.format(Date.parse(article.date))}
         </HoliText>
       )}

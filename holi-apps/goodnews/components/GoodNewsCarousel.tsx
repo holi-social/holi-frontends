@@ -6,6 +6,7 @@ import PaginationDot from 'react-native-animated-pagination-dot'
 import Carousel from 'react-native-reanimated-carousel'
 
 import { logError } from '@holi/core/errors/helpers'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -73,6 +74,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
         headerBackgroundGradient: true,
         footerShown: false,
       },
+      headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
     })
   }, [setOptions, articles, activeArticleIndex])
 
@@ -89,6 +91,8 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
     console.error('[GoodNewsCarousel.tsx] articles array is empty')
     return <></>
   }
+
+  console.log(JSON.stringify(articles))
 
   const carouselItems: CarouselItem[] = articles
     .map((article) => ({ type: 'article', article: article } as CarouselItem))
