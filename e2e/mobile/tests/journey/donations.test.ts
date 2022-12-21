@@ -3,6 +3,7 @@ import {
   fillFieldByTestId,
   locateMultipleElementsWithTestId,
   pressEnter,
+  scroll,
   scrollToElementWithTestId,
   seeTextWithTestId,
   tapOnElementWithTestId,
@@ -22,15 +23,15 @@ describe('@Donations', () => {
 
   // fails on android: The element 'By.xpath: //*[@resource-id='donations-search-modal']' does not exist in DOM anymore
   // fails on ios: Couldn't tap on element with testID: donations-list-item
-  it.skip('should support the user journey', async () => {
+  it('should support the user journey', async () => {
     // preparation of test
     await navigateToAppById('donations')
+
+    await assertProjectDetails()
 
     const listItemsBefore = await assertDisplaysMultipleProjects()
 
     await assertAllowsPagination(listItemsBefore)
-
-    await assertProjectDetails()
 
     const resultCountGermany = await assertFilterDonationsByLocation()
 
@@ -99,6 +100,9 @@ const assertAllowsPagination = async (listItemsBefore: Record<string, unknown>[]
   // expect more elements in viewport than before (as the button has been pushed down)
   const listItemsAfter = await locateMultipleElementsWithTestId('donations-list-item')
   expect(listItemsAfter.length).toBeGreaterThan(listItemsBefore.length)
+
+  // scroll up once to make header visible again
+  await scroll('up')
 }
 
 const assertDisplaysMultipleProjects = async () => {

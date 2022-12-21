@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Keyboard, Platform, StyleSheet, View } from 'react-native'
 
 import PlacesAutocomplete from '@holi/core/location/components/PlacesAutocomplete'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -23,6 +23,7 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
 
   const reset = useCallback(() => {
     setLocationInput('')
+    Platform.OS !== 'web' && Keyboard.dismiss()
   }, [setLocationInput])
 
   return (
@@ -31,7 +32,7 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
       onActionButtonPress={() => onSubmit(locationInput)}
       style={styles.modalWrapper}
       testID="donations-search-modal"
-      keyboardShouldPersistTaps="always"
+      scrollable={false}
     >
       <View style={styles.container}>
         <View style={styles.headingRow}>
