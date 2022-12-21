@@ -151,7 +151,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
+                  false,
                   Object {
                     "textAlign": "center",
                   },
@@ -233,7 +233,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
+                  false,
                   Object {
                     "color": "#fff",
                     "fontSize": 57.6,
@@ -296,7 +296,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
+                  false,
                   Object {
                     "textAlign": "center",
                   },
@@ -428,7 +428,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
+                  false,
                   Object {
                     "textAlign": "center",
                   },
@@ -510,7 +510,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
+                  false,
                   Object {
                     "color": "#222326",
                     "fontSize": 57.6,
@@ -573,7 +573,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
+                  false,
                   Object {
                     "textAlign": "center",
                   },
@@ -705,7 +705,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
+                  false,
                   Object {
                     "textAlign": "center",
                   },
@@ -787,7 +787,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
+                  false,
                   Object {
                     "color": "#fff",
                     "fontSize": 57.6,
@@ -850,7 +850,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
+                  false,
                   Object {
                     "textAlign": "center",
                   },
@@ -984,7 +984,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
+                  false,
                   Object {
                     "textAlign": "center",
                   },

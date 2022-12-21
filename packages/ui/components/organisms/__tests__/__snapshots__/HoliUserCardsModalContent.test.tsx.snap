@@ -196,7 +196,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontSize": 16,
                           "lineHeight": 19.2,
                         },
-                        Object {},
+                        false,
                         Object {
                           "textAlign": "center",
                         },
@@ -276,7 +276,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontSize": 16,
                           "lineHeight": 19.2,
                         },
-                        Object {},
+                        false,
                         Object {
                           "color": "#fff",
                           "fontSize": 57.6,
@@ -339,7 +339,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontSize": 16,
                           "lineHeight": 19.2,
                         },
-                        Object {},
+                        false,
                         Object {
                           "textAlign": "center",
                         },
@@ -469,7 +469,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontSize": 16,
                           "lineHeight": 19.2,
                         },
-                        Object {},
+                        false,
                         Object {
                           "textAlign": "center",
                         },
@@ -549,7 +549,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontSize": 16,
                           "lineHeight": 19.2,
                         },
-                        Object {},
+                        false,
                         Object {
                           "color": "#222326",
                           "fontSize": 57.6,
@@ -612,7 +612,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontSize": 16,
                           "lineHeight": 19.2,
                         },
-                        Object {},
+                        false,
                         Object {
                           "textAlign": "center",
                         },
@@ -742,7 +742,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontSize": 16,
                           "lineHeight": 19.2,
                         },
-                        Object {},
+                        false,
                         Object {
                           "textAlign": "center",
                         },
@@ -822,7 +822,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontSize": 16,
                           "lineHeight": 19.2,
                         },
-                        Object {},
+                        false,
                         Object {
                           "color": "#fff",
                           "fontSize": 57.6,
@@ -885,7 +885,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontSize": 16,
                           "lineHeight": 19.2,
                         },
-                        Object {},
+                        false,
                         Object {
                           "textAlign": "center",
                         },
@@ -1017,7 +1017,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontSize": 16,
                           "lineHeight": 19.2,
                         },
-                        Object {},
+                        false,
                         Object {
                           "textAlign": "center",
                         },
