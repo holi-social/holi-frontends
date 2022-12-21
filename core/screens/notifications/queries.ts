@@ -2,6 +2,7 @@ import { gql } from '@apollo/client/core'
 
 import { Notification } from '@holi/core/screens/notifications/components/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
+import { Paged } from '@holi/core/types'
 
 export type NumberOfItems = {
   numberOfItems: number
@@ -39,8 +40,5 @@ export const notificationsQuery = gql`
 `
 
 export type NotificationsResponse = {
-  notifications: {
-    data: Notification[]
-    totalResults: number
-  }
+  notifications: Paged<Notification>
 }
