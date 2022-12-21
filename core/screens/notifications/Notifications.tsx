@@ -64,6 +64,8 @@ const Notifications: React.VFC = () => {
 
   const [getNotifications, { data, error, loading }] = useLazyQuery<NotificationsResponse>(notificationsQuery, {
     variables: { offset: 0, limit: 100 },
+    fetchPolicy: 'network-only',
+    pollInterval: 10000,
   })
 
   // Fetch notifications only if user is logged in
