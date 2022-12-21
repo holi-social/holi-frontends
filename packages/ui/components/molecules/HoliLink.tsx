@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Linking, StyleProp, StyleSheet, TextStyle } from 'react-native'
+import { Linking, Pressable, StyleProp, StyleSheet, TextStyle, ViewProps } from 'react-native'
 
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -48,17 +48,19 @@ const HoliLink: React.FC<HoliLinkProps> = ({
     }
   }, [external, href, mobileNavigateBackFirst, navigate, navigateBack, onPress])
 
+  const Component = typeof children === 'string' ? HoliText : Pressable
+
   return (
-    <HoliText
+    <Component
       accessibilityRole={'button'}
       accessibilityLabel={label}
       accessible
-      style={[styles.link, style, textStyle]}
+      style={[styles.link, style, textStyle] as ViewProps}
       onPress={onLinkPress}
       testID={testID}
     >
       {children}
-    </HoliText>
+    </Component>
   )
 }
 

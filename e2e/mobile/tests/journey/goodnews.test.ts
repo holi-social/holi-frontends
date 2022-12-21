@@ -1,8 +1,8 @@
 import { navigateToAppById } from '../../helpers/navigation'
 import {
-  locateMultipleElementsWithTestId,
   scrollToElementWithTestId,
   tapOnElementWithTestId,
+  waitForElementWithTestId,
   waitForElementWithTestIdToBeNull,
 } from '../../helpers/selectors'
 
@@ -20,7 +20,7 @@ describe('@GoodNews', () => {
     // preparation of test
     await navigateToAppById('goodnews')
 
-    await assertListItemsExisting()
+    await assertListItemExisting()
 
     /* TODO HOLI-2806 fix test
     await assertAllowsPagination()
@@ -28,9 +28,8 @@ describe('@GoodNews', () => {
   })
 })
 
-const assertListItemsExisting = async () => {
-  const listItemsBefore = await locateMultipleElementsWithTestId('goodnews-article-component')
-  expect(listItemsBefore.length).toBeGreaterThan(1)
+const assertListItemExisting = async () => {
+  await waitForElementWithTestId('goodnews-article-component')
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

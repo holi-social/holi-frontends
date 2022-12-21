@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from 'react'
 import {
   AccessibilityProps,
   AccessibilityRole,
+  AccessibilityState,
   GestureResponderEvent,
   NativeSyntheticEvent,
   Platform,
@@ -38,6 +39,8 @@ export interface HoliButtonProps {
   onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void
   onMouseEnter?: (event: NativeSyntheticEvent<TargetedEvent>) => void
   accessibilityRole?: AccessibilityRole
+  accessibilityChecked?: boolean
+  accessibilityState?: AccessibilityState
 }
 
 const HoliButton: React.FC<HoliButtonProps> = ({
@@ -58,6 +61,8 @@ const HoliButton: React.FC<HoliButtonProps> = ({
     ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),
     accessibilityRole: props.accessibilityRole || 'button',
     accessibilityLabel: props.label,
+    accessibilityChecked: props.accessibilityChecked,
+    accessibilityState: props.accessibilityState,
   }
 
   const content =

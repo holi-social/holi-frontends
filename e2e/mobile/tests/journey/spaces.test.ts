@@ -73,15 +73,21 @@ describe('@Spaces', () => {
 
     await waitForElementWithTestId('space-description')
 
-    await tapOnElementWithTestId('btn-to-open-space-collaborators-modal', 1000)
+    await tapOnElementWithTestId('btn-to-open-space-collaborators-modal')
 
     // check if space collaborators are displayed
     await waitForElementWithTestId('spaces-collaborators-item')
 
-    // close space collaborators modal
-    await tapOnElementWithTestId('nav-button-back', 1000)
+    // Speeds up local execution
+    if (target === 'local') {
+      // close space collaborators modal
+      await tapOnElementWithTestId('nav-button-back')
 
-    // close space details page
-    await tapOnElementWithTestId('nav-button-back', 1000)
+      // wait until space details are displayed again
+      await waitForElementWithTestId('space-details-container')
+
+      // close space details page
+      await tapOnElementWithTestId('nav-button-back')
+    }
   })
 })

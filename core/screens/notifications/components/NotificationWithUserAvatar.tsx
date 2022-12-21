@@ -26,7 +26,7 @@ const NotificationWithUserAvatar: React.FC<NotificationWithUserAvatarProps> = ({
   const { created, read } = notification
   const { id: userId, avatar, avatarDefaultColor, avatarLabel, fullName } = notification.options.user
   const { t, i18n } = useTranslation()
-  href ??= `/profile/${userId}`
+  href = href || `/profile/${userId}`
 
   return (
     <View style={style}>
