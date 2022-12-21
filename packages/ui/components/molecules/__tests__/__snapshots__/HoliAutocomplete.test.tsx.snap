@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`HoliAutocomplete renders correctly with default props 1`] = `
+exports[`HoliAutocomplete renders correctly when opened 1`] = `
 <View
+  onLayout={[Function]}
   style={Object {}}
 >
   <View
@@ -69,9 +70,9 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
                 Object {
                   "color": "#222326",
                 },
-                Array [
-                  Object {},
-                ],
+                Object {
+                  "color": "#6267e7",
+                },
                 Object {},
                 Object {},
               ],
@@ -99,8 +100,10 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
             false,
             false,
             Array [
-              Object {},
-              Object {},
+              Object {
+                "borderColor": "#6267e7",
+              },
+              false,
             ],
             undefined,
             false,
@@ -109,7 +112,289 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="list"
-          accessibilityControls="autocomplete-primary-suggestions"
+          accessibilityControls="autocomplete-primary-options"
+          accessibilityLabel="accessibility label"
+          accessible={true}
+          autoCapitalize="none"
+          autoComplete="off"
+          autoCorrect={false}
+          blurOnSubmit={true}
+          editable={true}
+          keyboardType="default"
+          maxLength={5000}
+          multiline={false}
+          numberOfLines={1}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onContentSizeChange={[Function]}
+          onFocus={[Function]}
+          onSubmitEditing={[Function]}
+          placeholder="Start typing..."
+          placeholderTextColor="#c0c1c9"
+          secureTextEntry={false}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "flex": 1,
+                "fontFamily": "Circular Std Book",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 22.4,
+                "overflow": "scroll",
+                "paddingHorizontal": 10,
+                "paddingVertical": 15,
+              },
+              Object {
+                "alignSelf": "stretch",
+                "width": "100%",
+              },
+              Object {
+                "height": 52.4,
+              },
+            ]
+          }
+          testID="test-input"
+          value=""
+        />
+        <View
+          style={
+            Object {
+              "height": 22,
+              "justifyContent": "center",
+              "marginRight": 12,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              accessibilityLabel="multiselect.close"
+              accessibilityRole="button"
+              accessibilityState={
+                Object {
+                  "disabled": false,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Array [
+                  Array [
+                    Object {
+                      "width": "auto",
+                    },
+                  ],
+                  undefined,
+                ]
+              }
+              testID="test-toggle-menu"
+            >
+              <View
+                pointerEvents="none"
+                style={
+                  Array [
+                    false,
+                    undefined,
+                  ]
+                }
+              >
+                <RNSVGSvgView
+                  align="xMidYMid"
+                  bbHeight={22}
+                  bbWidth={22}
+                  color={4280427302}
+                  focusable={false}
+                  meetOrSlice={0}
+                  minX={0}
+                  minY={0}
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "transparent",
+                        "borderWidth": 0,
+                      },
+                      Object {
+                        "borderStyle": "solid",
+                        "borderWidth": 0,
+                        "color": "#222326",
+                        "display": "flex",
+                        "fill": "currentColor",
+                        "flexDirection": "row",
+                        "flexWrap": "wrap",
+                        "height": 22,
+                        "stroke": "currentColor",
+                        "width": 22,
+                      },
+                      Object {
+                        "flex": 0,
+                        "height": 22,
+                        "width": 22,
+                      },
+                    ]
+                  }
+                  tintColor={4280427302}
+                  vbHeight={1024}
+                  vbWidth={1024}
+                >
+                  <RNSVGGroup
+                    fill={
+                      Array [
+                        2,
+                      ]
+                    }
+                    propList={
+                      Array [
+                        "fill",
+                        "stroke",
+                      ]
+                    }
+                    stroke={
+                      Array [
+                        2,
+                      ]
+                    }
+                  >
+                    <RNSVGPath
+                      d="M769.323 708.992l182.741 182.699-60.373 60.373-182.699-182.741c-67.981 54.494-152.533 84.134-239.659 84.011-211.968 0-384-172.032-384-384s172.032-384 384-384c211.968 0 384 172.032 384 384 0.124 87.125-29.517 171.678-84.011 239.659zM683.733 677.333c54.148-55.684 84.39-130.33 84.267-208 0-165.035-133.675-298.667-298.667-298.667-165.035 0-298.667 133.632-298.667 298.667 0 164.992 133.632 298.667 298.667 298.667 77.67 0.124 152.316-30.118 208-84.267l6.4-6.4z"
+                    />
+                  </RNSVGGroup>
+                </RNSVGSvgView>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`HoliAutocomplete renders correctly with default props 1`] = `
+<View
+  onLayout={[Function]}
+  style={Object {}}
+>
+  <View
+    style={
+      Array [
+        Object {
+          "flexDirection": "row",
+        },
+        Object {
+          "alignSelf": "stretch",
+          "width": "100%",
+        },
+        Object {},
+      ]
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "minWidth": 190,
+          },
+          Object {
+            "maxWidth": 750,
+          },
+          Object {
+            "alignSelf": "stretch",
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "marginBottom": 6,
+            },
+            Object {
+              "alignSelf": "stretch",
+              "width": "100%",
+            },
+          ]
+        }
+      >
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              Object {
+                "fontSize": 14,
+                "lineHeight": 16.8,
+              },
+              Object {
+                "fontFamily": "Circular Std Medium",
+                "fontWeight": "500",
+              },
+              Array [
+                Object {
+                  "color": "#222326",
+                },
+                Object {},
+                Object {},
+                Object {},
+              ],
+            ]
+          }
+        >
+          Label
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#fff",
+              "borderColor": "#eff0f1",
+              "borderRadius": 4,
+              "borderWidth": 2,
+              "flexDirection": "row",
+            },
+            Object {
+              "alignSelf": "stretch",
+              "width": "100%",
+            },
+            false,
+            false,
+            Array [
+              false,
+              false,
+            ],
+            undefined,
+            false,
+          ]
+        }
+      >
+        <TextInput
+          accessibilityAutoComplete="list"
+          accessibilityControls="autocomplete-primary-options"
           accessibilityLabel="accessibility label"
           accessible={true}
           autoCapitalize="none"
@@ -163,81 +448,128 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
             }
           }
         >
-          <RNSVGSvgView
-            align="xMidYMid"
-            bbHeight={22}
-            bbWidth={22}
-            color={4280427302}
-            focusable={false}
-            meetOrSlice={0}
-            minX={0}
-            minY={0}
+          <View
             style={
-              Array [
-                Object {
-                  "backgroundColor": "transparent",
-                  "borderWidth": 0,
-                },
-                Object {
-                  "borderStyle": "solid",
-                  "borderWidth": 0,
-                  "color": "#222326",
-                  "display": "flex",
-                  "fill": "currentColor",
-                  "flexDirection": "row",
-                  "flexWrap": "wrap",
-                  "height": 22,
-                  "stroke": "currentColor",
-                  "width": 22,
-                },
-                Object {
-                  "flex": 0,
-                  "height": 22,
-                  "width": 22,
-                },
-              ]
+              Object {
+                "alignItems": "center",
+                "flexDirection": "row",
+              }
             }
-            tintColor={4280427302}
-            vbHeight={1024}
-            vbWidth={1024}
           >
-            <RNSVGGroup
-              fill={
-                Array [
-                  2,
-                ]
+            <View
+              accessibilityLabel="multiselect.open"
+              accessibilityRole="button"
+              accessibilityState={
+                Object {
+                  "disabled": false,
+                }
               }
-              propList={
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
                 Array [
-                  "fill",
-                  "stroke",
-                ]
-              }
-              stroke={
-                Array [
-                  2,
+                  Array [
+                    Object {
+                      "width": "auto",
+                    },
+                  ],
+                  undefined,
                 ]
               }
             >
-              <RNSVGPath
-                d="M769.323 708.992l182.741 182.699-60.373 60.373-182.699-182.741c-67.981 54.494-152.533 84.134-239.659 84.011-211.968 0-384-172.032-384-384s172.032-384 384-384c211.968 0 384 172.032 384 384 0.124 87.125-29.517 171.678-84.011 239.659zM683.733 677.333c54.148-55.684 84.39-130.33 84.267-208 0-165.035-133.675-298.667-298.667-298.667-165.035 0-298.667 133.632-298.667 298.667 0 164.992 133.632 298.667 298.667 298.667 77.67 0.124 152.316-30.118 208-84.267l6.4-6.4z"
-              />
-            </RNSVGGroup>
-          </RNSVGSvgView>
+              <View
+                pointerEvents="none"
+                style={
+                  Array [
+                    false,
+                    undefined,
+                  ]
+                }
+              >
+                <RNSVGSvgView
+                  align="xMidYMid"
+                  bbHeight={22}
+                  bbWidth={22}
+                  color={4280427302}
+                  focusable={false}
+                  meetOrSlice={0}
+                  minX={0}
+                  minY={0}
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "transparent",
+                        "borderWidth": 0,
+                      },
+                      Object {
+                        "borderStyle": "solid",
+                        "borderWidth": 0,
+                        "color": "#222326",
+                        "display": "flex",
+                        "fill": "currentColor",
+                        "flexDirection": "row",
+                        "flexWrap": "wrap",
+                        "height": 22,
+                        "stroke": "currentColor",
+                        "width": 22,
+                      },
+                      Object {
+                        "flex": 0,
+                        "height": 22,
+                        "width": 22,
+                      },
+                    ]
+                  }
+                  tintColor={4280427302}
+                  vbHeight={1024}
+                  vbWidth={1024}
+                >
+                  <RNSVGGroup
+                    fill={
+                      Array [
+                        2,
+                      ]
+                    }
+                    propList={
+                      Array [
+                        "fill",
+                        "stroke",
+                      ]
+                    }
+                    stroke={
+                      Array [
+                        2,
+                      ]
+                    }
+                  >
+                    <RNSVGPath
+                      d="M769.323 708.992l182.741 182.699-60.373 60.373-182.699-182.741c-67.981 54.494-152.533 84.134-239.659 84.011-211.968 0-384-172.032-384-384s172.032-384 384-384c211.968 0 384 172.032 384 384 0.124 87.125-29.517 171.678-84.011 239.659zM683.733 677.333c54.148-55.684 84.39-130.33 84.267-208 0-165.035-133.675-298.667-298.667-298.667-165.035 0-298.667 133.632-298.667 298.667 0 164.992 133.632 298.667 298.667 298.667 77.67 0.124 152.316-30.118 208-84.267l6.4-6.4z"
+                    />
+                  </RNSVGGroup>
+                </RNSVGSvgView>
+              </View>
+            </View>
+          </View>
         </View>
       </View>
-      
     </View>
   </View>
-  <View
-    accessibilityRole="menu"
-    nativeID="autocomplete-primary-suggestions"
-  />
 </View>
 `;
 
 exports[`HoliAutocomplete renders correctly with error 1`] = `
 <View
+  onLayout={[Function]}
   style={Object {}}
 >
   <View
@@ -305,9 +637,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 Object {
                   "color": "#222326",
                 },
-                Array [
-                  Object {},
-                ],
+                Object {},
                 Object {},
                 Object {
                   "color": "#ee0004",
@@ -337,8 +667,8 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
             false,
             false,
             Array [
-              Object {},
-              Object {},
+              false,
+              false,
             ],
             undefined,
             Object {
@@ -349,7 +679,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="list"
-          accessibilityControls="autocomplete-error-suggestions"
+          accessibilityControls="autocomplete-error-options"
           accessibilityLabel="accessibility label"
           accessible={true}
           autoCapitalize="none"
@@ -511,9 +841,5 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
       </View>
     </View>
   </View>
-  <View
-    accessibilityRole="menu"
-    nativeID="autocomplete-error-suggestions"
-  />
 </View>
 `;

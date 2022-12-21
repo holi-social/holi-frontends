@@ -1,14 +1,14 @@
 import { useLazyQuery } from '@apollo/client'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, TextInputProps, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { GeoPlacesResponse, geoPlacesQuery } from '@holi/core/location/queries'
-import HoliAutocomplete, { Suggestion } from '@holi/ui/components/molecules/HoliAutocomplete'
+import HoliAutocomplete from '@holi/ui/components/molecules/HoliAutocomplete'
+import { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 
 const PLACE_SUGGESTION_DEBOUNCE = 500
-const PLACE_SUGGESTION_MAX_COUNT = 3
 
 type PlacesAutocompleteProps = {
   value?: string
@@ -41,7 +41,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
     },
     [onSubmit]
   )
-  const [placeSuggestions, setPlaceSuggestions] = useState<Suggestion[]>([])
+  const [placeSuggestions, setPlaceSuggestions] = useState<HoliSelectOption[]>([])
 
   // Handle reset from outside
   useEffect(() => {
@@ -89,18 +89,12 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
     const places = data?.geo_places || []
     const newPlaces = places.map(({ description }) => ({
       id: description,
-      label: description,
+      title: description,
+      selected: description === value,
     }))
-    setPlaceSuggestions(newPlaces.slice(0, PLACE_SUGGESTION_MAX_COUNT))
-  }, [loading, data, setPlaceSuggestions])
+    setPlaceSuggestions(newPlaces)
+  }, [loading, data, value, setPlaceSuggestions])
 
-  const noResultsText = useMemo(() => {
-    return !loading && locationInput && !placeSuggestions.length
-      ? t('location.placesAutocomplete.noResults')
-      : undefined
-  }, [t, loading, locationInput, placeSuggestions])
-
-  // TODO: fix autofocus
   return (
     <HoliAutocomplete
       loading={loading}
@@ -116,7 +110,7 @@ const PlacesAutocomplete: React.VFC<PlacesAutocompleteProps> = ({
       onSubmit={submit}
       testID={testID}
       validationErrorText={error?.message && t('location.placesAutocomplete.error')}
-      helperText={noResultsText}
+      noResultsText={t('location.placesAutocomplete.noResults')}
       id={id}
       style={style}
     />

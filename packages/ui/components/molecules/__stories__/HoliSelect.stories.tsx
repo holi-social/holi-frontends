@@ -86,7 +86,7 @@ export const SingleSelect: ComponentStory<typeof HoliSelect> = ({ ...args }) => 
     <HoliSelect
       {...args}
       options={initialOptions.map((option) => ({ ...option, selected: option.id === selectedOption }))}
-      onChange={toggleOptionSelect}
+      onSelectOption={toggleOptionSelect}
     />
   )
 }
@@ -102,7 +102,7 @@ export const MultiSelect: ComponentStory<typeof HoliSelect> = ({ ...args }) => {
     )
   }
 
-  return <HoliSelect {...args} options={options} onChange={toggleOptionSelection} />
+  return <HoliSelect {...args} options={options} onSelectOption={toggleOptionSelection} />
 }
 
 MultiSelect.args = { ...args, multiSelect: true }

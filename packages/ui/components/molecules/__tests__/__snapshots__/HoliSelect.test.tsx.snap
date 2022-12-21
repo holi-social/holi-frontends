@@ -99,11 +99,15 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
             },
             false,
             false,
-            Object {
-              "borderBottomLeftRadius": 0,
-              "borderBottomRightRadius": 0,
-              "borderColor": "#6267e7",
-            },
+            Array [
+              Object {
+                "borderColor": "#6267e7",
+              },
+              Object {
+                "borderBottomLeftRadius": 0,
+                "borderBottomRightRadius": 0,
+              },
+            ],
             undefined,
             false,
           ]
@@ -127,6 +131,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           onChange={[Function]}
           onContentSizeChange={[Function]}
           onFocus={[Function]}
+          onSubmitEditing={[Function]}
           placeholder="Label · 2"
           placeholderTextColor="#222326"
           secureTextEntry={false}
@@ -1414,11 +1419,15 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
             },
             false,
             false,
-            Object {
-              "borderBottomLeftRadius": 0,
-              "borderBottomRightRadius": 0,
-              "borderColor": "#6267e7",
-            },
+            Array [
+              Object {
+                "borderColor": "#6267e7",
+              },
+              Object {
+                "borderBottomLeftRadius": 0,
+                "borderBottomRightRadius": 0,
+              },
+            ],
             undefined,
             false,
           ]
@@ -1442,6 +1451,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           onChange={[Function]}
           onContentSizeChange={[Function]}
           onFocus={[Function]}
+          onSubmitEditing={[Function]}
           placeholder="Children & Youth"
           placeholderTextColor="#222326"
           secureTextEntry={false}
@@ -2662,7 +2672,10 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
             },
             false,
             false,
-            Object {},
+            Array [
+              false,
+              false,
+            ],
             undefined,
             false,
           ]
@@ -2686,6 +2699,7 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
           onChange={[Function]}
           onContentSizeChange={[Function]}
           onFocus={[Function]}
+          onSubmitEditing={[Function]}
           placeholder="Nothing selected"
           placeholderTextColor="#c0c1c9"
           secureTextEntry={false}
@@ -2941,11 +2955,15 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
             },
             false,
             false,
-            Object {
-              "borderBottomLeftRadius": 0,
-              "borderBottomRightRadius": 0,
-              "borderColor": "#6267e7",
-            },
+            Array [
+              Object {
+                "borderColor": "#6267e7",
+              },
+              Object {
+                "borderBottomLeftRadius": 0,
+                "borderBottomRightRadius": 0,
+              },
+            ],
             undefined,
             false,
           ]
@@ -2969,6 +2987,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           onChange={[Function]}
           onContentSizeChange={[Function]}
           onFocus={[Function]}
+          onSubmitEditing={[Function]}
           placeholder="Nothing selected"
           placeholderTextColor="#c0c1c9"
           secureTextEntry={false}
@@ -4126,11 +4145,15 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
             },
             false,
             false,
-            Object {
-              "borderBottomLeftRadius": 0,
-              "borderBottomRightRadius": 0,
-              "borderColor": "#6267e7",
-            },
+            Array [
+              Object {
+                "borderColor": "#6267e7",
+              },
+              Object {
+                "borderBottomLeftRadius": 0,
+                "borderBottomRightRadius": 0,
+              },
+            ],
             undefined,
             false,
           ]
@@ -4154,6 +4177,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           onChange={[Function]}
           onContentSizeChange={[Function]}
           onFocus={[Function]}
+          onSubmitEditing={[Function]}
           placeholder="Nothing selected"
           placeholderTextColor="#c0c1c9"
           secureTextEntry={false}
@@ -4787,7 +4811,12 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
             },
             false,
             false,
-            Object {},
+            Array [
+              Object {
+                "borderColor": "#6267e7",
+              },
+              false,
+            ],
             undefined,
             false,
           ]
@@ -4811,6 +4840,7 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
           onChange={[Function]}
           onContentSizeChange={[Function]}
           onFocus={[Function]}
+          onSubmitEditing={[Function]}
           placeholder="Children & Youth"
           placeholderTextColor="#222326"
           secureTextEntry={false}
@@ -5065,7 +5095,10 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
             },
             false,
             false,
-            Object {},
+            Array [
+              false,
+              false,
+            ],
             undefined,
             false,
           ]
@@ -5089,6 +5122,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
           onChange={[Function]}
           onContentSizeChange={[Function]}
           onFocus={[Function]}
+          onSubmitEditing={[Function]}
           placeholder="Nothing selected"
           placeholderTextColor="#c0c1c9"
           secureTextEntry={false}
@@ -5344,11 +5378,15 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
             },
             false,
             false,
-            Object {
-              "borderBottomLeftRadius": 0,
-              "borderBottomRightRadius": 0,
-              "borderColor": "#6267e7",
-            },
+            Array [
+              Object {
+                "borderColor": "#6267e7",
+              },
+              Object {
+                "borderBottomLeftRadius": 0,
+                "borderBottomRightRadius": 0,
+              },
+            ],
             undefined,
             false,
           ]
@@ -5372,6 +5410,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           onChange={[Function]}
           onContentSizeChange={[Function]}
           onFocus={[Function]}
+          onSubmitEditing={[Function]}
           placeholder="Nothing selected"
           placeholderTextColor="#c0c1c9"
           secureTextEntry={false}

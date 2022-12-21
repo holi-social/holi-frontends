@@ -136,7 +136,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
               accessibilityLabel={t('spaces.filter.topics.label')}
               placeholder={t('spaces.filter.topics.placeholder')}
               style={[styles.filterOption, { zIndex: 1 }]}
-              onChange={toggleTopicSelection}
+              onSelectOption={toggleTopicSelection}
               id="spaces-filter-interests"
               testID="spaces-filter-interests"
             />
@@ -146,7 +146,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
               accessibilityLabel={t('spaces.filter.skills.label')}
               placeholder={t('spaces.filter.skills.placeholder')}
               style={[styles.filterOption, { zIndex: 0 }]}
-              onChange={toggleSkillSelection}
+              onSelectOption={toggleSkillSelection}
               id="spaces-filter-skills"
               multiSelect={true}
             />
