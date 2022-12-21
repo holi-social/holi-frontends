@@ -12,7 +12,7 @@ export const navigationRef = createNavigationContainerRef()
 export const useUnifiedNavigation = () => {
   const { setOptions: setUnifiedOptions, ...context } = useNavigationContext()
   const { navigate, navigateBack, replaceRoute } = useRouting()
-  const { setOptions: setNativeOptions } = useNavigation()
+  const { setOptions: setNativeOptions, setParams: setNativeParams } = useNavigation()
 
   const navigationRefOptions = (navigationRef?.getCurrentOptions() as NavigationCustomOptions)?.navigationCustomOptions
     ?.footerShown
@@ -38,6 +38,12 @@ export const useUnifiedNavigation = () => {
     },
     [setNativeOptions, setUnifiedOptions]
   )
+  const setParams = useCallback(
+    (params) => {
+      setNativeParams?.(params)
+    },
+    [setNativeParams]
+  )
 
   return {
     navigate,
@@ -45,5 +51,6 @@ export const useUnifiedNavigation = () => {
     replaceRoute,
     ...context,
     setOptions,
+    setParams,
   }
 }

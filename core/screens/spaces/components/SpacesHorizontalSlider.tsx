@@ -51,7 +51,7 @@ const getStyles = (screenWidth: number) =>
       width: Platform.OS === 'web' ? 320 : screenWidth / 1.5 - 12,
     },
     scrollViewContainer: {
-      paddingVertical: 18,
+      paddingVertical: 13,
       marginHorizontal: -20,
       paddingLeft: 20,
     },

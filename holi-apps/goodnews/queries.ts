@@ -26,6 +26,7 @@ export type GoodNewsArticlesQueryArgs = {
 export type GoodNewsArticlesQueryResponse = {
   appGoodNews_articles: {
     articles: GoodNewsArticle[]
+    previousDateTeaser: GoodNewsArticle | undefined
   }
 }
 
@@ -35,6 +36,9 @@ export const GoodNewsArticlesQuery = gql`
   query GoodNewsArticles($locale: String!, $lastDate: String) {
     appGoodNews_articles(locale: $locale, lastDate: $lastDate) {
       articles {
+        ...FullArticle
+      }
+      previousDateTeaser {
         ...FullArticle
       }
     }
