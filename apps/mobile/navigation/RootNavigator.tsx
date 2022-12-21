@@ -212,7 +212,6 @@ const RootNavigator: React.VFC = () => {
           headerShown: false,
         }}
       />
-      {/* modals are only correctly rendered on android when in root navigator */}
       <RootStack.Group
         screenOptions={{
           presentation: 'containedModal',
