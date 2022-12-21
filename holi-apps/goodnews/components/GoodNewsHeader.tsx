@@ -5,10 +5,10 @@ import { View } from 'react-native'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
 import { commonStyles } from '@holi-apps/goodnews/common_styles'
-import { GoodNewsArticle } from '@holi-apps/goodnews/types'
+import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 export type GoodNewsHeaderProps = {
-  tintColor: string | undefined
+  tintColor?: string
   article?: GoodNewsArticle | undefined
 }
 

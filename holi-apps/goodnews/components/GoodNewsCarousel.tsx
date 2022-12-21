@@ -105,15 +105,14 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
         style={styles.carousel}
         loop={false}
         data={carouselItems}
-        renderItem={({ item }) => {
-          if (item.type === 'article') return <GoodNewsArticleComponent article={item.article} key={item.article.id} />
-          else {
-            return (
-              <GoodNewsTeaserComponent article={item.article} key={item.article.id} fetchMore={memoizedFetchMore} />
-            )
-          }
-        }}
-        onSnapToItem={(index) => setActiveArticleIndex(index)}
+        renderItem={({ item }) =>
+          item.type === 'article' ? (
+            <GoodNewsArticleComponent article={item.article} key={item.article.id} />
+          ) : (
+            <GoodNewsTeaserComponent article={item.article} key={item.article.id} fetchMore={memoizedFetchMore} />
+          )
+        }
+        onSnapToItem={setActiveArticleIndex}
         scrollAnimationDuration={250}
         testID={'goodnews-list-container'}
       />
