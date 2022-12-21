@@ -135,7 +135,7 @@ const HoliSelect = ({
         onPress={() => onSelect(item)}
         testID={testID && `${testID}-item`}
         accessibilityChecked={item.selected}
-        accessibilityState={{ checked: true }}
+        accessibilityState={{ checked: item.selected }}
       >
         <HoliText selectable={false} numberOfLines={2}>
           {item.title}
