@@ -127,7 +127,10 @@ const HoliSelect = ({
         transparent
         key={item.id}
         label={item.title}
-        accessibilityRole="menuitem"
+        accessibilityRole={Platform.select({
+          web: multiSelect ? 'menuitemcheckbox' : 'menuitemradio',
+          native: 'menuitem',
+        })}
         onBlur={() => clearFocus('option-' + item.id)}
         style={styles.listItem}
         contentStyle={styles.listItemContent}
@@ -230,7 +233,7 @@ const HoliSelect = ({
         helperText={isOpened && options.length ? undefined : helperText}
         accessibilityLabel={accessibilityLabel}
         accessibilityAutoComplete="list"
-        accessibilityControls={`${id}-options`}
+        accessibilityControls={isOpened ? `${id}-options` : undefined}
         accessibilityRole="combobox"
         accessibilityExpanded={isOpened}
         accessibilityHasPopup="menu"
