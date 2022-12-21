@@ -398,7 +398,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -825,7 +825,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -924,7 +924,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -1023,7 +1023,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -1122,7 +1122,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -1221,7 +1221,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -1713,7 +1713,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -1976,7 +1976,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -2075,7 +2075,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -2174,7 +2174,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -2273,7 +2273,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -2372,7 +2372,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -2471,7 +2471,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -3240,7 +3240,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -3339,7 +3339,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -3438,7 +3438,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -3537,7 +3537,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -3636,7 +3636,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -3735,7 +3735,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -3834,7 +3834,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -3933,7 +3933,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -4501,7 +4501,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -4598,7 +4598,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -5643,7 +5643,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -5740,7 +5740,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -5837,7 +5837,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -5934,7 +5934,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -6031,7 +6031,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -6128,7 +6128,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -6225,7 +6225,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
@@ -6322,7 +6322,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             Object {
-              "checked": true,
+              "checked": false,
               "disabled": false,
             }
           }
