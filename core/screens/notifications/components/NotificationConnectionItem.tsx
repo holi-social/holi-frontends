@@ -111,7 +111,7 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
 
       {loading && (
         <Animated.View style={styles.loaderContainer} entering={FadeIn} exiting={FadeOut.delay(300)}>
-          <View style={styles.loader}>
+          <View style={styles.loader} testID="loader">
             <HoliLottie animType="loader" />
           </View>
         </Animated.View>

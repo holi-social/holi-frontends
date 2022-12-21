@@ -9,13 +9,13 @@ import HoliLink from '@holi/ui/components/molecules/HoliLink'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
-interface NotificationBaseProps<T = Notification> extends NotificationProps<T> {
+interface NotificationWithUserAvatarProps<T = Notification> extends NotificationProps<T> {
   href?: string
   content?: React.ReactNode
   i18nKey?: string
 }
 
-const NotificationWithUserAvatar: React.FC<NotificationBaseProps> = ({
+const NotificationWithUserAvatar: React.FC<NotificationWithUserAvatarProps> = ({
   notification,
   content,
   children,
