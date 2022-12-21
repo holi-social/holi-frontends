@@ -5,7 +5,7 @@ import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
 import { displayError } from '@holi/core/errors/helpers'
 import { useUserConnection } from '@holi/core/helpers'
-import NotificationBaseItem from '@holi/core/screens/notifications/components/NotificationBaseItem'
+import NotificationWithUserAvatar from '@holi/core/screens/notifications/components/NotificationWithUserAvatar'
 import {
   Notification,
   NotificationConnection,
@@ -94,7 +94,7 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
 
   return (
     <View>
-      <NotificationBaseItem
+      <NotificationWithUserAvatar
         notification={notification}
         i18nKey={getI18Key()}
         style={[style, loading && styles.notificationProcessing]}
@@ -107,7 +107,7 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
           ) : (
             <View style={styles.buttonContainer}>{buttons}</View>
           ))}
-      </NotificationBaseItem>
+      </NotificationWithUserAvatar>
 
       {loading && (
         <Animated.View style={styles.loaderContainer} entering={FadeIn} exiting={FadeOut.delay(300)}>

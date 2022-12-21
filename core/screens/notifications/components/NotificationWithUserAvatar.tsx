@@ -15,7 +15,7 @@ interface NotificationBaseProps<T = Notification> extends NotificationProps<T> {
   i18nKey?: string
 }
 
-const NotificationBaseItem: React.FC<NotificationBaseProps> = ({
+const NotificationWithUserAvatar: React.FC<NotificationBaseProps> = ({
   notification,
   content,
   children,
@@ -92,4 +92,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default NotificationBaseItem
+export default NotificationWithUserAvatar
