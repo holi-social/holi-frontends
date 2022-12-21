@@ -23,6 +23,7 @@ import type { HoliRichTextInputProps } from './HoliRichTextInput'
 const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   initalValue = '',
   placeholder = '...',
+  autofocus = true,
   minSearchChars = 2,
   maxSuggestionOptions = 5,
   debounceDelay = 300,
@@ -107,7 +108,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
         />
         <OnChangePlugin onChange={onChange} />
         <HistoryPlugin />
-        <HoliFocusPlugin />
+        <HoliFocusPlugin isOn={autofocus} onFocus={props?.onFocus} onBlur={props?.onBlur} />
         <HoliMentionsPlugin
           findUsersByName={findUserMapped}
           minSearchChars={minSearchChars}

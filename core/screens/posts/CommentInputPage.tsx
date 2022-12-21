@@ -1,5 +1,15 @@
 import { useMutation, useQuery } from '@apollo/client'
-import React, { memo, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import React, {
+  SyntheticEvent,
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -22,6 +32,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
+import { useDebounce } from '@holi/ui/helper/useDebounce'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -37,10 +48,10 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   const [insightId] = useParam('insightId')
   const [postId] = useParam('postId')
   const [text, setText] = useState('')
-  const [maxPageHeight, setMaxPageHeight] = useState(600)
+  const [bottomBarDiff, setBottomBarDiff] = useState(0)
+  const [lastWindowHeight, setLastWindowHeight] = useState(0)
+  const [LastKeyboardOpen, setLastKeyboardOpen] = useState<boolean>()
   const [scrollContentHeight, setScrollContentHeight] = useState(0)
-  const pendingUpdate = useRef(false)
-  const pageRef = useRef<KeyboardAvoidingView>(null)
   const scrollViewRef = useRef<ScrollView>(null)
   const { navigate, navigateBack } = useRouting()
   const { keyboardHeight } = useKeyboard()
@@ -78,42 +89,70 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
     [setOptions, t]
   )
 
-  const viewportHandler = useCallback(
-    (event) => {
-      if (pendingUpdate.current) return
-      pendingUpdate.current = true
+  const checkKeyboardOpen = useCallback(
+    (event: SyntheticEvent<Event> | null) => {
+      const viewPortHeight = event ? event.target?.height : window?.visualViewport?.height
+      const windowHeight = window?.innerHeight
+      let keyboardIsOpen = windowHeight > viewPortHeight
 
-      requestAnimationFrame(() => {
-        pendingUpdate.current = false
-        // const layoutViewport = document.getElementById('layoutViewport')
-        // const layoutViewport = document.querySelector('main')
-        // const layoutViewport = pageRef.current
-        const maxheight = event.target?.height
+      const stateHasChanged = keyboardIsOpen !== LastKeyboardOpen
+      const windowHeightHasChanged = windowHeight !== lastWindowHeight
 
-        if (maxheight && maxheight > 200) setMaxPageHeight(event.target?.height)
-
-        // Since the bar is position: fixed we need to offset it by the
-        // visual viewport's offset from the layout viewport origin.
-        // const offsetTop = event.target?.height - layoutViewport?.getBoundingClientRect()?.height + event.target?.offsetTop
-
-        console.log('+++ offsetTop: ', event?.target?.height, window?.innerHeight, maxheight, maxPageHeight)
-
-        // You could also do this by setting style.left and style.top if you
-        // use width: 100% instead.
-        // bottomBar.style.transform = `translate(${offsetLeft}px, ${offsetTop}px) scale(${1 / viewport.scale})`;
-      })
+      if (keyboardIsOpen) {
+        if (!stateHasChanged && windowHeightHasChanged && viewPortHeight !== windowHeight) {
+          keyboardIsOpen = false
+        }
+      } else if (!keyboardIsOpen) {
+        if (!stateHasChanged && windowHeightHasChanged) {
+          keyboardIsOpen = true
+        }
+      }
+      setLastWindowHeight(windowHeight)
+      setLastKeyboardOpen(keyboardIsOpen)
     },
-    [maxPageHeight, pendingUpdate]
+    [LastKeyboardOpen, lastWindowHeight]
   )
 
-  useEffect(() => {
-    const stopScrollListener = window?.visualViewport?.addEventListener('scroll', viewportHandler)
-    const stopResizeListener = window?.visualViewport?.addEventListener('resize', viewportHandler)
-    return () => {
-      stopScrollListener?.()
-      stopResizeListener?.()
+  const viewportHandler = useDebounce((event: SyntheticEvent<Event> | null) => {
+    if (!LastKeyboardOpen) return setBottomBarDiff(0)
+
+    const viewPortHeight = event ? event.target?.height : window?.visualViewport?.height
+    const windowHeight = window?.innerHeight
+
+    const viewPortOffset = event ? event.target?.offsetTop : window?.visualViewport?.offsetTop
+    // const bodyOffset = window?.document?.body?.getBoundingClientRect?.()?.top
+
+    const tooDeep = viewPortHeight < windowHeight
+    const tooHeigh = viewPortOffset > windowHeight
+    const heightDiff = windowHeight - viewPortHeight
+    const newPosition = heightDiff
+
+    if (tooHeigh) {
+      setBottomBarDiff(0)
+    } else if (tooDeep) {
+      setBottomBarDiff(newPosition)
+    } else {
+      setBottomBarDiff(0)
     }
-  }, [viewportHandler])
+  }, 100)
+
+  const onResize = useDebounce((event) => {
+    checkKeyboardOpen(event)
+    viewportHandler(event)
+  }, 100)
+
+  const onScroll = useDebounce((event) => {
+    viewportHandler(event)
+  }, 100)
+
+  useEffect(() => {
+    window?.visualViewport?.addEventListener('scroll', onScroll)
+    window?.visualViewport?.addEventListener('resize', onResize)
+    return () => {
+      window?.visualViewport?.removeEventListener('scroll', onScroll)
+      window?.visualViewport?.removeEventListener('resize', onResize)
+    }
+  }, [onScroll, onResize])
 
   /**
    * The view should:
@@ -124,7 +163,20 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
    */
   const scrollIntoView = useCallback(() => {
     if (Platform.OS === 'web') {
-      scrollViewRef.current?.scrollToEnd({ animated: true })
+      const scrollViewHeight = scrollViewRef.current?.offsetHeight
+      if (scrollViewHeight) {
+        setTimeout(
+          () =>
+            scrollViewRef.current?.scrollTo({
+              animated: true,
+              y: scrollViewHeight - SUGGESTIONS_DROPDOWN_HEIGHT,
+            }),
+          10
+        )
+      } else {
+        scrollViewRef.current?.scrollToEnd({ animated: true })
+        setTimeout(() => scrollViewRef.current?.scrollToEnd({ animated: true }), 10)
+      }
     } else {
       const paddingTop = screenHeight < SMALL_DEVICE_HEIGHT ? 50 : 20
       if (scrollContentHeight <= 0) return
@@ -166,12 +218,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   if (!post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      ref={pageRef}
-      // style={[styles.pageView, { maxHeight: maxPageHeight }]}
-      style={[styles.pageView]}
-    >
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={[styles.pageView]}>
       <ScrollView onContentSizeChange={scrollIntoView} ref={scrollViewRef} style={styles.scrollView}>
         <View
           onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)}
@@ -194,7 +241,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
               />
               <HoliRichTextInput
                 placeholder={t('insights.posts.comments.placeholder')}
-                autofocus
+                autofocus={true}
                 onChange={setText}
                 style={styles.textInput}
                 testID="post-comment"
@@ -204,29 +251,29 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
         </View>
       </ScrollView>
 
-      {/* Suggestions*/}
-      <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
-      {/* <View style={styles.suggestionsScrollView}></View> */}
-
       {/* Bottom Bar */}
-      <View style={[styles.bottomBar, Platform.OS === 'web' && mixins.container]}>
-        {/* <HoliText>{window.innerHeight}</HoliText> */}
-        <HoliButton
-          disabled={!text.trim().length || createCommentLoading}
-          label={t('insights.posts.comments.button')}
-          variant="small"
-          inline
-          onPress={() =>
-            createPostComment({
-              variables: {
-                input: { postId, text: text.trim() },
-              },
-            })
-          }
-          testID="btn-submit-comment"
-        >
-          {t('insights.posts.comments.button')}
-        </HoliButton>
+      <View style={[styles.bottomBar, { bottom: bottomBarDiff }]}>
+        {/* Suggestions*/}
+        <PortalGate gateName="suggestions" style={[styles.suggestionsScrollView]} />
+
+        <View style={[styles.buttonContainer, Platform.OS === 'web' && mixins.container]}>
+          <HoliButton
+            disabled={!text.trim().length || createCommentLoading}
+            label={t('insights.posts.comments.button')}
+            variant="small"
+            inline
+            onPress={() =>
+              createPostComment({
+                variables: {
+                  input: { postId, text: text.trim() },
+                },
+              })
+            }
+            testID="btn-submit-comment"
+          >
+            {t('insights.posts.comments.button')}
+          </HoliButton>
+        </View>
       </View>
     </KeyboardAvoidingView>
   )
@@ -241,17 +288,11 @@ const getStyles = (screenHeight: number) =>
     pageView: {
       paddingTop: vars.topBarHeight + 10,
       height: '100%', // prevents double scrollbars
-      minHeight: screenHeight,
       overflow: 'hidden',
       ...Platform.select({
         web: {
-          position: 'relative',
           height: '100vh',
-          maxWidth: vars.maxScreenWidth,
           marginHorizontal: 'auto',
-          // overflow: 'hidden',
-          borderWidth: 2,
-          borderColor: 'blue',
         },
         android: {
           paddingBottom: 0,
@@ -260,12 +301,11 @@ const getStyles = (screenHeight: number) =>
     },
     scrollView: {
       flex: 1,
+      maxWidth: vars.maxScreenWidth,
+      marginHorizontal: 'auto',
     },
     scrollContent: {
-      paddingBottom: 50,
-      // paddingBottom: 0,
-      // borderWidth: 2,
-      // borderColor: 'red',
+      paddingBottom: SUGGESTIONS_DROPDOWN_HEIGHT + SUBMIT_BUTTON_CONTAINER_HEIGHT + 50,
     },
     postAndComments: {
       marginTop: 12,
@@ -281,22 +321,10 @@ const getStyles = (screenHeight: number) =>
       marginTop: 16,
       lineHeight: 22,
       flexDirection: 'row',
-      ...Platform.select({
-        web: {
-          paddingBottom: 0,
-        },
-        ios: {
-          paddingBottom: SUBMIT_BUTTON_CONTAINER_HEIGHT,
-        },
-        android: {
-          paddingBottom: SUBMIT_BUTTON_CONTAINER_HEIGHT,
-        },
-      }),
     },
     textInput: {
       flex: 1,
       marginLeft: 10,
-      marginBottom: SUGGESTIONS_DROPDOWN_HEIGHT,
       ...Platform.select({
         web: {
           marginLeft: 18,
@@ -306,15 +334,24 @@ const getStyles = (screenHeight: number) =>
         },
       }),
     },
+    bottomBar: {
+      width: '100%',
+      ...Platform.select({
+        web: {
+          position: 'fixed',
+          bottom: 0,
+        },
+      }),
+    },
     suggestionsScrollView: {
-      borderRadius: 12,
-      paddingTop: 10,
       zIndex: screenHeight < SMALL_DEVICE_HEIGHT ? 3 : undefined,
+      width: '100%',
+      height: SUGGESTIONS_DROPDOWN_HEIGHT,
+      maxHeight: SUGGESTIONS_DROPDOWN_HEIGHT,
+      paddingTop: 10,
       marginBottom: screenHeight < SMALL_DEVICE_HEIGHT ? -75 : -10,
       paddingBottom: 10,
       backgroundColor: colors.backgroundColor,
-      // boxShadow: `0px 2px 16px ${colors.backgroundColorOverlay}, 0px 4px 8px ${colors.backgroundColorOverlay}`,
-
       shadowColor: colors.shadowColorBlack,
       shadowOffset: {
         width: 2,
@@ -322,32 +359,36 @@ const getStyles = (screenHeight: number) =>
       },
       shadowOpacity: 0.1,
       shadowRadius: 6,
+      borderRadius: 12,
       elevation: 4,
-
       borderTopWidth: 1,
       borderTopColor: colors.borderColorGrey,
-      width: '100%',
-      maxWidth: vars.maxScreenWidth,
-      height: SUGGESTIONS_DROPDOWN_HEIGHT,
-      maxHeight: SUGGESTIONS_DROPDOWN_HEIGHT,
       ...Platform.select({
         web: {
-          position: 'absolute',
-          bottom: SUBMIT_BUTTON_CONTAINER_HEIGHT,
-          left: 0,
-          right: 0,
+          maxWidth: vars.maxScreenWidth,
+          marginHorizontal: 'auto',
         },
       }),
+      position: 'absolute',
+      bottom: SUBMIT_BUTTON_CONTAINER_HEIGHT,
+      left: 0,
+      right: 0,
     },
-    bottomBar: {
+    buttonContainer: {
+      width: '100%',
+      zIndex: 2,
       justifyContent: 'center',
       alignItems: 'flex-end',
-      width: '100%',
       height: SUBMIT_BUTTON_CONTAINER_HEIGHT,
-      padding: 12,
       borderTopWidth: 1,
       borderTopColor: colors.borderColorGrey,
       backgroundColor: colors.backgroundColor,
+      ...Platform.select({
+        web: {
+          maxWidth: vars.maxScreenWidth,
+          marginHorizontal: 'auto',
+        },
+      }),
     },
   })
 
