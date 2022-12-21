@@ -105,5 +105,5 @@ export const MultiSelect: ComponentStory<typeof HoliSelect> = ({ ...args }) => {
   return <HoliSelect {...args} options={options} onChange={toggleOptionSelection} />
 }
 
-MultiSelect.args = args
+MultiSelect.args = { ...args, multiSelect: true }
 MultiSelect.argTypes = argTypes
