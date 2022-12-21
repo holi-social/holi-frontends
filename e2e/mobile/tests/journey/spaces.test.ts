@@ -43,6 +43,15 @@ describe('@Spaces', () => {
     // click on first topic in the list
     await tapOnElementWithTestId('spaces-filter-interests-item')
 
+    // open skills dropdown
+    await tapOnElementWithTestId('spaces-filter-skills-input')
+
+    // click on first skill in the list
+    await tapOnElementWithTestId('spaces-filter-skills-item')
+
+    // close skills dropdown
+    await tapOnElementWithTestId('spaces-filter-skills-toggle-menu')
+
     // click filter confirmation button
     await tapOnElementWithTestId('holi-modal-content-close-btn')
 
@@ -56,7 +65,6 @@ describe('@Spaces', () => {
     }
   })
 
-  // fails on ios: element ("~space-members") still not displayed after 10000ms
   it('should display space details', async () => {
     // click first element on page
     await tapOnElementWithTestId('btn-to-space')
