@@ -35,6 +35,9 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
   const userTopics = useMemo(() => (user?.interests || []).slice().sort(termsByTitleComparator) || [], [user])
   const userTopicIds = useMemo(() => userTopics.map((t) => t.id) || [], [userTopics])
 
+  const userSkills = useMemo(() => (user?.skills || []).slice().sort(termsByTitleComparator) || [], [user])
+  const userSkillIds = useMemo(() => userSkills.map((t) => t.id) || [], [userSkills])
+
   const defaultTopicIds = useMemo(
     () => existingTopicIds.filter((id) => DEFAULT_TOPIC_IDS.includes(id)) || [],
     [existingTopicIds]
@@ -44,7 +47,7 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
   const [fetchUserSpecifc, { loading, data, error }] = useLazyQuery<DiscoverSpacesResponse>(discoverSpacesQuery, {
     variables: {
       topicIds: userTopicIds,
-      skillIds: (user?.skills || []).map((skill) => skill.id),
+      skillIds: userSkillIds,
       location: user?.location,
       limit: SPACES_PAGE_SIZE,
       offset: 0,

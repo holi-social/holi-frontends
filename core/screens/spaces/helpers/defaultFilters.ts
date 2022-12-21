@@ -1,4 +1,4 @@
-// TODO: get default values from BE
+// TODO: get default values from BE.
 
 export const DEFAULT_TOPIC_IDS = [
   'e3f03ff4-b205-4196-9eff-57b80e5b0fff', // Animal Welfare
