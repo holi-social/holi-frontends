@@ -10,7 +10,7 @@ import { Topic } from '@holi/core/screens/userprofile/types'
 
 import SpacesFilterPill from './SpacesFilterPill'
 
-type TopicSliderProps = {
+type SpacesSliderProps = {
   topic: Topic
   spaces: Space[]
   style?: StyleProp<ViewStyle>
@@ -19,14 +19,14 @@ type TopicSliderProps = {
   hasMore?: boolean
 }
 
-const TopicSlider: React.VFC<TopicSliderProps> = ({
+const SpacesSlider: React.VFC<SpacesSliderProps> = ({
   topic,
   spaces,
   style,
   paddingVertical = 8,
   slideGap = 8,
   hasMore = false,
-}: TopicSliderProps) => {
+}: SpacesSliderProps) => {
   const { navigate } = useRouting()
   const { width: screenWidth } = useWindowDimensions()
   const testID = 'spaces-topic-container'
@@ -71,7 +71,7 @@ const TopicSlider: React.VFC<TopicSliderProps> = ({
     </View>
   )
 }
-export default memo(TopicSlider)
+export default memo(SpacesSlider)
 
 const styles = StyleSheet.create({
   slider: {

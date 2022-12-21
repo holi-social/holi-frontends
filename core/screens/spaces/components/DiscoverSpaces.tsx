@@ -1,59 +1,91 @@
-import { useQuery } from '@apollo/client'
-import React, { useContext, useMemo } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { displayError } from '@holi/core/errors/helpers'
-import DiscoverSpacesView from '@holi/core/screens/spaces/components/DiscoverSpacesView'
-import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
-import { SpacesByTopicResponse, spacesQueryMultipleTopics } from '@holi/core/screens/spaces/queries'
-import { User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
+// import { defaultTopicFilters } from '@holi/core/screens/spaces/helpers/defaultFilters'
+import { User } from '@holi/core/screens/userprofile/types'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const SPACES_PAGE_SIZE = 10
+// import SpacesByTopic from './SpacesByTopic'
 
 type DiscoverSpacesProps = {
   user?: User
   style?: StyleProp<ViewStyle>
 }
 
-const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
+const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ style }) => {
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
 
-  const { loading: topicsLoading, topics } = useContext(SpaceTermContext)
-  const sortedTopics = useMemo(() => topics.slice().sort(termsByTitleComparator) || [], [topics])
+  // const [filteredTopics] = useMemo(() => {
+  //   const userInterestIds = (user?.interests || []).map((topic) => topic.id)
+  //   return partition(defaultTopicFilters, (topic) => userInterestIds.includes(topic.id))
+  // }, [defaultTopicFilters, user])
 
-  const { loading, data, error } = useQuery<SpacesByTopicResponse>(spacesQueryMultipleTopics, {
-    variables: {
-      topicIds: sortedTopics.map((t) => t.id),
-      limit: SPACES_PAGE_SIZE,
-      offset: 0,
-    },
-    fetchPolicy: 'cache-and-network',
-  })
+  // const spacesForTopic = (topicId: string): Paged<Space> => {
+  //   const result = spaces.find((spacesByTopic) => spacesByTopic.topicId === topicId)?.spaces
+  //   return result || { totalResults: 0, data: [] }
+  // }
 
-  if (error) {
-    displayError(error, t('spaces.spaceListing.error'))
-  }
+  // const { loading, data, error } = useQuery<SpacesByTopicResponse>(spacesQueryMultipleTopics, {
+  //   variables: {
+  //     topicIds: topics.map((t) => t.id),
+  //     limit: SPACES_PAGE_SIZE,
+  //     offset: 0,
+  //   },
+  //   fetchPolicy: 'cache-and-network',
+  // })
 
-  if (topicsLoading || loading) {
-    // TODO: replace with proper loading indicator
-    return (
-      <View style={[mixins.container, styles.messageContainer]}>
-        <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
+  // console.log(data, error, loading)
+
+  // if (error) {
+  //   displayError(error, t('spaces.spaceListing.error'))
+  // }
+
+  // return <DiscoverSpacesView style={style} user={user} spaces={data?.spacesByTopic ?? []} />
+
+  return (
+    <View style={style} testID="spaces-container">
+      <HoliHeading level="1" size="large" style={styles.headerTitle} testID="discover-spaces-header">
+        {t('spaces.discover.welcome')}
+      </HoliHeading>
+      <HoliText style={styles.headerDescription} testID="discover-spaces-description">
+        {t('spaces.discover.description')}
+      </HoliText>
+
+      <View style={styles.body}>
+        {/* {filteredTopics.map((topic) => (
+      <SpacesByTopic key={topic.id} topic={topic} spaces={spacesForTopic(topic.id)} style={styles.spacesByTopic} />
+    ))} */}
+
+        {/* Will be added again once we introduce filtering
+    {filteredTopics.length > 0 && otherTopics.length > 0 && (
+      <HoliHeading size="large" style={{ marginBottom: 24 }}>
+        {t('spaces.otherListing')}
+      </HoliHeading>
+    )} */}
+        {/* {otherTopics.map((topic) => (
+      <SpacesByTopic key={topic.id} topic={topic} spaces={spacesForTopic(topic.id)} style={styles.spacesByTopic} />
+    ))} */}
       </View>
-    )
-  }
-
-  return <DiscoverSpacesView style={style} user={user} spaces={data?.spacesByTopic ?? []} />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
-  messageContainer: {
-    alignItems: 'center',
-    marginTop: 50,
+  headerTitle: {
+    marginTop: 24,
+    fontWeight: '400',
+  },
+  headerDescription: {
+    marginTop: 8,
+    fontWeight: '400',
+  },
+  body: {
+    marginTop: 37,
+  },
+  spacesByTopic: {
+    marginBottom: 31,
   },
 })
 
