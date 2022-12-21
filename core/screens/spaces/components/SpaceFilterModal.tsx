@@ -149,6 +149,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
               onChange={toggleSkillSelection}
               id="spaces-filter-skills"
               multiSelect={true}
+              multiSelectionLabel={t('spaces.filter.skills.multiSelectionLabel')}
             />
           </View>
         </HoliModalContentWrapper>
