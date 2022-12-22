@@ -235,8 +235,8 @@ exports[`renders correctly renders correctly when open 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
               testID="profileTab"
@@ -273,8 +273,8 @@ exports[`renders correctly renders correctly when open 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
               testID="InsightsTab"
