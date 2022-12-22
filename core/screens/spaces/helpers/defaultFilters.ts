@@ -12,18 +12,7 @@ export const DEFAULT_TOPIC_IDS = [
 
 export const DEFAULT_LOCATION = 'Germany' // Spaces location has no translation
 
-export const getDefaultTopicIds = (defaultTopicIds: string[], existingTopicIds: string[], userTopicIds: string[]) => {
-  let result = []
-  // check if defaultTopicIds are present in the existing topics
-  result = defaultTopicIds.filter((id) => existingTopicIds.includes(id))
-
-  // remove userTopicIds from the defaultTopics
-  result = result.filter((id) => !userTopicIds.includes(id))
-
-  // if there are no topics in the result, return all existing topics that are not in userTopicIds
-  if (result.length > 0) {
-    return result
-  } else {
-    return existingTopicIds.filter((id) => !userTopicIds.includes(id))
-  }
-}
+export const getDefaultTopicIds = (defaultTopicIds: string[], existingTopicIds: string[], userTopicIds: string[]) =>
+  defaultTopicIds
+    .filter((id) => existingTopicIds.includes(id)) // check if defaultTopicIds are present in the existing topics
+    .filter((id) => !userTopicIds.includes(id)) // remove existing userTopicIds from the defaultTopics

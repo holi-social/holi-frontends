@@ -22,26 +22,8 @@ test.describe('@Spaces', () => {
 
     await waitForElementByTestId(page, 'spaces-container')
 
-    await expect.poll(countGroups, { timeout: 10000 }).toBeGreaterThan(1)
-    await expect.poll(countSpaces, { timeout: 10000 }).toBeGreaterThan(1)
-
-    await checkAccessibility(page)
-  })
-
-  test('should click on "see more" button for a group and go to filtered spaces page and display spaces with that filter', async ({
-    page,
-  }) => {
-    // check if we are in the correct page with the filter queries
-    await Promise.all([
-      clickElementByTestId(page, 'spaces-group-slider-see-more'),
-      page.waitForNavigation({ url: '**/spaces/**' }),
-    ])
-
-    const spaceFilterUrlPrefix = '/spaces/filter'
-    expect(page.url()).toContain(spaceFilterUrlPrefix)
-
-    // check if there is at least one space card (button to space)
-    await waitForElementByTestId(page, 'btn-to-space')
+    await expect.poll(countGroups, { timeout: 10000 }).toBeGreaterThan(0)
+    await expect.poll(countSpaces, { timeout: 10000 }).toBeGreaterThan(0)
 
     await checkAccessibility(page)
   })

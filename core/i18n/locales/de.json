@@ -228,7 +228,6 @@
   "spaces.links.heading": "Links",
   "spaces.members.member": "{{count}} Mitglied",
   "spaces.members.member_plural": "{{count}} Mitglieder",
-  "spaces.otherListing": "Andere Spaces, die dich interessieren könnten.",
   "spaces.seeMore": "Mehr sehen",
   "spaces.spaceDetails.creator": "Ersteller: {{name}}",
   "spaces.spaceDetails.notFound": "Space {{spaceId}} nicht gefunden",

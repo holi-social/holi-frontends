@@ -30,40 +30,37 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
   const { loading: topicsLoading, topics = [] } = useContext(SpaceTermContext)
 
   const existingTopics = useMemo(() => topics.slice().sort(termsByTitleComparator) || [], [topics])
-  const existingTopicIds = useMemo(() => existingTopics.map((t) => t.id) || [], [existingTopics])
-
   const userTopics = useMemo(() => (user?.interests || []).slice().sort(termsByTitleComparator) || [], [user])
-  const userTopicIds = useMemo(() => userTopics.map((t) => t.id) || [], [userTopics])
-
   const userSkills = useMemo(() => (user?.skills || []).slice().sort(termsByTitleComparator) || [], [user])
-  const userSkillIds = useMemo(() => userSkills.map((t) => t.id) || [], [userSkills])
 
   const defaultTopicIds = useMemo(
-    () => existingTopicIds.filter((id) => DEFAULT_TOPIC_IDS.includes(id)) || [],
-    [existingTopicIds]
+    () =>
+      getDefaultTopicIds(
+        DEFAULT_TOPIC_IDS,
+        existingTopics.map((t) => t.id),
+        userTopics.map((t) => t.id)
+      ),
+    [existingTopics, userTopics]
   )
 
   // user specific spaces suggestions
-  const [fetchUserSpecifc, { loading, data, error }] = useLazyQuery<DiscoverSpacesResponse>(discoverSpacesQuery, {
-    variables: {
-      topicIds: userTopicIds,
-      skillIds: userSkillIds,
-      location: user?.location,
-      limit: SPACES_PAGE_SIZE,
-      offset: 0,
-    },
-    fetchPolicy: 'cache-and-network',
-  })
+  const [fetchUserSpecifc, { loading: loadingUserSpecific, data: dataUserSpecific, error: errorUserSpecific }] =
+    useLazyQuery<DiscoverSpacesResponse>(discoverSpacesQuery, {
+      variables: {
+        topicIds: userTopics.map((t) => t.id),
+        skillIds: userSkills.map((s) => s.id),
+        location: user?.location,
+        limit: SPACES_PAGE_SIZE,
+        offset: 0,
+      },
+      fetchPolicy: 'cache-and-network',
+    })
 
   // default spaces suggestions
   const [fetchDefault, { loading: loadingDefaultData, data: dataDefault, error: errorDefault }] =
     useLazyQuery<DiscoverSpacesResponse>(discoverSpacesQuery, {
       variables: {
-        topicIds: getDefaultTopicIds(
-          defaultTopicIds,
-          existingTopicIds,
-          userTopics.map((t) => t.id)
-        ),
+        topicIds: defaultTopicIds,
         location:
           (user?.location || '').toLocaleLowerCase() === DEFAULT_LOCATION.toLocaleLowerCase() ? null : DEFAULT_LOCATION,
         limit: SPACES_PAGE_SIZE,
@@ -77,17 +74,17 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
       fetchUserSpecifc()
       fetchDefault()
     }
-  }, [fetchUserSpecifc, fetchDefault, topics, user])
+  }, [fetchUserSpecifc, fetchDefault, topics])
 
-  if (error) {
-    displayError(error, t('spaces.spaceListing.error'))
+  if (errorUserSpecific) {
+    displayError(errorUserSpecific, t('spaces.spaceListing.error'))
   }
 
   if (errorDefault) {
     displayError(errorDefault, t('spaces.spaceListing.error'))
   }
 
-  if (topicsLoading || loading || loadingDefaultData) {
+  if (topicsLoading || loadingUserSpecific || loadingDefaultData) {
     // TODO: replace with proper loading indicator
     return (
       <View style={[mixins.container, styles.loadingContainer]}>
@@ -100,7 +97,7 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
     <DiscoverSpacesView
       style={style}
       user={user}
-      userSpecificSpacesGroups={data?.discoverSpaces ?? []}
+      userSpecificSpacesGroups={dataUserSpecific?.discoverSpaces ?? []}
       defaultSpacesGroups={dataDefault?.discoverSpaces ?? []}
     />
   )

@@ -1,9 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
-import SpacesGroup from '@holi/core/screens/spaces/components/SpacesGroup'
+import SpacesGroupSlider from '@holi/core/screens/spaces/components/SpacesGroupSlider'
 import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -21,8 +20,6 @@ const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({
   userSpecificSpacesGroups,
   defaultSpacesGroups,
 }) => {
-  const { topics, skills } = useContext(SpaceTermContext)
-
   const { t } = useTranslation()
 
   return (
@@ -37,29 +34,33 @@ const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({
       <View style={styles.body}>
         {/* User specific spaces suggestions */}
         {userSpecificSpacesGroups.map((group, index) => (
-          <SpacesGroup
+          <SpacesGroupSlider
             key={index}
-            topic={topics.find((topic) => topic.id === group.topicId)}
-            skill={skills.find((skill) => skill.id === group.skillId)}
+            topicId={group.topicId}
+            skillId={group.skillId}
             location={group.location}
             spaces={group.spaces}
             style={styles.spacesGroup}
+            testID="discover-spaces-slider-user-specific"
           />
         ))}
 
         {userSpecificSpacesGroups.length > 0 && defaultSpacesGroups.length > 0 && (
-          <HoliText style={styles.othersTitle}>{t('spaces.discover.others')}</HoliText>
+          <HoliText style={styles.othersTitle} testID="discover-spaces-others">
+            {t('spaces.discover.others')}
+          </HoliText>
         )}
 
         {/* Default spaces suggestions */}
         {defaultSpacesGroups.map((group, index) => (
-          <SpacesGroup
+          <SpacesGroupSlider
             key={index}
-            topic={topics.find((topic) => topic.id === group.topicId)}
-            skill={skills.find((skill) => skill.id === group.skillId)}
+            topicId={group.topicId}
+            skillId={group.skillId}
             location={group.location}
             spaces={group.spaces}
             style={styles.spacesGroup}
+            testID="discover-spaces-slider-others"
           />
         ))}
       </View>
