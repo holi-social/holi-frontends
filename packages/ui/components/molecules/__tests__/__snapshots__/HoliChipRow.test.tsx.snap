@@ -36,8 +36,8 @@ exports[`renders correctly renders correctly when there is a title, is editable 
             "fontSize": 14,
             "lineHeight": 16.8,
           },
-          Object {},
-          Object {},
+          false,
+          undefined,
         ]
       }
     >
@@ -138,8 +138,8 @@ exports[`renders correctly renders correctly when there is a title, is editable 
             "fontSize": 16,
             "lineHeight": 19.2,
           },
-          Object {},
-          Object {},
+          false,
+          undefined,
         ]
       }
     >
@@ -185,8 +185,8 @@ exports[`renders correctly renders correctly when there is no title, not editabl
             "fontSize": 14,
             "lineHeight": 16.8,
           },
-          Object {},
-          Object {},
+          false,
+          undefined,
         ]
       }
     />

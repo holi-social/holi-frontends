@@ -111,7 +111,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
       >
         <TextInput
           accessibilityAutoComplete="list"
-          accessibilityControls="undefined-options"
+          accessibilityControls="multiselect-options"
           accessibilityLabel="Accessibility label"
           accessible={true}
           autoCapitalize="none"
@@ -355,7 +355,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
     getItemCount={[Function]}
     keyExtractor={[Function]}
     keyboardShouldPersistTaps="always"
-    nativeID="undefined-options"
+    nativeID="multiselect-options"
     onContentSizeChange={[Function]}
     onGestureHandlerEvent={[Function]}
     onGestureHandlerStateChange={[Function]}
@@ -458,8 +458,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -557,8 +557,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -721,8 +721,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -885,8 +885,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -984,8 +984,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -1083,8 +1083,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -1182,8 +1182,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -1281,8 +1281,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -1426,7 +1426,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="list"
-          accessibilityControls="undefined-options"
+          accessibilityControls="multiselect-options"
           accessibilityLabel="Accessibility label"
           accessible={true}
           autoCapitalize="none"
@@ -1670,7 +1670,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
     getItemCount={[Function]}
     keyExtractor={[Function]}
     keyboardShouldPersistTaps="always"
-    nativeID="undefined-options"
+    nativeID="multiselect-options"
     onContentSizeChange={[Function]}
     onGestureHandlerEvent={[Function]}
     onGestureHandlerStateChange={[Function]}
@@ -1773,8 +1773,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -1872,8 +1872,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -2036,8 +2036,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -2135,8 +2135,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -2234,8 +2234,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -2333,8 +2333,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -2432,8 +2432,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -2531,8 +2531,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -2670,7 +2670,6 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="list"
-          accessibilityControls="undefined-options"
           accessibilityLabel="Accessibility label"
           accessible={true}
           autoCapitalize="none"
@@ -2953,7 +2952,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="list"
-          accessibilityControls="undefined-options"
+          accessibilityControls="multiselect-options"
           accessibilityLabel="Accessibility label"
           accessible={true}
           autoCapitalize="none"
@@ -3197,7 +3196,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
     getItemCount={[Function]}
     keyExtractor={[Function]}
     keyboardShouldPersistTaps="always"
-    nativeID="undefined-options"
+    nativeID="multiselect-options"
     onContentSizeChange={[Function]}
     onGestureHandlerEvent={[Function]}
     onGestureHandlerStateChange={[Function]}
@@ -3300,8 +3299,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -3399,8 +3398,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -3498,8 +3497,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -3597,8 +3596,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -3696,8 +3695,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -3795,8 +3794,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -3894,8 +3893,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -3993,8 +3992,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -4138,7 +4137,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="list"
-          accessibilityControls="undefined-options"
+          accessibilityControls="singleselect-options"
           accessibilityLabel="Accessibility label"
           accessible={true}
           autoCapitalize="none"
@@ -4458,7 +4457,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
     getItemCount={[Function]}
     keyExtractor={[Function]}
     keyboardShouldPersistTaps="always"
-    nativeID="undefined-options"
+    nativeID="singleselect-options"
     onContentSizeChange={[Function]}
     onGestureHandlerEvent={[Function]}
     onGestureHandlerStateChange={[Function]}
@@ -4561,8 +4560,8 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -4658,8 +4657,8 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -4795,7 +4794,6 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="list"
-          accessibilityControls="undefined-options"
           accessibilityLabel="Accessibility label"
           accessible={true}
           autoCapitalize="none"
@@ -5073,7 +5071,6 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="list"
-          accessibilityControls="undefined-options"
           accessibilityLabel="Accessibility label"
           accessible={true}
           autoCapitalize="none"
@@ -5356,7 +5353,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
       >
         <TextInput
           accessibilityAutoComplete="list"
-          accessibilityControls="undefined-options"
+          accessibilityControls="singleselect-options"
           accessibilityLabel="Accessibility label"
           accessible={true}
           autoCapitalize="none"
@@ -5600,7 +5597,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
     getItemCount={[Function]}
     keyExtractor={[Function]}
     keyboardShouldPersistTaps="always"
-    nativeID="undefined-options"
+    nativeID="singleselect-options"
     onContentSizeChange={[Function]}
     onGestureHandlerEvent={[Function]}
     onGestureHandlerStateChange={[Function]}
@@ -5703,8 +5700,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -5800,8 +5797,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -5897,8 +5894,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -5994,8 +5991,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -6091,8 +6088,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -6188,8 +6185,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -6285,8 +6282,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -6382,8 +6379,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >

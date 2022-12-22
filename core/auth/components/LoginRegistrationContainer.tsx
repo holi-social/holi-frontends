@@ -1,13 +1,13 @@
-import React, { useContext, useLayoutEffect } from 'react'
+import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
 const LoginRegistrationContainer: React.FC = ({ children }) => {
-  const { userId, isLoggedIn } = useContext(AuthContext)
+  const { userId, isLoggedIn } = useAuth()
   const { t } = useTranslation()
   const { navigate } = useRouting()
 

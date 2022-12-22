@@ -30,6 +30,7 @@ export type HoliSelectProps = {
   inputProps?: TextInputProps
   id: string
   multiSelect?: boolean
+  multiSelectionLabel?: string
 }
 
 const HoliSelect = ({
@@ -40,6 +41,7 @@ const HoliSelect = ({
   placeholder,
   helperText,
   validationErrorText,
+  multiSelectionLabel,
   onChange,
   inputProps,
   options,
@@ -127,7 +129,10 @@ const HoliSelect = ({
         transparent
         key={item.id}
         label={item.title}
-        accessibilityRole="menuitem"
+        accessibilityRole={Platform.select({
+          web: multiSelect ? 'menuitemcheckbox' : 'menuitemradio',
+          native: 'menuitem',
+        })}
         onBlur={() => clearFocus('option-' + item.id)}
         style={styles.listItem}
         contentStyle={styles.listItemContent}
@@ -205,7 +210,7 @@ const HoliSelect = ({
   const selectedText =
     selectedOptions.length === 1
       ? selectedOptions[0].title
-      : selectedOptions.length > 1 && `${inputLabel} · ${selectedOptions.length}`
+      : selectedOptions.length > 1 && `${multiSelectionLabel || inputLabel} · ${selectedOptions.length}`
   const filteredOptions = useMemo(
     () => options.filter((option) => !regex || option.title.match(regex)),
     [options, regex]
@@ -230,7 +235,7 @@ const HoliSelect = ({
         helperText={isOpened && options.length ? undefined : helperText}
         accessibilityLabel={accessibilityLabel}
         accessibilityAutoComplete="list"
-        accessibilityControls={`${id}-options`}
+        accessibilityControls={isOpened ? `${id}-options` : undefined}
         accessibilityRole="combobox"
         accessibilityExpanded={isOpened}
         accessibilityHasPopup="menu"
