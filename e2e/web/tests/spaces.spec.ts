@@ -66,6 +66,9 @@ test.describe('@Spaces', () => {
 
     await checkAccessibility(page)
 
+    // close skills dropdown
+    await clickElementByTestId(page, 'spaces-filter-skills-toggle-menu')
+
     // click filter confirmation button and check if we are in the correct page with the filter queries
     await Promise.all([
       await clickElementByTestId(page, 'holi-modal-content-close-btn'),

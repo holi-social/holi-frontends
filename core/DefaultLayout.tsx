@@ -18,7 +18,7 @@ export interface LayoutProps extends ScrollViewProps {
 }
 
 const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(
-  ({ style, children, headerOverlap, hasFooterTabBar = true, ...scrollViewProps }: LayoutProps, ref) => {
+  ({ style, children, headerOverlap, hasFooterTabBar = true, testID, ...scrollViewProps }: LayoutProps, ref) => {
     const isWeb = Platform.OS === 'web'
 
     const screenView = (
@@ -29,6 +29,7 @@ const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(
           style,
         ]}
         ref={isWeb ? (ref as React.LegacyRef<View>) : undefined}
+        testID={testID}
       >
         {children}
       </View>
@@ -38,6 +39,7 @@ const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(
 
     const mobileLayout = (
       <ScrollView
+        testID={testID}
         {...scrollViewProps}
         contentContainerStyle={[styles.scrollLayout, style]}
         ref={!isWeb ? (ref as React.LegacyRef<ScrollView>) : undefined}
