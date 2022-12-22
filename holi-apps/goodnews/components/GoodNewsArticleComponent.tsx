@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ImageBackground, Linking, Platform, StyleSheet, View } from 'react-native'
+import { ImageBackground, Linking, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -13,6 +13,7 @@ import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 type GoodNewsArticleComponentProps = {
   article: GoodNewsArticle
+  style?: StyleProp<ViewStyle>
 }
 
 const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = (props: GoodNewsArticleComponentProps) => {
@@ -21,7 +22,7 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = (prop
   const article = props.article
 
   return (
-    <View style={styles.container} testID={'goodnews-article-component'}>
+    <View style={[styles.container, props.style]} testID={'goodnews-article-component'}>
       <ImageBackground source={{ uri: article.pictureUrl }} resizeMode="cover" style={styles.headerBackgroundImage}>
         <HoliText style={[styles.pictureCredit, commonStyles.headerTextShadow]}>{article.pictureCredit}</HoliText>
       </ImageBackground>
@@ -76,7 +77,6 @@ const styles = StyleSheet.create({
   /* CONTENT CONTAINER */
   contentContainer: {
     flexGrow: 1,
-    backgroundColor: colors.backgroundColorGreyLight,
     paddingTop: 16,
     paddingBottom: 24,
     ...Platform.select({ web: { paddingHorizontal: 20 } }),

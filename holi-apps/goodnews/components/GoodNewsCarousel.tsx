@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import { SafeAreaView, StyleSheet, useWindowDimensions } from 'react-native'
 import PaginationDot from 'react-native-animated-pagination-dot'
 import Carousel from 'react-native-reanimated-carousel'
 
@@ -45,6 +45,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
   )
   const articles = data?.appGoodNews_articles.articles
   const previousDateTeaser = data?.appGoodNews_articles.previousDateTeaser
+  const paginationDotAreaHeight = 40
 
   const [fetchingMore, setFetchingMore] = useState(false)
 
@@ -107,14 +108,21 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
         loop={false}
         data={carouselItems}
         renderItem={({ item }) => {
-          if (item.type === 'article') return <GoodNewsArticleComponent article={item.article} key={item.article.id} />
+          if (item.type === 'article')
+            return (
+              <GoodNewsArticleComponent
+                article={item.article}
+                key={item.article.id}
+                style={{ paddingBottom: paginationDotAreaHeight }}
+              />
+            )
           else {
             return (
               <GoodNewsTeaserComponent
                 article={item.article}
                 key={item.article.id}
                 fetchMore={memoizedFetchMore}
-                style={{ paddingHorizontal: 24, height: height, width: width }}
+                style={{ paddingHorizontal: 24, height: height, width: width, zIndex: 1 }}
               />
             )
           }
@@ -123,7 +131,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
         scrollAnimationDuration={250}
         testID={'goodnews-list-container'}
       />
-      <View style={styles.paginationDotArea}>
+      <SafeAreaView style={styles.paginationDotArea}>
         {!fetchingMore && (
           <PaginationDot
             activeDotColor={colors.backgroundColorModalDark}
@@ -133,24 +141,24 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
             sizeRatio={1.0}
           />
         )}
-      </View>
+      </SafeAreaView>
     </>
   )
 }
 
 export default GoodNewsCarousel
 
-const createStyles = (width: number, height: number, isArticle: boolean) => {
-  const paginationDotAreaHeight = 40
+const createStyles = (width: number, height: number) => {
   return StyleSheet.create({
     carousel: {
       width: width,
-      height: isArticle ? height - paginationDotAreaHeight : height,
+      height: height,
     },
     paginationDotArea: {
-      backgroundColor: colors.backgroundColorGreyLight,
-      minHeight: paginationDotAreaHeight,
-      height: paginationDotAreaHeight,
+      zIndex: -1,
+      backgroundColor: 'transparent',
+      bottom: 0,
+      position: 'absolute',
       alignSelf: 'center',
       flexDirection: 'row',
     },

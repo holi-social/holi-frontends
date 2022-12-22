@@ -34,7 +34,9 @@ const GoodNewsTeaserComponent: React.VFC<GoodNewsTeaserComponentProps> = (props:
           <HoliText>Continue reading</HoliText>
         </HoliButton>
       </View>
-      <HoliImage source={{ uri: props.article.pictureUrl }} label={''} style={styles.mainImage} />
+      <View style={styles.imageContainer}>
+        <HoliImage source={{ uri: props.article.pictureUrl }} label={''} style={styles.mainImage} />
+      </View>
     </View>
   )
 }
@@ -62,13 +64,30 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   mainImage: {
+    height: '100%',
+    width: '100%',
+    bottom: 0,
+    ...Platform.select({
+      web: {
+        height: 400,
+      },
+
+      native: {
+        borderColor: colors.borderColorBlack,
+        borderTopRightRadius: 28,
+        borderTopLeftRadius: 28,
+      },
+    }),
+  },
+  imageContainer: {
     borderColor: colors.borderColorBlack,
     flex: 1,
-    flexGrow: 1,
     width: '100%',
-    borderRadius: 28,
+    overflow: 'hidden',
+    borderTopRightRadius: 28,
+    borderTopLeftRadius: 28,
     borderWidth: 1,
-    bottom: -20,
+    bottom: 0,
     ...Platform.select({
       web: {
         height: 400,
