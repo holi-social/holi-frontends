@@ -1,5 +1,5 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/AuthProvider.tsx
-import React, { createContext, useCallback, useEffect, useState } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { displayError } from '@holi/core/errors/helpers'
@@ -32,6 +32,14 @@ type AuthContextInternalState = {
   userId: string | null
   isLoading: boolean
   isLoggedIn: boolean
+}
+
+export const useAuth = () => {
+  const context = useContext(AuthContext)
+
+  if (context === undefined) throw new Error('useAuth() must be used within a AuthContextProvider')
+
+  return context
 }
 
 const kratosSdk = newKratosSdk()

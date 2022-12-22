@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import client from '@holi/api/graphql/client'
-import AuthContextProvider, { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import AuthContextProvider, { useAuth } from '@holi/core/auth/AuthContextProvider'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { NavigationContextProvider } from '@holi/core/navigation/hooks/NavigationContextProvider'
 import LoginRedirectProvider from '@holi/core/provider/LoginRedirectProvider'
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 // AuthContextProvider & UserContextProvider. it it's not wrapped
 // useContext would not receive updates on context updates
 const Children: React.VFC<{ children: React.ReactElement | React.ReactNode }> = ({ children }) => {
-  const authContext = useContext(AuthContext)
+  const authContext = useAuth()
   const userContext = useContext(UserContext)
   const { t } = useTranslation()
 

@@ -27,7 +27,7 @@ const HoliText = ({ children, size = 'default', bold = false, selectable = true,
       {...props}
       selectable={selectable}
       testID={props?.testID}
-      style={[styles.base, styles[size as keyof typeof styles], bold ? styles.bold : {}, props.style || {}]}
+      style={[styles.base, styles[size as keyof typeof styles], bold && styles.bold, props.style]}
     >
       {children}
     </Text>
