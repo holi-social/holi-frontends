@@ -31,7 +31,8 @@ type CarouselItem = {
 const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
   const { i18n } = useTranslation()
   const { width, height } = useWindowDimensions()
-  const styles = useMemo(() => createStyles(width, height), [width, height])
+  const [isArticle, setIsArticle] = useState(true)
+  const styles = useMemo(() => createStyles(width, height, isArticle), [width, height, isArticle])
   const { setOptions } = useUnifiedNavigation()
   const { loading, error, data, fetchMore } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
     GoodNewsArticlesQuery,
@@ -74,6 +75,9 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
         footerShown: false,
       },
     })
+    {
+      articles && activeArticleIndex === articles.length ? setIsArticle(false) : setIsArticle(true)
+    }
   }, [setOptions, articles, activeArticleIndex])
 
   if (error) {
@@ -106,7 +110,12 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
           if (item.type === 'article') return <GoodNewsArticleComponent article={item.article} key={item.article.id} />
           else {
             return (
-              <GoodNewsTeaserComponent article={item.article} key={item.article.id} fetchMore={memoizedFetchMore} />
+              <GoodNewsTeaserComponent
+                article={item.article}
+                key={item.article.id}
+                fetchMore={memoizedFetchMore}
+                style={{ paddingHorizontal: 24, height: height, width: width }}
+              />
             )
           }
         }}
@@ -131,12 +140,12 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
 
 export default GoodNewsCarousel
 
-const createStyles = (width: number, height: number) => {
+const createStyles = (width: number, height: number, isArticle: boolean) => {
   const paginationDotAreaHeight = 40
   return StyleSheet.create({
     carousel: {
       width: width,
-      height: height - paginationDotAreaHeight,
+      height: isArticle ? height - paginationDotAreaHeight : height,
     },
     paginationDotArea: {
       backgroundColor: colors.backgroundColorGreyLight,
