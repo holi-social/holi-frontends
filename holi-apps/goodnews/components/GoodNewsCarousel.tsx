@@ -116,7 +116,11 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
         scrollAnimationDuration={250}
         testID={'goodnews-list-container'}
       />
-      <View style={styles.paginationDotArea}>
+      <View
+        style={styles.paginationDotArea}
+        importantForAccessibility="no-hide-descendants"
+        accessibilityElementsHidden={true}
+      >
         {!fetchingMore && (
           <PaginationDot
             activeDotColor={colors.backgroundColorModalDark}
