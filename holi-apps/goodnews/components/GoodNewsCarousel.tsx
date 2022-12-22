@@ -33,8 +33,7 @@ type CarouselItem = {
 const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
   const { i18n } = useTranslation()
   const { width, height } = useWindowDimensions()
-  const [isArticle, setIsArticle] = useState(true)
-  const styles = useMemo(() => getStyles(width, height, isArticle), [width, height, isArticle])
+  const styles = useMemo(() => getStyles(width, height), [width, height])
   const { setOptions } = useUnifiedNavigation()
   const { loading, error, data, fetchMore } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
     GoodNewsArticlesQuery,
@@ -79,9 +78,6 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
       },
       headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
     })
-    {
-      articles && activeArticleIndex === articles.length ? setIsArticle(false) : setIsArticle(true)
-    }
   }, [setOptions, articles, activeArticleIndex])
 
   if (error) {

@@ -1,6 +1,6 @@
 import React from 'react'
 //import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Animated, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -21,6 +21,35 @@ const GoodNewsTeaserComponent: React.VFC<GoodNewsTeaserComponentProps> = (props:
   // const { t } = useTranslation()
   const mixins = useStyleMixins()
 
+  const imageContainerAnimation = new Animated.Value(0)
+  const imageContainerAnimationStyle = {
+    transform: [
+      {
+        translateY: imageContainerAnimation.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, -450],
+        }),
+      },
+      {
+        scale: imageContainerAnimation.interpolate({
+          inputRange: [0, 1],
+          outputRange: [1, 1.5],
+        }),
+      },
+    ],
+  }
+
+  const fetch = () => {
+    Animated.timing(imageContainerAnimation, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start()
+    setTimeout(() => {
+      props.fetchMore()
+    }, 150)
+  }
+
   return (
     <View style={[mixins.container, styles.container, props.style]}>
       <View style={styles.lookingForMore} testID="goodnews-list-container">
@@ -30,18 +59,23 @@ const GoodNewsTeaserComponent: React.VFC<GoodNewsTeaserComponentProps> = (props:
         <HoliText size="large" style={styles.description}>
           There´s more interesting articles in the previous edition
         </HoliText>
-        <HoliButton label={''} style={styles.clearBtn} onPress={props.fetchMore}>
-          <HoliText>Continue reading</HoliText>
+        <HoliButton label={''} style={styles.clearBtn} onPress={fetch}>
+          <HoliText bold style={styles.btnText}>
+            Continue reading
+          </HoliText>
         </HoliButton>
       </View>
-      <View style={styles.imageContainer}>
+      <Animated.View style={[styles.imageContainer, imageContainerAnimationStyle]}>
         <HoliImage source={{ uri: props.article.pictureUrl }} label={''} style={styles.mainImage} />
-      </View>
+      </Animated.View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+  btnText: {
+    paddingVertical: 5,
+  },
   container: {
     flex: 1,
   },
@@ -63,22 +97,6 @@ const styles = StyleSheet.create({
   title: {
     paddingHorizontal: 16,
   },
-  mainImage: {
-    height: '100%',
-    width: '100%',
-    bottom: 0,
-    ...Platform.select({
-      web: {
-        height: 400,
-      },
-
-      native: {
-        borderColor: colors.borderColorBlack,
-        borderTopRightRadius: 28,
-        borderTopLeftRadius: 28,
-      },
-    }),
-  },
   imageContainer: {
     borderColor: colors.borderColorBlack,
     flex: 1,
@@ -91,6 +109,22 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: {
         height: 400,
+      },
+    }),
+  },
+  mainImage: {
+    height: '100%',
+    width: '100%',
+    bottom: 0,
+    ...Platform.select({
+      web: {
+        height: 400,
+      },
+      // needed for mobile because of bug with borderRadius
+      native: {
+        borderColor: colors.borderColorBlack,
+        borderTopRightRadius: 28,
+        borderTopLeftRadius: 28,
       },
     }),
   },
