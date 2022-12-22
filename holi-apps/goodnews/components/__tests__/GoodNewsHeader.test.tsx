@@ -9,6 +9,7 @@ describe('GoodNewsHeader', () => {
     render(<GoodNewsHeader article={article} />)
 
     expect(screen.getByText('app.name')).toBeDefined()
-    expect(screen.getByText('12/21/2022')).toBeDefined()
+    // only checking for test id, as the exact format seems to be os/platform specific
+    expect(screen.getByTestId('goodnews-header-date')).toBeDefined()
   })
 })

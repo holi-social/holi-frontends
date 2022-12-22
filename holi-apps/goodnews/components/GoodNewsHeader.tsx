@@ -23,6 +23,7 @@ const GoodNewsHeader: React.VFC<GoodNewsHeaderProps> = ({ article = undefined, .
         <HoliText
           size="extrasmall"
           style={[commonStyles.headerTextShadow, { color: props.tintColor, alignSelf: 'center' }]}
+          testID="goodnews-header-date"
         >
           {dateFormat.format(Date.parse(article.date))}
         </HoliText>
