@@ -8,6 +8,12 @@ export interface SpaceMember {
   created: string
 }
 
+export interface SpaceFilter {
+  location?: string
+  topicId?: string
+  skillIds?: string[]
+}
+
 export enum SpaceLinkType {
   DISCORD = 'DISCORD',
   FACEBOOK = 'FACEBOOK',
