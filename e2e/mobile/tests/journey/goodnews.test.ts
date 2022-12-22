@@ -22,9 +22,7 @@ describe('@GoodNews', () => {
 
     await assertListItemExisting()
 
-    /* TODO HOLI-2806 fix test
     await assertAllowsPagination()
-     */
   })
 })
 
@@ -32,11 +30,13 @@ const assertListItemExisting = async () => {
   await waitForElementWithTestId('goodnews-article-component')
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const assertAllowsPagination = async () => {
-  await scrollToElementWithTestId('btn-goodnews-list-load-more', 'down', { maxAttempts: 10 })
+  // swipe to the right until the teaser component is visible
+  await scrollToElementWithTestId('btn-goodnews-list-load-more', 'right', { repetitions: 12 })
   // load more
   await tapOnElementWithTestId('btn-goodnews-list-load-more')
+  // wait a moment
+  await new Promise((resolve) => setTimeout(resolve, 500))
   // wait until "load more" button has been replaced by next list item
   await waitForElementWithTestIdToBeNull('btn-goodnews-list-load-more')
 }
