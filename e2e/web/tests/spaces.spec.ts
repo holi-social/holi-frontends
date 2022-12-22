@@ -58,6 +58,14 @@ test.describe('@Spaces', () => {
     // click on first topic in the list
     await clickElementByTestId(page, 'spaces-filter-interests-item')
 
+    // open skills dropdown
+    await clickElementByTestId(page, 'spaces-filter-skills-input')
+
+    // click on first skill in the list
+    await clickElementByTestId(page, 'spaces-filter-skills-item')
+
+    await checkAccessibility(page)
+
     // click filter confirmation button and check if we are in the correct page with the filter queries
     await Promise.all([
       await clickElementByTestId(page, 'holi-modal-content-close-btn'),
