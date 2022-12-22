@@ -148,6 +148,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
               style={[styles.filterOption, { zIndex: 0 }]}
               onChange={toggleSkillSelection}
               id="spaces-filter-skills"
+              testID="spaces-filter-skills"
               multiSelect={true}
             />
           </View>
