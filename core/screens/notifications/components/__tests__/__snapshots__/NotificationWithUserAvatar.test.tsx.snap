@@ -1,32 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
-<View>
-  <Text
+<View
+  testID="notification-item"
+>
+  <View
     accessibilityLabel="Some User"
     accessibilityRole="button"
     accessible={true}
-    onPress={[Function]}
-    selectable={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
     style={
       Array [
         Object {
-          "color": "#222326",
-          "fontFamily": "Circular Std Book",
-          "fontWeight": "400",
+          "color": "#6267e7",
         },
-        Object {
-          "fontSize": 16,
-          "lineHeight": 19.2,
-        },
-        Object {},
-        Array [
-          Object {
-            "color": "#6267e7",
-          },
-          undefined,
-          undefined,
-        ],
+        undefined,
+        undefined,
       ]
     }
     testID="text-link"
@@ -73,7 +72,7 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
                 "fontSize": 16,
                 "lineHeight": 19.2,
               },
-              Object {},
+              false,
               Object {
                 "color": "#222326",
                 "fontSize": 18,
@@ -111,7 +110,7 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
                 "fontSize": 14,
                 "lineHeight": 16.8,
               },
-              Object {},
+              false,
               Object {
                 "color": "#6f7081",
               },
@@ -132,8 +131,8 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
                   "fontSize": 14,
                   "lineHeight": 16.8,
                 },
-                Object {},
-                Object {},
+                false,
+                undefined,
               ]
             }
           />
@@ -152,7 +151,7 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
                 "fontSize": 14,
                 "lineHeight": 16.8,
               },
-              Object {},
+              false,
               Array [
                 Object {
                   "color": "#6f7081",
@@ -180,6 +179,6 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
         }
       />
     </View>
-  </Text>
+  </View>
 </View>
 `;
