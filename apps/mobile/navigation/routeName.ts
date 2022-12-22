@@ -2,9 +2,11 @@ export enum RouteName {
   // Home Stack
   HomeFeed = 'HomeFeed',
   InsightDetailPage = 'InsightDetailPage',
-  Notifications = 'Notifications',
+  InsightPostDetailPage = 'InsightPostDetailPage',
+  InsightPostCommentInputPage = 'InsightPostCommentInputPage',
   PostDetailPage = 'PostDetailPage',
-  CommentInputPage = 'CommentInputPage',
+  PostCommentInputPage = 'PostCommentInputPage',
+  Notifications = 'Notifications',
   UserProfile = 'UserProfile',
 
   // Spaces

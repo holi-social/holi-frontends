@@ -1,11 +1,11 @@
-import React, { memo, useContext, useLayoutEffect } from 'react'
+import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { useScrollYHandler } from '@holi/core/helpers'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import AppsDrawer from '@holi/core/screens/homeFeed/components/AppsDrawer'
@@ -30,7 +30,7 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
 }
 
 const HomeFeed: React.VFC<HomeFeedProps> = () => {
-  const { isLoggedIn } = useContext(AuthContext)
+  const { isLoggedIn } = useAuth()
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(new Date().getHours(), t)
   const onScreenScroll = useScrollYHandler()

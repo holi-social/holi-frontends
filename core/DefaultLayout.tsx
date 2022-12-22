@@ -17,37 +17,42 @@ export interface LayoutProps extends ScrollViewProps {
   testID?: string
 }
 
-const DefaultLayout: React.FC<LayoutProps> = ({
-  style,
-  children,
-  headerOverlap,
-  hasFooterTabBar = true,
-  testID,
-  ...scrollViewProps
-}: LayoutProps) => {
-  const screenView = (
-    <View
-      style={[
-        !headerOverlap && scrollViewProps.onScroll && styles.headerPadding,
-        hasFooterTabBar && styles.footerPadding,
-        style,
-      ]}
-      testID={testID}
-    >
-      {children}
-    </View>
-  )
+const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(
+  ({ style, children, headerOverlap, hasFooterTabBar = true, testID, ...scrollViewProps }: LayoutProps, ref) => {
+    const isWeb = Platform.OS === 'web'
 
-  if (Platform.OS === 'web') return screenView
+    const screenView = (
+      <View
+        style={[
+          !headerOverlap && scrollViewProps.onScroll && styles.headerPadding,
+          hasFooterTabBar && styles.footerPadding,
+          style,
+        ]}
+        ref={isWeb ? (ref as React.LegacyRef<View>) : undefined}
+        testID={testID}
+      >
+        {children}
+      </View>
+    )
 
-  const mobileLayout = (
-    <ScrollView {...scrollViewProps} contentContainerStyle={[styles.scrollLayout, style]} testID={testID}>
-      {screenView}
-    </ScrollView>
-  )
+    if (Platform.OS === 'web') return screenView
 
-  return headerOverlap ? mobileLayout : <SafeAreaView style={styles.safeArea}>{mobileLayout}</SafeAreaView>
-}
+    const mobileLayout = (
+      <ScrollView
+        testID={testID}
+        {...scrollViewProps}
+        contentContainerStyle={[styles.scrollLayout, style]}
+        ref={!isWeb ? (ref as React.LegacyRef<ScrollView>) : undefined}
+      >
+        {screenView}
+      </ScrollView>
+    )
+
+    return headerOverlap ? mobileLayout : <SafeAreaView style={styles.safeArea}>{mobileLayout}</SafeAreaView>
+  }
+)
+
+DefaultLayout.displayName = 'DefaultLayout'
 
 export default DefaultLayout
 

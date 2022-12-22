@@ -5,7 +5,7 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
@@ -38,7 +38,7 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
 
-  const { isLoggedIn } = useContext(AuthContext)
+  const { isLoggedIn } = useAuth()
   const { user } = useContext(UserContext)
 
   const mixins = useStyleMixins()

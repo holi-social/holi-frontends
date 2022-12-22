@@ -1,8 +1,8 @@
 import { useQuery } from '@apollo/client'
-import React, { createContext, useContext } from 'react'
+import React, { createContext } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { displayError } from '@holi/core/errors/helpers'
 import { AuthenticatedUserResponse, authenticatedUserQuery } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
@@ -21,7 +21,7 @@ export const UserContext = createContext<UserContext>(initialState)
 UserContext.displayName = 'UserContext'
 
 const UserContextProvider: React.FC = ({ children }) => {
-  const { isLoggedIn, setUserLoggedOut } = useContext(AuthContext)
+  const { isLoggedIn, setUserLoggedOut } = useAuth()
   const { t } = useTranslation()
 
   const { loading, error, data } = useQuery<AuthenticatedUserResponse>(authenticatedUserQuery, {

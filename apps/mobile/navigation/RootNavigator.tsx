@@ -1,20 +1,20 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
 import Registration from '@holi/core/auth/screens/Registration'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import Notifications from '@holi/core/screens/Notifications'
 import Search from '@holi/core/screens/Search'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
+import Notifications from '@holi/core/screens/notifications/Notifications'
 import CommentInputPage, { CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
 import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
 import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
@@ -32,9 +32,11 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type HomeStackScreens = {
   [RouteName.HomeFeed]: undefined
   [RouteName.InsightDetailPage]: InsightDetailPageParams
-  [RouteName.Notifications]: undefined
+  [RouteName.InsightPostDetailPage]: PostDetailPageParams
+  [RouteName.InsightPostCommentInputPage]: CommentInputPageParams
   [RouteName.PostDetailPage]: PostDetailPageParams
-  [RouteName.CommentInputPage]: CommentInputPageParams
+  [RouteName.PostCommentInputPage]: CommentInputPageParams
+  [RouteName.Notifications]: undefined
   [RouteName.Search]: undefined
   [RouteName.UserProfile]: UserProfileParams
 }
@@ -81,9 +83,19 @@ export const HomeStackNavigator: React.VFC = () => {
       <HomeStack.Screen name={RouteName.HomeFeed} component={HomeFeed} />
       <HomeStack.Screen name={RouteName.Search} component={Search} />
       <HomeStack.Screen name={RouteName.InsightDetailPage} component={InsightDetailPage} />
+      <HomeStack.Screen name={RouteName.InsightPostDetailPage} component={PostDetailPage} />
+      <HomeStack.Screen name={RouteName.InsightPostCommentInputPage} component={CommentInputPage} />
       <HomeStack.Screen name={RouteName.PostDetailPage} component={PostDetailPage} />
-      <HomeStack.Screen name={RouteName.CommentInputPage} component={CommentInputPage} />
-      <HomeStack.Screen name={RouteName.Notifications} component={Notifications} />
+      <HomeStack.Screen name={RouteName.PostCommentInputPage} component={CommentInputPage} />
+      <HomeStack.Screen
+        name={RouteName.Notifications}
+        options={{
+          presentation: 'containedModal',
+          animation: 'slide_from_bottom',
+          headerShown: true,
+        }}
+        component={Notifications}
+      />
       <HomeStack.Screen name={RouteName.UserProfile} component={UserProfile} />
     </HomeStack.Navigator>
   )
@@ -93,7 +105,7 @@ export const BottomTabsNavigator: React.VFC = () => {
   const { options } = useUnifiedNavigation()
   const iconColor = (isActive: boolean) => (isActive ? colors.fontColorBlack : colors.fontColorGrey)
   const { t } = useTranslation()
-  const { isLoggedIn } = useContext(AuthContext)
+  const { isLoggedIn } = useAuth()
 
   return (
     <BottomTabs.Navigator
@@ -200,7 +212,6 @@ const RootNavigator: React.VFC = () => {
           headerShown: false,
         }}
       />
-      {/* modals are only correctly rendered on android when in root navigator */}
       <RootStack.Group
         screenOptions={{
           presentation: 'containedModal',

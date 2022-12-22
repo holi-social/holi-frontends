@@ -5,10 +5,10 @@ import { View } from 'react-native'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
 import { commonStyles } from '@holi-apps/goodnews/common_styles'
-import { GoodNewsArticle } from '@holi-apps/goodnews/types'
+import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 export type GoodNewsHeaderProps = {
-  tintColor: string | undefined
+  tintColor?: string
   article?: GoodNewsArticle | undefined
 }
 
@@ -18,11 +18,13 @@ const GoodNewsHeader: React.VFC<GoodNewsHeaderProps> = ({ article = undefined, .
   const dateFormat = new Intl.DateTimeFormat(i18n.language)
   return (
     <View>
-      <HoliText size={'large'} style={[commonStyles.headerTextShadow, { color: props.tintColor }]}>
-        {title}
-      </HoliText>
+      <HoliText style={[commonStyles.headerTextShadow, { color: props.tintColor }]}>{title}</HoliText>
       {article && (
-        <HoliText style={[commonStyles.headerTextShadow, { color: props.tintColor, alignSelf: 'center' }]}>
+        <HoliText
+          size="extrasmall"
+          style={[commonStyles.headerTextShadow, { color: props.tintColor, alignSelf: 'center' }]}
+          testID="goodnews-header-date"
+        >
           {dateFormat.format(Date.parse(article.date))}
         </HoliText>
       )}

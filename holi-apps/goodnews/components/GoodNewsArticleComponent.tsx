@@ -24,23 +24,26 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = (prop
   return (
     <View style={[styles.container, props.style]} testID={'goodnews-article-component'}>
       <ImageBackground source={{ uri: article.pictureUrl }} resizeMode="cover" style={styles.headerBackgroundImage}>
-        <HoliText style={[styles.pictureCredit, commonStyles.headerTextShadow]}>{article.pictureCredit}</HoliText>
+        <HoliText size="extrasmall" style={[styles.pictureCredit, commonStyles.headerTextShadow]}>
+          {article.pictureCredit}
+        </HoliText>
       </ImageBackground>
       <View style={[mixins.container, styles.contentContainer]} testID="goodnews-list-item">
-        <HoliText size={'small'} style={styles.source}>
-          {article.source || ''}
-        </HoliText>
-        <HoliText size={'extralarge'} style={styles.headline}>
+        {article.source && (
+          <HoliText size="small" style={styles.source}>
+            {article.source}
+          </HoliText>
+        )}
+        <HoliText size="extralarge" style={styles.headline}>
           {article.headline}
         </HoliText>
-        <HoliText size={'large'} style={styles.teaserText}>
-          {article.teaserText}
-        </HoliText>
+        <HoliText style={styles.teaserText}>{article.teaserText}</HoliText>
         {/* TODO refactoring to modify <HoliLink /> so that it works as/with a button, too */}
         <HoliButton
           label={t('goodnews:button.readArticle')}
           onPress={() => Linking.openURL(article.articleUrl)}
           testID="btn-to-article-external"
+          type="secondary"
         >
           <HoliText style={styles.externalLinkButtonText}>{t('goodnews:button.readArticle')}</HoliText>
           {/* TODO external link (part of HoliLink) ? */}
@@ -70,7 +73,7 @@ const styles = StyleSheet.create({
   },
   pictureCredit: {
     color: colors.fontColorWhite,
-    paddingBottom: 9,
+    paddingBottom: 8,
     paddingRight: 16,
     alignSelf: 'flex-end',
   },
@@ -78,12 +81,12 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexGrow: 1,
     paddingTop: 16,
-    paddingBottom: 24,
-    ...Platform.select({ web: { paddingHorizontal: 20 } }),
+    paddingBottom: 14,
+    ...Platform.select({ web: { paddingHorizontal: 24 } }),
   },
   source: { paddingBottom: 8 },
   headline: { paddingBottom: 8 },
-  teaserText: { paddingBottom: 16 },
+  teaserText: { paddingBottom: 28 },
   externalLinkButtonText: {
     paddingRight: 6,
   },

@@ -104,7 +104,7 @@ exports[`HoliUserCard renders correctly 1`] = `
             "fontSize": 16,
             "lineHeight": 19.2,
           },
-          Object {},
+          false,
           Object {
             "textAlign": "center",
           },
@@ -195,7 +195,7 @@ Array [
             "fontSize": 14,
             "lineHeight": 16.8,
           },
-          Object {},
+          false,
           Object {
             "textAlign": "center",
           },
