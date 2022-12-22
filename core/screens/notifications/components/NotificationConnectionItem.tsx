@@ -21,7 +21,11 @@ const isNotificationConnectionAccepted = ({ notificationType }: Notification) =>
   notificationType === NotificationType.CONNECTION_ACCEPTED ||
   notificationType === NotificationType.CONNECTION_CONFIRMED
 
-const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnection>> = ({ notification, style }) => {
+const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnection>> = ({
+  notification,
+  style,
+  testID,
+}) => {
   const { id: userId } = notification.options.user
   const { t } = useTranslation()
   const { width: screenWidth } = useWindowDimensions()
@@ -72,6 +76,7 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
       }
       disabled={loading}
       style={styles.button}
+      testID="ignore-connection-request-button"
     >
       {t('notifications.connection.ignore')}
     </HoliButton>,
@@ -87,6 +92,7 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
       }
       disabled={loading}
       style={styles.button}
+      testID="accept-connection-request-button"
     >
       {t('notifications.connection.accept')}
     </HoliButton>,
@@ -98,6 +104,7 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
         notification={notification}
         i18nKey={getI18Key()}
         style={[style, loading && styles.notificationProcessing]}
+        testID={testID}
       >
         {!connectionHandeled &&
           (screenWidth > +vars.breakpointXs ? (
@@ -111,7 +118,7 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
 
       {loading && (
         <Animated.View style={styles.loaderContainer} entering={FadeIn} exiting={FadeOut.delay(300)}>
-          <View style={styles.loader} testID="loader">
+          <View style={styles.loader} testID="connection-notification-loader-indicator">
             <HoliLottie animType="loader" />
           </View>
         </Animated.View>

@@ -3,7 +3,7 @@ import React from 'react'
 import NotificationWithUserAvatar from '@holi/core/screens/notifications/components/NotificationWithUserAvatar'
 import { NotificationPost, NotificationProps } from '@holi/core/screens/notifications/components/types'
 
-const NotificationPostItem: React.VFC<NotificationProps<NotificationPost>> = ({ notification, style }) => {
+const NotificationPostItem: React.VFC<NotificationProps<NotificationPost>> = ({ notification, style, testID }) => {
   const {
     id: commentId,
     post: { id: postId },
@@ -15,6 +15,7 @@ const NotificationPostItem: React.VFC<NotificationProps<NotificationPost>> = ({ 
       i18nKey="notifications.post.mention.message"
       href={`/posts/${postId}?commentId=${commentId}`}
       style={style}
+      testID={testID}
     />
   )
 }

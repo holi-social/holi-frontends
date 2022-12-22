@@ -22,6 +22,7 @@ const NotificationWithUserAvatar: React.FC<NotificationWithUserAvatarProps> = ({
   href,
   i18nKey,
   style,
+  testID = '',
 }) => {
   const { created, read } = notification
   const { id: userId, avatar, avatarDefaultColor, avatarLabel, fullName } = notification.options.user
@@ -29,7 +30,7 @@ const NotificationWithUserAvatar: React.FC<NotificationWithUserAvatarProps> = ({
   href = href || `/profile/${userId}`
 
   return (
-    <View style={style}>
+    <View style={style} testID={`${testID && testID + '-'}notification-item`}>
       <HoliLink href={href} label={fullName} mobileNavigateBackFirst>
         <View style={styles.link}>
           <HoliUserAvatar
