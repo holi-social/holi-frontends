@@ -458,8 +458,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -557,8 +557,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -721,8 +721,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -885,8 +885,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -984,8 +984,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -1083,8 +1083,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -1182,8 +1182,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -1281,8 +1281,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -1773,8 +1773,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -1872,8 +1872,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -2036,8 +2036,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -2135,8 +2135,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -2234,8 +2234,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -2333,8 +2333,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -2432,8 +2432,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -2531,8 +2531,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -3299,8 +3299,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -3398,8 +3398,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -3497,8 +3497,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -3596,8 +3596,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -3695,8 +3695,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -3794,8 +3794,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -3893,8 +3893,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -3992,8 +3992,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -4560,8 +4560,8 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -4657,8 +4657,8 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -5700,8 +5700,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -5797,8 +5797,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -5894,8 +5894,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -5991,8 +5991,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -6088,8 +6088,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -6185,8 +6185,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -6282,8 +6282,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >
@@ -6379,8 +6379,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
             >

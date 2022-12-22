@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
 
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { Comment } from '@holi/core/screens/posts/types'
@@ -11,20 +11,20 @@ import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type CommentProps = {
+export interface CommentProps extends ViewProps {
   comment: Comment
   created?: string
   style?: StyleProp<ViewStyle>
 }
 
-const CommentView: React.VFC<CommentProps> = ({ comment, style }) => {
+const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
   const { t } = useTranslation()
 
   const { creator } = comment
   const name = creator.fullName || t('user.profileView.anonymous')
 
   return (
-    <View style={[styles.wrapper, style]}>
+    <View style={[styles.wrapper, style]} {...props}>
       <HoliMediaHeader title={name} author={creator} date={comment.created} boldTitle>
         <HoliButton transparent inline label={t('insights.post.preview.more')} style={styles.moreButton}>
           <HoliIcon icon="more" color={colors.fontColorGrey} />

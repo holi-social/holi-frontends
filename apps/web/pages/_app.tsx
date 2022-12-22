@@ -8,6 +8,7 @@ import { StyleSheet } from 'react-native'
 
 import RootProvider from '@holi/core/RootProvider'
 import i18n, { initI18n } from '@holi/core/i18n'
+import { ScrollYProvider } from '@holi/core/provider/ScrollYProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
@@ -52,7 +53,9 @@ const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: 
 
   return translationsLoaded ? (
     <I18nextProvider i18n={i18n}>
-      <RootProvider>{getLayout(<Component {...pageProps} />)}</RootProvider>
+      <ScrollYProvider>
+        <RootProvider>{getLayout(<Component {...pageProps} />)}</RootProvider>
+      </ScrollYProvider>
     </I18nextProvider>
   ) : (
     // TODO: Workaround as React.Suspense is not yet supported for SSR

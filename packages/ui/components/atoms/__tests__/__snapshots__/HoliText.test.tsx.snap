@@ -15,8 +15,8 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'fa
         "fontSize": 16,
         "lineHeight": 19.2,
       },
-      Object {},
-      Object {},
+      false,
+      undefined,
     ]
   }
 >
@@ -39,8 +39,8 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'fa
         "fontSize": 16,
         "lineHeight": 19.2,
       },
-      Object {},
-      Object {},
+      false,
+      undefined,
     ]
   }
 >
@@ -67,7 +67,7 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'tr
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {},
+      undefined,
     ]
   }
 >
@@ -94,7 +94,7 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'tr
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {},
+      undefined,
     ]
   }
 >
@@ -117,8 +117,8 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
         "fontSize": 12,
         "lineHeight": 14.399999999999999,
       },
-      Object {},
-      Object {},
+      false,
+      undefined,
     ]
   }
 >
@@ -141,8 +141,8 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
         "fontSize": 12,
         "lineHeight": 14.399999999999999,
       },
-      Object {},
-      Object {},
+      false,
+      undefined,
     ]
   }
 >
@@ -169,7 +169,7 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {},
+      undefined,
     ]
   }
 >
@@ -196,7 +196,7 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {},
+      undefined,
     ]
   }
 >
@@ -219,8 +219,8 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'fals
         "fontSize": 21,
         "lineHeight": 25.2,
       },
-      Object {},
-      Object {},
+      false,
+      undefined,
     ]
   }
 >
@@ -243,8 +243,8 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'fals
         "fontSize": 21,
         "lineHeight": 25.2,
       },
-      Object {},
-      Object {},
+      false,
+      undefined,
     ]
   }
 >
@@ -271,7 +271,7 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'true
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {},
+      undefined,
     ]
   }
 >
@@ -298,7 +298,7 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'true
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {},
+      undefined,
     ]
   }
 >
@@ -321,8 +321,8 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'fals
         "fontSize": 14,
         "lineHeight": 16.8,
       },
-      Object {},
-      Object {},
+      false,
+      undefined,
     ]
   }
 >
@@ -345,8 +345,8 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'fals
         "fontSize": 14,
         "lineHeight": 16.8,
       },
-      Object {},
-      Object {},
+      false,
+      undefined,
     ]
   }
 >
@@ -373,7 +373,7 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'true
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {},
+      undefined,
     ]
   }
 >
@@ -400,7 +400,7 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'true
         "fontFamily": "Circular Std Medium",
         "fontWeight": "500",
       },
-      Object {},
+      undefined,
     ]
   }
 >
