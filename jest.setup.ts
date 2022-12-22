@@ -9,6 +9,7 @@ global.console = {
   error: jest.fn(),
 }
 global.mockSetOptions = jest.fn()
+global.mockOpenURL = jest.fn()
 
 jest.mock('@react-navigation/native', () => {
   const actualNav = jest.requireActual('@react-navigation/native')
@@ -26,6 +27,10 @@ jest.mock('@react-navigation/native', () => {
     useLinkTo: () => global.mockNavigate,
   }
 })
+
+jest.mock('react-native/Libraries/Linking/Linking', () => ({
+  openURL: global.mockOpenURL,
+}))
 
 jest.mock('@sentry/react-native', () => ({
   captureException: global.captureSentryException,
