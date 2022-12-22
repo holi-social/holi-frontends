@@ -50,7 +50,7 @@ describe('NotificationConnectionItem.tsx', () => {
       'click'
     )
 
-    await waitForElementToBeRemoved(() => getByTestId('loader'))
+    await waitForElementToBeRemoved(() => getByTestId('connection-notification-loader-indicator'))
 
     await fireEvent(
       getByRole('button', {
@@ -59,6 +59,6 @@ describe('NotificationConnectionItem.tsx', () => {
       'click'
     )
 
-    await waitForElementToBeRemoved(() => getByTestId('loader'))
+    await waitForElementToBeRemoved(() => getByTestId('connection-notification-loader-indicator'))
   })
 })
