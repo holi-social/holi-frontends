@@ -79,6 +79,23 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
     })
   }, [setOptions, articles, activeArticleIndex])
 
+  const renderItem = useCallback(
+    ({ item, index }) => {
+      const accessible = index === activeArticleIndex
+      return item.type === 'article' ? (
+        <GoodNewsArticleComponent article={item.article} key={item.article.id} accessible={accessible} />
+      ) : (
+        <GoodNewsTeaserComponent
+          article={item.article}
+          key={item.article.id}
+          fetchMore={memoizedFetchMore}
+          accessible={accessible}
+        />
+      )
+    },
+    [activeArticleIndex, memoizedFetchMore]
+  )
+
   if (error) {
     logError(error, `[GoodNewsCarousel.tsx] ${error.message}`)
   }
@@ -105,13 +122,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
         style={styles.carousel}
         loop={false}
         data={carouselItems}
-        renderItem={({ item }) =>
-          item.type === 'article' ? (
-            <GoodNewsArticleComponent article={item.article} key={item.article.id} />
-          ) : (
-            <GoodNewsTeaserComponent article={item.article} key={item.article.id} fetchMore={memoizedFetchMore} />
-          )
-        }
+        renderItem={renderItem}
         onSnapToItem={setActiveArticleIndex}
         scrollAnimationDuration={250}
         testID={'goodnews-list-container'}

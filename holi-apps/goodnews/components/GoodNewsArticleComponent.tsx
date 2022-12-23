@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageBackground, Linking, Platform, StyleSheet, View } from 'react-native'
 
@@ -14,15 +14,23 @@ import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 type GoodNewsArticleComponentProps = {
   article: GoodNewsArticle
+  accessible?: boolean
 }
 
-const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = (props: GoodNewsArticleComponentProps) => {
+const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = ({
+  article,
+  accessible = true,
+}: GoodNewsArticleComponentProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const article = props.article
 
   return (
-    <View style={styles.container} testID={'goodnews-article-component'}>
+    <View
+      style={styles.container}
+      testID={'goodnews-article-component'}
+      accessibilityElementsHidden={!accessible}
+      importantForAccessibility={accessible ? 'yes' : 'no-hide-descendants'}
+    >
       <ImageBackground source={{ uri: article.pictureUrl }} resizeMode="cover" style={styles.headerBackgroundImage}>
         {article.pictureCredit && (
           <HoliText size="extrasmall" style={[styles.pictureCredit, commonStyles.headerTextShadow]}>
@@ -58,7 +66,7 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = (prop
   )
 }
 
-export default GoodNewsArticleComponent
+export default memo(GoodNewsArticleComponent)
 
 const styles = StyleSheet.create({
   container: {

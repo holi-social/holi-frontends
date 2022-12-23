@@ -9,21 +9,27 @@ import GoodNewsArticleComponent from './GoodNewsArticleComponent'
 
 type GoodNewsTeaserComponentProps = {
   article: GoodNewsArticle
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  fetchMore: () => any
+  fetchMore: () => void
+  accessible?: boolean
 }
 
 // TODO HOLI-2669 this is a temporary placeholder component, replace with real one
-const GoodNewsTeaserComponent: React.VFC<GoodNewsTeaserComponentProps> = (props: GoodNewsTeaserComponentProps) => {
+const GoodNewsTeaserComponent: React.VFC<GoodNewsTeaserComponentProps> = ({
+  article,
+  fetchMore,
+  accessible = true,
+}: GoodNewsTeaserComponentProps) => {
   return (
     <View
       style={{
         flex: 1,
         flexGrow: 1,
       }}
+      accessibilityElementsHidden={!accessible}
+      importantForAccessibility={accessible ? 'yes' : 'no-hide-descendants'}
     >
-      <GoodNewsArticleComponent article={props.article} />
-      <HoliButton label={'Load More'} onPress={props.fetchMore} testID="btn-goodnews-list-load-more">
+      <GoodNewsArticleComponent article={article} />
+      <HoliButton label={'Load More'} onPress={fetchMore} testID="btn-goodnews-list-load-more">
         {'Load more'}
       </HoliButton>
     </View>
