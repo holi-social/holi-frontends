@@ -23,7 +23,7 @@ test.describe('@UserConnection', () => {
   const password = 'TheSamePassword4A11E2eUsers'
 
   test('request connection from another user profile page', async ({ context, page }) => {
-    createUserSendConnectionRequest({ context, page, email, password })
+    await createUserSendConnectionRequest({ context, page, email, password })
     await checkAccessibility(page)
   })
 
