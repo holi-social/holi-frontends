@@ -1,5 +1,6 @@
+import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceLink, SpaceLinkType, SpaceMember, Task } from '@holi/core/screens/spaces/types'
-import { Topic, User } from '@holi/core/screens/userprofile/types'
+import { Skill, Topic, User } from '@holi/core/screens/userprofile/types'
 
 export const user: User = {
   id: '1',
@@ -81,7 +82,38 @@ export const spaces = [1, 2, 3].map((id) => ({
   id: `space-${id}`,
 }))
 
+export const spacesGroups: DiscoverSpacesGroup[] = [
+  {
+    topicId: 'test_topic',
+    spaces: {
+      data: spaces,
+      totalResults: 10,
+    },
+  },
+  {
+    skillId: 'test_skill',
+    spaces: {
+      data: spaces,
+      totalResults: 10,
+    },
+  },
+  {
+    location: 'test_location',
+    spaces: {
+      data: spaces,
+      totalResults: 10,
+    },
+  },
+]
+
 export const topic: Topic = {
   id: 'TEST_TOPIC',
   title: 'Topic title',
 }
+
+export const skill: Skill = {
+  id: 'TEST_SKILL',
+  title: 'Skill title',
+}
+
+export const location = 'TEST_LOCATION'

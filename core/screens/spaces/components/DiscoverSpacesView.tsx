@@ -1,39 +1,26 @@
-import partition from 'lodash.partition'
-import React, { useContext, useMemo } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
-import SpacesByTopic from '@holi/core/screens/spaces/components/SpacesByTopic'
-import { SpacesForTopic } from '@holi/core/screens/spaces/queries'
-import { Space } from '@holi/core/screens/spaces/types'
-import { User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
-import { Paged } from '@holi/core/types'
+import SpacesGroupSlider from '@holi/core/screens/spaces/components/SpacesGroupSlider'
+import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
+import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
 type DiscoverSpacesViewProps = {
   user?: User
   style?: StyleProp<ViewStyle>
-  spaces: SpacesForTopic[]
+  userSpecificSpacesGroups: DiscoverSpacesGroup[]
+  defaultSpacesGroups: DiscoverSpacesGroup[]
 }
 
-const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({ user, style, spaces }) => {
-  const { topics } = useContext(SpaceTermContext)
-
+const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({
+  style,
+  userSpecificSpacesGroups,
+  defaultSpacesGroups,
+}) => {
   const { t } = useTranslation()
-
-  const sortedTopics = useMemo(() => topics.slice().sort(termsByTitleComparator) || [], [topics])
-
-  const [filteredTopics, otherTopics] = useMemo(() => {
-    const userInterestIds = (user?.interests || []).map((topic) => topic.id)
-    return partition(sortedTopics, (topic) => userInterestIds.includes(topic.id))
-  }, [sortedTopics, user])
-
-  const spacesForTopic = (topicId: string): Paged<Space> => {
-    const result = spaces.find((spacesByTopic) => spacesByTopic.topicId === topicId)?.spaces
-    return result || { totalResults: 0, data: [] }
-  }
 
   return (
     <View style={style} testID="spaces-container">
@@ -45,18 +32,30 @@ const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({ user, style, s
       </HoliText>
 
       <View style={styles.body}>
-        {filteredTopics.map((topic) => (
-          <SpacesByTopic key={topic.id} topic={topic} spaces={spacesForTopic(topic.id)} style={styles.spacesByTopic} />
+        {/* User specific spaces suggestions */}
+        {userSpecificSpacesGroups.map((group, index) => (
+          <SpacesGroupSlider
+            key={index}
+            group={group}
+            style={styles.spacesGroup}
+            testID="discover-spaces-slider-user-specific"
+          />
         ))}
 
-        {/* Will be added again once we introduce filtering
-        {filteredTopics.length > 0 && otherTopics.length > 0 && (
-          <HoliHeading size="large" style={{ marginBottom: 24 }}>
-            {t('spaces.otherListing')}
-          </HoliHeading>
-        )} */}
-        {otherTopics.map((topic) => (
-          <SpacesByTopic key={topic.id} topic={topic} spaces={spacesForTopic(topic.id)} style={styles.spacesByTopic} />
+        {userSpecificSpacesGroups.length > 0 && defaultSpacesGroups.length > 0 && (
+          <HoliText style={styles.othersTitle} testID="discover-spaces-others">
+            {t('spaces.discover.others')}
+          </HoliText>
+        )}
+
+        {/* Default spaces suggestions */}
+        {defaultSpacesGroups.map((group, index) => (
+          <SpacesGroupSlider
+            key={index}
+            group={group}
+            style={styles.spacesGroup}
+            testID="discover-spaces-slider-others"
+          />
         ))}
       </View>
     </View>
@@ -75,8 +74,12 @@ const styles = StyleSheet.create({
   body: {
     marginTop: 37,
   },
-  spacesByTopic: {
-    marginBottom: 31,
+  spacesGroup: {
+    marginBottom: 30,
+  },
+  othersTitle: {
+    marginTop: 18,
+    marginBottom: 48,
   },
 })
 
