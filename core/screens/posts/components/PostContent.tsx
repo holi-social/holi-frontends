@@ -21,6 +21,7 @@ export type PostContentProps = {
   minimized?: boolean
   onMediaHeaderPressed?: () => void
   style?: StyleProp<ViewStyle>
+  contentStyle?: StyleProp<ViewStyle>
 }
 
 const PostContent: React.VFC<PostContentProps> = ({
@@ -30,13 +31,14 @@ const PostContent: React.VFC<PostContentProps> = ({
   collapseContent,
   onMediaHeaderPressed,
   style,
+  contentStyle,
 }) => {
   const { t } = useTranslation()
   const commenters = post.commenters.data
 
   return (
     <View style={[styles.wrapper, style]}>
-      <View style={styles.paddingHorizontal}>
+      <View style={contentStyle}>
         {hasHeader && (
           <View style={styles.header}>
             <HoliHeading level="1" size="medium">
@@ -83,13 +85,13 @@ const PostContent: React.VFC<PostContentProps> = ({
           )}
 
           {!!post.links?.length && (
-            <View style={styles.paddingHorizontal}>
+            <View style={contentStyle}>
               <HoliLinkPreview style={styles.linkPreview} previewData={post.links[0]} label={post.links[0].title} />
             </View>
           )}
 
           {!!post.numberOfComments && (
-            <View style={[styles.paddingHorizontal, styles.commentsPile]}>
+            <View style={[contentStyle, styles.commentsPile]}>
               <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
                 {t('insights.post.response', { count: post.numberOfComments })}
               </HoliUserAvatarPile>
@@ -104,9 +106,6 @@ const PostContent: React.VFC<PostContentProps> = ({
 const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: colors.backgroundColorWhite,
-  },
-  paddingHorizontal: {
-    paddingHorizontal: 24,
   },
   header: {
     flexDirection: 'row',
