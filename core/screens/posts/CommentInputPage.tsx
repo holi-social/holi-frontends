@@ -6,7 +6,7 @@ import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 're
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { logError } from '@holi/core/errors/helpers'
-import { useKeyboard } from '@holi/core/helpers'
+import { isWebTouchDevice, useKeyboard } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -121,15 +121,33 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
 
   if (!post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
 
+  const postCommentButton = (
+    <HoliButton
+      disabled={!text.trim().length || createCommentLoading}
+      label={t('insights.posts.comments.button')}
+      inline
+      onPress={() =>
+        createPostComment({
+          variables: {
+            input: { postId, text: text.trim() },
+          },
+        })
+      }
+      testID="btn-submit-comment"
+    >
+      {t('insights.posts.comments.button')}
+    </HoliButton>
+  )
+
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
-      <ScrollView onContentSizeChange={scrollIntoView} ref={scrollViewRef}>
-        <View onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)}>
+      <ScrollView onContentSizeChange={scrollIntoView} ref={scrollViewRef} style={{ flex: 1 }}>
+        <View onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)} style={mixins.container}>
           {/* Post content */}
           <PostContent post={post} hasHeader minimized style={styles.postContent} />
 
           {/* Comment input block */}
-          <View style={mixins.container}>
+          <View style={styles.commentSection}>
             <VerticalLine style={styles.verticalLine} />
 
             <View style={styles.inputContainer}>
@@ -148,29 +166,19 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
                 testID="post-comment"
               />
             </View>
+
+            {isWebTouchDevice() && <View style={styles.webPostCommentButtonWrapper}>{postCommentButton}</View>}
           </View>
         </View>
       </ScrollView>
 
       <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
 
-      <View style={[styles.bottomBar, Platform.OS === 'web' && mixins.container]}>
-        <HoliButton
-          disabled={!text.trim().length || createCommentLoading}
-          label={t('insights.posts.comments.button')}
-          inline
-          onPress={() =>
-            createPostComment({
-              variables: {
-                input: { postId, text: text.trim() },
-              },
-            })
-          }
-          testID="btn-submit-comment"
-        >
-          {t('insights.posts.comments.button')}
-        </HoliButton>
-      </View>
+      {!isWebTouchDevice() && (
+        <View style={styles.bottomBarOuter}>
+          <View style={[styles.bottomBarInner, mixins.container]}>{postCommentButton}</View>
+        </View>
+      )}
     </KeyboardAvoidingView>
   )
 }
@@ -183,7 +191,7 @@ const styles = StyleSheet.create({
     paddingTop: vars.topBarHeight + 10,
     height: '100%', // prevents double scrollbars
     ...Platform.select({
-      web: { height: '100vh' },
+      web: { height: '100vh', flex: 1 },
       android: {
         paddingBottom: 0,
       },
@@ -199,16 +207,17 @@ const styles = StyleSheet.create({
     minHeight: 50,
     ...Platform.select({ web: { minHeight: 75 } }),
   },
+  commentSection: {
+    marginBottom: SUGGESTIONS_DROPDOWN_HEIGHT,
+  },
   inputContainer: {
     marginTop: 16,
     lineHeight: 22,
     flexDirection: 'row',
-    marginBottom: SUGGESTIONS_DROPDOWN_HEIGHT,
   },
   textInput: {
     flex: 1,
     marginLeft: 10,
-    marginBottom: SUGGESTIONS_DROPDOWN_HEIGHT,
     ...Platform.select({
       web: {
         marginLeft: 18,
@@ -238,15 +247,22 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  bottomBar: {
+  bottomBarOuter: {
+    borderTopWidth: 1,
+    borderTopColor: colors.borderColorGrey,
+    backgroundColor: colors.backgroundColor,
+  },
+  bottomBarInner: {
     justifyContent: 'center',
     alignItems: 'flex-end',
     width: '100%',
     height: SUBMIT_BUTTON_CONTAINER_HEIGHT,
     padding: 12,
-    borderTopWidth: 1,
-    borderTopColor: colors.borderColorGrey,
-    backgroundColor: colors.backgroundColor,
+  },
+  webPostCommentButtonWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: 20,
   },
 })
 
