@@ -107,7 +107,7 @@ export const scroll = async (direction: ScrollDirection, { repetitions = 1 }: { 
             y: vectorY.length,
           },
           { type: 'pointerUp', button: 0 },
-          { type: 'pause', duration: repetitions > 1 ? 500 : 100 },
+          { type: 'pause', duration: repetitions > 1 ? 1000 : 100 },
         ],
       },
     ])
