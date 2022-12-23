@@ -9,19 +9,20 @@ import HoliLink from '@holi/ui/components/molecules/HoliLink'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
-interface NotificationBaseProps<T = Notification> extends NotificationProps<T> {
+interface NotificationWithUserAvatarProps<T = Notification> extends NotificationProps<T> {
   href?: string
   content?: React.ReactNode
   i18nKey?: string
 }
 
-const NotificationWithUserAvatar: React.FC<NotificationBaseProps> = ({
+const NotificationWithUserAvatar: React.FC<NotificationWithUserAvatarProps> = ({
   notification,
   content,
   children,
   href,
   i18nKey,
   style,
+  testID = '',
 }) => {
   const { created, read } = notification
   const { id: userId, avatar, avatarDefaultColor, avatarLabel, fullName } = notification.options.user
@@ -29,7 +30,7 @@ const NotificationWithUserAvatar: React.FC<NotificationBaseProps> = ({
   href = href || `/profile/${userId}`
 
   return (
-    <View style={style}>
+    <View style={style} testID={`${testID && testID + '-'}notification-item`}>
       <HoliLink href={href} label={fullName} mobileNavigateBackFirst>
         <View style={styles.link}>
           <HoliUserAvatar

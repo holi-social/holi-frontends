@@ -116,6 +116,7 @@ const Notifications: React.VFC = () => {
           scrollEventThrottle={200}
           stickySectionHeadersEnabled={false}
           style={mixins.container}
+          testID="notification-list"
         />
       </View>
     </>
