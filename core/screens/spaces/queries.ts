@@ -78,12 +78,14 @@ export type SpacesResponse = {
   spaces: Paged<Space>
 }
 
-export const spacesQueryMultipleTopics = gql`
+export const discoverSpacesQuery = gql`
   ${SpaceFragment}
 
-  query Spaces($topicIds: [UUID]!, $location: String, $offset: Int, $limit: Int) {
-    spacesByTopic(topicIds: $topicIds, location: $location, offset: $offset, limit: $limit) {
+  query Spaces($topicIds: [UUID], $location: String, $skillIds: [UUID], $offset: Int, $limit: Int) {
+    discoverSpaces(topicIds: $topicIds, location: $location, skillIds: $skillIds, offset: $offset, limit: $limit) {
       topicId
+      location
+      skillId
       spaces {
         totalResults
         data {
@@ -94,13 +96,15 @@ export const spacesQueryMultipleTopics = gql`
   }
 `
 
-export type SpacesForTopic = {
-  topicId: string
+export type DiscoverSpacesGroup = {
+  topicId?: string
+  location?: string
+  skillId?: string
   spaces: Paged<Space>
 }
 
-export type SpacesByTopicResponse = {
-  spacesByTopic: SpacesForTopic[]
+export type DiscoverSpacesResponse = {
+  discoverSpaces: DiscoverSpacesGroup[]
 }
 
 export const spaceByIdQuery = gql`

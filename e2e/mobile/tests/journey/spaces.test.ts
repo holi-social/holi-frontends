@@ -24,18 +24,18 @@ describe('@Spaces', () => {
     // preparation of test
     await navigateToSpaces()
 
-    await assertMultipleTopicsDisplayed()
+    await assertMultipleGroupsDisplayed()
 
     await assertSpaceDetails()
 
     await assertFilteringWorks()
   })
 
-  const assertMultipleTopicsDisplayed = async () => {
-    const topics = await locateMultipleElementsWithTestId('spaces-topic-container')
-    expect(topics.length).toBeGreaterThan(1)
+  const assertMultipleGroupsDisplayed = async () => {
+    const groups = await locateMultipleElementsWithTestId('spaces-group-slider')
+    expect(groups.length).toBeGreaterThan(0)
     const spaces = await locateMultipleElementsWithTestId('btn-to-space')
-    expect(spaces.length).toBeGreaterThan(1)
+    expect(spaces.length).toBeGreaterThan(0)
   }
 
   const assertFilteringWorks = async () => {
