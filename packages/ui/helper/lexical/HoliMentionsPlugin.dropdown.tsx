@@ -49,6 +49,7 @@ const HoliLexicalMentionsDropdown: React.VFC<HoliLexicalMentionsDropdownProps> =
               (hightlightedIndex === i || selectedIndex === i) && { backgroundColor: colors.backgroundColorGreyLight },
             ]}
             contentStyle={{ alignItems: 'center', flexDirection: 'row' }}
+            testID={'holi-rich-text-input-suggestions-item'}
           >
             <HoliUserAvatar
               imageSrc={option.user.avatar}
