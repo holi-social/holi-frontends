@@ -66,4 +66,5 @@ export type Notification = NotificationConnection | NotificationPost
 export interface NotificationProps<T = Notification> {
   notification: T
   style?: StyleProp<ViewStyle>
+  testID?: string
 }
