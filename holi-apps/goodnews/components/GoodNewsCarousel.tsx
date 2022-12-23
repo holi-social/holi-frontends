@@ -122,7 +122,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
             />
           )
         }
-        onSnapToItem={(index) => setActiveArticleIndex(index)}
+        onSnapToItem={setActiveArticleIndex}
         scrollAnimationDuration={250}
         testID={'goodnews-list-container'}
       />
