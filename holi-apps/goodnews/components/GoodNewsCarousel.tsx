@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, StyleSheet, useWindowDimensions } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, useWindowDimensions } from 'react-native'
 import PaginationDot from 'react-native-animated-pagination-dot'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Carousel from 'react-native-reanimated-carousel'
@@ -118,7 +118,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
               article={item.article}
               key={item.article.id}
               fetchMore={memoizedFetchMore}
-              style={{ paddingHorizontal: 24, height: height, width: width, zIndex: 1 }}
+              style={styles.teaser}
             />
           )
         }
@@ -152,7 +152,7 @@ const getStyles = (width: number, height: number) =>
     paginationDotArea: {
       zIndex: -1,
       backgroundColor: 'transparent',
-      bottom: 0,
+      bottom: Platform.OS === 'web' ? 32 : 0,
       position: 'absolute',
       alignSelf: 'center',
       flexDirection: 'row',
@@ -160,5 +160,10 @@ const getStyles = (width: number, height: number) =>
     rootView: {
       flex: 1,
       justifyContent: 'space-between',
+    },
+    teaser: {
+      paddingHorizontal: 24,
+      height: height,
+      width: width,
     },
   })
