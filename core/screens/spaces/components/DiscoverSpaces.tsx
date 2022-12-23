@@ -70,7 +70,7 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
     })
 
   useEffect(() => {
-    if (topics && topics.length) {
+    if (topics?.length) {
       fetchUserSpecifc()
       fetchDefault()
     }

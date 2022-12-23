@@ -4,6 +4,7 @@ import React from 'react'
 import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import SpacesGroupSlider from '@holi/core/screens/spaces/components/SpacesGroupSlider'
 import { location, spaces } from '@holi/core/screens/spaces/components/__tests__/testData'
+import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
 import { Space } from '@holi/core/screens/spaces/types'
 import { Paged } from '@holi/core/types'
 
@@ -29,11 +30,26 @@ const spaceTermContext = {
   skills,
 }
 
+const groupWithTopicId: DiscoverSpacesGroup = {
+  topicId: '1',
+  spaces: pagedSpaces,
+}
+
+const groupWithSkillId: DiscoverSpacesGroup = {
+  skillId: '1',
+  spaces: pagedSpaces,
+}
+
+const groupWithLocation: DiscoverSpacesGroup = {
+  location,
+  spaces: pagedSpaces,
+}
+
 describe('SpacesGroupSlider', () => {
   it('renders correctly', () => {
     const { getByText, getAllByText, getAllByRole } = render(
       <SpaceTermContext.Provider value={spaceTermContext}>
-        <SpacesGroupSlider topicId={'1'} spaces={pagedSpaces} />
+        <SpacesGroupSlider group={groupWithTopicId} />
       </SpaceTermContext.Provider>
     )
 
@@ -53,7 +69,7 @@ describe('SpacesGroupSlider', () => {
   it('does not display "see more" element if there is nothing more to see', () => {
     const { queryByTestId } = render(
       <SpaceTermContext.Provider value={spaceTermContext}>
-        <SpacesGroupSlider topicId={'1'} spaces={pagedSpaces} />
+        <SpacesGroupSlider group={groupWithTopicId} />
       </SpaceTermContext.Provider>
     )
 
@@ -66,9 +82,14 @@ describe('SpacesGroupSlider', () => {
       data: spaces,
     }
 
+    const group: DiscoverSpacesGroup = {
+      topicId: '1',
+      spaces: pagedSpacesSeeMore,
+    }
+
     const { getByTestId } = render(
       <SpaceTermContext.Provider value={spaceTermContext}>
-        <SpacesGroupSlider topicId={'1'} spaces={pagedSpacesSeeMore} />
+        <SpacesGroupSlider group={group} />
       </SpaceTermContext.Provider>
     )
 
@@ -80,7 +101,7 @@ describe('SpacesGroupSlider', () => {
   it('navigates to topic filter screen if the user clicks the topic pill', () => {
     const { getByTestId } = render(
       <SpaceTermContext.Provider value={spaceTermContext}>
-        <SpacesGroupSlider topicId={'1'} spaces={pagedSpaces} />
+        <SpacesGroupSlider group={groupWithTopicId} />
       </SpaceTermContext.Provider>
     )
 
@@ -92,7 +113,7 @@ describe('SpacesGroupSlider', () => {
   it('navigates to skill filter screen if the user clicks the skill pill', () => {
     const { getByTestId } = render(
       <SpaceTermContext.Provider value={spaceTermContext}>
-        <SpacesGroupSlider skillId={'1'} spaces={pagedSpaces} />
+        <SpacesGroupSlider group={groupWithSkillId} />
       </SpaceTermContext.Provider>
     )
 
@@ -104,7 +125,7 @@ describe('SpacesGroupSlider', () => {
   it('navigates to location filter screen if the user clicks the location pill', () => {
     const { getByTestId } = render(
       <SpaceTermContext.Provider value={spaceTermContext}>
-        <SpacesGroupSlider location={location} spaces={pagedSpaces} />
+        <SpacesGroupSlider group={groupWithLocation} />
       </SpaceTermContext.Provider>
     )
 

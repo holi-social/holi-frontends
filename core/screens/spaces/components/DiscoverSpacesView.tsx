@@ -36,10 +36,7 @@ const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({
         {userSpecificSpacesGroups.map((group, index) => (
           <SpacesGroupSlider
             key={index}
-            topicId={group.topicId}
-            skillId={group.skillId}
-            location={group.location}
-            spaces={group.spaces}
+            group={group}
             style={styles.spacesGroup}
             testID="discover-spaces-slider-user-specific"
           />
@@ -55,10 +52,7 @@ const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({
         {defaultSpacesGroups.map((group, index) => (
           <SpacesGroupSlider
             key={index}
-            topicId={group.topicId}
-            skillId={group.skillId}
-            location={group.location}
-            spaces={group.spaces}
+            group={group}
             style={styles.spacesGroup}
             testID="discover-spaces-slider-others"
           />

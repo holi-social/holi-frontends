@@ -25,6 +25,6 @@ describe('SpacesGrid', () => {
     const existingTopicIds = ['a', 'b', 'c']
 
     const result = getDefaultTopicIds(defaultTopicIds, existingTopicIds, userTopicIds)
-    expect(result.length).toBe(2)
+    expect(result).toEqual(['b', 'c'])
   })
 })

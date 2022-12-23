@@ -7,25 +7,18 @@ import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTerm
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import SpacesHorizontalSlider from '@holi/core/screens/spaces/components/SpacesHorizontalSlider'
 import SpacesSeeMore from '@holi/core/screens/spaces/components/SpacesSeeMore'
-import { Space } from '@holi/core/screens/spaces/types'
-import { Paged } from '@holi/core/types'
+import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
 
 const SPACES_PAGE_SIZE = 10
 
 type SpacesGroupSliderProps = {
-  spaces: Paged<Space>
-  topicId?: string
-  skillId?: string
-  location?: string
+  group: DiscoverSpacesGroup
   style?: StyleProp<ViewStyle>
   testID?: string
 }
 
 const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
-  spaces,
-  topicId,
-  skillId,
-  location,
+  group,
   style,
   testID = 'spaces-group-slider',
 }: SpacesGroupSliderProps) => {
@@ -33,6 +26,8 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
   const { width: screenWidth } = useWindowDimensions()
   const { topics, skills } = useContext(SpaceTermContext)
   const imageHeight = Platform.OS === 'web' ? 160 : screenWidth / 2 - 40
+
+  const { topicId, skillId, location, spaces } = group
 
   const topic = useMemo(() => topics.find((topic) => topic.id === topicId), [topics, topicId])
   const skill = useMemo(() => skills.find((skill) => skill.id === skillId), [skills, skillId])
