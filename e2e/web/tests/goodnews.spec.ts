@@ -6,7 +6,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/apps/goodnews')
 })
 
-// const goodnewsTimeout = { timeout: 30_000 }
+const goodnewsTimeout = { timeout: 30_000 }
 
 test.describe('@GoodNews', () => {
   test('should be accessible from home screen', async ({ page }) => {
@@ -35,10 +35,8 @@ test.describe('@GoodNews', () => {
     }
     await expect.poll(countListItems).toBeGreaterThan(0)
 
-    /* TODO HOLI-2806 fix test
     const listItemCountBefore = await countListItems()
     await clickElementByTestId(page, 'btn-goodnews-list-load-more')
     await expect.poll(countListItems, goodnewsTimeout).toBeGreaterThan(listItemCountBefore)
-     */
   })
 })
