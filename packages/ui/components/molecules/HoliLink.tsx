@@ -48,7 +48,7 @@ const HoliLink: React.FC<HoliLinkProps> = ({
     }
   }, [external, href, mobileNavigateBackFirst, navigate, navigateBack, onPress])
 
-  const Component = typeof children === 'string' ? HoliText : Pressable
+  const Component = React.Children.toArray(children).some((child) => typeof child === 'string') ? HoliText : Pressable
 
   return (
     <Component
