@@ -1,14 +1,14 @@
 /**
- * The so called "softkeyboard" is the mobile keyboard
+ * The so called "soft-keyboard" is the mobile keyboard
  * in a cellphone's browser. It is not the native keyboard, but
  * part of the browser. And so it causes some issues: it
  * shrinks the window size and makes it scrollable. Some
- * content areas are hidden, when the softkeyboard is open.
+ * content areas are hidden, when the soft-keyboard is open.
  * You can get the new window-size with
  * window.visualViewport.height.
  *
  * The problem is the first input focus and so the first time the
- * softkeyboard opens. It behaves differently from the the second
+ * soft-keyboard opens. It behaves differently from the the second
  * focus and so is hard to judge.
  *
  * Another problem is, that the page becomes scrollable. But this
@@ -26,24 +26,34 @@
  */
 import { SyntheticEvent, useCallback, useEffect, useState } from 'react'
 
-import { useDebounce } from '@holi/ui/helper'
+import { useDebounce } from '@holi/ui/helper/useDebounce'
 
-export const useSoftKeyboard = () => {
+export type useSoftKeyboardProps = {
+  preventAutoScrolling?: boolean
+  scrollDebounce?: number
+  viewportDebounce?: number
+}
+
+const defaultProps = {
+  preventAutoScrolling: true,
+  scrollDebounce: 50,
+  viewportDebounce: 300,
+}
+
+export const useSoftKeyboard = (props?: useSoftKeyboardProps) => {
+  const { preventAutoScrolling, scrollDebounce, viewportDebounce } = { ...defaultProps, ...props }
   const [lastViewPortHeight, setLastViewPortHeight] = useState(0)
-  const [lastViewPortOffset, setLastViewPortOffset] = useState(0)
   const [lastWindowHeight, setLastWindowHeight] = useState(0)
   const [lastKeyboardOpen, setLastKeyboardOpen] = useState<boolean>()
 
   const onResize = useDebounce((event?: SyntheticEvent<Event>) => {
     const viewPortHeight = event ? event.target?.height : window?.visualViewport?.height
-    let viewPortOffset = event ? event.target?.offsetTop : window?.visualViewport?.offsetTop
+    const viewPortOffset = event ? event.target?.offsetTop : window?.visualViewport?.offsetTop
     const viewPortPageTop = event ? event.target?.pageTop : window?.visualViewport?.pageTop
     const windowHeight = window?.innerHeight
     let keyboardIsOpen = windowHeight > viewPortHeight
     const stateHasChanged = keyboardIsOpen !== lastKeyboardOpen
     const windowHeightHasChanged = windowHeight !== lastWindowHeight
-
-    console.log('onResize()')
 
     if (keyboardIsOpen) {
       if (!stateHasChanged && windowHeightHasChanged && viewPortHeight !== windowHeight) {
@@ -54,36 +64,35 @@ export const useSoftKeyboard = () => {
         keyboardIsOpen = true
       }
     }
+
     if (viewPortOffset === viewPortPageTop) {
-      viewPortOffset = viewPortPageTop - 80
-      window.scroll({ top: 0, behavior: 'smooth' })
+      // This is the first input focus.
+      // Somehow it differs from the further ones.
     }
 
     setLastWindowHeight(windowHeight)
     setLastKeyboardOpen(keyboardIsOpen)
     setLastViewPortHeight(viewPortHeight)
-    setLastViewPortOffset(viewPortOffset)
-  }, 200)
+  }, viewportDebounce)
 
   const scrollToTop = useDebounce(() => {
-    window?.scroll?.({ top: 0, behavior: 'smooth' })
-  }, 100)
+    window?.scroll?.(0, 0)
+  }, scrollDebounce)
 
   const onScroll = useCallback(scrollToTop, [scrollToTop])
 
   useEffect(() => {
-    window?.visualViewport?.addEventListener('scroll', onScroll)
     window?.visualViewport?.addEventListener('resize', onResize)
+    if (preventAutoScrolling) window?.visualViewport?.addEventListener('scroll', onScroll)
     onResize()
     return () => {
       window?.visualViewport?.removeEventListener('scroll', onScroll)
       window?.visualViewport?.removeEventListener('resize', onResize)
     }
-  }, [onResize, onScroll])
+  }, [onResize, onScroll, preventAutoScrolling])
 
   return {
     softkeyboardIsOpen: !!lastKeyboardOpen,
     viewPortHeight: lastViewPortHeight,
-    viewPortOffset: lastViewPortOffset,
   }
 }

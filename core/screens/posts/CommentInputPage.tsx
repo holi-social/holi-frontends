@@ -1,22 +1,11 @@
 import { useMutation, useQuery } from '@apollo/client'
-import React, {
-  SyntheticEvent,
-  memo,
-  useCallback,
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import React, { memo, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { logError } from '@holi/core/errors/helpers'
-import { useKeyboard } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -32,7 +21,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
-import { useDebounce } from '@holi/ui/helper/useDebounce'
+import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -48,13 +37,11 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   const [insightId] = useParam('insightId')
   const [postId] = useParam('postId')
   const [text, setText] = useState('')
-  const [bottomBarDiff, setBottomBarDiff] = useState(0)
-  const [lastWindowHeight, setLastWindowHeight] = useState(0)
-  const [LastKeyboardOpen, setLastKeyboardOpen] = useState<boolean>()
   const [scrollContentHeight, setScrollContentHeight] = useState(0)
   const scrollViewRef = useRef<ScrollView>(null)
   const { navigate, navigateBack } = useRouting()
   const { keyboardHeight } = useKeyboard()
+  const { viewPortHeight } = useSoftKeyboard()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { openToast } = useToast()
@@ -89,71 +76,6 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
     [setOptions, t]
   )
 
-  const checkKeyboardOpen = useCallback(
-    (event: SyntheticEvent<Event> | null) => {
-      const viewPortHeight = event ? event.target?.height : window?.visualViewport?.height
-      const windowHeight = window?.innerHeight
-      let keyboardIsOpen = windowHeight > viewPortHeight
-
-      const stateHasChanged = keyboardIsOpen !== LastKeyboardOpen
-      const windowHeightHasChanged = windowHeight !== lastWindowHeight
-
-      if (keyboardIsOpen) {
-        if (!stateHasChanged && windowHeightHasChanged && viewPortHeight !== windowHeight) {
-          keyboardIsOpen = false
-        }
-      } else if (!keyboardIsOpen) {
-        if (!stateHasChanged && windowHeightHasChanged) {
-          keyboardIsOpen = true
-        }
-      }
-      setLastWindowHeight(windowHeight)
-      setLastKeyboardOpen(keyboardIsOpen)
-    },
-    [LastKeyboardOpen, lastWindowHeight]
-  )
-
-  const viewportHandler = useDebounce((event: SyntheticEvent<Event> | null) => {
-    if (!LastKeyboardOpen) return setBottomBarDiff(0)
-
-    const viewPortHeight = event ? event.target?.height : window?.visualViewport?.height
-    const windowHeight = window?.innerHeight
-
-    const viewPortOffset = event ? event.target?.offsetTop : window?.visualViewport?.offsetTop
-    // const bodyOffset = window?.document?.body?.getBoundingClientRect?.()?.top
-
-    const tooDeep = viewPortHeight < windowHeight
-    const tooHeigh = viewPortOffset > windowHeight
-    const heightDiff = windowHeight - viewPortHeight
-    const newPosition = heightDiff
-
-    if (tooHeigh) {
-      setBottomBarDiff(0)
-    } else if (tooDeep) {
-      setBottomBarDiff(newPosition)
-    } else {
-      setBottomBarDiff(0)
-    }
-  }, 100)
-
-  const onResize = useDebounce((event) => {
-    checkKeyboardOpen(event)
-    viewportHandler(event)
-  }, 100)
-
-  const onScroll = useDebounce((event) => {
-    viewportHandler(event)
-  }, 100)
-
-  useEffect(() => {
-    window?.visualViewport?.addEventListener('scroll', onScroll)
-    window?.visualViewport?.addEventListener('resize', onResize)
-    return () => {
-      window?.visualViewport?.removeEventListener('scroll', onScroll)
-      window?.visualViewport?.removeEventListener('resize', onResize)
-    }
-  }, [onScroll, onResize])
-
   /**
    * The view should:
    * - scroll input field into viewport (with open keyboard)
@@ -163,20 +85,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
    */
   const scrollIntoView = useCallback(() => {
     if (Platform.OS === 'web') {
-      const scrollViewHeight = scrollViewRef.current?.offsetHeight
-      if (scrollViewHeight) {
-        setTimeout(
-          () =>
-            scrollViewRef.current?.scrollTo({
-              animated: true,
-              y: scrollViewHeight - SUGGESTIONS_DROPDOWN_HEIGHT,
-            }),
-          10
-        )
-      } else {
-        scrollViewRef.current?.scrollToEnd({ animated: true })
-        setTimeout(() => scrollViewRef.current?.scrollToEnd({ animated: true }), 10)
-      }
+      setTimeout(() => scrollViewRef.current?.scrollToEnd({ animated: true }), 10)
     } else {
       const paddingTop = screenHeight < SMALL_DEVICE_HEIGHT ? 50 : 20
       if (scrollContentHeight <= 0) return
@@ -195,6 +104,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   }, [scrollContentHeight, keyboardHeight, screenHeight])
 
   useEffect(scrollIntoView, [scrollContentHeight, scrollIntoView])
+  useEffect(scrollIntoView, [viewPortHeight, scrollIntoView])
 
   if (createCommentError) {
     logError(createCommentError, `[CommentInputPage.tsx] ${createCommentError.message}`)
@@ -217,9 +127,18 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
 
   if (!post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
 
+  const getMaxHeight = () => {
+    if (!viewPortHeight) return 0
+    return viewPortHeight - SUBMIT_BUTTON_CONTAINER_HEIGHT - parseInt(vars.topBarHeight, 10)
+  }
+
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={[styles.pageView]}>
-      <ScrollView onContentSizeChange={scrollIntoView} ref={scrollViewRef} style={styles.scrollView}>
+      <ScrollView
+        onContentSizeChange={scrollIntoView}
+        ref={scrollViewRef}
+        style={[styles.scrollView, { ...Platform.select({ web: { maxHeight: getMaxHeight() } }) }]}
+      >
         <View
           onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)}
           style={styles.scrollContent}
@@ -252,7 +171,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
       </ScrollView>
 
       {/* Bottom Bar */}
-      <View style={[styles.bottomBar, { bottom: bottomBarDiff }]}>
+      <View style={[styles.bottomBar]}>
         {/* Suggestions*/}
         <PortalGate gateName="suggestions" style={[styles.suggestionsScrollView]} />
 
@@ -306,6 +225,7 @@ const getStyles = (screenHeight: number) =>
     },
     scrollContent: {
       paddingBottom: SUGGESTIONS_DROPDOWN_HEIGHT + SUBMIT_BUTTON_CONTAINER_HEIGHT + 50,
+      ...Platform.select({ web: { paddingBottom: SUGGESTIONS_DROPDOWN_HEIGHT - SUBMIT_BUTTON_CONTAINER_HEIGHT } }),
     },
     postAndComments: {
       marginTop: 12,
@@ -338,8 +258,7 @@ const getStyles = (screenHeight: number) =>
       width: '100%',
       ...Platform.select({
         web: {
-          position: 'fixed',
-          bottom: 0,
+          position: 'relative',
         },
       }),
     },
