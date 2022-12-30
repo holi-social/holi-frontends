@@ -15,6 +15,7 @@ const SpaceMemberFragment = gql`
 `
 
 const SpaceFragment = gql`
+  ${SpaceMemberFragment}
   fragment FullSpace on Space {
     id
     title
@@ -61,12 +62,10 @@ export const topicsQuery = gql`
 `
 
 export const spacesQuery = gql`
-  ${userAvatarFragment}
   ${SpaceFragment}
-  ${SpaceMemberFragment}
 
-  query Spaces($topicId: UUID, $location: String, $offset: Int, $limit: Int) {
-    spaces(topicId: $topicId, location: $location, offset: $offset, limit: $limit) {
+  query Spaces($topicId: UUID, $location: String, $skillIds: [UUID], $offset: Int, $limit: Int) {
+    spaces(topicId: $topicId, location: $location, skillIds: $skillIds, offset: $offset, limit: $limit) {
       totalResults
       data {
         ...FullSpace
@@ -79,10 +78,37 @@ export type SpacesResponse = {
   spaces: Paged<Space>
 }
 
-export const spaceByIdQuery = gql`
-  ${userAvatarFragment}
+export const discoverSpacesQuery = gql`
   ${SpaceFragment}
-  ${SpaceMemberFragment}
+
+  query Spaces($topicIds: [UUID], $location: String, $skillIds: [UUID], $offset: Int, $limit: Int) {
+    discoverSpaces(topicIds: $topicIds, location: $location, skillIds: $skillIds, offset: $offset, limit: $limit) {
+      topicId
+      location
+      skillId
+      spaces {
+        totalResults
+        data {
+          ...FullSpace
+        }
+      }
+    }
+  }
+`
+
+export type DiscoverSpacesGroup = {
+  topicId?: string
+  location?: string
+  skillId?: string
+  spaces: Paged<Space>
+}
+
+export type DiscoverSpacesResponse = {
+  discoverSpaces: DiscoverSpacesGroup[]
+}
+
+export const spaceByIdQuery = gql`
+  ${SpaceFragment}
 
   query SpaceById($id: String!) {
     spaceById(id: $id) {

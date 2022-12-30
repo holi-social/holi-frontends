@@ -102,7 +102,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
             "fontSize": 16,
             "lineHeight": 19.2,
           },
-          Object {},
+          false,
           Object {
             "color": "#fff",
             "fontSize": 10.799999999999999,
@@ -205,7 +205,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
             "fontSize": 16,
             "lineHeight": 19.2,
           },
-          Object {},
+          false,
           Object {
             "color": "#222326",
             "fontSize": 10.799999999999999,

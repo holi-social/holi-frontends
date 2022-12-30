@@ -1,15 +1,13 @@
-import { useMutation } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, ViewStyle } from 'react-native'
 
 import HoliIcon from '@holi//ui/components/atoms/HoliIcon'
+import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import { displayError } from '@holi/core/errors/helpers'
-import {
-  UpdateConnectionWithUserResponse,
-  updateConnectionWithUserMutation,
-} from '@holi/core/screens/userprofile/queries'
-import { UpdateConnectionWithUserActions, User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
+import { useUserConnection } from '@holi/core/helpers'
+import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
+import { User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
@@ -20,9 +18,9 @@ type UserConnectionButtonsProps = {
 }
 
 const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, style }) => {
-  const [updateConnectionWithUser, { loading, error }] = useMutation<UpdateConnectionWithUserResponse>(
-    updateConnectionWithUserMutation
-  )
+  const { connect, disconnect, error, loading } = useUserConnection()
+  const { isLoggedIn } = useContext(AuthContext)
+  const { openLoginDialog } = useLoginRedirect()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const { t } = useTranslation()
 
@@ -30,27 +28,20 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
     displayError(error, t('user.profileView.connection.error'))
   }
 
-  // when not logged in, user has connectionStatusToMyself as null
-  const connectionStatusToMyself = user.connectionStatusToMyself || UserConnectionStatus.NOT_LOGGED_IN
+  const connectionStatusToMyself = user.connectionStatusToMyself || UserConnectionStatus.NOT_CONNECTED
   const connectionRequested = connectionStatusToMyself === UserConnectionStatus.REQUESTED
 
-  const updateUserConnectionStatus = (action: UpdateConnectionWithUserActions) => {
-    updateConnectionWithUser({
-      variables: {
-        input: {
-          userId: user.id,
-          action,
-        },
-      },
-    })
-  }
-
   const onPrimaryPress = () => {
+    if (!isLoggedIn)
+      return openLoginDialog({
+        text: t('user.profileView.connection.notLoggedIn.message'),
+      })
+
     if (
       connectionStatusToMyself === UserConnectionStatus.NOT_CONNECTED ||
       connectionStatusToMyself === UserConnectionStatus.PENDING_CONFIRMATION
     ) {
-      updateUserConnectionStatus(UpdateConnectionWithUserActions.CONNECT)
+      connect(user.id)
     } else {
       setShowConfirmationModal(true)
     }
@@ -77,7 +68,7 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
           type="secondary"
           label={t('user.profileView.connection.button.IGNORE')}
           style={style}
-          onPress={() => updateUserConnectionStatus(UpdateConnectionWithUserActions.DISCONNECT)}
+          onPress={() => disconnect(user.id)}
           disabled={loading}
           testID={'user-connection-button-ignore'}
         >
@@ -96,15 +87,15 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
         dismissText={t(`user.profileView.connection.confirmation.dismiss.${connectionStatusToMyself}`)}
         confirmText={t(`user.profileView.connection.confirmation.confirm.${connectionStatusToMyself}`)}
         testID="user-connection"
-        // onConfirm needs to be null if not logged in to hide the confirm button inside the dialog
-        {...(connectionStatusToMyself !== UserConnectionStatus.NOT_LOGGED_IN
-          ? {
-              onConfirm: () => {
+        // onConfirm needs to be undefined if not logged in to hide the confirm button inside the dialog
+        onConfirm={
+          isLoggedIn
+            ? () => {
                 setShowConfirmationModal(false)
-                updateUserConnectionStatus(UpdateConnectionWithUserActions.DISCONNECT)
-              },
-            }
-          : {})}
+                disconnect(user.id)
+              }
+            : undefined
+        }
       />
     </>
   )

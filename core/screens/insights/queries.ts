@@ -3,6 +3,7 @@ import { gql } from '@apollo/client/core'
 import { Insight } from '@holi/core/screens/insights/types'
 import { PostFragment } from '@holi/core/screens/posts/queries'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
+import { Paged } from '@holi/core/types'
 
 const InsightWithPostsFragment = gql`
   ${userAvatarFragment}
@@ -58,9 +59,7 @@ export const lastInsightsQuery = gql`
 `
 
 export type LastInsightsResponse = {
-  lastInsights: {
-    data: Insight[]
-  }
+  lastInsights: Paged<Insight>
 }
 
 export const insightById = gql`

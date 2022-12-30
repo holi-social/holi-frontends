@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from 'react'
 import {
   AccessibilityProps,
   AccessibilityRole,
+  AccessibilityState,
   GestureResponderEvent,
   NativeSyntheticEvent,
   Platform,
@@ -13,7 +14,7 @@ import {
   ViewStyle,
 } from 'react-native'
 
-import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
+import type { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -37,7 +38,9 @@ export interface HoliButtonProps {
   onFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void
   onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void
   onMouseEnter?: (event: NativeSyntheticEvent<TargetedEvent>) => void
-  accessibilityRole?: AccessibilityRole
+  accessibilityRole?: AccessibilityRole | AccessibilityRoleWeb
+  accessibilityChecked?: boolean
+  accessibilityState?: AccessibilityState
 }
 
 const HoliButton: React.FC<HoliButtonProps> = ({
@@ -58,6 +61,8 @@ const HoliButton: React.FC<HoliButtonProps> = ({
     ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),
     accessibilityRole: props.accessibilityRole || 'button',
     accessibilityLabel: props.label,
+    accessibilityChecked: props.accessibilityChecked,
+    accessibilityState: props.accessibilityState,
   }
 
   const content =

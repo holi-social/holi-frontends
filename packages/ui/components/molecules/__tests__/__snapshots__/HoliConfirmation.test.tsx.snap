@@ -27,6 +27,18 @@ exports[`renders correctly renders correctly when open 1`] = `
     }
   >
     <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
       style={
         Object {
           "backgroundColor": "#222326",
@@ -48,6 +60,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           "borderRadius": 24,
           "borderWidth": 2,
           "margin": 25,
+          "maxWidth": 460,
           "padding": 24,
           "shadowColor": "#000",
           "shadowOffset": Object {
@@ -60,24 +73,20 @@ exports[`renders correctly renders correctly when open 1`] = `
       }
     >
       <Text
-        accessible={false}
+        role="header"
         selectable={true}
         style={
           Array [
             Object {
               "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
-            },
-            Object {
-              "fontSize": 16,
-              "lineHeight": 19.2,
-            },
-            Object {
               "fontFamily": "Circular Std Medium",
               "fontWeight": "500",
             },
-            Object {},
+            Object {
+              "fontSize": 16,
+              "lineHeight": 22.4,
+            },
+            undefined,
           ]
         }
       >
@@ -97,9 +106,8 @@ exports[`renders correctly renders correctly when open 1`] = `
               "fontSize": 16,
               "lineHeight": 19.2,
             },
-            Object {},
+            false,
             Object {
-              "marginBottom": 16,
               "marginTop": 8,
             },
           ]
@@ -109,10 +117,14 @@ exports[`renders correctly renders correctly when open 1`] = `
       </Text>
       <View
         style={
-          Object {
-            "flexDirection": "row",
-            "justifyContent": "space-between",
-          }
+          Array [
+            Object {
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "justifyContent": "space-between",
+            },
+            false,
+          ]
         }
       >
         <View
@@ -153,7 +165,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                 },
               ],
               Object {
-                "minWidth": 110,
+                "marginTop": 24,
               },
             ]
           }
@@ -239,10 +251,10 @@ exports[`renders correctly renders correctly when open 1`] = `
               ],
               Array [
                 Object {
-                  "minWidth": 110,
+                  "marginTop": 24,
                 },
                 Object {
-                  "marginLeft": 20,
+                  "marginLeft": 5,
                 },
               ],
             ]

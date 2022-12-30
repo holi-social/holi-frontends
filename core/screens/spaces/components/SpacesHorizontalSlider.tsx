@@ -25,8 +25,8 @@ const SpacesHorizontalSlider: React.VFC<SpacesHorizontalSliderProps> = ({
   const styles = getStyles(screenWidth)
 
   return (
-    <View style={style}>
-      <ScrollView style={styles.scrollViewContainer} horizontal testID={testID}>
+    <View style={style} testID={testID}>
+      <ScrollView style={styles.scrollViewContainer} horizontal>
         {children &&
           children.map((child, index) => (
             <View key={index} style={[{ marginRight: slideGap }, styles.cardContainer]}>
@@ -51,7 +51,7 @@ const getStyles = (screenWidth: number) =>
       width: Platform.OS === 'web' ? 320 : screenWidth / 1.5 - 12,
     },
     scrollViewContainer: {
-      paddingVertical: 18,
+      paddingVertical: 13,
       marginHorizontal: -20,
       paddingLeft: 20,
     },

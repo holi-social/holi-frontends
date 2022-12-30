@@ -1,49 +1,64 @@
 import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useContext, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useContext, useLayoutEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, View, useWindowDimensions } from 'react-native'
+import {
+  LayoutChangeEvent,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
+  useWindowDimensions,
+} from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import { AuthContext } from '@holi/core/auth/AuthContextProvider'
 import { logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
 import CommentView from '@holi/core/screens/posts/components/CommentView'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
-import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type PostDetailPageParams = {
-  insightId: string
   postId: string
+  commentId?: string
+  insightId?: string
 }
 
 const { useParam } = createParam<PostDetailPageParams>()
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 
+const COMMENT_BUTTON_CONTAINER_HEIGHT = 74
+const COMMENT_VIEW_PADDING_BOTTOM = 120
+
 const PostDetailPage: React.VFC<ScreenProps> = () => {
-  const [showLoginConfirmation, setShowLoginConfirmation] = useState(false)
-  const [insightId] = useParam('insightId')
+  const [insightId = ''] = useParam('insightId')
   const [postId] = useParam('postId')
+  const [commentId] = useParam('commentId')
   const { navigate } = useRouting()
-  const { user } = useContext(UserContext)
+  const { isLoggedIn } = useContext(AuthContext)
+  const { openLoginDialog } = useLoginRedirect()
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { setOptions } = useUnifiedNavigation()
   const { width: screenWidth } = useWindowDimensions()
+
+  const scrollViewRef = useRef<ScrollView>(null)
 
   const isWeb = Platform.OS === 'web'
 
@@ -67,6 +82,21 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
     [setOptions, title]
   )
 
+  const scrollIntoView = useCallback(
+    (event: LayoutChangeEvent) => {
+      const { y, height } = event.nativeEvent.layout
+      const { target } = event.nativeEvent as unknown as { target: HTMLElement }
+
+      isWeb
+        ? target.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' })
+        : scrollViewRef.current?.scrollTo({
+            y: y + height + COMMENT_VIEW_PADDING_BOTTOM * 2, // mobile scrolling does not work reliable, it is why '2' multiplier is used
+            animated: true,
+          })
+    },
+    [isWeb]
+  )
+
   if (error) {
     logError(error, `[Post.tsx] ${error.message}`)
   }
@@ -85,7 +115,8 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
   return (
     <>
       <StatusBar animated />
-      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
+
+      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} ref={scrollViewRef}>
         <View style={screenWidth > +vars.breakpointXl && mixins.container}>
           <PostContent post={post} hasHeader style={styles.postContent} />
 
@@ -95,7 +126,12 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
               <VerticalLine style={styles.commentConnector} />
 
               {comments.map((comment) => (
-                <CommentView key={comment.id} comment={comment} style={styles.comment} />
+                <CommentView
+                  key={comment.id}
+                  comment={comment}
+                  style={styles.comment}
+                  onLayout={commentId === comment.id ? scrollIntoView : undefined}
+                />
               ))}
             </View>
           )}
@@ -107,26 +143,16 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
           <PostDetailFooter
             style={[styles.postCommentButton, isWeb && mixins.container]}
             onPress={() =>
-              user ? navigate(`/insights/${insightId}/posts/${post.id}/comment`) : setShowLoginConfirmation(true)
+              isLoggedIn
+                ? navigate(`${insightId && `/insights/${insightId}`}/posts/${post.id}/comment`)
+                : openLoginDialog()
             }
           />
         </View>
       </SafeAreaView>
-
-      <HoliConfirmation
-        show={showLoginConfirmation}
-        label={t('auth.login.needed.title')}
-        title={t('auth.login.needed.title')}
-        description={t('auth.login.needed.description')}
-        onDismiss={() => setShowLoginConfirmation(false)}
-        dismissText={t('auth.login.needed.dismiss')}
-        testID="post-comment-login-needed"
-      />
     </>
   )
 }
-
-const COMMENT_BUTTON_CONTAINER_HEIGHT = 74
 
 const styles = StyleSheet.create({
   postContent: {
@@ -136,7 +162,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     ...Platform.select({
       web: {
-        paddingBottom: 120,
+        paddingBottom: COMMENT_VIEW_PADDING_BOTTOM,
       },
     }),
   },

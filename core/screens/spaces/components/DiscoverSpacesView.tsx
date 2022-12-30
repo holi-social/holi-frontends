@@ -1,57 +1,84 @@
-import partition from 'lodash.partition'
-import React, { useMemo } from 'react'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import SpacesByTopic from '@holi/core/screens/spaces/components/SpacesByTopic'
-import SpacesFilterHeader from '@holi/core/screens/spaces/components/SpacesFilterHeader'
-import { Topic, User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
+import SpacesGroupSlider from '@holi/core/screens/spaces/components/SpacesGroupSlider'
+import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
+import { User } from '@holi/core/screens/userprofile/types'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 
 type DiscoverSpacesViewProps = {
   user?: User
-  topics: Topic[]
   style?: StyleProp<ViewStyle>
+  userSpecificSpacesGroups: DiscoverSpacesGroup[]
+  defaultSpacesGroups: DiscoverSpacesGroup[]
 }
 
-const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({ topics, user, style }) => {
-  // const { t } = useTranslation()
-
-  const sortedTopics = useMemo(() => topics.slice().sort(termsByTitleComparator) || [], [topics])
-
-  const [filteredTopics, otherTopics] = useMemo(() => {
-    const userInterestIds = (user?.interests || []).map((topic) => topic.id)
-    return partition(sortedTopics, (topic) => userInterestIds.includes(topic.id))
-  }, [sortedTopics, user])
+const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({
+  style,
+  userSpecificSpacesGroups,
+  defaultSpacesGroups,
+}) => {
+  const { t } = useTranslation()
 
   return (
     <View style={style} testID="spaces-container">
-      <SpacesFilterHeader
-        style={styles.headerContainer}
-        topics={user?.interests || []}
-        location={user?.location}
-        allTopics={!user?.interests?.length}
-        onPress={() => ({})}
-      />
+      <HoliHeading level="1" size="large" style={styles.headerTitle} testID="discover-spaces-header">
+        {t('spaces.discover.welcome')}
+      </HoliHeading>
+      <HoliText style={styles.headerDescription} testID="discover-spaces-description">
+        {t('spaces.discover.description')}
+      </HoliText>
 
-      {filteredTopics.map((topic) => (
-        <SpacesByTopic key={topic.id} topic={topic} style={{ marginBottom: 12 }} />
-      ))}
+      <View style={styles.body}>
+        {/* User specific spaces suggestions */}
+        {userSpecificSpacesGroups.map((group, index) => (
+          <SpacesGroupSlider
+            key={index}
+            group={group}
+            style={styles.spacesGroup}
+            testID="discover-spaces-slider-user-specific"
+          />
+        ))}
 
-      {/* Will be added again once we introduce filtering
-      {filteredTopics.length > 0 && otherTopics.length > 0 && (
-        <HoliHeading size="large" style={{ marginBottom: 24 }}>
-          {t('spaces.otherListing')}
-        </HoliHeading>
-      )} */}
-      {otherTopics.map((topic) => (
-        <SpacesByTopic key={topic.id} topic={topic} style={{ marginBottom: 12 }} />
-      ))}
+        {userSpecificSpacesGroups.length > 0 && defaultSpacesGroups.length > 0 && (
+          <HoliText style={styles.othersTitle} testID="discover-spaces-others">
+            {t('spaces.discover.others')}
+          </HoliText>
+        )}
+
+        {/* Default spaces suggestions */}
+        {defaultSpacesGroups.map((group, index) => (
+          <SpacesGroupSlider
+            key={index}
+            group={group}
+            style={styles.spacesGroup}
+            testID="discover-spaces-slider-others"
+          />
+        ))}
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    marginTop: 40,
+  headerTitle: {
+    marginTop: 24,
+    fontWeight: '400',
+  },
+  headerDescription: {
+    marginTop: 8,
+    fontWeight: '400',
+  },
+  body: {
+    marginTop: 37,
+  },
+  spacesGroup: {
+    marginBottom: 30,
+  },
+  othersTitle: {
+    marginTop: 18,
     marginBottom: 48,
   },
 })

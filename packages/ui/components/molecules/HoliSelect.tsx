@@ -14,7 +14,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type HoliSelectOption = {
   id: string
   title: string
-  selected: boolean
+  selected?: boolean
 }
 
 export type HoliSelectProps = {
@@ -29,15 +29,19 @@ export type HoliSelectProps = {
   testID?: string
   inputProps?: TextInputProps
   id: string
+  multiSelect?: boolean
+  multiSelectionLabel?: string
 }
 
 const HoliSelect = ({
   style = {},
+  multiSelect = false,
   accessibilityLabel,
   inputLabel,
   placeholder,
   helperText,
   validationErrorText,
+  multiSelectionLabel,
   onChange,
   inputProps,
   options,
@@ -101,11 +105,13 @@ const HoliSelect = ({
   const onSelect = useCallback(
     (option) => {
       onChange(option)
-      setIsOpened(false)
-      setSearchText('')
-      Keyboard.dismiss()
+      if (!multiSelect) {
+        setIsOpened(false)
+        setSearchText('')
+        Keyboard.dismiss()
+      }
     },
-    [onChange, setIsOpened, setSearchText]
+    [onChange, setIsOpened, setSearchText, multiSelect]
   )
   const toggleMenu = useCallback(() => {
     if (isOpened) {
@@ -123,23 +129,34 @@ const HoliSelect = ({
         transparent
         key={item.id}
         label={item.title}
-        accessibilityRole="menuitem"
+        accessibilityRole={Platform.select({
+          web: multiSelect ? 'menuitemcheckbox' : 'menuitemradio',
+          native: 'menuitem',
+        })}
         onBlur={() => clearFocus('option-' + item.id)}
         style={styles.listItem}
         contentStyle={styles.listItemContent}
         onFocus={() => setFocusAndOpen('option-' + item.id)}
         onPress={() => onSelect(item)}
-        testID={testID && `${testID}-item-${item.id}`}
+        testID={testID && `${testID}-item`}
+        accessibilityChecked={item.selected}
+        accessibilityState={{ checked: item.selected }}
       >
         <HoliText selectable={false} numberOfLines={2}>
           {item.title}
         </HoliText>
-        <View style={[styles.listItemIconContainer, item.selected && styles.listItemIconContainerSelected]}>
+        <View
+          style={[
+            styles.listItemIconContainer,
+            multiSelect && styles.listItemIconContainerMultiSelect,
+            item.selected && styles.listItemIconContainerSelected,
+          ]}
+        >
           {item.selected && <HoliIcon icon="check" size={20} color={colors.fontColorWhite} />}
         </View>
       </HoliButton>
     ),
-    [testID, setFocusAndOpen, clearFocus, onSelect, styles]
+    [testID, setFocusAndOpen, clearFocus, onSelect, styles, multiSelect]
   )
 
   const noOptions = (
@@ -189,10 +206,11 @@ const HoliSelect = ({
   }, [clearInputButton, searchText, toggleMenuButton, styles])
 
   const regex = useMemo(() => searchText && new RegExp(searchText, 'i'), [searchText])
-  const selectedText = options
-    .filter((option) => option.selected)
-    .map((option) => option.title)
-    .join(', ')
+  const selectedOptions = options.filter((option) => option.selected)
+  const selectedText =
+    selectedOptions.length === 1
+      ? selectedOptions[0].title
+      : selectedOptions.length > 1 && `${multiSelectionLabel || inputLabel} · ${selectedOptions.length}`
   const filteredOptions = useMemo(
     () => options.filter((option) => !regex || option.title.match(regex)),
     [options, regex]
@@ -217,7 +235,7 @@ const HoliSelect = ({
         helperText={isOpened && options.length ? undefined : helperText}
         accessibilityLabel={accessibilityLabel}
         accessibilityAutoComplete="list"
-        accessibilityControls={`${id}-options`}
+        accessibilityControls={isOpened ? `${id}-options` : undefined}
         accessibilityRole="combobox"
         accessibilityExpanded={isOpened}
         accessibilityHasPopup="menu"
@@ -237,11 +255,13 @@ const HoliSelect = ({
           data={filteredOptions}
           renderItem={renderItem}
           keyExtractor={(option) => option.id}
-          style={isOpened && styles.optionsMenu}
+          style={styles.optionsMenu}
           nativeID={`${id}-options`}
           accessibilityRole="menu"
           keyboardShouldPersistTaps="always"
           persistentScrollbar={true}
+          accessibilityLabel={t('multiselect.options')}
+          accessibilityState={{ expanded: true }}
         />
       )}
     </View>
@@ -295,6 +315,9 @@ const getStyles = (textInputHeight: number) =>
       borderColor: tinycolor(colors.borderColorGrey).darken(5).toString(),
       alignItems: 'center',
       justifyContent: 'center',
+    },
+    listItemIconContainerMultiSelect: {
+      borderRadius: 4,
     },
     listItemIconContainerSelected: {
       borderWidth: 0,

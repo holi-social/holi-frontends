@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, ViewStyle } from 'react-native'
 
 import { colors } from '@holi//ui/styles/globalVars'
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -19,7 +19,7 @@ export type LoginProfileButtonProps = {
 const LoginProfileButton: React.VFC<LoginProfileButtonProps> = ({ focused, ...props }) => {
   const { pathname, navigate } = useRouting()
   const { user } = useContext(UserContext)
-  const { isLoggedIn } = useContext(AuthContext)
+  const { isLoggedIn } = useAuth()
   const hasUserData = isLoggedIn && user
   const { t } = useTranslation()
   const isWeb = Platform.OS === 'web'

@@ -1,10 +1,11 @@
 import { navigateToAppById } from '../../helpers/navigation'
 import {
-  locateMultipleElementsWithTestId,
   scrollToElementWithTestId,
   tapOnElementWithTestId,
+  waitForElementWithTestId,
   waitForElementWithTestIdToBeNull,
 } from '../../helpers/selectors'
+import { delay } from '../../helpers/time'
 
 describe('@GoodNews', () => {
   afterEach(async () => {
@@ -20,21 +21,23 @@ describe('@GoodNews', () => {
     // preparation of test
     await navigateToAppById('goodnews')
 
-    await assertListItemsExisting()
+    await assertListItemExisting()
 
     await assertAllowsPagination()
   })
 })
 
-const assertListItemsExisting = async () => {
-  const listItemsBefore = await locateMultipleElementsWithTestId('goodnews-list-item')
-  expect(listItemsBefore.length).toBeGreaterThan(1)
+const assertListItemExisting = async () => {
+  await waitForElementWithTestId('goodnews-article-component')
 }
 
 const assertAllowsPagination = async () => {
-  await scrollToElementWithTestId('btn-goodnews-list-load-more', 'down', { maxAttempts: 10 })
+  // swipe to the right until the teaser component is visible
+  await scrollToElementWithTestId('btn-goodnews-list-load-more', 'right', { repetitions: 12 })
   // load more
   await tapOnElementWithTestId('btn-goodnews-list-load-more')
+  // wait a moment
+  await delay(1)
   // wait until "load more" button has been replaced by next list item
   await waitForElementWithTestIdToBeNull('btn-goodnews-list-load-more')
 }

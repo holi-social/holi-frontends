@@ -12,6 +12,7 @@ Any value that is only used in one variable below can be written inline in that 
 */
 $softblack: #222326;
 $softblackLight: #eff0f1;
+$foreground10: #b0b0b0;
 $white: #ffffff;
 $softwhite: #f7f6f3;
 $softwhiteDark: #f1efe9;
@@ -21,16 +22,16 @@ $grey: #6f7081;
 $errorRed: #ee0004;
 
 $font-color: $softblack;
-$font-color-disabled: $softblackLight;
+$font-color-disabled: $foreground10;
 $font-color-black: $font-color;
-$font-color-black-disabled: $softblackLight;
+$font-color-black-disabled: $foreground10;
 $font-color-grey: $grey;
-$font-color-grey-disabled: $softblackLight;
+$font-color-grey-disabled: $foreground10;
 $font-color-white: $white;
-$font-color-white-disabled: $softblackLight;
+$font-color-white-disabled: $foreground10;
 $font-color-error: $errorRed;
 $font-color-highlighted: $positivepurple;
-$font-color-modal-light: #E6E1D3;
+$font-color-modal-light: #e6e1d3;
 
 $primary-color: $impactyellow;
 $secondary-color: $positivepurple;
@@ -55,5 +56,7 @@ $background-color-black: $softblack;
 $background-color-donation-green: #00a853;
 $background-color-success: $positivepurple;
 $background-color-error: $errorRed;
-$background-color-overlay: #2222221F;
+$background-color-overlay: #2222221f;
 $background-color-modal-dark: #262424;
+$background-color-pill-blue: #90ddff;
+$background-color-pill-green: #abff8b;
