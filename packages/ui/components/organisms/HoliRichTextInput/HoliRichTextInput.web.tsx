@@ -108,7 +108,7 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
         />
         <OnChangePlugin onChange={onChange} />
         <HistoryPlugin />
-        <HoliFocusPlugin isOn={autofocus} onFocus={props?.onFocus} onBlur={props?.onBlur} />
+        <HoliFocusPlugin autofocus={autofocus} onFocus={props?.onFocus} onBlur={props?.onBlur} />
         <HoliMentionsPlugin
           findUsersByName={findUserMapped}
           minSearchChars={minSearchChars}

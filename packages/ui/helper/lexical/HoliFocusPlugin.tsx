@@ -3,11 +3,11 @@ import { BLUR_COMMAND, COMMAND_PRIORITY_EDITOR, FOCUS_COMMAND } from 'lexical'
 import React, { useEffect, useLayoutEffect } from 'react'
 
 export type HoliFocusPluginProps = {
-  isOn?: boolean
+  autofocus?: boolean
   onFocus?: (event: FocusEvent) => void
   onBlur?: (event: FocusEvent) => void
 }
-const HoliFocusPlugin: React.VFC<HoliFocusPluginProps> = ({ isOn = true, onFocus, onBlur }) => {
+const HoliFocusPlugin: React.VFC<HoliFocusPluginProps> = ({ autofocus = true, onFocus, onBlur }) => {
   const [editor] = useLexicalComposerContext()
 
   useLayoutEffect(() => {
@@ -28,10 +28,10 @@ const HoliFocusPlugin: React.VFC<HoliFocusPluginProps> = ({ isOn = true, onFocus
   }, [editor, onFocus, onBlur])
 
   useEffect(() => {
-    if (isOn) {
+    if (autofocus) {
       editor.focus()
     }
-  }, [editor, isOn])
+  }, [editor, autofocus])
 
   return null
 }
