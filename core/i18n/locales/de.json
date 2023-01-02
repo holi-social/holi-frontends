@@ -70,6 +70,7 @@
   "general.edit": "Bearbeiten",
   "global.accept": "Ok",
   "global.decline": "Abbrechen",
+  "global.noResults": "Keine Ergebnisse gefunden",
   "help.title": "Hilfe",
   "homeFeed.apps.appLabel": "{{name}} App",
   "homeFeed.headerTitle.goodAfternoon": "Guten Nachmittag",
