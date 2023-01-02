@@ -2,10 +2,10 @@ import React from 'react'
 import { Platform, ScrollView, ScrollViewProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
-import { useKeyboard } from '@holi/core/helpers'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { useKeyboard } from '@holi/ui/helper'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
