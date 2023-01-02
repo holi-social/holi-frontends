@@ -98,7 +98,7 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
         autoHeight={false}
         // Smaller devides use the whole screen and
         // larger ones should have more space above for clicking the backdrop pane
-        minRelativeHeight={deviceHeight > 750 ? 0.85 : 0}
+        relativeHeight={deviceHeight > 750 ? 0.85 : 100}
       >
         <DonationSearchForm onSubmit={submitSearch} locationQuery={locationQuery} />
       </HoliModal>
