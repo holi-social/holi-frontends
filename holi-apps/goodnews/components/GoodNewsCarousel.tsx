@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, useWindowDimensions } from 'react-native'
+import { SafeAreaView, StyleSheet, useWindowDimensions } from 'react-native'
 import PaginationDot from 'react-native-animated-pagination-dot'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Carousel from 'react-native-reanimated-carousel'
@@ -33,8 +33,7 @@ type CarouselItem = {
 const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
   const { i18n } = useTranslation()
   const { width, height } = useWindowDimensions()
-  const styles = useMemo(() => getStyles(width, height, paginationDotAreaHeight), [width, height])
-  const paginationDotAreaHeight = 40
+  const styles = useMemo(() => getStyles(width, height), [width, height])
   const { setOptions } = useUnifiedNavigation()
   const { loading, error, data, fetchMore } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
     GoodNewsArticlesQuery,
@@ -88,7 +87,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
           article={item.article}
           key={item.article.id}
           accessible={accessible}
-          style={{ paddingBottom: paginationDotAreaHeight }}
+          style={styles.article}
         />
       ) : (
         <GoodNewsTeaserComponent
@@ -99,7 +98,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
         />
       )
     },
-    [activeArticleIndex, memoizedFetchMore]
+    [activeArticleIndex, memoizedFetchMore, styles.article]
   )
 
   if (error) {
@@ -153,8 +152,9 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
 }
 
 export default GoodNewsCarousel
+const paginationDotAreaHeight = 40
 
-const getStyles = (width: number, height: number, paginationDotAreaHeight: number) =>
+const getStyles = (width: number, height: number) =>
   StyleSheet.create({
     article: {
       paddingBottom: paginationDotAreaHeight,
@@ -166,7 +166,7 @@ const getStyles = (width: number, height: number, paginationDotAreaHeight: numbe
     paginationDotArea: {
       zIndex: -1,
       backgroundColor: 'transparent',
-      bottom: 24,
+      bottom: 12,
       minHeight: paginationDotAreaHeight,
       position: 'absolute',
       alignSelf: 'center',

@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
         height: 400,
       },
       // needed for mobile because of bug with borderRadius
-      native: {
+      ios: {
         borderColor: colors.borderColorBlack,
         borderTopRightRadius: 27,
         borderTopLeftRadius: 27,
