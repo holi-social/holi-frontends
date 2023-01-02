@@ -1,0 +1,184 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
+<View
+  testID="notification-item"
+>
+  <View
+    accessibilityLabel="Some User"
+    accessibilityRole="button"
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Array [
+        Object {
+          "color": "#6267e7",
+        },
+        undefined,
+        undefined,
+      ]
+    }
+    testID="text-link"
+  >
+    <View
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#7BD7EA",
+              "borderRadius": 20,
+              "justifyContent": "center",
+              "overflow": "hidden",
+            },
+            undefined,
+            Object {
+              "height": 40,
+              "width": 40,
+            },
+          ]
+        }
+      >
+        <Text
+          accessibilityLabel="Some User"
+          accessibilityRole="image"
+          accessible={false}
+          selectable={true}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              Object {
+                "fontSize": 16,
+                "lineHeight": 19.2,
+              },
+              false,
+              Object {
+                "color": "#222326",
+                "fontSize": 18,
+                "fontWeight": "bold",
+                "lineHeight": 21.599999999999998,
+                "textTransform": "uppercase",
+              },
+            ]
+          }
+        >
+          SU
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "flexBasis": "100%",
+            "flexGrow": 1,
+            "flexShrink": 1,
+            "marginLeft": 12,
+          }
+        }
+      >
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              Object {
+                "fontSize": 14,
+                "lineHeight": 16.8,
+              },
+              false,
+              Object {
+                "color": "#6f7081",
+              },
+            ]
+          }
+        >
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              Array [
+                Object {
+                  "color": "#222326",
+                  "fontFamily": "Circular Std Book",
+                  "fontWeight": "400",
+                },
+                Object {
+                  "fontSize": 14,
+                  "lineHeight": 16.8,
+                },
+                false,
+                undefined,
+              ]
+            }
+          />
+        </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              Object {
+                "fontSize": 14,
+                "lineHeight": 16.8,
+              },
+              false,
+              Array [
+                Object {
+                  "color": "#6f7081",
+                },
+                Object {
+                  "marginTop": 4,
+                },
+              ],
+            ]
+          }
+        >
+          last week
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#6267e7",
+            "borderRadius": 4,
+            "height": 8,
+            "marginLeft": 12,
+            "marginTop": 4,
+            "width": 8,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;

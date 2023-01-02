@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { Linking, StyleProp, StyleSheet, TextStyle } from 'react-native'
+import React, { useCallback } from 'react'
+import { Linking, Pressable, StyleProp, StyleSheet, TextStyle, ViewProps } from 'react-native'
 
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -12,6 +12,8 @@ export type HoliLinkProps = {
   onPress?: CallableFunction
   style?: StyleProp<TextStyle>
   textStyle?: StyleProp<TextStyle>
+  // if 'HoliLink' is used in Modal Screen use 'mobileNavigateBackFirst' on mobile to close modal first and then navigate to HREF
+  mobileNavigateBackFirst?: boolean
   testID?: string
 }
 
@@ -23,28 +25,42 @@ const HoliLink: React.FC<HoliLinkProps> = ({
   style,
   textStyle,
   children,
+  mobileNavigateBackFirst,
   testID = 'text-link',
 }) => {
-  const { navigate } = useUnifiedNavigation()
+  const { navigate, navigateBack } = useUnifiedNavigation()
 
-  const onLinkPress = React.useCallback(() => {
+  const onLinkPress = useCallback(() => {
     const stopPropagation = onPress?.()
-    if (stopPropagation !== false) {
-      external ? Linking.openURL(href) : navigate(href)
+
+    if (stopPropagation === false) return
+
+    if (external) {
+      Linking.openURL(href)
+    } else {
+      // for Modal on mobile go back first to close Modal and then navigate to HREF
+      if (mobileNavigateBackFirst) {
+        navigateBack()
+        setTimeout(() => navigate(href), 300)
+      } else {
+        navigate(href)
+      }
     }
-  }, [external, href, navigate, onPress])
+  }, [external, href, mobileNavigateBackFirst, navigate, navigateBack, onPress])
+
+  const Component = React.Children.toArray(children).some((child) => typeof child === 'string') ? HoliText : Pressable
 
   return (
-    <HoliText
+    <Component
       accessibilityRole={'button'}
       accessibilityLabel={label}
       accessible
-      style={[styles.link, style, textStyle]}
+      style={[styles.link, style, textStyle] as ViewProps}
       onPress={onLinkPress}
       testID={testID}
     >
       {children}
-    </HoliText>
+    </Component>
   )
 }
 

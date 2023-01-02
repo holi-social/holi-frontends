@@ -3,9 +3,11 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import PaginationDot from 'react-native-animated-pagination-dot'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Carousel from 'react-native-reanimated-carousel'
 
 import { logError } from '@holi/core/errors/helpers'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -31,7 +33,7 @@ type CarouselItem = {
 const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
   const { i18n } = useTranslation()
   const { width, height } = useWindowDimensions()
-  const styles = useMemo(() => createStyles(width, height), [width, height])
+  const styles = useMemo(() => getStyles(width, height), [width, height])
   const { setOptions } = useUnifiedNavigation()
   const { loading, error, data, fetchMore } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
     GoodNewsArticlesQuery,
@@ -73,8 +75,26 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
         headerBackgroundGradient: true,
         footerShown: false,
       },
+      headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
     })
   }, [setOptions, articles, activeArticleIndex])
+
+  const renderItem = useCallback(
+    ({ item, index }) => {
+      const accessible = index === activeArticleIndex
+      return item.type === 'article' ? (
+        <GoodNewsArticleComponent article={item.article} key={item.article.id} accessible={accessible} />
+      ) : (
+        <GoodNewsTeaserComponent
+          article={item.article}
+          key={item.article.id}
+          fetchMore={memoizedFetchMore}
+          accessible={accessible}
+        />
+      )
+    },
+    [activeArticleIndex, memoizedFetchMore]
+  )
 
   if (error) {
     logError(error, `[GoodNewsCarousel.tsx] ${error.message}`)
@@ -95,26 +115,23 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
     .concat(previousDateTeaser ? [{ type: 'teaser', article: previousDateTeaser }] : [])
 
   return (
-    <>
+    <GestureHandlerRootView style={styles.rootView}>
       {/* props documentation https://github.com/dohooo/react-native-reanimated-carousel/blob/HEAD/docs/props.md */}
       <Carousel
         width={width}
         style={styles.carousel}
         loop={false}
         data={carouselItems}
-        renderItem={({ item }) => {
-          if (item.type === 'article') return <GoodNewsArticleComponent article={item.article} key={item.article.id} />
-          else {
-            return (
-              <GoodNewsTeaserComponent article={item.article} key={item.article.id} fetchMore={memoizedFetchMore} />
-            )
-          }
-        }}
-        onSnapToItem={(index) => setActiveArticleIndex(index)}
+        renderItem={renderItem}
+        onSnapToItem={setActiveArticleIndex}
         scrollAnimationDuration={250}
         testID={'goodnews-list-container'}
       />
-      <View style={styles.paginationDotArea}>
+      <View
+        style={styles.paginationDotArea}
+        importantForAccessibility="no-hide-descendants"
+        accessibilityElementsHidden={true}
+      >
         {!fetchingMore && (
           <PaginationDot
             activeDotColor={colors.backgroundColorModalDark}
@@ -125,15 +142,16 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
           />
         )}
       </View>
-    </>
+    </GestureHandlerRootView>
   )
 }
 
 export default GoodNewsCarousel
 
-const createStyles = (width: number, height: number) => {
-  const paginationDotAreaHeight = 40
-  return StyleSheet.create({
+const paginationDotAreaHeight = 40
+
+const getStyles = (width: number, height: number) =>
+  StyleSheet.create({
     carousel: {
       width: width,
       height: height - paginationDotAreaHeight,
@@ -145,5 +163,8 @@ const createStyles = (width: number, height: number) => {
       alignSelf: 'center',
       flexDirection: 'row',
     },
+    rootView: {
+      flex: 1,
+      justifyContent: 'space-between',
+    },
   })
-}

@@ -16,32 +16,14 @@ test.describe('@Spaces', () => {
     expect(page.url()).toContain('/spaces')
   })
 
-  test('should display multiple topics with spaces', async ({ page }) => {
-    const countTopics = async () => await (await locateElementByTestId(page, 'spaces-topic-container')).count()
+  test('should display multiple groups with spaces', async ({ page }) => {
+    const countGroups = async () => await (await locateElementByTestId(page, 'spaces-group-slider')).count()
     const countSpaces = async () => await (await locateElementByTestId(page, 'btn-to-space')).count()
 
     await waitForElementByTestId(page, 'spaces-container')
 
-    await expect.poll(countTopics, { timeout: 10000 }).toBeGreaterThan(1)
-    await expect.poll(countSpaces, { timeout: 10000 }).toBeGreaterThan(1)
-
-    await checkAccessibility(page)
-  })
-
-  test('should click on "see more" button for a topic and go to filtered spaces page and display spaces with that topicId', async ({
-    page,
-  }) => {
-    // check if we are in the correct page with the filter queries
-    await Promise.all([
-      clickElementByTestId(page, 'spaces-topic-container-see-more'),
-      page.waitForNavigation({ url: '**/spaces/**' }),
-    ])
-
-    const spaceFilterUrlPrefix = '/spaces/filter'
-    expect(page.url()).toContain(spaceFilterUrlPrefix)
-
-    // check if there is at least one space card (button to space)
-    await waitForElementByTestId(page, 'btn-to-space')
+    await expect.poll(countGroups, { timeout: 10000 }).toBeGreaterThan(0)
+    await expect.poll(countSpaces, { timeout: 10000 }).toBeGreaterThan(0)
 
     await checkAccessibility(page)
   })
@@ -57,6 +39,17 @@ test.describe('@Spaces', () => {
 
     // click on first topic in the list
     await clickElementByTestId(page, 'spaces-filter-interests-item')
+
+    // open skills dropdown
+    await clickElementByTestId(page, 'spaces-filter-skills-input')
+
+    // click on first skill in the list
+    await clickElementByTestId(page, 'spaces-filter-skills-item')
+
+    await checkAccessibility(page)
+
+    // close skills dropdown
+    await clickElementByTestId(page, 'spaces-filter-skills-toggle-menu')
 
     // click filter confirmation button and check if we are in the correct page with the filter queries
     await Promise.all([
