@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 28,
     borderTopLeftRadius: 28,
     borderWidth: 1,
+    borderBottomWidth: 0,
     bottom: 0,
     ...Platform.select({
       web: {
