@@ -219,6 +219,7 @@
   "spaces.join.withdraw.confirm.dismiss": "No, cancel",
   "spaces.join.withdraw.confirm.headline": "Withdraw request",
   "spaces.join.withdraw.confirm.text": "Would you like to withdraw the request to join the space?",
+  "spaces.join.error": "There was an error updating the connection with this space. Please retry later.",
   "spaces.link.DISCORD": "Discord",
   "spaces.link.FACEBOOK": "Facebook",
   "spaces.link.INSTAGRAM": "Instagram",

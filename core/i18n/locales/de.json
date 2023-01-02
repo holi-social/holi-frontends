@@ -219,6 +219,7 @@
   "spaces.join.withdraw.confirm.dismiss": "Nein, abbrechen",
   "spaces.join.withdraw.confirm.headline": "Anfrage zurückziehen",
   "spaces.join.withdraw.confirm.text": "Möchtest du die Beitrittsanfrage zum Space zurückziehen?",
+  "spaces.join.error": "Es gab einen Fehler beim aktualisieren der Verbindung zu diesem Space. Bitte probieren Sie es später nochmal.",
   "spaces.link.DISCORD": "Discord",
   "spaces.link.FACEBOOK": "Facebook",
   "spaces.link.INSTAGRAM": "Instagram",
