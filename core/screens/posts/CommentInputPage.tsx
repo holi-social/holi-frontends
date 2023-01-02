@@ -21,7 +21,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
-import { isWebTouchDevice, useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
+import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -41,7 +41,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   const scrollViewRef = useRef<ScrollView>(null)
   const { navigate, navigateBack } = useRouting()
   const { keyboardHeight } = useKeyboard()
-  const { viewPortHeight } = useSoftKeyboard({ active: isWebTouchDevice() })
+  const { viewPortHeight } = useSoftKeyboard()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { openToast } = useToast()

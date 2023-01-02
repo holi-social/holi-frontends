@@ -28,6 +28,8 @@ import { SyntheticEvent, useCallback, useEffect, useState } from 'react'
 
 import { useDebounce } from '@holi/ui/helper/useDebounce'
 
+import { isWebTouchDevice } from './isWebTouchDevice'
+
 export type useSoftKeyboardProps = {
   preventAutoScrolling?: boolean
   scrollDebounce?: number
@@ -39,7 +41,7 @@ const defaultProps = {
   preventAutoScrolling: true,
   scrollDebounce: 50,
   viewportDebounce: 300,
-  active: true,
+  active: isWebTouchDevice(),
 }
 
 export const useSoftKeyboard = (props?: useSoftKeyboardProps) => {
@@ -84,7 +86,7 @@ export const useSoftKeyboard = (props?: useSoftKeyboardProps) => {
   const onScroll = useCallback(scrollToTop, [scrollToTop])
 
   useEffect(() => {
-    if (active === false) return
+    if (!active) return
     window?.visualViewport?.addEventListener('resize', onResize)
     if (preventAutoScrolling) window?.visualViewport?.addEventListener('scroll', onScroll)
     onResize()
