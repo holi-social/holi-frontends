@@ -21,7 +21,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
-import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
+import { isWebTouchDevice, useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -41,7 +41,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   const scrollViewRef = useRef<ScrollView>(null)
   const { navigate, navigateBack } = useRouting()
   const { keyboardHeight } = useKeyboard()
-  const { viewPortHeight } = useSoftKeyboard()
+  const { viewPortHeight } = useSoftKeyboard({ active: isWebTouchDevice() })
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { openToast } = useToast()
@@ -128,7 +128,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   if (!post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
 
   const getMaxHeight = () => {
-    if (!viewPortHeight) return 0
+    if (!viewPortHeight) return undefined
     return viewPortHeight - SUBMIT_BUTTON_CONTAINER_HEIGHT - parseInt(vars.topBarHeight, 10)
   }
 

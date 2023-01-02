@@ -32,16 +32,18 @@ export type useSoftKeyboardProps = {
   preventAutoScrolling?: boolean
   scrollDebounce?: number
   viewportDebounce?: number
+  active?: boolean
 }
 
 const defaultProps = {
   preventAutoScrolling: true,
   scrollDebounce: 50,
   viewportDebounce: 300,
+  active: true,
 }
 
 export const useSoftKeyboard = (props?: useSoftKeyboardProps) => {
-  const { preventAutoScrolling, scrollDebounce, viewportDebounce } = { ...defaultProps, ...props }
+  const { preventAutoScrolling, scrollDebounce, viewportDebounce, active } = { ...defaultProps, ...props }
   const [lastViewPortHeight, setLastViewPortHeight] = useState(0)
   const [lastWindowHeight, setLastWindowHeight] = useState(0)
   const [lastKeyboardOpen, setLastKeyboardOpen] = useState<boolean>()
@@ -82,6 +84,7 @@ export const useSoftKeyboard = (props?: useSoftKeyboardProps) => {
   const onScroll = useCallback(scrollToTop, [scrollToTop])
 
   useEffect(() => {
+    if (active === false) return
     window?.visualViewport?.addEventListener('resize', onResize)
     if (preventAutoScrolling) window?.visualViewport?.addEventListener('scroll', onScroll)
     onResize()
@@ -89,7 +92,7 @@ export const useSoftKeyboard = (props?: useSoftKeyboardProps) => {
       window?.visualViewport?.removeEventListener('scroll', onScroll)
       window?.visualViewport?.removeEventListener('resize', onResize)
     }
-  }, [onResize, onScroll, preventAutoScrolling])
+  }, [onResize, onScroll, preventAutoScrolling, active])
 
   return {
     softkeyboardIsOpen: !!lastKeyboardOpen,
