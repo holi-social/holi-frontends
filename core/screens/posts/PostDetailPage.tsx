@@ -118,11 +118,11 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
 
       <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} ref={scrollViewRef}>
         <View style={screenWidth > +vars.breakpointXl && mixins.container}>
-          <PostContent post={post} hasHeader style={styles.postContent} />
+          <PostContent post={post} hasHeader style={styles.postContent} contentStyle={styles.paddingHorizontal} />
 
           {/* Post comments */}
           {comments.length > 0 && (
-            <View style={styles.commentsView}>
+            <View style={[styles.commentsView, styles.paddingHorizontal]}>
               <VerticalLine style={styles.commentConnector} />
 
               {comments.map((comment) => (
@@ -159,7 +159,6 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   commentsView: {
-    paddingHorizontal: 20,
     ...Platform.select({
       web: {
         paddingBottom: COMMENT_VIEW_PADDING_BOTTOM,
@@ -188,6 +187,9 @@ const styles = StyleSheet.create({
   postCommentButton: {
     paddingTop: 18,
     flex: 1,
+  },
+  paddingHorizontal: {
+    paddingHorizontal: 20,
   },
 })
 

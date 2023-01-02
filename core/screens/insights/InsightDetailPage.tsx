@@ -175,6 +175,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
                     collapseContent
                     onMediaHeaderPressed={() => navigate(`/insights/${insightId}/posts/${post.id}`)}
                     style={styles.postItem}
+                    contentStyle={styles.paddingHorizontal}
                   />
                 </HoliGridCell>
               ))}
@@ -245,6 +246,9 @@ const styles = StyleSheet.create({
   postItem: {
     borderRadius: 12,
     paddingVertical: 24,
+  },
+  paddingHorizontal: {
+    paddingHorizontal: 24,
   },
 })
 
