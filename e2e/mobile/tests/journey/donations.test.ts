@@ -21,8 +21,6 @@ describe('@Donations', () => {
     }
   })
 
-  // fails on android: The element 'By.xpath: //*[@resource-id='donations-search-modal']' does not exist in DOM anymore
-  // fails on ios: Couldn't tap on element with testID: donations-list-item
   it('should support the user journey', async () => {
     // preparation of test
     await navigateToAppById('donations')
@@ -142,14 +140,11 @@ const resetFilterInModal = async () => {
   // open search modal
   await tapOnElementWithTestId('donations-search-button')
 
-  // close keyboard
-  await tapOnElementWithTestId('donations-search-modal')
-
   // reset filter
   await tapOnElementWithTestId('donations-search-form-reset')
 
-  // close search modal
-  await tapOnElementWithTestId('donations-search-modal-close-btn')
+  // submit form
+  await pressEnter('donations-search-location-input')
 
   // wait for results
   await waitForElementWithTestId('donations-list-container')
