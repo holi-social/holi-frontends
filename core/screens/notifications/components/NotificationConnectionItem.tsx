@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
 import { displayError } from '@holi/core/errors/helpers'
@@ -15,7 +15,6 @@ import {
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
-import { vars } from '@holi/ui/styles/globalVars'
 
 const isNotificationConnectionAccepted = ({ notificationType }: Notification) =>
   notificationType === NotificationType.CONNECTION_ACCEPTED ||
@@ -28,7 +27,6 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
 }) => {
   const { id: userId } = notification.options.user
   const { t } = useTranslation()
-  const { width: screenWidth } = useWindowDimensions()
   // if 'connectionAccepted' is 'true' user accepted connection, else user ignored connection
   const [connectionAccepted, setConnectionAccepted] = useState<boolean | null>(
     isNotificationConnectionAccepted(notification) || null
@@ -67,6 +65,7 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
     <HoliButton
       key="decline"
       type="secondary"
+      variant="small"
       label={t('notifications.connection.ignore')}
       onPress={() =>
         disconnect(userId).then(() => {
@@ -83,6 +82,7 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
     <HoliButton
       key="accept"
       type="primary"
+      variant="small"
       label={t('notifications.connection.accept')}
       onPress={() =>
         connect(userId).then(() => {
@@ -106,14 +106,11 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
         style={[style, loading && styles.notificationProcessing]}
         testID={testID}
       >
-        {!connectionHandeled &&
-          (screenWidth > +vars.breakpointXs ? (
-            <HoliHorizontalRow gap={8} style={styles.buttonContainer}>
-              {buttons}
-            </HoliHorizontalRow>
-          ) : (
-            <View style={styles.buttonContainer}>{buttons}</View>
-          ))}
+        {!connectionHandeled && (
+          <HoliHorizontalRow gap={8} style={styles.buttonContainer}>
+            {buttons}
+          </HoliHorizontalRow>
+        )}
       </NotificationWithUserAvatar>
 
       {loading && (
