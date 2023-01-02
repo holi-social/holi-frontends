@@ -1,4 +1,3 @@
-export * from './useKeyboard'
 export * from './useSafeDispatch'
 export * from './useBreakpointMatcher'
 export * from './strings'
