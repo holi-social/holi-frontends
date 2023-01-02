@@ -225,7 +225,14 @@ const getStyles = (screenHeight: number) =>
     },
     scrollContent: {
       paddingBottom: SUGGESTIONS_DROPDOWN_HEIGHT + SUBMIT_BUTTON_CONTAINER_HEIGHT + 50,
-      ...Platform.select({ web: { paddingBottom: SUGGESTIONS_DROPDOWN_HEIGHT - SUBMIT_BUTTON_CONTAINER_HEIGHT } }),
+      ...Platform.select({
+        web: {
+          paddingBottom:
+            screenHeight > SMALL_DEVICE_HEIGHT
+              ? SUGGESTIONS_DROPDOWN_HEIGHT
+              : SUGGESTIONS_DROPDOWN_HEIGHT - SUBMIT_BUTTON_CONTAINER_HEIGHT,
+        },
+      }),
     },
     postAndComments: {
       marginTop: 12,
