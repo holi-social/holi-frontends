@@ -71,7 +71,7 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
           <HoliText>{t('spaces.follow')}</HoliText>
         </HoliButton>
 
-        <SpaceJoin state={joinRequestState} onStateChange={setJoinRequestState} />
+        <SpaceJoin state={joinRequestState} onStateChange={setJoinRequestState} spaceId={space.id} />
       </View>
     </View>
   )
