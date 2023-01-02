@@ -71,6 +71,7 @@
   "general.edit": "Edit",
   "global.accept": "Ok",
   "global.decline": "Decline",
+  "global.noResults": "No results yet",
   "help.title": "Help",
   "homeFeed.apps.appLabel": "{{name}} App",
   "homeFeed.headerTitle.goodAfternoon": "Good afternoon",
