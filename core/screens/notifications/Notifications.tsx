@@ -106,12 +106,16 @@ const Notifications: React.VFC = () => {
             <HoliHeading
               size="small"
               // add margin top for first section header to have space before HeaderAnimated
-              style={styles.groupTitle}
+              style={[styles.groupTitle, section === sortedNotificationsByDate[0] && styles.firstGroupTitle]}
             >
               {section.title}
             </HoliHeading>
           )}
-          contentContainerStyle={styles.listContentContainer}
+          renderSectionFooter={({ section }) =>
+            section === sortedNotificationsByDate[sortedNotificationsByDate.length - 1] ? (
+              <View style={styles.lastSectionFooter} />
+            ) : null
+          }
           onScroll={onScreenScroll}
           scrollEventThrottle={200}
           stickySectionHeadersEnabled={false}
@@ -135,14 +139,15 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  listContentContainer: {
-    marginTop: +vars.topBarHeight + (Platform.OS === 'android' ? 32 : 0),
-    marginBottom: vars.bottomBarHeight,
-  },
   groupTitle: {
     paddingVertical: 12,
   },
-
+  firstGroupTitle: {
+    marginTop: vars.topBarHeight,
+  },
+  lastSectionFooter: {
+    marginBottom: vars.bottomBarHeight,
+  },
   notification: {
     paddingVertical: 12,
   },
