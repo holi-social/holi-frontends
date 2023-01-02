@@ -14,15 +14,26 @@ import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import { colors } from '@holi/ui/styles/globalVars'
 import { vars } from '@holi/ui/styles/globalVars'
 
+/**
+ *
+ * @returns 100 (full screen) for heights above the MIN_HEIGHT_THRESHOLD, or a fixedHeight based on relativeHeight, minRelativeHeight and maxHeight
+ */
+const getFixedHeight = (relativeHeight: number, maxHeight: number, minRelativeHeight?: number) => {
+  const MIN_HEIGHT_THRESHOLD = 0.94
+  const fixedHeight = minRelativeHeight ? Math.min(minRelativeHeight, relativeHeight) * 100 : maxHeight
+
+  return fixedHeight >= MIN_HEIGHT_THRESHOLD ? 100 : fixedHeight
+}
+
 export type HoliModalProps = ModalProps & {
   show: boolean
+  label: string
   onDismiss: () => void
   relativeHeight?: number
   minRelativeHeight?: number
-  children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild>
-  testID?: string
-  label: string
   autoHeight?: boolean
+  testID?: string
+  children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild>
 }
 
 /*
@@ -30,9 +41,16 @@ export type HoliModalProps = ModalProps & {
   "relativeHeight" with "autoHeight === false" works like fix "height"
   "minRelativeHeight" is "min-height" and if "minRelativeHeight" is bigger than "relativeHeight" the lower value will be used
 */
-
-const HoliModal: React.FC<HoliModalProps> = (props) => {
-  const { show = false, relativeHeight = 0.96, minRelativeHeight, onDismiss, autoHeight = true, children } = props
+const HoliModal: React.FC<HoliModalProps> = ({
+  show = false,
+  label,
+  onDismiss,
+  relativeHeight = 1,
+  minRelativeHeight,
+  testID,
+  autoHeight = true,
+  children,
+}) => {
   const { t } = useTranslation()
   const [visible, setVisible] = useState(show)
   const { width: deviceWidth } = useWindowDimensions()
@@ -95,19 +113,19 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
   }, [])
 
   const maxHeight = relativeHeight * 100
-  const minHeight = minRelativeHeight ? Math.min(minRelativeHeight, relativeHeight) * 100 : '0'
-  const fixedHeight = minRelativeHeight ? Math.min(minRelativeHeight, relativeHeight) * 100 : maxHeight
+  const minHeight = minRelativeHeight ? Math.min(minRelativeHeight, relativeHeight) * 100 : 0
+  const fixedHeight = getFixedHeight(relativeHeight, maxHeight, minRelativeHeight)
 
   return (
     <>
-      <ModalBasic show={visible} transparent={true} onDismiss={onDismiss} label={props.label} testID={props.testID}>
+      <ModalBasic show={visible} transparent={true} onDismiss={onDismiss} label={label} testID={testID}>
         <GestureHandlerRootView style={styles.rootView} accessible={false}>
           <HoliButton
             label={t('modal.backdrop')}
             style={styles.backdrop}
             onPress={onDismiss}
             transparent
-            testID={`${props.testID}-backdrop`}
+            testID={`${testID}-backdrop`}
           >
             <View onAccessibilityEscape={onDismiss} style={styles.backdrop} />
           </HoliButton>
@@ -122,9 +140,9 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
                 minHeight: `${minHeight}%`,
                 ...(!autoHeight && { height: `${fixedHeight}%` }),
               },
-              styles.common,
+              fixedHeight === 100 ? styles.fullscreen : {},
             ]}
-            testID={`${props.testID}-animatedview`}
+            testID={`${testID}-animatedview`}
           >
             <View style={styles.headerContainer}>
               {isTouch && deviceWidth < +vars.breakpointL ? (
@@ -168,6 +186,15 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 24,
     overflow: 'hidden',
     paddingTop: 47,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+  },
+  fullscreen: {
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
   },
   headerContainer: {
     position: 'absolute',
@@ -186,13 +213,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: colors.backgroundColorBlack,
     opacity: 0.3,
-  },
-  common: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
   },
   backdrop: {
     ...StyleSheet.absoluteFillObject,
