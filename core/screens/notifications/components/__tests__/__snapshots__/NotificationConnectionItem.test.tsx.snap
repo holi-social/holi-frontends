@@ -155,8 +155,8 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                   "fontWeight": "400",
                 },
                 Object {
-                  "fontSize": 14,
-                  "lineHeight": 16.8,
+                  "fontSize": 12,
+                  "lineHeight": 14.399999999999999,
                 },
                 false,
                 Array [
@@ -170,7 +170,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
               ]
             }
           >
-            last week
+            2 weeks ago
           </Text>
         </View>
         <View
@@ -246,6 +246,11 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                   "paddingHorizontal": 32,
                   "paddingVertical": 13,
                 },
+                Object {
+                  "borderRadius": 16,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 6,
+                },
               ],
               Object {
                 "marginTop": 12,
@@ -278,8 +283,8 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                     "fontWeight": "400",
                   },
                   Object {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
+                    "fontSize": 14,
+                    "lineHeight": 16.8,
                   },
                   Object {
                     "fontFamily": "Circular Std Medium",
@@ -338,6 +343,11 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                   "paddingVertical": 13,
                 },
                 Object {
+                  "borderRadius": 16,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 6,
+                },
+                Object {
                   "backgroundColor": "#f3f360",
                 },
               ],
@@ -372,8 +382,8 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                     "fontWeight": "400",
                   },
                   Object {
-                    "fontSize": 16,
-                    "lineHeight": 19.2,
+                    "fontSize": 14,
+                    "lineHeight": 16.8,
                   },
                   Object {
                     "fontFamily": "Circular Std Medium",

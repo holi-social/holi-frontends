@@ -27,14 +27,14 @@ export const getRelativeDateString = (dateStr = '', language: string) => {
     dayOfCurrentWeek = 6
   }
   const daysAgo = Math.floor(calculateNumberOfDaysAgo(date))
-  const isBeforeThisWeek = daysAgo > dayOfCurrentWeek
+  const isNotYesterdayAndBeforeThisWeek = daysAgo > 1 && daysAgo > dayOfCurrentWeek
 
-  if (isBeforeThisWeek) {
+  if (isNotYesterdayAndBeforeThisWeek) {
     weeksAgo = Math.ceil((daysAgo - dayOfCurrentWeek) / 7)
   }
 
   return new Intl.RelativeTimeFormat(language, {
     style: 'long',
     numeric: 'auto',
-  }).format(isBeforeThisWeek ? -weeksAgo : -daysAgo, isBeforeThisWeek ? 'weeks' : 'days')
+  }).format(isNotYesterdayAndBeforeThisWeek ? -weeksAgo : -daysAgo, isNotYesterdayAndBeforeThisWeek ? 'weeks' : 'days')
 }
