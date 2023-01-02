@@ -1,6 +1,6 @@
 import { Topic, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 
-export const getDefaultLocation = (locale: string) => (locale === 'de' ? 'Deutschland' : 'Germany')
+export const DEFAULT_LOCATION = 'Germany' // Spaces location has no translation
 
 export const getDefaultTopicIds = (topics: Topic[], userTopicIds: string[]) =>
   topics

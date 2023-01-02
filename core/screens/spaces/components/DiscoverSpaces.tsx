@@ -6,7 +6,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { displayError } from '@holi/core/errors/helpers'
 import DiscoverSpacesView from '@holi/core/screens/spaces/components/DiscoverSpacesView'
 import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
-import { getDefaultLocation, getDefaultTopicIds } from '@holi/core/screens/spaces/helpers/defaultFilters'
+import { DEFAULT_LOCATION, getDefaultTopicIds } from '@holi/core/screens/spaces/helpers/defaultFilters'
 import { DiscoverSpacesResponse, discoverSpacesQuery } from '@holi/core/screens/spaces/queries'
 import { User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -20,7 +20,7 @@ type DiscoverSpacesProps = {
 }
 
 const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const mixins = useStyleMixins()
 
   const { loading: topicsLoading, topics = [] } = useContext(SpaceTermContext)
@@ -51,13 +51,12 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
     })
 
   // default spaces suggestions
-  const defaultLocation = getDefaultLocation(i18n.language)
   const [fetchDefault, { loading: loadingDefaultData, data: dataDefault, error: errorDefault }] =
     useLazyQuery<DiscoverSpacesResponse>(discoverSpacesQuery, {
       variables: {
         topicIds: defaultTopicIds,
         location:
-          (user?.location || '').toLocaleLowerCase() === defaultLocation.toLocaleLowerCase() ? null : defaultLocation,
+          (user?.location || '').toLocaleLowerCase() === DEFAULT_LOCATION.toLocaleLowerCase() ? null : DEFAULT_LOCATION,
         limit: SPACES_PAGE_SIZE,
         offset: 0,
       },
