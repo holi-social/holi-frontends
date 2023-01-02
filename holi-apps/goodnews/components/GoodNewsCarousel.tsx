@@ -33,7 +33,8 @@ type CarouselItem = {
 const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
   const { i18n } = useTranslation()
   const { width, height } = useWindowDimensions()
-  const styles = useMemo(() => getStyles(width, height), [width, height])
+  const styles = useMemo(() => getStyles(width, height, paginationDotAreaHeight), [width, height])
+  const paginationDotAreaHeight = 40
   const { setOptions } = useUnifiedNavigation()
   const { loading, error, data, fetchMore } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
     GoodNewsArticlesQuery,
@@ -46,7 +47,6 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
   )
   const articles = data?.appGoodNews_articles.articles
   const previousDateTeaser = data?.appGoodNews_articles.previousDateTeaser
-  const paginationDotAreaHeight = 40
 
   const [fetchingMore, setFetchingMore] = useState(false)
 
@@ -80,6 +80,28 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
     })
   }, [setOptions, articles, activeArticleIndex])
 
+  const renderItem = useCallback(
+    ({ item, index }) => {
+      const accessible = index === activeArticleIndex
+      return item.type === 'article' ? (
+        <GoodNewsArticleComponent
+          article={item.article}
+          key={item.article.id}
+          accessible={accessible}
+          style={{ paddingBottom: paginationDotAreaHeight }}
+        />
+      ) : (
+        <GoodNewsTeaserComponent
+          article={item.article}
+          key={item.article.id}
+          fetchMore={memoizedFetchMore}
+          accessible={accessible}
+        />
+      )
+    },
+    [activeArticleIndex, memoizedFetchMore]
+  )
+
   if (error) {
     logError(error, `[GoodNewsCarousel.tsx] ${error.message}`)
   }
@@ -106,27 +128,16 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
         style={styles.carousel}
         loop={false}
         data={carouselItems}
-        renderItem={({ item }) =>
-          item.type === 'article' ? (
-            <GoodNewsArticleComponent
-              article={item.article}
-              key={item.article.id}
-              style={{ paddingBottom: paginationDotAreaHeight }}
-            />
-          ) : (
-            <GoodNewsTeaserComponent
-              article={item.article}
-              key={item.article.id}
-              fetchMore={memoizedFetchMore}
-              style={styles.teaser}
-            />
-          )
-        }
+        renderItem={renderItem}
         onSnapToItem={setActiveArticleIndex}
         scrollAnimationDuration={250}
         testID={'goodnews-list-container'}
       />
-      <SafeAreaView style={styles.paginationDotArea}>
+      <SafeAreaView
+        style={styles.paginationDotArea}
+        importantForAccessibility="no-hide-descendants"
+        accessibilityElementsHidden={true}
+      >
         {!fetchingMore && (
           <PaginationDot
             activeDotColor={colors.backgroundColorModalDark}
@@ -143,8 +154,11 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
 
 export default GoodNewsCarousel
 
-const getStyles = (width: number, height: number) =>
+const getStyles = (width: number, height: number, paginationDotAreaHeight: number) =>
   StyleSheet.create({
+    article: {
+      paddingBottom: paginationDotAreaHeight,
+    },
     carousel: {
       width: width,
       height: height,
@@ -152,7 +166,8 @@ const getStyles = (width: number, height: number) =>
     paginationDotArea: {
       zIndex: -1,
       backgroundColor: 'transparent',
-      bottom: Platform.OS === 'web' ? 32 : 0,
+      bottom: 24,
+      minHeight: paginationDotAreaHeight,
       position: 'absolute',
       alignSelf: 'center',
       flexDirection: 'row',

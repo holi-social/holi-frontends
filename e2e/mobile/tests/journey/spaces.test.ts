@@ -13,10 +13,6 @@ const navigateToSpaces = async () => {
 }
 
 describe('@Spaces', () => {
-  beforeEach(async () => {
-    await navigateToSpaces()
-  })
-
   afterEach(async () => {
     // Speeds up local execution
     if (target === 'local') {
@@ -24,14 +20,25 @@ describe('@Spaces', () => {
     }
   })
 
-  it('should display multiple topics with spaces', async () => {
-    const topics = await locateMultipleElementsWithTestId('spaces-topic-container')
-    expect(topics.length).toBeGreaterThan(1)
-    const spaces = await locateMultipleElementsWithTestId('btn-to-space')
-    expect(spaces.length).toBeGreaterThan(1)
+  it('should support the user journey', async () => {
+    // preparation of test
+    await navigateToSpaces()
+
+    await assertMultipleGroupsDisplayed()
+
+    await assertSpaceDetails()
+
+    await assertFilteringWorks()
   })
 
-  it('should open the spaces filter menu and filter spaces with multiple filters', async () => {
+  const assertMultipleGroupsDisplayed = async () => {
+    const groups = await locateMultipleElementsWithTestId('spaces-group-slider')
+    expect(groups.length).toBeGreaterThan(0)
+    const spaces = await locateMultipleElementsWithTestId('btn-to-space')
+    expect(spaces.length).toBeGreaterThan(0)
+  }
+
+  const assertFilteringWorks = async () => {
     await tapOnElementWithTestId('btn-filter-spaces')
 
     const locationFilterValue = 'Berlin'
@@ -57,15 +64,9 @@ describe('@Spaces', () => {
 
     // check if the filtered spaces container is shown
     await waitForElementWithTestId('filtered-spaces-container')
+  }
 
-    // Speeds up local execution
-    if (target === 'local') {
-      // navigate back
-      await tapOnElementWithTestId('nav-button-back')
-    }
-  })
-
-  it('should display space details', async () => {
+  const assertSpaceDetails = async () => {
     // click first element on page
     await tapOnElementWithTestId('btn-to-space')
 
@@ -86,16 +87,13 @@ describe('@Spaces', () => {
     // check if space collaborators are displayed
     await waitForElementWithTestId('spaces-collaborators-item')
 
-    // Speeds up local execution
-    if (target === 'local') {
-      // close space collaborators modal
-      await tapOnElementWithTestId('nav-button-back')
+    // close space collaborators modal
+    await tapOnElementWithTestId('nav-button-back')
 
-      // wait until space details are displayed again
-      await waitForElementWithTestId('space-details-container')
+    // wait until space details are displayed again
+    await waitForElementWithTestId('space-details-container')
 
-      // close space details page
-      await tapOnElementWithTestId('nav-button-back')
-    }
-  })
+    // close space details page
+    await tapOnElementWithTestId('nav-button-back')
+  }
 })

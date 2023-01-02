@@ -2,6 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Animated, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -12,12 +13,18 @@ import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 type GoodNewsTeaserComponentProps = {
   article: GoodNewsArticle
+  accessible?: boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fetchMore: () => any
   style?: StyleProp<ViewStyle>
 }
 
-const GoodNewsTeaserComponent: React.VFC<GoodNewsTeaserComponentProps> = (props: GoodNewsTeaserComponentProps) => {
+const GoodNewsTeaserComponent: React.VFC<GoodNewsTeaserComponentProps> = ({
+  article,
+  style,
+  fetchMore,
+  accessible = true,
+}: GoodNewsTeaserComponentProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
@@ -39,27 +46,31 @@ const GoodNewsTeaserComponent: React.VFC<GoodNewsTeaserComponentProps> = (props:
     ],
   }
 
-  const fetchMoreArticles = () => {
+  const animateAndFetchMore = () => {
     Animated.timing(imageContainerAnimation, {
       toValue: 1,
       duration: 700,
       useNativeDriver: true,
     }).start(() => {
-      props.fetchMore()
+      fetchMore()
     })
   }
 
   return (
-    <View style={[mixins.container, styles.container, props.style]}>
+    <View
+      style={[mixins.container, styles.container, style]}
+      accessibilityElementsHidden={!accessible}
+      importantForAccessibility={accessible ? 'yes' : 'no-hide-descendants'}
+    >
       <View style={styles.lookingForMore}>
-        <HoliText size="extralarge">{t('goodnews:listing.teaser.title')}</HoliText>
+        <HoliHeading level="1">{t('goodnews:listing.teaser.title')}</HoliHeading>
         <HoliText size="large" style={styles.description}>
           {t('goodnews:listing.teaser.description')}
         </HoliText>
         <HoliButton
           label={t('goodnews:button.loadMoreArticles.label')}
-          style={styles.clearBtn}
-          onPress={fetchMoreArticles}
+          style={styles.loadMoreBtn}
+          onPress={animateAndFetchMore}
         >
           <HoliText bold style={styles.btnText}>
             {t('goodnews:listing.loadMoreButton.text')}
@@ -67,7 +78,7 @@ const GoodNewsTeaserComponent: React.VFC<GoodNewsTeaserComponentProps> = (props:
         </HoliButton>
       </View>
       <Animated.View style={[styles.imageContainer, imageContainerAnimationStyle]}>
-        <HoliImage source={{ uri: props.article.pictureUrl }} label={props.article.headline} style={styles.mainImage} />
+        <HoliImage source={{ uri: article.pictureUrl }} label={article.headline} style={styles.mainImage} />
       </Animated.View>
     </View>
   )
@@ -80,7 +91,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  clearBtn: {
+  loadMoreBtn: {
     width: 'auto',
     borderWidth: 1,
   },
@@ -92,7 +103,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-end',
-
     paddingBottom: 72,
   },
   imageContainer: {
