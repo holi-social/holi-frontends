@@ -48,6 +48,7 @@ export const useSoftKeyboard = (props?: useSoftKeyboardProps) => {
   const { preventAutoScrolling, scrollDebounce, viewportDebounce, active } = { ...defaultProps, ...props }
   const [lastViewPortHeight, setLastViewPortHeight] = useState(0)
   const [lastWindowHeight, setLastWindowHeight] = useState(0)
+  const [lastKeyboardHeight, setLastKeyboardHeight] = useState(0)
   const [lastKeyboardOpen, setLastKeyboardOpen] = useState<boolean>()
 
   const onResize = useDebounce((event?: SyntheticEvent<Event>) => {
@@ -58,6 +59,7 @@ export const useSoftKeyboard = (props?: useSoftKeyboardProps) => {
     let keyboardIsOpen = windowHeight > viewPortHeight
     const stateHasChanged = keyboardIsOpen !== lastKeyboardOpen
     const windowHeightHasChanged = windowHeight !== lastWindowHeight
+    const keyboarHeight = windowHeight - viewPortHeight
 
     if (keyboardIsOpen) {
       if (!stateHasChanged && windowHeightHasChanged && viewPortHeight !== windowHeight) {
@@ -76,7 +78,8 @@ export const useSoftKeyboard = (props?: useSoftKeyboardProps) => {
 
     setLastWindowHeight(windowHeight)
     setLastKeyboardOpen(keyboardIsOpen)
-    setLastViewPortHeight(viewPortHeight)
+    setLastViewPortHeight(viewPortHeight - 10)
+    setLastKeyboardHeight(keyboarHeight)
   }, viewportDebounce)
 
   const scrollToTop = useDebounce(() => {
@@ -98,6 +101,7 @@ export const useSoftKeyboard = (props?: useSoftKeyboardProps) => {
 
   return {
     softkeyboardIsOpen: !!lastKeyboardOpen,
+    softkeyboardHeight: lastKeyboardHeight,
     viewPortHeight: lastViewPortHeight,
   }
 }

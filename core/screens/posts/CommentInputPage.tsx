@@ -85,7 +85,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
    */
   const scrollIntoView = useCallback(() => {
     if (Platform.OS === 'web') {
-      setTimeout(() => scrollViewRef.current?.scrollToEnd({ animated: true }), 10)
+      scrollViewRef.current?.scrollToEnd({ animated: true })
     } else {
       const paddingTop = screenHeight < SMALL_DEVICE_HEIGHT ? 50 : 20
       if (scrollContentHeight <= 0) return
@@ -133,7 +133,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={[styles.pageView]}>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
       <ScrollView
         onContentSizeChange={scrollIntoView}
         ref={scrollViewRef}

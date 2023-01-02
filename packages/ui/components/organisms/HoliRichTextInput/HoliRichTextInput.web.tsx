@@ -23,7 +23,7 @@ import type { HoliRichTextInputProps } from './HoliRichTextInput'
 const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   initalValue = '',
   placeholder = '...',
-  autofocus = true,
+  autofocus = false,
   minSearchChars = 2,
   maxSuggestionOptions = 5,
   debounceDelay = 300,
