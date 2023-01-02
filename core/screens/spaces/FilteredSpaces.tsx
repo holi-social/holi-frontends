@@ -108,34 +108,36 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
         style={styles.wrapper}
         testID="filtered-spaces-container"
       >
-        <FilteredSpacesHeading {...filters} />
-        {spaces.length > 0 && <SpacesGrid style={[mixins.container, styles.grid]} spaces={spaces} />}
-        {!spaces.length &&
-          (loading ? (
-            // TODO: replace with proper loading indicator
-            <View style={[mixins.container, styles.messageContainer]}>
-              <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
-            </View>
-          ) : (
-            <HoliNoResults
-              firstText={t('spaces.filter.notFound.title')}
-              secondText={t('spaces.filter.notFound.description')}
-              style={[mixins.container, styles.noResults]}
-            >
-              <HoliButton label={t('search.filter.reset')} onPress={() => navigate('/spaces')} inline>
-                {t('search.filter.reset')}
-              </HoliButton>
-            </HoliNoResults>
-          ))}
+        <View style={mixins.container}>
+          <FilteredSpacesHeading {...filters} />
+          {spaces.length > 0 && <SpacesGrid style={styles.grid} spaces={spaces} />}
+          {!spaces.length &&
+            (loading ? (
+              // TODO: replace with proper loading indicator
+              <View style={styles.messageContainer}>
+                <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
+              </View>
+            ) : (
+              <HoliNoResults
+                firstText={t('spaces.filter.notFound.title')}
+                secondText={t('spaces.filter.notFound.description')}
+                style={styles.noResults}
+              >
+                <HoliButton label={t('search.filter.reset')} onPress={() => navigate('/spaces')} inline>
+                  {t('search.filter.reset')}
+                </HoliButton>
+              </HoliNoResults>
+            ))}
 
-        {canFetchMore && (
-          <View style={[mixins.container, styles.buttonContainer]}>
-            <HoliButton label={fetchMoreButtonText} disabled={fetchingMore} onPress={memoizedFetchMore}>
-              <HoliText style={fetchingMore && styles.buttonText}>{fetchMoreButtonText}</HoliText>
-              {fetchingMore && <HoliIcon spinning icon="loader-4" size={16} />}
-            </HoliButton>
-          </View>
-        )}
+          {canFetchMore && (
+            <View style={[mixins.container, styles.buttonContainer]}>
+              <HoliButton label={fetchMoreButtonText} disabled={fetchingMore} onPress={memoizedFetchMore}>
+                <HoliText style={fetchingMore && styles.buttonText}>{fetchMoreButtonText}</HoliText>
+                {fetchingMore && <HoliIcon spinning icon="loader-4" size={16} />}
+              </HoliButton>
+            </View>
+          )}
+        </View>
       </DefaultLayout>
       <SpaceFilterModal filters={filters} applyFilters={applyFilters} />
     </SpaceTermContextProvider>
@@ -162,9 +164,7 @@ const getStyles = (deviceHeight: number) =>
       marginTop: 50,
     },
     noResults: {
-      paddingVertical: 40,
-      paddingHorizontal: 24,
-      margin: 24,
+      marginTop: 24,
     },
   })
 
