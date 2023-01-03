@@ -82,8 +82,8 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
     [setSkillIds]
   )
 
-  // Loading or error state just hides the component
-  if (loading || loadingFailed) {
+  // Error state just hides the component
+  if (loadingFailed) {
     return <></>
   }
 
@@ -114,10 +114,10 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
         <HoliModalContentWrapper
           actionButtonText={t('spaces.filter.submit')}
           onActionButtonPress={submit}
-          style={styles.modalWrapper}
           scrollable={false}
+          loading={loading}
         >
-          <View style={[mixins.container]}>
+          <View style={[mixins.container, styles.container]}>
             <HoliHeading level="2">{t('spaces.filter.heading')}</HoliHeading>
             <PlacesAutocomplete
               label={t('spaces.filter.location.label')}
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   filterOption: {
     marginTop: 24,
   },
-  modalWrapper: {
+  container: {
     height: '100%',
   },
 })
