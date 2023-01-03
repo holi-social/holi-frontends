@@ -88,8 +88,6 @@ export const HoliToast: React.FC<HoliToastProps> = ({ closeToast, type, text, ti
     return () => clearTimeout(timer)
   }, [closeToast, timeout])
 
-  console.log(`using testID ${`toast-${testID ? testID : type}`}`)
-
   return (
     <HoliButton
       transparent
