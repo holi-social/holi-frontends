@@ -35,7 +35,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
   show = false,
   label,
   onDismiss,
-  relativeHeight = 1,
+  relativeHeight = 0.9,
   testID,
   autoHeight = true,
   children,

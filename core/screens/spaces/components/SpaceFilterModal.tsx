@@ -109,6 +109,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
         show={showFilterModal}
         onDismiss={closeModal}
         testID="space-filter-modal"
+        relativeHeight={1}
         autoHeight={false}
       >
         <HoliModalContentWrapper

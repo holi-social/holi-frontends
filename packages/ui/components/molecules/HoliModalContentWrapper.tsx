@@ -1,5 +1,14 @@
 import React from 'react'
-import { Platform, ScrollView, ScrollViewProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import {
+  // KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  ScrollViewProps,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from 'react-native'
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -86,7 +95,6 @@ const styles = StyleSheet.create({
     maxHeight: '100%',
     width: '100%',
     maxWidth: 800,
-    // flex: 1,
     ...(Platform.OS === 'web' ? { flex: 1 } : {}),
   },
   loaderContainer: {
