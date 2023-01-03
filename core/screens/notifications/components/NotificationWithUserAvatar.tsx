@@ -51,7 +51,7 @@ const NotificationWithUserAvatar: React.FC<NotificationWithUserAvatarProps> = ({
                   </Trans>
                 </HoliText>
 
-                <HoliText size="small" style={[styles.fontColorGray, styles.createdDate]}>
+                <HoliText size="extrasmall" style={[styles.fontColorGray, styles.createdDate]}>
                   {getRelativeDateString(created, i18n.language)}
                 </HoliText>
               </>

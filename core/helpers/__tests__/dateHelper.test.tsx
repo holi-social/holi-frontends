@@ -30,13 +30,17 @@ describe('formats date strings to relative date strings correctly', () => {
 
   it('formats correctly this weeks date', () => {
     const date = new Date()
+    let dayOfWeek = date.getDay() - 1
+    if (dayOfWeek < 0) {
+      dayOfWeek = 6
+    }
     date.setDate(date.getDate() - 2)
 
     const dateString = date.toDateString()
 
     const formattedDateString = getRelativeDateString(dateString, language)
 
-    expect(formattedDateString).toBe('this week')
+    expect(formattedDateString).toBe(dayOfWeek + 1 > 2 ? 'this week' : 'last week')
   })
 
   it('formats correctly last weeks date', () => {
