@@ -7,11 +7,14 @@ import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { isLastWeek, isThisWeek, useScrollYHandler } from '@holi/core/helpers'
 import i18n from '@holi/core/i18n'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import NotificationItem from '@holi/core/screens/notifications/components/NotificationItem'
+import NotificationItem, { SHOWN_NOTIFICATIONS } from '@holi/core/screens/notifications/components/NotificationItem'
 import { Notification } from '@holi/core/screens/notifications/components/types'
 import { NotificationsResponse, notificationsQuery } from '@holi/core/screens/notifications/queries'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -20,7 +23,15 @@ interface NotificationGroup {
   data: Notification[]
 }
 
-const sortNotificationsByDate = (notifications: Notification[]) => {
+const containsNotifications = (notifications?: Notification[]) => {
+  if (!notifications) return false
+  return notifications.some((notification) => {
+    return SHOWN_NOTIFICATIONS.includes(notification.notificationType)
+  })
+}
+
+const sortNotificationsByDate = (notifications?: Notification[]) => {
+  if (!notifications) return []
   return notifications
     .reduce(
       (acc, notification) => {
@@ -61,6 +72,7 @@ const Notifications: React.VFC = () => {
   const { setOptions } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
   const { isLoggedIn } = useAuth()
+  const { navigate } = useRouting()
 
   const [getNotifications, { data, error, loading }] = useLazyQuery<NotificationsResponse>(notificationsQuery, {
     variables: { offset: 0, limit: 100 },
@@ -89,9 +101,36 @@ const Notifications: React.VFC = () => {
     [setOptions, title]
   )
 
-  if (loading || error || !data) return <View style={styles.mainWrapper} />
+  if (loading || error) return <View style={styles.mainWrapper} />
 
-  const sortedNotificationsByDate = sortNotificationsByDate(data.notifications.data)
+  if (!isLoggedIn) {
+    return (
+      <View style={[styles.mainWrapper, mixins.container]}>
+        <HoliNoResults
+          firstText={t('loginRedirect.title')}
+          secondText={t('loginRedirect.text')}
+          style={[styles.emptyMessage]}
+        >
+          <HoliButton label={t('loginRedirect.btnConfirm')} onPress={() => navigate('/login')}>
+            {t('loginRedirect.btnConfirm')}
+          </HoliButton>
+        </HoliNoResults>
+      </View>
+    )
+  }
+
+  if (!containsNotifications(data?.notifications?.data))
+    return (
+      <View style={[styles.mainWrapper, mixins.container]}>
+        <HoliNoResults
+          firstText={t('notifications.display.empty.text1')}
+          secondText={t('notifications.display.empty.text2')}
+          style={[styles.emptyMessage]}
+        />
+      </View>
+    )
+
+  const sortedNotificationsByDate = sortNotificationsByDate(data?.notifications?.data)
 
   return (
     <>
@@ -103,11 +142,7 @@ const Notifications: React.VFC = () => {
           keyExtractor={({ id }) => id}
           renderItem={({ item }) => <NotificationItem notification={item} style={styles.notification} />}
           renderSectionHeader={({ section }) => (
-            <HoliHeading
-              size="small"
-              // add margin top for first section header to have space before HeaderAnimated
-              style={[styles.groupTitle, section === sortedNotificationsByDate[0] && styles.firstGroupTitle]}
-            >
+            <HoliHeading size="small" style={styles.groupTitle}>
               {section.title}
             </HoliHeading>
           )}
@@ -133,6 +168,7 @@ const styles = StyleSheet.create({
   mainWrapper: {
     flex: 1,
     backgroundColor: colors.backgroundColorGreyLight,
+    paddingTop: vars.topBarHeight,
     ...Platform.select({
       web: {
         height: '100vh',
@@ -142,13 +178,13 @@ const styles = StyleSheet.create({
   groupTitle: {
     paddingVertical: 12,
   },
-  firstGroupTitle: {
-    marginTop: vars.topBarHeight,
-  },
   lastSectionFooter: {
     marginBottom: vars.bottomBarHeight,
   },
   notification: {
     paddingVertical: 12,
+  },
+  emptyMessage: {
+    marginTop: 24,
   },
 })
