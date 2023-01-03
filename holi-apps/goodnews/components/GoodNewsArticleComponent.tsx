@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ImageBackground, Linking, Platform, StyleSheet, View } from 'react-native'
+import { ImageBackground, Linking, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -14,19 +14,21 @@ import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 type GoodNewsArticleComponentProps = {
   article: GoodNewsArticle
+  style?: StyleProp<ViewStyle>
   accessible?: boolean
 }
 
 const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = ({
   article,
   accessible = true,
+  style,
 }: GoodNewsArticleComponentProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
   return (
     <View
-      style={styles.container}
+      style={[styles.container, style]}
       testID={'goodnews-article-component'}
       accessibilityElementsHidden={!accessible}
       importantForAccessibility={accessible ? 'yes' : 'no-hide-descendants'}
@@ -92,7 +94,6 @@ const styles = StyleSheet.create({
   /* CONTENT CONTAINER */
   contentContainer: {
     flexGrow: 1,
-    backgroundColor: colors.backgroundColorGreyLight,
     paddingTop: 16,
     paddingBottom: 14,
     ...Platform.select({
