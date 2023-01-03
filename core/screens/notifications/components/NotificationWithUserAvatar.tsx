@@ -24,18 +24,19 @@ const NotificationWithUserAvatar: React.FC<NotificationWithUserAvatarProps> = ({
   style,
   testID = '',
 }) => {
+  const { t, i18n } = useTranslation()
   const { created, read } = notification
   const { id: userId, avatar, avatarDefaultColor, avatarLabel, fullName } = notification.options.user
-  const { t, i18n } = useTranslation()
   href = href || `/profile/${userId}`
+  const userFullName = fullName || t('user.profileView.anonymous')
 
   return (
     <View style={style} testID={`${testID && testID + '-'}notification-item`}>
-      <HoliLink href={href} label={fullName} mobileNavigateBackFirst>
+      <HoliLink href={href} label={userFullName} mobileNavigateBackFirst>
         <View style={styles.link}>
           <HoliUserAvatar
             imageSrc={avatar}
-            label={fullName}
+            label={userFullName}
             initials={avatarLabel || ''}
             defaultColor={avatarDefaultColor || ''}
             size="small"
@@ -45,7 +46,7 @@ const NotificationWithUserAvatar: React.FC<NotificationWithUserAvatarProps> = ({
             {content || (
               <>
                 <HoliText size="small" style={styles.fontColorGray}>
-                  <Trans t={t} i18nKey={i18nKey} values={{ name: fullName }}>
+                  <Trans t={t} i18nKey={i18nKey} values={{ name: userFullName }}>
                     <HoliText size="small" />
                   </Trans>
                 </HoliText>
