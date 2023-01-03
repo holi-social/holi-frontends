@@ -148,8 +148,8 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
                 "fontWeight": "400",
               },
               Object {
-                "fontSize": 14,
-                "lineHeight": 16.8,
+                "fontSize": 12,
+                "lineHeight": 14.399999999999999,
               },
               false,
               Array [
@@ -163,7 +163,7 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
             ]
           }
         >
-          last week
+          2 weeks ago
         </Text>
       </View>
       <View
