@@ -86,7 +86,8 @@ const styles = StyleSheet.create({
     maxHeight: '100%',
     width: '100%',
     maxWidth: 800,
-    ...(Platform.OS === 'web' ? { minHeight: '100%' } : {}),
+    // flex: 1,
+    ...(Platform.OS === 'web' ? { flex: 1 } : {}),
   },
   loaderContainer: {
     ...StyleSheet.absoluteFillObject,

@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Animated, ModalProps, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Animated, ModalProps, Platform, SafeAreaView, StyleSheet, View, useWindowDimensions } from 'react-native'
 import {
   GestureEvent,
   GestureHandlerRootView,
@@ -14,47 +14,37 @@ import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import { colors } from '@holi/ui/styles/globalVars'
 import { vars } from '@holi/ui/styles/globalVars'
 
+const FULLSCREEN_HEIGHT_THRESHOLD = 0.94
+
 /**
  *
- * @returns 100 (full screen) for heights above the MIN_HEIGHT_THRESHOLD, or a fixedHeight based on relativeHeight, minRelativeHeight and maxHeight
+ * "relativeHeight" with "autoHeight === true" works like "max-height"
+ * "relativeHeight" with "autoHeight === false" works like fixed "height"
  */
-const getFixedHeight = (relativeHeight: number, maxHeight: number, minRelativeHeight?: number) => {
-  const MIN_HEIGHT_THRESHOLD = 0.94
-  const fixedHeight = minRelativeHeight ? Math.min(minRelativeHeight, relativeHeight) * 100 : maxHeight
-
-  return fixedHeight >= MIN_HEIGHT_THRESHOLD ? 100 : fixedHeight
-}
-
 export type HoliModalProps = ModalProps & {
   show: boolean
   label: string
   onDismiss: () => void
   relativeHeight?: number
-  minRelativeHeight?: number
   autoHeight?: boolean
   testID?: string
   children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild>
 }
 
-/*
-  "relativeHeight" with "autoHeight === true" works like "max-height"
-  "relativeHeight" with "autoHeight === false" works like fix "height"
-  "minRelativeHeight" is "min-height" and if "minRelativeHeight" is bigger than "relativeHeight" the lower value will be used
-*/
 const HoliModal: React.FC<HoliModalProps> = ({
   show = false,
   label,
   onDismiss,
   relativeHeight = 1,
-  minRelativeHeight,
   testID,
   autoHeight = true,
   children,
 }) => {
   const { t } = useTranslation()
   const [visible, setVisible] = useState(show)
-  const { width: deviceWidth } = useWindowDimensions()
+  const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
   const [isTouch, setIsTouch] = useState(true)
+  const [isFullscreen, setIsFullscreen] = useState(relativeHeight === 1 && !autoHeight)
 
   // value for appearance animation
   const animShift = useRef(new Animated.Value(0)).current
@@ -112,9 +102,8 @@ const HoliModal: React.FC<HoliModalProps> = ({
     }
   }, [])
 
-  const maxHeight = relativeHeight * 100
-  const minHeight = minRelativeHeight ? Math.min(minRelativeHeight, relativeHeight) * 100 : 0
-  const fixedHeight = getFixedHeight(relativeHeight, maxHeight, minRelativeHeight)
+  // any height above or equal to the threshold should default to 100% height
+  const height = relativeHeight >= FULLSCREEN_HEIGHT_THRESHOLD ? 100 : relativeHeight * 100
 
   return (
     <>
@@ -136,19 +125,22 @@ const HoliModal: React.FC<HoliModalProps> = ({
               {
                 bottom: animShiftInterpolated,
                 transform: [{ translateY: gestureShift }],
-                maxHeight: `${maxHeight}%`,
-                minHeight: `${minHeight}%`,
-                ...(!autoHeight && { height: `${fixedHeight}%` }),
+                maxHeight: `${height}%`,
+                ...(!autoHeight && { height: `${height}%` }),
               },
-              fixedHeight === 100 ? styles.fullscreen : {},
+              isFullscreen && styles.fullscreen,
             ]}
+            onLayout={(event) => {
+              const { height: modalHeight } = event.nativeEvent.layout
+              setIsFullscreen(modalHeight >= deviceHeight)
+            }}
             testID={`${testID}-animatedview`}
           >
-            <View style={styles.headerContainer}>
-              {isTouch && deviceWidth < +vars.breakpointL ? (
+            <SafeAreaView style={styles.headerContainer}>
+              {!isFullscreen && isTouch && deviceWidth < +vars.breakpointL ? (
                 <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
                   <View style={styles.handle}>
-                    <HoliButton label={t('modal.backdrop')} style={{ padding: 10 }} onPress={onDismiss} transparent>
+                    <HoliButton label={t('modal.backdrop')} style={{ padding: 15 }} onPress={onDismiss} transparent>
                       <View style={styles.line} />
                     </HoliButton>
                   </View>
@@ -164,7 +156,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
                   <HoliIcon icon="close" color={colors.fontColorBlack} size={25} />
                 </HoliButton>
               )}
-            </View>
+            </SafeAreaView>
             {children}
           </Animated.View>
         </GestureHandlerRootView>
@@ -185,7 +177,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     overflow: 'hidden',
-    paddingTop: 47,
+    // paddingTop: 47,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -197,9 +189,9 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 0,
   },
   headerContainer: {
-    position: 'absolute',
-    top: 0,
-    width: '100%',
+    // position: 'absolute',
+    // top: 0,
+    // width: '100%',
     alignItems: 'center',
   },
   handle: {

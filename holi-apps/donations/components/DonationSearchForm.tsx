@@ -67,11 +67,10 @@ export default DonationSearchForm
 
 const styles = StyleSheet.create({
   modalWrapper: {
-    height: '100%',
+    flex: 1,
   },
   container: {
     marginHorizontal: 16,
-    height: '100%',
   },
   headingRow: {
     flexDirection: 'row',

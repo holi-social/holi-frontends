@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
   modalWrapper: {
-    height: '100%',
+    flex: 1,
   },
 })
 
