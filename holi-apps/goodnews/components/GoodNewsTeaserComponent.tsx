@@ -61,7 +61,7 @@ const GoodNewsTeaserComponent: React.VFC<GoodNewsTeaserComponentProps> = ({
       style={[mixins.container, styles.container, style]}
       accessibilityElementsHidden={!accessible}
       importantForAccessibility={accessible ? 'yes' : 'no-hide-descendants'}
-      testID="teaser-container"
+      testID="goodnews-teaser-container"
     >
       <View style={styles.lookingForMore}>
         <HoliHeading level="1">{t('goodnews:listing.teaser.title')}</HoliHeading>
@@ -72,19 +72,19 @@ const GoodNewsTeaserComponent: React.VFC<GoodNewsTeaserComponentProps> = ({
           label={t('goodnews:button.loadMoreArticles.label')}
           style={styles.loadMoreBtn}
           onPress={animateAndFetchMore}
-          testID="btn-fetch-more"
+          testID="btn-goodnews-list-load-more"
         >
           <HoliText bold style={styles.btnText}>
             {t('goodnews:listing.loadMoreButton.text')}
           </HoliText>
         </HoliButton>
       </View>
-      <Animated.View style={[styles.imageContainer, imageContainerAnimationStyle]} testID="teaser-image-container">
+      <Animated.View style={[styles.imageContainer, imageContainerAnimationStyle]}>
         <HoliImage
           source={{ uri: article.pictureUrl }}
           label={article.headline}
           style={styles.mainImage}
-          testID="teaser-image"
+          testID="goodnews-teaser-image"
         />
       </Animated.View>
     </View>

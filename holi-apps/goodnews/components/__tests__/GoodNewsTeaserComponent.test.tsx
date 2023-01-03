@@ -9,14 +9,14 @@ describe('GoodNewsTeaserComponent', () => {
 
   it('renders correctly', () => {
     render(<GoodNewsTeaserComponent article={article} fetchMore={memoizedFetchMore} />)
-    expect(screen.getByTestId('teaser-container')).toBeDefined()
-    expect(screen.getByTestId('btn-fetch-more')).toBeDefined()
-    expect(screen.getByTestId('teaser-image')).toBeDefined()
+    expect(screen.getByTestId('goodnews-teaser-container')).toBeDefined()
+    expect(screen.getByTestId('btn-goodnews-list-load-more')).toBeDefined()
+    expect(screen.getByTestId('goodnews-teaser-image')).toBeDefined()
   })
 
   it('fetching more on button click', async () => {
     render(<GoodNewsTeaserComponent article={article} fetchMore={memoizedFetchMore} />)
-    fireEvent.press(screen.getByTestId('btn-fetch-more'))
+    fireEvent.press(screen.getByTestId('btn-goodnews-list-load-more'))
 
     // timeout is needed because of animation
     await new Promise((resolve) => setTimeout(resolve, 1000))
