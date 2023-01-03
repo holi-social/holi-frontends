@@ -242,6 +242,8 @@
   "spaces.spaceListing.loadMoreButton.loading": "Loading",
   "spaces.spaceListing.loadMoreButton.text": "See more",
   "spaces.spaceListing.loading": "Loading spaces...",
+  "spaces.tab.action": "Get involved",
+  "spaces.tab.info": "About",
   "spaces.tasks.cta_claim": "Ask to claim action...",
   "spaces.tasks.regularity.ONE_TIME": "one time",
   "spaces.tasks.regularity.PROJECT_BASED": "project-based",
