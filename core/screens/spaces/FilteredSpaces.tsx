@@ -10,7 +10,6 @@ import { logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import createParam, { arrayParamConfig, singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import FilteredNoResults from '@holi/core/screens/spaces/FilteredNoResults'
 import FilteredSpacesHeading from '@holi/core/screens/spaces/components/FilteredSpacesHeading'
 import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
@@ -20,6 +19,7 @@ import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -108,25 +108,36 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
         style={styles.wrapper}
         testID="filtered-spaces-container"
       >
-        <FilteredSpacesHeading {...filters} />
-        {spaces.length > 0 && <SpacesGrid style={[mixins.container, styles.grid]} spaces={spaces} />}
-        {!spaces.length &&
-          (loading ? (
-            // TODO: replace with proper loading indicator
-            <View style={[mixins.container, styles.messageContainer]}>
-              <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
+        <View style={mixins.container}>
+          <FilteredSpacesHeading {...filters} />
+          {spaces.length > 0 && <SpacesGrid style={styles.grid} spaces={spaces} />}
+          {!spaces.length &&
+            (loading ? (
+              // TODO: replace with proper loading indicator
+              <View style={styles.messageContainer}>
+                <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
+              </View>
+            ) : (
+              <HoliNoResults
+                firstText={t('spaces.filter.notFound.title')}
+                secondText={t('spaces.filter.notFound.description')}
+                style={styles.noResults}
+              >
+                <HoliButton label={t('search.filter.reset')} onPress={() => navigate('/spaces')} inline>
+                  {t('search.filter.reset')}
+                </HoliButton>
+              </HoliNoResults>
+            ))}
+
+          {canFetchMore && (
+            <View style={[mixins.container, styles.buttonContainer]}>
+              <HoliButton label={fetchMoreButtonText} disabled={fetchingMore} onPress={memoizedFetchMore}>
+                <HoliText style={fetchingMore && styles.buttonText}>{fetchMoreButtonText}</HoliText>
+                {fetchingMore && <HoliIcon spinning icon="loader-4" size={16} />}
+              </HoliButton>
             </View>
-          ) : (
-            <FilteredNoResults onPress={() => navigate('/spaces')} style={styles.noResults} />
-          ))}
-        {canFetchMore && (
-          <View style={[mixins.container, styles.buttonContainer]}>
-            <HoliButton label={fetchMoreButtonText} disabled={fetchingMore} onPress={memoizedFetchMore}>
-              <HoliText style={fetchingMore && styles.buttonText}>{fetchMoreButtonText}</HoliText>
-              {fetchingMore && <HoliIcon spinning icon="loader-4" size={16} />}
-            </HoliButton>
-          </View>
-        )}
+          )}
+        </View>
       </DefaultLayout>
       <SpaceFilterModal filters={filters} applyFilters={applyFilters} />
     </SpaceTermContextProvider>
@@ -153,9 +164,7 @@ const getStyles = (deviceHeight: number) =>
       marginTop: 50,
     },
     noResults: {
-      paddingVertical: 40,
-      paddingHorizontal: 24,
-      margin: 24,
+      marginTop: 24,
     },
   })
 
