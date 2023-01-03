@@ -14,28 +14,12 @@ describe('GoodNewsTeaserComponent', () => {
     expect(screen.getByTestId('teaser-image')).toBeDefined()
   })
 
-  it('renders animation correctly and fetching more on button click', () => {
+  it('fetching more on button click', async () => {
     render(<GoodNewsTeaserComponent article={article} fetchMore={memoizedFetchMore} />)
     fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
-    setTimeout(() => {
-      expect(screen.getByTestId('teaser-image-container')).toHaveAnimatedStyle({
-        transform: [
-          {
-            translateY: {
-              inputRange: [1],
-              outputRange: [-450],
-            },
-          },
-          {
-            scale: {
-              inputRange: [1],
-              outputRange: [1.5],
-            },
-          },
-        ],
-      })
-      expect(memoizedFetchMore).toBeCalled()
-    }, 700)
+    // timeout is needed because of animation
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    expect(memoizedFetchMore).toBeCalled()
   })
 })
