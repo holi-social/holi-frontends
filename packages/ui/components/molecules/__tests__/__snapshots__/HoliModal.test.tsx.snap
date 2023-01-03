@@ -98,16 +98,15 @@ exports[`renders correctly renders correctly when open 1`] = `
     </View>
     <View
       collapsable={false}
+      onLayout={[Function]}
       style={
         Object {
           "backgroundColor": "#fff",
           "borderTopLeftRadius": 24,
           "borderTopRightRadius": 24,
           "bottom": "0%",
-          "maxHeight": "96%",
-          "minHeight": "0%",
+          "maxHeight": "90%",
           "overflow": "hidden",
-          "paddingTop": 47,
           "shadowColor": "#000",
           "shadowOffset": Object {
             "height": 0,
@@ -122,13 +121,13 @@ exports[`renders correctly renders correctly when open 1`] = `
       }
       testID="undefined-animatedview"
     >
-      <View
+      <RCTSafeAreaView
+        emulateUnlessSupported={true}
         style={
           Object {
             "alignItems": "center",
-            "position": "absolute",
-            "top": 0,
-            "width": "100%",
+            "justifyContent": "flex-end",
+            "position": "relative",
           }
         }
       >
@@ -172,7 +171,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                   },
                 ],
                 Object {
-                  "padding": 10,
+                  "padding": 15,
                 },
               ]
             }
@@ -200,7 +199,7 @@ exports[`renders correctly renders correctly when open 1`] = `
             </View>
           </View>
         </View>
-      </View>
+      </RCTSafeAreaView>
     </View>
   </View>
 </Modal>

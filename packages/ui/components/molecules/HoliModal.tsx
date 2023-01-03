@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Animated, ModalProps, Platform, SafeAreaView, StyleSheet, View, useWindowDimensions } from 'react-native'
 import {
@@ -8,6 +8,7 @@ import {
   PanGestureHandler,
 } from 'react-native-gesture-handler'
 
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
@@ -25,6 +26,7 @@ export type HoliModalProps = ModalProps & {
   show: boolean
   label: string
   onDismiss: () => void
+  heading?: string
   relativeHeight?: number
   autoHeight?: boolean
   testID?: string
@@ -35,6 +37,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
   show = false,
   label,
   onDismiss,
+  heading,
   relativeHeight = 0.9,
   testID,
   autoHeight = true,
@@ -44,7 +47,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
   const [visible, setVisible] = useState(show)
   const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
   const [isTouch, setIsTouch] = useState(true)
-  const [isFullscreen, setIsFullscreen] = useState(relativeHeight === 1 && !autoHeight)
+  const [contentHeight, setContentHeight] = useState(0)
 
   // value for appearance animation
   const animShift = useRef(new Animated.Value(0)).current
@@ -103,7 +106,10 @@ const HoliModal: React.FC<HoliModalProps> = ({
   }, [])
 
   // any height above or equal to the threshold should default to 100% height
-  const height = relativeHeight >= FULLSCREEN_HEIGHT_THRESHOLD ? 100 : relativeHeight * 100
+  const height = useMemo(
+    () => (relativeHeight >= FULLSCREEN_HEIGHT_THRESHOLD || contentHeight >= deviceHeight ? 100 : relativeHeight * 100),
+    [relativeHeight, contentHeight, deviceHeight]
+  )
 
   return (
     <>
@@ -128,19 +134,22 @@ const HoliModal: React.FC<HoliModalProps> = ({
                 maxHeight: `${height}%`,
                 ...(!autoHeight && { height: `${height}%` }),
               },
-              isFullscreen && styles.fullscreen,
+              height == 100 && styles.fullscreen,
             ]}
             onLayout={(event) => {
-              const { height: modalHeight } = event.nativeEvent.layout
-              setIsFullscreen(modalHeight >= deviceHeight)
+              const { height: modalContentHeight } = event.nativeEvent.layout
+
+              if (!autoHeight) {
+                setContentHeight(modalContentHeight)
+              }
             }}
             testID={`${testID}-animatedview`}
           >
             <SafeAreaView style={styles.headerContainer}>
-              {!isFullscreen && isTouch && deviceWidth < +vars.breakpointL ? (
+              {height < 100 && isTouch && deviceWidth < +vars.breakpointL ? (
                 <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
                   <View style={styles.handle}>
-                    <HoliButton label={t('modal.backdrop')} style={{ padding: 15 }} onPress={onDismiss} transparent>
+                    <HoliButton label={t('modal.backdrop')} onPress={onDismiss} transparent style={styles.lineButton}>
                       <View style={styles.line} />
                     </HoliButton>
                   </View>
@@ -148,13 +157,22 @@ const HoliModal: React.FC<HoliModalProps> = ({
               ) : (
                 <HoliButton
                   label={t('modal.backdrop')}
-                  style={styles.dismissIcon}
+                  style={[styles.dismissIcon, deviceWidth < +vars.breakpointL && styles.dismissIconMobile]}
                   onPress={onDismiss}
                   inline={true}
                   transparent
                 >
-                  <HoliIcon icon="close" color={colors.fontColorBlack} size={25} />
+                  <HoliIcon
+                    icon={deviceWidth < +vars.breakpointL ? 'arrow-down-s' : 'close'}
+                    color={colors.fontColorBlack}
+                    size={25}
+                  />
                 </HoliButton>
+              )}
+              {heading && (
+                <HoliHeading level="2" style={styles.heading} ellipsizeMode="tail" numberOfLines={1}>
+                  {heading}
+                </HoliHeading>
               )}
             </SafeAreaView>
             {children}
@@ -177,7 +195,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     overflow: 'hidden',
-    // paddingTop: 47,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -189,15 +206,17 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 0,
   },
   headerContainer: {
-    // position: 'absolute',
-    // top: 0,
-    // width: '100%',
+    position: 'relative',
     alignItems: 'center',
+    justifyContent: 'flex-end',
   },
   handle: {
     height: 40,
     backgroundColor: colors.backgroundColorWhite,
     alignItems: 'center',
+  },
+  lineButton: {
+    padding: 15,
   },
   line: {
     width: 40,
@@ -214,7 +233,17 @@ const styles = StyleSheet.create({
   },
   dismissIcon: {
     alignSelf: 'flex-end',
-    padding: 15,
-    paddingBottom: 3,
+    paddingHorizontal: 15,
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+  },
+  dismissIconMobile: {
+    left: 0,
+  },
+  heading: {
+    textAlign: 'center',
+    maxWidth: '80%',
+    paddingTop: 20,
   },
 })

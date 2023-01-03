@@ -1,14 +1,5 @@
 import React from 'react'
-import {
-  // KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  ScrollViewProps,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from 'react-native'
+import { Platform, ScrollView, ScrollViewProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'

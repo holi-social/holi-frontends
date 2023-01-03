@@ -78,7 +78,7 @@ const AppsDrawer: React.FC = () => {
       >
         <View style={[styles.modalContent, mixins.container]}>
           <HoliHeading level="2">{t('apps.drawer.headline')}</HoliHeading>
-          <ScrollView horizontal={true} style={{ marginTop: 20 }} contentContainerStyle={styles.appsCarousel}>
+          <ScrollView horizontal style={{ marginTop: 20 }} contentContainerStyle={styles.appsCarousel}>
             {appSwiperApps.map((app) => (
               <AppTile appData={app} key={app.id} onPress={onAppButtonClick} />
             ))}

@@ -4,7 +4,6 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import PlacesAutocomplete from '@holi/core/location/components/PlacesAutocomplete'
 import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -111,6 +110,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
         testID="space-filter-modal"
         relativeHeight={1}
         autoHeight={false}
+        heading={t('spaces.filter.heading')}
       >
         <HoliModalContentWrapper
           actionButtonText={t('spaces.filter.submit')}
@@ -119,7 +119,6 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
           scrollable={false}
         >
           <View style={[mixins.container]}>
-            <HoliHeading level="2">{t('spaces.filter.heading')}</HoliHeading>
             <PlacesAutocomplete
               label={t('spaces.filter.location.label')}
               placeholder={t('spaces.filter.location.placeholder')}
