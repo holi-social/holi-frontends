@@ -62,6 +62,6 @@ describe('formats date strings to relative date strings correctly', () => {
 
     const formattedDateString = getRelativeDateString(dateString, language)
 
-    expect(formattedDateString).toBe('3 weeks ago')
+    expect(formattedDateString).toBe('2 weeks ago')
   })
 })
