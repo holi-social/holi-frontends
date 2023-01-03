@@ -6,11 +6,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { displayError } from '@holi/core/errors/helpers'
 import DiscoverSpacesView from '@holi/core/screens/spaces/components/DiscoverSpacesView'
 import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
-import {
-  DEFAULT_LOCATION,
-  DEFAULT_TOPIC_IDS,
-  getDefaultTopicIds,
-} from '@holi/core/screens/spaces/helpers/defaultFilters'
+import { DEFAULT_LOCATION, getDefaultTopicIds } from '@holi/core/screens/spaces/helpers/defaultFilters'
 import { DiscoverSpacesResponse, discoverSpacesQuery } from '@holi/core/screens/spaces/queries'
 import { User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -29,18 +25,16 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
 
   const { loading: topicsLoading, topics = [] } = useContext(SpaceTermContext)
 
-  const existingTopics = useMemo(() => topics.slice().sort(termsByTitleComparator) || [], [topics])
   const userTopics = useMemo(() => (user?.interests || []).slice().sort(termsByTitleComparator) || [], [user])
   const userSkills = useMemo(() => (user?.skills || []).slice().sort(termsByTitleComparator) || [], [user])
 
   const defaultTopicIds = useMemo(
     () =>
       getDefaultTopicIds(
-        DEFAULT_TOPIC_IDS,
-        existingTopics.map((t) => t.id),
+        topics,
         userTopics.map((t) => t.id)
       ),
-    [existingTopics, userTopics]
+    [topics, userTopics]
   )
 
   // user specific spaces suggestions

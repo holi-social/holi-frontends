@@ -3,7 +3,9 @@ export interface Term {
   title: string
 }
 
-export type Topic = Term
+export type Topic = Term & {
+  isDiscoverSpacesDefault: boolean
+}
 export type SDG = Term
 export type Skill = Term
 
