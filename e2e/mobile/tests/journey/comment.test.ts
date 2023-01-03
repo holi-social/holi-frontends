@@ -1,24 +1,23 @@
 import { faker } from '@faker-js/faker'
 
 import { defaultAuthSteps, logout } from '../../helpers/auth'
-import { navigateBackToHomeScreen } from '../../helpers/navigation'
+import { navigateBackToHomeScreenDeeper } from '../../helpers/navigation'
 import {
   fillFieldByTestId,
   scrollToElementWithTestId,
   tapOnElementWithTestId,
   waitForElementWithTestId,
-  waitForElementWithTestIdToBeNull,
 } from '../../helpers/selectors'
 
 describe('@Comment', () => {
   // fails on android: The element 'By.xpath: //*[@resource-id='btn-submit-comment']' does not exist in DOM anymore
   // fails on ios: element ("~btn-to-post") still not displayed after 1ms
-  it.skip('creates a comment and displays it in the post page.', async () => {
+  it('creates a comment and displays it in the post page.', async () => {
     // login
     await defaultAuthSteps()
 
     // go to home feed
-    await navigateBackToHomeScreen()
+    await navigateBackToHomeScreenDeeper()
 
     // click first insight image link
     await waitForElementWithTestId('feed-insight-image-link')
@@ -30,7 +29,8 @@ describe('@Comment', () => {
     await tapOnElementWithTestId('btn-to-post')
 
     // click the comment footer button
-    await waitForElementWithTestId('post-detail-footer')
+    // TODO this is very slow due to client side rendering when there's a lot of comments - we're trying to fix it by using FlatList
+    await waitForElementWithTestId('post-detail-footer', 30000)
     await tapOnElementWithTestId('post-detail-footer')
 
     // create e2e comment and fill the textinput
@@ -40,13 +40,21 @@ describe('@Comment', () => {
     // submit comment
     await tapOnElementWithTestId('btn-submit-comment')
 
-    // check if submit comment button disappears accordingly
-    await waitForElementWithTestIdToBeNull('btn-submit-comment', 30000)
+    // check if submit comment button is disabled accordingly
+    const submitButton = await waitForElementWithTestId('btn-submit-comment')
+    //console.log(await submitButton.getAttribute('enabled'))
+    expect(await submitButton.getAttribute('enabled')).toBe('false')
+
+    // wait until we are back on the post detail page
+    await waitForElementWithTestId('post-detail-view')
+
+    // TODO verify comment was added successfully, e.g. wait for success toast
+    // This does not work, might be a timing issue
+    // await waitForElementWithTestId('toast-SUCCESS', 60000)
 
     // clean up view
-    await scrollToElementWithTestId('nav-button-back', 'up')
-    await tapOnElementWithTestId('nav-button-back', 0)
+    await navigateBackToHomeScreenDeeper()
     await logout()
-    await navigateBackToHomeScreen()
+    await navigateBackToHomeScreenDeeper()
   })
 })
