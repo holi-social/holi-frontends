@@ -2,5 +2,8 @@
   "app.name": "Gute Nachrichten",
   "listing.loadMoreButton.loading": "Lädt",
   "listing.loadMoreButton.text": "Weiterlesen",
+  "listing.teaser.title": "Auf der Suche nach mehr?",
+  "listing.teaser.description": "Es gibt weitere interessante Artikel in der letzten Ausgabe",
+  "button.loadMoreArticles.label": "Weitere Artikel lesen",
   "button.readArticle": "Artikel lesen"
 }

@@ -56,6 +56,7 @@ export const topicsQuery = gql`
       data {
         id
         title
+        isDiscoverSpacesDefault
       }
     }
   }
