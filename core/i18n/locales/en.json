@@ -188,7 +188,7 @@
   "spaces.filter.notFound.description": "We couldn't find a space that matches your filters.",
   "spaces.filter.notFound.title": "No results yet",
   "spaces.filter.skills.dropdown": "Select abilities",
-  "spaces.filter.skills.label": "Abilities I can help with",
+  "spaces.filter.skills.label": "Abilities I would like to contribute",
   "spaces.filter.skills.noMatches": "No matching ability found",
   "spaces.filter.skills.placeholder": "All abilities",
   "spaces.filter.skills.multiSelectionLabel": "Abilities",
