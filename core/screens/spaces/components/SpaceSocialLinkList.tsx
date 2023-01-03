@@ -22,9 +22,12 @@ const SpaceSocialLinkList: React.VFC<SpaceSocialLinkListProps> = ({ space, style
     <View style={style}>
       <HoliHeading level="2">{t('spaces.links.heading')}</HoliHeading>
       <View style={styles.linksContainer}>
-        {links.map((link, index) => (
-          <SpaceSocialLink key={index} link={link} style={styles.link} />
-        ))}
+        {
+          /** FIXME convert to VirtualizedList, FlatList or SectionList */
+          links.map((link, index) => (
+            <SpaceSocialLink key={index} link={link} style={styles.link} />
+          ))
+        }
       </View>
     </View>
   )
