@@ -1,3 +1,8 @@
+
+.sb-show-main.sb-main-padded {
+  margin-bottom: 50px;
+}
+
 .svg-preview .icons {
   display: flex;
   flex-wrap: wrap;

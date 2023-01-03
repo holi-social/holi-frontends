@@ -56,6 +56,7 @@ export const topicsQuery = gql`
       data {
         id
         title
+        isDiscoverSpacesDefault
       }
     }
   }
@@ -119,4 +120,28 @@ export const spaceByIdQuery = gql`
 
 export type SpaceByIdResponse = {
   spaceById: Space
+}
+
+export const joinSpaceMutation = gql`
+  ${SpaceFragment}
+
+  mutation UpdateSpaceUserConnection(
+    $connectAction: UpdateConnectionAction!
+    $connectionType: SpaceUserConnectionType!
+    $spaceId: UUID!
+    $userId: UUID
+  ) {
+    updateSpaceUserConnection(
+      connectAction: $connectAction
+      connectionType: $connectionType
+      spaceId: $spaceId
+      userId: $userId
+    ) {
+      ...FullSpace
+    }
+  }
+`
+
+export type JoinSpaceResponse = {
+  updateSpaceUserConnection: Space
 }

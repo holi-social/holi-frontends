@@ -20,6 +20,8 @@ export type HoliRichTextInputProps = {
   maxSuggestionOptions?: number
   debounceDelay?: number
   onChange?: (text: string) => void
+  onFocus?: (event: FocusEvent) => void
+  onBlur?: (event: FocusEvent) => void
   onSelectSuggestion?: (suggestion: User) => void
   style?: StyleProp<ViewStyle>
   inputStyle?: StyleProp<ViewStyle>
@@ -29,10 +31,13 @@ export type HoliRichTextInputProps = {
 const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   initalValue = '',
   placeholder = '...',
+  autofocus = false,
   minSearchChars = 2,
   maxSuggestionOptions = 5,
   debounceDelay = 300,
   onChange,
+  onFocus = () => null,
+  onBlur = () => null,
   ...props
 }) => {
   const inputRef = useRef<TextInput>(null)
@@ -148,8 +153,10 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
     <MentionInput
       inputRef={inputRef}
       value={value}
-      autoFocus
+      autoFocus={autofocus}
       onChange={onInputChange}
+      onFocus={onFocus}
+      onBlur={onBlur}
       partTypes={suggestionConfig}
       placeholder={placeholder}
       containerStyle={[styles.mentionsStyles, props.style]}

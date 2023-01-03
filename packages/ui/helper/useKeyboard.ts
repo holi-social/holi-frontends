@@ -1,3 +1,8 @@
+/**
+ * The given height refers only to the native mobile keyboard.
+ * It returns 0 in the cellphone's browser. That keyboard is
+ * calles "softkeyboard"
+ */
 import { useEffect, useState } from 'react'
 import { Keyboard, KeyboardEvent } from 'react-native'
 
