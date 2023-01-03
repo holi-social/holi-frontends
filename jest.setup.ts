@@ -36,6 +36,8 @@ jest.mock('@sentry/react-native', () => ({
   captureException: global.captureSentryException,
 }))
 
+jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper')
+
 i18n.use(initReactI18next).init({
   lng: 'en',
   fallbackLng: 'en',
