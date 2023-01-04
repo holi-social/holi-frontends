@@ -34,35 +34,40 @@ const HoliLexicalMentionsDropdown: React.VFC<HoliLexicalMentionsDropdownProps> =
 
   return (
     <View style={styles.suggestionsContainer}>
-      {optionsList.map((option, i: number) => (
-        /* The div is needed for the native onMouseEnter function.
-         * onFocus does not work within a Portal
-         */
-        <div key={`${option.key}-${i}`} tabIndex={i} onMouseEnter={() => onNativeMouseEnter(i, option)}>
-          <HoliButton
-            label={option.user.fullName}
-            transparent
-            inline
-            onPress={() => onChooseOption(i, option)}
-            style={[
-              styles.suggestionItem,
-              (hightlightedIndex === i || selectedIndex === i) && { backgroundColor: colors.backgroundColorGreyLight },
-            ]}
-            contentStyle={{ alignItems: 'center', flexDirection: 'row' }}
-            testID={'holi-rich-text-input-suggestions-item'}
-          >
-            <HoliUserAvatar
-              imageSrc={option.user.avatar}
+      {
+        /** FIXME convert to VirtualizedList, FlatList or SectionList */
+        optionsList.map((option, i: number) => (
+          /* The div is needed for the native onMouseEnter function.
+           * onFocus does not work within a Portal
+           */
+          <div key={`${option.key}-${i}`} tabIndex={i} onMouseEnter={() => onNativeMouseEnter(i, option)}>
+            <HoliButton
               label={option.user.fullName}
-              initials={option.user.avatarLabel}
-              defaultColor={option.user.avatarDefaultColor}
-              size="micro"
-              style={{ marginRight: 10 }}
-            />
-            <HoliText style={{ whiteSpace: 'nowrap' }}>{option.user.fullName}</HoliText>
-          </HoliButton>
-        </div>
-      ))}
+              transparent
+              inline
+              onPress={() => onChooseOption(i, option)}
+              style={[
+                styles.suggestionItem,
+                (hightlightedIndex === i || selectedIndex === i) && {
+                  backgroundColor: colors.backgroundColorGreyLight,
+                },
+              ]}
+              contentStyle={{ alignItems: 'center', flexDirection: 'row' }}
+              testID={'holi-rich-text-input-suggestions-item'}
+            >
+              <HoliUserAvatar
+                imageSrc={option.user.avatar}
+                label={option.user.fullName}
+                initials={option.user.avatarLabel}
+                defaultColor={option.user.avatarDefaultColor}
+                size="micro"
+                style={{ marginRight: 10 }}
+              />
+              <HoliText style={{ whiteSpace: 'nowrap' }}>{option.user.fullName}</HoliText>
+            </HoliButton>
+          </div>
+        ))
+      }
     </View>
   )
 }

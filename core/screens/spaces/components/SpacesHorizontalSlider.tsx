@@ -27,12 +27,15 @@ const SpacesHorizontalSlider: React.VFC<SpacesHorizontalSliderProps> = ({
   return (
     <View style={style} testID={testID}>
       <ScrollView style={styles.scrollViewContainer} horizontal>
-        {children &&
-          children.map((child, index) => (
-            <View key={index} style={[{ marginRight: slideGap }, styles.cardContainer]}>
-              {child}
-            </View>
-          ))}
+        {
+          /** FIXME convert to VirtualizedList, FlatList or SectionList */
+          children &&
+            children.map((child, index) => (
+              <View key={index} style={[{ marginRight: slideGap }, styles.cardContainer]}>
+                {child}
+              </View>
+            ))
+        }
         {isLoading && (
           <View style={[styles.loadingContainer, styles.cardContainer]}>
             <HoliIcon icon="loader-4" size={50} color={colors.fontColorGrey} spinning />

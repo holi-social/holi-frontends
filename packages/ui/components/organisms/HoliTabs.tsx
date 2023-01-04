@@ -68,32 +68,35 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
     <View style={[styles.container, style]}>
       <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
         <View style={[mixins.container, styles.tabButtonsContainer]}>
-          {tabs.map((tab, index) => {
-            const isActive = currentSlide === index
-            return (
-              <HoliTabButton
-                label={tab.title}
-                id={`${id}-tab-${index}`}
-                style={[styles.tabButton, isActive ? styles.activeTabButton : {}]}
-                onPress={() => goToIndex(index)}
-                key={index}
-                accessibilitySelected={isActive}
-                accessibilityControls={`${id}-panel-${index}`}
-                testID={`${testID}-button-${index}-${isActive ? 'active' : 'inactive'}`}
-              >
-                {tab.titleIcon && (
-                  <HoliIcon
-                    icon={tab.titleIcon}
-                    size={22}
-                    color={isActive ? colors.fontColor : colors.fontColorGrey}
-                    style={styles.tabButtonIcon}
-                    filled={isActive}
-                  />
-                )}
-                <Text style={[styles.tabButtonText, isActive ? styles.activeTabButtonText : {}]}>{tab.title}</Text>
-              </HoliTabButton>
-            )
-          })}
+          {
+            /** FIXME convert to VirtualizedList, FlatList or SectionList */
+            tabs.map((tab, index) => {
+              const isActive = currentSlide === index
+              return (
+                <HoliTabButton
+                  label={tab.title}
+                  id={`${id}-tab-${index}`}
+                  style={[styles.tabButton, isActive ? styles.activeTabButton : {}]}
+                  onPress={() => goToIndex(index)}
+                  key={index}
+                  accessibilitySelected={isActive}
+                  accessibilityControls={`${id}-panel-${index}`}
+                  testID={`${testID}-button-${index}-${isActive ? 'active' : 'inactive'}`}
+                >
+                  {tab.titleIcon && (
+                    <HoliIcon
+                      icon={tab.titleIcon}
+                      size={22}
+                      color={isActive ? colors.fontColor : colors.fontColorGrey}
+                      style={styles.tabButtonIcon}
+                      filled={isActive}
+                    />
+                  )}
+                  <Text style={[styles.tabButtonText, isActive ? styles.activeTabButtonText : {}]}>{tab.title}</Text>
+                </HoliTabButton>
+              )
+            })
+          }
         </View>
       </View>
       {!isWeb && (
@@ -106,17 +109,20 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
           onMomentumScrollEnd={handleScrollEnd}
         >
           <View style={styles.tabContainer}>
-            {tabs.map((tab, i) => (
-              <View
-                style={[styles.tab, tab.style]}
-                accessibilityLabelledBy={`${id}-tab-${i}`}
-                nativeID={`${id}-panel-${i}`}
-                testID={`${testID}-panel-${i}-${currentSlide === i ? 'active' : 'inactive'}`}
-                key={i}
-              >
-                {tab.children}
-              </View>
-            ))}
+            {
+              /** FIXME convert to VirtualizedList, FlatList or SectionList */
+              tabs.map((tab, i) => (
+                <View
+                  style={[styles.tab, tab.style]}
+                  accessibilityLabelledBy={`${id}-tab-${i}`}
+                  nativeID={`${id}-panel-${i}`}
+                  testID={`${testID}-panel-${i}-${currentSlide === i ? 'active' : 'inactive'}`}
+                  key={i}
+                >
+                  {tab.children}
+                </View>
+              ))
+            }
           </View>
         </ScrollView>
       )}

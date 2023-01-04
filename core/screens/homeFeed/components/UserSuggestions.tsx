@@ -46,22 +46,25 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestions
       </HoliHeading>
 
       <ScrollView style={styles.scrollviewContainer} horizontal>
-        {userSuggestions.map((user, index) => {
-          const nameLabel = user.fullName
-          return (
-            <HoliButton
-              label={nameLabel || t('user.profileView.anonymous')}
-              onPress={() => navigate(`/profile/${user.id}`)}
-              style={styles.buttonContainer}
-              key={user.id}
-              transparent
-              inline
-              testID={`user-card-suggestion-${index}`}
-            >
-              <HoliUserCard user={user} testID="user-card-suggestion" variant="small" disableFocusability />
-            </HoliButton>
-          )
-        })}
+        {
+          /** FIXME convert to VirtualizedList, FlatList or SectionList */
+          userSuggestions.map((user, index) => {
+            const nameLabel = user.fullName
+            return (
+              <HoliButton
+                label={nameLabel || t('user.profileView.anonymous')}
+                onPress={() => navigate(`/profile/${user.id}`)}
+                style={styles.buttonContainer}
+                key={user.id}
+                transparent
+                inline
+                testID={`user-card-suggestion-${index}`}
+              >
+                <HoliUserCard user={user} testID="user-card-suggestion" variant="small" disableFocusability />
+              </HoliButton>
+            )
+          })
+        }
         <HoliButton
           label={t('homeFeed.userSuggestions.loadMore')}
           style={[styles.buttonContainer, styles.lastButtonContainer]}
