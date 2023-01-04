@@ -18,7 +18,7 @@ import { vars } from '@holi/ui/styles/globalVars'
 const FULLSCREEN_HEIGHT_THRESHOLD = 0.94
 
 /**
- *
+ * "relativeHeight" is a percentage value (from 0 to 1). When its value is 1 and autoHeight is false, the modal is fullscreen.
  * "relativeHeight" with "autoHeight === true" works like "max-height"
  * "relativeHeight" with "autoHeight === false" works like fixed "height"
  */
