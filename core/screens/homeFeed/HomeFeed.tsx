@@ -7,16 +7,15 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { useScrollYHandler } from '@holi/core/helpers'
+import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import AppsDrawer from '@holi/core/screens/homeFeed/components/AppsDrawer'
 import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
 import UpdatesOfYourApps from '@holi/core/screens/homeFeed/components/UpdatesOfYourApps'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type HomeFeedProps = NativeStackScreenProps<HomeStackScreens>
@@ -56,17 +55,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
           />
         </HoliButton>
       ),
-      headerRight: ({ tintColor }) => (
-        <HoliHorizontalRow>
-          <HoliButton label={t('notifications.title')} inline transparent onPress={() => navigate('/notifications')}>
-            <HoliIcon icon="notification-2" size={24} color={tintColor} />
-          </HoliButton>
-
-          <HoliButton label={t('navigation.search')} inline transparent onPress={() => navigate('/search')}>
-            <HoliIcon icon="search" size={24} color={tintColor} />
-          </HoliButton>
-        </HoliHorizontalRow>
-      ),
+      headerRight: (props) => <NotificationSearchButtons {...props} />,
     })
   }, [setOptions, navigate, t, headerTitle])
 
