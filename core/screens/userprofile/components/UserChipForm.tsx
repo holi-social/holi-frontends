@@ -125,18 +125,21 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
         />
 
         <HoliChipRow editable={false} editButtonLabel="">
-          {filteredTerms.map((term: Term) => {
-            return (
-              <HoliChip
-                key={term.id}
-                checked={selectedTerms.includes(term)}
-                onPress={() => updateValues(term)}
-                text={term.title}
-                label={term.title}
-                style={styles.chip}
-              />
-            )
-          })}
+          {
+            /** FIXME convert to VirtualizedList, FlatList or SectionList */
+            filteredTerms.map((term: Term) => {
+              return (
+                <HoliChip
+                  key={term.id}
+                  checked={selectedTerms.includes(term)}
+                  onPress={() => updateValues(term)}
+                  text={term.title}
+                  label={term.title}
+                  style={styles.chip}
+                />
+              )
+            })
+          }
         </HoliChipRow>
 
         {filteredTerms.length === 0 && (

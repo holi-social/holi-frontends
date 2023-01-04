@@ -25,11 +25,14 @@ const SpacesGrid: React.VFC<SpacesGridProps> = ({ spaces, style }: SpacesGridPro
   return (
     <View style={[style]}>
       <HoliGridWrapper itemsInRow={itemsInRow} gap={8}>
-        {spaces.map((space) => (
-          <HoliGridCell key={space.id}>
-            <SpaceCard space={space} size="small" />
-          </HoliGridCell>
-        ))}
+        {
+          /** FIXME convert to VirtualizedList, FlatList or SectionList */
+          spaces.map((space) => (
+            <HoliGridCell key={space.id}>
+              <SpaceCard space={space} size="small" />
+            </HoliGridCell>
+          ))
+        }
       </HoliGridWrapper>
     </View>
   )

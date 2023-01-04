@@ -9,11 +9,14 @@ export interface HoliItemRowProps {
 export const HoliHorizontalRow: React.FC<HoliItemRowProps> = ({ children, gap = 24, style }) => {
   return React.Children.toArray(children).length ? (
     <View style={[style, styles.rowWrapper, { marginHorizontal: -gap / 2 }]}>
-      {React.Children.map(children, (item, idx) => (
-        <View key={idx} style={{ marginHorizontal: gap / 2 }}>
-          {item}
-        </View>
-      ))}
+      {
+        /** FIXME convert to VirtualizedList, FlatList or SectionList */
+        React.Children.map(children, (item, idx) => (
+          <View key={idx} style={{ marginHorizontal: gap / 2 }}>
+            {item}
+          </View>
+        ))
+      }
     </View>
   ) : (
     <>{children}</>

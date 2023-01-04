@@ -24,11 +24,14 @@ const InsightList: React.VFC<InsightsProps> = (props) => {
     <View style={props.style}>
       {/* insights */}
       <HoliGridWrapper itemsInRow={insightGridItemsInRow}>
-        {props.insights.map((insight) => (
-          <HoliGridCell key={insight.id}>
-            <InsightPreviewBox key={insight.id} insight={insight} style={styles.insight} />
-          </HoliGridCell>
-        ))}
+        {
+          /** FIXME convert to VirtualizedList, FlatList or SectionList */
+          props.insights.map((insight) => (
+            <HoliGridCell key={insight.id}>
+              <InsightPreviewBox key={insight.id} insight={insight} style={styles.insight} />
+            </HoliGridCell>
+          ))
+        }
       </HoliGridWrapper>
 
       <HoliButton type="secondary" label={t('homeFeed.insights.loadMoreText')} style={mixins.moreButton} disabled>
