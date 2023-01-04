@@ -168,6 +168,7 @@ web_review_destroy:
     - terraform/environments/web/scripts/destroy-env.sh $CI_ENVIRONMENT_SLUG
   # can't use rules here: https://gitlab.com/gitlab-org/gitlab/-/issues/34077
   when: manual
+  allow_failure: false
   except:
     - main
     - /^noenv\/.*/
@@ -203,6 +204,7 @@ web_production_deploy:
   extends: .web_deploy
   needs: ['web_staging_e2e']
   when: manual
+  allow_failure: false
   environment:
     name: web-production
     deployment_tier: production
