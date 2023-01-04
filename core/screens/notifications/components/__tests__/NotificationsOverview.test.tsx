@@ -138,4 +138,24 @@ describe('Notifications.tsx', () => {
     const emptyNotificationsMessage = 'notifications.display.empty.text2'
     expect(await screen.findByTestId('notifications-overview')).not.toHaveTextContent(emptyNotificationsMessage)
   })
+
+  it('renders a PostCommentMention notification', async () => {
+    render(
+      <AuthContext.Provider
+        value={{
+          isLoading: false,
+          isLoggedIn: true,
+          userId: '123',
+          setUserLoggedIn: jest.fn(),
+          setUserLoggedOut: jest.fn(),
+        }}
+      >
+        <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS} addTypename={false}>
+          <Notifications />
+        </MockedProvider>
+      </AuthContext.Provider>
+    )
+
+    expect(await screen.findByTestId('post-comment-mention'))
+  })
 })

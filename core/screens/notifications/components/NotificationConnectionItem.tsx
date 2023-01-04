@@ -99,12 +99,12 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
   ]
 
   return (
-    <View>
+    <View testID={testID}>
       <NotificationWithUserAvatar
         notification={notification}
         i18nKey={getI18Key()}
         style={[style, loading && styles.notificationProcessing]}
-        testID={testID}
+        testID={`${testID ? testID + '-' : ''}notification-item`}
       >
         {!connectionHandeled && (
           <HoliHorizontalRow gap={8} style={styles.buttonContainer}>
