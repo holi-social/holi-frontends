@@ -2,6 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -34,6 +35,9 @@ const PostContent: React.VFC<PostContentProps> = ({
   const { t } = useTranslation()
   const commenters = post.commenters.data
 
+  // TODO: remove after implementing the feature
+  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
+
   return (
     <View style={[styles.wrapper, style]}>
       <View style={styles.paddingHorizontal}>
@@ -56,7 +60,13 @@ const PostContent: React.VFC<PostContentProps> = ({
           testID="btn-to-post"
         >
           {!hasHeader && (
-            <HoliButton transparent inline label={t('insights.post.preview.more')} style={styles.moreButton}>
+            <HoliButton
+              transparent
+              inline
+              label={t('insights.post.preview.more')}
+              style={styles.moreButton}
+              onPress={showFeatureNotImplementedToast}
+            >
               <HoliIcon icon="more" color={colors.fontColorGrey} />
             </HoliButton>
           )}
