@@ -43,23 +43,28 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
     >
       <HoliCarousel
         marginHorizontal={20}
-        slides={uniqueUsers.map((user) => {
-          const userCard = <HoliUserCard style={styles.userCard} user={user} category={category} disableFocusability />
+        slides={
+          /** FIXME convert to VirtualizedList, FlatList or SectionList */
+          uniqueUsers.map((user) => {
+            const userCard = (
+              <HoliUserCard style={styles.userCard} user={user} category={category} disableFocusability />
+            )
 
-          return {
-            children: onUserPress ? (
-              <HoliButton
-                transparent
-                label={t('user.visitProfile', { name: user.fullName })}
-                onPress={() => onUserPress(user)}
-              >
-                {userCard}
-              </HoliButton>
-            ) : (
-              userCard
-            ),
-          }
-        })}
+            return {
+              children: onUserPress ? (
+                <HoliButton
+                  transparent
+                  label={t('user.visitProfile', { name: user.fullName })}
+                  onPress={() => onUserPress(user)}
+                >
+                  {userCard}
+                </HoliButton>
+              ) : (
+                userCard
+              ),
+            }
+          })
+        }
       />
     </HoliModalContentWrapper>
   )

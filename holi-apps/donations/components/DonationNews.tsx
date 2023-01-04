@@ -79,32 +79,35 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
             {t('donations:donationNews.moreUpdates')}
           </HoliText>
 
-          {otherNews.map((entry) => (
-            <HoliButton
-              key={entry.id}
-              label={t('donations:donationNews.readArticle')}
-              transparent
-              disabled={!entry.url}
-              onPress={() => entry.url && Linking.openURL(entry.url)}
-              testID="donations-news-other-item"
-            >
-              <View style={styles.newsListing}>
-                <View style={{ flex: 1 }}>
-                  <HoliText bold size="small" style={{ marginBottom: 6 }}>
-                    {entry.title}
-                  </HoliText>
-                  {entry.publishDate && (
-                    <HoliText size="small" style={{ color: colors.fontColorGrey }}>
-                      {t('donations:donationNews.publishTime', {
-                        time: getRelativeDateString(entry.publishDate, i18n.language),
-                      })}
+          {
+            /** FIXME convert to VirtualizedList, FlatList or SectionList */
+            otherNews.map((entry) => (
+              <HoliButton
+                key={entry.id}
+                label={t('donations:donationNews.readArticle')}
+                transparent
+                disabled={!entry.url}
+                onPress={() => entry.url && Linking.openURL(entry.url)}
+                testID="donations-news-other-item"
+              >
+                <View style={styles.newsListing}>
+                  <View style={{ flex: 1 }}>
+                    <HoliText bold size="small" style={{ marginBottom: 6 }}>
+                      {entry.title}
                     </HoliText>
-                  )}
+                    {entry.publishDate && (
+                      <HoliText size="small" style={{ color: colors.fontColorGrey }}>
+                        {t('donations:donationNews.publishTime', {
+                          time: getRelativeDateString(entry.publishDate, i18n.language),
+                        })}
+                      </HoliText>
+                    )}
+                  </View>
+                  {entry.url && <HoliIcon icon="share-box" size={24} style={{ flexShrink: 0 }} />}
                 </View>
-                {entry.url && <HoliIcon icon="share-box" size={24} style={{ flexShrink: 0 }} />}
-              </View>
-            </HoliButton>
-          ))}
+              </HoliButton>
+            ))
+          }
         </View>
       )}
     </View>

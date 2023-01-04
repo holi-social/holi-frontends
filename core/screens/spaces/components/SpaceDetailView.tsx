@@ -1,15 +1,15 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpaceHeader from '@holi/core/screens/spaces/components/SpaceHeader'
 import SpaceSocialLinkList from '@holi/core/screens/spaces/components/SpaceSocialLinkList'
+import SpaceTaskList from '@holi/core/screens/spaces/components/SpaceTaskList'
 import SpaceWelcome from '@holi/core/screens/spaces/components/SpaceWelcome'
 import { Space } from '@holi/core/screens/spaces/types'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-import SpaceTaskList from './SpaceTaskList'
 
 type SpaceDetailViewProps = {
   space: Space
@@ -18,7 +18,7 @@ type SpaceDetailViewProps = {
 
 const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
   const mixins = useStyleMixins()
-
+  const { t } = useTranslation()
   return (
     <View style={[styles.wrapper, style]} testID="space-details-container">
       {/* Header */}
@@ -31,7 +31,7 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
         centeredButtons
         tabs={[
           {
-            title: 'Goals',
+            title: t('spaces.tab.info'),
             titleIcon: 'pushpin',
             style: styles.tabStyle,
             children: [
@@ -48,7 +48,7 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
             ],
           },
           {
-            title: 'Actions',
+            title: t('spaces.tab.action'),
             titleIcon: 'sun',
             style: styles.tabStyle,
             children: (

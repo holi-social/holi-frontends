@@ -53,9 +53,12 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery, style
         <HoliHeading style={{ marginLeft: 12 }}>{t('donations:app.name')}</HoliHeading>
       </View>
       <ScrollView style={styles.scrollViewContainer} horizontal testID={'donations-updates-container'}>
-        {projects.slice(0, PROJECT_PAGE_SIZE).map((project, index) => {
-          return <DonationUpdatesItem key={index} project={project} />
-        })}
+        {
+          /** FIXME convert to VirtualizedList, FlatList or SectionList */
+          projects.slice(0, PROJECT_PAGE_SIZE).map((project, index) => {
+            return <DonationUpdatesItem key={index} project={project} />
+          })
+        }
         {loading && (
           <View style={styles.loadingContainer}>
             <HoliIcon icon="loader-4" size={50} color={colors.fontColorGrey} spinning />
