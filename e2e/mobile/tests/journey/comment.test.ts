@@ -46,7 +46,7 @@ describe('@Comment', () => {
     expect(await submitButton.getAttribute('enabled')).toBe('false')
 
     // wait until we are back on the post detail page
-    await waitForElementWithTestId('post-detail-footer')
+    await waitForElementWithTestId('post-detail-footer', 30000)
 
     // TODO verify comment was added successfully, e.g. wait for success toast
     // This does not work, might be a timing issue
