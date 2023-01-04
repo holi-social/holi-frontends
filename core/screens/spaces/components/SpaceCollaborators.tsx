@@ -83,36 +83,39 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
             <HoliText style={styles.title}>{t('spaces.collaborators')}</HoliText>
           </View>
           <ScrollView>
-            {sortedMembersList.map((collaborator, index) => (
-              <HoliButton
-                contentStyle={styles.collaborators}
-                inline
-                transparent
-                label={t('user.visitProfile', { name: collaborator.fullName })}
-                onPress={() => handleNavigation(collaborator.id)}
-                key={index}
-                testID={'spaces-collaborators-item'}
-              >
-                <HoliUserAvatar
-                  imageSrc={collaborator.avatar}
-                  label={collaborator.fullName || t('navigation.headerRight.avatarFallbackLabel')}
-                  initials={collaborator.avatarLabel}
-                  defaultColor={collaborator.avatarDefaultColor}
-                  size="small"
-                  style={styles.avatar}
-                />
-                <View style={styles.titleContainer}>
-                  <HoliText ellipsizeMode="tail" numberOfLines={1}>
-                    {collaborator.fullName || 'Anonymous'}
-                  </HoliText>
-                </View>
-                {isAdmin(collaborator) && (
-                  <HoliText size="extrasmall" style={styles.admin}>
-                    {t('spaces.collaborators.isAdmin')}
-                  </HoliText>
-                )}
-              </HoliButton>
-            ))}
+            {
+              /** FIXME convert to VirtualizedList, FlatList or SectionList */
+              sortedMembersList.map((collaborator, index) => (
+                <HoliButton
+                  contentStyle={styles.collaborators}
+                  inline
+                  transparent
+                  label={t('user.visitProfile', { name: collaborator.fullName })}
+                  onPress={() => handleNavigation(collaborator.id)}
+                  key={index}
+                  testID={'spaces-collaborators-item'}
+                >
+                  <HoliUserAvatar
+                    imageSrc={collaborator.avatar}
+                    label={collaborator.fullName || t('navigation.headerRight.avatarFallbackLabel')}
+                    initials={collaborator.avatarLabel}
+                    defaultColor={collaborator.avatarDefaultColor}
+                    size="small"
+                    style={styles.avatar}
+                  />
+                  <View style={styles.titleContainer}>
+                    <HoliText ellipsizeMode="tail" numberOfLines={1}>
+                      {collaborator.fullName || 'Anonymous'}
+                    </HoliText>
+                  </View>
+                  {isAdmin(collaborator) && (
+                    <HoliText size="extrasmall" style={styles.admin}>
+                      {t('spaces.collaborators.isAdmin')}
+                    </HoliText>
+                  )}
+                </HoliButton>
+              ))
+            }
           </ScrollView>
         </View>
       </ModalBasic>

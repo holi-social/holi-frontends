@@ -38,11 +38,14 @@ const SpaceTaskList: React.VFC<SpaceTaskListProps> = ({ space, style }: SpaceTas
       <HoliHeading level="2">{t('spaces.spaceDetails.tasks.heading', { count: space.tasks?.length })}</HoliHeading>
 
       <HoliGridWrapper itemsInRow={itemsInRow} style={styles.tasksList}>
-        {space.tasks.map((task) => (
-          <HoliGridCell key={task.id}>
-            <SpaceTaskTile key={task.id} task={task} style={styles.taskTile} />
-          </HoliGridCell>
-        ))}
+        {
+          /** FIXME convert to VirtualizedList, FlatList or SectionList */
+          space.tasks.map((task) => (
+            <HoliGridCell key={task.id}>
+              <SpaceTaskTile key={task.id} task={task} style={styles.taskTile} />
+            </HoliGridCell>
+          ))
+        }
       </HoliGridWrapper>
     </View>
   )

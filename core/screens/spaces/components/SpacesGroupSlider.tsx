@@ -90,9 +90,12 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
           )
         }
       >
-        {spacesData.map((space) => (
-          <SpaceCard key={space.id} space={space} imageHeight={imageHeight} style={styles.spaceCard} />
-        ))}
+        {
+          /** FIXME convert to VirtualizedList, FlatList or SectionList */
+          spacesData.map((space) => (
+            <SpaceCard key={space.id} space={space} imageHeight={imageHeight} style={styles.spaceCard} />
+          ))
+        }
       </SpacesHorizontalSlider>
     </View>
   )
