@@ -71,6 +71,8 @@
   "global.accept": "Ok",
   "global.decline": "Abbrechen",
   "global.noResults": "Keine Ergebnisse gefunden",
+  "global.notAvailable": "Leider noch nicht verfügbar!",
+  "global.like": "Ich mag das",
   "help.title": "Hilfe",
   "homeFeed.apps.appLabel": "{{name}} App",
   "homeFeed.headerTitle.goodAfternoon": "Guten Nachmittag",
