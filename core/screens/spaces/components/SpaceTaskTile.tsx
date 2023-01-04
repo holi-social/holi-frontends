@@ -48,13 +48,16 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
       </View>
       {task.skills.length > 0 && (
         <View style={styles.skillsContainer}>
-          {task.skills.map((skill) => {
-            return (
-              <HoliText key={skill.id} size="small" style={styles.skill} numberOfLines={1}>
-                {skill.title}
-              </HoliText>
-            )
-          })}
+          {
+            /** FIXME convert to VirtualizedList, FlatList or SectionList */
+            task.skills.map((skill) => {
+              return (
+                <HoliText key={skill.id} size="small" style={styles.skill} numberOfLines={1}>
+                  {skill.title}
+                </HoliText>
+              )
+            })
+          }
         </View>
       )}
       <View style={styles.detailContainer}>

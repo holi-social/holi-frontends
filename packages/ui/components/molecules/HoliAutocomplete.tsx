@@ -179,7 +179,10 @@ const HoliAutocomplete = ({
         testID={testID}
       />
       <View nativeID={`${id}-suggestions`} accessibilityRole="menu">
-        {isOpened ? suggestions.map(renderItem) : <></>}
+        {
+          /** FIXME convert to VirtualizedList, FlatList or SectionList */
+          isOpened ? suggestions.map(renderItem) : <></>
+        }
       </View>
     </View>
   )
