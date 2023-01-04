@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     marginHorizontal: 24,
     marginTop: 30,
-    paddingBottom: Platform.OS === 'ios' ? 250 : 50,
+    paddingBottom: Platform.OS === 'ios' ? 250 : 100,
   },
   headerContainer: {
     alignItems: 'center',
