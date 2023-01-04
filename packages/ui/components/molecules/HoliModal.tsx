@@ -111,6 +111,8 @@ const HoliModal: React.FC<HoliModalProps> = ({
     [relativeHeight, contentHeight, deviceHeight]
   )
 
+  const isFullscreen = height === 100
+
   return (
     <>
       <ModalBasic show={visible} transparent={true} onDismiss={onDismiss} label={label} testID={testID}>
@@ -134,7 +136,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
                 maxHeight: `${height}%`,
                 ...(!autoHeight && { height: `${height}%` }),
               },
-              height == 100 && styles.fullscreen,
+              isFullscreen && styles.fullscreen,
             ]}
             onLayout={(event) => {
               const { height: modalContentHeight } = event.nativeEvent.layout
@@ -146,7 +148,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
             testID={`${testID}-animatedview`}
           >
             <SafeAreaView style={styles.headerContainer}>
-              {height < 100 && isTouch && deviceWidth < +vars.breakpointL ? (
+              {!isFullscreen && isTouch && deviceWidth < +vars.breakpointL ? (
                 <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
                   <View style={styles.handle}>
                     <HoliButton label={t('modal.backdrop')} onPress={onDismiss} transparent style={styles.lineButton}>
@@ -155,24 +157,25 @@ const HoliModal: React.FC<HoliModalProps> = ({
                   </View>
                 </PanGestureHandler>
               ) : (
-                <HoliButton
-                  label={t('modal.backdrop')}
-                  style={[styles.dismissIcon, deviceWidth < +vars.breakpointL && styles.dismissIconMobile]}
-                  onPress={onDismiss}
-                  inline={true}
-                  transparent
-                >
-                  <HoliIcon
-                    icon={deviceWidth < +vars.breakpointL ? 'arrow-down-s' : 'close'}
-                    color={colors.fontColorBlack}
-                    size={25}
-                  />
-                </HoliButton>
-              )}
-              {heading && (
-                <HoliHeading level="2" style={styles.heading} ellipsizeMode="tail" numberOfLines={1}>
-                  {heading}
-                </HoliHeading>
+                <View style={styles.heading}>
+                  <HoliButton
+                    label={t('modal.backdrop')}
+                    style={[styles.dismissIcon, deviceWidth < +vars.breakpointL && styles.dismissIconMobile]}
+                    onPress={onDismiss}
+                    transparent
+                  >
+                    <HoliIcon
+                      icon={deviceWidth < +vars.breakpointL ? 'arrow-down-s' : 'close'}
+                      color={colors.fontColorBlack}
+                      size={25}
+                    />
+                  </HoliButton>
+                  {heading && (
+                    <HoliHeading level="2" style={styles.title} ellipsizeMode="tail" numberOfLines={1}>
+                      {heading}
+                    </HoliHeading>
+                  )}
+                </View>
               )}
             </SafeAreaView>
             {children}
@@ -195,7 +198,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     overflow: 'hidden',
-    shadowColor: '#000',
+    shadowColor: colors.shadowColorBlack,
     shadowOffset: {
       width: 0,
       height: 0,
@@ -206,7 +209,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 0,
   },
   headerContainer: {
-    position: 'relative',
     alignItems: 'center',
     justifyContent: 'flex-end',
   },
@@ -235,15 +237,22 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     paddingHorizontal: 15,
     position: 'absolute',
+    width: 'auto',
     right: 0,
-    bottom: 0,
+    top: 0,
   },
   dismissIconMobile: {
     left: 0,
   },
   heading: {
+    marginTop: 20,
+    height: 40,
+    width: '100%',
+    position: 'relative',
+    alignItems: 'center',
+  },
+  title: {
     textAlign: 'center',
-    maxWidth: '80%',
-    paddingTop: 20,
+    width: '80%',
   },
 })
