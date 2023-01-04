@@ -38,8 +38,6 @@ const AccountSettings: React.VFC<ScreenProps> = () => {
         <View style={[mixins.container, styles.accountSettings]}>
           {/* TODO: update change-password-url */}
           <SettingsItem label={t('profile.edit.changePassword')} icon="key-2" onPress={goTo('/forgotPassword')} />
-          <SettingsItem label="Item 2" icon="account-circle" />
-          <SettingsItem label="Item 3" icon="account-circle" />
         </View>
       </LoginProtection>
     </DefaultLayout>

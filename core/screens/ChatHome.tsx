@@ -5,7 +5,7 @@ import { View } from 'react-native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { useScrollYHandler } from '@holi/core/helpers'
+import { useScrollYHandler, useToastForNotAvailableFeature } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -22,6 +22,9 @@ const ChatHome: React.VFC<ScreenProps> = () => {
 
   const { setOptions, navigate } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
+
+  // TODO: remove after implementing the feature
+  useToastForNotAvailableFeature(true)
 
   useLayoutEffect(() => {
     setOptions({
