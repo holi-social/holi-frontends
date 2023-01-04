@@ -107,27 +107,25 @@ const NotificationsOverview: React.VFC = () => {
   const sortedNotificationsByDate = sortNotificationsByDate(data?.notifications?.data)
 
   return (
-    <>
-      <SectionList
-        sections={sortedNotificationsByDate}
-        keyExtractor={({ id }) => id}
-        renderItem={({ item }) => <NotificationItem notification={item} style={styles.notification} />}
-        renderSectionHeader={({ section }) => (
-          <HoliHeading size="small" style={styles.groupTitle}>
-            {section.title}
-          </HoliHeading>
-        )}
-        renderSectionFooter={({ section }) =>
-          section === sortedNotificationsByDate[sortedNotificationsByDate.length - 1] ? (
-            <View style={styles.lastSectionFooter} />
-          ) : null
-        }
-        onScroll={onScreenScroll}
-        scrollEventThrottle={200}
-        stickySectionHeadersEnabled={false}
-        testID="notification-list"
-      />
-    </>
+    <SectionList
+      sections={sortedNotificationsByDate}
+      keyExtractor={({ id }) => id}
+      renderItem={({ item }) => <NotificationItem notification={item} style={styles.notification} />}
+      renderSectionHeader={({ section }) => (
+        <HoliHeading size="small" style={styles.groupTitle}>
+          {section.title}
+        </HoliHeading>
+      )}
+      renderSectionFooter={({ section }) =>
+        section === sortedNotificationsByDate[sortedNotificationsByDate.length - 1] ? (
+          <View style={styles.lastSectionFooter} />
+        ) : null
+      }
+      onScroll={onScreenScroll}
+      scrollEventThrottle={200}
+      stickySectionHeadersEnabled={false}
+      testID="notification-list"
+    />
   )
 }
 

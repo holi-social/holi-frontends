@@ -31,19 +31,18 @@ const Notifications: React.VFC = () => {
   )
 
   return (
-    <>
-      <SafeAreaView />
-      <View style={[mixins.container, styles.defaultLayout]} testID="notifications-overview">
+    <SafeAreaView style={styles.contentWrapper}>
+      <View style={mixins.container} testID="notifications-overview">
         <NotificationsOverview />
       </View>
-    </>
+    </SafeAreaView>
   )
 }
 
 export default memo(Notifications)
 
 const styles = StyleSheet.create({
-  defaultLayout: {
+  contentWrapper: {
     paddingTop: vars.topBarHeight,
     paddingBottom: 0,
     height: '100%',
@@ -52,7 +51,6 @@ const styles = StyleSheet.create({
         minHeight: '100vh',
       },
     }),
-
     backgroundColor: colors.backgroundColorGreyLight,
   },
 })
