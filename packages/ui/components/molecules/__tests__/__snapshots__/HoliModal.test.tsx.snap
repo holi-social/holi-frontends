@@ -127,7 +127,6 @@ exports[`renders correctly renders correctly when open 1`] = `
           Object {
             "alignItems": "center",
             "justifyContent": "flex-end",
-            "position": "relative",
           }
         }
       >

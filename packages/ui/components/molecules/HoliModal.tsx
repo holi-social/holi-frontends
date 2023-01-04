@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     marginTop: 20,
-    height: 40,
+    height: 30,
     width: '100%',
     position: 'relative',
     alignItems: 'center',
