@@ -2,6 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
 
+import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { Comment } from '@holi/core/screens/posts/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -23,10 +24,19 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
   const { creator } = comment
   const name = creator.fullName || t('user.profileView.anonymous')
 
+  // TODO: remove after implementing the feature
+  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
+
   return (
     <View style={[styles.wrapper, style]} {...props}>
       <HoliMediaHeader title={name} author={creator} date={comment.created} boldTitle>
-        <HoliButton transparent inline label={t('insights.post.preview.more')} style={styles.moreButton}>
+        <HoliButton
+          transparent
+          inline
+          label={t('insights.post.preview.more')}
+          style={styles.moreButton}
+          onPress={showFeatureNotImplementedToast}
+        >
           <HoliIcon icon="more" color={colors.fontColorGrey} />
         </HoliButton>
       </HoliMediaHeader>
@@ -39,7 +49,15 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
             <HoliText size="small" style={styles.likesNumber}>
               0
             </HoliText>
-            <HoliIcon icon="heart" style={styles.likesIcon} />
+            <HoliButton
+              transparent
+              inline
+              label={t('global.like')}
+              onPress={showFeatureNotImplementedToast}
+              style={styles.likesButton}
+            >
+              <HoliIcon icon="heart" />
+            </HoliButton>
           </View>
         </View>
       </View>
@@ -79,7 +97,7 @@ const styles = StyleSheet.create({
   likesNumber: {
     color: colors.fontColorGrey,
   },
-  likesIcon: {
+  likesButton: {
     marginLeft: 9,
   },
 })

@@ -121,7 +121,7 @@ const Notifications: React.VFC = () => {
 
   if (!containsNotifications(data?.notifications?.data))
     return (
-      <View style={[styles.mainWrapper, mixins.container]}>
+      <View style={[styles.mainWrapper, mixins.container]} testID="notifications-overview">
         <HoliNoResults
           firstText={t('notifications.display.empty.text1')}
           secondText={t('notifications.display.empty.text2')}
@@ -136,7 +136,7 @@ const Notifications: React.VFC = () => {
     <>
       <SafeAreaView />
 
-      <View style={styles.mainWrapper}>
+      <View style={styles.mainWrapper} testID="notifications-overview">
         <SectionList
           sections={sortedNotificationsByDate}
           keyExtractor={({ id }) => id}
