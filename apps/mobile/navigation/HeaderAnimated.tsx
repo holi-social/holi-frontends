@@ -60,7 +60,7 @@ const useHeaderHideAnimation = (headerHeight: number) => {
   })
 }
 
-const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, route, navigation }) => {
+const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, route }) => {
   const {
     headerTitleAlign = 'center',
     headerTintColor,
@@ -125,7 +125,7 @@ const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, rout
                       label: headerBackTitle,
                     })
                 : headerLeft === undefined && canGoBack
-                ? ({ tintColor }) => <HeaderBackButton tintColor={tintColor} onPress={navigation.goBack} />
+                ? ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />
                 : headerLeft
             }
             headerRight={
