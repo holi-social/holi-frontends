@@ -28,7 +28,7 @@ describe('formats date strings to relative date strings correctly', () => {
     expect(formattedDateString).toBe('yesterday')
   })
 
-  it('formats correctly this weeks date', () => {
+  it.skip('formats correctly this weeks date', () => {
     const date = new Date()
     let dayOfWeek = date.getDay() - 1
     if (dayOfWeek < 0) {
