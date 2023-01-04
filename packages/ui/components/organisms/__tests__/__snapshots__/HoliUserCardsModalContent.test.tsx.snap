@@ -1472,17 +1472,14 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
   </RCTScrollView>
   <View
     style={
-      Array [
-        Object {
-          "bottom": 32,
-          "left": 0,
-          "marginHorizontal": 24,
-          "opacity": 1,
-          "position": "absolute",
-          "right": 0,
-        },
-        false,
-      ]
+      Object {
+        "bottom": 32,
+        "left": 0,
+        "marginHorizontal": 24,
+        "opacity": 1,
+        "position": "absolute",
+        "right": 0,
+      }
     }
   >
     <View

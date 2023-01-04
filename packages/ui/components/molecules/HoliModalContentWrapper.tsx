@@ -63,16 +63,18 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
 
       {scrollable ? <ScrollView keyboardShouldPersistTaps={keyboardShouldPersistTaps}>{content}</ScrollView> : content}
 
-      <View style={[styles.actionButtonContainer, keyboardHeight > 0 && styles.hiddenButton]}>
-        <HoliButton
-          label={actionButtonText}
-          onPress={onActionButtonPress}
-          style={[mixins.moreButton, { marginTop: 0 }]}
-          testID={`${testID}-close-btn`}
-        >
-          {actionButtonText}
-        </HoliButton>
-      </View>
+      {keyboardHeight === 0 && (
+        <View style={styles.actionButtonContainer}>
+          <HoliButton
+            label={actionButtonText}
+            onPress={onActionButtonPress}
+            style={[mixins.moreButton, { marginTop: 0 }]}
+            testID={`${testID}-close-btn`}
+          >
+            {actionButtonText}
+          </HoliButton>
+        </View>
+      )}
     </View>
   )
 }
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
     maxHeight: '100%',
     width: '100%',
     maxWidth: 800,
-    ...(Platform.OS === 'web' ? { minHeight: '100%' } : {}),
+    ...(Platform.OS === 'web' ? { flex: 1 } : {}),
   },
   loaderContainer: {
     ...StyleSheet.absoluteFillObject,
@@ -118,8 +120,5 @@ const styles = StyleSheet.create({
     left: 0,
     marginHorizontal: 24,
     opacity: 1,
-  },
-  hiddenButton: {
-    display: 'none',
   },
 })
