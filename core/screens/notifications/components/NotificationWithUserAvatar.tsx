@@ -31,7 +31,7 @@ const NotificationWithUserAvatar: React.FC<NotificationWithUserAvatarProps> = ({
   const userFullName = fullName || t('user.profileView.anonymous')
 
   return (
-    <View style={style} testID={`${testID && testID + '-'}notification-item`}>
+    <View style={style} testID={testID}>
       <HoliLink href={href} label={userFullName} mobileNavigateBackFirst>
         <View style={styles.link}>
           <HoliUserAvatar
