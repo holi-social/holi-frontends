@@ -7,15 +7,13 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import DiscoverSpaces from '@holi/core/screens/spaces/components/DiscoverSpaces'
 import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -62,17 +60,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
           {title}
         </HeaderTitle>
       ),
-      headerRight: ({ tintColor }) => (
-        <HoliHorizontalRow>
-          <HoliButton label={t('notifications.title')} inline transparent onPress={() => navigate('/notifications')}>
-            <HoliIcon icon="notification-2" size={24} color={tintColor} />
-          </HoliButton>
-
-          <HoliButton label={t('navigation.search')} inline transparent onPress={() => navigate('/search')}>
-            <HoliIcon icon="search" size={24} color={tintColor} />
-          </HoliButton>
-        </HoliHorizontalRow>
-      ),
+      headerRight: (props) => <NotificationSearchButtons {...props} />,
     })
   }, [setOptions, navigate, t])
 
