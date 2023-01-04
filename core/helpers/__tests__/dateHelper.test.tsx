@@ -2,7 +2,9 @@ import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 
 const language = 'en'
 
-describe('formats date strings to relative date strings correctly', () => {
+jest.useFakeTimers().setSystemTime(new Date('2022-01-01'))
+
+describe('getRelativeDateString', () => {
   it('returns empty string if no dateStr is given', () => {
     const formattedDateString = getRelativeDateString(undefined, language)
 
@@ -29,18 +31,21 @@ describe('formats date strings to relative date strings correctly', () => {
   })
 
   it('formats correctly this weeks date', () => {
-    const date = new Date()
-    let dayOfWeek = date.getDay() - 1
-    if (dayOfWeek < 0) {
-      dayOfWeek = 6
+    for (let daysBefore = 2; daysBefore <= 6; daysBefore++) {
+      const date = new Date()
+      let dayOfWeek = date.getDay() - 1
+      if (dayOfWeek < 0) {
+        dayOfWeek = 6
+      }
+      date.setDate(date.getDate() - daysBefore) // set this date to day before yesterday
+
+      const dateString = date.toDateString()
+
+      const formattedDateString = getRelativeDateString(dateString, language)
+
+      // `dayOfWeek - daysBefore` checks if day before yesterday is in current week
+      expect(formattedDateString).toBe(dayOfWeek - daysBefore >= 0 ? `${daysBefore} days ago` : 'last week')
     }
-    date.setDate(date.getDate() - 2)
-
-    const dateString = date.toDateString()
-
-    const formattedDateString = getRelativeDateString(dateString, language)
-
-    expect(formattedDateString).toBe(dayOfWeek + 1 > 2 ? 'this week' : 'last week')
   })
 
   it('formats correctly last weeks date', () => {

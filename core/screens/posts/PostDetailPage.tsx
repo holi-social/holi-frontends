@@ -117,7 +117,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
       <StatusBar animated />
 
       <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} ref={scrollViewRef}>
-        <View style={screenWidth > +vars.breakpointXl && mixins.container}>
+        <View style={screenWidth > +vars.breakpointXl && mixins.container} testID="post-detail-view">
           <PostContent post={post} hasHeader style={styles.postContent} />
 
           {/* Post comments */}
