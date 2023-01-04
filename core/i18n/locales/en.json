@@ -259,7 +259,7 @@
   "user.profileForm.pronouns": "Pronouns (e.g. them/theirs)",
   "user.profileForm.pronounsPlaceholder": "How would you like to be addressed?",
   "user.profileForm.save": "Save",
-  "user.profileView.anonymous": "Anonymous user",
+  "user.profileView.anonymous": "Anonymous User",
   "user.profileView.connection.button.CONNECTED": "Connected",
   "user.profileView.connection.button.IGNORE": "Ignore",
   "user.profileView.connection.button.NOT_CONNECTED": "Connect",
