@@ -14,9 +14,9 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceFilter = {
-  topic?: string // slug
+  topicSlug?: string
   location?: string
-  skills?: string[] // slug[]
+  skillSlugs?: string[]
 }
 
 type SpaceFilterModalProps = {
@@ -27,49 +27,49 @@ type SpaceFilterModalProps = {
 const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, applyFilters }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const [topic, setTopic] = useState(filters.topic)
+  const [topicSlug, setTopicSlug] = useState(filters.topicSlug)
   const [location, setLocation] = useState(filters.location)
-  const [skills, setSkills] = useState(filters.skills)
+  const [skillSlugs, setSkillSlugs] = useState(filters.skillSlugs)
 
-  const { loading, loadingFailed, topics: allTopics, skills: allSkills } = useContext(SpaceTermContext)
+  const { loading, loadingFailed, topics, skills } = useContext(SpaceTermContext)
 
   const [showFilterModal, setShowFilterModal] = useState(false)
   const closeModal = useCallback(() => {
     setShowFilterModal(false)
   }, [setShowFilterModal])
   const openModal = useCallback(() => {
-    setTopic(filters.topic)
+    setTopicSlug(filters.topicSlug)
     setLocation(filters.location)
-    setSkills(filters.skills)
+    setSkillSlugs(filters.skillSlugs)
     setShowFilterModal(true)
-  }, [setShowFilterModal, setTopic, setLocation, setSkills, filters])
+  }, [setShowFilterModal, setTopicSlug, setLocation, setSkillSlugs, filters])
   const submit = useCallback(() => {
     applyFilters({
-      topic,
+      topicSlug,
       location,
-      skills,
+      skillSlugs,
     })
     setShowFilterModal(false)
-  }, [topic, location, skills, applyFilters, setShowFilterModal])
+  }, [topicSlug, location, skillSlugs, applyFilters, setShowFilterModal])
 
-  const topicOptions: HoliSelectOption[] = allTopics.map((t) => ({
-    id: t.slug,
-    title: t.title,
-    selected: topic === t.slug,
+  const topicOptions: HoliSelectOption[] = topics.map((topic) => ({
+    id: topic.slug,
+    title: topic.title,
+    selected: topicSlug === topic.slug,
   }))
   const toggleTopicSelection = useCallback(
-    (option: HoliSelectOption) => setTopic(option.selected ? undefined : option.id),
-    [setTopic]
+    (option: HoliSelectOption) => setTopicSlug(option.selected ? undefined : option.id),
+    [setTopicSlug]
   )
-  const skillOptions: HoliSelectOption[] = allSkills.map((s) => ({
-    id: s.slug,
-    title: s.title,
-    selected: skills?.includes(s.slug),
+  const skillOptions: HoliSelectOption[] = skills.map((skill) => ({
+    id: skill.slug,
+    title: skill.title,
+    selected: skillSlugs?.includes(skill.slug),
   }))
 
   const toggleSkillSelection = useCallback(
     (option: HoliSelectOption) =>
-      setSkills((list = []) => {
+      setSkillSlugs((list = []) => {
         const index = list.indexOf(option.id)
         if (index < 0 && !option.selected) {
           list.push(option.id)
@@ -79,7 +79,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
         // create new object to enforce rerender
         return [...list]
       }),
-    [setSkills]
+    [setSkillSlugs]
   )
 
   // Loading or error state just hides the component

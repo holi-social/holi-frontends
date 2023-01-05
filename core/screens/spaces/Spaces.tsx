@@ -29,13 +29,13 @@ const Spaces: React.VFC<ScreenProps> = () => {
   const applyFilters = useCallback(
     (filters: SpaceFilter) => {
       const params = new URLSearchParams()
-      if (filters.topic) {
-        params.set('topic', filters.topic)
+      if (filters.topicSlug) {
+        params.set('topic', filters.topicSlug)
       }
       if (filters.location) {
         params.set('location', filters.location)
       }
-      filters.skills?.forEach((skill) => {
+      filters.skillSlugs?.forEach((skill) => {
         params.append('skill', skill)
       })
       const paramsString = params.toString()

@@ -67,8 +67,8 @@ export const topicsQuery = gql`
 export const spacesQuery = gql`
   ${SpaceFragment}
 
-  query Spaces($topic: String, $location: String, $skills: [String], $offset: Int, $limit: Int) {
-    spaces(topic: $topic, location: $location, skills: $skills, offset: $offset, limit: $limit) {
+  query Spaces($topicSlug: String, $location: String, $skillSlugs: [String], $offset: Int, $limit: Int) {
+    spaces(topicSlug: $topicSlug, location: $location, skillSlugs: $skillSlugs, offset: $offset, limit: $limit) {
       totalResults
       data {
         ...FullSpace
