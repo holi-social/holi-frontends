@@ -110,14 +110,6 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
     )
   }, [setOptions, navigate, t, isLoggedIn, toggleEditMode, showFeatureNotImplementedToast])
 
-  const autoHeightFor: Record<EditModeState, boolean> = {
-    profile: true,
-    engagementLevel: false,
-    interests: false,
-    skills: false,
-    sdgs: false,
-  }
-
   return (
     <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
       <LoginProtection loggedOutContent={<LoggedOutView />}>
@@ -129,10 +121,10 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
                 onDismiss={closeModal}
                 testID="user-profile-modal"
                 label={t(`profile.${editMode}.edit`)}
-                autoHeight={autoHeightFor[editMode]}
+                autoHeight={false}
                 // Smaller devices use the whole screen and
                 // larger ones should have more space above for clicking the backdrop pane
-                minRelativeHeight={!autoHeightFor[editMode] && deviceHeight > 750 ? 0.85 : 0}
+                relativeHeight={deviceHeight > 750 ? 0.85 : 1}
               >
                 <>
                   {editMode === 'profile' && (

@@ -80,6 +80,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
       headlineText={t('user.engagementLevel.form.question')}
       prependChildren={notificationComponent}
       loading={loading}
+      style={styles.wrapper}
     >
       <View style={styles.mainContainer}>
         <View style={styles.buttonsContainer}>
@@ -146,6 +147,9 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
 
 const getStyles = (buttonsContainerHeight: number) =>
   StyleSheet.create({
+    wrapper: {
+      flex: 1,
+    },
     mainContainer: {
       marginHorizontal: 24,
     },
