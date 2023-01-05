@@ -168,16 +168,19 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
         {!!posts.length && (
           <View style={[mixins.container, styles.postList]}>
             <HoliGridWrapper itemsInRow={postGridItemsInRow}>
-              {posts.map((post) => (
-                <HoliGridCell key={post.id}>
-                  <PostContent
-                    post={post}
-                    collapseContent
-                    onMediaHeaderPressed={() => navigate(`/insights/${insightId}/posts/${post.id}`)}
-                    style={styles.postItem}
-                  />
-                </HoliGridCell>
-              ))}
+              {
+                /** FIXME convert to VirtualizedList, FlatList or SectionList */
+                posts.map((post) => (
+                  <HoliGridCell key={post.id}>
+                    <PostContent
+                      post={post}
+                      collapseContent
+                      onMediaHeaderPressed={() => navigate(`/insights/${insightId}/posts/${post.id}`)}
+                      style={styles.postItem}
+                    />
+                  </HoliGridCell>
+                ))
+              }
             </HoliGridWrapper>
           </View>
         )}

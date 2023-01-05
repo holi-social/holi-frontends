@@ -82,21 +82,24 @@ const CardSwiper = () => {
         onSwipedBottom={(index) => onSwipe(index, 'bottom')}
         onSwipeEnd={checkSwipeState}
       >
-        {loadedData.map((card, index) => (
-          <Card style={styles.card} key={`sdfsdf${index}`}>
-            <Image style={styles.cardImg} source={{ uri: `${imgUri}${card.image}` }} />
-            <View style={styles.textContainer}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <HoliIcon icon="home-smile-2" size={25} color={colors.fontColorWhite} style={{ marginRight: 6 }} />
-                <HoliText style={styles.text}>{card.provider}</HoliText>
+        {
+          /** FIXME convert to VirtualizedList, FlatList or SectionList */
+          loadedData.map((card, index) => (
+            <Card style={styles.card} key={`sdfsdf${index}`}>
+              <Image style={styles.cardImg} source={{ uri: `${imgUri}${card.image}` }} />
+              <View style={styles.textContainer}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <HoliIcon icon="home-smile-2" size={25} color={colors.fontColorWhite} style={{ marginRight: 6 }} />
+                  <HoliText style={styles.text}>{card.provider}</HoliText>
+                </View>
+                <View>
+                  <HoliText style={[styles.text, styles.textBig]}>{card.title}</HoliText>
+                  <HoliText style={[styles.text, { marginTop: 10 }]}>{card.date}</HoliText>
+                </View>
               </View>
-              <View>
-                <HoliText style={[styles.text, styles.textBig]}>{card.title}</HoliText>
-                <HoliText style={[styles.text, { marginTop: 10 }]}>{card.date}</HoliText>
-              </View>
-            </View>
-          </Card>
-        ))}
+            </Card>
+          ))
+        }
       </CardStack>
 
       <View style={styles.footer}>

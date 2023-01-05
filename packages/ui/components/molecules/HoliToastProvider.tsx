@@ -57,17 +57,20 @@ export const ToastProvider: React.FC<Partial<ToastContextValue>> = ({ children }
       {children}
 
       <SafeArea style={styles.wrapper}>
-        {toasts.map((toast: Toast) => (
-          <HoliToast
-            key={toast.id}
-            id={toast.id}
-            type={toast.type}
-            closeToast={() => closeToast(toast.id)}
-            text={toast.text}
-            timeout={toast.timeout}
-            testID={toast.testID}
-          />
-        ))}
+        {
+          /** FIXME convert to VirtualizedList, FlatList or SectionList */
+          toasts.map((toast: Toast) => (
+            <HoliToast
+              key={toast.id}
+              id={toast.id}
+              type={toast.type}
+              closeToast={() => closeToast(toast.id)}
+              text={toast.text}
+              timeout={toast.timeout}
+              testID={toast.testID}
+            />
+          ))
+        }
       </SafeArea>
     </ToastContext.Provider>
   )

@@ -7,7 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
-import { useScrollYHandler } from '@holi/core/helpers'
+import { useScrollYHandler, useToastForNotAvailableFeature } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
@@ -51,6 +51,9 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
     setShowModal(true)
   }, [])
 
+  // TODO: remove after implementing the feature
+  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
+
   useLayoutEffect(() => {
     const title = t('profile.title')
 
@@ -82,7 +85,7 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
                   <HoliIcon icon="edit-2" size={24} color={tintColor} />
                 </HoliButton>
 
-                <HoliButton label={t('profile.share')} inline transparent>
+                <HoliButton label={t('profile.share')} inline transparent onPress={showFeatureNotImplementedToast}>
                   <HoliIcon icon="share" size={24} color={tintColor} />
                 </HoliButton>
 
@@ -105,15 +108,7 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
             headerRight: () => null,
           }
     )
-  }, [setOptions, navigate, t, isLoggedIn, toggleEditMode])
-
-  const autoHeightFor: Record<EditModeState, boolean> = {
-    profile: true,
-    engagementLevel: false,
-    interests: false,
-    skills: false,
-    sdgs: false,
-  }
+  }, [setOptions, navigate, t, isLoggedIn, toggleEditMode, showFeatureNotImplementedToast])
 
   return (
     <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
@@ -126,10 +121,10 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
                 onDismiss={closeModal}
                 testID="user-profile-modal"
                 label={t(`profile.${editMode}.edit`)}
-                autoHeight={autoHeightFor[editMode]}
+                autoHeight={false}
                 // Smaller devices use the whole screen and
                 // larger ones should have more space above for clicking the backdrop pane
-                minRelativeHeight={!autoHeightFor[editMode] && deviceHeight > 750 ? 0.85 : 0}
+                relativeHeight={deviceHeight > 750 ? 0.85 : 1}
               >
                 <>
                   {editMode === 'profile' && (
