@@ -6,6 +6,7 @@ import { Platform, View } from 'react-native'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { useRoute } from '@holi/core/navigation/hooks/useParam/useRoute'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -14,11 +15,14 @@ import GoodNewsHeader from '@holi-apps/goodnews/components/GoodNewsHeader'
 
 type GoodNewsAppHomeProps = Record<string, never>
 
+// get params from GoodNewsUpdatesItem.tsx and pass them to GoodNewsCarousel.tsx
+
 const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
   const { t } = useTranslation()
-  const title = t('goodnews:app.name')
+  const title = useRoute()?.params
   const onScreenScroll = useScrollYHandler()
   const { setOptions } = useUnifiedNavigation()
+  const articleId = useRoute()?.params
 
   useLayoutEffect(
     () =>
@@ -50,7 +54,7 @@ const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
         scrollEventThrottle={200}
         style={{ paddingBottom: 0, height: '100%', backgroundColor: colors.backgroundColorGreyLight }}
       >
-        <GoodNewsCarousel />
+        <GoodNewsCarousel articleId={articleId} />
       </DefaultLayout>
     </View>
   )

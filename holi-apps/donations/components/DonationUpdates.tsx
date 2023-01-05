@@ -73,9 +73,10 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery, style
           testID={'donations-updates-load-more-button'}
         >
           <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/illustrations/illustration_see_more.png')}
+            imageSource={require('@holi/ui/assets/img/illustrations/illustration_see_more.svg')}
             width={Platform.OS === 'web' ? 160 : screenWidth / 2 - 26}
             height={Platform.OS === 'web' ? 160 : screenWidth / 2 - 26}
+            isSvg
             label=""
           />
           <View style={styles.seeMoreContainer}>
@@ -94,7 +95,6 @@ const styles = StyleSheet.create({
   donationsHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 40,
   },
   donationIconContainer: {
     padding: 13,

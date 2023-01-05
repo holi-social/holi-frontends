@@ -22,7 +22,9 @@ import GoodNewsArticleComponent from './GoodNewsArticleComponent'
 import GoodNewsHeader from './GoodNewsHeader'
 import GoodNewsTeaserComponent from './GoodNewsTeaserComponent'
 
-type GoodNewsCarouselProps = Record<string, never>
+type GoodNewsCarouselProps = {
+  articleId?: string
+} & Record<string, never>
 
 type CarouselItem = {
   type: 'article' | 'teaser'
@@ -30,7 +32,7 @@ type CarouselItem = {
 }
 
 /** This is a temporary component and should be replaced by a carousel-style component later */
-const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
+const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = (articleId) => {
   const { i18n } = useTranslation()
   const { width, height } = useWindowDimensions()
   const styles = useMemo(() => getStyles(width, height), [width, height])
@@ -60,6 +62,13 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
   }, [fetchMore, oldestDate])
 
   const [activeArticleIndex, setActiveArticleIndex] = useState<number>(0)
+
+  /*   if (articleId) {
+    const index = articles?.findIndex((article) => article.id === articleId)
+    if (index !== undefined) {
+      setActiveArticleIndex(index)
+    }
+  } */
 
   useEffect(() => {
     setOptions({
