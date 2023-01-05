@@ -32,7 +32,7 @@ const Notifications: React.VFC = () => {
 
   return (
     <SafeAreaView style={styles.contentWrapper}>
-      <View style={mixins.container} testID="notifications-overview">
+      <View style={[mixins.container, styles.container]} testID="notifications-overview">
         <NotificationsOverview />
       </View>
     </SafeAreaView>
@@ -43,8 +43,6 @@ export default memo(Notifications)
 
 const styles = StyleSheet.create({
   contentWrapper: {
-    paddingTop: vars.topBarHeight,
-    paddingBottom: 0,
     height: '100%',
     ...Platform.select({
       web: {
@@ -52,5 +50,9 @@ const styles = StyleSheet.create({
       },
     }),
     backgroundColor: colors.backgroundColorGreyLight,
+  },
+  container: {
+    top: vars.topBarHeight,
+    paddingBottom: 0,
   },
 })
