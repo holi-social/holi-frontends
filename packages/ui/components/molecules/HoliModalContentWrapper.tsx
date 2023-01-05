@@ -56,7 +56,9 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
       {Platform.OS === 'web' ? (
         children
       ) : (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>{children}</TouchableWithoutFeedback>
+        <TouchableWithoutFeedback accessible={false} onPress={Keyboard.dismiss}>
+          {children}
+        </TouchableWithoutFeedback>
       )}
 
       <View style={styles.placeHolder} />
