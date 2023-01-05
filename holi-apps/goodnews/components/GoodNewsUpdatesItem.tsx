@@ -22,8 +22,6 @@ const GoodNewsUpdatesItem: React.VFC<GoodNewsUpdatesItemProps> = ({ article, sty
   const styles = getStyles(screenWidth)
   const { i18n } = useTranslation()
 
-  const params = new URLSearchParams()
-
   const formattedDate = useMemo(() => {
     if (!article.date) return undefined
     const dateString = getRelativeDateString(article.date, i18n.language)

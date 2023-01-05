@@ -32,7 +32,7 @@ type CarouselItem = {
 }
 
 /** This is a temporary component and should be replaced by a carousel-style component later */
-const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = (articleId) => {
+const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
   const { i18n } = useTranslation()
   const { width, height } = useWindowDimensions()
   const styles = useMemo(() => getStyles(width, height), [width, height])
