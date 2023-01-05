@@ -52,11 +52,9 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
     }).finally(() => setFetchingMore(false))
   }, [fetchMore, projects.length])
 
-  const fetchMoreButtonText = useMemo(() => {
-    return fetchingMore
-      ? t('donations:donationListing.loadMoreButton.loading')
-      : t('donations:donationListing.loadMoreButton.text')
-  }, [fetchingMore, t])
+  const fetchMoreButtonText = fetchingMore
+    ? t('donations:donationListing.loadMoreButton.loading')
+    : t('donations:donationListing.loadMoreButton.text')
 
   if (error) {
     displayError(error, t('donations:donationListing.error'))
