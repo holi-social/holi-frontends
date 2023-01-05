@@ -2,12 +2,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export const middleware = (request: NextRequest) => {
-  console.info('hit middleware', request.nextUrl.hostname)
-  console.info('nextUrl', request.nextUrl)
-  console.info('url', request.url)
-  console.info('headers', request.headers)
-  console.info('host header', request.headers.get('host'))
-
+  // only option on google cloud run to get the hostname of the request
   const host = request.headers.get('host')
 
   // only enable basic auth on staging
