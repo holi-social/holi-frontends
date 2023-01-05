@@ -45,6 +45,7 @@ const SpaceFragment = gql`
       skills {
         id
         title
+        slug
       }
     }
   }
@@ -57,6 +58,7 @@ export const topicsQuery = gql`
         id
         title
         isDiscoverSpacesDefault
+        slug
       }
     }
   }
@@ -65,8 +67,8 @@ export const topicsQuery = gql`
 export const spacesQuery = gql`
   ${SpaceFragment}
 
-  query Spaces($topicId: UUID, $location: String, $skillIds: [UUID], $offset: Int, $limit: Int) {
-    spaces(topicId: $topicId, location: $location, skillIds: $skillIds, offset: $offset, limit: $limit) {
+  query Spaces($topic: String, $location: String, $skills: [String], $offset: Int, $limit: Int) {
+    spaces(topic: $topic, location: $location, skills: $skills, offset: $offset, limit: $limit) {
       totalResults
       data {
         ...FullSpace
