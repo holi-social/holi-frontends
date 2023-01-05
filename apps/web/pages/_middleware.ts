@@ -3,6 +3,9 @@ import type { NextRequest } from 'next/server'
 
 export const middleware = (request: NextRequest) => {
   console.info('hit middleware', request.nextUrl.hostname)
+  console.info('nextUrl', request.nextUrl)
+  console.info('url', request.url)
+  console.info('headers', request.headers)
 
   // only enable basic auth on staging
   if (request.nextUrl.hostname.startsWith('staging')) {
