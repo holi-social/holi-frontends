@@ -4,10 +4,10 @@ import { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
 const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
-  initialRouteName: RouteName.Core,
+  initialRouteName: RouteName.BottomTabs,
   screens: {
     // the actual app
-    [RouteName.Core]: {
+    [RouteName.BottomTabs]: {
       screens: {
         [RouteName.Home]: {
           initialRouteName: RouteName.HomeFeed,
@@ -19,7 +19,6 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.PostDetailPage]: 'posts/:postId',
             [RouteName.PostCommentInputPage]: 'posts/:postId/comment',
             [RouteName.UserProfile]: 'profile/:userId',
-            [RouteName.Notifications]: 'notifications',
           },
         },
         [RouteName.Spaces]: {
@@ -68,7 +67,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.VolunteeringAppHome]: 'apps/volunteering',
       },
     },
-    // all modals
+    [RouteName.Notifications]: 'notifications',
     [RouteName.Login]: 'login',
     [RouteName.Registration]: 'registration',
     [RouteName.ForgotPassword]: 'forgotPassword',

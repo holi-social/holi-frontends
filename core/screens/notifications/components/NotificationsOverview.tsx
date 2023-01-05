@@ -124,6 +124,7 @@ const NotificationsOverview: React.VFC = () => {
       onScroll={onScreenScroll}
       scrollEventThrottle={200}
       stickySectionHeadersEnabled={false}
+      style={styles.sectionList}
       testID="notification-list"
     />
   )
@@ -132,6 +133,9 @@ const NotificationsOverview: React.VFC = () => {
 export default NotificationsOverview
 
 const styles = StyleSheet.create({
+  sectionList: {
+    overflow: 'visible',
+  },
   groupTitle: {
     paddingVertical: 12,
   },

@@ -11,16 +11,11 @@ import Login from '@holi/core/auth/screens/Login'
 import Registration from '@holi/core/auth/screens/Registration'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import Search from '@holi/core/screens/Search'
-import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
-import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
 import Notifications from '@holi/core/screens/notifications/Notifications'
-import CommentInputPage, { CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
-import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
-import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
+import FeedNavigator from '@holi/mobile/navigation/FeedNavigator'
 import GoodNewsAppNavigator from '@holi/mobile/navigation/GoodNewsAppNavigator'
 import HeaderAnimated from '@holi/mobile/navigation/HeaderAnimated'
 import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
@@ -29,27 +24,9 @@ import { RouteName } from '@holi/mobile/navigation/routeName'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type HomeStackScreens = {
-  [RouteName.HomeFeed]: undefined
-  [RouteName.InsightDetailPage]: InsightDetailPageParams
-  [RouteName.InsightPostDetailPage]: PostDetailPageParams
-  [RouteName.InsightPostCommentInputPage]: CommentInputPageParams
-  [RouteName.PostDetailPage]: PostDetailPageParams
-  [RouteName.PostCommentInputPage]: CommentInputPageParams
-  [RouteName.Notifications]: undefined
-  [RouteName.Search]: undefined
-  [RouteName.UserProfile]: UserProfileParams
-}
-
-export type BottomTabsScreens = {
-  [RouteName.Home]: undefined
-  [RouteName.Chat]: undefined
-  [RouteName.Spaces]: undefined
-  [RouteName.Auth]: undefined
-}
-
 export type RootStackScreens = {
-  [RouteName.Core]: undefined
+  [RouteName.BottomTabs]: undefined
+  [RouteName.Notifications]: undefined
   [RouteName.DonationsApp]: undefined
   [RouteName.GoodNewsApp]: undefined
   [RouteName.VolunteeringApp]: undefined
@@ -59,47 +36,15 @@ export type RootStackScreens = {
   [RouteName.Search]: undefined
 }
 
-const HomeStack = createNativeStackNavigator<HomeStackScreens>()
-const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
-const RootStack = createNativeStackNavigator<RootStackScreens>()
-
-// const screensWithoutFooter = [
-//   RouteName.InsightDetailPage,
-//   RouteName.PostDetailPage,
-//   RouteName.CommentInputPage,
-//   RouteName.SpaceDetails,
-// ]
-
-export const HomeStackNavigator: React.VFC = () => {
-  return (
-    <HomeStack.Navigator
-      initialRouteName={RouteName.HomeFeed}
-      screenOptions={{
-        header: HeaderAnimated,
-        headerShadowVisible: false,
-        headerTransparent: true,
-      }}
-    >
-      <HomeStack.Screen name={RouteName.HomeFeed} component={HomeFeed} />
-      <HomeStack.Screen name={RouteName.Search} component={Search} />
-      <HomeStack.Screen name={RouteName.InsightDetailPage} component={InsightDetailPage} />
-      <HomeStack.Screen name={RouteName.InsightPostDetailPage} component={PostDetailPage} />
-      <HomeStack.Screen name={RouteName.InsightPostCommentInputPage} component={CommentInputPage} />
-      <HomeStack.Screen name={RouteName.PostDetailPage} component={PostDetailPage} />
-      <HomeStack.Screen name={RouteName.PostCommentInputPage} component={CommentInputPage} />
-      <HomeStack.Screen
-        name={RouteName.Notifications}
-        options={{
-          presentation: 'containedModal',
-          animation: 'slide_from_bottom',
-          headerShown: true,
-        }}
-        component={Notifications}
-      />
-      <HomeStack.Screen name={RouteName.UserProfile} component={UserProfile} />
-    </HomeStack.Navigator>
-  )
+export type BottomTabsScreens = {
+  [RouteName.Home]: undefined
+  [RouteName.Chat]: undefined
+  [RouteName.Spaces]: undefined
+  [RouteName.Auth]: undefined
 }
+
+const RootStack = createNativeStackNavigator<RootStackScreens>()
+const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 
 export const BottomTabsNavigator: React.VFC = () => {
   const { options } = useUnifiedNavigation()
@@ -130,7 +75,7 @@ export const BottomTabsNavigator: React.VFC = () => {
     >
       <BottomTabs.Screen
         name={RouteName.Home}
-        component={HomeStackNavigator}
+        component={FeedNavigator}
         options={{
           tabBarLabel: t('navigation.home'),
           headerShown: false,
@@ -180,14 +125,24 @@ export const BottomTabsNavigator: React.VFC = () => {
 const RootNavigator: React.VFC = () => {
   return (
     <RootStack.Navigator
-      initialRouteName={RouteName.Core}
+      initialRouteName={RouteName.BottomTabs}
       screenOptions={{
         headerShown: false,
         header: HeaderAnimated,
         headerShadowVisible: false,
       }}
     >
-      <RootStack.Screen name={RouteName.Core} component={BottomTabsNavigator} />
+      <RootStack.Screen name={RouteName.BottomTabs} component={BottomTabsNavigator} />
+      {/* modal options: https://reactnavigation.org/docs/native-stack-navigator/#presentation */}
+      <RootStack.Screen
+        name={RouteName.Notifications}
+        component={Notifications}
+        options={{
+          presentation: 'containedModal',
+          animation: 'slide_from_bottom',
+          headerShown: true,
+        }}
+      />
       <RootStack.Screen
         name={RouteName.DonationsApp}
         component={DonationsAppNavigator}
@@ -212,17 +167,33 @@ const RootNavigator: React.VFC = () => {
           headerShown: false,
         }}
       />
-      <RootStack.Group
-        screenOptions={{
+      <RootStack.Screen
+        name={RouteName.Login}
+        component={Login}
+        options={{
           presentation: 'containedModal',
           animation: 'slide_from_bottom',
           headerShown: true,
         }}
-      >
-        <RootStack.Screen name={RouteName.Login} component={Login} />
-        <RootStack.Screen name={RouteName.Registration} component={Registration} />
-        <RootStack.Screen name={RouteName.ForgotPassword} component={ForgotPassword} />
-      </RootStack.Group>
+      />
+      <RootStack.Screen
+        name={RouteName.Registration}
+        component={Registration}
+        options={{
+          presentation: 'containedModal',
+          animation: 'slide_from_bottom',
+          headerShown: true,
+        }}
+      />
+      <RootStack.Screen
+        name={RouteName.ForgotPassword}
+        component={ForgotPassword}
+        options={{
+          presentation: 'containedModal',
+          animation: 'slide_from_bottom',
+          headerShown: true,
+        }}
+      />
     </RootStack.Navigator>
   )
 }
