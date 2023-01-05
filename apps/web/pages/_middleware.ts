@@ -6,7 +6,7 @@ export const middleware = (request: NextRequest) => {
   const host = request.headers.get('host')
 
   // only enable basic auth on staging
-  if (host && host.startsWith('staging')) {
+  if (host && host.startsWith('deactivatedstaging')) {
     // verify auth credentials
     const authInfo = request.headers?.get('Authorization')
     if (!authInfo) {
