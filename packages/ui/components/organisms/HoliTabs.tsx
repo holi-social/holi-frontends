@@ -147,15 +147,14 @@ export default HoliTabs
 const getStyles = (screenWidth: number, centeredButtons = false) =>
   StyleSheet.create({
     container: {
-      flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
       alignContent: 'center',
     },
     scrollViewContainerStyle: {
-      alignContent: 'center',
-      justifyContent: 'center',
-      alignItems: 'center',
+      alignContent: 'flex-start',
+      justifyContent: 'flex-start',
+      alignItems: 'flex-start',
     },
     headerContainer: {
       width: '100%',

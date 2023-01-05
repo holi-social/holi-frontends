@@ -70,7 +70,6 @@ const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({
 
 const styles = StyleSheet.create({
   headerTitle: {
-    marginTop: 24,
     fontWeight: '400',
   },
   headerDescription: {

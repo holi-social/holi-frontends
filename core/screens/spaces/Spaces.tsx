@@ -1,6 +1,6 @@
-import React, { memo, useCallback, useContext, useLayoutEffect } from 'react'
+import React, { memo, useCallback, useContext, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, useWindowDimensions } from 'react-native'
+import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -10,11 +10,12 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import DiscoverSpaces from '@holi/core/screens/spaces/components/DiscoverSpaces'
+import MySpaces from '@holi/core/screens/spaces/components/MySpaces'
 import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type ScreenProps = NativeStackScreenProps<HomeStackScreens>
@@ -22,10 +23,33 @@ type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 const Spaces: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const [mySpaces, setMySpaces] = useState([])
   const { setOptions, navigate } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
   const { height: deviceHeight } = useWindowDimensions()
   const styles = getStyles(deviceHeight)
+
+  const { user } = useContext(UserContext)
+
+  useLayoutEffect(() => {
+    const title = t('spaces.title')
+    setOptions({
+      title,
+      headerBackTitleVisible: true,
+      headerBackVisible: true,
+      headerTransparent: true,
+      headerStyle: { backgroundColor: colors.backgroundColorWhite },
+      headerTitle: () => null,
+      headerLeft: ({ tintColor }) => (
+        <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
+          {title}
+        </HeaderTitle>
+      ),
+      headerRight: (props) => <NotificationSearchButtons {...props} />,
+    })
+    setMySpaces([{ id: '123' }])
+  }, [setOptions, navigate, t])
+
   const applyFilters = useCallback(
     (filters: SpaceFilter) => {
       const params = new URLSearchParams()
@@ -43,31 +67,16 @@ const Spaces: React.VFC<ScreenProps> = () => {
     },
     [navigate]
   )
-  const { user } = useContext(UserContext)
-
-  useLayoutEffect(() => {
-    const title = t('spaces.title')
-
-    setOptions({
-      title,
-      headerBackTitleVisible: true,
-      headerBackVisible: true,
-      headerTransparent: true,
-      headerStyle: { backgroundColor: colors.backgroundColorWhite },
-      headerTitle: () => null,
-      headerLeft: ({ tintColor }) => (
-        <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
-          {title}
-        </HeaderTitle>
-      ),
-      headerRight: (props) => <NotificationSearchButtons {...props} />,
-    })
-  }, [setOptions, navigate, t])
 
   return (
     <SpaceTermContextProvider>
-      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.wrapper}>
-        <DiscoverSpaces style={mixins.container} user={user} />
+      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.layout}>
+        {mySpaces.length < 1 && (
+          <View style={[mixins.container, styles.discoverSpacesContainer]}>
+            <DiscoverSpaces user={user} />
+          </View>
+        )}
+        {mySpaces.length > 0 && <MySpaces user={user} />}
       </DefaultLayout>
       <SpaceFilterModal applyFilters={applyFilters} />
     </SpaceTermContextProvider>
@@ -76,13 +85,14 @@ const Spaces: React.VFC<ScreenProps> = () => {
 
 const getStyles = (deviceHeight: number) =>
   StyleSheet.create({
-    wrapper: {
-      backgroundColor: colors.backgroundColorGrey,
+    layout: {
       minHeight: deviceHeight,
     },
-    messageContainer: {
-      alignItems: 'center',
-      marginTop: 50,
+    discoverSpacesContainer: {
+      flex: 1,
+      paddingTop: 24,
+      paddingBottom: vars.bottomBarHeight,
+      backgroundColor: colors.backgroundColorGrey,
     },
   })
 

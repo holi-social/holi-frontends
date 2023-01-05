@@ -109,7 +109,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
         <UserProfileView user={user} />
       </View>
       <HoliTabs
-        style={{ marginTop: 24 }}
+        style={{ marginTop: 24, flex: 1 }}
         id="profile-tabs"
         tabs={[
           {

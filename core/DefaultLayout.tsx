@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     paddingTop: +vars.topBarHeight + (Platform.OS === 'android' ? 32 : 0),
   },
   footerPadding: {
-    paddingBottom: (Platform.OS === 'web' ? +vars.bottomBarHeight : 0) + 50,
+    paddingBottom: Platform.OS === 'web' ? +vars.bottomBarHeight : 0,
   },
   scrollLayout: {
     justifyContent: 'flex-start',
