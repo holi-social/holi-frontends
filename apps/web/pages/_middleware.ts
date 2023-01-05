@@ -10,6 +10,7 @@ export const middleware = (request: NextRequest) => {
     // verify auth credentials
     // no password protection on ajax/graphql route
     if (request.page.name !== '/api/graphql') {
+      console.log('checking auth for page ', request.page.name)
       const authInfo = request.headers?.get('Authorization')
       if (!authInfo) {
         return new NextResponse(JSON.stringify({ success: false, message: 'authentication needed' }), {
@@ -27,6 +28,8 @@ export const middleware = (request: NextRequest) => {
           headers: { 'content-type': 'application/json', 'WWW-Authenticate': 'Basic realm=Staging-System' },
         })
       }
+    } else {
+      console.log('not checking auth for page ', request.page.name)
     }
   }
   return NextResponse.next()
