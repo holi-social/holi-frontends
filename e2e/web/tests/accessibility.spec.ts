@@ -4,6 +4,20 @@ import { checkAccessibility, locateElementByTestId, waitForElementByTestId } fro
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
+  /*
+  await page.route('/api/graphql', async (route, request) => {
+    const headers = await request.allHeaders()
+    console.log('allHeaders', request.url(), headers)
+    const newHeaders = {
+      ...headers,
+      Authorization: 'Basic ZDN2czBubHk6WWFnbmkh',
+    }
+    console.log('newHeaders', newHeaders)
+    route.continue({
+      headers: newHeaders,
+    })
+  })
+  */
 })
 
 test.describe('@Accessibility', () => {

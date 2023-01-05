@@ -7,6 +7,8 @@ import { devices } from '@playwright/test'
  */
 // require('dotenv').config();
 
+const baseURL = process.env.BASE_URL || 'https://staging.web.project-holi.org'
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -38,13 +40,21 @@ const config: PlaywrightTestConfig = {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.BASE_URL || 'https://staging.web.project-holi.org',
+    baseURL: baseURL,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on',
     screenshot: 'only-on-failure',
     video: 'on-first-retry',
     headless: process.env.CI ? true : !!process.env.HEADLESS || true,
+    // for staging, we need http basic auth credentials
+    httpCredentials:
+      true || baseURL.startsWith('https://staging.web.project-holi.org')
+        ? {
+            username: 'd3vs0nly',
+            password: 'Yagni!',
+          }
+        : undefined,
   },
 
   /* Configure projects for major browsers */
