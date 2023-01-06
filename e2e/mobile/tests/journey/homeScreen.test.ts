@@ -1,6 +1,7 @@
 import { defaultAuthSteps } from '../../helpers/auth'
 import { navigateBackToHomeScreen } from '../../helpers/navigation'
 import {
+  locateMultipleElementsWithTestId,
   scroll,
   scrollToElementWithTestId,
   tapOnElementWithTestId,
@@ -11,6 +12,8 @@ import {
 describe('@HomeScreen', () => {
   it('should support the user journey', async () => {
     await assertShowsInsights()
+
+    await assertAllowsPagination()
 
     await assertShowsDonationUpdates()
 
@@ -37,6 +40,18 @@ const assertShowsInsights = async () => {
 
   // go home
   await navigateBackToHomeScreen()
+}
+
+const assertAllowsPagination = async () => {
+  const listItemsBefore = await locateMultipleElementsWithTestId('feed-insight-image-link')
+  // load more
+  await scrollToElementWithTestId('btn-insights-list-load-more', 'down')
+  await tapOnElementWithTestId('btn-insights-list-load-more')
+  // wait until "load more" button has been replaced by next list item
+  await waitForElementWithTestIdToBeNull('btn-insights-list-load-more')
+  // expect more elements in viewport than before (as the button has been pushed down)
+  const listItemsAfter = await locateMultipleElementsWithTestId('feed-insight-image-link')
+  expect(listItemsAfter.length).toBeGreaterThan(listItemsBefore.length)
 }
 
 const assertShowsDonationUpdates = async () => {
