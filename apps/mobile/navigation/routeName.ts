@@ -1,12 +1,11 @@
 export enum RouteName {
-  // Home Stack
+  // Feed Stack
   HomeFeed = 'HomeFeed',
   InsightDetailPage = 'InsightDetailPage',
   InsightPostDetailPage = 'InsightPostDetailPage',
   InsightPostCommentInputPage = 'InsightPostCommentInputPage',
   PostDetailPage = 'PostDetailPage',
   PostCommentInputPage = 'PostCommentInputPage',
-  Notifications = 'Notifications',
   UserProfile = 'UserProfile',
 
   // Spaces
@@ -33,7 +32,7 @@ export enum RouteName {
   VolunteeringAppHome = 'VolunteeringAppHome',
 
   // separate Stacks
-  Core = 'Core',
+  BottomTabs = 'BottomTabs',
   Home = 'Home',
   Spaces = 'Spaces',
   Chat = 'Chat',
@@ -44,6 +43,7 @@ export enum RouteName {
   VolunteeringApp = 'VolunteeringApp',
 
   // Root Stack
+  Notifications = 'Notifications',
   Login = 'Login',
   Logout = 'Logout',
   Registration = 'Registration',
