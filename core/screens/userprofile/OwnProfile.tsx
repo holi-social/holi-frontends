@@ -16,7 +16,7 @@ import OwnProfileView, { EditModeState } from '@holi/core/screens/userprofile/co
 import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLoader'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
-import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -27,7 +27,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import { interestsQuery, sdgsQuery, skillsQuery } from './queries'
 
-type ScreenProps = NativeStackScreenProps<HomeStackScreens>
+type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
 
 const OwnProfile: React.VFC<ScreenProps> = () => {
   const [showModal, setShowModal] = useState(false)
