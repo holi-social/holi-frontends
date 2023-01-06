@@ -2,12 +2,13 @@ import React, { memo, useContext, useMemo } from 'react'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import SpaceCard from '@holi/core/screens/spaces/components/SpaceCard'
 import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import SpacesFilterPill from '@holi/core/screens/spaces/components/SpacesFilterPill'
 import SpacesHorizontalSlider from '@holi/core/screens/spaces/components/SpacesHorizontalSlider'
 import SpacesSeeMore from '@holi/core/screens/spaces/components/SpacesSeeMore'
 import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
+import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
+import { colors } from '@holi/ui/styles/globalVars'
 
 const SPACES_PAGE_SIZE = 10
 
@@ -93,7 +94,18 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
         {
           /** FIXME convert to VirtualizedList, FlatList or SectionList */
           spacesData.map((space) => (
-            <SpaceCard key={space.id} space={space} imageHeight={imageHeight} style={styles.spaceCard} />
+            <HoliBlockItem
+              key={space.id}
+              label={space.title}
+              title={space.title}
+              subtitle={space.location}
+              description={space.description}
+              imageSrc={space.mainImage}
+              users={space.memberships.map((membership) => membership.user)}
+              href={`/spaces/${space.id}`}
+              size="large"
+              style={{ backgroundColor: colors.backgroundColor }}
+            />
           ))
         }
       </SpacesHorizontalSlider>
