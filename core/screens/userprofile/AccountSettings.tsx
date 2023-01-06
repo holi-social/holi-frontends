@@ -11,10 +11,10 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import LoggedOutView from '@holi/core/screens/userprofile/components/LoggedOutView'
 import SettingsItem from '@holi/core/screens/userprofile/components/SettingsItem'
-import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-type ScreenProps = NativeStackScreenProps<HomeStackScreens>
+type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
 
 const AccountSettings: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()

@@ -153,7 +153,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
 const getStyles = () =>
   StyleSheet.create({
     modalWrapper: {
-      height: '100%',
+      flex: 1,
     },
     mainContainer: {
       marginHorizontal: 24,

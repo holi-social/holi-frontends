@@ -8,10 +8,10 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import DonationButton from '@holi-apps/donations/components/DonationButton'
 import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
 import DonationListingItemFiltered from '@holi-apps/donations/components/DonationListingItemFiltered'
 import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'
@@ -52,11 +52,9 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
     }).finally(() => setFetchingMore(false))
   }, [fetchMore, projects.length])
 
-  const fetchMoreButtonText = useMemo(() => {
-    return fetchingMore
-      ? t('donations:donationListing.loadMoreButton.loading')
-      : t('donations:donationListing.loadMoreButton.text')
-  }, [fetchingMore, t])
+  const fetchMoreButtonText = fetchingMore
+    ? t('donations:donationListing.loadMoreButton.loading')
+    : t('donations:donationListing.loadMoreButton.text')
 
   if (error) {
     displayError(error, t('donations:donationListing.error'))
@@ -125,7 +123,8 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
           )
       }
       {canFetchMore && (
-        <DonationButton
+        <HoliButtonLoading
+          type="primary"
           label={fetchMoreButtonText}
           disabled={fetchingMore}
           icon={fetchingMore ? 'loader-4' : undefined}

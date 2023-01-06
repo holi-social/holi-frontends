@@ -92,7 +92,7 @@ test.describe('@Notifications', () => {
 
       // go to notifications and click first one post-comment-mention-notification
       await page.goto('/notifications')
-      await clickElementByTestId(page, 'post-comment-mention-notification-item')
+      await clickElementByTestId(page, 'post-comment-mention')
 
       // after clicking on notification we should go to post detail page and scroll to the comment
       await expect(page.getByText(commentTextContent)).toBeVisible()

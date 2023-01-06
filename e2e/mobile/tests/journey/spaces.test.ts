@@ -34,7 +34,7 @@ describe('@Spaces', () => {
   const assertMultipleGroupsDisplayed = async () => {
     const groups = await locateMultipleElementsWithTestId('spaces-group-slider')
     expect(groups.length).toBeGreaterThan(0)
-    const spaces = await locateMultipleElementsWithTestId('btn-to-space')
+    const spaces = await locateMultipleElementsWithTestId('space-link')
     expect(spaces.length).toBeGreaterThan(0)
   }
 
@@ -68,7 +68,7 @@ describe('@Spaces', () => {
 
   const assertSpaceDetails = async () => {
     // click first element on page
-    await tapOnElementWithTestId('btn-to-space')
+    await tapOnElementWithTestId('space-link')
 
     await waitForElementWithTestId('space-details-container')
 

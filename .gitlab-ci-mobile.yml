@@ -83,6 +83,8 @@ mobile_review_publish:
     - /^noenv\/.*/
     - /^nomobile\/.*/
   when: manual
+  allow_failure: false
+
 
 mobile_review_destroy:
   needs: ['mobile_review_publish']
@@ -99,6 +101,7 @@ mobile_review_destroy:
     - echo "Nothing to do, you can't unpublish an expo release. This is only for cleaning up the gitlab environments"
   # can't use rules here: https://gitlab.com/gitlab-org/gitlab/-/issues/34077
   when: manual
+  allow_failure: false
   except:
     - main
     - /^noenv\/.*/
@@ -115,6 +118,7 @@ mobile_review_build_android:
     - /^noenv\/.*/
     - /^nomobile\/.*/
   when: manual
+  allow_failure: false
 
 mobile_review_build_ios:
   extends: .mobile_build
@@ -126,6 +130,7 @@ mobile_review_build_ios:
     - /^noenv\/.*/
     - /^nomobile\/.*/
   when: manual
+  allow_failure: false
 
 mobile_review_e2e_android:
   extends: .mobile_e2e_android
@@ -211,6 +216,7 @@ mobile_staging_e2e_ios:
   extends: .mobile_publish
   needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
   when: manual
+  allow_failure: false
   environment:
     name: mobile-production
     deployment_tier: production
@@ -225,6 +231,7 @@ mobile_staging_e2e_ios:
   extends: .mobile_build
   needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
   when: manual
+  allow_failure: false
   variables:
     ENVIRONMENT_ID: production
     KEEP_ARTIFACTS: 'true'
@@ -241,6 +248,7 @@ mobile_staging_e2e_ios:
   extends: .mobile_build
   needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
   when: manual
+  allow_failure: false
   variables:
     ENVIRONMENT_ID: production
     KEEP_ARTIFACTS: 'true'

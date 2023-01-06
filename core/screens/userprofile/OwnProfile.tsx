@@ -16,7 +16,7 @@ import OwnProfileView, { EditModeState } from '@holi/core/screens/userprofile/co
 import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLoader'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
-import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -27,7 +27,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import { interestsQuery, sdgsQuery, skillsQuery } from './queries'
 
-type ScreenProps = NativeStackScreenProps<HomeStackScreens>
+type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
 
 const OwnProfile: React.VFC<ScreenProps> = () => {
   const [showModal, setShowModal] = useState(false)
@@ -110,14 +110,6 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
     )
   }, [setOptions, navigate, t, isLoggedIn, toggleEditMode, showFeatureNotImplementedToast])
 
-  const autoHeightFor: Record<EditModeState, boolean> = {
-    profile: true,
-    engagementLevel: false,
-    interests: false,
-    skills: false,
-    sdgs: false,
-  }
-
   return (
     <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
       <LoginProtection loggedOutContent={<LoggedOutView />}>
@@ -129,10 +121,10 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
                 onDismiss={closeModal}
                 testID="user-profile-modal"
                 label={t(`profile.${editMode}.edit`)}
-                autoHeight={autoHeightFor[editMode]}
+                autoHeight={false}
                 // Smaller devices use the whole screen and
                 // larger ones should have more space above for clicking the backdrop pane
-                minRelativeHeight={!autoHeightFor[editMode] && deviceHeight > 750 ? 0.85 : 0}
+                relativeHeight={deviceHeight > 750 ? 0.85 : 1}
               >
                 <>
                   {editMode === 'profile' && (

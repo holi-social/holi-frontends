@@ -4,7 +4,6 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import PlacesAutocomplete from '@holi/core/location/components/PlacesAutocomplete'
 import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -15,9 +14,9 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceFilter = {
-  topicId?: string
+  topicSlug?: string
   location?: string
-  skillIds?: string[]
+  skillSlugs?: string[]
 }
 
 type SpaceFilterModalProps = {
@@ -28,9 +27,9 @@ type SpaceFilterModalProps = {
 const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, applyFilters }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const [topicId, setTopicId] = useState(filters.topicId)
+  const [topicSlug, setTopicSlug] = useState(filters.topicSlug)
   const [location, setLocation] = useState(filters.location)
-  const [skillIds, setSkillIds] = useState(filters.skillIds)
+  const [skillSlugs, setSkillSlugs] = useState(filters.skillSlugs)
 
   const { loading, loadingFailed, topics, skills } = useContext(SpaceTermContext)
 
@@ -39,37 +38,38 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
     setShowFilterModal(false)
   }, [setShowFilterModal])
   const openModal = useCallback(() => {
-    setTopicId(filters.topicId)
+    setTopicSlug(filters.topicSlug)
     setLocation(filters.location)
-    setSkillIds(filters.skillIds)
+    setSkillSlugs(filters.skillSlugs)
     setShowFilterModal(true)
-  }, [setShowFilterModal, setTopicId, setLocation, setSkillIds, filters])
+  }, [setShowFilterModal, setTopicSlug, setLocation, setSkillSlugs, filters])
   const submit = useCallback(() => {
     applyFilters({
-      topicId,
+      topicSlug,
       location,
-      skillIds,
+      skillSlugs,
     })
     setShowFilterModal(false)
-  }, [topicId, location, skillIds, applyFilters, setShowFilterModal])
+  }, [topicSlug, location, skillSlugs, applyFilters, setShowFilterModal])
 
-  const topicOptions = topics.map((topic) => ({
-    id: topic.id,
+  const topicOptions: HoliSelectOption[] = topics.map((topic) => ({
+    id: topic.slug,
     title: topic.title,
-    selected: topicId === topic.id,
+    selected: topicSlug === topic.slug,
   }))
   const toggleTopicSelection = useCallback(
-    (option: HoliSelectOption) => setTopicId(option.selected ? undefined : option.id),
-    [setTopicId]
+    (option: HoliSelectOption) => setTopicSlug(option.selected ? undefined : option.id),
+    [setTopicSlug]
   )
-  const skillOptions = skills.map((skill) => ({
-    id: skill.id,
+  const skillOptions: HoliSelectOption[] = skills.map((skill) => ({
+    id: skill.slug,
     title: skill.title,
-    selected: skillIds?.includes(skill.id),
+    selected: skillSlugs?.includes(skill.slug),
   }))
+
   const toggleSkillSelection = useCallback(
     (option: HoliSelectOption) =>
-      setSkillIds((list = []) => {
+      setSkillSlugs((list = []) => {
         const index = list.indexOf(option.id)
         if (index < 0 && !option.selected) {
           list.push(option.id)
@@ -79,11 +79,11 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
         // create new object to enforce rerender
         return [...list]
       }),
-    [setSkillIds]
+    [setSkillSlugs]
   )
 
-  // Loading or error state just hides the component
-  if (loading || loadingFailed) {
+  // Error state just hides the component
+  if (loadingFailed) {
     return <></>
   }
 
@@ -109,16 +109,18 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
         show={showFilterModal}
         onDismiss={closeModal}
         testID="space-filter-modal"
+        relativeHeight={1}
         autoHeight={false}
+        heading={t('spaces.filter.heading')}
       >
         <HoliModalContentWrapper
           actionButtonText={t('spaces.filter.submit')}
           onActionButtonPress={submit}
           style={styles.modalWrapper}
           scrollable={false}
+          loading={loading}
         >
-          <View style={[mixins.container]}>
-            <HoliHeading level="2">{t('spaces.filter.heading')}</HoliHeading>
+          <View style={[mixins.container, styles.container]}>
             <PlacesAutocomplete
               label={t('spaces.filter.location.label')}
               placeholder={t('spaces.filter.location.placeholder')}
@@ -175,8 +177,11 @@ const styles = StyleSheet.create({
   filterOption: {
     marginTop: 24,
   },
-  modalWrapper: {
+  container: {
     height: '100%',
+  },
+  modalWrapper: {
+    flex: 1,
   },
 })
 

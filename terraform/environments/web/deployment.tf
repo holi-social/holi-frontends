@@ -33,6 +33,8 @@ resource "google_cloud_run_service" "mvp_web" {
   project  = data.terraform_remote_state.holi_infra_state.outputs.shared_project_id
   name     = random_id.main.hex
   location = "europe-north1" # finland, low CO2 emissions
+  # https://github.com/hashicorp/terraform-provider-google/issues/5898
+  autogenerate_revision_name = true
 
   template {
     spec {
@@ -67,7 +69,7 @@ resource "google_cloud_run_service" "mvp_web" {
     }
     metadata {
       annotations = {
-        "autoscaling.knative.dev/minScale" = local.environment == "production" ? "0" : "0"
+        "autoscaling.knative.dev/minScale" = local.environment == "production" ? "1" : "0"
         "autoscaling.knative.dev/maxScale" = local.environment == "production" ? "10" : "1"
       }
     }
