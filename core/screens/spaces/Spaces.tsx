@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useContext, useLayoutEffect, useState } from 'react'
+import React, { memo, useCallback, useContext, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -12,7 +12,9 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import DiscoverSpaces from '@holi/core/screens/spaces/components/DiscoverSpaces'
 import MySpaces from '@holi/core/screens/spaces/components/MySpaces'
 import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
-import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
+import SpaceTermContextProvider, {
+  SpaceTermContext,
+} from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -23,7 +25,6 @@ type ScreenProps = NativeStackScreenProps<HomeStackScreens>
 const Spaces: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const [mySpaces, setMySpaces] = useState([])
   const { setOptions, navigate } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
   const { height: deviceHeight } = useWindowDimensions()
@@ -47,7 +48,6 @@ const Spaces: React.VFC<ScreenProps> = () => {
       ),
       headerRight: (props) => <NotificationSearchButtons {...props} />,
     })
-    setMySpaces([{ id: '123' }])
   }, [setOptions, navigate, t])
 
   const applyFilters = useCallback(
@@ -70,14 +70,18 @@ const Spaces: React.VFC<ScreenProps> = () => {
 
   return (
     <SpaceTermContextProvider>
-      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.layout}>
-        {mySpaces.length < 1 && (
-          <View style={[mixins.container, styles.discoverSpacesContainer]}>
-            <DiscoverSpaces user={user} />
-          </View>
+      <SpaceTermContext.Consumer>
+        {({ mySpaces }) => (
+          <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.layout}>
+            {mySpaces.length < 1 && (
+              <View style={[mixins.container, styles.discoverSpacesContainer]}>
+                <DiscoverSpaces user={user} />
+              </View>
+            )}
+            {mySpaces.length > 0 && <MySpaces user={user} />}
+          </DefaultLayout>
         )}
-        {mySpaces.length > 0 && <MySpaces user={user} />}
-      </DefaultLayout>
+      </SpaceTermContext.Consumer>
       <SpaceFilterModal applyFilters={applyFilters} />
     </SpaceTermContextProvider>
   )

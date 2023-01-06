@@ -2,7 +2,8 @@ import { useQuery } from '@apollo/client'
 import React, { createContext } from 'react'
 
 import { logError } from '@holi/core/errors/helpers'
-import { topicsQuery } from '@holi/core/screens/spaces/queries'
+import { MySpacesResponse, mySpaceQuery, topicsQuery } from '@holi/core/screens/spaces/queries'
+import { SpaceSection } from '@holi/core/screens/spaces/types'
 import { SkillsQueryResult, TopicsQueryResult, skillsQuery } from '@holi/core/screens/userprofile/queries'
 import { Skill, Topic } from '@holi/core/screens/userprofile/types'
 
@@ -11,6 +12,7 @@ interface SpaceTermContext {
   loadingFailed: boolean
   topics: Topic[]
   skills: Skill[]
+  mySpaces: SpaceSection[]
 }
 
 const initialState = {
@@ -18,6 +20,7 @@ const initialState = {
   loadingFailed: false,
   topics: [],
   skills: [],
+  mySpaces: [],
 }
 
 export const SpaceTermContext = createContext<SpaceTermContext>(initialState)
@@ -30,6 +33,17 @@ const SpaceTermContextProvider: React.FC = ({ children }) => {
   const { loading: skillsLoading, data: skillsData, error: skillsError } = useQuery<SkillsQueryResult>(skillsQuery)
   const skills = skillsData?.skills.data || []
 
+  const {
+    loading: mySpacesloading,
+    data: mySpacesData,
+    error: mySpacesError,
+  } = useQuery<MySpacesResponse>(mySpaceQuery)
+  const mySpaces = mySpacesData?.mySpaces || []
+
+  if (mySpacesError) {
+    logError(mySpacesError, `[SpaceTermContextProvider.tsx] ${mySpacesError.message}`)
+  }
+
   if (topicsError) {
     logError(topicsError, `[SpaceTermContextProvider.tsx] ${topicsError.message}`)
   }
@@ -40,10 +54,11 @@ const SpaceTermContextProvider: React.FC = ({ children }) => {
   return (
     <SpaceTermContext.Provider
       value={{
-        loading: topicsLoading || skillsLoading,
-        loadingFailed: !!topicsError || !!skillsError,
+        loading: topicsLoading || skillsLoading || mySpacesloading,
+        loadingFailed: !!topicsError || !!skillsError || !!mySpacesError,
         topics,
         skills,
+        mySpaces: mySpaces,
       }}
     >
       {children}

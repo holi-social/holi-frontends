@@ -145,3 +145,26 @@ export const joinSpaceMutation = gql`
 export type JoinSpaceResponse = {
   updateSpaceUserConnection: Space
 }
+
+export const mySpaceQuery = gql`
+  ${SpaceFragment}
+
+  query MySpaces {
+    mySpaces {
+      section
+      spaces {
+        totalResults
+        data {
+          ...FullSpace
+        }
+      }
+    }
+  }
+`
+
+export type MySpacesResponse = {
+  mySpaces: {
+    section: string
+    spaces: Paged<Space>
+  }[]
+}

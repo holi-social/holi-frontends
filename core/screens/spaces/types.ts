@@ -36,6 +36,11 @@ export interface Space {
   tasks?: Task[]
 }
 
+export type SpaceSection = {
+  section: string
+  spaces: { data: Space[] }
+}
+
 export interface Task {
   id: string
   name: string
