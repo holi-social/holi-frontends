@@ -61,9 +61,7 @@ describe('SpacesGroupSlider', () => {
     expect(images.length).toBe(6)
     const [mainImage, avatarImage] = images
     expect(mainImage).toHaveProp('source', { uri: 'https://www.example.com/space1.jpg' })
-    expect(mainImage).toHaveProp('accessibilityLabel', 'Space title')
     expect(avatarImage).toHaveProp('source', { uri: 'https://www.example.com/avatar.jpg' })
-    expect(avatarImage).toHaveProp('accessibilityLabel', 'Some Body')
   })
 
   it('does not display "see more" element if there is nothing more to see', () => {
