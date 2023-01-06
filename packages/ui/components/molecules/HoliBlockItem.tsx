@@ -19,6 +19,7 @@ export type HoliBlockItemProps = {
   label: string
   size?: 'small' | 'large'
   style?: ViewStyle
+  testID?: string
 }
 
 const HoliBlockItem: React.VFC<HoliBlockItemProps> = ({
@@ -31,13 +32,20 @@ const HoliBlockItem: React.VFC<HoliBlockItemProps> = ({
   label,
   size = 'small',
   style,
+  testID,
 }) => {
   const { t } = useTranslation()
   const imageUri: ImageSourcePropType = { uri: imageSrc }
   const styles = size === 'small' ? stylesSmall : stylesLarge
 
   return (
-    <HoliLink label={label} href={href} style={[styles.holiBlockItem, style]} textStyle={styles.holiBlockItemInner}>
+    <HoliLink
+      label={label}
+      href={href}
+      style={[styles.holiBlockItem, style]}
+      textStyle={styles.holiBlockItemInner}
+      testID={testID}
+    >
       <View style={[styles.imageContainer]}>
         <HoliImage label="" source={imageUri} resizeMode="cover" style={styles.image} />
         {size === 'large' && (
