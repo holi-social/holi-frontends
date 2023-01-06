@@ -31,7 +31,7 @@ const DonationSearchForm: React.VFC<DonationSearchFormProps> = ({
       onActionButtonPress={() => onSubmit(locationInput)}
       style={styles.modalWrapper}
       testID="donations-search-modal"
-      keyboardShouldPersistTaps="always"
+      scrollable={false}
     >
       <View style={styles.container}>
         <View style={styles.headingRow}>
@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
   },
   container: {
     marginHorizontal: 16,
+    height: '100%',
   },
   headingRow: {
     flexDirection: 'row',
