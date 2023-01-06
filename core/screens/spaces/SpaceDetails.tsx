@@ -13,7 +13,7 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
@@ -23,7 +23,7 @@ export type SpaceDetailsParams = {
 
 const { useParam } = createParam<SpaceDetailsParams>()
 
-type ScreenProps = NativeStackScreenProps<HomeStackScreens>
+type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
 
 const SpaceDetails: React.VFC<ScreenProps> = () => {
   const [spaceId] = useParam('spaceId')

@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -9,6 +9,7 @@ import { LastInsightsResponse, lastInsightsQuery } from '@holi/core/screens/insi
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
@@ -24,10 +25,30 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
 
   const [showEditorsModal, setShowEditorsModal] = useState(false)
 
-  const numberOfInsights = 3
-  const { loading, error, data } = useQuery<LastInsightsResponse>(lastInsightsQuery, {
+  const numberOfInsights = 4
+  const { loading, error, data, fetchMore } = useQuery<LastInsightsResponse>(lastInsightsQuery, {
     variables: { limit: numberOfInsights },
+    fetchPolicy: 'cache-and-network',
   })
+  const [isFetchingMore, setIsFetchingMore] = useState(false)
+  const fetchingMoreButtonText = isFetchingMore
+    ? t('donations:donationListing.loadMoreButton.loading')
+    : t('homeFeed.insights.loadMoreText')
+
+  const { data: insights = [], totalResults = 0 } = data?.lastInsights || {}
+  const canFetchMore = insights.length < totalResults || isFetchingMore
+  const insightsCreators = insights.map((insight) => insight.creator)
+
+  const fetchMoreInsights = useCallback(() => {
+    setIsFetchingMore(true)
+
+    fetchMore({
+      variables: {
+        offset: insights.length,
+        limit: numberOfInsights,
+      },
+    }).finally(() => setIsFetchingMore(false))
+  }, [fetchMore, insights.length])
 
   if (error) {
     logError(error, `[InsightsOfTheWeek.tsx] ${error.message}`)
@@ -37,9 +58,6 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
   if (loading || error) {
     return <></>
   }
-
-  const insights = data?.lastInsights?.data ? data.lastInsights.data : []
-  const insightsCreators = insights.map((insight) => insight.creator) || []
 
   return (
     <View style={[mixins.container, props.style]}>
@@ -80,6 +98,19 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
       </HoliModal>
 
       <InsightList style={styles.insightList} insights={insights} />
+
+      <HoliButtonLoading
+        type="secondary"
+        label={fetchingMoreButtonText}
+        disabled={!canFetchMore || loading}
+        icon={isFetchingMore ? 'loader-4' : undefined}
+        iconSpinning={isFetchingMore}
+        onPress={fetchMoreInsights}
+        style={mixins.moreButton}
+        testID="btn-insights-list-load-more"
+      >
+        {fetchingMoreButtonText}
+      </HoliButtonLoading>
     </View>
   )
 }

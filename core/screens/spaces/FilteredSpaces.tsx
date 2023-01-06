@@ -15,7 +15,7 @@ import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/compone
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import SpacesGrid from '@holi/core/screens/spaces/components/SpacesGrid'
 import { SpacesResponse, spacesQuery } from '@holi/core/screens/spaces/queries'
-import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -31,7 +31,7 @@ export type FilteredSpacesParams = {
 
 const { useParam, useUpdateParams } = createParam<FilteredSpacesParams>()
 
-type ScreenProps = NativeStackScreenProps<HomeStackScreens>
+type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
 
 const SPACES_PAGE_SIZE = 20
 
