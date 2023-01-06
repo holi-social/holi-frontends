@@ -1,10 +1,19 @@
 import { expect, test } from '@playwright/test'
 
-import { byTestId, checkAccessibility, clickElementByTestId, defaultAuthSteps, waitForElementByTestId } from './helpers'
+import {
+  byTestId,
+  checkAccessibility,
+  clickElementByTestId,
+  defaultAuthSteps,
+  locateElementByTestId,
+  waitForElementByTestId,
+} from './helpers'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
 })
+
+const insightLoadMoreTimeout = { timeout: 30_000 }
 
 test.describe('@HomeScreen', () => {
   test('has feed insight headline', async ({ page }) => {
@@ -17,6 +26,19 @@ test.describe('@HomeScreen', () => {
       clickElementByTestId(page, 'feed-insight-image-link'),
     ])
     expect(page.url()).toContain('/insights/')
+  })
+
+  test('allow pagination for insight list', async ({ page }) => {
+    await waitForElementByTestId(page, 'btn-insights-list-load-more')
+
+    const countListItems = async () => {
+      const listItems = await locateElementByTestId(page, 'feed-insight-image-link')
+      return await listItems.count()
+    }
+
+    const listItemCountBefore = await countListItems()
+    await clickElementByTestId(page, 'btn-insights-list-load-more')
+    await expect.poll(countListItems, insightLoadMoreTimeout).toBeGreaterThan(listItemCountBefore)
   })
 
   test('has feed insight editors avatar pile.', async ({ page }) => {
