@@ -1,6 +1,5 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, useWindowDimensions } from 'react-native'
 import PaginationDot from 'react-native-animated-pagination-dot'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -31,7 +30,6 @@ type CarouselItem = {
 
 /** This is a temporary component and should be replaced by a carousel-style component later */
 const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
-  const { i18n } = useTranslation()
   const { width, height } = useWindowDimensions()
   const styles = useMemo(() => getStyles(width, height), [width, height])
   const { setOptions } = useUnifiedNavigation()
@@ -39,7 +37,6 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
     GoodNewsArticlesQuery,
     {
       variables: {
-        locale: i18n.language,
         lastDate: undefined,
       },
     }

@@ -12,7 +12,7 @@ import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -21,7 +21,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import DonationListing from '@holi-apps/donations/components/DonationListing'
 import DonationSearchForm from '@holi-apps/donations/components/DonationSearchForm'
 
-type ScreenProps = NativeStackScreenProps<HomeStackScreens>
+type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
 
 export type DonationsAppHomeParams = {
   location?: string
