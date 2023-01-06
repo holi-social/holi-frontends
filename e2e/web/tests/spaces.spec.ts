@@ -18,7 +18,7 @@ test.describe('@Spaces', () => {
 
   test('should display multiple groups with spaces', async ({ page }) => {
     const countGroups = async () => await (await locateElementByTestId(page, 'spaces-group-slider')).count()
-    const countSpaces = async () => await (await locateElementByTestId(page, 'btn-to-space')).count()
+    const countSpaces = async () => await (await locateElementByTestId(page, 'space-link')).count()
 
     await waitForElementByTestId(page, 'spaces-container')
 
@@ -27,6 +27,7 @@ test.describe('@Spaces', () => {
 
     await checkAccessibility(page)
   })
+
 
   test('should open the spaces filter menu and filter spaces with multiple filters', async ({ page }) => {
     await clickElementByTestId(page, 'btn-filter-spaces')
@@ -64,7 +65,7 @@ test.describe('@Spaces', () => {
   test('should display space details', async ({ page }) => {
     await waitForElementByTestId(page, 'spaces-container')
     // click first element on page
-    await clickElementByTestId(page, 'btn-to-space')
+    await clickElementByTestId(page, 'space-link')
 
     await waitForElementByTestId(page, 'space-details-container')
 
