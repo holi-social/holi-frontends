@@ -61,15 +61,6 @@ export const createCache = () =>
         fields: {
           data: {
             merge: (existing, incoming) => (existing || []).concat(incoming),
-            // merge: (existing, incoming) => {
-            //   const uniqueInsights = [...(existing || []), ...(incoming || [])].reduce(
-            //     (acc, item) => ((acc[item.id] = item), acc),
-            //     {} as Record<string, unknown>
-            //   )
-
-            //   console.log(uniqueInsights)
-            //   return Object.values(uniqueInsights)
-            // },
             read: (existing) => existing,
           },
         },
