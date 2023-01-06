@@ -152,6 +152,7 @@ export const skillsQuery = gql`
       data {
         id
         title
+        slug
       }
     }
   }
@@ -163,6 +164,7 @@ export const interestsQuery = gql`
       data {
         id
         title
+        slug
       }
     }
   }

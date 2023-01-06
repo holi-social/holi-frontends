@@ -1,6 +1,7 @@
 export interface Term {
   id: string
   title: string
+  slug: string
 }
 
 export type Topic = Term & {
