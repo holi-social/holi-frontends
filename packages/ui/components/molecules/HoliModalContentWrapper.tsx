@@ -1,5 +1,15 @@
 import React from 'react'
-import { Platform, ScrollView, ScrollViewProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import {
+  Keyboard,
+  Platform,
+  ScrollView,
+  ScrollViewProps,
+  StyleProp,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+  ViewStyle,
+} from 'react-native'
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -43,7 +53,13 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
         </HoliHeading>
       )}
 
-      {children}
+      {Platform.OS === 'web' ? (
+        children
+      ) : (
+        <TouchableWithoutFeedback accessible={false} onPress={Keyboard.dismiss}>
+          {children}
+        </TouchableWithoutFeedback>
+      )}
 
       <View style={styles.placeHolder} />
     </>

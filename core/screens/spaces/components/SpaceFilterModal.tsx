@@ -81,8 +81,8 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
     [setSkillIds]
   )
 
-  // Loading or error state just hides the component
-  if (loading || loadingFailed) {
+  // Error state just hides the component
+  if (loadingFailed) {
     return <></>
   }
 
@@ -117,8 +117,9 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
           onActionButtonPress={submit}
           style={styles.modalWrapper}
           scrollable={false}
+          loading={loading}
         >
-          <View style={[mixins.container]}>
+          <View style={[mixins.container, styles.container]}>
             <PlacesAutocomplete
               label={t('spaces.filter.location.label')}
               placeholder={t('spaces.filter.location.placeholder')}
@@ -174,6 +175,9 @@ const styles = StyleSheet.create({
   },
   filterOption: {
     marginTop: 24,
+  },
+  container: {
+    height: '100%',
   },
   modalWrapper: {
     flex: 1,
