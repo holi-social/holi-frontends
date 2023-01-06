@@ -104,7 +104,7 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
               users={space.memberships.map((membership) => membership.user)}
               href={`/spaces/${space.id}`}
               size="large"
-              style={{ backgroundColor: colors.backgroundColor }}
+              style={styles.backgroundWhite}
             />
           ))
         }
@@ -133,5 +133,8 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 8,
     marginRight: 8,
+  },
+  backgroundWhite: {
+    backgroundColor: colors.backgroundColor,
   },
 })

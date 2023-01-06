@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ImageSourcePropType, StyleSheet, View, ViewStyle } from 'react-native'
+import { ImageSourcePropType, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -18,7 +18,7 @@ export type HoliBlockItemProps = {
   href: string
   label: string
   size?: 'small' | 'large'
-  style?: ViewStyle
+  style?: StyleProp<ViewStyle>
   testID?: string
 }
 

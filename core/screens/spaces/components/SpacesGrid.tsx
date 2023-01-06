@@ -30,7 +30,6 @@ const SpacesGrid: React.VFC<SpacesGridProps> = ({ spaces, style }: SpacesGridPro
           spaces.map((space) => (
             <HoliGridCell key={space.id}>
               <HoliBlockItem
-                key={space.id}
                 label={space.title}
                 title={space.title}
                 subtitle={space.location}
