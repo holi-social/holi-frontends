@@ -19,7 +19,6 @@ export const FullArticleFragment = gql`
 `
 
 export type GoodNewsArticlesQueryArgs = {
-  locale: string
   lastDate: string | undefined
 }
 
@@ -33,8 +32,8 @@ export type GoodNewsArticlesQueryResponse = {
 export const GoodNewsArticlesQuery = gql`
   ${FullArticleFragment}
 
-  query GoodNewsArticles($locale: String!, $lastDate: String) {
-    appGoodNews_articles(locale: $locale, lastDate: $lastDate) {
+  query GoodNewsArticles($lastDate: String) {
+    appGoodNews_articles(lastDate: $lastDate) {
       articles {
         ...FullArticle
       }

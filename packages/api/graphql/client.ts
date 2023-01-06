@@ -91,10 +91,7 @@ export const createCache = () =>
             keyArgs: [],
           },
           appDonations_projects: {
-            keyArgs: ['locale', 'location'],
-          },
-          appGoodNews_articles: {
-            keyArgs: ['locale'],
+            keyArgs: ['location'],
           },
           spaces: {
             keyArgs: ['topicId', 'location', 'skillIds'],

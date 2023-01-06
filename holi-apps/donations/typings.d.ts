@@ -1,7 +1,6 @@
 export type Locale = 'de' | 'en'
 
 export interface ProjectParameters {
-  locale?: Locale
   limit?: number
   offset?: number
 }
@@ -60,5 +59,5 @@ export interface Project {
 
 export interface ProjectsResponse {
   totalResults: number
-  projects: Project[]
+  data: Project[]
 }
