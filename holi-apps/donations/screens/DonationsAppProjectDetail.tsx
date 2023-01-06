@@ -35,7 +35,7 @@ type DonationsAppProjectDetailProps = NativeStackScreenProps<BottomTabsScreens>
 
 const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () => {
   const [projectId] = useParam('projectId')
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const { setOptions } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
   useLayoutEffect(() => setOptions({ title: t('donations:app.name') }), [setOptions, t])
@@ -55,12 +55,11 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () 
     if (projectId && !loading && !project) {
       fetchProjectById({
         variables: {
-          locale: i18n.language,
           id: Number(projectId),
         },
       })
     }
-  }, [fetchProjectById, projectId, loading, project, i18n.language])
+  }, [fetchProjectById, projectId, loading, project])
 
   if (!projectId || loading) {
     // TODO: replace with proper loading indicator
