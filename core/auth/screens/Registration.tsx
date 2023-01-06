@@ -16,7 +16,7 @@ import { displayError } from '@holi/core/errors/helpers'
 import { useSafeDispatch } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -25,7 +25,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const isWeb = Platform.OS === 'web'
 
-type ScreenProps = NativeStackScreenProps<HomeStackScreens>
+type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
 
 const Registration: React.VFC<ScreenProps> = () => {
   const { setUserLoggedIn, isLoggedIn } = useAuth()
