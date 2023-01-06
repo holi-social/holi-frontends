@@ -1,9 +1,10 @@
 import React from 'react'
-import { GestureResponderEvent, StyleProp, ViewStyle } from 'react-native'
+import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type HoliButtonLoadingProps = {
   icon?: string
@@ -29,12 +30,25 @@ const HoliButtonLoading: React.FC<HoliButtonLoadingProps & HoliButtonProps> = ({
 }) => {
   return (
     <HoliButton label={label} disabled={disabled} onPress={onPress} testID={testID} style={style} {...props}>
-      <HoliText bold={bold} style={{ marginRight: 6 }}>
+      <HoliText bold={bold} style={disabled && styles.textDisabled}>
         {label}
       </HoliText>
-      {icon && <HoliIcon spinning={!!icon && iconSpinning} icon={icon} size={16} />}
+      {icon && (
+        <View style={styles.icon}>
+          <HoliIcon spinning={!!icon && iconSpinning} icon={icon} size={16} />
+        </View>
+      )}
     </HoliButton>
   )
 }
 
 export default HoliButtonLoading
+
+const styles = StyleSheet.create({
+  textDisabled: {
+    color: colors.fontColorGrey,
+  },
+  icon: {
+    marginLeft: 6,
+  },
+})
