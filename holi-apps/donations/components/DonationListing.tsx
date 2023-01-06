@@ -24,14 +24,13 @@ type DonationListingProps = {
 }
 
 const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, resetSearch }: DonationListingProps) => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const mixins = useStyleMixins()
   const [fetchingMore, setFetchingMore] = useState(false)
   const isFiltering = useMemo(() => !!locationQuery, [locationQuery])
 
   const { loading, data, error, fetchMore } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
     variables: {
-      locale: i18n.language,
       limit: PROJECT_PAGE_SIZE,
       offset: 0,
       location: locationQuery,
@@ -39,7 +38,7 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
     fetchPolicy: 'cache-and-network',
   })
 
-  const { projects = [], totalResults = 0 } = data?.appDonations_projects || {}
+  const { data: projects = [], totalResults = 0 } = data?.appDonations_projects || {}
 
   const canFetchMore = projects.length < totalResults
 

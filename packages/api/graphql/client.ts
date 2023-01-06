@@ -80,10 +80,7 @@ export const createCache = () =>
           // here, we can specify e.g. pagination behavior, depending on the
           // query, see https://www.apollographql.com/docs/react/pagination/overview
           appDonations_projects: {
-            keyArgs: ['locale', 'location'],
-          },
-          appGoodNews_articles: {
-            keyArgs: ['locale'],
+            keyArgs: ['location'],
           },
           spaces: {
             keyArgs: ['topicId', 'location', 'skillIds'],
