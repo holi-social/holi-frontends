@@ -8,7 +8,8 @@ import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview/index
 const linkData: Link = {
   description:
     "Discover projects that help animals. Whether it's dogs, elephant babies, cheetahs or squirrels – your donation saves animals' lives!",
-  image: '',
+  image:
+    'https://betterplace-assets.betterplace.org/uploads/homepage/homepage/hero_image_desktop/000/000/001/cc1e6b93-c77a-4edc-8b7a-fb66c246a824.jpg',
   origin: 'http://betterplace.org',
   requestedUrl: 'http://betterplace.org/en/discover/1-animals',
   siteName: 'betterplace.org',
