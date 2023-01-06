@@ -105,6 +105,7 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
               href={`/spaces/${space.id}`}
               size="large"
               style={styles.backgroundWhite}
+              testID="space-link"
             />
           ))
         }

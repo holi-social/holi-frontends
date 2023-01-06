@@ -38,6 +38,7 @@ const SpacesGrid: React.VFC<SpacesGridProps> = ({ spaces, style }: SpacesGridPro
                 users={space.memberships.map((membership) => membership.user)}
                 href={`/spaces/${space.id}`}
                 size="large"
+                testID="space-link"
               />
             </HoliGridCell>
           ))
