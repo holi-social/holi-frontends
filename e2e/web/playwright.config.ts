@@ -47,14 +47,6 @@ const config: PlaywrightTestConfig = {
     screenshot: 'only-on-failure',
     video: 'on-first-retry',
     headless: process.env.CI ? true : !!process.env.HEADLESS || true,
-    // for staging, we need http basic auth credentials
-    httpCredentials:
-      true || baseURL.startsWith('https://staging.web.project-holi.org')
-        ? {
-            username: 'd3vs0nly',
-            password: 'Yagni!',
-          }
-        : undefined,
   },
 
   /* Configure projects for major browsers */
