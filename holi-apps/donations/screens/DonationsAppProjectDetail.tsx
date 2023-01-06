@@ -10,7 +10,7 @@ import { displayError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -31,7 +31,7 @@ export type DonationsAppProjectDetailParams = {
 
 const { useParam } = createParam<DonationsAppProjectDetailParams>()
 
-type DonationsAppProjectDetailProps = NativeStackScreenProps<HomeStackScreens>
+type DonationsAppProjectDetailProps = NativeStackScreenProps<BottomTabsScreens>
 
 const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () => {
   const [projectId] = useParam('projectId')
