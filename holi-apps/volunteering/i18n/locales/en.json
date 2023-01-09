@@ -1,3 +1,4 @@
 {
-  "app.name": "Volunteering"
+  "app.name": "Volunteering",
+  "volunteering.organization": "{{title}} by {{organization}}"
 }
