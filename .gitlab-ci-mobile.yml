@@ -212,7 +212,7 @@ mobile_staging_e2e_ios:
 
 ## production environment
 
-.mobile_production_publish:
+mobile_production_publish:
   extends: .mobile_publish
   needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
   when: manual
@@ -227,7 +227,7 @@ mobile_staging_e2e_ios:
   only:
     - main
 
-.mobile_production_build_android:
+mobile_production_build_android:
   extends: .mobile_build
   needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
   when: manual
@@ -244,7 +244,7 @@ mobile_staging_e2e_ios:
   only:
     - main
 
-.mobile_production_build_ios:
+mobile_production_build_ios:
   extends: .mobile_build
   needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
   when: manual
