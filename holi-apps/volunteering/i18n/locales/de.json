@@ -1,3 +1,4 @@
 {
-  "app.name": "Engagement"
+  "app.name": "Engagement",
+  "volunteering.organization": "{{title}} bei {{organization}}"
 }
