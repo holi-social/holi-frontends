@@ -1,6 +1,6 @@
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useScrollYHandler } from '@holi/core/helpers'
@@ -50,11 +50,20 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
       style={{ backgroundColor: colors.backgroundColorGreyLight }}
     >
       <View style={[mixins.container]} testID="volunteering-list-container">
-        <HoliText size={'extralarge'}>{title}</HoliText>
+        <View style={styles.titleContainer}>
+          <HoliText size={'extralarge'}>{t('volunteering:listing.headline')}</HoliText>
+        </View>
         <VolunteeringListing />
       </View>
     </DefaultLayout>
   )
 }
+
+const styles = StyleSheet.create({
+  titleContainer: {
+    paddingTop: 24,
+    paddingBottom: 32,
+  },
+})
 
 export default memo(VolunteeringAppHome)

@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import HoliCardComponent from '@holi/ui/components/molecules/HoliCardComponent'
@@ -37,26 +37,22 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
     console.log('engagement ', engagement)
   }
 
+  const renderItem = ({ item }: { item: VolunteeringEngagement }) => (
+    <View style={styles.volunteeringCardContainer} key={item.id}>
+      <HoliCardComponent
+        imageUrl={item.imageUrl}
+        imageLabel={item.title ?? ''}
+        testID="holiCard"
+        onCardPress={() => handleCardPress(item)}
+      >
+        <VolunteeringCardContent engagement={item} key={item.id} />
+      </HoliCardComponent>
+    </View>
+  )
+
   return (
     <>
-      {
-        /** FIXME convert to VirtualizedList, FlatList or SectionList */
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        engagements!.map((engagement: VolunteeringEngagement) => {
-          return (
-            <View style={styles.volunteeringCardContainer} key={engagement.id}>
-              <HoliCardComponent
-                imageUrl={engagement.imageUrl}
-                imageLabel={engagement.title ?? ''}
-                testID="holiCard"
-                onCardPress={() => handleCardPress(engagement)}
-              >
-                <VolunteeringCardContent engagement={engagement} key={engagement.id} />
-              </HoliCardComponent>
-            </View>
-          )
-        })
-      }
+      <FlatList data={engagements} renderItem={renderItem} />
     </>
   )
 }
