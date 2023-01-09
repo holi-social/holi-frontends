@@ -13,12 +13,24 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 export interface LayoutProps extends ScrollViewProps {
   headerOverlap?: boolean
   hasFooterTabBar?: boolean
+  scrollView?: boolean
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
   testID?: string
 }
 
 const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(
-  ({ style, children, headerOverlap, hasFooterTabBar = true, testID, ...scrollViewProps }: LayoutProps, ref) => {
+  (
+    {
+      style,
+      children,
+      headerOverlap,
+      hasFooterTabBar = true,
+      scrollView = true,
+      testID,
+      ...scrollViewProps
+    }: LayoutProps,
+    ref
+  ) => {
     const isWeb = Platform.OS === 'web'
 
     const screenView = (
@@ -35,9 +47,9 @@ const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(
       </View>
     )
 
-    if (Platform.OS === 'web') return screenView
+    if (isWeb) return screenView
 
-    const mobileLayout = (
+    const mobileLayout = scrollView ? (
       <ScrollView
         testID={testID}
         {...scrollViewProps}
@@ -46,6 +58,10 @@ const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(
       >
         {screenView}
       </ScrollView>
+    ) : (
+      <View testID={testID} style={[styles.scrollLayout, style]}>
+        {screenView}
+      </View>
     )
 
     return headerOverlap ? mobileLayout : <SafeAreaView style={styles.safeArea}>{mobileLayout}</SafeAreaView>

@@ -3,11 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -21,7 +19,6 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
   const title = t('volunteering:app.name')
   const mixins = useStyleMixins()
 
-  const onScreenScroll = useScrollYHandler()
   const { setOptions, navigate } = useUnifiedNavigation()
 
   useLayoutEffect(() => {
@@ -31,7 +28,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
           {title}
         </HoliHeading>
       ),
-      headerTransparent: true,
+      // headerTransparent: true,
       headerStyle: { backgroundColor: colors.backgroundColorWhite },
       headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon="arrow-down-s" />),
       headerRight: ({ tintColor }) =>
@@ -44,15 +41,12 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
   }, [setOptions, navigate, t, title])
 
   return (
-    <DefaultLayout
-      onScroll={onScreenScroll}
-      scrollEventThrottle={200}
-      style={{ backgroundColor: colors.backgroundColorGreyLight }}
-    >
+    <DefaultLayout style={{ backgroundColor: colors.backgroundColorGreyLight }} scrollView={false} headerOverlap>
       <View style={[mixins.container]} testID="volunteering-list-container">
-        <View style={styles.titleContainer}>
-          <HoliText size={'extralarge'}>{t('volunteering:listing.headline')}</HoliText>
-        </View>
+        <HoliHeading level="1" style={styles.titleContainer}>
+          {t('volunteering:listing.headline')}
+        </HoliHeading>
+
         <VolunteeringListing />
       </View>
     </DefaultLayout>
@@ -63,6 +57,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     paddingTop: 24,
     paddingBottom: 32,
+    fontWeight: '400',
   },
 })
 

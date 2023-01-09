@@ -6,15 +6,15 @@ import { logError } from '@holi/core/errors/helpers'
 import HoliCardComponent from '@holi/ui/components/molecules/HoliCardComponent'
 
 import '@holi-apps/goodnews/queries'
+import VolunteeringCardContent from '@holi-apps/volunteering/components/VolunteeringCardContent'
 import { VolunteeringEngagementsQuery, VolunteeringEngagementsQueryResponse } from '@holi-apps/volunteering/queries'
 import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
-
-import VolunteeringCardContent from './VolunteeringCardContent'
 
 type VolunteeringListingProps = Record<string, never>
 
 const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
   const { loading, error, data } = useQuery<VolunteeringEngagementsQueryResponse>(VolunteeringEngagementsQuery, {
+    // TODO: remove hard coded values for pagination and location filtering
     variables: {
       location: 'Hamburg',
       offset: 0,
@@ -32,9 +32,9 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
     return <></>
   }
 
+  // TODO: To be implemented once volunteering opportunity detail view is created
   const handleCardPress = (engagement: VolunteeringEngagement) => {
-    //ToDo Remove the log once implement the functionality
-    console.log('engagement ', engagement)
+    console.log(engagement)
   }
 
   const renderItem = ({ item }: { item: VolunteeringEngagement }) => (
@@ -50,11 +50,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
     </View>
   )
 
-  return (
-    <>
-      <FlatList data={engagements} renderItem={renderItem} />
-    </>
-  )
+  return <FlatList data={engagements} renderItem={renderItem} />
 }
 
 export default VolunteeringListing
