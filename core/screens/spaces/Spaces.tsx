@@ -1,3 +1,4 @@
+import { useQuery } from '@apollo/client'
 import React, { useCallback, useContext, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
@@ -12,11 +13,11 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import DiscoverSpaces from '@holi/core/screens/spaces/components/DiscoverSpaces'
 import MySpaces from '@holi/core/screens/spaces/components/MySpaces'
 import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
-import SpaceTermContextProvider, {
-  SpaceTermContext,
-} from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
+import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
+import { MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -32,6 +33,11 @@ const Spaces: React.VFC<ScreenProps> = () => {
   const styles = getStyles(deviceHeight)
 
   const { user } = useContext(UserContext)
+
+  let hasMySpaces = false
+  const { loading, data: mySpacesData, error: mySpacesError } = useQuery<MySpacesResponse>(mySpaceQuery)
+  const mySpaces = mySpacesData?.mySpaces || []
+  hasMySpaces = !!mySpacesData && mySpacesData.mySpaces.length > 0
 
   useLayoutEffect(() => {
     const title = t('spaces.title')
@@ -69,48 +75,68 @@ const Spaces: React.VFC<ScreenProps> = () => {
     [navigate]
   )
 
+  if (mySpacesError) {
+    if (mySpacesError.message === 'Unauthorized') {
+      hasMySpaces = false
+    } else {
+      return (
+        <DefaultLayout style={styles.layout}>
+          <View style={[mixins.container, styles.discoverSpacesContainer]}>
+            <HoliText>{t('global.technicalError')}</HoliText>
+          </View>
+        </DefaultLayout>
+      )
+    }
+  }
+
+  if (loading) {
+    return (
+      <DefaultLayout style={styles.layout}>
+        <View style={[mixins.container, styles.discoverSpacesContainer]}>
+          <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
+        </View>
+      </DefaultLayout>
+    )
+  }
+
   return (
     <SpaceTermContextProvider>
-      <SpaceTermContext.Consumer>
-        {({ mySpaces }) => (
-          <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.layout}>
-            {/* User has no spaces => show only discover */}
-            {mySpaces.length < 1 && (
-              <View style={[mixins.container, styles.discoverSpacesContainer]}>
-                <DiscoverSpaces user={user} />
-              </View>
-            )}
-
-            {/* User HAS spaces => show tabs with mine and discover */}
-            {mySpaces.length > 0 && (
-              <HoliTabs
-                id="space-tabs"
-                style={styles.holiTabs}
-                tabs={[
-                  {
-                    title: 'Mine',
-                    style: styles.tabStyle,
-                    children: (
-                      <View style={[mixins.container, styles.tabContentContainer]}>
-                        <MySpaces user={user} mySpaces={mySpaces} />
-                      </View>
-                    ),
-                  },
-                  {
-                    title: 'Discover',
-                    style: styles.tabStyle,
-                    children: (
-                      <View style={[mixins.container, styles.tabContentContainer]}>
-                        <DiscoverSpaces user={user} />
-                      </View>
-                    ),
-                  },
-                ]}
-              />
-            )}
-          </DefaultLayout>
+      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.layout}>
+        {/* User has NO spaces => show discover view */}
+        {!hasMySpaces && (
+          <View style={[mixins.container, styles.discoverSpacesContainer]}>
+            <DiscoverSpaces user={user} />
+          </View>
         )}
-      </SpaceTermContext.Consumer>
+
+        {/* User HAS spaces => show tabs with mine and discover */}
+        {hasMySpaces && (
+          <HoliTabs
+            id="space-tabs"
+            style={styles.holiTabs}
+            tabs={[
+              {
+                title: t('spaces.tabs.mine'),
+                style: styles.tabStyle,
+                children: (
+                  <View style={[mixins.container, styles.tabContentContainer]}>
+                    <MySpaces mySpaces={mySpaces} />
+                  </View>
+                ),
+              },
+              {
+                title: t('spaces.tabs.discover'),
+                style: styles.tabStyle,
+                children: (
+                  <View style={[mixins.container, styles.tabContentContainer]}>
+                    <DiscoverSpaces user={user} />
+                  </View>
+                ),
+              },
+            ]}
+          />
+        )}
+      </DefaultLayout>
       <SpaceFilterModal applyFilters={applyFilters} />
     </SpaceTermContextProvider>
   )

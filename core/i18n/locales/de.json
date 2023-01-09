@@ -67,9 +67,10 @@
   "general.and": "und",
   "general.edit": "Bearbeiten",
   "global.decline": "Abbrechen",
+  "global.like": "Ich mag das",
   "global.noResults": "Keine Ergebnisse gefunden",
   "global.notAvailable": "Leider noch nicht verfügbar!",
-  "global.like": "Ich mag das",
+  "global.technicalError": "Ups! Da ist ein technisches Problem aufgetreten!",
   "help.title": "Hilfe",
   "homeFeed.headerTitle.goodAfternoon": "Guten Nachmittag",
   "homeFeed.headerTitle.goodDay": "Guten Tag",
@@ -237,6 +238,10 @@
   "spaces.tasks.spots_claimed": "{{taken}} von {{available}} Plätzen vergeben",
   "spaces.title": "Spaces",
   "spaces.title.filtered": "Suchergebnisse",
+
+  "spaces.tabs.mine": "Meine",
+  "spaces.tabs.discover": "Erkunden",
+
   "user.cards.modal.close": "Okay",
   "user.cards.modal.showInfo": "Weitere Informationen zu {{name}} anzeigen",
   "user.cards.modal.title": "Übersicht der Nutzenden",

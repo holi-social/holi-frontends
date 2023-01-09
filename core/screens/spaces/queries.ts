@@ -164,9 +164,12 @@ export const mySpaceQuery = gql`
   }
 `
 
+export type SpaceUserConnectionType = string
+
 export type MySpacesResponse = {
   mySpaces: {
     section: string
+    type: string
     spaces: Paged<Space>
   }[]
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { SectionList, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { SpaceSection } from '@holi/core/screens/spaces/types'
+import { SpaceSection, SpaceSectionType } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
@@ -16,15 +16,18 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
   const mappedSpaces = mySpaces.map((section) => {
     return {
       title: section.section,
+      type: section.type,
       data: section.spaces.data,
     }
   })
+
+  console.log('##', mySpaces)
 
   return (
     <SectionList
       style={[styles.mySpaces, style]}
       sections={mappedSpaces}
-      renderItem={({ item }) => (
+      renderItem={({ item, section }) => (
         <View style={styles.spaceItemContainer}>
           <HoliBlockItem
             key={item.id}
@@ -40,9 +43,11 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
             testID="space-link"
           />
           {/* Is coming later */}
-          <HoliButton label={'not yet implemented'} inline transparent disabled={true} style={styles.optionsButton}>
-            <HoliIcon icon="help" size={20} color={colors.fontColorGrey} />
-          </HoliButton>
+          {(section.type === SpaceSectionType.MEMBER || section.type === SpaceSectionType.CREATOR) && (
+            <HoliButton label={'not yet implemented'} inline transparent disabled={true} style={styles.optionsButton}>
+              <HoliIcon icon="tools" size={20} color={colors.fontColorGrey} />
+            </HoliButton>
+          )}
         </View>
       )}
       renderSectionHeader={({ section }) => (
