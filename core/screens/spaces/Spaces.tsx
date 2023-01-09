@@ -78,7 +78,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
                 <DiscoverSpaces user={user} />
               </View>
             )}
-            {mySpaces.length > 0 && <MySpaces user={user} />}
+            {mySpaces.length > 0 && <MySpaces user={user} mySpaces={mySpaces} />}
           </DefaultLayout>
         )}
       </SpaceTermContext.Consumer>
