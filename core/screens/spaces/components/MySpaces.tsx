@@ -21,8 +21,6 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
     }
   })
 
-  console.log('##', mySpaces)
-
   return (
     <SectionList
       style={[styles.mySpaces, style]}

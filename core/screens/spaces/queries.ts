@@ -154,6 +154,7 @@ export const mySpaceQuery = gql`
   query MySpaces {
     mySpaces {
       section
+      type
       spaces {
         totalResults
         data {

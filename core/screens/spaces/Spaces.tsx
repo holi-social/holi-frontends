@@ -34,10 +34,10 @@ const Spaces: React.VFC<ScreenProps> = () => {
 
   const { user } = useContext(UserContext)
 
-  let hasMySpaces = false
+  let hasOwnSpaces = false
   const { loading, data: mySpacesData, error: mySpacesError } = useQuery<MySpacesResponse>(mySpaceQuery)
   const mySpaces = mySpacesData?.mySpaces || []
-  hasMySpaces = !!mySpacesData && mySpacesData.mySpaces.length > 0
+  hasOwnSpaces = !!mySpacesData && mySpacesData.mySpaces.length > 0
 
   useLayoutEffect(() => {
     const title = t('spaces.title')
@@ -77,7 +77,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
 
   if (mySpacesError) {
     if (mySpacesError.message === 'Unauthorized') {
-      hasMySpaces = false
+      hasOwnSpaces = false
     } else {
       return (
         <DefaultLayout style={styles.layout}>
@@ -103,14 +103,14 @@ const Spaces: React.VFC<ScreenProps> = () => {
     <SpaceTermContextProvider>
       <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.layout}>
         {/* User has NO spaces => show discover view */}
-        {!hasMySpaces && (
+        {!hasOwnSpaces && (
           <View style={[mixins.container, styles.discoverSpacesContainer]}>
             <DiscoverSpaces user={user} />
           </View>
         )}
 
         {/* User HAS spaces => show tabs with mine and discover */}
-        {hasMySpaces && (
+        {hasOwnSpaces && (
           <HoliTabs
             id="space-tabs"
             style={styles.holiTabs}
