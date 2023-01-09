@@ -43,7 +43,6 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
                 imageUrl={engagement.image}
                 imageLabel={engagement.title ?? ''}
                 testID="holiCard"
-                key={engagement.id}
                 onCardPress={() => handleCardPress(engagement)}
               >
                 <VolunteeringCardContent engagement={engagement} key={engagement.id} />
