@@ -25,7 +25,13 @@ const MOCKS = [
 ]
 
 describe('NotificationConnectionItem.tsx', () => {
+  beforeEach(() => {
+    jest.useRealTimers()
+  })
+
   it('matches snapshot', () => {
+    jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
+
     const tree = renderer
       .create(
         <MockedProvider mocks={MOCKS} addTypename={false}>

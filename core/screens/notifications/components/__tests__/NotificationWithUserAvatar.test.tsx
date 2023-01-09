@@ -7,7 +7,13 @@ import { notificationConnectionRequest } from '@holi/core/screens/notifications/
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
 describe('NotificationWithUserAvatar.tsx', () => {
+  beforeEach(() => {
+    jest.useRealTimers()
+  })
+
   it('matches snapshot', () => {
+    jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
+
     const tree = renderer
       .create(
         <NotificationWithUserAvatar
