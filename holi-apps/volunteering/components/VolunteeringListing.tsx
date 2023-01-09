@@ -14,8 +14,14 @@ import VolunteeringCardContent from './VolunteeringCardContent'
 type VolunteeringListingProps = Record<string, never>
 
 const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
-  const { loading, error, data } = useQuery<VolunteeringEngagementsQueryResponse>(VolunteeringEngagementsQuery)
-  const engagements = data?.appVolunteering_engagements
+  const { loading, error, data } = useQuery<VolunteeringEngagementsQueryResponse>(VolunteeringEngagementsQuery, {
+    variables: {
+      location: 'Hamburg',
+      offset: 0,
+      limit: 10,
+    },
+  })
+  const engagements = data?.appVolunteering_engagements?.data || []
 
   if (error) {
     logError(error, `[VolunteeringListing.tsx] ${error.message}`)
@@ -40,7 +46,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
           return (
             <View style={styles.volunteeringCardContainer} key={engagement.id}>
               <HoliCardComponent
-                imageUrl={engagement.image}
+                imageUrl={engagement.imageUrl}
                 imageLabel={engagement.title ?? ''}
                 testID="holiCard"
                 onCardPress={() => handleCardPress(engagement)}

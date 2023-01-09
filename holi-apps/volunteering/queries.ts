@@ -6,30 +6,37 @@ export const FullEngagementFragment = gql`
   fragment FullEngagement on AppVolunteering_Engagement {
     id
     title
-    location
-    link
-    source
-    image
-    uses
-    hashTags
-    orga
-    imageOrga
     description
+    url
+    imageUrl
+    source
+    categories
+    organizer {
+      name
+      imageUrl
+    }
+    location
     latitude
     longitude
   }
 `
 
 export type VolunteeringEngagementsQueryResponse = {
-  appVolunteering_engagements: VolunteeringEngagement[]
+  appVolunteering_engagements: {
+    totalResults: number
+    data: VolunteeringEngagement[]
+  }
 }
 
 export const VolunteeringEngagementsQuery = gql`
   ${FullEngagementFragment}
 
-  query VolunteeringEngagements {
-    appVolunteering_engagements {
-      ...FullEngagement
+  query VolunteeringEngagements($location: String!, $limit: Int!, $offset: Int!) {
+    appVolunteering_engagements(location: $location, limit: $limit, offset: $offset) {
+      totalResults
+      data {
+        ...FullEngagement
+      }
     }
   }
 `
