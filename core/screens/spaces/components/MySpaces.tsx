@@ -1,25 +1,18 @@
 import React from 'react'
-// import { useTranslation } from 'react-i18next'
 import { SectionList, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import DiscoverSpaces from '@holi/core/screens/spaces/components/DiscoverSpaces'
-import { MySpacesResponse } from '@holi/core/screens/spaces/queries'
-import type { User } from '@holi/core/screens/userprofile/types'
+import { SpaceSection } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
-import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type MySpacesProps = {
-  mySpaces: MySpacesResponse
-  user?: User
+  mySpaces: SpaceSection[]
   style?: StyleProp<ViewStyle>
 }
-const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], user, style }) => {
-  //   const { t } = useTranslation()
-  const mixins = useStyleMixins()
-
+const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
   const mappedSpaces = mySpaces.map((section) => {
     return {
       title: section.section,
@@ -28,51 +21,36 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], user, style }) => {
   })
 
   return (
-    <HoliTabs
-      id="space-tabs"
-      style={[styles.holiTabs, style]}
-      tabs={[
-        {
-          title: 'Mine',
-          style: styles.tabStyle,
-          children: (
-            <View style={[mixins.container, styles.tabContentContainer]}>
-              <SectionList
-                sections={mappedSpaces}
-                renderItem={({ item }) => (
-                  <HoliBlockItem
-                    key={item.id}
-                    label={item.title}
-                    title={item.title}
-                    subtitle={item.location}
-                    description={item.description}
-                    imageSrc={item.mainImage}
-                    users={item.memberships.map((membership) => membership.user)}
-                    href={`/spaces/${item.id}`}
-                    size="small"
-                    testID="space-link"
-                  />
-                )}
-                renderSectionHeader={({ section }) => (
-                  <HoliHeading level="3" size="small">
-                    {section.title}
-                  </HoliHeading>
-                )}
-                keyExtractor={(space) => `space-${space.id}`}
-              />
-            </View>
-          ),
-        },
-        {
-          title: 'Discover',
-          style: styles.tabStyle,
-          children: (
-            <View style={[mixins.container, styles.tabContentContainer]}>
-              <DiscoverSpaces user={user} />
-            </View>
-          ),
-        },
-      ]}
+    <SectionList
+      style={[styles.mySpaces, style]}
+      sections={mappedSpaces}
+      renderItem={({ item }) => (
+        <View style={styles.spaceItemContainer}>
+          <HoliBlockItem
+            key={item.id}
+            label={item.title}
+            title={item.title}
+            subtitle={item.location}
+            description={item.description}
+            imageSrc={item.mainImage}
+            users={item.memberships.map((membership) => membership.user)}
+            href={`/spaces/${item.id}`}
+            size="small"
+            style={styles.spaceItem}
+            testID="space-link"
+          />
+          {/* Is coming later */}
+          <HoliButton label={'not yet implemented'} inline transparent disabled={true} style={styles.optionsButton}>
+            <HoliIcon icon="help" size={20} color={colors.fontColorGrey} />
+          </HoliButton>
+        </View>
+      )}
+      renderSectionHeader={({ section }) => (
+        <HoliHeading level="3" size="small">
+          {section.title}
+        </HoliHeading>
+      )}
+      keyExtractor={(space) => `space-${space.id}`}
     />
   )
 }
@@ -80,14 +58,22 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], user, style }) => {
 export default MySpaces
 
 const styles = StyleSheet.create({
-  holiTabs: {
+  mySpaces: {
     flex: 1,
   },
-  tabStyle: {
-    minHeight: '100%',
-    backgroundColor: colors.backgroundColorGrey,
+  spaceItemContainer: {
+    flexDirection: 'row',
+    marginTop: 16,
+    alignItems: 'center',
   },
-  tabContentContainer: {
-    marginTop: 24,
+  spaceItem: {
+    flex: 1,
+  },
+  optionsButton: {
+    display: 'flex',
+    marginRight: 10,
+    backgroundColor: colors.backgroundColor,
+    padding: 6,
+    borderRadius: 8,
   },
 })

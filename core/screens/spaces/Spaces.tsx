@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useContext, useLayoutEffect } from 'react'
+import React, { useCallback, useContext, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -17,6 +17,7 @@ import SpaceTermContextProvider, {
 } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
+import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -73,12 +74,40 @@ const Spaces: React.VFC<ScreenProps> = () => {
       <SpaceTermContext.Consumer>
         {({ mySpaces }) => (
           <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.layout}>
+            {/* User has no spaces => show only discover */}
             {mySpaces.length < 1 && (
               <View style={[mixins.container, styles.discoverSpacesContainer]}>
                 <DiscoverSpaces user={user} />
               </View>
             )}
-            {mySpaces.length > 0 && <MySpaces user={user} mySpaces={mySpaces} />}
+
+            {/* User HAS spaces => show tabs with mine and discover */}
+            {mySpaces.length > 0 && (
+              <HoliTabs
+                id="space-tabs"
+                style={styles.holiTabs}
+                tabs={[
+                  {
+                    title: 'Mine',
+                    style: styles.tabStyle,
+                    children: (
+                      <View style={[mixins.container, styles.tabContentContainer]}>
+                        <MySpaces user={user} mySpaces={mySpaces} />
+                      </View>
+                    ),
+                  },
+                  {
+                    title: 'Discover',
+                    style: styles.tabStyle,
+                    children: (
+                      <View style={[mixins.container, styles.tabContentContainer]}>
+                        <DiscoverSpaces user={user} />
+                      </View>
+                    ),
+                  },
+                ]}
+              />
+            )}
           </DefaultLayout>
         )}
       </SpaceTermContext.Consumer>
@@ -98,6 +127,16 @@ const getStyles = (deviceHeight: number) =>
       paddingBottom: vars.bottomBarHeight,
       backgroundColor: colors.backgroundColorGrey,
     },
+    holiTabs: {
+      flex: 1,
+    },
+    tabStyle: {
+      minHeight: '100%',
+      backgroundColor: colors.backgroundColorGrey,
+    },
+    tabContentContainer: {
+      marginTop: 24,
+    },
   })
 
-export default memo(Spaces)
+export default Spaces
