@@ -81,7 +81,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
     } else {
       return (
         <DefaultLayout style={styles.layout}>
-          <View style={[mixins.container, styles.discoverSpacesContainer]}>
+          <View style={[mixins.container, styles.discoverSpacesContainer]} testID="spaces-error">
             <HoliText>{t('global.technicalError')}</HoliText>
           </View>
         </DefaultLayout>
@@ -92,7 +92,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
   if (loading) {
     return (
       <DefaultLayout style={styles.layout}>
-        <View style={[mixins.container, styles.discoverSpacesContainer]}>
+        <View style={[mixins.container, styles.discoverSpacesContainer]} testID="spaces-loading">
           <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
         </View>
       </DefaultLayout>
@@ -134,6 +134,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
                 ),
               },
             ]}
+            testID="spaces-tab-navigation"
           />
         )}
       </DefaultLayout>

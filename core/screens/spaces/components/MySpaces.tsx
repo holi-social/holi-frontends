@@ -49,7 +49,7 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
         </View>
       )}
       renderSectionHeader={({ section }) => (
-        <HoliHeading level="3" size="small">
+        <HoliHeading level="3" size="small" testID={`section-headline-${section.type}`}>
           {section.title}
         </HoliHeading>
       )}

@@ -65,7 +65,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
   }
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, style]} testID={testID}>
       <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
         <View style={[mixins.container, styles.tabButtonsContainer]}>
           {
