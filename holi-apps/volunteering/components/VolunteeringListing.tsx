@@ -27,7 +27,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
   }
 
   const handleCardPress = (engagement: VolunteeringEngagement) => {
-    //To DO Remove the log once implement the functionality
+    //ToDo Remove the log once implement the functionality
     console.log('engagement ', engagement)
   }
 
@@ -41,7 +41,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
             <View style={styles.volunteeringCardContainer} key={engagement.id}>
               <HoliCardComponent
                 imageUrl={engagement.image}
-                imageLabel={engagement.imageOrga ?? ''}
+                imageLabel={engagement.title ?? ''}
                 testID="holiCard"
                 key={engagement.id}
                 onCardPress={() => handleCardPress(engagement)}

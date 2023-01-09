@@ -29,7 +29,7 @@ describe('HoliCardComponent', () => {
 
   it('renders the image', () => {
     const { getByTestId } = render(<HoliCardComponent {...props} />)
-    expect(getByTestId('cardImage')).toBeTruthy
+    expect(getByTestId(`${props.testID}-cardImage`)).toBeTruthy
   })
 
   it('calls onCardPress prop when click on card', () => {

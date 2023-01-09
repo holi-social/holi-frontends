@@ -52,7 +52,7 @@ exports[`HoliCardComponent renders correctly 1`] = `
         },
       ]
     }
-    testID="cardImage"
+    testID="holiCard-cardImage"
   />
   <Text
     accessible={false}

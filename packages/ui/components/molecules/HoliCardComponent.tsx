@@ -28,7 +28,12 @@ const HoliCardComponent: React.VFC<HoliCardComponentProps> = ({
   return (
     <Pressable testID={testID} style={[styles.container, style]} onPress={() => onCardPress()}>
       {(imageUrl && (
-        <HoliImage testID="cardImage" source={{ uri: imageUrl }} label={imageLabel} style={styles.mainImage} />
+        <HoliImage
+          testID={`${testID}-cardImage`}
+          source={{ uri: imageUrl }}
+          label={imageLabel}
+          style={styles.mainImage}
+        />
       )) || <ImageContainerSkeleton />}
       {children}
     </Pressable>
