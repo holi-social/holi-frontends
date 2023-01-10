@@ -15,14 +15,11 @@ import GoodNewsHeader from '@holi-apps/goodnews/components/GoodNewsHeader'
 
 type GoodNewsAppHomeProps = Record<string, never>
 
-// get params from GoodNewsUpdatesItem.tsx and pass them to GoodNewsCarousel.tsx
-
 const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
   const { t } = useTranslation()
   const title = useRoute()?.params
   const onScreenScroll = useScrollYHandler()
   const { setOptions } = useUnifiedNavigation()
-  const articleId = useRoute()?.params
 
   useLayoutEffect(
     () =>
@@ -54,7 +51,7 @@ const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
         scrollEventThrottle={200}
         style={{ paddingBottom: 0, height: '100%', backgroundColor: colors.backgroundColorGreyLight }}
       >
-        <GoodNewsCarousel articleId={articleId} />
+        <GoodNewsCarousel />
       </DefaultLayout>
     </View>
   )

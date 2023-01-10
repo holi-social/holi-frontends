@@ -8,6 +8,7 @@ import Carousel from 'react-native-reanimated-carousel'
 
 import { logError } from '@holi/core/errors/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -22,14 +23,14 @@ import GoodNewsArticleComponent from './GoodNewsArticleComponent'
 import GoodNewsHeader from './GoodNewsHeader'
 import GoodNewsTeaserComponent from './GoodNewsTeaserComponent'
 
-type GoodNewsCarouselProps = {
-  articleId?: string
-} & Record<string, never>
+type GoodNewsCarouselProps = Record<string, never>
 
 type CarouselItem = {
   type: 'article' | 'teaser'
   article: GoodNewsArticle
 }
+
+const { useParam, useUpdateParams } = createParam<FilteredSpacesParams>()
 
 /** This is a temporary component and should be replaced by a carousel-style component later */
 const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
@@ -63,12 +64,30 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
 
   const [activeArticleIndex, setActiveArticleIndex] = useState<number>(0)
 
-  /*   if (articleId) {
-    const index = articles?.findIndex((article) => article.id === articleId)
-    if (index !== undefined) {
-      setActiveArticleIndex(index)
+  const [articleParamId] = useParam('articleId', singleParamConfig)
+  const updateParams = useUpdateParams()
+
+  // useEffect(() => {
+  //   const params = new URLSearchParams()
+  //   const activeArticle = articles && articles[activeArticleIndex]
+  //   params.set('articleId', activeArticle?.id || '')
+  //   //window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`)
+  //   // if
+  //   updateParams({ articleId: activeArticle?.id || '' })
+  // }, [articles, activeArticleIndex, updateParams])
+
+  // if navigate from article in GoodNewsUpdatesItem it always goes to the first article but in the carousel it should go to the article that was clicked
+
+  useEffect(() => {
+    const params = new URLSearchParams()
+    const activeArticle = articles && articles[activeArticleIndex]
+    if (articleParamId?.length !== 0) {
+      setActiveArticleIndex(articles?.findIndex((article) => article.id === articleParamId) || 0)
+    } else {
+      setActiveArticleIndex(0)
+      updateParams({ articleId: activeArticle?.id || '' })
     }
-  } */
+  }, [articles, articleParamId, updateParams, setActiveArticleIndex])
 
   useEffect(() => {
     setOptions({
@@ -107,6 +126,28 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
     },
     [activeArticleIndex, memoizedFetchMore, styles.article]
   )
+
+  /*   const renderItem = useCallback(
+    ({ item }) => {
+      const accessible = item.article.id === articleParamId
+      return item.type === 'article' ? (
+        <GoodNewsArticleComponent
+          article={item.article}
+          key={item.article.id}
+          accessible={accessible}
+          style={styles.article}
+        />
+      ) : (
+        <GoodNewsTeaserComponent
+          article={item.article}
+          key={item.article.id}
+          fetchMore={memoizedFetchMore}
+          accessible={accessible}
+        />
+      )
+    },
+    [articleParamId, memoizedFetchMore, styles.article]
+  ) */
 
   if (error) {
     logError(error, `[GoodNewsCarousel.tsx] ${error.message}`)

@@ -73,10 +73,9 @@ const GoodNewsUpdates: React.VFC<GoodNewsUpdatesProps> = ({ locationQuery, style
           testID={'goodnews-updates-load-more-button'}
         >
           <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/illustrations/illustration_see_more.svg')}
+            imageSource={require('@holi/ui/assets/img/illustrations/illustration_see_more.png')}
             width={Platform.OS === 'web' ? 160 : screenWidth / 2 - 26}
             height={Platform.OS === 'web' ? 160 : screenWidth / 2 - 26}
-            isSvg
             label=""
           />
           <View style={styles.seeMoreContainer}>
