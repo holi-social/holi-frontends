@@ -44,7 +44,11 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
   }, [setOptions, navigate, t, title])
 
   return (
-    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
+    <DefaultLayout
+      onScroll={onScreenScroll}
+      scrollEventThrottle={200}
+      style={{ backgroundColor: colors.backgroundColorGreyLight }}
+    >
       <View style={[mixins.container]} testID="volunteering-list-container">
         <HoliText size={'extralarge'}>{title}</HoliText>
         <VolunteeringListing />

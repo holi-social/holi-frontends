@@ -24,13 +24,12 @@ type DonationUpdatesProps = {
 }
 
 const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery, style }: DonationUpdatesProps) => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const { navigate } = useRouting()
   const { width: screenWidth } = useWindowDimensions()
 
   const { data, error, loading } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
     variables: {
-      locale: i18n.language,
       limit: PROJECT_PAGE_SIZE,
       offset: 0,
       location: locationQuery,
@@ -42,7 +41,7 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery, style
     logError(error, t('donations:donationListing.error'))
   }
 
-  const { projects = [] } = data?.appDonations_projects || {}
+  const { data: projects = [] } = data?.appDonations_projects || {}
 
   return (
     <View style={style}>
