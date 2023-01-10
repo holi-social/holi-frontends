@@ -32,6 +32,5 @@ const styles = StyleSheet.create({
     // dummy ...
     minHeight: 200,
     marginTop: 40,
-    marginRight: 20,
   },
 })

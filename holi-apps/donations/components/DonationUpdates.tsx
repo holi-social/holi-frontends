@@ -58,31 +58,32 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery, style
             return <DonationUpdatesItem key={index} project={project} />
           })
         }
-        {loading && (
+        {loading ? (
           <View style={styles.loadingContainer}>
             <HoliIcon icon="loader-4" size={50} color={colors.fontColorGrey} spinning />
           </View>
+        ) : (
+          <HoliButton
+            label={t('donations:donationListing.loadMoreButton.text')}
+            style={[styles.buttonContainer, styles.lastButtonContainer]}
+            onPress={() => navigate('/apps/donations/')}
+            transparent
+            inline
+            testID={'donations-updates-load-more-button'}
+          >
+            <HoliLocalImage
+              imageSource={require('@holi/ui/assets/img/illustrations/illustration_see_more.png')}
+              width={Platform.OS === 'web' ? 160 : screenWidth / 2 - 26}
+              height={Platform.OS === 'web' ? 160 : screenWidth / 2 - 26}
+              label=""
+            />
+            <View style={styles.seeMoreContainer}>
+              <HoliText style={styles.seeMoreText} size="small" bold>
+                {t('donations:donationListing.loadMoreButton.text')}
+              </HoliText>
+            </View>
+          </HoliButton>
         )}
-        <HoliButton
-          label={t('donations:donationListing.loadMoreButton.text')}
-          style={[styles.buttonContainer, styles.lastButtonContainer]}
-          onPress={() => navigate('/apps/donations/')}
-          transparent
-          inline
-          testID={'donations-updates-load-more-button'}
-        >
-          <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/illustrations/illustration_see_more.png')}
-            width={Platform.OS === 'web' ? 160 : screenWidth / 2 - 26}
-            height={Platform.OS === 'web' ? 160 : screenWidth / 2 - 26}
-            label=""
-          />
-          <View style={styles.seeMoreContainer}>
-            <HoliText style={styles.seeMoreText} size="small" bold>
-              {t('donations:donationListing.loadMoreButton.text')}
-            </HoliText>
-          </View>
-        </HoliButton>
       </ScrollView>
     </View>
   )
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundColorGrey,
   },
   lastButtonContainer: {
-    marginRight: 24,
+    marginRight: Platform.OS === 'web' ? 24 : 48,
     flexDirection: 'column',
     justifyContent: 'space-between',
     flex: 1,
