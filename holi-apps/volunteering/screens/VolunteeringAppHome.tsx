@@ -1,6 +1,6 @@
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -28,7 +28,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
           {title}
         </HoliHeading>
       ),
-      // headerTransparent: true,
+      headerTransparent: true,
       headerStyle: { backgroundColor: colors.backgroundColorWhite },
       headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon="arrow-down-s" />),
       headerRight: ({ tintColor }) =>
@@ -41,24 +41,21 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
   }, [setOptions, navigate, t, title])
 
   return (
-    <DefaultLayout style={{ backgroundColor: colors.backgroundColorGreyLight }} scrollView={false} headerOverlap>
+    <DefaultLayout style={styles.defaultLayout} scrollView={false} headerOverlap>
       <View style={[mixins.container]} testID="volunteering-list-container">
-        <HoliHeading level="1" style={styles.titleContainer}>
-          {t('volunteering:listing.headline')}
-        </HoliHeading>
-
-        <VolunteeringListing />
+        <SafeAreaView>
+          <VolunteeringListing />
+        </SafeAreaView>
       </View>
     </DefaultLayout>
   )
 }
 
+export default memo(VolunteeringAppHome)
+
 const styles = StyleSheet.create({
-  titleContainer: {
-    paddingTop: 24,
-    paddingBottom: 32,
-    fontWeight: '400',
+  defaultLayout: {
+    backgroundColor: colors.backgroundColorGreyLight,
+    paddingBottom: 0,
   },
 })
-
-export default memo(VolunteeringAppHome)

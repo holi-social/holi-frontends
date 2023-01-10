@@ -1,9 +1,12 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { FlatList, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliCardComponent from '@holi/ui/components/molecules/HoliCardComponent'
+import variables from '@holi/ui/styles/globalVars/variables'
 
 import '@holi-apps/goodnews/queries'
 import VolunteeringCardContent from '@holi-apps/volunteering/components/VolunteeringCardContent'
@@ -13,6 +16,7 @@ import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 type VolunteeringListingProps = Record<string, never>
 
 const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
+  const { t } = useTranslation()
   const { loading, error, data } = useQuery<VolunteeringEngagementsQueryResponse>(VolunteeringEngagementsQuery, {
     // TODO: remove hard coded values for pagination and location filtering
     variables: {
@@ -38,7 +42,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
   }
 
   const renderItem = ({ item }: { item: VolunteeringEngagement }) => (
-    <View style={styles.volunteeringCardContainer} key={item.id}>
+    <View style={styles.cardContainer} key={item.id}>
       <HoliCardComponent
         imageUrl={item.imageUrl}
         imageLabel={item.title ?? ''}
@@ -50,13 +54,34 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
     </View>
   )
 
-  return <FlatList data={engagements} renderItem={renderItem} />
+  const listHeader = (
+    <HoliHeading level="1" style={styles.title}>
+      {t('volunteering:listing.headline')}
+    </HoliHeading>
+  )
+
+  return (
+    <FlatList
+      ListHeaderComponent={listHeader}
+      ListHeaderComponentStyle={styles.listHeader}
+      data={engagements}
+      renderItem={renderItem}
+    />
+  )
 }
 
 export default VolunteeringListing
 
 const styles = StyleSheet.create({
-  volunteeringCardContainer: {
+  cardContainer: {
+    flex: 1,
     marginBottom: 16,
+  },
+  listHeader: {
+    paddingTop: Number(variables.topBarHeight) + 24,
+    paddingBottom: 32,
+  },
+  title: {
+    fontWeight: '400',
   },
 })
