@@ -7,6 +7,7 @@ import Carousel from 'react-native-reanimated-carousel'
 
 import { logError } from '@holi/core/errors/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -27,6 +28,10 @@ type CarouselItem = {
   type: 'article' | 'teaser'
   article: GoodNewsArticle
 }
+export type GoodNewsArticleParams = {
+  articleId?: string
+}
+const { useParam } = createParam<GoodNewsArticleParams>()
 
 /** This is a temporary component and should be replaced by a carousel-style component later */
 const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
@@ -58,16 +63,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
 
   const [activeArticleIndex, setActiveArticleIndex] = useState<number>(0)
 
-  // useEffect(() => {
-  //   const params = new URLSearchParams()
-  //   const activeArticle = articles && articles[activeArticleIndex]
-  //   params.set('articleId', activeArticle?.id || '')
-  //   //window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`)
-  //   // if
-  //   updateParams({ articleId: activeArticle?.id || '' })
-  // }, [articles, activeArticleIndex, updateParams])
-
-  // if navigate from article in GoodNewsUpdatesItem it always goes to the first article but in the carousel it should go to the article that was clicked
+  const [paramId] = useParam('articleId', singleParamConfig)
 
   useEffect(() => {
     setOptions({
@@ -83,7 +79,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
       },
       headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
     })
-  }, [setOptions, articles, activeArticleIndex])
+  }, [setOptions, articles, activeArticleIndex, paramId])
 
   const renderItem = useCallback(
     ({ item, index }) => {
@@ -107,28 +103,6 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
     [activeArticleIndex, memoizedFetchMore, styles.article]
   )
 
-  /*   const renderItem = useCallback(
-    ({ item }) => {
-      const accessible = item.article.id === articleParamId
-      return item.type === 'article' ? (
-        <GoodNewsArticleComponent
-          article={item.article}
-          key={item.article.id}
-          accessible={accessible}
-          style={styles.article}
-        />
-      ) : (
-        <GoodNewsTeaserComponent
-          article={item.article}
-          key={item.article.id}
-          fetchMore={memoizedFetchMore}
-          accessible={accessible}
-        />
-      )
-    },
-    [articleParamId, memoizedFetchMore, styles.article]
-  ) */
-
   if (error) {
     logError(error, `[GoodNewsCarousel.tsx] ${error.message}`)
   }
@@ -144,6 +118,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
   }
 
   const carouselItems: CarouselItem[] = articles
+    .slice(paramId ? articles.findIndex((article) => article.id === paramId) : 0, articles.length)
     .map((article) => ({ type: 'article', article: article } as CarouselItem))
     .concat(previousDateTeaser ? [{ type: 'teaser', article: previousDateTeaser }] : [])
 
