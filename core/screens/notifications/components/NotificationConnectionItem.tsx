@@ -37,7 +37,7 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
   const { connect, disconnect, error, loading } = useUserConnection()
 
   if (error) {
-    displayError(error, t('user.profileView.connection.error'))
+    displayError(error, t('global.technicalError'))
   }
 
   const getI18Key = () => {

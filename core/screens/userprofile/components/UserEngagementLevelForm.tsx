@@ -64,7 +64,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
   }
 
   if (error) {
-    displayError(error, t('user.profileForm.error.saving'))
+    displayError(error, t('global.technicalError'))
   }
 
   const ActiveButtonIcon = (

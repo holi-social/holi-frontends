@@ -75,7 +75,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   }
 
   if (error) {
-    displayError(error, t('user.profileForm.error.saving'))
+    displayError(error, t('global.technicalError'))
   }
 
   const header = (
