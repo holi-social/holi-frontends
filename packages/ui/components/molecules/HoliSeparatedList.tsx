@@ -28,7 +28,7 @@ const HoliSeparatedList: React.VFC<HoliTextProps> = ({ children, ...props }) => 
           return [
             ...acc,
             <HoliText key={`${idx}-and`} {...props}>
-              {' ' + t('general.and') + ' '}
+              {' ' + t('global.and') + ' '}
             </HoliText>,
             node,
           ]

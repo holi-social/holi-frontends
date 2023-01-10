@@ -30,7 +30,7 @@ const UserContextProvider: React.FC = ({ children }) => {
   })
 
   if (error) {
-    displayError(error, t('user.userContext.error.fetching'))
+    displayError(error, t('global.technicalError'))
     setUserLoggedOut()
   }
 

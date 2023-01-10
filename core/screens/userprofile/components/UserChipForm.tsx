@@ -89,7 +89,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
   }
 
   if (error) {
-    displayError(error, t('user.profileForm.error.saving'))
+    displayError(error, t('global.technicalError'))
   }
 
   const updateValues = (term: Term) => {

@@ -77,7 +77,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
     if (isNotFoundError(error)) {
       return <NotFound />
     } else {
-      displayError(error, t('user.userProfile.error.fetching'))
+      displayError(error, t('global.technicalError'))
     }
   }
 
@@ -109,7 +109,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
         <UserProfileView user={user} />
       </View>
       <HoliTabs
-        style={{ marginTop: 24 }}
+        style={{ marginTop: 24, flex: 1 }}
         id="profile-tabs"
         tabs={[
           {

@@ -108,7 +108,7 @@ exports[`renders correctly renders correctly when there is a title, is editable 
             ]
           }
         >
-          general.edit
+          global.edit
         </Text>
       </View>
     </View>
