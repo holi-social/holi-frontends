@@ -29,6 +29,7 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
       <HoliTabs
         id="space-tabs"
         centeredButtons
+        style={{ flex: 1 }}
         tabs={[
           {
             title: t('spaces.tab.info'),

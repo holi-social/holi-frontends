@@ -38,6 +38,18 @@ export interface Space {
   tasks?: Task[]
 }
 
+export enum SpaceSectionType {
+  FOLLOWER = 'FOLLOWER',
+  MEMBERSHIP_REQUESTOR = 'MEMBERSHIP_REQUESTOR',
+  MEMBER = 'MEMBER',
+  CREATOR = 'CREATOR',
+}
+export type SpaceSection = {
+  section: string
+  type: SpaceSectionType
+  spaces: { data: Space[] }
+}
+
 export interface Task {
   id: string
   name: string

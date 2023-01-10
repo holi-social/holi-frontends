@@ -10,7 +10,6 @@ import { DEFAULT_LOCATION, getDefaultTopicIds } from '@holi/core/screens/spaces/
 import { DiscoverSpacesResponse, discoverSpacesQuery } from '@holi/core/screens/spaces/queries'
 import { User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const SPACES_PAGE_SIZE = 10
 
@@ -21,7 +20,6 @@ type DiscoverSpacesProps = {
 
 const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
 
   const { loading: topicsLoading, topics = [] } = useContext(SpaceTermContext)
 
@@ -81,7 +79,7 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
   if (topicsLoading || loadingUserSpecific || loadingDefaultData) {
     // TODO: replace with proper loading indicator
     return (
-      <View style={[mixins.container, styles.loadingContainer]}>
+      <View style={styles.loadingContainer}>
         <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
       </View>
     )
@@ -99,8 +97,7 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
 
 const styles = StyleSheet.create({
   loadingContainer: {
-    alignItems: 'center',
-    marginTop: 50,
+    marginTop: 24,
   },
 })
 

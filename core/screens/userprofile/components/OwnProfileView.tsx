@@ -31,7 +31,7 @@ const OwnProfileView: React.VFC<OwnProfileViewProps> = ({ toggleEditMode, user }
         <UserProfileView user={user} contactPossible={false} />
       </View>
       <HoliTabs
-        style={{ marginTop: 24 }}
+        style={{ marginTop: 24, flex: 1 }}
         id="profile-tabs"
         tabs={[
           {
