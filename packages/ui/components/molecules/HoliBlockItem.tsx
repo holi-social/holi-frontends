@@ -90,6 +90,8 @@ const stylesSmall = StyleSheet.create({
   },
   holiBlockItemInner: {
     display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
   },
   imageContainer: {
     position: 'relative',
@@ -97,7 +99,6 @@ const stylesSmall = StyleSheet.create({
     height: 64,
   },
   image: {
-    aspectRatio: 240 / 160,
     borderRadius: 8,
     height: '100%',
   },

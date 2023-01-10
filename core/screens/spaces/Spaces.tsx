@@ -18,6 +18,7 @@ import { MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/querie
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -26,6 +27,7 @@ type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
 
 const Spaces: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
+  const { openToast } = useToast()
   const mixins = useStyleMixins()
   const { setOptions, navigate } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
@@ -37,7 +39,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
   let hasOwnSpaces = false
   const { loading, data: mySpacesData, error: mySpacesError } = useQuery<MySpacesResponse>(mySpaceQuery)
   const mySpaces = mySpacesData?.mySpaces || []
-  hasOwnSpaces = !!mySpacesData && mySpacesData.mySpaces.length > 0
+  hasOwnSpaces = !!(mySpacesData && mySpacesData?.mySpaces?.length > 0)
 
   useLayoutEffect(() => {
     const title = t('spaces.title')
@@ -79,11 +81,10 @@ const Spaces: React.VFC<ScreenProps> = () => {
     if (mySpacesError.message === 'Unauthorized') {
       hasOwnSpaces = false
     } else {
+      openToast(t('global.technicalError'), HoliToastType.ERROR)
       return (
         <DefaultLayout style={styles.layout}>
-          <View style={[mixins.container, styles.discoverSpacesContainer]} testID="spaces-error">
-            <HoliText>{t('global.technicalError')}</HoliText>
-          </View>
+          <View style={[mixins.container, styles.discoverSpacesContainer]} />
         </DefaultLayout>
       )
     }
