@@ -5,6 +5,7 @@ import { StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'rea
 
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceCollaborators from '@holi/core/screens/spaces/components/SpaceCollaborators'
+import SpaceFollow from '@holi/core/screens/spaces/components/SpaceFollow'
 import SpaceJoin, { SpaceJoinState } from '@holi/core/screens/spaces/components/SpaceJoin'
 import { Space } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -37,11 +38,11 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
 
   const [modalVisible, setModalVisible] = useState(false)
 
+  const [joinRequestState, setJoinRequestState] = useState<SpaceJoinState>('open')
+
   const openModal = useCallback(() => {
     setModalVisible(true)
   }, [setModalVisible])
-
-  const [joinRequestState, setJoinRequestState] = useState<SpaceJoinState>('open')
 
   return (
     <View style={[styles.container, style]} testID="space-header">
@@ -67,10 +68,8 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
       </View>
 
       <View style={styles.actionButtons}>
-        <HoliButton inline label={t('spaces.follow')} type="secondary">
-          <HoliText>{t('spaces.follow')}</HoliText>
-        </HoliButton>
-
+        <SpaceFollow space={space} />
+        {/* TODO: display server value for space join state */}
         <SpaceJoin state={joinRequestState} onStateChange={setJoinRequestState} spaceId={space.id} />
       </View>
     </View>

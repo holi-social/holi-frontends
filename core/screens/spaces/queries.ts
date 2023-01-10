@@ -24,6 +24,7 @@ const SpaceFragment = gql`
     avatar
     mainImage
     location
+    connectionStatusToMyself
     links {
       type
       url
