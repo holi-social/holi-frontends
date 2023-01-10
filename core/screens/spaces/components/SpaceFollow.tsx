@@ -28,7 +28,7 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
   const [unfollowDialogIsOpen, setUnfollowDialogIsOpen] = useState(false)
   const [followSpace, { loading, error }] = useMutation<JoinSpaceResponse>(joinSpaceMutation)
 
-  const followState = space.connectionStatusToMyself.includes(SpaceConnectionType.FOLLOWER)
+  const followState = space.connectionStatusToMyself?.includes(SpaceConnectionType.FOLLOWER)
     ? SpaceFollowStateType.FOLLOWING
     : SpaceFollowStateType.NOT_FOLLOWING
 
