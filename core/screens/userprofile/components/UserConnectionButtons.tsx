@@ -25,7 +25,7 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
   const { t } = useTranslation()
 
   if (error) {
-    displayError(error, t('user.profileView.connection.error'))
+    displayError(error, t('global.technicalError'))
   }
 
   const connectionStatusToMyself = user.connectionStatusToMyself || UserConnectionStatus.NOT_CONNECTED

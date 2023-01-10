@@ -77,7 +77,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
     if (isNotFoundError(error)) {
       return <NotFound />
     } else {
-      displayError(error, t('user.userProfile.error.fetching'))
+      displayError(error, t('global.technicalError'))
     }
   }
 

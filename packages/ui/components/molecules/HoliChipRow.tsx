@@ -34,7 +34,7 @@ const HoliChipRow: React.FunctionComponent<HoliChipRowProps> = ({
         <HoliText size="small">{title}</HoliText>
         {editable && (
           <HoliButton
-            label={editButtonLabel || editButtonText || t('general.edit')}
+            label={editButtonLabel || editButtonText || t('global.edit')}
             transparent
             inline
             style={{
@@ -48,7 +48,7 @@ const HoliChipRow: React.FunctionComponent<HoliChipRowProps> = ({
             testID={[testID, 'edit'].filter((e) => e).join('-')}
           >
             <HoliText selectable={false} size="small" bold style={styles.editButton}>
-              {editButtonText || t('general.edit')}
+              {editButtonText || t('global.edit')}
             </HoliText>
           </HoliButton>
         )}
