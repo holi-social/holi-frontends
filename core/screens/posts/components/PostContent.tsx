@@ -46,7 +46,13 @@ const PostContent: React.VFC<PostContentProps> = ({
             <HoliHeading level="1" size="medium">
               {post.title}
             </HoliHeading>
-            <HoliButton transparent inline label={t('insights.post.preview.more')} style={styles.moreButton}>
+            <HoliButton
+              transparent
+              inline
+              label={t('insights.post.preview.more')}
+              style={styles.moreButton}
+              onPress={showFeatureNotImplementedToast}
+            >
               <HoliIcon icon="more" color={colors.fontColorGrey} />
             </HoliButton>
           </View>
