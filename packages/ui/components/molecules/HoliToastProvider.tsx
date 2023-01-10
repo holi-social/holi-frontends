@@ -56,7 +56,7 @@ export const ToastProvider: React.FC<Partial<ToastContextValue>> = ({ children }
     <ToastContext.Provider value={contextValue}>
       {children}
 
-      <SafeArea style={styles.wrapper}>
+      <SafeArea style={[styles.wrapper, Platform.OS === 'web' && styles.wrapperWebPosition]}>
         {
           /** FIXME convert to VirtualizedList, FlatList or SectionList */
           toasts.map((toast: Toast) => (
@@ -130,6 +130,11 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
             right: 0,
           }
         : {}),
+    },
+    wrapperWebPosition: {
+      position: 'fixed',
+      width: '100%',
+      top: 0,
     },
     toast: {
       padding: 20,
