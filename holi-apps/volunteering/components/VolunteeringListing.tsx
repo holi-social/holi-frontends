@@ -1,13 +1,15 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
+import { StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
+import HoliCardComponent from '@holi/ui/components/molecules/HoliCardComponent'
 
 import '@holi-apps/goodnews/queries'
 import { VolunteeringEngagementsQuery, VolunteeringEngagementsQueryResponse } from '@holi-apps/volunteering/queries'
 import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 
-import VolunteeringEngagementComponent from './VolunteeringEngagementComponent'
+import VolunteeringCardContent from './VolunteeringCardContent'
 
 type VolunteeringListingProps = Record<string, never>
 
@@ -24,17 +26,39 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
     return <></>
   }
 
+  const handleCardPress = (engagement: VolunteeringEngagement) => {
+    //ToDo Remove the log once implement the functionality
+    console.log('engagement ', engagement)
+  }
+
   return (
     <>
       {
         /** FIXME convert to VirtualizedList, FlatList or SectionList */
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        engagements!.map((engagement: VolunteeringEngagement) => (
-          <VolunteeringEngagementComponent engagement={engagement} key={engagement.id} />
-        ))
+        engagements!.map((engagement: VolunteeringEngagement) => {
+          return (
+            <View style={styles.volunteeringCardContainer} key={engagement.id}>
+              <HoliCardComponent
+                imageUrl={engagement.image}
+                imageLabel={engagement.title ?? ''}
+                testID="holiCard"
+                onCardPress={() => handleCardPress(engagement)}
+              >
+                <VolunteeringCardContent engagement={engagement} key={engagement.id} />
+              </HoliCardComponent>
+            </View>
+          )
+        })
       }
     </>
   )
 }
 
 export default VolunteeringListing
+
+const styles = StyleSheet.create({
+  volunteeringCardContainer: {
+    marginBottom: 16,
+  },
+})
