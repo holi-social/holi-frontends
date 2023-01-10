@@ -28,7 +28,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
   const numberOfInsights = 4
   const { loading, error, data, fetchMore } = useQuery<LastInsightsResponse>(lastInsightsQuery, {
     variables: { limit: numberOfInsights },
-    fetchPolicy: 'cache-and-network',
+    // fetchPolicy: 'cache-and-network',
   })
   const [isFetchingMore, setIsFetchingMore] = useState(false)
   const fetchingMoreButtonText = isFetchingMore
