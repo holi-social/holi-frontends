@@ -200,23 +200,18 @@
   "spaces.filter.topics.label": "Topics I'm interested in",
   "spaces.filter.topics.noMatches": "No matching topic found",
   "spaces.filter.topics.placeholder": "All topics",
-
-
-  "spaces.join.btnPending": "Waiting to join",
-  "spaces.join.btnRequest": "Ask to join…",
-  "spaces.join.error": "There was an error updating the connection with this space. Please retry later.",
-  "spaces.join.loginRedirect.text": "To request the space join you need to be logged in.",
-  "spaces.join.withdraw.confirm.headline": "Withdraw request",
-  "spaces.join.withdraw.confirm.text": "Would you like to withdraw the request to join the space?",
-
   "spaces.follow.btn.follow": "Follow",
   "spaces.follow.btn.unfollow": "Following",
   "spaces.follow.error": "Es gab einen technischen Fehler. Bitte probieren Sie es später nochmal.",
   "spaces.follow.loginRedirect.text": "Um {{spaceName}} folgen zu können, musst Du Dich erst anmelden",
   "spaces.follow.unfollow.confirm.headline": "Entfolge {{spaceName}}",
   "spaces.follow.unfollow.confirm.text": "Möchtest du {{spaceName}} wirklich nicht mehr folgen?",
-
-
+  "spaces.join.btnPending": "Waiting to join",
+  "spaces.join.btnRequest": "Ask to join…",
+  "spaces.join.error": "There was an error updating the connection with this space. Please retry later.",
+  "spaces.join.loginRedirect.text": "To request the space join you need to be logged in.",
+  "spaces.join.withdraw.confirm.headline": "Withdraw request",
+  "spaces.join.withdraw.confirm.text": "Would you like to withdraw the request to join the space?",
   "spaces.link.DISCORD": "Discord",
   "spaces.link.FACEBOOK": "Facebook",
   "spaces.link.INSTAGRAM": "Instagram",

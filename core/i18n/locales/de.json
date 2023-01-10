@@ -200,22 +200,18 @@
   "spaces.filter.topics.label": "Themen, die mich interessieren",
   "spaces.filter.topics.noMatches": "Kein passendes Thema gefunden",
   "spaces.filter.topics.placeholder": "Alle Themen",
-
-  "spaces.join.btnPending": "Anfrage ausstehend",
-  "spaces.join.btnRequest": "Beitritt anfragen…",
-  "spaces.join.error": "Es gab einen Fehler beim aktualisieren der Verbindung zu diesem Space. Bitte probieren Sie es später nochmal.",
-  "spaces.join.loginRedirect.text": "Um dem Space beizutreten, musst Du Dich erst anmelden",
-  "spaces.join.withdraw.confirm.headline": "Anfrage zurückziehen",
-  "spaces.join.withdraw.confirm.text": "Möchtest du die Beitrittsanfrage zum Space zurückziehen?",
-
   "spaces.follow.btn.follow": "Folgen",
   "spaces.follow.btn.unfollow": "Du folgst",
   "spaces.follow.error": "Es gab einen technischen Fehler. Bitte probieren Sie es später nochmal.",
   "spaces.follow.loginRedirect.text": "Um {{spaceName}} folgen zu können, musst Du Dich erst anmelden",
   "spaces.follow.unfollow.confirm.headline": "Entfolge {{spaceName}}",
   "spaces.follow.unfollow.confirm.text": "Möchtest du {{spaceName}} wirklich nicht mehr folgen?",
-
-
+  "spaces.join.btnPending": "Anfrage ausstehend",
+  "spaces.join.btnRequest": "Beitritt anfragen…",
+  "spaces.join.error": "Es gab einen Fehler beim aktualisieren der Verbindung zu diesem Space. Bitte probieren Sie es später nochmal.",
+  "spaces.join.loginRedirect.text": "Um dem Space beizutreten, musst Du Dich erst anmelden",
+  "spaces.join.withdraw.confirm.headline": "Anfrage zurückziehen",
+  "spaces.join.withdraw.confirm.text": "Möchtest du die Beitrittsanfrage zum Space zurückziehen?",
   "spaces.link.DISCORD": "Discord",
   "spaces.link.FACEBOOK": "Facebook",
   "spaces.link.INSTAGRAM": "Instagram",
