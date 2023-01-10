@@ -8,7 +8,6 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
-//import { article } from '@holi-apps/goodnews/components/__tests__/testData'
 import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 type GoodNewsUpdatesItemProps = {
@@ -28,15 +27,11 @@ const GoodNewsUpdatesItem: React.VFC<GoodNewsUpdatesItemProps> = ({ article, sty
     return dateString.charAt(0).toUpperCase() + dateString.slice(1)
   }, [article.date, i18n.language])
 
-  const params = new URLSearchParams()
-  params.set('articleId', article.id)
-  const paramsString = params.toString()
-
   return (
     <HoliButton
       label={article.headline}
       transparent
-      onPress={() => navigate('/apps/goodnews?' + paramsString)}
+      onPress={() => navigate('/apps/goodnews?')}
       style={[styles.buttonContainer, style]}
       testID={'goodnews-updates-item'}
       inline

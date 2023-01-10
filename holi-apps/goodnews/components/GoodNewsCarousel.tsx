@@ -58,17 +58,6 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
 
   const [activeArticleIndex, setActiveArticleIndex] = useState<number>(0)
 
-  // useEffect(() => {
-  //   const params = new URLSearchParams()
-  //   const activeArticle = articles && articles[activeArticleIndex]
-  //   params.set('articleId', activeArticle?.id || '')
-  //   //window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`)
-  //   // if
-  //   updateParams({ articleId: activeArticle?.id || '' })
-  // }, [articles, activeArticleIndex, updateParams])
-
-  // if navigate from article in GoodNewsUpdatesItem it always goes to the first article but in the carousel it should go to the article that was clicked
-
   useEffect(() => {
     setOptions({
       headerTitle: ({ tintColor }) => (
@@ -106,28 +95,6 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
     },
     [activeArticleIndex, memoizedFetchMore, styles.article]
   )
-
-  /*   const renderItem = useCallback(
-    ({ item }) => {
-      const accessible = item.article.id === articleParamId
-      return item.type === 'article' ? (
-        <GoodNewsArticleComponent
-          article={item.article}
-          key={item.article.id}
-          accessible={accessible}
-          style={styles.article}
-        />
-      ) : (
-        <GoodNewsTeaserComponent
-          article={item.article}
-          key={item.article.id}
-          fetchMore={memoizedFetchMore}
-          accessible={accessible}
-        />
-      )
-    },
-    [articleParamId, memoizedFetchMore, styles.article]
-  ) */
 
   if (error) {
     logError(error, `[GoodNewsCarousel.tsx] ${error.message}`)
