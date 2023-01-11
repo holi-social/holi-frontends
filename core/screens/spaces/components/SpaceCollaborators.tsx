@@ -8,6 +8,7 @@ import { Space } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
@@ -61,7 +62,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
   return (
     <>
       <ModalBasic
-        style={[styles.defaultLayout, style]}
+        style={style}
         show={visible}
         animationType="slide"
         label={t('spaces.collaborators')}
@@ -69,19 +70,23 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
         onDismiss={onDismiss}
       >
         <View style={[mixins.container, styles.wrapper]}>
-          <View style={styles.header}>
-            <HoliButton
-              style={styles.closeModal}
-              label={t('modal.backdrop')}
-              inline
-              transparent
-              onPress={onDismiss}
-              testID={Platform.OS === 'web' ? 'nav-button-down' : 'nav-button-back'}
-            >
-              <HoliIcon icon={Platform.OS === 'web' ? 'arrow-left-s' : 'arrow-down-s'} />
-            </HoliButton>
-            <HoliText style={styles.title}>{t('spaces.collaborators')}</HoliText>
-          </View>
+          <SafeArea style={styles.safeArea}>
+            <View style={styles.header}>
+              <HoliButton
+                style={styles.closeModal}
+                label={t('modal.backdrop')}
+                inline
+                transparent
+                onPress={onDismiss}
+                testID={Platform.OS === 'web' ? 'nav-button-down' : 'nav-button-back'}
+              >
+                <HoliIcon icon={Platform.OS === 'web' ? 'arrow-left' : 'arrow-down-s'} />
+              </HoliButton>
+              <HoliText bold style={styles.title}>
+                {t('spaces.collaborators')}
+              </HoliText>
+            </View>
+          </SafeArea>
           <ScrollView>
             {
               /** FIXME convert to VirtualizedList, FlatList or SectionList */
@@ -140,25 +145,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical: 8,
-  },
-  defaultLayout: {
-    paddingTop: 8,
-    paddingBottom: 0,
-    ...Platform.select({
-      web: {
-        minHeight: '100vh',
-      },
-      android: {
-        paddingTop: StatusBar.currentHeight || 0,
-      },
-    }),
+    marginTop: 16,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 21,
+  },
+  safeArea: {
+    ...Platform.select({
+      web: {
+        paddingTop: 18,
+      },
+      android: {
+        paddingTop: StatusBar.currentHeight || 0,
+      },
+      ios: {
+        paddingTop: 66,
+      },
+    }),
   },
   title: {
     flex: 1,
@@ -170,7 +176,6 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     justifyContent: 'center',
-    paddingTop: 66,
     marginHorizontal: 24,
     height: '100%',
   },
