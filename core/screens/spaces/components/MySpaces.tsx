@@ -1,6 +1,8 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { SectionList, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { SpaceSection, SpaceSectionType } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -13,6 +15,7 @@ export type MySpacesProps = {
   style?: StyleProp<ViewStyle>
 }
 const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
+  const { t } = useTranslation()
   const mappedSpaces = mySpaces.map((section) => {
     return {
       title: section.section,
@@ -20,6 +23,9 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
       data: section.spaces.data,
     }
   })
+
+  // TODO: remove after implementing the feature
+  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
   return (
     <SectionList
@@ -42,7 +48,13 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
           />
           {/* Is coming later */}
           {(section.type === SpaceSectionType.MEMBER || section.type === SpaceSectionType.CREATOR) && (
-            <HoliButton label={'not yet implemented'} inline transparent disabled={true} style={styles.optionsButton}>
+            <HoliButton
+              label={t('global.notAvailable')}
+              inline
+              transparent
+              onPress={showFeatureNotImplementedToast}
+              style={styles.optionsButton}
+            >
               <HoliIcon icon="tools" size={20} color={colors.fontColorGrey} />
             </HoliButton>
           )}

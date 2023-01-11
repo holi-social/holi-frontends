@@ -74,6 +74,7 @@ export const space: Space = {
   creator: user,
   created: '2022-11-21T12:34:56Z',
   location: 'Hamburg, Germany',
+  connectionStatusToMyself: [],
   tasks,
   links,
 }
