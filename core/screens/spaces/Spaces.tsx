@@ -6,6 +6,7 @@ import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
@@ -27,19 +28,24 @@ type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
 
 const Spaces: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
-  const { openToast } = useToast()
+  const { isLoggedIn } = useAuth()
   const mixins = useStyleMixins()
   const { setOptions, navigate } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
   const { height: deviceHeight } = useWindowDimensions()
-  const styles = getStyles(deviceHeight)
-
+  const { openToast } = useToast()
   const { user } = useContext(UserContext)
 
+  const styles = getStyles(deviceHeight)
+
   let hasOwnSpaces = false
-  const { loading, data: mySpacesData, error: mySpacesError } = useQuery<MySpacesResponse>(mySpaceQuery)
+  const {
+    loading,
+    data: mySpacesData,
+    error: mySpacesError,
+  } = useQuery<MySpacesResponse>(mySpaceQuery, { skip: !isLoggedIn })
   const mySpaces = mySpacesData?.mySpaces || []
-  hasOwnSpaces = !!(mySpacesData && mySpacesData?.mySpaces?.length > 0)
+  hasOwnSpaces = isLoggedIn && !!(mySpacesData && mySpacesData?.mySpaces?.length > 0)
 
   useLayoutEffect(() => {
     const title = t('spaces.title')

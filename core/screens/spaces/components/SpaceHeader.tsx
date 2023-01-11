@@ -25,20 +25,15 @@ const sortUsersByFirstName = (users: User[]) =>
 
 const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
   const { t } = useTranslation()
-
+  const [modalVisible, setModalVisible] = useState(false)
+  const [joinRequestState, setJoinRequestState] = useState<SpaceJoinState>('open')
   const [adminMemberships, regularMemberships] = useMemo(() => partition(space.memberships, 'isAdministrator'), [space])
+  const { width: deviceWidth } = useWindowDimensions()
 
   const admins = adminMemberships.map((membership) => membership.user)
   const members = regularMemberships.map((membership) => membership.user)
-
   const sortedMembersList = [...sortUsersByFirstName(admins), ...sortUsersByFirstName(members)]
-
-  const { width: deviceWidth } = useWindowDimensions()
   const avatarWidth = deviceWidth / 5 // make avatar responsive (SpaceAvatar has a maxWidth)
-
-  const [modalVisible, setModalVisible] = useState(false)
-
-  const [joinRequestState, setJoinRequestState] = useState<SpaceJoinState>('open')
 
   const openModal = useCallback(() => {
     setModalVisible(true)
