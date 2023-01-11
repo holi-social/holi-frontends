@@ -79,7 +79,7 @@ const assertShowsGoodNewsUpdates = async () => {
   // click first element in ScrollView
   await tapOnElementWithTestId('goodnews-updates-item')
 
-  // expect detail view
+  // expect good news app
   await waitForElementWithTestId('goodnews-article-component')
 }
 
