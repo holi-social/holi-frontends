@@ -7,7 +7,7 @@ import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceCollaborators from '@holi/core/screens/spaces/components/SpaceCollaborators'
 import SpaceFollow from '@holi/core/screens/spaces/components/SpaceFollow'
 import SpaceJoin, { SpaceJoinState } from '@holi/core/screens/spaces/components/SpaceJoin'
-import { Space } from '@holi/core/screens/spaces/types'
+import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -34,6 +34,8 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
   const members = regularMemberships.map((membership) => membership.user)
   const sortedMembersList = [...sortUsersByFirstName(admins), ...sortUsersByFirstName(members)]
   const avatarWidth = deviceWidth / 5 // make avatar responsive (SpaceAvatar has a maxWidth)
+
+  const userIsMemberOfTheSpace = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   const openModal = useCallback(() => {
     setModalVisible(true)
@@ -63,7 +65,7 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
       </View>
 
       <View style={styles.actionButtons}>
-        <SpaceFollow space={space} />
+        {!userIsMemberOfTheSpace && <SpaceFollow space={space} />}
 
         {/* TODO: display server value for space join state - HOLI-2617 */}
         <SpaceJoin state={joinRequestState} onStateChange={setJoinRequestState} spaceId={space.id} />
