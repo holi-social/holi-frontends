@@ -69,6 +69,9 @@ const assertShowsDonationUpdates = async () => {
 }
 
 const assertShowsGoodNewsUpdates = async () => {
+  // go home
+  await navigateBackToHomeScreen()
+
   // check if good news updates are displayed
   await scrollToElementWithTestId('goodnews-updates-item', 'down')
   await waitForElementWithTestId('goodnews-updates-heading')
