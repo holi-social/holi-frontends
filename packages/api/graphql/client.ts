@@ -67,7 +67,12 @@ export const createCache = () =>
       },
       AppDonations_ProjectsResponse: {
         fields: {
-          projects: indexAwareOffsetLimitPagination(),
+          data: indexAwareOffsetLimitPagination(),
+        },
+      },
+      AppVolunteering_EngagementsResponse: {
+        fields: {
+          data: indexAwareOffsetLimitPagination(),
         },
       },
       AppGoodNews_GoodNewsArticlesQueryResponse: {
@@ -94,6 +99,9 @@ export const createCache = () =>
             keyArgs: ['location'],
           },
           appGoodNews_articles: {
+            keyArgs: [],
+          },
+          appVolunteering_engagements: {
             keyArgs: [],
           },
           spaces: {
