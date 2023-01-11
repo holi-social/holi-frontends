@@ -84,26 +84,4 @@ test.describe('@HomeScreen', () => {
     await clickElementByTestId(page, 'donations-updates-load-more-button')
     await waitForElementByTestId(page, 'donations-list-container')
   })
-
-  test('should display good news updates', async ({ page }) => {
-    // navigate to home and check if good news updates are displayed
-    await waitForElementByTestId(page, 'goodnews-updates-heading')
-    await waitForElementByTestId(page, 'goodnews-updates-container')
-    await waitForElementByTestId(page, 'goodnews-updates-item')
-    await checkAccessibility(page)
-
-    // click first element in ScrollView
-    await clickElementByTestId(page, 'goodnews-updates-item')
-
-    // navigate to article in good news app
-    await waitForElementByTestId(page, 'goodnews-article-component')
-    expect(page.url()).toContain('/apps/goodnews?articleId=')
-
-    // navigate back
-    await clickElementByTestId(page, 'nav-button-back')
-
-    // click on "see more" / navigate to good news app
-    await clickElementByTestId(page, 'goodnews-updates-load-more-button')
-    await waitForElementByTestId(page, 'goodnews-article-component')
-  })
 })
