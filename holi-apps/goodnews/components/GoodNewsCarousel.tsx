@@ -79,7 +79,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
       },
       headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
     })
-  }, [setOptions, articles, activeArticleIndex, paramId])
+  }, [setOptions, articles, activeArticleIndex])
 
   const renderItem = useCallback(
     ({ item, index }) => {
