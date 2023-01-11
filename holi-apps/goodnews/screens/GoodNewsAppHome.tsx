@@ -6,7 +6,6 @@ import { Platform, View } from 'react-native'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { useRoute } from '@holi/core/navigation/hooks/useParam/useRoute'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -17,7 +16,6 @@ type GoodNewsAppHomeProps = Record<string, never>
 
 const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
   const { t } = useTranslation()
-  const title = useRoute()?.params
   const onScreenScroll = useScrollYHandler()
   const { setOptions } = useUnifiedNavigation()
 
@@ -36,7 +34,7 @@ const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
           footerShown: false,
         },
       }),
-    [setOptions, t, title]
+    [setOptions, t]
   )
 
   return (
