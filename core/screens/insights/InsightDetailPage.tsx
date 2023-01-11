@@ -11,7 +11,6 @@ import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
@@ -42,7 +41,6 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const postGridItemsInRow = useBreakpointMatcher()
-  const { navigate } = useRouting()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
   const onScreenScroll = useScrollYHandler()
   const { setOptions } = useUnifiedNavigation()
@@ -168,7 +166,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
                     <PostContent
                       post={post}
                       collapseContent
-                      onMediaHeaderPressed={() => navigate(`/insights/${insightId}/posts/${post.id}`)}
+                      mediaHeaderLink={`/insights/${insightId}/posts/${post.id}`}
                       style={styles.postItem}
                     />
                   </HoliGridCell>
