@@ -16,6 +16,7 @@ type GoodNewsAppHomeProps = Record<string, never>
 
 const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
   const { t } = useTranslation()
+  const title = t('goodnews:app.name')
   const onScreenScroll = useScrollYHandler()
   const { setOptions } = useUnifiedNavigation()
 
@@ -34,7 +35,7 @@ const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
           footerShown: false,
         },
       }),
-    [setOptions, t]
+    [setOptions, t, title]
   )
 
   return (
