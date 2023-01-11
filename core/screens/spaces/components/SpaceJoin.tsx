@@ -7,6 +7,7 @@ import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { displayError } from '@holi/core/errors/helpers'
 import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
 import { JoinSpaceResponse, joinSpaceMutation } from '@holi/core/screens/spaces/queries'
+import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -39,7 +40,11 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ spaceId, state = 'open', onState
       })
     }
     joinSpace({
-      variables: { connectAction: 'CONNECT', connectionType: 'MEMBERSHIP_REQUESTOR', spaceId: spaceId },
+      variables: {
+        connectAction: SpaceConnectionAction.CONNECT,
+        connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
+        spaceId: spaceId,
+      },
     })
     onStateChange('pending')
   }, [isLoggedIn, onStateChange, openLoginDialog, t, joinSpace, spaceId])
@@ -48,8 +53,8 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ spaceId, state = 'open', onState
     setWithdrawDialogIsOpen(false)
     joinSpace({
       variables: {
-        connectAction: 'DISCONNECT',
-        connectionType: 'MEMBERSHIP_REQUESTOR',
+        connectAction: SpaceConnectionAction.DISCONNECT,
+        connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
         spaceId: spaceId,
       },
     })
@@ -88,8 +93,8 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ spaceId, state = 'open', onState
         label={t('spaces.join.withdraw.confirm.headline')}
         title={t('spaces.join.withdraw.confirm.headline')}
         description={t('spaces.join.withdraw.confirm.text')}
-        dismissText={t('spaces.join.withdraw.confirm.dismiss')}
-        confirmText={t('spaces.join.withdraw.confirm.accept')}
+        dismissText={t('global.dismiss')}
+        confirmText={t('global.yes')}
         onConfirm={submitWithdraw}
         onDismiss={() => setWithdrawDialogIsOpen(false)}
       />
