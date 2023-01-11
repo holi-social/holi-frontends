@@ -17,6 +17,7 @@ export enum SpaceLinkType {
   TWITTER = 'TWITTER',
   WHATSAPP = 'WHATSAPP',
 }
+
 export interface SpaceLink {
   url: string
   type: SpaceLinkType
@@ -30,6 +31,7 @@ export interface Space {
   creator: User
   mainImage: string
   location: string
+  connectionStatusToMyself: SpaceConnectionType[]
   memberships: SpaceMember[]
   links?: SpaceLink[]
   avatar?: string
@@ -58,4 +60,16 @@ export interface Task {
   location: string
   regularity: 'REGULARLY' | 'PROJECT_BASED' | 'ONE_TIME'
   skills: Skill[]
+}
+
+export enum SpaceConnectionType {
+  FOLLOWER = 'FOLLOWER',
+  MEMBERSHIP_REQUESTOR = 'MEMBERSHIP_REQUESTOR',
+  MEMBER = 'MEMBER',
+  CREATOR = 'CREATOR',
+}
+
+export enum SpaceConnectionAction {
+  CONNECT = 'CONNECT',
+  DISCONNECT = 'DISCONNECT',
 }

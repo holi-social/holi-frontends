@@ -121,7 +121,7 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
       */}
       {isWeb && (
         <ScrollView
-          style={styles.scrollViewStyle}
+          contentContainerStyle={styles.scrollViewStyle}
           horizontal
           showsHorizontalScrollIndicator={screenWidth >= horizontalScrollMinWidth}
         >
@@ -171,6 +171,7 @@ const getStyles = (
       width: '100%',
       flexDirection: 'row',
       scrollSnapType: screenWidth < horizontalScrollMinWidth ? 'x mandatory' : 'none',
+      justifyContent: 'center',
     },
     slideContainer: {
       flexDirection: 'row',

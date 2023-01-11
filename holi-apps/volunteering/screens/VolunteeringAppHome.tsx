@@ -1,13 +1,11 @@
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, View } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -21,7 +19,6 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
   const title = t('volunteering:app.name')
   const mixins = useStyleMixins()
 
-  const onScreenScroll = useScrollYHandler()
   const { setOptions, navigate } = useUnifiedNavigation()
 
   useLayoutEffect(() => {
@@ -44,17 +41,21 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
   }, [setOptions, navigate, t, title])
 
   return (
-    <DefaultLayout
-      onScroll={onScreenScroll}
-      scrollEventThrottle={200}
-      style={{ backgroundColor: colors.backgroundColorGreyLight }}
-    >
+    <DefaultLayout style={styles.defaultLayout} scrollView={false} headerOverlap>
       <View style={[mixins.container]} testID="volunteering-list-container">
-        <HoliText size={'extralarge'}>{title}</HoliText>
-        <VolunteeringListing />
+        <SafeAreaView>
+          <VolunteeringListing />
+        </SafeAreaView>
       </View>
     </DefaultLayout>
   )
 }
 
 export default memo(VolunteeringAppHome)
+
+const styles = StyleSheet.create({
+  defaultLayout: {
+    backgroundColor: colors.backgroundColorGreyLight,
+    paddingBottom: 0,
+  },
+})

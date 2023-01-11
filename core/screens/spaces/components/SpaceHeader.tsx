@@ -5,6 +5,7 @@ import { StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'rea
 
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceCollaborators from '@holi/core/screens/spaces/components/SpaceCollaborators'
+import SpaceFollow from '@holi/core/screens/spaces/components/SpaceFollow'
 import SpaceJoin, { SpaceJoinState } from '@holi/core/screens/spaces/components/SpaceJoin'
 import { Space } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -24,24 +25,19 @@ const sortUsersByFirstName = (users: User[]) =>
 
 const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
   const { t } = useTranslation()
-
+  const [modalVisible, setModalVisible] = useState(false)
+  const [joinRequestState, setJoinRequestState] = useState<SpaceJoinState>('open')
   const [adminMemberships, regularMemberships] = useMemo(() => partition(space.memberships, 'isAdministrator'), [space])
+  const { width: deviceWidth } = useWindowDimensions()
 
   const admins = adminMemberships.map((membership) => membership.user)
   const members = regularMemberships.map((membership) => membership.user)
-
   const sortedMembersList = [...sortUsersByFirstName(admins), ...sortUsersByFirstName(members)]
-
-  const { width: deviceWidth } = useWindowDimensions()
   const avatarWidth = deviceWidth / 5 // make avatar responsive (SpaceAvatar has a maxWidth)
-
-  const [modalVisible, setModalVisible] = useState(false)
 
   const openModal = useCallback(() => {
     setModalVisible(true)
   }, [setModalVisible])
-
-  const [joinRequestState, setJoinRequestState] = useState<SpaceJoinState>('open')
 
   return (
     <View style={[styles.container, style]} testID="space-header">
@@ -67,10 +63,9 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
       </View>
 
       <View style={styles.actionButtons}>
-        <HoliButton inline label={t('spaces.follow')} type="secondary">
-          <HoliText>{t('spaces.follow')}</HoliText>
-        </HoliButton>
+        <SpaceFollow space={space} />
 
+        {/* TODO: display server value for space join state - HOLI-2617 */}
         <SpaceJoin state={joinRequestState} onStateChange={setJoinRequestState} spaceId={space.id} />
       </View>
     </View>
