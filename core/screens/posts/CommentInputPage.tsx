@@ -59,7 +59,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
         openToast(t('insights.posts.comments.success'), HoliToastType.SUCCESS)
         navigateBack()
       },
-      onError: () => openToast(t('insights.posts.comments.error'), HoliToastType.ERROR),
+      onError: () => openToast(t('global.technicalError'), HoliToastType.ERROR),
     })
 
   const { setOptions } = useUnifiedNavigation()
