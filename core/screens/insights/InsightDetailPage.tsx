@@ -152,10 +152,6 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
               title={''} // don't show any headline in modal
               users={[author as User]}
               onDismiss={() => setShowCuratorModal(false)}
-              onUserPress={({ id }) => {
-                setShowCuratorModal(false)
-                navigate('/profile/' + id)
-              }}
               testID="insight-curator"
             />
           </HoliModal>
