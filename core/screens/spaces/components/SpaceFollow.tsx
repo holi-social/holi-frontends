@@ -32,8 +32,6 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
     ? SpaceFollowStateType.FOLLOWING
     : SpaceFollowStateType.NOT_FOLLOWING
 
-  const userIsMemberOfTheSpace = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
-
   const sendFollowRequest = useCallback(() => {
     if (!isLoggedIn) {
       return openLoginDialog({
@@ -59,10 +57,6 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
       },
     })
   }, [followSpace, space.id])
-
-  if (userIsMemberOfTheSpace) {
-    return null
-  }
 
   if (error) {
     displayError(error, t('spaces.follow.error'))
