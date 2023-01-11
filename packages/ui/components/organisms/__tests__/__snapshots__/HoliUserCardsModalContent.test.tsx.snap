@@ -92,369 +92,87 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               }
             >
               <View
-                accessible={false}
+                accessibilityLabel="user.visitProfile"
+                accessibilityRole="button"
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 style={
                   Array [
                     Object {
-                      "alignContent": "center",
-                      "alignItems": "center",
-                      "backgroundColor": "#f7f6f3",
-                      "borderRadius": 16,
-                      "height": "100%",
-                      "padding": 24,
+                      "color": "#6267e7",
                     },
-                    Object {
-                      "flex": 1,
-                    },
+                    undefined,
+                    undefined,
                   ]
                 }
-                testID="user-card"
+                testID="text-link"
               >
                 <View
+                  accessible={false}
                   style={
                     Array [
                       Object {
+                        "alignContent": "center",
                         "alignItems": "center",
                         "backgroundColor": "#f7f6f3",
-                        "borderRadius": 64,
-                        "justifyContent": "center",
-                        "overflow": "hidden",
-                      },
-                      undefined,
-                      Object {
-                        "borderColor": "#222326",
-                        "borderWidth": 2,
-                        "height": 128,
-                        "width": 128,
-                      },
-                    ]
-                  }
-                >
-                  <Image
-                    accessibilityLabel="Dima Rosmait"
-                    accessibilityRole="image"
-                    accessible={false}
-                    source={
-                      Object {
-                        "uri": "avatar-1",
-                      }
-                    }
-                    style={
-                      Object {
+                        "borderRadius": 16,
                         "height": "100%",
-                        "width": "100%",
-                      }
-                    }
-                  />
-                </View>
-                <Text
-                  accessible={false}
-                  selectable={true}
-                  style={
-                    Array [
-                      Object {
-                        "color": "#222326",
-                        "fontFamily": "Circular Std Book",
-                        "fontWeight": "400",
+                        "padding": 24,
                       },
                       Object {
-                        "fontSize": 16,
-                        "lineHeight": 19.2,
-                      },
-                      Object {
-                        "fontFamily": "Circular Std Medium",
-                        "fontWeight": "500",
-                      },
-                      Object {
-                        "marginVertical": 8,
-                        "textAlign": "center",
+                        "flex": 1,
                       },
                     ]
                   }
+                  testID="user-card"
                 >
-                  Dima Rosmait
-                </Text>
-                <View
-                  style={
-                    Object {
-                      "justifyContent": "center",
-                      "marginTop": 8,
-                    }
-                  }
-                >
-                  <Text
-                    accessible={false}
-                    selectable={true}
+                  <View
                     style={
                       Array [
                         Object {
-                          "color": "#222326",
-                          "fontFamily": "Circular Std Book",
-                          "fontWeight": "400",
+                          "alignItems": "center",
+                          "backgroundColor": "#f7f6f3",
+                          "borderRadius": 64,
+                          "justifyContent": "center",
+                          "overflow": "hidden",
                         },
+                        undefined,
                         Object {
-                          "fontSize": 16,
-                          "lineHeight": 19.2,
-                        },
-                        false,
-                        Object {
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                </View>
-              </View>
-            </View>
-            <View
-              style={
-                Array [
-                  Object {
-                    "flexDirection": "row",
-                    "height": "100%",
-                    "marginLeft": 8,
-                    "marginRight": 0,
-                    "width": 710,
-                  },
-                  Object {},
-                  Object {},
-                ]
-              }
-            >
-              <View
-                accessible={false}
-                style={
-                  Array [
-                    Object {
-                      "alignContent": "center",
-                      "alignItems": "center",
-                      "backgroundColor": "#f7f6f3",
-                      "borderRadius": 16,
-                      "height": "100%",
-                      "padding": 24,
-                    },
-                    Object {
-                      "flex": 1,
-                    },
-                  ]
-                }
-                testID="user-card"
-              >
-                <View
-                  style={
-                    Array [
-                      Object {
-                        "alignItems": "center",
-                        "backgroundColor": "red",
-                        "borderRadius": 64,
-                        "justifyContent": "center",
-                        "overflow": "hidden",
-                      },
-                      undefined,
-                      Object {
-                        "borderColor": "#222326",
-                        "borderWidth": 2,
-                        "height": 128,
-                        "width": 128,
-                      },
-                    ]
-                  }
-                >
-                  <Text
-                    accessibilityLabel="Max Mustermann"
-                    accessibilityRole="image"
-                    accessible={false}
-                    selectable={true}
-                    style={
-                      Array [
-                        Object {
-                          "color": "#222326",
-                          "fontFamily": "Circular Std Book",
-                          "fontWeight": "400",
-                        },
-                        Object {
-                          "fontSize": 16,
-                          "lineHeight": 19.2,
-                        },
-                        false,
-                        Object {
-                          "color": "#fff",
-                          "fontSize": 57.6,
-                          "fontWeight": "bold",
-                          "lineHeight": 69.12,
-                          "textTransform": "uppercase",
+                          "borderColor": "#222326",
+                          "borderWidth": 2,
+                          "height": 128,
+                          "width": 128,
                         },
                       ]
                     }
                   >
-                    M
-                  </Text>
-                </View>
-                <Text
-                  accessible={false}
-                  selectable={true}
-                  style={
-                    Array [
-                      Object {
-                        "color": "#222326",
-                        "fontFamily": "Circular Std Book",
-                        "fontWeight": "400",
-                      },
-                      Object {
-                        "fontSize": 16,
-                        "lineHeight": 19.2,
-                      },
-                      Object {
-                        "fontFamily": "Circular Std Medium",
-                        "fontWeight": "500",
-                      },
-                      Object {
-                        "marginVertical": 8,
-                        "textAlign": "center",
-                      },
-                    ]
-                  }
-                >
-                  Max Mustermann
-                </Text>
-                <View
-                  style={
-                    Object {
-                      "justifyContent": "center",
-                      "marginTop": 8,
-                    }
-                  }
-                >
-                  <Text
-                    accessible={false}
-                    selectable={true}
-                    style={
-                      Array [
+                    <Image
+                      accessibilityLabel="Dima Rosmait"
+                      accessibilityRole="image"
+                      accessible={false}
+                      source={
                         Object {
-                          "color": "#222326",
-                          "fontFamily": "Circular Std Book",
-                          "fontWeight": "400",
-                        },
-                        Object {
-                          "fontSize": 16,
-                          "lineHeight": 19.2,
-                        },
-                        false,
-                        Object {
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                </View>
-              </View>
-            </View>
-            <View
-              style={
-                Array [
-                  Object {
-                    "flexDirection": "row",
-                    "height": "100%",
-                    "marginLeft": 8,
-                    "marginRight": 0,
-                    "width": 710,
-                  },
-                  Object {},
-                  Object {},
-                ]
-              }
-            >
-              <View
-                accessible={false}
-                style={
-                  Array [
-                    Object {
-                      "alignContent": "center",
-                      "alignItems": "center",
-                      "backgroundColor": "#f7f6f3",
-                      "borderRadius": 16,
-                      "height": "100%",
-                      "padding": 24,
-                    },
-                    Object {
-                      "flex": 1,
-                    },
-                  ]
-                }
-                testID="user-card"
-              >
-                <View
-                  style={
-                    Array [
-                      Object {
-                        "alignItems": "center",
-                        "backgroundColor": "#f7f6f3",
-                        "borderRadius": 64,
-                        "justifyContent": "center",
-                        "overflow": "hidden",
-                      },
-                      undefined,
-                      Object {
-                        "borderColor": "#222326",
-                        "borderWidth": 2,
-                        "height": 128,
-                        "width": 128,
-                      },
-                    ]
-                  }
-                >
-                  <Image
-                    accessibilityLabel="Thomas Mueller"
-                    accessibilityRole="image"
-                    accessible={false}
-                    source={
-                      Object {
-                        "uri": "avatar-2",
+                          "uri": "avatar-1",
+                        }
                       }
-                    }
-                    style={
-                      Object {
-                        "height": "100%",
-                        "width": "100%",
+                      style={
+                        Object {
+                          "height": "100%",
+                          "width": "100%",
+                        }
                       }
-                    }
-                  />
-                </View>
-                <Text
-                  accessible={false}
-                  selectable={true}
-                  style={
-                    Array [
-                      Object {
-                        "color": "#222326",
-                        "fontFamily": "Circular Std Book",
-                        "fontWeight": "400",
-                      },
-                      Object {
-                        "fontSize": 16,
-                        "lineHeight": 19.2,
-                      },
-                      Object {
-                        "fontFamily": "Circular Std Medium",
-                        "fontWeight": "500",
-                      },
-                      Object {
-                        "marginVertical": 8,
-                        "textAlign": "center",
-                      },
-                    ]
-                  }
-                >
-                  Thomas Mueller
-                </Text>
-                <View
-                  style={
-                    Object {
-                      "justifyContent": "center",
-                      "marginTop": 8,
-                    }
-                  }
-                >
+                    />
+                  </View>
                   <Text
                     accessible={false}
                     selectable={true}
@@ -469,156 +187,49 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontSize": 16,
                           "lineHeight": 19.2,
                         },
-                        false,
                         Object {
+                          "fontFamily": "Circular Std Medium",
+                          "fontWeight": "500",
+                        },
+                        Object {
+                          "marginVertical": 8,
                           "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                </View>
-              </View>
-            </View>
-            <View
-              style={
-                Array [
-                  Object {
-                    "flexDirection": "row",
-                    "height": "100%",
-                    "marginLeft": 8,
-                    "marginRight": 0,
-                    "width": 710,
-                  },
-                  Object {},
-                  Object {},
-                ]
-              }
-            >
-              <View
-                accessible={false}
-                style={
-                  Array [
-                    Object {
-                      "alignContent": "center",
-                      "alignItems": "center",
-                      "backgroundColor": "#f7f6f3",
-                      "borderRadius": 16,
-                      "height": "100%",
-                      "padding": 24,
-                    },
-                    Object {
-                      "flex": 1,
-                    },
-                  ]
-                }
-                testID="user-card"
-              >
-                <View
-                  style={
-                    Array [
-                      Object {
-                        "alignItems": "center",
-                        "backgroundColor": "yellow",
-                        "borderRadius": 64,
-                        "justifyContent": "center",
-                        "overflow": "hidden",
-                      },
-                      undefined,
-                      Object {
-                        "borderColor": "#222326",
-                        "borderWidth": 2,
-                        "height": 128,
-                        "width": 128,
-                      },
-                    ]
-                  }
-                >
-                  <Text
-                    accessibilityLabel="Sandra Kasandra"
-                    accessibilityRole="image"
-                    accessible={false}
-                    selectable={true}
-                    style={
-                      Array [
-                        Object {
-                          "color": "#222326",
-                          "fontFamily": "Circular Std Book",
-                          "fontWeight": "400",
-                        },
-                        Object {
-                          "fontSize": 16,
-                          "lineHeight": 19.2,
-                        },
-                        false,
-                        Object {
-                          "color": "#222326",
-                          "fontSize": 57.6,
-                          "fontWeight": "bold",
-                          "lineHeight": 69.12,
-                          "textTransform": "uppercase",
                         },
                       ]
                     }
                   >
-                    S
+                    Dima Rosmait
                   </Text>
-                </View>
-                <Text
-                  accessible={false}
-                  selectable={true}
-                  style={
-                    Array [
-                      Object {
-                        "color": "#222326",
-                        "fontFamily": "Circular Std Book",
-                        "fontWeight": "400",
-                      },
-                      Object {
-                        "fontSize": 16,
-                        "lineHeight": 19.2,
-                      },
-                      Object {
-                        "fontFamily": "Circular Std Medium",
-                        "fontWeight": "500",
-                      },
-                      Object {
-                        "marginVertical": 8,
-                        "textAlign": "center",
-                      },
-                    ]
-                  }
-                >
-                  Sandra Kasandra
-                </Text>
-                <View
-                  style={
-                    Object {
-                      "justifyContent": "center",
-                      "marginTop": 8,
-                    }
-                  }
-                >
-                  <Text
-                    accessible={false}
-                    selectable={true}
+                  <View
                     style={
-                      Array [
-                        Object {
-                          "color": "#222326",
-                          "fontFamily": "Circular Std Book",
-                          "fontWeight": "400",
-                        },
-                        Object {
-                          "fontSize": 16,
-                          "lineHeight": 19.2,
-                        },
-                        false,
-                        Object {
-                          "textAlign": "center",
-                        },
-                      ]
+                      Object {
+                        "justifyContent": "center",
+                        "marginTop": 8,
+                      }
                     }
-                  />
+                  >
+                    <Text
+                      accessible={false}
+                      selectable={true}
+                      style={
+                        Array [
+                          Object {
+                            "color": "#222326",
+                            "fontFamily": "Circular Std Book",
+                            "fontWeight": "400",
+                          },
+                          Object {
+                            "fontSize": 16,
+                            "lineHeight": 19.2,
+                          },
+                          false,
+                          Object {
+                            "textAlign": "center",
+                          },
+                        ]
+                      }
+                    />
+                  </View>
                 </View>
               </View>
             </View>
@@ -638,239 +249,100 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               }
             >
               <View
-                accessible={false}
+                accessibilityLabel="user.visitProfile"
+                accessibilityRole="button"
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 style={
                   Array [
                     Object {
-                      "alignContent": "center",
-                      "alignItems": "center",
-                      "backgroundColor": "#f7f6f3",
-                      "borderRadius": 16,
-                      "height": "100%",
-                      "padding": 24,
+                      "color": "#6267e7",
                     },
-                    Object {
-                      "flex": 1,
-                    },
+                    undefined,
+                    undefined,
                   ]
                 }
-                testID="user-card"
+                testID="text-link"
               >
                 <View
+                  accessible={false}
                   style={
                     Array [
                       Object {
+                        "alignContent": "center",
                         "alignItems": "center",
                         "backgroundColor": "#f7f6f3",
-                        "borderRadius": 64,
-                        "justifyContent": "center",
-                        "overflow": "hidden",
-                      },
-                      undefined,
-                      Object {
-                        "borderColor": "#222326",
-                        "borderWidth": 2,
-                        "height": 128,
-                        "width": 128,
-                      },
-                    ]
-                  }
-                >
-                  <Image
-                    accessibilityLabel="Peter Pan"
-                    accessibilityRole="image"
-                    accessible={false}
-                    source={
-                      Object {
-                        "uri": "avatar-3",
-                      }
-                    }
-                    style={
-                      Object {
+                        "borderRadius": 16,
                         "height": "100%",
-                        "width": "100%",
-                      }
-                    }
-                  />
-                </View>
-                <Text
-                  accessible={false}
-                  selectable={true}
-                  style={
-                    Array [
-                      Object {
-                        "color": "#222326",
-                        "fontFamily": "Circular Std Book",
-                        "fontWeight": "400",
+                        "padding": 24,
                       },
                       Object {
-                        "fontSize": 16,
-                        "lineHeight": 19.2,
-                      },
-                      Object {
-                        "fontFamily": "Circular Std Medium",
-                        "fontWeight": "500",
-                      },
-                      Object {
-                        "marginVertical": 8,
-                        "textAlign": "center",
+                        "flex": 1,
                       },
                     ]
                   }
+                  testID="user-card"
                 >
-                  Peter Pan
-                </Text>
-                <View
-                  style={
-                    Object {
-                      "justifyContent": "center",
-                      "marginTop": 8,
-                    }
-                  }
-                >
-                  <Text
-                    accessible={false}
-                    selectable={true}
+                  <View
                     style={
                       Array [
                         Object {
-                          "color": "#222326",
-                          "fontFamily": "Circular Std Book",
-                          "fontWeight": "400",
+                          "alignItems": "center",
+                          "backgroundColor": "red",
+                          "borderRadius": 64,
+                          "justifyContent": "center",
+                          "overflow": "hidden",
                         },
+                        undefined,
                         Object {
-                          "fontSize": 16,
-                          "lineHeight": 19.2,
-                        },
-                        false,
-                        Object {
-                          "textAlign": "center",
-                        },
-                      ]
-                    }
-                  />
-                </View>
-              </View>
-            </View>
-            <View
-              style={
-                Array [
-                  Object {
-                    "flexDirection": "row",
-                    "height": "100%",
-                    "marginLeft": 8,
-                    "marginRight": 0,
-                    "width": 710,
-                  },
-                  Object {},
-                  Object {},
-                ]
-              }
-            >
-              <View
-                accessible={false}
-                style={
-                  Array [
-                    Object {
-                      "alignContent": "center",
-                      "alignItems": "center",
-                      "backgroundColor": "#f7f6f3",
-                      "borderRadius": 16,
-                      "height": "100%",
-                      "padding": 24,
-                    },
-                    Object {
-                      "flex": 1,
-                    },
-                  ]
-                }
-                testID="user-card"
-              >
-                <View
-                  style={
-                    Array [
-                      Object {
-                        "alignItems": "center",
-                        "backgroundColor": "purple",
-                        "borderRadius": 64,
-                        "justifyContent": "center",
-                        "overflow": "hidden",
-                      },
-                      undefined,
-                      Object {
-                        "borderColor": "#222326",
-                        "borderWidth": 2,
-                        "height": 128,
-                        "width": 128,
-                      },
-                    ]
-                  }
-                >
-                  <Text
-                    accessibilityLabel="Donald Duck"
-                    accessibilityRole="image"
-                    accessible={false}
-                    selectable={true}
-                    style={
-                      Array [
-                        Object {
-                          "color": "#222326",
-                          "fontFamily": "Circular Std Book",
-                          "fontWeight": "400",
-                        },
-                        Object {
-                          "fontSize": 16,
-                          "lineHeight": 19.2,
-                        },
-                        false,
-                        Object {
-                          "color": "#fff",
-                          "fontSize": 57.6,
-                          "fontWeight": "bold",
-                          "lineHeight": 69.12,
-                          "textTransform": "uppercase",
+                          "borderColor": "#222326",
+                          "borderWidth": 2,
+                          "height": 128,
+                          "width": 128,
                         },
                       ]
                     }
                   >
-                    D
-                  </Text>
-                </View>
-                <Text
-                  accessible={false}
-                  selectable={true}
-                  style={
-                    Array [
-                      Object {
-                        "color": "#222326",
-                        "fontFamily": "Circular Std Book",
-                        "fontWeight": "400",
-                      },
-                      Object {
-                        "fontSize": 16,
-                        "lineHeight": 19.2,
-                      },
-                      Object {
-                        "fontFamily": "Circular Std Medium",
-                        "fontWeight": "500",
-                      },
-                      Object {
-                        "marginVertical": 8,
-                        "textAlign": "center",
-                      },
-                    ]
-                  }
-                >
-                  Donald Duck
-                </Text>
-                <View
-                  style={
-                    Object {
-                      "justifyContent": "center",
-                      "marginTop": 8,
-                    }
-                  }
-                >
+                    <Text
+                      accessibilityLabel="Max Mustermann"
+                      accessibilityRole="image"
+                      accessible={false}
+                      selectable={true}
+                      style={
+                        Array [
+                          Object {
+                            "color": "#222326",
+                            "fontFamily": "Circular Std Book",
+                            "fontWeight": "400",
+                          },
+                          Object {
+                            "fontSize": 16,
+                            "lineHeight": 19.2,
+                          },
+                          false,
+                          Object {
+                            "color": "#fff",
+                            "fontSize": 57.6,
+                            "fontWeight": "bold",
+                            "lineHeight": 69.12,
+                            "textTransform": "uppercase",
+                          },
+                        ]
+                      }
+                    >
+                      M
+                    </Text>
+                  </View>
                   <Text
                     accessible={false}
                     selectable={true}
@@ -885,13 +357,703 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontSize": 16,
                           "lineHeight": 19.2,
                         },
-                        false,
                         Object {
+                          "fontFamily": "Circular Std Medium",
+                          "fontWeight": "500",
+                        },
+                        Object {
+                          "marginVertical": 8,
                           "textAlign": "center",
                         },
                       ]
                     }
-                  />
+                  >
+                    Max Mustermann
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "justifyContent": "center",
+                        "marginTop": 8,
+                      }
+                    }
+                  >
+                    <Text
+                      accessible={false}
+                      selectable={true}
+                      style={
+                        Array [
+                          Object {
+                            "color": "#222326",
+                            "fontFamily": "Circular Std Book",
+                            "fontWeight": "400",
+                          },
+                          Object {
+                            "fontSize": 16,
+                            "lineHeight": 19.2,
+                          },
+                          false,
+                          Object {
+                            "textAlign": "center",
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                Array [
+                  Object {
+                    "flexDirection": "row",
+                    "height": "100%",
+                    "marginLeft": 8,
+                    "marginRight": 0,
+                    "width": 710,
+                  },
+                  Object {},
+                  Object {},
+                ]
+              }
+            >
+              <View
+                accessibilityLabel="user.visitProfile"
+                accessibilityRole="button"
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Array [
+                    Object {
+                      "color": "#6267e7",
+                    },
+                    undefined,
+                    undefined,
+                  ]
+                }
+                testID="text-link"
+              >
+                <View
+                  accessible={false}
+                  style={
+                    Array [
+                      Object {
+                        "alignContent": "center",
+                        "alignItems": "center",
+                        "backgroundColor": "#f7f6f3",
+                        "borderRadius": 16,
+                        "height": "100%",
+                        "padding": 24,
+                      },
+                      Object {
+                        "flex": 1,
+                      },
+                    ]
+                  }
+                  testID="user-card"
+                >
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "backgroundColor": "#f7f6f3",
+                          "borderRadius": 64,
+                          "justifyContent": "center",
+                          "overflow": "hidden",
+                        },
+                        undefined,
+                        Object {
+                          "borderColor": "#222326",
+                          "borderWidth": 2,
+                          "height": 128,
+                          "width": 128,
+                        },
+                      ]
+                    }
+                  >
+                    <Image
+                      accessibilityLabel="Thomas Mueller"
+                      accessibilityRole="image"
+                      accessible={false}
+                      source={
+                        Object {
+                          "uri": "avatar-2",
+                        }
+                      }
+                      style={
+                        Object {
+                          "height": "100%",
+                          "width": "100%",
+                        }
+                      }
+                    />
+                  </View>
+                  <Text
+                    accessible={false}
+                    selectable={true}
+                    style={
+                      Array [
+                        Object {
+                          "color": "#222326",
+                          "fontFamily": "Circular Std Book",
+                          "fontWeight": "400",
+                        },
+                        Object {
+                          "fontSize": 16,
+                          "lineHeight": 19.2,
+                        },
+                        Object {
+                          "fontFamily": "Circular Std Medium",
+                          "fontWeight": "500",
+                        },
+                        Object {
+                          "marginVertical": 8,
+                          "textAlign": "center",
+                        },
+                      ]
+                    }
+                  >
+                    Thomas Mueller
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "justifyContent": "center",
+                        "marginTop": 8,
+                      }
+                    }
+                  >
+                    <Text
+                      accessible={false}
+                      selectable={true}
+                      style={
+                        Array [
+                          Object {
+                            "color": "#222326",
+                            "fontFamily": "Circular Std Book",
+                            "fontWeight": "400",
+                          },
+                          Object {
+                            "fontSize": 16,
+                            "lineHeight": 19.2,
+                          },
+                          false,
+                          Object {
+                            "textAlign": "center",
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                Array [
+                  Object {
+                    "flexDirection": "row",
+                    "height": "100%",
+                    "marginLeft": 8,
+                    "marginRight": 0,
+                    "width": 710,
+                  },
+                  Object {},
+                  Object {},
+                ]
+              }
+            >
+              <View
+                accessibilityLabel="user.visitProfile"
+                accessibilityRole="button"
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Array [
+                    Object {
+                      "color": "#6267e7",
+                    },
+                    undefined,
+                    undefined,
+                  ]
+                }
+                testID="text-link"
+              >
+                <View
+                  accessible={false}
+                  style={
+                    Array [
+                      Object {
+                        "alignContent": "center",
+                        "alignItems": "center",
+                        "backgroundColor": "#f7f6f3",
+                        "borderRadius": 16,
+                        "height": "100%",
+                        "padding": 24,
+                      },
+                      Object {
+                        "flex": 1,
+                      },
+                    ]
+                  }
+                  testID="user-card"
+                >
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "backgroundColor": "yellow",
+                          "borderRadius": 64,
+                          "justifyContent": "center",
+                          "overflow": "hidden",
+                        },
+                        undefined,
+                        Object {
+                          "borderColor": "#222326",
+                          "borderWidth": 2,
+                          "height": 128,
+                          "width": 128,
+                        },
+                      ]
+                    }
+                  >
+                    <Text
+                      accessibilityLabel="Sandra Kasandra"
+                      accessibilityRole="image"
+                      accessible={false}
+                      selectable={true}
+                      style={
+                        Array [
+                          Object {
+                            "color": "#222326",
+                            "fontFamily": "Circular Std Book",
+                            "fontWeight": "400",
+                          },
+                          Object {
+                            "fontSize": 16,
+                            "lineHeight": 19.2,
+                          },
+                          false,
+                          Object {
+                            "color": "#222326",
+                            "fontSize": 57.6,
+                            "fontWeight": "bold",
+                            "lineHeight": 69.12,
+                            "textTransform": "uppercase",
+                          },
+                        ]
+                      }
+                    >
+                      S
+                    </Text>
+                  </View>
+                  <Text
+                    accessible={false}
+                    selectable={true}
+                    style={
+                      Array [
+                        Object {
+                          "color": "#222326",
+                          "fontFamily": "Circular Std Book",
+                          "fontWeight": "400",
+                        },
+                        Object {
+                          "fontSize": 16,
+                          "lineHeight": 19.2,
+                        },
+                        Object {
+                          "fontFamily": "Circular Std Medium",
+                          "fontWeight": "500",
+                        },
+                        Object {
+                          "marginVertical": 8,
+                          "textAlign": "center",
+                        },
+                      ]
+                    }
+                  >
+                    Sandra Kasandra
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "justifyContent": "center",
+                        "marginTop": 8,
+                      }
+                    }
+                  >
+                    <Text
+                      accessible={false}
+                      selectable={true}
+                      style={
+                        Array [
+                          Object {
+                            "color": "#222326",
+                            "fontFamily": "Circular Std Book",
+                            "fontWeight": "400",
+                          },
+                          Object {
+                            "fontSize": 16,
+                            "lineHeight": 19.2,
+                          },
+                          false,
+                          Object {
+                            "textAlign": "center",
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                Array [
+                  Object {
+                    "flexDirection": "row",
+                    "height": "100%",
+                    "marginLeft": 8,
+                    "marginRight": 0,
+                    "width": 710,
+                  },
+                  Object {},
+                  Object {},
+                ]
+              }
+            >
+              <View
+                accessibilityLabel="user.visitProfile"
+                accessibilityRole="button"
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Array [
+                    Object {
+                      "color": "#6267e7",
+                    },
+                    undefined,
+                    undefined,
+                  ]
+                }
+                testID="text-link"
+              >
+                <View
+                  accessible={false}
+                  style={
+                    Array [
+                      Object {
+                        "alignContent": "center",
+                        "alignItems": "center",
+                        "backgroundColor": "#f7f6f3",
+                        "borderRadius": 16,
+                        "height": "100%",
+                        "padding": 24,
+                      },
+                      Object {
+                        "flex": 1,
+                      },
+                    ]
+                  }
+                  testID="user-card"
+                >
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "backgroundColor": "#f7f6f3",
+                          "borderRadius": 64,
+                          "justifyContent": "center",
+                          "overflow": "hidden",
+                        },
+                        undefined,
+                        Object {
+                          "borderColor": "#222326",
+                          "borderWidth": 2,
+                          "height": 128,
+                          "width": 128,
+                        },
+                      ]
+                    }
+                  >
+                    <Image
+                      accessibilityLabel="Peter Pan"
+                      accessibilityRole="image"
+                      accessible={false}
+                      source={
+                        Object {
+                          "uri": "avatar-3",
+                        }
+                      }
+                      style={
+                        Object {
+                          "height": "100%",
+                          "width": "100%",
+                        }
+                      }
+                    />
+                  </View>
+                  <Text
+                    accessible={false}
+                    selectable={true}
+                    style={
+                      Array [
+                        Object {
+                          "color": "#222326",
+                          "fontFamily": "Circular Std Book",
+                          "fontWeight": "400",
+                        },
+                        Object {
+                          "fontSize": 16,
+                          "lineHeight": 19.2,
+                        },
+                        Object {
+                          "fontFamily": "Circular Std Medium",
+                          "fontWeight": "500",
+                        },
+                        Object {
+                          "marginVertical": 8,
+                          "textAlign": "center",
+                        },
+                      ]
+                    }
+                  >
+                    Peter Pan
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "justifyContent": "center",
+                        "marginTop": 8,
+                      }
+                    }
+                  >
+                    <Text
+                      accessible={false}
+                      selectable={true}
+                      style={
+                        Array [
+                          Object {
+                            "color": "#222326",
+                            "fontFamily": "Circular Std Book",
+                            "fontWeight": "400",
+                          },
+                          Object {
+                            "fontSize": 16,
+                            "lineHeight": 19.2,
+                          },
+                          false,
+                          Object {
+                            "textAlign": "center",
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                Array [
+                  Object {
+                    "flexDirection": "row",
+                    "height": "100%",
+                    "marginLeft": 8,
+                    "marginRight": 0,
+                    "width": 710,
+                  },
+                  Object {},
+                  Object {},
+                ]
+              }
+            >
+              <View
+                accessibilityLabel="user.visitProfile"
+                accessibilityRole="button"
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Array [
+                    Object {
+                      "color": "#6267e7",
+                    },
+                    undefined,
+                    undefined,
+                  ]
+                }
+                testID="text-link"
+              >
+                <View
+                  accessible={false}
+                  style={
+                    Array [
+                      Object {
+                        "alignContent": "center",
+                        "alignItems": "center",
+                        "backgroundColor": "#f7f6f3",
+                        "borderRadius": 16,
+                        "height": "100%",
+                        "padding": 24,
+                      },
+                      Object {
+                        "flex": 1,
+                      },
+                    ]
+                  }
+                  testID="user-card"
+                >
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "backgroundColor": "purple",
+                          "borderRadius": 64,
+                          "justifyContent": "center",
+                          "overflow": "hidden",
+                        },
+                        undefined,
+                        Object {
+                          "borderColor": "#222326",
+                          "borderWidth": 2,
+                          "height": 128,
+                          "width": 128,
+                        },
+                      ]
+                    }
+                  >
+                    <Text
+                      accessibilityLabel="Donald Duck"
+                      accessibilityRole="image"
+                      accessible={false}
+                      selectable={true}
+                      style={
+                        Array [
+                          Object {
+                            "color": "#222326",
+                            "fontFamily": "Circular Std Book",
+                            "fontWeight": "400",
+                          },
+                          Object {
+                            "fontSize": 16,
+                            "lineHeight": 19.2,
+                          },
+                          false,
+                          Object {
+                            "color": "#fff",
+                            "fontSize": 57.6,
+                            "fontWeight": "bold",
+                            "lineHeight": 69.12,
+                            "textTransform": "uppercase",
+                          },
+                        ]
+                      }
+                    >
+                      D
+                    </Text>
+                  </View>
+                  <Text
+                    accessible={false}
+                    selectable={true}
+                    style={
+                      Array [
+                        Object {
+                          "color": "#222326",
+                          "fontFamily": "Circular Std Book",
+                          "fontWeight": "400",
+                        },
+                        Object {
+                          "fontSize": 16,
+                          "lineHeight": 19.2,
+                        },
+                        Object {
+                          "fontFamily": "Circular Std Medium",
+                          "fontWeight": "500",
+                        },
+                        Object {
+                          "marginVertical": 8,
+                          "textAlign": "center",
+                        },
+                      ]
+                    }
+                  >
+                    Donald Duck
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "justifyContent": "center",
+                        "marginTop": 8,
+                      }
+                    }
+                  >
+                    <Text
+                      accessible={false}
+                      selectable={true}
+                      style={
+                        Array [
+                          Object {
+                            "color": "#222326",
+                            "fontFamily": "Circular Std Book",
+                            "fontWeight": "400",
+                          },
+                          Object {
+                            "fontSize": 16,
+                            "lineHeight": 19.2,
+                          },
+                          false,
+                          Object {
+                            "textAlign": "center",
+                          },
+                        ]
+                      }
+                    />
+                  </View>
                 </View>
               </View>
             </View>
@@ -913,96 +1075,87 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               }
             >
               <View
-                accessible={false}
+                accessibilityLabel="user.visitProfile"
+                accessibilityRole="button"
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 style={
                   Array [
                     Object {
-                      "alignContent": "center",
-                      "alignItems": "center",
-                      "backgroundColor": "#f7f6f3",
-                      "borderRadius": 16,
-                      "height": "100%",
-                      "padding": 24,
+                      "color": "#6267e7",
                     },
-                    Object {
-                      "flex": 1,
-                    },
+                    undefined,
+                    undefined,
                   ]
                 }
-                testID="user-card"
+                testID="text-link"
               >
                 <View
+                  accessible={false}
                   style={
                     Array [
                       Object {
+                        "alignContent": "center",
                         "alignItems": "center",
                         "backgroundColor": "#f7f6f3",
-                        "borderRadius": 64,
-                        "justifyContent": "center",
-                        "overflow": "hidden",
-                      },
-                      undefined,
-                      Object {
-                        "borderColor": "#222326",
-                        "borderWidth": 2,
-                        "height": 128,
-                        "width": 128,
-                      },
-                    ]
-                  }
-                >
-                  <Image
-                    accessibilityLabel="Lionel Messi"
-                    accessibilityRole="image"
-                    accessible={false}
-                    source={
-                      Object {
-                        "uri": "avatar-4",
-                      }
-                    }
-                    style={
-                      Object {
+                        "borderRadius": 16,
                         "height": "100%",
-                        "width": "100%",
-                      }
-                    }
-                  />
-                </View>
-                <Text
-                  accessible={false}
-                  selectable={true}
-                  style={
-                    Array [
-                      Object {
-                        "color": "#222326",
-                        "fontFamily": "Circular Std Book",
-                        "fontWeight": "400",
+                        "padding": 24,
                       },
                       Object {
-                        "fontSize": 16,
-                        "lineHeight": 19.2,
-                      },
-                      Object {
-                        "fontFamily": "Circular Std Medium",
-                        "fontWeight": "500",
-                      },
-                      Object {
-                        "marginVertical": 8,
-                        "textAlign": "center",
+                        "flex": 1,
                       },
                     ]
                   }
+                  testID="user-card"
                 >
-                  Lionel Messi
-                </Text>
-                <View
-                  style={
-                    Object {
-                      "justifyContent": "center",
-                      "marginTop": 8,
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "backgroundColor": "#f7f6f3",
+                          "borderRadius": 64,
+                          "justifyContent": "center",
+                          "overflow": "hidden",
+                        },
+                        undefined,
+                        Object {
+                          "borderColor": "#222326",
+                          "borderWidth": 2,
+                          "height": 128,
+                          "width": 128,
+                        },
+                      ]
                     }
-                  }
-                >
+                  >
+                    <Image
+                      accessibilityLabel="Lionel Messi"
+                      accessibilityRole="image"
+                      accessible={false}
+                      source={
+                        Object {
+                          "uri": "avatar-4",
+                        }
+                      }
+                      style={
+                        Object {
+                          "height": "100%",
+                          "width": "100%",
+                        }
+                      }
+                    />
+                  </View>
                   <Text
                     accessible={false}
                     selectable={true}
@@ -1017,13 +1170,49 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "fontSize": 16,
                           "lineHeight": 19.2,
                         },
-                        false,
                         Object {
+                          "fontFamily": "Circular Std Medium",
+                          "fontWeight": "500",
+                        },
+                        Object {
+                          "marginVertical": 8,
                           "textAlign": "center",
                         },
                       ]
                     }
-                  />
+                  >
+                    Lionel Messi
+                  </Text>
+                  <View
+                    style={
+                      Object {
+                        "justifyContent": "center",
+                        "marginTop": 8,
+                      }
+                    }
+                  >
+                    <Text
+                      accessible={false}
+                      selectable={true}
+                      style={
+                        Array [
+                          Object {
+                            "color": "#222326",
+                            "fontFamily": "Circular Std Book",
+                            "fontWeight": "400",
+                          },
+                          Object {
+                            "fontSize": 16,
+                            "lineHeight": 19.2,
+                          },
+                          false,
+                          Object {
+                            "textAlign": "center",
+                          },
+                        ]
+                      }
+                    />
+                  </View>
                 </View>
               </View>
             </View>
