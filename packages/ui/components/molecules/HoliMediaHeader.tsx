@@ -6,6 +6,7 @@ import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliLink from '@holi/ui/components/molecules/HoliLink'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -14,7 +15,8 @@ export type MediaHeaderProps = {
   author: User
   boldTitle?: boolean
   date?: string
-  touchHandler?: () => void
+  onPress?: () => void
+  href?: boolean | string
   style?: StyleProp<ViewStyle>
   testID?: string
 }
@@ -24,7 +26,8 @@ const HoliMediaHeader: React.FC<MediaHeaderProps> = ({
   author,
   boldTitle,
   date,
-  touchHandler,
+  onPress,
+  href,
   style,
   children,
   testID,
@@ -39,6 +42,17 @@ const HoliMediaHeader: React.FC<MediaHeaderProps> = ({
 
   const authorName = author.fullName || t('user.profileView.anonymous')
 
+  const titleContent = (
+    <View style={styles.titleContainer}>
+      <HoliText bold={boldTitle}>{title}</HoliText>
+      {formattedDate && (
+        <HoliText size="small" style={styles.date}>
+          {formattedDate}
+        </HoliText>
+      )}
+    </View>
+  )
+
   return (
     <View style={[styles.header, style]}>
       <HoliUserAvatar
@@ -48,16 +62,29 @@ const HoliMediaHeader: React.FC<MediaHeaderProps> = ({
         defaultColor={author.avatarDefaultColor || ''}
         size="small"
       />
-      <View style={styles.titleContainer}>
-        <HoliButton transparent label={title} onPress={touchHandler} testID={testID || 'btn-media-header'}>
-          <HoliText bold={boldTitle}>{title}</HoliText>
-          {formattedDate && (
-            <HoliText size="small" style={styles.date}>
-              {formattedDate}
-            </HoliText>
-          )}
+
+      {href ? (
+        <HoliLink
+          href={typeof href === 'string' ? href : `/profile/${author.id}`}
+          label={title}
+          onPress={onPress}
+          testID={testID || 'btn-media-header'}
+          style={styles.titlePressable}
+        >
+          {titleContent}
+        </HoliLink>
+      ) : (
+        <HoliButton
+          transparent
+          label={title}
+          onPress={onPress}
+          testID={testID || 'btn-media-header'}
+          contentStyle={styles.titlePressable}
+        >
+          {titleContent}
         </HoliButton>
-      </View>
+      )}
+
       {children}
     </View>
   )
@@ -68,9 +95,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  contentContainer: {
+    flexDirection: 'row',
+  },
+  titlePressable: {
+    flexGrow: 1,
+    flexShrink: 1,
+  },
   titleContainer: {
+    flexDirection: 'column',
     marginHorizontal: 16,
-    flex: 1,
   },
   date: {
     marginTop: 4,
