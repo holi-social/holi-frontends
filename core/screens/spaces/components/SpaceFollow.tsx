@@ -73,6 +73,7 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
       {followState === SpaceFollowStateType.NOT_FOLLOWING && (
         <HoliButtonLoading
           inline
+          type="secondary"
           label={t('spaces.follow.btn.follow')}
           onPress={sendFollowRequest}
           style={[styles.actionButtonFollow, props.style]}
