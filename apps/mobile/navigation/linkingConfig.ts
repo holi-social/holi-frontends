@@ -61,7 +61,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     [RouteName.DonationsApp]: {
       screens: {
         [RouteName.DonationsAppHome]: 'apps/donations',
-        [RouteName.DonationsAppProjectDetail]: 'apps/donations/project/',
+        [RouteName.DonationsAppProjectDetail]: 'apps/donations/project/:projectId',
       },
     },
     [RouteName.GoodNewsApp]: {
