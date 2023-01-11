@@ -18,9 +18,8 @@ type VolunteeringListingProps = Record<string, never>
 const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
   const { t } = useTranslation()
   const { loading, error, data } = useQuery<VolunteeringEngagementsQueryResponse>(VolunteeringEngagementsQuery, {
-    // TODO: remove hard coded values for pagination and location filtering
+    // TODO: remove hard coded values for pagination
     variables: {
-      location: 'Hamburg',
       offset: 0,
       limit: 10,
     },
