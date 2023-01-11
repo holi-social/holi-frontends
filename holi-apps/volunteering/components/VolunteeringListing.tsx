@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { FlatList, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliCardComponent from '@holi/ui/components/molecules/HoliCardComponent'
 import variables from '@holi/ui/styles/globalVars/variables'
@@ -17,6 +18,7 @@ type VolunteeringListingProps = Record<string, never>
 
 const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
   const { t } = useTranslation()
+  const { navigate } = useRouting()
   const { loading, error, data } = useQuery<VolunteeringEngagementsQueryResponse>(VolunteeringEngagementsQuery, {
     // TODO: remove hard coded values for pagination
     variables: {
@@ -24,6 +26,8 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
       limit: 10,
     },
   })
+  console.log('data --->', data)
+
   const engagements = data?.appVolunteering_engagements?.data || []
 
   if (error) {
@@ -38,6 +42,8 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
   // TODO: To be implemented once volunteering opportunity detail view is created
   const handleCardPress = (engagement: VolunteeringEngagement) => {
     console.log(engagement)
+    console.log('engagement ', engagement)
+    navigate(`/apps/volunteering/engagement/${engagement.id}`)
   }
 
   const renderItem = ({ item }: { item: VolunteeringEngagement }) => (
