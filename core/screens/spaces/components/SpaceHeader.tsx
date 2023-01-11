@@ -69,7 +69,8 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
 
       <View style={styles.actionButtons}>
         <SpaceFollow space={space} />
-        {/* TODO: display server value for space join state */}
+
+        {/* TODO: display server value for space join state - HOLI-2617 */}
         <SpaceJoin state={joinRequestState} onStateChange={setJoinRequestState} spaceId={space.id} />
       </View>
     </View>

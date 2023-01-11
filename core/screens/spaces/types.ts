@@ -63,8 +63,9 @@ export interface Task {
 }
 
 export enum SpaceConnectionType {
-  MEMBERSHIP_REQUESTOR = 'MEMBERSHIP_REQUESTOR',
   FOLLOWER = 'FOLLOWER',
+  MEMBERSHIP_REQUESTOR = 'MEMBERSHIP_REQUESTOR',
+  MEMBER = 'MEMBER',
   CREATOR = 'CREATOR',
 }
 
