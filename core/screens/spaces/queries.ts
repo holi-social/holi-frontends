@@ -24,6 +24,7 @@ const SpaceFragment = gql`
     avatar
     mainImage
     location
+    connectionStatusToMyself
     links {
       type
       url
@@ -113,7 +114,7 @@ export type DiscoverSpacesResponse = {
 export const spaceByIdQuery = gql`
   ${SpaceFragment}
 
-  query SpaceById($id: String!) {
+  query SpaceById($id: UUID!) {
     spaceById(id: $id) {
       ...FullSpace
     }
@@ -146,4 +147,31 @@ export const joinSpaceMutation = gql`
 
 export type JoinSpaceResponse = {
   updateSpaceUserConnection: Space
+}
+
+export const mySpaceQuery = gql`
+  ${SpaceFragment}
+
+  query MySpaces {
+    mySpaces {
+      section
+      type
+      spaces {
+        totalResults
+        data {
+          ...FullSpace
+        }
+      }
+    }
+  }
+`
+
+export type SpaceUserConnectionType = string
+
+export type MySpacesResponse = {
+  mySpaces: {
+    section: string
+    type: string
+    spaces: Paged<Space>
+  }[]
 }

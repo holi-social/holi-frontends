@@ -1,21 +1,30 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { FlatList, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliCardComponent from '@holi/ui/components/molecules/HoliCardComponent'
+import variables from '@holi/ui/styles/globalVars/variables'
 
 import '@holi-apps/goodnews/queries'
+import VolunteeringCardContent from '@holi-apps/volunteering/components/VolunteeringCardContent'
 import { VolunteeringEngagementsQuery, VolunteeringEngagementsQueryResponse } from '@holi-apps/volunteering/queries'
 import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
-
-import VolunteeringCardContent from './VolunteeringCardContent'
 
 type VolunteeringListingProps = Record<string, never>
 
 const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
-  const { loading, error, data } = useQuery<VolunteeringEngagementsQueryResponse>(VolunteeringEngagementsQuery)
-  const engagements = data?.appVolunteering_engagements
+  const { t } = useTranslation()
+  const { loading, error, data } = useQuery<VolunteeringEngagementsQueryResponse>(VolunteeringEngagementsQuery, {
+    // TODO: remove hard coded values for pagination
+    variables: {
+      offset: 0,
+      limit: 10,
+    },
+  })
+  const engagements = data?.appVolunteering_engagements?.data || []
 
   if (error) {
     logError(error, `[VolunteeringListing.tsx] ${error.message}`)
@@ -26,39 +35,52 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
     return <></>
   }
 
+  // TODO: To be implemented once volunteering opportunity detail view is created
   const handleCardPress = (engagement: VolunteeringEngagement) => {
-    //ToDo Remove the log once implement the functionality
-    console.log('engagement ', engagement)
+    console.log(engagement)
   }
 
+  const renderItem = ({ item }: { item: VolunteeringEngagement }) => (
+    <View style={styles.cardContainer} key={item.id}>
+      <HoliCardComponent
+        imageUrl={item.imageUrl}
+        imageLabel={item.title ?? ''}
+        testID="holiCard"
+        onCardPress={() => handleCardPress(item)}
+      >
+        <VolunteeringCardContent engagement={item} key={item.id} />
+      </HoliCardComponent>
+    </View>
+  )
+
+  const listHeader = (
+    <HoliHeading level="1" style={styles.title}>
+      {t('volunteering:listing.headline')}
+    </HoliHeading>
+  )
+
   return (
-    <>
-      {
-        /** FIXME convert to VirtualizedList, FlatList or SectionList */
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        engagements!.map((engagement: VolunteeringEngagement) => {
-          return (
-            <View style={styles.volunteeringCardContainer} key={engagement.id}>
-              <HoliCardComponent
-                imageUrl={engagement.image}
-                imageLabel={engagement.title ?? ''}
-                testID="holiCard"
-                onCardPress={() => handleCardPress(engagement)}
-              >
-                <VolunteeringCardContent engagement={engagement} key={engagement.id} />
-              </HoliCardComponent>
-            </View>
-          )
-        })
-      }
-    </>
+    <FlatList
+      ListHeaderComponent={listHeader}
+      ListHeaderComponentStyle={styles.listHeader}
+      data={engagements}
+      renderItem={renderItem}
+    />
   )
 }
 
 export default VolunteeringListing
 
 const styles = StyleSheet.create({
-  volunteeringCardContainer: {
+  cardContainer: {
+    flex: 1,
     marginBottom: 16,
+  },
+  listHeader: {
+    paddingTop: Number(variables.topBarHeight) + 24,
+    paddingBottom: 32,
+  },
+  title: {
+    fontWeight: '400',
   },
 })

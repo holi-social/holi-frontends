@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { FlatList, Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 import tinycolor from 'tinycolor2'
 
 import { logError } from '@holi/core/errors/helpers'
@@ -12,9 +12,11 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
+import variables from '@holi/ui/styles/globalVars/variables'
 
 import GoodNewsUpdatesItem from '@holi-apps/goodnews/components/GoodNewsUpdatesItem'
 import { GoodNewsArticlesQuery, GoodNewsArticlesQueryResponse } from '@holi-apps/goodnews/queries'
+import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 const PROJECT_PAGE_SIZE = 5
 
@@ -23,18 +25,13 @@ type GoodNewsUpdatesProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const GoodNewsUpdates: React.VFC<GoodNewsUpdatesProps> = ({ locationQuery, style }: GoodNewsUpdatesProps) => {
-  const { t, i18n } = useTranslation()
+const GoodNewsUpdates: React.VFC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpdatesProps) => {
+  const { t } = useTranslation()
   const { navigate } = useRouting()
   const { width: screenWidth } = useWindowDimensions()
+  const cardImageSize = Platform.OS === 'web' ? 160 : screenWidth / 2 - 26
 
   const { data, error, loading } = useQuery<GoodNewsArticlesQueryResponse>(GoodNewsArticlesQuery, {
-    variables: {
-      locale: i18n.language,
-      limit: PROJECT_PAGE_SIZE,
-      offset: 0,
-      location: locationQuery,
-    },
     fetchPolicy: 'cache-and-network',
   })
 
@@ -44,6 +41,41 @@ const GoodNewsUpdates: React.VFC<GoodNewsUpdatesProps> = ({ locationQuery, style
 
   const { articles = [] } = data?.appGoodNews_articles || {}
 
+  const articlesToRender = articles.slice(0, PROJECT_PAGE_SIZE)
+
+  const renderItem = ({ item, index }: { item: GoodNewsArticle; index: number }) => {
+    return <GoodNewsUpdatesItem key={index} article={item} />
+  }
+
+  const seeMore = () => {
+    return loading ? (
+      <View style={styles.loadingContainer}>
+        <HoliIcon icon="loader-4" size={50} color={colors.fontColorGrey} spinning />
+      </View>
+    ) : (
+      <HoliButton
+        label={t('goodnews:goodnewsListing.loadMoreButton.text')}
+        style={[styles.buttonContainer, styles.lastButtonContainer]}
+        onPress={() => navigate('/apps/goodnews/')}
+        transparent
+        inline
+        testID={'goodnews-updates-load-more-button'}
+      >
+        <HoliLocalImage
+          imageSource={require('@holi/ui/assets/img/illustrations/illustration_see_more.png')}
+          width={cardImageSize}
+          height={cardImageSize}
+          label=""
+        />
+        <View style={styles.seeMoreContainer}>
+          <HoliText style={styles.seeMoreText} size="small" bold>
+            {t('goodnews:goodnewsListing.loadMoreButton.text')}
+          </HoliText>
+        </View>
+      </HoliButton>
+    )
+  }
+
   return (
     <View style={style}>
       <View style={styles.goodNewsHeader} testID={'goodNews-updates-heading'}>
@@ -52,39 +84,15 @@ const GoodNewsUpdates: React.VFC<GoodNewsUpdatesProps> = ({ locationQuery, style
         </View>
         <HoliHeading style={{ marginLeft: 12 }}>{t('goodnews:app.name')}</HoliHeading>
       </View>
-      <ScrollView style={styles.scrollViewContainer} horizontal testID={'goodnews-updates-container'}>
-        {
-          /** FIXME convert to VirtualizedList, FlatList or SectionList */
-          articles.slice(0, PROJECT_PAGE_SIZE).map((project, index) => {
-            return <GoodNewsUpdatesItem key={index} article={project} />
-          })
-        }
-        {loading && (
-          <View style={styles.loadingContainer}>
-            <HoliIcon icon="loader-4" size={50} color={colors.fontColorGrey} spinning />
-          </View>
-        )}
-        <HoliButton
-          label={t('goodnews:goodnewsListing.loadMoreButton.text')}
-          style={[styles.buttonContainer, styles.lastButtonContainer]}
-          onPress={() => navigate('/apps/goodnews/')}
-          transparent
-          inline
-          testID={'goodnews-updates-load-more-button'}
-        >
-          <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/illustrations/illustration_see_more.png')}
-            width={Platform.OS === 'web' ? 160 : screenWidth / 2 - 26}
-            height={Platform.OS === 'web' ? 160 : screenWidth / 2 - 26}
-            label=""
-          />
-          <View style={styles.seeMoreContainer}>
-            <HoliText style={styles.seeMoreText} size="small" bold>
-              {t('goodnews:goodnewsListing.loadMoreButton.text')}
-            </HoliText>
-          </View>
-        </HoliButton>
-      </ScrollView>
+      <FlatList
+        horizontal
+        ListHeaderComponentStyle={styles.listHeader}
+        data={articlesToRender}
+        renderItem={renderItem}
+        style={styles.itemsContainer}
+        ListFooterComponent={seeMore}
+        testID={'goodnews-updates-container'}
+      />
     </View>
   )
 }
@@ -95,6 +103,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  listHeader: {
+    paddingTop: Number(variables.topBarHeight) + 24,
+    paddingBottom: 32,
+  },
+
   goodNewsIconContainer: {
     padding: 13,
     borderRadius: 12,
@@ -106,7 +119,7 @@ const styles = StyleSheet.create({
     height: 'auto',
     width: 160,
   },
-  scrollViewContainer: {
+  itemsContainer: {
     paddingVertical: 24,
     marginHorizontal: -20,
     paddingLeft: 24,
@@ -123,7 +136,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundColorGrey,
   },
   lastButtonContainer: {
-    marginRight: 24,
+    marginRight: Platform.OS === 'web' ? 24 : 48,
     flexDirection: 'column',
     justifyContent: 'space-between',
     flex: 1,

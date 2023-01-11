@@ -85,9 +85,6 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
 
   const author = insight.creator
 
-  // TODO: dummy category
-  const category = 'Immigration'
-
   return (
     <>
       <StatusBar style="light" animated />
@@ -110,7 +107,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
         {/* Insight content */}
         <View style={[mixins.container, styles.insightView]}>
           <HoliHeading size="xSmall" style={styles.categoryHeadline} testID="insight-category">
-            {category}
+            {insight?.topic.title}
           </HoliHeading>
 
           <HoliHeading level="1" size="super" style={styles.insightHeadline} testID="insight-headline">
@@ -155,10 +152,6 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
               title={''} // don't show any headline in modal
               users={[author as User]}
               onDismiss={() => setShowCuratorModal(false)}
-              onUserPress={({ id }) => {
-                setShowCuratorModal(false)
-                navigate('/profile/' + id)
-              }}
               testID="insight-curator"
             />
           </HoliModal>

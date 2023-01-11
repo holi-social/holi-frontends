@@ -8,7 +8,6 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
-//import { article } from '@holi-apps/goodnews/components/__tests__/testData'
 import { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 type GoodNewsUpdatesItemProps = {
@@ -23,7 +22,7 @@ const GoodNewsUpdatesItem: React.VFC<GoodNewsUpdatesItemProps> = ({ article, sty
   const { i18n } = useTranslation()
 
   const formattedDate = useMemo(() => {
-    if (!article.date) return undefined
+    if (!article.date) return
     const dateString = getRelativeDateString(article.date, i18n.language)
     return dateString.charAt(0).toUpperCase() + dateString.slice(1)
   }, [article.date, i18n.language])

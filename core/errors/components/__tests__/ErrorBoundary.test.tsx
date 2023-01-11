@@ -38,7 +38,7 @@ describe('renders correctly', () => {
     )
 
     expect(queryByText('Child Content')).toBeTruthy()
-    expect(queryByText('error.errorBoundary.heading')).toBeFalsy()
+    expect(queryByText('global.technicalError')).toBeFalsy()
     expect(queryByText('error.errorBoundary.retry')).toBeFalsy()
   })
 
@@ -49,7 +49,7 @@ describe('renders correctly', () => {
       </ErrorBoundary>
     )
 
-    expect(queryByText('error.errorBoundary.heading')).toBeTruthy()
+    expect(queryByText('global.technicalError')).toBeTruthy()
     expect(queryByText('error.errorBoundary.retry')).toBeTruthy()
     expect(queryByText('Child Content')).toBeFalsy()
   })
@@ -75,7 +75,7 @@ describe('renders correctly', () => {
     fireEvent.press(getByText('error.errorBoundary.retry'))
 
     expect(queryByText('Child Content')).toBeTruthy()
-    expect(queryByText('error.errorBoundary.heading')).toBeFalsy()
+    expect(queryByText('global.technicalError')).toBeFalsy()
     expect(queryByText('error.errorBoundary.retry')).toBeFalsy()
   })
 })

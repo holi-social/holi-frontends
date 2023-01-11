@@ -1,5 +1,6 @@
 import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceLink, SpaceLinkType, SpaceMember, Task } from '@holi/core/screens/spaces/types'
+import { SpaceSection, SpaceSectionType } from '@holi/core/screens/spaces/types'
 import { Skill, Topic, User } from '@holi/core/screens/userprofile/types'
 
 export const user: User = {
@@ -73,6 +74,7 @@ export const space: Space = {
   creator: user,
   created: '2022-11-21T12:34:56Z',
   location: 'Hamburg, Germany',
+  connectionStatusToMyself: [],
   tasks,
   links,
 }
@@ -117,3 +119,60 @@ export const skill: Skill = {
 }
 
 export const location = 'TEST_LOCATION'
+
+export const mySpaces: SpaceSection[] = [
+  {
+    section: 'Member',
+    type: SpaceSectionType.MEMBER,
+    spaces: {
+      data: [
+        {
+          ...space,
+          id: '111',
+          title: 'The user is member of this space (111).',
+        },
+        {
+          ...space,
+          id: '222',
+          title: 'The user is member of this space (222).',
+        },
+      ],
+    },
+  },
+  {
+    section: 'Creator',
+    type: SpaceSectionType.CREATOR,
+    spaces: {
+      data: [
+        {
+          ...space,
+          id: '333',
+          title: 'The user is the creator of this space (333).',
+        },
+        {
+          ...space,
+          id: '444',
+          title: 'The user is the creator of this space (444).',
+        },
+      ],
+    },
+  },
+  {
+    section: 'Follower',
+    type: SpaceSectionType.FOLLOWER,
+    spaces: {
+      data: [
+        {
+          ...space,
+          id: '555',
+          title: 'The user follows this space (555).',
+        },
+        {
+          ...space,
+          id: '666',
+          title: 'The user follows this space (666).',
+        },
+      ],
+    },
+  },
+]
