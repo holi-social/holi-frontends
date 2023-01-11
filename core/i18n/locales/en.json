@@ -31,6 +31,7 @@
   "auth.login.input.placeholder-E-Mail": "Email...",
   "auth.login.input.placeholder-Email": "Email...",
   "auth.login.input.placeholder-ID": "Email...",
+  "auth.login.input.placeholder-identifier": "E-Mail...",
   "auth.login.input.placeholder-Password": "Password...",
   "auth.login.input.placeholder-Sign in": "Sign in",
   "auth.login.link.forgotPassword": "Forgot password",

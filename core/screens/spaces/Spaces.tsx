@@ -154,12 +154,12 @@ const getStyles = (deviceHeight: number) =>
   StyleSheet.create({
     layout: {
       minHeight: deviceHeight,
+      backgroundColor: colors.backgroundColorGrey,
     },
     discoverSpacesContainer: {
       flex: 1,
       paddingTop: 24,
       paddingBottom: vars.bottomBarHeight,
-      backgroundColor: colors.backgroundColorGrey,
     },
     holiTabs: {
       flex: 1,
