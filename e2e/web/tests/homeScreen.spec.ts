@@ -86,7 +86,7 @@ test.describe('@HomeScreen', () => {
   })
 
   test('should display good news updates', async ({ page }) => {
-    // navigate to home and check if donation updates are displayed
+    // navigate to home and check if good news updates are displayed
     await waitForElementByTestId(page, 'goodnews-updates-heading')
     await waitForElementByTestId(page, 'goodnews-updates-container')
     await waitForElementByTestId(page, 'goodnews-updates-item')
@@ -95,13 +95,14 @@ test.describe('@HomeScreen', () => {
     // click first element in ScrollView
     await clickElementByTestId(page, 'goodnews-updates-item')
 
-    // navigate to donations app
+    // navigate to article in good news app
     await waitForElementByTestId(page, 'goodnews-article-component')
+    expect(page.url()).toContain('/apps/goodnews?articleId=')
 
     // navigate back
     await clickElementByTestId(page, 'nav-button-back')
 
-    // click on "see more" / navigate to donations app
+    // click on "see more" / navigate to good news app
     await clickElementByTestId(page, 'goodnews-updates-load-more-button')
     await waitForElementByTestId(page, 'goodnews-article-component')
   })
