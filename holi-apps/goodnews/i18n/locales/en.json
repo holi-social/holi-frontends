@@ -5,5 +5,7 @@
   "listing.teaser.title": "Looking for more?",
   "listing.teaser.description": "There´s more interesting articles in the previous edition",
   "button.loadMoreArticles.label": "Load more articles",
-  "button.readArticle": "Read article"
+  "button.readArticle": "Read article",
+  "goodnewsListing.loadMoreButton.text": "See more",
+  "goodnewsListing.error": "Loading articles failed"
 }
