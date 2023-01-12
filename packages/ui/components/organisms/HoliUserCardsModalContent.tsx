@@ -49,6 +49,8 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
                 href={`/profile/${user.id}`}
                 label={t('user.visitProfile', { name: user.fullName })}
                 onPress={onDismiss}
+                textStyle={styles.link} // used for WEB
+                style={styles.link}
               >
                 <HoliUserCard style={styles.userCard} user={user} category={category} disableFocusability />
               </HoliLink>
@@ -69,6 +71,10 @@ const styles = StyleSheet.create({
         maxWidth: '100%',
       },
     }),
+  },
+  link: {
+    display: 'flex',
+    flex: 1,
   },
   userCard: {
     flex: 1,
