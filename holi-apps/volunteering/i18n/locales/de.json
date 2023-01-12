@@ -1,5 +1,7 @@
 {
   "app.name": "Engagement",
+  "engagement.title": "{{title}} bei {{organization}}",
   "listing.headline": "Interessante Freiwilligenarbeit für dich",
-  "volunteering.organization": "{{title}} bei {{organization}}"
+  "listing.loadMoreButton.loading": "Lädt",
+  "listing.loadMoreButton.text": "Weitere Projekte"
 }
