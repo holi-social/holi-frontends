@@ -61,7 +61,7 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
         </View>
       )}
       renderSectionHeader={({ section }) => (
-        <HoliHeading level="3" size="small" testID={`section-headline-${section.type}`}>
+        <HoliHeading level="3" size="small" style={styles.sectionHeader} testID={`section-headline-${section.type}`}>
           {section.title}
         </HoliHeading>
       )}
@@ -86,9 +86,12 @@ const styles = StyleSheet.create({
   },
   optionsButton: {
     display: 'flex',
-    marginRight: 10,
+    marginRight: 4,
     backgroundColor: colors.backgroundColor,
     padding: 6,
     borderRadius: 8,
+  },
+  sectionHeader: {
+    marginTop: 24,
   },
 })

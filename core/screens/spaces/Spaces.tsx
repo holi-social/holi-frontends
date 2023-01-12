@@ -123,7 +123,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
                 title: t('spaces.tabs.mine'),
                 style: styles.tabStyle,
                 children: (
-                  <View style={[mixins.container, styles.tabContentContainer]}>
+                  <View style={mixins.container}>
                     <MySpaces mySpaces={mySpaces} />
                   </View>
                 ),
@@ -132,7 +132,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
                 title: t('spaces.tabs.discover'),
                 style: styles.tabStyle,
                 children: (
-                  <View style={[mixins.container, styles.tabContentContainer]}>
+                  <View style={[mixins.container, styles.discoverSpacesContainer]}>
                     <DiscoverSpaces user={user} />
                   </View>
                 ),
@@ -163,9 +163,6 @@ const styles = StyleSheet.create({
   tabStyle: {
     minHeight: '100%',
     backgroundColor: colors.backgroundColorGrey,
-  },
-  tabContentContainer: {
-    marginTop: 24,
   },
 })
 
