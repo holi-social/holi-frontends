@@ -29,7 +29,7 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
 
   return (
     <View style={[styles.wrapper, style]} {...props}>
-      <HoliMediaHeader title={name} author={creator} date={comment.created} boldTitle>
+      <HoliMediaHeader title={name} author={creator} date={comment.created} boldTitle href>
         <HoliButton
           transparent
           inline
