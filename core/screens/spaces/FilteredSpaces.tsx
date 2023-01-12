@@ -24,9 +24,9 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type FilteredSpacesParams = {
-  topicId?: string
+  topic?: string
   location?: string
-  skillId?: string[]
+  skill?: string[]
 }
 
 const { useParam, useUpdateParams } = createParam<FilteredSpacesParams>()
@@ -36,19 +36,19 @@ type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
 const SPACES_PAGE_SIZE = 20
 
 const FilteredSpaces: React.VFC<ScreenProps> = () => {
-  const [topicId] = useParam('topicId', singleParamConfig)
+  const [topicSlug] = useParam('topic', singleParamConfig)
   const [location] = useParam('location', singleParamConfig)
-  const [skillIds] = useParam('skillId', arrayParamConfig)
+  const [skillSlugs] = useParam('skill', arrayParamConfig)
   const updateParams = useUpdateParams()
   const { navigate } = useRouting()
 
   const applyFilters = useCallback(
     (filters: SpaceFilter) => {
-      if (!filters.topicId && !filters.location && !filters.skillIds?.length) {
+      if (!filters.topicSlug && !filters.location && !filters.skillSlugs?.length) {
         navigate('/spaces')
       } else {
-        const { topicId, location } = filters
-        updateParams({ topicId, location, skillId: filters.skillIds })
+        const { topicSlug, location } = filters
+        updateParams({ topic: topicSlug, location, skill: filters.skillSlugs })
       }
     },
     [updateParams, navigate]
@@ -63,9 +63,9 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
 
   const { loading, data, error, fetchMore } = useQuery<SpacesResponse>(spacesQuery, {
     variables: {
-      topicId: topicId,
+      topicSlug: topicSlug,
       location: location,
-      skillIds: skillIds,
+      skillSlugs: skillSlugs,
       limit: SPACES_PAGE_SIZE,
       offset: 0,
     },
@@ -98,7 +98,7 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
     return <></>
   }
 
-  const filters = { topicId, location, skillIds }
+  const filters = { topicSlug, location, skillSlugs }
 
   return (
     <SpaceTermContextProvider>
@@ -110,7 +110,7 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
       >
         <View style={mixins.container}>
           <FilteredSpacesHeading {...filters} />
-          {spaces.length > 0 && <SpacesGrid style={styles.grid} spaces={spaces} />}
+          {spaces.length > 0 && !loading && <SpacesGrid style={styles.grid} spaces={spaces} />}
           {!spaces.length &&
             (loading ? (
               // TODO: replace with proper loading indicator

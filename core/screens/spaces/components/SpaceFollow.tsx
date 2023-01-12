@@ -12,10 +12,6 @@ import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export enum SpaceFollowStateType {
-  FOLLOWING = 'FOLLOWING',
-  NOT_FOLLOWING = 'NOT_FOLLOWING',
-}
 export type SpaceFollowProps = {
   space: Space
   style?: StyleProp<ViewStyle>
@@ -28,9 +24,9 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
   const [unfollowDialogIsOpen, setUnfollowDialogIsOpen] = useState(false)
   const [followSpace, { loading, error }] = useMutation<JoinSpaceResponse>(joinSpaceMutation)
 
-  const followState = space.connectionStatusToMyself?.includes(SpaceConnectionType.FOLLOWER)
-    ? SpaceFollowStateType.FOLLOWING
-    : SpaceFollowStateType.NOT_FOLLOWING
+  const isFollowing = space.connectionStatusToMyself?.includes(SpaceConnectionType.FOLLOWER)
+  const isMember = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const hasRequestedMembership = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBERSHIP_REQUESTOR)
 
   const sendFollowRequest = useCallback(() => {
     if (!isLoggedIn) {
@@ -58,13 +54,17 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
     })
   }, [followSpace, space.id])
 
+  if (isMember || hasRequestedMembership) {
+    return null
+  }
+
   if (error) {
     displayError(error, t('spaces.follow.error'))
   }
 
   return (
     <>
-      {followState === SpaceFollowStateType.NOT_FOLLOWING && (
+      {!isFollowing && (
         <HoliButtonLoading
           inline
           type="secondary"
@@ -77,7 +77,7 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
         />
       )}
 
-      {followState === SpaceFollowStateType.FOLLOWING && (
+      {isFollowing && (
         <HoliButtonLoading
           inline
           label={t('spaces.follow.btn.unfollow')}
