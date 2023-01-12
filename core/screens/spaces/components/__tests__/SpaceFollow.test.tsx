@@ -90,6 +90,14 @@ const spaceByIdRequestFollowing = {
 const MOCKS_NOT_FOLLOWING = [spaceByIdRequest, followSpaceMutation]
 const MOCKS_FOLLOWING = [spaceByIdRequestFollowing, unfollowSpaceMutation]
 
+const AUTH_CONTEXT = {
+  isLoading: false,
+  isLoggedIn: false,
+  userId: '123',
+  setUserLoggedIn: jest.fn(),
+  setUserLoggedOut: jest.fn(),
+}
+
 jest.mock('@holi/core/navigation/hooks/useParam', () => () => ({
   useParam: () => [SPACE_ID, jest.fn()],
 }))
@@ -103,11 +111,8 @@ describe('Space follow button', () => {
     render(
       <AuthContext.Provider
         value={{
-          isLoading: false,
+          ...AUTH_CONTEXT,
           isLoggedIn: false,
-          userId: '123',
-          setUserLoggedIn: jest.fn(),
-          setUserLoggedOut: jest.fn(),
         }}
       >
         <MockedProvider mocks={[]} addTypename={false}>
@@ -122,16 +127,13 @@ describe('Space follow button', () => {
   it('shows follow button, when logged in but not following', async () => {
     const aSpace = {
       ...space,
-      connectionStatusToMyself: [SpaceConnectionType.MEMBERSHIP_REQUESTOR],
+      connectionStatusToMyself: [],
     }
     render(
       <AuthContext.Provider
         value={{
-          isLoading: false,
+          ...AUTH_CONTEXT,
           isLoggedIn: true,
-          userId: '123',
-          setUserLoggedIn: jest.fn(),
-          setUserLoggedOut: jest.fn(),
         }}
       >
         <MockedProvider mocks={[]} addTypename={false}>
@@ -151,11 +153,8 @@ describe('Space follow button', () => {
     render(
       <AuthContext.Provider
         value={{
-          isLoading: false,
+          ...AUTH_CONTEXT,
           isLoggedIn: true,
-          userId: '123',
-          setUserLoggedIn: jest.fn(),
-          setUserLoggedOut: jest.fn(),
         }}
       >
         <MockedProvider mocks={[]} addTypename={false}>
@@ -175,11 +174,8 @@ describe('Space follow button', () => {
     render(
       <AuthContext.Provider
         value={{
-          isLoading: false,
+          ...AUTH_CONTEXT,
           isLoggedIn: true,
-          userId: '123',
-          setUserLoggedIn: jest.fn(),
-          setUserLoggedOut: jest.fn(),
         }}
       >
         <MockedProvider mocks={MOCKS_NOT_FOLLOWING} addTypename={false}>
@@ -201,11 +197,8 @@ describe('Space follow button', () => {
     render(
       <AuthContext.Provider
         value={{
-          isLoading: false,
+          ...AUTH_CONTEXT,
           isLoggedIn: true,
-          userId: '123',
-          setUserLoggedIn: jest.fn(),
-          setUserLoggedOut: jest.fn(),
         }}
       >
         <MockedProvider mocks={MOCKS_FOLLOWING} addTypename={false}>
