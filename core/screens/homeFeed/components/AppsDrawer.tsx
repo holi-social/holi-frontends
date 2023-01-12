@@ -36,6 +36,12 @@ const appSwiperApps: HoliApp[] = [
     path: '/apps/volunteering',
     hasUpdates: true,
   },
+  {
+    id: 'comming-soon',
+    icon: 'apps-soon',
+    translationKey: 'global.comingSoon',
+    hasUpdates: false,
+  },
 ]
 
 const AppsDrawer: React.FC = () => {
@@ -45,9 +51,11 @@ const AppsDrawer: React.FC = () => {
   const [modalIsVisible, setModalIsVisible] = useState(false)
 
   const onAppButtonClick = useCallback(
-    (app: HoliApp) => {
-      setModalIsVisible(false)
-      navigate(app.path)
+    ({ path }: HoliApp) => {
+      if (path) {
+        setModalIsVisible(false)
+        navigate(path)
+      }
     },
     [navigate]
   )
@@ -81,8 +89,8 @@ const AppsDrawer: React.FC = () => {
           <ScrollView horizontal={true} style={{ marginTop: 20 }} contentContainerStyle={styles.appsCarousel}>
             {
               /** FIXME convert to VirtualizedList, FlatList or SectionList */
-              appSwiperApps.map((app) => (
-                <AppTile appData={app} key={app.id} onPress={onAppButtonClick} />
+              appSwiperApps.map((app, idx) => (
+                <AppTile appData={app} key={app.id} onPress={onAppButtonClick} style={idx > 0 && { marginLeft: 15 }} />
               ))
             }
           </ScrollView>
@@ -99,8 +107,8 @@ const borderGrey = tinycolor(colors.borderColorGrey).darken(5).toString()
 const styles = StyleSheet.create({
   overlayButton: {
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    bottom: (Platform.OS === 'web' ? +vars.bottomBarHeight : 0) + 15,
-    right: Platform.OS === 'web' ? 0 : 5,
+    bottom: (Platform.OS === 'web' ? +vars.bottomBarHeight : 0) + 16,
+    right: 16,
     backgroundColor: colors.backgroundColorWhite,
     justifyContent: 'center',
     paddingHorizontal: 20,
@@ -114,6 +122,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 6,
     elevation: 4,
+    overflow: 'visible',
   },
   modalContent: {
     paddingHorizontal: 10,
