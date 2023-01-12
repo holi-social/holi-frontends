@@ -25,6 +25,8 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
   const [followSpace, { loading, error }] = useMutation<JoinSpaceResponse>(joinSpaceMutation)
 
   const isFollowing = space.connectionStatusToMyself?.includes(SpaceConnectionType.FOLLOWER)
+  const isMember = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const hasRequestedMembership = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBERSHIP_REQUESTOR)
 
   const sendFollowRequest = useCallback(() => {
     if (!isLoggedIn) {
@@ -52,6 +54,10 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
     })
   }, [followSpace, space.id])
 
+  if (isMember || hasRequestedMembership) {
+    return null
+  }
+
   if (error) {
     displayError(error, t('spaces.follow.error'))
   }
@@ -67,6 +73,7 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
           style={[styles.actionButtonFollow, props.style]}
           disabled={loading}
           iconSpinning={loading}
+          testID="follow-btn"
         />
       )}
 
@@ -78,6 +85,7 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
           style={[styles.actionButtonFollow, props.style]}
           disabled={loading}
           iconSpinning={loading}
+          testID="unfollow-btn"
         />
       )}
 
@@ -90,6 +98,7 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
         confirmText={t('global.yes')}
         onConfirm={submitUnfollowRequest}
         onDismiss={() => setUnfollowDialogIsOpen(false)}
+        testID="unfollow-confirm"
       />
     </>
   )
