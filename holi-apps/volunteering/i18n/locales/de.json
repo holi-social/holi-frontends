@@ -3,5 +3,7 @@
   "engagement.title": "{{title}} bei {{organization}}",
   "listing.headline": "Interessante Freiwilligenarbeit für dich",
   "listing.loadMoreButton.loading": "Lädt",
-  "listing.loadMoreButton.text": "Weitere Projekte"
+  "listing.loadMoreButton.text": "Weitere Projekte",
+  "volunteeringListing.loadMoreButton.text": "Weitere Artikel",
+  "volunteeringListing.error": "Laden von Artikeln ist fehlgeschlagen"
 }

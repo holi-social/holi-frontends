@@ -3,5 +3,7 @@
   "engagement.title": "{{title}} by {{organization}}",
   "listing.headline": "Interesting opportunities for you",
   "listing.loadMoreButton.loading": "Loading",
-  "listing.loadMoreButton.text": "See more"
+  "listing.loadMoreButton.text": "See more",
+  "volunteeringListing.loadMoreButton.text": "See more",
+  "volunteeringListing.error": "Loading articles failed"
 }
