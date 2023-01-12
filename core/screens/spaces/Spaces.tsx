@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useContext, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -32,11 +32,8 @@ const Spaces: React.VFC<ScreenProps> = () => {
   const mixins = useStyleMixins()
   const { setOptions, navigate } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
-  const { height: deviceHeight } = useWindowDimensions()
   const { openToast } = useToast()
   const { user } = useContext(UserContext)
-
-  const styles = getStyles(deviceHeight)
 
   let hasOwnSpaces = false
   const {
@@ -150,27 +147,26 @@ const Spaces: React.VFC<ScreenProps> = () => {
   )
 }
 
-const getStyles = (deviceHeight: number) =>
-  StyleSheet.create({
-    layout: {
-      minHeight: deviceHeight,
-    },
-    discoverSpacesContainer: {
-      flex: 1,
-      paddingTop: 24,
-      paddingBottom: vars.bottomBarHeight,
-      backgroundColor: colors.backgroundColorGrey,
-    },
-    holiTabs: {
-      flex: 1,
-    },
-    tabStyle: {
-      minHeight: '100%',
-      backgroundColor: colors.backgroundColorGrey,
-    },
-    tabContentContainer: {
-      marginTop: 24,
-    },
-  })
+const styles = StyleSheet.create({
+  layout: {
+    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+    backgroundColor: colors.backgroundColorGrey,
+  },
+  discoverSpacesContainer: {
+    flex: 1,
+    paddingTop: 24,
+    paddingBottom: vars.bottomBarHeight,
+  },
+  holiTabs: {
+    flex: 1,
+  },
+  tabStyle: {
+    minHeight: '100%',
+    backgroundColor: colors.backgroundColorGrey,
+  },
+  tabContentContainer: {
+    marginTop: 24,
+  },
+})
 
 export default Spaces
