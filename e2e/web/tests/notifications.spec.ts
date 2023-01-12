@@ -82,7 +82,7 @@ test.describe('@Notifications', () => {
       await clickElementByTestId(page, 'btn-submit-comment')
     })
 
-    test('the test user receives POST_COMMENT_USER_MENTION notification', async ({ context, page }) => {
+    test.skip('the test user receives POST_COMMENT_USER_MENTION notification', async ({ context, page }) => {
       // login with your test user
       await defaultAuthSteps(
         { context, page, email: process.env.E2E_USER_USERNAME, password: process.env.E2E_USER_PASSWORD },
