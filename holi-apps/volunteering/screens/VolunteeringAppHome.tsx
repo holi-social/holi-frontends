@@ -28,11 +28,11 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
   useLayoutEffect(() => {
     const filterButton = (
       <HoliButton
-        label={t('donations:search.heading')}
+        label={t('volunteering:filter.heading')}
         inline
         transparent
         onPress={() => showFeatureNotImplementedToast()}
-        testID="donations-search-button"
+        testID="btn-to-volunteering-filter"
       >
         <HoliIcon icon="filter-3" size={24} />
       </HoliButton>

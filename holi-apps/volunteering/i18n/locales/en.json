@@ -1,6 +1,7 @@
 {
   "app.name": "Volunteering",
   "engagement.title": "{{title}} by {{organization}}",
+  "filter.heading": "Filter opportunities",
   "listing.headline": "Interesting opportunities for you",
   "listing.loadMoreButton.loading": "Loading",
   "listing.loadMoreButton.text": "See more"
