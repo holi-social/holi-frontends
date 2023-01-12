@@ -84,7 +84,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
   useEffect(() => {
     if (paramArticleId) {
       const index = articles?.findIndex((article) => article.id === paramArticleId)
-      if (index !== undefined && index !== -1) {
+      if (index !== undefined && index >= 0) {
         setActiveArticleIndex(index)
       }
     }
