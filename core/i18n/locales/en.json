@@ -98,6 +98,7 @@
   "insights.posts.byAuthor_plural": "{{count}} posts by {{author}}",
   "insights.posts.comments.button": "Post",
   "insights.posts.comments.create_comment_button": "Leave a comment...",
+  "insights.posts.comments.link": "Go to post's comments",
   "insights.posts.comments.placeholder": "Share your thoughts...",
   "insights.posts.comments.success": "Comment posted",
   "insights.posts.comments.title": "Comment",
