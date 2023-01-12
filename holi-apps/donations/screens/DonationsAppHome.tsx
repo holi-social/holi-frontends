@@ -63,7 +63,7 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
         onPress={() => setShowSearchModal(true)}
         testID="donations-search-button"
       >
-        <HoliIcon icon="search-2" size={24} />
+        <HoliIcon icon="filter-3" size={24} />
       </HoliButton>
     )
 
