@@ -48,6 +48,7 @@ const COMMENT_VIEW_PADDING_BOTTOM = 120
 const PostDetailPage: React.VFC<ScreenProps> = () => {
   const [insightId = ''] = useParam('insightId')
   const [postId] = useParam('postId')
+  // `commentId` can be an UUID of a comment of hardcodded 'first' string value
   const [commentId] = useParam('commentId')
   const { navigate } = useRouting()
   const { isLoggedIn } = useContext(AuthContext)
@@ -125,14 +126,19 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
             <View style={styles.commentsView}>
               <VerticalLine style={styles.commentConnector} />
 
-              {comments.map((comment) => (
-                <CommentView
-                  key={comment.id}
-                  comment={comment}
-                  style={styles.comment}
-                  onLayout={commentId === comment.id ? scrollIntoView : undefined}
-                />
-              ))}
+              {comments.map((comment, idx) => {
+                const scrollToFirstComment = commentId === 'first' && idx === 0
+                const isCommentToScroll = commentId === comment.id
+
+                return (
+                  <CommentView
+                    key={comment.id}
+                    comment={comment}
+                    style={styles.comment}
+                    onLayout={scrollToFirstComment || isCommentToScroll ? scrollIntoView : undefined}
+                  />
+                )
+              })}
             </View>
           )}
         </View>
