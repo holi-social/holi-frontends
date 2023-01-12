@@ -78,7 +78,7 @@ const GoodNewsUpdates: React.VFC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpd
 
   return (
     <View style={style}>
-      <View style={styles.goodNewsHeader} testID={'goodNews-updates-heading'}>
+      <View style={styles.goodNewsHeader} testID={'goodnews-updates-heading'}>
         <View style={styles.goodNewsIconContainer}>
           <HoliIcon icon="newspaper" size={20} color={colors.fontColorGrey} />
         </View>
