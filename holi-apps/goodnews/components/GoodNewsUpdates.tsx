@@ -39,10 +39,13 @@ const GoodNewsUpdates: React.VFC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpd
     const dateString = getRelativeDateString(item.date, i18n.language)
     const formattedDate = dateString.charAt(0).toUpperCase() + dateString.slice(1)
 
+    const params = new URLSearchParams()
+    params.set('articleId', item.id)
+
     return (
       <AppUpdatesItem
         appName="goodnews"
-        onPress={() => navigate('/apps/goodnews?')}
+        onPress={() => navigate('/apps/goodnews?' + params.toString())}
         title={item.headline}
         imageSource={{ uri: item.pictureUrl }}
         footer={formattedDate}

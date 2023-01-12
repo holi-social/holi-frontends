@@ -7,22 +7,19 @@ import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { displayError } from '@holi/core/errors/helpers'
 import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
 import { JoinSpaceResponse, joinSpaceMutation } from '@holi/core/screens/spaces/queries'
-import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type SpaceJoinState = 'open' | 'pending' | 'joined'
 export type SpaceJoinProps = {
-  spaceId: string
-  state?: SpaceJoinState
-  onStateChange?: (state: SpaceJoinState) => void
+  space: Space
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceJoin: React.VFC<SpaceJoinProps> = ({ spaceId, state = 'open', onStateChange = () => null, ...props }) => {
+const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
   const { t } = useTranslation()
   const { isLoggedIn } = useAuth()
   const { openLoginDialog } = useLoginRedirect()
@@ -33,7 +30,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ spaceId, state = 'open', onState
     displayError(error, t('spaces.join.error'))
   }
 
-  const sendJoinRequest = useCallback(() => {
+  const submitJoinRequest = useCallback(() => {
     if (!isLoggedIn) {
       return openLoginDialog({
         text: t('spaces.join.loginRedirect.text'),
@@ -43,11 +40,10 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ spaceId, state = 'open', onState
       variables: {
         connectAction: SpaceConnectionAction.CONNECT,
         connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
-        spaceId: spaceId,
+        spaceId: space.id,
       },
     })
-    onStateChange('pending')
-  }, [isLoggedIn, onStateChange, openLoginDialog, t, joinSpace, spaceId])
+  }, [isLoggedIn, openLoginDialog, t, joinSpace, space.id])
 
   const submitWithdraw = useCallback(() => {
     setWithdrawDialogIsOpen(false)
@@ -55,26 +51,27 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ spaceId, state = 'open', onState
       variables: {
         connectAction: SpaceConnectionAction.DISCONNECT,
         connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
-        spaceId: spaceId,
+        spaceId: space.id,
       },
     })
-    onStateChange('open')
-  }, [onStateChange, joinSpace, spaceId])
+  }, [joinSpace, space.id])
 
+  const isRequestor = space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBERSHIP_REQUESTOR)
+  const isMember = space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBER)
   return (
     <>
-      {state === 'open' && (
+      {!isRequestor && !isMember && (
         <HoliButton
           inline
           label={t('spaces.join.btnRequest')}
-          onPress={sendJoinRequest}
+          onPress={submitJoinRequest}
           style={[styles.actionButtonJoin, props.style]}
           disabled={loading}
         >
           <HoliText>{t('spaces.join.btnRequest')}</HoliText>
         </HoliButton>
       )}
-      {state === 'pending' && (
+      {isRequestor && (
         <HoliButton
           type="secondary"
           inline

@@ -5,9 +5,9 @@ import { StyleProp, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import AppUpdatesItem from '@holi/core/screens/homeFeed/components/AppUpdatesItem'
 import AppUpdatesList from '@holi/core/screens/homeFeed/components/AppUpdatesList'
 
-import VolunteeringUpdatesItem from '@holi-apps/volunteering/components/VolunteeringUpdatesItem'
 import { VolunteeringEngagementsQuery, VolunteeringEngagementsQueryResponse } from '@holi-apps/volunteering/queries'
 import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 
@@ -39,7 +39,20 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
   const articlesToRender = engagements.slice(0, ENGAGEMENT_PAGE_SIZE) // TODO remove
 
   const renderItem = ({ item }: { item: VolunteeringEngagement }) => {
-    return <VolunteeringUpdatesItem engagement={item} />
+    const { organizer } = item
+    const title = organizer?.name
+      ? t('volunteering:engagement.title', { title: item.title, organization: organizer?.name })
+      : item.title
+
+    return (
+      <AppUpdatesItem
+        appName="volunteering"
+        onPress={() => navigate('/apps/volunteering')} // TODO: add item.id param once volunteering detail view is ready
+        title={title}
+        imageSource={{ uri: item.imageUrl }}
+        footer={item.location}
+      />
+    )
   }
 
   return (
