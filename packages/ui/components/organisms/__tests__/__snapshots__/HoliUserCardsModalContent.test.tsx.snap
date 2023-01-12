@@ -51,7 +51,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           Array [
             Object {
               "alignContent": "center",
-              "alignItems": "center",
               "justifyContent": "center",
             },
             undefined,
