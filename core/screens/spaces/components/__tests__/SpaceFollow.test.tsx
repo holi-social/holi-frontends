@@ -167,10 +167,6 @@ describe('Space follow button', () => {
   })
 
   it('changes the button text after clicking follow-button', async () => {
-    const aSpace = {
-      ...space,
-      connectionStatusToMyself: [],
-    }
     render(
       <AuthContext.Provider
         value={{
@@ -179,7 +175,7 @@ describe('Space follow button', () => {
         }}
       >
         <MockedProvider mocks={MOCKS_NOT_FOLLOWING} addTypename={false}>
-          <SpaceDetails space={aSpace} />
+          <SpaceDetails />
         </MockedProvider>
       </AuthContext.Provider>
     )
@@ -190,10 +186,6 @@ describe('Space follow button', () => {
   })
 
   it('it shows already following button', async () => {
-    const aSpace = {
-      ...space,
-      connectionStatusToMyself: [],
-    }
     render(
       <AuthContext.Provider
         value={{
@@ -202,7 +194,7 @@ describe('Space follow button', () => {
         }}
       >
         <MockedProvider mocks={MOCKS_FOLLOWING} addTypename={false}>
-          <SpaceDetails space={aSpace} />
+          <SpaceDetails />
         </MockedProvider>
       </AuthContext.Provider>
     )
