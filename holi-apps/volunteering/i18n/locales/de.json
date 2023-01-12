@@ -1,6 +1,7 @@
 {
   "app.name": "Engagement",
   "engagement.title": "{{title}} bei {{organization}}",
+  "filter.heading": "Projekte filtern",
   "listing.headline": "Interessante Freiwilligenarbeit für dich",
   "listing.loadMoreButton.loading": "Lädt",
   "listing.loadMoreButton.text": "Weitere Projekte",
