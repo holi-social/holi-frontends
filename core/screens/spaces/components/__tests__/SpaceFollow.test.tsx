@@ -190,8 +190,7 @@ describe('Space follow button', () => {
 
     expect(await screen.findByText('spaces.follow.btn.follow'))
     fireEvent.press(await screen.findByTestId('follow-btn'))
-    const followSpaceMutation = MOCKS_NOT_FOLLOWING[1].newData
-    expect(await followSpaceMutation).toHaveBeenCalled()
+    expect(await followSpaceMutation.newData).toHaveBeenCalled()
   })
 
   it('it shows already following button', async () => {
@@ -219,7 +218,6 @@ describe('Space follow button', () => {
     fireEvent.press(await screen.findByTestId('unfollow-btn'))
     expect(await screen.findByTestId('unfollow-confirm-confirmation-dialog'))
     fireEvent.press(await screen.findByTestId('unfollow-confirm-confirmation-confirm'))
-    const unfollowSpaceMutation = MOCKS_FOLLOWING[1].newData
-    expect(await unfollowSpaceMutation).toHaveBeenCalled()
+    expect(await unfollowSpaceMutation.newData).toHaveBeenCalled()
   })
 })

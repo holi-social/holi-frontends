@@ -38,7 +38,6 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
         text: t('spaces.follow.loginRedirect.text', { spaceName: space.title }),
       })
     }
-    setUnfollowDialogIsOpen(true)
     followSpace({
       variables: {
         connectAction: SpaceConnectionAction.CONNECT,
