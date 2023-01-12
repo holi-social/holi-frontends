@@ -38,6 +38,7 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
         text: t('spaces.follow.loginRedirect.text', { spaceName: space.title }),
       })
     }
+    setUnfollowDialogIsOpen(true)
     followSpace({
       variables: {
         connectAction: SpaceConnectionAction.CONNECT,
@@ -73,6 +74,7 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
           style={[styles.actionButtonFollow, props.style]}
           disabled={loading}
           iconSpinning={loading}
+          testID="follow-btn"
         />
       )}
 
@@ -84,6 +86,7 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
           style={[styles.actionButtonFollow, props.style]}
           disabled={loading}
           iconSpinning={loading}
+          testID="unfollow-btn"
         />
       )}
 
@@ -96,6 +99,7 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
         confirmText={t('global.yes')}
         onConfirm={submitUnfollowRequest}
         onDismiss={() => setUnfollowDialogIsOpen(false)}
+        testID="unfollow-confirm"
       />
     </>
   )
