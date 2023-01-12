@@ -36,6 +36,9 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
   const avatarWidth = deviceWidth / 5 // make avatar responsive (SpaceAvatar has a maxWidth)
 
   const userIsMemberOfTheSpace = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const userIsMemberRequestorOfTheSpace = space.connectionStatusToMyself?.includes(
+    SpaceConnectionType.MEMBERSHIP_REQUESTOR
+  )
 
   const openModal = useCallback(() => {
     setModalVisible(true)
@@ -65,7 +68,7 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
       </View>
 
       <View style={styles.actionButtons}>
-        {!userIsMemberOfTheSpace && <SpaceFollow space={space} />}
+        {!userIsMemberOfTheSpace && !userIsMemberRequestorOfTheSpace && <SpaceFollow space={space} />}
 
         {/* TODO: display server value for space join state - HOLI-2617 */}
         <SpaceJoin state={joinRequestState} onStateChange={setJoinRequestState} spaceId={space.id} />
