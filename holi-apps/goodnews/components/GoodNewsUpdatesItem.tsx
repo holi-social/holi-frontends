@@ -29,13 +29,12 @@ const GoodNewsUpdatesItem: React.VFC<GoodNewsUpdatesItemProps> = ({ article, sty
 
   const params = new URLSearchParams()
   params.set('articleId', article.id)
-  const paramsString = params.toString()
 
   return (
     <HoliButton
       label={article.headline}
       transparent
-      onPress={() => navigate('/apps/goodnews?' + paramsString)}
+      onPress={() => navigate('/apps/goodnews?' + params.toString())}
       style={[styles.buttonContainer, style]}
       testID={'goodnews-updates-item'}
       inline

@@ -63,7 +63,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
 
   const [activeArticleIndex, setActiveArticleIndex] = useState<number>(0)
 
-  const [paramId] = useParam('articleId', singleParamConfig)
+  const [paramArticleId] = useParam('articleId', singleParamConfig)
 
   useEffect(() => {
     setOptions({
@@ -80,6 +80,15 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
       headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
     })
   }, [setOptions, articles, activeArticleIndex])
+
+  useEffect(() => {
+    if (paramArticleId) {
+      const index = articles?.findIndex((article) => article.id === paramArticleId)
+      if (index !== undefined && index !== -1) {
+        setActiveArticleIndex(index)
+      }
+    }
+  }, [articles, paramArticleId, setActiveArticleIndex])
 
   const renderItem = useCallback(
     ({ item, index }) => {
@@ -116,9 +125,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
     console.error('[GoodNewsCarousel.tsx] articles array is empty')
     return <></>
   }
-
   const carouselItems: CarouselItem[] = articles
-    .slice(paramId ? articles.findIndex((article) => article.id === paramId) : 0, articles.length)
     .map((article) => ({ type: 'article', article: article } as CarouselItem))
     .concat(previousDateTeaser ? [{ type: 'teaser', article: previousDateTeaser }] : [])
 
@@ -130,6 +137,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
         style={styles.carousel}
         loop={false}
         data={carouselItems}
+        defaultIndex={activeArticleIndex}
         renderItem={renderItem}
         onSnapToItem={setActiveArticleIndex}
         scrollAnimationDuration={250}
