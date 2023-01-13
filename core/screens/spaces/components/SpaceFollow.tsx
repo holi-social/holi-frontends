@@ -82,7 +82,7 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
           inline
           label={t('spaces.follow.btn.unfollow')}
           onPress={() => setUnfollowDialogIsOpen(true)}
-          style={[styles.actionButtonFollow, props.style]}
+          style={props.style}
           disabled={loading}
           iconSpinning={loading}
           testID="unfollow-btn"
@@ -107,9 +107,6 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
 export default SpaceFollow
 
 const styles = StyleSheet.create({
-  actionButtonFollow: {
-    marginLeft: 8,
-  },
   pending: {
     color: colors.fontColorDisabled,
   },

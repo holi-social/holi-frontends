@@ -62,7 +62,7 @@ const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
       </View>
 
       <View style={styles.actionButtons}>
-        <SpaceFollow space={space} />
+        <SpaceFollow space={space} style={{ marginRight: 8 }} />
         <SpaceJoin space={space} />
       </View>
     </View>
