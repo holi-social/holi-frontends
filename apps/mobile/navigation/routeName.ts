@@ -30,6 +30,7 @@ export enum RouteName {
 
   // Volunteering app
   VolunteeringAppHome = 'VolunteeringAppHome',
+  VolunteeringAppEngagmentDetail = 'VolunteeringAppEngagmentDetail',
 
   // separate Stacks
   BottomTabs = 'BottomTabs',

@@ -2,9 +2,15 @@
   "app.name": "Volunteering",
   "engagement.country": "Germany",
   "engagement.title": "{{title}} by {{organization}}",
+  "engagementDetail.aboutEngagement": "About this volunteering",
+  "engagementDetail.getInTouch": "Get in touch",
+  "engagementDetail.organizer": "Organiser",
+  "engagementDetail.provider": "Provider",
+  "engagementDetail.notFound": "Opportunity with ID {{engagementId}} could not be found",
   "filter.heading": "Filter opportunities",
   "listing.error": "Loading opportunities failed",
   "listing.headline": "Interesting opportunities for you",
   "listing.loadMoreButton.loading": "Loading",
-  "listing.loadMoreButton.text": "See more"
+  "listing.loadMoreButton.text": "See more",
+  "listing.loading": "Loading volunteering opportunities..."
 }
