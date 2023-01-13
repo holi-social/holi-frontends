@@ -1,10 +1,17 @@
 import React from 'react'
-import { Trans, useTranslation } from 'react-i18next'
-import { Linking, StyleSheet, View } from 'react-native'
+import /* Trans ,
+useTranslation,*/
+'react-i18next'
+import {
+  /* Linking */
+  StyleSheet,
+  View,
+} from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+// import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliLink from '@holi/ui/components/molecules/HoliLink'
 import { colors } from '@holi/ui/styles/globalVars'
 
 import DonationImage from '@holi-apps/donations/components/DonationImage'
@@ -15,41 +22,86 @@ export type DonationInitiativeButtonProps = {
 }
 
 const DonationInitiativeButton = ({ initiative }: DonationInitiativeButtonProps) => {
-  const { t } = useTranslation()
+  // const { t } = useTranslation()
   const name = initiative.name
   return (
-    <HoliButton
-      label={t('donations:initiative.link.button', { name })}
-      transparent
-      disabled={!initiative.url}
-      onPress={() => initiative.url && Linking.openURL(initiative.url)}
-      testID="donations-project-initiative-btn"
+    // <HoliButton
+    //   label={t('donations:initiative.link.button', { name })}
+    //   transparent
+    //   disabled={!initiative.url}
+    //   onPress={() => initiative.url && Linking.openURL(initiative.url)}
+    //   testID="donations-project-initiative-btn"
+    // >
+    //   <View style={styles.initiative}>
+    //     <View style={styles.initiativeContent}>
+    //       <DonationImage picture={initiative.picture} label={name} style={styles.initiativeImage} />
+    //       <View style={styles.initiativeDetails}>
+    //         <View style={{ flexDirection: 'row' }}>
+    //           <HoliText style={styles.namePrefix} size="small">
+    //             <Trans t={t} i18nKey="donations:initiative.indication" values={{ name }} shouldUnescape={true}>
+    //               <HoliText style={styles.initiativeName} bold size="small" />
+    //             </Trans>
+    //           </HoliText>
+    //         </View>
+    //         <HoliText style={styles.initiativeOrigin} size="small">
+    //           {initiative.city}, {initiative.country}
+    //         </HoliText>
+    //       </View>
+    //     </View>
+    //     <HoliIcon icon="share-box" size={18} style={{ ...(!initiative.url && { display: 'none' }) }} />
+    //   </View>
+    // </HoliButton>
+
+    <HoliLink
+      external
+      href="https://www.aktion-mensch.de/ueber-uns/die-aktion-mensch"
+      label={'userFullName'}
+      mobileNavigateBackFirst
     >
-      <View style={styles.initiative}>
-        <View style={styles.initiativeContent}>
-          <DonationImage picture={initiative.picture} label={name} style={styles.initiativeImage} />
-          <View style={styles.initiativeDetails}>
+      {/* Volunteering Provider / Partner */}
+      <HoliText style={{ marginBottom: 12 }} size="large">
+        Provider
+      </HoliText>
+
+      <View style={styles.provider}>
+        <View style={styles.providerContent}>
+          <DonationImage picture={initiative.picture} label={name} style={styles.providerImage} />
+          <View style={styles.providerDetails}>
             <View style={{ flexDirection: 'row' }}>
-              <HoliText style={styles.namePrefix} size="small">
-                <Trans t={t} i18nKey="donations:initiative.indication" values={{ name }} shouldUnescape={true}>
-                  <HoliText style={styles.initiativeName} bold size="small" />
-                </Trans>
-              </HoliText>
+              <HoliText bold>Aktion Mensch</HoliText>
             </View>
-            <HoliText style={styles.initiativeOrigin} size="small">
-              {initiative.city}, {initiative.country}
-            </HoliText>
           </View>
         </View>
-        <HoliIcon icon="share-box" size={18} style={{ ...(!initiative.url && { display: 'none' }) }} />
+        <HoliIcon icon="share-box" size={18} />
       </View>
-    </HoliButton>
+    </HoliLink>
   )
 }
 
 export default DonationInitiativeButton
 
 const styles = StyleSheet.create({
+  providerImage: {
+    width: 40,
+    height: 40,
+  },
+  providerContent: {
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  provider: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 16,
+  },
+  providerDetails: {
+    justifyContent: 'space-between',
+    marginLeft: 12,
+    alignContent: 'center',
+    minWidth: 229,
+  },
+
   namePrefix: {
     color: colors.fontColorGrey,
     flex: 1,
