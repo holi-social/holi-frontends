@@ -31,12 +31,12 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
   })
 
   if (error) {
-    logError(error, t('goodnews:volunteeringListing.error'))
+    logError(error, t('volunteering:listing.error'))
   }
 
   const { data: engagements = [] } = data?.appVolunteering_engagements || {}
 
-  const articlesToRender = engagements.slice(0, ENGAGEMENT_PAGE_SIZE) // TODO remove
+  const engagementsToRender = engagements.slice(0, ENGAGEMENT_PAGE_SIZE)
 
   const renderItem = ({ item }: { item: VolunteeringEngagement }) => {
     const { organizer } = item
@@ -50,7 +50,6 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
         onPress={() => navigate('/apps/volunteering')} // TODO: add item.id param once volunteering detail view is ready
         title={title}
         imageSource={{ uri: item.imageUrl }}
-        footer={item.location}
       />
     )
   }
@@ -59,11 +58,11 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
     <AppUpdatesList
       appName="volunteering"
       renderItem={renderItem}
-      data={articlesToRender}
+      data={engagementsToRender}
       heading={t('volunteering:app.name')}
       headingIcon="hearts"
       onPressSeeMore={() => navigate('/apps/volunteering/')}
-      labelSeeMore={t('volunteering:volunteeringListing.loadMoreButton.text')}
+      labelSeeMore={t('volunteering:listing.loadMoreButton.text')}
       loading={loading}
       style={style}
     />

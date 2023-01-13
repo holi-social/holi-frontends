@@ -18,7 +18,7 @@ interface AppUpdatesItemProps {
   appName: string
   imageSource: ImageSource[] | ImageURISource
   title: string
-  footer: string | React.ReactNode
+  footer?: string | React.ReactNode
   onPress: (event: React.SyntheticEvent | GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
 }

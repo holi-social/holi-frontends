@@ -80,7 +80,7 @@ const AppUpdatesList: React.VFC<AppUpdatesListProps> = ({
   }
 
   return (
-    <View style={style} testID={testID || 'app-updates-list'}>
+    <View style={style} testID={testID || `${appName}-app-updates-list`}>
       <View style={styles.header} testID={`${appName}-updates-heading`}>
         <View style={styles.iconContainer}>
           <HoliIcon icon={headingIcon} size={20} color={colors.fontColorGrey} />
