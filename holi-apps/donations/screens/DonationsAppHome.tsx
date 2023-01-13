@@ -75,16 +75,9 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
       ),
       headerTransparent: true,
       headerStyle: { backgroundColor: colors.backgroundColorWhite },
-      headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon="arrow-down-s" />),
-      headerRight: ({ tintColor }) =>
-        Platform.OS === 'web' ? (
-          <HoliHorizontalRow>
-            {searchButton}
-            <HeaderBackButton icon="close" tintColor={tintColor} />
-          </HoliHorizontalRow>
-        ) : (
-          <>{searchButton}</>
-        ),
+      headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
+      headerRight: () =>
+        Platform.OS === 'web' ? <HoliHorizontalRow>{searchButton}</HoliHorizontalRow> : <>{searchButton}</>,
     })
   }, [setOptions, navigate, t, title])
 
