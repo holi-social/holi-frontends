@@ -2,6 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import HoliLink from '@holi//ui/components/molecules/HoliLink'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import { Post } from '@holi/core/screens/posts/types'
@@ -21,6 +22,7 @@ export type PostContentProps = {
   collapseContent?: boolean
   minimized?: boolean
   onMediaHeaderPressed?: () => void
+  commentsAvatarPileLink?: string | boolean
   style?: StyleProp<ViewStyle>
 }
 
@@ -30,6 +32,7 @@ const PostContent: React.VFC<PostContentProps> = ({
   minimized,
   collapseContent,
   onMediaHeaderPressed,
+  commentsAvatarPileLink,
   style,
 }) => {
   const { t } = useTranslation()
@@ -37,6 +40,12 @@ const PostContent: React.VFC<PostContentProps> = ({
 
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
+
+  const commentersAvatarPile = (
+    <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
+      {t('insights.post.response', { count: post.numberOfComments })}
+    </HoliUserAvatarPile>
+  )
 
   return (
     <View style={[styles.wrapper, style]}>
@@ -106,9 +115,20 @@ const PostContent: React.VFC<PostContentProps> = ({
 
           {!!post.numberOfComments && (
             <View style={[styles.paddingHorizontal, styles.commentsPile]}>
-              <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
-                {t('insights.post.response', { count: post.numberOfComments })}
-              </HoliUserAvatarPile>
+              {commentsAvatarPileLink ? (
+                <HoliLink
+                  href={
+                    typeof commentsAvatarPileLink === 'string'
+                      ? commentsAvatarPileLink
+                      : `/posts/${post.id}?commentId=first`
+                  }
+                  label={t('insights.posts.comments.link')}
+                >
+                  {commentersAvatarPile}
+                </HoliLink>
+              ) : (
+                <>{commentersAvatarPile}</>
+              )}
             </View>
           )}
         </>

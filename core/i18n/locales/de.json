@@ -100,6 +100,7 @@
   "insights.posts.byAuthor_plural": "{{count}} Beiträge von {{author}}",
   "insights.posts.comments.button": "Posten",
   "insights.posts.comments.create_comment_button": "Kommentieren...",
+  "insights.posts.comments.link": "Zu den Kommentaren des Beitrags gehen",
   "insights.posts.comments.placeholder": "Teile Deine Gedanken...",
   "insights.posts.comments.success": "Kommentar gepostet",
   "insights.posts.comments.title": "Kommentieren",
