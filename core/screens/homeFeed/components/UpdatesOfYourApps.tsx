@@ -7,6 +7,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
 import GoodNewsUpdates from '@holi-apps/goodnews/components/GoodNewsUpdates'
+import VolunteeringUpdates from '@holi-apps/volunteering/components/VolunteeringUpdates'
 
 export type UpdatesOfYourAppsProps = {
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
@@ -21,6 +22,7 @@ const UpdatesOfYourApps: React.VFC<UpdatesOfYourAppsProps> = (props: UpdatesOfYo
       <HoliHeading size="large">{t('apps.updates.headline')}</HoliHeading>
       <DonationUpdates style={styles.updatesContainer} />
       <GoodNewsUpdates style={styles.updatesContainer} />
+      <VolunteeringUpdates style={styles.updatesContainer} />
     </View>
   )
 }
