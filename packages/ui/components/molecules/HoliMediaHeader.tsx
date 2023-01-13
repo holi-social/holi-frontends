@@ -78,6 +78,7 @@ const HoliMediaHeader: React.FC<MediaHeaderProps> = ({
           transparent
           label={title}
           onPress={onPress}
+          disabled={!onPress}
           testID={testID || 'btn-media-header'}
           contentStyle={styles.titlePressable}
         >
