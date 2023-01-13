@@ -45,9 +45,10 @@ const getValidationErrorText = (
 
   // if email or password are missing
   if ('type' in attributes && id === OryErrorCode.EMAIL_OR_PASSWORD_MISSING) {
-    const { type } = attributes
-    const possibleTypes = ['email', 'password']
-    const modifier = possibleTypes.findIndex((value) => value === type)
+    const { name } = attributes as { name: string }
+    // `identifier` is used for email field
+    const possibleNames = ['identifier', 'password']
+    const modifier = possibleNames.findIndex((value) => value === name)
     const messageKeyModifier = `${messageKey}-${modifier}`
 
     return i18n.exists(messageKeyModifier) ? i18n.t(messageKeyModifier) : text
