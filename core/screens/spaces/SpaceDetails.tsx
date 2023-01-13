@@ -40,7 +40,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
       headerStyle: { backgroundColor: 'transparent' },
       headerTitle: () => null,
       headerLeft: () =>
-        Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left-s" /> : <HeaderBackButton icon="arrow-down-s" />,
+        Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left" /> : <HeaderBackButton icon="arrow-down-s" />,
       headerRight: () => <HoliIcon icon="more" />,
       navigationCustomOptions: {
         footerShown: false,

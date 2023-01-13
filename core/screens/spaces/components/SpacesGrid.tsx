@@ -1,12 +1,12 @@
 import React from 'react'
-import { StyleProp, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { Space } from '@holi/core/screens/spaces/types'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
-import { vars } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 type SpacesGridProps = {
   spaces: Space[]
@@ -39,6 +39,7 @@ const SpacesGrid: React.VFC<SpacesGridProps> = ({ spaces, style }: SpacesGridPro
                 href={`/spaces/${space.id}`}
                 size="large"
                 testID="space-link"
+                style={styles.backgroundWhite}
               />
             </HoliGridCell>
           ))
@@ -49,3 +50,9 @@ const SpacesGrid: React.VFC<SpacesGridProps> = ({ spaces, style }: SpacesGridPro
 }
 
 export default SpacesGrid
+
+const styles = StyleSheet.create({
+  backgroundWhite: {
+    backgroundColor: colors.backgroundColor,
+  },
+})

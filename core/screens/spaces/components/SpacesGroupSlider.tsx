@@ -40,8 +40,8 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
     return <></>
   }
 
-  const topicQuery = topic ? 'topicId=' + topic.id : ''
-  const skillQuery = skill ? 'skillId=' + skill.id : ''
+  const topicQuery = topic ? 'topic=' + topic.slug : ''
+  const skillQuery = skill ? 'skill=' + skill.slug : ''
   const locationQuery = location ? 'location=' + location : ''
 
   const seeMoreQueryParams = [topicQuery, skillQuery, locationQuery].filter((query) => !!query).join('&')
@@ -55,7 +55,7 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
             label={topic.title}
             filterType="topic"
             style={styles.pill}
-            onPress={() => navigate(`/spaces/filter?topicId=${topic.id}`)}
+            onPress={() => navigate(`/spaces/filter?topic=${topic.slug}`)}
           />
         )}
         {location && (
@@ -73,7 +73,7 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
             label={skill.title}
             filterType="skill"
             style={styles.pill}
-            onPress={() => navigate(`/spaces/filter?skillId=${skill.id}`)}
+            onPress={() => navigate(`/spaces/filter?skill=${skill.slug}`)}
           />
         )}
       </View>
@@ -81,14 +81,14 @@ const SpacesGroupSlider: React.VFC<SpacesGroupSliderProps> = ({
         testID="spaces-group-slider"
         slideGap={8}
         seeMoreButton={
-          hasMore && (
+          hasMore ? (
             <SpacesSeeMore
               style={styles.seeMoreCard}
               imageHeight={imageHeight}
               onPress={() => navigate(`/spaces/filter?${seeMoreQueryParams}`)}
               testID={`${testID}-see-more`}
             />
-          )
+          ) : undefined
         }
       >
         {

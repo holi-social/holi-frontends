@@ -28,7 +28,6 @@ test.describe('@Spaces', () => {
     await checkAccessibility(page)
   })
 
-
   test('should open the spaces filter menu and filter spaces with multiple filters', async ({ page }) => {
     await clickElementByTestId(page, 'btn-filter-spaces')
 

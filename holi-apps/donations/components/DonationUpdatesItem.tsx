@@ -31,7 +31,7 @@ const DonationUpdatesItem: React.VFC<DonationUpdatesItemProps> = ({ project, sty
     >
       <DonationImage picture={picture} label={title} sizes="180px" style={styles.mainImage} />
 
-      <HoliText size="small" numberOfLines={2} selectable style={{ marginTop: 16 }}>
+      <HoliText size="small" bold numberOfLines={2} selectable style={{ marginTop: 16 }}>
         {title}
       </HoliText>
       <DonationProgress

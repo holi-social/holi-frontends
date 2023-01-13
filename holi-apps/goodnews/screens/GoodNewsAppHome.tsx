@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, View } from 'react-native'
+import { View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useScrollYHandler } from '@holi/core/helpers'
@@ -24,9 +24,7 @@ const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
     () =>
       setOptions({
         headerTitle: ({ tintColor }) => <GoodNewsHeader tintColor={tintColor} />,
-        headerLeft: ({ tintColor }) => (
-          <HeaderBackButton icon={Platform.OS === 'web' ? 'arrow-left-s' : 'arrow-down-s'} tintColor={tintColor} />
-        ),
+        headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
         headerTransparent: true,
         headerStyle: { backgroundColor: 'transparent' },
         headerTintColor: colors.fontColorWhite,

@@ -1,12 +1,12 @@
 import React, { memo } from 'react'
-import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { FlatList, Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type SpacesHorizontalSliderProps = {
   style?: StyleProp<ViewStyle>
-  seeMoreButton?: React.ReactNode
+  seeMoreButton?: React.ReactElement
   isLoading?: boolean
   testID?: string
   children?: React.ReactNode[]
@@ -24,25 +24,30 @@ const SpacesHorizontalSlider: React.VFC<SpacesHorizontalSliderProps> = ({
   const { width: screenWidth } = useWindowDimensions()
   const styles = getStyles(screenWidth)
 
+  const renderItem = ({ item, index }: { item: React.ReactNode; index: number }) => {
+    return (
+      <View key={index} style={[{ marginRight: slideGap }, styles.cardContainer]}>
+        {item}
+      </View>
+    )
+  }
+
   return (
     <View style={style} testID={testID}>
-      <ScrollView style={styles.scrollViewContainer} horizontal>
-        {
-          /** FIXME convert to VirtualizedList, FlatList or SectionList */
-          children &&
-            children.map((child, index) => (
-              <View key={index} style={[{ marginRight: slideGap }, styles.cardContainer]}>
-                {child}
-              </View>
-            ))
-        }
-        {isLoading && (
-          <View style={[styles.loadingContainer, styles.cardContainer]}>
-            <HoliIcon icon="loader-4" size={50} color={colors.fontColorGrey} spinning />
-          </View>
-        )}
-        {seeMoreButton}
-      </ScrollView>
+      {children && !isLoading && (
+        <FlatList
+          style={styles.scrollViewContainer}
+          horizontal
+          data={children || []}
+          renderItem={renderItem}
+          ListFooterComponent={seeMoreButton}
+        />
+      )}
+      {isLoading && (
+        <View style={[styles.loadingContainer, styles.cardContainer]}>
+          <HoliIcon icon="loader-4" size={50} color={colors.fontColorGrey} spinning />
+        </View>
+      )}
     </View>
   )
 }

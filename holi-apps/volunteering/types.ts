@@ -1,16 +1,18 @@
-// TODO nullability of fields is based on assumptions, double check once real API implementation is available
+export type Organizer = {
+  name?: string
+  imageUrl?: string
+}
+
 export type VolunteeringEngagement = {
-  id: number
+  id: string
   title: string
   description: string
-  link: string
-  image: string | undefined
+  url: string
   source: string
-  uses: string[]
-  hashTags: string[]
-  orga: string
-  imageOrga: string | undefined
-  location: string | undefined
-  latitude: number | undefined
-  longitude: number | undefined
+  categories: string[]
+  imageUrl?: string
+  organizer?: Organizer
+  location?: string
+  latitude?: number | null
+  longitude?: number | null
 }
