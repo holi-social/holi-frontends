@@ -27,13 +27,13 @@ const SpacesHorizontalSlider: React.VFC<SpacesHorizontalSliderProps> = ({
   return (
     <View style={style} testID={testID}>
       {children && !isLoading && (
-        <ScrollView horizontal style={styles.scrollViewContainer}>
+        <ScrollView horizontal contentContainerStyle={styles.scrollViewContainer}>
           {children?.map((space, index) => (
             <View key={index} style={[{ marginRight: slideGap }, styles.cardContainer]}>
               {space}
             </View>
           ))}
-          {seeMoreButton}
+          {seeMoreButton && <View style={{ marginRight: slideGap }}>{seeMoreButton}</View>}
         </ScrollView>
       )}
       {isLoading && (
@@ -55,6 +55,7 @@ const getStyles = (screenWidth: number) =>
       paddingVertical: 13,
       marginHorizontal: -20,
       paddingLeft: 20,
+      paddingRight: 0,
     },
     loadingContainer: {
       height: 160,
