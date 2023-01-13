@@ -2,6 +2,7 @@
   "app.name": "Volunteering",
   "engagement.title": "{{title}} by {{organization}}",
   "filter.heading": "Filter opportunities",
+  "listing.error": "Loading opportunities failed",
   "listing.headline": "Interesting opportunities for you",
   "listing.loadMoreButton.loading": "Loading",
   "listing.loadMoreButton.text": "See more"
