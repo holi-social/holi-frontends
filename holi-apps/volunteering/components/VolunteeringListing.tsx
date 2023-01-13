@@ -60,7 +60,6 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
     return <></>
   }
 
-  // TODO: To be implemented once volunteering opportunity detail view is created
   const handleCardPress = (engagement: VolunteeringEngagement) => {
     navigate(`/apps/volunteering/engagement/${engagement.id}`)
   }

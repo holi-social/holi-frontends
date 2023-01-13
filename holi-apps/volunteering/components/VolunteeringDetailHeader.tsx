@@ -7,35 +7,30 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
 import LocationContainer from '@holi-apps/volunteering/components/LocationContainer'
+import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 
-type VolunteeringDetailImageContainerProps = {
-  imageUrl: string
-  category: string
-  title: string
-  location?: string
+type VolunteeringDetailHeaderProps = {
+  engagement: VolunteeringEngagement
 }
 
-const VolunteeringDetailImageContainer: React.VFC<VolunteeringDetailImageContainerProps> = ({
-  imageUrl,
-  category,
-  title,
-  location,
-}: VolunteeringDetailImageContainerProps) => {
+const VolunteeringDetailHeader: React.VFC<VolunteeringDetailHeaderProps> = ({
+  engagement,
+}: VolunteeringDetailHeaderProps) => {
   return (
     <View style={styles.container}>
-      <HoliImage source={{ uri: imageUrl }} label={title} style={styles.image} />
+      <HoliImage source={{ uri: engagement.imageUrl }} label={engagement.title} style={styles.image} />
       <View style={styles.detailContainer}>
         <HoliText size={'small'} style={styles.categoryText}>
-          {category}
+          {engagement.categories[0]}
         </HoliText>
         <HoliHeading level="1" size={'large'} style={{ fontWeight: '400' }}>
-          {title}
+          {engagement.title}
         </HoliHeading>
-        {location && (
+        {engagement.location && (
           <LocationContainer
-            locationName={location}
-            iconColor={colors.backgroundColorModalDark}
-            fontColor={colors.backgroundColorModalDark}
+            locationName={engagement.location}
+            iconColor={colors.fontColorBlack}
+            fontColor={colors.fontColorBlack}
           />
         )}
       </View>
@@ -43,7 +38,7 @@ const VolunteeringDetailImageContainer: React.VFC<VolunteeringDetailImageContain
   )
 }
 
-export default VolunteeringDetailImageContainer
+export default VolunteeringDetailHeader
 
 const styles = StyleSheet.create({
   container: {

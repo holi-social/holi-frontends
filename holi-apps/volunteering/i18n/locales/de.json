@@ -2,16 +2,15 @@
   "app.name": "Engagement",
   "engagement.country": "Deutschland",
   "engagement.title": "{{title}} bei {{organization}}",
+  "engagementDetail.aboutEngagement": "Über dieses Engagement",
+  "engagementDetail.getInTouch": "Kontakt aufnehmen",
+  "engagementDetail.organizer": "Organisator",
+  "engagementDetail.provider": "Träger",
+  "engagementDetail.notFound": "Projekt mit ID {{engagementId}} wurde nicht gefunden",
   "filter.heading": "Projekte filtern",
   "listing.error": "Laden von Projekten ist fehlgeschlagen",
   "listing.headline": "Interessante Freiwilligenarbeit für dich",
-  "volunteering.organization": "{{title}} bei {{organization}}",
-  "engagementDetail.aboutEngagement": "Über dieses Engagement",
-  "engagementDetail.provider": "Träger",
-  "engagementDetail.organiser": "Organisator",
-  "engagementDetail.getInTouch": "Kontakt aufnehmen",
-  "volunteeringListing.error": "Laden von Angeboten für Freiwilligenarbeit fehlgeschlagen",
-  "volunteeringListing.loading": "Laden von Freiwilligenangeboten...",
   "listing.loadMoreButton.loading": "Lädt",
-  "listing.loadMoreButton.text": "Weitere Projekte"
+  "listing.loadMoreButton.text": "Weitere Projekte",
+  "listing.loading": "Lädt Freiwilligenangebote..."
 }

@@ -20,7 +20,7 @@ import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import VolunteeringDetailImageContainer from '@holi-apps/volunteering/components/VolunteeringDetailImageContainer'
+import VolunteeringDetailHeader from '@holi-apps/volunteering/components/VolunteeringDetailHeader'
 import { AppVolunteeringEngagementByIdResponse, engagementByIdQuery } from '@holi-apps/volunteering/queries'
 import { Organizer } from '@holi-apps/volunteering/types'
 
@@ -32,6 +32,8 @@ const { useParam } = createParam<VolunteeringEngagementDetailParams>()
 type VolunteeringEngagementDetailProps = NativeStackScreenProps<BottomTabsScreens>
 type AboutVolunteeringProps = { description: string; organizer?: Organizer }
 
+const AKTION_MENSCH_URL = 'https://www.aktion-mensch.de/ueber-uns/die-aktion-mensch'
+
 const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps> = () => {
   const [engagementId] = useParam('engagementId')
   const { t } = useTranslation()
@@ -39,7 +41,6 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
   const onScreenScroll = useScrollYHandler()
   useLayoutEffect(() => setOptions({ title: t('volunteering:app.name') }), [setOptions, t])
   const mixins = useStyleMixins()
-  const aktionMenschUrl = 'https://www.aktion-mensch.de/ueber-uns/die-aktion-mensch'
 
   const [fetchEngagementById, { loading, data, error }] =
     useLazyQuery<AppVolunteeringEngagementByIdResponse>(engagementByIdQuery)
@@ -60,16 +61,20 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
   if (!engagementId || loading) {
     return (
       <View style={[mixins.container, styles.messageContainer]}>
-        <HoliText>{t('volunteering:volunteeringListing.loading')}</HoliText>
+        <HoliText>{t('volunteering:listing.loading')}</HoliText>
       </View>
     )
   }
   if (error) {
-    displayError(error, t('volunteering:volunteeringListing.error'))
+    displayError(error, t('volunteering:listing.error'))
+  }
+
+  if (!engagement) {
+    return <HoliText>{t('volunteering:engagementDetail.notFound', { engagementId })}</HoliText>
   }
 
   const openExternalLink = () => {
-    engagement && Linking.openURL(engagement.url)
+    Linking.openURL(engagement.url)
   }
 
   const ProviderContainer = ({ source, url }: { source: string; url: string }) => {
@@ -96,15 +101,15 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
     )
   }
 
-  const Organiser = ({ organiser }: { organiser: Organizer }) => {
+  const Organizer = ({ organizer: organizer }: { organizer: Organizer }) => {
     return (
       <View style={{ marginTop: 10 }}>
-        <HoliText size={'large'}>{t('volunteering:engagementDetail.organiser')}</HoliText>
-        <View style={styles.organiserInfoRow}>
-          {(organiser.imageUrl && organiser.imageUrl.length > 0 && (
-            <HoliImage source={{ uri: organiser.imageUrl }} style={styles.organiserLogo} label={organiser.name ?? ''} />
+        <HoliText size={'large'}>{t('volunteering:engagementDetail.organizer')}</HoliText>
+        <View style={styles.organizerInfoRow}>
+          {(organizer.imageUrl && (
+            <HoliImage source={{ uri: organizer.imageUrl }} style={styles.organizerLogo} label={organizer.name ?? ''} />
           )) || <></>}
-          <HoliText>{organiser.name}</HoliText>
+          <HoliText>{organizer.name}</HoliText>
         </View>
       </View>
     )
@@ -115,7 +120,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
       <View style={styles.cardContainer}>
         <HoliText size={'large'}>{t('volunteering:engagementDetail.aboutEngagement')}</HoliText>
         <RenderHtml source={{ html: `${description}` }} contentWidth={deviceWidth} />
-        {organizer && <Organiser organiser={organizer} />}
+        {organizer && <Organizer organizer={organizer} />}
       </View>
     )
   }
@@ -129,14 +134,11 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
       >
         {engagement && (
           <View style={[mixins.container, styles.wrapper, { minHeight: deviceHeight }]}>
-            <VolunteeringDetailImageContainer
-              imageUrl={engagement.imageUrl ?? ''}
-              category={engagement.categories[0]}
-              title={engagement.title}
-              location={engagement.location ?? undefined}
-            />
+            <VolunteeringDetailHeader engagement={engagement} />
             <AboutVolunteering description={engagement.description} organizer={engagement.organizer} />
-            <ProviderContainer source={engagement.source} url={aktionMenschUrl} />
+            {engagement.source === 'Aktion Mensch' && (
+              <ProviderContainer source={engagement.source} url={AKTION_MENSCH_URL} />
+            )}
           </View>
         )}
       </DefaultLayout>
@@ -145,7 +147,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
           icon="share-box"
           label={t('volunteering:engagementDetail.getInTouch')}
           onPress={() => openExternalLink()}
-          testID="donations-project-detail-donate-btn"
+          testID="volunteering-engagement-get-in-touch-btn"
         />
       </View>
     </View>
@@ -180,14 +182,14 @@ const styles = StyleSheet.create({
     padding: 24,
     marginTop: 2,
   },
-  organiserInfoRow: {
+  organizerInfoRow: {
     display: 'flex',
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 16,
   },
-  organiserLogo: {
+  organizerLogo: {
     width: 40,
     height: 40,
     borderRadius: 20,
