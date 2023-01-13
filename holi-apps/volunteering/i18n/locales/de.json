@@ -3,6 +3,7 @@
   "engagement.country": "Deutschland",
   "engagement.title": "{{title}} bei {{organization}}",
   "filter.heading": "Projekte filtern",
+  "listing.error": "Laden von Projekten ist fehlgeschlagen",
   "listing.headline": "Interessante Freiwilligenarbeit für dich",
   "listing.loadMoreButton.loading": "Lädt",
   "listing.loadMoreButton.text": "Weitere Projekte"

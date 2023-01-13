@@ -46,11 +46,10 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
       },
     }
   )
-  const articles = data?.appGoodNews_articles.articles
-  const previousDateTeaser = data?.appGoodNews_articles.previousDateTeaser
+  const { articles = [], previousDateTeaser } = data?.appGoodNews_articles || {}
 
   const oldestDate: string | undefined = useMemo(() => {
-    return articles ? articles[articles.length - 1].date : undefined
+    return articles.length ? articles[articles.length - 1].date : undefined
   }, [articles])
 
   const memoizedFetchMore = useCallback(() => {
@@ -67,9 +66,10 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
 
   useEffect(() => {
     setOptions({
-      headerTitle: ({ tintColor }) => (
-        <GoodNewsHeader tintColor={tintColor} article={articles && articles[activeArticleIndex]} />
-      ),
+      headerTitle: ({ tintColor }) => {
+        const activeArticle = articles.length > activeArticleIndex ? articles[activeArticleIndex] : undefined
+        return <GoodNewsHeader tintColor={tintColor} article={activeArticle} />
+      },
       headerTransparent: true,
       headerStyle: { backgroundColor: 'transparent' },
       headerTintColor: colors.fontColorWhite,
@@ -83,8 +83,8 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
 
   useEffect(() => {
     if (paramArticleId) {
-      const index = articles?.findIndex((article) => article.id === paramArticleId)
-      if (index !== undefined && index >= 0) {
+      const index = articles?.findIndex((article) => article.id === paramArticleId) || -1
+      if (index >= 0) {
         setActiveArticleIndex(index)
       }
     }
