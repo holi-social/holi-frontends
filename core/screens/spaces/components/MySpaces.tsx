@@ -30,8 +30,8 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
   return (
     <View style={[styles.mySpaces, style]}>
       {mappedSpaces.map((section, sectionIndex) => (
-        <View key={`${sectionIndex}`}>
-          <HoliHeading level="3" size="small" style={styles.sectionHeader} testID={`section-headline-${section.type}`}>
+        <View key={`${sectionIndex}`} style={styles.section}>
+          <HoliHeading level="3" size="small" testID={`section-headline-${section.type}`}>
             {section.title}
           </HoliHeading>
 
@@ -75,6 +75,9 @@ const styles = StyleSheet.create({
   mySpaces: {
     flex: 1,
   },
+  section: {
+    marginTop: 24,
+  },
   spaceItemContainer: {
     flexDirection: 'row',
     marginTop: 16,
@@ -89,8 +92,5 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundColor,
     padding: 6,
     borderRadius: 8,
-  },
-  sectionHeader: {
-    marginTop: 24,
   },
 })
