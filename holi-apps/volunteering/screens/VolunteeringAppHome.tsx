@@ -45,7 +45,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
       ),
       headerTransparent: true,
       headerStyle: { backgroundColor: colors.backgroundColorWhite },
-      headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon="arrow-down-s" />),
+      headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
       headerRight: ({ tintColor }) =>
         Platform.OS === 'web' ? (
           <HoliHorizontalRow>
