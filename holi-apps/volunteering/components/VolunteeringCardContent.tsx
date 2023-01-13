@@ -20,7 +20,7 @@ const VolunteeringCardContent: React.VFC<VolunteeringCardContentProps> = (props)
   const category = engagement.categories[0] // use just the first category for now due to design specification
   const { organizer } = engagement
   const title = organizer?.name
-    ? t('volunteering:volunteering.organization', { title: engagement.title, organization: organizer?.name })
+    ? t('volunteering:engagement.title', { title: engagement.title, organization: organizer?.name })
     : engagement.title
 
   return (

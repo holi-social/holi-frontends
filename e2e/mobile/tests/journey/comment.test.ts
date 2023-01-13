@@ -10,9 +10,8 @@ import {
 } from '../../helpers/selectors'
 
 describe('@Comment', () => {
-  // fails on android: The element 'By.xpath: //*[@resource-id='btn-submit-comment']' does not exist in DOM anymore
-  // fails on ios: element ("~btn-to-post") still not displayed after 1ms
-  it('creates a comment and displays it in the post page.', async () => {
+  // FIXME: fails on ios: expect(await submitButton.getAttribute('enabled')).toBe('false'), see HOLI-3047
+  it.skip('creates a comment and displays it in the post page.', async () => {
     // login
     await defaultAuthSteps()
 

@@ -103,8 +103,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
         <View style={styles.organiserInfoRow}>
           {(organiser.imageUrl && organiser.imageUrl.length > 0 && (
             <HoliImage source={{ uri: organiser.imageUrl }} style={styles.organiserLogo} label={organiser.name ?? ''} />
-          )) ||
-            undefined}
+          )) || <></>}
           <HoliText>{organiser.name}</HoliText>
         </View>
       </View>

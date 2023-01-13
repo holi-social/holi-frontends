@@ -158,7 +158,6 @@ const getStyles = (
   StyleSheet.create({
     container: {
       justifyContent: 'center',
-      alignItems: 'center',
       alignContent: 'center',
     },
     scrollViewContainerStyle: {
@@ -171,7 +170,6 @@ const getStyles = (
       width: '100%',
       flexDirection: 'row',
       scrollSnapType: screenWidth < horizontalScrollMinWidth ? 'x mandatory' : 'none',
-      justifyContent: 'center',
     },
     slideContainer: {
       flexDirection: 'row',

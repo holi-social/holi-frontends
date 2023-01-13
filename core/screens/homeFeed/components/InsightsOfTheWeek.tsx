@@ -13,6 +13,7 @@ import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type InsightsOfTheWeekProps = {
@@ -28,7 +29,6 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
   const numberOfInsights = 4
   const { loading, error, data, fetchMore } = useQuery<LastInsightsResponse>(lastInsightsQuery, {
     variables: { limit: numberOfInsights },
-    // fetchPolicy: 'cache-and-network',
   })
   const [isFetchingMore, setIsFetchingMore] = useState(false)
   const fetchingMoreButtonText = isFetchingMore
@@ -64,6 +64,10 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
       {/* Headline */}
       <HoliHeading level="1" size="large" testID="home-feed-insights-heading">
         {t('homeFeed.heading')}
+      </HoliHeading>
+
+      <HoliHeading level="3" size="small" style={styles.insightsSubtitle} testID="home-feed-insights-subtitle">
+        {t('homeFeed.insights.subtitle')}
       </HoliHeading>
 
       {/* Curators with popup */}
@@ -118,6 +122,11 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
 export default InsightsOfTheWeek
 
 const styles = StyleSheet.create({
+  insightsSubtitle: {
+    marginTop: 8,
+    fontWeight: '400',
+    color: colors.fontColorGrey,
+  },
   editorsButton: {
     marginTop: 8,
   },

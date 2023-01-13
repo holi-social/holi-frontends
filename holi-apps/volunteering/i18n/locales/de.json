@@ -1,5 +1,7 @@
 {
   "app.name": "Engagement",
+  "engagement.title": "{{title}} bei {{organization}}",
+  "filter.heading": "Projekte filtern",
   "listing.headline": "Interessante Freiwilligenarbeit für dich",
   "volunteering.organization": "{{title}} bei {{organization}}",
   "engagementDetail.aboutEngagement": "Über dieses Engagement",
@@ -7,5 +9,7 @@
   "engagementDetail.organiser": "Organisator",
   "engagementDetail.getInTouch": "Kontakt aufnehmen",
   "volunteeringListing.error": "Laden von Angeboten für Freiwilligenarbeit fehlgeschlagen",
-  "volunteeringListing.loading": "Laden von Freiwilligenangeboten..."
+  "volunteeringListing.loading": "Laden von Freiwilligenangeboten...",
+  "listing.loadMoreButton.loading": "Lädt",
+  "listing.loadMoreButton.text": "Weitere Projekte"
 }

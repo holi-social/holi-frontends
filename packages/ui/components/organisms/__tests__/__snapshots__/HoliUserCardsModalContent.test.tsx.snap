@@ -51,7 +51,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           Array [
             Object {
               "alignContent": "center",
-              "alignItems": "center",
               "justifyContent": "center",
             },
             undefined,
@@ -111,8 +110,14 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     Object {
                       "color": "#6267e7",
                     },
-                    undefined,
-                    undefined,
+                    Object {
+                      "display": "flex",
+                      "flex": 1,
+                    },
+                    Object {
+                      "display": "flex",
+                      "flex": 1,
+                    },
                   ]
                 }
                 testID="text-link"
@@ -268,8 +273,14 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     Object {
                       "color": "#6267e7",
                     },
-                    undefined,
-                    undefined,
+                    Object {
+                      "display": "flex",
+                      "flex": 1,
+                    },
+                    Object {
+                      "display": "flex",
+                      "flex": 1,
+                    },
                   ]
                 }
                 testID="text-link"
@@ -438,8 +449,14 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     Object {
                       "color": "#6267e7",
                     },
-                    undefined,
-                    undefined,
+                    Object {
+                      "display": "flex",
+                      "flex": 1,
+                    },
+                    Object {
+                      "display": "flex",
+                      "flex": 1,
+                    },
                   ]
                 }
                 testID="text-link"
@@ -595,8 +612,14 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     Object {
                       "color": "#6267e7",
                     },
-                    undefined,
-                    undefined,
+                    Object {
+                      "display": "flex",
+                      "flex": 1,
+                    },
+                    Object {
+                      "display": "flex",
+                      "flex": 1,
+                    },
                   ]
                 }
                 testID="text-link"
@@ -765,8 +788,14 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     Object {
                       "color": "#6267e7",
                     },
-                    undefined,
-                    undefined,
+                    Object {
+                      "display": "flex",
+                      "flex": 1,
+                    },
+                    Object {
+                      "display": "flex",
+                      "flex": 1,
+                    },
                   ]
                 }
                 testID="text-link"
@@ -922,8 +951,14 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     Object {
                       "color": "#6267e7",
                     },
-                    undefined,
-                    undefined,
+                    Object {
+                      "display": "flex",
+                      "flex": 1,
+                    },
+                    Object {
+                      "display": "flex",
+                      "flex": 1,
+                    },
                   ]
                 }
                 testID="text-link"
@@ -1094,8 +1129,14 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     Object {
                       "color": "#6267e7",
                     },
-                    undefined,
-                    undefined,
+                    Object {
+                      "display": "flex",
+                      "flex": 1,
+                    },
+                    Object {
+                      "display": "flex",
+                      "flex": 1,
+                    },
                   ]
                 }
                 testID="text-link"

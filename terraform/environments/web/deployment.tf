@@ -52,6 +52,11 @@ resource "google_cloud_run_service" "mvp_web" {
           name  = "NEXT_PUBLIC_ENVIRONMENT_ID"
           value = local.environment
         }
+        env {
+          name  = "KRATOS_BASE_URL"
+          value = local.environment == "production" ? "https://auth.project-holi.org" : "https://dev-auth.project-holi.org"
+
+        }
 
         resources {
           limits = {

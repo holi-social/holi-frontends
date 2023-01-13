@@ -107,7 +107,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
         {/* Insight content */}
         <View style={[mixins.container, styles.insightView]}>
           <HoliHeading size="xSmall" style={styles.categoryHeadline} testID="insight-category">
-            {insight?.topic.title}
+            {insight?.topic?.title}
           </HoliHeading>
 
           <HoliHeading level="1" size="super" style={styles.insightHeadline} testID="insight-headline">
@@ -168,6 +168,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
                     <PostContent
                       post={post}
                       collapseContent
+                      commentsAvatarPileLink
                       onMediaHeaderPressed={() => navigate(`/insights/${insightId}/posts/${post.id}`)}
                       style={styles.postItem}
                     />

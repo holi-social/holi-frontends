@@ -7,6 +7,7 @@ import Carousel from 'react-native-reanimated-carousel'
 
 import { logError } from '@holi/core/errors/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -27,6 +28,10 @@ type CarouselItem = {
   type: 'article' | 'teaser'
   article: GoodNewsArticle
 }
+export type GoodNewsArticleParams = {
+  articleId?: string
+}
+const { useParam } = createParam<GoodNewsArticleParams>()
 
 /** This is a temporary component and should be replaced by a carousel-style component later */
 const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
@@ -58,6 +63,8 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
 
   const [activeArticleIndex, setActiveArticleIndex] = useState<number>(0)
 
+  const [paramArticleId] = useParam('articleId', singleParamConfig)
+
   useEffect(() => {
     setOptions({
       headerTitle: ({ tintColor }) => (
@@ -73,6 +80,15 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
       headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
     })
   }, [setOptions, articles, activeArticleIndex])
+
+  useEffect(() => {
+    if (paramArticleId) {
+      const index = articles?.findIndex((article) => article.id === paramArticleId)
+      if (index !== undefined && index >= 0) {
+        setActiveArticleIndex(index)
+      }
+    }
+  }, [articles, paramArticleId, setActiveArticleIndex])
 
   const renderItem = useCallback(
     ({ item, index }) => {
@@ -109,7 +125,6 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
     console.error('[GoodNewsCarousel.tsx] articles array is empty')
     return <></>
   }
-
   const carouselItems: CarouselItem[] = articles
     .map((article) => ({ type: 'article', article: article } as CarouselItem))
     .concat(previousDateTeaser ? [{ type: 'teaser', article: previousDateTeaser }] : [])
@@ -122,6 +137,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
         style={styles.carousel}
         loop={false}
         data={carouselItems}
+        defaultIndex={activeArticleIndex}
         renderItem={renderItem}
         onSnapToItem={setActiveArticleIndex}
         scrollAnimationDuration={250}

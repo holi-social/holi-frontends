@@ -5,6 +5,7 @@
   variables:
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
     HOLI_API_URL: https://staging.unified.apis.project-holi.org/graphql
+    KRATOS_BASE_URL: https://dev-auth.project-holi.org
   dependencies: [] # explicitly disable artifact usage
   script:
     - cd apps/mobile
@@ -224,6 +225,7 @@ mobile_production_publish:
   variables:
     ENVIRONMENT_ID: production
     HOLI_API_URL: https://production.unified.apis.project-holi.org/graphql
+    KRATOS_BASE_URL: https://auth.project-holi.org
   only:
     - main
 

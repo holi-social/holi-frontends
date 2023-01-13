@@ -1,5 +1,7 @@
 {
   "app.name": "Volunteering",
+  "engagement.title": "{{title}} by {{organization}}",
+  "filter.heading": "Filter opportunities",
   "listing.headline": "Interesting opportunities for you",
   "volunteering.organization": "{{title}} by {{organization}}",
   "engagementDetail.aboutEngagement": "About this volunteering",
@@ -7,5 +9,7 @@
   "engagementDetail.organiser": "Organiser",
   "engagementDetail.getInTouch": "Get in touch",
   "volunteeringListing.error": "Loading volunteering opportunities failed",
-  "volunteeringListing.loading": "Loading volunteering opportunities..."
+  "volunteeringListing.loading": "Loading volunteering opportunities...",
+  "listing.loadMoreButton.loading": "Loading",
+  "listing.loadMoreButton.text": "See more"
 }

@@ -49,7 +49,7 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
         offset: projects.length,
       },
     }).finally(() => setFetchingMore(false))
-  }, [fetchMore, projects.length])
+  }, [fetchMore, projects.length, setFetchingMore])
 
   const fetchMoreButtonText = fetchingMore
     ? t('donations:donationListing.loadMoreButton.loading')
