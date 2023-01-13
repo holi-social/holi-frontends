@@ -43,3 +43,9 @@ Sentry.init({
 // It also ensures that whether you load the app in Expo Go or in a native build,
 // the environment is set up appropriately
 registerRootComponent(App)
+
+// eslint-disable-next-line no-undef
+if (__DEV__) {
+  // eslint-disable-next-line no-console
+  import('./ReactotronConfig.js').then(() => console.info('Reactotron Configured'))
+}
