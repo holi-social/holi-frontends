@@ -1,5 +1,11 @@
 {
   "app.name": "Engagement",
   "listing.headline": "Interessante Freiwilligenarbeit für dich",
-  "volunteering.organization": "{{title}} bei {{organization}}"
+  "volunteering.organization": "{{title}} bei {{organization}}",
+  "engagementDetail.aboutEngagement": "Über dieses Engagement",
+  "engagementDetail.provider": "Träger",
+  "engagementDetail.organiser": "Organisator",
+  "engagementDetail.getInTouch": "Kontakt aufnehmen",
+  "volunteeringListing.error": "Laden von Angeboten für Freiwilligenarbeit fehlgeschlagen",
+  "volunteeringListing.loading": "Laden von Freiwilligenangeboten..."
 }

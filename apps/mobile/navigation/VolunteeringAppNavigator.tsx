@@ -11,6 +11,7 @@ import VolunteeringEngagementDetail from '@holi-apps/volunteering/screens/Volunt
 
 export type VolunteeringAppScreensList = {
   [RouteName.VolunteeringAppHome]: undefined
+  [RouteName.VolunteeringAppEngagmentDetail]: undefined
 }
 
 const VolunteeringAppStack = createNativeStackNavigator<VolunteeringAppScreensList>()

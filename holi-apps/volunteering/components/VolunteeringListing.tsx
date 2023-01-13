@@ -26,8 +26,6 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
       limit: 10,
     },
   })
-  console.log('data --->', data)
-
   const engagements = data?.appVolunteering_engagements?.data || []
 
   if (error) {
@@ -41,8 +39,6 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
 
   // TODO: To be implemented once volunteering opportunity detail view is created
   const handleCardPress = (engagement: VolunteeringEngagement) => {
-    console.log(engagement)
-    console.log('engagement ', engagement)
     navigate(`/apps/volunteering/engagement/${engagement.id}`)
   }
 
