@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
-import React, { useCallback, useContext, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useContext, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -35,6 +35,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
   const [activeTab, setActiveTab] = useState(0)
   const { openToast } = useToast()
   const { user } = useContext(UserContext)
+  const pageViewRef = useRef<ScrollView>(null)
 
   let hasOwnSpaces = false
   const {
@@ -62,6 +63,11 @@ const Spaces: React.VFC<ScreenProps> = () => {
       headerRight: (props) => <NotificationSearchButtons {...props} />,
     })
   }, [setOptions, navigate, t])
+
+  const onChangeTab = (tabIndex: number) => {
+    setActiveTab(tabIndex)
+    pageViewRef.current?.scrollTo({ x: 0, y: 0, animated: true })
+  }
 
   const applyFilters = useCallback(
     (filters: SpaceFilter) => {
@@ -106,7 +112,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
 
   return (
     <SpaceTermContextProvider>
-      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.layout}>
+      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} ref={pageViewRef} style={styles.layout}>
         {/* User has NO spaces => show discover view */}
         {!hasOwnSpaces && (
           <View style={[mixins.container, styles.discoverSpacesContainer]}>
@@ -118,7 +124,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
         {hasOwnSpaces && (
           <HoliTabs
             id="space-tabs"
-            onChangeTab={setActiveTab}
+            onChangeTab={onChangeTab}
             style={styles.holiTabs}
             tabs={[
               {
