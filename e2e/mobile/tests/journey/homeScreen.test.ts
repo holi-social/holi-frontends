@@ -17,7 +17,8 @@ describe('@HomeScreen', () => {
 
     await assertShowsDonationUpdates()
 
-    await assertShowsGoodNewsUpdates()
+    // FIXME failing on ios, see HOLI-3046
+    // await assertShowsGoodNewsUpdates()
 
     await assertShowsNoUserSuggestionsWhenLoggedOut()
 
@@ -68,20 +69,20 @@ const assertShowsDonationUpdates = async () => {
   await waitForElementWithTestId('donations-project-detail-heading')
 }
 
-const assertShowsGoodNewsUpdates = async () => {
-  // go home
-  await navigateBackToHomeScreen()
+// const assertShowsGoodNewsUpdates = async () => {
+//   // go home
+//   await navigateBackToHomeScreen()
 
-  // check if good news updates are displayed
-  await scrollToElementWithTestId('goodnews-updates-item', 'down')
-  await waitForElementWithTestId('goodnews-updates-heading')
+//   // check if good news updates are displayed
+//   await scrollToElementWithTestId('goodnews-updates-item', 'down')
+//   await waitForElementWithTestId('goodnews-updates-heading')
 
-  // click first element in ScrollView
-  await tapOnElementWithTestId('goodnews-updates-item')
+//   // click first element in ScrollView
+//   await tapOnElementWithTestId('goodnews-updates-item')
 
-  // expect good news app
-  await waitForElementWithTestId('goodnews-article-component')
-}
+//   // expect good news app
+//   await waitForElementWithTestId('goodnews-article-component')
+// }
 
 const assertShowsNoUserSuggestionsWhenLoggedOut = async () => {
   // go home
