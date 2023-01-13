@@ -38,7 +38,7 @@ const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(
         style={[
           !headerOverlap && scrollViewProps.onScroll && styles.headerPadding,
           hasFooterTabBar && styles.footerPadding,
-          style,
+          isWeb && style,
         ]}
         ref={isWeb ? (ref as React.LegacyRef<View>) : undefined}
         testID={testID}
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     paddingTop: +vars.topBarHeight + (Platform.OS === 'android' ? 32 : 0),
   },
   footerPadding: {
-    paddingBottom: Platform.OS === 'web' ? +vars.bottomBarHeight : 0,
+    paddingBottom: Platform.OS === 'web' ? +vars.bottomBarHeight : 24,
   },
   scrollLayout: {
     justifyContent: 'flex-start',
