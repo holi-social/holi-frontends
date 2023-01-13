@@ -47,7 +47,7 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
     return (
       <AppUpdatesItem
         appName="volunteering"
-        onPress={() => navigate('/apps/volunteering')} // TODO: add item.id param once volunteering detail view is ready
+        onPress={() => navigate(`/apps/volunteering/engagement/${item.id}`)}
         title={title}
         imageSource={{ uri: item.imageUrl }}
       />

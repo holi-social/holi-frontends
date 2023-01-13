@@ -40,3 +40,16 @@ export const VolunteeringEngagementsQuery = gql`
     }
   }
 `
+
+export const engagementByIdQuery = gql`
+  ${FullEngagementFragment}
+
+  query EngagementById($id: String!) {
+    appVolunteering_engagement(id: $id) {
+      ...FullEngagement
+    }
+  }
+`
+export type AppVolunteeringEngagementByIdResponse = {
+  appVolunteering_engagement: VolunteeringEngagement
+}
