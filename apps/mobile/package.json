@@ -1,6 +1,6 @@
 {
   "name": "@holi/mobile",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "resolutions": {
     "**/@storybook/react-docgen-typescript-plugin": "1.0.1"
