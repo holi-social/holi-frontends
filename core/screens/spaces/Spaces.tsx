@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { useCallback, useContext, useLayoutEffect } from 'react'
+import React, { useCallback, useContext, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -32,6 +32,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
   const mixins = useStyleMixins()
   const { setOptions, navigate } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
+  const [activeTab, setActiveTab] = useState(0)
   const { openToast } = useToast()
   const { user } = useContext(UserContext)
 
@@ -117,6 +118,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
         {hasOwnSpaces && (
           <HoliTabs
             id="space-tabs"
+            onChangeTab={setActiveTab}
             style={styles.holiTabs}
             tabs={[
               {
@@ -142,7 +144,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
           />
         )}
       </DefaultLayout>
-      <SpaceFilterModal applyFilters={applyFilters} />
+      {(!hasOwnSpaces || (hasOwnSpaces && activeTab === 1)) && <SpaceFilterModal applyFilters={applyFilters} />}
     </SpaceTermContextProvider>
   )
 }

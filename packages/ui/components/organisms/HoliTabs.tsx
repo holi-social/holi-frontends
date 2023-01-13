@@ -20,8 +20,9 @@ export type HoliTabsProps = {
   id: string
   tabs: { title: string; children: React.ReactNode; titleIcon?: string; style?: StyleProp<ViewStyle> }[]
   centeredButtons?: boolean
-  testID?: string
+  onChangeTab?: (index: number) => void
   style?: StyleProp<ViewStyle>
+  testID?: string
 }
 
 const isWeb = Platform.OS === 'web'
@@ -30,6 +31,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
   id,
   tabs,
   centeredButtons,
+  onChangeTab = () => null,
   style,
   testID = 'tabs-module',
 }: HoliTabsProps) => {
@@ -51,6 +53,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
   }
 
   const goToIndex = (index: number) => {
+    onChangeTab(index)
     if (isWeb) {
       setCurrentSlide(index)
       return
