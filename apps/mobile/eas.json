@@ -26,7 +26,8 @@
     },
     "production": {
       "env": {
-        "HOLI_API_URL": "https://production.unified.apis.project-holi.org/graphql"
+        "HOLI_API_URL": "https://production.unified.apis.project-holi.org/graphql",
+        "KRATOS_BASE_URL": "https://auth.project-holi.org"
       }
     }
   },
