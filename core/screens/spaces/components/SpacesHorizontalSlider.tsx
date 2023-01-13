@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { FlatList, Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -24,24 +24,17 @@ const SpacesHorizontalSlider: React.VFC<SpacesHorizontalSliderProps> = ({
   const { width: screenWidth } = useWindowDimensions()
   const styles = getStyles(screenWidth)
 
-  const renderItem = ({ item, index }: { item: React.ReactNode; index: number }) => {
-    return (
-      <View key={index} style={[{ marginRight: slideGap }, styles.cardContainer]}>
-        {item}
-      </View>
-    )
-  }
-
   return (
     <View style={style} testID={testID}>
       {children && !isLoading && (
-        <FlatList
-          style={styles.scrollViewContainer}
-          horizontal
-          data={children || []}
-          renderItem={renderItem}
-          ListFooterComponent={seeMoreButton}
-        />
+        <ScrollView horizontal style={styles.scrollViewContainer}>
+          {children?.map((space, index) => (
+            <View key={index} style={[{ marginRight: slideGap }, styles.cardContainer]}>
+              {space}
+            </View>
+          ))}
+          {seeMoreButton}
+        </ScrollView>
       )}
       {isLoading && (
         <View style={[styles.loadingContainer, styles.cardContainer]}>
