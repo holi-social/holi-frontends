@@ -37,7 +37,7 @@ const appSwiperApps: HoliApp[] = [
     hasUpdates: true,
   },
   {
-    id: 'comming-soon',
+    id: 'coming-soon',
     icon: 'apps-soon',
     translationKey: 'global.comingSoon',
     hasUpdates: false,
