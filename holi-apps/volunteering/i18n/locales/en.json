@@ -1,7 +1,9 @@
 {
   "app.name": "Volunteering",
+  "engagement.country": "Germany",
   "engagement.title": "{{title}} by {{organization}}",
   "filter.heading": "Filter opportunities",
+  "listing.error": "Loading opportunities failed",
   "listing.headline": "Interesting opportunities for you",
   "volunteering.organization": "{{title}} by {{organization}}",
   "engagementDetail.aboutEngagement": "About this volunteering",

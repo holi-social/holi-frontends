@@ -23,6 +23,9 @@ const VolunteeringCardContent: React.VFC<VolunteeringCardContentProps> = (props)
     ? t('volunteering:engagement.title', { title: engagement.title, organization: organizer?.name })
     : engagement.title
 
+  // hardcoded for now as we don't have the country provided by the API yet
+  const country = t('volunteering:engagement.country')
+
   return (
     <View testID="volunteering-list-item">
       <HoliText size={'small'} style={styles.categoryText}>
@@ -35,7 +38,7 @@ const VolunteeringCardContent: React.VFC<VolunteeringCardContentProps> = (props)
         <View style={styles.locationContainer}>
           <HoliIcon icon="globe" size={14} color={colors.fontColorGrey} style={styles.locationIcon} />
           <HoliText size={'small'} style={styles.locationText}>
-            {engagement.location}
+            {engagement.location}, {country}
           </HoliText>
         </View>
       )}

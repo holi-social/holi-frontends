@@ -1,7 +1,9 @@
 {
   "app.name": "Engagement",
+  "engagement.country": "Deutschland",
   "engagement.title": "{{title}} bei {{organization}}",
   "filter.heading": "Projekte filtern",
+  "listing.error": "Laden von Projekten ist fehlgeschlagen",
   "listing.headline": "Interessante Freiwilligenarbeit für dich",
   "volunteering.organization": "{{title}} bei {{organization}}",
   "engagementDetail.aboutEngagement": "Über dieses Engagement",

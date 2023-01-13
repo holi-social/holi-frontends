@@ -22,6 +22,7 @@ export type PostContentProps = {
   collapseContent?: boolean
   minimized?: boolean
   onMediaHeaderPressed?: () => void
+  mediaHeaderLink?: boolean | string
   commentsAvatarPileLink?: string | boolean
   style?: StyleProp<ViewStyle>
 }
@@ -32,6 +33,7 @@ const PostContent: React.VFC<PostContentProps> = ({
   minimized,
   collapseContent,
   onMediaHeaderPressed,
+  mediaHeaderLink,
   commentsAvatarPileLink,
   style,
 }) => {
@@ -51,10 +53,11 @@ const PostContent: React.VFC<PostContentProps> = ({
     <View style={[styles.wrapper, style]}>
       <View style={styles.paddingHorizontal}>
         {hasHeader && (
-          <View style={styles.header}>
-            <HoliHeading level="1" size="medium">
+          <View style={styles.headerContainer}>
+            <HoliHeading level="1" size="medium" style={styles.header}>
               {post.title}
             </HoliHeading>
+
             <HoliButton
               transparent
               inline
@@ -71,7 +74,8 @@ const PostContent: React.VFC<PostContentProps> = ({
           title={hasHeader ? post.creator.fullName : post.title}
           author={post.creator}
           date={post.created}
-          touchHandler={onMediaHeaderPressed}
+          onPress={onMediaHeaderPressed}
+          href={mediaHeaderLink}
           testID="btn-to-post"
         >
           {!hasHeader && (
@@ -144,10 +148,14 @@ const styles = StyleSheet.create({
   paddingHorizontal: {
     paddingHorizontal: 24,
   },
-  header: {
+  headerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 20,
+  },
+  header: {
+    flexGrow: 1,
+    flexShrink: 1,
   },
   moreButton: {
     alignSelf: 'flex-start',

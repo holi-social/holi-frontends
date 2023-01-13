@@ -104,7 +104,7 @@ const stylesSmall = StyleSheet.create({
   },
   usersPile: {
     maxWidth: '100%',
-    padding: 4,
+    paddingVertical: 4,
     paddingRight: 8,
   },
   usersPileText: {
