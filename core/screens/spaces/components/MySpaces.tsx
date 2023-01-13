@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { SectionList, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { SpaceSection, SpaceSectionType } from '@holi/core/screens/spaces/types'
@@ -28,45 +28,44 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
   return (
-    <SectionList
-      style={[styles.mySpaces, style]}
-      sections={mappedSpaces}
-      renderItem={({ item, section }) => (
-        <View style={styles.spaceItemContainer}>
-          <HoliBlockItem
-            key={item.id}
-            label={item.title}
-            title={item.title}
-            subtitle={item.location}
-            description={item.description}
-            imageSrc={item.mainImage}
-            users={item.memberships.map((membership) => membership.user)}
-            href={`/spaces/${item.id}`}
-            size="small"
-            style={styles.spaceItem}
-            testID="space-link"
-          />
-          {/* Is coming later */}
-          {(section.type === SpaceSectionType.MEMBER || section.type === SpaceSectionType.CREATOR) && (
-            <HoliButton
-              label={t('global.notAvailable')}
-              inline
-              transparent
-              onPress={showFeatureNotImplementedToast}
-              style={styles.optionsButton}
-            >
-              <HoliIcon icon="tools" size={20} color={colors.fontColorGrey} />
-            </HoliButton>
-          )}
+    <View style={[styles.mySpaces, style]}>
+      {mappedSpaces.map((section, sectionIndex) => (
+        <View key={`${sectionIndex}`} style={styles.section}>
+          <HoliHeading level="3" size="small" testID={`section-headline-${section.type}`}>
+            {section.title}
+          </HoliHeading>
+
+          {section.data.map((space) => (
+            <View key={`${sectionIndex}-${space.id}`} style={styles.spaceItemContainer}>
+              <HoliBlockItem
+                label={space.title}
+                title={space.title}
+                subtitle={space.location}
+                description={space.description}
+                imageSrc={space.mainImage}
+                users={space.memberships.map((membership) => membership.user)}
+                href={`/spaces/${space.id}`}
+                size="small"
+                style={styles.spaceItem}
+                testID="space-link"
+              />
+              {/* Is coming later */}
+              {(section.type === SpaceSectionType.MEMBER || section.type === SpaceSectionType.CREATOR) && (
+                <HoliButton
+                  label={t('global.notAvailable')}
+                  inline
+                  transparent
+                  onPress={showFeatureNotImplementedToast}
+                  style={styles.optionsButton}
+                >
+                  <HoliIcon icon="tools" size={20} color={colors.fontColorGrey} />
+                </HoliButton>
+              )}
+            </View>
+          ))}
         </View>
-      )}
-      renderSectionHeader={({ section }) => (
-        <HoliHeading level="3" size="small" testID={`section-headline-${section.type}`}>
-          {section.title}
-        </HoliHeading>
-      )}
-      keyExtractor={(space) => `space-${space.id}`}
-    />
+      ))}
+    </View>
   )
 }
 
@@ -75,6 +74,9 @@ export default MySpaces
 const styles = StyleSheet.create({
   mySpaces: {
     flex: 1,
+  },
+  section: {
+    marginTop: 24,
   },
   spaceItemContainer: {
     flexDirection: 'row',
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
   },
   optionsButton: {
     display: 'flex',
-    marginRight: 10,
+    marginRight: 4,
     backgroundColor: colors.backgroundColor,
     padding: 6,
     borderRadius: 8,

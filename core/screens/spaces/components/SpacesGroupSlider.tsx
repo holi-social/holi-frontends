@@ -128,7 +128,6 @@ const styles = StyleSheet.create({
   },
   seeMoreCard: {
     paddingVertical: 8,
-    marginRight: 40,
   },
   spaceCard: {
     paddingVertical: 8,
