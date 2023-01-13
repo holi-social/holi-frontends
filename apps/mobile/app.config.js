@@ -1,9 +1,17 @@
+// see https://docs.expo.dev/build-reference/app-versions/
+// TODO somehow automatically increment version numbers on every release
+const versions = {
+  version: '1.0.2', // user-facing value visible in stores
+  iosBuildNumber: '1.0.2', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 3, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+}
+
 export default {
   expo: {
     name: 'Project HOLI',
     slug: 'projectholi',
     owner: 'holistic-foundation',
-    version: '1.0.0',
+    version: versions.version,
     orientation: 'portrait',
     icon: './assets/icon.png',
     scheme: 'holi',
@@ -19,7 +27,7 @@ export default {
     ios: {
       supportsTablet: true,
       bundleIdentifier: 'foundation.holistic.projectholi',
-      buildNumber: '1.0.0',
+      buildNumber: versions.iosBuildNumber,
       infoPlist: {
         CFBundleAllowMixedLocalizations: true,
       },
@@ -30,7 +38,7 @@ export default {
         backgroundColor: '#FFFFFF',
       },
       package: 'foundation.holistic.projectholi',
-      versionCode: 1,
+      versionCode: versions.androidVersionCode,
     },
     web: {
       favicon: './assets/favicon.png',
