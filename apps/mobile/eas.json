@@ -34,7 +34,6 @@
   "submit": {
     "production": {
       "android": {
-        "serviceAccountKeyPath": ".holi-playstore_service-account.json",
         "track": "alpha",
         "changesNotSentForReview": "true"
       }
