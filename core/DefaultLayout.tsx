@@ -38,7 +38,7 @@ const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(
         style={[
           !headerOverlap && scrollViewProps.onScroll && styles.headerPadding,
           hasFooterTabBar && styles.footerPadding,
-          isWeb && style,
+          style,
         ]}
         ref={isWeb ? (ref as React.LegacyRef<View>) : undefined}
         testID={testID}
