@@ -11,6 +11,7 @@ import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import SpaceDashboardModal from '@holi/core/screens/spaces/components/SpaceDashboardModal'
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
@@ -66,9 +67,12 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   if (!space) return <HoliText>{t('spaces.spaceDetails.notFound', { spaceId })}</HoliText>
 
   return (
-    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.defaultLayout}>
-      <SpaceDetailView style={styles.spaceDetailView} space={space} />
-    </DefaultLayout>
+    <>
+      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.defaultLayout}>
+        <SpaceDetailView style={styles.spaceDetailView} space={space} />
+      </DefaultLayout>
+      <SpaceDashboardModal />
+    </>
   )
 }
 
