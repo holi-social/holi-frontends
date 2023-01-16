@@ -1,5 +1,5 @@
-import { useLazyQuery } from '@apollo/client'
-import React, { memo, useLayoutEffect } from 'react'
+import { useLazyQuery, useMutation } from '@apollo/client'
+import React, { memo, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import RenderHtml from 'react-native-render-html'
@@ -7,7 +7,7 @@ import RenderHtml from 'react-native-render-html'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { displayError } from '@holi/core/errors/helpers'
+import { displayError, logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -21,7 +21,12 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import VolunteeringDetailHeader from '@holi-apps/volunteering/components/VolunteeringDetailHeader'
-import { AppVolunteeringEngagementByIdResponse, engagementByIdQuery } from '@holi-apps/volunteering/queries'
+import {
+  AppVolunteeringEngagementByIdResponse,
+  TrackEngagementViewResponse,
+  engagementByIdQuery,
+  trackEngagementViewMutation,
+} from '@holi-apps/volunteering/queries'
 import { Organizer } from '@holi-apps/volunteering/types'
 
 export type VolunteeringEngagementDetailParams = {
@@ -44,6 +49,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
 
   const [fetchEngagementById, { loading, data, error }] =
     useLazyQuery<AppVolunteeringEngagementByIdResponse>(engagementByIdQuery)
+  const [trackEngagementView] = useMutation<TrackEngagementViewResponse>(trackEngagementViewMutation)
   const engagement = data?.appVolunteering_engagement
   const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
 
@@ -56,6 +62,14 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
       })
     }
   }, [fetchEngagementById, engagementId, loading, engagement])
+
+  useEffect(() => {
+    if (engagementId) {
+      trackEngagementView({ variables: { id: engagementId } }).catch((error) => {
+        logError(error, `[VolunteeringEngagementDetail.tsx] Error tracking view for ${engagementId}: ${error.message}`)
+      })
+    }
+  }, [trackEngagementView, engagementId])
 
   // TODO: replace with proper loading indicator
   if (!engagementId || loading) {
@@ -126,7 +140,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="volunteering-engagement-detail-container">
       <DefaultLayout
         onScroll={onScreenScroll}
         scrollEventThrottle={200}
