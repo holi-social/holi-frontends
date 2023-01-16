@@ -152,7 +152,9 @@ const stylesLarge = StyleSheet.create({
     backgroundColor: colors.backgroundColor,
   },
   usersPileText: {},
-  textContainer: {},
+  textContainer: {
+    width: '100%',
+  },
   title: {
     marginTop: 4,
   },
