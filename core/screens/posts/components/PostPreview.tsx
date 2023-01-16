@@ -6,6 +6,7 @@ import HoliLink from '@holi//ui/components/molecules/HoliLink'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import { Post } from '@holi/core/screens/posts/types'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
@@ -34,7 +35,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
           <HoliLink
             href={`/profile/${post.creator.id}`}
             label={post.creator.fullName}
-            testID="btn-to-post"
+            testID="btn-to-post-creator-profile"
             style={styles.mediaHeaderLink}
           >
             <HoliMediaHeader title={post.creator.fullName} author={post.creator} date={post.created} />
@@ -51,7 +52,13 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
           </HoliButton>
         </View>
 
-        <HoliReadMore numberOfLines={10} fontStyle={styles.readMoreText} style={styles.description}>
+        <HoliLink href={`/posts/${post.id}`} label={post.title} textStyle={styles.postTitleLink} testID="btn-to-post">
+          <HoliHeading size="small" style={styles.postTitle}>
+            {post.title}
+          </HoliHeading>
+        </HoliLink>
+
+        <HoliReadMore numberOfLines={10} fontStyle={styles.readMoreText}>
           <HoliRichTextOutput text={post.text} users={post.mentions} links={post.links} />
         </HoliReadMore>
       </View>
@@ -97,8 +104,13 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     justifyContent: 'flex-end',
   },
-  description: {
-    marginTop: 16,
+  postTitleLink: {
+    display: 'flex',
+  },
+  postTitle: {
+    color: colors.fontColorGrey,
+    paddingTop: 16,
+    paddingBottom: 8,
   },
   readMoreText: {
     color: colors.fontColor,
