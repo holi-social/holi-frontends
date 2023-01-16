@@ -34,14 +34,11 @@ export default {
     },
     android: {
       adaptiveIcon: {
-        foregroundImage: './assets/adaptive-icon.png',
+        foregroundImage: './assets/icon.png',
         backgroundColor: '#FFFFFF',
       },
       package: 'foundation.holistic.projectholi',
       versionCode: versions.androidVersionCode,
-    },
-    web: {
-      favicon: './assets/favicon.png',
     },
     plugins: [
       'sentry-expo',
