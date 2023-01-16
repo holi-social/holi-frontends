@@ -11,6 +11,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type HoliApp = {
   id: string
   icon: string
+  iconFilled?: boolean
   translationKey: string
   path?: string
   hasUpdates: boolean
@@ -49,6 +50,7 @@ const AppTile: React.FC<AppTileProps> = ({ appData, onPress, style }: AppTilePro
             icon={appData.icon}
             size={30}
             color={isActive ? colors.fontColorBlack : colors.fontColorBlackDisabled}
+            filled={appData.iconFilled}
           />
         )}
       </View>
