@@ -43,18 +43,7 @@ const HoliMediaHeader: React.FC<MediaHeaderProps> = ({
   const authorName = author.fullName || t('user.profileView.anonymous')
 
   const titleContent = (
-    <View style={styles.titleContainer}>
-      <HoliText bold={boldTitle}>{title}</HoliText>
-      {formattedDate && (
-        <HoliText size="small" style={styles.date}>
-          {formattedDate}
-        </HoliText>
-      )}
-    </View>
-  )
-
-  return (
-    <View style={[styles.header, style]}>
+    <View style={styles.row}>
       <HoliUserAvatar
         imageSrc={author.avatar}
         label={authorName}
@@ -63,13 +52,26 @@ const HoliMediaHeader: React.FC<MediaHeaderProps> = ({
         size="small"
       />
 
+      <View style={styles.titleContainer}>
+        <HoliText bold={boldTitle}>{title}</HoliText>
+        {formattedDate && (
+          <HoliText size="small" style={styles.date}>
+            {formattedDate}
+          </HoliText>
+        )}
+      </View>
+    </View>
+  )
+
+  return (
+    <View style={[styles.row, style]}>
       {href ? (
         <HoliLink
           href={typeof href === 'string' ? href : `/profile/${author.id}`}
           label={title}
           onPress={onPress}
           testID={testID || 'btn-media-header'}
-          style={styles.titlePressable}
+          style={styles.pressable}
         >
           {titleContent}
         </HoliLink>
@@ -80,7 +82,7 @@ const HoliMediaHeader: React.FC<MediaHeaderProps> = ({
           onPress={onPress}
           disabled={!onPress}
           testID={testID || 'btn-media-header'}
-          contentStyle={styles.titlePressable}
+          contentStyle={styles.pressable}
         >
           {titleContent}
         </HoliButton>
@@ -92,20 +94,16 @@ const HoliMediaHeader: React.FC<MediaHeaderProps> = ({
 }
 
 const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  contentContainer: {
+  row: {
     flexDirection: 'row',
   },
-  titlePressable: {
+  pressable: {
     flexGrow: 1,
-    flexShrink: 1,
   },
   titleContainer: {
     flexDirection: 'column',
     marginHorizontal: 16,
+    flexShrink: 1,
   },
   date: {
     marginTop: 4,
