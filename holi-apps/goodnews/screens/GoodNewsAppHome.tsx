@@ -47,6 +47,7 @@ const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
         onScroll={onScreenScroll}
         scrollEventThrottle={200}
         style={{ paddingBottom: 0, height: '100%', backgroundColor: colors.backgroundColorGreyLight }}
+        contentStyle={{ height: '100%' }}
       >
         <GoodNewsCarousel />
       </DefaultLayout>
