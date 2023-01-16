@@ -16,7 +16,7 @@ export type SpaceFollowProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
+const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, style }) => {
   const { t } = useTranslation()
   const { isLoggedIn } = useAuth()
   const { openLoginDialog } = useLoginRedirect()
@@ -69,7 +69,7 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
           type="secondary"
           label={t('spaces.follow.btn.follow')}
           onPress={sendFollowRequest}
-          style={props.style}
+          style={style}
           disabled={loading}
           iconSpinning={loading}
           testID="follow-btn"
@@ -81,7 +81,7 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
           inline
           label={t('spaces.follow.btn.unfollow')}
           onPress={() => setUnfollowDialogIsOpen(true)}
-          style={props.style}
+          style={style}
           disabled={loading}
           iconSpinning={loading}
           testID="unfollow-btn"
