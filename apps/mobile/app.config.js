@@ -40,9 +40,6 @@ export default {
       package: 'foundation.holistic.projectholi',
       versionCode: versions.androidVersionCode,
     },
-    web: {
-      favicon: './assets/favicon.png',
-    },
     plugins: [
       'sentry-expo',
       [
