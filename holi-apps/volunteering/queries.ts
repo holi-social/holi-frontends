@@ -53,3 +53,15 @@ export const engagementByIdQuery = gql`
 export type AppVolunteeringEngagementByIdResponse = {
   appVolunteering_engagement: VolunteeringEngagement
 }
+
+export const trackEngagementViewMutation = gql`
+  mutation TrackEngagementView($id: String!) {
+    appVolunteering_trackEngagementView(id: $id) {
+      id
+    }
+  }
+`
+
+export type TrackEngagementViewResponse = {
+  id: string
+}

@@ -18,7 +18,7 @@ test.describe('@GoodNews', () => {
     expect(page.url()).toContain('/apps/goodnews')
   })
 
-  test('should display multiple projects', async ({ page }) => {
+  test('should display multiple articles', async ({ page }) => {
     await waitForElementByTestId(page, 'goodnews-app-home')
     const listItems = await locateElementByTestId(page, 'goodnews-article-component')
     const itemCount = await listItems.count()
