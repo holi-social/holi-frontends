@@ -25,7 +25,7 @@ test.describe('@Notifications', () => {
   ]
   const password = 'TheSamePassword4A11E2eUsers'
 
-  test('create two users who initiates norifications to the test user', async ({ context, page }) => {
+  test('create two users who initiate notifications to the test user', async ({ context, page }) => {
     for (const email of emails) {
       await createUserSendConnectionRequest({ context, page, email, password })
     }
@@ -82,7 +82,7 @@ test.describe('@Notifications', () => {
       await clickElementByTestId(page, 'btn-submit-comment')
     })
 
-    test.skip('the test user receives POST_COMMENT_USER_MENTION notification', async ({ context, page }) => {
+    test('the test user receives POST_COMMENT_USER_MENTION notification', async ({ context, page }) => {
       // login with your test user
       await defaultAuthSteps(
         { context, page, email: process.env.E2E_USER_USERNAME, password: process.env.E2E_USER_PASSWORD },
