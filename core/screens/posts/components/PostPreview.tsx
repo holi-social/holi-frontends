@@ -1,0 +1,116 @@
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+
+import HoliLink from '@holi//ui/components/molecules/HoliLink'
+import { useToastForNotAvailableFeature } from '@holi/core/helpers'
+import PostImage from '@holi/core/screens/posts/components/PostImage'
+import { Post } from '@holi/core/screens/posts/types'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
+import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
+import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
+import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
+import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
+import { colors } from '@holi/ui/styles/globalVars'
+
+export type PostPreviewProps = {
+  post: Post
+  style?: StyleProp<ViewStyle>
+}
+
+const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
+  const { t } = useTranslation()
+  const commenters = post.commenters.data
+
+  // TODO: remove after implementing the feature
+  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
+
+  return (
+    <View style={[styles.wrapper, style]}>
+      <View style={styles.paddingHorizontal}>
+        <View style={styles.header}>
+          <HoliLink
+            href={`/profile/${post.creator.id}`}
+            label={post.creator.fullName}
+            testID="btn-to-post"
+            style={styles.mediaHeaderLink}
+          >
+            <HoliMediaHeader title={post.creator.fullName} author={post.creator} date={post.created} />
+          </HoliLink>
+
+          <HoliButton
+            transparent
+            inline
+            label={t('insights.post.preview.more')}
+            style={styles.moreButton}
+            onPress={showFeatureNotImplementedToast}
+          >
+            <HoliIcon icon="more" color={colors.fontColorGrey} />
+          </HoliButton>
+        </View>
+
+        <HoliReadMore numberOfLines={10} fontStyle={styles.readMoreText} style={styles.description}>
+          <HoliRichTextOutput text={post.text} users={post.mentions} links={post.links} />
+        </HoliReadMore>
+      </View>
+
+      {post.image && (
+        <PostImage uri={post.image.url} height={post.image.height} width={post.image.width} postTitle={post.title} />
+      )}
+
+      {!!post.links?.length && (
+        <View style={styles.paddingHorizontal}>
+          <HoliLinkPreview style={styles.linkPreview} previewData={post.links[0]} label={post.links[0].title} />
+        </View>
+      )}
+
+      {post.numberOfComments > 0 && (
+        <View style={[styles.paddingHorizontal, styles.commentsPile]}>
+          <HoliLink href={`/posts/${post.id}?commentId=first`} label={t('insights.posts.comments.link')}>
+            <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
+              {t('insights.post.response', { count: post.numberOfComments })}
+            </HoliUserAvatarPile>
+          </HoliLink>
+        </View>
+      )}
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  wrapper: {
+    backgroundColor: colors.backgroundColorWhite,
+  },
+  paddingHorizontal: {
+    paddingHorizontal: 24,
+  },
+  header: {
+    flexDirection: 'row',
+  },
+  mediaHeaderLink: {
+    flexShrink: 1,
+    flexGrow: 1,
+  },
+  moreButton: {
+    alignSelf: 'flex-start',
+    justifyContent: 'flex-end',
+  },
+  description: {
+    marginTop: 16,
+  },
+  readMoreText: {
+    color: colors.fontColor,
+    lineHeight: 20,
+  },
+  linkPreview: {
+    marginTop: 16,
+    maxWidth: 320,
+  },
+  commentsPile: {
+    marginTop: 20,
+  },
+})
+
+export default PostPreview
