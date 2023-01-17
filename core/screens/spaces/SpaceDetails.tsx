@@ -96,6 +96,11 @@ const styles = StyleSheet.create({
   },
   contentStyle: {
     paddingBottom: 0,
+    ...Platform.select({
+      web: {
+        minHeight: '100vh',
+      },
+    }),
   },
   spaceDetailView: {
     flex: 1,
