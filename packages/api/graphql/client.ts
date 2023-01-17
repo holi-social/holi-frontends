@@ -88,9 +88,6 @@ export const createCache = () =>
           data: indexAwareOffsetLimitPagination(),
         },
       },
-      DiscoverSpaces: {
-        keyFields: ['topicId', 'location', 'skillId'],
-      },
       Query: {
         fields: {
           // here, we can specify e.g. pagination behavior, depending on the
