@@ -41,7 +41,6 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
         skillIds: userSkills.map((s) => s.id),
         location: user?.location,
       },
-
       fetchPolicy: 'cache-and-network',
     })
 

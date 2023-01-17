@@ -42,7 +42,6 @@ export function indexAwareOffsetLimitPagination<T = Reference>(keyArgs?: KeyArgs
     read: (existing, options) => {
       const limit = options?.variables?.limit
       const offset = options?.variables?.offset
-
       if (!existing || existing.length < offset + limit) {
         // cache miss if cache empty or existing contains fewer entries than requested
         return undefined
