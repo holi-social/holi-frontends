@@ -16,7 +16,7 @@ export type LoginProfileButtonProps = {
   testID?: string
 }
 
-const LoginProfileButton: React.VFC<LoginProfileButtonProps> = ({ focused, ...props }) => {
+const LoginProfileButton: React.FC<LoginProfileButtonProps> = ({ focused, children, style, ...props }) => {
   const { pathname, navigate } = useRouting()
   const { user } = useContext(UserContext)
   const { isLoggedIn } = useAuth()
@@ -40,6 +40,7 @@ const LoginProfileButton: React.VFC<LoginProfileButtonProps> = ({ focused, ...pr
       inline
       transparent
       onPress={() => navigate(pathToGo)}
+      contentStyle={[styles.button, style]}
       {...props}
       testID="btn-to-profile-view"
     >
@@ -60,6 +61,8 @@ const LoginProfileButton: React.VFC<LoginProfileButtonProps> = ({ focused, ...pr
           size={24}
         />
       )}
+
+      {children}
     </HoliButton>
   )
 }
@@ -67,6 +70,9 @@ const LoginProfileButton: React.VFC<LoginProfileButtonProps> = ({ focused, ...pr
 export default LoginProfileButton
 
 const styles = StyleSheet.create({
+  button: {
+    alignItems: 'center',
+  },
   userAvatarHighlighted: {
     borderColor: colors.backgroundColorBlack,
     borderWidth: 2,
