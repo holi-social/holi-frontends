@@ -131,6 +131,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
               onSubmit={setLocation}
               style={[styles.filterOption, { zIndex: 2 }]}
               inputProps={{ autoFocus: true }}
+              useMainTextOnly={true}
             />
             <HoliSelect
               options={topicOptions}

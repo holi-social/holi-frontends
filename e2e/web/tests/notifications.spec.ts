@@ -25,7 +25,7 @@ test.describe('@Notifications', () => {
   ]
   const password = 'TheSamePassword4A11E2eUsers'
 
-  test('create two users who initiates norifications to the test user', async ({ context, page }) => {
+  test('create two users who connect to the e2e test user', async ({ context, page }) => {
     for (const email of emails) {
       await createUserSendConnectionRequest({ context, page, email, password })
     }
@@ -80,6 +80,7 @@ test.describe('@Notifications', () => {
       await input.fill(commentInput)
       await clickElementByTestId(page, 'holi-rich-text-input-suggestions-item')
       await clickElementByTestId(page, 'btn-submit-comment')
+      await expect(page.getByText(commentTextContent)).toBeVisible()
     })
 
     test.skip('the test user receives POST_COMMENT_USER_MENTION notification', async ({ context, page }) => {

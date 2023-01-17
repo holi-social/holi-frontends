@@ -15,17 +15,19 @@ export interface LayoutProps extends ScrollViewProps {
   hasFooterTabBar?: boolean
   scrollView?: boolean
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
+  contentStyle?: ViewStyle | ViewStyle[] | Record<string, unknown>
   testID?: string
 }
 
 const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(
   (
     {
-      style,
-      children,
       headerOverlap,
       hasFooterTabBar = true,
       scrollView = true,
+      style,
+      contentStyle,
+      children,
       testID,
       ...scrollViewProps
     }: LayoutProps,
@@ -33,12 +35,12 @@ const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(
   ) => {
     const isWeb = Platform.OS === 'web'
 
-    const screenView = (
+    const contentView = (
       <View
         style={[
           !headerOverlap && scrollViewProps.onScroll && styles.headerPadding,
           hasFooterTabBar && styles.footerPadding,
-          style,
+          contentStyle,
         ]}
         ref={isWeb ? (ref as React.LegacyRef<View>) : undefined}
         testID={testID}
@@ -47,24 +49,22 @@ const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(
       </View>
     )
 
-    if (isWeb) return screenView
-
-    const mobileLayout = scrollView ? (
+    const mobileWrapper = scrollView ? (
       <ScrollView
         testID={testID}
         {...scrollViewProps}
         contentContainerStyle={[styles.scrollLayout, style]}
         ref={!isWeb ? (ref as React.LegacyRef<ScrollView>) : undefined}
       >
-        {screenView}
+        {contentView}
       </ScrollView>
     ) : (
       <View testID={testID} style={[styles.scrollLayout, style]}>
-        {screenView}
+        {contentView}
       </View>
     )
 
-    return headerOverlap ? mobileLayout : <SafeAreaView style={styles.safeArea}>{mobileLayout}</SafeAreaView>
+    return headerOverlap ? mobileWrapper : <SafeAreaView style={styles.safeArea}>{mobileWrapper}</SafeAreaView>
   }
 )
 
