@@ -3,12 +3,13 @@ import {
   SelfServiceLoginFlow,
   SelfServiceRecoveryFlow,
   SelfServiceRegistrationFlow,
+  SelfServiceSettingsFlow,
   SubmitSelfServiceLogoutFlowWithoutBrowserBody,
 } from '@ory/kratos-client'
 import { AxiosPromise } from 'axios'
 import * as SecureStore from 'expo-secure-store'
 
-import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
+import { OrySessionContext, OrySessionToken, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 
 const userSessionName = 'user_session'
 
@@ -49,3 +50,8 @@ export const initRegistrationFlow = (): AxiosPromise<SelfServiceRegistrationFlow
 // Forgot Password
 export const initPasswordRecoveryFlow = (): AxiosPromise<SelfServiceRecoveryFlow> =>
   newKratosSdk().initializeSelfServiceRecoveryFlowWithoutBrowser()
+
+// Change Password
+export const initChangeRecoveryFlow = (sessionToken: OrySessionToken): AxiosPromise<SelfServiceSettingsFlow> => {
+  return newKratosSdk().initializeSelfServiceSettingsFlowWithoutBrowser(sessionToken)
+}

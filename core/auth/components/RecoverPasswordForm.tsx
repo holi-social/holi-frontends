@@ -3,8 +3,9 @@ import React, { useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
-import { initPasswordRecoveryFlow } from '@holi/core/auth/helpers/auth'
+import { getSessionFromStorage, initPasswordRecoveryFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { displayError } from '@holi/core/errors/helpers'
@@ -24,22 +25,61 @@ export type RecoverPasswordFormProps = {
 const RecoverPasswordForm: React.VFC<RecoverPasswordFormProps> = (props: RecoverPasswordFormProps) => {
   const { t } = useTranslation()
   const { navigateBack, navigate, replaceRoute } = useRouting()
+  const { isLoggedIn } = useAuth()
   const mixins = useStyleMixins()
 
   const [flow, setFlow] = useState<SelfServiceRecoveryFlow>()
 
   const safeSetFlow = useSafeDispatch(setFlow)
 
-  const initializeFlow = useCallback(() => {
-    // if (isLoggedIn) return
+  const initializeFlow = useCallback(async () => {
+    if (isLoggedIn) {
+      const sessionToken = await getSessionFromStorage().then((s) => s?.session_token)
+      console.log('###### initializeChangeFlow() - I am logged in. sessionToken:', sessionToken)
+      // init change password flow
+      newKratosSdk()
+        .initializeSelfServiceSettingsFlowForBrowsers(sessionToken)
+        // initChangeRecoveryFlow(sessionToken)
+        .then(({ data: flow }) => {
+          safeSetFlow(flow)
+        })
+        .catch((error: Error) => displayError(error, t('auth.registration.error.initialization')))
+      return
+    }
+
     initPasswordRecoveryFlow()
       .then(({ data: flow }) => {
         safeSetFlow(flow)
       })
       .catch((error: Error) => displayError(error, t('auth.registration.error.initialization')))
-  }, [safeSetFlow, t])
+  }, [safeSetFlow, isLoggedIn, t])
 
-  useLayoutEffect(() => initializeFlow(), [initializeFlow])
+  useLayoutEffect(() => {
+    initializeFlow()
+  }, [initializeFlow])
+
+  // TODO: use this request for password change
+  // TODO: hide save-button for email-field
+  // TODO: show other success view
+  // Doku: https://www.ory.sh/docs/kratos/self-service/flows/user-settings
+  // const requestPasswordChange = (payload: SubmitSelfServiceRecoveryFlowWithLinkMethodBody): Promise<void> => {
+  //   if (flow)
+  //     return (
+  //       newKratosSdk()
+  //         .submitSelfServiceSettingsFlow(flow.id, undefined, payload)
+  //         // .submitSelfServiceRecoveryFlow(flow.id, undefined, payload)
+  //         .then(() => {
+  //           initializeFlow()
+  //           props.onSubmit?.(true)
+  //         })
+  //         .catch((error) => {
+  //           handleFormSubmitError(setFlow, initializeFlow)(error)
+  //           props.onSubmit?.(false)
+  //         })
+  //         .catch((error) => displayError(error, t('auth.login.error.login')))
+  //     )
+  //   return Promise.resolve()
+  // }
 
   const requestPasswordRecovery = (payload: SubmitSelfServiceRecoveryFlowWithLinkMethodBody): Promise<void> => {
     if (flow)

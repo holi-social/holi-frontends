@@ -52,7 +52,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
 
   // intended to be called from outside the context provider (e.g. login form)
   const setUserLoggedIn = useCallback((session: OrySessionContext): Promise<void> => {
-    console.debug('[AuthContextProvider] setUserLoggedIn')
+    console.log('[AuthContextProvider] setUserLoggedIn', session.session.identity.id, session.session_token, session.id)
     return setSessionInStorage(session).then(() =>
       setState({
         userId: session.session.identity.id,
@@ -64,7 +64,7 @@ const AuthContextProvider: React.FC = ({ children }) => {
 
   // intended to be called from outside the context provider (e.g. logout form)
   const setUserLoggedOut = useCallback((): Promise<void> => {
-    console.debug('[AuthContextProvider] setUserLoggedOut')
+    console.log('[AuthContextProvider] setUserLoggedOut')
     return removeSessionFromStorage().then(() =>
       setState({
         userId: null,
@@ -85,8 +85,9 @@ const AuthContextProvider: React.FC = ({ children }) => {
   }
 
   const onSessionLoadedFromStorage = (sessionFromStorage: OrySessionContext | null): Promise<void> => {
+    console.log('###### onSessionLoadedFromStorage() with ', sessionFromStorage)
     if (sessionFromStorage === null) {
-      console.debug('[AuthContextProvider] no session found in storage')
+      console.log('[AuthContextProvider] no session found in storage')
       setState({
         userId: null,
         isLoading: false,
@@ -96,7 +97,13 @@ const AuthContextProvider: React.FC = ({ children }) => {
     } else {
       return validateSessionWithOry(sessionFromStorage.session_token)
         .then((sessionState) => {
-          console.debug(`[AuthContextProvider] ${sessionState} session found in storage`)
+          console.log(
+            '###### validateSessionWithOry() with ',
+            sessionFromStorage.session_token,
+            'result: ',
+            sessionState
+          )
+          console.log(`[AuthContextProvider] ${sessionState} session found in storage`)
           switch (sessionState) {
             case 'active':
               setState({

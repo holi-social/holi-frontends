@@ -1,11 +1,10 @@
 import React, { memo, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform } from 'react-native'
+import { Platform, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import RecoverPasswordForm from '@holi/core/auth/components/RecoverPasswordForm'
 import RecoverPasswordSent from '@holi/core/auth/components/RecoverPasswordSent'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -36,9 +35,24 @@ const ForgotPassword: React.VFC<ScreenProps> = () => {
 
   return (
     <DefaultLayout>
-      <LoginRegistrationContainer>
+      <View
+        style={{
+          marginTop: 80,
+          alignSelf: 'center',
+          maxWidth: 500,
+          width: '100%',
+          paddingHorizontal: 32,
+          // alignItems: 'center',
+          ...Platform.select({
+            native: {
+              // enables scroll up when keyboard overlaps submit button
+              paddingBottom: 500,
+            },
+          }),
+        }}
+      >
         {success ? <RecoverPasswordSent /> : <RecoverPasswordForm onSubmit={setSuccuss} />}
-      </LoginRegistrationContainer>
+      </View>
     </DefaultLayout>
   )
 }
