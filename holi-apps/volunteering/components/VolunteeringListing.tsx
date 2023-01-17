@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   listHeader: {
-    paddingTop: Number(variables.topBarHeight) + (Platform.OS === 'android' ? 56 : 24),
+    paddingTop: Number(variables.topBarHeight) + (Platform.OS === 'android' ? Number(variables.topBarHeight) + 24 : 24),
     paddingBottom: 32,
   },
   title: {
