@@ -119,7 +119,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
 
       <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} ref={scrollViewRef}>
         <View style={screenWidth > +vars.breakpointXl && mixins.container} testID="post-detail-view">
-          <PostContent post={post} hasHeader mediaHeaderLink style={styles.postContent} />
+          <PostContent post={post} style={styles.postContent} />
 
           {/* Post comments */}
           {comments.length > 0 && (
