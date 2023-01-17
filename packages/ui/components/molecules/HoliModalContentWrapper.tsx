@@ -16,7 +16,7 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useKeyboard } from '@holi/ui/helper'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface HoliModalContentWrapper {
@@ -84,7 +84,7 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
           <HoliButton
             label={actionButtonText}
             onPress={onActionButtonPress}
-            style={[mixins.moreButton, { marginTop: 0 }]}
+            style={[mixins.moreButton, styles.button]}
             testID={`${testID}-close-btn`}
           >
             {actionButtonText}
@@ -136,5 +136,9 @@ const styles = StyleSheet.create({
     left: 0,
     marginHorizontal: 24,
     opacity: 1,
+  },
+  button: {
+    marginTop: 0,
+    maxWidth: vars.maxButtonWidth,
   },
 })

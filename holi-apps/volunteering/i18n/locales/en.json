@@ -6,6 +6,7 @@
   "engagementDetail.getInTouch": "Get in touch",
   "engagementDetail.organizer": "Organiser",
   "engagementDetail.provider": "Provider",
+  "engagementDetail.provider.link.btn": "Page of {{source}}",
   "engagementDetail.notFound": "Opportunity with ID {{engagementId}} could not be found",
   "filter.heading": "Filter opportunities",
   "listing.error": "Loading opportunities failed",
