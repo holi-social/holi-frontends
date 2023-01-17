@@ -1,16 +1,15 @@
 import partition from 'lodash.partition'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StatusBar, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Space } from '@holi/core/screens/spaces/types'
 import { User } from '@holi/core/screens/userprofile/types'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
-import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -24,7 +23,7 @@ type SpaceCollaboratorsProps = {
 const sortUsersByFirstName = (users: User[]) =>
   users.sort((userA, userB) => (userA.fullName || '').localeCompare(userB.fullName || ''))
 
-const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismiss, show = false, style }) => {
+const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismiss, show = false }) => {
   const { t } = useTranslation()
   const [visible, setVisible] = useState(show)
   const { navigate } = useRouting()
@@ -60,28 +59,16 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
 
   return (
     <>
-      <ModalBasic
-        style={[styles.defaultLayout, style]}
+      <HoliModal
         show={visible}
-        animationType="slide"
         label={t('spaces.collaborators')}
-        testID={'spaces-collaborators-modal'}
+        heading={t('spaces.collaborators')}
+        testID={'space-collaborators'}
         onDismiss={onDismiss}
+        relativeHeight={1}
+        autoHeight={false}
       >
         <View style={[mixins.container, styles.wrapper]}>
-          <View style={styles.header}>
-            <HoliButton
-              style={styles.closeModal}
-              label={t('modal.backdrop')}
-              inline
-              transparent
-              onPress={onDismiss}
-              testID={Platform.OS === 'web' ? 'nav-button-down' : 'nav-button-back'}
-            >
-              <HoliIcon icon={Platform.OS === 'web' ? 'arrow-left' : 'arrow-down-s'} />
-            </HoliButton>
-            <HoliText style={styles.title}>{t('spaces.collaborators')}</HoliText>
-          </View>
           <ScrollView>
             {
               /** FIXME convert to VirtualizedList, FlatList or SectionList */
@@ -118,7 +105,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
             }
           </ScrollView>
         </View>
-      </ModalBasic>
+      </HoliModal>
     </>
   )
 }
@@ -131,10 +118,6 @@ const styles = StyleSheet.create({
   avatar: {
     borderWidth: 1,
   },
-  closeModal: {
-    position: 'absolute',
-    zIndex: 1,
-  },
   collaborators: {
     flex: 1,
     flexDirection: 'row',
@@ -142,37 +125,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 8,
   },
-  defaultLayout: {
-    paddingTop: 8,
-    paddingBottom: 0,
-    ...Platform.select({
-      web: {
-        minHeight: '100vh',
-      },
-      android: {
-        paddingTop: StatusBar.currentHeight || 0,
-      },
-    }),
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 21,
-  },
-  title: {
-    flex: 1,
-    textAlign: 'center',
-  },
   titleContainer: {
     marginLeft: 16,
     flex: 1,
   },
   wrapper: {
     justifyContent: 'center',
-    paddingTop: 66,
-    marginHorizontal: 24,
     height: '100%',
+    paddingTop: 24,
   },
 })
 
