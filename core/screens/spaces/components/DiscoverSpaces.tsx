@@ -1,4 +1,6 @@
-import { useLazyQuery, useQuery } from '@apollo/client'
+import {
+  useLazyQuery, // useQuery
+} from '@apollo/client'
 import React, { useContext, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
