@@ -88,6 +88,21 @@ export const createCache = () =>
           data: indexAwareOffsetLimitPagination(),
         },
       },
+      DiscoverSpaces: {
+        fields: {
+          spaces: {
+            merge: (existing, incoming) => {
+              // console.log('merge', { existing, incoming })
+              return (existing || []).concat(incoming)
+            },
+            read: (existing) => {
+              // console.log('read', { existing })
+              return existing
+            },
+          },
+        },
+        keyFields: ['topicId', 'location', 'skillId'],
+      },
       Query: {
         fields: {
           // here, we can specify e.g. pagination behavior, depending on the
@@ -106,6 +121,9 @@ export const createCache = () =>
           },
           spaces: {
             keyArgs: ['topicId', 'location', 'skillIds'],
+          },
+          discoverSpaces: {
+            keyArgs: ['topicIds', 'location', 'skillIds'],
           },
         },
       },

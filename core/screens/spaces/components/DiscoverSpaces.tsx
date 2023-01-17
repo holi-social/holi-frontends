@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery, useQuery } from '@apollo/client'
 import React, { useContext, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
@@ -35,18 +35,35 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
     [topics, userTopics]
   )
 
+  const discoverSpacesQueryVariables = {
+    topicIds: userTopics.map((t) => t.id),
+    skillIds: userSkills.map((s) => s.id),
+    location: user?.location,
+    limit: SPACES_PAGE_SIZE,
+    offset: 0,
+  }
+  // const { loading: loadingUserSpecificCached, data: dataUserSpecificCached } = useQuery(discoverSpacesQuery, {
+  //   fetchPolicy: 'cache-only',
+  //   variables: discoverSpacesQueryVariables,
+  // })
+
   // user specific spaces suggestions
   const [fetchUserSpecifc, { loading: loadingUserSpecific, data: dataUserSpecific, error: errorUserSpecific }] =
     useLazyQuery<DiscoverSpacesResponse>(discoverSpacesQuery, {
-      variables: {
-        topicIds: userTopics.map((t) => t.id),
-        skillIds: userSkills.map((s) => s.id),
-        location: user?.location,
-        limit: SPACES_PAGE_SIZE,
-        offset: 0,
-      },
-      fetchPolicy: 'cache-and-network',
+      variables: discoverSpacesQueryVariables,
+      fetchPolicy: 'network-only',
     })
+
+  // const { loading: loadingDefaultDataCached, data: cachedDefaultData } = useQuery(discoverSpacesQuery, {
+  //   fetchPolicy: 'cache-only',
+  //   variables: {
+  //     topicIds: defaultTopicIds,
+  //     location:
+  //       (user?.location || '').toLocaleLowerCase() === DEFAULT_LOCATION.toLocaleLowerCase() ? null : DEFAULT_LOCATION,
+  //     limit: SPACES_PAGE_SIZE,
+  //     offset: 0,
+  //   },
+  // })
 
   // default spaces suggestions
   const [fetchDefault, { loading: loadingDefaultData, data: dataDefault, error: errorDefault }] =
@@ -58,7 +75,7 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
         limit: SPACES_PAGE_SIZE,
         offset: 0,
       },
-      fetchPolicy: 'cache-and-network',
+      fetchPolicy: 'network-only',
     })
 
   useEffect(() => {
@@ -76,7 +93,28 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
     displayError(errorDefault, t('spaces.spaceListing.error'))
   }
 
-  if (topicsLoading || loadingUserSpecific || loadingDefaultData) {
+  console.log({
+    topicsLoading,
+    loadingUserSpecific,
+    loadingDefaultData,
+    dataUserSpecific,
+    dataDefault,
+    // loadingDefaultDataCached,
+    // loadingUserSpecificCached,
+    // dataUserSpecificCached,
+    // cachedDefaultData,
+  })
+
+  const userSpecificData = dataUserSpecific // || dataUserSpecificCached
+  const defaultData = dataDefault // || cachedDefaultData
+
+  if (
+    topicsLoading ||
+    loadingUserSpecific ||
+    // loadingUserSpecificCached ||
+    loadingDefaultData
+    // || loadingDefaultDataCached
+  ) {
     // TODO: replace with proper loading indicator
     return (
       <View style={styles.loadingContainer}>
@@ -89,8 +127,8 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
     <DiscoverSpacesView
       style={style}
       user={user}
-      userSpecificSpacesGroups={dataUserSpecific?.discoverSpaces ?? []}
-      defaultSpacesGroups={dataDefault?.discoverSpaces ?? []}
+      userSpecificSpacesGroups={userSpecificData?.discoverSpaces ?? []}
+      defaultSpacesGroups={defaultData?.discoverSpaces ?? []}
     />
   )
 }
