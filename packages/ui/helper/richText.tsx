@@ -23,7 +23,6 @@ export const REGEX_USER_MENTIONS_WITH_NAME = /@\[.{3,36}\]\(+([^\][]+)\)/g
 // Regex for "@SomeUserName" or "@some user name" or "@some-user_name"
 // Copied from https://github.com/facebook/lexical/blob/0.6.1-next.1/packages/lexical-playground/src/plugins/MentionsPlugin/index.tsx
 const PUNCTUATION = '\\.,\\+\\*\\?\\$\\@\\|#{}\\(\\)\\^\\-\\[\\]\\\\/!%\'"~=<>_:;'
-const NAME = '\\b[A-Z][^\\s' + PUNCTUATION + ']'
 const TRIGGERS = ['@'].join('')
 const LENGTH_LIMIT = 75
 // 50 is the longest alias length limit.
@@ -47,7 +46,6 @@ export const REGEX_MENTION = new RegExp(
 const AtSignMentionsRegexAliasRegex = new RegExp(
   '(^|\\s|\\()(' + '[' + TRIGGERS + ']' + '((?:' + VALID_CHARS + '){0,' + ALIAS_LENGTH_LIMIT + '})' + ')$'
 )
-const CapitalizedNameMentionsRegex = new RegExp('(^|[^#])((?:' + NAME + '{1,})$)')
 
 export const findMentionMatches = (text: string): Mention | undefined => {
   // 1. simple @-regex
@@ -74,19 +72,21 @@ export const findMentionMatches = (text: string): Mention | undefined => {
   }
 
   // 3. @-capitalized-name-regex
-  match = CapitalizedNameMentionsRegex.exec(text)
-  if (match !== null) {
-    // The strategy ignores leading whitespace but we need to know it's
-    // length to add it to the leadOffset
-    const maybeLeadingWhitespace = match[1]
+  // const NAME = '\\b[A-Z][^\\s' + PUNCTUATION + ']'
+  // const CapitalizedNameMentionsRegex = new RegExp('(^|[^#])((?:' + NAME + '{1,})$)')
+  // match = CapitalizedNameMentionsRegex.exec(text)
+  // if (match !== null) {
+  //   // The strategy ignores leading whitespace but we need to know it's
+  //   // length to add it to the leadOffset
+  //   const maybeLeadingWhitespace = match[1]
 
-    const matchingString = match[2]
-    if (matchingString != null && matchingString.length >= 3) {
-      return {
-        leadOffset: match.index + maybeLeadingWhitespace.length,
-        matchingString,
-        replaceableString: matchingString,
-      }
-    }
-  }
+  //   const matchingString = match[2]
+  //   if (matchingString != null && matchingString.length >= 3) {
+  //     return {
+  //       leadOffset: match.index + maybeLeadingWhitespace.length,
+  //       matchingString,
+  //       replaceableString: matchingString,
+  //     }
+  //   }
+  // }
 }
