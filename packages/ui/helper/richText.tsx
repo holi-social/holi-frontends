@@ -70,23 +70,4 @@ export const findMentionMatches = (text: string): Mention | undefined => {
       }
     }
   }
-
-  // 3. @-capitalized-name-regex
-  // const NAME = '\\b[A-Z][^\\s' + PUNCTUATION + ']'
-  // const CapitalizedNameMentionsRegex = new RegExp('(^|[^#])((?:' + NAME + '{1,})$)')
-  // match = CapitalizedNameMentionsRegex.exec(text)
-  // if (match !== null) {
-  //   // The strategy ignores leading whitespace but we need to know it's
-  //   // length to add it to the leadOffset
-  //   const maybeLeadingWhitespace = match[1]
-
-  //   const matchingString = match[2]
-  //   if (matchingString != null && matchingString.length >= 3) {
-  //     return {
-  //       leadOffset: match.index + maybeLeadingWhitespace.length,
-  //       matchingString,
-  //       replaceableString: matchingString,
-  //     }
-  //   }
-  // }
 }

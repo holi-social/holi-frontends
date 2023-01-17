@@ -7,6 +7,7 @@ export const ResizeModes: ('cover' | 'contain' | 'stretch')[] = [
   'stretch', // fill in web
   // center and repeat have no web equivalent
 ]
+/* eslint-disable-next-line prettier/prettier */
 export type ResizeMode = typeof ResizeModes[number]
 
 export const resizeModeForWeb = (resizeMode: ResizeMode): 'cover' | 'contain' | 'fill' => {
