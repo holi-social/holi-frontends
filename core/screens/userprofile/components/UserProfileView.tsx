@@ -9,8 +9,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
-import { colors } from '@holi/ui/styles/globalVars'
-import variables from '@holi/ui/styles/globalVars/variables'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 type UserProfileViewProps = {
   user: User
@@ -71,7 +70,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     width: '100%',
     minWidth: 250,
-    paddingTop: Platform.OS === 'android' ? Number(variables.topBarHeight) : 0,
+    paddingTop: Platform.OS === 'android' ? Number(vars.topBarHeight) : 0,
   },
   avatarName: {
     flexDirection: 'row',
