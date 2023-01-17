@@ -13,7 +13,7 @@ import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
-import PostContent from '@holi/core/screens/posts/components/PostContent'
+import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
@@ -163,13 +163,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
                 /** FIXME convert to VirtualizedList, FlatList or SectionList */
                 posts.map((post) => (
                   <HoliGridCell key={post.id}>
-                    <PostContent
-                      post={post}
-                      collapseContent
-                      mediaHeaderLink={`/insights/${insightId}/posts/${post.id}`}
-                      commentsAvatarPileLink
-                      style={styles.postItem}
-                    />
+                    <PostPreview post={post} style={styles.postItem} />
                   </HoliGridCell>
                 ))
               }

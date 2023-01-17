@@ -8,6 +8,7 @@ import { Comment } from '@holi/core/screens/posts/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliLink from '@holi/ui/components/molecules/HoliLink'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -29,7 +30,16 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
 
   return (
     <View style={[styles.wrapper, style]} {...props}>
-      <HoliMediaHeader title={name} author={creator} date={comment.created} boldTitle href>
+      <View style={styles.header}>
+        <HoliLink
+          href={`/profile/${creator.id}`}
+          label={name}
+          testID="btn-to-commenter-profile"
+          style={styles.mediaHeaderLink}
+        >
+          <HoliMediaHeader title={name} author={creator} date={comment.created} />
+        </HoliLink>
+
         <HoliButton
           transparent
           inline
@@ -39,7 +49,7 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
         >
           <HoliIcon icon="more" color={colors.fontColorGrey} />
         </HoliButton>
-      </HoliMediaHeader>
+      </View>
 
       <View style={styles.body}>
         <VerticalLine style={styles.commentConnector} />
@@ -68,6 +78,13 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
 const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: colors.backgroundColorWhite,
+  },
+  header: {
+    flexDirection: 'row',
+  },
+  mediaHeaderLink: {
+    flexShrink: 1,
+    flexGrow: 1,
   },
   moreButton: {
     alignSelf: 'flex-start',
