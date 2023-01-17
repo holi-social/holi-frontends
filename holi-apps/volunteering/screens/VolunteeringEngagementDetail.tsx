@@ -16,8 +16,8 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
-import HoliLink from '@holi/ui/components/molecules/HoliLink'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -92,22 +92,28 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
     return (
       <View style={styles.cardContainer}>
         <HoliText size="large">{t('volunteering:engagementDetail.provider')}</HoliText>
-        <HoliLink style={styles.providerInfoRow} href={engagement.url} label={''} external>
-          {/* local image until we have multiple providers / correct provider image */}
-          <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/aktion-mensch-logo.svg')}
-            isSvg
-            width={40}
-            height={40}
-            style={styles.providerImage}
-            label={t('volunteering:engagementDetail.provider')}
-            resizeMode="contain"
-          />
-          <View style={{ flex: 3 }}>
-            <HoliText>{source}</HoliText>
+        <HoliButton
+          transparent
+          onPress={() => Linking.openURL(engagement.url)}
+          label={t('volunteering:engagementDetail.provider.link.btn', { source })}
+        >
+          <View style={styles.providerInfoRow}>
+            {/* local image until we have multiple providers / correct provider image */}
+            <HoliLocalImage
+              imageSource={require('@holi/ui/assets/img/aktion-mensch-logo.svg')}
+              isSvg
+              width={40}
+              height={40}
+              style={styles.providerImage}
+              label={t('volunteering:engagementDetail.provider')}
+              resizeMode="contain"
+            />
+            <View style={{ flex: 3 }}>
+              <HoliText>{source}</HoliText>
+            </View>
+            <HoliIcon icon="share-box" size={15} color={colors.backgroundColorModalDark} />
           </View>
-          <HoliIcon style={styles.shareIcon} icon="share-box" size={15} color={colors.backgroundColorModalDark} />
-        </HoliLink>
+        </HoliButton>
       </View>
     )
   }
@@ -216,11 +222,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 16,
   },
-  shareIcon: {
-    display: 'flex',
-    flex: 1,
-    alignItems: 'flex-end',
-  },
+
   volunteeringButton: {
     bottom: 40,
     justifyContent: 'center',
