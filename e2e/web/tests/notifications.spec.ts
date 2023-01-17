@@ -83,7 +83,7 @@ test.describe('@Notifications', () => {
       await expect(page.getByText(commentTextContent)).toBeVisible()
     })
 
-    test.skip('the test user receives POST_COMMENT_USER_MENTION notification', async ({ context, page }) => {
+    test('the test user receives POST_COMMENT_USER_MENTION notification', async ({ context, page }) => {
       // login with your test user
       await defaultAuthSteps(
         { context, page, email: process.env.E2E_USER_USERNAME, password: process.env.E2E_USER_PASSWORD },
@@ -96,7 +96,7 @@ test.describe('@Notifications', () => {
       await clickElementByTestId(page, 'post-comment-mention')
 
       // after clicking on notification we should go to post detail page and scroll to the comment
-      await expect(page.getByText(commentTextContent)).toBeVisible()
+      await expect(page.getByText(commentTextContent)).toBeVisible({ timeout: 10000 })
     })
   })
 })
