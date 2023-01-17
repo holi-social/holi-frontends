@@ -100,7 +100,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
             width={40}
             height={40}
             style={styles.providerImage}
-            label={''}
+            label={t('volunteering:engagementDetail.provider')}
             resizeMode="contain"
           />
           <View style={{ flex: 3 }}>
