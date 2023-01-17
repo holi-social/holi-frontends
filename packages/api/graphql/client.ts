@@ -90,16 +90,7 @@ export const createCache = () =>
       },
       DiscoverSpaces: {
         fields: {
-          spaces: {
-            merge: (existing, incoming) => {
-              // console.log('merge', { existing, incoming })
-              return (existing || []).concat(incoming)
-            },
-            read: (existing) => {
-              // console.log('read', { existing })
-              return existing
-            },
-          },
+          data: indexAwareOffsetLimitPagination(),
         },
         keyFields: ['topicId', 'location', 'skillId'],
       },
