@@ -129,7 +129,7 @@ const HoliAutocomplete = ({
         <HoliButton
           inline
           transparent
-          key={item.id}
+          key={item.label} // TODO change back to id when HOLI-3069 gets reverted (duplicate key issues)
           label={item.label}
           accessibilityRole="menuitem"
           onBlur={onBlur}
