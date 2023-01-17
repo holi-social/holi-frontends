@@ -8,7 +8,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 /** Modal overlay button position:
  * autoheight = true causes that the
@@ -29,9 +29,11 @@ const SpaceDashboardModal: React.VFC = () => {
 
   let imageWidth = 271
   let imageHeight = 342
-  if (deviceWidth > 400 && deviceHeight > 900) {
-    imageWidth = (imageWidth / 100) * 120
-    imageHeight = (imageHeight / 100) * 120
+  const largerThanAnyCellphone =
+    deviceWidth > parseInt(vars.largestMobileWidth, 10) && deviceHeight > parseInt(vars.largestMobileHeight, 10)
+  if (largerThanAnyCellphone) {
+    imageWidth = imageWidth * 1.2
+    imageHeight = imageHeight * 1.2
   }
 
   return (
@@ -83,12 +85,12 @@ const styles = StyleSheet.create({
     bottom: 42,
     left: 0,
     right: 0,
-    paddingHorizontal: 20,
+    paddingHorizontal: 24,
     justifyContent: 'center',
   },
   overlayButton: {
-    maxWidth: 800 - 24 - 24,
     marginHorizontal: 'auto',
+    maxWidth: vars.maxButtonWidth,
   },
   modalContent: {
     alignItems: 'center',
@@ -101,7 +103,7 @@ const styles = StyleSheet.create({
     marginTop: 32,
   },
   text: {
-    maxWidth: 500,
+    maxWidth: vars.maxWidthForReadableText,
     marginVertical: 32,
     textAlign: 'center',
   },
