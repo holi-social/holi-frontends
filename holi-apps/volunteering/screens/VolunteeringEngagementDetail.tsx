@@ -14,9 +14,10 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
+import HoliLink from '@holi/ui/components/molecules/HoliLink'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -87,30 +88,26 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
     return <HoliText>{t('volunteering:engagementDetail.notFound', { engagementId })}</HoliText>
   }
 
-  const openExternalLink = () => {
-    Linking.openURL(engagement.url)
-  }
-
-  const ProviderContainer = ({ source, url }: { source: string; url: string }) => {
+  const ProviderContainer = ({ source }: { source: string; url: string }) => {
     return (
       <View style={styles.cardContainer}>
-        <HoliText size={'large'}>{t('volunteering:engagementDetail.provider')}</HoliText>
-        <View style={styles.providerInfoRow}>
+        <HoliText size="large">{t('volunteering:engagementDetail.provider')}</HoliText>
+        <HoliLink style={styles.providerInfoRow} href={engagement.url} label={''} external>
+          {/* local image until we have multiple providers / correct provider image */}
+          <HoliLocalImage
+            imageSource={require('@holi/ui/assets/img/aktion-mensch-logo.svg')}
+            isSvg
+            width={40}
+            height={40}
+            style={styles.providerImage}
+            label={''}
+            resizeMode="contain"
+          />
           <View style={{ flex: 3 }}>
             <HoliText>{source}</HoliText>
           </View>
-          <HoliButton
-            style={styles.shareButton}
-            label={t('modal.backdrop')}
-            inline
-            transparent
-            onPress={() => {
-              Linking.openURL(url)
-            }}
-          >
-            <HoliIcon icon="share-box" size={15} color={colors.backgroundColorModalDark} />
-          </HoliButton>
-        </View>
+          <HoliIcon style={styles.shareIcon} icon="share-box" size={15} color={colors.backgroundColorModalDark} />
+        </HoliLink>
       </View>
     )
   }
@@ -160,7 +157,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
         <HoliButtonLoading
           icon="share-box"
           label={t('volunteering:engagementDetail.getInTouch')}
-          onPress={() => openExternalLink()}
+          onPress={() => Linking.openURL(engagement.url)}
           testID="volunteering-engagement-get-in-touch-btn"
         />
       </View>
@@ -209,6 +206,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginRight: 16,
   },
+  providerImage: {
+    marginRight: 16,
+  },
   providerInfoRow: {
     flex: 1,
     flexDirection: 'row',
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 16,
   },
-  shareButton: {
+  shareIcon: {
     display: 'flex',
     flex: 1,
     alignItems: 'flex-end',
