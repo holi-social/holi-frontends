@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, StyleSheet, View } from 'react-native'
+import { FlatList, Platform, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   listHeader: {
-    paddingTop: Number(variables.topBarHeight) + 24,
+    paddingTop: Number(variables.topBarHeight) + (Platform.OS === 'android' ? Number(variables.topBarHeight) + 24 : 24),
     paddingBottom: 32,
   },
   title: {
