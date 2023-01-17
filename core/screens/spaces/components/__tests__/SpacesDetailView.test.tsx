@@ -5,6 +5,8 @@ import React from 'react'
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import { space } from '@holi/core/screens/spaces/components/__tests__/testData'
 
+jest.useFakeTimers()
+
 describe('SpaceDetailView', () => {
   it('renders correctly', () => {
     const { getByText, getAllByText } = render(
