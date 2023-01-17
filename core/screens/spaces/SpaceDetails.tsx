@@ -7,14 +7,14 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
-import { useScrollYHandler } from '@holi/core/helpers'
+import { useScrollYHandler, useToastForNotAvailableFeature } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import MoreButton from '@holi/core/navigation/components/MoreButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
 export type SpaceDetailsParams = {
@@ -33,6 +33,9 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   const { setOptions } = useUnifiedNavigation()
 
+  // TODO: remove after implementing the feature
+  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
+
   useLayoutEffect(() => {
     setOptions({
       animation: 'slide_from_bottom',
@@ -41,7 +44,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
       headerTitle: () => null,
       headerLeft: () =>
         Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left" /> : <HeaderBackButton icon="arrow-down-s" />,
-      headerRight: () => <HoliIcon icon="more" />,
+      headerRight: () => <MoreButton onPress={handleMoreButtonPress} />,
       navigationCustomOptions: {
         footerShown: false,
       },
@@ -53,6 +56,10 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   })
 
   const space = data?.spaceById
+
+  const handleMoreButtonPress = () => {
+    showFeatureNotImplementedToast()
+  }
 
   if (error) {
     logError(error, `[SpaceDetails.tsx] ${error.message}`)
