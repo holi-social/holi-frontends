@@ -7,9 +7,11 @@ import { RouteName } from '@holi/mobile/navigation/routeName'
 import { colors } from '@holi/ui/styles/globalVars'
 
 import VolunteeringAppHome from '@holi-apps/volunteering/screens/VolunteeringAppHome'
+import VolunteeringEngagementDetail from '@holi-apps/volunteering/screens/VolunteeringEngagementDetail'
 
 export type VolunteeringAppScreensList = {
   [RouteName.VolunteeringAppHome]: undefined
+  [RouteName.VolunteeringAppEngagmentDetail]: undefined
 }
 
 const VolunteeringAppStack = createNativeStackNavigator<VolunteeringAppScreensList>()
@@ -28,6 +30,10 @@ const VolunteeringAppNavigator: React.VFC = () => {
       }}
     >
       <VolunteeringAppStack.Screen name={RouteName.VolunteeringAppHome} component={VolunteeringAppHome} />
+      <VolunteeringAppStack.Screen
+        name={RouteName.VolunteeringAppEngagmentDetail}
+        component={VolunteeringEngagementDetail}
+      />
     </VolunteeringAppStack.Navigator>
   )
 }

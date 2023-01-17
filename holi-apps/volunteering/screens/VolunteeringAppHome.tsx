@@ -52,7 +52,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
 
   return (
     <DefaultLayout style={styles.defaultLayout} scrollView={false} headerOverlap>
-      <View style={[mixins.container]} testID="volunteering-list-container">
+      <View style={[mixins.container]} testID="volunteering-app-home">
         <SafeAreaView>
           <VolunteeringListing />
         </SafeAreaView>

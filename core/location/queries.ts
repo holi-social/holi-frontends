@@ -6,6 +6,7 @@ export const geoPlacesQuery = gql`
   query PlacesSuggestions($input: String!) {
     geo_places(input: $input) {
       description
+      mainText
     }
   }
 `

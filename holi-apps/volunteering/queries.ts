@@ -40,3 +40,28 @@ export const VolunteeringEngagementsQuery = gql`
     }
   }
 `
+
+export const engagementByIdQuery = gql`
+  ${FullEngagementFragment}
+
+  query EngagementById($id: String!) {
+    appVolunteering_engagement(id: $id) {
+      ...FullEngagement
+    }
+  }
+`
+export type AppVolunteeringEngagementByIdResponse = {
+  appVolunteering_engagement: VolunteeringEngagement
+}
+
+export const trackEngagementViewMutation = gql`
+  mutation TrackEngagementView($id: String!) {
+    appVolunteering_trackEngagementView(id: $id) {
+      id
+    }
+  }
+`
+
+export type TrackEngagementViewResponse = {
+  id: string
+}

@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { StyleProp, ViewStyle } from 'react-native'
 
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { displayError } from '@holi/core/errors/helpers'
@@ -10,14 +10,13 @@ import { JoinSpaceResponse, joinSpaceMutation } from '@holi/core/screens/spaces/
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
-import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpaceFollowProps = {
   space: Space
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
+const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, style }) => {
   const { t } = useTranslation()
   const { isLoggedIn } = useAuth()
   const { openLoginDialog } = useLoginRedirect()
@@ -70,7 +69,7 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
           type="secondary"
           label={t('spaces.follow.btn.follow')}
           onPress={sendFollowRequest}
-          style={[styles.actionButtonFollow, props.style]}
+          style={style}
           disabled={loading}
           iconSpinning={loading}
           testID="follow-btn"
@@ -82,7 +81,7 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
           inline
           label={t('spaces.follow.btn.unfollow')}
           onPress={() => setUnfollowDialogIsOpen(true)}
-          style={[styles.actionButtonFollow, props.style]}
+          style={style}
           disabled={loading}
           iconSpinning={loading}
           testID="unfollow-btn"
@@ -93,7 +92,7 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
         show={unfollowDialogIsOpen}
         label={t('spaces.follow.unfollow.confirm.headline', { spaceName: space.title })}
         title={t('spaces.follow.unfollow.confirm.headline', { spaceName: space.title })}
-        description={t('spaces.follow.unfollow.confirm.text')}
+        description={t('spaces.follow.unfollow.confirm.text', { spaceName: space.title })}
         dismissText={t('global.dismiss')}
         confirmText={t('global.yes')}
         onConfirm={submitUnfollowRequest}
@@ -105,12 +104,3 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, ...props }) => {
 }
 
 export default SpaceFollow
-
-const styles = StyleSheet.create({
-  actionButtonFollow: {
-    marginLeft: 8,
-  },
-  pending: {
-    color: colors.fontColorDisabled,
-  },
-})

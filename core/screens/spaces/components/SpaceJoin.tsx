@@ -77,7 +77,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
           inline
           label={t('spaces.join.btnPending')}
           onPress={() => setWithdrawDialogIsOpen(true)}
-          style={[styles.actionButtonJoin, props.style]}
+          style={props.style}
           disabled={loading}
         >
           <HoliText>{t('spaces.join.btnPending')}</HoliText>
@@ -102,9 +102,6 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
 export default SpaceJoin
 
 const styles = StyleSheet.create({
-  actionButtonJoin: {
-    marginLeft: 8,
-  },
   pending: {
     color: colors.fontColorDisabled,
   },

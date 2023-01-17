@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { FlatList, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliCardComponent from '@holi/ui/components/molecules/HoliCardComponent'
@@ -20,6 +21,7 @@ const ENGAGEMENT_PAGE_SIZE = 10
 
 const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
   const { t } = useTranslation()
+  const { navigate } = useRouting()
   const [fetchingMore, setFetchingMore] = useState(false)
   const { loading, error, data, fetchMore } = useQuery<VolunteeringEngagementsQueryResponse>(
     VolunteeringEngagementsQuery,
@@ -58,9 +60,8 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
     return <></>
   }
 
-  // TODO: To be implemented once volunteering opportunity detail view is created
   const handleCardPress = (engagement: VolunteeringEngagement) => {
-    console.log(engagement)
+    navigate(`/apps/volunteering/engagement/${engagement.id}`)
   }
 
   const renderItem = ({ item }: { item: VolunteeringEngagement }) => (
@@ -68,7 +69,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
       <HoliCardComponent
         imageUrl={item.imageUrl}
         imageLabel={item.title ?? ''}
-        testID="holiCard"
+        testID="btn-to-volunteering-engagement"
         onCardPress={() => handleCardPress(item)}
       >
         <VolunteeringCardContent engagement={item} key={item.id} />
