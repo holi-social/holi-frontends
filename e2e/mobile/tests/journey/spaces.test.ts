@@ -88,7 +88,7 @@ describe('@Spaces', () => {
     await waitForElementWithTestId('spaces-collaborators-item')
 
     // close space collaborators modal
-    await tapOnElementWithTestId('nav-button-back')
+    await tapOnElementWithTestId('btn-to-close-space-collaborators-modal')
 
     // wait until space details are displayed again
     await waitForElementWithTestId('space-details-container')

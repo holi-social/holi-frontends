@@ -163,6 +163,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
                     style={[styles.dismissIcon, deviceWidth < +vars.breakpointL && styles.dismissIconMobile]}
                     onPress={onDismiss}
                     transparent
+                    testID={`btn-to-close-${testID}-modal`}
                   >
                     <HoliIcon
                       icon={deviceWidth < +vars.breakpointL ? 'arrow-down-s' : 'close'}

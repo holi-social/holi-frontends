@@ -82,7 +82,7 @@ test.describe('@Spaces', () => {
     // check if on click the user profile is displayed
     await waitForElementByTestId(page, 'spaces-collaborators-item')
 
-    await clickElementByTestId(page, 'nav-button-down')
+    await clickElementByTestId(page, 'btn-to-close-space-collaborators-modal')
 
     await checkAccessibility(page)
 
