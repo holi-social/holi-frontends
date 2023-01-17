@@ -5,7 +5,7 @@ import React from 'react'
 import SpaceHeader from '@holi/core/screens/spaces/components/SpaceHeader'
 import { space } from '@holi/core/screens/spaces/components/__tests__/testData'
 
-jest.useFakeTimers({ legacyFakeTimers: true })
+jest.useFakeTimers()
 
 describe('SpaceHeader', () => {
   it('renders correctly', () => {
