@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpaceHeader from '@holi/core/screens/spaces/components/SpaceHeader'
 import SpaceSocialLinkList from '@holi/core/screens/spaces/components/SpaceSocialLinkList'
@@ -8,7 +8,7 @@ import SpaceTaskList from '@holi/core/screens/spaces/components/SpaceTaskList'
 import SpaceWelcome from '@holi/core/screens/spaces/components/SpaceWelcome'
 import { Space } from '@holi/core/screens/spaces/types'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type SpaceDetailViewProps = {
@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
   },
   tabStyle: {
     backgroundColor: colors.backgroundColorGrey,
+    paddingBottom: Platform.OS === 'web' ? +vars.bottomBarHeight : 24,
   },
 })
 

@@ -71,7 +71,12 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   return (
     <>
-      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.defaultLayout}>
+      <DefaultLayout
+        onScroll={onScreenScroll}
+        scrollEventThrottle={200}
+        style={styles.defaultLayout}
+        contentStyle={styles.contentStyle}
+      >
         <SpaceDetailView style={styles.spaceDetailView} space={space} />
       </DefaultLayout>
       <SpaceDashboardModal />
@@ -88,6 +93,9 @@ const styles = StyleSheet.create({
         minHeight: '100vh',
       },
     }),
+  },
+  contentStyle: {
+    paddingBottom: 0,
   },
   spaceDetailView: {
     flex: 1,
