@@ -105,8 +105,7 @@ const FooterTabBar: React.VoidFunctionComponent = () => {
           </HoliText>
         </HoliButton>
 
-        <View style={styles.button}>
-          <LoginProfileButton focused={isProfileLoginRefistrationForgotPassword} />
+        <LoginProfileButton focused={isProfileLoginRefistrationForgotPassword} style={styles.button}>
           <HoliText
             size="extrasmall"
             style={[
@@ -116,7 +115,7 @@ const FooterTabBar: React.VoidFunctionComponent = () => {
           >
             {isLoggedIn ? t('profile.title') : t('auth.login')}
           </HoliText>
-        </View>
+        </LoginProfileButton>
       </View>
     </View>
   )
