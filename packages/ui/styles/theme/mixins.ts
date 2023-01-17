@@ -14,7 +14,7 @@ const staticStyles = StyleSheet.create({
   },
   moreButton: {
     marginTop: 50,
-    maxWidth: 800,
+    maxWidth: vars.maxButtonWidth,
     alignSelf: 'center',
   },
 })
