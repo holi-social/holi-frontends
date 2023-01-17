@@ -89,9 +89,6 @@ export const createCache = () =>
         },
       },
       DiscoverSpaces: {
-        fields: {
-          data: indexAwareOffsetLimitPagination(),
-        },
         keyFields: ['topicId', 'location', 'skillId'],
       },
       Query: {

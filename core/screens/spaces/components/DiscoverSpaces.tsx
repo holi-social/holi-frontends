@@ -41,8 +41,8 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
         skillIds: userSkills.map((s) => s.id),
         location: user?.location,
       },
+
       fetchPolicy: 'cache-and-network',
-      nextFetchPolicy: 'cache-only',
     })
 
   // default spaces suggestions
@@ -54,7 +54,6 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
           (user?.location || '').toLocaleLowerCase() === DEFAULT_LOCATION.toLocaleLowerCase() ? null : DEFAULT_LOCATION,
       },
       fetchPolicy: 'cache-and-network',
-      nextFetchPolicy: 'cache-only',
     })
 
   useEffect(() => {
@@ -75,7 +74,7 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
     displayError(errorDefault, t('spaces.spaceListing.error'))
   }
 
-  if (topicsLoading || loadingUserSpecific || loadingDefaultData) {
+  if (topicsLoading || (!dataUserSpecific && loadingUserSpecific) || (!dataDefault && loadingDefaultData)) {
     // TODO: replace with proper loading indicator
     return (
       <View style={styles.loadingContainer}>
