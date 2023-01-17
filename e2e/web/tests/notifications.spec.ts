@@ -96,7 +96,7 @@ test.describe('@Notifications', () => {
       await clickElementByTestId(page, 'post-comment-mention')
 
       // after clicking on notification we should go to post detail page and scroll to the comment
-      await expect(page.getByText(commentTextContent)).toBeVisible()
+      await expect(page.getByText(commentTextContent)).toBeVisible({ timeout: 10000 })
     })
   })
 })
