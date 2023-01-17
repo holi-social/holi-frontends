@@ -44,22 +44,18 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
       headerTitle: () => null,
       headerLeft: () =>
         Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left" /> : <HeaderBackButton icon="arrow-down-s" />,
-      headerRight: () => <MoreButton onPress={handleMoreButtonPress} />,
+      headerRight: () => <MoreButton onPress={showFeatureNotImplementedToast} />,
       navigationCustomOptions: {
         footerShown: false,
       },
     })
-  }, [setOptions])
+  }, [setOptions, showFeatureNotImplementedToast])
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { id: spaceId },
   })
 
   const space = data?.spaceById
-
-  const handleMoreButtonPress = () => {
-    showFeatureNotImplementedToast()
-  }
 
   if (error) {
     logError(error, `[SpaceDetails.tsx] ${error.message}`)
