@@ -41,7 +41,11 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
   const renderItem = ({ item }: { item: VolunteeringEngagement }) => {
     const { organizer } = item
     const title = organizer?.name
-      ? t('volunteering:engagement.title', { title: item.title, organization: organizer?.name })
+      ? t('volunteering:engagement.title', {
+          title: item.title,
+          organization: organizer?.name,
+          interpolation: { escapeValue: false },
+        })
       : item.title
 
     return (
