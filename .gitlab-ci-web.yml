@@ -92,7 +92,12 @@ storybook_publish:
   tags:
     - holi-big
   only:
-    - main
+    refs:
+      - main
+    changes:
+      - apps/storybook/*
+      - packages/ui/*
+      - "**/*.stories.tsx"
 
 web_build_docker:
   needs: ['web_build']
