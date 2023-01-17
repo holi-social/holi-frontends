@@ -6,6 +6,7 @@
   "engagementDetail.getInTouch": "Kontakt aufnehmen",
   "engagementDetail.organizer": "Organisator",
   "engagementDetail.provider": "Träger",
+  "engagementDetail.provider.link.btn": "Seite von {{source}}",
   "engagementDetail.notFound": "Projekt mit ID {{engagementId}} wurde nicht gefunden",
   "filter.heading": "Projekte filtern",
   "listing.error": "Laden von Projekten ist fehlgeschlagen",
