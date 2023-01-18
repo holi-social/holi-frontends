@@ -11,6 +11,10 @@ import { DiscoverSpacesResponse, discoverSpacesQuery } from '@holi/core/screens/
 import { User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
+/**
+ * DiscoverSpaces are not paginated but may contain a limit of items in each list of spaces.
+ * This means that the offset variable is ommited in our query, but we may add a limit variable.
+ */
 const SPACES_GROUP_LIMIT = 10
 
 type DiscoverSpacesProps = {
