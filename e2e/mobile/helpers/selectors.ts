@@ -84,34 +84,39 @@ export const scroll = async (direction: ScrollDirection, { repetitions = 1 }: { 
   const vectorX = isVertical ? calculateCrossAxisScrollVector(width) : calculateScrollVector(width, isReverse)
   const vectorY = isVertical ? calculateScrollVector(height, isReverse) : calculateCrossAxisScrollVector(height)
 
+  /**
+   * Actions taken from webdriverio's boilerplate examples: https://github.com/webdriverio/appium-boilerplate/blob/main/tests/helpers/Gestures.ts#L120
+   * Boilerplate above found from this thread: https://github.com/webdriverio/webdriverio/issues/521#issuecomment-1222652365
+   */
+
   for (let rep = 0; rep < repetitions; rep++) {
     await Appium.performActions([
       {
+        // a. Create the event
         type: 'pointer',
         id: 'finger1',
         parameters: { pointerType: 'touch' },
         actions: [
-          {
-            type: 'pointerMove',
-            duration: 0,
-            x: vectorX.start,
-            y: vectorY.start,
-          },
+          // b. Move finger into start position
+          { type: 'pointerMove', duration: 0, x: vectorX.start, y: vectorY.start },
+          // c. Finger comes down into contact with screen
           { type: 'pointerDown', button: 0 },
+          // d. Pause for a little bit
           { type: 'pause', duration: 100 },
-          {
-            type: 'pointerMove',
-            duration: 200,
-            origin: 'pointer',
-            x: vectorX.length,
-            y: vectorY.length,
-          },
+          // e. Finger moves to end position
+          //    We move our finger from the center of the element to the
+          //    starting position of the element.
+          //    Play with the duration to make the swipe go slower / faster
+          { type: 'pointerMove', duration: 1000, x: vectorX.length, y: vectorY.length },
+          // f. Finger gets up, off the screen
           { type: 'pointerUp', button: 0 },
-          { type: 'pause', duration: repetitions > 1 ? 1000 : 100 },
         ],
       },
     ])
   }
+
+  // Add a pause, just to make sure the swipe is done
+  await Appium.pause(1000)
 }
 
 type ScrollVector = {
@@ -126,11 +131,8 @@ const calculateScrollVector = (axisLength: number, isReverse: boolean): ScrollVe
   const upperPoint = (axisLength * upperPercentage) / 100
   const lowerPoint = (axisLength * lowerPercentage) / 100
   const startPoint = isReverse ? lowerPoint : upperPoint
-  // y-value is platform dependent, empirically measured by watching videos of the scroll behaviour on browserstack
-  // The way it's set up here both platforms scroll almost a full page.
-  const movementAndroid = isReverse ? upperPoint - lowerPoint : lowerPoint - upperPoint
-  const movementIOS = movementAndroid / 4
-  const movement = platform === 'ios' ? movementIOS : movementAndroid
+
+  const movement = isReverse ? upperPoint - lowerPoint : lowerPoint - upperPoint
   return {
     start: startPoint,
     length: movement,
