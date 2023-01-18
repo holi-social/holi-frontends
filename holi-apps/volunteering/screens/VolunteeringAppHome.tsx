@@ -51,7 +51,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
   }, [setOptions, navigate, t, title, showFeatureNotImplementedToast])
 
   return (
-    <DefaultLayout style={styles.defaultLayout} scrollView={false} headerOverlap>
+    <DefaultLayout style={styles.defaultLayout} scrollView={false} headerOverlap testID={'volunteering-list-container'}>
       <View style={[mixins.container]} testID="volunteering-app-home">
         <SafeAreaView>
           <VolunteeringListing />
