@@ -11,6 +11,8 @@ import { DiscoverSpacesResponse, discoverSpacesQuery } from '@holi/core/screens/
 import { User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
+const SPACES_GROUP_LIMIT = 10
+
 type DiscoverSpacesProps = {
   user?: User
   style?: StyleProp<ViewStyle>
@@ -40,6 +42,7 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
         topicIds: userTopics.map((t) => t.id),
         skillIds: userSkills.map((s) => s.id),
         location: user?.location,
+        limit: SPACES_GROUP_LIMIT,
       },
       fetchPolicy: 'cache-and-network',
     })
@@ -51,6 +54,7 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
         topicIds: defaultTopicIds,
         location:
           (user?.location || '').toLocaleLowerCase() === DEFAULT_LOCATION.toLocaleLowerCase() ? null : DEFAULT_LOCATION,
+        limit: SPACES_GROUP_LIMIT,
       },
       fetchPolicy: 'cache-and-network',
     })
