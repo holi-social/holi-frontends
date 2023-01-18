@@ -22,15 +22,15 @@ describe('@Donations', () => {
 
   // fails on android: The element 'By.xpath: //*[@resource-id='donations-search-modal']' does not exist in DOM anymore
   // fails on ios: Couldn't tap on element with testID: donations-list-item
-  it.skip('should support the user journey', async () => {
+  it('should support the user journey', async () => {
     // preparation of test
     await navigateToAppById('donations')
+
+    await assertProjectDetails()
 
     const listItemsBefore = await assertDisplaysMultipleProjects()
 
     await assertAllowsPagination(listItemsBefore)
-
-    await assertProjectDetails()
 
     const resultCountGermany = await assertFilterDonationsByLocation()
 
@@ -103,7 +103,7 @@ const assertAllowsPagination = async (listItemsBefore: Record<string, unknown>[]
 
 const assertDisplaysMultipleProjects = async () => {
   // scroll to button and count elements in viewport
-  await scrollToElementWithTestId('btn-donation-list-load-more', 'down', { maxAttempts: 10 })
+  await scrollToElementWithTestId('btn-donation-list-load-more', 'down', { repetitions: 2, maxAttempts: 10 })
   const listItemsBefore = await locateMultipleElementsWithTestId('donations-list-item')
   expect(listItemsBefore.length).toBeGreaterThan(1)
   return listItemsBefore

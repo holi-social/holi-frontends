@@ -84,7 +84,11 @@ export const scroll = async (direction: ScrollDirection, { repetitions = 1 }: { 
   const vectorX = isVertical ? calculateCrossAxisScrollVector(width) : calculateScrollVector(width, isReverse)
   const vectorY = isVertical ? calculateScrollVector(height, isReverse) : calculateCrossAxisScrollVector(height)
 
-  // actions taken from webdriverio's boilerplate examples: https://github.com/webdriverio/appium-boilerplate/blob/main/tests/helpers/Gestures.ts#L120
+  /**
+   * Actions taken from webdriverio's boilerplate examples: https://github.com/webdriverio/appium-boilerplate/blob/main/tests/helpers/Gestures.ts#L120
+   * Boilerplate above found from this thread: https://github.com/webdriverio/webdriverio/issues/521#issuecomment-1222652365
+   */
+
   for (let rep = 0; rep < repetitions; rep++) {
     await Appium.performActions([
       {
