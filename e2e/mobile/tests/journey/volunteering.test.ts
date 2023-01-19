@@ -36,7 +36,7 @@ const assertListItemExisting = async () => {
 
 const navigateToDetailview = async () => {
   await tapOnElementWithTestId('btn-to-volunteering-engagement')
-  await waitForElementWithTestId('volunteering-engagement-detail-container')
+  await waitForElementWithTestId('volunteering-detailview-container')
 
   // go back to items listing
   await scrollToElementWithTestId('nav-button-back', 'up')

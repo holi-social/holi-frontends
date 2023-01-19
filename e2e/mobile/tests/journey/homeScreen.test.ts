@@ -15,11 +15,11 @@ describe('@HomeScreen', () => {
 
     await assertAllowsPagination()
 
-    await assertShowsDonationUpdates()
+    await assertShowsAppUpdates('donations')
 
-    await assertShowsGoodNewsUpdates()
+    await assertShowsAppUpdates('goodnews')
 
-    await assertShowsVolunteeringUpdates()
+    await assertShowsAppUpdates('volunteering')
 
     await assertShowsNoUserSuggestionsWhenLoggedOut()
 
@@ -58,46 +58,16 @@ const assertAllowsPagination = async () => {
   expect(listItemsAfter.length).toBeGreaterThan(listItemsBefore.length)
 }
 
-const assertShowsDonationUpdates = async () => {
+const assertShowsAppUpdates = async (app: string) => {
   // check if donation updates are displayed
-  await scrollToElementWithTestId('donations-updates-item', 'down')
-  await waitForElementWithTestId('donations-updates-heading')
+  await scrollToElementWithTestId(`${app}-updates-item`, 'down')
+  await waitForElementWithTestId(`${app}-updates-heading`)
 
   // click first element in ScrollView
-  await tapOnElementWithTestId('donations-updates-item')
+  await tapOnElementWithTestId(`${app}-updates-item`)
 
   // expect detail view
-  await waitForElementWithTestId('donations-project-detail-heading')
-
-  // await navigateBackToHomeScreen()
-  await navigateBackToHomeScreen('nav-button-back')
-}
-
-const assertShowsGoodNewsUpdates = async () => {
-  // check if good news updates are displayed
-  await scrollToElementWithTestId('goodnews-updates-item', 'down')
-  await waitForElementWithTestId('goodnews-updates-heading')
-
-  // click first element in ScrollView
-  await tapOnElementWithTestId('goodnews-updates-item')
-
-  // expect good news app
-  await waitForElementWithTestId('goodnews-article-component')
-
-  // await navigateBackToHomeScreen()
-  await navigateBackToHomeScreen('nav-button-back')
-}
-
-const assertShowsVolunteeringUpdates = async () => {
-  // check if good news updates are displayed
-  await scrollToElementWithTestId('volunteering-updates-item', 'down')
-  await waitForElementWithTestId('volunteering-updates-heading')
-
-  // click first element in ScrollView
-  await tapOnElementWithTestId('volunteering-updates-item')
-
-  // expect good news app
-  await waitForElementWithTestId('volunteering-engagement-detail-container')
+  await waitForElementWithTestId(`${app}-detailview-container`)
 
   // await navigateBackToHomeScreen()
   await navigateBackToHomeScreen('nav-button-back')

@@ -28,7 +28,7 @@ describe('@GoodNews', () => {
 })
 
 const assertListItemExisting = async () => {
-  await waitForElementWithTestId('goodnews-article-component')
+  await waitForElementWithTestId('goodnews-detailview-container')
 }
 
 const assertAllowsPagination = async () => {

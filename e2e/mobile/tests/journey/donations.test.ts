@@ -83,7 +83,7 @@ const assertProjectDetails = async () => {
   // navigate to details page
   await tapOnElementWithTestId('donations-list-item')
   // assert detail page
-  await waitForElementWithTestId('donations-project-detail-heading')
+  await waitForElementWithTestId('donations-detailview-container')
   await waitForElementWithTestId('donations-project-detail-donate-btn')
   await waitForElementWithTestId('donations-project-initiative-btn')
   // navigate back
