@@ -19,6 +19,8 @@ describe('@HomeScreen', () => {
 
     await assertShowsGoodNewsUpdates()
 
+    await assertShowsVolunteeringUpdates()
+
     await assertShowsNoUserSuggestionsWhenLoggedOut()
 
     await assertShowsUserSuggestionsWhenLoggedIn()
@@ -81,6 +83,21 @@ const assertShowsGoodNewsUpdates = async () => {
 
   // expect good news app
   await waitForElementWithTestId('goodnews-article-component')
+
+  // await navigateBackToHomeScreen()
+  await navigateBackToHomeScreen('nav-button-back')
+}
+
+const assertShowsVolunteeringUpdates = async () => {
+  // check if good news updates are displayed
+  await scrollToElementWithTestId('volunteering-updates-item', 'down')
+  await waitForElementWithTestId('volunteering-updates-heading')
+
+  // click first element in ScrollView
+  await tapOnElementWithTestId('volunteering-updates-item')
+
+  // expect good news app
+  await waitForElementWithTestId('volunteering-engagement-detail-container')
 
   // await navigateBackToHomeScreen()
   await navigateBackToHomeScreen('nav-button-back')
