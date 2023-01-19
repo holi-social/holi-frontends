@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client/core'
 
-import { Space } from '@holi/core/screens/spaces/types'
+import { Space, SpaceSection } from '@holi/core/screens/spaces/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { Paged } from '@holi/core/types'
 
@@ -169,9 +169,5 @@ export const mySpaceQuery = gql`
 export type SpaceUserConnectionType = string
 
 export type MySpacesResponse = {
-  mySpaces: {
-    section: string
-    type: string
-    spaces: Paged<Space>
-  }[]
+  mySpaces: SpaceSection[]
 }

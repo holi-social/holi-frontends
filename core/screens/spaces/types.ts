@@ -1,4 +1,5 @@
 import { Skill, User } from '@holi/core/screens/userprofile/types'
+import { Paged } from '@holi/core/types'
 
 export interface SpaceMember {
   id: string
@@ -47,7 +48,7 @@ export enum SpaceSectionType {
 export type SpaceSection = {
   section: string
   type: SpaceSectionType
-  spaces: { data: Space[] }
+  spaces: Paged<Space>
 }
 
 export interface Task {

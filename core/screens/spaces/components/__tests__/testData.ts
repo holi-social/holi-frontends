@@ -12,8 +12,13 @@ export const user: User = {
   avatarLabel: 'SB',
   avatarDefaultColor: '#FFFFFF',
   interests: [
-    { id: 'ANIMAL_WELFARE', title: 'Animal welfare' },
-    { id: 'ENVIRONMENTAL_PROTECTION', title: 'Environmental Protection' },
+    { id: 'ANIMAL_WELFARE', title: 'Animal welfare', slug: 'animal-welfare', isDiscoverSpacesDefault: false },
+    {
+      id: 'ENVIRONMENTAL_PROTECTION',
+      title: 'Environmental Protection',
+      slug: 'environmental-protection',
+      isDiscoverSpacesDefault: false,
+    },
   ],
 }
 
@@ -44,8 +49,8 @@ export const task: Task = {
   location: 'Hamburg, Germany',
   regularity: 'PROJECT_BASED',
   skills: [
-    { id: 'COMMUNICATION_SKILLS', title: 'Communication skills' },
-    { id: 'CREATIVITY', title: 'Creativity' },
+    { id: 'COMMUNICATION_SKILLS', title: 'Communication skills', slug: 'communication-skills' },
+    { id: 'CREATIVITY', title: 'Creativity', slug: 'creativity' },
   ],
 }
 
@@ -111,11 +116,14 @@ export const spacesGroups: DiscoverSpacesGroup[] = [
 export const topic: Topic = {
   id: 'TEST_TOPIC',
   title: 'Topic title',
+  slug: 'test-topic',
+  isDiscoverSpacesDefault: false,
 }
 
 export const skill: Skill = {
   id: 'TEST_SKILL',
   title: 'Skill title',
+  slug: 'test-skill',
 }
 
 export const location = 'TEST_LOCATION'
@@ -125,6 +133,7 @@ export const mySpaces: SpaceSection[] = [
     section: 'Member',
     type: SpaceSectionType.MEMBER,
     spaces: {
+      totalResults: 2,
       data: [
         {
           ...space,
@@ -143,6 +152,7 @@ export const mySpaces: SpaceSection[] = [
     section: 'Creator',
     type: SpaceSectionType.CREATOR,
     spaces: {
+      totalResults: 2,
       data: [
         {
           ...space,
@@ -161,6 +171,7 @@ export const mySpaces: SpaceSection[] = [
     section: 'Follower',
     type: SpaceSectionType.FOLLOWER,
     spaces: {
+      totalResults: 2,
       data: [
         {
           ...space,
