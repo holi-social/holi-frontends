@@ -45,7 +45,7 @@ const navigateToDetailview = async () => {
 
 const assertAllowsPagination = async () => {
   // swipe to the bottom until the load more button is visible
-  await scrollToElementWithTestId('btn-volunteering-list-load-more', 'down', { repetitions: 4 })
+  await scrollToElementWithTestId('btn-volunteering-list-load-more', 'down', { maxAttempts: 5 })
   // load more
   await tapOnElementWithTestId('btn-volunteering-list-load-more')
   // wait a moment

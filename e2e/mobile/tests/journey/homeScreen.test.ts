@@ -1,8 +1,8 @@
 import { defaultAuthSteps } from '../../helpers/auth'
+import { swipeUp } from '../../helpers/gestures'
 import { navigateBackToHomeScreen } from '../../helpers/navigation'
 import {
   locateMultipleElementsWithTestId,
-  scroll,
   scrollToElementWithTestId,
   tapOnElementWithTestId,
   waitForElementWithTestId,
@@ -17,8 +17,7 @@ describe('@HomeScreen', () => {
 
     await assertShowsDonationUpdates()
 
-    // FIXME failing on ios, see HOLI-3046
-    // await assertShowsGoodNewsUpdates()
+    await assertShowsGoodNewsUpdates()
 
     await assertShowsNoUserSuggestionsWhenLoggedOut()
 
@@ -42,7 +41,7 @@ const assertShowsInsights = async () => {
   await waitForElementWithTestId('insight-headline')
 
   // go home
-  await navigateBackToHomeScreen()
+  await navigateBackToHomeScreen('nav-button-back')
 }
 
 const assertAllowsPagination = async () => {
@@ -67,29 +66,29 @@ const assertShowsDonationUpdates = async () => {
 
   // expect detail view
   await waitForElementWithTestId('donations-project-detail-heading')
+
+  // await navigateBackToHomeScreen()
+  await navigateBackToHomeScreen('nav-button-back')
 }
 
-// const assertShowsGoodNewsUpdates = async () => {
-//   // go home
-//   await navigateBackToHomeScreen()
+const assertShowsGoodNewsUpdates = async () => {
+  // check if good news updates are displayed
+  await scrollToElementWithTestId('goodnews-updates-item', 'down')
+  await waitForElementWithTestId('goodnews-updates-heading')
 
-//   // check if good news updates are displayed
-//   await scrollToElementWithTestId('goodnews-updates-item', 'down')
-//   await waitForElementWithTestId('goodnews-updates-heading')
+  // click first element in ScrollView
+  await tapOnElementWithTestId('goodnews-updates-item')
 
-//   // click first element in ScrollView
-//   await tapOnElementWithTestId('goodnews-updates-item')
+  // expect good news app
+  await waitForElementWithTestId('goodnews-article-component')
 
-//   // expect good news app
-//   await waitForElementWithTestId('goodnews-article-component')
-// }
+  // await navigateBackToHomeScreen()
+  await navigateBackToHomeScreen('nav-button-back')
+}
 
 const assertShowsNoUserSuggestionsWhenLoggedOut = async () => {
-  // go home
-  await navigateBackToHomeScreen()
-
-  // scroll to bottom
-  await scroll('down', { repetitions: 5 })
+  // scroll to bottom (swipe up, opposite direction)
+  await swipeUp()
 
   // user suggestions element should be null when logged out
   await waitForElementWithTestIdToBeNull('user-suggestions')
@@ -100,7 +99,7 @@ const assertShowsUserSuggestionsWhenLoggedIn = async () => {
   await defaultAuthSteps()
 
   // go home
-  await navigateBackToHomeScreen()
+  await navigateBackToHomeScreen('btn-to-home-view')
 
   // scroll down to user suggestions element should be visible
   await scrollToElementWithTestId('user-suggestions', 'down', { maxAttempts: 5 })

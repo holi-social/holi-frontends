@@ -1,3 +1,5 @@
+import { swipeDown, swipeLeft, swipeRight, swipeUp } from './gestures'
+
 type ScrollDirection = 'up' | 'down' | 'left' | 'right'
 
 // https://webdriver.io/docs/selectors
@@ -42,11 +44,7 @@ export const checkIfElementWithTestIdExists = async (testId: string) => {
 export const scrollToElementWithTestId = async (
   testId: string,
   direction: ScrollDirection,
-  {
-    timeout = 1000,
-    maxAttempts = 5,
-    repetitions,
-  }: { timeout?: number; maxAttempts?: number; repetitions?: number } = {}
+  { timeout = 1000, maxAttempts = 5 }: { timeout?: number; maxAttempts?: number } = {}
 ) => {
   let scrollCounter = 0
   const implicitTimeout = Appium.options.waitforTimeout
@@ -63,89 +61,21 @@ export const scrollToElementWithTestId = async (
       //  `${new Date().getTime()}: element with testID ${testId} not found after scrolling ${scrollCounter}/${maxAttempts} times `
       //)
     }
-    // On Android, a scrollToElement only works when it is lower on the page
-    // hypothesis: scrolling up starts in the header area and the header suppresses the scroll
-    // Therefore, we do scrolling via finger actions
-    // Luckily, this also works on iOS
-    await scroll(direction, { repetitions })
+
+    /**
+     * Swiping works in opposite direction to scrolling (swiping left means scrolling right).
+     * Hence the inverted directions below.
+     */
+    if (direction === 'down') swipeUp()
+    if (direction === 'up') swipeDown()
+    if (direction === 'left') swipeRight()
+    if (direction === 'right') swipeLeft()
+
     scrollCounter++
   }
   await Appium.setImplicitTimeout(implicitTimeout)
   // last try
   return await waitForElementWithTestId(testId, 1)
-}
-
-export const scroll = async (direction: ScrollDirection, { repetitions = 1 }: { repetitions?: number } = {}) => {
-  const isVertical = ['up', 'down'].includes(direction)
-  const isReverse = ['down', 'right'].includes(direction)
-
-  const { width, height } = await Appium.getWindowSize()
-
-  const vectorX = isVertical ? calculateCrossAxisScrollVector(width) : calculateScrollVector(width, isReverse)
-  const vectorY = isVertical ? calculateScrollVector(height, isReverse) : calculateCrossAxisScrollVector(height)
-
-  /**
-   * Actions taken from webdriverio's boilerplate examples: https://github.com/webdriverio/appium-boilerplate/blob/main/tests/helpers/Gestures.ts#L120
-   * Boilerplate above found from this thread: https://github.com/webdriverio/webdriverio/issues/521#issuecomment-1222652365
-   */
-
-  for (let rep = 0; rep < repetitions; rep++) {
-    await Appium.performActions([
-      {
-        // a. Create the event
-        type: 'pointer',
-        id: 'finger1',
-        parameters: { pointerType: 'touch' },
-        actions: [
-          // b. Move finger into start position
-          { type: 'pointerMove', duration: 0, x: vectorX.start, y: vectorY.start },
-          // c. Finger comes down into contact with screen
-          { type: 'pointerDown', button: 0 },
-          // d. Pause for a little bit
-          { type: 'pause', duration: 100 },
-          // e. Finger moves to end position
-          //    We move our finger from the center of the element to the
-          //    starting position of the element.
-          //    Play with the duration to make the swipe go slower / faster
-          { type: 'pointerMove', duration: 1000, x: vectorX.length, y: vectorY.length },
-          // f. Finger gets up, off the screen
-          { type: 'pointerUp', button: 0 },
-        ],
-      },
-    ])
-  }
-
-  // Add a pause, just to make sure the swipe is done
-  await Appium.pause(1000)
-}
-
-type ScrollVector = {
-  start: number
-  length: number
-}
-
-const calculateScrollVector = (axisLength: number, isReverse: boolean): ScrollVector => {
-  const upperPercentage = 25 // hypothesis: if this is too small, scroll up does not work because scroll movement starts in the header area
-  const lowerPercentage = 75
-
-  const upperPoint = (axisLength * upperPercentage) / 100
-  const lowerPoint = (axisLength * lowerPercentage) / 100
-  const startPoint = isReverse ? lowerPoint : upperPoint
-
-  const movement = isReverse ? upperPoint - lowerPoint : lowerPoint - upperPoint
-  return {
-    start: startPoint,
-    length: movement,
-  }
-}
-
-const calculateCrossAxisScrollVector = (crossAxisLength: number): ScrollVector => {
-  const anchorPercentage = 50
-  const crossAxisAnchor = (crossAxisLength * anchorPercentage) / 100
-  return {
-    start: crossAxisAnchor,
-    length: 0,
-  }
 }
 
 const locateMultipleElements = async (elementSelector: string): Promise<Record<string, unknown>[]> => {

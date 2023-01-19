@@ -103,7 +103,7 @@ const assertAllowsPagination = async (listItemsBefore: Record<string, unknown>[]
 
 const assertDisplaysMultipleProjects = async () => {
   // scroll to button and count elements in viewport
-  await scrollToElementWithTestId('btn-donation-list-load-more', 'down', { repetitions: 2, maxAttempts: 10 })
+  await scrollToElementWithTestId('btn-donation-list-load-more', 'down', { maxAttempts: 10 })
   const listItemsBefore = await locateMultipleElementsWithTestId('donations-list-item')
   expect(listItemsBefore.length).toBeGreaterThan(1)
   return listItemsBefore
