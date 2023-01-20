@@ -45,7 +45,7 @@ test.describe('@Volunteering', () => {
     // click first element in list
     await clickElementByTestId(page, 'btn-to-volunteering-engagement')
 
-    await waitForElementByTestId(page, 'volunteering-engagement-detail-container')
+    await waitForElementByTestId(page, 'volunteering-detailview-container')
 
     await checkAccessibility(page)
 

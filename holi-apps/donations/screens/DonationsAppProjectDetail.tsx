@@ -79,7 +79,10 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () 
   }
 
   return (
-    <View style={{ alignItems: 'center', flex: 1, backgroundColor: colors.backgroundColorGreyLight }}>
+    <View
+      style={{ alignItems: 'center', flex: 1, backgroundColor: colors.backgroundColorGreyLight }}
+      testID="donations-detailview-container"
+    >
       <DefaultLayout
         onScroll={onScreenScroll}
         scrollEventThrottle={200}
@@ -88,7 +91,7 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () 
         <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
           <DonationImage picture={project.picture} label={project.title} style={styles.image} />
           <View style={styles.header}>
-            <HoliHeading level="1" size={'large'} testID="donations-project-detail-heading">
+            <HoliHeading level="1" size={'large'}>
               {project.title}
             </HoliHeading>
             <View style={styles.location}>

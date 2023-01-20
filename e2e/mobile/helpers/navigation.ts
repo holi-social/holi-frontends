@@ -11,8 +11,15 @@ export const navigateToAppById = async (id: 'donations' | 'goodnews' | 'voluntee
   await waitForElementWithTestId(`${id}-list-container`)
 }
 
+type backButtonId = 'btn-to-home-view' | 'nav-button-back'
+
 // TODO decide on single implementation
-export const navigateBackToHomeScreen = async () => {
+// If back button is known, pass buttonId as an argument, otherwise enter while loop until homeScreen is reached
+export const navigateBackToHomeScreen = async (buttonId?: backButtonId) => {
+  if (buttonId) {
+    return await tapOnElementWithTestId(buttonId, 0)
+  }
+
   let homeScreenReached = false
   let firstRun = true
   while (!homeScreenReached) {

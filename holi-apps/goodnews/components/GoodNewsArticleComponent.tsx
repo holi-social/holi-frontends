@@ -29,7 +29,7 @@ const GoodNewsArticleComponent: React.VFC<GoodNewsArticleComponentProps> = ({
   return (
     <View
       style={[styles.container, style]}
-      testID={'goodnews-article-component'}
+      testID={'goodnews-detailview-container'}
       accessibilityElementsHidden={!accessible}
       importantForAccessibility={accessible ? 'yes' : 'no-hide-descendants'}
     >

@@ -1,4 +1,5 @@
 import { defaultAuthSteps, logout } from '../../helpers/auth'
+import { navigateBackToHomeScreen } from '../../helpers/navigation'
 import { tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
 describe('@Login test1', () => {
@@ -11,7 +12,7 @@ describe('@Login test1', () => {
 
     await waitForElementWithTestId('nav-button-back')
     await tapOnElementWithTestId('nav-button-back')
-    await tapOnElementWithTestId('btn-to-home-view')
+    await navigateBackToHomeScreen('btn-to-home-view')
   })
   it('should work with valid credentials', async () => {
     // Login

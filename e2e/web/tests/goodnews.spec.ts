@@ -20,7 +20,7 @@ test.describe('@GoodNews', () => {
 
   test('should display multiple articles', async ({ page }) => {
     await waitForElementByTestId(page, 'goodnews-app-home')
-    const listItems = await locateElementByTestId(page, 'goodnews-article-component')
+    const listItems = await locateElementByTestId(page, 'goodnews-detailview-container')
     const itemCount = await listItems.count()
     expect(itemCount).toBeGreaterThan(1)
 
@@ -30,7 +30,7 @@ test.describe('@GoodNews', () => {
   test('should allow pagination', async ({ page }) => {
     await waitForElementByTestId(page, 'goodnews-app-home')
     const countListItems = async () => {
-      const listItems = await locateElementByTestId(page, 'goodnews-article-component')
+      const listItems = await locateElementByTestId(page, 'goodnews-detailview-container')
       return await listItems.count()
     }
     await expect.poll(countListItems).toBeGreaterThan(0)
