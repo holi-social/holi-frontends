@@ -107,7 +107,7 @@ test.describe('@HomeScreen', () => {
     await clickElementByTestId(page, `volunteering-updates-item`)
 
     // navigate to article in volunteering app
-    await waitForElementByTestId(page, `volunteering-engagement-detail-container`)
+    await waitForElementByTestId(page, `volunteering-detailview-container`)
     expect(page.url()).toContain(`/apps/volunteering/engagement`)
 
     // navigate back
