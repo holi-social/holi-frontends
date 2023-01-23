@@ -17,6 +17,7 @@ const calculateNumberOfDaysAgo = (date: Date) => {
  * Intl.RelativeTimeFormat docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat
  */
 export const getRelativeDateString = (dateStr = '', language: string) => {
+  language = ['en', 'de'].find((lang) => lang === language) || 'en'
   // if no date is provided, return empty string
   if (!dateStr) return ''
 
