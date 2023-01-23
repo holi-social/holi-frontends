@@ -12,7 +12,7 @@ describe('@Volunteering', () => {
     // Speeds up local execution
     if (target === 'local') {
       // navigate back
-      await await navigateBackFromAppScreen()
+      await navigateBackFromAppScreen()
     }
   })
 
