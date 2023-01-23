@@ -1,4 +1,4 @@
-import { navigateToAppById } from '../../helpers/navigation'
+import { navigateBackFromAppScreen, navigateToAppById } from '../../helpers/navigation'
 import {
   fillFieldByTestId,
   locateMultipleElementsWithTestId,
@@ -15,8 +15,7 @@ describe('@Donations', () => {
     // Speeds up local execution
     if (target === 'local') {
       // navigate back
-      await scrollToElementWithTestId('nav-button-back', 'up')
-      await tapOnElementWithTestId('nav-button-back', 0)
+      await navigateBackFromAppScreen()
     }
   })
 
@@ -43,12 +42,6 @@ describe('@Donations', () => {
     await assertResetFilterFromModal()
   })
 })
-
-const assertResetFilterFromModal = async () => {
-  await resetFilterInModal()
-  // assert reset
-  await waitForElementWithTestId('donations-list-unfiltered')
-}
 
 const assertKeepsFilterAfterNavigatingToDetails = async () => {
   await assertProjectDetails()
@@ -103,10 +96,27 @@ const assertAllowsPagination = async (listItemsBefore: Record<string, unknown>[]
 
 const assertDisplaysMultipleProjects = async () => {
   // scroll to button and count elements in viewport
-  await scrollToElementWithTestId('btn-donation-list-load-more', 'down', { maxAttempts: 10 })
+  await scrollToElementWithTestId('btn-donation-list-load-more', 'down', { maxAttempts: 20 })
   const listItemsBefore = await locateMultipleElementsWithTestId('donations-list-item')
   expect(listItemsBefore.length).toBeGreaterThan(1)
   return listItemsBefore
+}
+
+const assertResetFilterFromModal = async () => {
+  // open search modal
+  await tapOnElementWithTestId('donations-search-button')
+
+  // close keyboard
+  await tapOnElementWithTestId('donations-search-modal')
+
+  // reset filter
+  await tapOnElementWithTestId('donations-search-form-reset')
+
+  // close search modal
+  await tapOnElementWithTestId('btn-to-close-donations-search-modal')
+
+  // wait for results
+  await waitForElementWithTestId('donations-list-container')
 }
 
 const extractResultCount = async (testId: string): Promise<number> => {
@@ -129,23 +139,6 @@ const filterForLocation = async (location: string) => {
   // submit form
   // Not using suggestions here, as they can not be easily identified and selected
   await pressEnter('donations-search-location-input')
-
-  // wait for results
-  await waitForElementWithTestId('donations-list-container')
-}
-
-const resetFilterInModal = async () => {
-  // open search modal
-  await tapOnElementWithTestId('donations-search-button')
-
-  // close keyboard
-  await tapOnElementWithTestId('donations-search-modal')
-
-  // reset filter
-  await tapOnElementWithTestId('donations-search-form-reset')
-
-  // close search modal
-  await tapOnElementWithTestId('donations-search-modal-close-btn')
 
   // wait for results
   await waitForElementWithTestId('donations-list-container')

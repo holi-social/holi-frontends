@@ -1,4 +1,4 @@
-import { navigateToAppById } from '../../helpers/navigation'
+import { navigateBackFromAppScreen, navigateToAppById } from '../../helpers/navigation'
 import {
   scrollToElementWithTestId,
   tapOnElementWithTestId,
@@ -12,8 +12,7 @@ describe('@GoodNews', () => {
     // Speeds up local execution
     if (target === 'local') {
       // navigate back
-      await scrollToElementWithTestId('nav-button-back', 'up')
-      await tapOnElementWithTestId('nav-button-back', 0)
+      await navigateBackFromAppScreen()
     }
   })
 
@@ -33,7 +32,7 @@ const assertListItemExisting = async () => {
 
 const assertAllowsPagination = async () => {
   // swipe to the right until the teaser component is visible
-  await scrollToElementWithTestId('btn-goodnews-list-load-more', 'right', { maxAttempts: 12 })
+  await scrollToElementWithTestId('btn-goodnews-list-load-more', 'right', { maxAttempts: 20 })
   // load more
   await tapOnElementWithTestId('btn-goodnews-list-load-more')
   // wait a moment

@@ -1,4 +1,4 @@
-import { navigateToAppById } from '../../helpers/navigation'
+import { navigateBackFromAppScreen, navigateToAppById } from '../../helpers/navigation'
 import {
   scrollToElementWithTestId,
   tapOnElementWithTestId,
@@ -12,8 +12,7 @@ describe('@Volunteering', () => {
     // Speeds up local execution
     if (target === 'local') {
       // navigate back
-      await scrollToElementWithTestId('nav-button-back', 'up')
-      await tapOnElementWithTestId('nav-button-back', 0)
+      await await navigateBackFromAppScreen()
     }
   })
 
@@ -30,7 +29,6 @@ describe('@Volunteering', () => {
 })
 
 const assertListItemExisting = async () => {
-  // await waitForElementWithTestId('volunteering-list-item')
   await waitForElementWithTestId('btn-to-volunteering-engagement')
 }
 
@@ -45,7 +43,7 @@ const navigateToDetailview = async () => {
 
 const assertAllowsPagination = async () => {
   // swipe to the bottom until the load more button is visible
-  await scrollToElementWithTestId('btn-volunteering-list-load-more', 'down', { maxAttempts: 5 })
+  await scrollToElementWithTestId('btn-volunteering-list-load-more', 'down', { maxAttempts: 20 })
   // load more
   await tapOnElementWithTestId('btn-volunteering-list-load-more')
   // wait a moment
