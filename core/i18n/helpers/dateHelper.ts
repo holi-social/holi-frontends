@@ -20,6 +20,8 @@ export const getRelativeDateString = (dateStr = '', language: string) => {
   // if no date is provided, return empty string
   if (!dateStr) return ''
 
+  language = ['en', 'de'].find((lang) => lang === language) || 'en'
+
   const date = new Date(dateStr)
   let weeksAgo = 0
   let dayOfCurrentWeek = new Date().getDay() - 1
