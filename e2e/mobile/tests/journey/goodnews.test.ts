@@ -28,12 +28,12 @@ describe('@GoodNews', () => {
 })
 
 const assertListItemExisting = async () => {
-  await waitForElementWithTestId('goodnews-article-component')
+  await waitForElementWithTestId('goodnews-detailview-container')
 }
 
 const assertAllowsPagination = async () => {
   // swipe to the right until the teaser component is visible
-  await scrollToElementWithTestId('btn-goodnews-list-load-more', 'right', { repetitions: 12 })
+  await scrollToElementWithTestId('btn-goodnews-list-load-more', 'right', { maxAttempts: 12 })
   // load more
   await tapOnElementWithTestId('btn-goodnews-list-load-more')
   // wait a moment

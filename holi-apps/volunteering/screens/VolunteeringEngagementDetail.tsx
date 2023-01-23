@@ -143,7 +143,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
   }
 
   return (
-    <View style={styles.container} testID="volunteering-engagement-detail-container">
+    <View style={styles.container} testID="volunteering-detailview-container">
       <DefaultLayout
         onScroll={onScreenScroll}
         scrollEventThrottle={200}
