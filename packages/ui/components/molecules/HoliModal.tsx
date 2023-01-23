@@ -151,7 +151,13 @@ const HoliModal: React.FC<HoliModalProps> = ({
               {!isFullscreen && isTouch && deviceWidth < +vars.breakpointL ? (
                 <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
                   <View style={styles.handle}>
-                    <HoliButton label={t('modal.backdrop')} onPress={onDismiss} transparent style={styles.lineButton}>
+                    <HoliButton
+                      label={t('modal.backdrop')}
+                      onPress={onDismiss}
+                      transparent
+                      style={styles.lineButton}
+                      testID={`btn-to-close-${testID}-modal`}
+                    >
                       <View style={styles.line} />
                     </HoliButton>
                   </View>
