@@ -107,6 +107,9 @@ export const createCache = () =>
           spaces: {
             keyArgs: ['topicId', 'location', 'skillIds'],
           },
+          discoverSpaces: {
+            keyArgs: ['topicIds', 'location', 'skillIds'],
+          },
         },
       },
     },

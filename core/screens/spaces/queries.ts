@@ -85,7 +85,7 @@ export type SpacesResponse = {
 export const discoverSpacesQuery = gql`
   ${SpaceFragment}
 
-  query Spaces($topicIds: [UUID], $location: String, $skillIds: [UUID], $offset: Int, $limit: Int) {
+  query DiscoverSpaces($topicIds: [UUID], $location: String, $skillIds: [UUID], $offset: Int, $limit: Int) {
     discoverSpaces(topicIds: $topicIds, location: $location, skillIds: $skillIds, offset: $offset, limit: $limit) {
       topicId
       location
