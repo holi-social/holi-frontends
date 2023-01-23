@@ -48,7 +48,8 @@ export const ToastProvider: React.FC<Partial<ToastContextValue>> = ({ children }
   const contextValue = useMemo(() => ({ openToast, closeToast }), [closeToast, openToast])
 
   const { width: deviceWidth } = useWindowDimensions()
-  const styles = useMemo(() => createStyles(deviceWidth), [deviceWidth])
+  const firstToastType = toasts?.[0]?.type
+  const styles = useMemo(() => createStyles(deviceWidth, firstToastType), [deviceWidth, firstToastType])
 
   const SafeArea = Platform.OS === 'android' ? SafeAreaViewAndroid : SafeAreaViewIOS
 
@@ -56,10 +57,18 @@ export const ToastProvider: React.FC<Partial<ToastContextValue>> = ({ children }
     <ToastContext.Provider value={contextValue}>
       {children}
 
-      <SafeArea style={[styles.wrapper, Platform.OS === 'web' && styles.wrapperWebPosition]}>
-        {
-          /** FIXME convert to VirtualizedList, FlatList or SectionList */
-          toasts.map((toast: Toast) => (
+      {!!toasts.length && (
+        <SafeArea
+          style={[
+            styles.wrapper,
+            Platform.OS === 'web' && styles.wrapperWebPosition,
+            {
+              backgroundColor:
+                toasts[0].type === HoliToastType.ERROR ? colors.backgroundColorError : colors.backgroundColorSuccess,
+            },
+          ]}
+        >
+          {toasts.map((toast: Toast) => (
             <HoliToast
               key={toast.id}
               id={toast.id}
@@ -69,9 +78,9 @@ export const ToastProvider: React.FC<Partial<ToastContextValue>> = ({ children }
               timeout={toast.timeout}
               testID={toast.testID}
             />
-          ))
-        }
-      </SafeArea>
+          ))}
+        </SafeArea>
+      )}
     </ToastContext.Provider>
   )
 }
@@ -117,6 +126,7 @@ export default HoliToast
 const createStyles = (deviceWidth: number, type?: HoliToastType) =>
   StyleSheet.create({
     wrapper: {
+      backgroundColor: type === HoliToastType.ERROR ? colors.backgroundColorError : colors.backgroundColorSuccess,
       top: 0,
       position: 'absolute',
       zIndex: 1000,
