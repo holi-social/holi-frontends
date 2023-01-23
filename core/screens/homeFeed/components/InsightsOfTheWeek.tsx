@@ -103,18 +103,20 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
 
       <InsightList style={styles.insightList} insights={insights} />
 
-      <HoliButtonLoading
-        type="secondary"
-        label={fetchingMoreButtonText}
-        disabled={!canFetchMore || loading}
-        icon={isFetchingMore ? 'loader-4' : undefined}
-        iconSpinning={isFetchingMore}
-        onPress={fetchMoreInsights}
-        style={mixins.moreButton}
-        testID="btn-insights-list-load-more"
-      >
-        {fetchingMoreButtonText}
-      </HoliButtonLoading>
+      {canFetchMore && (
+        <HoliButtonLoading
+          type="secondary"
+          label={fetchingMoreButtonText}
+          disabled={loading}
+          icon={isFetchingMore ? 'loader-4' : undefined}
+          iconSpinning={isFetchingMore}
+          onPress={fetchMoreInsights}
+          style={mixins.moreButton}
+          testID="btn-insights-list-load-more"
+        >
+          {fetchingMoreButtonText}
+        </HoliButtonLoading>
+      )}
     </View>
   )
 }
