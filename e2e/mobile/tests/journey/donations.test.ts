@@ -20,15 +20,16 @@ describe('@Donations', () => {
     }
   })
 
-  // fails on android: The element 'By.xpath: //*[@resource-id='donations-search-modal']' does not exist in DOM anymore
-  // fails on ios: Couldn't tap on element with testID: donations-list-item
-  it.skip('should support the user journey', async () => {
+  it('should support the user journey', async () => {
     // preparation of test
     await navigateToAppById('donations')
 
-    const listItemsBefore = await assertDisplaysMultipleProjects()
+    // FIXME currently not working on ios
+    if (platform !== 'ios') {
+      const listItemsBefore = await assertDisplaysMultipleProjects()
 
-    await assertAllowsPagination(listItemsBefore)
+      await assertAllowsPagination(listItemsBefore)
+    }
 
     await assertProjectDetails()
 
