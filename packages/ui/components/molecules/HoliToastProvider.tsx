@@ -58,16 +58,7 @@ export const ToastProvider: React.FC<Partial<ToastContextValue>> = ({ children }
       {children}
 
       {!!toasts.length && (
-        <SafeArea
-          style={[
-            styles.wrapper,
-            Platform.OS === 'web' && styles.wrapperWebPosition,
-            {
-              backgroundColor:
-                toasts[0].type === HoliToastType.ERROR ? colors.backgroundColorError : colors.backgroundColorSuccess,
-            },
-          ]}
-        >
+        <SafeArea style={[styles.wrapper, Platform.OS === 'web' && styles.wrapperWebPosition]}>
           {toasts.map((toast: Toast) => (
             <HoliToast
               key={toast.id}
@@ -126,11 +117,15 @@ export default HoliToast
 const createStyles = (deviceWidth: number, type?: HoliToastType) =>
   StyleSheet.create({
     wrapper: {
-      backgroundColor: type === HoliToastType.ERROR ? colors.backgroundColorError : colors.backgroundColorSuccess,
       top: 0,
       position: 'absolute',
       zIndex: 1000,
       width: '100%',
+      ...Platform.select({
+        native: {
+          backgroundColor: type === HoliToastType.ERROR ? colors.backgroundColorError : colors.backgroundColorSuccess,
+        },
+      }),
       ...(deviceWidth >= +vars.breakpointL
         ? {
             maxWidth: +vars.maxButtonWidth,
