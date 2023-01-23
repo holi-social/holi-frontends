@@ -12,7 +12,10 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
         "width": "100%",
       },
       Array [
-        Object {},
+        Object {
+          "flexShrink": 1,
+          "height": "100%",
+        },
         undefined,
       ],
     ]
