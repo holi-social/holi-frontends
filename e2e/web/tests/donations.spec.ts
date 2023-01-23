@@ -114,7 +114,7 @@ test.describe('@Donations', () => {
     // click first element in list
     await clickElementByTestId(page, 'donations-list-item')
 
-    await waitForElementByTestId(page, 'donations-project-detail-heading')
+    await waitForElementByTestId(page, 'donations-detailview-container')
 
     await checkAccessibility(page)
 
@@ -155,7 +155,7 @@ test.describe('@Donations', () => {
 
     // open first donation opportunity
     await clickElementByTestId(page, 'donations-list-item')
-    await waitForElementByTestId(page, 'donations-project-detail-heading')
+    await waitForElementByTestId(page, 'donations-detailview-container')
 
     const hasNews = await page.$('data-testid=donations-news-count')
     test.skip(!hasNews, 'donation opportunity has no news, skipping assertions')
@@ -220,7 +220,7 @@ test.describe('@Donations', () => {
     await clickElementByTestId(page, 'donations-list-item')
 
     // expect detail view
-    await waitForElementByTestId(page, 'donations-project-detail-heading')
+    await waitForElementByTestId(page, 'donations-detailview-container')
 
     // navigate back
     await clickElementByTestId(page, 'nav-button-back')
