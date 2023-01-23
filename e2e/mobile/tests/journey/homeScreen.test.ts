@@ -1,8 +1,8 @@
 import { defaultAuthSteps } from '../../helpers/auth'
+import { swipeUp } from '../../helpers/gestures'
 import { navigateBackToHomeScreen } from '../../helpers/navigation'
 import {
   locateMultipleElementsWithTestId,
-  scroll,
   scrollToElementWithTestId,
   tapOnElementWithTestId,
   waitForElementWithTestId,
@@ -15,10 +15,11 @@ describe('@HomeScreen', () => {
 
     await assertAllowsPagination()
 
-    await assertShowsDonationUpdates()
+    await assertShowsAppUpdates('donations')
 
-    // FIXME failing on ios, see HOLI-3046
-    // await assertShowsGoodNewsUpdates()
+    await assertShowsAppUpdates('goodnews')
+
+    await assertShowsAppUpdates('volunteering')
 
     await assertShowsNoUserSuggestionsWhenLoggedOut()
 
@@ -42,7 +43,7 @@ const assertShowsInsights = async () => {
   await waitForElementWithTestId('insight-headline')
 
   // go home
-  await navigateBackToHomeScreen()
+  await navigateBackToHomeScreen('nav-button-back')
 }
 
 const assertAllowsPagination = async () => {
@@ -57,39 +58,24 @@ const assertAllowsPagination = async () => {
   expect(listItemsAfter.length).toBeGreaterThan(listItemsBefore.length)
 }
 
-const assertShowsDonationUpdates = async () => {
+const assertShowsAppUpdates = async (app: string) => {
   // check if donation updates are displayed
-  await scrollToElementWithTestId('donations-updates-item', 'down')
-  await waitForElementWithTestId('donations-updates-heading')
+  await scrollToElementWithTestId(`${app}-updates-item`, 'down')
+  await waitForElementWithTestId(`${app}-updates-heading`)
 
   // click first element in ScrollView
-  await tapOnElementWithTestId('donations-updates-item')
+  await tapOnElementWithTestId(`${app}-updates-item`)
 
   // expect detail view
-  await waitForElementWithTestId('donations-project-detail-heading')
+  await waitForElementWithTestId(`${app}-detailview-container`)
+
+  // await navigateBackToHomeScreen()
+  await navigateBackToHomeScreen('nav-button-back')
 }
 
-// const assertShowsGoodNewsUpdates = async () => {
-//   // go home
-//   await navigateBackToHomeScreen()
-
-//   // check if good news updates are displayed
-//   await scrollToElementWithTestId('goodnews-updates-item', 'down')
-//   await waitForElementWithTestId('goodnews-updates-heading')
-
-//   // click first element in ScrollView
-//   await tapOnElementWithTestId('goodnews-updates-item')
-
-//   // expect good news app
-//   await waitForElementWithTestId('goodnews-article-component')
-// }
-
 const assertShowsNoUserSuggestionsWhenLoggedOut = async () => {
-  // go home
-  await navigateBackToHomeScreen()
-
-  // scroll to bottom
-  await scroll('down', { repetitions: 5 })
+  // scroll to bottom (swipe up, opposite direction)
+  await swipeUp()
 
   // user suggestions element should be null when logged out
   await waitForElementWithTestIdToBeNull('user-suggestions')
@@ -100,7 +86,7 @@ const assertShowsUserSuggestionsWhenLoggedIn = async () => {
   await defaultAuthSteps()
 
   // go home
-  await navigateBackToHomeScreen()
+  await navigateBackToHomeScreen('btn-to-home-view')
 
   // scroll down to user suggestions element should be visible
   await scrollToElementWithTestId('user-suggestions', 'down', { maxAttempts: 5 })
