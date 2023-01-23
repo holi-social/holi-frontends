@@ -41,22 +41,19 @@ const HoliUserCardsModalContent: React.VFC<HoliUserCardsModalContentProps> = ({
     >
       <HoliCarousel
         marginHorizontal={20}
-        slides={
-          /** FIXME convert to VirtualizedList, FlatList or SectionList */
-          uniqueUsers.map((user) => ({
-            children: (
-              <HoliLink
-                href={`/profile/${user.id}`}
-                label={t('user.visitProfile', { name: user.fullName })}
-                onPress={onDismiss}
-                textStyle={styles.link} // used for WEB
-                style={styles.link}
-              >
-                <HoliUserCard style={styles.userCard} user={user} category={category} disableFocusability />
-              </HoliLink>
-            ),
-          }))
-        }
+        slides={uniqueUsers.map((user) => ({
+          children: (
+            <HoliLink
+              href={`/profile/${user.id}`}
+              label={t('user.visitProfile', { name: user.fullName })}
+              onPress={onDismiss}
+              textStyle={styles.link} // used for WEB
+              style={styles.link}
+            >
+              <HoliUserCard style={styles.userCard} user={user} category={category} disableFocusability />
+            </HoliLink>
+          ),
+        }))}
       />
     </HoliModalContentWrapper>
   )
@@ -69,6 +66,10 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: {
         maxWidth: '100%',
+      },
+      native: {
+        flexShrink: 1,
+        height: '100%',
       },
     }),
   },
