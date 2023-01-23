@@ -1,5 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { Linking } from 'react-native'
 
 import { HeaderButtonProps } from '@react-navigation/native-stack/lib/typescript/src/types'
 
@@ -18,6 +19,17 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
 
   return (
     <HoliHorizontalRow>
+      {/* TODO start: remove after Alpha */}
+      <HoliButton
+        type="secondary"
+        variant="small"
+        label=""
+        onPress={() => Linking.openURL('https://fjyj0x83dwu.typeform.com/to/Q0W2YncW')}
+      >
+        Feedback
+      </HoliButton>
+      {/* TODO start: remove after Alpha */}
+
       <HoliButton
         label={t('notifications.title')}
         inline

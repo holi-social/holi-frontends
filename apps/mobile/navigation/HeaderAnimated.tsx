@@ -56,7 +56,7 @@ const useHeaderHideAnimation = (headerHeight: number) => {
 
   return headerSlideAnimation.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, -headerHeight],
+    outputRange: [0, -headerHeight * 1.2],
   })
 }
 
