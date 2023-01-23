@@ -9,6 +9,7 @@ import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import { useScrollYHandler } from '@holi/core/helpers'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import DeleteAccountButton from '@holi/core/screens/userprofile/components/DeleteAccountButton'
 import LoggedOutView from '@holi/core/screens/userprofile/components/LoggedOutView'
 import SettingsItem from '@holi/core/screens/userprofile/components/SettingsItem'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
@@ -36,6 +37,7 @@ const AccountSettings: React.VFC<ScreenProps> = () => {
             icon="key-2"
             onPress={showFeatureNotImplementedToast}
           />
+          <DeleteAccountButton style={styles.deleteAccountButton} />
         </View>
       </LoginProtection>
     </DefaultLayout>
@@ -47,5 +49,8 @@ export default memo(AccountSettings)
 const styles = StyleSheet.create({
   accountSettings: {
     paddingHorizontal: 30,
+  },
+  deleteAccountButton: {
+    marginTop: 24,
   },
 })
