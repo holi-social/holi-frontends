@@ -25,12 +25,12 @@ const SWIPE_DIRECTION = {
     end: { x: 50, y: 85 },
   },
   left: {
-    start: { x: 95, y: 50 },
-    end: { x: 5, y: 50 },
+    start: { x: 85, y: 50 },
+    end: { x: 15, y: 50 },
   },
   right: {
-    start: { x: 5, y: 50 },
-    end: { x: 95, y: 50 },
+    start: { x: 15, y: 50 },
+    end: { x: 85, y: 50 },
   },
   up: {
     start: { x: 50, y: 85 },
@@ -115,7 +115,7 @@ const swipe = async (from: XY, to: XY) => {
         //    We move our finger from the center of the element to the
         //    starting position of the element.
         //    Play with the duration to make the swipe go slower / faster
-        { type: 'pointerMove', duration: 1000, x: to.x, y: to.y },
+        { type: 'pointerMove', duration: 600, x: to.x, y: to.y },
         // f. Finger gets up, off the screen
         { type: 'pointerUp', button: 0 },
       ],

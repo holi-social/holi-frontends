@@ -36,7 +36,7 @@ const filterForLocation = async (
   }
 
   // close search modal
-  await clickElementByTestId(page, 'btn-to-close-donations-search-modal')
+  await clickElementByTestId(page, 'donations-search-modal-close-btn')
 
   // wait for results
   await waitForElementByTestId(page, 'donations-list-container')
@@ -68,7 +68,7 @@ const resetFilterInModal = async (page: Page) => {
   await clickElementByTestId(page, 'donations-search-form-reset')
 
   // close search modal
-  await clickElementByTestId(page, 'btn-to-close-donations-search-modal')
+  await clickElementByTestId(page, 'donations-search-modal-close-btn')
 
   // wait for results
   await waitForElementByTestId(page, 'donations-list-container')

@@ -1,3 +1,4 @@
+import { swipeDown } from '../../helpers/gestures'
 import { navigateBackFromAppScreen, navigateToAppById } from '../../helpers/navigation'
 import {
   fillFieldByTestId,
@@ -103,6 +104,9 @@ const assertDisplaysMultipleProjects = async () => {
 }
 
 const assertResetFilterFromModal = async () => {
+  // scroll up to make sure top menu shows up
+  await swipeDown()
+
   // open search modal
   await tapOnElementWithTestId('donations-search-button')
 
@@ -130,6 +134,9 @@ const extractResultCount = async (testId: string): Promise<number> => {
 }
 
 const filterForLocation = async (location: string) => {
+  // scroll up to make sure top menu shows up
+  await swipeDown()
+
   // open search modal
   await tapOnElementWithTestId('donations-search-button')
 

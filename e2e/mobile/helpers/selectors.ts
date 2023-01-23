@@ -66,10 +66,19 @@ export const scrollToElementWithTestId = async (
      * Swiping works in opposite direction to scrolling (swiping left means scrolling right).
      * Hence the inverted directions below.
      */
-    if (direction === 'down') swipeUp()
-    if (direction === 'up') swipeDown()
-    if (direction === 'left') swipeRight()
-    if (direction === 'right') swipeLeft()
+    switch (direction) {
+      case 'down':
+        swipeUp()
+        break
+      case 'up':
+        swipeDown()
+        break
+      case 'left':
+        swipeRight()
+        break
+      case 'right':
+        swipeLeft()
+    }
 
     scrollCounter++
   }
