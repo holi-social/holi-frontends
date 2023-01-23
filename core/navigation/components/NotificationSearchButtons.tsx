@@ -28,7 +28,7 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
       >
         Feedback
       </HoliButton>
-      {/* TODO start: remove after Alpha */}
+      {/* TODO end: remove after Alpha */}
 
       <HoliButton
         label={t('notifications.title')}
