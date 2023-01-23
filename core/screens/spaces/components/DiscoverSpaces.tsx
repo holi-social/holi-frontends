@@ -11,7 +11,11 @@ import { DiscoverSpacesResponse, discoverSpacesQuery } from '@holi/core/screens/
 import { User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
-const SPACES_PAGE_SIZE = 10
+/**
+ * DiscoverSpaces are not paginated but may contain a limit of items in each list of spaces.
+ * This means that the offset variable is ommited in our query, but we may add a limit variable.
+ */
+const SPACES_GROUP_LIMIT = 10
 
 type DiscoverSpacesProps = {
   user?: User
@@ -42,8 +46,7 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
         topicIds: userTopics.map((t) => t.id),
         skillIds: userSkills.map((s) => s.id),
         location: user?.location,
-        limit: SPACES_PAGE_SIZE,
-        offset: 0,
+        limit: SPACES_GROUP_LIMIT,
       },
       fetchPolicy: 'cache-and-network',
     })
@@ -55,18 +58,20 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
         topicIds: defaultTopicIds,
         location:
           (user?.location || '').toLocaleLowerCase() === DEFAULT_LOCATION.toLocaleLowerCase() ? null : DEFAULT_LOCATION,
-        limit: SPACES_PAGE_SIZE,
-        offset: 0,
+        limit: SPACES_GROUP_LIMIT,
       },
       fetchPolicy: 'cache-and-network',
     })
 
   useEffect(() => {
-    if (topics?.length) {
+    if (!topics.length) return
+
+    if (user) {
       fetchUserSpecifc()
-      fetchDefault()
     }
-  }, [fetchUserSpecifc, fetchDefault, topics])
+
+    fetchDefault()
+  }, [fetchUserSpecifc, fetchDefault, topics, user])
 
   if (errorUserSpecific) {
     displayError(errorUserSpecific, t('spaces.spaceListing.error'))
@@ -76,7 +81,7 @@ const DiscoverSpaces: React.VFC<DiscoverSpacesProps> = ({ user, style }) => {
     displayError(errorDefault, t('spaces.spaceListing.error'))
   }
 
-  if (topicsLoading || loadingUserSpecific || loadingDefaultData) {
+  if (topicsLoading || (!dataUserSpecific && loadingUserSpecific) || (!dataDefault && loadingDefaultData)) {
     // TODO: replace with proper loading indicator
     return (
       <View style={styles.loadingContainer}>
