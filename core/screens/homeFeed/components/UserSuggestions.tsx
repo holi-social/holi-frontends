@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
+import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserSuggestionsResponse, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -27,6 +28,9 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestions
   const { loading, error, data } = useQuery<UserSuggestionsResponse>(userSuggestionsQuery, {
     variables: { limit },
   })
+
+  // TODO: remove after implementing the feature
+  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
   if (error) {
     logError(error, `[UserSuggestions.tsx] ${error.message}`)
@@ -70,6 +74,7 @@ const UserSuggestions: React.VFC<UserSuggestionsProps> = (props: UserSuggestions
           style={[styles.buttonContainer, styles.lastButtonContainer]}
           transparent
           inline
+          onPress={showFeatureNotImplementedToast}
         >
           <View style={styles.moreSuggestionsImageContainer}>
             <HoliLocalImage

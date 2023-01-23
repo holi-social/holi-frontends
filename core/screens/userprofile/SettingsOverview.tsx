@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
-import { useScrollYHandler } from '@holi/core/helpers'
+import { useScrollYHandler, useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { useLogout } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -34,6 +34,9 @@ const SettingsOverview: React.VFC = () => {
     [navigate]
   )
 
+  // TODO: remove after implementing the feature
+  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
+
   return (
     <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
       <LoginProtection loggedOutContent={<LoggedOutView />}>
@@ -44,8 +47,12 @@ const SettingsOverview: React.VFC = () => {
               icon="account-circle"
               onPress={goTo('/profile/settings/account')}
             />
-            <SettingsItem label={t('notifications.title')} icon="notification-2" />
-            <SettingsItem label={t('help.title')} icon="help" />
+            <SettingsItem
+              label={t('notifications.title')}
+              icon="notification-2"
+              onPress={showFeatureNotImplementedToast}
+            />
+            <SettingsItem label={t('help.title')} icon="help" onPress={showFeatureNotImplementedToast} />
           </View>
 
           <View style={styles.separator} />
