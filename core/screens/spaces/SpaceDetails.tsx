@@ -15,6 +15,7 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import SpaceDashboardModal from '@holi/core/screens/spaces/components/SpaceDashboardModal'
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
@@ -58,6 +59,9 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   const space = data?.spaceById
 
+  const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+
   if (error) {
     logError(error, `[SpaceDetails.tsx] ${error.message}`)
   }
@@ -79,7 +83,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
       >
         <SpaceDetailView style={styles.spaceDetailView} space={space} />
       </DefaultLayout>
-      <SpaceDashboardModal />
+      {(isCreator || isMember) && <SpaceDashboardModal />}
     </>
   )
 }
