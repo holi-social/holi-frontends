@@ -25,7 +25,7 @@ export type HoliConfirmationProps = ModalProps & {
   label: string
   title: string
   description: string
-  type?: HoliConfirmationType
+  confirmationType?: HoliConfirmationType
   onConfirm?: () => void
   onDismiss?: () => void
   confirmText?: string
@@ -38,7 +38,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
   label,
   title,
   description,
-  type = 'primary',
+  confirmationType = 'primary',
   onConfirm,
   onDismiss,
   confirmText,
@@ -69,7 +69,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
 
   const smallDevice = parseInt(vars.breakpointXs, 10) + 50
 
-  const isDanger = type === 'danger'
+  const isDanger = confirmationType === 'danger'
 
   return (
     <Modal

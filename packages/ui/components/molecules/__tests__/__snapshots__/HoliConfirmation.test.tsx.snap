@@ -305,3 +305,303 @@ exports[`renders correctly renders correctly when open 1`] = `
   </View>
 </Modal>
 `;
+
+exports[`renders correctly renders correctly when open and confirmationType is danger 1`] = `
+<Modal
+  accessibilityLabel="Test"
+  animationType="fade"
+  hardwareAccelerated={false}
+  transparent={true}
+  visible={true}
+>
+  <View
+    style={
+      Object {
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#222326",
+          "bottom": 0,
+          "left": 0,
+          "opacity": 0.4,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "alignSelf": "center",
+          "backgroundColor": "#fff",
+          "borderColor": "#000",
+          "borderRadius": 24,
+          "borderWidth": 2,
+          "margin": 25,
+          "maxWidth": 460,
+          "padding": 24,
+          "shadowColor": "#000",
+          "shadowOffset": Object {
+            "height": 4,
+            "width": 0,
+          },
+          "shadowOpacity": 1,
+          "shadowRadius": 0,
+        }
+      }
+    >
+      <Text
+        role="header"
+        selectable={true}
+        style={
+          Array [
+            Object {
+              "color": "#222326",
+              "fontFamily": "Circular Std Medium",
+              "fontWeight": "500",
+            },
+            Object {
+              "fontSize": 16,
+              "lineHeight": 22.4,
+            },
+            undefined,
+          ]
+        }
+      >
+        Test Title
+      </Text>
+      <Text
+        accessible={false}
+        selectable={true}
+        style={
+          Array [
+            Object {
+              "color": "#222326",
+              "fontFamily": "Circular Std Book",
+              "fontWeight": "400",
+            },
+            Object {
+              "fontSize": 16,
+              "lineHeight": 19.2,
+            },
+            false,
+            Object {
+              "marginTop": 8,
+            },
+          ]
+        }
+      >
+        Test Description
+      </Text>
+      <View
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "justifyContent": "space-between",
+            },
+            false,
+          ]
+        }
+      >
+        <View
+          accessibilityLabel="confirmation.dismiss"
+          accessibilityRole="button"
+          accessibilityState={
+            Object {
+              "disabled": false,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Array [
+              Array [
+                Object {
+                  "width": "auto",
+                },
+                Object {
+                  "backgroundColor": "#fff",
+                  "borderColor": "#222326",
+                  "borderRadius": 28,
+                  "borderWidth": 2,
+                  "elevation": 0,
+                  "overflow": "hidden",
+                  "paddingHorizontal": 32,
+                  "paddingVertical": 13,
+                },
+              ],
+              Object {
+                "marginTop": 24,
+              },
+            ]
+          }
+        >
+          <View
+            pointerEvents="none"
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                },
+                undefined,
+              ]
+            }
+          >
+            <Text
+              accessible={false}
+              selectable={false}
+              style={
+                Array [
+                  Object {
+                    "color": "#222326",
+                    "fontFamily": "Circular Std Book",
+                    "fontWeight": "400",
+                  },
+                  Object {
+                    "fontSize": 16,
+                    "lineHeight": 19.2,
+                  },
+                  Object {
+                    "fontFamily": "Circular Std Medium",
+                    "fontWeight": "500",
+                  },
+                  Object {},
+                ]
+              }
+            >
+              confirmation.dismiss
+            </Text>
+          </View>
+        </View>
+        <View
+          accessibilityLabel="confirmation.confirm"
+          accessibilityRole="button"
+          accessibilityState={
+            Object {
+              "disabled": false,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Array [
+              Array [
+                Object {
+                  "width": "auto",
+                },
+                Object {
+                  "backgroundColor": "#fff",
+                  "borderColor": "#222326",
+                  "borderRadius": 28,
+                  "borderWidth": 2,
+                  "elevation": 0,
+                  "overflow": "hidden",
+                  "paddingHorizontal": 32,
+                  "paddingVertical": 13,
+                },
+                Object {
+                  "backgroundColor": "#f3f360",
+                },
+              ],
+              Array [
+                Object {
+                  "marginTop": 24,
+                },
+                Object {
+                  "marginLeft": 5,
+                },
+                Object {
+                  "backgroundColor": "#ee0004",
+                },
+              ],
+            ]
+          }
+        >
+          <View
+            pointerEvents="none"
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                },
+                undefined,
+              ]
+            }
+          >
+            <Text
+              accessible={false}
+              selectable={true}
+              style={
+                Array [
+                  Object {
+                    "color": "#222326",
+                    "fontFamily": "Circular Std Book",
+                    "fontWeight": "400",
+                  },
+                  Object {
+                    "fontSize": 16,
+                    "lineHeight": 19.2,
+                  },
+                  Object {
+                    "fontFamily": "Circular Std Medium",
+                    "fontWeight": "500",
+                  },
+                  Object {
+                    "color": "#fff",
+                  },
+                ]
+              }
+            >
+              confirmation.confirm
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</Modal>
+`;
