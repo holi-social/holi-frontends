@@ -27,6 +27,7 @@ const DeleteAccountButton: React.VoidFunctionComponent<DeleteAccountButtonProps>
         show={showConfirmationModal}
         label={confirmationTitle}
         title={confirmationTitle}
+        type="danger"
         description={t('profile.settings.account.delete.confirmation.description')}
         onDismiss={() => setShowConfirmationModal(false)}
         dismissText={t('profile.settings.account.delete.confirmation.dismiss')}

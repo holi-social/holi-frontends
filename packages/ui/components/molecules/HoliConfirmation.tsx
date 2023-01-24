@@ -18,11 +18,14 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 
+type HoliConfirmationType = 'primary' | 'danger'
+
 export type HoliConfirmationProps = ModalProps & {
   show: boolean
   label: string
   title: string
   description: string
+  type?: HoliConfirmationType
   onConfirm?: () => void
   onDismiss?: () => void
   confirmText?: string
@@ -35,6 +38,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
   label,
   title,
   description,
+  type = 'primary',
   onConfirm,
   onDismiss,
   confirmText,
@@ -64,6 +68,8 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
   }
 
   const smallDevice = parseInt(vars.breakpointXs, 10) + 50
+
+  const isDanger = type === 'danger'
 
   return (
     <Modal
@@ -103,10 +109,20 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
                 inline
                 label={confirmText || t('confirmation.confirm')}
                 onPress={onConfirm}
-                style={[styles.button, { marginLeft: screenWidth <= smallDevice ? 0 : 5 }]}
+                style={[
+                  styles.button,
+                  { marginLeft: screenWidth <= smallDevice ? 0 : 5 },
+                  isDanger && styles.buttonDanger,
+                ]}
                 {...(testID ? { testID: `${testID}-confirmation-confirm` } : {})}
               >
-                {confirmText || t('confirmation.confirm')}
+                {isDanger ? (
+                  <HoliText style={styles.buttonDangerText} bold>
+                    {confirmText || t('confirmation.confirm')}
+                  </HoliText>
+                ) : (
+                  confirmText || t('confirmation.confirm')
+                )}
               </HoliButton>
             )}
           </View>
@@ -159,5 +175,11 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 24,
+  },
+  buttonDanger: {
+    backgroundColor: colors.errorRed,
+  },
+  buttonDangerText: {
+    color: colors.fontColorWhite,
   },
 })

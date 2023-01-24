@@ -31,6 +31,11 @@ export const Primary: ComponentStory<typeof HoliConfirmation> = Template.bind({}
 Primary.argTypes = {
   title: { description: 'Confirmation title', type: 'string', control: { type: 'text' } },
   description: { description: 'Confirmation description', type: 'string', control: { type: 'text' } },
+  type: {
+    options: ['primary', 'danger'],
+    control: { type: 'select' },
+    description: 'Primary or danger confirm button type',
+  },
   onConfirm: { description: 'Confirm dialog function', type: 'function' },
   onDismiss: { description: 'Dismiss dialog function', type: 'function' },
 }
@@ -38,4 +43,5 @@ Primary.argTypes = {
 Primary.args = {
   title: 'Connect with Jane Doe?',
   description: 'Are you sure you would like to connect with Jane Doe?',
+  type: 'primary',
 }
