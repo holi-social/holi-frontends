@@ -147,6 +147,7 @@
   "notifications.title": "Benachrichtigungen",
   "photosPermission": "Die App greift auf Deine Fotos zu, damit Du sie veröffentlichen kannst.",
   "profile.avatar.add": "Füge ein Profilbild hinzu",
+  "profile.block": "{{name}} blockieren",
   "profile.edit": "Bearbeiten",
   "profile.edit.changePassword": "Passwort ändern",
   "profile.engagementLevel": "Level des Engagements",
