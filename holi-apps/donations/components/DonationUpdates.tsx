@@ -3,6 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
+import { HOLI_APPS, HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appConstants'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppUpdatesItem from '@holi/core/screens/homeFeed/components/AppUpdatesItem'
@@ -54,8 +55,8 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery, style
 
     return (
       <AppUpdatesItem
-        appName="donations"
-        onPress={() => navigate(`/apps/donations/project/${item.id}`)}
+        appName={HOLI_APPS.DONATIONS}
+        onPress={() => navigate(`${HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.DONATIONS].path}/project/${item.id}`)}
         title={item.title}
         imageSource={sources.length ? sources : { uri: original?.url }}
         footer={
@@ -73,12 +74,12 @@ const DonationUpdates: React.VFC<DonationUpdatesProps> = ({ locationQuery, style
 
   return (
     <AppUpdatesList
-      appName="donations"
+      appName={HOLI_APPS.DONATIONS}
       renderItem={renderItem}
       data={projectsToRender}
       heading={t('donations:app.name')}
       headingIcon="hand-heart"
-      onPressSeeMore={() => navigate('/apps/donations/')}
+      onPressSeeMore={() => navigate(HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.DONATIONS].path)}
       labelSeeMore={t('donations:donationListing.loadMoreButton.text')}
       loading={loading}
       style={style}
