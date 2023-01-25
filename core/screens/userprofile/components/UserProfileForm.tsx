@@ -1,9 +1,10 @@
 import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native'
 
 import { displayError } from '@holi/core/errors/helpers'
+import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserInputSchema,
@@ -18,7 +19,7 @@ import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 type UserProfileFormProps = {
   user: User
@@ -41,6 +42,8 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   const { t } = useTranslation()
 
   const testID = props.testId || 'user-profile-edit-form'
+
+  const { top: safeAreaHeight } = useSafeAreaInsets()
 
   const submit = async () => {
     const input: UpdateAuthenticatedUserInput = {
@@ -113,73 +116,79 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   )
 
   return (
-    <HoliModalContentWrapper
-      actionButtonText={t('user.profileForm.save')}
-      onActionButtonPress={submit}
-      prependChildren={prependComponent}
-      loading={loading}
-      testID={testID}
-      style={styles.wrapper}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={+vars.topBarHeight + safeAreaHeight + 20}
+      style={{ flex: 1 }}
     >
-      <View style={styles.mainContainer}>
-        <HoliTextInput
-          value={firstName}
-          inputLabel={t('user.profileForm.firstName')}
-          accessibilityLabel={t('user.profileForm.firstName')}
-          placeholder={t('user.profileForm.firstNamePlaceholder')}
-          maxNoOfCharacters={30}
-          onChange={(text) => {
-            setFirstName(onlyAllowedCharacters(text))
-            setFieldErrors((currentErrors) => ({ ...currentErrors, ...{ firstName: undefined } }))
-          }}
-          style={styles.input}
-          validationErrorText={fieldErrors?.firstName?.join()}
-          testID={'first-name'}
-          inputProps={{ autoFocus: Platform.OS === 'web' }}
-        />
-        <HoliTextInput
-          value={lastName}
-          inputLabel={t('user.profileForm.lastName')}
-          accessibilityLabel={t('user.profileForm.lastName')}
-          placeholder={t('user.profileForm.lastNamePlaceholder')}
-          maxNoOfCharacters={30}
-          onChange={(text) => {
-            setLastName(onlyAllowedCharacters(text))
-            setFieldErrors((currentErrors) => ({ ...currentErrors, ...{ lastName: undefined } }))
-          }}
-          style={styles.input}
-          validationErrorText={fieldErrors?.lastName?.join()}
-          testID={'last-name'}
-        />
-        <HoliTextInput
-          value={aboutMe}
-          inputLabel={t('user.profileForm.aboutMe')}
-          accessibilityLabel={t('user.profileForm.aboutMe')}
-          placeholder={t('user.profileForm.aboutMePlaceholder')}
-          onChange={(text) => setAboutMe(text)}
-          noOfVisibleLines={5}
-          maxNoOfVisibleLines={10}
-          maxNoOfCharacters={3000}
-          style={styles.input}
-        />
-        <HoliTextInput
-          value={pronouns}
-          inputLabel={t('user.profileForm.pronouns')}
-          accessibilityLabel={t('user.profileForm.pronouns')}
-          placeholder={t('user.profileForm.pronounsPlaceholder')}
-          onChange={(text) => setPronouns(text)}
-          style={styles.input}
-        />
-        <HoliTextInput
-          value={location}
-          inputLabel={t('user.profileForm.location')}
-          accessibilityLabel={t('user.profileForm.location')}
-          placeholder={t('user.profileForm.locationPlaceholder')}
-          onChange={(text) => setLocation(text)}
-          style={styles.input}
-        />
-      </View>
-    </HoliModalContentWrapper>
+      <HoliModalContentWrapper
+        actionButtonText={t('user.profileForm.save')}
+        onActionButtonPress={submit}
+        prependChildren={prependComponent}
+        loading={loading}
+        testID={testID}
+        style={styles.wrapper}
+      >
+        <View style={[styles.mainContainer, { height: '100%' }]}>
+          <HoliTextInput
+            value={firstName}
+            inputLabel={t('user.profileForm.firstName')}
+            accessibilityLabel={t('user.profileForm.firstName')}
+            placeholder={t('user.profileForm.firstNamePlaceholder')}
+            maxNoOfCharacters={30}
+            onChange={(text) => {
+              setFirstName(onlyAllowedCharacters(text))
+              setFieldErrors((currentErrors) => ({ ...currentErrors, ...{ firstName: undefined } }))
+            }}
+            style={styles.input}
+            validationErrorText={fieldErrors?.firstName?.join()}
+            testID={'first-name'}
+            inputProps={{ autoFocus: Platform.OS === 'web' }}
+          />
+          <HoliTextInput
+            value={lastName}
+            inputLabel={t('user.profileForm.lastName')}
+            accessibilityLabel={t('user.profileForm.lastName')}
+            placeholder={t('user.profileForm.lastNamePlaceholder')}
+            maxNoOfCharacters={30}
+            onChange={(text) => {
+              setLastName(onlyAllowedCharacters(text))
+              setFieldErrors((currentErrors) => ({ ...currentErrors, ...{ lastName: undefined } }))
+            }}
+            style={styles.input}
+            validationErrorText={fieldErrors?.lastName?.join()}
+            testID={'last-name'}
+          />
+          <HoliTextInput
+            value={aboutMe}
+            inputLabel={t('user.profileForm.aboutMe')}
+            accessibilityLabel={t('user.profileForm.aboutMe')}
+            placeholder={t('user.profileForm.aboutMePlaceholder')}
+            onChange={(text) => setAboutMe(text)}
+            noOfVisibleLines={5}
+            maxNoOfVisibleLines={10}
+            maxNoOfCharacters={3000}
+            style={styles.input}
+          />
+          <HoliTextInput
+            value={pronouns}
+            inputLabel={t('user.profileForm.pronouns')}
+            accessibilityLabel={t('user.profileForm.pronouns')}
+            placeholder={t('user.profileForm.pronounsPlaceholder')}
+            onChange={(text) => setPronouns(text)}
+            style={styles.input}
+          />
+          <HoliTextInput
+            value={location}
+            inputLabel={t('user.profileForm.location')}
+            accessibilityLabel={t('user.profileForm.location')}
+            placeholder={t('user.profileForm.locationPlaceholder')}
+            onChange={(text) => setLocation(text)}
+            style={styles.input}
+          />
+        </View>
+      </HoliModalContentWrapper>
+    </KeyboardAvoidingView>
   )
 }
 
