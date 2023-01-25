@@ -12,6 +12,8 @@ import {
 } from 'react-native'
 import tinycolor from 'tinycolor2'
 
+import { HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appConstants'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -48,7 +50,13 @@ const AppUpdatesList: React.VFC<AppUpdatesListProps> = ({
   testID,
 }: AppUpdatesListProps) => {
   const { width: screenWidth } = useWindowDimensions()
+  const { navigate } = useRouting()
   const cardImageSize = Platform.OS === 'web' ? 160 : screenWidth / 2 - 26
+
+  const handleHeaderTitlePress = () => {
+    const navigationPath = HOLI_APPS_NAVIGATION_PATHS[appName].path
+    navigate(navigationPath)
+  }
 
   const seeMore = () => {
     return loading ? (
@@ -81,12 +89,16 @@ const AppUpdatesList: React.VFC<AppUpdatesListProps> = ({
 
   return (
     <View style={style} testID={testID || `${appName}-app-updates-list`}>
-      <View style={styles.header} testID={`${appName}-updates-heading`}>
-        <View style={styles.iconContainer}>
-          <HoliIcon icon={headingIcon} size={20} color={colors.fontColorGrey} />
+      <HoliButton inline label={heading} style={styles.headerContainer} transparent onPress={handleHeaderTitlePress}>
+        <View style={styles.header} testID={`${appName}-updates-heading`}>
+          <View style={styles.iconContainer}>
+            <HoliIcon icon={headingIcon} size={20} color={colors.fontColorGrey} />
+          </View>
+          <View>
+            <HoliHeading style={{ marginLeft: 12 }}>{heading}</HoliHeading>
+          </View>
         </View>
-        <HoliHeading style={{ marginLeft: 12 }}>{heading}</HoliHeading>
-      </View>
+      </HoliButton>
       <FlatList
         horizontal
         ListHeaderComponentStyle={styles.listHeader}
@@ -105,7 +117,9 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
+    alignSelf: 'flex-start',
   },
+  headerContainer: { alignSelf: 'flex-start' },
   iconContainer: {
     padding: 13,
     borderRadius: 12,
