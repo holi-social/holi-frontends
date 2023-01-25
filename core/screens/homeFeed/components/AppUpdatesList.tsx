@@ -4,7 +4,6 @@ import {
   GestureResponderEvent,
   ListRenderItem,
   Platform,
-  Pressable,
   StyleProp,
   StyleSheet,
   View,
