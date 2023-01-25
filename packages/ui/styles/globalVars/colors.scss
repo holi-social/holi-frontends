@@ -19,7 +19,8 @@ $softwhiteDark: #f1efe9;
 $impactyellow: #f3f360;
 $positivepurple: #6267e7;
 $grey: #6f7081;
-$errorRed: #ee0004;
+$errorRed: #cc1820;
+$errorRedLight: lighten($errorRed, 50%);
 
 $font-color: $softblack;
 $font-color-disabled: $foreground10;
@@ -42,8 +43,10 @@ $border-color-black: $softblack;
 $border-color-black-disabled: $softblackLight;
 $border-color-grey: $softblackLight;
 $border-color-secondary: $secondary-color;
+$border-color-error: $errorRed;
 
 $shadow-color-black: #000000;
+$shadow-color-error: $errorRed;
 
 $background-color: $white;
 $background-color-yellow: $impactyellow;
@@ -56,6 +59,7 @@ $background-color-black: $softblack;
 $background-color-donation-green: #00a853;
 $background-color-success: $positivepurple;
 $background-color-error: $errorRed;
+$background-color-error-light: $errorRedLight;
 $background-color-overlay: #2222221f;
 $background-color-modal-dark: #262424;
 $background-color-pill-blue: #90ddff;

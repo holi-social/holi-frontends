@@ -310,7 +310,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 ],
                 Object {},
                 Object {
-                  "color": "#ee0004",
+                  "color": "#cc1820",
                 },
               ],
             ]
@@ -342,7 +342,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
             ],
             undefined,
             Object {
-              "borderColor": "#ee0004",
+              "borderColor": "#cc1820",
             },
           ]
         }
@@ -407,7 +407,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
             align="xMidYMid"
             bbHeight={16}
             bbWidth={16}
-            color={4293787652}
+            color={4291565600}
             focusable={false}
             meetOrSlice={0}
             minX={0}
@@ -421,7 +421,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 Object {
                   "borderStyle": "solid",
                   "borderWidth": 0,
-                  "color": "#ee0004",
+                  "color": "#cc1820",
                   "display": "flex",
                   "fill": "currentColor",
                   "flexDirection": "row",
@@ -437,7 +437,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 },
               ]
             }
-            tintColor={4293787652}
+            tintColor={4291565600}
             vbHeight={1024}
             vbWidth={1024}
           >
@@ -499,7 +499,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                   "color": "#6f7081",
                 },
                 Object {
-                  "color": "#ee0004",
+                  "color": "#cc1820",
                 },
               ],
             ]

@@ -29,7 +29,7 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
         },
       ],
       Object {
-        "backgroundColor": "#ee0004",
+        "backgroundColor": "#cc1820",
         "flex": 1,
         "padding": 20,
       },
