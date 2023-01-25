@@ -61,7 +61,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           "borderWidth": 2,
           "margin": 25,
           "maxWidth": 460,
-          "minWidth": 350,
+          "minWidth": 425,
           "padding": 24,
           "shadowColor": "#000",
           "shadowOffset": Object {
@@ -366,7 +366,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
           "borderWidth": 2,
           "margin": 25,
           "maxWidth": 460,
-          "minWidth": 350,
+          "minWidth": 425,
           "padding": 24,
           "shadowColor": "#000",
           "shadowOffset": Object {

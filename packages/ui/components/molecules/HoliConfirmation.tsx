@@ -47,10 +47,10 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
   const [visible, setVisible] = useState(show)
   const { setModalIsOpen } = useTheme()
   const { width: screenWidth } = useWindowDimensions()
-  const smallDevice = parseInt(vars.breakpointXs, 10) + 50
-  const isSmallDevice = screenWidth <= smallDevice
+  const smallDeviceWidth = parseInt(vars.breakpointXs, 10) + 50
+  const isSmallDevice = screenWidth <= smallDeviceWidth
 
-  const styles = createStyles(screenWidth, isSmallDevice)
+  const styles = createStyles(screenWidth, smallDeviceWidth, isSmallDevice)
 
   const setModalOpen = useCallback(
     (isOpen: boolean) => {
@@ -123,7 +123,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
 
 export default HoliConfirmation
 
-const createStyles = (screenWidth: number, smallDevice: boolean) =>
+const createStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevice: boolean) =>
   StyleSheet.create({
     modalContainer: {
       justifyContent: 'center',
@@ -150,7 +150,7 @@ const createStyles = (screenWidth: number, smallDevice: boolean) =>
       },
       shadowOpacity: 1,
       shadowRadius: 0,
-      ...(smallDevice ? { minWidth: screenWidth * 0.9 } : { minWidth: 350 }),
+      ...(isSmallDevice ? { minWidth: screenWidth * 0.9 } : { minWidth: smallDeviceWidth }),
     },
     description: {
       marginTop: 8,
