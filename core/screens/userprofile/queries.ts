@@ -177,3 +177,15 @@ export interface TopicsQueryResult {
 export interface SkillsQueryResult {
   skills: Paged<Skill>
 }
+
+export type DeleteAuthenticatedUserResponse = {
+  success: boolean
+}
+
+export const deleteAuthenticatedUserMutation = gql`
+  mutation DeleteAuthenticatedUser {
+    deleteAuthenticatedUser {
+      success
+    }
+  }
+`

@@ -37,7 +37,7 @@ const InsightsOfTheWeek: React.VFC<InsightsOfTheWeekProps> = (props: InsightsOfT
 
   const { data: insights = [], totalResults = 0 } = data?.lastInsights || {}
   const canFetchMore = insights.length < totalResults || isFetchingMore
-  const insightsCreators = insights.map((insight) => insight.creator)
+  const insightsCreators = insights.map((insight) => insight.creator).filter((creator) => !!creator)
 
   const fetchMoreInsights = useCallback(() => {
     setIsFetchingMore(true)

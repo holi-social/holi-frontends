@@ -14,22 +14,29 @@ export const useLogout = () => {
   const { t } = useTranslation()
   const { openToast } = useToast()
 
-  return useCallback(() => {
-    getSessionFromStorage()
-      .then((session) => submitLogoutFlow({ session_token: session ? session.session_token : '' }))
-      .then(() => client.clearStore())
-      .then(() => setUserLoggedOut())
-      .then(() => {
-        console.info('[Logout] logout successful')
-        navigate('/profile')
-        openToast(t('auth.logout.success'), HoliToastType.SUCCESS)
-      })
-      .catch((e) => {
-        console.warn('[Logout] logout failed, removing session from storage')
-        setUserLoggedOut() // will remove session info from storage
-        throw e // will be sent to Sentry so we're aware of it
-        // not displaying an user-facing error messages as with the removal from the storage logout should be done
-      })
-      .catch((error) => displayError(error, t('auth.logout.error')))
-  }, [navigate, openToast, setUserLoggedOut, t])
+  return useCallback(
+    ({ message, skipLogoutFlow = false }) => {
+      getSessionFromStorage()
+        .then((session) => {
+          if (!skipLogoutFlow) {
+            return submitLogoutFlow({ session_token: session ? session.session_token : '' })
+          }
+        })
+        .then(() => client.clearStore())
+        .then(() => setUserLoggedOut())
+        .then(() => {
+          console.info('[Logout] logout successful')
+          navigate('/profile')
+          openToast(message || t('auth.logout.success'), HoliToastType.SUCCESS)
+        })
+        .catch((e) => {
+          console.warn('[Logout] logout failed, removing session from storage')
+          setUserLoggedOut() // will remove session info from storage
+          throw e // will be sent to Sentry so we're aware of it
+          // not displaying an user-facing error messages as with the removal from the storage logout should be done
+        })
+        .catch((error) => displayError(error, t('auth.logout.error')))
+    },
+    [navigate, openToast, setUserLoggedOut, t]
+  )
 }

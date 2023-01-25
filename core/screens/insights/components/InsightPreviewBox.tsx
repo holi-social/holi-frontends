@@ -42,9 +42,11 @@ const InsightPreviewBox: React.VFC<InsightPreviewBoxProps> = ({ insight, ...prop
           {insight.title}
         </HoliHeading>
 
-        <HoliText size="small" style={[styles.spaceTop, styles.textGrey]} selectable={true}>
-          {t('insights.posts.byAuthor', { author: insight.creator.fullName, count: insight.numberOfPosts })}
-        </HoliText>
+        {insight.creator && (
+          <HoliText size="small" style={[styles.spaceTop, styles.textGrey]} selectable={true}>
+            {t('insights.posts.byAuthor', { author: insight.creator.fullName, count: insight.numberOfPosts })}
+          </HoliText>
+        )}
 
         {editors.length && (
           <HoliUserAvatarPile
