@@ -559,10 +559,6 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
                   "paddingHorizontal": 32,
                   "paddingVertical": 13,
                 },
-                Object {
-                  "backgroundColor": "#ffebec",
-                  "borderColor": "#cc1820",
-                },
               ],
               Object {
                 "flex": 1,
@@ -605,9 +601,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
                     "fontWeight": "500",
                   },
                   Array [
-                    Object {
-                      "color": "#cc1820",
-                    },
+                    Object {},
                     Object {},
                   ],
                 ]

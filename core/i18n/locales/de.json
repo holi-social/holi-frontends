@@ -45,7 +45,7 @@
   "auth.loginProtection.text": "Du bist nicht angemeldet",
   "auth.logout.button": "Abmelden",
   "auth.logout.confirmation.confirm": "Ja",
-  "auth.logout.confirmation.dismiss": "Nein, abbrechen",
+  "auth.logout.confirmation.dismiss": "Abbrechen",
   "auth.logout.error": "Abmelden fehlgeschlagen",
   "auth.logout.heading": "Willst Du Dich abmelden?",
   "auth.logout.success": "Erfolgreich abgemeldet",
