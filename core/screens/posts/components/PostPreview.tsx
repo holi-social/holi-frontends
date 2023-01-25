@@ -1,17 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliLink from '@holi//ui/components/molecules/HoliLink'
-import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
+import HoliMoreOptions from '@holi/ui/components/organisms/HoliMoreOptions'
+import HoliOptionItem from '@holi/ui/components/organisms/HoliOptionItem'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -25,8 +24,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
   const { t } = useTranslation()
   const commenters = post.commenters.data
 
-  // TODO: remove after implementing the feature
-  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
+  const [optionsVisible, setOptionsVisible] = useState(false)
 
   return (
     <View style={[styles.wrapper, style]}>
@@ -41,15 +39,20 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
             <HoliMediaHeader title={post.creator.fullName} author={post.creator} date={post.created} />
           </HoliLink>
 
-          <HoliButton
-            transparent
-            inline
+          <HoliMoreOptions
             label={t('insights.post.preview.more')}
             style={styles.moreButton}
-            onPress={showFeatureNotImplementedToast}
+            showOptions={optionsVisible}
+            onVisibilityChange={setOptionsVisible}
           >
-            <HoliIcon icon="more" color={colors.fontColorGrey} />
-          </HoliButton>
+            <HoliOptionItem
+              label={t('global.report')}
+              icon="close-circle"
+              tintColor={colors.fontColorError}
+              contentStyle={styles.moreOptionItem}
+              onPress={() => setOptionsVisible(false)}
+            />
+          </HoliMoreOptions>
         </View>
 
         <HoliLink href={`/posts/${post.id}`} label={post.title} textStyle={styles.postTitleLink} testID="btn-to-post">
@@ -122,6 +125,10 @@ const styles = StyleSheet.create({
   },
   commentsPile: {
     marginTop: 20,
+  },
+  moreOptionItem: {
+    justifyContent: 'center',
+    paddingVertical: 18,
   },
 })
 
