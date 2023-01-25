@@ -4,6 +4,7 @@ import {
   GestureResponderEvent,
   ListRenderItem,
   Platform,
+  Pressable,
   StyleProp,
   StyleSheet,
   View,
@@ -12,6 +13,8 @@ import {
 } from 'react-native'
 import tinycolor from 'tinycolor2'
 
+import { HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appConstants'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -48,7 +51,13 @@ const AppUpdatesList: React.VFC<AppUpdatesListProps> = ({
   testID,
 }: AppUpdatesListProps) => {
   const { width: screenWidth } = useWindowDimensions()
+  const { navigate } = useRouting()
   const cardImageSize = Platform.OS === 'web' ? 160 : screenWidth / 2 - 26
+
+  const handleHeaderTitlePress = () => {
+    const navigationPath = HOLI_APPS_NAVIGATION_PATHS[appName].path
+    navigate(navigationPath)
+  }
 
   const seeMore = () => {
     return loading ? (
@@ -85,7 +94,9 @@ const AppUpdatesList: React.VFC<AppUpdatesListProps> = ({
         <View style={styles.iconContainer}>
           <HoliIcon icon={headingIcon} size={20} color={colors.fontColorGrey} />
         </View>
-        <HoliHeading style={{ marginLeft: 12 }}>{heading}</HoliHeading>
+        <Pressable onPress={handleHeaderTitlePress}>
+          <HoliHeading style={{ marginLeft: 12 }}>{heading}</HoliHeading>
+        </Pressable>
       </View>
       <FlatList
         horizontal
