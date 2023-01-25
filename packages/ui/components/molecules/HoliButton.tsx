@@ -18,8 +18,8 @@ import type { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/@type
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
-type HoliButtonType = 'primary' | 'secondary' // for working code completion in vscode
-export const HoliButtonTypes: HoliButtonType[] = ['primary', 'secondary'] // keep in sync with all possible HoliButtonType values
+export type HoliButtonType = 'primary' | 'secondary' | 'warning' // for working code completion in vscode
+export const HoliButtonTypes: HoliButtonType[] = ['primary', 'secondary', 'warning'] // keep in sync with all possible HoliButtonType values
 type HoliButtonVariant = 'default' | 'small' // for working code completion in vscode
 export const HoliButtonVariants: HoliButtonVariant[] = ['default', 'small'] // keep in sync with all possible HoliButtonVariant values
 
@@ -54,8 +54,9 @@ const HoliButton: React.FC<HoliButtonProps> = ({
 }: React.PropsWithChildren<HoliButtonProps>) => {
   const isSmall = variant === 'small'
   const isPrimary = type === 'primary'
+  const isWarning = type === 'warning'
 
-  const styles = useMemo(() => getStyles(inline), [inline])
+  const styles = useMemo(() => getStyles(inline, isWarning), [inline, isWarning])
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),
@@ -68,7 +69,7 @@ const HoliButton: React.FC<HoliButtonProps> = ({
   const content =
     typeof props.children === 'string' ? (
       <HoliText
-        style={disabled ? styles.textDisabled : {}}
+        style={[styles.text, isWarning ? styles.textWarning : {}, disabled ? styles.textDisabled : {}]}
         size={isSmall ? 'small' : 'default'}
         bold={true}
         selectable={false}
@@ -101,14 +102,18 @@ const HoliButton: React.FC<HoliButtonProps> = ({
           if (isSmall) {
             result.push(styles.small)
           }
+          if (isWarning) {
+            result.push(styles.warning)
+          }
           if (disabled) {
             result.push(styles.disabled)
             isPrimary && result.push(styles.primaryDisabled)
+            isWarning && result.push(styles.warningDisabled)
           } else {
             isPrimary && result.push(styles.primary)
             if (state.pressed) {
               isPrimary && result.push(styles.pressedPrimary)
-              !isPrimary && result.push(styles.pressedSecondary)
+              !isPrimary && !isWarning && result.push(styles.pressedSecondary)
             } else {
               state.focused && result.push(styles.focused)
               state.hovered && result.push(styles.hovered)
@@ -133,7 +138,7 @@ const HoliButton: React.FC<HoliButtonProps> = ({
 
 export default HoliButton
 
-const getStyles = (inline: boolean) =>
+const getStyles = (inline: boolean, isWarning: boolean) =>
   StyleSheet.create({
     base: {
       ...Platform.select({
@@ -152,12 +157,17 @@ const getStyles = (inline: boolean) =>
       paddingVertical: 13,
       elevation: 0,
       overflow: 'hidden',
+      justifyContent: 'center',
+      display: 'flex',
+    },
+    text: {
+      textAlign: 'center',
     },
     textDisabled: {
       color: colors.fontColorGrey,
     },
     hovered: {
-      shadowColor: colors.shadowColorBlack,
+      shadowColor: isWarning ? colors.shadowColorError : colors.shadowColorBlack,
       shadowOffset: {
         width: 4,
         height: 4,
@@ -168,7 +178,7 @@ const getStyles = (inline: boolean) =>
     },
     focused: {
       outlineWidth: 2,
-      outlineColor: colors.shadowColorBlack,
+      outlineColor: isWarning ? colors.shadowColorError : colors.shadowColorBlack,
       outlineStyle: 'solid',
     },
     pressedPrimary: {
@@ -193,5 +203,15 @@ const getStyles = (inline: boolean) =>
     },
     primaryDisabled: {
       backgroundColor: colors.backgroundColorGrey,
+    },
+    warningDisabled: {
+      backgroundColor: colors.backgroundColorGrey,
+    },
+    warning: {
+      backgroundColor: colors.backgroundColorErrorLight,
+      borderColor: colors.borderColorError,
+    },
+    textWarning: {
+      color: colors.fontColorError,
     },
   })
