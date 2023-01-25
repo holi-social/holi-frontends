@@ -94,9 +94,9 @@ const AppUpdatesList: React.VFC<AppUpdatesListProps> = ({
         <View style={styles.iconContainer}>
           <HoliIcon icon={headingIcon} size={20} color={colors.fontColorGrey} />
         </View>
-        <Pressable onPress={handleHeaderTitlePress}>
+        <HoliButton label={heading} transparent onPress={handleHeaderTitlePress}>
           <HoliHeading style={{ marginLeft: 12 }}>{heading}</HoliHeading>
-        </Pressable>
+        </HoliButton>
       </View>
       <FlatList
         horizontal
