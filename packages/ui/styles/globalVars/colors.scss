@@ -20,6 +20,7 @@ $impactyellow: #f3f360;
 $positivepurple: #6267e7;
 $grey: #6f7081;
 $errorRed: #ee0004;
+$dangerRed: #cc1820;
 
 $font-color: $softblack;
 $font-color-disabled: $foreground10;
@@ -30,18 +31,21 @@ $font-color-grey-disabled: $foreground10;
 $font-color-white: $white;
 $font-color-white-disabled: $foreground10;
 $font-color-error: $errorRed;
+$font-color-danger: $dangerRed;
 $font-color-highlighted: $positivepurple;
 $font-color-modal-light: #e6e1d3;
 
 $primary-color: $impactyellow;
 $secondary-color: $positivepurple;
 $tertiary-color: #57d14c;
+$danger-color: $dangerRed;
 
 $border-color: $softblack;
 $border-color-black: $softblack;
 $border-color-black-disabled: $softblackLight;
 $border-color-grey: $softblackLight;
 $border-color-secondary: $secondary-color;
+$border-color-danger: $danger-color;
 
 $shadow-color-black: #000000;
 
@@ -56,6 +60,7 @@ $background-color-black: $softblack;
 $background-color-donation-green: #00a853;
 $background-color-success: $positivepurple;
 $background-color-error: $errorRed;
+$background-color-danger: #ffebec;
 $background-color-overlay: #2222221f;
 $background-color-modal-dark: #262424;
 $background-color-pill-blue: #90ddff;

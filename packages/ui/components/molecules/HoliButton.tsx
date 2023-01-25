@@ -18,8 +18,8 @@ import type { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/@type
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { colors } from '@holi/ui/styles/globalVars'
 
-type HoliButtonType = 'primary' | 'secondary' // for working code completion in vscode
-export const HoliButtonTypes: HoliButtonType[] = ['primary', 'secondary'] // keep in sync with all possible HoliButtonType values
+export type HoliButtonType = 'primary' | 'secondary' | 'danger' // for working code completion in vscode
+export const HoliButtonTypes: HoliButtonType[] = ['primary', 'secondary', 'danger'] // keep in sync with all possible HoliButtonType values
 type HoliButtonVariant = 'default' | 'small' // for working code completion in vscode
 export const HoliButtonVariants: HoliButtonVariant[] = ['default', 'small'] // keep in sync with all possible HoliButtonVariant values
 
@@ -54,6 +54,9 @@ const HoliButton: React.FC<HoliButtonProps> = ({
 }: React.PropsWithChildren<HoliButtonProps>) => {
   const isSmall = variant === 'small'
   const isPrimary = type === 'primary'
+  const isDanger = type === 'danger'
+
+  console.log(type)
 
   const styles = useMemo(() => getStyles(inline), [inline])
 
@@ -68,7 +71,7 @@ const HoliButton: React.FC<HoliButtonProps> = ({
   const content =
     typeof props.children === 'string' ? (
       <HoliText
-        style={disabled ? styles.textDisabled : {}}
+        style={[isDanger ? styles.textDanger : {}, disabled ? styles.textDisabled : {}]}
         size={isSmall ? 'small' : 'default'}
         bold={true}
         selectable={false}
@@ -113,6 +116,9 @@ const HoliButton: React.FC<HoliButtonProps> = ({
               state.focused && result.push(styles.focused)
               state.hovered && result.push(styles.hovered)
             }
+          }
+          if (isDanger) {
+            result.push(styles.danger)
           }
         }
         return [result, props.style]
@@ -193,5 +199,12 @@ const getStyles = (inline: boolean) =>
     },
     primaryDisabled: {
       backgroundColor: colors.backgroundColorGrey,
+    },
+    danger: {
+      backgroundColor: colors.backgroundColorDanger,
+      borderColor: colors.borderColorDanger,
+    },
+    textDanger: {
+      color: colors.fontColorDanger,
     },
   })

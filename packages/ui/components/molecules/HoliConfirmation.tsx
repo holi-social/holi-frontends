@@ -14,18 +14,16 @@ import {
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliButton, { HoliButtonType } from '@holi/ui/components/molecules/HoliButton'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
-
-type HoliConfirmationType = 'primary' | 'danger'
 
 export type HoliConfirmationProps = ModalProps & {
   show: boolean
   label: string
   title: string
   description: string
-  confirmationType?: HoliConfirmationType
+  confirmationButtonType?: HoliButtonType
   onConfirm?: () => void
   onDismiss?: () => void
   confirmText?: string
@@ -38,7 +36,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
   label,
   title,
   description,
-  confirmationType = 'primary',
+  confirmationButtonType = 'primary',
   onConfirm,
   onDismiss,
   confirmText,
@@ -68,8 +66,6 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
   }
 
   const smallDevice = parseInt(vars.breakpointXs, 10) + 50
-
-  const isDanger = confirmationType === 'danger'
 
   return (
     <Modal
@@ -109,20 +105,11 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
                 inline
                 label={confirmText || t('confirmation.confirm')}
                 onPress={onConfirm}
-                style={[
-                  styles.button,
-                  { marginLeft: screenWidth <= smallDevice ? 0 : 5 },
-                  isDanger && styles.buttonDanger,
-                ]}
+                type={confirmationButtonType}
+                style={[styles.button, { marginLeft: screenWidth <= smallDevice ? 0 : 5 }]}
                 {...(testID ? { testID: `${testID}-confirmation-confirm` } : {})}
               >
-                {isDanger ? (
-                  <HoliText style={styles.buttonDangerText} bold>
-                    {confirmText || t('confirmation.confirm')}
-                  </HoliText>
-                ) : (
-                  confirmText || t('confirmation.confirm')
-                )}
+                {confirmText || t('confirmation.confirm')}
               </HoliButton>
             )}
           </View>
@@ -175,11 +162,5 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 24,
-  },
-  buttonDanger: {
-    backgroundColor: colors.errorRed,
-  },
-  buttonDangerText: {
-    color: colors.fontColorWhite,
   },
 })
