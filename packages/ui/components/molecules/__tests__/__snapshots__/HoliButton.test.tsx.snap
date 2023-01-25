@@ -32,7 +32,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -77,6 +79,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {},
           ],
@@ -121,7 +126,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -171,6 +178,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {},
           ],
@@ -215,7 +225,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -257,6 +269,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {},
           ],
@@ -301,7 +316,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -348,6 +365,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {},
           ],
@@ -392,14 +412,16 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fee",
-          "borderColor": "#ee0004",
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
         },
       ],
       undefined,
@@ -439,7 +461,10 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           },
           Array [
             Object {
-              "color": "#ee0004",
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
             },
             Object {},
           ],
@@ -484,7 +509,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -495,8 +522,8 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fee",
-          "borderColor": "#ee0004",
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
         },
       ],
       undefined,
@@ -536,7 +563,10 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           },
           Array [
             Object {
-              "color": "#ee0004",
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
             },
             Object {},
           ],
@@ -581,7 +611,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -626,6 +658,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {},
           ],
@@ -670,7 +705,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -720,6 +757,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {},
           ],
@@ -764,7 +804,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -806,6 +848,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {},
           ],
@@ -850,7 +895,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -897,6 +944,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {},
           ],
@@ -941,14 +991,16 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fee",
-          "borderColor": "#ee0004",
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
         },
       ],
       undefined,
@@ -988,7 +1040,10 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           },
           Array [
             Object {
-              "color": "#ee0004",
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
             },
             Object {},
           ],
@@ -1033,7 +1088,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -1044,8 +1101,8 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fee",
-          "borderColor": "#ee0004",
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
         },
       ],
       undefined,
@@ -1085,7 +1142,10 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           },
           Array [
             Object {
-              "color": "#ee0004",
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
             },
             Object {},
           ],
@@ -1130,7 +1190,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -1178,6 +1240,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {
               "color": "#6f7081",
@@ -1224,7 +1289,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -1277,6 +1344,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {
               "color": "#6f7081",
@@ -1323,7 +1393,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -1368,6 +1440,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {
               "color": "#6f7081",
@@ -1414,7 +1489,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -1464,6 +1541,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {
               "color": "#6f7081",
@@ -1510,14 +1590,16 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fee",
-          "borderColor": "#ee0004",
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
         },
         Object {
           "borderColor": "#eff0f1",
@@ -1563,7 +1645,10 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           },
           Array [
             Object {
-              "color": "#ee0004",
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
             },
             Object {
               "color": "#6f7081",
@@ -1610,7 +1695,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -1621,8 +1708,8 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fee",
-          "borderColor": "#ee0004",
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
         },
         Object {
           "borderColor": "#eff0f1",
@@ -1668,7 +1755,10 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           },
           Array [
             Object {
-              "color": "#ee0004",
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
             },
             Object {
               "color": "#6f7081",
@@ -1715,7 +1805,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -1763,6 +1855,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {
               "color": "#6f7081",
@@ -1809,7 +1904,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -1862,6 +1959,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {
               "color": "#6f7081",
@@ -1908,7 +2008,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -1953,6 +2055,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {
               "color": "#6f7081",
@@ -1999,7 +2104,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -2049,6 +2156,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {
               "color": "#6f7081",
@@ -2095,14 +2205,16 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fee",
-          "borderColor": "#ee0004",
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
         },
         Object {
           "borderColor": "#eff0f1",
@@ -2148,7 +2260,10 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           },
           Array [
             Object {
-              "color": "#ee0004",
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
             },
             Object {
               "color": "#6f7081",
@@ -2195,7 +2310,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -2206,8 +2323,8 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fee",
-          "borderColor": "#ee0004",
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
         },
         Object {
           "borderColor": "#eff0f1",
@@ -2253,7 +2370,10 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           },
           Array [
             Object {
-              "color": "#ee0004",
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
             },
             Object {
               "color": "#6f7081",
@@ -2300,7 +2420,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -2345,6 +2467,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {},
           ],
@@ -2389,7 +2514,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -2439,6 +2566,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {},
           ],
@@ -2483,7 +2613,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -2525,6 +2657,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {},
           ],
@@ -2569,7 +2704,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -2616,6 +2753,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {},
           ],
@@ -2660,14 +2800,16 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fee",
-          "borderColor": "#ee0004",
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
         },
       ],
       undefined,
@@ -2707,7 +2849,10 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           },
           Array [
             Object {
-              "color": "#ee0004",
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
             },
             Object {},
           ],
@@ -2752,7 +2897,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -2763,8 +2910,8 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fee",
-          "borderColor": "#ee0004",
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
         },
       ],
       undefined,
@@ -2804,7 +2951,10 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           },
           Array [
             Object {
-              "color": "#ee0004",
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
             },
             Object {},
           ],
@@ -2849,7 +2999,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -2894,6 +3046,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {},
           ],
@@ -2938,7 +3093,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -2988,6 +3145,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {},
           ],
@@ -3032,7 +3192,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -3074,6 +3236,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {},
           ],
@@ -3118,7 +3283,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -3165,6 +3332,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {},
           ],
@@ -3209,14 +3379,16 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fee",
-          "borderColor": "#ee0004",
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
         },
       ],
       undefined,
@@ -3256,7 +3428,10 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           },
           Array [
             Object {
-              "color": "#ee0004",
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
             },
             Object {},
           ],
@@ -3301,7 +3476,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -3312,8 +3489,8 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fee",
-          "borderColor": "#ee0004",
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
         },
       ],
       undefined,
@@ -3353,7 +3530,10 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           },
           Array [
             Object {
-              "color": "#ee0004",
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
             },
             Object {},
           ],
@@ -3398,7 +3578,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -3446,6 +3628,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {
               "color": "#6f7081",
@@ -3492,7 +3677,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -3545,6 +3732,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {
               "color": "#6f7081",
@@ -3591,7 +3781,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -3636,6 +3828,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {
               "color": "#6f7081",
@@ -3682,7 +3877,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -3732,6 +3929,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {
               "color": "#6f7081",
@@ -3778,14 +3978,16 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fee",
-          "borderColor": "#ee0004",
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
         },
         Object {
           "borderColor": "#eff0f1",
@@ -3831,7 +4033,10 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           },
           Array [
             Object {
-              "color": "#ee0004",
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
             },
             Object {
               "color": "#6f7081",
@@ -3878,7 +4083,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -3889,8 +4096,8 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fee",
-          "borderColor": "#ee0004",
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
         },
         Object {
           "borderColor": "#eff0f1",
@@ -3936,7 +4143,10 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           },
           Array [
             Object {
-              "color": "#ee0004",
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
             },
             Object {
               "color": "#6f7081",
@@ -3983,7 +4193,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -4031,6 +4243,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {
               "color": "#6f7081",
@@ -4077,7 +4292,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -4130,6 +4347,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {
               "color": "#6f7081",
@@ -4176,7 +4396,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -4221,6 +4443,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {
               "color": "#6f7081",
@@ -4267,7 +4492,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -4317,6 +4544,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontWeight": "500",
           },
           Array [
+            Object {
+              "textAlign": "center",
+            },
             Object {},
             Object {
               "color": "#6f7081",
@@ -4363,14 +4593,16 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fee",
-          "borderColor": "#ee0004",
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
         },
         Object {
           "borderColor": "#eff0f1",
@@ -4416,7 +4648,10 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           },
           Array [
             Object {
-              "color": "#ee0004",
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
             },
             Object {
               "color": "#6f7081",
@@ -4463,7 +4698,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -4474,8 +4711,8 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fee",
-          "borderColor": "#ee0004",
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
         },
         Object {
           "borderColor": "#eff0f1",
@@ -4521,7 +4758,10 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           },
           Array [
             Object {
-              "color": "#ee0004",
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
             },
             Object {
               "color": "#6f7081",

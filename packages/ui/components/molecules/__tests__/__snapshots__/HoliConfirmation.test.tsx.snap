@@ -161,7 +161,9 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "borderColor": "#222326",
                   "borderRadius": 28,
                   "borderWidth": 2,
+                  "display": "flex",
                   "elevation": 0,
+                  "justifyContent": "center",
                   "overflow": "hidden",
                   "paddingHorizontal": 32,
                   "paddingVertical": 13,
@@ -208,6 +210,9 @@ exports[`renders correctly renders correctly when open 1`] = `
                     "fontWeight": "500",
                   },
                   Array [
+                    Object {
+                      "textAlign": "center",
+                    },
                     Object {},
                     Object {},
                   ],
@@ -249,7 +254,9 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "borderColor": "#222326",
                   "borderRadius": 28,
                   "borderWidth": 2,
+                  "display": "flex",
                   "elevation": 0,
+                  "justifyContent": "center",
                   "overflow": "hidden",
                   "paddingHorizontal": 32,
                   "paddingVertical": 13,
@@ -299,6 +306,9 @@ exports[`renders correctly renders correctly when open 1`] = `
                     "fontWeight": "500",
                   },
                   Array [
+                    Object {
+                      "textAlign": "center",
+                    },
                     Object {},
                     Object {},
                   ],
@@ -466,7 +476,9 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
                   "borderColor": "#222326",
                   "borderRadius": 28,
                   "borderWidth": 2,
+                  "display": "flex",
                   "elevation": 0,
+                  "justifyContent": "center",
                   "overflow": "hidden",
                   "paddingHorizontal": 32,
                   "paddingVertical": 13,
@@ -513,6 +525,9 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
                     "fontWeight": "500",
                   },
                   Array [
+                    Object {
+                      "textAlign": "center",
+                    },
                     Object {},
                     Object {},
                   ],
@@ -554,7 +569,9 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
                   "borderColor": "#222326",
                   "borderRadius": 28,
                   "borderWidth": 2,
+                  "display": "flex",
                   "elevation": 0,
+                  "justifyContent": "center",
                   "overflow": "hidden",
                   "paddingHorizontal": 32,
                   "paddingVertical": 13,
@@ -601,6 +618,9 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
                     "fontWeight": "500",
                   },
                   Array [
+                    Object {
+                      "textAlign": "center",
+                    },
                     Object {},
                     Object {},
                   ],

@@ -69,7 +69,7 @@ const HoliButton: React.FC<HoliButtonProps> = ({
   const content =
     typeof props.children === 'string' ? (
       <HoliText
-        style={[isWarning ? styles.textWarning : {}, disabled ? styles.textDisabled : {}]}
+        style={[styles.text, isWarning ? styles.textWarning : {}, disabled ? styles.textDisabled : {}]}
         size={isSmall ? 'small' : 'default'}
         bold={true}
         selectable={false}
@@ -157,6 +157,11 @@ const getStyles = (inline: boolean, isWarning: boolean) =>
       paddingVertical: 13,
       elevation: 0,
       overflow: 'hidden',
+      justifyContent: 'center',
+      display: 'flex',
+    },
+    text: {
+      textAlign: 'center',
     },
     textDisabled: {
       color: colors.fontColorGrey,

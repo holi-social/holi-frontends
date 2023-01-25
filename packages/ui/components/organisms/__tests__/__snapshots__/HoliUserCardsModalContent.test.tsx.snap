@@ -1746,7 +1746,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               "borderColor": "#222326",
               "borderRadius": 28,
               "borderWidth": 2,
+              "display": "flex",
               "elevation": 0,
+              "justifyContent": "center",
               "overflow": "hidden",
               "paddingHorizontal": 32,
               "paddingVertical": 13,
@@ -1802,6 +1804,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 "fontWeight": "500",
               },
               Array [
+                Object {
+                  "textAlign": "center",
+                },
                 Object {},
                 Object {},
               ],
