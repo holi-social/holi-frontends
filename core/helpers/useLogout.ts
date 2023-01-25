@@ -17,9 +17,9 @@ export const useLogout = () => {
   return useCallback(
     ({ message, skipLogoutFlow = false }) => {
       getSessionFromStorage()
-        .then(async (session) => {
+        .then((session) => {
           if (!skipLogoutFlow) {
-            await submitLogoutFlow({ session_token: session ? session.session_token : '' })
+            return submitLogoutFlow({ session_token: session ? session.session_token : '' })
           }
         })
         .then(() => client.clearStore())
