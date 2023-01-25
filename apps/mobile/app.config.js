@@ -28,6 +28,9 @@ export default {
       supportsTablet: true,
       bundleIdentifier: 'foundation.holistic.projectholi',
       buildNumber: versions.iosBuildNumber,
+      // usesNonExemptEncryption see https://docs.expo.dev/versions/latest/config/app/#usesnonexemptencryption
+      // and https://help.apple.com/app-store-connect/#/devc3f64248f
+      usesNonExemptEncryption: false,
       infoPlist: {
         CFBundleAllowMixedLocalizations: true,
       },
