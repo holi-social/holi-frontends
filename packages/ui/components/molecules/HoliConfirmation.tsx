@@ -47,6 +47,10 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
   const [visible, setVisible] = useState(show)
   const { setModalIsOpen } = useTheme()
   const { width: screenWidth } = useWindowDimensions()
+  const smallDevice = parseInt(vars.breakpointXs, 10) + 50
+  const isSmallDevice = screenWidth <= smallDevice
+
+  const styles = createStyles(screenWidth, isSmallDevice)
 
   const setModalOpen = useCallback(
     (isOpen: boolean) => {
@@ -64,8 +68,6 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
     ...(Platform.OS === 'web' ? { accessibilityModal: true } : {}),
     accessibilityLabel: label,
   }
-
-  const smallDevice = parseInt(vars.breakpointXs, 10) + 50
 
   return (
     <Modal
@@ -87,7 +89,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
             {title}
           </HoliHeading>
           <HoliText style={styles.description}>{description}</HoliText>
-          <View style={[styles.buttonContainer, screenWidth <= smallDevice && styles.buttonContainerSmall]}>
+          <View style={[styles.buttonContainer, isSmallDevice && styles.buttonContainerSmall]}>
             {onDismiss && (
               <HoliButton
                 inline
@@ -106,7 +108,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
                 label={confirmText || t('confirmation.confirm')}
                 onPress={onConfirm}
                 type={confirmationButtonType}
-                style={[styles.button, { marginLeft: screenWidth <= smallDevice ? 0 : 5 }]}
+                style={styles.button}
                 {...(testID ? { testID: `${testID}-confirmation-confirm` } : {})}
               >
                 {confirmText || t('confirmation.confirm')}
@@ -121,46 +123,63 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
 
 export default HoliConfirmation
 
-const styles = StyleSheet.create({
-  modalContainer: {
-    justifyContent: 'center',
-    flex: 1,
-  },
-  backdrop: {
-    opacity: 0.4,
-    backgroundColor: colors.backgroundColorBlack,
-    ...StyleSheet.absoluteFillObject,
-  },
-  modalView: {
-    maxWidth: 460,
-    padding: 24,
-    margin: 25,
-    alignSelf: 'center',
-    backgroundColor: colors.backgroundColor,
-    borderWidth: 2,
-    borderRadius: 24,
-    borderColor: colors.shadowColorBlack,
-    shadowColor: colors.shadowColorBlack,
-    shadowOffset: {
-      width: 0,
-      height: 4,
+const createStyles = (screenWidth: number, smallDevice: boolean) =>
+  StyleSheet.create({
+    modalContainer: {
+      justifyContent: 'center',
+      flex: 1,
     },
-    shadowOpacity: 1,
-    shadowRadius: 0,
-  },
-  description: {
-    marginTop: 8,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    flexWrap: 'wrap',
-  },
-  buttonContainerSmall: {
-    marginLeft: -14,
-    marginRight: -14,
-  },
-  button: {
-    marginTop: 24,
-  },
-})
+    backdrop: {
+      opacity: 0.4,
+      backgroundColor: colors.backgroundColorBlack,
+      ...StyleSheet.absoluteFillObject,
+    },
+    modalView: {
+      maxWidth: 460,
+      padding: 24,
+      margin: 25,
+      alignSelf: 'center',
+      backgroundColor: colors.backgroundColor,
+      borderWidth: 2,
+      borderRadius: 24,
+      borderColor: colors.shadowColorBlack,
+      shadowColor: colors.shadowColorBlack,
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 1,
+      shadowRadius: 0,
+      ...(smallDevice ? { minWidth: screenWidth * 0.9 } : { minWidth: 350 }),
+    },
+    description: {
+      marginTop: 8,
+    },
+    buttonContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      flexWrap: 'wrap',
+      marginTop: 24,
+      gap: 14, // TODO: remove this comment once upgraded to React-Native >= 0.71: (only works for web for versions below it)
+    },
+    buttonContainerSmall: {
+      // TODO: remove mobile button margins once upgraded to React-Native >= 0.71 (gap property should solve it)
+      margin: -7,
+      ...Platform.select({
+        web: {
+          margin: 0,
+        },
+      }),
+    },
+    button: {
+      margin: 7,
+      ...Platform.select({
+        web: {
+          margin: 0,
+        },
+      }),
+      flex: 1,
+      minWidth: 120,
+      paddingHorizontal: 14,
+    },
+  })

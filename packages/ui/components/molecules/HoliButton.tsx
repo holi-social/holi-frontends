@@ -56,9 +56,7 @@ const HoliButton: React.FC<HoliButtonProps> = ({
   const isPrimary = type === 'primary'
   const isDanger = type === 'danger'
 
-  console.log(type)
-
-  const styles = useMemo(() => getStyles(inline), [inline])
+  const styles = useMemo(() => getStyles(inline, isDanger), [inline, isDanger])
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     ...(Platform.OS === 'web' ? { focusable: !disableFocusability } : { accessible: !disableFocusability }),
@@ -104,21 +102,22 @@ const HoliButton: React.FC<HoliButtonProps> = ({
           if (isSmall) {
             result.push(styles.small)
           }
+          if (isDanger) {
+            result.push(styles.danger)
+          }
           if (disabled) {
             result.push(styles.disabled)
             isPrimary && result.push(styles.primaryDisabled)
+            isDanger && result.push(styles.dangerDisabled)
           } else {
             isPrimary && result.push(styles.primary)
             if (state.pressed) {
               isPrimary && result.push(styles.pressedPrimary)
-              !isPrimary && result.push(styles.pressedSecondary)
+              !isPrimary && !isDanger && result.push(styles.pressedSecondary)
             } else {
               state.focused && result.push(styles.focused)
               state.hovered && result.push(styles.hovered)
             }
-          }
-          if (isDanger) {
-            result.push(styles.danger)
           }
         }
         return [result, props.style]
@@ -139,7 +138,7 @@ const HoliButton: React.FC<HoliButtonProps> = ({
 
 export default HoliButton
 
-const getStyles = (inline: boolean) =>
+const getStyles = (inline: boolean, isDanger: boolean) =>
   StyleSheet.create({
     base: {
       ...Platform.select({
@@ -163,7 +162,7 @@ const getStyles = (inline: boolean) =>
       color: colors.fontColorGrey,
     },
     hovered: {
-      shadowColor: colors.shadowColorBlack,
+      shadowColor: isDanger ? colors.shadowColorDanger : colors.shadowColorBlack,
       shadowOffset: {
         width: 4,
         height: 4,
@@ -174,7 +173,7 @@ const getStyles = (inline: boolean) =>
     },
     focused: {
       outlineWidth: 2,
-      outlineColor: colors.shadowColorBlack,
+      outlineColor: isDanger ? colors.shadowColorDanger : colors.shadowColorBlack,
       outlineStyle: 'solid',
     },
     pressedPrimary: {
@@ -198,6 +197,9 @@ const getStyles = (inline: boolean) =>
       backgroundColor: colors.primaryColor,
     },
     primaryDisabled: {
+      backgroundColor: colors.backgroundColorGrey,
+    },
+    dangerDisabled: {
       backgroundColor: colors.backgroundColorGrey,
     },
     danger: {

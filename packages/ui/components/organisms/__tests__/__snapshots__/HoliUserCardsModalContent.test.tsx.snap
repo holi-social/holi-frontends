@@ -1801,7 +1801,10 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 "fontFamily": "Circular Std Medium",
                 "fontWeight": "500",
               },
-              Object {},
+              Array [
+                Object {},
+                Object {},
+              ],
             ]
           }
         >

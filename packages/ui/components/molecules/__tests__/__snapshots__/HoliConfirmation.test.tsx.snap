@@ -61,6 +61,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           "borderWidth": 2,
           "margin": 25,
           "maxWidth": 460,
+          "minWidth": 350,
           "padding": 24,
           "shadowColor": "#000",
           "shadowOffset": Object {
@@ -121,7 +122,9 @@ exports[`renders correctly renders correctly when open 1`] = `
             Object {
               "flexDirection": "row",
               "flexWrap": "wrap",
+              "gap": 14,
               "justifyContent": "space-between",
+              "marginTop": 24,
             },
             false,
           ]
@@ -165,7 +168,10 @@ exports[`renders correctly renders correctly when open 1`] = `
                 },
               ],
               Object {
-                "marginTop": 24,
+                "flex": 1,
+                "margin": 7,
+                "minWidth": 120,
+                "paddingHorizontal": 14,
               },
             ]
           }
@@ -201,7 +207,10 @@ exports[`renders correctly renders correctly when open 1`] = `
                     "fontFamily": "Circular Std Medium",
                     "fontWeight": "500",
                   },
-                  Object {},
+                  Array [
+                    Object {},
+                    Object {},
+                  ],
                 ]
               }
             >
@@ -249,15 +258,12 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "backgroundColor": "#f3f360",
                 },
               ],
-              Array [
-                Object {
-                  "marginTop": 24,
-                },
-                Object {
-                  "marginLeft": 5,
-                },
-                false,
-              ],
+              Object {
+                "flex": 1,
+                "margin": 7,
+                "minWidth": 120,
+                "paddingHorizontal": 14,
+              },
             ]
           }
         >
@@ -292,7 +298,10 @@ exports[`renders correctly renders correctly when open 1`] = `
                     "fontFamily": "Circular Std Medium",
                     "fontWeight": "500",
                   },
-                  Object {},
+                  Array [
+                    Object {},
+                    Object {},
+                  ],
                 ]
               }
             >
@@ -306,7 +315,7 @@ exports[`renders correctly renders correctly when open 1`] = `
 </Modal>
 `;
 
-exports[`renders correctly renders correctly when open and confirmationType is danger 1`] = `
+exports[`renders correctly renders correctly when open and confirmationButtonType is danger 1`] = `
 <Modal
   accessibilityLabel="Test"
   animationType="fade"
@@ -357,6 +366,7 @@ exports[`renders correctly renders correctly when open and confirmationType is d
           "borderWidth": 2,
           "margin": 25,
           "maxWidth": 460,
+          "minWidth": 350,
           "padding": 24,
           "shadowColor": "#000",
           "shadowOffset": Object {
@@ -417,7 +427,9 @@ exports[`renders correctly renders correctly when open and confirmationType is d
             Object {
               "flexDirection": "row",
               "flexWrap": "wrap",
+              "gap": 14,
               "justifyContent": "space-between",
+              "marginTop": 24,
             },
             false,
           ]
@@ -461,7 +473,10 @@ exports[`renders correctly renders correctly when open and confirmationType is d
                 },
               ],
               Object {
-                "marginTop": 24,
+                "flex": 1,
+                "margin": 7,
+                "minWidth": 120,
+                "paddingHorizontal": 14,
               },
             ]
           }
@@ -497,7 +512,10 @@ exports[`renders correctly renders correctly when open and confirmationType is d
                     "fontFamily": "Circular Std Medium",
                     "fontWeight": "500",
                   },
-                  Object {},
+                  Array [
+                    Object {},
+                    Object {},
+                  ],
                 ]
               }
             >
@@ -542,20 +560,16 @@ exports[`renders correctly renders correctly when open and confirmationType is d
                   "paddingVertical": 13,
                 },
                 Object {
-                  "backgroundColor": "#f3f360",
+                  "backgroundColor": "#ffebec",
+                  "borderColor": "#cc1820",
                 },
               ],
-              Array [
-                Object {
-                  "marginTop": 24,
-                },
-                Object {
-                  "marginLeft": 5,
-                },
-                Object {
-                  "backgroundColor": "#ee0004",
-                },
-              ],
+              Object {
+                "flex": 1,
+                "margin": 7,
+                "minWidth": 120,
+                "paddingHorizontal": 14,
+              },
             ]
           }
         >
@@ -574,7 +588,7 @@ exports[`renders correctly renders correctly when open and confirmationType is d
           >
             <Text
               accessible={false}
-              selectable={true}
+              selectable={false}
               style={
                 Array [
                   Object {
@@ -590,9 +604,12 @@ exports[`renders correctly renders correctly when open and confirmationType is d
                     "fontFamily": "Circular Std Medium",
                     "fontWeight": "500",
                   },
-                  Object {
-                    "color": "#fff",
-                  },
+                  Array [
+                    Object {
+                      "color": "#cc1820",
+                    },
+                    Object {},
+                  ],
                 ]
               }
             >

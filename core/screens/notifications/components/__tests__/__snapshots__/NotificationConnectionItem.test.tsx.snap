@@ -290,7 +290,10 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                     "fontFamily": "Circular Std Medium",
                     "fontWeight": "500",
                   },
-                  Object {},
+                  Array [
+                    Object {},
+                    Object {},
+                  ],
                 ]
               }
             >
@@ -389,7 +392,10 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                     "fontFamily": "Circular Std Medium",
                     "fontWeight": "500",
                   },
-                  Object {},
+                  Array [
+                    Object {},
+                    Object {},
+                  ],
                 ]
               }
             >

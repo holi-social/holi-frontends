@@ -33,6 +33,7 @@ export default {
   borderColorSecondary: '#6267e7',
   borderColorDanger: '#cc1820',
   shadowColorBlack: '#000',
+  shadowColorDanger: '#cc1820',
   backgroundColor: '#fff',
   backgroundColorYellow: '#f3f360',
   backgroundColorYellowDark: '#dbdb57',
