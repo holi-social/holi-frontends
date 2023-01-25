@@ -32,7 +32,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -76,7 +78,13 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {},
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {},
+          ],
         ]
       }
     >
@@ -118,7 +126,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -167,7 +177,13 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {},
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {},
+          ],
         ]
       }
     >
@@ -209,7 +225,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -250,7 +268,13 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {},
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {},
+          ],
         ]
       }
     >
@@ -292,7 +316,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -338,7 +364,212 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {},
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {},
+          ],
+        ]
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'false', type is 'warning', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
+            },
+            Object {},
+          ],
+        ]
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'false', type is 'warning', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+        Object {
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
+            },
+            Object {},
+          ],
         ]
       }
     >
@@ -380,7 +611,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -424,7 +657,13 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {},
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {},
+          ],
         ]
       }
     >
@@ -466,7 +705,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -515,7 +756,13 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {},
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {},
+          ],
         ]
       }
     >
@@ -557,7 +804,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -598,7 +847,13 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {},
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {},
+          ],
         ]
       }
     >
@@ -640,7 +895,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -686,7 +943,212 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {},
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {},
+          ],
+        ]
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'true', type is 'warning', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
+            },
+            Object {},
+          ],
+        ]
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'false', disableFocusability is 'true', type is 'warning', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+        Object {
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
+            },
+            Object {},
+          ],
         ]
       }
     >
@@ -728,7 +1190,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -775,9 +1239,15 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {
-            "color": "#6f7081",
-          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {
+              "color": "#6f7081",
+            },
+          ],
         ]
       }
     >
@@ -819,7 +1289,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -871,9 +1343,15 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {
-            "color": "#6f7081",
-          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {
+              "color": "#6f7081",
+            },
+          ],
         ]
       }
     >
@@ -915,7 +1393,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -959,9 +1439,15 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {
-            "color": "#6f7081",
-          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {
+              "color": "#6f7081",
+            },
+          ],
         ]
       }
     >
@@ -1003,7 +1489,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -1052,9 +1540,230 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {
+              "color": "#6f7081",
+            },
+          ],
+        ]
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'false', type is 'warning', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+        Object {
+          "backgroundColor": "#f7f6f3",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
           Object {
-            "color": "#6f7081",
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
+            },
+            Object {
+              "color": "#6f7081",
+            },
+          ],
+        ]
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'false', type is 'warning', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+        Object {
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+        Object {
+          "backgroundColor": "#f7f6f3",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
+            },
+            Object {
+              "color": "#6f7081",
+            },
+          ],
         ]
       }
     >
@@ -1096,7 +1805,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -1143,9 +1854,15 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {
-            "color": "#6f7081",
-          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {
+              "color": "#6f7081",
+            },
+          ],
         ]
       }
     >
@@ -1187,7 +1904,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -1239,9 +1958,15 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {
-            "color": "#6f7081",
-          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {
+              "color": "#6f7081",
+            },
+          ],
         ]
       }
     >
@@ -1283,7 +2008,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -1327,9 +2054,15 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {
-            "color": "#6f7081",
-          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {
+              "color": "#6f7081",
+            },
+          ],
         ]
       }
     >
@@ -1371,7 +2104,9 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -1420,9 +2155,230 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {
+              "color": "#6f7081",
+            },
+          ],
+        ]
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'true', type is 'warning', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+        Object {
+          "backgroundColor": "#f7f6f3",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
           Object {
-            "color": "#6f7081",
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
+            },
+            Object {
+              "color": "#6f7081",
+            },
+          ],
+        ]
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'false', disabled is 'true', disableFocusability is 'true', type is 'warning', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "100%",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+        Object {
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+        Object {
+          "backgroundColor": "#f7f6f3",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
+            },
+            Object {
+              "color": "#6f7081",
+            },
+          ],
         ]
       }
     >
@@ -1464,7 +2420,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -1508,7 +2466,13 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {},
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {},
+          ],
         ]
       }
     >
@@ -1550,7 +2514,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -1599,7 +2565,13 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {},
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {},
+          ],
         ]
       }
     >
@@ -1641,7 +2613,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -1682,7 +2656,13 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {},
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {},
+          ],
         ]
       }
     >
@@ -1724,7 +2704,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -1770,7 +2752,212 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {},
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {},
+          ],
+        ]
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'false', type is 'warning', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
+            },
+            Object {},
+          ],
+        ]
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'false', type is 'warning', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+        Object {
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
+            },
+            Object {},
+          ],
         ]
       }
     >
@@ -1812,7 +2999,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -1856,7 +3045,13 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {},
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {},
+          ],
         ]
       }
     >
@@ -1898,7 +3093,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -1947,7 +3144,13 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {},
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {},
+          ],
         ]
       }
     >
@@ -1989,7 +3192,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -2030,7 +3235,13 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {},
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {},
+          ],
         ]
       }
     >
@@ -2072,7 +3283,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -2118,7 +3331,212 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {},
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {},
+          ],
+        ]
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'true', type is 'warning', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
+            },
+            Object {},
+          ],
+        ]
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'false', disableFocusability is 'true', type is 'warning', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+        Object {
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
+            },
+            Object {},
+          ],
         ]
       }
     >
@@ -2160,7 +3578,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -2207,9 +3627,15 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {
-            "color": "#6f7081",
-          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {
+              "color": "#6f7081",
+            },
+          ],
         ]
       }
     >
@@ -2251,7 +3677,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -2303,9 +3731,15 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {
-            "color": "#6f7081",
-          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {
+              "color": "#6f7081",
+            },
+          ],
         ]
       }
     >
@@ -2347,7 +3781,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -2391,9 +3827,15 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {
-            "color": "#6f7081",
-          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {
+              "color": "#6f7081",
+            },
+          ],
         ]
       }
     >
@@ -2435,7 +3877,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -2484,9 +3928,230 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {
+              "color": "#6f7081",
+            },
+          ],
+        ]
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'false', type is 'warning', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+        Object {
+          "backgroundColor": "#f7f6f3",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
           Object {
-            "color": "#6f7081",
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
+            },
+            Object {
+              "color": "#6f7081",
+            },
+          ],
+        ]
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'false', type is 'warning', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+        Object {
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+        Object {
+          "backgroundColor": "#f7f6f3",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
+            },
+            Object {
+              "color": "#6f7081",
+            },
+          ],
         ]
       }
     >
@@ -2528,7 +4193,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -2575,9 +4242,15 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {
-            "color": "#6f7081",
-          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {
+              "color": "#6f7081",
+            },
+          ],
         ]
       }
     >
@@ -2619,7 +4292,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -2671,9 +4346,15 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {
-            "color": "#6f7081",
-          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {
+              "color": "#6f7081",
+            },
+          ],
         ]
       }
     >
@@ -2715,7 +4396,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -2759,9 +4442,15 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {
-            "color": "#6f7081",
-          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {
+              "color": "#6f7081",
+            },
+          ],
         ]
       }
     >
@@ -2803,7 +4492,9 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "borderColor": "#222326",
           "borderRadius": 28,
           "borderWidth": 2,
+          "display": "flex",
           "elevation": 0,
+          "justifyContent": "center",
           "overflow": "hidden",
           "paddingHorizontal": 32,
           "paddingVertical": 13,
@@ -2852,9 +4543,230 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {},
+            Object {
+              "color": "#6f7081",
+            },
+          ],
+        ]
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'true', type is 'warning', variant is 'default' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+        Object {
+          "backgroundColor": "#f7f6f3",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
           Object {
-            "color": "#6f7081",
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
           },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
+            },
+            Object {
+              "color": "#6f7081",
+            },
+          ],
+        ]
+      }
+    >
+      Test
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`renders correctly renders correctly when inline is 'true', disabled is 'true', disableFocusability is 'true', type is 'warning', variant is 'small' 1`] = `
+<View
+  accessibilityLabel="test"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={false}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+        Object {
+          "backgroundColor": "#fff",
+          "borderColor": "#222326",
+          "borderRadius": 28,
+          "borderWidth": 2,
+          "display": "flex",
+          "elevation": 0,
+          "justifyContent": "center",
+          "overflow": "hidden",
+          "paddingHorizontal": 32,
+          "paddingVertical": 13,
+        },
+        Object {
+          "borderRadius": 16,
+          "paddingHorizontal": 16,
+          "paddingVertical": 6,
+        },
+        Object {
+          "backgroundColor": "#fce7e8",
+          "borderColor": "#cc1820",
+        },
+        Object {
+          "borderColor": "#eff0f1",
+        },
+        Object {
+          "backgroundColor": "#f7f6f3",
+        },
+      ],
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={false}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 14,
+            "lineHeight": 16.8,
+          },
+          Object {
+            "fontFamily": "Circular Std Medium",
+            "fontWeight": "500",
+          },
+          Array [
+            Object {
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#cc1820",
+            },
+            Object {
+              "color": "#6f7081",
+            },
+          ],
         ]
       }
     >
