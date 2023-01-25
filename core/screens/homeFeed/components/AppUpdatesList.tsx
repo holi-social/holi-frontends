@@ -89,14 +89,16 @@ const AppUpdatesList: React.VFC<AppUpdatesListProps> = ({
 
   return (
     <View style={style} testID={testID || `${appName}-app-updates-list`}>
-      <View style={styles.header} testID={`${appName}-updates-heading`}>
-        <View style={styles.iconContainer}>
-          <HoliIcon icon={headingIcon} size={20} color={colors.fontColorGrey} />
+      <HoliButton inline label={heading} style={styles.headerContainer} transparent onPress={handleHeaderTitlePress}>
+        <View style={styles.header} testID={`${appName}-updates-heading`}>
+          <View style={styles.iconContainer}>
+            <HoliIcon icon={headingIcon} size={20} color={colors.fontColorGrey} />
+          </View>
+          <View>
+            <HoliHeading style={{ marginLeft: 12 }}>{heading}</HoliHeading>
+          </View>
         </View>
-        <HoliButton label={heading} transparent onPress={handleHeaderTitlePress}>
-          <HoliHeading style={{ marginLeft: 12 }}>{heading}</HoliHeading>
-        </HoliButton>
-      </View>
+      </HoliButton>
       <FlatList
         horizontal
         ListHeaderComponentStyle={styles.listHeader}
@@ -115,7 +117,9 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
+    alignSelf: 'flex-start',
   },
+  headerContainer: { alignSelf: 'flex-start' },
   iconContainer: {
     padding: 13,
     borderRadius: 12,
