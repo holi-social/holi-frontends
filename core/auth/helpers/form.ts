@@ -21,6 +21,10 @@ export const oryNodeIsInput = (pet: UiNodeAttributes): pet is UiNodeInputAttribu
   return (pet as UiNodeInputAttributes).name !== undefined && (pet as UiNodeInputAttributes).type !== 'submit'
 }
 
+export const oryNodeIsCheckbox = (pet: UiNodeAttributes): pet is UiNodeInputAttributes => {
+  return (pet as UiNodeInputAttributes).name !== undefined && (pet as UiNodeInputAttributes).type === 'checkbox'
+}
+
 export const oryNodeIsSubmit = (pet: UiNodeAttributes): pet is UiNodeInputAttributes => {
   return (pet as UiNodeInputAttributes).name !== undefined && (pet as UiNodeInputAttributes).type === 'submit'
 }

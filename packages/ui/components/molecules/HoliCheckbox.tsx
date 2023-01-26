@@ -21,22 +21,22 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type HoliCheckboxShape = 'square' | 'round'
 
 export type HoliCheckboxProps = {
-  label: string
+  label?: string
   shape?: HoliCheckboxShape
   accessibilityRole?: AccessibilityRole
   checked?: boolean
   errorMessage?: string
-  onSelect?: (event: GestureResponderEvent, checked: boolean) => void
+  onSelect?: (checked: boolean, event: GestureResponderEvent) => void
   onFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void
   onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void
-  disabled: boolean
+  disabled?: boolean
   style?: StyleProp<ViewStyle>
-  testID: string
+  testID?: string
 }
 
 const HoliCheckbox: React.FC<HoliCheckboxProps> = ({
   children,
-  label,
+  label = '',
   shape = 'box',
   accessibilityRole = 'checkbox',
   checked = false,
@@ -64,7 +64,7 @@ const HoliCheckbox: React.FC<HoliCheckboxProps> = ({
   const onPress = useCallback(
     (event: GestureResponderEvent) => {
       setIsChecked(!isChecked)
-      onSelect(event, isChecked)
+      onSelect(!isChecked, event)
     },
     [isChecked, setIsChecked, onSelect]
   )
