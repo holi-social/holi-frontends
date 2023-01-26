@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   AccessibilityProps,
   AccessibilityRole,
@@ -30,6 +30,7 @@ export type HoliCheckboxProps = {
   onFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void
   onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void
   disabled?: boolean
+  autofocus?: boolean
   style?: StyleProp<ViewStyle>
   testID?: string
 }
@@ -45,12 +46,18 @@ const HoliCheckbox: React.FC<HoliCheckboxProps> = ({
   onFocus = () => null,
   onBlur = () => null,
   disabled = false,
+  autofocus = false,
   style,
   testID,
 }) => {
+  const checkboxRef = useRef(null)
   const [isChecked, setIsChecked] = useState(checked)
   const scaleFactor = useRef(new Animated.Value(1)).current
   const hasError = !!errorMessage
+
+  useEffect(() => {
+    if (autofocus) checkboxRef?.current?.focus()
+  }, [autofocus])
 
   // https://www.w3.org/WAI/ARIA/apg/example-index/checkbox/checkbox.html
   // https://www.w3.org/WAI/ARIA/apg/example-index/radio/radio-rating.html
@@ -80,46 +87,50 @@ const HoliCheckbox: React.FC<HoliCheckboxProps> = ({
 
   return (
     <View style={style}>
-      <Pressable
-        {...accessibilityProps}
-        disabled={disabled}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        onPressIn={() => {
-          runAnimation(0.8, 0.1)
-        }}
-        onPressOut={() => {
-          runAnimation(1, 0.4)
-        }}
-        onPress={onPress}
-        style={styles.checkboxContainer}
-        testID={testID}
-      >
-        <Animated.View
-          style={[
-            styles.checkbox,
-            isChecked && styles.checkboxSelected,
-            disabled && styles.checkboxDisabled,
-            hasError && styles.checkboxError,
-            shape === 'round' && styles.shapeRound,
-            { transform: [{ scale: scaleFactor }] },
-          ]}
+      <View style={styles.checkboxContainer}>
+        <Pressable
+          {...accessibilityProps}
+          ref={checkboxRef}
+          disabled={disabled}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          onPressIn={() => {
+            runAnimation(0.8, 0.1)
+          }}
+          onPressOut={() => {
+            runAnimation(1, 0.4)
+          }}
+          onPress={onPress}
+          style={styles.checkboxContainer}
+          testID={testID}
         >
-          {isChecked && (
-            <HoliIcon
-              icon="check"
-              size={20}
-              style={[styles.icon, disabled && styles.iconDisabled, hasError && styles.iconError]}
-            />
+          <Animated.View
+            style={[
+              styles.checkbox,
+              isChecked && styles.checkboxSelected,
+              disabled && styles.checkboxDisabled,
+              hasError && styles.checkboxError,
+              shape === 'round' && styles.shapeRound,
+              { transform: [{ scale: scaleFactor }] },
+            ]}
+          >
+            {isChecked && (
+              <HoliIcon
+                icon="check"
+                size={20}
+                style={[styles.icon, disabled && styles.iconDisabled, hasError && styles.iconError]}
+              />
+            )}
+          </Animated.View>
+
+          {!children && (
+            <HoliText size="small" selectable={false} style={[styles.label, disabled && styles.labelDisabled]}>
+              {label}
+            </HoliText>
           )}
-        </Animated.View>
+        </Pressable>
         {children && <View style={styles.label}>{children}</View>}
-        {!children && (
-          <HoliText size="small" selectable={false} style={[styles.label, disabled && styles.labelDisabled]}>
-            {label}
-          </HoliText>
-        )}
-      </Pressable>
+      </View>
       {errorMessage && (
         <HoliText size="extrasmall" style={styles.errorMessage}>
           {errorMessage}
@@ -153,6 +164,9 @@ const styles = StyleSheet.create({
     borderColor: colors.borderColorBlackDisabled,
     backgroundColor: colors.backgroundColorGreyLight,
     opacity: 0.6,
+  },
+  checkboxFocused: {
+    borderColor: colors.borderColorSecondary,
   },
   checkboxError: {
     borderWidth: 2,

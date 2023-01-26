@@ -1,8 +1,9 @@
 import { UiNode } from '@ory/kratos-client'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, ViewStyle } from 'react-native'
+import { StyleProp, View, ViewStyle } from 'react-native'
 
+import HoliLink from '@holi//ui/components/molecules/HoliLink'
 import { getNodeTitle } from '@holi/core/auth/helpers/form'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
@@ -19,7 +20,7 @@ export type FormCheckboxProps = {
 const FormCheckbox: React.VFC<FormCheckboxProps> = ({
   node,
   value = false,
-  // autofocus = false,
+  autofocus = false,
   onChange = () => null,
   style,
   testID,
@@ -27,8 +28,7 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
   const { t, i18n } = useTranslation()
   const fieldLabel = getNodeTitle(node)
 
-  // TODO: autofocus
-  // TODO: Checkbox label with link
+  // TODO: toast message in case of error auth.login.checkbox.toast-Consent
 
   const validationError = () => {
     if (!node || !node.messages || node.messages.length < 1) return undefined
@@ -39,13 +39,34 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
     return i18n.exists(translationKey) ? i18n.t(translationKey) : text
   }
 
+  const openModal = useCallback((event) => {
+    console.log('TODO: open modal!', event)
+    // prevent link execution
+    return false
+  }, [])
+
+  // Exception for label with link
   if (fieldLabel === 'Consent') {
     return (
-      <HoliCheckbox checked={value} onSelect={onChange} errorMessage={validationError()} style={style} testID={testID}>
-        <HoliText size="small" style={{ maxWidth: 300 }}>
-          I respect the Holi Code of Conduct and understand there is no tolerance for objectionable content or abusive
-          behaviour.
-        </HoliText>
+      <HoliCheckbox
+        autofocus={autofocus}
+        checked={value}
+        onSelect={onChange}
+        errorMessage={validationError()}
+        style={style}
+        testID={testID}
+      >
+        <View style={{ maxWidth: 300 }}>
+          <HoliText size="small">
+            {t('auth.login.checkbox.label-Consent-0')}{' '}
+            <HoliLink label="" href={'/codeOfConduct'} onPress={openModal}>
+              <HoliText size="small" bold>
+                {t('auth.login.checkbox.label-Consent-1')}
+              </HoliText>
+            </HoliLink>{' '}
+            {t('auth.login.checkbox.label-Consent-2')}
+          </HoliText>
+        </View>
       </HoliCheckbox>
     )
   }
