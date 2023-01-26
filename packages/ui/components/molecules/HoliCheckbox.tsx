@@ -117,7 +117,7 @@ const HoliCheckbox: React.VFC<HoliCheckboxProps> = ({
         </HoliText>
       </Pressable>
       {errorMessage && (
-        <HoliText size="small" style={styles.errorMessage}>
+        <HoliText size="extrasmall" style={styles.errorMessage}>
           {errorMessage}
         </HoliText>
       )}
