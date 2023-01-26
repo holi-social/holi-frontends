@@ -6,20 +6,23 @@ import { FlatList, Platform, StyleSheet, View } from 'react-native'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliCardComponent from '@holi/ui/components/molecules/HoliCardComponent'
+import { colors } from '@holi/ui/styles/globalVars'
 import variables from '@holi/ui/styles/globalVars/variables'
 
 import '@holi-apps/goodnews/queries'
 import VolunteeringCardContent from '@holi-apps/volunteering/components/VolunteeringCardContent'
+import { VolunteeringFilters } from '@holi-apps/volunteering/components/VolunteeringFilterForm'
 import { VolunteeringEngagementsQuery, VolunteeringEngagementsQueryResponse } from '@holi-apps/volunteering/queries'
 import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 
-type VolunteeringListingProps = Record<string, never>
+type VolunteeringListingProps = { filters: VolunteeringFilters; resetFilters: () => void }
 
 const ENGAGEMENT_PAGE_SIZE = 10
 
-const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
+const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ filters = {}, resetFilters }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const [fetchingMore, setFetchingMore] = useState(false)
@@ -29,6 +32,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
       variables: {
         offset: 0,
         limit: ENGAGEMENT_PAGE_SIZE,
+        location: filters.location,
       },
       fetchPolicy: 'cache-and-network',
     }
@@ -43,9 +47,10 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
     return fetchMore({
       variables: {
         offset: engagements.length,
+        location: filters.location,
       },
     }).finally(() => setFetchingMore(false))
-  }, [fetchMore, engagements.length, setFetchingMore])
+  }, [fetchMore, engagements.length, filters.location, setFetchingMore])
 
   const fetchMoreButtonText = fetchingMore
     ? t('volunteering:listing.loadMoreButton.loading')
@@ -78,9 +83,30 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
   )
 
   const listHeader = (
-    <HoliHeading level="1" style={styles.title}>
-      {t('volunteering:listing.headline')}
-    </HoliHeading>
+    <View>
+      <HoliHeading level="1" style={styles.title}>
+        {t('volunteering:listing.headline')}
+      </HoliHeading>
+      {filters.location !== undefined ? (
+        <View style={styles.headingRow}>
+          <HoliHeading level="2" style={{ color: colors.fontColorGrey }}>
+            {t('volunteering:filter.result', {
+              total: totalResults,
+            })}
+          </HoliHeading>
+          <HoliButton
+            variant="small"
+            type="secondary"
+            inline
+            label={t('volunteering:filter.reset')}
+            onPress={resetFilters}
+            testID="volunteering-filter-form-reset"
+          >
+            {t('volunteering:filter.reset')}
+          </HoliButton>
+        </View>
+      ) : null}
+    </View>
   )
 
   const listFooter = () =>
@@ -127,5 +153,11 @@ const styles = StyleSheet.create({
   loadMoreButton: {
     marginTop: 24,
     marginBottom: 48,
+  },
+  headingRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    marginBottom: 24,
   },
 })
