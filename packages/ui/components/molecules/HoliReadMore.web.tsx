@@ -1,10 +1,10 @@
-import * as React from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, Text, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { ReadMoreProps } from '@holi/ui/components/molecules/HoliReadMore'
+import { ReadMoreButtonState, ReadMoreProps } from '@holi/ui/components/molecules/HoliReadMore.shared'
 import { colors } from '@holi/ui/styles/globalVars'
 
 /**
@@ -19,44 +19,44 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
   fontStyle,
   buttonStyle,
 }) => {
-  const [buttonType, setButtonType] = React.useState<'show' | 'hide' | undefined>(undefined)
+  const [buttonState, setButtonState] = useState<ReadMoreButtonState>('hidden')
   const { t } = useTranslation()
 
-  const hideButtonText = t('component.readMore.readLess')
+  const readLessButtonText = t('component.readMore.readLess')
 
-  const showButtonText = t('component.readMore.readMore')
+  const readMoreButtonText = t('component.readMore.readMore')
 
   // buffer for comparing scrollHeight and clientHeight - clientHeight may differ +/- 1px
   const marginBuffer = 1
 
-  const showButton = (event: LayoutChangeEvent) => {
-    // nativeEvent.target is Web only. Cast it as unknown and then as its proper type in this context
-    const nativeEvent = event.nativeEvent as unknown as {
-      target: { clientHeight: number; scrollHeight: number }
-    }
-    const target = nativeEvent.target
+  const updateButtonState = useCallback(
+    (event: LayoutChangeEvent) => {
+      // nativeEvent.target is Web only. Cast it as unknown and then as its proper type in this context
+      const nativeEvent = event.nativeEvent as unknown as {
+        target: { clientHeight: number; scrollHeight: number }
+      }
+      const target = nativeEvent.target
 
-    // check if ellipsis is active
-    if (target.clientHeight < target.scrollHeight - marginBuffer) {
-      setButtonType('show')
-    } else if (buttonType === 'show') {
-      // if ellipsis is not active and the current button is 'show' (window size changed) remove button completely
-      setButtonType(undefined)
-    }
-  }
+      // check if ellipsis is active
+      if (target.clientHeight < target.scrollHeight - marginBuffer) {
+        setButtonState('readMore')
+      } else if (buttonState === 'readMore') {
+        // if ellipsis is not active and the current button is 'readMore' (window size changed) remove button completely
+        // but leave "readLess" as it is to avoid flickering
+        setButtonState('hidden')
+      }
+    },
+    [buttonState]
+  )
 
-  const togglebuttonType = () => {
-    if (buttonType === 'show') {
-      setButtonType('hide')
-    } else {
-      setButtonType('show')
-    }
-  }
+  const toggleButtonState = useCallback(() => {
+    setButtonState((previousState) => (previousState === 'readMore' ? 'readLess' : 'readMore'))
+  }, [])
 
   const ToggleButton = (
     <View
       style={{
-        ...(buttonType === 'show'
+        ...(buttonState === 'readMore'
           ? {
               position: 'absolute',
               right: 0,
@@ -65,7 +65,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
               backgroundImage: `linear-gradient(to right, transparent , ${colors.backgroundColor} 15%)`,
             }
           : {}),
-        ...(buttonType === 'hide'
+        ...(buttonState === 'readLess'
           ? {
               width: 'fit-content',
               marginTop: 1.5,
@@ -74,13 +74,13 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
       }}
     >
       <HoliButton
-        label={buttonType === 'show' ? showButtonText : hideButtonText}
-        onPress={togglebuttonType}
+        label={buttonState === 'readMore' ? readMoreButtonText : readLessButtonText}
+        onPress={toggleButtonState}
         transparent
       >
         <HoliText style={buttonStyle || {}}>
-          {buttonType === 'show' ? '...' : ''}
-          {buttonType === 'show' ? showButtonText : hideButtonText}
+          {buttonState === 'readMore' ? '...' : ''}
+          {buttonState === 'readMore' ? readMoreButtonText : readLessButtonText}
         </HoliText>
       </HoliButton>
     </View>
@@ -91,8 +91,8 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
       {/* Use react-native's Text component to encapsulate HoliText components to avoid applying HoliText default styles
       to both text and button */}
       <Text
-        onLayout={showButton}
-        numberOfLines={buttonType !== 'hide' ? numberOfLines : undefined}
+        onLayout={updateButtonState}
+        numberOfLines={buttonState !== 'readLess' ? numberOfLines : undefined}
         ellipsizeMode="tail"
         style={{ alignContent: 'flex-start', justifyContent: 'center' }}
       >
@@ -100,7 +100,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
         <HoliText style={[{ color: colors.fontColorGrey }, fontStyle || {}]}>{children}</HoliText>
       </Text>
       {/* show button in new line (web only) */}
-      {buttonType && ToggleButton}
+      {buttonState && ToggleButton}
     </View>
   )
 }
