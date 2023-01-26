@@ -6,6 +6,7 @@ import HoliLink from '@holi//ui/components/molecules/HoliLink'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
@@ -25,6 +26,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
   const commenters = post.commenters.data
 
   const [optionsVisible, setOptionsVisible] = useState(false)
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
 
   return (
     <View style={[styles.wrapper, style]}>
@@ -45,13 +47,35 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
             showOptions={optionsVisible}
             onVisibilityChange={setOptionsVisible}
           >
-            <HoliOptionItem
-              label={t('global.report')}
-              icon="close-circle"
-              tintColor={colors.fontColorError}
-              contentStyle={styles.moreOptionItem}
-              onPress={() => setOptionsVisible(false)}
-            />
+            {/* Report/block option */}
+            <>
+              <HoliOptionItem
+                label={t('global.report')}
+                icon="flag"
+                contentStyle={styles.moreOptionItem}
+                onPress={() => {
+                  setShowConfirmationModal(true)
+                }}
+              />
+
+              {/* TODO: add translations */}
+              <HoliConfirmation
+                show={showConfirmationModal}
+                label={'Label'}
+                title={'Title'}
+                description={'Description'}
+                onDismiss={() => {
+                  setOptionsVisible(false)
+                  setShowConfirmationModal(false)
+                }}
+                dismissText={'Dismiss'}
+                confirmText={'Confirm'}
+                onConfirm={() => {
+                  setOptionsVisible(false)
+                  setShowConfirmationModal(false)
+                }}
+              />
+            </>
           </HoliMoreOptions>
         </View>
 
