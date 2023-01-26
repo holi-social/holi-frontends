@@ -34,7 +34,8 @@ export type HoliCheckboxProps = {
   testID: string
 }
 
-const HoliCheckbox: React.VFC<HoliCheckboxProps> = ({
+const HoliCheckbox: React.FC<HoliCheckboxProps> = ({
+  children,
   label,
   shape = 'box',
   accessibilityRole = 'checkbox',
@@ -112,9 +113,12 @@ const HoliCheckbox: React.VFC<HoliCheckboxProps> = ({
             />
           )}
         </Animated.View>
-        <HoliText size="small" selectable={false} style={[styles.label, disabled && styles.labelDisabled]}>
-          {label}
-        </HoliText>
+        {children && <View style={styles.label}>{children}</View>}
+        {!children && (
+          <HoliText size="small" selectable={false} style={[styles.label, disabled && styles.labelDisabled]}>
+            {label}
+          </HoliText>
+        )}
       </Pressable>
       {errorMessage && (
         <HoliText size="extrasmall" style={styles.errorMessage}>
@@ -170,6 +174,8 @@ const styles = StyleSheet.create({
   },
   label: {
     marginLeft: 12,
+    // maxWidth: '100%',
+    flex: 1,
   },
   labelDisabled: {
     opacity: 0.6,
