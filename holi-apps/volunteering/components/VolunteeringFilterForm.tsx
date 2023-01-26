@@ -47,6 +47,7 @@ const VolunteeringFilterForm: React.VFC<VolunteeringFilterFormProps> = ({
       style={styles.modalWrapper}
       testID="volunteering-filter-modal"
       keyboardShouldPersistTaps="always"
+      scrollable={false}
     >
       <View style={styles.container}>
         <HoliHeading>{t('volunteering:filter.heading')}</HoliHeading>
