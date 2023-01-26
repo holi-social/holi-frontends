@@ -61,8 +61,8 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
         </View>
       )}
       <View style={styles.detailContainer}>
-        <HoliReadMore numberOfLines={3}>
-          <HoliText size="small">{task.description}</HoliText>
+        <HoliReadMore size="small" numberOfLines={3}>
+          {task.description}
         </HoliReadMore>
       </View>
       {/* TODO: reinsert when claiming is implemented */}

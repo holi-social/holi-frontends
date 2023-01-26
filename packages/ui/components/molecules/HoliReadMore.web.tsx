@@ -18,6 +18,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
   style = {},
   fontStyle = {},
   buttonStyle = {},
+  ...textProps
 }) => {
   const [buttonState, setButtonState] = useState<ReadMoreButtonState>('hidden')
   const { t } = useTranslation()
@@ -75,8 +76,10 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
         ellipsizeMode="tail"
         style={styles.textContainer}
       >
-        {/* The visible text. Any font style props are applied here */}
-        <HoliText style={[{ color: colors.fontColorGrey }, fontStyle]}>{children}</HoliText>
+        {/* The visible text. Any font style props and remaining textProps are applied here */}
+        <HoliText style={[{ color: colors.fontColorGrey }, fontStyle]} {...textProps}>
+          {children}
+        </HoliText>
       </Text>
       {/* show button in new line (web only) */}
       {buttonState !== 'hidden' && ToggleButton}

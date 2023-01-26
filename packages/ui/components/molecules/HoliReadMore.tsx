@@ -17,9 +17,12 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
   style = {},
   fontStyle = {},
   buttonStyle = {},
+  ...textProps
 }) => {
   const [truncatedText, setTruncatedText] = useState(children || '')
   const [buttonState, setButtonState] = useState<ReadMoreButtonState>('hidden')
+  // remember line lengths to keep track of layout changes
+  const [allowedLineLength, setAllowedLineLength] = useState(0)
   const { t } = useTranslation()
 
   const readLessButtonText = t('component.readMore.readLess')
@@ -36,32 +39,49 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
   const { length: ellipsisLength } = ellipsis
 
   // for mobile only: onTextLayout is not supported on web - https://github.com/necolas/react-native-web/issues/1685
-  const truncateText = useCallback(
+  const handleTextLayoutEvent = useCallback(
     ({ nativeEvent: { lines } }: { nativeEvent: TextLayoutEventData }) => {
-      // ignore truncating when there is no hidden text (no need for a Read more button)
-      if (lines.length < numberOfLines) {
-        setButtonState('hidden')
+      if (!lines.length) {
         return
       }
 
       // get the length of the first line as a base to truncate the text
       const firstLineLength = lines[0].text.length
+      const maxAllowedLineLength = firstLineLength - readMoreButtonTextLength * bufferTextFactor - ellipsisLength
 
-      // check wether truncating was necessary
+      // Check if there have been layout changes (impacting the width of the rendered text)
+      if (maxAllowedLineLength === allowedLineLength) {
+        // Keep text and button state as they are
+        return
+      }
+
+      setAllowedLineLength(maxAllowedLineLength)
+      const lastLineLength = lines[lines.length - 1].text.length
+
+      // ignore truncating when there is no hidden text (no need for a Read more button)
+      if (lines.length <= numberOfLines && lastLineLength <= maxAllowedLineLength) {
+        if (buttonState !== 'hidden') {
+          // if the text was truncated before, reset allowed line length
+          // > let next text layout event (triggered by change of button state) decide on button state
+          setAllowedLineLength(0)
+          setButtonState('hidden')
+        }
+        return
+      }
+
+      // check whether truncating is necessary
       let truncated = false
 
       const truncatedText = lines
         .map((line: TextLayoutLine, index: number) => {
           const { text } = line
-          const maxAllowedLastLineLength =
-            firstLineLength - readMoreButtonTextLength * bufferTextFactor - ellipsisLength
 
           // if we are in the last visible line, truncate it in case its text is too long (longer or equal to the length of first line minus the button text length)
-          if (numberOfLines - 1 === index && text.length >= maxAllowedLastLineLength) {
+          if (numberOfLines - 1 === index && text.length >= maxAllowedLineLength) {
             // only display Read More button if truncating was needed
             truncated = true
 
-            return text.substring(0, maxAllowedLastLineLength) + ellipsis
+            return text.substring(0, maxAllowedLineLength) + ellipsis
           }
 
           // disconsider any lines beyond numberOfLines for the truncated text
@@ -73,16 +93,18 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
         })
         .join('')
 
-      // if truncating the text was required, set the button state to 'readMore'
+      // if truncating the text is required and button was hidden before, set the button state to 'readMore'
       if (truncated) {
-        setButtonState('readMore')
+        if (buttonState === 'hidden') {
+          setButtonState('readMore')
+        }
       } else {
         setButtonState('hidden')
       }
 
       setTruncatedText(truncatedText)
     },
-    [ellipsisLength, numberOfLines, readMoreButtonTextLength]
+    [buttonState, allowedLineLength, ellipsisLength, numberOfLines, readMoreButtonTextLength]
   )
 
   const toggleButtonState = useCallback(() => {
@@ -101,14 +123,13 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
       {/* Use react-native's Text component to encapsulate HoliText components to avoid applying HoliText default styles
       to both text and button */}
       <Text
-        // TODO(SF) correct?
-        onTextLayout={buttonState !== 'hidden' ? truncateText : undefined}
+        onTextLayout={handleTextLayoutEvent}
         numberOfLines={buttonState !== 'readLess' ? numberOfLines : undefined}
         ellipsizeMode="tail"
         style={styles.textContainer}
       >
-        {/* The visible text. Any font style props are applied here */}
-        <HoliText style={[{ color: colors.fontColorGrey }, fontStyle]}>
+        {/* The visible text. Any font style props and remaining textProps are applied here */}
+        <HoliText style={[{ color: colors.fontColorGrey }, fontStyle]} {...textProps}>
           {buttonState === 'readMore' ? truncatedText : children} {buttonState === 'readLess' && ' '}
         </HoliText>
 
