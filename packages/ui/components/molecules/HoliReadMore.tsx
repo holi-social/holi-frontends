@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Text, TextLayoutEventData, TextLayoutLine, View } from 'react-native'
+import { StyleSheet, Text, TextLayoutEventData, TextLayoutLine, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { ReadMoreButtonState, ReadMoreProps } from '@holi/ui/components/molecules/HoliReadMore.shared'
@@ -14,9 +14,9 @@ import { colors } from '@holi/ui/styles/globalVars'
 const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
   children,
   numberOfLines = 3,
-  style,
-  fontStyle,
-  buttonStyle,
+  style = {},
+  fontStyle = {},
+  buttonStyle = {},
 }) => {
   const [truncatedText, setTruncatedText] = useState(children || '')
   const [buttonState, setButtonState] = useState<ReadMoreButtonState>('hidden')
@@ -91,13 +91,13 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
 
   // using a Text as the button, due to vertical aligning issues on Android https://github.com/facebook/react-native/issues/27549
   const ToggleButton = (
-    <Text onPress={toggleButtonState} accessible={true} accessibilityRole="button" style={buttonStyle || {}}>
+    <Text onPress={toggleButtonState} accessible={true} accessibilityRole="button" style={buttonStyle}>
       {buttonState === 'readMore' ? readMoreButtonText : readLessButtonText}
     </Text>
   )
 
   return (
-    <View style={style || {}}>
+    <View style={style}>
       {/* Use react-native's Text component to encapsulate HoliText components to avoid applying HoliText default styles
       to both text and button */}
       <Text
@@ -105,10 +105,10 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
         onTextLayout={buttonState !== 'hidden' ? truncateText : undefined}
         numberOfLines={buttonState !== 'readLess' ? numberOfLines : undefined}
         ellipsizeMode="tail"
-        style={{ alignContent: 'flex-start', justifyContent: 'center' }}
+        style={styles.textContainer}
       >
-        {/* The visible text. Any style props are applied here */}
-        <HoliText style={[{ color: colors.fontColorGrey }, fontStyle || {}]}>
+        {/* The visible text. Any font style props are applied here */}
+        <HoliText style={[{ color: colors.fontColorGrey }, fontStyle]}>
           {buttonState === 'readMore' ? truncatedText : children} {buttonState === 'readLess' && ' '}
         </HoliText>
 
@@ -120,3 +120,10 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
 }
 
 export default HoliReadMore
+
+const styles = StyleSheet.create({
+  textContainer: {
+    alignContent: 'flex-start',
+    justifyContent: 'center',
+  },
+})
