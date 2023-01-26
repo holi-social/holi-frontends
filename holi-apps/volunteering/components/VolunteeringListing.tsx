@@ -6,7 +6,6 @@ import { FlatList, Platform, StyleSheet, View } from 'react-native'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliCardComponent from '@holi/ui/components/molecules/HoliCardComponent'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -18,11 +17,11 @@ import { VolunteeringFilters } from '@holi-apps/volunteering/components/Voluntee
 import { VolunteeringEngagementsQuery, VolunteeringEngagementsQueryResponse } from '@holi-apps/volunteering/queries'
 import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 
-type VolunteeringListingProps = { filters: VolunteeringFilters; resetFilters: () => void }
+type VolunteeringListingProps = { filters: VolunteeringFilters }
 
 const ENGAGEMENT_PAGE_SIZE = 10
 
-const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ filters = {}, resetFilters }) => {
+const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ filters = {} }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const [fetchingMore, setFetchingMore] = useState(false)
@@ -94,16 +93,6 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ filters = {}
               total: totalResults,
             })}
           </HoliHeading>
-          <HoliButton
-            variant="small"
-            type="secondary"
-            inline
-            label={t('volunteering:filter.reset')}
-            onPress={resetFilters}
-            testID="volunteering-filter-form-reset"
-          >
-            {t('volunteering:filter.reset')}
-          </HoliButton>
         </View>
       ) : null}
     </View>

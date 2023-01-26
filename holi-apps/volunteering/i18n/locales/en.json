@@ -11,7 +11,6 @@
   "filter.heading": "Filter opportunities",
   "filter.location.label": "German cities",
   "filter.location.placeholder": "Select city",
-  "filter.reset": "Clear",
   "filter.result": "{{total}} opportunity",
   "filter.result_plural": "{{total}} opportunities",
   "filter.submitButton": "Show opportunities",
