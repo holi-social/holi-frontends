@@ -79,7 +79,7 @@ const HoliCheckbox: React.FC<HoliCheckboxProps> = ({
   }
 
   return (
-    <View style={[styles.holiCheckbox, style]}>
+    <View style={style}>
       <Pressable
         {...accessibilityProps}
         disabled={disabled}
@@ -132,7 +132,6 @@ const HoliCheckbox: React.FC<HoliCheckboxProps> = ({
 export default HoliCheckbox
 
 const styles = StyleSheet.create({
-  holiCheckbox: {},
   checkboxContainer: {
     alignItems: 'center',
     flexWrap: 'nowrap',
