@@ -1,5 +1,5 @@
 import { UiNode } from '@ory/kratos-client'
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, View, ViewStyle } from 'react-native'
 
@@ -7,6 +7,7 @@ import HoliLink from '@holi//ui/components/molecules/HoliLink'
 import { getNodeTitle } from '@holi/core/auth/helpers/form'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
 
 export type FormCheckboxProps = {
   node: UiNode
@@ -26,6 +27,7 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
   testID,
 }) => {
   const { t, i18n } = useTranslation()
+  const [showModal, setShowModal] = useState(false)
   const fieldLabel = getNodeTitle(node)
 
   // TODO: toast message in case of error auth.login.checkbox.toast-Consent
@@ -39,8 +41,8 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
     return i18n.exists(translationKey) ? i18n.t(translationKey) : text
   }
 
-  const openModal = useCallback((event) => {
-    console.log('TODO: open modal!', event)
+  const openModal = useCallback(() => {
+    setShowModal(true)
     // prevent link execution
     return false
   }, [])
@@ -48,26 +50,35 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
   // Exception for label with link
   if (fieldLabel === 'Consent') {
     return (
-      <HoliCheckbox
-        autofocus={autofocus}
-        checked={value}
-        onSelect={onChange}
-        errorMessage={validationError()}
-        style={style}
-        testID={testID}
-      >
-        <View style={{ maxWidth: 300 }}>
-          <HoliText size="small">
-            {t('auth.login.checkbox.label-Consent-0')}{' '}
-            <HoliLink label="" href={'/codeOfConduct'} onPress={openModal}>
-              <HoliText size="small" bold>
-                {t('auth.login.checkbox.label-Consent-1')}
-              </HoliText>
-            </HoliLink>{' '}
-            {t('auth.login.checkbox.label-Consent-2')}
-          </HoliText>
-        </View>
-      </HoliCheckbox>
+      <>
+        <HoliCheckbox
+          autofocus={autofocus}
+          checked={value}
+          onSelect={onChange}
+          errorMessage={validationError()}
+          style={style}
+          testID={testID}
+        >
+          <View style={{ maxWidth: 300 }}>
+            <HoliText size="small">
+              {t('auth.login.checkbox.label-Consent-0')}{' '}
+              <HoliLink label="" href={'/codeOfConduct'} onPress={openModal}>
+                <HoliText size="small" bold>
+                  {t('auth.login.checkbox.label-Consent-1')}
+                </HoliText>
+              </HoliLink>{' '}
+              {t('auth.login.checkbox.label-Consent-2')}
+            </HoliText>
+          </View>
+        </HoliCheckbox>
+        <HoliModal
+          label={t('auth.login.checkbox.label-Consent-1')}
+          show={showModal}
+          onDismiss={() => setShowModal(false)}
+        >
+          <HoliText>{t('auth.login.checkbox.label-Consent-1')}</HoliText>
+        </HoliModal>
+      </>
     )
   }
 
