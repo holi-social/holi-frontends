@@ -46,10 +46,9 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ filters = {}
     return fetchMore({
       variables: {
         offset: engagements.length,
-        location: filters.location,
       },
     }).finally(() => setFetchingMore(false))
-  }, [fetchMore, engagements.length, filters.location, setFetchingMore])
+  }, [fetchMore, engagements.length, setFetchingMore])
 
   const fetchMoreButtonText = fetchingMore
     ? t('volunteering:listing.loadMoreButton.loading')
@@ -86,7 +85,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ filters = {}
       <HoliHeading level="1" style={styles.title}>
         {t('volunteering:listing.headline')}
       </HoliHeading>
-      {filters.location !== undefined ? (
+      {filters.location && (
         <View style={styles.headingRow}>
           <HoliHeading level="2" style={{ color: colors.fontColorGrey }}>
             {t('volunteering:filter.result', {
@@ -94,7 +93,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ filters = {}
             })}
           </HoliHeading>
         </View>
-      ) : null}
+      )}
     </View>
   )
 
