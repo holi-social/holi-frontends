@@ -30,58 +30,58 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
 
   return (
     <View style={[styles.wrapper, style]}>
-      <View style={styles.paddingHorizontal}>
-        <View style={styles.header}>
-          <HoliLink
-            href={`/profile/${post.creator.id}`}
-            label={post.creator.fullName}
-            testID="btn-to-post-creator-profile"
-            style={styles.mediaHeaderLink}
-          >
-            <HoliMediaHeader title={post.creator.fullName} author={post.creator} date={post.created} />
-          </HoliLink>
+      <HoliLink href={`/posts/${post.id}`} label={post.title} testID="btn-to-post">
+        <View style={styles.paddingHorizontal}>
+          <View style={styles.header}>
+            <HoliLink
+              href={`/profile/${post.creator.id}`}
+              label={post.creator.fullName}
+              testID="btn-to-post-creator-profile"
+              style={styles.mediaHeaderLink}
+            >
+              <HoliMediaHeader title={post.creator.fullName} author={post.creator} date={post.created} />
+            </HoliLink>
 
-          <HoliButton
-            transparent
-            inline
-            label={t('insights.post.preview.more')}
-            style={styles.moreButton}
-            onPress={showFeatureNotImplementedToast}
-          >
-            <HoliIcon icon="more" color={colors.fontColorGrey} />
-          </HoliButton>
-        </View>
+            <HoliButton
+              transparent
+              inline
+              label={t('insights.post.preview.more')}
+              style={styles.moreButton}
+              onPress={showFeatureNotImplementedToast}
+            >
+              <HoliIcon icon="more" color={colors.fontColorGrey} />
+            </HoliButton>
+          </View>
 
-        <HoliLink href={`/posts/${post.id}`} label={post.title} textStyle={styles.postTitleLink} testID="btn-to-post">
           <HoliHeading size="small" style={styles.postTitle}>
             {post.title}
           </HoliHeading>
-        </HoliLink>
 
-        <HoliReadMore numberOfLines={10} fontStyle={styles.readMoreText}>
-          <HoliRichTextOutput text={post.text} users={post.mentions} links={post.links} />
-        </HoliReadMore>
-      </View>
-
-      {post.image && (
-        <PostImage uri={post.image.url} height={post.image.height} width={post.image.width} postTitle={post.title} />
-      )}
-
-      {!!post.links?.length && (
-        <View style={styles.paddingHorizontal}>
-          <HoliLinkPreview style={styles.linkPreview} previewData={post.links[0]} label={post.links[0].title} />
+          <HoliReadMore numberOfLines={10} fontStyle={styles.readMoreText}>
+            <HoliRichTextOutput text={post.text} users={post.mentions} links={post.links} />
+          </HoliReadMore>
         </View>
-      )}
 
-      {post.numberOfComments > 0 && (
-        <View style={[styles.paddingHorizontal, styles.commentsPile]}>
-          <HoliLink href={`/posts/${post.id}?commentId=first`} label={t('insights.posts.comments.link')}>
-            <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
-              {t('insights.post.response', { count: post.numberOfComments })}
-            </HoliUserAvatarPile>
-          </HoliLink>
-        </View>
-      )}
+        {post.image && (
+          <PostImage uri={post.image.url} height={post.image.height} width={post.image.width} postTitle={post.title} />
+        )}
+
+        {!!post.links?.length && (
+          <View style={styles.paddingHorizontal}>
+            <HoliLinkPreview style={styles.linkPreview} previewData={post.links[0]} label={post.links[0].title} />
+          </View>
+        )}
+
+        {post.numberOfComments > 0 && (
+          <View style={[styles.paddingHorizontal, styles.commentsPile]}>
+            <HoliLink href={`/posts/${post.id}?commentId=first`} label={t('insights.posts.comments.link')}>
+              <HoliUserAvatarPile users={commenters} usersToShow={3} collapse>
+                {t('insights.post.response', { count: post.numberOfComments })}
+              </HoliUserAvatarPile>
+            </HoliLink>
+          </View>
+        )}
+      </HoliLink>
     </View>
   )
 }
