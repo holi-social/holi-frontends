@@ -1,14 +1,19 @@
-import React, { useState } from 'react'
+import { useMutation } from '@apollo/client'
+import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliLink from '@holi//ui/components/molecules/HoliLink'
+import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
+import { ContentType, ReportContentMutation, ReportContentResponse } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliMoreOptions from '@holi/ui/components/organisms/HoliMoreOptions'
 import HoliOptionItem from '@holi/ui/components/organisms/HoliOptionItem'
@@ -27,6 +32,16 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
 
   const [optionsVisible, setOptionsVisible] = useState(false)
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
+  const { openToast } = useToast()
+  const { isLoggedIn } = useContext(AuthContext)
+  const { openLoginDialog } = useLoginRedirect()
+
+  const [reportPost] = useMutation<ReportContentResponse>(ReportContentMutation, {
+    variables: {
+      contentType: ContentType.POST,
+      objectId: post.id,
+    },
+  })
 
   return (
     <View style={[styles.wrapper, style]}>
@@ -53,9 +68,13 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
                 label={t('global.report')}
                 icon="flag"
                 contentStyle={styles.moreOptionItem}
-                onPress={() => {
-                  setShowConfirmationModal(true)
-                }}
+                onPress={() =>
+                  isLoggedIn
+                    ? setShowConfirmationModal(true)
+                    : openLoginDialog({
+                        text: t('user.profileView.connection.notLoggedIn.message'),
+                      })
+                }
               />
 
               {/* TODO: add translations */}
@@ -65,15 +84,21 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
                 title={'Title'}
                 description={'Description'}
                 onDismiss={() => {
-                  setOptionsVisible(false)
                   setShowConfirmationModal(false)
                 }}
                 dismissText={'Dismiss'}
                 confirmText={'Confirm'}
-                onConfirm={() => {
-                  setOptionsVisible(false)
-                  setShowConfirmationModal(false)
-                }}
+                onConfirm={() =>
+                  reportPost()
+                    .then(() => {
+                      setOptionsVisible(false)
+                      setShowConfirmationModal(false)
+                      openToast?.(t('global.report.successMessage'), HoliToastType.SUCCESS, 3000)
+                    })
+                    .catch(() => {
+                      openToast?.(t('error.alert.headline'), HoliToastType.ERROR, 3000)
+                    })
+                }
               />
             </>
           </HoliMoreOptions>
@@ -131,6 +156,10 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     justifyContent: 'flex-end',
   },
+  moreOptionItem: {
+    justifyContent: 'center',
+    paddingVertical: 18,
+  },
   postTitleLink: {
     display: 'flex',
   },
@@ -149,10 +178,6 @@ const styles = StyleSheet.create({
   },
   commentsPile: {
     marginTop: 20,
-  },
-  moreOptionItem: {
-    justifyContent: 'center',
-    paddingVertical: 18,
   },
 })
 
