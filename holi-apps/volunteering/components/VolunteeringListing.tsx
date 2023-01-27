@@ -90,7 +90,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ filters = {}
         <View style={styles.headingRow}>
           <HoliHeading level="2" style={{ color: colors.fontColorGrey }}>
             {t('volunteering:filter.result', {
-              total: totalResults,
+              count: totalResults,
             })}
           </HoliHeading>
         </View>
