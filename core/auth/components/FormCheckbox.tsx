@@ -63,6 +63,7 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
           <View style={{ maxWidth: 300 }}>
             <HoliText size="small">
               <Trans t={t} i18nKey={'auth.login.checkbox.label-Consent'}>
+                {/* TODO: The link href does not yet exist */}
                 <HoliLink label="" href={'/codeOfConduct'} onPress={openModal} textStyle={styles.labelLink} />
               </Trans>
             </HoliText>
