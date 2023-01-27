@@ -4,7 +4,7 @@ import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -23,7 +23,7 @@ export type VolunteeringAppHomeParams = {
   location?: string
 }
 
-const { useParam } = createParam<VolunteeringAppHomeParams>()
+const { useParam, useUpdateParams } = createParam<VolunteeringAppHomeParams>()
 
 const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
   const { t } = useTranslation()
@@ -32,23 +32,24 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
 
   const [showFilterModal, setShowFilterModal] = useState(false)
 
-  const [location, setLocation] = useParam('location')
+  const [location] = useParam('location', singleParamConfig)
 
-  const filters: VolunteeringFilters = { location }
+  const updateParams = useUpdateParams()
 
   const closeModal = useCallback(() => {
     setShowFilterModal(false)
   }, [])
 
   const submit = useCallback(
-    (location) => {
-      setLocation(location)
+    (filters) => {
+      updateParams({ location: filters.location })
       closeModal()
     },
-    [setLocation, closeModal]
+    [updateParams, closeModal]
   )
 
   const { setOptions, navigate } = useUnifiedNavigation()
+  const filters: VolunteeringFilters = { location }
 
   useLayoutEffect(() => {
     const filterButton = (
