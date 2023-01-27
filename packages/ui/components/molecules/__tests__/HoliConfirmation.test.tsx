@@ -20,6 +20,22 @@ describe('renders correctly', () => {
       .toJSON()
     expect(tree).toMatchSnapshot()
   })
+  it('renders correctly when open and confirmationButtonType is danger', () => {
+    const tree = renderer
+      .create(
+        <HoliConfirmation
+          label="Test"
+          title="Test Title"
+          description="Test Description"
+          confirmationButtonType="danger"
+          show={true}
+          onDismiss={() => null}
+          onConfirm={() => null}
+        />
+      )
+      .toJSON()
+    expect(tree).toMatchSnapshot()
+  })
   it('renders correctly when closed', () => {
     const tree = renderer
       .create(

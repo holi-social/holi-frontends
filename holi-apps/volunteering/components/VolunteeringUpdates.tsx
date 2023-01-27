@@ -3,6 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
+import { HOLI_APPS, HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appConstants'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppUpdatesItem from '@holi/core/screens/homeFeed/components/AppUpdatesItem'
@@ -50,8 +51,8 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
 
     return (
       <AppUpdatesItem
-        appName="volunteering"
-        onPress={() => navigate(`/apps/volunteering/engagement/${item.id}`)}
+        appName={HOLI_APPS.VOLUNTEERING}
+        onPress={() => navigate(`${HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.VOLUNTEERING].path}/engagement/${item.id}`)}
         title={title}
         imageSource={{ uri: item.imageUrl }}
       />
@@ -60,12 +61,12 @@ const VolunteeringUpdates: React.VFC<VolunteeringUpdatesProps> = ({ style }: Vol
 
   return (
     <AppUpdatesList
-      appName="volunteering"
+      appName={HOLI_APPS.VOLUNTEERING}
       renderItem={renderItem}
       data={engagementsToRender}
       heading={t('volunteering:app.name')}
       headingIcon="hearts"
-      onPressSeeMore={() => navigate('/apps/volunteering/')}
+      onPressSeeMore={() => navigate(HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.VOLUNTEERING].path)}
       labelSeeMore={t('volunteering:listing.loadMoreButton.text')}
       loading={loading}
       style={style}

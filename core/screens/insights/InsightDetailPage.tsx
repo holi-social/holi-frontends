@@ -115,44 +115,48 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
           <HoliText style={styles.insightText}>{insight.description}</HoliText>
 
           {/* Author  */}
-          <View style={styles.authorInfo}>
-            <HoliButton
-              transparent
+          {author && (
+            <View style={styles.authorInfo}>
+              <HoliButton
+                transparent
+                label={t('user.cards.modal.showInfo', { name: author.fullName })}
+                onPress={() => setShowCuratorModal(true)}
+              >
+                <View style={styles.authorInfoInner}>
+                  <HoliUserAvatar
+                    imageSrc={author.avatar}
+                    label={author.fullName}
+                    initials={author.avatarLabel || ''}
+                    defaultColor={author.avatarDefaultColor || ''}
+                    size="small"
+                    style={styles.authorInfoAvatar}
+                  />
+
+                  <HoliText size="small" style={styles.authorInfoText}>
+                    <Trans t={t} i18nKey="insight.curatedBy" values={{ name: author.fullName }}>
+                      <HoliText size="small" />
+                    </Trans>
+                  </HoliText>
+                </View>
+              </HoliButton>
+            </View>
+          )}
+
+          {author && (
+            <HoliModal
               label={t('user.cards.modal.showInfo', { name: author.fullName })}
-              onPress={() => setShowCuratorModal(true)}
-            >
-              <View style={styles.authorInfoInner}>
-                <HoliUserAvatar
-                  imageSrc={author.avatar}
-                  label={author.fullName}
-                  initials={author.avatarLabel || ''}
-                  defaultColor={author.avatarDefaultColor || ''}
-                  size="small"
-                  style={styles.authorInfoAvatar}
-                />
-
-                <HoliText size="small" style={styles.authorInfoText}>
-                  <Trans t={t} i18nKey="insight.curatedBy" values={{ name: author.fullName }}>
-                    <HoliText size="small" />
-                  </Trans>
-                </HoliText>
-              </View>
-            </HoliButton>
-          </View>
-
-          <HoliModal
-            label={t('user.cards.modal.showInfo', { name: author.fullName })}
-            show={showCuratorModal}
-            onDismiss={() => setShowCuratorModal(false)}
-            testID="insight-curator-modal"
-          >
-            <HoliUserCardsModalContent
-              title={''} // don't show any headline in modal
-              users={[author as User]}
+              show={showCuratorModal}
               onDismiss={() => setShowCuratorModal(false)}
-              testID="insight-curator"
-            />
-          </HoliModal>
+              testID="insight-curator-modal"
+            >
+              <HoliUserCardsModalContent
+                title={''} // don't show any headline in modal
+                users={[author as User]}
+                onDismiss={() => setShowCuratorModal(false)}
+                testID="insight-curator"
+              />
+            </HoliModal>
+          )}
         </View>
 
         {/* Dummy list of posts */}
