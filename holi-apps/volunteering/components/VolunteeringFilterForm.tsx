@@ -3,6 +3,7 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import { logError } from '@holi/core/errors/helpers'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
@@ -15,7 +16,7 @@ export type VolunteeringFilters = {
 
 type VolunteeringFilterFormProps = {
   filters?: VolunteeringFilters
-  onSubmit: (location?: string) => void
+  onSubmit: (filters?: VolunteeringFilters) => void
 }
 
 const VolunteeringFilterForm: React.VFC<VolunteeringFilterFormProps> = ({
@@ -25,8 +26,11 @@ const VolunteeringFilterForm: React.VFC<VolunteeringFilterFormProps> = ({
   const { t } = useTranslation()
   const [location, setLocation] = useState(filters.location)
 
-  const { data } = useQuery<VolunteeringCitiesQueryResult>(VolunteeringCitiesQuery)
+  const { data, loading, error } = useQuery<VolunteeringCitiesQueryResult>(VolunteeringCitiesQuery)
 
+  if (error) {
+    logError(error, `[VolunteeringFilterForm.tsx] ${error.message}`)
+  }
   const cities = data?.appVolunteering_cities.data || []
 
   const locationOptions: HoliSelectOption[] = cities.map((city) => ({
@@ -43,11 +47,12 @@ const VolunteeringFilterForm: React.VFC<VolunteeringFilterFormProps> = ({
   return (
     <HoliModalContentWrapper
       actionButtonText={t('volunteering:filter.submitButton')}
-      onActionButtonPress={() => onSubmit(location)}
+      onActionButtonPress={() => onSubmit({ location })}
       style={styles.modalWrapper}
       testID="volunteering-filter-modal"
       keyboardShouldPersistTaps="always"
       scrollable={false}
+      loading={loading}
     >
       <View style={styles.container}>
         <HoliHeading>{t('volunteering:filter.heading')}</HoliHeading>
