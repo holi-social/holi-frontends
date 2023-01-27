@@ -1,17 +1,10 @@
-import * as React from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Text, TextLayoutEventData, TextLayoutLine, TextProps, TextStyle, View, ViewStyle } from 'react-native'
+import { StyleSheet, Text, TextLayoutEventData, TextLayoutLine, View } from 'react-native'
 
-import HoliText, { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import { ReadMoreButtonState, ReadMoreProps } from '@holi/ui/components/molecules/HoliReadMore.shared'
 import { colors } from '@holi/ui/styles/globalVars'
-
-export type ReadMoreProps = HoliTextProps &
-  TextProps & {
-    numberOfLines?: 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | undefined // 1 line is not supported on Android and in this component
-    style?: ViewStyle
-    fontStyle?: TextStyle
-    buttonStyle?: TextStyle | Record<string, unknown>
-  }
 
 /**
  *
@@ -21,21 +14,24 @@ export type ReadMoreProps = HoliTextProps &
 const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
   children,
   numberOfLines = 3,
-  style,
-  fontStyle,
-  buttonStyle,
+  style = {},
+  fontStyle = {},
+  buttonStyle = {},
+  ...textProps
 }) => {
-  const [truncatedText, setTruncatedText] = React.useState(children || '')
-  const [buttonType, setButtonType] = React.useState<'show' | 'hide' | undefined>(undefined)
+  const [truncatedText, setTruncatedText] = useState(children || '')
+  const [buttonState, setButtonState] = useState<ReadMoreButtonState>('hidden')
+  // remember line lengths to keep track of layout changes
+  const [allowedLineLength, setAllowedLineLength] = useState(0)
   const { t } = useTranslation()
 
-  const hideButtonText = t('component.readMore.readLess')
+  const readLessButtonText = t('component.readMore.readLess')
 
   // needed for its length calculation
-  const showButtonText = t('component.readMore.readMore')
-  const { length: showButtonTextLength } = showButtonText
+  const readMoreButtonText = t('component.readMore.readMore')
+  const { length: readMoreButtonTextLength } = readMoreButtonText
 
-  // buffer factor to truncate the text for extra space (showButtonTextLength * bufferTextFactor)
+  // buffer factor to truncate the text for extra space (readMoreButtonTextLength * bufferTextFactor)
   const bufferTextFactor = 2
 
   // render a custom ellipsis for the truncated text
@@ -43,82 +39,112 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
   const { length: ellipsisLength } = ellipsis
 
   // for mobile only: onTextLayout is not supported on web - https://github.com/necolas/react-native-web/issues/1685
-  const truncateText = ({ nativeEvent: { lines } }: { nativeEvent: TextLayoutEventData }) => {
-    // ignore truncating when there is no hidden text (no need for a Read more button)
-    if (!numberOfLines || lines.length < numberOfLines) {
-      setButtonType(undefined)
-      return
-    }
+  const handleTextLayoutEvent = useCallback(
+    ({ nativeEvent: { lines } }: { nativeEvent: TextLayoutEventData }) => {
+      if (!lines.length) {
+        return
+      }
 
-    // get the length of the first line as a base to truncate the text
-    const firstLineLength = lines[0].text.length
+      // get the length of the first line as a base to truncate the text
+      const firstLineLength = lines[0].text.length
+      const maxAllowedLineLength = firstLineLength - readMoreButtonTextLength * bufferTextFactor - ellipsisLength
 
-    // check wether truncating was necessary
-    let truncated = false
+      // Check if there have been layout changes (impacting the width of the rendered text)
+      if (maxAllowedLineLength === allowedLineLength) {
+        // Keep text and button state as they are
+        return
+      }
 
-    const truncatedText = lines
-      .map((line: TextLayoutLine, index: number) => {
-        const { text } = line
-        const maxAllowedLastLineLength = firstLineLength - showButtonTextLength * bufferTextFactor - ellipsisLength
+      setAllowedLineLength(maxAllowedLineLength)
+      const lastLineLength = lines[lines.length - 1].text.length
 
-        // if we are in the last visible line, truncate it in case its text is too long (longer or equal to the length of first line minus the button text length)
-        if (numberOfLines - 1 === index && text.length >= maxAllowedLastLineLength) {
-          // only display Read More button if truncating was needed
-          truncated = true
-
-          return text.substring(0, maxAllowedLastLineLength) + ellipsis
+      // ignore truncating when there is no hidden text (no need for a Read more button)
+      if (lines.length <= numberOfLines && lastLineLength <= maxAllowedLineLength) {
+        if (buttonState !== 'hidden') {
+          // if the text was truncated before, reset allowed line length
+          // > let next text layout event (triggered by change of button state) decide on button state
+          setAllowedLineLength(0)
+          setButtonState('hidden')
         }
+        return
+      }
 
-        // disconsider any lines beyond numberOfLines for the truncated text
-        if (index > numberOfLines - 1) {
-          return ''
+      // check whether truncating is necessary
+      let truncated = false
+
+      const truncatedText = lines
+        .map((line: TextLayoutLine, index: number) => {
+          const { text } = line
+
+          // if we are in the last visible line, truncate it in case its text is too long (longer or equal to the length of first line minus the button text length)
+          if (numberOfLines - 1 === index && text.length >= maxAllowedLineLength) {
+            // only display Read More button if truncating was needed
+            truncated = true
+
+            return text.substring(0, maxAllowedLineLength) + ellipsis
+          }
+
+          // disconsider any lines beyond numberOfLines for the truncated text
+          if (index > numberOfLines - 1) {
+            return ''
+          }
+
+          return text
+        })
+        .join('')
+
+      // if truncating the text is required and button was hidden before, set the button state to 'readMore'
+      if (truncated) {
+        if (buttonState === 'hidden') {
+          setButtonState('readMore')
         }
+      } else {
+        setButtonState('hidden')
+      }
 
-        return text
-      })
-      .join('')
+      setTruncatedText(truncatedText)
+    },
+    [buttonState, allowedLineLength, ellipsisLength, numberOfLines, readMoreButtonTextLength]
+  )
 
-    // if truncating the text was required, set the button to 'show' type (read more)
-    if (truncated) {
-      setButtonType('show')
-    } else {
-      setButtonType(undefined)
-    }
-
-    setTruncatedText(truncatedText)
-  }
-
-  const toggleButtonType = () => {
-    setButtonType((previousType) => (previousType === 'show' ? 'hide' : 'show'))
-  }
+  const toggleButtonState = useCallback(() => {
+    setButtonState((previousState) => (previousState === 'readMore' ? 'readLess' : 'readMore'))
+  }, [])
 
   // using a Text as the button, due to vertical aligning issues on Android https://github.com/facebook/react-native/issues/27549
   const ToggleButton = (
-    <Text onPress={toggleButtonType} accessible={true} accessibilityRole="button" style={buttonStyle || {}}>
-      {buttonType === 'show' ? showButtonText : hideButtonText}
+    <Text onPress={toggleButtonState} accessible={true} accessibilityRole="button" style={buttonStyle}>
+      {buttonState === 'readMore' ? readMoreButtonText : readLessButtonText}
     </Text>
   )
 
   return (
-    <View style={style || {}}>
+    <View style={style}>
       {/* Use react-native's Text component to encapsulate HoliText components to avoid applying HoliText default styles
       to both text and button */}
       <Text
-        onTextLayout={!buttonType ? truncateText : undefined}
-        numberOfLines={buttonType !== 'hide' ? numberOfLines : undefined}
+        onTextLayout={handleTextLayoutEvent}
+        numberOfLines={buttonState !== 'readLess' ? numberOfLines : undefined}
         ellipsizeMode="tail"
-        style={{ alignContent: 'flex-start', justifyContent: 'center' }}
+        style={styles.textContainer}
       >
-        {/* The visible text. Any style props are applied here */}
-        <HoliText style={[{ color: colors.fontColorGrey }, fontStyle || {}]}>
-          {buttonType === 'show' ? truncatedText : children} {buttonType === 'hide' && ' '}
+        {/* The visible text. Any font style props and remaining textProps are applied here */}
+        <HoliText style={[{ color: colors.fontColorGrey }, fontStyle]} {...textProps}>
+          {buttonState === 'readMore' ? truncatedText : children} {buttonState === 'readLess' && ' '}
         </HoliText>
 
         {/* show button inline (mobile only) */}
-        {buttonType && ToggleButton}
+        {buttonState !== 'hidden' && ToggleButton}
       </Text>
     </View>
   )
 }
 
 export default HoliReadMore
+
+const styles = StyleSheet.create({
+  textContainer: {
+    alignContent: 'flex-start',
+    justifyContent: 'center',
+  },
+})
