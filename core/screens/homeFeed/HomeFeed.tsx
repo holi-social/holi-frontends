@@ -9,6 +9,7 @@ import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { useScrollYHandler } from '@holi/core/helpers'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import CodeOfConduct from '@holi/core/screens/codeOfConduct/components/CodeOfConduct'
 import AppsDrawer from '@holi/core/screens/homeFeed/components/AppsDrawer'
 import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
 import UpdatesOfYourApps from '@holi/core/screens/homeFeed/components/UpdatesOfYourApps'
@@ -62,6 +63,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
   return (
     <>
       <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
+        <CodeOfConduct />
         <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
         <UpdatesOfYourApps style={styles.updatesOfYourApps} />
         {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}
