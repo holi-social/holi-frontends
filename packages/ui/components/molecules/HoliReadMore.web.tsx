@@ -98,7 +98,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     bottom: 0,
-    paddingHorizontal: 20,
+    paddingLeft: 34,
+    paddingRight: 20,
     backgroundImage: `linear-gradient(to right, transparent , ${colors.backgroundColor} 15%)`,
   },
   readLess: {
