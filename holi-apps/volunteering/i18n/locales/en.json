@@ -7,7 +7,7 @@
   "engagementDetail.notFound": "Opportunity with ID {{engagementId}} could not be found",
   "engagementDetail.organizer": "Organiser",
   "engagementDetail.provider.link.btn": "Page of {{source}}",
-  "engagementDetail.provider": "Provider",
+  "engagementDetail.provider": "Provided via",
   "filter.heading": "Filter opportunities",
   "filter.location.label": "German cities",
   "filter.location.placeholder": "Select city",
