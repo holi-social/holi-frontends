@@ -1,29 +1,24 @@
 import React, { useEffect, useRef } from 'react'
 import { StyleProp, View, ViewStyle } from 'react-native'
 
-import theHtml from '@holi/core/static/codeOfConduct_en.html'
+export type htmlString = string
 
 export type HoliHtmlViewProps = {
-  htmlString: string
+  source: htmlString
   height: ViewStyle['height']
   style?: StyleProp<ViewStyle>
   testID?: string
 }
 
-const HoliHtmlView: React.VFC<HoliHtmlViewProps> = ({ htmlString, height, style, testID }) => {
-  // const html = require('@holi/core/static/codeOfConduct_en.html')
-  // const html = '<style>p {color: pink; }</style><p>Hello World!</p>'
-
+const HoliHtmlView: React.VFC<HoliHtmlViewProps> = ({ source, height, style, testID }) => {
   const viewRef = useRef<View>(null)
-
-  console.log(htmlString)
 
   useEffect(() => {
     // https://stackoverflow.com/questions/23616226/insert-html-with-react-variable-statements-jsx
     if (viewRef && viewRef.current) {
-      viewRef.current.innerHTML = theHtml
+      viewRef.current.innerHTML = source
     }
-  }, [viewRef])
+  }, [viewRef, source])
 
   return <View ref={viewRef} style={[style, { height: height, overflow: 'scroll' }]} testID={testID} />
 }
