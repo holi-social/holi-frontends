@@ -6,17 +6,20 @@
   "engagementDetail.getInTouch": "Get in touch",
   "engagementDetail.notFound": "Opportunity with ID {{engagementId}} could not be found",
   "engagementDetail.organizer": "Organiser",
-  "engagementDetail.provider.link.btn": "Page of {{source}}",
   "engagementDetail.provider": "Provider",
+  "engagementDetail.provider.link.btn": "Page of {{source}}",
   "filter.heading": "Filter opportunities",
   "filter.location.label": "German cities",
   "filter.location.placeholder": "Select city",
+  "filter.notFound.description": "We couldn’t find any opportunity to match your filters.",
+  "filter.notFound.title": "No results yet",
+  "filter.reset": "Clear filter",
   "filter.result": "{{count}} opportunity",
   "filter.result_plural": "{{count}} opportunities",
   "filter.submitButton": "Show opportunities",
   "listing.error": "Loading opportunities failed",
   "listing.headline": "Interesting opportunities for you",
-  "listing.loading": "Loading volunteering opportunities...",
   "listing.loadMoreButton.loading": "Loading",
-  "listing.loadMoreButton.text": "See more"
+  "listing.loadMoreButton.text": "See more",
+  "listing.loading": "Loading volunteering opportunities..."
 }
