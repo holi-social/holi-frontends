@@ -8,18 +8,20 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliCardComponent from '@holi/ui/components/molecules/HoliCardComponent'
+import { colors } from '@holi/ui/styles/globalVars'
 import variables from '@holi/ui/styles/globalVars/variables'
 
 import '@holi-apps/goodnews/queries'
 import VolunteeringCardContent from '@holi-apps/volunteering/components/VolunteeringCardContent'
+import { VolunteeringFilters } from '@holi-apps/volunteering/components/VolunteeringFilterForm'
 import { VolunteeringEngagementsQuery, VolunteeringEngagementsQueryResponse } from '@holi-apps/volunteering/queries'
 import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 
-type VolunteeringListingProps = Record<string, never>
+type VolunteeringListingProps = { filters: VolunteeringFilters }
 
 const ENGAGEMENT_PAGE_SIZE = 10
 
-const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
+const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ filters = {} }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const [fetchingMore, setFetchingMore] = useState(false)
@@ -29,6 +31,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
       variables: {
         offset: 0,
         limit: ENGAGEMENT_PAGE_SIZE,
+        location: filters.location,
       },
       fetchPolicy: 'cache-and-network',
     }
@@ -78,9 +81,20 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
   )
 
   const listHeader = (
-    <HoliHeading level="1" style={styles.title}>
-      {t('volunteering:listing.headline')}
-    </HoliHeading>
+    <View>
+      <HoliHeading level="1" style={styles.title}>
+        {t('volunteering:listing.headline')}
+      </HoliHeading>
+      {filters.location && (
+        <View style={styles.headingRow}>
+          <HoliHeading level="2" style={{ color: colors.fontColorGrey }}>
+            {t('volunteering:filter.result', {
+              count: totalResults,
+            })}
+          </HoliHeading>
+        </View>
+      )}
+    </View>
   )
 
   const listFooter = () =>
@@ -127,5 +141,11 @@ const styles = StyleSheet.create({
   loadMoreButton: {
     marginTop: 24,
     marginBottom: 48,
+  },
+  headingRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    marginBottom: 24,
   },
 })
