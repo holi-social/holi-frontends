@@ -61,4 +61,24 @@ test.describe('@Volunteering', () => {
     expect(engagementUrl).toContain('https://www.aktion-mensch.de/')
     await engagementPage.close() // close newly opened tab
   })
+
+  test('should open the volunteering filter menu and filter opportunities by location', async ({ page }) => {
+    await waitForElementByTestId(page, 'volunteering-app-home')
+
+    await clickElementByTestId(page, 'btn-to-volunteering-filter')
+
+    // open location dropdown
+    await clickElementByTestId(page, 'volunteering-filter-location-input')
+
+    // click on first location in the list
+    await clickElementByTestId(page, 'volunteering-filter-location-item')
+
+    await checkAccessibility(page)
+
+    // click filter confirmation button and check if we are in the correct page with the filter queries
+    await clickElementByTestId(page, 'volunteering-filter-modal-close-btn')
+
+    // check if the filtered spaces container is shown
+    await waitForElementByTestId(page, 'volunteering-app-home')
+  })
 })
