@@ -20,7 +20,7 @@ const HoliLink: React.FC<HoliLinkProps> = ({
 }) => {
   const onLinkPress = React.useCallback(
     (event: SyntheticEvent<HTMLAnchorElement, Event>) => {
-      const stopPropagation = onPress?.()
+      const stopPropagation = onPress?.(event)
       if (stopPropagation === false) {
         event?.preventDefault()
         event?.stopPropagation()
