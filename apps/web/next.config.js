@@ -1,6 +1,7 @@
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const withPlugins = require('next-compose-plugins')
+const withHtml = require('@blunck/next-html')()
 const withTranspileModules = require('next-transpile-modules')
 const path = require('path')
 const { withSentryConfig } = require('@sentry/nextjs')
@@ -9,6 +10,13 @@ const { withSentryConfig } = require('@sentry/nextjs')
 const nextConfig = {
   reactStrictMode: false,
   webpack: (config) => {
+    // config.module.rules.push({
+    //   test: /\.(jpe?g|png|svg|gif|ico|eot|ttf|woff|woff2|mp4|pdf|webm|txt)$/,
+    //   type: 'asset/resource',
+    //   generator: {
+    //     filename: 'static/chunks/[path][name].[hash][ext]',
+    //   },
+    // })
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
       // Transform all direct 'react-native' imports to 'react-native-web'
@@ -66,7 +74,7 @@ module.exports = withSentryConfig(
         }
       ),
     ],
-    nextConfig
+    withHtml(nextConfig)
   ),
   sentryWebpackPluginOptions
 )
