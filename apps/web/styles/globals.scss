@@ -68,3 +68,7 @@ li {
   margin: 0;
   padding: 0;
 }
+
+[role=checkbox]:focus > div {
+  border: solid 1px $border-color-secondary !important;
+}
