@@ -1,13 +1,14 @@
 import { UiNode } from '@ory/kratos-client'
 import React, { useCallback, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { StyleProp, View, ViewStyle } from 'react-native'
+import { Trans, useTranslation } from 'react-i18next'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliLink from '@holi//ui/components/molecules/HoliLink'
 import { getNodeTitle } from '@holi/core/auth/helpers/form'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type FormCheckboxProps = {
   node: UiNode
@@ -61,13 +62,9 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
         >
           <View style={{ maxWidth: 300 }}>
             <HoliText size="small">
-              {t('auth.login.checkbox.label-Consent-0')}{' '}
-              <HoliLink label="" href={'/codeOfConduct'} onPress={openModal}>
-                <HoliText size="small" bold>
-                  {t('auth.login.checkbox.label-Consent-1')}
-                </HoliText>
-              </HoliLink>{' '}
-              {t('auth.login.checkbox.label-Consent-2')}
+              <Trans t={t} i18nKey={'auth.login.checkbox.label-Consent'}>
+                <HoliLink label="" href={'/codeOfConduct'} onPress={openModal} textStyle={styles.labelLink} />
+              </Trans>
             </HoliText>
           </View>
         </HoliCheckbox>
@@ -95,3 +92,12 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
 }
 
 export default FormCheckbox
+
+const styles = StyleSheet.create({
+  labelLink: {
+    fontSize: 14,
+    lineHeight: 14 * 1.2,
+    color: colors.fontColor,
+    fontWeight: 'bold',
+  },
+})
