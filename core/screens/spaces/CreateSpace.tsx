@@ -1,0 +1,84 @@
+import React, { ReactChild, useEffect, useLayoutEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import CreateSpaceCoverImage from '@holi/core/screens/spaces/components/CreateSpaceCoverImage'
+import CreateSpaceName from '@holi/core/screens/spaces/components/CreateSpaceName'
+import CreateSpaceTopics from '@holi/core/screens/spaces/components/CreateSpaceTopics'
+import HoliWizard from '@holi/ui/components/molecules/HoliWizard'
+import { colors, vars } from '@holi/ui/styles/globalVars'
+
+const CreateSpace: React.VFC = () => {
+  const { setOptions } = useUnifiedNavigation()
+  const { t } = useTranslation()
+  const [stepsArray, setStepsArray] = useState<Array<ReactChild>>([])
+  const [isNextButtonEnable, setIsNextButtonEnable] = useState<boolean>(false)
+
+  useLayoutEffect(
+    () =>
+      setOptions({
+        title: t('spaces.create.space.title'),
+        headerStyle: { backgroundColor: colors.backgroundColorGreyLight },
+        headerTransparent: true,
+        headerLeft: () => <HeaderBackButton icon="close" />,
+        navigationCustomOptions: {
+          footerShown: false,
+        },
+      }),
+    [setOptions, t]
+  )
+
+  const handleNextButtonStatus = (isButtonEnable: boolean) => {
+    setIsNextButtonEnable(isButtonEnable)
+  }
+
+  useEffect(() => {
+    const createSpaceSteps = () => {
+      const spaceCreateSteps: Array<ReactChild> = []
+      spaceCreateSteps[0] = (
+        <CreateSpaceName key={0} onChangeNextButtonStatus={(buttonStatus) => handleNextButtonStatus(buttonStatus)} />
+      )
+      spaceCreateSteps[1] = (
+        <CreateSpaceTopics key={1} onChangeNextButtonStatus={(buttonStatus) => handleNextButtonStatus(buttonStatus)} />
+      )
+      spaceCreateSteps[2] = (
+        <CreateSpaceCoverImage
+          key={2}
+          onChangeNextButtonStatus={(buttonStatus) => handleNextButtonStatus(buttonStatus)}
+        />
+      )
+      setStepsArray(spaceCreateSteps)
+    }
+    createSpaceSteps()
+  }, [])
+
+  return (
+    <SafeAreaView style={styles.contentWrapper}>
+      <View style={styles.container}>
+        <HoliWizard isNextButtonDisabled={!isNextButtonEnable} buttonName={t('spaces.create.space.button')}>
+          {stepsArray}
+        </HoliWizard>
+      </View>
+    </SafeAreaView>
+  )
+}
+
+export default CreateSpace
+
+const styles = StyleSheet.create({
+  contentWrapper: {
+    height: '100%',
+    ...Platform.select({
+      web: {
+        minHeight: '100vh',
+      },
+    }),
+    backgroundColor: colors.backgroundColorGreyLight,
+  },
+  container: {
+    top: vars.topBarHeight,
+    paddingBottom: 0,
+  },
+})

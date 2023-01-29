@@ -29,6 +29,16 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
         Feedback
       </HoliButton>
       {/* TODO end: remove after Alpha */}
+      <HoliButton
+        label={t('spaces.create.space.title')}
+        inline
+        transparent
+        onPress={() => {
+          navigate('/createSpace')
+        }}
+      >
+        <HoliIcon icon="add-box" size={24} color={tintColor} />
+      </HoliButton>
 
       <HoliButton
         label={t('notifications.title')}
