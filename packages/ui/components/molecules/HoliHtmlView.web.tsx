@@ -11,14 +11,14 @@ export type HoliHtmlViewProps = {
   testID?: string
 }
 
-const HoliHtmlView: React.VFC<HoliHtmlViewProps> = ({ source, style, testID }) => {
+const HoliHtmlView: React.VFC<HoliHtmlViewProps> = ({ source: html, style, testID }) => {
   const defaultStyles = { borderStyle: 'solid', borderWidth: 0, overflow: 'auto' }
 
-  if (!source) return null
+  if (!html) return null
 
   return (
     <View style={[defaultStyles, style]} testID={testID}>
-      <div dangerouslySetInnerHTML={{ __html: source }} className="html-view" />
+      <div dangerouslySetInnerHTML={{ __html: html }} className="html-view" />
     </View>
   )
 }
