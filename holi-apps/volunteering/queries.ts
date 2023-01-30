@@ -62,6 +62,26 @@ export const trackEngagementViewMutation = gql`
   }
 `
 
+export const VolunteeringCitiesQuery = gql`
+  query VolunteeringCities {
+    appVolunteering_cities {
+      data {
+        name
+      }
+    }
+  }
+`
+
 export type TrackEngagementViewResponse = {
   id: string
+}
+
+export type City = {
+  name: string
+}
+
+export interface VolunteeringCitiesQueryResult {
+  appVolunteering_cities: {
+    data: City[]
+  }
 }

@@ -25,11 +25,29 @@ describe('@Volunteering', () => {
     await navigateToDetailview()
 
     await assertAllowsPagination()
+
+    await assertFilteringWorks()
   })
 })
 
 const assertListItemExisting = async () => {
   await waitForElementWithTestId('btn-to-volunteering-engagement')
+}
+
+const assertFilteringWorks = async () => {
+  await tapOnElementWithTestId('btn-to-volunteering-filter')
+
+  // open location dropdown
+  await tapOnElementWithTestId('volunteering-filter-location-input')
+
+  // click on first location in the list
+  await tapOnElementWithTestId('volunteering-filter-location-item')
+
+  // click filter confirmation button
+  await tapOnElementWithTestId('volunteering-filter-modal-close-btn')
+
+  // check if the volunteering app home is shown
+  await waitForElementWithTestId('volunteering-app-home')
 }
 
 const navigateToDetailview = async () => {
