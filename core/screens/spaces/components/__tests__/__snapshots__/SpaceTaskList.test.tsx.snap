@@ -489,8 +489,8 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                         "fontWeight": "400",
                       },
                       Object {
-                        "fontSize": 16,
-                        "lineHeight": 19.2,
+                        "fontSize": 14,
+                        "lineHeight": 16.8,
                       },
                       false,
                       Array [
@@ -502,27 +502,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     ]
                   }
                 >
-                  <Text
-                    accessible={false}
-                    selectable={true}
-                    style={
-                      Array [
-                        Object {
-                          "color": "#222326",
-                          "fontFamily": "Circular Std Book",
-                          "fontWeight": "400",
-                        },
-                        Object {
-                          "fontSize": 14,
-                          "lineHeight": 16.8,
-                        },
-                        false,
-                        undefined,
-                      ]
-                    }
-                  >
-                    Task description
-                  </Text>
+                  Task description
                    
                 </Text>
               </Text>
@@ -938,8 +918,8 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                         "fontWeight": "400",
                       },
                       Object {
-                        "fontSize": 16,
-                        "lineHeight": 19.2,
+                        "fontSize": 14,
+                        "lineHeight": 16.8,
                       },
                       false,
                       Array [
@@ -951,27 +931,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     ]
                   }
                 >
-                  <Text
-                    accessible={false}
-                    selectable={true}
-                    style={
-                      Array [
-                        Object {
-                          "color": "#222326",
-                          "fontFamily": "Circular Std Book",
-                          "fontWeight": "400",
-                        },
-                        Object {
-                          "fontSize": 14,
-                          "lineHeight": 16.8,
-                        },
-                        false,
-                        undefined,
-                      ]
-                    }
-                  >
-                    Task description
-                  </Text>
+                  Task description
                    
                 </Text>
               </Text>
@@ -1387,8 +1347,8 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                         "fontWeight": "400",
                       },
                       Object {
-                        "fontSize": 16,
-                        "lineHeight": 19.2,
+                        "fontSize": 14,
+                        "lineHeight": 16.8,
                       },
                       false,
                       Array [
@@ -1400,27 +1360,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     ]
                   }
                 >
-                  <Text
-                    accessible={false}
-                    selectable={true}
-                    style={
-                      Array [
-                        Object {
-                          "color": "#222326",
-                          "fontFamily": "Circular Std Book",
-                          "fontWeight": "400",
-                        },
-                        Object {
-                          "fontSize": 14,
-                          "lineHeight": 16.8,
-                        },
-                        false,
-                        undefined,
-                      ]
-                    }
-                  >
-                    Task description
-                  </Text>
+                  Task description
                    
                 </Text>
               </Text>

@@ -6,20 +6,28 @@ import { FlatList, Platform, StyleSheet, View } from 'react-native'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliCardComponent from '@holi/ui/components/molecules/HoliCardComponent'
+import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
+import { colors } from '@holi/ui/styles/globalVars'
 import variables from '@holi/ui/styles/globalVars/variables'
 
 import '@holi-apps/goodnews/queries'
 import VolunteeringCardContent from '@holi-apps/volunteering/components/VolunteeringCardContent'
+import { VolunteeringFilters } from '@holi-apps/volunteering/components/VolunteeringFilterForm'
 import { VolunteeringEngagementsQuery, VolunteeringEngagementsQueryResponse } from '@holi-apps/volunteering/queries'
 import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 
-type VolunteeringListingProps = Record<string, never>
+type VolunteeringListingProps = {
+  clearFilters: () => void
+  filters: VolunteeringFilters
+}
 
 const ENGAGEMENT_PAGE_SIZE = 10
 
-const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
+const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters, filters = {} }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const [fetchingMore, setFetchingMore] = useState(false)
@@ -29,6 +37,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
       variables: {
         offset: 0,
         limit: ENGAGEMENT_PAGE_SIZE,
+        location: filters.location,
       },
       fetchPolicy: 'cache-and-network',
     }
@@ -78,9 +87,20 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
   )
 
   const listHeader = (
-    <HoliHeading level="1" style={styles.title}>
-      {t('volunteering:listing.headline')}
-    </HoliHeading>
+    <View>
+      <HoliHeading level="1" style={styles.title}>
+        {t('volunteering:listing.headline')}
+      </HoliHeading>
+      {filters.location && (
+        <View style={styles.headingRow}>
+          <HoliText bold style={{ color: colors.fontColorGrey }}>
+            {t('volunteering:filter.result', {
+              count: totalResults,
+            })}
+          </HoliText>
+        </View>
+      )}
+    </View>
   )
 
   const listFooter = () =>
@@ -101,11 +121,23 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = () => {
 
   return (
     <FlatList
-      ListHeaderComponent={listHeader}
+      ListHeaderComponent={engagements.length ? listHeader : undefined}
       ListHeaderComponentStyle={styles.listHeader}
+      contentContainerStyle={styles.list}
       data={engagements}
       renderItem={renderItem}
       ListFooterComponent={listFooter}
+      ListEmptyComponent={
+        <HoliNoResults
+          firstText={t('volunteering:filter.notFound.title')}
+          secondText={t('volunteering:filter.notFound.description')}
+          style={styles.noResults}
+        >
+          <HoliButton label={t('volunteering:filter.reset')} onPress={clearFilters} inline>
+            {t('volunteering:filter.reset')}
+          </HoliButton>
+        </HoliNoResults>
+      }
     />
   )
 }
@@ -117,8 +149,10 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: 32,
   },
-  listHeader: {
+  list: {
     paddingTop: Number(variables.topBarHeight) + (Platform.OS === 'android' ? Number(variables.topBarHeight) + 24 : 24),
+  },
+  listHeader: {
     paddingBottom: 32,
   },
   title: {
@@ -127,5 +161,14 @@ const styles = StyleSheet.create({
   loadMoreButton: {
     marginTop: 24,
     marginBottom: 48,
+  },
+  headingRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    paddingTop: 24,
+  },
+  noResults: {
+    marginTop: 24,
   },
 })
