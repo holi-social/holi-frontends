@@ -102,7 +102,7 @@ export const createCache = () =>
             keyArgs: [],
           },
           appVolunteering_engagements: {
-            keyArgs: [],
+            keyArgs: ['location'],
           },
           spaces: {
             keyArgs: ['topicId', 'location', 'skillIds'],
