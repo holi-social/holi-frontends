@@ -3,9 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpaceHeader from '@holi/core/screens/spaces/components/SpaceHeader'
-import SpaceSocialLinkList from '@holi/core/screens/spaces/components/SpaceSocialLinkList'
+import SpaceInfoView from '@holi/core/screens/spaces/components/SpaceInfoView'
 import SpaceTaskList from '@holi/core/screens/spaces/components/SpaceTaskList'
-import SpaceWelcome from '@holi/core/screens/spaces/components/SpaceWelcome'
 import { Space } from '@holi/core/screens/spaces/types'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -35,30 +34,13 @@ const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
             title: t('spaces.tab.info'),
             titleIcon: 'pushpin',
             style: styles.tabStyle,
-            children: [
-              <SpaceWelcome
-                space={space}
-                style={[mixins.container, styles.tabItem, styles.tabItemFirst]}
-                key="space-welcome"
-              />,
-              <SpaceSocialLinkList
-                space={space}
-                style={[mixins.container, styles.tabItem]}
-                key="space-social-link-list"
-              />,
-            ],
+            children: <SpaceInfoView space={space} style={[mixins.container, styles.tabItem]} />,
           },
           {
             title: t('spaces.tab.action'),
             titleIcon: 'sun',
             style: styles.tabStyle,
-            children: (
-              <SpaceTaskList
-                style={[mixins.container, styles.tabItem, styles.tabItemFirst]}
-                space={space}
-                key="space-task-list"
-              />
-            ),
+            children: <SpaceTaskList style={[mixins.container, styles.tabItem]} space={space} key="space-task-list" />,
           },
         ]}
       />
@@ -76,10 +58,7 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   tabItem: {
-    paddingBottom: 32,
-  },
-  tabItemFirst: {
-    paddingTop: 32,
+    paddingVertical: 32,
   },
   tabStyle: {
     backgroundColor: colors.backgroundColorGrey,
