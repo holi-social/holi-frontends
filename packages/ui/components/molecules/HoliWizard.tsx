@@ -12,6 +12,7 @@ export type HoliWizardProps = {
   children: Array<React.ReactChild>
   testID?: string
   onNextPress?: () => void
+  onSubmit?: () => void
   isNextButtonDisabled?: boolean
   isBackButtonAvailable?: boolean
   buttonName: string
@@ -22,6 +23,7 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
   isNextButtonDisabled = false,
   isBackButtonAvailable = true,
   onNextPress,
+  onSubmit,
   buttonName,
   testID,
 }: HoliWizardProps) => {
@@ -52,7 +54,11 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
     if (currentStep < stepCount - 1) {
       setCurrentStep(currentStep + 1)
     }
-    onNextPress
+    if (isLastStep) {
+      onSubmit
+    } else {
+      onNextPress
+    }
   }
 
   const handleBackButtonPress = () => {
