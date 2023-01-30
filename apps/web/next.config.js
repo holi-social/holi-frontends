@@ -10,13 +10,6 @@ const { withSentryConfig } = require('@sentry/nextjs')
 const nextConfig = {
   reactStrictMode: false,
   webpack: (config) => {
-    // config.module.rules.push({
-    //   test: /\.(jpe?g|png|svg|gif|ico|eot|ttf|woff|woff2|mp4|pdf|webm|txt)$/,
-    //   type: 'asset/resource',
-    //   generator: {
-    //     filename: 'static/chunks/[path][name].[hash][ext]',
-    //   },
-    // })
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
       // Transform all direct 'react-native' imports to 'react-native-web'
@@ -60,7 +53,6 @@ module.exports = withSentryConfig(
           'react-native-reanimated',
           'react-native-card-stack-swiper',
           'react-native-gesture-handler',
-          'react-native-webview',
           '@holi-apps/donations',
           '@holi-apps/goodnews',
           '@holi-apps/volunteering',
