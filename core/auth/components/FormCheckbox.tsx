@@ -1,14 +1,16 @@
 import { UiNode } from '@ory/kratos-client'
 import React, { useCallback, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliLink from '@holi//ui/components/molecules/HoliLink'
 import { getNodeTitle } from '@holi/core/auth/helpers/form'
+import CodeOfConduct from '@holi/core/screens/codeOfConduct/components/CodeOfConduct'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type FormCheckboxProps = {
   node: UiNode
@@ -30,6 +32,7 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
   const { t, i18n } = useTranslation()
   const [showModal, setShowModal] = useState(false)
   const fieldLabel = getNodeTitle(node)
+  const { theme } = useTheme()
 
   // TODO: toast message in case of error auth.login.checkbox.toast-Consent
 
@@ -64,17 +67,25 @@ const FormCheckbox: React.VFC<FormCheckboxProps> = ({
             <HoliText size="small">
               <Trans t={t} i18nKey={'auth.login.checkbox.label-Consent'}>
                 {/* TODO: The link href does not yet exist */}
-                <HoliLink label="" href={'/codeOfConduct'} onPress={openModal} textStyle={styles.labelLink} />
+                <HoliLink
+                  label=""
+                  href={'/codeOfConduct'}
+                  onPress={openModal}
+                  textStyle={[styles.labelLink, { fontFamily: theme.fontFamily.default('Medium') }]}
+                />
               </Trans>
             </HoliText>
           </View>
         </HoliCheckbox>
         <HoliModal
-          label={t('auth.login.checkbox.label-Consent-1')}
+          label={t('auth.login.checkbox.label-Consent')}
+          autoHeight={false}
           show={showModal}
           onDismiss={() => setShowModal(false)}
         >
-          <HoliText>{t('auth.login.checkbox.label-Consent-1')}</HoliText>
+          <ScrollView style={styles.codeOfConduct} contentContainerStyle={{ maxWidth: '100%' }}>
+            <CodeOfConduct />
+          </ScrollView>
         </HoliModal>
       </>
     )
@@ -98,7 +109,15 @@ const styles = StyleSheet.create({
   labelLink: {
     fontSize: 14,
     lineHeight: 14 * 1.2,
+    fontWeight: '700',
     color: colors.fontColor,
-    fontWeight: 'bold',
+  },
+  codeOfConduct: {
+    paddingHorizontal: 20,
+    marginTop: 20,
+    marginBottom: 50,
+    maxWidth: vars.maxScreenWidth,
+    alignSelf: 'center',
+    flex: 1,
   },
 })
