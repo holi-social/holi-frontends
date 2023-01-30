@@ -31,8 +31,8 @@ export type VolunteeringEngagementsQueryResponse = {
 export const VolunteeringEngagementsQuery = gql`
   ${FullEngagementFragment}
 
-  query VolunteeringEngagements($location: String, $limit: Int!, $offset: Int!) {
-    appVolunteering_engagements(location: $location, limit: $limit, offset: $offset) {
+  query VolunteeringEngagements($location: String, $category: String, $limit: Int!, $offset: Int!) {
+    appVolunteering_engagements(location: $location, category: $category, limit: $limit, offset: $offset) {
       totalResults
       data {
         ...FullEngagement
@@ -71,6 +71,15 @@ export const VolunteeringCitiesQuery = gql`
     }
   }
 `
+export const VolunteeringCategoriesQuery = gql`
+  query VolunteeringCategories {
+    appVolunteering_categories {
+      data {
+        name
+      }
+    }
+  }
+`
 
 export type TrackEngagementViewResponse = {
   id: string
@@ -83,5 +92,14 @@ export type City = {
 export interface VolunteeringCitiesQueryResult {
   appVolunteering_cities: {
     data: City[]
+  }
+}
+export type Category = {
+  name: string
+}
+
+export interface VolunteeringCategoriesQueryResult {
+  appVolunteering_categories: {
+    data: Category[]
   }
 }
