@@ -79,6 +79,37 @@ test.describe('@Volunteering', () => {
     await clickElementByTestId(page, 'volunteering-filter-modal-close-btn')
 
     // check if the filtered spaces container is shown
+    await waitForElementByTestId(page, 'volunteering-filter-details')
+  })
+
+  test('should display details of filter results', async ({ page }) => {
     await waitForElementByTestId(page, 'volunteering-app-home')
+
+    // apply filer
+    await clickElementByTestId(page, 'btn-to-volunteering-filter')
+
+    // open location dropdown
+    await clickElementByTestId(page, 'volunteering-filter-location-input')
+
+    // click on first location in the list
+    await clickElementByTestId(page, 'volunteering-filter-location-item')
+
+    // click filter confirmation button and check if we are in the correct page with the filter queries
+    await clickElementByTestId(page, 'volunteering-filter-modal-close-btn')
+
+    // check if the filtered spaces container is shown
+    await waitForElementByTestId(page, 'volunteering-filter-details')
+
+    // navigate to detail view
+    await clickElementByTestId(page, 'btn-to-volunteering-engagement')
+
+    // expect detail view
+    await waitForElementByTestId(page, 'volunteering-detailview-container')
+
+    // navigate back
+    await clickElementByTestId(page, 'nav-button-back')
+
+    // expect filtered list
+    await waitForElementByTestId(page, 'volunteering-filter-details')
   })
 })
