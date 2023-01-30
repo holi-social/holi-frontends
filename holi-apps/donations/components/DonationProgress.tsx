@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliProgressBar from '@holi/ui/components/molecules/HoliProgressBar'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type DonationProgressProps = {
@@ -59,9 +60,7 @@ const DonationProgress = ({
   return (
     <View style={[props?.style]}>
       {size !== 'small' && interactionBar()}
-      <View style={[styles.bar, isSmall && { height: 6 }]}>
-        <View style={[styles.filled, isSmall && { height: 6 }, { width: `${progressPercentage}%` }]} />
-      </View>
+      <HoliProgressBar progress={progressPercentage} isSmall={isSmall} />
       <View style={styles.goals}>
         <HoliText size={goalTextSize} bold={size === 'large'} style={{ color: colors.fontColorGrey }}>
           {t('donations:donationProgress.percentFunded', { percentage: progressPercentage })}
