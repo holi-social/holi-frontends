@@ -6,7 +6,7 @@
   "engagementDetail.getInTouch": "Get in touch",
   "engagementDetail.notFound": "Opportunity with ID {{engagementId}} could not be found",
   "engagementDetail.organizer": "Organiser",
-  "engagementDetail.provider": "Provider",
+  "engagementDetail.provider": "Provided via",
   "engagementDetail.provider.link.btn": "Page of {{source}}",
   "filter.heading": "Filter opportunities",
   "filter.location.label": "German cities",
