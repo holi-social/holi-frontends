@@ -87,6 +87,7 @@
   "homeFeed.heading": "Insights",
   "homeFeed.insights.loadMoreText": "See more Insights",
   "homeFeed.insights.subtitle": "Handpicked content curated by experts",
+  "homeFeed.testingBanner": "Alpha release for testing only.",
   "homeFeed.userSuggestions.avatarAltText": "Profile picture of {{name}}",
   "homeFeed.userSuggestions.loadMore": "See more",
   "homeFeed.userSuggestions.title": "Welcome new users",
