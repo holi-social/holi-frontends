@@ -14,11 +14,7 @@ import {
   VolunteeringCitiesQuery,
   VolunteeringCitiesQueryResult,
 } from '@holi-apps/volunteering/queries'
-
-export type VolunteeringFilters = {
-  location?: string
-  topic?: string
-}
+import { VolunteeringFilters } from '@holi-apps/volunteering/types'
 
 type VolunteeringFilterFormProps = {
   filters?: VolunteeringFilters
@@ -31,7 +27,7 @@ const VolunteeringFilterForm: React.VFC<VolunteeringFilterFormProps> = ({
 }: VolunteeringFilterFormProps) => {
   const { t } = useTranslation()
   const [location, setLocation] = useState(filters.location)
-  const [topic, setTopic] = useState(filters.topic)
+  const [category, setCategory] = useState(filters.category)
 
   const {
     data: locationData,
@@ -67,21 +63,21 @@ const VolunteeringFilterForm: React.VFC<VolunteeringFilterFormProps> = ({
 
   const categories = categoriesData?.appVolunteering_categories.data || []
 
-  const topicOptions: HoliSelectOption[] = categories.map((category) => ({
-    id: category.name,
-    title: category.name,
-    selected: category.name === topic,
+  const topicOptions: HoliSelectOption[] = categories.map((_category) => ({
+    id: _category.name,
+    title: _category.name,
+    selected: _category.name === category,
   }))
 
   const toggleTopicSelection = useCallback(
-    (option: HoliSelectOption) => setTopic(option.selected ? undefined : option.id),
-    [setTopic]
+    (option: HoliSelectOption) => setCategory(option.selected ? undefined : option.id),
+    [setCategory]
   )
 
   return (
     <HoliModalContentWrapper
       actionButtonText={t('volunteering:filter.submitButton')}
-      onActionButtonPress={() => onSubmit({ location, topic })}
+      onActionButtonPress={() => onSubmit({ location, category })}
       style={styles.modalWrapper}
       testID="volunteering-filter-modal"
       keyboardShouldPersistTaps="always"

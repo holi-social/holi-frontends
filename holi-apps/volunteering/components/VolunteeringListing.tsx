@@ -16,9 +16,8 @@ import variables from '@holi/ui/styles/globalVars/variables'
 
 import '@holi-apps/goodnews/queries'
 import VolunteeringCardContent from '@holi-apps/volunteering/components/VolunteeringCardContent'
-import { VolunteeringFilters } from '@holi-apps/volunteering/components/VolunteeringFilterForm'
 import { VolunteeringEngagementsQuery, VolunteeringEngagementsQueryResponse } from '@holi-apps/volunteering/queries'
-import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
+import { VolunteeringEngagement, VolunteeringFilters } from '@holi-apps/volunteering/types'
 
 type VolunteeringListingProps = {
   clearFilters: () => void
@@ -38,7 +37,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters
         offset: 0,
         limit: ENGAGEMENT_PAGE_SIZE,
         location: filters.location,
-        category: filters.topic,
+        category: filters.category,
       },
       fetchPolicy: 'cache-and-network',
     }
@@ -87,7 +86,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters
     </View>
   )
 
-  const isFiltering = !!(filters.location || filters.topic)
+  const isFiltering = !!(filters.location || filters.category)
 
   const listHeader = (
     <View>

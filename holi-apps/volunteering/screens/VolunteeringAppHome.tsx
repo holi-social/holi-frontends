@@ -14,17 +14,13 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import VolunteeringFilterForm, { VolunteeringFilters } from '@holi-apps/volunteering/components/VolunteeringFilterForm'
+import VolunteeringFilterForm from '@holi-apps/volunteering/components/VolunteeringFilterForm'
 import VolunteeringListing from '@holi-apps/volunteering/components/VolunteeringListing'
+import { VolunteeringFilters } from '@holi-apps/volunteering/types'
 
 type VolunteeringAppHomeProps = Record<string, never>
 
-export type VolunteeringAppHomeParams = {
-  location?: string
-  topic?: string
-}
-
-const { useParam, useUpdateParams } = createParam<VolunteeringAppHomeParams>()
+const { useParam, useUpdateParams } = createParam<VolunteeringFilters>()
 
 const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
   const { t } = useTranslation()
@@ -34,7 +30,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
   const [showFilterModal, setShowFilterModal] = useState(false)
 
   const [location] = useParam('location', singleParamConfig)
-  const [topic] = useParam('topic', singleParamConfig)
+  const [category] = useParam('category', singleParamConfig)
 
   const updateParams = useUpdateParams()
 
@@ -44,7 +40,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
 
   const submit = useCallback(
     (filters) => {
-      updateParams({ location: filters.location, topic: filters.topic })
+      updateParams({ location: filters.location, category: filters.category })
       closeModal()
     },
     [updateParams, closeModal]
@@ -54,14 +50,14 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
     () =>
       updateParams({
         location: undefined,
-        topic: undefined,
+        category: undefined,
       }),
     [updateParams]
   )
 
   const { setOptions, navigate } = useUnifiedNavigation()
-  const filters: VolunteeringFilters = { location, topic }
-  const isFiltering = !!(location || topic)
+  const filters: VolunteeringFilters = { location, category }
+  const isFiltering = !!(location || category)
 
   useLayoutEffect(() => {
     const filterButton = (
