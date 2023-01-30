@@ -70,7 +70,7 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
           style={style}
           onPress={() => disconnect(user.id)}
           disabled={loading}
-          testID={'user-connection-button-ignore'}
+          testID={'user-connection-button-IGNORE'}
         >
           {t('user.profileView.connection.button.IGNORE')}
         </HoliButton>
