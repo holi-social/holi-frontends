@@ -63,7 +63,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
   return (
     <>
       <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
-        <CodeOfConduct />
+        <CodeOfConduct style={{ backgroundColor: 'pink', marginTop: 50 }} />
         <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
         <UpdatesOfYourApps style={styles.updatesOfYourApps} />
         {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}
