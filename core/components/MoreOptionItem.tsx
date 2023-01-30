@@ -6,13 +6,13 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export interface HoliOptionItemProps extends HoliButtonProps {
+export interface MoreOptionItemProps extends HoliButtonProps {
   icon?: string
   arrowRirght?: boolean
   tintColor?: string
 }
 
-const HoliOptionItem: React.VFC<HoliOptionItemProps> = ({
+const MoreOptionItem: React.VFC<MoreOptionItemProps> = ({
   icon,
   arrowRirght = false,
   tintColor,
@@ -49,7 +49,7 @@ const HoliOptionItem: React.VFC<HoliOptionItemProps> = ({
   )
 }
 
-export default HoliOptionItem
+export default MoreOptionItem
 
 const styles = StyleSheet.create({
   buttonContent: {
