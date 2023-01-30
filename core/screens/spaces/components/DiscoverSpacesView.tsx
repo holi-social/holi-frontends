@@ -22,6 +22,9 @@ const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({
 }) => {
   const { t } = useTranslation()
 
+  const hasUserSpecificTiers = userSpecificSpacesGroups.some((group) => group.spaces.totalResults > 0)
+  const hasDefaultTiers = defaultSpacesGroups.some((group) => group.spaces.totalResults > 0)
+
   return (
     <View style={style} testID="spaces-container">
       <HoliHeading level="1" size="large" style={styles.headerTitle} testID="discover-spaces-header">
@@ -45,7 +48,7 @@ const DiscoverSpacesView: React.VFC<DiscoverSpacesViewProps> = ({
           ))
         }
 
-        {userSpecificSpacesGroups.length > 0 && defaultSpacesGroups.length > 0 && (
+        {hasUserSpecificTiers && hasDefaultTiers && (
           <HoliText style={styles.othersTitle} testID="discover-spaces-others">
             {t('spaces.discover.others')}
           </HoliText>
