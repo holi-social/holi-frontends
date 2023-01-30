@@ -1,6 +1,6 @@
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -11,12 +11,14 @@ import NotificationSearchButtons from '@holi/core/navigation/components/Notifica
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import AppsDrawer from '@holi/core/screens/homeFeed/components/AppsDrawer'
 import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
+import TestingBanner from '@holi/core/screens/homeFeed/components/TestingBanner'
 import UpdatesOfYourApps from '@holi/core/screens/homeFeed/components/UpdatesOfYourApps'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type HomeFeedProps = NativeStackScreenProps<BottomTabsScreens>
 
@@ -33,6 +35,8 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(new Date().getHours(), t)
   const onScreenScroll = useScrollYHandler()
+
+  const mixins = useStyleMixins()
 
   const { setOptions, navigate } = useUnifiedNavigation()
 
@@ -62,6 +66,11 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
   return (
     <>
       <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
+        {Platform.OS === 'web' && (
+          <View style={[mixins.container, styles.testingBannerWrapper]}>
+            <TestingBanner />
+          </View>
+        )}
         <InsightsOfTheWeek style={styles.insightsOfTheWeek} />
         <UpdatesOfYourApps style={styles.updatesOfYourApps} />
         {isLoggedIn && <UserSuggestions style={[styles.userSuggestionsContainer]} />}
@@ -73,6 +82,9 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
 }
 
 const styles = StyleSheet.create({
+  testingBannerWrapper: {
+    marginTop: 24,
+  },
   view: {
     alignItems: 'center',
     maxWidth: '100%',

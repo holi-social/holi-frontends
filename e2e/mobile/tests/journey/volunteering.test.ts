@@ -27,6 +27,8 @@ describe('@Volunteering', () => {
     await assertAllowsPagination()
 
     await assertFilteringWorks()
+
+    await assertKeepsFilterAfterNavigatingToDetails()
   })
 })
 
@@ -47,7 +49,7 @@ const assertFilteringWorks = async () => {
   await tapOnElementWithTestId('volunteering-filter-modal-close-btn')
 
   // check if the volunteering app home is shown
-  await waitForElementWithTestId('volunteering-app-home')
+  await waitForElementWithTestId('volunteering-filter-details')
 }
 
 const navigateToDetailview = async () => {
@@ -68,4 +70,10 @@ const assertAllowsPagination = async () => {
   await delay(1)
   // wait until "load more" button has been replaced by next list item
   await waitForElementWithTestIdToBeNull('btn-volunteering-list-load-more')
+}
+
+const assertKeepsFilterAfterNavigatingToDetails = async () => {
+  await navigateToDetailview()
+  // expect filtered list
+  await waitForElementWithTestId('volunteering-filter-details')
 }
