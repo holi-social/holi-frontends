@@ -23,6 +23,7 @@ export interface MoreOptionsButtonWithModalProps extends HoliButtonProps {
   contentType: ContentType
   tintColor?: string
   reportConfirmationProps: Pick<HoliConfirmationProps, 'title' | 'description'>
+  reportItemTitle?: string
 }
 
 const MoreOptionsButtonWithModal: React.FC<MoreOptionsButtonWithModalProps> = ({
@@ -33,6 +34,7 @@ const MoreOptionsButtonWithModal: React.FC<MoreOptionsButtonWithModalProps> = ({
   contentType,
   tintColor = colors.fontColorGrey,
   reportConfirmationProps,
+  reportItemTitle,
   // HoliButton specific props
   label,
   onPress,
@@ -45,6 +47,7 @@ const MoreOptionsButtonWithModal: React.FC<MoreOptionsButtonWithModalProps> = ({
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const { openToast } = useToast()
   const { bottom: safeAreaBottom } = useSafeAreaInsets()
+  reportItemTitle = reportItemTitle ?? t('global.report')
 
   const [reportPost] = useMutation<ReportContentResponse>(ReportContentMutation, {
     variables: {
@@ -96,7 +99,7 @@ const MoreOptionsButtonWithModal: React.FC<MoreOptionsButtonWithModalProps> = ({
 
           {/* Report/block option */}
           <MoreOptionItem
-            label={t('global.report')}
+            label={reportItemTitle as string}
             icon="flag"
             contentStyle={optionItemStyle}
             onPress={() => (isLoggedIn ? setShowConfirmationModal(true) : setShowLoginGuard(true))}

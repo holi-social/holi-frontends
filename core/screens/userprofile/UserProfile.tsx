@@ -74,10 +74,11 @@ const UserProfile: React.VFC<ScreenProps> = () => {
               title: t('user.profileView.report.confirmation.title', { name: userFullName }),
               description: t('user.profileView.report.confirmation.description', { name: userFullName }),
             }}
+            reportItemTitle={t('user.profileView.report.title', { name: userFullName })}
           />
         ),
       }),
-    [setOptions, t, userFullName, userId]
+    [setOptions, t, user?.fullName, userFullName, userId]
   )
 
   // TODO: workaround for params always being undefined on initial page load
