@@ -26,7 +26,7 @@ const sortUsersByFirstName = (users: User[]) =>
 const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismiss, show = false }) => {
   const { t } = useTranslation()
   const [visible, setVisible] = useState(show)
-  const { navigate } = useRouting()
+  const { navigate, pathname } = useRouting()
 
   const mixins = useStyleMixins()
 
@@ -53,7 +53,8 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
   const handleNavigation = (id: string) => {
     onDismiss()
     setTimeout(() => {
-      navigate('/profile/' + id)
+      const historySuffix = Platform.OS === 'web' ? '' : `?from=${pathname}`
+      navigate(`/profile/${id}${historySuffix}`)
     })
   }
 

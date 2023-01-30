@@ -23,8 +23,14 @@ const useRouting: UseRouting = () => {
   const navigateBack = useCallback(
     (fallbackRouteName = '/') => {
       if (navigation.canGoBack()) {
+        const state = navigation.getState()
+        const route = state.routes[state.index]
+        const { from } = route?.params || {}
         navigation.goBack()
         setPathname(fallbackRouteName)
+        if (from) {
+          navigate(from)
+        }
       } else {
         navigate(fallbackRouteName)
       }
