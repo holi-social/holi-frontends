@@ -1,22 +1,16 @@
-import { useMutation } from '@apollo/client'
-import React, { useContext, useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliLink from '@holi//ui/components/molecules/HoliLink'
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
-import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
-import { ContentType, ReportContentMutation, ReportContentResponse } from '@holi/core/queries'
+import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
+import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
-import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
-import HoliMoreOptions from '@holi/ui/components/organisms/HoliMoreOptions'
-import HoliOptionItem from '@holi/ui/components/organisms/HoliOptionItem'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -29,19 +23,6 @@ export type PostPreviewProps = {
 const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
   const { t } = useTranslation()
   const commenters = post.commenters.data
-
-  const [optionsVisible, setOptionsVisible] = useState(false)
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
-  const { openToast } = useToast()
-  const { isLoggedIn } = useContext(AuthContext)
-  const { openLoginDialog } = useLoginRedirect()
-
-  const [reportPost] = useMutation<ReportContentResponse>(ReportContentMutation, {
-    variables: {
-      contentType: ContentType.POST,
-      objectId: post.id,
-    },
-  })
 
   return (
     <View style={[styles.wrapper, style]}>
@@ -56,52 +37,17 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
             <HoliMediaHeader title={post.creator.fullName} author={post.creator} date={post.created} />
           </HoliLink>
 
-          <HoliMoreOptions
+          <MoreOptionsButtonWithModal
             label={t('insights.post.preview.more')}
             style={styles.moreButton}
-            showOptions={optionsVisible}
-            onVisibilityChange={setOptionsVisible}
-          >
-            {/* Report/block option */}
-            <>
-              <HoliOptionItem
-                label={t('global.report')}
-                icon="flag"
-                contentStyle={styles.moreOptionItem}
-                onPress={() =>
-                  isLoggedIn
-                    ? setShowConfirmationModal(true)
-                    : openLoginDialog({
-                        text: t('user.profileView.connection.notLoggedIn.message'),
-                      })
-                }
-              />
-
-              {/* TODO: add translations */}
-              <HoliConfirmation
-                show={showConfirmationModal}
-                label={'Label'}
-                title={'Title'}
-                description={'Description'}
-                onDismiss={() => {
-                  setShowConfirmationModal(false)
-                }}
-                dismissText={'Dismiss'}
-                confirmText={'Confirm'}
-                onConfirm={() =>
-                  reportPost()
-                    .then(() => {
-                      setOptionsVisible(false)
-                      setShowConfirmationModal(false)
-                      openToast?.(t('global.report.successMessage'), HoliToastType.SUCCESS, 3000)
-                    })
-                    .catch(() => {
-                      openToast?.(t('error.alert.headline'), HoliToastType.ERROR, 3000)
-                    })
-                }
-              />
-            </>
-          </HoliMoreOptions>
+            objectId={post.id}
+            contentType={ContentType.POST}
+            optionItemStyle={styles.moreOptionItem}
+            reportConfirmationProps={{
+              title: t('insights.post.report.confirmation.title'),
+              description: t('insights.post.report.confirmation.description'),
+            }}
+          />
         </View>
 
         <HoliLink href={`/posts/${post.id}`} label={post.title} textStyle={styles.postTitleLink} testID="btn-to-post">

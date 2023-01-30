@@ -6,12 +6,13 @@ import { Platform, StatusBar, StyleSheet } from 'react-native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import { logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler, useToastForNotAvailableFeature } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import MoreButton from '@holi/core/navigation/components/MoreButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { ContentType } from '@holi/core/queries'
 import SpaceDashboardModal from '@holi/core/screens/spaces/components/SpaceDashboardModal'
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
@@ -38,21 +39,6 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
-  useLayoutEffect(() => {
-    setOptions({
-      animation: 'slide_from_bottom',
-      headerTransparent: true,
-      headerStyle: { backgroundColor: 'transparent' },
-      headerTitle: () => null,
-      headerLeft: () =>
-        Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left" /> : <HeaderBackButton icon="arrow-down-s" />,
-      headerRight: () => <MoreButton onPress={showFeatureNotImplementedToast} />,
-      navigationCustomOptions: {
-        footerShown: false,
-      },
-    })
-  }, [setOptions, showFeatureNotImplementedToast])
-
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { id: spaceId },
   })
@@ -61,6 +47,32 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+
+  useLayoutEffect(() => {
+    setOptions({
+      animation: 'slide_from_bottom',
+      headerTransparent: true,
+      headerStyle: { backgroundColor: 'transparent' },
+      headerTitle: () => null,
+      headerLeft: () =>
+        Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left" /> : <HeaderBackButton icon="arrow-down-s" />,
+      headerRight: () => (
+        <MoreOptionsButtonWithModal
+          label={t('insights.post.preview.more')}
+          objectId={space?.id || ''}
+          contentType={ContentType.SPACE}
+          optionItemStyle={styles.moreOptionItem}
+          reportConfirmationProps={{
+            title: t('spaces.spaceDetails.report.confirmation.title'),
+            description: t('spaces.spaceDetails.report.confirmation.description'),
+          }}
+        />
+      ),
+      navigationCustomOptions: {
+        footerShown: false,
+      },
+    })
+  }, [setOptions, showFeatureNotImplementedToast, space?.id, t])
 
   if (error) {
     logError(error, `[SpaceDetails.tsx] ${error.message}`)
@@ -114,6 +126,10 @@ const styles = StyleSheet.create({
         paddingTop: 12,
       },
     }),
+  },
+  moreOptionItem: {
+    justifyContent: 'center',
+    paddingVertical: 18,
   },
 })
 

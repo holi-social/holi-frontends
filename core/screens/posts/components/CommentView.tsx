@@ -2,7 +2,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
 
+import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
+import { ContentType } from '@holi/core/queries'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { Comment } from '@holi/core/screens/posts/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -40,15 +42,17 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
           <HoliMediaHeader title={name} author={creator} date={comment.created} />
         </HoliLink>
 
-        <HoliButton
-          transparent
-          inline
+        <MoreOptionsButtonWithModal
           label={t('insights.post.preview.more')}
           style={styles.moreButton}
-          onPress={showFeatureNotImplementedToast}
-        >
-          <HoliIcon icon="more" color={colors.fontColorGrey} />
-        </HoliButton>
+          objectId={comment.id}
+          contentType={ContentType.POST_COMMENT}
+          optionItemStyle={styles.moreOptionItem}
+          reportConfirmationProps={{
+            title: t('insights.posts.comment.report.confirmation.title'),
+            description: t('insights.posts.comment.report.confirmation.description'),
+          }}
+        />
       </View>
 
       <View style={styles.body}>
@@ -89,6 +93,10 @@ const styles = StyleSheet.create({
   moreButton: {
     alignSelf: 'flex-start',
     justifyContent: 'flex-end',
+  },
+  moreOptionItem: {
+    justifyContent: 'center',
+    paddingVertical: 18,
   },
   body: {
     flexDirection: 'row',
