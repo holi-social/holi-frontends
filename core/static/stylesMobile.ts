@@ -1,3 +1,6 @@
+/**
+ * See docu: https://meliorence.github.io/react-native-render-html/docs/guides/styling
+ **/
 import { MixedStyleDeclaration } from 'react-native-render-html'
 
 import { colors } from '@holi/ui/styles/globalVars'

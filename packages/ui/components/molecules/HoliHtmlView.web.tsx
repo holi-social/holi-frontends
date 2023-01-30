@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { StyleProp, View, ViewStyle } from 'react-native'
 
 import '@holi/core/static/stylesWeb.scss'
@@ -12,18 +12,14 @@ export type HoliHtmlViewProps = {
 }
 
 const HoliHtmlView: React.VFC<HoliHtmlViewProps> = ({ source, style, testID }) => {
-  const viewRef = useRef<View>(null)
+  const defaultStyles = { borderStyle: 'solid', borderWidth: 0, overflow: 'auto' }
 
-  useEffect(() => {
-    // https://stackoverflow.com/questions/23616226/insert-html-with-react-variable-statements-jsx
-    if (viewRef && viewRef.current) {
-      viewRef.current.className = 'html-view'
-      viewRef.current.innerHTML = source
-    }
-  }, [viewRef, source])
+  if (!source) return null
 
   return (
-    <View ref={viewRef} style={[{ borderStyle: 'solid', borderWidth: 0, overflow: 'auto' }, style]} testID={testID} />
+    <View style={[defaultStyles, style]} testID={testID}>
+      <div dangerouslySetInnerHTML={{ __html: source }} className="html-view" />
+    </View>
   )
 }
 
