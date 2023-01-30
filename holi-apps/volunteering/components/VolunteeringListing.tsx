@@ -38,6 +38,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters
         offset: 0,
         limit: ENGAGEMENT_PAGE_SIZE,
         location: filters.location,
+        category: filters.topic,
       },
       fetchPolicy: 'cache-and-network',
     }
@@ -86,13 +87,16 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters
     </View>
   )
 
+  const isFiltering = !!(filters.location || filters.topic)
+
   const listHeader = (
     <View>
       <HoliHeading level="1" style={styles.title}>
         {t('volunteering:listing.headline')}
       </HoliHeading>
-      {filters.location && (
-        <View style={styles.headingRow} testID="volunteering-filter-details">
+
+      {isFiltering && (
+        <View style={styles.headingRow}>
           <HoliText bold style={{ color: colors.fontColorGrey }}>
             {t('volunteering:filter.result', {
               count: totalResults,
