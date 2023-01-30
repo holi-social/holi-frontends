@@ -74,6 +74,7 @@
   "global.edit": "Bearbeiten",
   "global.gotIt": "Okay",
   "global.like": "Ich mag das",
+  "global.next": "Weiter",
   "global.noResults": "Keine Ergebnisse gefunden",
   "global.notAvailable": "Leider noch nicht verfügbar!",
   "global.technicalError": "Ups! Da ist ein technisches Problem aufgetreten!",
@@ -196,6 +197,8 @@
   "spaces.collaborators": "Mitwirkende",
   "spaces.collaborators.isAdmin": "ADMIN",
   "spaces.collaborators.showModal": "Mitwirkende anzeigen",
+  "spaces.create.space.title": "Space erstellen",
+  "spaces.create.space.button": "Space erstellen",
   "spaces.dashboard.description": "Ein Ort für die Zusammenarbeit von Team-Mitgliedern. Hier findest Du hilfreiche Tools für Kooperation und Engagement.",
   "spaces.dashboard.openBtn": "Dashboard öffnen",
   "spaces.dashboard.title": "Dashboard",
@@ -308,5 +311,6 @@
   "user.skills.form.subline": "Deine Fähigkeiten erlauben es anderen Nutzenden, Dich besser kennenzulernen, und uns, unser Angebot auf Dich zuzuschneiden.",
   "user.visitProfile": "Zum Profil von {{name}}",
   "volunteering.navigation.home": "Home",
-  "volunteering.navigation.search": "Search"
+  "volunteering.navigation.search": "Search",
+  "wizard.stepsCount": "Schritt {{current}} von {{total}}"
 }

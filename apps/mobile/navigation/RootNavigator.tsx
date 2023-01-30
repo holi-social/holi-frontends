@@ -12,6 +12,7 @@ import Registration from '@holi/core/auth/screens/Registration'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import Notifications from '@holi/core/screens/notifications/Notifications'
+import CreateSpace from '@holi/core/screens/spaces/CreateSpace'
 import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
@@ -34,6 +35,7 @@ export type RootStackScreens = {
   [RouteName.Registration]: undefined
   [RouteName.ForgotPassword]: undefined
   [RouteName.Search]: undefined
+  [RouteName.CreateSpace]: undefined
 }
 
 export type BottomTabsScreens = {
@@ -192,6 +194,15 @@ const RootNavigator: React.VFC = () => {
         options={{
           animation: 'slide_from_bottom',
           headerShown: false,
+        }}
+      />
+      <RootStack.Screen
+        name={RouteName.CreateSpace}
+        component={CreateSpace}
+        options={{
+          presentation: 'containedModal',
+          animation: 'slide_from_bottom',
+          headerShown: true,
         }}
       />
     </RootStack.Navigator>

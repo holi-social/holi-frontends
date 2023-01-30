@@ -49,4 +49,5 @@ export enum RouteName {
   Logout = 'Logout',
   Registration = 'Registration',
   ForgotPassword = 'ForgotPassword',
+  CreateSpace = 'CreateSpace',
 }
