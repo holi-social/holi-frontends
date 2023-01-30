@@ -49,6 +49,9 @@ const SpaceFragment = gql`
         slug
       }
     }
+    topics {
+      title
+    }
   }
 `
 
