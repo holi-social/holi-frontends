@@ -21,6 +21,8 @@ const HoliHtmlView: React.VFC<HoliHtmlViewProps> = ({ source, style, testID }) =
     setHtml(myResourceContent)
   })
 
+  if (!html) return null
+
   // https://meliorence.github.io/react-native-render-html/docs/intro
   return (
     // TODO: process links

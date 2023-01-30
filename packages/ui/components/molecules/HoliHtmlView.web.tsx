@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, View, ViewStyle } from 'react-native'
 
 import '@holi/core/static/stylesWeb.scss'
 
@@ -22,13 +22,9 @@ const HoliHtmlView: React.VFC<HoliHtmlViewProps> = ({ source, style, testID }) =
     }
   }, [viewRef, source])
 
-  return <View ref={viewRef} style={[styles.defaults, style]} testID={testID} />
+  return (
+    <View ref={viewRef} style={[{ borderStyle: 'solid', borderWidth: 0, overflow: 'auto' }, style]} testID={testID} />
+  )
 }
 
 export default HoliHtmlView
-
-const styles = StyleSheet.create({
-  defaults: {
-    borderStyle: 'solid',
-  },
-})
