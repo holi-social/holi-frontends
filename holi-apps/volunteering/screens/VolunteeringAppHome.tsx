@@ -48,8 +48,17 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
     [updateParams, closeModal]
   )
 
+  const clearFilters = useCallback(
+    () =>
+      updateParams({
+        location: undefined,
+      }),
+    [updateParams]
+  )
+
   const { setOptions, navigate } = useUnifiedNavigation()
   const filters: VolunteeringFilters = { location }
+  const isFiltering = !!location
 
   useLayoutEffect(() => {
     const filterButton = (
@@ -61,6 +70,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
         testID="btn-to-volunteering-filter"
       >
         <HoliIcon icon="filter-3" size={24} />
+        {isFiltering && <View style={styles.dot} />}
       </HoliButton>
     )
     setOptions({
@@ -74,7 +84,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
       headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
       headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
     })
-  }, [setOptions, navigate, t, title])
+  }, [setOptions, navigate, t, title, isFiltering])
 
   return (
     <DefaultLayout style={styles.defaultLayout} scrollView={false} headerOverlap testID={'volunteering-list-container'}>
@@ -91,7 +101,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
 
       <View style={[mixins.container]} testID="volunteering-app-home">
         <SafeAreaView>
-          <VolunteeringListing filters={filters} />
+          <VolunteeringListing filters={filters} clearFilters={clearFilters} />
         </SafeAreaView>
       </View>
     </DefaultLayout>
@@ -104,5 +114,17 @@ const styles = StyleSheet.create({
   defaultLayout: {
     backgroundColor: colors.backgroundColorGreyLight,
     paddingBottom: 0,
+    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+  },
+  dot: {
+    backgroundColor: colors.positivepurple,
+    height: 12,
+    width: 12,
+    borderRadius: 6,
+    position: 'absolute',
+    top: -2,
+    right: -2,
+    borderColor: colors.backgroundColor,
+    borderWidth: 2,
   },
 })

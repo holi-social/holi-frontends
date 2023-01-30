@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     marginHorizontal: 16,
+    paddingTop: 32,
   },
   modalWrapper: {
     flex: 1,
