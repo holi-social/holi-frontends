@@ -1,6 +1,8 @@
 import React from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 
+import i18n from '@holi/core/i18n'
+import theHtmlDe from '@holi/core/static/codeOfConduct_de.html'
 import theHtmlEn from '@holi/core/static/codeOfConduct_en.html'
 import HoliHtmlView from '@holi/ui/components/molecules/HoliHtmlView'
 
@@ -10,9 +12,7 @@ export type CodeOfConductProps = {
 }
 
 const CodeOfConduct: React.VFC<CodeOfConductProps> = ({ style, testID }) => {
-  // TODO: choose language and hand over correct file
-
-  return <HoliHtmlView source={theHtmlEn} style={style} testID={testID} />
+  return <HoliHtmlView source={i18n.language === 'de' ? theHtmlDe : theHtmlEn} style={style} testID={testID} />
 }
 
 export default CodeOfConduct
