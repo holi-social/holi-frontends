@@ -1,12 +1,10 @@
 import React from 'react'
 import { Pressable, Text, View } from 'react-native'
 
-export type CreateSpaceTopicsProps = {
-  onChangeNextButtonStatus: (buttonStatus: boolean) => void
-}
+import { CreateSpaceStepProps } from '@holi/core/screens/spaces/CreateSpace'
 
 //TODO: Create the UI
-const CreateSpaceTopics: React.VFC<CreateSpaceTopicsProps> = ({ onChangeNextButtonStatus }: CreateSpaceTopicsProps) => {
+const CreateSpaceTopics: React.VFC<CreateSpaceStepProps> = ({ onChangeNextButtonStatus }: CreateSpaceStepProps) => {
   return (
     <View style={{ marginTop: 40, alignSelf: 'flex-start' }}>
       <Text>Choose the topics your space will cover</Text>

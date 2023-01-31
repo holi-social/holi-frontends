@@ -1,5 +1,6 @@
 import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
+import pino from 'pino'
 // Fixes issue with missing requestAnimationFrame used by react-native-reanimated
 import 'raf/polyfill'
 import React, { ReactElement, ReactNode, useEffect, useState } from 'react'
@@ -32,6 +33,8 @@ const styles = StyleSheet.create({
     marginTop: 100,
   },
 })
+
+pino().debug('Avoid treeshaking of externally included logging framework by next build')
 
 const MyApp: React.VoidFunctionComponent<AppProps> = ({ Component, pageProps }: AppPropsWithLayout) => {
   const [translationsLoaded, setTranslationsLoaded] = useState(i18n.isInitialized)

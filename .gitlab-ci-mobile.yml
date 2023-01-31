@@ -81,6 +81,7 @@ mobile_review_publish:
     auto_stop_in: 2 weeks
   except:
     - main
+    - production
     - /^noenv\/.*/
     - /^nomobile\/.*/
   when: manual
@@ -105,6 +106,7 @@ mobile_review_destroy:
   allow_failure: false
   except:
     - main
+    - production
     - /^noenv\/.*/
     - /^nomobile\/.*/
   interruptible: false
@@ -116,6 +118,7 @@ mobile_review_build_android:
     BUILD_PLATFORM: android
   except:
     - main
+    - production
     - /^noenv\/.*/
     - /^nomobile\/.*/
   when: manual
@@ -128,6 +131,7 @@ mobile_review_build_ios:
     BUILD_PLATFORM: ios
   except:
     - main
+    - production
     - /^noenv\/.*/
     - /^nomobile\/.*/
   when: manual
@@ -140,6 +144,7 @@ mobile_review_e2e_android:
     TEST_SUITES: (smoke|journey)
   except:
     - main
+    - production
     - /^noenv\/.*/
     - /^nomobile\/.*/
 
@@ -150,6 +155,7 @@ mobile_review_e2e_ios:
     TEST_SUITES: (smoke|journey)
   except:
     - main
+    - production
     - /^noenv\/.*/
     - /^nomobile\/.*/
 
@@ -215,8 +221,7 @@ mobile_staging_e2e_ios:
 
 mobile_production_publish:
   extends: .mobile_publish
-  needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
-  when: manual
+  needs: ['lint_compile_test']
   allow_failure: false
   environment:
     name: mobile-production
@@ -227,12 +232,11 @@ mobile_production_publish:
     HOLI_API_URL: https://production.unified.apis.project-holi.org/graphql
     KRATOS_BASE_URL: https://auth.project-holi.org
   only:
-    - main
+    - production
 
 mobile_production_build_android:
   extends: .mobile_build
-  needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
-  when: manual
+  needs: ['lint_compile_test']
   allow_failure: false
   variables:
     ENVIRONMENT_ID: production
@@ -244,12 +248,11 @@ mobile_production_build_android:
       - apps/mobile/artifacts_production/
     expire_in: 1 week
   only:
-    - main
+    - production
 
 mobile_production_build_ios:
   extends: .mobile_build
-  needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
-  when: manual
+  needs: ['lint_compile_test']
   allow_failure: false
   variables:
     ENVIRONMENT_ID: production
@@ -261,7 +264,7 @@ mobile_production_build_ios:
       - apps/mobile/artifacts_production/
     expire_in: 1 week
   only:
-    - main
+    - production
 
 # disabled (hidden) (not implemented yet), only increases build times and uses up runner minutes
 mobile_production_submit_android:
@@ -273,5 +276,5 @@ mobile_production_submit_android:
     - export BUILD_ID=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform android --buildProfile production --limit 1  2> /dev/null | jq -r ".[0].id")
     - eas submit -p android --profile production --id $BUILD_ID --verbose --non-interactive --wait # TODO add iOS, maybe add --auto-submit to production build for each android and ios
   only:
-    - main
+    - production
   interruptible: false

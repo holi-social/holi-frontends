@@ -11,37 +11,31 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 export type HoliWizardProps = {
   children: Array<React.ReactChild>
   testID?: string
-  onNextPress?: () => void
-  onSubmit?: () => void
+  onNextPress: () => void
+  onSubmit: () => void
   isNextButtonDisabled?: boolean
   isBackButtonAvailable?: boolean
-  buttonName: string
+  buttonLabel: string
 }
 
 const HoliWizard: React.VFC<HoliWizardProps> = ({
   children,
   isNextButtonDisabled = false,
-  isBackButtonAvailable = true,
+  isBackButtonAvailable = false,
   onNextPress,
   onSubmit,
-  buttonName,
+  buttonLabel,
   testID,
 }: HoliWizardProps) => {
   const { t } = useTranslation()
   const [currentStep, setCurrentStep] = useState(0)
   const [stepCount, setStepCount] = useState(0)
   const [progress, setProgress] = useState(0)
-  const [isBackButton, setIsBackButton] = useState(true)
-  const [isLastStep, setIsLastStep] = useState(false)
 
   useEffect(() => {
     const currentProgress = stepCount - currentStep
     const progressPercentage = currentProgress > 0 ? 100 / currentProgress : 0
     setProgress(progressPercentage)
-    const displayBackButton = isBackButtonAvailable && currentStep > 0
-    setIsBackButton(displayBackButton)
-    const isLast = currentStep === stepCount - 1
-    setIsLastStep(isLast)
   }, [currentStep, stepCount, isBackButtonAvailable])
 
   useEffect(() => {
@@ -54,15 +48,15 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
     if (currentStep < stepCount - 1) {
       setCurrentStep(currentStep + 1)
     }
-    if (isLastStep) {
-      onSubmit
+    if (currentStep === stepCount - 1) {
+      onSubmit()
     } else {
-      onNextPress
+      onNextPress()
     }
   }
 
   const handleBackButtonPress = () => {
-    if (currentStep !== 0) {
+    if (currentStep !== 0 && currentStep > 0) {
       setCurrentStep(currentStep - 1)
     }
   }
@@ -80,7 +74,7 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
   const NavigationButtons = () => {
     return (
       <View style={[styles.buttonContainer]}>
-        {isBackButton && (
+        {isBackButtonAvailable && currentStep > 0 && (
           <HoliButton
             label={t('global.next')}
             disabled={false}
@@ -99,7 +93,7 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
             testID="holi-wizard-next-btn"
             style={styles.nextButton}
           >
-            <Text>{isLastStep ? buttonName : t('global.next')}</Text>
+            <Text>{currentStep === stepCount - 1 ? buttonLabel : t('global.next')}</Text>
           </HoliButton>
         </View>
       </View>
@@ -122,8 +116,6 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     height: '100%',
-    padding: 24,
-    paddingTop: 16,
   },
   stepCountContainer: { alignSelf: 'flex-start', marginTop: 12 },
   backButton: {
@@ -135,7 +127,7 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
     backgroundColor: colors.backgroundColorWhite,
   },
-  nextButton: { height: '100%' },
+  nextButton: { height: 56 },
   buttonContainer: {
     bottom: vars.topBarHeight + 30,
     flexDirection: 'row',

@@ -27,6 +27,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.SpacesHome]: 'spaces',
             [RouteName.SpaceDetails]: 'spaces/:spaceId',
             [RouteName.FilteredSpaces]: 'spaces/filter',
+            [RouteName.CreateSpace]: 'spaces/createSpace',
           },
         },
         [RouteName.Chat]: {
@@ -56,7 +57,6 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     [RouteName.Login]: 'login',
     [RouteName.Registration]: 'registration',
     [RouteName.ForgotPassword]: 'forgotPassword',
-    [RouteName.CreateSpace]: 'createSpace',
 
     // Apps from the HOLI store
     [RouteName.DonationsApp]: {
