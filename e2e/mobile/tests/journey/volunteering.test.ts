@@ -45,6 +45,12 @@ const assertFilteringWorks = async () => {
   // click on first location in the list
   await tapOnElementWithTestId('volunteering-filter-location-item')
 
+  // open topics dropdown
+  await tapOnElementWithTestId('volunteering-filter-category-input')
+
+  // click on first topic in the list
+  await tapOnElementWithTestId('volunteering-filter-category-item')
+
   // click filter confirmation button
   await tapOnElementWithTestId('volunteering-filter-modal-close-btn')
 

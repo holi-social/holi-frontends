@@ -73,6 +73,12 @@ test.describe('@Volunteering', () => {
     // click on first location in the list
     await clickElementByTestId(page, 'volunteering-filter-location-item')
 
+    // open topics dropdown
+    await clickElementByTestId(page, 'volunteering-filter-category-input')
+
+    // click on first topic in the list
+    await clickElementByTestId(page, 'volunteering-filter-category-item')
+
     await checkAccessibility(page)
 
     // click filter confirmation button and check if we are in the correct page with the filter queries
