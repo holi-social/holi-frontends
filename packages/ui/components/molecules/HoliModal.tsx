@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Animated, ModalProps, Platform, SafeAreaView, StyleSheet, View, useWindowDimensions } from 'react-native'
 import {
@@ -22,7 +22,7 @@ const FULLSCREEN_HEIGHT_THRESHOLD = 0.94
  * "relativeHeight" with "autoHeight === true" works like "max-height"
  * "relativeHeight" with "autoHeight === false" works like fixed "height"
  */
-export type HoliModalProps = ModalProps & {
+export interface HoliModalProps extends ModalProps {
   show: boolean
   label: string
   onDismiss: () => void
@@ -30,6 +30,31 @@ export type HoliModalProps = ModalProps & {
   relativeHeight?: number
   autoHeight?: boolean
   testID?: string
+}
+
+export const useModalState = ({
+  visible = false,
+  onDismiss,
+}: Partial<Pick<HoliModalProps, 'onDismiss' | 'visible'>> = {}) => {
+  const [modalVisible, setModalVisible] = useState(visible)
+
+  const show = useCallback(() => setModalVisible(true), [])
+  const hide = useCallback(() => setModalVisible(false), [])
+
+  const dismissHandler = useCallback(() => {
+    setModalVisible(false)
+    onDismiss?.()
+  }, [onDismiss])
+
+  return {
+    visible: modalVisible,
+    show,
+    hide,
+    props: {
+      show: modalVisible,
+      onDismiss: dismissHandler,
+    },
+  }
 }
 
 const HoliModal: React.FC<HoliModalProps> = ({
