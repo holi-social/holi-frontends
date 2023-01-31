@@ -116,8 +116,6 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     height: '100%',
-    padding: 24,
-    paddingTop: 16,
   },
   stepCountContainer: { alignSelf: 'flex-start', marginTop: 12 },
   backButton: {

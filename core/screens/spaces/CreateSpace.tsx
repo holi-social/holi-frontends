@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, StatusBar, StyleSheet, View } from 'react-native'
 
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -9,6 +9,7 @@ import CreateSpaceName from '@holi/core/screens/spaces/components/CreateSpaceNam
 import CreateSpaceTopics from '@holi/core/screens/spaces/components/CreateSpaceTopics'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard'
 import { colors, vars } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type CreateSpaceStepProps = {
   onChangeNextButtonStatus: (buttonStatus: boolean) => void
@@ -17,11 +18,13 @@ export type CreateSpaceStepProps = {
 const CreateSpace: React.VFC = () => {
   const { setOptions } = useUnifiedNavigation()
   const { t } = useTranslation()
+  const mixins = useStyleMixins()
   const [isNextButtonEnabled, setIsNextButtonEnabled] = useState<boolean>(false)
 
   useLayoutEffect(
     () =>
       setOptions({
+        animation: 'slide_from_bottom',
         title: t('spaces.create.space.title'),
         headerStyle: { backgroundColor: colors.backgroundColorGreyLight },
         headerTransparent: true,
@@ -47,7 +50,7 @@ const CreateSpace: React.VFC = () => {
 
   return (
     <SafeAreaView style={styles.contentWrapper}>
-      <View style={styles.container}>
+      <View style={[mixins.container, styles.container]}>
         <HoliWizard
           isNextButtonDisabled={!isNextButtonEnabled}
           isBackButtonAvailable={true}
@@ -78,6 +81,7 @@ const styles = StyleSheet.create({
   },
   container: {
     top: vars.topBarHeight,
+    paddingTop: 8,
     paddingBottom: 0,
   },
 })
