@@ -6,7 +6,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/apps/volunteering')
 })
 
-const goodnewsTimeout = { timeout: 30_000 }
+const volunteeringTimeout = { timeout: 30_000 }
 
 test.describe('@Volunteering', () => {
   test('should be accessible from home screen', async ({ page }) => {
@@ -37,7 +37,7 @@ test.describe('@Volunteering', () => {
 
     const listItemCountBefore = await countListItems()
     await clickElementByTestId(page, 'btn-volunteering-list-load-more')
-    await expect.poll(countListItems, goodnewsTimeout).toBeGreaterThan(listItemCountBefore)
+    await expect.poll(countListItems, volunteeringTimeout).toBeGreaterThan(listItemCountBefore)
   })
 
   test('should display engagement details', async ({ page, context }) => {
@@ -73,13 +73,19 @@ test.describe('@Volunteering', () => {
     // click on first location in the list
     await clickElementByTestId(page, 'volunteering-filter-location-item')
 
+    // open topics dropdown
+    await clickElementByTestId(page, 'volunteering-filter-category-input')
+
+    // click on first topic in the list
+    await clickElementByTestId(page, 'volunteering-filter-category-item')
+
     await checkAccessibility(page)
 
     // click filter confirmation button and check if we are in the correct page with the filter queries
     await clickElementByTestId(page, 'volunteering-filter-modal-close-btn')
 
     // check if the filtered spaces container is shown
-    await waitForElementByTestId(page, 'volunteering-filter-details')
+    await waitForElementByTestId(page, 'volunteering-list-filtered')
   })
 
   test('should display details of filter results', async ({ page }) => {
@@ -97,8 +103,8 @@ test.describe('@Volunteering', () => {
     // click filter confirmation button and check if we are in the correct page with the filter queries
     await clickElementByTestId(page, 'volunteering-filter-modal-close-btn')
 
-    // check if the filtered spaces container is shown
-    await waitForElementByTestId(page, 'volunteering-filter-details')
+    // check if the filtered volunteering container is shown
+    await waitForElementByTestId(page, 'volunteering-list-filtered')
 
     // navigate to detail view
     await clickElementByTestId(page, 'btn-to-volunteering-engagement')
@@ -110,6 +116,6 @@ test.describe('@Volunteering', () => {
     await clickElementByTestId(page, 'nav-button-back')
 
     // expect filtered list
-    await waitForElementByTestId(page, 'volunteering-filter-details')
+    await waitForElementByTestId(page, 'volunteering-list-filtered')
   })
 })
