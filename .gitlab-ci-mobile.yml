@@ -222,7 +222,6 @@ mobile_staging_e2e_ios:
 mobile_production_publish:
   extends: .mobile_publish
   needs: ['lint_compile_test']
-  when: manual
   allow_failure: false
   environment:
     name: mobile-production
@@ -238,7 +237,6 @@ mobile_production_publish:
 mobile_production_build_android:
   extends: .mobile_build
   needs: ['lint_compile_test']
-  when: manual
   allow_failure: false
   variables:
     ENVIRONMENT_ID: production
@@ -255,7 +253,6 @@ mobile_production_build_android:
 mobile_production_build_ios:
   extends: .mobile_build
   needs: ['lint_compile_test']
-  when: manual
   allow_failure: false
   variables:
     ENVIRONMENT_ID: production

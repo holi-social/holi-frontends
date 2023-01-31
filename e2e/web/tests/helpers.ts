@@ -72,7 +72,7 @@ export const defaultAuthSteps = async (
   await passwordInput.fill(password)
 
   if (!isLogin) {
-    const acceptConsentCheckbox = await locateElementByTestId(page, 'ory-checkbox-traits.consent')
+    const acceptConsentCheckbox = await locateElementByTestId(page, 'ory-checkbox-traits_consent')
     await acceptConsentCheckbox.click()
   }
 
