@@ -2,7 +2,10 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
 
+import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
+import ReportOptionButton from '@holi/core/components/ReportOptionButton'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
+import { ContentType } from '@holi/core/queries'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { Comment } from '@holi/core/screens/posts/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -10,6 +13,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLink from '@holi/ui/components/molecules/HoliLink'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -28,6 +32,8 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
+  const { visible, show, hide } = useModalState()
+
   return (
     <View style={[styles.wrapper, style]} {...props}>
       <View style={styles.header}>
@@ -40,15 +46,24 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
           <HoliMediaHeader title={name} author={creator} date={comment.created} />
         </HoliLink>
 
-        <HoliButton
-          transparent
-          inline
+        <MoreOptionsButtonWithModal
           label={t('insights.post.preview.more')}
+          showOptions={visible}
+          onPress={show}
+          onModalDismiss={hide}
           style={styles.moreButton}
-          onPress={showFeatureNotImplementedToast}
         >
-          <HoliIcon icon="more" color={colors.fontColorGrey} />
-        </HoliButton>
+          <ReportOptionButton
+            objectId={comment.id}
+            contentType={ContentType.POST_COMMENT}
+            style={styles.moreOptionItem}
+            confirmationModalProps={{
+              title: t('insights.posts.comment.report.confirmation.title'),
+              description: t('insights.posts.comment.report.confirmation.description'),
+            }}
+            onConfirm={hide}
+          />
+        </MoreOptionsButtonWithModal>
       </View>
 
       <View style={styles.body}>
@@ -89,6 +104,10 @@ const styles = StyleSheet.create({
   moreButton: {
     alignSelf: 'flex-start',
     justifyContent: 'flex-end',
+  },
+  moreOptionItem: {
+    justifyContent: 'center',
+    paddingVertical: 18,
   },
   body: {
     flexDirection: 'row',

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   AccessibilityProps,
@@ -18,17 +18,52 @@ import HoliButton, { HoliButtonType } from '@holi/ui/components/molecules/HoliBu
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 
-export type HoliConfirmationProps = ModalProps & {
+export interface HoliConfirmationProps extends ModalProps {
   show: boolean
   label: string
   title: string
   description: string
   confirmationButtonType?: HoliButtonType
-  onConfirm?: () => void
-  onDismiss?: () => void
+  onConfirm?: () => boolean | void
+  onDismiss?: () => boolean | void
   confirmText?: string
   dismissText?: string
   testID?: string
+}
+
+export const useConfirmationState = ({
+  show = false,
+  onConfirm,
+  onDismiss,
+}: Partial<Pick<HoliConfirmationProps, 'show' | 'onConfirm' | 'onDismiss'>> = {}) => {
+  const [visible, setVisible] = useState(show)
+  const { setModalIsOpen } = useTheme()
+
+  const confirmHandler = useCallback(() => {
+    const confirmPropagation = onConfirm?.()
+    if (confirmPropagation !== false) {
+      setVisible(false)
+      setModalIsOpen(false)
+    }
+  }, [onConfirm, setModalIsOpen])
+
+  const dismissHandler = useCallback(() => {
+    const confirmPropagation = onDismiss?.()
+    if (confirmPropagation !== false) {
+      setVisible(false)
+      setModalIsOpen(false)
+    }
+  }, [onDismiss, setModalIsOpen])
+
+  return {
+    show: visible,
+    setShow: setVisible,
+    props: {
+      show: visible,
+      onConfirm: confirmHandler,
+      onDismiss: dismissHandler,
+    },
+  }
 }
 
 const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
@@ -44,25 +79,11 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
   testID,
 }) => {
   const { t } = useTranslation()
-  const [visible, setVisible] = useState(show)
-  const { setModalIsOpen } = useTheme()
   const { width: screenWidth } = useWindowDimensions()
   const smallDeviceWidth = parseInt(vars.breakpointXs, 10) + 50
   const isSmallDevice = screenWidth <= smallDeviceWidth
 
   const styles = createStyles(screenWidth, smallDeviceWidth, isSmallDevice)
-
-  const setModalOpen = useCallback(
-    (isOpen: boolean) => {
-      setVisible(isOpen)
-      setModalIsOpen(isOpen)
-    },
-    [setVisible, setModalIsOpen]
-  )
-
-  useEffect(() => {
-    setModalOpen(show)
-  }, [show, setModalOpen])
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     ...(Platform.OS === 'web' ? { accessibilityModal: true } : {}),
@@ -72,7 +93,7 @@ const HoliConfirmation: React.VFC<HoliConfirmationProps> = ({
   return (
     <Modal
       {...accessibilityProps}
-      visible={visible}
+      visible={show}
       transparent
       animationType="fade"
       {...(testID ? { testID: `${testID}-confirmation-dialog` } : {})}
