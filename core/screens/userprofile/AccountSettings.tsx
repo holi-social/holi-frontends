@@ -6,12 +6,12 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
+import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import { useScrollYHandler } from '@holi/core/helpers'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import DeleteAccountButton from '@holi/core/screens/userprofile/components/DeleteAccountButton'
 import LoggedOutView from '@holi/core/screens/userprofile/components/LoggedOutView'
-import SettingsItem from '@holi/core/screens/userprofile/components/SettingsItem'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -34,15 +34,16 @@ const AccountSettings: React.VFC<ScreenProps> = () => {
       <LoginProtection loggedOutContent={<LoggedOutView />}>
         <>
           <View style={[mixins.container, styles.accountSettings]}>
-            <SettingsItem
+            <MoreOptionItem
               label={t('profile.edit.changePassword')}
               icon="key-2"
               onPress={showFeatureNotImplementedToast}
+              style={styles.settingsItem}
             />
           </View>
           <View style={styles.separator} />
           <View style={[mixins.container, styles.accountSettings]}>
-            <DeleteAccountButton style={styles.deleteAccountButton} />
+            <DeleteAccountButton style={styles.settingsItem} />
           </View>
         </>
       </LoginProtection>
@@ -56,8 +57,8 @@ const styles = StyleSheet.create({
   accountSettings: {
     paddingHorizontal: 30,
   },
-  deleteAccountButton: {
-    marginTop: 24,
+  settingsItem: {
+    marginVertical: 24,
   },
   separator: {
     width: '100%',
