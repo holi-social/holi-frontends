@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
+import ReportOptionButton from '@holi/core/components/ReportOptionButton'
 import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import { Post } from '@holi/core/screens/posts/types'
@@ -31,17 +32,17 @@ const PostContent: React.VFC<PostContentProps> = ({ post, style }) => {
             {post.title}
           </HoliHeading>
 
-          <MoreOptionsButtonWithModal
-            label={t('insights.post.preview.more')}
-            style={styles.moreButton}
-            objectId={post.id}
-            contentType={ContentType.POST}
-            optionItemStyle={styles.moreOptionItem}
-            reportConfirmationProps={{
-              title: t('insights.post.report.confirmation.title'),
-              description: t('insights.post.report.confirmation.description'),
-            }}
-          />
+          <MoreOptionsButtonWithModal label={t('insights.post.preview.more')} style={styles.moreButton}>
+            <ReportOptionButton
+              objectId={post.id}
+              contentType={ContentType.POST}
+              style={styles.moreOptionItem}
+              confirmationModalProps={{
+                title: t('insights.post.report.confirmation.title'),
+                description: t('insights.post.report.confirmation.description'),
+              }}
+            />
+          </MoreOptionsButtonWithModal>
         </View>
 
         <HoliLink

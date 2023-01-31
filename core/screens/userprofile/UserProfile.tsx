@@ -8,6 +8,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
+import ReportOptionButton from '@holi/core/components/ReportOptionButton'
 import NotFound from '@holi/core/errors/components/NotFound'
 import { displayError, isNotFoundError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
@@ -64,18 +65,18 @@ const UserProfile: React.VFC<ScreenProps> = () => {
         headerTransparent: true,
         headerStyle: { backgroundColor: colors.backgroundColorWhite },
         headerRight: ({ tintColor }) => (
-          <MoreOptionsButtonWithModal
-            label={t('insights.post.preview.more')}
-            objectId={userId}
-            contentType={ContentType.USER}
-            optionItemStyle={styles.moreOptionItem}
-            tintColor={tintColor}
-            reportConfirmationProps={{
-              title: t('user.profileView.report.confirmation.title', { name: userFullName }),
-              description: t('user.profileView.report.confirmation.description', { name: userFullName }),
-            }}
-            reportItemTitle={t('user.profileView.report.title', { name: userFullName })}
-          />
+          <MoreOptionsButtonWithModal label={t('insights.post.preview.more')} tintColor={tintColor}>
+            <ReportOptionButton
+              label={t('user.profileView.report.title', { name: userFullName })}
+              objectId={userId}
+              contentType={ContentType.USER}
+              style={styles.moreOptionItem}
+              confirmationModalProps={{
+                title: t('user.profileView.report.confirmation.title', { name: userFullName }),
+                description: t('user.profileView.report.confirmation.description', { name: userFullName }),
+              }}
+            />
+          </MoreOptionsButtonWithModal>
         ),
       }),
     [setOptions, t, user?.fullName, userFullName, userId]

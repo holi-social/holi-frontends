@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
 
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
+import ReportOptionButton from '@holi/core/components/ReportOptionButton'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { ContentType } from '@holi/core/queries'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
@@ -42,17 +43,17 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
           <HoliMediaHeader title={name} author={creator} date={comment.created} />
         </HoliLink>
 
-        <MoreOptionsButtonWithModal
-          label={t('insights.post.preview.more')}
-          style={styles.moreButton}
-          objectId={comment.id}
-          contentType={ContentType.POST_COMMENT}
-          optionItemStyle={styles.moreOptionItem}
-          reportConfirmationProps={{
-            title: t('insights.posts.comment.report.confirmation.title'),
-            description: t('insights.posts.comment.report.confirmation.description'),
-          }}
-        />
+        <MoreOptionsButtonWithModal label={t('insights.post.preview.more')} style={styles.moreButton}>
+          <ReportOptionButton
+            objectId={comment.id}
+            contentType={ContentType.POST_COMMENT}
+            style={styles.moreOptionItem}
+            confirmationModalProps={{
+              title: t('insights.posts.comment.report.confirmation.title'),
+              description: t('insights.posts.comment.report.confirmation.description'),
+            }}
+          />
+        </MoreOptionsButtonWithModal>
       </View>
 
       <View style={styles.body}>

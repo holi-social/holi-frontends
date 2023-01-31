@@ -7,6 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
+import ReportOptionButton from '@holi/core/components/ReportOptionButton'
 import { logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler, useToastForNotAvailableFeature } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -56,17 +57,18 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
       headerTitle: () => null,
       headerLeft: () =>
         Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left" /> : <HeaderBackButton icon="arrow-down-s" />,
-      headerRight: () => (
-        <MoreOptionsButtonWithModal
-          label={t('insights.post.preview.more')}
-          objectId={space?.id || ''}
-          contentType={ContentType.SPACE}
-          optionItemStyle={styles.moreOptionItem}
-          reportConfirmationProps={{
-            title: t('spaces.spaceDetails.report.confirmation.title'),
-            description: t('spaces.spaceDetails.report.confirmation.description'),
-          }}
-        />
+      headerRight: ({ tintColor }) => (
+        <MoreOptionsButtonWithModal label={t('insights.post.preview.more')} tintColor={tintColor}>
+          <ReportOptionButton
+            objectId={space?.id || ''}
+            contentType={ContentType.SPACE}
+            style={styles.moreOptionItem}
+            confirmationModalProps={{
+              title: t('spaces.spaceDetails.report.confirmation.title'),
+              description: t('spaces.spaceDetails.report.confirmation.description'),
+            }}
+          />
+        </MoreOptionsButtonWithModal>
       ),
       navigationCustomOptions: {
         footerShown: false,
