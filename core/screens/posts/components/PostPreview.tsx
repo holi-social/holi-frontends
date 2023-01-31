@@ -56,6 +56,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
                 title: t('insights.post.report.confirmation.title'),
                 description: t('insights.post.report.confirmation.description'),
               }}
+              successMessage={t('global.report.successMessage')}
               onConfirm={hide}
             />
           </MoreOptionsButtonWithModal>

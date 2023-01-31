@@ -84,6 +84,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
                 title: t('user.profileView.report.confirmation.title', { name: userFullName }),
                 description: t('user.profileView.report.confirmation.description', { name: userFullName }),
               }}
+              successMessage={t('global.report.successMessage')}
               onConfirm={hide}
             />
 
@@ -96,6 +97,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
                 title: t('user.profileView.block.confirmation.title', { name: userFullName }),
                 description: t('user.profileView.block.confirmation.description', { name: userFullName }),
               }}
+              successMessage={t('user.profileView.block.successMessage', { name: userFullName })}
               icon="close-circle"
               tintColor={colors.errorRed}
               onConfirm={hide}

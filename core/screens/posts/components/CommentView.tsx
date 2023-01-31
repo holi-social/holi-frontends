@@ -62,6 +62,7 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
               title: t('insights.posts.comment.report.confirmation.title'),
               description: t('insights.posts.comment.report.confirmation.description'),
             }}
+            successMessage={t('global.report.successMessage')}
             onConfirm={hide}
           />
         </MoreOptionsButtonWithModal>

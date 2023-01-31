@@ -303,6 +303,7 @@
   "user.profileView.anonymous": "Anonymous User",
   "user.profileView.block.confirmation.description": "Do you really want to block {{name}}?",
   "user.profileView.block.confirmation.title": "Block {{name}}",
+  "user.profileView.block.successMessage": "{{name}} is blocked for you",
   "user.profileView.connection.button.CONNECTED": "Connected",
   "user.profileView.connection.button.IGNORE": "Ignore",
   "user.profileView.connection.button.NOT_CONNECTED": "Connect",

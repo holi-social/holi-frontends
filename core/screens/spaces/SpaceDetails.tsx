@@ -74,6 +74,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
               title: t('spaces.spaceDetails.report.confirmation.title'),
               description: t('spaces.spaceDetails.report.confirmation.description'),
             }}
+            successMessage={t('global.report.successMessage')}
             onConfirm={hide}
           />
         </MoreOptionsButtonWithModal>

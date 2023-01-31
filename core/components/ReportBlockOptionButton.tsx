@@ -27,6 +27,7 @@ interface BaseProps {
   tintColor?: string
   onConfirm?: () => void
   confirmationModalProps: Pick<HoliConfirmationProps, 'title' | 'description'>
+  successMessage: string
   style?: StyleProp<ViewStyle>
   testID?: string
 }
@@ -51,6 +52,7 @@ const ReportBlockOptionButton: React.VFC<ReportBlockOptionButtonProps> = ({
   tintColor,
   onConfirm,
   confirmationModalProps,
+  successMessage,
   style,
   testID = 'report-button',
 }) => {
@@ -76,7 +78,7 @@ const ReportBlockOptionButton: React.VFC<ReportBlockOptionButtonProps> = ({
         .then(() => {
           onConfirm?.()
           // setTimeout is used for showing the Toast after Modal gets closed
-          setTimeout(() => openToast?.(t('global.report.successMessage'), HoliToastType.SUCCESS, 3000), 300)
+          setTimeout(() => openToast?.(successMessage, HoliToastType.SUCCESS, 3000), 300)
         })
         .catch(() => {
           openToast?.(t('global.technicalError'), HoliToastType.ERROR, 3000)
