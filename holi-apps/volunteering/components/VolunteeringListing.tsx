@@ -92,7 +92,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters
         {t('volunteering:listing.headline')}
       </HoliHeading>
       {filters.location && (
-        <View style={styles.headingRow}>
+        <View style={styles.headingRow} testID="volunteering-filter-details">
           <HoliText bold style={{ color: colors.fontColorGrey }}>
             {t('volunteering:filter.result', {
               count: totalResults,
