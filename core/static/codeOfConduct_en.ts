@@ -1,4 +1,4 @@
-<h1>Code of Conduct</h1>
+const html = `<h1>Code of Conduct</h1>
 <p>Holi strives to bring out the best of each individual and group by creating a safe and welcoming place that fosters genuine human connection. As a general rule, we require that Spaces and content you create are lawful and respectful to others. </p>
 <p>If you feel that you and your rights are not being respected please let us know by reporting the person or content directly via Holi or sending us an email to <a href="mailto:contact@holi.team"><u>contact@holi.team</u></a>.</p>
 <h2>Be kind</h2>
@@ -28,4 +28,6 @@
 <p>Any behavior, activity, content, person or group that we believe is contrary to this Code of Conduct may be sanctioned (e.g., removed), either temporarily or permanently.</p>
 <h2>What to do in case something goes wrong?</h2>
 <p>Please flag any potential violation of the Code of Conduct by reporting the person or content directly via Holi or sending us an email at <a href="mailto:contact@holi.team">contact@holi.team</a>. Our community team will review all reports, get back to you as soon as we can and take appropriate action. </p>
-<p />
+<p />`
+
+export default html
