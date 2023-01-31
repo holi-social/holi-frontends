@@ -36,6 +36,9 @@ export const defaultAuthSteps = async (
 
   await fillFieldByTestId(isLogin ? 'ory-identifier-input' : 'ory-traits-email-input', email)
   await fillFieldByTestId('ory-password-input', password)
+  if (!isLogin) {
+    await tapOnElementWithTestId('ory-checkbox-traits_consent')
+  }
 
   await waitForElementWithTestId('ory-submit-method')
 
