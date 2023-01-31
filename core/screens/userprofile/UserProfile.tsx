@@ -23,6 +23,7 @@ import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -58,6 +59,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
 
   const { setOptions } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
+  const { visible, show, hide } = useModalState()
   useLayoutEffect(
     () =>
       setOptions({
@@ -65,7 +67,13 @@ const UserProfile: React.VFC<ScreenProps> = () => {
         headerTransparent: true,
         headerStyle: { backgroundColor: colors.backgroundColorWhite },
         headerRight: ({ tintColor }) => (
-          <MoreOptionsButtonWithModal label={t('insights.post.preview.more')} tintColor={tintColor}>
+          <MoreOptionsButtonWithModal
+            label={t('insights.post.preview.more')}
+            showOptions={visible}
+            onPress={show}
+            onModalDismiss={hide}
+            tintColor={tintColor}
+          >
             <ReportOptionButton
               label={t('user.profileView.report.title', { name: userFullName })}
               objectId={userId}
@@ -75,11 +83,12 @@ const UserProfile: React.VFC<ScreenProps> = () => {
                 title: t('user.profileView.report.confirmation.title', { name: userFullName }),
                 description: t('user.profileView.report.confirmation.description', { name: userFullName }),
               }}
+              onConfirm={hide}
             />
           </MoreOptionsButtonWithModal>
         ),
       }),
-    [setOptions, t, user?.fullName, userFullName, userId]
+    [hide, setOptions, show, t, userFullName, userId, visible]
   )
 
   // TODO: workaround for params always being undefined on initial page load

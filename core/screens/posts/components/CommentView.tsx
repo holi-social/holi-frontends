@@ -13,6 +13,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLink from '@holi/ui/components/molecules/HoliLink'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -31,6 +32,8 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
+  const { visible, show, hide } = useModalState()
+
   return (
     <View style={[styles.wrapper, style]} {...props}>
       <View style={styles.header}>
@@ -43,7 +46,13 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
           <HoliMediaHeader title={name} author={creator} date={comment.created} />
         </HoliLink>
 
-        <MoreOptionsButtonWithModal label={t('insights.post.preview.more')} style={styles.moreButton}>
+        <MoreOptionsButtonWithModal
+          label={t('insights.post.preview.more')}
+          showOptions={visible}
+          onPress={show}
+          onModalDismiss={hide}
+          style={styles.moreButton}
+        >
           <ReportOptionButton
             objectId={comment.id}
             contentType={ContentType.POST_COMMENT}
@@ -52,6 +61,7 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
               title: t('insights.posts.comment.report.confirmation.title'),
               description: t('insights.posts.comment.report.confirmation.description'),
             }}
+            onConfirm={hide}
           />
         </MoreOptionsButtonWithModal>
       </View>

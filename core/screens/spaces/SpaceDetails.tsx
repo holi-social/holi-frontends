@@ -9,7 +9,7 @@ import DefaultLayout from '@holi/core/DefaultLayout'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportOptionButton from '@holi/core/components/ReportOptionButton'
 import { logError } from '@holi/core/errors/helpers'
-import { useScrollYHandler, useToastForNotAvailableFeature } from '@holi/core/helpers'
+import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -20,6 +20,7 @@ import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/que
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 
 export type SpaceDetailsParams = {
   spaceId: string
@@ -37,9 +38,6 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   const { setOptions } = useUnifiedNavigation()
 
-  // TODO: remove after implementing the feature
-  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
-
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { id: spaceId },
   })
@@ -48,6 +46,8 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+
+  const { visible, show, hide } = useModalState()
 
   useLayoutEffect(() => {
     setOptions({
@@ -58,7 +58,13 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
       headerLeft: () =>
         Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left" /> : <HeaderBackButton icon="arrow-down-s" />,
       headerRight: ({ tintColor }) => (
-        <MoreOptionsButtonWithModal label={t('insights.post.preview.more')} tintColor={tintColor}>
+        <MoreOptionsButtonWithModal
+          label={t('insights.post.preview.more')}
+          showOptions={visible}
+          onPress={show}
+          onModalDismiss={hide}
+          tintColor={tintColor}
+        >
           <ReportOptionButton
             objectId={space?.id || ''}
             contentType={ContentType.SPACE}
@@ -67,6 +73,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
               title: t('spaces.spaceDetails.report.confirmation.title'),
               description: t('spaces.spaceDetails.report.confirmation.description'),
             }}
+            onConfirm={hide}
           />
         </MoreOptionsButtonWithModal>
       ),
@@ -74,7 +81,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
         footerShown: false,
       },
     })
-  }, [setOptions, showFeatureNotImplementedToast, space?.id, t])
+  }, [hide, setOptions, show, space?.id, t, visible])
 
   if (error) {
     logError(error, `[SpaceDetails.tsx] ${error.message}`)

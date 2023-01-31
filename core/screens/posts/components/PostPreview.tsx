@@ -10,6 +10,7 @@ import PostImage from '@holi/core/screens/posts/components/PostImage'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
@@ -24,6 +25,7 @@ export type PostPreviewProps = {
 const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
   const { t } = useTranslation()
   const commenters = post.commenters.data
+  const { visible, show, hide } = useModalState()
 
   return (
     <View style={[styles.wrapper, style]}>
@@ -38,7 +40,13 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
             <HoliMediaHeader title={post.creator.fullName} author={post.creator} date={post.created} />
           </HoliLink>
 
-          <MoreOptionsButtonWithModal label={t('insights.post.preview.more')} style={styles.moreButton}>
+          <MoreOptionsButtonWithModal
+            label={t('insights.post.preview.more')}
+            showOptions={visible}
+            onPress={show}
+            onModalDismiss={hide}
+            style={styles.moreButton}
+          >
             <ReportOptionButton
               objectId={post.id}
               contentType={ContentType.POST}
@@ -47,6 +55,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
                 title: t('insights.post.report.confirmation.title'),
                 description: t('insights.post.report.confirmation.description'),
               }}
+              onConfirm={hide}
             />
           </MoreOptionsButtonWithModal>
         </View>
