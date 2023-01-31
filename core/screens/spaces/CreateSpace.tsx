@@ -14,7 +14,7 @@ const CreateSpace: React.VFC = () => {
   const { setOptions } = useUnifiedNavigation()
   const { t } = useTranslation()
   const [stepsArray, setStepsArray] = useState<Array<ReactChild>>([])
-  const [isNextButtonEnable, setIsNextButtonEnable] = useState<boolean>(false)
+  const [isNextButtonEnabled, setIsNextButtonEnabled] = useState<boolean>(false)
 
   useLayoutEffect(
     () =>
@@ -31,7 +31,7 @@ const CreateSpace: React.VFC = () => {
   )
 
   const handleNextButtonStatus = (isButtonEnable: boolean) => {
-    setIsNextButtonEnable(isButtonEnable)
+    setIsNextButtonEnabled(isButtonEnable)
   }
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const CreateSpace: React.VFC = () => {
   return (
     <SafeAreaView style={styles.contentWrapper}>
       <View style={styles.container}>
-        <HoliWizard isNextButtonDisabled={!isNextButtonEnable} buttonName={t('spaces.create.space.button')}>
+        <HoliWizard isNextButtonDisabled={!isNextButtonEnabled} buttonName={t('spaces.create.space.button')}>
           {stepsArray}
         </HoliWizard>
       </View>

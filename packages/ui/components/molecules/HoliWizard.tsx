@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
     backgroundColor: colors.backgroundColorWhite,
   },
-  nextButton: { height: '100%' },
+  nextButton: { height: 56 },
   buttonContainer: {
     bottom: vars.topBarHeight + 30,
     flexDirection: 'row',
