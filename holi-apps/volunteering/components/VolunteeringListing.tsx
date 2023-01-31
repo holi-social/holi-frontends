@@ -124,6 +124,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters
 
   return (
     <FlatList
+      testID={isFiltering ? 'volunteering-list-filtered' : 'volunteering-list-unfiltered'}
       ListHeaderComponent={engagements.length ? listHeader : undefined}
       ListHeaderComponentStyle={styles.listHeader}
       contentContainerStyle={styles.list}
