@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client'
 
+// Report Content query
 export enum ContentType {
   POST = 'POST',
   POST_COMMENT = 'POST_COMMENT',
@@ -16,5 +17,18 @@ export const ReportContentMutation = gql`
 `
 
 export interface ReportContentResponse {
+  success: boolean
+}
+
+// Block user query
+export const BlockUserMutation = gql`
+  mutation BlockUser($userID: UUID) {
+    blockUser(userId: $userId) {
+      success
+    }
+  }
+`
+
+export interface BlockUserResponse {
   success: boolean
 }
