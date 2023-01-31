@@ -1,6 +1,5 @@
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 /* eslint-disable @typescript-eslint/no-var-requires */
-const withPlugins = require('next-compose-plugins')
 const withTranspileModules = require('next-transpile-modules')
 const path = require('path')
 const { withSentryConfig } = require('@sentry/nextjs')
@@ -21,8 +20,8 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles'), path.join(__dirname, 'shared/data')],
   },
+  output: 'standalone',
   experimental: {
-    outputStandalone: true,
     outputFileTracingRoot: path.join(__dirname, '../../'),
   },
   i18n: {
@@ -45,26 +44,22 @@ const sentryWebpackPluginOptions = {
 }
 
 module.exports = withSentryConfig(
-  withPlugins(
+  withTranspileModules(
     [
-      withTranspileModules(
-        [
-          'react-native-reanimated',
-          'react-native-card-stack-swiper',
-          'react-native-gesture-handler',
-          '@holi-apps/donations',
-          '@holi-apps/volunteering',
-          '@holi/ui',
-          '@holi/core',
-          '@holi/api',
-        ],
-        {
-          resolveSymlinks: true,
-          debug: true,
-        }
-      ),
+      'react-native-reanimated',
+      'react-native-card-stack-swiper',
+      'react-native-gesture-handler',
+      '@holi-apps/donations',
+      '@holi-apps/goodnews',
+      '@holi-apps/volunteering',
+      '@holi/ui',
+      '@holi/core',
+      '@holi/api',
     ],
-    nextConfig
-  ),
+    {
+      resolveSymlinks: true,
+      debug: true,
+    }
+  )(nextConfig),
   sentryWebpackPluginOptions
 )

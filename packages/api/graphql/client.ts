@@ -57,17 +57,58 @@ export const createCache = () =>
           },
         },
       },
+      PagedInsightList: {
+        fields: {
+          data: {
+            merge: (existing, incoming) => (existing || []).concat(incoming),
+            read: (existing) => existing,
+          },
+        },
+      },
       AppDonations_ProjectsResponse: {
         fields: {
-          projects: indexAwareOffsetLimitPagination(),
+          data: indexAwareOffsetLimitPagination(),
+        },
+      },
+      AppVolunteering_EngagementsResponse: {
+        fields: {
+          data: indexAwareOffsetLimitPagination(),
+        },
+      },
+      AppGoodNews_GoodNewsArticlesQueryResponse: {
+        fields: {
+          articles: {
+            merge: (existing, incoming) => (existing || []).concat(incoming),
+            read: (existing) => existing,
+          },
+        },
+      },
+      PagedSpaceList: {
+        fields: {
+          data: indexAwareOffsetLimitPagination(),
         },
       },
       Query: {
         fields: {
           // here, we can specify e.g. pagination behavior, depending on the
           // query, see https://www.apollographql.com/docs/react/pagination/overview
+          lastInsights: {
+            keyArgs: [],
+          },
           appDonations_projects: {
-            keyArgs: ['locale', 'location'],
+            keyArgs: ['location'],
+          },
+          appGoodNews_articles: {
+            keyArgs: [],
+          },
+          appVolunteering_engagements: {
+            keyArgs: ['location'],
+          },
+          spaces: {
+            keyArgs: ['topicId', 'location', 'skillIds'],
+          },
+          discoverSpaces: {
+            keyArgs: ['topicIds', 'location', 'skillIds'],
           },
         },
       },

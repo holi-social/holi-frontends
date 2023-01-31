@@ -1,33 +1,84 @@
 import { gql } from '@apollo/client/core'
 
 import { Post } from '@holi/core/screens/posts/types'
+import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
 
 export const PostCommentFragment = gql`
+  ${userAvatarFragment}
   fragment PostCommentFull on PostComment {
     id
     text
     created
     creator {
-      id
-      avatar
-      avatarLabel
-      avatarDefaultColor
-      firstName
-      lastName
-      fullName
-      aboutMe
+      ...UserAvatar
     }
     mentions {
       id
-      firstName
-      lastName
       fullName
     }
   }
 `
 
+export const PostImageFragment = gql`
+  fragment PostImageData on PostImage {
+    id
+    url
+    height
+    width
+  }
+`
+
+export const LinkFragment = gql`
+  fragment LinkFragment on LinkPreview {
+    requestedUrl
+    url
+    title
+    description
+    type
+    image
+    siteName
+    origin
+  }
+`
+
 export const PostFragment = gql`
+  ${userAvatarFragment}
+  ${PostImageFragment}
+  ${LinkFragment}
+
+  fragment PostFragment on Post {
+    id
+    title
+    text
+    created
+    creator {
+      ...UserAvatar
+    }
+    numberOfComments
+    commenters {
+      totalResults
+      data {
+        ...UserAvatar
+      }
+    }
+    image {
+      ...PostImageData
+    }
+    links {
+      ...LinkFragment
+    }
+    mentions {
+      id
+      fullName
+    }
+  }
+`
+
+export const PostDetailsFragment = gql`
+  ${userAvatarFragment}
   ${PostCommentFragment}
+  ${PostImageFragment}
+  ${LinkFragment}
 
   fragment PostFull on Post {
     id
@@ -35,23 +86,33 @@ export const PostFragment = gql`
     text
     created
     creator {
-      id
-      avatar
-      avatarLabel
-      avatarDefaultColor
-      firstName
-      lastName
-      fullName
-      aboutMe
+      ...UserAvatar
+    }
+    numberOfComments
+    commenters {
+      totalResults
+      data {
+        ...UserAvatar
+      }
     }
     comments {
       ...PostCommentFull
+    }
+    image {
+      ...PostImageData
+    }
+    links {
+      ...LinkFragment
+    }
+    mentions {
+      id
+      fullName
     }
   }
 `
 
 export const PostById = gql`
-  ${PostFragment}
+  ${PostDetailsFragment}
 
   query PostById($id: String!) {
     postById(id: $id) {
@@ -70,7 +131,7 @@ export type CreatePostCommentInput = {
 }
 
 export const CreatePostCommentMutation = gql`
-  ${PostFragment}
+  ${PostDetailsFragment}
   ${PostCommentFragment}
 
   mutation CreatePostComment($input: CreatePostCommentInput!) {

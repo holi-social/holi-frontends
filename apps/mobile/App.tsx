@@ -5,8 +5,8 @@ import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
 import RootProvider from '@holi/core/RootProvider'
-import { ScrollYProvider } from '@holi/core/helpers'
 import { initI18n } from '@holi/core/i18n'
+import { ScrollYProvider } from '@holi/core/provider/ScrollYProvider'
 import NavigationProvider from '@holi/mobile/navigation/NavigationProvider'
 import RootNavigator from '@holi/mobile/navigation/RootNavigator'
 
@@ -14,7 +14,7 @@ const App: React.VoidFunctionComponent = () => {
   const [isReady, setIsReady] = useState(false)
 
   // Android requires importing Intl polyfills to use APIs such as RelativeTimeFormat
-  if (Platform.OS === 'android') {
+  if (Platform.OS !== 'web') {
     require('@formatjs/intl-locale/polyfill')
     require('@formatjs/intl-relativetimeformat/polyfill')
     require('@formatjs/intl-relativetimeformat/locale-data/en')

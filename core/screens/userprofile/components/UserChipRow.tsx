@@ -34,6 +34,7 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
       testID={`user-profile-${keyInUserObject}`}
     >
       {terms.length > 0 ? (
+        /** FIXME convert to VirtualizedList, FlatList or SectionList */
         terms.map((term) => (
           <HoliChip
             numberOfLines={numberOfLines}

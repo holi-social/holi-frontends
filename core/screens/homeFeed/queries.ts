@@ -1,33 +1,25 @@
 import { gql } from '@apollo/client/core'
 
+import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { User } from '@holi/core/screens/userprofile/types'
+import { Paged } from '@holi/core/types'
 
 export type NumberOfItems = {
   numberOfItems: number
 }
 
 export const userSuggestionsQuery = gql`
-  fragment UserSuggestion on User {
-    id
-    avatar
-    firstName
-    lastName
-    fullName
-    avatarDefaultColor
-    avatarLabel
-  }
+  ${userAvatarFragment}
 
   query UserSuggestions($limit: Int!) {
     userSuggestions(limit: $limit) {
       data {
-        ...UserSuggestion
+        ...UserAvatar
       }
     }
   }
 `
 
 export type UserSuggestionsResponse = {
-  userSuggestions: {
-    data: User[]
-  }
+  userSuggestions: Paged<User>
 }

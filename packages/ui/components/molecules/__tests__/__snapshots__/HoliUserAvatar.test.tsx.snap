@@ -77,7 +77,7 @@ exports[`React tree renders the users initials, when given image prop is empty 1
           "fontSize": 16,
           "lineHeight": 19.2,
         },
-        Object {},
+        false,
         Object {
           "color": "#fff",
           "fontSize": 57.6,

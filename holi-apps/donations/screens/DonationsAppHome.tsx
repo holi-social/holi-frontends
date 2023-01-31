@@ -12,7 +12,7 @@ import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -21,7 +21,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import DonationListing from '@holi-apps/donations/components/DonationListing'
 import DonationSearchForm from '@holi-apps/donations/components/DonationSearchForm'
 
-type ScreenProps = NativeStackScreenProps<HomeStackScreens>
+type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
 
 export type DonationsAppHomeParams = {
   location?: string
@@ -63,7 +63,7 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
         onPress={() => setShowSearchModal(true)}
         testID="donations-search-button"
       >
-        <HoliIcon icon="search-2" size={24} />
+        <HoliIcon icon="filter-3" size={24} />
       </HoliButton>
     )
 
@@ -75,16 +75,9 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
       ),
       headerTransparent: true,
       headerStyle: { backgroundColor: colors.backgroundColorWhite },
-      headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon="arrow-down-s" />),
-      headerRight: ({ tintColor }) =>
-        Platform.OS === 'web' ? (
-          <HoliHorizontalRow>
-            {searchButton}
-            <HeaderBackButton icon="close" tintColor={tintColor} />
-          </HoliHorizontalRow>
-        ) : (
-          <>{searchButton}</>
-        ),
+      headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
+      headerRight: () =>
+        Platform.OS === 'web' ? <HoliHorizontalRow>{searchButton}</HoliHorizontalRow> : <>{searchButton}</>,
     })
   }, [setOptions, navigate, t, title])
 
@@ -93,12 +86,12 @@ const DonationsAppHome: React.VFC<ScreenProps> = () => {
       <HoliModal
         show={showSearchModal}
         onDismiss={closeModal}
-        testID="donations-search-modal"
+        testID="donations-search"
         label={t('donations:search.heading')}
         autoHeight={false}
         // Smaller devides use the whole screen and
         // larger ones should have more space above for clicking the backdrop pane
-        minRelativeHeight={deviceHeight > 750 ? 0.85 : 0}
+        relativeHeight={deviceHeight > 750 ? 0.85 : 1}
       >
         <DonationSearchForm onSubmit={submitSearch} locationQuery={locationQuery} />
       </HoliModal>

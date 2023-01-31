@@ -74,35 +74,43 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
           decelerationRate={0}
           onMomentumScrollEnd={handleScrollEnd}
         >
-          {slides.map((slide, i) => (
-            <View
-              style={[
-                styles.slideContainer,
-                i === 0 ? styles.firstSlideContainer : {},
-                i === slides.length - 1 ? styles.lastSlideContainer : {},
-              ]}
-              key={i}
-            >
-              {slide.children}
-            </View>
-          ))}
+          {
+            /** FIXME convert to VirtualizedList, FlatList or SectionList */
+            slides.map((slide, i) => (
+              <View
+                style={[
+                  styles.slideContainer,
+                  i === 0 ? styles.firstSlideContainer : {},
+                  i === slides.length - 1 ? styles.lastSlideContainer : {},
+                ]}
+                key={i}
+              >
+                {slide.children}
+              </View>
+            ))
+          }
         </ScrollView>
       )}
 
       {!isWeb && slides.length > 1 && (
         <View style={styles.slideButtonsContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
-          {slides.map((slide, slideIndex) => (
-            <HoliTabButton
-              label={slide.title || '' + (slideIndex + 1)}
-              style={styles.slideButton}
-              onPress={() => goToSlide(slideIndex)}
-              key={slideIndex}
-              accessibilitySelected={slideIndex === currentSlide}
-              testID={slideIndex === slideIndex ? 'active-tab' : 'inactive-tab'}
-            >
-              <View style={[styles.slideButtonIcon, slideIndex === currentSlide ? styles.activeSlideButtonIcon : {}]} />
-            </HoliTabButton>
-          ))}
+          {
+            /** FIXME convert to VirtualizedList, FlatList or SectionList */
+            slides.map((slide, slideIndex) => (
+              <HoliTabButton
+                label={slide.title || '' + (slideIndex + 1)}
+                style={styles.slideButton}
+                onPress={() => goToSlide(slideIndex)}
+                key={slideIndex}
+                accessibilitySelected={slideIndex === currentSlide}
+                testID={slideIndex === slideIndex ? 'active-tab' : 'inactive-tab'}
+              >
+                <View
+                  style={[styles.slideButtonIcon, slideIndex === currentSlide ? styles.activeSlideButtonIcon : {}]}
+                />
+              </HoliTabButton>
+            ))
+          }
         </View>
       )}
 
@@ -113,22 +121,25 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
       */}
       {isWeb && (
         <ScrollView
-          style={styles.scrollViewStyle}
+          contentContainerStyle={styles.scrollViewStyle}
           horizontal
           showsHorizontalScrollIndicator={screenWidth >= horizontalScrollMinWidth}
         >
-          {slides.map((slide, i) => (
-            <View
-              style={[
-                styles.slideContainer,
-                i === 0 ? styles.firstSlideContainer : {},
-                i === slides.length - 1 ? styles.lastSlideContainer : {},
-              ]}
-              key={i}
-            >
-              {slide.children}
-            </View>
-          ))}
+          {
+            /** FIXME convert to VirtualizedList, FlatList or SectionList */
+            slides.map((slide, i) => (
+              <View
+                style={[
+                  styles.slideContainer,
+                  i === 0 ? styles.firstSlideContainer : {},
+                  i === slides.length - 1 ? styles.lastSlideContainer : {},
+                ]}
+                key={i}
+              >
+                {slide.children}
+              </View>
+            ))
+          }
         </ScrollView>
       )}
     </View>
@@ -147,7 +158,6 @@ const getStyles = (
   StyleSheet.create({
     container: {
       justifyContent: 'center',
-      alignItems: 'center',
       alignContent: 'center',
     },
     scrollViewContainerStyle: {

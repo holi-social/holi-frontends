@@ -1,7 +1,9 @@
-import { Space, SpaceMember, Task } from '@holi/core/screens/spaces/types'
-import { Topic, User } from '@holi/core/screens/userprofile/types'
+import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
+import { Space, SpaceLink, SpaceLinkType, SpaceMember, Task } from '@holi/core/screens/spaces/types'
+import { SpaceSection, SpaceSectionType } from '@holi/core/screens/spaces/types'
+import { Skill, Topic, User } from '@holi/core/screens/userprofile/types'
 
-const user: User = {
+export const user: User = {
   id: '1',
   firstName: 'Some',
   lastName: 'Body',
@@ -52,6 +54,17 @@ const tasks = [1, 2, 3].map((id) => ({
   id: `task-${id}`,
 }))
 
+export const links: SpaceLink[] = [
+  {
+    url: 'www.facebook.com',
+    type: SpaceLinkType.FACEBOOK,
+  },
+  {
+    url: 'https://www.twitter.com',
+    type: SpaceLinkType.TWITTER,
+  },
+]
+
 export const space: Space = {
   id: '1',
   title: 'Space title',
@@ -61,7 +74,9 @@ export const space: Space = {
   creator: user,
   created: '2022-11-21T12:34:56Z',
   location: 'Hamburg, Germany',
+  connectionStatusToMyself: [],
   tasks,
+  links,
 }
 
 export const spaces = [1, 2, 3].map((id) => ({
@@ -69,7 +84,95 @@ export const spaces = [1, 2, 3].map((id) => ({
   id: `space-${id}`,
 }))
 
+export const spacesGroups: DiscoverSpacesGroup[] = [
+  {
+    topicId: 'test_topic',
+    spaces: {
+      data: spaces,
+      totalResults: 10,
+    },
+  },
+  {
+    skillId: 'test_skill',
+    spaces: {
+      data: spaces,
+      totalResults: 10,
+    },
+  },
+  {
+    location: 'test_location',
+    spaces: {
+      data: spaces,
+      totalResults: 10,
+    },
+  },
+]
+
 export const topic: Topic = {
   id: 'TEST_TOPIC',
   title: 'Topic title',
 }
+
+export const skill: Skill = {
+  id: 'TEST_SKILL',
+  title: 'Skill title',
+}
+
+export const location = 'TEST_LOCATION'
+
+export const mySpaces: SpaceSection[] = [
+  {
+    section: 'Member',
+    type: SpaceSectionType.MEMBER,
+    spaces: {
+      data: [
+        {
+          ...space,
+          id: '111',
+          title: 'The user is member of this space (111).',
+        },
+        {
+          ...space,
+          id: '222',
+          title: 'The user is member of this space (222).',
+        },
+      ],
+    },
+  },
+  {
+    section: 'Creator',
+    type: SpaceSectionType.CREATOR,
+    spaces: {
+      data: [
+        {
+          ...space,
+          id: '333',
+          title: 'The user is the creator of this space (333).',
+        },
+        {
+          ...space,
+          id: '444',
+          title: 'The user is the creator of this space (444).',
+        },
+      ],
+    },
+  },
+  {
+    section: 'Follower',
+    type: SpaceSectionType.FOLLOWER,
+    spaces: {
+      data: [
+        {
+          ...space,
+          id: '555',
+          title: 'The user follows this space (555).',
+        },
+        {
+          ...space,
+          id: '666',
+          title: 'The user follows this space (666).',
+        },
+      ],
+    },
+  },
+]

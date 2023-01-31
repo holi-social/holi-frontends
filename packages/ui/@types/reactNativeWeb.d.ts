@@ -9,6 +9,8 @@ export type AccessibilityRoleWeb =
   | 'navigation'
   | 'heading'
   | 'tabpanel'
+  | 'menuitemcheckbox'
+  | 'menuitemradio'
 
 interface AccessibilityPropsWeb extends AccessibilityProps {
   accessibilityLevel?: number
@@ -46,6 +48,18 @@ declare module 'react-native' {
 
   interface TextStyle {
     display?: 'flex' | 'none' | 'inline-block'
+    whiteSpace?:
+      | 'normal'
+      | 'nowrap'
+      | 'pre'
+      | 'pre-wrap'
+      | 'pre-line'
+      | 'break-spaces'
+      | 'inherit'
+      | 'initial'
+      | 'revert'
+      | 'revert-layer'
+      | 'unset'
   }
 
   interface ImageStyle {

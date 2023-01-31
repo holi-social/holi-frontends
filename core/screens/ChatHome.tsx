@@ -1,21 +1,20 @@
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { useScrollYHandler } from '@holi/core/helpers'
+import { useScrollYHandler, useToastForNotAvailableFeature } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
+import { vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-type ScreenProps = NativeStackScreenProps<HomeStackScreens>
+type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
 
 const ChatHome: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
@@ -24,6 +23,9 @@ const ChatHome: React.VFC<ScreenProps> = () => {
 
   const { setOptions, navigate } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
+
+  // TODO: remove after implementing the feature
+  useToastForNotAvailableFeature(true)
 
   useLayoutEffect(() => {
     setOptions({
@@ -37,29 +39,25 @@ const ChatHome: React.VFC<ScreenProps> = () => {
           {title}
         </HeaderTitle>
       ),
-      headerRight: ({ tintColor }) => (
-        <HoliHorizontalRow>
-          <HoliButton label={t('notifications.title')} inline transparent onPress={() => navigate('/notifications')}>
-            <HoliIcon icon="notification-2" size={24} color={tintColor} />
-          </HoliButton>
-
-          <HoliButton label={t('navigation.search')} inline transparent onPress={() => navigate('/search')}>
-            <HoliIcon icon="search" size={24} color={tintColor} />
-          </HoliButton>
-        </HoliHorizontalRow>
-      ),
+      headerRight: (props) => <NotificationSearchButtons {...props} />,
     })
   }, [setOptions, navigate, t, title])
 
   return (
     <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
       <View style={mixins.container}>
-        <HoliHeading level="1" size="super">
+        <HoliHeading level="1" size="super" style={styles.header}>
           {title}
         </HoliHeading>
       </View>
     </DefaultLayout>
   )
 }
+
+const styles = StyleSheet.create({
+  header: {
+    paddingTop: Platform.OS === 'android' ? Number(vars.topBarHeight) : 0,
+  },
+})
 
 export default memo(ChatHome)

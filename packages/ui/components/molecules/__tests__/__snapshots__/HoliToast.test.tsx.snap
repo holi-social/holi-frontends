@@ -29,7 +29,7 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
         },
       ],
       Object {
-        "backgroundColor": "#ee0004",
+        "backgroundColor": "#cc1820",
         "flex": 1,
         "padding": 20,
       },
@@ -70,7 +70,7 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
               "fontSize": 16,
               "lineHeight": 19.2,
             },
-            Object {},
+            false,
             Object {
               "color": "#fff",
               "textAlign": "center",
@@ -217,7 +217,7 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
               "fontSize": 16,
               "lineHeight": 19.2,
             },
-            Object {},
+            false,
             Object {
               "color": "#fff",
               "textAlign": "center",

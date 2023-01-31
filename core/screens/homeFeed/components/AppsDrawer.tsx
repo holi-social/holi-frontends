@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import tinycolor from 'tinycolor2'
 
+import { APP_SWIPER_APPS } from '@holi/core/constants/appConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppTile from '@holi/core/screens/homeFeed/components/AppTile'
 import type { HoliApp } from '@holi/core/screens/homeFeed/components/AppTile'
@@ -14,30 +15,6 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const appSwiperDummyApps: HoliApp[] = [
-  {
-    id: 'donations',
-    icon: 'hand-heart',
-    translationKey: 'donations:app.name',
-    path: '/apps/donations',
-    hasUpdates: false,
-  },
-  {
-    id: 'volunteering',
-    icon: 'hearts',
-    translationKey: 'apps.name.volunteering',
-    path: '/apps/volunteering',
-    hasUpdates: true,
-  },
-  {
-    id: 'goodNews',
-    icon: 'newspaper',
-    translationKey: 'apps.name.goodNews',
-    path: '/apps/volunteering',
-    hasUpdates: true,
-  },
-]
-
 const AppsDrawer: React.FC = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -45,9 +22,11 @@ const AppsDrawer: React.FC = () => {
   const [modalIsVisible, setModalIsVisible] = useState(false)
 
   const onAppButtonClick = useCallback(
-    (app: HoliApp) => {
-      setModalIsVisible(false)
-      navigate(app.path)
+    ({ path }: HoliApp) => {
+      if (path) {
+        setModalIsVisible(false)
+        navigate(path)
+      }
     },
     [navigate]
   )
@@ -79,9 +58,12 @@ const AppsDrawer: React.FC = () => {
         <View style={[styles.modalContent, mixins.container]}>
           <HoliHeading level="2">{t('apps.drawer.headline')}</HoliHeading>
           <ScrollView horizontal={true} style={{ marginTop: 20 }} contentContainerStyle={styles.appsCarousel}>
-            {appSwiperDummyApps.map((app) => (
-              <AppTile appData={app} key={app.id} onPress={onAppButtonClick} />
-            ))}
+            {
+              /** FIXME convert to VirtualizedList, FlatList or SectionList */
+              APP_SWIPER_APPS.map((app, idx) => (
+                <AppTile appData={app} key={app.id} onPress={onAppButtonClick} style={idx > 0 && { marginLeft: 15 }} />
+              ))
+            }
           </ScrollView>
         </View>
       </HoliModal>
@@ -96,8 +78,8 @@ const borderGrey = tinycolor(colors.borderColorGrey).darken(5).toString()
 const styles = StyleSheet.create({
   overlayButton: {
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    bottom: (Platform.OS === 'web' ? +vars.bottomBarHeight : 0) + 15,
-    right: Platform.OS === 'web' ? 0 : 5,
+    bottom: (Platform.OS === 'web' ? +vars.bottomBarHeight : 0) + 16,
+    right: 16,
     backgroundColor: colors.backgroundColorWhite,
     justifyContent: 'center',
     paddingHorizontal: 20,
@@ -111,6 +93,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 6,
     elevation: 4,
+    overflow: 'visible',
   },
   modalContent: {
     paddingHorizontal: 10,

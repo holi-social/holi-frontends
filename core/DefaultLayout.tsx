@@ -13,38 +13,62 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 export interface LayoutProps extends ScrollViewProps {
   headerOverlap?: boolean
   hasFooterTabBar?: boolean
+  scrollView?: boolean
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
+  contentStyle?: ViewStyle | ViewStyle[] | Record<string, unknown>
+  testID?: string
 }
 
-const DefaultLayout: React.FC<LayoutProps> = ({
-  style,
-  children,
-  headerOverlap,
-  hasFooterTabBar = true,
-  ...scrollViewProps
-}: LayoutProps) => {
-  const screenView = (
-    <View
-      style={[
-        !headerOverlap && scrollViewProps.onScroll && styles.headerPadding,
-        hasFooterTabBar && styles.footerPadding,
-        style,
-      ]}
-    >
-      {children}
-    </View>
-  )
+const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(
+  (
+    {
+      headerOverlap,
+      hasFooterTabBar = true,
+      scrollView = true,
+      style,
+      contentStyle,
+      children,
+      testID,
+      ...scrollViewProps
+    }: LayoutProps,
+    ref
+  ) => {
+    const isWeb = Platform.OS === 'web'
 
-  if (Platform.OS === 'web') return screenView
+    const contentView = (
+      <View
+        style={[
+          !headerOverlap && scrollViewProps.onScroll && styles.headerPadding,
+          hasFooterTabBar && styles.footerPadding,
+          contentStyle,
+        ]}
+        ref={isWeb ? (ref as React.LegacyRef<View>) : undefined}
+        testID={testID}
+      >
+        {children}
+      </View>
+    )
 
-  const mobileLayout = (
-    <ScrollView {...scrollViewProps} contentContainerStyle={[styles.scrollLayout, style]}>
-      {screenView}
-    </ScrollView>
-  )
+    const mobileWrapper = scrollView ? (
+      <ScrollView
+        testID={testID}
+        {...scrollViewProps}
+        contentContainerStyle={[styles.scrollLayout, style]}
+        ref={!isWeb ? (ref as React.LegacyRef<ScrollView>) : undefined}
+      >
+        {contentView}
+      </ScrollView>
+    ) : (
+      <View testID={testID} style={[styles.scrollLayout, style]}>
+        {contentView}
+      </View>
+    )
 
-  return headerOverlap ? mobileLayout : <SafeAreaView style={styles.safeArea}>{mobileLayout}</SafeAreaView>
-}
+    return headerOverlap ? mobileWrapper : <SafeAreaView style={styles.safeArea}>{mobileWrapper}</SafeAreaView>
+  }
+)
+
+DefaultLayout.displayName = 'DefaultLayout'
 
 export default DefaultLayout
 
@@ -56,7 +80,7 @@ const styles = StyleSheet.create({
     paddingTop: +vars.topBarHeight + (Platform.OS === 'android' ? 32 : 0),
   },
   footerPadding: {
-    paddingBottom: (Platform.OS === 'web' ? +vars.bottomBarHeight : 0) + 50,
+    paddingBottom: Platform.OS === 'web' ? +vars.bottomBarHeight : 24,
   },
   scrollLayout: {
     justifyContent: 'flex-start',

@@ -92,16 +92,16 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
               "borderWidth": 2,
               "flexDirection": "row",
             },
-            Array [
-              Object {},
-              Object {},
-            ],
             Object {
               "alignSelf": "stretch",
               "width": "100%",
             },
             false,
             false,
+            Array [
+              Object {},
+              Object {},
+            ],
             undefined,
             false,
           ]
@@ -125,6 +125,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
           onChange={[Function]}
           onContentSizeChange={[Function]}
           onFocus={[Function]}
+          onSubmitEditing={[Function]}
           placeholder="Start typing..."
           placeholderTextColor="#c0c1c9"
           secureTextEntry={false}
@@ -155,15 +156,11 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
         />
         <View
           style={
-            Array [
-              Object {
-                "height": 22,
-                "justifyContent": "center",
-                "marginRight": 12,
-                "width": 22,
-              },
-              false,
-            ]
+            Object {
+              "height": 22,
+              "justifyContent": "center",
+              "marginRight": 12,
+            }
           }
         >
           <RNSVGSvgView
@@ -311,7 +308,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 ],
                 Object {},
                 Object {
-                  "color": "#ee0004",
+                  "color": "#cc1820",
                 },
               ],
             ]
@@ -331,19 +328,19 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
               "borderWidth": 2,
               "flexDirection": "row",
             },
-            Array [
-              Object {},
-              Object {},
-            ],
             Object {
               "alignSelf": "stretch",
               "width": "100%",
             },
             false,
             false,
+            Array [
+              Object {},
+              Object {},
+            ],
             undefined,
             Object {
-              "borderColor": "#ee0004",
+              "borderColor": "#cc1820",
             },
           ]
         }
@@ -366,6 +363,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
           onChange={[Function]}
           onContentSizeChange={[Function]}
           onFocus={[Function]}
+          onSubmitEditing={[Function]}
           placeholder="Start typing..."
           placeholderTextColor="#c0c1c9"
           secureTextEntry={false}
@@ -396,17 +394,11 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
         />
         <View
           style={
-            Array [
-              Object {
-                "height": 22,
-                "justifyContent": "center",
-                "marginRight": 12,
-                "width": 22,
-              },
-              Object {
-                "width": 16,
-              },
-            ]
+            Object {
+              "height": 22,
+              "justifyContent": "center",
+              "marginRight": 12,
+            }
           }
         >
           <RNSVGSvgView
@@ -427,7 +419,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 Object {
                   "borderStyle": "solid",
                   "borderWidth": 0,
-                  "color": "#ee0004",
+                  "color": "#cc1820",
                   "display": "flex",
                   "fill": "currentColor",
                   "flexDirection": "row",
@@ -499,13 +491,13 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 "fontSize": 12,
                 "lineHeight": 14.399999999999999,
               },
-              Object {},
+              false,
               Array [
                 Object {
                   "color": "#6f7081",
                 },
                 Object {
-                  "color": "#ee0004",
+                  "color": "#cc1820",
                 },
               ],
             ]

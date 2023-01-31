@@ -1,22 +1,21 @@
 import { gql } from '@apollo/client/core'
 
 import { Insight } from '@holi/core/screens/insights/types'
+import { PostFragment } from '@holi/core/screens/posts/queries'
+import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
+import { Paged } from '@holi/core/types'
 
-const InsightFragment = gql`
-  fragment InsightFull on Insight {
+const InsightWithPostsFragment = gql`
+  ${userAvatarFragment}
+  ${PostFragment}
+
+  fragment InsightWithPosts on Insight {
     id
     title
     description
     datePublished
     creator {
-      id
-      avatar
-      avatarLabel
-      avatarDefaultColor
-      firstName
-      lastName
-      fullName
-      aboutMe
+      ...UserAvatar
     }
     headerImage
     topic {
@@ -24,47 +23,52 @@ const InsightFragment = gql`
       title
     }
     posts {
-      id
-      text
-      title
-      created
-      creator {
-        id
-        firstName
-        lastName
-        fullName
-        avatar
-        avatarLabel
-        avatarDefaultColor
-      }
+      ...PostFragment
     }
   }
 `
 
 export const lastInsightsQuery = gql`
-  ${InsightFragment}
+  ${userAvatarFragment}
 
-  query LastInsights($limit: Int!) {
-    lastInsights(limit: $limit) {
+  query LastInsights($offset: Int, $limit: Int) {
+    lastInsights(offset: $offset, limit: $limit) {
       data {
-        ...InsightFull
+        id
+        title
+        description
+        datePublished
+        creator {
+          ...UserAvatar
+        }
+        headerImage
+        topic {
+          id
+          title
+        }
+        numberOfPosts
+        involvedUsers {
+          totalResults
+          data {
+            ...UserAvatar
+          }
+        }
       }
+      totalResults
     }
   }
 `
 
 export type LastInsightsResponse = {
-  lastInsights: {
-    data: Insight[]
-  }
+  lastInsights: Paged<Insight>
 }
 
 export const insightById = gql`
-  ${InsightFragment}
+  ${InsightWithPostsFragment}
 
   query InsightById($id: String!) {
     insightById(id: $id) {
-      ...InsightFull
+      ...InsightWithPosts
     }
   }
 `

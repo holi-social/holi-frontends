@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HoliCardComponent renders correctly 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#fff",
+        "borderRadius": 16,
+        "padding": 8,
+        "paddingBottom": 16,
+      },
+      Object {
+        "height": 600,
+        "width": 300,
+      },
+    ]
+  }
+  testID="holiCard"
+>
+  <Image
+    accessibilityLabel="volunteering"
+    accessibilityRole="image"
+    accessible={false}
+    source={
+      Object {
+        "uri": "https://login.freiwilligenarbeit.de/api/v1/content_delivery/images/4620/volunteering-michigan-teaser.jpg",
+      }
+    }
+    style={
+      Array [
+        Object {
+          "aspectRatio": 1.5,
+          "borderRadius": 8,
+          "marginBottom": 8,
+          "width": "100%",
+        },
+        Object {
+          "resizeMode": "cover",
+        },
+      ]
+    }
+    testID="holiCard-cardImage"
+  />
+  <Text
+    accessible={false}
+    selectable={true}
+    style={
+      Array [
+        Object {
+          "color": "#222326",
+          "fontFamily": "Circular Std Book",
+          "fontWeight": "400",
+        },
+        Object {
+          "fontSize": 16,
+          "lineHeight": 19.2,
+        },
+        false,
+        undefined,
+      ]
+    }
+  >
+    Holi card component
+  </Text>
+</View>
+`;

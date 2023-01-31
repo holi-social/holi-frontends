@@ -25,7 +25,7 @@ const HoliImage: React.VoidFunctionComponent<HoliImageProps> = ({
         })
         .join(',')
     : undefined
-  const src = !srcSet ? source.uri : undefined
+  const src = Array.isArray(source) ? source[0].uri : source.uri
 
   // We use img tag instead of Image by react-native, as react-native-web does not yet
   // support multiple sources for image tag: https://github.com/necolas/react-native-web/issues/515

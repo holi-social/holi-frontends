@@ -1,7 +1,8 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
-import type { Topic, UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
+import type { Skill, Topic, UpdateConnectionWithUserActions, User } from '@holi/core/screens/userprofile/types'
+import { Paged } from '@holi/core/types'
 
 export const userAvatarFragment = gql`
   fragment UserAvatar on User {
@@ -9,8 +10,8 @@ export const userAvatarFragment = gql`
     avatar
     avatarLabel
     avatarDefaultColor
-    firstName
-    lastName
+    fullName
+    aboutMe
   }
 `
 
@@ -18,6 +19,7 @@ export const userFragment = gql`
   fragment FullUser on User {
     id
     avatar
+    fullName
     firstName
     lastName
     aboutMe
@@ -71,25 +73,18 @@ export type UserByIdResponse = {
 }
 
 export const userByNameQuery = gql`
+  ${userAvatarFragment}
   query UserByName($substring: String!, $limit: Int, $offset: Int) {
     userByName(substring: $substring, limit: $limit, offset: $offset) {
       data {
-        id
-        avatar
-        avatarLabel
-        avatarDefaultColor
-        fullName
-        firstName
-        lastName
+        ...UserAvatar
       }
     }
   }
 `
 
 export type UserByNameResponse = {
-  userByName: {
-    data: User[]
-  }
+  userByName: Paged<User>
 }
 
 export const UpdateAuthenticatedUserInputSchema = z.object({
@@ -157,6 +152,7 @@ export const skillsQuery = gql`
       data {
         id
         title
+        slug
       }
     }
   }
@@ -168,13 +164,28 @@ export const interestsQuery = gql`
       data {
         id
         title
+        slug
       }
     }
   }
 `
 
 export interface TopicsQueryResult {
-  topics: {
-    data: Topic[]
-  }
+  topics: Paged<Topic>
 }
+
+export interface SkillsQueryResult {
+  skills: Paged<Skill>
+}
+
+export type DeleteAuthenticatedUserResponse = {
+  success: boolean
+}
+
+export const deleteAuthenticatedUserMutation = gql`
+  mutation DeleteAuthenticatedUser {
+    deleteAuthenticatedUser {
+      success
+    }
+  }
+`

@@ -1,15 +1,13 @@
 import { TypeaheadOption } from '@lexical/react/LexicalTypeaheadMenuPlugin'
 
-class HoliMentionsPluginDropdownOption extends TypeaheadOption {
-  id: string
-  name: string
-  picture: JSX.Element
+import type { User } from '@holi/core/screens/userprofile/types'
 
-  constructor(id: string, name: string, picture: JSX.Element) {
-    super(name)
-    this.id = id
-    this.name = name
-    this.picture = picture
+class HoliMentionsPluginDropdownOption extends TypeaheadOption {
+  user: User
+
+  constructor(user: User) {
+    super(user.id)
+    this.user = user
   }
 }
 export default HoliMentionsPluginDropdownOption

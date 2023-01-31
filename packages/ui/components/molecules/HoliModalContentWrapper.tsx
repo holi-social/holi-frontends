@@ -1,12 +1,22 @@
 import React from 'react'
-import { Platform, ScrollView, ScrollViewProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import {
+  Keyboard,
+  Platform,
+  ScrollView,
+  ScrollViewProps,
+  StyleProp,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+  ViewStyle,
+} from 'react-native'
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
-import { useKeyboard } from '@holi/core/helpers'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import { useKeyboard } from '@holi/ui/helper'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface HoliModalContentWrapper {
@@ -18,6 +28,7 @@ export interface HoliModalContentWrapper {
   loading?: boolean
   testID?: string
   keyboardShouldPersistTaps?: ScrollViewProps['keyboardShouldPersistTaps']
+  scrollable?: boolean
 }
 
 const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
@@ -30,9 +41,29 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
   keyboardShouldPersistTaps,
   loading = false,
   testID = 'holi-modal-content',
+  scrollable = true,
 }) => {
   const { keyboardHeight } = useKeyboard()
   const mixins = useStyleMixins()
+  const content = (
+    <>
+      {!!headlineText?.length && (
+        <HoliHeading level="1" style={styles.headline} size="large" testID={`${testID}-heading`}>
+          {headlineText}
+        </HoliHeading>
+      )}
+
+      {Platform.OS === 'web' ? (
+        children
+      ) : (
+        <TouchableWithoutFeedback accessible={false} onPress={Keyboard.dismiss}>
+          {children}
+        </TouchableWithoutFeedback>
+      )}
+
+      <View style={styles.placeHolder} />
+    </>
+  )
 
   return (
     <View style={[styles.container, style]} testID={testID}>
@@ -46,28 +77,20 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
         </Animated.View>
       )}
 
-      <ScrollView keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
-        {!!headlineText?.length && (
-          <HoliHeading level="1" style={styles.headline} size="large" testID={`${testID}-heading`}>
-            {headlineText}
-          </HoliHeading>
-        )}
+      {scrollable ? <ScrollView keyboardShouldPersistTaps={keyboardShouldPersistTaps}>{content}</ScrollView> : content}
 
-        {children}
-
-        <View style={styles.placeHolder} />
-      </ScrollView>
-
-      <View style={[styles.actionButtonContainer, keyboardHeight > 0 && styles.hiddenButton]}>
-        <HoliButton
-          label={actionButtonText}
-          onPress={onActionButtonPress}
-          style={[mixins.moreButton, { marginTop: 0 }]}
-          testID={`${testID}-close-btn`}
-        >
-          {actionButtonText}
-        </HoliButton>
-      </View>
+      {keyboardHeight === 0 && (
+        <View style={styles.actionButtonContainer}>
+          <HoliButton
+            label={actionButtonText}
+            onPress={onActionButtonPress}
+            style={[mixins.moreButton, styles.button]}
+            testID={`${testID}-close-btn`}
+          >
+            {actionButtonText}
+          </HoliButton>
+        </View>
+      )}
     </View>
   )
 }
@@ -81,7 +104,7 @@ const styles = StyleSheet.create({
     maxHeight: '100%',
     width: '100%',
     maxWidth: 800,
-    ...(Platform.OS === 'web' ? { minHeight: '100%' } : {}),
+    ...(Platform.OS === 'web' ? { flex: 1 } : {}),
   },
   loaderContainer: {
     ...StyleSheet.absoluteFillObject,
@@ -103,6 +126,7 @@ const styles = StyleSheet.create({
   placeHolder: {
     // space behind the action button
     // and room when the keyboard is open
+    zIndex: -1, // necessary to avoid it being on top of absolute positioned elements
     height: 120,
   },
   actionButtonContainer: {
@@ -113,7 +137,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     opacity: 1,
   },
-  hiddenButton: {
-    display: 'none',
+  button: {
+    marginTop: 0,
+    maxWidth: vars.maxButtonWidth,
   },
 })

@@ -17,6 +17,10 @@ export const locateElementByTestId = async (page: Page, testId: string): Promise
   return page.locator(selector)
 }
 
+export const waitForElementByInnerText = async (page: Page, text: string): Promise<void> => {
+  return await page.locator(`text=${text}`).waitFor()
+}
+
 export const locateElementBySelector = async (page: Page, selector: string): Promise<Locator> => {
   await page.waitForSelector(selector)
   return page.locator(selector)
@@ -79,4 +83,20 @@ export const checkAccessibility = async (page: Page) => {
   }
   // set skipFailures to true for now, so we can fix the issues in a planned task
   await checkA11y(page, undefined, { axeOptions, detailedReport: true, detailedReportOptions: { html: true } }, true)
+}
+
+export const createUserSendConnectionRequest = async ({ context, page, email, password }: DefaultAuthStepsProps) => {
+  await defaultAuthSteps({ context, page, email, password }, 'registration')
+  await waitForElementByTestId(page, 'btn-to-settings')
+
+  // visit another user's profile page via url
+  const userId = process.env.E2E_USER_ID || 'empty'
+  await page.goto('/profile/' + userId)
+  await waitForElementByTestId(page, 'user-profile-full-name')
+
+  // for the newly created user, the button state should be NOT_CONNECTED
+  await clickElementByTestId(page, 'user-connection-button-NOT_CONNECTED')
+
+  // after clicked, the button state should change to REQUESTED
+  await page.waitForSelector(byTestId('user-connection-button-REQUESTED'), { state: 'detached' })
 }

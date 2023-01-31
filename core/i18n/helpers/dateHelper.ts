@@ -20,17 +20,23 @@ export const getRelativeDateString = (dateStr = '', language: string) => {
   // if no date is provided, return empty string
   if (!dateStr) return ''
 
+  language = ['en', 'de'].find((lang) => lang === language) || 'en'
+
   const date = new Date(dateStr)
   let weeksAgo = 0
+  let dayOfCurrentWeek = new Date().getDay() - 1
+  if (dayOfCurrentWeek < 0) {
+    dayOfCurrentWeek = 6
+  }
   const daysAgo = Math.floor(calculateNumberOfDaysAgo(date))
-  const isOverOneDayAgo = daysAgo > 1
+  const isNotYesterdayAndBeforeThisWeek = daysAgo > 1 && daysAgo > dayOfCurrentWeek
 
-  if (isOverOneDayAgo) {
-    weeksAgo = Math.floor(daysAgo / 7)
+  if (isNotYesterdayAndBeforeThisWeek) {
+    weeksAgo = Math.ceil((daysAgo - dayOfCurrentWeek) / 7)
   }
 
   return new Intl.RelativeTimeFormat(language, {
     style: 'long',
     numeric: 'auto',
-  }).format(isOverOneDayAgo ? -weeksAgo : -daysAgo, isOverOneDayAgo ? 'weeks' : 'days')
+  }).format(isNotYesterdayAndBeforeThisWeek ? -weeksAgo : -daysAgo, isNotYesterdayAndBeforeThisWeek ? 'weeks' : 'days')
 }

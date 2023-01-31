@@ -1,0 +1,6 @@
+@import '@holi/ui/styles/globalVars/variables';
+
+.main {
+  composes: main from './NavigationLayoutRoot.module.scss';
+  padding-bottom: 0;
+}

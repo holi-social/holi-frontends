@@ -1,30 +1,56 @@
-import { useCallback } from 'react'
+import { useCallback, useLayoutEffect } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
+import { createNavigationContainerRef } from '@react-navigation/native'
 
 import { useNavigationContext } from '@holi/core/navigation/hooks/NavigationContextProvider'
+import type { NavigationCustomOptions } from '@holi/core/navigation/hooks/NavigationContextProvider/NavigationContext'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { NativeStackNavigationCustomHeaderOptions } from '@holi/mobile/navigation/HeaderAnimated'
+
+export const navigationRef = createNavigationContainerRef()
 
 export const useUnifiedNavigation = () => {
   const { setOptions: setUnifiedOptions, ...context } = useNavigationContext()
-  const { navigate, navigateBack, replaceRoute, query } = useRouting()
-  const { setOptions: setNativeOptions } = useNavigation()
+  const { navigate, navigateBack, replaceRoute } = useRouting()
+  const { setOptions: setNativeOptions, setParams: setNativeParams } = useNavigation()
+
+  const navigationRefOptions = (navigationRef?.getCurrentOptions() as NavigationCustomOptions)?.navigationCustomOptions
+    ?.footerShown
+
+  useLayoutEffect(() => {
+    if (navigationRef.isReady()) {
+      if (context.options.navigationCustomOptions?.footerShown !== navigationRefOptions) {
+        setUnifiedOptions((currentOptions: NavigationCustomOptions) => ({
+          ...currentOptions,
+          navigationCustomOptions: {
+            ...(currentOptions.navigationCustomOptions || {}),
+            footerShown: navigationRefOptions,
+          },
+        }))
+      }
+    }
+  }, [navigationRefOptions, context.options.navigationCustomOptions?.footerShown, setUnifiedOptions])
 
   const setOptions = useCallback(
-    (options: NativeStackNavigationCustomHeaderOptions) => {
+    (options: NavigationCustomOptions) => {
       setNativeOptions?.(options)
       setUnifiedOptions(options)
     },
     [setNativeOptions, setUnifiedOptions]
+  )
+  const setParams = useCallback(
+    (params) => {
+      setNativeParams?.(params)
+    },
+    [setNativeParams]
   )
 
   return {
     navigate,
     navigateBack,
     replaceRoute,
-    query,
     ...context,
     setOptions,
+    setParams,
   }
 }

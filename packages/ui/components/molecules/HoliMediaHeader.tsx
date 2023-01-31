@@ -2,35 +2,23 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { userFullName } from '@holi/core/helpers'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type MediaHeaderProps = {
   title: string
-  author: Partial<User & { name: string }>
+  author: User
   boldTitle?: boolean
   date?: string
-  touchHandler?: () => void
   style?: StyleProp<ViewStyle>
   testID?: string
 }
 
-const HoliMediaHeader: React.FC<MediaHeaderProps> = ({
-  title,
-  author,
-  boldTitle,
-  date,
-  touchHandler,
-  style,
-  children,
-  testID,
-}) => {
-  const { i18n } = useTranslation()
+const HoliMediaHeader: React.VFC<MediaHeaderProps> = ({ title, author, boldTitle, date, style, testID }) => {
+  const { t, i18n } = useTranslation()
 
   const formattedDate = useMemo(() => {
     if (!date) return undefined
@@ -38,10 +26,10 @@ const HoliMediaHeader: React.FC<MediaHeaderProps> = ({
     return dateString.charAt(0).toUpperCase() + dateString.slice(1)
   }, [date, i18n.language])
 
-  const authorName = author.name || userFullName(author)
+  const authorName = author.fullName || t('user.profileView.anonymous')
 
   return (
-    <View style={[styles.header, style]}>
+    <View style={[styles.row, style]} testID={testID}>
       <HoliUserAvatar
         imageSrc={author.avatar}
         label={authorName}
@@ -49,27 +37,25 @@ const HoliMediaHeader: React.FC<MediaHeaderProps> = ({
         defaultColor={author.avatarDefaultColor || ''}
         size="small"
       />
-      <View style={styles.titleContainer}>
-        <HoliButton transparent label={title} onPress={touchHandler} testID={testID || 'btn-media-header'}>
-          <HoliText bold={boldTitle}>{title}</HoliText>
-        </HoliButton>
+
+      <View style={[styles.titleContainer]}>
+        <HoliText bold={boldTitle}>{title}</HoliText>
         {formattedDate && (
           <HoliText size="small" style={styles.date}>
             {formattedDate}
           </HoliText>
         )}
       </View>
-      {children}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  header: {
+  row: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
   },
   titleContainer: {
+    flexDirection: 'column',
     marginHorizontal: 16,
     flex: 1,
   },

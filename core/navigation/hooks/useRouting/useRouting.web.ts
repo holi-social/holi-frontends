@@ -3,7 +3,7 @@ import { useCallback } from 'react'
 
 import { UseRouting } from './types'
 
-const useRouting: UseRouting = <T extends Record<string, string>>() => {
+const useRouting: UseRouting = () => {
   const router = useRouter()
 
   const navigate = useCallback((routeName: string) => router.push(routeName), [router])
@@ -25,7 +25,6 @@ const useRouting: UseRouting = <T extends Record<string, string>>() => {
     navigate,
     navigateBack,
     replaceRoute,
-    query: router.query as T,
     pathname: router.asPath,
   }
 }

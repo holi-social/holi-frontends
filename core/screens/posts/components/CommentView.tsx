@@ -1,43 +1,73 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
 
+import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import VerticalLine from '@holi/core/screens/posts/components/VerticalLine'
 import { Comment } from '@holi/core/screens/posts/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliLink from '@holi/ui/components/molecules/HoliLink'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
+import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { colors } from '@holi/ui/styles/globalVars'
 
-export type CommentProps = {
+export interface CommentProps extends ViewProps {
   comment: Comment
   created?: string
   style?: StyleProp<ViewStyle>
 }
 
-const CommentView: React.VFC<CommentProps> = ({ comment, style }) => {
+const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
   const { t } = useTranslation()
 
   const { creator } = comment
   const name = creator.fullName || t('user.profileView.anonymous')
+
+  // TODO: remove after implementing the feature
+  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
+
   return (
-    <View style={[styles.wrapper, style]}>
-      <HoliMediaHeader title={name} author={creator} date={comment.created} boldTitle>
-        <HoliButton transparent inline label={t('insights.post.preview.more')} style={styles.moreButton}>
+    <View style={[styles.wrapper, style]} {...props}>
+      <View style={styles.header}>
+        <HoliLink
+          href={`/profile/${creator.id}`}
+          label={name}
+          testID="btn-to-commenter-profile"
+          style={styles.mediaHeaderLink}
+        >
+          <HoliMediaHeader title={name} author={creator} date={comment.created} />
+        </HoliLink>
+
+        <HoliButton
+          transparent
+          inline
+          label={t('insights.post.preview.more')}
+          style={styles.moreButton}
+          onPress={showFeatureNotImplementedToast}
+        >
           <HoliIcon icon="more" color={colors.fontColorGrey} />
         </HoliButton>
-      </HoliMediaHeader>
+      </View>
 
       <View style={styles.body}>
         <VerticalLine style={styles.commentConnector} />
         <View style={styles.commentContent}>
-          <HoliText style={styles.text}>{comment.text}</HoliText>
+          <HoliRichTextOutput text={comment.text} users={comment.mentions} style={styles.text} />
           <View style={styles.bottomBar}>
             <HoliText size="small" style={styles.likesNumber}>
               0
             </HoliText>
-            <HoliIcon icon="heart" style={styles.likesIcon} />
+            <HoliButton
+              transparent
+              inline
+              label={t('global.like')}
+              onPress={showFeatureNotImplementedToast}
+              style={styles.likesButton}
+            >
+              <HoliIcon icon="heart" />
+            </HoliButton>
           </View>
         </View>
       </View>
@@ -48,6 +78,13 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style }) => {
 const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: colors.backgroundColorWhite,
+  },
+  header: {
+    flexDirection: 'row',
+  },
+  mediaHeaderLink: {
+    flexShrink: 1,
+    flexGrow: 1,
   },
   moreButton: {
     alignSelf: 'flex-start',
@@ -60,7 +97,7 @@ const styles = StyleSheet.create({
   text: {
     flex: 1,
     lineHeight: 20,
-    marginLeft: 12,
+    marginLeft: 15,
   },
   commentConnector: {
     marginHorizontal: 20,
@@ -77,7 +114,7 @@ const styles = StyleSheet.create({
   likesNumber: {
     color: colors.fontColorGrey,
   },
-  likesIcon: {
+  likesButton: {
     marginLeft: 9,
   },
 })

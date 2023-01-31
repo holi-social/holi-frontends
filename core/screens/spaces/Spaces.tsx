@@ -1,38 +1,53 @@
 import { useQuery } from '@apollo/client'
-import React, { memo, useContext, useLayoutEffect } from 'react'
+import React, { useCallback, useContext, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { displayError } from '@holi/core/errors/helpers'
+import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import SpacesView from '@holi/core/screens/spaces/components/SpacesView'
-import { topicsQuery } from '@holi/core/screens/spaces/queries'
+import DiscoverSpaces from '@holi/core/screens/spaces/components/DiscoverSpaces'
+import MySpaces from '@holi/core/screens/spaces/components/MySpaces'
+import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
+import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
+import { MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/queries'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
-import { TopicsQueryResult } from '@holi/core/screens/userprofile/queries'
-import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-type ScreenProps = NativeStackScreenProps<HomeStackScreens>
+type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
 
 const Spaces: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
+  const { isLoggedIn } = useAuth()
   const mixins = useStyleMixins()
   const { setOptions, navigate } = useUnifiedNavigation()
   const onScreenScroll = useScrollYHandler()
+  const [activeTab, setActiveTab] = useState(0)
+  const { openToast } = useToast()
+  const { user } = useContext(UserContext)
+  const pageViewRef = useRef<ScrollView>(null)
+
+  let hasOwnSpaces = false
+  const {
+    loading,
+    data: mySpacesData,
+    error: mySpacesError,
+  } = useQuery<MySpacesResponse>(mySpaceQuery, { skip: !isLoggedIn })
+  const mySpaces = mySpacesData?.mySpaces || []
+  hasOwnSpaces = isLoggedIn && !!(mySpacesData && mySpacesData?.mySpaces?.length > 0)
 
   useLayoutEffect(() => {
     const title = t('spaces.title')
-
     setOptions({
       title,
       headerBackTitleVisible: true,
@@ -45,51 +60,118 @@ const Spaces: React.VFC<ScreenProps> = () => {
           {title}
         </HeaderTitle>
       ),
-      headerRight: ({ tintColor }) => (
-        <HoliHorizontalRow>
-          <HoliButton label={t('notifications.title')} inline transparent onPress={() => navigate('/notifications')}>
-            <HoliIcon icon="notification-2" size={24} color={tintColor} />
-          </HoliButton>
-
-          <HoliButton label={t('navigation.search')} inline transparent onPress={() => navigate('/search')}>
-            <HoliIcon icon="search" size={24} color={tintColor} />
-          </HoliButton>
-        </HoliHorizontalRow>
-      ),
+      headerRight: (props) => <NotificationSearchButtons {...props} />,
     })
   }, [setOptions, navigate, t])
 
-  const { loading, data, error } = useQuery<TopicsQueryResult>(topicsQuery)
+  const onChangeTab = (tabIndex: number) => {
+    setActiveTab(tabIndex)
+    pageViewRef.current?.scrollTo({ x: 0, y: 0, animated: true })
+  }
 
-  const topics = data?.topics.data || []
+  const applyFilters = useCallback(
+    (filters: SpaceFilter) => {
+      const params = new URLSearchParams()
+      if (filters.topicSlug) {
+        params.set('topic', filters.topicSlug)
+      }
+      if (filters.location) {
+        params.set('location', filters.location)
+      }
+      filters.skillSlugs?.forEach((skill) => {
+        params.append('skill', skill)
+      })
+      const paramsString = params.toString()
+      paramsString && navigate('/spaces/filter?' + paramsString)
+    },
+    [navigate]
+  )
 
-  const { user } = useContext(UserContext)
-
-  if (error) {
-    displayError(error, t('spaces.spaceListing.error'))
+  if (mySpacesError) {
+    if (mySpacesError.message === 'Unauthorized') {
+      hasOwnSpaces = false
+    } else {
+      openToast(t('global.technicalError'), HoliToastType.ERROR)
+      return (
+        <DefaultLayout style={styles.layout}>
+          <View style={[mixins.container, styles.discoverSpacesContainer]} />
+        </DefaultLayout>
+      )
+    }
   }
 
   if (loading) {
-    // TODO: replace with proper loading indicator
     return (
-      <View style={[mixins.container, styles.messageContainer]}>
-        <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
-      </View>
+      <DefaultLayout style={styles.layout}>
+        <View style={[mixins.container, styles.discoverSpacesContainer]} testID="spaces-loading">
+          <HoliText>{t('spaces.spaceListing.loading')}</HoliText>
+        </View>
+      </DefaultLayout>
     )
   }
 
   return (
-    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
-      <SpacesView style={mixins.container} user={user} topics={topics} />
-    </DefaultLayout>
+    <SpaceTermContextProvider>
+      <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} ref={pageViewRef} style={styles.layout}>
+        {/* User has NO spaces => show discover view */}
+        {!hasOwnSpaces && (
+          <View style={[mixins.container, styles.discoverSpacesContainer]}>
+            <DiscoverSpaces user={user} />
+          </View>
+        )}
+
+        {/* User HAS spaces => show tabs with mine and discover */}
+        {hasOwnSpaces && (
+          <HoliTabs
+            id="space-tabs"
+            onChangeTab={onChangeTab}
+            style={styles.holiTabs}
+            tabs={[
+              {
+                title: t('spaces.tabs.mine'),
+                style: styles.tabStyle,
+                children: (
+                  <View style={mixins.container}>
+                    <MySpaces mySpaces={mySpaces} />
+                  </View>
+                ),
+              },
+              {
+                title: t('spaces.tabs.discover'),
+                style: styles.tabStyle,
+                children: (
+                  <View style={[mixins.container, styles.discoverSpacesContainer]}>
+                    <DiscoverSpaces user={user} />
+                  </View>
+                ),
+              },
+            ]}
+            testID="spaces-tab-navigation"
+          />
+        )}
+      </DefaultLayout>
+      {(!hasOwnSpaces || (hasOwnSpaces && activeTab === 1)) && <SpaceFilterModal applyFilters={applyFilters} />}
+    </SpaceTermContextProvider>
   )
 }
 
 const styles = StyleSheet.create({
-  messageContainer: {
-    alignItems: 'center',
-    marginTop: 50,
+  layout: {
+    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+    backgroundColor: colors.backgroundColorGrey,
+  },
+  discoverSpacesContainer: {
+    flex: 1,
+    paddingTop: 24,
+    paddingBottom: vars.bottomBarHeight,
+  },
+  holiTabs: {
+    flex: 1,
+  },
+  tabStyle: {
+    minHeight: '100%',
+    backgroundColor: colors.backgroundColorGrey,
   },
 })
 
-export default memo(Spaces)
+export default Spaces

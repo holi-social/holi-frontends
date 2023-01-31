@@ -30,7 +30,7 @@ exports[`renders correctly renders correctly with long text 1`] = `
               "fontSize": 16,
               "lineHeight": 19.2,
             },
-            Object {},
+            false,
             Array [
               Object {
                 "color": "#6f7081",
@@ -78,7 +78,7 @@ exports[`renders correctly renders correctly with short text 1`] = `
               "fontSize": 16,
               "lineHeight": 19.2,
             },
-            Object {},
+            false,
             Array [
               Object {
                 "color": "#6f7081",

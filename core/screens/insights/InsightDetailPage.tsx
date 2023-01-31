@@ -6,19 +6,17 @@ import { ImageBackground, Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { NativeStackNavigationCustomHeaderOptions } from '@holi//mobile/navigation/HeaderAnimated'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import createParam from '@holi/core/navigation/hooks/useParam'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
-import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -36,14 +34,13 @@ export type InsightDetailPageParams = {
 
 const { useParam } = createParam<InsightDetailPageParams>()
 
-type ScreenProps = NativeStackScreenProps<HomeStackScreens>
+type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
 
 const InsightDetailPage: React.VFC<ScreenProps> = () => {
   const [insightId = ''] = useParam('insightId')
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const postGridItemsInRow = useBreakpointMatcher()
-  const { navigate } = useRouting()
   const [showCuratorModal, setShowCuratorModal] = useState(false)
   const onScreenScroll = useScrollYHandler()
   const { setOptions } = useUnifiedNavigation()
@@ -59,10 +56,11 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
         title: t('insights.insight.title', { title: insight?.title }),
         headerTransparent: true,
         headerTintColor: colors.fontColorWhite,
-        headerCustomOptions: {
+        navigationCustomOptions: {
           headerBackgroundGradient: true,
+          footerShown: false,
         },
-      } as NativeStackNavigationCustomHeaderOptions),
+      }),
     [setOptions, t, insight?.title]
   )
 
@@ -84,9 +82,6 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
   const posts: Post[] = insight.posts || []
 
   const author = insight.creator
-
-  // TODO: dummy category
-  const category = 'Immigration'
 
   return (
     <>
@@ -110,7 +105,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
         {/* Insight content */}
         <View style={[mixins.container, styles.insightView]}>
           <HoliHeading size="xSmall" style={styles.categoryHeadline} testID="insight-category">
-            {category}
+            {insight?.topic?.title}
           </HoliHeading>
 
           <HoliHeading level="1" size="super" style={styles.insightHeadline} testID="insight-headline">
@@ -120,59 +115,62 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
           <HoliText style={styles.insightText}>{insight.description}</HoliText>
 
           {/* Author  */}
-          <View style={styles.authorInfo}>
-            <HoliButton
-              transparent
+          {author && (
+            <View style={styles.authorInfo}>
+              <HoliButton
+                transparent
+                label={t('user.cards.modal.showInfo', { name: author.fullName })}
+                onPress={() => setShowCuratorModal(true)}
+              >
+                <View style={styles.authorInfoInner}>
+                  <HoliUserAvatar
+                    imageSrc={author.avatar}
+                    label={author.fullName}
+                    initials={author.avatarLabel || ''}
+                    defaultColor={author.avatarDefaultColor || ''}
+                    size="small"
+                    style={styles.authorInfoAvatar}
+                  />
+
+                  <HoliText size="small" style={styles.authorInfoText}>
+                    <Trans t={t} i18nKey="insight.curatedBy" values={{ name: author.fullName }}>
+                      <HoliText size="small" />
+                    </Trans>
+                  </HoliText>
+                </View>
+              </HoliButton>
+            </View>
+          )}
+
+          {author && (
+            <HoliModal
               label={t('user.cards.modal.showInfo', { name: author.fullName })}
-              onPress={() => setShowCuratorModal(true)}
-            >
-              <View style={styles.authorInfoInner}>
-                <HoliUserAvatar
-                  imageSrc={author.avatar}
-                  label={author.fullName}
-                  initials={author.avatarLabel || ''}
-                  defaultColor={author.avatarDefaultColor || ''}
-                  size="small"
-                  style={styles.authorInfoAvatar}
-                />
-
-                <HoliText size="small" style={styles.authorInfoText}>
-                  <Trans t={t} i18nKey="insight.curatedBy" values={{ name: author.fullName }}>
-                    <HoliText size="small" />
-                  </Trans>
-                </HoliText>
-              </View>
-            </HoliButton>
-          </View>
-
-          <HoliModal
-            label={t('user.cards.modal.showInfo', { name: author.fullName })}
-            show={showCuratorModal}
-            onDismiss={() => setShowCuratorModal(false)}
-            testID="insight-curator-modal"
-          >
-            <HoliUserCardsModalContent
-              title={''} // don't show any headline in modal
-              users={[author as User]}
+              show={showCuratorModal}
               onDismiss={() => setShowCuratorModal(false)}
-              onUserPress={({ id }) => {
-                setShowCuratorModal(false)
-                navigate('/profile/' + id)
-              }}
-              testID="insight-curator"
-            />
-          </HoliModal>
+              testID="insight-curator-modal"
+            >
+              <HoliUserCardsModalContent
+                title={''} // don't show any headline in modal
+                users={[author as User]}
+                onDismiss={() => setShowCuratorModal(false)}
+                testID="insight-curator"
+              />
+            </HoliModal>
+          )}
         </View>
 
         {/* Dummy list of posts */}
         {!!posts.length && (
           <View style={[mixins.container, styles.postList]}>
             <HoliGridWrapper itemsInRow={postGridItemsInRow}>
-              {posts.map((post) => (
-                <HoliGridCell key={post.id}>
-                  <PostPreview insightId={insightId} post={post} />
-                </HoliGridCell>
-              ))}
+              {
+                /** FIXME convert to VirtualizedList, FlatList or SectionList */
+                posts.map((post) => (
+                  <HoliGridCell key={post.id}>
+                    <PostPreview post={post} style={styles.postItem} />
+                  </HoliGridCell>
+                ))
+              }
             </HoliGridWrapper>
           </View>
         )}
@@ -181,39 +179,10 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
   )
 }
 
-const headerLeftWidth = 50
 const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: colors.backgroundColorGreyDark,
     ...Platform.select({ web: { flex: 1 } }),
-  },
-  mobileHeader: {
-    position: 'absolute',
-    top: 0,
-    flexDirection: 'row',
-    height: 100,
-  },
-  headerBackgroundGradient: {
-    ...StyleSheet.absoluteFillObject,
-    opacity: 0.6,
-  },
-  headerInner: {
-    flexDirection: 'row',
-    width: '100%',
-  },
-  headerLeft: {
-    width: headerLeftWidth,
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-  },
-  headerCenter: {
-    flex: 1,
-    marginRight: headerLeftWidth,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  headerTitle: {
-    color: colors.fontColorWhite,
   },
   insightBackgroundImage: {
     height: Platform.OS === 'web' ? 680 : 340,
@@ -265,6 +234,10 @@ const styles = StyleSheet.create({
   },
   postList: {
     marginTop: 24,
+  },
+  postItem: {
+    borderRadius: 12,
+    paddingVertical: 24,
   },
 })
 

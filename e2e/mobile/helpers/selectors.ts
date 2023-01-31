@@ -1,5 +1,11 @@
+import { swipeDown, swipeLeft, swipeRight, swipeUp } from './gestures'
+
+type ScrollDirection = 'up' | 'down' | 'left' | 'right'
+
 // https://webdriver.io/docs/selectors
 const byTestId = (testID: string) => (platform === 'ios' ? `~${testID}` : `//*[@resource-id='${testID}']`)
+
+const byText = (text: string) => `*${text}`
 
 const waitForElement = async (elementSelector: string, timeout?: number) => {
   // https://webdriver.io/docs/api/browser/$
@@ -10,6 +16,9 @@ const waitForElement = async (elementSelector: string, timeout?: number) => {
 
   return element
 }
+
+export const waitForElementWithInnerText = async (text: string, timeout?: number) =>
+  waitForElement(byText(text), timeout)
 
 export const waitForElementWithTestId = async (testId: string, timeout?: number) =>
   waitForElement(byTestId(testId), timeout)
@@ -34,40 +43,57 @@ export const checkIfElementWithTestIdExists = async (testId: string) => {
 
 export const scrollToElementWithTestId = async (
   testId: string,
-  direction: 'up' | 'down',
-  { timeout, maxAttempts = 1 }: { timeout?: number; maxAttempts?: number } = {}
+  direction: ScrollDirection,
+  { timeout = 1000, maxAttempts = 5 }: { timeout?: number; maxAttempts?: number } = {}
 ) => {
-  // scrollIntoView is not supported for iOS and webdriverio currently requires a manual scroll down, instead of a scroll into element
-  // https://github.com/webdriverio/webdriverio/issues/6537 and https://stackoverflow.com/questions/42656872/how-to-do-scroll-on-ios-native-app-with-webdriver-io
-  if (platform === 'ios') {
-    let scrollCounter = 0
-    while (scrollCounter < maxAttempts) {
-      scrollCounter++
-      try {
-        await Appium.execute('mobile: scroll', { direction: direction })
-
-        return await waitForElementWithTestId(testId)
-      } catch (e) {
-        // element not visible yet, throw if max attempt count reached
-        if (scrollCounter === maxAttempts) {
-          throw e
-        }
-      }
+  let scrollCounter = 0
+  const implicitTimeout = Appium.options.waitforTimeout
+  await Appium.setImplicitTimeout(timeout)
+  while (scrollCounter < maxAttempts) {
+    // is the element in the viewport?
+    try {
+      const elem = await waitForElementWithTestId(testId, 1)
+      // reset the timeout before exiting the function
+      await Appium.setImplicitTimeout(implicitTimeout)
+      return elem
+    } catch (e) {
+      //console.log(
+      //  `${new Date().getTime()}: element with testID ${testId} not found after scrolling ${scrollCounter}/${maxAttempts} times `
+      //)
     }
-  }
 
-  // See https://developer.android.com/reference/androidx/test/uiautomator/UiScrollable +
-  // https://developer.android.com/reference/androidx/test/uiautomator/UiSelector
-  const selector = `android=new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().resourceId("${testId}"))`
-  return waitForElement(selector, timeout)
+    /**
+     * Swiping works in opposite direction to scrolling (swiping left means scrolling right).
+     * Hence the inverted directions below.
+     */
+    switch (direction) {
+      case 'down':
+        swipeUp()
+        break
+      case 'up':
+        swipeDown()
+        break
+      case 'left':
+        swipeRight()
+        break
+      case 'right':
+        swipeLeft()
+    }
+
+    scrollCounter++
+  }
+  await Appium.setImplicitTimeout(implicitTimeout)
+  // last try
+  return await waitForElementWithTestId(testId, 1)
 }
 
-const locateMultipleElements = async (elementSelector: string) => {
+const locateMultipleElements = async (elementSelector: string): Promise<Record<string, unknown>[]> => {
   // https://webdriver.io/docs/api/browser/$$
   return await Appium.$$(elementSelector)
 }
 
-export const locateMultipleElementsWithTestId = async (testId: string) => locateMultipleElements(byTestId(testId))
+export const locateMultipleElementsWithTestId = async (testId: string): Promise<Record<string, unknown>[]> =>
+  locateMultipleElements(byTestId(testId))
 
 export const seeTextWithTestId = async (expectedText: string, testId: string) => {
   const element = await waitForElementWithTestId(testId)

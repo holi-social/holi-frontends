@@ -3,8 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, ViewStyle } from 'react-native'
 
 import { colors } from '@holi//ui/styles/globalVars'
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
-import { userFullName } from '@holi/core/helpers'
+import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -17,10 +16,10 @@ export type LoginProfileButtonProps = {
   testID?: string
 }
 
-const LoginProfileButton: React.VFC<LoginProfileButtonProps> = ({ focused, ...props }) => {
+const LoginProfileButton: React.FC<LoginProfileButtonProps> = ({ focused, children, style, ...props }) => {
   const { pathname, navigate } = useRouting()
   const { user } = useContext(UserContext)
-  const { isLoggedIn } = useContext(AuthContext)
+  const { isLoggedIn } = useAuth()
   const hasUserData = isLoggedIn && user
   const { t } = useTranslation()
   const isWeb = Platform.OS === 'web'
@@ -41,13 +40,14 @@ const LoginProfileButton: React.VFC<LoginProfileButtonProps> = ({ focused, ...pr
       inline
       transparent
       onPress={() => navigate(pathToGo)}
+      contentStyle={[styles.button, style]}
       {...props}
       testID="btn-to-profile-view"
     >
       {hasUserData ? (
         <HoliUserAvatar
           imageSrc={user.avatar}
-          label={userFullName(user) || t('user.profileView.anonymous')}
+          label={user.fullName || t('user.profileView.anonymous')}
           initials={user.avatarLabel}
           defaultColor={user.avatarDefaultColor}
           size="micro"
@@ -61,6 +61,8 @@ const LoginProfileButton: React.VFC<LoginProfileButtonProps> = ({ focused, ...pr
           size={24}
         />
       )}
+
+      {children}
     </HoliButton>
   )
 }
@@ -68,6 +70,9 @@ const LoginProfileButton: React.VFC<LoginProfileButtonProps> = ({ focused, ...pr
 export default LoginProfileButton
 
 const styles = StyleSheet.create({
+  button: {
+    alignItems: 'center',
+  },
   userAvatarHighlighted: {
     borderColor: colors.backgroundColorBlack,
     borderWidth: 2,

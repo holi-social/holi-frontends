@@ -30,6 +30,7 @@ export type HoliAutocompleteProps = {
   testID?: string
   inputProps?: TextInputProps
   id: string
+  onSubmit?: (value: string) => void
 }
 
 const HoliAutocomplete = ({
@@ -48,6 +49,7 @@ const HoliAutocomplete = ({
   debounce: debounceValue,
   id,
   testID,
+  onSubmit,
 }: HoliAutocompleteProps) => {
   const [searchText, setSearchText] = useState(value || '')
   const [isOpened, setIsOpened] = useState(false)
@@ -78,16 +80,9 @@ const HoliAutocomplete = ({
     setSearchText(value || '')
   }, [value])
 
-  // Get suggestions for initial value
-  useEffect(() => {
-    if (value && !suggestions.length) {
-      onChangeText(value)
-    }
-  }, [suggestions, value, onChangeText])
-
   const handleItemSelection = useCallback(
     (item) => {
-      onChangeText(item.label)
+      onChangeText(item.id)
       setIsOpened(false)
       Keyboard.dismiss()
     },
@@ -122,6 +117,11 @@ const HoliAutocomplete = ({
     clearFocusAndClose(focusedItem)
   }, [clearFocusAndClose, focusedItem])
 
+  const onSubmitEditing = useCallback(() => {
+    onSubmit && onSubmit(searchText || '')
+    setIsOpened(false)
+  }, [onSubmit, setIsOpened, searchText])
+
   const renderItem = useCallback(
     (item, index) => {
       const isLast = index === suggestions.length - 1
@@ -129,7 +129,7 @@ const HoliAutocomplete = ({
         <HoliButton
           inline
           transparent
-          key={item.id}
+          key={item.label} // TODO change back to id when HOLI-3069 gets reverted (duplicate key issues)
           label={item.label}
           accessibilityRole="menuitem"
           onBlur={onBlur}
@@ -167,7 +167,7 @@ const HoliAutocomplete = ({
         accessibilityExpanded={isOpened}
         accessibilityHasPopup="menu"
         trailingComponent={trailingComponent}
-        inputProps={inputProps}
+        inputProps={{ ...inputProps, onSubmitEditing }}
         inputStyle={[
           isOpened && suggestions.length ? styles.textInputOpened : {},
           focusedItem ? styles.textInputFocused : {},
@@ -179,7 +179,10 @@ const HoliAutocomplete = ({
         testID={testID}
       />
       <View nativeID={`${id}-suggestions`} accessibilityRole="menu">
-        {isOpened ? suggestions.map(renderItem) : <></>}
+        {
+          /** FIXME convert to VirtualizedList, FlatList or SectionList */
+          isOpened ? suggestions.map(renderItem) : <></>
+        }
       </View>
     </View>
   )

@@ -1,12 +1,15 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpaceHeader from '@holi/core/screens/spaces/components/SpaceHeader'
-import SpaceTaskTile from '@holi/core/screens/spaces/components/SpaceTaskTile'
-import { Space, Task } from '@holi/core/screens/spaces/types'
-import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import SpaceSocialLinkList from '@holi/core/screens/spaces/components/SpaceSocialLinkList'
+import SpaceTaskList from '@holi/core/screens/spaces/components/SpaceTaskList'
+import SpaceWelcome from '@holi/core/screens/spaces/components/SpaceWelcome'
+import { Space } from '@holi/core/screens/spaces/types'
+import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
+import { colors, vars } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type SpaceDetailViewProps = {
   space: Space
@@ -14,37 +17,73 @@ type SpaceDetailViewProps = {
 }
 
 const SpaceDetailView: React.VFC<SpaceDetailViewProps> = ({ space, style }) => {
+  const mixins = useStyleMixins()
   const { t } = useTranslation()
-
   return (
-    <View style={[styles.container, style]} testID="space-details-container">
-      <SpaceHeader space={space} />
-      <HoliText style={{ paddingTop: 10 }}>{space.description}</HoliText>
-      {(space.tasks?.length || 0) > 0 && (
-        <View>
-          <HoliHeading level="2">{t('spaces.spaceDetails.tasksHeading', { count: space.tasks?.length })}</HoliHeading>
-          <ScrollView horizontal={true} style={{ marginTop: 20 }} contentContainerStyle={styles.tasksContainer}>
-            {space.tasks?.map((task: Task) => (
-              <SpaceTaskTile key={task.id} task={task} style={styles.taskTile} />
-            ))}
-          </ScrollView>
-        </View>
-      )}
+    <View style={[styles.wrapper, style]} testID="space-details-container">
+      {/* Header */}
+      <View style={styles.header}>
+        <SpaceHeader space={space} style={mixins.container} />
+      </View>
+
+      <HoliTabs
+        id="space-tabs"
+        centeredButtons
+        style={{ flex: 1 }}
+        tabs={[
+          {
+            title: t('spaces.tab.info'),
+            titleIcon: 'pushpin',
+            style: styles.tabStyle,
+            children: [
+              <SpaceWelcome
+                space={space}
+                style={[mixins.container, styles.tabItem, styles.tabItemFirst]}
+                key="space-welcome"
+              />,
+              <SpaceSocialLinkList
+                space={space}
+                style={[mixins.container, styles.tabItem]}
+                key="space-social-link-list"
+              />,
+            ],
+          },
+          {
+            title: t('spaces.tab.action'),
+            titleIcon: 'sun',
+            style: styles.tabStyle,
+            children: (
+              <SpaceTaskList
+                style={[mixins.container, styles.tabItem, styles.tabItemFirst]}
+                space={space}
+                key="space-task-list"
+              />
+            ),
+          },
+        ]}
+      />
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
+  wrapper: {
     justifyContent: 'center',
     paddingTop: 12,
   },
-  tasksContainer: {
-    justifyContent: 'center',
-    marginBottom: 30,
+  header: {
+    backgroundColor: colors.backgroundColorWhite,
+    paddingBottom: 24,
   },
-  taskTile: {
-    marginRight: 8,
+  tabItem: {
+    paddingBottom: 32,
+  },
+  tabItemFirst: {
+    paddingTop: 32,
+  },
+  tabStyle: {
+    backgroundColor: colors.backgroundColorGrey,
+    paddingBottom: Platform.OS === 'web' ? +vars.bottomBarHeight : 24,
   },
 })
 

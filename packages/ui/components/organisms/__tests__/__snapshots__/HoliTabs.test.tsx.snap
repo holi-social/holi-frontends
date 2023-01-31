@@ -7,12 +7,12 @@ exports[`renders correctly renders correctly when open 1`] = `
       Object {
         "alignContent": "center",
         "alignItems": "center",
-        "flex": 1,
         "justifyContent": "center",
       },
       undefined,
     ]
   }
+  testID="tabs-module"
 >
   <View
     accessibilityOrientation="horizontal"
@@ -36,6 +36,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           },
           Object {
             "flexDirection": "row",
+            "justifyContent": "flex-start",
           },
         ]
       }
@@ -89,6 +90,11 @@ exports[`renders correctly renders correctly when open 1`] = `
       >
         <View
           pointerEvents="none"
+          style={
+            Object {
+              "flexDirection": "row",
+            }
+          }
         >
           <Text
             style={
@@ -155,6 +161,11 @@ exports[`renders correctly renders correctly when open 1`] = `
       >
         <View
           pointerEvents="none"
+          style={
+            Object {
+              "flexDirection": "row",
+            }
+          }
         >
           <Text
             style={
@@ -176,17 +187,15 @@ exports[`renders correctly renders correctly when open 1`] = `
   <RCTScrollView
     contentContainerStyle={
       Object {
-        "alignContent": "center",
-        "alignItems": "center",
-        "justifyContent": "center",
+        "alignContent": "flex-start",
+        "alignItems": "flex-start",
+        "justifyContent": "flex-start",
       }
     }
-    decelerationRate={0}
     horizontal={true}
     onMomentumScrollEnd={[Function]}
     pagingEnabled={true}
     showsHorizontalScrollIndicator={false}
-    snapToAlignment="center"
   >
     <View>
       <View
@@ -202,9 +211,12 @@ exports[`renders correctly renders correctly when open 1`] = `
           accessibilityLabelledBy="test-tabs-tab-0"
           nativeID="test-tabs-panel-0"
           style={
-            Object {
-              "width": 750,
-            }
+            Array [
+              Object {
+                "width": 750,
+              },
+              undefined,
+            ]
           }
           testID="tabs-module-panel-0-active"
         >
@@ -223,8 +235,8 @@ exports[`renders correctly renders correctly when open 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
               testID="profileTab"
@@ -237,9 +249,12 @@ exports[`renders correctly renders correctly when open 1`] = `
           accessibilityLabelledBy="test-tabs-tab-1"
           nativeID="test-tabs-panel-1"
           style={
-            Object {
-              "width": 750,
-            }
+            Array [
+              Object {
+                "width": 750,
+              },
+              undefined,
+            ]
           }
           testID="tabs-module-panel-1-inactive"
         >
@@ -258,8 +273,8 @@ exports[`renders correctly renders correctly when open 1`] = `
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
-                  Object {},
-                  Object {},
+                  false,
+                  undefined,
                 ]
               }
               testID="InsightsTab"

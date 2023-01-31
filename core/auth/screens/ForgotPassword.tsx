@@ -10,10 +10,10 @@ import RecoverPasswordForm from '@holi/core/auth/components/RecoverPasswordForm'
 import RecoverPasswordSent from '@holi/core/auth/components/RecoverPasswordSent'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 
-type ScreenProps = NativeStackScreenProps<HomeStackScreens>
+type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
 
 const ForgotPassword: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()

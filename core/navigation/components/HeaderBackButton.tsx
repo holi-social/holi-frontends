@@ -25,7 +25,7 @@ const HeaderBackButton: React.VFC<HeaderBackButtonProps> = ({
 
   return (
     <HoliButton
-      label={t('notifications.title')}
+      label={t('navigation.headerLeft.back')}
       inline
       transparent
       onPress={() => navigateBack()}

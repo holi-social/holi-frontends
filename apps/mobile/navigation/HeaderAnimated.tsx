@@ -13,10 +13,11 @@ import {
 
 import { Header, getHeaderTitle } from '@react-navigation/elements'
 import { useNavigation } from '@react-navigation/native'
-import { NativeStackHeaderProps, NativeStackNavigationOptions } from '@react-navigation/native-stack'
+import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 
 import { useScrollYValue } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import type { NavigationCustomOptions } from '@holi/core/navigation/hooks/NavigationContextProvider'
 import { colors } from '@holi/ui/styles/globalVars'
 
 const useHeaderHideAnimation = (headerHeight: number) => {
@@ -55,16 +56,8 @@ const useHeaderHideAnimation = (headerHeight: number) => {
 
   return headerSlideAnimation.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, -headerHeight * 1.1], // use 1.1 multiplier for bigger Safe Area on iPhone 14 Pro with Dynamic Island
+    outputRange: [0, -headerHeight * 1.2],
   })
-}
-
-export interface NativeStackNavigationCustomHeaderOptions extends NativeStackNavigationOptions {
-  headerCustomOptions?: Partial<{
-    headerBackgroundImageURI: string
-    headerBackgroundGradient: boolean
-    headerBackgroundCustom: React.ReactNode
-  }>
 }
 
 const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, route, navigation }) => {
@@ -78,9 +71,9 @@ const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, rout
     headerStyle,
     headerTransparent,
     headerShown,
-    headerCustomOptions: { headerBackgroundImageURI, headerBackgroundGradient, headerBackgroundCustom } = {},
+    navigationCustomOptions: { headerBackgroundImageURI, headerBackgroundGradient, headerBackgroundCustom } = {},
     ...restOptions
-  } = options as NativeStackNavigationCustomHeaderOptions
+  } = options as NavigationCustomOptions
 
   const [headerHeight, setHeaderHeight] = useState(0)
 

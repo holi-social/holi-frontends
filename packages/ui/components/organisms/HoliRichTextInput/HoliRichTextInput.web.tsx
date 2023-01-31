@@ -13,15 +13,17 @@ import { StyleSheet, View } from 'react-native'
 
 import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
-import type { HoliRichTextInputProps } from '@holi/ui/components/organisms/HoliRichTextInput'
 import HoliFocusPlugin from '@holi/ui/helper/lexical/HoliFocusPlugin'
 import HoliMentionsPlugin, { $getPureTextFromHtml } from '@holi/ui/helper/lexical/HoliMentionsPlugin'
 import { HoliMentionsPluginNode } from '@holi/ui/helper/lexical/HoliMentionsPlugin.node'
 import { colors } from '@holi/ui/styles/globalVars'
 
+import type { HoliRichTextInputProps } from './HoliRichTextInput'
+
 const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   initalValue = '',
   placeholder = '...',
+  autofocus = false,
   minSearchChars = 2,
   maxSuggestionOptions = 5,
   debounceDelay = 300,
@@ -91,19 +93,22 @@ const HoliRichTextInput: React.VFC<HoliRichTextInputProps> = ({
   }
 
   return (
-    <View style={props.style}>
+    <View style={props.style} testID={props.testID || 'richtext-component'}>
       {/* The View is needed for positioning the placeholder */}
       <LexicalComposer initialConfig={lexicalConfig}>
         <PlainTextPlugin
           ErrorBoundary={LexicalErrorBoundary}
           contentEditable={
-            <ContentEditable testid={props.testID || 'richtext_input'} style={StyleSheet.flatten(styles.inputDiv)} />
+            <ContentEditable
+              testid={props.testID ? `${props.testID}-input` : 'richtext-component-input'}
+              style={StyleSheet.flatten(styles.inputDiv)}
+            />
           }
           placeholder={<span style={styles.placeholder}>{placeholder}</span>}
         />
         <OnChangePlugin onChange={onChange} />
         <HistoryPlugin />
-        <HoliFocusPlugin />
+        <HoliFocusPlugin autofocus={autofocus} onFocus={props?.onFocus} onBlur={props?.onBlur} />
         <HoliMentionsPlugin
           findUsersByName={findUserMapped}
           minSearchChars={minSearchChars}
@@ -123,7 +128,6 @@ const styles = StyleSheet.create({
     paddingRigjt: 20,
     paddingTop: 10,
     paddingBottom: 10,
-    position: 'relative',
   },
   placeholder: {
     color: colors.fontColorGrey,

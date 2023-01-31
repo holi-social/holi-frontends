@@ -11,6 +11,7 @@ export default {
 
 const user: User = {
   id: '1',
+  fullName: 'DJ Qualls',
   firstName: 'DJ',
   lastName: 'Qualls',
   avatarLabel: 'D',

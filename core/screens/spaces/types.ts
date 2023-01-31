@@ -8,6 +8,21 @@ export interface SpaceMember {
   created: string
 }
 
+export enum SpaceLinkType {
+  DISCORD = 'DISCORD',
+  FACEBOOK = 'FACEBOOK',
+  INSTAGRAM = 'INSTAGRAM',
+  LINKEDIN = 'LINKEDIN',
+  OTHER = 'OTHER',
+  TWITTER = 'TWITTER',
+  WHATSAPP = 'WHATSAPP',
+}
+
+export interface SpaceLink {
+  url: string
+  type: SpaceLinkType
+}
+
 export interface Space {
   id: string
   title: string
@@ -16,9 +31,23 @@ export interface Space {
   creator: User
   mainImage: string
   location: string
+  connectionStatusToMyself: SpaceConnectionType[]
   memberships: SpaceMember[]
+  links?: SpaceLink[]
   avatar?: string
   tasks?: Task[]
+}
+
+export enum SpaceSectionType {
+  FOLLOWER = 'FOLLOWER',
+  MEMBERSHIP_REQUESTOR = 'MEMBERSHIP_REQUESTOR',
+  MEMBER = 'MEMBER',
+  CREATOR = 'CREATOR',
+}
+export type SpaceSection = {
+  section: string
+  type: SpaceSectionType
+  spaces: { data: Space[] }
 }
 
 export interface Task {
@@ -31,4 +60,16 @@ export interface Task {
   location: string
   regularity: 'REGULARLY' | 'PROJECT_BASED' | 'ONE_TIME'
   skills: Skill[]
+}
+
+export enum SpaceConnectionType {
+  FOLLOWER = 'FOLLOWER',
+  MEMBERSHIP_REQUESTOR = 'MEMBERSHIP_REQUESTOR',
+  MEMBER = 'MEMBER',
+  CREATOR = 'CREATOR',
+}
+
+export enum SpaceConnectionAction {
+  CONNECT = 'CONNECT',
+  DISCONNECT = 'DISCONNECT',
 }

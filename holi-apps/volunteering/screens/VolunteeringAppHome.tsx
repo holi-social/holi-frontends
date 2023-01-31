@@ -1,31 +1,130 @@
-import React, { useLayoutEffect } from 'react'
+import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
+import DefaultLayout from '@holi/core/DefaultLayout'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
+import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-type ScreenProps = NativeStackScreenProps<HomeStackScreens>
+import VolunteeringFilterForm, { VolunteeringFilters } from '@holi-apps/volunteering/components/VolunteeringFilterForm'
+import VolunteeringListing from '@holi-apps/volunteering/components/VolunteeringListing'
 
-const VolunteeringAppHome: React.VFC<ScreenProps> = () => {
+type VolunteeringAppHomeProps = Record<string, never>
+
+export type VolunteeringAppHomeParams = {
+  location?: string
+}
+
+const { useParam, useUpdateParams } = createParam<VolunteeringAppHomeParams>()
+
+const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
   const { t } = useTranslation()
-  const title = t('apps.name.volunteering')
+  const title = t('volunteering:app.name')
   const mixins = useStyleMixins()
-  const { setOptions } = useUnifiedNavigation()
 
-  useLayoutEffect(() => setOptions({ title }), [setOptions, title])
+  const [showFilterModal, setShowFilterModal] = useState(false)
+
+  const [location] = useParam('location', singleParamConfig)
+
+  const updateParams = useUpdateParams()
+
+  const closeModal = useCallback(() => {
+    setShowFilterModal(false)
+  }, [])
+
+  const submit = useCallback(
+    (filters) => {
+      updateParams({ location: filters.location })
+      closeModal()
+    },
+    [updateParams, closeModal]
+  )
+
+  const clearFilters = useCallback(
+    () =>
+      updateParams({
+        location: undefined,
+      }),
+    [updateParams]
+  )
+
+  const { setOptions, navigate } = useUnifiedNavigation()
+  const filters: VolunteeringFilters = { location }
+  const isFiltering = !!location
+
+  useLayoutEffect(() => {
+    const filterButton = (
+      <HoliButton
+        label={t('volunteering:filter.heading')}
+        inline
+        transparent
+        onPress={() => setShowFilterModal(true)}
+        testID="btn-to-volunteering-filter"
+      >
+        <HoliIcon icon="filter-3" size={24} />
+        {isFiltering && <View style={styles.dot} />}
+      </HoliButton>
+    )
+    setOptions({
+      headerTitle: () => (
+        <HoliHeading level="1" size="small">
+          {title}
+        </HoliHeading>
+      ),
+      headerTransparent: true,
+      headerStyle: { backgroundColor: colors.backgroundColorWhite },
+      headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
+      headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
+    })
+  }, [setOptions, navigate, t, title, isFiltering])
 
   return (
-    <View style={[mixins.container, { padding: 10 }]}>
-      <HoliHeading level="1" size="super" testID="apps-volunteering-heading">
-        {title}
-      </HoliHeading>
-    </View>
+    <DefaultLayout style={styles.defaultLayout} scrollView={false} headerOverlap testID={'volunteering-list-container'}>
+      <HoliModal
+        show={showFilterModal}
+        onDismiss={closeModal}
+        testID="volunteering-filter"
+        label={t('volunteering:filter.heading')}
+        autoHeight={false}
+        relativeHeight={1}
+      >
+        <VolunteeringFilterForm onSubmit={submit} filters={filters} />
+      </HoliModal>
+
+      <View style={[mixins.container]} testID="volunteering-app-home">
+        <SafeAreaView>
+          <VolunteeringListing filters={filters} clearFilters={clearFilters} />
+        </SafeAreaView>
+      </View>
+    </DefaultLayout>
   )
 }
 
-export default VolunteeringAppHome
+export default memo(VolunteeringAppHome)
+
+const styles = StyleSheet.create({
+  defaultLayout: {
+    backgroundColor: colors.backgroundColorGreyLight,
+    paddingBottom: 0,
+    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+  },
+  dot: {
+    backgroundColor: colors.positivepurple,
+    height: 12,
+    width: 12,
+    borderRadius: 6,
+    position: 'absolute',
+    top: -2,
+    right: -2,
+    borderColor: colors.backgroundColor,
+    borderWidth: 2,
+  },
+})

@@ -1,8 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/AuthContextProvider'
+import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -15,7 +16,7 @@ const FooterTabBar: React.VoidFunctionComponent = () => {
   const styles = getStyles(width)
   const { navigate, pathname } = useRouting()
   const { t } = useTranslation()
-  const { isLoggedIn } = useContext(AuthContext)
+  const { isLoggedIn } = useAuth()
 
   const isHome = pathname === '/'
   const isChat = pathname.startsWith('/chat')
@@ -23,6 +24,9 @@ const FooterTabBar: React.VoidFunctionComponent = () => {
   const isProfileLoginRefistrationForgotPassword = ['/profile', '/login', '/registration', '/forgotPassword'].some(
     (path) => pathname.startsWith(path)
   )
+
+  // TODO: remove after implementing the feature
+  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
   return (
     <View
@@ -80,7 +84,11 @@ const FooterTabBar: React.VoidFunctionComponent = () => {
           label={t('chat.title')}
           inline
           transparent
-          onPress={() => navigate('/chat')}
+          onPress={() => {
+            // TODO: remove after implementing the feature
+            showFeatureNotImplementedToast()
+            // navigate('/chat')
+          }}
           contentStyle={styles.button}
         >
           <HoliIcon
@@ -97,8 +105,7 @@ const FooterTabBar: React.VoidFunctionComponent = () => {
           </HoliText>
         </HoliButton>
 
-        <View style={styles.button}>
-          <LoginProfileButton focused={isProfileLoginRefistrationForgotPassword} />
+        <LoginProfileButton focused={isProfileLoginRefistrationForgotPassword} style={styles.button}>
           <HoliText
             size="extrasmall"
             style={[
@@ -108,7 +115,7 @@ const FooterTabBar: React.VoidFunctionComponent = () => {
           >
             {isLoggedIn ? t('profile.title') : t('auth.login')}
           </HoliText>
-        </View>
+        </LoginProfileButton>
       </View>
     </View>
   )

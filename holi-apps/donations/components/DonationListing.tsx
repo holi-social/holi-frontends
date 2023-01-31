@@ -1,17 +1,17 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { displayError } from '@holi/core/errors/helpers'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import DonationButton from '@holi-apps/donations/components/DonationButton'
 import DonationListingItem from '@holi-apps/donations/components/DonationListingItem'
 import DonationListingItemFiltered from '@holi-apps/donations/components/DonationListingItemFiltered'
 import { AppDonationsProjectsResponse, projectsQuery } from '@holi-apps/donations/queries'
@@ -24,14 +24,13 @@ type DonationListingProps = {
 }
 
 const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, resetSearch }: DonationListingProps) => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const mixins = useStyleMixins()
   const [fetchingMore, setFetchingMore] = useState(false)
   const isFiltering = useMemo(() => !!locationQuery, [locationQuery])
 
   const { loading, data, error, fetchMore } = useQuery<AppDonationsProjectsResponse>(projectsQuery, {
     variables: {
-      locale: i18n.language,
       limit: PROJECT_PAGE_SIZE,
       offset: 0,
       location: locationQuery,
@@ -39,11 +38,9 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
     fetchPolicy: 'cache-and-network',
   })
 
-  const { projects = [], totalResults = 0 } = data?.appDonations_projects || {}
+  const { data: projects = [], totalResults = 0 } = data?.appDonations_projects || {}
 
-  const canFetchMore = useMemo(() => {
-    return projects.length < totalResults
-  }, [projects, totalResults])
+  const canFetchMore = projects.length < totalResults
 
   const memoizedFetchMore = useCallback(() => {
     setFetchingMore(true)
@@ -52,13 +49,11 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
         offset: projects.length,
       },
     }).finally(() => setFetchingMore(false))
-  }, [fetchMore, projects.length])
+  }, [fetchMore, projects.length, setFetchingMore])
 
-  const fetchMoreButtonText = useMemo(() => {
-    return fetchingMore
-      ? t('donations:donationListing.loadMoreButton.loading')
-      : t('donations:donationListing.loadMoreButton.text')
-  }, [fetchingMore, t])
+  const fetchMoreButtonText = fetchingMore
+    ? t('donations:donationListing.loadMoreButton.loading')
+    : t('donations:donationListing.loadMoreButton.text')
 
   if (error) {
     displayError(error, t('donations:donationListing.error'))
@@ -114,17 +109,21 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
           <HoliText style={styles.noResultsHint}>{t('donations:donationListing.search.noResults')}</HoliText>
         </View>
       )}
-      {projects
-        // FIX: duplication in projects after loading more
-        .map((project) =>
-          isFiltering ? (
-            <DonationListingItemFiltered key={project.id} project={project} />
-          ) : (
-            <DonationListingItem key={project.id} project={project} />
+      {
+        /** FIXME convert to VirtualizedList, FlatList or SectionList */
+        projects
+          // FIX: duplication in projects after loading more
+          .map((project) =>
+            isFiltering ? (
+              <DonationListingItemFiltered key={project.id} project={project} />
+            ) : (
+              <DonationListingItem key={project.id} project={project} />
+            )
           )
-        )}
+      }
       {canFetchMore && (
-        <DonationButton
+        <HoliButtonLoading
+          type="primary"
           label={fetchMoreButtonText}
           disabled={fetchingMore}
           icon={fetchingMore ? 'loader-4' : undefined}
@@ -148,6 +147,7 @@ const styles = StyleSheet.create({
   },
   searchHeading: {
     marginBottom: 14,
+    paddingTop: Platform.OS === 'android' ? Number(vars.topBarHeight) : 0,
   },
   searchQuery: {
     color: colors.fontColorHighlighted,

@@ -1,10 +1,14 @@
 import partition from 'lodash.partition'
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
+import SpaceCollaborators from '@holi/core/screens/spaces/components/SpaceCollaborators'
+import SpaceFollow from '@holi/core/screens/spaces/components/SpaceFollow'
+import SpaceJoin from '@holi/core/screens/spaces/components/SpaceJoin'
 import { Space } from '@holi/core/screens/spaces/types'
+import { User } from '@holi/core/screens/userprofile/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -16,52 +20,50 @@ type SpaceHeaderProps = {
   style?: StyleProp<ViewStyle>
 }
 
+const sortUsersByFirstName = (users: User[]) =>
+  users.sort((userA, userB) => (userA.fullName || '').localeCompare(userB.fullName || ''))
+
 const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
   const { t } = useTranslation()
-
+  const [modalVisible, setModalVisible] = useState(false)
   const [adminMemberships, regularMemberships] = useMemo(() => partition(space.memberships, 'isAdministrator'), [space])
+  const { width: deviceWidth } = useWindowDimensions()
 
   const admins = adminMemberships.map((membership) => membership.user)
   const members = regularMemberships.map((membership) => membership.user)
-
-  const { width: deviceWidth } = useWindowDimensions()
+  const sortedMembersList = [...sortUsersByFirstName(admins), ...sortUsersByFirstName(members)]
   const avatarWidth = deviceWidth / 5 // make avatar responsive (SpaceAvatar has a maxWidth)
+
+  const openModal = useCallback(() => {
+    setModalVisible(true)
+  }, [setModalVisible])
 
   return (
     <View style={[styles.container, style]} testID="space-header">
-      <SpaceAvatar label={space.title} imageSrc={space.avatar} width={avatarWidth} />
-
-      <HoliHeading level="1" size="medium" style={styles.title}>
+      <SpaceCollaborators space={space} show={modalVisible} onDismiss={() => setModalVisible(false)} />
+      <SpaceAvatar label={space.title} imageSrc={space.avatar} width={avatarWidth} testID="space-avatar" />
+      <HoliHeading level="1" size="medium" style={styles.title} testID="space-title">
         {space.title}
       </HoliHeading>
       <View style={styles.avatarPileContainer}>
-        {admins.length > 0 && (
-          <HoliUserAvatarPile users={admins} usersToShow={3} counter collapse testID="space-admins">
+        <HoliButton
+          label={t('spaces.collaborators.showModal')}
+          transparent
+          inline
+          onPress={openModal}
+          testID="btn-to-open-space-collaborators-modal"
+        >
+          <HoliUserAvatarPile users={sortedMembersList} usersToShow={3} counter collapse testID="space-members">
             <HoliText size="small" style={styles.avatarPileText}>
-              {t('spaces.members.admin', { count: admins.length })}
+              {t('spaces.members.member', { count: sortedMembersList.length })}
             </HoliText>
           </HoliUserAvatarPile>
-        )}
-        <HoliUserAvatarPile
-          users={members}
-          usersToShow={3}
-          counter
-          collapse
-          style={styles.avatarPileMembers}
-          testID="space-members"
-        >
-          <HoliText size="small" style={styles.avatarPileText}>
-            {t('spaces.members.member', { count: members.length })}
-          </HoliText>
-        </HoliUserAvatarPile>
+        </HoliButton>
       </View>
+
       <View style={styles.actionButtons}>
-        <HoliButton inline label={t('spaces.follow')} type="secondary">
-          <HoliText>{t('spaces.follow')}</HoliText>
-        </HoliButton>
-        <HoliButton inline label={t('spaces.join')} style={styles.actionButtonJoin}>
-          <HoliText>{t('spaces.join')}</HoliText>
-        </HoliButton>
+        <SpaceFollow space={space} style={{ marginRight: 8 }} />
+        <SpaceJoin space={space} />
       </View>
     </View>
   )
@@ -79,22 +81,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
   },
-  avatarPileMembers: {
-    marginLeft: 16,
-  },
   avatarPileText: {
     color: colors.fontColorBlack,
   },
   actionButtons: {
     marginTop: 32,
     flexDirection: 'row',
-    justifyContent: 'center',
-    width: '100%',
     maxWidth: 420,
-  },
-  actionButtonJoin: {
-    flex: 1,
-    marginLeft: 8,
+    flexWrap: 'wrap',
   },
 })
 

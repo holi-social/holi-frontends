@@ -4,20 +4,21 @@ import { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
 const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
-  initialRouteName: RouteName.Core,
+  initialRouteName: RouteName.BottomTabs,
   screens: {
-    // the actual app
-    [RouteName.Core]: {
+    // Views with bottom navigation
+    [RouteName.BottomTabs]: {
       screens: {
         [RouteName.Home]: {
           initialRouteName: RouteName.HomeFeed,
           screens: {
             [RouteName.HomeFeed]: '',
             [RouteName.InsightDetailPage]: 'insights/:insightId',
-            [RouteName.PostDetailPage]: 'insights/:insightId/posts/:postId',
-            [RouteName.CommentInputPage]: 'insights/:insightId/posts/:postId/comment',
+            [RouteName.InsightPostDetailPage]: 'insights/:insightId/posts/:postId',
+            [RouteName.InsightPostCommentInputPage]: 'insights/:insightId/posts/:postId/comment',
+            [RouteName.PostDetailPage]: 'posts/:postId',
+            [RouteName.PostCommentInputPage]: 'posts/:postId/comment',
             [RouteName.UserProfile]: 'profile/:userId',
-            [RouteName.Notifications]: 'notifications',
           },
         },
         [RouteName.Spaces]: {
@@ -25,7 +26,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
           screens: {
             [RouteName.SpacesHome]: 'spaces',
             [RouteName.SpaceDetails]: 'spaces/:spaceId',
-            [RouteName.SpacesForTopic]: 'spaces/topic/:topicId',
+            [RouteName.FilteredSpaces]: 'spaces/filter',
           },
         },
         [RouteName.Chat]: {
@@ -49,23 +50,31 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.Search]: 'search',
       },
     },
-    // apps from the HOLI store
+
+    // Modals
+    [RouteName.Notifications]: 'notifications',
+    [RouteName.Login]: 'login',
+    [RouteName.Registration]: 'registration',
+    [RouteName.ForgotPassword]: 'forgotPassword',
+
+    // Apps from the HOLI store
     [RouteName.DonationsApp]: {
       screens: {
         [RouteName.DonationsAppHome]: 'apps/donations',
         [RouteName.DonationsAppProjectDetail]: 'apps/donations/project/:projectId',
       },
     },
+    [RouteName.GoodNewsApp]: {
+      screens: {
+        [RouteName.GoodNewsAppHome]: 'apps/goodnews',
+      },
+    },
     [RouteName.VolunteeringApp]: {
       screens: {
         [RouteName.VolunteeringAppHome]: 'apps/volunteering',
+        [RouteName.VolunteeringAppEngagmentDetail]: 'apps/volunteering/engagement/:engagementId',
       },
     },
-    // all modals
-    [RouteName.Login]: 'login',
-    [RouteName.Logout]: 'logout',
-    [RouteName.Registration]: 'registration',
-    [RouteName.ForgotPassword]: 'forgotPassword',
   },
 }
 

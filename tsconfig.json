@@ -9,6 +9,7 @@
       "@holi/api": ["packages/api"],
       "@holi/core": ["core"],
       "@holi-apps/donations": ["holi-apps/donations"],
+      "@holi-apps/goodnews": ["holi-apps/goodnews"],
       "@holi-apps/volunteering": ["holi-apps/volunteering"],
       "@holi/e2e-mobile": ["e2e/mobile"],
       "@holi/e2e-web": ["e2e/web"]

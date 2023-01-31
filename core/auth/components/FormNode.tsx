@@ -4,8 +4,16 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ViewStyle } from 'react-native'
 
+import FormCheckbox from '@holi/core/auth/components/FormCheckbox'
 import FormInputField, { InputProps } from '@holi/core/auth/components/FormInputField'
-import { getNodeId, getNodeTitle, oryNodeIsInput, oryNodeIsSubmit, oryNodeIsText } from '@holi/core/auth/helpers/form'
+import {
+  getNodeId,
+  getNodeTitle,
+  oryNodeIsCheckbox,
+  oryNodeIsInput,
+  oryNodeIsSubmit,
+  oryNodeIsText,
+} from '@holi/core/auth/helpers/form'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
@@ -25,6 +33,18 @@ const FormNode = (props: Props) => {
     const metaText = props.node.meta.label?.text ? `${props.node.meta.label?.text} ` : ''
     const text = `${metaText} ${node.attributes.text.text}`
     return <HoliText style={[props.style || {}]}>{text}</HoliText>
+  }
+
+  if (oryNodeIsCheckbox(node.attributes)) {
+    return (
+      <FormCheckbox
+        node={node}
+        value={props.value}
+        onChange={props.onChange}
+        autofocus={props.autofocus}
+        style={props.style}
+      />
+    )
   }
 
   if (oryNodeIsInput(node.attributes)) {

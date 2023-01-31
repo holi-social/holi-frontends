@@ -5,6 +5,7 @@
   variables:
     ENVIRONMENT_ID: $CI_COMMIT_REF_SLUG
     HOLI_API_URL: https://staging.unified.apis.project-holi.org/graphql
+    KRATOS_BASE_URL: https://dev-auth.project-holi.org
   dependencies: [] # explicitly disable artifact usage
   script:
     - cd apps/mobile
@@ -38,6 +39,7 @@
   dependencies: [] # explicitly disable artifact usage
   variables:
     BUILD_PLATFORM: changeme
+    TEST_SUITES: changeme
   script:
     - cd apps/mobile
     - export EAS_APK_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform $BUILD_PLATFORM --limit 1 | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
@@ -47,7 +49,7 @@
     - yarn install
     - export BROWSERSTACK_UPLOAD_RESPONSE=$(curl -s -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@${EAS_APK_FILE}")
     - export BROWSERSTACK_APP_URL=$(echo "${BROWSERSTACK_UPLOAD_RESPONSE}" | jq -r '.app_url')
-    - APPIUM_PLATFORM=$BUILD_PLATFORM yarn run jest --runInBand
+    - APPIUM_PLATFORM=$BUILD_PLATFORM yarn run jest --testPathPattern=/$TEST_SUITES/ --runInBand
   allow_failure: false
   interruptible: true
   tags:
@@ -82,6 +84,8 @@ mobile_review_publish:
     - /^noenv\/.*/
     - /^nomobile\/.*/
   when: manual
+  allow_failure: false
+
 
 mobile_review_destroy:
   needs: ['mobile_review_publish']
@@ -98,6 +102,7 @@ mobile_review_destroy:
     - echo "Nothing to do, you can't unpublish an expo release. This is only for cleaning up the gitlab environments"
   # can't use rules here: https://gitlab.com/gitlab-org/gitlab/-/issues/34077
   when: manual
+  allow_failure: false
   except:
     - main
     - /^noenv\/.*/
@@ -114,6 +119,7 @@ mobile_review_build_android:
     - /^noenv\/.*/
     - /^nomobile\/.*/
   when: manual
+  allow_failure: false
 
 mobile_review_build_ios:
   extends: .mobile_build
@@ -125,10 +131,13 @@ mobile_review_build_ios:
     - /^noenv\/.*/
     - /^nomobile\/.*/
   when: manual
+  allow_failure: false
 
 mobile_review_e2e_android:
   extends: .mobile_e2e_android
   needs: ['mobile_review_build_android']
+  variables:
+    TEST_SUITES: (smoke|journey)
   except:
     - main
     - /^noenv\/.*/
@@ -137,6 +146,8 @@ mobile_review_e2e_android:
 mobile_review_e2e_ios:
   extends: .mobile_e2e_ios
   needs: ['mobile_review_build_ios', 'mobile_review_e2e_android']
+  variables:
+    TEST_SUITES: (smoke|journey)
   except:
     - main
     - /^noenv\/.*/
@@ -187,21 +198,26 @@ mobile_staging_build_ios:
 mobile_staging_e2e_android:
   extends: .mobile_e2e_android
   needs: ['mobile_staging_build_android']
+  variables:
+    TEST_SUITES: smoke
   only:
     - main
 
 mobile_staging_e2e_ios:
   extends: .mobile_e2e_ios
   needs: ['mobile_staging_build_ios']
+  variables:
+    TEST_SUITES: (smoke|journey)
   only:
     - main
 
 ## production environment
 
-.mobile_production_publish:
+mobile_production_publish:
   extends: .mobile_publish
   needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
   when: manual
+  allow_failure: false
   environment:
     name: mobile-production
     deployment_tier: production
@@ -209,13 +225,15 @@ mobile_staging_e2e_ios:
   variables:
     ENVIRONMENT_ID: production
     HOLI_API_URL: https://production.unified.apis.project-holi.org/graphql
+    KRATOS_BASE_URL: https://auth.project-holi.org
   only:
     - main
 
-.mobile_production_build_android:
+mobile_production_build_android:
   extends: .mobile_build
   needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
   when: manual
+  allow_failure: false
   variables:
     ENVIRONMENT_ID: production
     KEEP_ARTIFACTS: 'true'
@@ -228,10 +246,11 @@ mobile_staging_e2e_ios:
   only:
     - main
 
-.mobile_production_build_ios:
+mobile_production_build_ios:
   extends: .mobile_build
   needs: ['mobile_staging_e2e_android', 'mobile_staging_e2e_ios']
   when: manual
+  allow_failure: false
   variables:
     ENVIRONMENT_ID: production
     KEEP_ARTIFACTS: 'true'
@@ -245,13 +264,14 @@ mobile_staging_e2e_ios:
     - main
 
 # disabled (hidden) (not implemented yet), only increases build times and uses up runner minutes
-.mobile_production_submit:
-  needs: ['mobile_production_build_android', 'mobile_production_build_ios']
+mobile_production_submit_android:
+  needs: ['mobile_production_build_android'] # TODO add 'mobile_production_build_ios'
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   script:
-    - echo 'submission to app store(s) goes here'
+    - export BUILD_ID=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform android --buildProfile production --limit 1  2> /dev/null | jq -r ".[0].id")
+    - eas submit -p android --profile production --id $BUILD_ID --verbose --non-interactive --wait # TODO add iOS, maybe add --auto-submit to production build for each android and ios
   only:
     - main
   interruptible: false

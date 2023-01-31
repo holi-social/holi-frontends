@@ -75,7 +75,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   }
 
   if (error) {
-    displayError(error, t('user.profileForm.error.saving'))
+    displayError(error, t('global.technicalError'))
   }
 
   const header = (
@@ -119,6 +119,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
       prependChildren={prependComponent}
       loading={loading}
       testID={testID}
+      style={styles.wrapper}
     >
       <View style={styles.mainContainer}>
         <HoliTextInput
@@ -183,10 +184,13 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+  },
   mainContainer: {
     marginHorizontal: 24,
     marginTop: 30,
-    paddingBottom: Platform.OS === 'ios' ? 200 : 50,
+    paddingBottom: Platform.OS === 'ios' ? 250 : 100,
   },
   headerContainer: {
     alignItems: 'center',

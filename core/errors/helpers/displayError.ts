@@ -13,6 +13,6 @@ export const displayError = (error: Error, message?: string) => {
       { text: i18next.t('error.alert.button'), onPress: () => {} },
     ])
   } catch (e) {
-    console.error('[displayError.ts] Unespected error' + e)
+    console.error('[displayError.ts] Unexpected error' + e)
   }
 }

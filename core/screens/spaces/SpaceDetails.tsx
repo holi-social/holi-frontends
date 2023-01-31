@@ -7,15 +7,17 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { logError } from '@holi/core/errors/helpers'
-import { useScrollYHandler } from '@holi/core/helpers'
+import { useScrollYHandler, useToastForNotAvailableFeature } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import MoreButton from '@holi/core/navigation/components/MoreButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import SpaceDashboardModal from '@holi/core/screens/spaces/components/SpaceDashboardModal'
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceDetailsParams = {
   spaceId: string
@@ -23,16 +25,18 @@ export type SpaceDetailsParams = {
 
 const { useParam } = createParam<SpaceDetailsParams>()
 
-type ScreenProps = NativeStackScreenProps<HomeStackScreens>
+type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
 
 const SpaceDetails: React.VFC<ScreenProps> = () => {
   const [spaceId] = useParam('spaceId')
 
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
   const onScreenScroll = useScrollYHandler()
 
   const { setOptions } = useUnifiedNavigation()
+
+  // TODO: remove after implementing the feature
+  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
   useLayoutEffect(() => {
     setOptions({
@@ -41,16 +45,22 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
       headerStyle: { backgroundColor: 'transparent' },
       headerTitle: () => null,
       headerLeft: () =>
-        Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left-s" /> : <HeaderBackButton icon="arrow-down-s" />,
-      headerRight: () => <HeaderBackButton icon="more" />,
+        Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left" /> : <HeaderBackButton icon="arrow-down-s" />,
+      headerRight: () => <MoreButton onPress={showFeatureNotImplementedToast} />,
+      navigationCustomOptions: {
+        footerShown: false,
+      },
     })
-  }, [setOptions])
+  }, [setOptions, showFeatureNotImplementedToast])
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { id: spaceId },
   })
 
   const space = data?.spaceById
+
+  const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   if (error) {
     logError(error, `[SpaceDetails.tsx] ${error.message}`)
@@ -64,17 +74,40 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
   if (!space) return <HoliText>{t('spaces.spaceDetails.notFound', { spaceId })}</HoliText>
 
   return (
-    <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200} style={styles.defaultLayout}>
-      <SpaceDetailView style={[mixins.container, styles.spaceDetailView]} space={space} />
-    </DefaultLayout>
+    <>
+      <DefaultLayout
+        onScroll={onScreenScroll}
+        scrollEventThrottle={200}
+        style={styles.defaultLayout}
+        contentStyle={styles.contentStyle}
+      >
+        <SpaceDetailView style={styles.spaceDetailView} space={space} />
+      </DefaultLayout>
+      {(isCreator || isMember) && <SpaceDashboardModal />}
+    </>
   )
 }
 
 const styles = StyleSheet.create({
   defaultLayout: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 8,
+    paddingBottom: 0,
+    ...Platform.select({
+      web: {
+        minHeight: '100vh',
+      },
+    }),
+  },
+  contentStyle: {
+    paddingBottom: 0,
+    ...Platform.select({
+      web: {
+        minHeight: '100vh',
+      },
+    }),
   },
   spaceDetailView: {
+    flex: 1,
     paddingTop: 0,
     ...Platform.select({
       web: {

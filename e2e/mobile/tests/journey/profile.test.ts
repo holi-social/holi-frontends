@@ -1,0 +1,26 @@
+import { defaultAuthSteps, logout } from '../../helpers/auth'
+import { navigateBackToHomeScreen } from '../../helpers/navigation'
+import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
+
+describe('@Profile', () => {
+  it('should navigate to user from suggestions', async () => {
+    // login
+    await defaultAuthSteps()
+
+    // go home
+    await navigateBackToHomeScreen()
+
+    // user suggestions heading should be visible
+    await scrollToElementWithTestId('user-suggestions', 'down', { maxAttempts: 5 })
+
+    // tap on first user in list
+    await scrollToElementWithTestId('user-card-suggestion-0', 'down', { maxAttempts: 5 })
+    await tapOnElementWithTestId('user-card-suggestion-0')
+
+    // expect user profile
+    await waitForElementWithTestId('user-profile-full-name')
+
+    // logout
+    await logout()
+  })
+})

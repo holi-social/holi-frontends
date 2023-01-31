@@ -1,12 +1,21 @@
 import { createContext, useContext } from 'react'
 
-import { NativeStackNavigationCustomHeaderOptions } from '@holi/mobile/navigation/HeaderAnimated'
+import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 
 export interface NavigationContextType {
   pathname: string
   setPathname: (pathName: string) => void
-  options: NativeStackNavigationCustomHeaderOptions
-  setOptions: (options: NativeStackNavigationCustomHeaderOptions) => void
+  options: NavigationCustomOptions
+  setOptions: React.Dispatch<React.SetStateAction<NavigationCustomOptions>>
+}
+
+export interface NavigationCustomOptions extends NativeStackNavigationOptions {
+  navigationCustomOptions?: Partial<{
+    headerBackgroundImageURI: string
+    headerBackgroundGradient: boolean
+    headerBackgroundCustom: React.ReactNode
+    footerShown: boolean
+  }>
 }
 
 export const NavigationContext = createContext<NavigationContextType>({
@@ -25,7 +34,7 @@ export const useNavigationContext = () => {
   return context
 }
 
-export const initialScreenOptions: NativeStackNavigationCustomHeaderOptions = {
+export const initialScreenOptions: NavigationCustomOptions = {
   title: undefined,
   header: undefined,
   headerBackVisible: undefined,
@@ -70,4 +79,7 @@ export const initialScreenOptions: NativeStackNavigationCustomHeaderOptions = {
   presentation: undefined,
   orientation: undefined,
   freezeOnBlur: undefined,
+  navigationCustomOptions: {
+    footerShown: true,
+  },
 }

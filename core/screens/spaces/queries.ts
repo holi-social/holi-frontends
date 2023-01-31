@@ -2,23 +2,20 @@ import { gql } from '@apollo/client/core'
 
 import { Space } from '@holi/core/screens/spaces/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
+import { Paged } from '@holi/core/types'
 
 const SpaceMemberFragment = gql`
+  ${userAvatarFragment}
   fragment FullSpaceMember on SpaceMember {
     user {
-      id
-      avatar
-      firstName
-      lastName
-      aboutMe
-      avatarDefaultColor
-      avatarLabel
+      ...UserAvatar
     }
     isAdministrator
   }
 `
 
 const SpaceFragment = gql`
+  ${SpaceMemberFragment}
   fragment FullSpace on Space {
     id
     title
@@ -27,6 +24,11 @@ const SpaceFragment = gql`
     avatar
     mainImage
     location
+    connectionStatusToMyself
+    links {
+      type
+      url
+    }
     memberships {
       ...FullSpaceMember
     }
@@ -44,6 +46,7 @@ const SpaceFragment = gql`
       skills {
         id
         title
+        slug
       }
     }
   }
@@ -55,18 +58,19 @@ export const topicsQuery = gql`
       data {
         id
         title
+        isDiscoverSpacesDefault
+        slug
       }
     }
   }
 `
 
 export const spacesQuery = gql`
-  ${userAvatarFragment}
   ${SpaceFragment}
-  ${SpaceMemberFragment}
 
-  query Spaces($topicId: UUID, $location: String, $offset: Int, $limit: Int) {
-    spaces(topicId: $topicId, location: $location, offset: $offset, limit: $limit) {
+  query Spaces($topicSlug: String, $location: String, $skillSlugs: [String], $offset: Int, $limit: Int) {
+    spaces(topicSlug: $topicSlug, location: $location, skillSlugs: $skillSlugs, offset: $offset, limit: $limit) {
+      totalResults
       data {
         ...FullSpace
       }
@@ -75,17 +79,42 @@ export const spacesQuery = gql`
 `
 
 export type SpacesResponse = {
-  spaces: {
-    data: Space[]
+  spaces: Paged<Space>
+}
+
+export const discoverSpacesQuery = gql`
+  ${SpaceFragment}
+
+  query DiscoverSpaces($topicIds: [UUID], $location: String, $skillIds: [UUID], $offset: Int, $limit: Int) {
+    discoverSpaces(topicIds: $topicIds, location: $location, skillIds: $skillIds, offset: $offset, limit: $limit) {
+      topicId
+      location
+      skillId
+      spaces {
+        totalResults
+        data {
+          ...FullSpace
+        }
+      }
+    }
   }
+`
+
+export type DiscoverSpacesGroup = {
+  topicId?: string
+  location?: string
+  skillId?: string
+  spaces: Paged<Space>
+}
+
+export type DiscoverSpacesResponse = {
+  discoverSpaces: DiscoverSpacesGroup[]
 }
 
 export const spaceByIdQuery = gql`
-  ${userAvatarFragment}
   ${SpaceFragment}
-  ${SpaceMemberFragment}
 
-  query SpaceById($id: String!) {
+  query SpaceById($id: UUID!) {
     spaceById(id: $id) {
       ...FullSpace
     }
@@ -94,4 +123,55 @@ export const spaceByIdQuery = gql`
 
 export type SpaceByIdResponse = {
   spaceById: Space
+}
+
+export const joinSpaceMutation = gql`
+  ${SpaceFragment}
+
+  mutation UpdateSpaceUserConnection(
+    $connectAction: UpdateConnectionAction!
+    $connectionType: SpaceUserConnectionType!
+    $spaceId: UUID!
+    $userId: UUID
+  ) {
+    updateSpaceUserConnection(
+      connectAction: $connectAction
+      connectionType: $connectionType
+      spaceId: $spaceId
+      userId: $userId
+    ) {
+      ...FullSpace
+    }
+  }
+`
+
+export type JoinSpaceResponse = {
+  updateSpaceUserConnection: Space
+}
+
+export const mySpaceQuery = gql`
+  ${SpaceFragment}
+
+  query MySpaces {
+    mySpaces {
+      section
+      type
+      spaces {
+        totalResults
+        data {
+          ...FullSpace
+        }
+      }
+    }
+  }
+`
+
+export type SpaceUserConnectionType = string
+
+export type MySpacesResponse = {
+  mySpaces: {
+    section: string
+    type: string
+    spaces: Paged<Space>
+  }[]
 }

@@ -64,8 +64,8 @@ export const logout = async () => {
   const logoutButtonExists = await checkIfElementWithTestIdExists('btn-to-logout')
   if (logoutButtonExists) {
     await tapOnElementWithTestId('btn-to-logout')
-    await waitForElementWithTestId('confirm-logout-button')
-    await tapOnElementWithTestId('confirm-logout-button')
+    await waitForElementWithTestId('modal-logout-confirmation-confirm')
+    await tapOnElementWithTestId('modal-logout-confirmation-confirm')
   }
 
   await waitForElementWithTestId('btn-to-home-view')

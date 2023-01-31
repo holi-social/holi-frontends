@@ -1,9 +1,12 @@
 export interface Term {
   id: string
   title: string
+  slug: string
 }
 
-export type Topic = Term
+export type Topic = Term & {
+  isDiscoverSpacesDefault: boolean
+}
 export type SDG = Term
 export type Skill = Term
 
@@ -28,7 +31,6 @@ export interface User {
 }
 
 export enum UserConnectionStatus {
-  NOT_LOGGED_IN = 'NOT_LOGGED_IN',
   NOT_CONNECTED = 'NOT_CONNECTED',
   CONNECTED = 'CONNECTED',
   REQUESTED = 'REQUESTED', // requested by currently authenticated user

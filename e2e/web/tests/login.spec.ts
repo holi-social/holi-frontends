@@ -25,7 +25,8 @@ test.describe('@Login', () => {
     // Logout
     await clickElementByTestId(page, 'btn-to-settings')
     await clickElementByTestId(page, 'btn-to-logout')
-    await clickElementByTestId(page, 'confirm-logout-button')
+    await clickElementByTestId(page, 'modal-logout-confirmation-confirm')
+    await clickElementByTestId(page, 'btn-to-home-view')
     await waitForElementByTestId(page, 'home-feed-insights-heading')
   })
 })

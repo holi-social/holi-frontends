@@ -4,14 +4,12 @@ feedId query param
   -> mobile (Linking): Screen: route/:feedId
   -> web (page): route/[feedId].tsx
 */
-// type T is only helping the compiler. it does not guarantee that the query param is actually available!
-export type RoutingState<T> = {
+export type RoutingState = {
   navigate: (routeName: string) => void
   navigateBack: (fallbackRouteName?: string) => void
   replaceRoute: (routeName: string) => void
-  query: T
   // pathnahme in mobile is depending on the navigator in which it is used
   pathname: string
 }
 
-export type UseRouting = <T extends Record<string, string>>() => RoutingState<T>
+export type UseRouting = () => RoutingState

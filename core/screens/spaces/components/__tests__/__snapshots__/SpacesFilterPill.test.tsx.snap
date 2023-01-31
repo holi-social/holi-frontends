@@ -1,0 +1,321 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SpacesFilterPill renders correctly 1`] = `
+<View
+  accessibilityLabel="generic filter"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+      ],
+      undefined,
+    ]
+  }
+  testID="spaces-filter-pill"
+>
+  <View
+    pointerEvents="none"
+    style={
+      Array [
+        false,
+        Array [
+          Object {
+            "borderColor": "#222326",
+            "borderRadius": 48,
+            "borderWidth": 1,
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "paddingHorizontal": 10,
+            "paddingVertical": 4,
+          },
+          Object {
+            "backgroundColor": "#fff",
+          },
+        ],
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={true}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          false,
+          undefined,
+        ]
+      }
+    >
+      generic filter
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`SpacesFilterPill renders correctly 2`] = `
+<View
+  accessibilityLabel="location filter"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+      ],
+      undefined,
+    ]
+  }
+  testID="spaces-filter-pill"
+>
+  <View
+    pointerEvents="none"
+    style={
+      Array [
+        false,
+        Array [
+          Object {
+            "borderColor": "#222326",
+            "borderRadius": 48,
+            "borderWidth": 1,
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "paddingHorizontal": 10,
+            "paddingVertical": 4,
+          },
+          Object {
+            "backgroundColor": "#fff",
+          },
+        ],
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={true}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          false,
+          undefined,
+        ]
+      }
+    >
+      location filter
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`SpacesFilterPill renders correctly 3`] = `
+<View
+  accessibilityLabel="topic filter"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+      ],
+      undefined,
+    ]
+  }
+  testID="spaces-filter-pill"
+>
+  <View
+    pointerEvents="none"
+    style={
+      Array [
+        false,
+        Array [
+          Object {
+            "borderColor": "#222326",
+            "borderRadius": 48,
+            "borderWidth": 1,
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "paddingHorizontal": 10,
+            "paddingVertical": 4,
+          },
+          Object {
+            "backgroundColor": "#abff8b",
+          },
+        ],
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={true}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          false,
+          undefined,
+        ]
+      }
+    >
+      topic filter
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`SpacesFilterPill renders correctly 4`] = `
+<View
+  accessibilityLabel="skill filter"
+  accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Array [
+        Object {
+          "width": "auto",
+        },
+      ],
+      undefined,
+    ]
+  }
+  testID="spaces-filter-pill"
+>
+  <View
+    pointerEvents="none"
+    style={
+      Array [
+        false,
+        Array [
+          Object {
+            "borderColor": "#222326",
+            "borderRadius": 48,
+            "borderWidth": 1,
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "paddingHorizontal": 10,
+            "paddingVertical": 4,
+          },
+          Object {
+            "backgroundColor": "#90ddff",
+          },
+        ],
+      ]
+    }
+  >
+    <Text
+      accessible={false}
+      selectable={true}
+      style={
+        Array [
+          Object {
+            "color": "#222326",
+            "fontFamily": "Circular Std Book",
+            "fontWeight": "400",
+          },
+          Object {
+            "fontSize": 16,
+            "lineHeight": 19.2,
+          },
+          false,
+          undefined,
+        ]
+      }
+    >
+      skill filter
+    </Text>
+  </View>
+</View>
+`;

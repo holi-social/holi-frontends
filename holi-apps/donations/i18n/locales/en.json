@@ -53,7 +53,5 @@
   "search.heading": "Search",
   "search.location.label": "Location",
   "search.location.placeholder": "Start typing a location...",
-  "search.submitButton": "Show matching projects",
-  "search.location.autocomplete.error": "Fetching suggestions failed",
-  "search.location.autocomplete.noResults": "No suggestions found"
+  "search.submitButton": "Show matching projects"
 }

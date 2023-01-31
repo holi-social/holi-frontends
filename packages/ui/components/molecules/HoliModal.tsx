@@ -1,15 +1,6 @@
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  AccessibilityProps,
-  Animated,
-  Modal,
-  ModalProps,
-  Platform,
-  StyleSheet,
-  View,
-  useWindowDimensions,
-} from 'react-native'
+import { Animated, ModalProps, Platform, SafeAreaView, StyleSheet, View, useWindowDimensions } from 'react-native'
 import {
   GestureEvent,
   GestureHandlerRootView,
@@ -17,45 +8,46 @@ import {
   PanGestureHandler,
 } from 'react-native-gesture-handler'
 
-import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
+import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import { colors } from '@holi/ui/styles/globalVars'
 import { vars } from '@holi/ui/styles/globalVars'
-import { useTheme } from '@holi/ui/styles/theme'
 
+const FULLSCREEN_HEIGHT_THRESHOLD = 0.94
+
+/**
+ * "relativeHeight" is a percentage value (from 0 to 1). When its value is 1 and autoHeight is false, the modal is fullscreen.
+ * "relativeHeight" with "autoHeight === true" works like "max-height"
+ * "relativeHeight" with "autoHeight === false" works like fixed "height"
+ */
 export type HoliModalProps = ModalProps & {
   show: boolean
-  onDismiss: () => void
-  relativeHeight?: number
-  minRelativeHeight?: number
-  children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild>
-  testID?: string
   label: string
+  onDismiss: () => void
+  heading?: string
+  relativeHeight?: number
   autoHeight?: boolean
+  testID?: string
+  children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild>
 }
 
-/*
-  "relativeHeight" with "autoHeight === true" works like "max-height"
-  "relativeHeight" with "autoHeight === false" works like fix "height"
-  "minRelativeHeight" is "min-height" and if "minRelativeHeight" is bigger than "relativeHeight" the lower value will be used
-*/
-
-const HoliModal: React.FC<HoliModalProps> = (props) => {
-  const { show = false, relativeHeight = 0.96, minRelativeHeight, onDismiss, autoHeight = true, children } = props
+const HoliModal: React.FC<HoliModalProps> = ({
+  show = false,
+  label,
+  onDismiss,
+  heading,
+  relativeHeight = 0.9,
+  testID,
+  autoHeight = true,
+  children,
+}) => {
   const { t } = useTranslation()
   const [visible, setVisible] = useState(show)
-  const { setModalIsOpen } = useTheme()
-  const { width: deviceWidth } = useWindowDimensions()
+  const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
   const [isTouch, setIsTouch] = useState(true)
-
-  const setModalOpen = useCallback(
-    (isOpen: boolean) => {
-      setVisible(isOpen)
-      setModalIsOpen(isOpen)
-    },
-    [setVisible, setModalIsOpen]
-  )
+  const [contentHeight, setContentHeight] = useState(0)
 
   // value for appearance animation
   const animShift = useRef(new Animated.Value(0)).current
@@ -87,7 +79,7 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
 
   useEffect(() => {
     if (show) {
-      setModalOpen(show)
+      setVisible(show)
       Animated.timing(animShift, {
         toValue: 0,
         duration: 350,
@@ -101,11 +93,11 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
         useNativeDriver: false,
       }).start(() => {
         // only dismiss the Modal once the animation is done
-        setModalOpen(false)
+        setVisible(false)
         gestureShift.setValue(0)
       })
     }
-  }, [show, animShift, gestureShift, setModalOpen])
+  }, [show, animShift, gestureShift, setVisible])
 
   useLayoutEffect(() => {
     if (Platform.OS === 'web') {
@@ -113,32 +105,24 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
     }
   }, [])
 
-  const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
-    ...(Platform.OS === 'web' ? { accessibilityModal: true } : {}),
-    accessibilityLabel: props.label,
-  }
+  // any height above or equal to the threshold should default to 100% height
+  const height = useMemo(
+    () => (relativeHeight >= FULLSCREEN_HEIGHT_THRESHOLD || contentHeight >= deviceHeight ? 100 : relativeHeight * 100),
+    [relativeHeight, contentHeight, deviceHeight]
+  )
 
-  const maxHeight = relativeHeight * 100
-  const minHeight = minRelativeHeight ? Math.min(minRelativeHeight, relativeHeight) * 100 : '0'
-  const fixedHeight = minRelativeHeight ? Math.min(minRelativeHeight, relativeHeight) * 100 : maxHeight
+  const isFullscreen = height === 100
 
   return (
     <>
-      <Modal
-        {...accessibilityProps}
-        visible={visible}
-        transparent={true}
-        animationType="fade"
-        onRequestClose={onDismiss}
-        testID={props.testID}
-      >
+      <ModalBasic show={visible} transparent={true} onDismiss={onDismiss} label={label} testID={testID}>
         <GestureHandlerRootView style={styles.rootView} accessible={false}>
           <HoliButton
             label={t('modal.backdrop')}
             style={styles.backdrop}
             onPress={onDismiss}
             transparent
-            testID={`${props.testID}-backdrop`}
+            testID={`${testID}-backdrop`}
           >
             <View onAccessibilityEscape={onDismiss} style={styles.backdrop} />
           </HoliButton>
@@ -149,39 +133,62 @@ const HoliModal: React.FC<HoliModalProps> = (props) => {
               {
                 bottom: animShiftInterpolated,
                 transform: [{ translateY: gestureShift }],
-                maxHeight: `${maxHeight}%`,
-                minHeight: `${minHeight}%`,
-                ...(!autoHeight && { height: `${fixedHeight}%` }),
+                maxHeight: `${height}%`,
+                ...(!autoHeight && { height: `${height}%` }),
               },
-              styles.common,
+              isFullscreen && styles.fullscreen,
             ]}
-            testID={`${props.testID}-animatedview`}
+            onLayout={(event) => {
+              const { height: modalContentHeight } = event.nativeEvent.layout
+
+              if (!autoHeight) {
+                setContentHeight(modalContentHeight)
+              }
+            }}
+            testID={`${testID}-animatedview`}
           >
-            <View style={styles.headerContainer}>
-              {isTouch && deviceWidth < +vars.breakpointL ? (
+            <SafeAreaView style={styles.headerContainer}>
+              {!isFullscreen && isTouch && deviceWidth < +vars.breakpointL ? (
                 <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
                   <View style={styles.handle}>
-                    <HoliButton label={t('modal.backdrop')} style={{ padding: 10 }} onPress={onDismiss} transparent>
+                    <HoliButton
+                      label={t('modal.backdrop')}
+                      onPress={onDismiss}
+                      transparent
+                      style={styles.lineButton}
+                      testID={`btn-to-close-${testID}-modal`}
+                    >
                       <View style={styles.line} />
                     </HoliButton>
                   </View>
                 </PanGestureHandler>
               ) : (
-                <HoliButton
-                  label={t('modal.backdrop')}
-                  style={styles.dismissIcon}
-                  onPress={onDismiss}
-                  inline={true}
-                  transparent
-                >
-                  <HoliIcon icon="close" color={colors.fontColorBlack} size={25} />
-                </HoliButton>
+                <View style={styles.heading}>
+                  <HoliButton
+                    label={t('modal.backdrop')}
+                    style={[styles.dismissIcon, deviceWidth < +vars.breakpointL && styles.dismissIconMobile]}
+                    onPress={onDismiss}
+                    transparent
+                    testID={`btn-to-close-${testID}-modal`}
+                  >
+                    <HoliIcon
+                      icon={deviceWidth < +vars.breakpointL ? 'arrow-down-s' : 'close'}
+                      color={colors.fontColorBlack}
+                      size={25}
+                    />
+                  </HoliButton>
+                  {heading && (
+                    <HoliHeading level="2" style={styles.title} ellipsizeMode="tail" numberOfLines={1}>
+                      {heading}
+                    </HoliHeading>
+                  )}
+                </View>
               )}
-            </View>
+            </SafeAreaView>
             {children}
           </Animated.View>
         </GestureHandlerRootView>
-      </Modal>
+      </ModalBasic>
     </>
   )
 }
@@ -198,18 +205,27 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     overflow: 'hidden',
-    paddingTop: 47,
+    shadowColor: colors.shadowColorBlack,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+  },
+  fullscreen: {
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
   },
   headerContainer: {
-    position: 'absolute',
-    top: 0,
-    width: '100%',
     alignItems: 'center',
+    justifyContent: 'flex-end',
   },
   handle: {
     height: 40,
     backgroundColor: colors.backgroundColorWhite,
     alignItems: 'center',
+  },
+  lineButton: {
+    padding: 15,
   },
   line: {
     width: 40,
@@ -217,13 +233,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: colors.backgroundColorBlack,
     opacity: 0.3,
-  },
-  common: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
   },
   backdrop: {
     ...StyleSheet.absoluteFillObject,
@@ -233,7 +242,24 @@ const styles = StyleSheet.create({
   },
   dismissIcon: {
     alignSelf: 'flex-end',
-    padding: 15,
-    paddingBottom: 3,
+    paddingHorizontal: 15,
+    position: 'absolute',
+    width: 'auto',
+    right: 0,
+    top: 0,
+  },
+  dismissIconMobile: {
+    left: 0,
+  },
+  heading: {
+    marginTop: 20,
+    height: 30,
+    width: '100%',
+    position: 'relative',
+    alignItems: 'center',
+  },
+  title: {
+    textAlign: 'center',
+    width: '80%',
   },
 })

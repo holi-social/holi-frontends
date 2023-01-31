@@ -1,12 +1,12 @@
 import { useLazyQuery } from '@apollo/client'
-import React, { memo, useContext, useLayoutEffect } from 'react'
+import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import NotFound from '@holi/core/errors/components/NotFound'
 import { displayError, isNotFoundError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
@@ -16,7 +16,7 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { UserByIdResponse, userByIdQuery } from '@holi/core/screens/userprofile/queries'
-import type { HomeStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
@@ -29,14 +29,14 @@ export type UserProfileParams = {
 }
 const { useParam } = createParam<UserProfileParams>()
 
-type ScreenProps = NativeStackScreenProps<HomeStackScreens>
+type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
 
 const UserProfile: React.VFC<ScreenProps> = () => {
   const { t } = useTranslation()
   const { replaceRoute } = useRouting()
   const mixins = useStyleMixins()
 
-  const { isLoggedIn, userId: authenticatedUserId } = useContext(AuthContext)
+  const { isLoggedIn, userId: authenticatedUserId } = useAuth()
   const [userId = ''] = useParam('userId')
 
   useLayoutEffect(() => {
@@ -77,7 +77,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
     if (isNotFoundError(error)) {
       return <NotFound />
     } else {
-      displayError(error, t('user.userProfile.error.fetching'))
+      displayError(error, t('global.technicalError'))
     }
   }
 
@@ -109,7 +109,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
         <UserProfileView user={user} />
       </View>
       <HoliTabs
-        style={{ marginTop: 24 }}
+        style={{ marginTop: 24, flex: 1 }}
         id="profile-tabs"
         tabs={[
           {

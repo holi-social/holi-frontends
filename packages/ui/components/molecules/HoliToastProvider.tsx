@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { Platform, SafeAreaView as SafeAreaViewIOS, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import { createUUID } from '@holi/core/helpers'
+import { createUUID } from '@holi/core/helpers/strings'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { default as SafeAreaViewAndroid } from '@holi/ui/components/atoms/SafeArea'
@@ -48,7 +48,8 @@ export const ToastProvider: React.FC<Partial<ToastContextValue>> = ({ children }
   const contextValue = useMemo(() => ({ openToast, closeToast }), [closeToast, openToast])
 
   const { width: deviceWidth } = useWindowDimensions()
-  const styles = useMemo(() => createStyles(deviceWidth), [deviceWidth])
+  const firstToastType = toasts?.[0]?.type
+  const styles = useMemo(() => createStyles(deviceWidth, firstToastType), [deviceWidth, firstToastType])
 
   const SafeArea = Platform.OS === 'android' ? SafeAreaViewAndroid : SafeAreaViewIOS
 
@@ -56,19 +57,21 @@ export const ToastProvider: React.FC<Partial<ToastContextValue>> = ({ children }
     <ToastContext.Provider value={contextValue}>
       {children}
 
-      <SafeArea style={styles.wrapper}>
-        {toasts.map((toast: Toast) => (
-          <HoliToast
-            key={toast.id}
-            id={toast.id}
-            type={toast.type}
-            closeToast={() => closeToast(toast.id)}
-            text={toast.text}
-            timeout={toast.timeout}
-            testID={toast.testID}
-          />
-        ))}
-      </SafeArea>
+      {!!toasts.length && (
+        <SafeArea style={[styles.wrapper, Platform.OS === 'web' && styles.wrapperWebPosition]}>
+          {toasts.map((toast: Toast) => (
+            <HoliToast
+              key={toast.id}
+              id={toast.id}
+              type={toast.type}
+              closeToast={() => closeToast(toast.id)}
+              text={toast.text}
+              timeout={toast.timeout}
+              testID={toast.testID}
+            />
+          ))}
+        </SafeArea>
+      )}
     </ToastContext.Provider>
   )
 }
@@ -118,6 +121,11 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
       position: 'absolute',
       zIndex: 1000,
       width: '100%',
+      ...Platform.select({
+        native: {
+          backgroundColor: type === HoliToastType.ERROR ? colors.backgroundColorError : colors.backgroundColorSuccess,
+        },
+      }),
       ...(deviceWidth >= +vars.breakpointL
         ? {
             maxWidth: +vars.maxButtonWidth,
@@ -127,6 +135,11 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
             right: 0,
           }
         : {}),
+    },
+    wrapperWebPosition: {
+      position: 'fixed',
+      width: '100%',
+      top: 0,
     },
     toast: {
       padding: 20,

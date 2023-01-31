@@ -45,7 +45,7 @@ npx playwright show-trace test-results/Login-Login-should-not-work-with-invalid-
 For actual debugging and "headed" execution you can also run the tests locally - this requires playwright to be installed (`npx playwright install`):
 
 ```sh
-yarn test:debug
+yarn test:localhost:debug
 ```
 
 Selective testing for building tests can be done by using the `--grep @...` flag.

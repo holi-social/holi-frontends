@@ -131,6 +131,7 @@ const FormBuilder = <
   return (
     <View style={style}>
       {flow &&
+        /** FIXME convert to VirtualizedList, FlatList or SectionList */
         nodes.map((node: UiNode, k) => {
           const name = getNodeId(node)
           return (

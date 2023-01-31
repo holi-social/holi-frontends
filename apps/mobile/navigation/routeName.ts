@@ -1,16 +1,17 @@
 export enum RouteName {
-  // Home Stack
+  // Feed Stack
   HomeFeed = 'HomeFeed',
   InsightDetailPage = 'InsightDetailPage',
-  Notifications = 'Notifications',
+  InsightPostDetailPage = 'InsightPostDetailPage',
+  InsightPostCommentInputPage = 'InsightPostCommentInputPage',
   PostDetailPage = 'PostDetailPage',
-  CommentInputPage = 'CommentInputPage',
+  PostCommentInputPage = 'PostCommentInputPage',
   UserProfile = 'UserProfile',
 
   // Spaces
   SpacesHome = 'SpacesHome',
   SpaceDetails = 'SpaceDetails',
-  SpacesForTopic = 'SpacesForTopic',
+  FilteredSpaces = 'FilteredSpaces',
 
   // Chat Stack
   ChatHome = 'ChatHome',
@@ -24,20 +25,26 @@ export enum RouteName {
   DonationsAppHome = 'DonationsAppHome',
   DonationsAppProjectDetail = 'DonationsAppProjectDetail',
 
-  // Volonteering app
+  // GoodNews app
+  GoodNewsAppHome = 'GoodNewsAppHome',
+
+  // Volunteering app
   VolunteeringAppHome = 'VolunteeringAppHome',
+  VolunteeringAppEngagmentDetail = 'VolunteeringAppEngagmentDetail',
 
   // separate Stacks
-  Core = 'Core',
+  BottomTabs = 'BottomTabs',
   Home = 'Home',
   Spaces = 'Spaces',
   Chat = 'Chat',
   Auth = 'Auth',
   Search = 'Search',
   DonationsApp = 'DonationsApp',
+  GoodNewsApp = 'GoodNewsApp',
   VolunteeringApp = 'VolunteeringApp',
 
   // Root Stack
+  Notifications = 'Notifications',
   Login = 'Login',
   Logout = 'Logout',
   Registration = 'Registration',

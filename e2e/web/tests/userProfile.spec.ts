@@ -92,7 +92,7 @@ test.describe('@Profile', () => {
   test('other user profile journey', async ({ page }) => {
     // visit another user's profile page via url
     const userId = process.env.E2E_USER_ID || 'empty'
-    console.log("Visiting User with id: " + userId)
+    console.log('Visiting User with id: ' + userId)
     await page.goto('/profile/' + userId)
     await waitForElementByTestId(page, 'user-profile-full-name')
 
@@ -151,14 +151,9 @@ const selectSomeItemsAndVerify = async (page: Page, what: string) => {
   await delay(0.5)
   await waitForAnimationEnd(page.locator(byTestId('user-profile-modal-animatedview')))
 
-  const noOfSelectableChips = await getCountOf(
-    page,
-    `${byTestId('user-profile-modal-animatedview')} >> [role=checkbox]`
-  )
-  // every third element, if there is one, one is selected; If there's 4, two are selected etc.
-  const expectedNoOfSelectedChips: number = Math.floor((noOfSelectableChips - 1) / 3) + 1
+  const expectedNoOfSelectedChips = 3
 
-  for (let indexToSelect = noOfSelectableChips - 1; indexToSelect > 0; indexToSelect = indexToSelect - 3) {
+  for (let indexToSelect = 0; indexToSelect < expectedNoOfSelectedChips; indexToSelect++) {
     await page
       .locator(`${byTestId('user-profile-modal-animatedview')} >> [role=checkbox]`)
       .nth(indexToSelect)

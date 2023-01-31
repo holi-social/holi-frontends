@@ -1,9 +1,17 @@
+// see https://docs.expo.dev/build-reference/app-versions/
+// TODO somehow automatically increment version numbers on every release
+const versions = {
+  version: '1.0.5', // user-facing value visible in stores
+  iosBuildNumber: '1.0.5', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 5, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+}
+
 export default {
   expo: {
     name: 'Project HOLI',
     slug: 'projectholi',
     owner: 'holistic-foundation',
-    version: '1.0.0',
+    version: versions.version,
     orientation: 'portrait',
     icon: './assets/icon.png',
     scheme: 'holi',
@@ -19,7 +27,12 @@ export default {
     ios: {
       supportsTablet: true,
       bundleIdentifier: 'foundation.holistic.projectholi',
-      buildNumber: '1.0.0',
+      buildNumber: versions.iosBuildNumber,
+      config: {
+        // usesNonExemptEncryption see https://docs.expo.dev/versions/latest/config/app/#usesnonexemptencryption
+        // and https://help.apple.com/app-store-connect/#/devc3f64248f
+        usesNonExemptEncryption: false,
+      },
       infoPlist: {
         CFBundleAllowMixedLocalizations: true,
       },
@@ -30,10 +43,7 @@ export default {
         backgroundColor: '#FFFFFF',
       },
       package: 'foundation.holistic.projectholi',
-      versionCode: 1,
-    },
-    web: {
-      favicon: './assets/favicon.png',
+      versionCode: versions.androidVersionCode,
     },
     plugins: [
       'sentry-expo',
@@ -50,7 +60,7 @@ export default {
           file: 'sentry-expo/upload-sourcemaps',
           config: {
             organization: 'holistic-foundation',
-            project: 'mvp-mobile',
+            project: 'holi-app-mobile',
             authToken: '0de4e0e0fa7447bca982f15e0481d2470fa641e9856f4df7983f0e1683c59352',
           },
         },
@@ -58,7 +68,7 @@ export default {
     },
     extra: {
       kratos: {
-        url: 'https://auth.project-holi.org',
+        url: process.env.KRATOS_BASE_URL || 'https://dev-auth.project-holi.org',
       },
       holi_api: {
         url: process.env.HOLI_API_URL || 'http://10.0.2.2:4001/graphql',
