@@ -90,11 +90,11 @@ const MoreOptionsButtonWithModal: React.FC<MoreOptionsButtonWithModalProps> = ({
       <HoliModal
         show={modalVisible}
         onDismiss={hideModal}
-        testID="user-profile-modal"
-        label=""
+        testID="more-options-modal"
+        label={t('global.moreOptions')}
         style={{ marginBottom: safeAreaBottom }}
       >
-        <View style={{ marginBottom: safeAreaBottom }}>
+        <View style={{ marginBottom: safeAreaBottom || 20 }}>
           {children}
 
           {/* Report/block option */}
@@ -114,8 +114,8 @@ const MoreOptionsButtonWithModal: React.FC<MoreOptionsButtonWithModalProps> = ({
             onDismiss={() => {
               setShowConfirmationModal(false)
             }}
-            dismissText={t('insights.post.report.confirmation.dismiss')}
-            confirmText={t('insights.post.report.confirmation.confirm')}
+            dismissText={t('global.dismiss')}
+            confirmText={t('global.report')}
             onConfirm={() =>
               reportPost()
                 .then(() => {
@@ -124,7 +124,7 @@ const MoreOptionsButtonWithModal: React.FC<MoreOptionsButtonWithModalProps> = ({
                   openToast?.(t('global.report.successMessage'), HoliToastType.SUCCESS, 3000)
                 })
                 .catch(() => {
-                  openToast?.(t('error.alert.headline'), HoliToastType.ERROR, 3000)
+                  openToast?.(t('global.technicalError'), HoliToastType.ERROR, 3000)
                 })
             }
           />
