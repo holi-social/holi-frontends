@@ -21,5 +21,7 @@
   "listing.headline": "Interesting opportunities for you",
   "listing.loadMoreButton.loading": "Loading",
   "listing.loadMoreButton.text": "See more",
-  "listing.loading": "Loading volunteering opportunities..."
+  "listing.loading": "Loading volunteering opportunities...",
+  "filter.category.label": "Topics you are interested in",
+  "filter.category.placeholder": "Select topic"
 }
