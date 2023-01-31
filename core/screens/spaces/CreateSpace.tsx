@@ -7,8 +7,12 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import CreateSpaceCoverImage from '@holi/core/screens/spaces/components/CreateSpaceCoverImage'
 import CreateSpaceName from '@holi/core/screens/spaces/components/CreateSpaceName'
 import CreateSpaceTopics from '@holi/core/screens/spaces/components/CreateSpaceTopics'
-import HoliWizard from '@holi/ui/components/molecules/HoliWizard'
+import HoliWizard from '@holi/ui/components/organisms/HoliWizard'
 import { colors, vars } from '@holi/ui/styles/globalVars'
+
+export type CreateSpaceStepProps = {
+  onChangeNextButtonStatus: (buttonStatus: boolean) => void
+}
 
 const CreateSpace: React.VFC = () => {
   const { setOptions } = useUnifiedNavigation()
@@ -51,15 +55,9 @@ const CreateSpace: React.VFC = () => {
           onNextPress={() => handleNextButtonPress()}
           onSubmit={() => handleSubmitButtonPress()}
         >
-          <CreateSpaceName key={0} onChangeNextButtonStatus={(buttonStatus) => handleNextButtonStatus(buttonStatus)} />
-          <CreateSpaceTopics
-            key={1}
-            onChangeNextButtonStatus={(buttonStatus) => handleNextButtonStatus(buttonStatus)}
-          />
-          <CreateSpaceCoverImage
-            key={2}
-            onChangeNextButtonStatus={(buttonStatus) => handleNextButtonStatus(buttonStatus)}
-          />
+          <CreateSpaceName onChangeNextButtonStatus={(buttonStatus) => handleNextButtonStatus(buttonStatus)} />
+          <CreateSpaceTopics onChangeNextButtonStatus={(buttonStatus) => handleNextButtonStatus(buttonStatus)} />
+          <CreateSpaceCoverImage onChangeNextButtonStatus={(buttonStatus) => handleNextButtonStatus(buttonStatus)} />
         </HoliWizard>
       </View>
     </SafeAreaView>

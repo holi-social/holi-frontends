@@ -1,14 +1,10 @@
 import React from 'react'
 import { Pressable, Text, View } from 'react-native'
 
-export type CreateSpaceCoverImageProps = {
-  onChangeNextButtonStatus: (buttonStatus: boolean) => void
-}
+import { CreateSpaceStepProps } from '@holi/core/screens/spaces/CreateSpace'
 
 //TODO: Create the UI
-const CreateSpaceCoverImage: React.VFC<CreateSpaceCoverImageProps> = ({
-  onChangeNextButtonStatus,
-}: CreateSpaceCoverImageProps) => {
+const CreateSpaceCoverImage: React.VFC<CreateSpaceStepProps> = ({ onChangeNextButtonStatus }: CreateSpaceStepProps) => {
   return (
     <View style={{ marginTop: 40, alignSelf: 'flex-start' }}>
       <Text>Add a cover image to represet your space</Text>

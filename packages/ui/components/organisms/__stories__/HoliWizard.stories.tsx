@@ -2,22 +2,22 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 import { Text } from 'react-native'
 
-import HoliWizard from '@holi/ui/components/molecules/HoliWizard'
+import HoliWizard from '@holi/ui/components/organisms/HoliWizard'
 
 const StepOne = () => {
-  return <Text>step one</Text>
+  return <Text>Step one</Text>
 }
 
 const StepTwo = () => {
-  return <Text>step two</Text>
+  return <Text>Step two</Text>
 }
 
 const StepThree = () => {
-  return <Text>step three</Text>
+  return <Text>Step three</Text>
 }
 
 export default {
-  title: 'Molecules/HoliWizard',
+  title: 'Organisms/HoliWizard',
   component: HoliWizard,
   parameters: {
     docs: {
