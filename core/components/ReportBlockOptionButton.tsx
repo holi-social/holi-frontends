@@ -83,7 +83,7 @@ const ReportBlockOptionButton: React.VFC<ReportBlockOptionButtonProps> = ({
         .catch(() => {
           openToast?.(t('global.technicalError'), HoliToastType.ERROR, 3000)
         })
-    }, [onConfirm, openToast, mutationHandler, t]),
+    }, [onConfirm, openToast, mutationHandler, t, successMessage]),
   })
   // state props for login guard modal
   const { setShow: setShowLoginGuard, props: loginGuardModalProps } = useConfirmationState({ onConfirm })
