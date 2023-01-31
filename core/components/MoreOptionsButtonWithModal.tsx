@@ -4,13 +4,13 @@ import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, StyleProp, View, ViewStyle } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
+import { LoginGuardModal, useLoginGuardModalState } from '@holi/core/components/LoginGuardModal'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { ContentType, ReportContentMutation, ReportContentResponse } from '@holi/core/queries'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation, { HoliConfirmationProps } from '@holi/ui/components/molecules/HoliConfirmation'
-import { HoliLoginGuardModal, useLoginGuardModalState } from '@holi/ui/components/molecules/HoliLoginGuardModal'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -105,7 +105,7 @@ const MoreOptionsButtonWithModal: React.FC<MoreOptionsButtonWithModalProps> = ({
             onPress={() => (isLoggedIn ? setShowConfirmationModal(true) : setShowLoginGuard(true))}
           />
 
-          <HoliLoginGuardModal {...loginGuardModalProps} />
+          <LoginGuardModal {...loginGuardModalProps} />
 
           <HoliConfirmation
             show={showConfirmationModal}

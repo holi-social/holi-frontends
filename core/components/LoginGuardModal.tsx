@@ -4,12 +4,12 @@ import { useTranslation } from 'react-i18next'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliConfirmation, { HoliConfirmationProps } from '@holi/ui/components/molecules/HoliConfirmation'
 
-export interface HoliLoginGuardModalProps extends Partial<HoliConfirmationProps> {
+export interface LoginGuardModalProps extends Partial<HoliConfirmationProps> {
   onConfirm?: () => boolean | void
   onDismiss?: () => boolean | void
 }
 
-export const useLoginGuardModalState = ({ onConfirm, onDismiss, ...otherProps }: HoliLoginGuardModalProps = {}) => {
+export const useLoginGuardModalState = ({ onConfirm, onDismiss, ...otherProps }: LoginGuardModalProps = {}) => {
   const { navigate } = useRouting()
   const [dialogIsOpen, setDialogIsOpen] = useState(false)
 
@@ -39,7 +39,7 @@ export const useLoginGuardModalState = ({ onConfirm, onDismiss, ...otherProps }:
   }
 }
 
-export const HoliLoginGuardModal: React.VFC<HoliLoginGuardModalProps> = ({
+export const LoginGuardModal: React.VFC<LoginGuardModalProps> = ({
   show = false,
   title,
   description,
