@@ -1,26 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
-import loadLocalResource from 'react-native-local-resource'
 import RenderHtml, { MixedStyleDeclaration, defaultSystemFonts } from 'react-native-render-html'
 
 import tagsStyles from '@holi/core/static/stylesMobile'
 import { vars } from '@holi/ui/styles/globalVars'
 
-export type importRef = string
-
 export type HoliHtmlViewProps = {
-  source: importRef
+  html: string
   style?: StyleProp<ViewStyle>
   testID?: string
 }
 
-const HoliHtmlView: React.VFC<HoliHtmlViewProps> = ({ source, style, testID }) => {
-  const [html, setHtml] = useState('')
-
-  loadLocalResource(source).then((myResourceContent: string) => {
-    setHtml(myResourceContent)
-  })
-
+const HoliHtmlView: React.VFC<HoliHtmlViewProps> = ({ html, style, testID }) => {
   if (!html) return null
 
   // https://meliorence.github.io/react-native-render-html/docs/intro

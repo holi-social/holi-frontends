@@ -30,7 +30,7 @@ const SpaceFollow: React.VFC<SpaceFollowProps> = ({ space, style }) => {
   const sendFollowRequest = useCallback(() => {
     if (!isLoggedIn) {
       return openLoginDialog({
-        text: t('spaces.follow.loginRedirect.text', { spaceName: space.title }),
+        description: t('spaces.follow.loginRedirect.text', { spaceName: space.title }),
       })
     }
     followSpace({
