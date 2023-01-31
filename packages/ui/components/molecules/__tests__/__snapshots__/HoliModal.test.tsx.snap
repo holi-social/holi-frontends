@@ -122,7 +122,6 @@ exports[`renders correctly renders correctly when open 1`] = `
       testID="undefined-animatedview"
     >
       <RCTSafeAreaView
-        emulateUnlessSupported={true}
         style={
           Object {
             "alignItems": "center",

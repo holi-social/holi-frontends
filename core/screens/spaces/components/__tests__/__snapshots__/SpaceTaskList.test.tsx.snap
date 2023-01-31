@@ -203,9 +203,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             >
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight={12}
-                bbWidth={12}
-                color={4285493377}
+                bbHeight="12"
+                bbWidth="12"
+                color="#6f7081"
                 focusable={false}
                 meetOrSlice={0}
                 minX={0}
@@ -236,15 +236,15 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     },
                   ]
                 }
-                tintColor={4285493377}
+                tintColor="#6f7081"
                 vbHeight={1024}
                 vbWidth={1024}
               >
                 <RNSVGGroup
                   fill={
-                    Array [
-                      2,
-                    ]
+                    Object {
+                      "type": 2,
+                    }
                   }
                   propList={
                     Array [
@@ -253,9 +253,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     ]
                   }
                   stroke={
-                    Array [
-                      2,
-                    ]
+                    Object {
+                      "type": 2,
+                    }
                   }
                 >
                   <RNSVGPath
@@ -298,9 +298,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             >
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight={12}
-                bbWidth={12}
-                color={4285493377}
+                bbHeight="12"
+                bbWidth="12"
+                color="#6f7081"
                 focusable={false}
                 meetOrSlice={0}
                 minX={0}
@@ -331,15 +331,15 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     },
                   ]
                 }
-                tintColor={4285493377}
+                tintColor="#6f7081"
                 vbHeight={1024}
                 vbWidth={1024}
               >
                 <RNSVGGroup
                   fill={
-                    Array [
-                      2,
-                    ]
+                    Object {
+                      "type": 2,
+                    }
                   }
                   propList={
                     Array [
@@ -348,9 +348,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     ]
                   }
                   stroke={
-                    Array [
-                      2,
-                    ]
+                    Object {
+                      "type": 2,
+                    }
                   }
                 >
                   <RNSVGPath
@@ -632,9 +632,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             >
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight={12}
-                bbWidth={12}
-                color={4285493377}
+                bbHeight="12"
+                bbWidth="12"
+                color="#6f7081"
                 focusable={false}
                 meetOrSlice={0}
                 minX={0}
@@ -665,15 +665,15 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     },
                   ]
                 }
-                tintColor={4285493377}
+                tintColor="#6f7081"
                 vbHeight={1024}
                 vbWidth={1024}
               >
                 <RNSVGGroup
                   fill={
-                    Array [
-                      2,
-                    ]
+                    Object {
+                      "type": 2,
+                    }
                   }
                   propList={
                     Array [
@@ -682,9 +682,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     ]
                   }
                   stroke={
-                    Array [
-                      2,
-                    ]
+                    Object {
+                      "type": 2,
+                    }
                   }
                 >
                   <RNSVGPath
@@ -727,9 +727,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             >
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight={12}
-                bbWidth={12}
-                color={4285493377}
+                bbHeight="12"
+                bbWidth="12"
+                color="#6f7081"
                 focusable={false}
                 meetOrSlice={0}
                 minX={0}
@@ -760,15 +760,15 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     },
                   ]
                 }
-                tintColor={4285493377}
+                tintColor="#6f7081"
                 vbHeight={1024}
                 vbWidth={1024}
               >
                 <RNSVGGroup
                   fill={
-                    Array [
-                      2,
-                    ]
+                    Object {
+                      "type": 2,
+                    }
                   }
                   propList={
                     Array [
@@ -777,9 +777,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     ]
                   }
                   stroke={
-                    Array [
-                      2,
-                    ]
+                    Object {
+                      "type": 2,
+                    }
                   }
                 >
                   <RNSVGPath
@@ -1061,9 +1061,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             >
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight={12}
-                bbWidth={12}
-                color={4285493377}
+                bbHeight="12"
+                bbWidth="12"
+                color="#6f7081"
                 focusable={false}
                 meetOrSlice={0}
                 minX={0}
@@ -1094,15 +1094,15 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     },
                   ]
                 }
-                tintColor={4285493377}
+                tintColor="#6f7081"
                 vbHeight={1024}
                 vbWidth={1024}
               >
                 <RNSVGGroup
                   fill={
-                    Array [
-                      2,
-                    ]
+                    Object {
+                      "type": 2,
+                    }
                   }
                   propList={
                     Array [
@@ -1111,9 +1111,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     ]
                   }
                   stroke={
-                    Array [
-                      2,
-                    ]
+                    Object {
+                      "type": 2,
+                    }
                   }
                 >
                   <RNSVGPath
@@ -1156,9 +1156,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             >
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight={12}
-                bbWidth={12}
-                color={4285493377}
+                bbHeight="12"
+                bbWidth="12"
+                color="#6f7081"
                 focusable={false}
                 meetOrSlice={0}
                 minX={0}
@@ -1189,15 +1189,15 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     },
                   ]
                 }
-                tintColor={4285493377}
+                tintColor="#6f7081"
                 vbHeight={1024}
                 vbWidth={1024}
               >
                 <RNSVGGroup
                   fill={
-                    Array [
-                      2,
-                    ]
+                    Object {
+                      "type": 2,
+                    }
                   }
                   propList={
                     Array [
@@ -1206,9 +1206,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     ]
                   }
                   stroke={
-                    Array [
-                      2,
-                    ]
+                    Object {
+                      "type": 2,
+                    }
                   }
                 >
                   <RNSVGPath
