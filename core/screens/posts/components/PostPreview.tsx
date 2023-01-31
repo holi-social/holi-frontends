@@ -4,7 +4,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliLink from '@holi//ui/components/molecules/HoliLink'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
-import ReportOptionButton from '@holi/core/components/ReportOptionButton'
+import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import { Post } from '@holi/core/screens/posts/types'
@@ -47,7 +47,8 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
             onModalDismiss={hide}
             style={styles.moreButton}
           >
-            <ReportOptionButton
+            <ReportBlockOptionButton
+              action="report"
               objectId={post.id}
               contentType={ContentType.POST}
               style={styles.moreOptionItem}

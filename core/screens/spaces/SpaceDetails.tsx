@@ -7,7 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
-import ReportOptionButton from '@holi/core/components/ReportOptionButton'
+import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -65,7 +65,8 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
           onModalDismiss={hide}
           tintColor={tintColor}
         >
-          <ReportOptionButton
+          <ReportBlockOptionButton
+            action="report"
             objectId={space?.id || ''}
             contentType={ContentType.SPACE}
             style={styles.moreOptionItem}
