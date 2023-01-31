@@ -30,7 +30,6 @@ export type HoliModalProps = ModalProps & {
   relativeHeight?: number
   autoHeight?: boolean
   testID?: string
-  children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild>
 }
 
 const HoliModal: React.FC<HoliModalProps> = ({

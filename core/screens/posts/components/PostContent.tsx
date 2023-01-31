@@ -2,12 +2,11 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { useToastForNotAvailableFeature } from '@holi/core/helpers'
+import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
+import { ContentType } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import { Post } from '@holi/core/screens/posts/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLink from '@holi/ui/components/molecules/HoliLink'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
@@ -24,9 +23,6 @@ const PostContent: React.VFC<PostContentProps> = ({ post, style }) => {
   const { t } = useTranslation()
   const commenters = post.commenters.data
 
-  // TODO: remove after implementing the feature
-  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
-
   return (
     <View style={[styles.wrapper, style]}>
       <View style={styles.paddingHorizontal}>
@@ -35,15 +31,17 @@ const PostContent: React.VFC<PostContentProps> = ({ post, style }) => {
             {post.title}
           </HoliHeading>
 
-          <HoliButton
-            transparent
-            inline
+          <MoreOptionsButtonWithModal
             label={t('insights.post.preview.more')}
             style={styles.moreButton}
-            onPress={showFeatureNotImplementedToast}
-          >
-            <HoliIcon icon="more" color={colors.fontColorGrey} />
-          </HoliButton>
+            objectId={post.id}
+            contentType={ContentType.POST}
+            optionItemStyle={styles.moreOptionItem}
+            reportConfirmationProps={{
+              title: t('insights.post.report.confirmation.title'),
+              description: t('insights.post.report.confirmation.description'),
+            }}
+          />
         </View>
 
         <HoliLink
@@ -97,6 +95,10 @@ const styles = StyleSheet.create({
   moreButton: {
     alignSelf: 'flex-start',
     justifyContent: 'flex-end',
+  },
+  moreOptionItem: {
+    justifyContent: 'center',
+    paddingVertical: 18,
   },
   description: {
     marginTop: 16,

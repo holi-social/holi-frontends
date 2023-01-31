@@ -34,7 +34,7 @@ const UserConnectionButtons: React.VFC<UserConnectionButtonsProps> = ({ user, st
   const onPrimaryPress = () => {
     if (!isLoggedIn)
       return openLoginDialog({
-        text: t('user.profileView.connection.notLoggedIn.message'),
+        description: t('user.profileView.connection.notLoggedIn.message'),
       })
 
     if (
