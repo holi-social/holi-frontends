@@ -1,13 +1,16 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext, useState } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
 import { AuthContext } from '@holi/core/auth/AuthContextProvider'
-import { LoginGuardModal, useLoginGuardModalState } from '@holi/core/components/LoginGuardModal'
+import { LoginGuardModal } from '@holi/core/components/LoginGuardModal'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import { ContentType, ReportContentMutation, ReportContentResponse } from '@holi/core/queries'
-import HoliConfirmation, { HoliConfirmationProps } from '@holi/ui/components/molecules/HoliConfirmation'
+import HoliConfirmation, {
+  HoliConfirmationProps,
+  useConfirmationState,
+} from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 export interface ReportOptionButtonProps {
@@ -32,7 +35,6 @@ const ReportOptionButton: React.VFC<ReportOptionButtonProps> = ({
 }) => {
   const { t } = useTranslation()
   const { isLoggedIn } = useContext(AuthContext)
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const { openToast } = useToast()
   const title = (label || t('global.report')) as string
 
@@ -43,7 +45,21 @@ const ReportOptionButton: React.VFC<ReportOptionButtonProps> = ({
     },
   })
 
-  const { setShow: setShowLoginGuard, props: loginGuardModalProps } = useLoginGuardModalState()
+  // state props for confirmation modal
+  const { setShow: setShowConfirmationModal, props: confirmationStateProps } = useConfirmationState({
+    onConfirm: useCallback(() => {
+      reportPost()
+        .then(() => {
+          onConfirm?.()
+          openToast?.(t('global.report.successMessage'), HoliToastType.SUCCESS, 3000)
+        })
+        .catch(() => {
+          openToast?.(t('global.technicalError'), HoliToastType.ERROR, 3000)
+        })
+    }, [onConfirm, openToast, reportPost, t]),
+  })
+  // state props for login guard modal
+  const { setShow: setShowLoginGuard, props: loginGuardModalProps } = useConfirmationState({ onConfirm })
 
   return (
     <>
@@ -59,25 +75,11 @@ const ReportOptionButton: React.VFC<ReportOptionButtonProps> = ({
       <LoginGuardModal {...loginGuardModalProps} />
 
       <HoliConfirmation
-        show={showConfirmationModal}
         label={title}
         dismissText={t('global.dismiss')}
         confirmText={t('global.report')}
+        {...confirmationStateProps}
         {...confirmationModalProps}
-        onDismiss={() => {
-          setShowConfirmationModal(false)
-        }}
-        onConfirm={() =>
-          reportPost()
-            .then(() => {
-              onConfirm?.()
-              setShowConfirmationModal(false)
-              openToast?.(t('global.report.successMessage'), HoliToastType.SUCCESS, 3000)
-            })
-            .catch(() => {
-              openToast?.(t('global.technicalError'), HoliToastType.ERROR, 3000)
-            })
-        }
       />
     </>
   )

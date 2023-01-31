@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useState } from 'react'
 
-import { LoginGuardModal, LoginGuardModalProps, useLoginGuardModalState } from '@holi/core/components/LoginGuardModal'
-import { HoliConfirmationProps } from '@holi/ui/components/molecules/HoliConfirmation'
+import { LoginGuardModal, LoginGuardModalProps } from '@holi/core/components/LoginGuardModal'
+import { HoliConfirmationProps, useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 
 export type LoginRedirectContextType = {
   openLoginDialog: (props?: Partial<HoliConfirmationProps>) => void
@@ -13,7 +13,7 @@ export const LoginRedirectContext = createContext<LoginRedirectContextType>({
 
 export const LoginRedirectProvider: React.FC = ({ children }) => {
   const [props, setProps] = useState<LoginGuardModalProps>({})
-  const { setShow, props: loginGuardModalProps } = useLoginGuardModalState(props)
+  const { setShow, props: loginGuardModalProps } = useConfirmationState(props)
 
   const openLoginDialog = useCallback(
     (dialogProps?: LoginGuardModalProps) => {
