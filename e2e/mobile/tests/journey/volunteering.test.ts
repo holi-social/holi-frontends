@@ -45,11 +45,17 @@ const assertFilteringWorks = async () => {
   // click on first location in the list
   await tapOnElementWithTestId('volunteering-filter-location-item')
 
+  // open topics dropdown
+  await tapOnElementWithTestId('volunteering-filter-category-input')
+
+  // click on first topic in the list
+  await tapOnElementWithTestId('volunteering-filter-category-item')
+
   // click filter confirmation button
   await tapOnElementWithTestId('volunteering-filter-modal-close-btn')
 
   // check if the volunteering app home is shown
-  await waitForElementWithTestId('volunteering-filter-details')
+  await waitForElementWithTestId('volunteering-list-filtered')
 }
 
 const navigateToDetailview = async () => {
@@ -75,5 +81,5 @@ const assertAllowsPagination = async () => {
 const assertKeepsFilterAfterNavigatingToDetails = async () => {
   await navigateToDetailview()
   // expect filtered list
-  await waitForElementWithTestId('volunteering-filter-details')
+  await waitForElementWithTestId('volunteering-list-filtered')
 }
