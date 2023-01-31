@@ -55,7 +55,7 @@ const assertFilteringWorks = async () => {
   await tapOnElementWithTestId('volunteering-filter-modal-close-btn')
 
   // check if the volunteering app home is shown
-  await waitForElementWithTestId('volunteering-filter-details')
+  await waitForElementWithTestId('volunteering-list-filtered')
 }
 
 const navigateToDetailview = async () => {
@@ -81,5 +81,5 @@ const assertAllowsPagination = async () => {
 const assertKeepsFilterAfterNavigatingToDetails = async () => {
   await navigateToDetailview()
   // expect filtered list
-  await waitForElementWithTestId('volunteering-filter-details')
+  await waitForElementWithTestId('volunteering-list-filtered')
 }

@@ -95,7 +95,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters
       </HoliHeading>
 
       {isFiltering && (
-        <View style={styles.headingRow} testID="volunteering-filter-details">
+        <View style={styles.headingRow}>
           <HoliText bold style={{ color: colors.fontColorGrey }}>
             {t('volunteering:filter.result', {
               count: totalResults,
@@ -124,6 +124,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters
 
   return (
     <FlatList
+      testID={isFiltering ? 'volunteering-list-filtered' : 'volunteering-list-unfiltered'}
       ListHeaderComponent={engagements.length ? listHeader : undefined}
       ListHeaderComponentStyle={styles.listHeader}
       contentContainerStyle={styles.list}
