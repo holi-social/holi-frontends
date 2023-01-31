@@ -3,6 +3,16 @@ import { Space, SpaceLink, SpaceLinkType, SpaceMember, Task } from '@holi/core/s
 import { SpaceSection, SpaceSectionType } from '@holi/core/screens/spaces/types'
 import { Skill, Topic, User } from '@holi/core/screens/userprofile/types'
 
+const topics: Topic[] = [
+  { id: 'ANIMAL_WELFARE', title: 'Animal Welfare', slug: 'animal-welfare', isDiscoverSpacesDefault: true },
+  {
+    id: 'ENVIRONMENTAL_PROTECTION',
+    title: 'Environmental Protection',
+    slug: 'environmental-protection',
+    isDiscoverSpacesDefault: false,
+  },
+]
+
 export const user: User = {
   id: '1',
   firstName: 'Some',
@@ -11,10 +21,7 @@ export const user: User = {
   avatar: 'https://www.example.com/avatar.jpg',
   avatarLabel: 'SB',
   avatarDefaultColor: '#FFFFFF',
-  interests: [
-    { id: 'ANIMAL_WELFARE', title: 'Animal welfare' },
-    { id: 'ENVIRONMENTAL_PROTECTION', title: 'Environmental Protection' },
-  ],
+  interests: topics,
 }
 
 export const membership: SpaceMember = {
@@ -44,8 +51,8 @@ export const task: Task = {
   location: 'Hamburg, Germany',
   regularity: 'PROJECT_BASED',
   skills: [
-    { id: 'COMMUNICATION_SKILLS', title: 'Communication skills' },
-    { id: 'CREATIVITY', title: 'Creativity' },
+    { id: 'COMMUNICATION_SKILLS', title: 'Communication skills', slug: 'communication-skills' },
+    { id: 'CREATIVITY', title: 'Creativity', slug: 'creativity' },
   ],
 }
 
@@ -77,6 +84,7 @@ export const space: Space = {
   connectionStatusToMyself: [],
   tasks,
   links,
+  topics,
 }
 
 export const spaces = [1, 2, 3].map((id) => ({
@@ -111,11 +119,14 @@ export const spacesGroups: DiscoverSpacesGroup[] = [
 export const topic: Topic = {
   id: 'TEST_TOPIC',
   title: 'Topic title',
+  slug: 'topic-title',
+  isDiscoverSpacesDefault: false,
 }
 
 export const skill: Skill = {
   id: 'TEST_SKILL',
   title: 'Skill title',
+  slug: 'skill-title',
 }
 
 export const location = 'TEST_LOCATION'

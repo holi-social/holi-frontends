@@ -43,6 +43,7 @@ const FormNode = (props: Props) => {
         onChange={props.onChange}
         autofocus={props.autofocus}
         style={props.style}
+        testID={`ory-checkbox-${getNodeId(node).replace('.', '_')}`}
       />
     )
   }

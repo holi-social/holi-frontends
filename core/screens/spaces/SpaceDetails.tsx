@@ -6,18 +6,21 @@ import { Platform, StatusBar, StyleSheet } from 'react-native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
+import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { logError } from '@holi/core/errors/helpers'
-import { useScrollYHandler, useToastForNotAvailableFeature } from '@holi/core/helpers'
+import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import MoreButton from '@holi/core/navigation/components/MoreButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import { ContentType } from '@holi/core/queries'
 import SpaceDashboardModal from '@holi/core/screens/spaces/components/SpaceDashboardModal'
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 
 export type SpaceDetailsParams = {
   spaceId: string
@@ -35,8 +38,16 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   const { setOptions } = useUnifiedNavigation()
 
-  // TODO: remove after implementing the feature
-  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
+  const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
+    variables: { id: spaceId },
+  })
+
+  const space = data?.spaceById
+
+  const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+
+  const { visible, show, hide } = useModalState()
 
   useLayoutEffect(() => {
     setOptions({
@@ -46,21 +57,33 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
       headerTitle: () => null,
       headerLeft: () =>
         Platform.OS === 'web' ? <HeaderBackButton icon="arrow-left" /> : <HeaderBackButton icon="arrow-down-s" />,
-      headerRight: () => <MoreButton onPress={showFeatureNotImplementedToast} />,
+      headerRight: ({ tintColor }) => (
+        <MoreOptionsButtonWithModal
+          label={t('insights.post.preview.more')}
+          showOptions={visible}
+          onPress={show}
+          onModalDismiss={hide}
+          tintColor={tintColor}
+        >
+          <ReportBlockOptionButton
+            action="report"
+            objectId={space?.id || ''}
+            contentType={ContentType.SPACE}
+            style={styles.moreOptionItem}
+            confirmationModalProps={{
+              title: t('spaces.spaceDetails.report.confirmation.title'),
+              description: t('spaces.spaceDetails.report.confirmation.description'),
+            }}
+            successMessage={t('global.report.successMessage')}
+            onConfirm={hide}
+          />
+        </MoreOptionsButtonWithModal>
+      ),
       navigationCustomOptions: {
         footerShown: false,
       },
     })
-  }, [setOptions, showFeatureNotImplementedToast])
-
-  const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
-    variables: { id: spaceId },
-  })
-
-  const space = data?.spaceById
-
-  const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
-  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  }, [hide, setOptions, show, space?.id, t, visible])
 
   if (error) {
     logError(error, `[SpaceDetails.tsx] ${error.message}`)
@@ -114,6 +137,10 @@ const styles = StyleSheet.create({
         paddingTop: 12,
       },
     }),
+  },
+  moreOptionItem: {
+    justifyContent: 'center',
+    paddingVertical: 18,
   },
 })
 

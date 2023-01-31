@@ -38,7 +38,12 @@ export const oryNodeIsText = (pet: UiNodeAttributes): pet is UiNodeTextAttribute
 }
 
 export const getNodeId = ({ attributes }: UiNode) => {
-  if (oryNodeIsInput(attributes) || oryNodeIsSubmit(attributes) || oryNodeIsButton(attributes)) {
+  if (
+    oryNodeIsInput(attributes) ||
+    oryNodeIsSubmit(attributes) ||
+    oryNodeIsButton(attributes) ||
+    oryNodeIsCheckbox(attributes)
+  ) {
     return attributes.name
   } else {
     return attributes.id

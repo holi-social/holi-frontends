@@ -33,7 +33,7 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
   const submitJoinRequest = useCallback(() => {
     if (!isLoggedIn) {
       return openLoginDialog({
-        text: t('spaces.join.loginRedirect.text'),
+        description: t('spaces.join.loginRedirect.text'),
       })
     }
     joinSpace({

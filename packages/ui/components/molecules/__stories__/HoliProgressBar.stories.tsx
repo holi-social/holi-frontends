@@ -22,7 +22,7 @@ const Template: ComponentStory<typeof HoliProgressBar> = ({ ...args }) => {
 export const BasicExample: ComponentStory<typeof HoliProgressBar> = Template.bind({})
 
 BasicExample.argTypes = {
-  progress: { description: 'Progress', required: true, control: { type: 'text' } },
+  progress: { description: 'Progress', required: true, control: { type: 'number' } },
 }
 
 BasicExample.args = {

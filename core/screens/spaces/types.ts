@@ -1,4 +1,4 @@
-import { Skill, User } from '@holi/core/screens/userprofile/types'
+import { Skill, Topic, User } from '@holi/core/screens/userprofile/types'
 
 export interface SpaceMember {
   id: string
@@ -36,6 +36,7 @@ export interface Space {
   links?: SpaceLink[]
   avatar?: string
   tasks?: Task[]
+  topics?: Topic[]
 }
 
 export enum SpaceSectionType {

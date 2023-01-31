@@ -8,6 +8,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { useScrollYHandler } from '@holi/core/helpers'
+import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationSearchButtons from '@holi/core/navigation/components/NotificationSearchButtons'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -19,6 +20,7 @@ import { MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/querie
 import { UserContext } from '@holi/core/screens/userprofile/UserContextProvider'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -60,7 +62,12 @@ const Spaces: React.VFC<ScreenProps> = () => {
           {title}
         </HeaderTitle>
       ),
-      headerRight: (props) => <NotificationSearchButtons {...props} />,
+      headerRight: (props) => (
+        <HoliHorizontalRow>
+          <CreateSpaceButton {...props} />
+          <NotificationSearchButtons {...props} />
+        </HoliHorizontalRow>
+      ),
     })
   }, [setOptions, navigate, t])
 
