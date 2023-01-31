@@ -112,6 +112,9 @@ describe('Notifications.tsx', () => {
       </AuthContext.Provider>
     )
 
+    // FIXME: Timing issue: When not waiting here, the expects run during loading state and fails due to no message.
+    await new Promise((res) => setTimeout(() => res('p1'), 0))
+
     const notLoggedInMessage = 'loginRedirect.title'
     const emptyNotificationsMessage = 'notifications.display.empty.text2'
     expect(await screen.findByTestId('notifications-overview')).not.toHaveTextContent(notLoggedInMessage)
@@ -137,6 +140,7 @@ describe('Notifications.tsx', () => {
 
     const emptyNotificationsMessage = 'notifications.display.empty.text2'
     expect(await screen.findByTestId('notifications-overview')).not.toHaveTextContent(emptyNotificationsMessage)
+    expect(await screen.findByTestId('post-comment-mention'))
   })
 
   it('renders a PostCommentMention notification', async () => {

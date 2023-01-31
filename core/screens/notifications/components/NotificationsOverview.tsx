@@ -95,7 +95,7 @@ const NotificationsOverview: React.VFC = () => {
     )
   }
 
-  if (!containsNotifications(data?.notifications?.data))
+  if (!containsNotifications(data?.notifications?.data)) {
     return (
       <HoliNoResults
         firstText={t('notifications.display.empty.text1')}
@@ -103,6 +103,7 @@ const NotificationsOverview: React.VFC = () => {
         style={[styles.noResultsMessage]}
       />
     )
+  }
 
   const sortedNotificationsByDate = sortNotificationsByDate(data?.notifications?.data)
 
