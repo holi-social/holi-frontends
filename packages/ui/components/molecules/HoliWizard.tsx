@@ -56,7 +56,7 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
   }
 
   const handleBackButtonPress = () => {
-    if (currentStep !== 0) {
+    if (currentStep !== 0 && currentStep > 0) {
       setCurrentStep(currentStep - 1)
     }
   }
