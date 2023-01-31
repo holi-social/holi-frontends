@@ -20,6 +20,7 @@ RUN mv ./apps/web/* ./ && mv ./apps/web/.next ./
 # static could also be hosted by a CDN but we include it into
 # the container for now for simplicity reasons
 COPY ./.next/static ./.next/static
+COPY ./server-preload.js ./server-preload.js
 
 RUN chown -R node:node ./.next/
 
@@ -34,4 +35,4 @@ ENV PORT 3000
 # Uncomment the following line in case you want to disable telemetry.
 ENV NEXT_TELEMETRY_DISABLED 1
 
-CMD ["node", "server.js"]
+CMD ["node", "--require", "./server-preload.js", "server.js"]
