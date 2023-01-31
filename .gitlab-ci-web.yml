@@ -44,7 +44,7 @@ default:
       - e2e/web/test-results
     when: on_failure
   script:
-    - UI_DOMAIN=`cat $UI_DOMAIN_PATH`
+    - export UI_DOMAIN=`cat $UI_DOMAIN_PATH`
     - terraform/environments/web/scripts/wait-for-ssl.sh "https://${UI_DOMAIN}"
     - cd e2e/web
     - yarn install
