@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StatusBar, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
