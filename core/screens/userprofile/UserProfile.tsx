@@ -8,7 +8,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
-import ReportOptionButton from '@holi/core/components/ReportOptionButton'
+import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import NotFound from '@holi/core/errors/components/NotFound'
 import { displayError, isNotFoundError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
@@ -74,7 +74,8 @@ const UserProfile: React.VFC<ScreenProps> = () => {
             onModalDismiss={hide}
             tintColor={tintColor}
           >
-            <ReportOptionButton
+            <ReportBlockOptionButton
+              action="report"
               label={t('user.profileView.report.title', { name: userFullName })}
               objectId={userId}
               contentType={ContentType.USER}
@@ -83,6 +84,20 @@ const UserProfile: React.VFC<ScreenProps> = () => {
                 title: t('user.profileView.report.confirmation.title', { name: userFullName }),
                 description: t('user.profileView.report.confirmation.description', { name: userFullName }),
               }}
+              onConfirm={hide}
+            />
+
+            <ReportBlockOptionButton
+              action="block"
+              label={t('profile.block', { name: userFullName })}
+              objectId={userId}
+              style={styles.moreOptionItem}
+              confirmationModalProps={{
+                title: t('user.profileView.block.confirmation.title', { name: userFullName }),
+                description: t('user.profileView.block.confirmation.description', { name: userFullName }),
+              }}
+              icon="close-circle"
+              tintColor={colors.errorRed}
               onConfirm={hide}
             />
           </MoreOptionsButtonWithModal>
