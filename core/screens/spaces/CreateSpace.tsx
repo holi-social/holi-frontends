@@ -54,10 +54,24 @@ const CreateSpace: React.VFC = () => {
     createSpaceSteps()
   }, [])
 
+  const handleNextButtonPress = () => {
+    console.log('handle Next Button Press')
+  }
+
+  const handleSubmitButtonPress = () => {
+    console.log('handle Submit Button Press')
+  }
+
   return (
     <SafeAreaView style={styles.contentWrapper}>
       <View style={styles.container}>
-        <HoliWizard isNextButtonDisabled={!isNextButtonEnabled} buttonName={t('spaces.create.space.button')}>
+        <HoliWizard
+          isNextButtonDisabled={!isNextButtonEnabled}
+          isBackButtonAvailable={true}
+          buttonName={t('spaces.create.space.button')}
+          onNextPress={() => handleNextButtonPress()}
+          onSubmit={() => handleSubmitButtonPress()}
+        >
           {stepsArray}
         </HoliWizard>
       </View>
