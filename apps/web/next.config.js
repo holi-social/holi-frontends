@@ -43,6 +43,8 @@ const sentryWebpackPluginOptions = {
   // https://github.com/getsentry/sentry-webpack-plugin#options.
 }
 
+const sentryOptions = { hideSourceMaps: true }
+
 module.exports = withSentryConfig(
   withTranspileModules(
     [
@@ -61,5 +63,6 @@ module.exports = withSentryConfig(
       debug: true,
     }
   )(nextConfig),
-  sentryWebpackPluginOptions
+  sentryWebpackPluginOptions,
+  sentryOptions
 )
