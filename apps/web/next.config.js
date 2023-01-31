@@ -1,6 +1,7 @@
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const withPlugins = require('next-compose-plugins')
+const withHtml = require('@blunck/next-html')()
 const withTranspileModules = require('next-transpile-modules')
 const path = require('path')
 const { withSentryConfig } = require('@sentry/nextjs')
@@ -65,7 +66,7 @@ module.exports = withSentryConfig(
         }
       ),
     ],
-    nextConfig
+    withHtml(nextConfig)
   ),
   sentryWebpackPluginOptions
 )
