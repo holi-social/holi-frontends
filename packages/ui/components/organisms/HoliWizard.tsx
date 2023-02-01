@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
   },
   nextButton: { height: 56 },
   buttonContainer: {
+    minWidth: Platform.OS === 'web' ? vars.maxScreenWidth : '100%',
     bottom: vars.topBarHeight + 30,
     flexDirection: 'row',
     alignItems: 'center',

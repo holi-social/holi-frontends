@@ -1,8 +1,9 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
-import { Text } from 'react-native'
+import { Text, View } from 'react-native'
 
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const StepOne = () => {
   return <Text>Step one</Text>
@@ -29,12 +30,16 @@ export default {
 } as ComponentMeta<typeof HoliWizard>
 
 const Template: ComponentStory<typeof HoliWizard> = ({ ...args }) => {
+  const mixins = useStyleMixins()
+
   return (
-    <HoliWizard {...args}>
-      <StepOne />
-      <StepTwo />
-      <StepThree />
-    </HoliWizard>
+    <View style={mixins.container}>
+      <HoliWizard {...args}>
+        <StepOne />
+        <StepTwo />
+        <StepThree />
+      </HoliWizard>
+    </View>
   )
 }
 
