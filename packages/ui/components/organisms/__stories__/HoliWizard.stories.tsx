@@ -48,11 +48,11 @@ export const BasicExample: ComponentStory<typeof HoliWizard> = Template.bind({})
 BasicExample.argTypes = {
   isNextButtonDisabled: { description: 'Next button status', type: 'boolean', control: { type: 'boolean' } },
   isBackButtonAvailable: { description: 'Back button status', type: 'boolean', control: { type: 'boolean' } },
-  buttonLabel: { description: 'Button Name', type: 'string', control: { type: 'text' } },
+  submitButtonLabel: { description: 'Button Name', type: 'string', control: { type: 'text' } },
 }
 
 BasicExample.args = {
   isNextButtonDisabled: false,
   isBackButtonAvailable: true,
-  buttonLabel: 'Submit',
+  submitButtonLabel: 'Submit',
 }

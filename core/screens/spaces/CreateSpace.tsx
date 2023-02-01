@@ -54,7 +54,7 @@ const CreateSpace: React.VFC = () => {
         <HoliWizard
           isNextButtonDisabled={!isNextButtonEnabled}
           isBackButtonAvailable={true}
-          buttonLabel={t('spaces.create.space.button')}
+          submitButtonLabel={t('spaces.create.space.button')}
           onNextPress={() => handleNextButtonPress()}
           onSubmit={() => handleSubmitButtonPress()}
         >

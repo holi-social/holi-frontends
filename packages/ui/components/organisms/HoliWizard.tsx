@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, View } from 'react-native'
 
@@ -15,7 +15,7 @@ export type HoliWizardProps = {
   onSubmit: () => void
   isNextButtonDisabled?: boolean
   isBackButtonAvailable?: boolean
-  buttonLabel: string
+  submitButtonLabel: string
 }
 
 const HoliWizard: React.VFC<HoliWizardProps> = ({
@@ -24,25 +24,14 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
   isBackButtonAvailable = false,
   onNextPress,
   onSubmit,
-  buttonLabel,
+  submitButtonLabel,
   testID,
 }: HoliWizardProps) => {
   const { t } = useTranslation()
   const [currentStep, setCurrentStep] = useState(0)
-  const [stepCount, setStepCount] = useState(0)
-  const [progress, setProgress] = useState(0)
 
-  useEffect(() => {
-    const currentProgress = stepCount - currentStep
-    const progressPercentage = currentProgress > 0 ? 100 / currentProgress : 0
-    setProgress(progressPercentage)
-  }, [currentStep, stepCount, isBackButtonAvailable])
-
-  useEffect(() => {
-    if (children) {
-      setStepCount(children.length)
-    }
-  }, [children])
+  const stepCount = children && children.length
+  const progress = stepCount - currentStep > 0 ? 100 / (stepCount - currentStep) : 0
 
   const handleNextButtonPress = () => {
     if (currentStep < stepCount - 1) {
@@ -93,7 +82,7 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
             testID="holi-wizard-next-btn"
             style={styles.nextButton}
           >
-            <Text>{currentStep === stepCount - 1 ? buttonLabel : t('global.next')}</Text>
+            <Text>{currentStep === stepCount - 1 ? submitButtonLabel : t('global.next')}</Text>
           </HoliButton>
         </View>
       </View>
