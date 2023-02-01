@@ -21,9 +21,25 @@
     BUILD_PROFILE: preview
     BUILD_PLATFORM: changeme
     KEEP_ARTIFACTS: 'false'
+    CHECK_VERSION_RELEASED: 'false'
   dependencies: [] # explicitly disable artifact usage
   script:
     - 'cd apps/mobile'
+    - >
+      if [ "$CHECK_VERSION_RELEASED" == "true" ]; then
+        export LAST_VERSION_IOS=$(eas build:list --json --non-interactive --platform ios --buildProfile $BUILD_PROFILE --limit 1 2>/dev/null | jq -r '.[0].appBuildVersion')
+        export LAST_VERSION_ANDROID=$(eas build:list --json --non-interactive --platform android --buildProfile $BUILD_PROFILE --limit 1 2>/dev/null | jq -r '.[0].appBuildVersion')
+        export CURRENT_VERSION_IOS=$(expo config --json 2>/dev/null | jq -r '.ios.buildNumber')
+        export CURRENT_VERSION_ANDROID=$(expo config --json 2>/dev/null | jq -r '.android.versionCode')
+        if [[ "$LAST_VERSION_IOS" == "$CURRENT_VERSION_IOS" ]]; then
+          echo "iOS app version \"$CURRENT_VERSION_IOS\" was already built (and most likely released). Did you forget to increment app versions?"
+          exit 1
+        fi
+        if [[ "$LAST_VERSION_ANDROID" == "$CURRENT_VERSION_ANDROID" ]]; then
+          echo "Android app version \"$CURRENT_VERSION_ANDROID\" was already built (and most likely released). Did you forget to increment app versions?"
+          exit 1
+        fi
+      fi
     - 'eas build --platform $BUILD_PLATFORM --profile $BUILD_PROFILE --non-interactive'
     - 'export ARTIFACT_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform $BUILD_PLATFORM --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
     - >
@@ -243,6 +259,7 @@ mobile_production_build_android:
     KEEP_ARTIFACTS: 'true'
     BUILD_PROFILE: production
     BUILD_PLATFORM: 'android'
+    CHECK_VERSION_RELEASED: 'true'
   artifacts:
     paths:
       - apps/mobile/artifacts_production/
@@ -259,6 +276,7 @@ mobile_production_build_ios:
     KEEP_ARTIFACTS: 'true'
     BUILD_PROFILE: production
     BUILD_PLATFORM: 'ios'
+    CHECK_VERSION_RELEASED: 'true'
   artifacts:
     paths:
       - apps/mobile/artifacts_production/
@@ -266,15 +284,26 @@ mobile_production_build_ios:
   only:
     - production
 
-# disabled (hidden) (not implemented yet), only increases build times and uses up runner minutes
-mobile_production_submit_android:
-  needs: ['mobile_production_build_android'] # TODO add 'mobile_production_build_ios'
+.mobile_production_submit_android:
+  needs: ['mobile_production_build_android']
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   script:
-    - export BUILD_ID=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --platform android --buildProfile production --limit 1  2> /dev/null | jq -r ".[0].id")
-    - eas submit -p android --profile production --id $BUILD_ID --verbose --non-interactive --wait # TODO add iOS, maybe add --auto-submit to production build for each android and ios
+    - export BUILD_ID=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform android --buildProfile production --limit 1  2> /dev/null | jq -r ".[0].id")
+    - eas submit -p android --profile production --id $BUILD_ID --verbose --non-interactive --wait
+  only:
+    - production
+  interruptible: false
+
+.mobile_production_submit_ios:
+  needs: ['mobile_production_build_ios']
+  image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
+  cache: [] # explicitly disable caching
+  dependencies: [] # explicitly disable artifact usage
+  script:
+    - export BUILD_ID=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform ios --buildProfile production --limit 1  2> /dev/null | jq -r ".[0].id")
+    - eas submit -p ios --profile production --id $BUILD_ID --verbose --non-interactive --wait
   only:
     - production
   interruptible: false

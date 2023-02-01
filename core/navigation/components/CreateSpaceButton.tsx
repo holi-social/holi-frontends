@@ -17,7 +17,7 @@ const CreateSpaceButton = ({ tintColor }: HeaderButtonProps) => {
       inline
       transparent
       onPress={() => {
-        navigate('/spaces/createSpace')
+        navigate('/spaces/create')
       }}
     >
       <HoliIcon icon="add-box" size={24} color={tintColor} />
