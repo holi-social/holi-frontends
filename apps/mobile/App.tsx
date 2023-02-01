@@ -13,6 +13,8 @@ import RootNavigator from '@holi/mobile/navigation/RootNavigator'
 const App: React.VoidFunctionComponent = () => {
   const [isReady, setIsReady] = useState(false)
 
+  SplashScreen.preventAutoHideAsync()
+
   // Android requires importing Intl polyfills to use APIs such as RelativeTimeFormat
   if (Platform.OS !== 'web') {
     require('@formatjs/intl-locale/polyfill')
@@ -42,6 +44,8 @@ const App: React.VoidFunctionComponent = () => {
       setIsReady(true)
       await SplashScreen.hideAsync()
     }
+
+    await SplashScreen.hideAsync()
   }
 
   useEffect(() => {
