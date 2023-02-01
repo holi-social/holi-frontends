@@ -1,7 +1,9 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
 import useWizard from '@holi/ui/components/organisms/HoliWizard/useWizard'
 import { colors } from '@holi/ui/styles/globalVars'
@@ -12,17 +14,18 @@ const StepOne = () => {
 
   return (
     <View style={styles.contentWrapper}>
-      <Text>Step one</Text>
+      <HoliText>Step one</HoliText>
       <View style={styles.buttonContainer}>
-        <Pressable style={styles.button} onPress={() => setNextButtonEnabled(true)}>
-          <Text>Enable</Text>
-        </Pressable>
-        <Pressable
+        <HoliButton style={styles.button} onPress={() => setNextButtonEnabled(true)} label={'enable button'}>
+          <HoliText>Enable</HoliText>
+        </HoliButton>
+        <HoliButton
           style={[styles.button, { backgroundColor: colors.backgroundColorWhite }]}
           onPress={() => setNextButtonEnabled(false)}
+          label={'disable button'}
         >
-          <Text>Disable</Text>
-        </Pressable>
+          <HoliText>Disable</HoliText>
+        </HoliButton>
       </View>
     </View>
   )
@@ -33,17 +36,18 @@ const StepTwo = () => {
 
   return (
     <View style={styles.contentWrapper}>
-      <Text>Step two</Text>
+      <HoliText>Step two</HoliText>
       <View style={styles.buttonContainer}>
-        <Pressable style={styles.button} onPress={() => setNextButtonEnabled(true)}>
-          <Text>Enable</Text>
-        </Pressable>
-        <Pressable
+        <HoliButton style={styles.button} onPress={() => setNextButtonEnabled(true)} label={'enable button'}>
+          <HoliText>Enable</HoliText>
+        </HoliButton>
+        <HoliButton
           style={[styles.button, { backgroundColor: colors.backgroundColorWhite }]}
           onPress={() => setNextButtonEnabled(false)}
+          label={'disable button'}
         >
-          <Text>Disable</Text>
-        </Pressable>
+          <HoliText>Disable</HoliText>
+        </HoliButton>
       </View>
     </View>
   )
@@ -54,17 +58,18 @@ const StepThree = () => {
 
   return (
     <View style={styles.contentWrapper}>
-      <Text>Step three</Text>
+      <HoliText>Step three</HoliText>
       <View style={styles.buttonContainer}>
-        <Pressable style={styles.button} onPress={() => setNextButtonEnabled(true)}>
-          <Text>Enable</Text>
-        </Pressable>
-        <Pressable
+        <HoliButton style={styles.button} onPress={() => setNextButtonEnabled(true)} label={'enable button'}>
+          <HoliText>Enable</HoliText>
+        </HoliButton>
+        <HoliButton
           style={[styles.button, { backgroundColor: colors.backgroundColorWhite }]}
           onPress={() => setNextButtonEnabled(false)}
+          label={'disable button'}
         >
-          <Text>Disable</Text>
-        </Pressable>
+          <HoliText>Disable</HoliText>
+        </HoliButton>
       </View>
     </View>
   )
