@@ -267,7 +267,7 @@ mobile_production_build_ios:
     - production
 
 # disabled (hidden) (not implemented yet), only increases build times and uses up runner minutes
-mobile_production_submit_android:
+.mobile_production_submit_android:
   needs: ['mobile_production_build_android'] # TODO add 'mobile_production_build_ios'
   image: 'registry.gitlab.com/holisticfoundation/holi-docker/alpine-node-expo-eas'
   cache: [] # explicitly disable caching
