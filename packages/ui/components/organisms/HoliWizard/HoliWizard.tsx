@@ -6,6 +6,7 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliProgressBar from '@holi/ui/components/molecules/HoliProgressBar'
+import HoliWizardContext from '@holi/ui/components/organisms/HoliWizard/HoliWizardContext'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
 export type HoliWizardProps = {
@@ -13,14 +14,12 @@ export type HoliWizardProps = {
   testID?: string
   onNextPress: () => void
   onSubmit: () => void
-  isNextButtonDisabled?: boolean
   isBackButtonAvailable?: boolean
   submitButtonLabel: string
 }
 
 const HoliWizard: React.VFC<HoliWizardProps> = ({
   children,
-  isNextButtonDisabled = false,
   isBackButtonAvailable = false,
   onNextPress,
   onSubmit,
@@ -29,9 +28,15 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
 }: HoliWizardProps) => {
   const { t } = useTranslation()
   const [currentStep, setCurrentStep] = useState(0)
+  const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false)
 
   const stepCount = children && children.length
   const progress = stepCount - currentStep > 0 ? 100 / (stepCount - currentStep) : 0
+
+  const setNextButtonEnabled = (buttonStatus: boolean) => {
+    setIsNextButtonEnabled(buttonStatus)
+  }
+  const wizardValue = { setNextButtonEnabled }
 
   const handleNextButtonPress = () => {
     if (currentStep < stepCount - 1) {
@@ -76,7 +81,7 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
         )}
         <View style={{ flex: 1 }}>
           <HoliButton
-            disabled={isNextButtonDisabled}
+            disabled={!isNextButtonEnabled}
             label={t('global.next')}
             onPress={handleNextButtonPress}
             testID="holi-wizard-next-btn"
@@ -90,12 +95,14 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
   }
 
   return (
-    <View testID={testID} style={styles.container}>
-      <HoliProgressBar progress={progress} />
-      <StepCount />
-      {children && children[currentStep]}
-      <NavigationButtons />
-    </View>
+    <HoliWizardContext.Provider value={wizardValue}>
+      <View testID={testID} style={styles.container}>
+        <HoliProgressBar progress={progress} />
+        <StepCount />
+        {children && children[currentStep]}
+        <NavigationButtons />
+      </View>
+    </HoliWizardContext.Provider>
   )
 }
 
