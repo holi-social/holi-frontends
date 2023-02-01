@@ -50,7 +50,7 @@ export default {
       [
         'expo-image-picker',
         {
-          photosPermission: 'The app accesses your photos to let you share them.',
+          photosPermission: 'Allow access to photos to upload a picture of you to your profile.',
         },
       ],
     ],
