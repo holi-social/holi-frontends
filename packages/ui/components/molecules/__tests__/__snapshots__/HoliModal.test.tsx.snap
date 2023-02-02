@@ -122,7 +122,6 @@ exports[`renders correctly renders correctly when open 1`] = `
       testID="undefined-animatedview"
     >
       <RCTSafeAreaView
-        emulateUnlessSupported={true}
         style={
           Object {
             "alignItems": "center",
@@ -132,6 +131,8 @@ exports[`renders correctly renders correctly when open 1`] = `
       >
         <View
           collapsable={false}
+          handlerTag={1}
+          handlerType="PanGestureHandler"
           onGestureHandlerEvent={[Function]}
           onGestureHandlerStateChange={[Function]}
           style={

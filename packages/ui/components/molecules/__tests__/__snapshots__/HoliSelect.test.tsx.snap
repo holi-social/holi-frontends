@@ -215,9 +215,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               >
                 <RNSVGSvgView
                   align="xMidYMid"
-                  bbHeight={22}
-                  bbWidth={22}
-                  color={4280427302}
+                  bbHeight="22"
+                  bbWidth="22"
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
@@ -247,15 +246,15 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor="#222326"
                   vbHeight={1024}
                   vbWidth={1024}
                 >
                   <RNSVGGroup
                     fill={
-                      Array [
-                        2,
-                      ]
+                      Object {
+                        "type": 2,
+                      }
                     }
                     propList={
                       Array [
@@ -264,9 +263,9 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                       ]
                     }
                     stroke={
-                      Array [
-                        2,
-                      ]
+                      Object {
+                        "type": 2,
+                      }
                     }
                   >
                     <RNSVGPath
@@ -353,6 +352,8 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
     }
     getItem={[Function]}
     getItemCount={[Function]}
+    handlerTag={8}
+    handlerType="NativeViewGestureHandler"
     keyExtractor={[Function]}
     keyboardShouldPersistTaps="always"
     nativeID="multiselect-options"
@@ -386,6 +387,16 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
       }
     }
     viewabilityConfigCallbackPairs={Array []}
+    waitFor={
+      Array [
+        Object {
+          "current": null,
+        },
+        Object {
+          "current": null,
+        },
+      ]
+    }
   >
     <View>
       <View
@@ -588,9 +599,9 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
             >
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight={20}
-                bbWidth={20}
-                color={4294967295}
+                bbHeight="20"
+                bbWidth="20"
+                color="#fff"
                 focusable={false}
                 meetOrSlice={0}
                 minX={0}
@@ -620,15 +631,15 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     },
                   ]
                 }
-                tintColor={4294967295}
+                tintColor="#fff"
                 vbHeight={1024}
                 vbWidth={1024}
               >
                 <RNSVGGroup
                   fill={
-                    Array [
-                      2,
-                    ]
+                    Object {
+                      "type": 2,
+                    }
                   }
                   propList={
                     Array [
@@ -637,9 +648,9 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     ]
                   }
                   stroke={
-                    Array [
-                      2,
-                    ]
+                    Object {
+                      "type": 2,
+                    }
                   }
                 >
                   <RNSVGPath
@@ -752,9 +763,9 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
             >
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight={20}
-                bbWidth={20}
-                color={4294967295}
+                bbHeight="20"
+                bbWidth="20"
+                color="#fff"
                 focusable={false}
                 meetOrSlice={0}
                 minX={0}
@@ -784,15 +795,15 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     },
                   ]
                 }
-                tintColor={4294967295}
+                tintColor="#fff"
                 vbHeight={1024}
                 vbWidth={1024}
               >
                 <RNSVGGroup
                   fill={
-                    Array [
-                      2,
-                    ]
+                    Object {
+                      "type": 2,
+                    }
                   }
                   propList={
                     Array [
@@ -801,9 +812,9 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     ]
                   }
                   stroke={
-                    Array [
-                      2,
-                    ]
+                    Object {
+                      "type": 2,
+                    }
                   }
                 >
                   <RNSVGPath
@@ -1530,9 +1541,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               >
                 <RNSVGSvgView
                   align="xMidYMid"
-                  bbHeight={22}
-                  bbWidth={22}
-                  color={4280427302}
+                  bbHeight="22"
+                  bbWidth="22"
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
@@ -1562,15 +1572,15 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor="#222326"
                   vbHeight={1024}
                   vbWidth={1024}
                 >
                   <RNSVGGroup
                     fill={
-                      Array [
-                        2,
-                      ]
+                      Object {
+                        "type": 2,
+                      }
                     }
                     propList={
                       Array [
@@ -1579,9 +1589,9 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                       ]
                     }
                     stroke={
-                      Array [
-                        2,
-                      ]
+                      Object {
+                        "type": 2,
+                      }
                     }
                   >
                     <RNSVGPath
@@ -1668,6 +1678,8 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
     }
     getItem={[Function]}
     getItemCount={[Function]}
+    handlerTag={7}
+    handlerType="NativeViewGestureHandler"
     keyExtractor={[Function]}
     keyboardShouldPersistTaps="always"
     nativeID="multiselect-options"
@@ -1701,6 +1713,16 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
       }
     }
     viewabilityConfigCallbackPairs={Array []}
+    waitFor={
+      Array [
+        Object {
+          "current": null,
+        },
+        Object {
+          "current": null,
+        },
+      ]
+    }
   >
     <View>
       <View
@@ -1903,9 +1925,9 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
             >
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight={20}
-                bbWidth={20}
-                color={4294967295}
+                bbHeight="20"
+                bbWidth="20"
+                color="#fff"
                 focusable={false}
                 meetOrSlice={0}
                 minX={0}
@@ -1935,15 +1957,15 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                     },
                   ]
                 }
-                tintColor={4294967295}
+                tintColor="#fff"
                 vbHeight={1024}
                 vbWidth={1024}
               >
                 <RNSVGGroup
                   fill={
-                    Array [
-                      2,
-                    ]
+                    Object {
+                      "type": 2,
+                    }
                   }
                   propList={
                     Array [
@@ -1952,9 +1974,9 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                     ]
                   }
                   stroke={
-                    Array [
-                      2,
-                    ]
+                    Object {
+                      "type": 2,
+                    }
                   }
                 >
                   <RNSVGPath
@@ -2772,9 +2794,8 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
               >
                 <RNSVGSvgView
                   align="xMidYMid"
-                  bbHeight={22}
-                  bbWidth={22}
-                  color={4280427302}
+                  bbHeight="22"
+                  bbWidth="22"
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
@@ -2804,15 +2825,15 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor="#222326"
                   vbHeight={1024}
                   vbWidth={1024}
                 >
                   <RNSVGGroup
                     fill={
-                      Array [
-                        2,
-                      ]
+                      Object {
+                        "type": 2,
+                      }
                     }
                     propList={
                       Array [
@@ -2821,9 +2842,9 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
                       ]
                     }
                     stroke={
-                      Array [
-                        2,
-                      ]
+                      Object {
+                        "type": 2,
+                      }
                     }
                   >
                     <RNSVGPath
@@ -3056,9 +3077,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               >
                 <RNSVGSvgView
                   align="xMidYMid"
-                  bbHeight={22}
-                  bbWidth={22}
-                  color={4280427302}
+                  bbHeight="22"
+                  bbWidth="22"
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
@@ -3088,15 +3108,15 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor="#222326"
                   vbHeight={1024}
                   vbWidth={1024}
                 >
                   <RNSVGGroup
                     fill={
-                      Array [
-                        2,
-                      ]
+                      Object {
+                        "type": 2,
+                      }
                     }
                     propList={
                       Array [
@@ -3105,9 +3125,9 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                       ]
                     }
                     stroke={
-                      Array [
-                        2,
-                      ]
+                      Object {
+                        "type": 2,
+                      }
                     }
                   >
                     <RNSVGPath
@@ -3194,6 +3214,8 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
     }
     getItem={[Function]}
     getItemCount={[Function]}
+    handlerTag={6}
+    handlerType="NativeViewGestureHandler"
     keyExtractor={[Function]}
     keyboardShouldPersistTaps="always"
     nativeID="multiselect-options"
@@ -3227,6 +3249,16 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
       }
     }
     viewabilityConfigCallbackPairs={Array []}
+    waitFor={
+      Array [
+        Object {
+          "current": null,
+        },
+        Object {
+          "current": null,
+        },
+      ]
+    }
   >
     <View>
       <View
@@ -4243,9 +4275,8 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               >
                 <RNSVGSvgView
                   align="xMidYMid"
-                  bbHeight={16}
-                  bbWidth={16}
-                  color={4280427302}
+                  bbHeight="16"
+                  bbWidth="16"
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
@@ -4275,15 +4306,15 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor="#222326"
                   vbHeight={1024}
                   vbWidth={1024}
                 >
                   <RNSVGGroup
                     fill={
-                      Array [
-                        2,
-                      ]
+                      Object {
+                        "type": 2,
+                      }
                     }
                     propList={
                       Array [
@@ -4292,9 +4323,9 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                       ]
                     }
                     stroke={
-                      Array [
-                        2,
-                      ]
+                      Object {
+                        "type": 2,
+                      }
                     }
                   >
                     <RNSVGPath
@@ -4347,9 +4378,8 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               >
                 <RNSVGSvgView
                   align="xMidYMid"
-                  bbHeight={22}
-                  bbWidth={22}
-                  color={4280427302}
+                  bbHeight="22"
+                  bbWidth="22"
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
@@ -4379,15 +4409,15 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor="#222326"
                   vbHeight={1024}
                   vbWidth={1024}
                 >
                   <RNSVGGroup
                     fill={
-                      Array [
-                        2,
-                      ]
+                      Object {
+                        "type": 2,
+                      }
                     }
                     propList={
                       Array [
@@ -4396,9 +4426,9 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                       ]
                     }
                     stroke={
-                      Array [
-                        2,
-                      ]
+                      Object {
+                        "type": 2,
+                      }
                     }
                   >
                     <RNSVGPath
@@ -4455,6 +4485,8 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
     }
     getItem={[Function]}
     getItemCount={[Function]}
+    handlerTag={2}
+    handlerType="NativeViewGestureHandler"
     keyExtractor={[Function]}
     keyboardShouldPersistTaps="always"
     nativeID="singleselect-options"
@@ -4488,6 +4520,16 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
       }
     }
     viewabilityConfigCallbackPairs={Array []}
+    waitFor={
+      Array [
+        Object {
+          "current": null,
+        },
+        Object {
+          "current": null,
+        },
+      ]
+    }
   >
     <View>
       <View
@@ -4897,9 +4939,8 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
               >
                 <RNSVGSvgView
                   align="xMidYMid"
-                  bbHeight={22}
-                  bbWidth={22}
-                  color={4280427302}
+                  bbHeight="22"
+                  bbWidth="22"
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
@@ -4929,15 +4970,15 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor="#222326"
                   vbHeight={1024}
                   vbWidth={1024}
                 >
                   <RNSVGGroup
                     fill={
-                      Array [
-                        2,
-                      ]
+                      Object {
+                        "type": 2,
+                      }
                     }
                     propList={
                       Array [
@@ -4946,9 +4987,9 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
                       ]
                     }
                     stroke={
-                      Array [
-                        2,
-                      ]
+                      Object {
+                        "type": 2,
+                      }
                     }
                   >
                     <RNSVGPath
@@ -5173,9 +5214,8 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
               >
                 <RNSVGSvgView
                   align="xMidYMid"
-                  bbHeight={22}
-                  bbWidth={22}
-                  color={4280427302}
+                  bbHeight="22"
+                  bbWidth="22"
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
@@ -5205,15 +5245,15 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor="#222326"
                   vbHeight={1024}
                   vbWidth={1024}
                 >
                   <RNSVGGroup
                     fill={
-                      Array [
-                        2,
-                      ]
+                      Object {
+                        "type": 2,
+                      }
                     }
                     propList={
                       Array [
@@ -5222,9 +5262,9 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
                       ]
                     }
                     stroke={
-                      Array [
-                        2,
-                      ]
+                      Object {
+                        "type": 2,
+                      }
                     }
                   >
                     <RNSVGPath
@@ -5457,9 +5497,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               >
                 <RNSVGSvgView
                   align="xMidYMid"
-                  bbHeight={22}
-                  bbWidth={22}
-                  color={4280427302}
+                  bbHeight="22"
+                  bbWidth="22"
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
@@ -5489,15 +5528,15 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor="#222326"
                   vbHeight={1024}
                   vbWidth={1024}
                 >
                   <RNSVGGroup
                     fill={
-                      Array [
-                        2,
-                      ]
+                      Object {
+                        "type": 2,
+                      }
                     }
                     propList={
                       Array [
@@ -5506,9 +5545,9 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                       ]
                     }
                     stroke={
-                      Array [
-                        2,
-                      ]
+                      Object {
+                        "type": 2,
+                      }
                     }
                   >
                     <RNSVGPath
@@ -5595,6 +5634,8 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
     }
     getItem={[Function]}
     getItemCount={[Function]}
+    handlerTag={1}
+    handlerType="NativeViewGestureHandler"
     keyExtractor={[Function]}
     keyboardShouldPersistTaps="always"
     nativeID="singleselect-options"
@@ -5628,6 +5669,16 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
       }
     }
     viewabilityConfigCallbackPairs={Array []}
+    waitFor={
+      Array [
+        Object {
+          "current": null,
+        },
+        Object {
+          "current": null,
+        },
+      ]
+    }
   >
     <View>
       <View

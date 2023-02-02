@@ -776,9 +776,9 @@ exports[`HoliTextInput renders correctly with error 1`] = `
       >
         <RNSVGSvgView
           align="xMidYMid"
-          bbHeight={16}
-          bbWidth={16}
-          color={4291565600}
+          bbHeight="16"
+          bbWidth="16"
+          color="#cc1820"
           focusable={false}
           meetOrSlice={0}
           minX={0}
@@ -808,15 +808,15 @@ exports[`HoliTextInput renders correctly with error 1`] = `
               },
             ]
           }
-          tintColor={4291565600}
+          tintColor="#cc1820"
           vbHeight={1024}
           vbWidth={1024}
         >
           <RNSVGGroup
             fill={
-              Array [
-                2,
-              ]
+              Object {
+                "type": 2,
+              }
             }
             propList={
               Array [
@@ -825,9 +825,9 @@ exports[`HoliTextInput renders correctly with error 1`] = `
               ]
             }
             stroke={
-              Array [
-                2,
-              ]
+              Object {
+                "type": 2,
+              }
             }
           >
             <RNSVGPath
@@ -993,9 +993,9 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
       >
         <RNSVGSvgView
           align="xMidYMid"
-          bbHeight={22}
-          bbWidth={22}
-          color={4293914865}
+          bbHeight="22"
+          bbWidth="22"
+          color="#eff0f1"
           focusable={false}
           meetOrSlice={0}
           minX={0}
@@ -1025,15 +1025,15 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
               },
             ]
           }
-          tintColor={4293914865}
+          tintColor="#eff0f1"
           vbHeight={1024}
           vbWidth={1024}
         >
           <RNSVGGroup
             fill={
-              Array [
-                2,
-              ]
+              Object {
+                "type": 2,
+              }
             }
             propList={
               Array [
@@ -1042,9 +1042,9 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
               ]
             }
             stroke={
-              Array [
-                2,
-              ]
+              Object {
+                "type": 2,
+              }
             }
           >
             <RNSVGPath

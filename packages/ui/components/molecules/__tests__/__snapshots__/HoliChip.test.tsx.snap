@@ -97,9 +97,9 @@ exports[`renders correctly renders correctly when checked 1`] = `
     >
       <RNSVGSvgView
         align="xMidYMid"
-        bbHeight={15}
-        bbWidth={15}
-        color={4294967295}
+        bbHeight="15"
+        bbWidth="15"
+        color="#fff"
         focusable={false}
         meetOrSlice={0}
         minX={0}
@@ -129,15 +129,15 @@ exports[`renders correctly renders correctly when checked 1`] = `
             },
           ]
         }
-        tintColor={4294967295}
+        tintColor="#fff"
         vbHeight={1024}
         vbWidth={1024}
       >
         <RNSVGGroup
           fill={
-            Array [
-              2,
-            ]
+            Object {
+              "type": 2,
+            }
           }
           propList={
             Array [
@@ -146,9 +146,9 @@ exports[`renders correctly renders correctly when checked 1`] = `
             ]
           }
           stroke={
-            Array [
-              2,
-            ]
+            Object {
+              "type": 2,
+            }
           }
         >
           <RNSVGPath
@@ -343,9 +343,9 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
     >
       <RNSVGSvgView
         align="xMidYMid"
-        bbHeight={15}
-        bbWidth={15}
-        color={4285493377}
+        bbHeight="15"
+        bbWidth="15"
+        color="#6f7081"
         focusable={false}
         meetOrSlice={0}
         minX={0}
@@ -375,15 +375,15 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
             },
           ]
         }
-        tintColor={4285493377}
+        tintColor="#6f7081"
         vbHeight={1024}
         vbWidth={1024}
       >
         <RNSVGGroup
           fill={
-            Array [
-              2,
-            ]
+            Object {
+              "type": 2,
+            }
           }
           propList={
             Array [
@@ -392,9 +392,9 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
             ]
           }
           stroke={
-            Array [
-              2,
-            ]
+            Object {
+              "type": 2,
+            }
           }
         >
           <RNSVGPath
