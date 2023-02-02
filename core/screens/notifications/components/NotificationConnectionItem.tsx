@@ -27,12 +27,10 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
 }) => {
   const { id: userId } = notification.options.user
   const { t } = useTranslation()
-  // if 'connectionAccepted' is 'true' user accepted connection, else user ignored connection
+  // if 'connectionAccepted' is 'true' user accepted connection, else if 'false', else user ignored connection
   const [connectionAccepted, setConnectionAccepted] = useState<boolean | null>(
     isNotificationConnectionAccepted(notification) || null
   )
-  // if 'connectionHandeled' is 'true', user already has accepted or ignored connection
-  const [connectionHandeled, setConnectionHandeled] = useState(isNotificationConnectionAccepted(notification))
 
   const { connect, disconnect, error, loading } = useUserConnection()
 
@@ -42,8 +40,9 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
 
   const getI18Key = () => {
     // this message is for 'CONNECTION_REQUEST' notification before user does any action
-    if (!connectionHandeled) return 'notifications.connection.message'
-    if (connectionAccepted) {
+    if (connectionAccepted === null) {
+      return 'notifications.connection.message'
+    } else if (connectionAccepted === true) {
       switch (notification.notificationType) {
         // 'CONNECTION_CONFIRMED' will be shown to a request sender user
         case NotificationType.CONNECTION_CONFIRMED:
@@ -67,12 +66,7 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
       type="secondary"
       variant="small"
       label={t('notifications.connection.ignore')}
-      onPress={() =>
-        disconnect(userId).then(() => {
-          setConnectionAccepted(false)
-          setConnectionHandeled(true)
-        })
-      }
+      onPress={() => disconnect(userId).then(() => setConnectionAccepted(false))}
       disabled={loading}
       style={styles.button}
       testID="ignore-connection-request-button"
@@ -84,12 +78,7 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
       type="primary"
       variant="small"
       label={t('notifications.connection.accept')}
-      onPress={() =>
-        connect(userId).then(() => {
-          setConnectionAccepted(true)
-          setConnectionHandeled(true)
-        })
-      }
+      onPress={() => connect(userId).then(() => setConnectionAccepted(true))}
       disabled={loading}
       style={styles.button}
       testID="accept-connection-request-button"
@@ -106,7 +95,7 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
         style={[style, loading && styles.notificationProcessing]}
         testID={`${testID ? testID + '-' : ''}notification-item`}
       >
-        {!connectionHandeled && (
+        {connectionAccepted === null && (
           <HoliHorizontalRow gap={8} style={styles.buttonContainer}>
             {buttons}
           </HoliHorizontalRow>
