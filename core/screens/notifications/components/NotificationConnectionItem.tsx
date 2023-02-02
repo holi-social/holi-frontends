@@ -27,7 +27,8 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
 }) => {
   const { id: userId } = notification.options.user
   const { t } = useTranslation()
-  // if 'connectionAccepted' is 'true' user accepted connection, else if 'false', else user ignored connection
+  // if 'connectionAccepted' is 'true', user accepted the connection
+  // if 'connectionAccepted' is null, it's not accepted and the user did not interact. Is set to false, when the connection is ignored.
   const [connectionAccepted, setConnectionAccepted] = useState<boolean | null>(
     isNotificationConnectionAccepted(notification) || null
   )

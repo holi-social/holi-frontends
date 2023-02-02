@@ -27,12 +27,11 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
 }) => {
   const { id: spaceUserId } = notification.options.user
   const { t } = useTranslation()
-  // if 'connectionAccepted' is 'true' user accepted connection, else user ignored connection
+  // if 'connectionAccepted' is 'true', user accepted the connection
+  // if 'connectionAccepted' is null, it's not accepted and the user did not interact. Is set to false, when the connection is ignored.
   const [connectionAccepted, setConnectionAccepted] = useState<boolean | null>(
     isNotificationConnectionAccepted(notification) || null
   )
-  // if 'connectionHandeled' is 'true', user already has accepted or ignored connection
-  const [connectionHandeled, setConnectionHandeled] = useState(isNotificationConnectionAccepted(notification))
 
   const { connect, disconnect, error, loading } = useUserConnection()
 
@@ -44,13 +43,13 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
 
   const getI18Key = () => {
     // this message is for 'CONNECTION_REQUEST' notification before user does any action
-    if (!connectionHandeled)
+    if (connectionAccepted === null)
       return userId === notification.options.user.id
         ? 'notifications.space.connection.message'
         : 'notifications.space.connection.requested.message'
 
-    if (connectionAccepted) {
-      // default case is for 'CONNECTION_REQUEST_APPROVED' notification after connection was accepted
+    if (connectionAccepted === true) {
+      // this case is for 'CONNECTION_REQUEST_APPROVED' notification after connection was accepted
       return userId === notification.options.user.id
         ? 'notifications.space.connection.accepted.message'
         : 'notifications.space.connection.joined.message'
@@ -69,7 +68,6 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
       onPress={() =>
         disconnect(spaceUserId).then(() => {
           setConnectionAccepted(false)
-          setConnectionHandeled(true)
         })
       }
       disabled={loading}
@@ -86,7 +84,6 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
       onPress={() =>
         connect(spaceUserId).then(() => {
           setConnectionAccepted(true)
-          setConnectionHandeled(true)
         })
       }
       disabled={loading}
@@ -105,7 +102,7 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
         style={[style, loading && styles.notificationProcessing]}
         testID={`${testID ? testID + '-' : ''}notification-item_${userId}_${notification.options.user.id}`}
       >
-        {!connectionHandeled && (
+        {connectionAccepted === null && (
           <HoliHorizontalRow gap={8} style={styles.buttonContainer}>
             {buttons}
           </HoliHorizontalRow>
