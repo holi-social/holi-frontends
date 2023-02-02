@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
@@ -15,6 +15,7 @@ const CreateSpace: React.VFC = () => {
   const { setOptions } = useUnifiedNavigation()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const { height: deviceHeight } = useWindowDimensions()
 
   useLayoutEffect(
     () =>
@@ -40,8 +41,8 @@ const CreateSpace: React.VFC = () => {
   }
 
   return (
-    <SafeAreaView style={styles.contentWrapper}>
-      <View style={[mixins.container, styles.container]}>
+    <View style={styles.wrapper}>
+      <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
         <HoliWizard
           isBackButtonAvailable={true}
           submitButtonLabel={t('spaces.create.space.button')}
@@ -53,25 +54,23 @@ const CreateSpace: React.VFC = () => {
           <CreateSpaceCoverImage />
         </HoliWizard>
       </View>
-    </SafeAreaView>
+    </View>
   )
 }
 
 export default CreateSpace
 
 const styles = StyleSheet.create({
-  contentWrapper: {
-    height: '100%',
+  wrapper: { alignItems: 'center', display: 'flex', flex: 1, backgroundColor: colors.backgroundColorGreyLight },
+  container: {
+    paddingBottom: 132,
+    paddingTop: Platform.OS === 'web' ? 0 : vars.topBarHeight,
+    width: '100%',
+    paddingHorizontal: 0,
     ...Platform.select({
-      web: {
-        minHeight: '100vh',
+      native: {
+        maxWidth: '100%',
       },
     }),
-    backgroundColor: colors.backgroundColorGreyLight,
-  },
-  container: {
-    top: vars.topBarHeight,
-    paddingTop: 8,
-    paddingBottom: 0,
   },
 })

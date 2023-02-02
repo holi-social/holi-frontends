@@ -1,22 +1,107 @@
-import React from 'react'
-import { Pressable, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliExtendedTextInput from '@holi/ui/components/organisms/HoliExtendedTextInput'
 import useWizard from '@holi/ui/components/organisms/HoliWizard/useWizard'
+import { colors } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-//TODO: Create the UI
 const CreateSpaceName: React.VFC = () => {
+  const mixins = useStyleMixins()
+  const { height: deviceHeight } = useWindowDimensions()
+  const [spaceName, setSpaceName] = useState<string>()
+  const [spaceGoal, setSpaceGoal] = useState<string>()
+  const [nameError, setNameError] = useState<string>()
+  const [goalError, setGoalError] = useState<string>()
+
+  const { t } = useTranslation()
   const { setNextButtonEnabled } = useWizard()
+
+  const handleSpaceName = (name: string) => {
+    setSpaceName(name)
+  }
+
+  const handleSpaceGoal = (goal: string) => {
+    setSpaceGoal(goal)
+  }
+
+  useEffect(() => {
+    if (spaceName && spaceName.length > 1 && spaceGoal && spaceGoal.length > 0) {
+      setNextButtonEnabled(true)
+    } else {
+      setNextButtonEnabled(false)
+      setNameError(undefined)
+      setGoalError(undefined)
+    }
+  }, [spaceName, spaceGoal, setNextButtonEnabled])
+
   return (
-    <View style={{ marginTop: 40, alignSelf: 'flex-start' }}>
-      <Text>Let&apos;s get started with your Space</Text>
-      <Pressable onPress={() => setNextButtonEnabled(true)}>
-        <Text>Enable</Text>
-      </Pressable>
-      <Pressable onPress={() => setNextButtonEnabled(false)}>
-        <Text>Disable</Text>
-      </Pressable>
+    <View style={styles.wrapper}>
+      <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
+        <View style={styles.title}>
+          <HoliText size="extralarge">{t('spaces.create.space.stepOne.title')}</HoliText>
+        </View>
+        <HoliExtendedTextInput
+          placeHolder="Our name is..."
+          inputLabel="Write a name for your Space*"
+          characterLength={60}
+          validationErrorText={nameError}
+          onChangeText={(value) => {
+            handleSpaceName(value)
+          }}
+          description={t('spaces.create.space.name.input.description')}
+        />
+        <View style={styles.goalInputContainer}>
+          <HoliExtendedTextInput
+            noOfVisibleLines={5}
+            validationErrorText={goalError}
+            placeHolder="Our Space goal is..."
+            inputLabel="Write a description of your Space*"
+            characterLength={600}
+            onChangeText={(value) => {
+              handleSpaceGoal(value)
+            }}
+            description={t('spaces.create.space.goal.input.description')}
+          />
+        </View>
+      </View>
     </View>
   )
 }
 
 export default CreateSpaceName
+
+const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    width: '100%',
+    ...Platform.select({
+      web: {
+        minHeight: '100vh',
+        minWidth: '100vh',
+      },
+    }),
+    alignItems: 'center',
+    display: 'flex',
+    backgroundColor: colors.backgroundColorGreyLight,
+  },
+  container: {
+    flex: 1,
+    paddingBottom: 132,
+    paddingHorizontal: 0,
+    ...Platform.select({
+      native: {
+        maxWidth: '100%',
+      },
+    }),
+  },
+  title: {
+    marginBottom: 24,
+    marginTop: 40,
+  },
+  goalInputContainer: {
+    marginTop: 24,
+  },
+})

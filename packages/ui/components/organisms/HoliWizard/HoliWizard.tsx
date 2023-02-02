@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, Text, View } from 'react-native'
+import { Platform, StyleSheet, Text, View, useWindowDimensions } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -8,6 +8,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliProgressBar from '@holi/ui/components/molecules/HoliProgressBar'
 import HoliWizardContext from '@holi/ui/components/organisms/HoliWizard/HoliWizardContext'
 import { colors, vars } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type HoliWizardProps = {
   children: Array<React.ReactChild>
@@ -29,6 +30,8 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
   const { t } = useTranslation()
   const [currentStep, setCurrentStep] = useState(0)
   const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false)
+  const { height: deviceHeight } = useWindowDimensions()
+  const mixins = useStyleMixins()
 
   const stepCount = children && children.length
   const progress = stepCount - currentStep > 0 ? 100 / (stepCount - currentStep) : 0
@@ -67,7 +70,7 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
 
   const NavigationButtons = () => {
     return (
-      <View style={[styles.buttonContainer]}>
+      <View style={[mixins.container, styles.buttonContainer]}>
         {isBackButtonAvailable && currentStep > 0 && (
           <HoliButton
             label={t('global.next')}
@@ -96,9 +99,11 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
 
   return (
     <HoliWizardContext.Provider value={wizardValue}>
-      <View testID={testID} style={styles.container}>
-        <HoliProgressBar progress={progress} />
-        <StepCount />
+      <View testID={testID} style={[styles.container, { minHeight: deviceHeight }]}>
+        <View style={styles.progressBarContainer}>
+          <HoliProgressBar progress={progress} />
+          <StepCount />
+        </View>
         {children && children[currentStep]}
         <NavigationButtons />
       </View>
@@ -111,9 +116,21 @@ export default HoliWizard
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    height: '100%',
+    flex: 1,
+    paddingHorizontal: 24,
+    paddingTop: Platform.OS === 'web' ? vars.topBarHeight : 44,
+    ...Platform.select({
+      web: {
+        minHeight: '100vh',
+      },
+    }),
   },
   stepCountContainer: { alignSelf: 'flex-start', marginTop: 12 },
+  progressBarContainer: {
+    width: '100%',
+    justifyContent: 'center',
+    paddingTop: 16,
+  },
   backButton: {
     width: 56,
     height: 56,
@@ -123,11 +140,11 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
     backgroundColor: colors.backgroundColorWhite,
   },
-  nextButton: { height: 56 },
+  nextButton: { height: 56, width: '100%' },
   buttonContainer: {
-    minWidth: Platform.OS === 'web' ? vars.maxScreenWidth : '100%',
-    bottom: vars.topBarHeight + 30,
+    bottom: Platform.OS === 'web' ? 10 : vars.topBarHeight,
     flexDirection: 'row',
+    paddingHorizontal: 0,
     alignItems: 'center',
     ...Platform.select({
       native: {
@@ -137,5 +154,7 @@ const styles = StyleSheet.create({
         position: 'fixed',
       },
     }),
+    justifyContent: 'center',
+    paddingBottom: Platform.OS === 'web' ? 28 : 28,
   },
 })
