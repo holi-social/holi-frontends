@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
@@ -7,19 +7,14 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import CreateSpaceCoverImage from '@holi/core/screens/spaces/components/CreateSpaceCoverImage'
 import CreateSpaceName from '@holi/core/screens/spaces/components/CreateSpaceName'
 import CreateSpaceTopics from '@holi/core/screens/spaces/components/CreateSpaceTopics'
-import HoliWizard from '@holi/ui/components/organisms/HoliWizard'
+import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-export type CreateSpaceStepProps = {
-  onChangeNextButtonStatus: (buttonStatus: boolean) => void
-}
 
 const CreateSpace: React.VFC = () => {
   const { setOptions } = useUnifiedNavigation()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const [isNextButtonEnabled, setIsNextButtonEnabled] = useState<boolean>(false)
 
   useLayoutEffect(
     () =>
@@ -36,10 +31,6 @@ const CreateSpace: React.VFC = () => {
     [setOptions, t]
   )
 
-  const handleNextButtonStatus = (isButtonEnable: boolean) => {
-    setIsNextButtonEnabled(isButtonEnable)
-  }
-
   const handleNextButtonPress = () => {
     console.log('handle Next Button Press')
   }
@@ -52,15 +43,14 @@ const CreateSpace: React.VFC = () => {
     <SafeAreaView style={styles.contentWrapper}>
       <View style={[mixins.container, styles.container]}>
         <HoliWizard
-          isNextButtonDisabled={!isNextButtonEnabled}
           isBackButtonAvailable={true}
-          buttonLabel={t('spaces.create.space.button')}
+          submitButtonLabel={t('spaces.create.space.button')}
           onNextPress={() => handleNextButtonPress()}
           onSubmit={() => handleSubmitButtonPress()}
         >
-          <CreateSpaceName onChangeNextButtonStatus={(buttonStatus) => handleNextButtonStatus(buttonStatus)} />
-          <CreateSpaceTopics onChangeNextButtonStatus={(buttonStatus) => handleNextButtonStatus(buttonStatus)} />
-          <CreateSpaceCoverImage onChangeNextButtonStatus={(buttonStatus) => handleNextButtonStatus(buttonStatus)} />
+          <CreateSpaceName />
+          <CreateSpaceTopics />
+          <CreateSpaceCoverImage />
         </HoliWizard>
       </View>
     </SafeAreaView>
