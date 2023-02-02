@@ -40,7 +40,7 @@ export type useSoftKeyboardProps = {
 const defaultProps = {
   preventAutoScrolling: true,
   scrollDebounce: 50,
-  viewportDebounce: 300,
+  viewportDebounce: 30,
   active: isWebTouchDevice(),
 }
 
@@ -90,6 +90,7 @@ export const useSoftKeyboard = (props?: useSoftKeyboardProps) => {
 
   useEffect(() => {
     if (!active) return
+
     window?.visualViewport?.addEventListener('resize', onResize)
     if (preventAutoScrolling) window?.visualViewport?.addEventListener('scroll', onScroll)
     onResize()
