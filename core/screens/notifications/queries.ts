@@ -32,6 +32,11 @@ export const notificationsQuery = gql`
               id
             }
           }
+          space {
+            id
+            title
+            avatar
+          }
         }
       }
       totalResults
