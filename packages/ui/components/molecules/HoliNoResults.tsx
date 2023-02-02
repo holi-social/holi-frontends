@@ -9,6 +9,7 @@ export type HoliNoResultsProps = {
   firstText?: string
   secondText: string
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
+  children?: React.ReactNode
 }
 
 const HoliNoResults: React.FC<HoliNoResultsProps> = ({ firstText, secondText, style, children }) => {

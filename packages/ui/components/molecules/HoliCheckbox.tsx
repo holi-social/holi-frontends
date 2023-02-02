@@ -33,6 +33,7 @@ export type HoliCheckboxProps = {
   autofocus?: boolean
   style?: StyleProp<ViewStyle>
   testID?: string
+  children?: React.ReactNode
 }
 
 const HoliCheckbox: React.FC<HoliCheckboxProps> = ({

@@ -6,6 +6,7 @@ import { useGrid } from '@holi/ui/components/atoms/HoliGridWrapper'
 
 export interface HoliGridCellProps {
   style: ViewStyle
+  children?: React.ReactNode
 }
 
 const HoliGridCell: React.FC<Partial<HoliGridCellProps>> = ({ children, style }) => {

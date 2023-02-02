@@ -16,6 +16,7 @@ interface HoliUserAvatarPileProps {
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
   testID?: string
   usersTotal?: number
+  children?: React.ReactNode
 }
 
 const HoliUserAvatarPile: React.FC<HoliUserAvatarPileProps> = ({

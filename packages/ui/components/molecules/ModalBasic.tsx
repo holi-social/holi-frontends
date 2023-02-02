@@ -9,6 +9,7 @@ export type ModalBasicProps = ModalProps & {
   onDismiss: () => void
   testID?: string
   label: string
+  children?: React.ReactNode
 }
 
 const ModalBasic: React.FC<ModalBasicProps> = ({ show, onDismiss, testID, label, children, ...nativeModalProps }) => {

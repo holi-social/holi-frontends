@@ -4,6 +4,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 export interface HoliItemRowProps {
   gap?: number
   style?: StyleProp<ViewStyle>
+  children?: React.ReactNode
 }
 
 export const HoliHorizontalRow: React.FC<HoliItemRowProps> = ({ children, gap = 24, style }) => {

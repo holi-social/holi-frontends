@@ -12,6 +12,7 @@ export interface MoreOptionsButtonWithModalProps extends HoliButtonProps {
   showOptions?: boolean
   onModalDismiss: () => void
   tintColor?: string
+  children?: React.ReactNode
 }
 
 const MoreOptionsButtonWithModal: React.FC<MoreOptionsButtonWithModalProps> = ({

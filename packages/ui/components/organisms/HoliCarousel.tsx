@@ -17,6 +17,7 @@ export interface HoliCarouselProps {
   slides: { title?: string; children: React.ReactNode }[]
   style?: StyleProp<ViewStyle>
   marginHorizontal?: number
+  children?: React.ReactNode
 }
 
 const isWeb = Platform.OS === 'web'

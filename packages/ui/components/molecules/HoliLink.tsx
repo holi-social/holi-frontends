@@ -15,6 +15,7 @@ export type HoliLinkProps = {
   // if 'HoliLink' is used in Modal Screen use 'mobileNavigateBackFirst' on mobile to close modal first and then navigate to HREF
   mobileNavigateBackFirst?: boolean
   testID?: string
+  children?: React.ReactNode
 }
 
 const HoliLink: React.FC<HoliLinkProps> = ({

@@ -9,6 +9,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 export interface HoliModalFullscreenProps extends ModalBasicProps {
   backgroundColor?: string
+  children?: React.ReactNode
 }
 
 const HoliModalFullscreen: React.FC<HoliModalFullscreenProps> = ({

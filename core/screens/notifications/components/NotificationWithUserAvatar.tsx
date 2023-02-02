@@ -13,6 +13,7 @@ interface NotificationWithUserAvatarProps<T = Notification> extends Notification
   href?: string
   content?: React.ReactNode
   i18nKey?: string
+  children?: React.ReactNode
 }
 
 const NotificationWithUserAvatar: React.FC<NotificationWithUserAvatarProps> = ({
