@@ -1,27 +1,22 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import SpaceMainImage from '@holi/core/screens/spaces/components/SpaceMainImage'
 import { Space } from '@holi/core/screens/spaces/types'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { colors } from '@holi/ui/styles/globalVars'
 
 type SpaceWelcomeProps = {
   space: Space
   style?: StyleProp<ViewStyle>
 }
 
-const IMAGE_ASPECT_RATIO = 327 / 210
-
 const SpaceWelcome: React.VFC<SpaceWelcomeProps> = ({ space, style }) => {
   const { t } = useTranslation()
   return (
     <View style={style}>
-      <View style={styles.imageContainer}>
-        <HoliImage source={{ uri: space.mainImage }} style={styles.mainImage} label={space.title} />
-      </View>
+      <SpaceMainImage uri={space.mainImage} label={space.title} />
       <HoliHeading level="2" style={styles.headline}>
         {t('spaces.spaceDetails.goal')}
       </HoliHeading>
@@ -40,22 +35,6 @@ const styles = StyleSheet.create({
   description: {
     marginTop: 16,
     marginBottom: 32,
-  },
-  imageContainer: {
-    width: '100%',
-    aspectRatio: IMAGE_ASPECT_RATIO,
-    height: Platform.OS === 'web' ? '100%' : 'auto',
-    padding: 8,
-    borderWidth: 1,
-    borderRadius: 16,
-    borderColor: colors.borderColorGrey,
-    backgroundColor: colors.backgroundColorWhite,
-  },
-  mainImage: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'cover',
-    borderRadius: 8,
   },
 })
 
