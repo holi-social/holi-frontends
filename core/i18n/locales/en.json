@@ -75,6 +75,7 @@
   "global.edit": "Edit",
   "global.gotIt": "Got it",
   "global.like": "I like it",
+  "global.next": "Next",
   "global.moreOptions": "More options",
   "global.noResults": "No results yet",
   "global.notAvailable": "Not yet available, sorry!",
@@ -206,6 +207,8 @@
   "spaces.collaborators": "Collaborators",
   "spaces.collaborators.isAdmin": "ADMIN",
   "spaces.collaborators.showModal": "Show collaborators",
+  "spaces.create.space.title": "Create a Space",
+  "spaces.create.space.button": "Create Space",
   "spaces.dashboard.description": "A place designed for team members collaboration. Here you will find useful tools to collaborate and engage.",
   "spaces.dashboard.openBtn": "Open dashboard",
   "spaces.dashboard.title": "Dashboard",
@@ -329,5 +332,6 @@
   "user.skills.form.subline": "This allows other users to get to know you better and us to tailor our offering to your skills.",
   "user.visitProfile": "Visit profile of {{name}}",
   "volunteering.navigation.home": "Home",
-  "volunteering.navigation.search": "Search"
+  "volunteering.navigation.search": "Search",
+  "wizard.stepsCount": "Step {{current}} of {{total}}"
 }
