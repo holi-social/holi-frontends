@@ -52,6 +52,7 @@ export const useSoftKeyboard = (props?: useSoftKeyboardProps) => {
   const [lastKeyboardOpen, setLastKeyboardOpen] = useState<boolean>()
 
   const onResize = useDebounce((event?: SyntheticEvent<Event>) => {
+    console.log('[softkeyboard] viewportHeight: ', event?.target?.height, window?.visualViewport?.height)
     const viewPortHeight = event ? event.target?.height : window?.visualViewport?.height
     const viewPortOffset = event ? event.target?.offsetTop : window?.visualViewport?.offsetTop
     const viewPortPageTop = event ? event.target?.pageTop : window?.visualViewport?.pageTop
@@ -90,7 +91,6 @@ export const useSoftKeyboard = (props?: useSoftKeyboardProps) => {
 
   useEffect(() => {
     if (!active) return
-
     window?.visualViewport?.addEventListener('resize', onResize)
     if (preventAutoScrolling) window?.visualViewport?.addEventListener('scroll', onScroll)
     onResize()
