@@ -22,8 +22,9 @@ exports[`renders correctly renders correctly when open 1`] = `
     }
     decelerationRate={0}
     horizontal={true}
-    onScrollEndDrag={[Function]}
+    onScroll={[Function]}
     pagingEnabled={true}
+    scrollEventThrottle={66}
     showsHorizontalScrollIndicator={false}
     snapToInterval={758}
   >
