@@ -46,38 +46,35 @@ const HoliKeyboardSaveView: React.FC<HoliKeyboardSaveViewProps> = ({
   const { keyboardIsOpen, keyboardHeight } = useKeyboard()
   const { softkeyboardIsOpen, viewPortHeight } = useSoftKeyboard()
   const scrollViewRef = useRef<View>(null)
-  const [viewHeight, setViewHeight] = useState(0)
+  // const [viewHeight, setViewHeight] = useState(0)
   const [offsetTop, setOffsetTop] = useState(0)
   const [maxHeight, setMaxHeight] = useState(NO_MAX_HEIGHT)
 
   const calcMaxHeight = useCallback(() => {
-    storeOffsetTop()
-
     const maxViewPort = Platform.OS === 'web' ? viewPortHeight : screenHeight - keyboardHeight
     const newViewHeight = maxViewPort - offsetTop
     setMaxHeight(newViewHeight)
     onHeightChange(newViewHeight)
+    storeOffsetTop()
 
     // Adding viewHeight here would cause endless loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyboardHeight, viewPortHeight, screenHeight])
 
-  const storeOffsetTop = () => {
-    const isInitialCall =
-      Platform.OS === 'web'
-        ? offsetTop === 0 && maxHeight !== NO_MAX_HEIGHT && !keyboardIsOpen && !softkeyboardIsOpen
-        : offsetTop === 0 && viewHeight !== 0 && !keyboardIsOpen && !softkeyboardIsOpen
+  const storeOffsetTop = (offsetTopFromElement?: number) => {
+    const isInitialCall = offsetTop === 0
     if (isInitialCall) {
-      // const realViewPort = Platform.OS === 'web' ? viewPortHeight : screenHeight
-      // console.log('set OFFSET: ', realViewPort - viewHeight)
-      // setOffsetTop(realViewPort - viewHeight)
-      setOffsetTop(65)
+      if (keyboardIsOpen || softkeyboardIsOpen) return
+      if (offsetTopFromElement) {
+        setOffsetTop(offsetTopFromElement)
+      }
     }
   }
 
   const storeViewHeight = (event: LayoutChangeEvent) => {
-    setViewHeight(event.nativeEvent?.layout?.height)
-    storeOffsetTop()
+    // console.log('view layout:', event.nativeEvent?.layout)
+    // setViewHeight(event.nativeEvent?.layout?.height)
+    storeOffsetTop(event.nativeEvent?.layout?.top)
   }
 
   useEffect(calcMaxHeight, [viewPortHeight, calcMaxHeight])

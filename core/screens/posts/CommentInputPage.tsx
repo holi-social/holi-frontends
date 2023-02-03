@@ -111,7 +111,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
 
   const onHeightChange = (newContainerHeight: number) => {
     const newScrollViewHeight = newContainerHeight - SUBMIT_BUTTON_CONTAINER_HEIGHT
-    console.log('????? onHeightChange to', newContainerHeight, ' new maxHeight:', newScrollViewHeight)
+    // console.log('????? onHeightChange to', newContainerHeight, ' new maxHeight:', newScrollViewHeight)
     setMaxHeight(newScrollViewHeight)
   }
 
@@ -242,8 +242,6 @@ const getStyles = (screenHeight: number) =>
       width: '100%',
       maxWidth: vars.maxScreenWidth,
       marginHorizontal: 'auto',
-      borderWidth: 2,
-      borderColor: 'red',
     },
     scrollContent: {
       paddingBottom: SUGGESTIONS_DROPDOWN_HEIGHT + SUBMIT_BUTTON_CONTAINER_HEIGHT + 50,
@@ -290,8 +288,6 @@ const getStyles = (screenHeight: number) =>
           position: 'relative',
         },
       }),
-      borderWidth: 1,
-      borderColor: 'green',
     },
     suggestionsScrollView: {
       zIndex: screenHeight < SMALL_DEVICE_HEIGHT ? 3 : undefined,
