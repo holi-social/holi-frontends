@@ -57,7 +57,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   if (!loading && !isAdmin) {
-    navigate('/spaces')
+    navigate(`/spaces/${spaceId}`)
   }
 
   const { visible, show, hide } = useModalState()
@@ -95,7 +95,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
           <View style={styles.header} testID="space-edit-header">
             <SpaceAvatar label={space.title} imageSrc={space.avatar} width={avatarWidth} testID="space-edit-avatar" />
             <HoliButton
-              label={t(`spaces.edit.avatar${space.avatar ? '.add' : ''}`)}
+              label={t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`)}
               type="secondary"
               inline
               style={[styles.editButton, styles.editAvatarButton]}
@@ -108,7 +108,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               {space.title}
             </HoliHeading>
             <HoliButton
-              label={t(`spaces.edit.avatar${space.avatar ? '.add' : ''}`)}
+              label={t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`)}
               type="secondary"
               inline
               style={[styles.editButton, styles.editTitleButton]}
