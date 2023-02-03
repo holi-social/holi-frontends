@@ -135,3 +135,17 @@ Password.argTypes = {
     options: ['password'],
   },
 }
+
+export const WithCharactorCount = ({ ...args }) => (
+  <HoliTextInput
+    inputLabel={'Label'}
+    accessibilityLabel={'accessibility label'}
+    placeholder={'Placeholder'}
+    helperText={'Helper Text'}
+    {...args}
+  />
+)
+WithCharactorCount.args = {
+  showCharactorCount: true,
+  value: 'value',
+}
