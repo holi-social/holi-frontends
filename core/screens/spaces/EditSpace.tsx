@@ -65,8 +65,6 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   useLayoutEffect(() => {
     setOptions({
       animation: 'slide_from_bottom',
-      headerTransparent: true,
-      headerStyle: { backgroundColor: 'transparent' },
       headerTitle: () => <HoliText>{t('spaces.edit.title')}</HoliText>,
       headerLeft: () => <HeaderBackButton icon="close" />,
       navigationCustomOptions: {
@@ -80,7 +78,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   }
 
   // Error and loading states are handled the same way and just hide the component
-  if (loading || error || !space) {
+  if (loading || error || !space || !isAdmin) {
     return <></>
   }
 
@@ -132,18 +130,15 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               <SpaceSection title={t('spaces.spaceDetails.topics')} editable>
                 {!!space.topics?.length && (
                   <View style={styles.listContainer}>
-                    {
-                      /** FIXME convert to VirtualizedList, FlatList or SectionList */
-                      space.topics?.map((topic, index) => (
-                        <HoliChip
-                          key={`topic_${index}`}
-                          text={topic.title}
-                          label={topic.title}
-                          disabled
-                          style={styles.chip}
-                        />
-                      ))
-                    }
+                    {space.topics?.map((topic, index) => (
+                      <HoliChip
+                        key={`topic_${index}`}
+                        text={topic.title}
+                        label={topic.title}
+                        disabled
+                        style={styles.chip}
+                      />
+                    ))}
                   </View>
                 )}
               </SpaceSection>
@@ -151,12 +146,9 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               <SpaceSection title={t('spaces.links.heading')} editable>
                 {!!space.links?.length && (
                   <View style={styles.listContainer}>
-                    {
-                      /** FIXME convert to VirtualizedList, FlatList or SectionList */
-                      space.links.map((link, index) => (
-                        <SpaceSocialLink key={`link_${index}`} link={link} style={styles.link} />
-                      ))
-                    }
+                    {space.links.map((link, index) => (
+                      <SpaceSocialLink key={`link_${index}`} link={link} style={styles.link} />
+                    ))}
                   </View>
                 )}
               </SpaceSection>
