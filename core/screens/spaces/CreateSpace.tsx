@@ -1,7 +1,8 @@
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
+import DefaultLayout from '@holi/core/DefaultLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import CreateSpaceCoverImage from '@holi/core/screens/spaces/components/CreateSpaceCoverImage'
@@ -15,7 +16,6 @@ const CreateSpace: React.VFC = () => {
   const { setOptions } = useUnifiedNavigation()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { height: deviceHeight } = useWindowDimensions()
 
   useLayoutEffect(
     () =>
@@ -42,28 +42,37 @@ const CreateSpace: React.VFC = () => {
 
   return (
     <View style={styles.wrapper}>
-      <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
-        <HoliWizard
-          isBackButtonAvailable={true}
-          submitButtonLabel={t('spaces.create.space.button')}
-          onNextPress={() => handleNextButtonPress()}
-          onSubmit={() => handleSubmitButtonPress()}
-        >
-          <CreateSpaceName />
-          <CreateSpaceTopics />
-          <CreateSpaceCoverImage />
-        </HoliWizard>
-      </View>
+      <DefaultLayout style={styles.defaultLayout} scrollView={false} headerOverlap>
+        <View style={[mixins.container, styles.container]}>
+          <HoliWizard
+            isBackButtonAvailable={true}
+            submitButtonLabel={t('spaces.create.space.button')}
+            onNextPress={() => handleNextButtonPress()}
+            onSubmit={() => handleSubmitButtonPress()}
+          >
+            <CreateSpaceName />
+            <CreateSpaceTopics />
+            <CreateSpaceCoverImage />
+          </HoliWizard>
+        </View>
+      </DefaultLayout>
     </View>
   )
 }
 
 export default CreateSpace
-
+//
 const styles = StyleSheet.create({
-  wrapper: { alignItems: 'center', display: 'flex', flex: 1, backgroundColor: colors.backgroundColorGreyLight },
+  wrapper: { alignItems: 'center', flex: 1, backgroundColor: colors.backgroundColorGreyLight },
+  defaultLayout: {
+    backgroundColor: colors.backgroundColorGreyLight,
+    paddingBottom: 0,
+    width: '100%',
+    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+  },
   container: {
     paddingBottom: 132,
+    flex: 1,
     paddingTop: Platform.OS === 'web' ? 0 : vars.topBarHeight,
     width: '100%',
     paddingHorizontal: 0,

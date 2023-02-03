@@ -10,10 +10,18 @@ const CreateSpaceTopics: React.VFC = () => {
   return (
     <View style={{ marginTop: 40, alignSelf: 'flex-start' }}>
       <Text>Choose the topics your space will cover</Text>
-      <Pressable onPress={() => setNextButtonEnabled(true)}>
+      <Pressable
+        onPress={() => {
+          setNextButtonEnabled(true)
+        }}
+      >
         <Text>Enable</Text>
       </Pressable>
-      <Pressable onPress={() => setNextButtonEnabled(false)}>
+      <Pressable
+        onPress={() => {
+          setNextButtonEnabled(false)
+        }}
+      >
         <Text>Disable</Text>
       </Pressable>
     </View>

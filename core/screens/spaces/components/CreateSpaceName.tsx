@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
+import DefaultLayout from '@holi/core/DefaultLayout'
+import { useScrollYHandler } from '@holi/core/helpers'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliExtendedTextInput from '@holi/ui/components/organisms/HoliExtendedTextInput'
 import useWizard from '@holi/ui/components/organisms/HoliWizard/useWizard'
@@ -10,7 +12,8 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const CreateSpaceName: React.VFC = () => {
   const mixins = useStyleMixins()
-  const { height: deviceHeight } = useWindowDimensions()
+  const onScreenScroll = useScrollYHandler()
+  const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
   const [spaceName, setSpaceName] = useState<string>()
   const [spaceGoal, setSpaceGoal] = useState<string>()
   const [nameError, setNameError] = useState<string>()
@@ -39,34 +42,41 @@ const CreateSpaceName: React.VFC = () => {
 
   return (
     <View style={styles.wrapper}>
-      <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
-        <View style={styles.title}>
-          <HoliText size="extralarge">{t('spaces.create.space.stepOne.title')}</HoliText>
-        </View>
-        <HoliExtendedTextInput
-          placeHolder="Our name is..."
-          inputLabel="Write a name for your Space*"
-          characterLength={60}
-          validationErrorText={nameError}
-          onChangeText={(value) => {
-            handleSpaceName(value)
-          }}
-          description={t('spaces.create.space.name.input.description')}
-        />
-        <View style={styles.goalInputContainer}>
+      <DefaultLayout
+        headerOverlap={true}
+        onScroll={onScreenScroll}
+        scrollEventThrottle={200}
+        style={[styles.contentStyle, { width: Platform.OS === 'web' ? deviceWidth : '100%' }]}
+      >
+        <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
+          <View style={styles.title}>
+            <HoliText size="extralarge">{t('spaces.create.space.stepOne.title')}</HoliText>
+          </View>
           <HoliExtendedTextInput
-            noOfVisibleLines={5}
-            validationErrorText={goalError}
-            placeHolder="Our Space goal is..."
-            inputLabel="Write a description of your Space*"
-            characterLength={600}
+            placeHolder="Our name is..."
+            inputLabel="Write a name for your Space*"
+            characterLength={60}
+            validationErrorText={nameError}
             onChangeText={(value) => {
-              handleSpaceGoal(value)
+              handleSpaceName(value)
             }}
-            description={t('spaces.create.space.goal.input.description')}
+            description={t('spaces.create.space.name.input.description')}
           />
+          <View style={styles.goalInputContainer}>
+            <HoliExtendedTextInput
+              noOfVisibleLines={5}
+              validationErrorText={goalError}
+              placeHolder="Our Space goal is..."
+              inputLabel="Write a description of your Space*"
+              characterLength={600}
+              onChangeText={(value) => {
+                handleSpaceGoal(value)
+              }}
+              description={t('spaces.create.space.goal.input.description')}
+            />
+          </View>
         </View>
-      </View>
+      </DefaultLayout>
     </View>
   )
 }
@@ -80,12 +90,22 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: {
         minHeight: '100vh',
-        minWidth: '100vh',
       },
     }),
     alignItems: 'center',
     display: 'flex',
     backgroundColor: colors.backgroundColorGreyLight,
+  },
+  contentStyle: {
+    flex: 1,
+    backgroundColor: colors.backgroundColorGreyLight,
+    width: '100%',
+    ...Platform.select({
+      web: {
+        minHeight: '100vh',
+        paddingHorizontal: 24,
+      },
+    }),
   },
   container: {
     flex: 1,

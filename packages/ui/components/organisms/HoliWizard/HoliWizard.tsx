@@ -70,7 +70,7 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
 
   const NavigationButtons = () => {
     return (
-      <View style={[mixins.container, styles.buttonContainer]}>
+      <View style={[mixins.container, styles.buttonContainer, { paddingHorizontal: Platform.OS === 'web' ? 24 : 0 }]}>
         {isBackButtonAvailable && currentStep > 0 && (
           <HoliButton
             label={t('global.next')}
@@ -99,7 +99,7 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
 
   return (
     <HoliWizardContext.Provider value={wizardValue}>
-      <View testID={testID} style={[styles.container, { minHeight: deviceHeight }]}>
+      <View testID={testID} style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
         <View style={styles.progressBarContainer}>
           <HoliProgressBar progress={progress} />
           <StepCount />
@@ -114,16 +114,38 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
 export default HoliWizard
 
 const styles = StyleSheet.create({
+  defaultLayout: {
+    width: '100%',
+    paddingBottom: 0,
+    ...Platform.select({
+      web: {
+        minHeight: '100vh',
+        minWidth: '100vh',
+      },
+    }),
+  },
+  contentStyle: {
+    paddingBottom: 0,
+    display: 'flex',
+    flex: 1,
+    ...Platform.select({
+      web: {
+        minHeight: '100vh',
+      },
+    }),
+  },
   container: {
     alignItems: 'center',
     flex: 1,
-    paddingHorizontal: 24,
     paddingTop: Platform.OS === 'web' ? vars.topBarHeight : 44,
     ...Platform.select({
       web: {
         minHeight: '100vh',
       },
     }),
+  },
+  stepsContainer: {
+    paddingHorizontal: 0,
   },
   stepCountContainer: { alignSelf: 'flex-start', marginTop: 12 },
   progressBarContainer: {
@@ -144,7 +166,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     bottom: Platform.OS === 'web' ? 10 : vars.topBarHeight,
     flexDirection: 'row',
-    paddingHorizontal: 0,
     alignItems: 'center',
     ...Platform.select({
       native: {
