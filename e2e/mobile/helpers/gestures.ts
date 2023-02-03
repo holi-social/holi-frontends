@@ -22,7 +22,7 @@ interface XY {
 const SWIPE_DIRECTION = {
   down: {
     start: { x: 50, y: 15 },
-    end: { x: 50, y: 65 },
+    end: { x: 50, y: 85 },
   },
   left: {
     start: { x: 85, y: 50 },
@@ -33,7 +33,7 @@ const SWIPE_DIRECTION = {
     end: { x: 85, y: 50 },
   },
   up: {
-    start: { x: 50, y: 65 },
+    start: { x: 50, y: 85 },
     end: { x: 50, y: 15 },
   },
 }
@@ -87,11 +87,11 @@ const swipeOnPercentage = async (from: XY, to: XY) => {
   // This will save a lot of webdriver calls if this methods is used multiple times.
   SCREEN_SIZE = SCREEN_SIZE || (await Appium.getWindowRect())
   // Get the start position on the screen for the swipe
-  const pressOptions = getDeviceScreenCoordinates(SCREEN_SIZE, from)
+  const fromScreenCoordinates = getDeviceScreenCoordinates(SCREEN_SIZE, from)
   // Get the move to position on the screen for the swipe
-  const moveToScreenCoordinates = getDeviceScreenCoordinates(SCREEN_SIZE, to)
+  const toScreenCoordinates = getDeviceScreenCoordinates(SCREEN_SIZE, to)
 
-  await swipe(pressOptions, moveToScreenCoordinates)
+  await swipe(fromScreenCoordinates, toScreenCoordinates)
 }
 
 /**
@@ -110,19 +110,19 @@ const swipe = async (from: XY, to: XY) => {
         // c. Finger comes down into contact with screen
         { type: 'pointerDown', button: 0 },
         // d. Pause for a little bit
-        { type: 'pause', duration: 100 },
+        { type: 'pause', duration: 200 },
         // e. Finger moves to end position
         //    We move our finger from the center of the element to the
         //    starting position of the element.
         //    Play with the duration to make the swipe go slower / faster
-        { type: 'pointerMove', duration: 1000, x: to.x, y: to.y },
+        { type: 'pointerMove', duration: 2000, x: to.x, y: to.y },
         // f. Finger gets up, off the screen
         { type: 'pointerUp', button: 0 },
+        // Add a pause to make sure the swipe is done
+        { type: 'pause', duration: 1000 },
       ],
     },
   ])
-  // Add a pause, just to make sure the swipe is done
-  await Appium.pause(1000)
 }
 
 /**
