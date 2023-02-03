@@ -112,7 +112,7 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
                 testID={slideIndex === slideIndex ? 'active-tab' : 'inactive-tab'}
               >
                 <View
-                  style={[styles.slideButtonIcon, slideIndex === currentSlideIndex ? styles.activeSlideButtonIcon : {}]}
+                  style={[styles.slideButtonIcon, slideIndex === currentSlideIndex && styles.activeSlideButtonIcon]}
                 />
               </HoliTabButton>
             ))

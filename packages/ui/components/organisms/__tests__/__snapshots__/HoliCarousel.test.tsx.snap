@@ -1126,7 +1126,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                 "opacity": 0.3,
                 "width": 8,
               },
-              Object {},
+              false,
             ]
           }
         />
@@ -1185,7 +1185,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                 "opacity": 0.3,
                 "width": 8,
               },
-              Object {},
+              false,
             ]
           }
         />
@@ -1244,7 +1244,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                 "opacity": 0.3,
                 "width": 8,
               },
-              Object {},
+              false,
             ]
           }
         />
@@ -1303,7 +1303,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                 "opacity": 0.3,
                 "width": 8,
               },
-              Object {},
+              false,
             ]
           }
         />
@@ -1362,7 +1362,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                 "opacity": 0.3,
                 "width": 8,
               },
-              Object {},
+              false,
             ]
           }
         />
@@ -1421,7 +1421,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                 "opacity": 0.3,
                 "width": 8,
               },
-              Object {},
+              false,
             ]
           }
         />
