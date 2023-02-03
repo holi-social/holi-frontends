@@ -108,7 +108,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               {space.title}
             </HoliHeading>
             <HoliButton
-              label={t(`spaces.edit.avatar${space.avatar ? '.add' : ''}`)}
+              label={t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`)}
               type="secondary"
               inline
               style={[styles.editButton, styles.editTitleButton]}
