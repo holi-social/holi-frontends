@@ -22,7 +22,7 @@ interface XY {
 const SWIPE_DIRECTION = {
   down: {
     start: { x: 50, y: 15 },
-    end: { x: 50, y: 85 },
+    end: { x: 50, y: 65 },
   },
   left: {
     start: { x: 85, y: 50 },
@@ -33,7 +33,7 @@ const SWIPE_DIRECTION = {
     end: { x: 85, y: 50 },
   },
   up: {
-    start: { x: 50, y: 85 },
+    start: { x: 50, y: 65 },
     end: { x: 50, y: 15 },
   },
 }
