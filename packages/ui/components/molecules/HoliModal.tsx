@@ -14,6 +14,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import { colors } from '@holi/ui/styles/globalVars'
 import { vars } from '@holi/ui/styles/globalVars'
+import { useTheme } from '@holi/ui/styles/theme'
 
 const FULLSCREEN_HEIGHT_THRESHOLD = 0.94
 
@@ -37,6 +38,7 @@ export const useModalState = ({
   onDismiss,
 }: Partial<Pick<HoliModalProps, 'onDismiss' | 'visible'>> = {}) => {
   const [modalVisible, setModalVisible] = useState(visible)
+  const theme = useTheme()
 
   const show = useCallback(() => setModalVisible(true), [])
   const hide = useCallback(() => setModalVisible(false), [])
@@ -45,6 +47,10 @@ export const useModalState = ({
     setModalVisible(false)
     onDismiss?.()
   }, [onDismiss])
+
+  useEffect(() => {
+    theme.setModalIsOpen(modalVisible)
+  }, [theme, modalVisible])
 
   return {
     visible: modalVisible,
