@@ -44,11 +44,14 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
     horizontalScrollMinWidth
   )
 
-  const handleScrollEnd = ({ nativeEvent }: { nativeEvent: NativeScrollEvent }) => {
-    if (!nativeEvent?.contentOffset) return
+  const handleOnScroll = ({ nativeEvent }: { nativeEvent: NativeScrollEvent }) => {
+    const contentOffset = nativeEvent?.contentOffset
+    if (!contentOffset) return
 
-    // Using Math.round means that when scrolling more than half of the slide width, it will move slides
-    setCurrentSlide(Math.round(nativeEvent.contentOffset.x / scrollingOffset))
+    // Math round increases the current slider index by one when scrolling more
+    // than halfway through the slide.
+    const currentIndexPosition = Math.round(contentOffset.x / scrollingOffset)
+    setCurrentSlide(currentIndexPosition)
   }
 
   const goToSlide = (slide: number) => {
@@ -58,7 +61,6 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
 
     const scrollPoint = slide * scrollingOffset
     carousel.current.scrollTo({ x: scrollPoint, y: 0, animated: true })
-    setCurrentSlide(slide)
   }
 
   return (
@@ -72,7 +74,11 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
           showsHorizontalScrollIndicator={false}
           snapToInterval={scrollingOffset}
           decelerationRate={0}
-          onMomentumScrollEnd={handleScrollEnd}
+          // The event loop syncs to the screen refresh rate; for iOS, the rate
+          // is at least 60 times per second. We want to throttle onScroll to
+          // avoid missing frames.
+          scrollEventThrottle={66}
+          onScroll={handleOnScroll}
         >
           {
             /** FIXME convert to VirtualizedList, FlatList or SectionList */

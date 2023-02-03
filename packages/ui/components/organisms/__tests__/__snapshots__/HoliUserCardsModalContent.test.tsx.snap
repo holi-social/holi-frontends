@@ -70,8 +70,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           }
           decelerationRate={0}
           horizontal={true}
-          onMomentumScrollEnd={[Function]}
+          onScroll={[Function]}
           pagingEnabled={true}
+          scrollEventThrottle={66}
           showsHorizontalScrollIndicator={false}
           snapToInterval={718}
         >
