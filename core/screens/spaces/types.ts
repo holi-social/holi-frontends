@@ -68,6 +68,7 @@ export enum SpaceConnectionType {
   MEMBERSHIP_REQUESTOR = 'MEMBERSHIP_REQUESTOR',
   MEMBER = 'MEMBER',
   CREATOR = 'CREATOR',
+  ADMINISTRATOR = 'ADMINISTRATOR',
 }
 
 export enum SpaceConnectionAction {

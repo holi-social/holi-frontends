@@ -28,6 +28,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.SpaceDetails]: 'spaces/:spaceId',
             [RouteName.FilteredSpaces]: 'spaces/filter',
             [RouteName.CreateSpace]: 'spaces/create',
+            [RouteName.EditSpace]: 'spaces/:spaceId/edit',
           },
         },
         [RouteName.Chat]: {
