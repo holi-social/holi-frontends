@@ -5,7 +5,7 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useScrollYHandler } from '@holi/core/helpers'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliExtendedTextInput from '@holi/ui/components/organisms/HoliExtendedTextInput'
+import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import useWizard from '@holi/ui/components/organisms/HoliWizard/useWizard'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -52,27 +52,33 @@ const CreateSpaceName: React.VFC = () => {
           <View style={styles.title}>
             <HoliText size="extralarge">{t('spaces.create.space.stepOne.title')}</HoliText>
           </View>
-          <HoliExtendedTextInput
-            placeHolder="Our name is..."
-            inputLabel="Write a name for your Space*"
-            characterLength={60}
+          <HoliTextInput
+            placeholder={t('spaces.create.space.name.input.placeholder')}
+            inputLabel={t('spaces.create.space.name.label')}
+            maxNoOfCharacters={10}
+            showCharactorCount={true}
             validationErrorText={nameError}
-            onChangeText={(value) => {
+            value={spaceName}
+            onChange={(value: string) => {
               handleSpaceName(value)
             }}
-            description={t('spaces.create.space.name.input.description')}
+            helperText={t('spaces.create.space.name.input.description')}
+            accessibilityLabel={t('spaces.create.space.name.label')}
           />
           <View style={styles.goalInputContainer}>
-            <HoliExtendedTextInput
+            <HoliTextInput
+              placeholder={t('spaces.create.space.goal.input.placeholder')}
+              inputLabel={t('spaces.create.space.goal.label')}
+              maxNoOfCharacters={600}
+              showCharactorCount={true}
               noOfVisibleLines={5}
+              maxNoOfVisibleLines={10}
               validationErrorText={goalError}
-              placeHolder="Our Space goal is..."
-              inputLabel="Write a description of your Space*"
-              characterLength={600}
-              onChangeText={(value) => {
+              value={spaceGoal}
+              onChange={(value: string) => {
                 handleSpaceGoal(value)
               }}
-              description={t('spaces.create.space.goal.input.description')}
+              accessibilityLabel={t('spaces.create.space.goal.label')}
             />
           </View>
         </View>
