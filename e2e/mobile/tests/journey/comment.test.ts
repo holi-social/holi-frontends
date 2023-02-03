@@ -23,7 +23,7 @@ describe('@Comment', () => {
     await tapOnElementWithTestId('feed-insight-image-link')
 
     // click first post within the insight
-    await scrollToElementWithTestId('btn-to-post', 'down', { maxAttempts: 8 })
+    await scrollToElementWithTestId('btn-to-post', 'down', { maxAttempts: 5 })
     await waitForElementWithTestId('btn-to-post')
     await tapOnElementWithTestId('btn-to-post')
 

@@ -26,7 +26,7 @@ describe('@HomeScreen', () => {
     await assertShowsUserSuggestionsWhenLoggedIn()
 
     // clean up, scroll up
-    await scrollToElementWithTestId('home-feed-insights-heading', 'up', { maxAttempts: 8 })
+    await scrollToElementWithTestId('home-feed-insights-heading', 'up', { maxAttempts: 5 })
   })
 })
 
@@ -89,5 +89,5 @@ const assertShowsUserSuggestionsWhenLoggedIn = async () => {
   await navigateBackToHomeScreen('btn-to-home-view')
 
   // scroll down to user suggestions element should be visible
-  await scrollToElementWithTestId('user-suggestions', 'down', { maxAttempts: 8 })
+  await scrollToElementWithTestId('user-suggestions', 'down', { maxAttempts: 5 })
 }

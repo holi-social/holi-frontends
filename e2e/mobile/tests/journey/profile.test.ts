@@ -11,10 +11,10 @@ describe('@Profile', () => {
     await navigateBackToHomeScreen()
 
     // user suggestions heading should be visible
-    await scrollToElementWithTestId('user-suggestions', 'down', { maxAttempts: 8 })
+    await scrollToElementWithTestId('user-suggestions', 'down', { maxAttempts: 5 })
 
     // tap on first user in list
-    await scrollToElementWithTestId('user-card-suggestion-0', 'down', { maxAttempts: 8 })
+    await scrollToElementWithTestId('user-card-suggestion-0', 'down', { maxAttempts: 5 })
     await tapOnElementWithTestId('user-card-suggestion-0')
 
     // expect user profile
