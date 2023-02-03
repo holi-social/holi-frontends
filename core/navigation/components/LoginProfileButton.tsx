@@ -14,6 +14,7 @@ export type LoginProfileButtonProps = {
   focused?: boolean
   style?: ViewStyle | Record<string, unknown>
   testID?: string
+  children?: React.ReactNode
 }
 
 const LoginProfileButton: React.FC<LoginProfileButtonProps> = ({ focused, children, style, ...props }) => {

@@ -41,6 +41,7 @@ export interface HoliButtonProps {
   accessibilityRole?: AccessibilityRole | AccessibilityRoleWeb
   accessibilityChecked?: boolean
   accessibilityState?: AccessibilityState
+  children?: React.ReactNode
 }
 
 const HoliButton: React.FC<HoliButtonProps> = ({

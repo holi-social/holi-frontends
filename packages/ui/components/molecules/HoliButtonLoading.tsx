@@ -15,6 +15,7 @@ export type HoliButtonLoadingProps = {
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
   testID?: string
+  children?: React.ReactNode
 }
 
 const HoliButtonLoading: React.FC<HoliButtonLoadingProps & HoliButtonProps> = ({

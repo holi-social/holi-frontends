@@ -10,6 +10,7 @@ export interface HeaderTitleProps extends Partial<HoliTextProps> {
   color?: string
   widthOfScreen?: number
   testID?: string
+  children?: React.ReactNode
 }
 
 const HeaderTitle: React.FC<HeaderTitleProps> = ({

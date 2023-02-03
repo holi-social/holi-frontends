@@ -1,5 +1,5 @@
 import {
-  ImageInfo,
+  ImagePickerAsset,
   ImagePickerOptions,
   PermissionStatus,
   launchImageLibraryAsync,
@@ -10,7 +10,7 @@ import { useCallback, useState } from 'react'
 import { displayError } from '@holi/core/errors/helpers'
 
 export const useMediaLibraryImagePicker = () => {
-  const [image, setImage] = useState<ImageInfo>()
+  const [image, setImage] = useState<ImagePickerAsset>()
   const [mediaLibraryPermissionInfo, requestMediaLibraryPermission] = useMediaLibraryPermissions()
 
   const verifyPermissions = useCallback(async () => {
@@ -36,12 +36,13 @@ export const useMediaLibraryImagePicker = () => {
 
       if (!hasPermission) return
 
-      const image = await launchImageLibraryAsync(pickerOptions)
+      const result = await launchImageLibraryAsync(pickerOptions)
+      const img = result.assets?.[0]
 
-      if (!image.cancelled) {
-        setImage(image)
+      if (!result.canceled) {
+        setImage(img)
 
-        return image
+        return img
       }
     },
     [verifyPermissions]

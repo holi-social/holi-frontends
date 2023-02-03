@@ -47,9 +47,9 @@ exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
   >
     <RNSVGSvgView
       align="xMidYMid"
-      bbHeight={24}
-      bbWidth={24}
-      color={4285493377}
+      bbHeight="24"
+      bbWidth="24"
+      color="#6f7081"
       focusable={false}
       meetOrSlice={0}
       minX={0}
@@ -79,15 +79,15 @@ exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
           },
         ]
       }
-      tintColor={4285493377}
+      tintColor="#6f7081"
       vbHeight={1024}
       vbWidth={1024}
     >
       <RNSVGGroup
         fill={
-          Array [
-            2,
-          ]
+          Object {
+            "type": 2,
+          }
         }
         propList={
           Array [
@@ -96,9 +96,9 @@ exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
           ]
         }
         stroke={
-          Array [
-            2,
-          ]
+          Object {
+            "type": 2,
+          }
         }
       >
         <RNSVGPath
@@ -183,9 +183,9 @@ exports[`SpaceSocialLink renders correctly when type is different than OTHER 1`]
   >
     <RNSVGSvgView
       align="xMidYMid"
-      bbHeight={24}
-      bbWidth={24}
-      color={4285493377}
+      bbHeight="24"
+      bbWidth="24"
+      color="#6f7081"
       focusable={false}
       meetOrSlice={0}
       minX={0}
@@ -215,15 +215,15 @@ exports[`SpaceSocialLink renders correctly when type is different than OTHER 1`]
           },
         ]
       }
-      tintColor={4285493377}
+      tintColor="#6f7081"
       vbHeight={1024}
       vbWidth={1024}
     >
       <RNSVGGroup
         fill={
-          Array [
-            2,
-          ]
+          Object {
+            "type": 2,
+          }
         }
         propList={
           Array [
@@ -232,9 +232,9 @@ exports[`SpaceSocialLink renders correctly when type is different than OTHER 1`]
           ]
         }
         stroke={
-          Array [
-            2,
-          ]
+          Object {
+            "type": 2,
+          }
         }
       >
         <RNSVGPath

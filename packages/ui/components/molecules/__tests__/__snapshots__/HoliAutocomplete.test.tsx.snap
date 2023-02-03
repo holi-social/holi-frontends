@@ -165,9 +165,8 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
         >
           <RNSVGSvgView
             align="xMidYMid"
-            bbHeight={22}
-            bbWidth={22}
-            color={4280427302}
+            bbHeight="22"
+            bbWidth="22"
             focusable={false}
             meetOrSlice={0}
             minX={0}
@@ -197,15 +196,15 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
                 },
               ]
             }
-            tintColor={4280427302}
+            tintColor="#222326"
             vbHeight={1024}
             vbWidth={1024}
           >
             <RNSVGGroup
               fill={
-                Array [
-                  2,
-                ]
+                Object {
+                  "type": 2,
+                }
               }
               propList={
                 Array [
@@ -214,9 +213,9 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
                 ]
               }
               stroke={
-                Array [
-                  2,
-                ]
+                Object {
+                  "type": 2,
+                }
               }
             >
               <RNSVGPath
@@ -226,7 +225,6 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
           </RNSVGSvgView>
         </View>
       </View>
-      
     </View>
   </View>
   <View
@@ -405,9 +403,9 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
         >
           <RNSVGSvgView
             align="xMidYMid"
-            bbHeight={16}
-            bbWidth={16}
-            color={4291565600}
+            bbHeight="16"
+            bbWidth="16"
+            color="#cc1820"
             focusable={false}
             meetOrSlice={0}
             minX={0}
@@ -437,15 +435,15 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 },
               ]
             }
-            tintColor={4291565600}
+            tintColor="#cc1820"
             vbHeight={1024}
             vbWidth={1024}
           >
             <RNSVGGroup
               fill={
-                Array [
-                  2,
-                ]
+                Object {
+                  "type": 2,
+                }
               }
               propList={
                 Array [
@@ -454,9 +452,9 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 ]
               }
               stroke={
-                Array [
-                  2,
-                ]
+                Object {
+                  "type": 2,
+                }
               }
             >
               <RNSVGPath
