@@ -39,7 +39,7 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
   const setNextButtonEnabled = (buttonStatus: boolean) => {
     setIsNextButtonEnabled(buttonStatus)
   }
-  const wizardValue = { setNextButtonEnabled }
+  const wizardContext = { setNextButtonEnabled }
 
   const handleNextButtonPress = () => {
     if (currentStep < stepCount - 1) {
@@ -98,7 +98,7 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
   }
 
   return (
-    <HoliWizardContext.Provider value={wizardValue}>
+    <HoliWizardContext.Provider value={wizardContext}>
       <View testID={testID} style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
         <View style={styles.progressBarContainer}>
           <HoliProgressBar progress={progress} />
