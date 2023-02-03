@@ -45,7 +45,7 @@ export default {
   backgroundColorSuccess: '#6267e7',
   backgroundColorError: '#cc1820',
   backgroundColorErrorLight: '#fce7e8',
-  backgroundColorOverlay: '#2222221f',
+  backgroundColorOverlay: 'rgba(34,34,34,.1215686275)',
   backgroundColorModalDark: '#262424',
   backgroundColorPillBlue: '#90ddff',
   backgroundColorPillGreen: '#abff8b',
