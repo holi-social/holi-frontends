@@ -26,7 +26,7 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
   style,
   marginHorizontal = 0, // margin between slide and device screen
 }: HoliCarouselProps) => {
-  const [currentSlide, setCurrentSlide] = React.useState(0)
+  const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0)
   const carousel = React.useRef<ScrollView | null>(null)
 
   const { width: screenWidth } = useWindowDimensions()
@@ -51,7 +51,7 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
     // Math round increases the current slider index by one when scrolling more
     // than halfway through the slide.
     const currentIndexPosition = Math.round(contentOffset.x / scrollingOffset)
-    setCurrentSlide(currentIndexPosition)
+    setCurrentSlideIndex(currentIndexPosition)
   }
 
   const goToSlide = (slide: number) => {
@@ -81,7 +81,7 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
           onScroll={handleOnScroll}
         >
           {
-            /** FIXME convert to VirtualizedList, FlatList or SectionList */
+            /** FIXME: convert to VirtualizedList, FlatList or SectionList */
             slides.map((slide, i) => (
               <View
                 style={[
@@ -101,18 +101,18 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
       {!isWeb && slides.length > 1 && (
         <View style={styles.slideButtonsContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
           {
-            /** FIXME convert to VirtualizedList, FlatList or SectionList */
+            /** FIXME: convert to VirtualizedList, FlatList or SectionList */
             slides.map((slide, slideIndex) => (
               <HoliTabButton
                 label={slide.title || '' + (slideIndex + 1)}
                 style={styles.slideButton}
                 onPress={() => goToSlide(slideIndex)}
                 key={slideIndex}
-                accessibilitySelected={slideIndex === currentSlide}
+                accessibilitySelected={slideIndex === currentSlideIndex}
                 testID={slideIndex === slideIndex ? 'active-tab' : 'inactive-tab'}
               >
                 <View
-                  style={[styles.slideButtonIcon, slideIndex === currentSlide ? styles.activeSlideButtonIcon : {}]}
+                  style={[styles.slideButtonIcon, slideIndex === currentSlideIndex ? styles.activeSlideButtonIcon : {}]}
                 />
               </HoliTabButton>
             ))
