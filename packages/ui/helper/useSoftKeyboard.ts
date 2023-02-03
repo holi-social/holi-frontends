@@ -78,7 +78,7 @@ export const useSoftKeyboard = (props?: useSoftKeyboardProps) => {
 
     setLastWindowHeight(windowHeight)
     setLastKeyboardOpen(keyboardIsOpen)
-    setLastViewPortHeight(viewPortHeight - 10)
+    setLastViewPortHeight(viewPortHeight)
     setLastKeyboardHeight(keyboarHeight)
   }, viewportDebounce)
 

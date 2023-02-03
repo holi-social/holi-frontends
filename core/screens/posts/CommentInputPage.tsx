@@ -86,7 +86,6 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
    * - prevent double scrollbars in web (no main page scrolling)
    */
   const scrollIntoView = useCallback(() => {
-    // console.log('### scrollIntoView', viewPortHeight)
     if (Platform.OS === 'web') {
       scrollViewRef.current?.scrollToEnd({ animated: true })
     } else {
@@ -111,7 +110,6 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
 
   const onHeightChange = (newContainerHeight: number) => {
     const newScrollViewHeight = newContainerHeight - SUBMIT_BUTTON_CONTAINER_HEIGHT
-    // console.log('????? onHeightChange to', newContainerHeight, ' new maxHeight:', newScrollViewHeight)
     setMaxHeight(newScrollViewHeight)
   }
 
@@ -136,22 +134,9 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
 
   if (!post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
 
-  // const getMaxHeight = () => {
-  //   if (!viewPortHeight) return undefined
-  //   console.log(
-  //     '### get height: ',
-  //     viewPortHeight,
-  //     '-',
-  //     SUBMIT_BUTTON_CONTAINER_HEIGHT,
-  //     '-',
-  //     parseInt(vars.topBarHeight, 10)
-  //   )
-  //   return viewPortHeight - SUBMIT_BUTTON_CONTAINER_HEIGHT - parseInt(vars.topBarHeight, 10)
-  // }
-
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
-      <HoliKeyboardSaveView onHeightChange={onHeightChange} style={{ borderWidth: 3, borderColor: '#0f0' }}>
+      <HoliKeyboardSaveView onHeightChange={onHeightChange}>
         <ScrollView
           onContentSizeChange={scrollIntoView}
           ref={scrollViewRef}
