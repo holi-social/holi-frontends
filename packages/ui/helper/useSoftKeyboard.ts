@@ -40,7 +40,7 @@ export type useSoftKeyboardProps = {
 const defaultProps = {
   preventAutoScrolling: true,
   scrollDebounce: 50,
-  viewportDebounce: 300,
+  viewportDebounce: 30,
   active: isWebTouchDevice(),
 }
 
@@ -78,7 +78,7 @@ export const useSoftKeyboard = (props?: useSoftKeyboardProps) => {
 
     setLastWindowHeight(windowHeight)
     setLastKeyboardOpen(keyboardIsOpen)
-    setLastViewPortHeight(viewPortHeight - 10)
+    setLastViewPortHeight(viewPortHeight)
     setLastKeyboardHeight(keyboarHeight)
   }, viewportDebounce)
 
