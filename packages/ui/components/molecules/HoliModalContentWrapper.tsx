@@ -32,19 +32,22 @@ export interface HoliModalContentWrapper {
   hideFooterWhenKeyboardIsOpen?: boolean
 }
 
-const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
-  actionButtonText,
-  onActionButtonPress,
-  headlineText,
-  prependChildren,
-  children,
-  style,
-  keyboardShouldPersistTaps,
-  loading = false,
-  testID = 'holi-modal-content',
-  scrollable = true,
-  hideFooterWhenKeyboardIsOpen = false,
-}) => {
+const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = (
+  {
+    actionButtonText,
+    onActionButtonPress,
+    headlineText,
+    prependChildren,
+    children,
+    style,
+    keyboardShouldPersistTaps,
+    loading = false,
+    testID = 'holi-modal-content',
+    scrollable = true,
+    hideFooterWhenKeyboardIsOpen = false,
+  },
+  ref: React.ForwardedRef<React.RefObject<ScrollView>>
+) => {
   const { keyboardIsOpen } = useKeyboard()
   const { softkeyboardIsOpen } = useSoftKeyboard()
   const showFooter = !hideFooterWhenKeyboardIsOpen || !(keyboardIsOpen || softkeyboardIsOpen)
@@ -81,7 +84,13 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
         </Animated.View>
       )}
 
-      {scrollable ? <ScrollView keyboardShouldPersistTaps={keyboardShouldPersistTaps}>{content}</ScrollView> : content}
+      {scrollable ? (
+        <ScrollView ref={ref} keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
+          {content}
+        </ScrollView>
+      ) : (
+        content
+      )}
 
       {showFooter && (
         <View style={styles.actionButtonContainer}>
@@ -99,7 +108,7 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
   )
 }
 
-export default HoliModalContentWrapper
+export default React.forwardRef(HoliModalContentWrapper)
 
 const styles = StyleSheet.create({
   container: {
