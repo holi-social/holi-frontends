@@ -40,6 +40,9 @@ const HoliKeyboardSaveView: React.FC<HoliKeyboardSaveViewProps> = ({
     if (Platform.OS === 'web' && !isWebTouchDevice()) return
     const maxViewPort = Platform.OS === 'web' ? viewPortHeight : screenHeight - keyboardHeight
     const newViewHeight = maxViewPort - offsetTop
+
+    if (maxViewPort <= 0 || newViewHeight <= 0) return
+
     setMaxHeight(newViewHeight)
     onHeightChange(newViewHeight)
     storeOffsetTop()
