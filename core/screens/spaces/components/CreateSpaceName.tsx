@@ -4,37 +4,33 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useScrollYHandler } from '@holi/core/helpers'
-import useCreateSpace from '@holi/core/screens/spaces/CreateSpace/useCreateSpace'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import useWizard from '@holi/ui/components/organisms/HoliWizard/useWizard'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-const CreateSpaceName: React.VFC = () => {
+export type CreateSpaceNameProps = {
+  onChangeSpaceName: (name: string) => void
+  onChangeSpaceGoal: (goal: string) => void
+  spaceName: string
+  spaceGoal: string
+}
+
+const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
+  onChangeSpaceName,
+  onChangeSpaceGoal,
+  spaceName,
+  spaceGoal,
+}: CreateSpaceNameProps) => {
   const mixins = useStyleMixins()
   const onScreenScroll = useScrollYHandler()
   const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
-  const [spaceName, setSpaceName] = useState<string>()
-  const [spaceGoal, setSpaceGoal] = useState<string>()
   const [nameError, setNameError] = useState<string>()
   const [goalError, setGoalError] = useState<string>()
 
   const { t } = useTranslation()
   const { setNextButtonEnabled } = useWizard()
-  const { setSpaceInfo, spaceInfo } = useCreateSpace()
-
-  const handleSpaceName = (name: string) => {
-    const space = { ...spaceInfo, name: name }
-    setSpaceInfo(space)
-    setSpaceName(name)
-  }
-
-  const handleSpaceGoal = (goal: string) => {
-    const space = { ...spaceInfo, goal: goal }
-    setSpaceInfo(space)
-    setSpaceGoal(goal)
-  }
 
   useEffect(() => {
     if (spaceName && spaceName.length > 1 && spaceGoal && spaceGoal.length > 0) {
@@ -66,7 +62,7 @@ const CreateSpaceName: React.VFC = () => {
             validationErrorText={nameError}
             value={spaceName}
             onChange={(value: string) => {
-              handleSpaceName(value)
+              onChangeSpaceName(value)
             }}
             helperText={t('spaces.create.space.name.input.description')}
             accessibilityLabel={t('spaces.create.space.name.label')}
@@ -82,7 +78,7 @@ const CreateSpaceName: React.VFC = () => {
               validationErrorText={goalError}
               value={spaceGoal}
               onChange={(value: string) => {
-                handleSpaceGoal(value)
+                onChangeSpaceGoal(value)
               }}
               accessibilityLabel={t('spaces.create.space.goal.label')}
             />
