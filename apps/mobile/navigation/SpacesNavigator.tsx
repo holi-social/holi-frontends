@@ -2,7 +2,7 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import CreateSpace from '@holi/core/screens/spaces/CreateSpace'
+import CreateSpace from '@holi/core/screens/spaces/CreateSpace/CreateSpace'
 import EditSpace, { EditSpaceParams } from '@holi/core/screens/spaces/EditSpace'
 import FilteredSpaces from '@holi/core/screens/spaces/FilteredSpaces'
 import SpaceDetails, { SpaceDetailsParams } from '@holi/core/screens/spaces/SpaceDetails'

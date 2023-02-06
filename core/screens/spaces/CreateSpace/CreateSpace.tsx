@@ -1,10 +1,11 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import CreateSpaceContext, { SpaceInfo } from '@holi/core/screens/spaces/CreateSpace/CreateSpaceContext'
 import CreateSpaceCoverImage from '@holi/core/screens/spaces/components/CreateSpaceCoverImage'
 import CreateSpaceName from '@holi/core/screens/spaces/components/CreateSpaceName'
 import CreateSpaceTopics from '@holi/core/screens/spaces/components/CreateSpaceTopics'
@@ -12,10 +13,22 @@ import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+const initialSpace: SpaceInfo = {
+  name: '',
+  goal: '',
+  topics: [],
+  mainImage: '',
+}
+
 const CreateSpace: React.VFC = () => {
   const { setOptions } = useUnifiedNavigation()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
+  const [space, setSpace] = useState<SpaceInfo>(initialSpace)
+  const setSpaceInfo = (space: SpaceInfo) => {
+    setSpace({ ...space, ...space })
+  }
+  const createSpaceContext = { setSpaceInfo, spaceInfo: space }
 
   useLayoutEffect(
     () =>
@@ -41,22 +54,24 @@ const CreateSpace: React.VFC = () => {
   }
 
   return (
-    <View style={styles.wrapper}>
-      <DefaultLayout style={styles.defaultLayout} scrollView={false} headerOverlap>
-        <View style={[mixins.container, styles.container]}>
-          <HoliWizard
-            isBackButtonAvailable={true}
-            submitButtonLabel={t('spaces.create.space.button')}
-            onNextPress={() => handleNextButtonPress()}
-            onSubmit={() => handleSubmitButtonPress()}
-          >
-            <CreateSpaceName />
-            <CreateSpaceTopics />
-            <CreateSpaceCoverImage />
-          </HoliWizard>
-        </View>
-      </DefaultLayout>
-    </View>
+    <CreateSpaceContext.Provider value={createSpaceContext}>
+      <View style={styles.wrapper}>
+        <DefaultLayout style={styles.defaultLayout} scrollView={false} headerOverlap>
+          <View style={[mixins.container, styles.container]}>
+            <HoliWizard
+              isBackButtonAvailable={true}
+              submitButtonLabel={t('spaces.create.space.button')}
+              onNextPress={() => handleNextButtonPress()}
+              onSubmit={() => handleSubmitButtonPress()}
+            >
+              <CreateSpaceName />
+              <CreateSpaceTopics />
+              <CreateSpaceCoverImage />
+            </HoliWizard>
+          </View>
+        </DefaultLayout>
+      </View>
+    </CreateSpaceContext.Provider>
   )
 }
 

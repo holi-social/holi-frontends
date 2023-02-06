@@ -4,6 +4,7 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useScrollYHandler } from '@holi/core/helpers'
+import useCreateSpace from '@holi/core/screens/spaces/CreateSpace/useCreateSpace'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import useWizard from '@holi/ui/components/organisms/HoliWizard/useWizard'
@@ -21,12 +22,17 @@ const CreateSpaceName: React.VFC = () => {
 
   const { t } = useTranslation()
   const { setNextButtonEnabled } = useWizard()
+  const { setSpaceInfo, spaceInfo } = useCreateSpace()
 
   const handleSpaceName = (name: string) => {
+    const space = { ...spaceInfo, name: name }
+    setSpaceInfo(space)
     setSpaceName(name)
   }
 
   const handleSpaceGoal = (goal: string) => {
+    const space = { ...spaceInfo, goal: goal }
+    setSpaceInfo(space)
     setSpaceGoal(goal)
   }
 
