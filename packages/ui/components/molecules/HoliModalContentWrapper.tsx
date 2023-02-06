@@ -15,7 +15,7 @@ import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { useKeyboard } from '@holi/ui/helper'
+import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -29,21 +29,28 @@ export interface HoliModalContentWrapper {
   testID?: string
   keyboardShouldPersistTaps?: ScrollViewProps['keyboardShouldPersistTaps']
   scrollable?: boolean
+  hideFooterWhenKeyboardIsOpen?: boolean
 }
 
-const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
-  actionButtonText,
-  onActionButtonPress,
-  headlineText,
-  prependChildren,
-  children,
-  style,
-  keyboardShouldPersistTaps,
-  loading = false,
-  testID = 'holi-modal-content',
-  scrollable = true,
-}) => {
-  const { keyboardHeight } = useKeyboard()
+const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = (
+  {
+    actionButtonText,
+    onActionButtonPress,
+    headlineText,
+    prependChildren,
+    children,
+    style,
+    keyboardShouldPersistTaps,
+    loading = false,
+    testID = 'holi-modal-content',
+    scrollable = true,
+    hideFooterWhenKeyboardIsOpen = false,
+  },
+  ref: React.ForwardedRef<React.RefObject<ScrollView>>
+) => {
+  const { keyboardIsOpen } = useKeyboard()
+  const { softkeyboardIsOpen } = useSoftKeyboard()
+  const showFooter = !hideFooterWhenKeyboardIsOpen || !(keyboardIsOpen || softkeyboardIsOpen)
   const mixins = useStyleMixins()
   const content = (
     <>
@@ -77,9 +84,15 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
         </Animated.View>
       )}
 
-      {scrollable ? <ScrollView keyboardShouldPersistTaps={keyboardShouldPersistTaps}>{content}</ScrollView> : content}
+      {scrollable ? (
+        <ScrollView ref={ref} keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
+          {content}
+        </ScrollView>
+      ) : (
+        content
+      )}
 
-      {keyboardHeight === 0 && (
+      {showFooter && (
         <View style={styles.actionButtonContainer}>
           <HoliButton
             label={actionButtonText}
@@ -95,7 +108,7 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({
   )
 }
 
-export default HoliModalContentWrapper
+export default React.forwardRef(HoliModalContentWrapper)
 
 const styles = StyleSheet.create({
   container: {

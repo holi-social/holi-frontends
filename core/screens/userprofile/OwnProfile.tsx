@@ -125,6 +125,7 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
                 // Smaller devices use the whole screen and
                 // larger ones should have more space above for clicking the backdrop pane
                 relativeHeight={deviceHeight > 750 ? 0.85 : 1}
+                automaticHeightAdjust={true}
               >
                 <>
                   {editMode === 'profile' && (

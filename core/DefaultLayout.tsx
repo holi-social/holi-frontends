@@ -13,7 +13,7 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 export interface LayoutProps extends ScrollViewProps {
   headerOverlap?: boolean
   hasFooterTabBar?: boolean
-  scrollView?: boolean
+  scrollable?: boolean
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
   contentStyle?: ViewStyle | ViewStyle[] | Record<string, unknown>
   testID?: string
@@ -24,7 +24,7 @@ const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(
     {
       headerOverlap,
       hasFooterTabBar = true,
-      scrollView = true,
+      scrollable = true,
       style,
       contentStyle,
       children,
@@ -49,7 +49,7 @@ const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(
       </View>
     )
 
-    const mobileWrapper = scrollView ? (
+    const mobileWrapper = scrollable ? (
       <ScrollView
         testID={testID}
         {...scrollViewProps}
