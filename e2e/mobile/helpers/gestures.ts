@@ -123,7 +123,7 @@ const swipe = async (from: XY, to: XY) => {
         // c. Finger comes down into contact with screen
         { type: 'pointerDown', button: 0 },
         // d. Pause for a little bit
-        { type: 'pause', duration: 200 },
+        { type: 'pause', duration: 100 },
         // e. Finger moves to end position
         //    We move our finger from the center of the element to the
         //    starting position of the element.
