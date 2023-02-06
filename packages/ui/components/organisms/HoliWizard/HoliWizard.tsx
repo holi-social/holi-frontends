@@ -70,7 +70,7 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
 
   const NavigationButtons = () => {
     return (
-      <View style={[mixins.container, styles.buttonContainer, { paddingHorizontal: Platform.OS === 'web' ? 24 : 0 }]}>
+      <View style={[mixins.container, styles.buttonContainer]}>
         {isBackButtonAvailable && currentStep > 0 && (
           <HoliButton
             label={t('global.next')}
@@ -165,6 +165,7 @@ const styles = StyleSheet.create({
   nextButton: { height: 56, width: '100%' },
   buttonContainer: {
     bottom: Platform.OS === 'web' ? 10 : vars.topBarHeight,
+    paddingHorizontal: Platform.OS === 'web' ? 24 : 0,
     flexDirection: 'row',
     alignItems: 'center',
     ...Platform.select({
