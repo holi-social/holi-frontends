@@ -250,9 +250,10 @@ const HoliTextInput = ({
           )}
           {showCharactorCount && (
             <View style={[styles.charactorCountContainer, inline ? styles.inline : styles.block]}>
-              <HoliText size="extrasmall" style={styles.charactorCountText}>{`${
-                value ? value.length : 0
-              }/${maxNoOfCharacters}`}</HoliText>
+              <HoliText
+                size="extrasmall"
+                style={[styles.charactorCountText, hasValidationErrors ? styles.validationErrorText : {}]}
+              >{`${value ? value.length : 0}/${maxNoOfCharacters}`}</HoliText>
             </View>
           )}
         </View>
