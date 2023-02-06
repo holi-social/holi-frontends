@@ -1,6 +1,5 @@
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 /* eslint-disable @typescript-eslint/no-var-requires */
-const withPlugins = require('next-compose-plugins')
 const withHtml = require('@blunck/next-html')()
 const path = require('path')
 const { withSentryConfig } = require('@sentry/nextjs')
@@ -22,7 +21,6 @@ const nextConfig = {
     includePaths: [path.join(__dirname, 'styles'), path.join(__dirname, 'shared/data')],
   },
   experimental: {
-    output: 'standalone',
     outputFileTracingRoot: path.join(__dirname, '../../'),
   },
   i18n: {
@@ -48,8 +46,6 @@ const nextConfig = {
     '@holi/api',
     'expo-status-bar',
   ],
-  resolveSymlinks: true,
-  debug: true,
   sentry: {
     hideSourceMaps: true, // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/#use-hidden-source-map
   },
@@ -73,15 +69,6 @@ const sentryWebpackPluginOptions = {
   // https://github.com/getsentry/sentry-webpack-plugin#options.
 }
 
-module.exports = withSentryConfig(
-  withPlugins(
-    [
-      {
-        resolveSymlinks: true,
-        debug: true,
-      },
-    ],
-    withHtml(nextConfig)
-  ),
-  sentryWebpackPluginOptions
-)
+const plugins = [(nextConfig) => withSentryConfig(nextConfig, sentryWebpackPluginOptions), withHtml]
+
+module.exports = () => plugins.reduce((acc, next) => next(acc), nextConfig)
