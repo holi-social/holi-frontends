@@ -118,6 +118,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
       onActionButtonPress={submit}
       prependChildren={prependComponent}
       loading={loading}
+      hideFooterWhenKeyboardIsOpen={true}
       testID={testID}
       style={styles.wrapper}
     >
