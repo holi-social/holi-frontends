@@ -12,7 +12,7 @@ import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButt
 import NotFound from '@holi/core/errors/components/NotFound'
 import { displayError, isNotFoundError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import { createParam } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { ContentType } from '@holi/core/queries'

@@ -11,7 +11,7 @@ import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButt
 import { logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import { createParam } from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { ContentType } from '@holi/core/queries'
 import SpaceDashboardModal from '@holi/core/screens/spaces/components/SpaceDashboardModal'

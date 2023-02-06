@@ -6,7 +6,7 @@ import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View, useWindow
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { logError } from '@holi/core/errors/helpers'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import { createParam } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { PortalGate } from '@holi/core/provider/PortalProvider'
@@ -32,8 +32,9 @@ export type CommentInputPageParams = {
 
 type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
 
+const { useParam } = createParam<CommentInputPageParams>()
+
 const CommentInputPage: React.VFC<ScreenProps> = () => {
-  const { useParam } = createParam<CommentInputPageParams>()
   const [insightId] = useParam('insightId')
   const [postId] = useParam('postId')
   const [text, setText] = useState('')
