@@ -31,18 +31,17 @@ const HoliLink: React.FC<HoliLinkProps> = ({
   )
 
   return (
-    <Link href={href}>
-      <a
-        aria-label={label}
-        title={label}
-        target={external ? '_blank' : undefined}
-        className={webStyles.link}
-        style={StyleSheet.flatten([style])}
-        onClick={onLinkPress}
-        data-testid={testID}
-      >
-        <HoliText style={[styles.linkText, textStyle]}>{children}</HoliText>
-      </a>
+    <Link
+      href={href}
+      aria-label={label}
+      title={label}
+      target={external ? '_blank' : undefined}
+      className={webStyles.link}
+      style={StyleSheet.flatten([style])}
+      onClick={onLinkPress}
+      data-testid={testID}
+    >
+      <HoliText style={[styles.linkText, textStyle]}>{children}</HoliText>
     </Link>
   )
 }
