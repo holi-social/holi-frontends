@@ -3,16 +3,16 @@
 exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "marginHorizontal": "auto",
         "maxHeight": "100%",
         "maxWidth": 800,
         "position": "relative",
         "width": "100%",
       },
-      Array [
-        Object {
+      [
+        {
           "flexShrink": 1,
           "height": "100%",
         },
@@ -28,17 +28,17 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
         role="header"
         selectable={true}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#222326",
               "fontFamily": "Circular Std Medium",
               "fontWeight": "500",
             },
-            Object {
+            {
               "fontSize": 28,
               "lineHeight": 33.6,
             },
-            Object {
+            {
               "marginBottom": 16,
               "marginHorizontal": 24,
               "textAlign": "center",
@@ -51,8 +51,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
       </Text>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignContent": "center",
               "justifyContent": "center",
             },
@@ -62,7 +62,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
       >
         <RCTScrollView
           contentContainerStyle={
-            Object {
+            {
               "alignContent": "center",
               "alignItems": "center",
               "justifyContent": "center",
@@ -78,18 +78,18 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           <View>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "flexDirection": "row",
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
                     "width": 710,
                   },
-                  Object {
+                  {
                     "marginLeft": 20,
                   },
-                  Object {},
+                  {},
                 ]
               }
             >
@@ -109,15 +109,15 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "color": "#6267e7",
                     },
-                    Object {
+                    {
                       "display": "flex",
                       "flex": 1,
                     },
-                    Object {
+                    {
                       "display": "flex",
                       "flex": 1,
                     },
@@ -128,8 +128,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 <View
                   accessible={false}
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "alignContent": "center",
                         "alignItems": "center",
                         "backgroundColor": "#f7f6f3",
@@ -137,7 +137,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         "height": "100%",
                         "padding": 24,
                       },
-                      Object {
+                      {
                         "flex": 1,
                       },
                     ]
@@ -146,8 +146,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 >
                   <View
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "alignItems": "center",
                           "backgroundColor": "#f7f6f3",
                           "borderRadius": 64,
@@ -155,7 +155,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "overflow": "hidden",
                         },
                         undefined,
-                        Object {
+                        {
                           "borderColor": "#222326",
                           "borderWidth": 2,
                           "height": 128,
@@ -169,12 +169,12 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       accessibilityRole="image"
                       accessible={false}
                       source={
-                        Object {
+                        {
                           "uri": "avatar-1",
                         }
                       }
                       style={
-                        Object {
+                        {
                           "height": "100%",
                           "width": "100%",
                         }
@@ -185,21 +185,21 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     accessible={false}
                     selectable={true}
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#222326",
                           "fontFamily": "Circular Std Book",
                           "fontWeight": "400",
                         },
-                        Object {
+                        {
                           "fontSize": 16,
                           "lineHeight": 19.2,
                         },
-                        Object {
+                        {
                           "fontFamily": "Circular Std Medium",
                           "fontWeight": "500",
                         },
-                        Object {
+                        {
                           "marginVertical": 8,
                           "textAlign": "center",
                         },
@@ -210,7 +210,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   </Text>
                   <View
                     style={
-                      Object {
+                      {
                         "justifyContent": "center",
                         "marginTop": 8,
                       }
@@ -220,18 +220,18 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       accessible={false}
                       selectable={true}
                       style={
-                        Array [
-                          Object {
+                        [
+                          {
                             "color": "#222326",
                             "fontFamily": "Circular Std Book",
                             "fontWeight": "400",
                           },
-                          Object {
+                          {
                             "fontSize": 16,
                             "lineHeight": 19.2,
                           },
                           false,
-                          Object {
+                          {
                             "textAlign": "center",
                           },
                         ]
@@ -243,16 +243,16 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             </View>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "flexDirection": "row",
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
                     "width": 710,
                   },
-                  Object {},
-                  Object {},
+                  {},
+                  {},
                 ]
               }
             >
@@ -272,15 +272,15 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "color": "#6267e7",
                     },
-                    Object {
+                    {
                       "display": "flex",
                       "flex": 1,
                     },
-                    Object {
+                    {
                       "display": "flex",
                       "flex": 1,
                     },
@@ -291,8 +291,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 <View
                   accessible={false}
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "alignContent": "center",
                         "alignItems": "center",
                         "backgroundColor": "#f7f6f3",
@@ -300,7 +300,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         "height": "100%",
                         "padding": 24,
                       },
-                      Object {
+                      {
                         "flex": 1,
                       },
                     ]
@@ -309,8 +309,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 >
                   <View
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "alignItems": "center",
                           "backgroundColor": "red",
                           "borderRadius": 64,
@@ -318,7 +318,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "overflow": "hidden",
                         },
                         undefined,
-                        Object {
+                        {
                           "borderColor": "#222326",
                           "borderWidth": 2,
                           "height": 128,
@@ -333,18 +333,18 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       accessible={false}
                       selectable={true}
                       style={
-                        Array [
-                          Object {
+                        [
+                          {
                             "color": "#222326",
                             "fontFamily": "Circular Std Book",
                             "fontWeight": "400",
                           },
-                          Object {
+                          {
                             "fontSize": 16,
                             "lineHeight": 19.2,
                           },
                           false,
-                          Object {
+                          {
                             "color": "#fff",
                             "fontSize": 57.6,
                             "fontWeight": "bold",
@@ -361,21 +361,21 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     accessible={false}
                     selectable={true}
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#222326",
                           "fontFamily": "Circular Std Book",
                           "fontWeight": "400",
                         },
-                        Object {
+                        {
                           "fontSize": 16,
                           "lineHeight": 19.2,
                         },
-                        Object {
+                        {
                           "fontFamily": "Circular Std Medium",
                           "fontWeight": "500",
                         },
-                        Object {
+                        {
                           "marginVertical": 8,
                           "textAlign": "center",
                         },
@@ -386,7 +386,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   </Text>
                   <View
                     style={
-                      Object {
+                      {
                         "justifyContent": "center",
                         "marginTop": 8,
                       }
@@ -396,18 +396,18 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       accessible={false}
                       selectable={true}
                       style={
-                        Array [
-                          Object {
+                        [
+                          {
                             "color": "#222326",
                             "fontFamily": "Circular Std Book",
                             "fontWeight": "400",
                           },
-                          Object {
+                          {
                             "fontSize": 16,
                             "lineHeight": 19.2,
                           },
                           false,
-                          Object {
+                          {
                             "textAlign": "center",
                           },
                         ]
@@ -419,16 +419,16 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             </View>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "flexDirection": "row",
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
                     "width": 710,
                   },
-                  Object {},
-                  Object {},
+                  {},
+                  {},
                 ]
               }
             >
@@ -448,15 +448,15 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "color": "#6267e7",
                     },
-                    Object {
+                    {
                       "display": "flex",
                       "flex": 1,
                     },
-                    Object {
+                    {
                       "display": "flex",
                       "flex": 1,
                     },
@@ -467,8 +467,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 <View
                   accessible={false}
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "alignContent": "center",
                         "alignItems": "center",
                         "backgroundColor": "#f7f6f3",
@@ -476,7 +476,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         "height": "100%",
                         "padding": 24,
                       },
-                      Object {
+                      {
                         "flex": 1,
                       },
                     ]
@@ -485,8 +485,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 >
                   <View
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "alignItems": "center",
                           "backgroundColor": "#f7f6f3",
                           "borderRadius": 64,
@@ -494,7 +494,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "overflow": "hidden",
                         },
                         undefined,
-                        Object {
+                        {
                           "borderColor": "#222326",
                           "borderWidth": 2,
                           "height": 128,
@@ -508,12 +508,12 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       accessibilityRole="image"
                       accessible={false}
                       source={
-                        Object {
+                        {
                           "uri": "avatar-2",
                         }
                       }
                       style={
-                        Object {
+                        {
                           "height": "100%",
                           "width": "100%",
                         }
@@ -524,21 +524,21 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     accessible={false}
                     selectable={true}
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#222326",
                           "fontFamily": "Circular Std Book",
                           "fontWeight": "400",
                         },
-                        Object {
+                        {
                           "fontSize": 16,
                           "lineHeight": 19.2,
                         },
-                        Object {
+                        {
                           "fontFamily": "Circular Std Medium",
                           "fontWeight": "500",
                         },
-                        Object {
+                        {
                           "marginVertical": 8,
                           "textAlign": "center",
                         },
@@ -549,7 +549,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   </Text>
                   <View
                     style={
-                      Object {
+                      {
                         "justifyContent": "center",
                         "marginTop": 8,
                       }
@@ -559,18 +559,18 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       accessible={false}
                       selectable={true}
                       style={
-                        Array [
-                          Object {
+                        [
+                          {
                             "color": "#222326",
                             "fontFamily": "Circular Std Book",
                             "fontWeight": "400",
                           },
-                          Object {
+                          {
                             "fontSize": 16,
                             "lineHeight": 19.2,
                           },
                           false,
-                          Object {
+                          {
                             "textAlign": "center",
                           },
                         ]
@@ -582,16 +582,16 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             </View>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "flexDirection": "row",
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
                     "width": 710,
                   },
-                  Object {},
-                  Object {},
+                  {},
+                  {},
                 ]
               }
             >
@@ -611,15 +611,15 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "color": "#6267e7",
                     },
-                    Object {
+                    {
                       "display": "flex",
                       "flex": 1,
                     },
-                    Object {
+                    {
                       "display": "flex",
                       "flex": 1,
                     },
@@ -630,8 +630,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 <View
                   accessible={false}
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "alignContent": "center",
                         "alignItems": "center",
                         "backgroundColor": "#f7f6f3",
@@ -639,7 +639,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         "height": "100%",
                         "padding": 24,
                       },
-                      Object {
+                      {
                         "flex": 1,
                       },
                     ]
@@ -648,8 +648,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 >
                   <View
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "alignItems": "center",
                           "backgroundColor": "yellow",
                           "borderRadius": 64,
@@ -657,7 +657,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "overflow": "hidden",
                         },
                         undefined,
-                        Object {
+                        {
                           "borderColor": "#222326",
                           "borderWidth": 2,
                           "height": 128,
@@ -672,18 +672,18 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       accessible={false}
                       selectable={true}
                       style={
-                        Array [
-                          Object {
+                        [
+                          {
                             "color": "#222326",
                             "fontFamily": "Circular Std Book",
                             "fontWeight": "400",
                           },
-                          Object {
+                          {
                             "fontSize": 16,
                             "lineHeight": 19.2,
                           },
                           false,
-                          Object {
+                          {
                             "color": "#222326",
                             "fontSize": 57.6,
                             "fontWeight": "bold",
@@ -700,21 +700,21 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     accessible={false}
                     selectable={true}
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#222326",
                           "fontFamily": "Circular Std Book",
                           "fontWeight": "400",
                         },
-                        Object {
+                        {
                           "fontSize": 16,
                           "lineHeight": 19.2,
                         },
-                        Object {
+                        {
                           "fontFamily": "Circular Std Medium",
                           "fontWeight": "500",
                         },
-                        Object {
+                        {
                           "marginVertical": 8,
                           "textAlign": "center",
                         },
@@ -725,7 +725,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   </Text>
                   <View
                     style={
-                      Object {
+                      {
                         "justifyContent": "center",
                         "marginTop": 8,
                       }
@@ -735,18 +735,18 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       accessible={false}
                       selectable={true}
                       style={
-                        Array [
-                          Object {
+                        [
+                          {
                             "color": "#222326",
                             "fontFamily": "Circular Std Book",
                             "fontWeight": "400",
                           },
-                          Object {
+                          {
                             "fontSize": 16,
                             "lineHeight": 19.2,
                           },
                           false,
-                          Object {
+                          {
                             "textAlign": "center",
                           },
                         ]
@@ -758,16 +758,16 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             </View>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "flexDirection": "row",
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
                     "width": 710,
                   },
-                  Object {},
-                  Object {},
+                  {},
+                  {},
                 ]
               }
             >
@@ -787,15 +787,15 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "color": "#6267e7",
                     },
-                    Object {
+                    {
                       "display": "flex",
                       "flex": 1,
                     },
-                    Object {
+                    {
                       "display": "flex",
                       "flex": 1,
                     },
@@ -806,8 +806,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 <View
                   accessible={false}
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "alignContent": "center",
                         "alignItems": "center",
                         "backgroundColor": "#f7f6f3",
@@ -815,7 +815,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         "height": "100%",
                         "padding": 24,
                       },
-                      Object {
+                      {
                         "flex": 1,
                       },
                     ]
@@ -824,8 +824,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 >
                   <View
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "alignItems": "center",
                           "backgroundColor": "#f7f6f3",
                           "borderRadius": 64,
@@ -833,7 +833,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "overflow": "hidden",
                         },
                         undefined,
-                        Object {
+                        {
                           "borderColor": "#222326",
                           "borderWidth": 2,
                           "height": 128,
@@ -847,12 +847,12 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       accessibilityRole="image"
                       accessible={false}
                       source={
-                        Object {
+                        {
                           "uri": "avatar-3",
                         }
                       }
                       style={
-                        Object {
+                        {
                           "height": "100%",
                           "width": "100%",
                         }
@@ -863,21 +863,21 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     accessible={false}
                     selectable={true}
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#222326",
                           "fontFamily": "Circular Std Book",
                           "fontWeight": "400",
                         },
-                        Object {
+                        {
                           "fontSize": 16,
                           "lineHeight": 19.2,
                         },
-                        Object {
+                        {
                           "fontFamily": "Circular Std Medium",
                           "fontWeight": "500",
                         },
-                        Object {
+                        {
                           "marginVertical": 8,
                           "textAlign": "center",
                         },
@@ -888,7 +888,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   </Text>
                   <View
                     style={
-                      Object {
+                      {
                         "justifyContent": "center",
                         "marginTop": 8,
                       }
@@ -898,18 +898,18 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       accessible={false}
                       selectable={true}
                       style={
-                        Array [
-                          Object {
+                        [
+                          {
                             "color": "#222326",
                             "fontFamily": "Circular Std Book",
                             "fontWeight": "400",
                           },
-                          Object {
+                          {
                             "fontSize": 16,
                             "lineHeight": 19.2,
                           },
                           false,
-                          Object {
+                          {
                             "textAlign": "center",
                           },
                         ]
@@ -921,16 +921,16 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             </View>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "flexDirection": "row",
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
                     "width": 710,
                   },
-                  Object {},
-                  Object {},
+                  {},
+                  {},
                 ]
               }
             >
@@ -950,15 +950,15 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "color": "#6267e7",
                     },
-                    Object {
+                    {
                       "display": "flex",
                       "flex": 1,
                     },
-                    Object {
+                    {
                       "display": "flex",
                       "flex": 1,
                     },
@@ -969,8 +969,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 <View
                   accessible={false}
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "alignContent": "center",
                         "alignItems": "center",
                         "backgroundColor": "#f7f6f3",
@@ -978,7 +978,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         "height": "100%",
                         "padding": 24,
                       },
-                      Object {
+                      {
                         "flex": 1,
                       },
                     ]
@@ -987,8 +987,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 >
                   <View
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "alignItems": "center",
                           "backgroundColor": "purple",
                           "borderRadius": 64,
@@ -996,7 +996,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "overflow": "hidden",
                         },
                         undefined,
-                        Object {
+                        {
                           "borderColor": "#222326",
                           "borderWidth": 2,
                           "height": 128,
@@ -1011,18 +1011,18 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       accessible={false}
                       selectable={true}
                       style={
-                        Array [
-                          Object {
+                        [
+                          {
                             "color": "#222326",
                             "fontFamily": "Circular Std Book",
                             "fontWeight": "400",
                           },
-                          Object {
+                          {
                             "fontSize": 16,
                             "lineHeight": 19.2,
                           },
                           false,
-                          Object {
+                          {
                             "color": "#fff",
                             "fontSize": 57.6,
                             "fontWeight": "bold",
@@ -1039,21 +1039,21 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     accessible={false}
                     selectable={true}
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#222326",
                           "fontFamily": "Circular Std Book",
                           "fontWeight": "400",
                         },
-                        Object {
+                        {
                           "fontSize": 16,
                           "lineHeight": 19.2,
                         },
-                        Object {
+                        {
                           "fontFamily": "Circular Std Medium",
                           "fontWeight": "500",
                         },
-                        Object {
+                        {
                           "marginVertical": 8,
                           "textAlign": "center",
                         },
@@ -1064,7 +1064,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   </Text>
                   <View
                     style={
-                      Object {
+                      {
                         "justifyContent": "center",
                         "marginTop": 8,
                       }
@@ -1074,18 +1074,18 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       accessible={false}
                       selectable={true}
                       style={
-                        Array [
-                          Object {
+                        [
+                          {
                             "color": "#222326",
                             "fontFamily": "Circular Std Book",
                             "fontWeight": "400",
                           },
-                          Object {
+                          {
                             "fontSize": 16,
                             "lineHeight": 19.2,
                           },
                           false,
-                          Object {
+                          {
                             "textAlign": "center",
                           },
                         ]
@@ -1097,16 +1097,16 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             </View>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "flexDirection": "row",
                     "height": "100%",
                     "marginLeft": 8,
                     "marginRight": 0,
                     "width": 710,
                   },
-                  Object {},
-                  Object {
+                  {},
+                  {
                     "marginRight": 20,
                   },
                 ]
@@ -1128,15 +1128,15 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "color": "#6267e7",
                     },
-                    Object {
+                    {
                       "display": "flex",
                       "flex": 1,
                     },
-                    Object {
+                    {
                       "display": "flex",
                       "flex": 1,
                     },
@@ -1147,8 +1147,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 <View
                   accessible={false}
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "alignContent": "center",
                         "alignItems": "center",
                         "backgroundColor": "#f7f6f3",
@@ -1156,7 +1156,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         "height": "100%",
                         "padding": 24,
                       },
-                      Object {
+                      {
                         "flex": 1,
                       },
                     ]
@@ -1165,8 +1165,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 >
                   <View
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "alignItems": "center",
                           "backgroundColor": "#f7f6f3",
                           "borderRadius": 64,
@@ -1174,7 +1174,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "overflow": "hidden",
                         },
                         undefined,
-                        Object {
+                        {
                           "borderColor": "#222326",
                           "borderWidth": 2,
                           "height": 128,
@@ -1188,12 +1188,12 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       accessibilityRole="image"
                       accessible={false}
                       source={
-                        Object {
+                        {
                           "uri": "avatar-4",
                         }
                       }
                       style={
-                        Object {
+                        {
                           "height": "100%",
                           "width": "100%",
                         }
@@ -1204,21 +1204,21 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     accessible={false}
                     selectable={true}
                     style={
-                      Array [
-                        Object {
+                      [
+                        {
                           "color": "#222326",
                           "fontFamily": "Circular Std Book",
                           "fontWeight": "400",
                         },
-                        Object {
+                        {
                           "fontSize": 16,
                           "lineHeight": 19.2,
                         },
-                        Object {
+                        {
                           "fontFamily": "Circular Std Medium",
                           "fontWeight": "500",
                         },
-                        Object {
+                        {
                           "marginVertical": 8,
                           "textAlign": "center",
                         },
@@ -1229,7 +1229,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   </Text>
                   <View
                     style={
-                      Object {
+                      {
                         "justifyContent": "center",
                         "marginTop": 8,
                       }
@@ -1239,18 +1239,18 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       accessible={false}
                       selectable={true}
                       style={
-                        Array [
-                          Object {
+                        [
+                          {
                             "color": "#222326",
                             "fontFamily": "Circular Std Book",
                             "fontWeight": "400",
                           },
-                          Object {
+                          {
                             "fontSize": 16,
                             "lineHeight": 19.2,
                           },
                           false,
-                          Object {
+                          {
                             "textAlign": "center",
                           },
                         ]
@@ -1266,7 +1266,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           accessibilityOrientation="horizontal"
           accessibilityRole="tablist"
           style={
-            Object {
+            {
               "alignItems": "center",
               "flexDirection": "row",
               "justifyContent": "center",
@@ -1280,7 +1280,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             accessibilityRole="tab"
             accessibilitySelected={true}
             accessibilityState={
-              Object {
+              {
                 "disabled": false,
               }
             }
@@ -1297,13 +1297,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "justifyContent": "center",
                   "marginHorizontal": 4,
                 },
-                Object {
+                {
                   "width": "auto",
                 },
               ]
@@ -1313,22 +1313,22 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             <View
               pointerEvents="none"
               style={
-                Object {
+                {
                   "flexDirection": "row",
                 }
               }
             >
               <View
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "backgroundColor": "#222326",
                       "borderRadius": 50,
                       "height": 8,
                       "opacity": 0.3,
                       "width": 8,
                     },
-                    Object {
+                    {
                       "backgroundColor": "#222326",
                       "opacity": 1,
                     },
@@ -1342,7 +1342,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             accessibilityRole="tab"
             accessibilitySelected={false}
             accessibilityState={
-              Object {
+              {
                 "disabled": false,
               }
             }
@@ -1359,13 +1359,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "justifyContent": "center",
                   "marginHorizontal": 4,
                 },
-                Object {
+                {
                   "width": "auto",
                 },
               ]
@@ -1375,22 +1375,22 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             <View
               pointerEvents="none"
               style={
-                Object {
+                {
                   "flexDirection": "row",
                 }
               }
             >
               <View
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "backgroundColor": "#222326",
                       "borderRadius": 50,
                       "height": 8,
                       "opacity": 0.3,
                       "width": 8,
                     },
-                    Object {},
+                    {},
                   ]
                 }
               />
@@ -1401,7 +1401,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             accessibilityRole="tab"
             accessibilitySelected={false}
             accessibilityState={
-              Object {
+              {
                 "disabled": false,
               }
             }
@@ -1418,13 +1418,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "justifyContent": "center",
                   "marginHorizontal": 4,
                 },
-                Object {
+                {
                   "width": "auto",
                 },
               ]
@@ -1434,22 +1434,22 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             <View
               pointerEvents="none"
               style={
-                Object {
+                {
                   "flexDirection": "row",
                 }
               }
             >
               <View
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "backgroundColor": "#222326",
                       "borderRadius": 50,
                       "height": 8,
                       "opacity": 0.3,
                       "width": 8,
                     },
-                    Object {},
+                    {},
                   ]
                 }
               />
@@ -1460,7 +1460,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             accessibilityRole="tab"
             accessibilitySelected={false}
             accessibilityState={
-              Object {
+              {
                 "disabled": false,
               }
             }
@@ -1477,13 +1477,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "justifyContent": "center",
                   "marginHorizontal": 4,
                 },
-                Object {
+                {
                   "width": "auto",
                 },
               ]
@@ -1493,22 +1493,22 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             <View
               pointerEvents="none"
               style={
-                Object {
+                {
                   "flexDirection": "row",
                 }
               }
             >
               <View
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "backgroundColor": "#222326",
                       "borderRadius": 50,
                       "height": 8,
                       "opacity": 0.3,
                       "width": 8,
                     },
-                    Object {},
+                    {},
                   ]
                 }
               />
@@ -1519,7 +1519,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             accessibilityRole="tab"
             accessibilitySelected={false}
             accessibilityState={
-              Object {
+              {
                 "disabled": false,
               }
             }
@@ -1536,13 +1536,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "justifyContent": "center",
                   "marginHorizontal": 4,
                 },
-                Object {
+                {
                   "width": "auto",
                 },
               ]
@@ -1552,22 +1552,22 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             <View
               pointerEvents="none"
               style={
-                Object {
+                {
                   "flexDirection": "row",
                 }
               }
             >
               <View
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "backgroundColor": "#222326",
                       "borderRadius": 50,
                       "height": 8,
                       "opacity": 0.3,
                       "width": 8,
                     },
-                    Object {},
+                    {},
                   ]
                 }
               />
@@ -1578,7 +1578,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             accessibilityRole="tab"
             accessibilitySelected={false}
             accessibilityState={
-              Object {
+              {
                 "disabled": false,
               }
             }
@@ -1595,13 +1595,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "justifyContent": "center",
                   "marginHorizontal": 4,
                 },
-                Object {
+                {
                   "width": "auto",
                 },
               ]
@@ -1611,22 +1611,22 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             <View
               pointerEvents="none"
               style={
-                Object {
+                {
                   "flexDirection": "row",
                 }
               }
             >
               <View
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "backgroundColor": "#222326",
                       "borderRadius": 50,
                       "height": 8,
                       "opacity": 0.3,
                       "width": 8,
                     },
-                    Object {},
+                    {},
                   ]
                 }
               />
@@ -1637,7 +1637,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             accessibilityRole="tab"
             accessibilitySelected={false}
             accessibilityState={
-              Object {
+              {
                 "disabled": false,
               }
             }
@@ -1654,13 +1654,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
+              [
+                {
                   "alignItems": "center",
                   "justifyContent": "center",
                   "marginHorizontal": 4,
                 },
-                Object {
+                {
                   "width": "auto",
                 },
               ]
@@ -1670,22 +1670,22 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             <View
               pointerEvents="none"
               style={
-                Object {
+                {
                   "flexDirection": "row",
                 }
               }
             >
               <View
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "backgroundColor": "#222326",
                       "borderRadius": 50,
                       "height": 8,
                       "opacity": 0.3,
                       "width": 8,
                     },
-                    Object {},
+                    {},
                   ]
                 }
               />
@@ -1695,7 +1695,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
       </View>
       <View
         style={
-          Object {
+          {
             "height": 120,
             "zIndex": -1,
           }
@@ -1705,7 +1705,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
   </RCTScrollView>
   <View
     style={
-      Object {
+      {
         "bottom": 32,
         "left": 0,
         "marginHorizontal": 24,
@@ -1719,7 +1719,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
       accessibilityLabel="user.cards.modal.close"
       accessibilityRole="button"
       accessibilityState={
-        Object {
+        {
           "disabled": false,
         }
       }
@@ -1736,12 +1736,12 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Array [
-          Array [
-            Object {
+        [
+          [
+            {
               "width": "100%",
             },
-            Object {
+            {
               "backgroundColor": "#fff",
               "borderColor": "#222326",
               "borderRadius": 28,
@@ -1753,17 +1753,17 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               "paddingHorizontal": 32,
               "paddingVertical": 13,
             },
-            Object {
+            {
               "backgroundColor": "#f3f360",
             },
           ],
-          Array [
-            Object {
+          [
+            {
               "alignSelf": "center",
               "marginTop": 50,
               "maxWidth": 400,
             },
-            Object {
+            {
               "marginTop": 0,
               "maxWidth": 400,
             },
@@ -1775,8 +1775,8 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
       <View
         pointerEvents="none"
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "flexDirection": "row",
               "justifyContent": "center",
@@ -1789,26 +1789,26 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           accessible={false}
           selectable={false}
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#222326",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
-              Object {
+              {
                 "fontSize": 16,
                 "lineHeight": 19.2,
               },
-              Object {
+              {
                 "fontFamily": "Circular Std Medium",
                 "fontWeight": "500",
               },
-              Array [
-                Object {
+              [
+                {
                   "textAlign": "center",
                 },
-                Object {},
-                Object {},
+                {},
+                {},
               ],
             ]
           }

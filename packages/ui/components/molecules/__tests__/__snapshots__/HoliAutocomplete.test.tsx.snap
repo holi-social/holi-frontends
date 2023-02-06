@@ -2,32 +2,32 @@
 
 exports[`HoliAutocomplete renders correctly with default props 1`] = `
 <View
-  style={Object {}}
+  style={{}}
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "flexDirection": "row",
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
-        Object {},
+        {},
       ]
     }
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "minWidth": 190,
           },
-          Object {
+          {
             "maxWidth": 750,
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
@@ -36,11 +36,11 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "marginBottom": 6,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
@@ -51,29 +51,29 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
           accessible={false}
           selectable={true}
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#222326",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
-              Object {
+              {
                 "fontSize": 14,
                 "lineHeight": 16.8,
               },
-              Object {
+              {
                 "fontFamily": "Circular Std Medium",
                 "fontWeight": "500",
               },
-              Array [
-                Object {
+              [
+                {
                   "color": "#222326",
                 },
-                Array [
-                  Object {},
+                [
+                  {},
                 ],
-                Object {},
-                Object {},
+                {},
+                {},
               ],
             ]
           }
@@ -83,8 +83,8 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "backgroundColor": "#fff",
               "borderColor": "#eff0f1",
@@ -92,15 +92,15 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
               "borderWidth": 2,
               "flexDirection": "row",
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
             false,
             false,
-            Array [
-              Object {},
-              Object {},
+            [
+              {},
+              {},
             ],
             undefined,
             false,
@@ -130,8 +130,8 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
           placeholderTextColor="#c0c1c9"
           secureTextEntry={false}
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#222326",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
@@ -142,11 +142,11 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
                 "paddingHorizontal": 10,
                 "paddingVertical": 15,
               },
-              Object {
+              {
                 "alignSelf": "stretch",
                 "width": "100%",
               },
-              Object {
+              {
                 "height": 52.4,
               },
             ]
@@ -156,7 +156,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
         />
         <View
           style={
-            Object {
+            {
               "height": 22,
               "justifyContent": "center",
               "marginRight": 12,
@@ -172,12 +172,12 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
             minX={0}
             minY={0}
             style={
-              Array [
-                Object {
+              [
+                {
                   "backgroundColor": "transparent",
                   "borderWidth": 0,
                 },
-                Object {
+                {
                   "borderStyle": "solid",
                   "borderWidth": 0,
                   "color": "#222326",
@@ -189,7 +189,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
                   "stroke": "currentColor",
                   "width": 22,
                 },
-                Object {
+                {
                   "flex": 0,
                   "height": 22,
                   "width": 22,
@@ -202,18 +202,18 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
           >
             <RNSVGGroup
               fill={
-                Object {
+                {
                   "type": 2,
                 }
               }
               propList={
-                Array [
+                [
                   "fill",
                   "stroke",
                 ]
               }
               stroke={
-                Object {
+                {
                   "type": 2,
                 }
               }
@@ -236,32 +236,32 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
 
 exports[`HoliAutocomplete renders correctly with error 1`] = `
 <View
-  style={Object {}}
+  style={{}}
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "flexDirection": "row",
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
-        Object {},
+        {},
       ]
     }
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "minWidth": 190,
           },
-          Object {
+          {
             "maxWidth": 750,
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
@@ -270,11 +270,11 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
     >
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "marginBottom": 6,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
@@ -285,29 +285,29 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
           accessible={false}
           selectable={true}
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#222326",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
-              Object {
+              {
                 "fontSize": 14,
                 "lineHeight": 16.8,
               },
-              Object {
+              {
                 "fontFamily": "Circular Std Medium",
                 "fontWeight": "500",
               },
-              Array [
-                Object {
+              [
+                {
                   "color": "#222326",
                 },
-                Array [
-                  Object {},
+                [
+                  {},
                 ],
-                Object {},
-                Object {
+                {},
+                {
                   "color": "#cc1820",
                 },
               ],
@@ -319,8 +319,8 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "backgroundColor": "#fff",
               "borderColor": "#eff0f1",
@@ -328,18 +328,18 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
               "borderWidth": 2,
               "flexDirection": "row",
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
             false,
             false,
-            Array [
-              Object {},
-              Object {},
+            [
+              {},
+              {},
             ],
             undefined,
-            Object {
+            {
               "borderColor": "#cc1820",
             },
           ]
@@ -368,8 +368,8 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
           placeholderTextColor="#c0c1c9"
           secureTextEntry={false}
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#222326",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
@@ -380,11 +380,11 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 "paddingHorizontal": 10,
                 "paddingVertical": 15,
               },
-              Object {
+              {
                 "alignSelf": "stretch",
                 "width": "100%",
               },
-              Object {
+              {
                 "height": 52.4,
               },
             ]
@@ -394,7 +394,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
         />
         <View
           style={
-            Object {
+            {
               "height": 22,
               "justifyContent": "center",
               "marginRight": 12,
@@ -411,12 +411,12 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
             minX={0}
             minY={0}
             style={
-              Array [
-                Object {
+              [
+                {
                   "backgroundColor": "transparent",
                   "borderWidth": 0,
                 },
-                Object {
+                {
                   "borderStyle": "solid",
                   "borderWidth": 0,
                   "color": "#cc1820",
@@ -428,7 +428,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                   "stroke": "currentColor",
                   "width": 16,
                 },
-                Object {
+                {
                   "flex": 0,
                   "height": 16,
                   "width": 16,
@@ -441,18 +441,18 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
           >
             <RNSVGGroup
               fill={
-                Object {
+                {
                   "type": 2,
                 }
               }
               propList={
-                Array [
+                [
                   "fill",
                   "stroke",
                 ]
               }
               stroke={
-                Object {
+                {
                   "type": 2,
                 }
               }
@@ -466,11 +466,11 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
+          [
+            {
               "marginTop": 6,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
@@ -481,22 +481,22 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
           accessible={false}
           selectable={true}
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#222326",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
-              Object {
+              {
                 "fontSize": 12,
                 "lineHeight": 14.399999999999999,
               },
               false,
-              Array [
-                Object {
+              [
+                {
                   "color": "#6f7081",
                 },
-                Object {
+                {
                   "color": "#cc1820",
                 },
               ],

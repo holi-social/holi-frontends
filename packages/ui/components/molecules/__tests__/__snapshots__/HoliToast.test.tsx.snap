@@ -5,7 +5,7 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
   accessibilityLabel="test"
   accessibilityRole="button"
   accessibilityState={
-    Object {
+    {
       "disabled": false,
     }
   }
@@ -22,13 +22,13 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Array [
-      Array [
-        Object {
+    [
+      [
+        {
           "width": "100%",
         },
       ],
-      Object {
+      {
         "backgroundColor": "#cc1820",
         "flex": 1,
         "padding": 20,
@@ -40,7 +40,7 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
   <View
     pointerEvents="none"
     style={
-      Array [
+      [
         false,
         undefined,
       ]
@@ -48,7 +48,7 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
   >
     <View
       style={
-        Object {
+        {
           "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
@@ -60,18 +60,18 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
         accessible={false}
         selectable={false}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#222326",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
-            Object {
+            {
               "fontSize": 16,
               "lineHeight": 19.2,
             },
             false,
-            Object {
+            {
               "color": "#fff",
               "textAlign": "center",
             },
@@ -90,12 +90,12 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
         minX={0}
         minY={0}
         style={
-          Array [
-            Object {
+          [
+            {
               "backgroundColor": "transparent",
               "borderWidth": 0,
             },
-            Object {
+            {
               "borderStyle": "solid",
               "borderWidth": 0,
               "color": "#fff",
@@ -108,7 +108,7 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
               "stroke": "currentColor",
               "width": 20,
             },
-            Object {
+            {
               "flex": 0,
               "height": 20,
               "width": 20,
@@ -121,18 +121,18 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
       >
         <RNSVGGroup
           fill={
-            Object {
+            {
               "type": 2,
             }
           }
           propList={
-            Array [
+            [
               "fill",
               "stroke",
             ]
           }
           stroke={
-            Object {
+            {
               "type": 2,
             }
           }
@@ -152,7 +152,7 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
   accessibilityLabel="test"
   accessibilityRole="button"
   accessibilityState={
-    Object {
+    {
       "disabled": false,
     }
   }
@@ -169,13 +169,13 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Array [
-      Array [
-        Object {
+    [
+      [
+        {
           "width": "100%",
         },
       ],
-      Object {
+      {
         "backgroundColor": "#6267e7",
         "flex": 1,
         "padding": 20,
@@ -187,7 +187,7 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
   <View
     pointerEvents="none"
     style={
-      Array [
+      [
         false,
         undefined,
       ]
@@ -195,7 +195,7 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
   >
     <View
       style={
-        Object {
+        {
           "alignItems": "center",
           "display": "flex",
           "flexDirection": "row",
@@ -207,18 +207,18 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
         accessible={false}
         selectable={false}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#222326",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
-            Object {
+            {
               "fontSize": 16,
               "lineHeight": 19.2,
             },
             false,
-            Object {
+            {
               "color": "#fff",
               "textAlign": "center",
             },
@@ -237,12 +237,12 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
         minX={0}
         minY={0}
         style={
-          Array [
-            Object {
+          [
+            {
               "backgroundColor": "transparent",
               "borderWidth": 0,
             },
-            Object {
+            {
               "borderStyle": "solid",
               "borderWidth": 0,
               "color": "#fff",
@@ -255,7 +255,7 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
               "stroke": "currentColor",
               "width": 20,
             },
-            Object {
+            {
               "flex": 0,
               "height": 20,
               "width": 20,
@@ -268,18 +268,18 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
       >
         <RNSVGGroup
           fill={
-            Object {
+            {
               "type": 2,
             }
           }
           propList={
-            Array [
+            [
               "fill",
               "stroke",
             ]
           }
           stroke={
-            Object {
+            {
               "type": 2,
             }
           }

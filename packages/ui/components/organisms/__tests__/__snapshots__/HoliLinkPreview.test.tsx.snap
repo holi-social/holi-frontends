@@ -18,8 +18,8 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#6267e7",
         },
         undefined,
@@ -30,8 +30,8 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "borderColor": "#eff0f1",
             "borderRadius": 16,
             "borderWidth": 1,
@@ -46,18 +46,18 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
         accessibilityRole="image"
         accessible={false}
         source={
-          Object {
+          {
             "uri": "https://betterplace-assets.betterplace.org/uploads/homepage/homepage/hero_image_desktop/000/000/001/cc1e6b93-c77a-4edc-8b7a-fb66c246a824.jpg",
           }
         }
         style={
-          Array [
-            Object {
+          [
+            {
               "aspectRatio": 1.9536423841059603,
               "backgroundColor": "#eff0f1",
               "width": "100%",
             },
-            Object {
+            {
               "resizeMode": "cover",
             },
           ]
@@ -65,7 +65,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
       />
       <View
         style={
-          Object {
+          {
             "flexDirection": "row",
             "paddingBottom": 16,
             "paddingHorizontal": 16,
@@ -75,7 +75,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
       >
         <View
           style={
-            Object {
+            {
               "flex": 1,
             }
           }
@@ -85,17 +85,17 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
             role="header"
             selectable={true}
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#222326",
                   "fontFamily": "Circular Std Medium",
                   "fontWeight": "500",
                 },
-                Object {
+                {
                   "fontSize": 14,
                   "lineHeight": 19.599999999999998,
                 },
-                Object {
+                {
                   "color": "#6f7081",
                 },
               ]
@@ -108,22 +108,22 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
             numberOfLines={2}
             selectable={true}
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#222326",
                   "fontFamily": "Circular Std Book",
                   "fontWeight": "400",
                 },
-                Object {
+                {
                   "fontSize": 12,
                   "lineHeight": 14.399999999999999,
                 },
                 false,
-                Array [
-                  Object {
+                [
+                  {
                     "color": "#6f7081",
                   },
-                  Object {
+                  {
                     "marginTop": 8,
                   },
                 ],
@@ -136,25 +136,25 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
             accessible={false}
             selectable={true}
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#222326",
                   "fontFamily": "Circular Std Book",
                   "fontWeight": "400",
                 },
-                Object {
+                {
                   "fontSize": 12,
                   "lineHeight": 14.399999999999999,
                 },
-                Object {
+                {
                   "fontFamily": "Circular Std Medium",
                   "fontWeight": "500",
                 },
-                Array [
-                  Object {
+                [
+                  {
                     "color": "#6f7081",
                   },
-                  Object {
+                  {
                     "marginTop": 8,
                   },
                 ],
@@ -174,12 +174,12 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
           minX={0}
           minY={0}
           style={
-            Array [
-              Object {
+            [
+              {
                 "backgroundColor": "transparent",
                 "borderWidth": 0,
               },
-              Object {
+              {
                 "borderStyle": "solid",
                 "borderWidth": 0,
                 "color": "#6f7081",
@@ -193,7 +193,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
                 "stroke": "currentColor",
                 "width": 18,
               },
-              Object {
+              {
                 "flex": 0,
                 "height": 18,
                 "width": 18,
@@ -206,18 +206,18 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
         >
           <RNSVGGroup
             fill={
-              Object {
+              {
                 "type": 2,
               }
             }
             propList={
-              Array [
+              [
                 "fill",
                 "stroke",
               ]
             }
             stroke={
-              Object {
+              {
                 "type": 2,
               }
             }

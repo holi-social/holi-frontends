@@ -20,12 +20,12 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "flex": 1,
         },
         undefined,
-        Object {
+        {
           "backgroundColor": "#262424",
         },
       ]
@@ -33,7 +33,7 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
   >
     <RCTSafeAreaView
       style={
-        Object {
+        {
           "left": 0,
           "position": "absolute",
           "right": 0,
@@ -44,7 +44,7 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
     >
       <View
         style={
-          Object {
+          {
             "bottom": 0,
             "left": 0,
             "position": "absolute",
@@ -56,7 +56,7 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
           accessibilityLabel="modal.close"
           accessibilityRole="button"
           accessibilityState={
-            Object {
+            {
               "disabled": false,
             }
           }
@@ -73,13 +73,13 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              Array [
-                Object {
+            [
+              [
+                {
                   "width": "auto",
                 },
               ],
-              Object {
+              {
                 "position": "absolute",
                 "right": 26,
                 "top": 18,
@@ -91,7 +91,7 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
           <View
             pointerEvents="none"
             style={
-              Array [
+              [
                 false,
                 undefined,
               ]
@@ -107,12 +107,12 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
               minX={0}
               minY={0}
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "backgroundColor": "transparent",
                     "borderWidth": 0,
                   },
-                  Object {
+                  {
                     "borderStyle": "solid",
                     "borderWidth": 0,
                     "color": "#e6e1d3",
@@ -124,7 +124,7 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
                     "stroke": "currentColor",
                     "width": 24,
                   },
-                  Object {
+                  {
                     "flex": 0,
                     "height": 24,
                     "width": 24,
@@ -137,18 +137,18 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
             >
               <RNSVGGroup
                 fill={
-                  Object {
+                  {
                     "type": 2,
                   }
                 }
                 propList={
-                  Array [
+                  [
                     "fill",
                     "stroke",
                   ]
                 }
                 stroke={
-                  Object {
+                  {
                     "type": 2,
                   }
                 }

@@ -3,28 +3,28 @@
 exports[`HoliTextInput renders correctly when disabled 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "flexDirection": "row",
       },
-      Object {
+      {
         "alignSelf": "stretch",
         "width": "100%",
       },
-      Object {},
+      {},
     ]
   }
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "minWidth": 190,
         },
-        Object {
+        {
           "maxWidth": 750,
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
@@ -33,8 +33,8 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#fff",
             "borderColor": "#eff0f1",
@@ -42,14 +42,14 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
             "borderWidth": 2,
             "flexDirection": "row",
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
           false,
           false,
-          Object {},
-          Object {
+          {},
+          {
             "backgroundColor": "#f7f6f3",
             "borderColor": "#eff0f1",
           },
@@ -78,8 +78,8 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
         placeholderTextColor="#c0c1c9"
         secureTextEntry={false}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#222326",
               "flex": 1,
               "fontFamily": "Circular Std Book",
@@ -90,11 +90,11 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
               "paddingHorizontal": 10,
               "paddingVertical": 15,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
-            Object {
+            {
               "height": 52.4,
             },
           ]
@@ -104,11 +104,11 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "marginTop": 6,
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
@@ -119,22 +119,22 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
         accessible={false}
         selectable={true}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#222326",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
-            Object {
+            {
               "fontSize": 12,
               "lineHeight": 14.399999999999999,
             },
             false,
-            Array [
-              Object {
+            [
+              {
                 "color": "#6f7081",
               },
-              Object {},
+              {},
             ],
           ]
         }
@@ -150,28 +150,28 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
 exports[`HoliTextInput renders correctly when multiline starting with more than one line 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "flexDirection": "row",
       },
-      Object {
+      {
         "alignSelf": "stretch",
         "width": "100%",
       },
-      Object {},
+      {},
     ]
   }
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "minWidth": 190,
         },
-        Object {
+        {
           "maxWidth": 750,
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
@@ -180,8 +180,8 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#fff",
             "borderColor": "#eff0f1",
@@ -189,13 +189,13 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
             "borderWidth": 2,
             "flexDirection": "row",
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
           false,
           false,
-          Object {},
+          {},
           undefined,
           false,
         ]
@@ -222,8 +222,8 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
         placeholderTextColor="#c0c1c9"
         secureTextEntry={false}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#222326",
               "flex": 1,
               "fontFamily": "Circular Std Book",
@@ -234,11 +234,11 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
               "paddingHorizontal": 10,
               "paddingVertical": 15,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
-            Object {
+            {
               "height": 74.8,
             },
           ]
@@ -248,11 +248,11 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
     </View>
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "marginTop": 6,
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
@@ -263,22 +263,22 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
         accessible={false}
         selectable={true}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#222326",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
-            Object {
+            {
               "fontSize": 12,
               "lineHeight": 14.399999999999999,
             },
             false,
-            Array [
-              Object {
+            [
+              {
                 "color": "#6f7081",
               },
-              Object {},
+              {},
             ],
           ]
         }
@@ -294,28 +294,28 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
 exports[`HoliTextInput renders correctly when multiline starting with one line 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "flexDirection": "row",
       },
-      Object {
+      {
         "alignSelf": "stretch",
         "width": "100%",
       },
-      Object {},
+      {},
     ]
   }
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "minWidth": 190,
         },
-        Object {
+        {
           "maxWidth": 750,
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
@@ -324,8 +324,8 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#fff",
             "borderColor": "#eff0f1",
@@ -333,13 +333,13 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
             "borderWidth": 2,
             "flexDirection": "row",
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
           false,
           false,
-          Object {},
+          {},
           undefined,
           false,
         ]
@@ -366,8 +366,8 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
         placeholderTextColor="#c0c1c9"
         secureTextEntry={false}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#222326",
               "flex": 1,
               "fontFamily": "Circular Std Book",
@@ -378,11 +378,11 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
               "paddingHorizontal": 10,
               "paddingVertical": 15,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
-            Object {
+            {
               "height": 52.4,
             },
           ]
@@ -392,11 +392,11 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
     </View>
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "marginTop": 6,
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
@@ -407,22 +407,22 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
         accessible={false}
         selectable={true}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#222326",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
-            Object {
+            {
               "fontSize": 12,
               "lineHeight": 14.399999999999999,
             },
             false,
-            Array [
-              Object {
+            [
+              {
                 "color": "#6f7081",
               },
-              Object {},
+              {},
             ],
           ]
         }
@@ -438,27 +438,27 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
 exports[`HoliTextInput renders correctly with default props 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "flexDirection": "row",
       },
-      Object {
+      {
         "maxWidth": "100%",
       },
-      Object {},
+      {},
     ]
   }
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "minWidth": 190,
         },
-        Object {
+        {
           "maxWidth": 750,
         },
-        Object {
+        {
           "maxWidth": "100%",
         },
       ]
@@ -466,11 +466,11 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "marginBottom": 6,
           },
-          Object {
+          {
             "maxWidth": "100%",
           },
         ]
@@ -480,27 +480,27 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
         accessible={false}
         selectable={true}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#222326",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
-            Object {
+            {
               "fontSize": 14,
               "lineHeight": 16.8,
             },
-            Object {
+            {
               "fontFamily": "Circular Std Medium",
               "fontWeight": "500",
             },
-            Array [
-              Object {
+            [
+              {
                 "color": "#222326",
               },
               undefined,
-              Object {},
-              Object {},
+              {},
+              {},
             ],
           ]
         }
@@ -510,8 +510,8 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#fff",
             "borderColor": "#eff0f1",
@@ -519,12 +519,12 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
             "borderWidth": 2,
             "flexDirection": "row",
           },
-          Object {
+          {
             "maxWidth": "100%",
           },
           false,
           false,
-          Object {},
+          {},
           undefined,
           false,
         ]
@@ -551,8 +551,8 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
         placeholderTextColor="#c0c1c9"
         secureTextEntry={false}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#222326",
               "flex": 1,
               "fontFamily": "Circular Std Book",
@@ -563,10 +563,10 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
               "paddingHorizontal": 10,
               "paddingVertical": 15,
             },
-            Object {
+            {
               "maxWidth": "100%",
             },
-            Object {
+            {
               "height": 52.4,
             },
           ]
@@ -576,11 +576,11 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "marginTop": 6,
           },
-          Object {
+          {
             "maxWidth": "100%",
           },
         ]
@@ -590,22 +590,22 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
         accessible={false}
         selectable={true}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#222326",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
-            Object {
+            {
               "fontSize": 12,
               "lineHeight": 14.399999999999999,
             },
             false,
-            Array [
-              Object {
+            [
+              {
                 "color": "#6f7081",
               },
-              Object {},
+              {},
             ],
           ]
         }
@@ -621,28 +621,28 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
 exports[`HoliTextInput renders correctly with error 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "flexDirection": "row",
       },
-      Object {
+      {
         "alignSelf": "stretch",
         "width": "100%",
       },
-      Object {},
+      {},
     ]
   }
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "minWidth": 190,
         },
-        Object {
+        {
           "maxWidth": 750,
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
@@ -651,11 +651,11 @@ exports[`HoliTextInput renders correctly with error 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "marginBottom": 6,
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
@@ -666,27 +666,27 @@ exports[`HoliTextInput renders correctly with error 1`] = `
         accessible={false}
         selectable={true}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#222326",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
-            Object {
+            {
               "fontSize": 14,
               "lineHeight": 16.8,
             },
-            Object {
+            {
               "fontFamily": "Circular Std Medium",
               "fontWeight": "500",
             },
-            Array [
-              Object {
+            [
+              {
                 "color": "#222326",
               },
               undefined,
-              Object {},
-              Object {
+              {},
+              {
                 "color": "#cc1820",
               },
             ],
@@ -698,8 +698,8 @@ exports[`HoliTextInput renders correctly with error 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#fff",
             "borderColor": "#eff0f1",
@@ -707,15 +707,15 @@ exports[`HoliTextInput renders correctly with error 1`] = `
             "borderWidth": 2,
             "flexDirection": "row",
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
           false,
           false,
-          Object {},
+          {},
           undefined,
-          Object {
+          {
             "borderColor": "#cc1820",
           },
         ]
@@ -742,8 +742,8 @@ exports[`HoliTextInput renders correctly with error 1`] = `
         placeholderTextColor="#c0c1c9"
         secureTextEntry={false}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#222326",
               "flex": 1,
               "fontFamily": "Circular Std Book",
@@ -754,11 +754,11 @@ exports[`HoliTextInput renders correctly with error 1`] = `
               "paddingHorizontal": 10,
               "paddingVertical": 15,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
-            Object {
+            {
               "height": 52.4,
             },
           ]
@@ -767,7 +767,7 @@ exports[`HoliTextInput renders correctly with error 1`] = `
       />
       <View
         style={
-          Object {
+          {
             "height": 22,
             "justifyContent": "center",
             "marginRight": 12,
@@ -784,12 +784,12 @@ exports[`HoliTextInput renders correctly with error 1`] = `
           minX={0}
           minY={0}
           style={
-            Array [
-              Object {
+            [
+              {
                 "backgroundColor": "transparent",
                 "borderWidth": 0,
               },
-              Object {
+              {
                 "borderStyle": "solid",
                 "borderWidth": 0,
                 "color": "#cc1820",
@@ -801,7 +801,7 @@ exports[`HoliTextInput renders correctly with error 1`] = `
                 "stroke": "currentColor",
                 "width": 16,
               },
-              Object {
+              {
                 "flex": 0,
                 "height": 16,
                 "width": 16,
@@ -814,18 +814,18 @@ exports[`HoliTextInput renders correctly with error 1`] = `
         >
           <RNSVGGroup
             fill={
-              Object {
+              {
                 "type": 2,
               }
             }
             propList={
-              Array [
+              [
                 "fill",
                 "stroke",
               ]
             }
             stroke={
-              Object {
+              {
                 "type": 2,
               }
             }
@@ -839,11 +839,11 @@ exports[`HoliTextInput renders correctly with error 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "marginTop": 6,
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
@@ -854,22 +854,22 @@ exports[`HoliTextInput renders correctly with error 1`] = `
         accessible={false}
         selectable={true}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#222326",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
-            Object {
+            {
               "fontSize": 12,
               "lineHeight": 14.399999999999999,
             },
             false,
-            Array [
-              Object {
+            [
+              {
                 "color": "#6f7081",
               },
-              Object {
+              {
                 "color": "#cc1820",
               },
             ],
@@ -887,28 +887,28 @@ exports[`HoliTextInput renders correctly with error 1`] = `
 exports[`HoliTextInput renders correctly with trailing icon 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "flexDirection": "row",
       },
-      Object {
+      {
         "alignSelf": "stretch",
         "width": "100%",
       },
-      Object {},
+      {},
     ]
   }
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "minWidth": 190,
         },
-        Object {
+        {
           "maxWidth": 750,
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
@@ -917,8 +917,8 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#fff",
             "borderColor": "#eff0f1",
@@ -926,13 +926,13 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
             "borderWidth": 2,
             "flexDirection": "row",
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
           false,
           false,
-          Object {},
+          {},
           undefined,
           false,
         ]
@@ -959,8 +959,8 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
         placeholderTextColor="#c0c1c9"
         secureTextEntry={false}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#222326",
               "flex": 1,
               "fontFamily": "Circular Std Book",
@@ -971,11 +971,11 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
               "paddingHorizontal": 10,
               "paddingVertical": 15,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
-            Object {
+            {
               "height": 52.4,
             },
           ]
@@ -984,7 +984,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
       />
       <View
         style={
-          Object {
+          {
             "height": 22,
             "justifyContent": "center",
             "marginRight": 12,
@@ -1001,12 +1001,12 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
           minX={0}
           minY={0}
           style={
-            Array [
-              Object {
+            [
+              {
                 "backgroundColor": "transparent",
                 "borderWidth": 0,
               },
-              Object {
+              {
                 "borderStyle": "solid",
                 "borderWidth": 0,
                 "color": "#eff0f1",
@@ -1018,7 +1018,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
                 "stroke": "currentColor",
                 "width": 22,
               },
-              Object {
+              {
                 "flex": 0,
                 "height": 22,
                 "width": 22,
@@ -1031,18 +1031,18 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
         >
           <RNSVGGroup
             fill={
-              Object {
+              {
                 "type": 2,
               }
             }
             propList={
-              Array [
+              [
                 "fill",
                 "stroke",
               ]
             }
             stroke={
-              Object {
+              {
                 "type": 2,
               }
             }
@@ -1056,11 +1056,11 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "marginTop": 6,
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
@@ -1071,22 +1071,22 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
         accessible={false}
         selectable={true}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#222326",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
-            Object {
+            {
               "fontSize": 12,
               "lineHeight": 14.399999999999999,
             },
             false,
-            Array [
-              Object {
+            [
+              {
                 "color": "#6f7081",
               },
-              Object {},
+              {},
             ],
           ]
         }
@@ -1102,28 +1102,28 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
 exports[`HoliTextInput renders correctly with type password 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "flexDirection": "row",
       },
-      Object {
+      {
         "alignSelf": "stretch",
         "width": "100%",
       },
-      Object {},
+      {},
     ]
   }
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "minWidth": 190,
         },
-        Object {
+        {
           "maxWidth": 750,
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
@@ -1132,8 +1132,8 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#fff",
             "borderColor": "#eff0f1",
@@ -1141,13 +1141,13 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
             "borderWidth": 2,
             "flexDirection": "row",
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
           false,
           false,
-          Object {},
+          {},
           undefined,
           false,
         ]
@@ -1174,8 +1174,8 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
         placeholderTextColor="#c0c1c9"
         secureTextEntry={true}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#222326",
               "flex": 1,
               "fontFamily": "Circular Std Book",
@@ -1186,11 +1186,11 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
               "paddingHorizontal": 10,
               "paddingVertical": 15,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
-            Object {
+            {
               "height": 52.4,
             },
           ]
@@ -1201,11 +1201,11 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "marginTop": 6,
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
@@ -1216,22 +1216,22 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
         accessible={false}
         selectable={true}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#222326",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
-            Object {
+            {
               "fontSize": 12,
               "lineHeight": 14.399999999999999,
             },
             false,
-            Array [
-              Object {
+            [
+              {
                 "color": "#6f7081",
               },
-              Object {},
+              {},
             ],
           ]
         }
@@ -1247,28 +1247,28 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
 exports[`HoliTextInput renders correctly without label 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "flexDirection": "row",
       },
-      Object {
+      {
         "alignSelf": "stretch",
         "width": "100%",
       },
-      Object {},
+      {},
     ]
   }
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "minWidth": 190,
         },
-        Object {
+        {
           "maxWidth": 750,
         },
-        Object {
+        {
           "alignSelf": "stretch",
           "width": "100%",
         },
@@ -1277,8 +1277,8 @@ exports[`HoliTextInput renders correctly without label 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignItems": "center",
             "backgroundColor": "#fff",
             "borderColor": "#eff0f1",
@@ -1286,13 +1286,13 @@ exports[`HoliTextInput renders correctly without label 1`] = `
             "borderWidth": 2,
             "flexDirection": "row",
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
           false,
           false,
-          Object {},
+          {},
           undefined,
           false,
         ]
@@ -1319,8 +1319,8 @@ exports[`HoliTextInput renders correctly without label 1`] = `
         placeholderTextColor="#c0c1c9"
         secureTextEntry={false}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#222326",
               "flex": 1,
               "fontFamily": "Circular Std Book",
@@ -1331,11 +1331,11 @@ exports[`HoliTextInput renders correctly without label 1`] = `
               "paddingHorizontal": 10,
               "paddingVertical": 15,
             },
-            Object {
+            {
               "alignSelf": "stretch",
               "width": "100%",
             },
-            Object {
+            {
               "height": 52.4,
             },
           ]
@@ -1345,11 +1345,11 @@ exports[`HoliTextInput renders correctly without label 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "marginTop": 6,
           },
-          Object {
+          {
             "alignSelf": "stretch",
             "width": "100%",
           },
@@ -1360,22 +1360,22 @@ exports[`HoliTextInput renders correctly without label 1`] = `
         accessible={false}
         selectable={true}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#222326",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
-            Object {
+            {
               "fontSize": 12,
               "lineHeight": 14.399999999999999,
             },
             false,
-            Array [
-              Object {
+            [
+              {
                 "color": "#6f7081",
               },
-              Object {},
+              {},
             ],
           ]
         }
