@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const withPlugins = require('next-compose-plugins')
 const withHtml = require('@blunck/next-html')()
-const withTranspileModules = require('next-transpile-modules')
 const path = require('path')
 const { withSentryConfig } = require('@sentry/nextjs')
 
@@ -23,13 +22,42 @@ const nextConfig = {
     includePaths: [path.join(__dirname, 'styles'), path.join(__dirname, 'shared/data')],
   },
   experimental: {
-    outputStandalone: true,
+    output: 'standalone',
     outputFileTracingRoot: path.join(__dirname, '../../'),
   },
   i18n: {
     locales: ['en', 'de'],
     defaultLocale: 'en',
     localeDetection: false,
+  },
+  transpilePackages: [
+    'react-native',
+    'react-native-web',
+    'react-native-reanimated',
+    'react-native-render-html',
+    'react-native-animated-pagination-dot',
+    'react-native-card-stack-swiper',
+    'react-native-reanimated-carousel',
+    'react-native-gesture-handler',
+    '@jsamr/react-native-li',
+    '@holi-apps/donations',
+    '@holi-apps/goodnews',
+    '@holi-apps/volunteering',
+    '@holi/ui',
+    '@holi/core',
+    '@holi/api',
+    'expo-status-bar',
+  ],
+  resolveSymlinks: true,
+  debug: true,
+  sentry: {
+    hideSourceMaps: true, // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/#use-hidden-source-map
+  },
+  swcMinify: true,
+  compiler: {
+    removeConsole: {
+      exclude: ['log'],
+    },
   },
 }
 
@@ -48,23 +76,10 @@ const sentryWebpackPluginOptions = {
 module.exports = withSentryConfig(
   withPlugins(
     [
-      withTranspileModules(
-        [
-          'react-native-reanimated',
-          'react-native-card-stack-swiper',
-          'react-native-gesture-handler',
-          '@holi-apps/donations',
-          '@holi-apps/goodnews',
-          '@holi-apps/volunteering',
-          '@holi/ui',
-          '@holi/core',
-          '@holi/api',
-        ],
-        {
-          resolveSymlinks: true,
-          debug: true,
-        }
-      ),
+      {
+        resolveSymlinks: true,
+        debug: true,
+      },
     ],
     withHtml(nextConfig)
   ),
