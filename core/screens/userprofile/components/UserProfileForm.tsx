@@ -117,8 +117,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
 
   const propsFor = (id: string) => scrollToProps(id, onFocus)
 
-  const onFocus = (pos: Position, ref: View, id: string) => {
-    console.log('[UserProfileForm] onFocus on', id, ref)
+  const onFocus = (pos: Position) => {
     scrollViewRef?.current?.scrollTo({ y: pos.y, animated: true })
   }
 
