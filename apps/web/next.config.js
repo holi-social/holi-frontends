@@ -20,6 +20,7 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles'), path.join(__dirname, 'shared/data')],
   },
+  output: 'standalone',
   experimental: {
     outputFileTracingRoot: path.join(__dirname, '../../'),
   },
@@ -46,9 +47,6 @@ const nextConfig = {
     '@holi/api',
     'expo-status-bar',
   ],
-  sentry: {
-    hideSourceMaps: true, // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/#use-hidden-source-map
-  },
   swcMinify: true,
   compiler: {
     removeConsole: {
@@ -56,6 +54,9 @@ const nextConfig = {
     },
   },
 }
+
+// https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/#use-hidden-source-map
+const sentryOptions = { hideSourceMaps: true }
 
 const sentryWebpackPluginOptions = {
   // Additional config options for the Sentry Webpack plugin. Keep in mind that
@@ -69,6 +70,4 @@ const sentryWebpackPluginOptions = {
   // https://github.com/getsentry/sentry-webpack-plugin#options.
 }
 
-const plugins = [(nextConfig) => withSentryConfig(nextConfig, sentryWebpackPluginOptions), withHtml]
-
-module.exports = () => plugins.reduce((acc, next) => next(acc), nextConfig)
+module.exports = withSentryConfig(withHtml(nextConfig), sentryWebpackPluginOptions, sentryOptions)
