@@ -30,7 +30,10 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
 
   const mixins = useStyleMixins()
 
-  const [adminMemberships, regularMemberships] = useMemo(() => partition(space.memberships, 'isAdministrator'), [space])
+  const [adminMemberships, regularMemberships] = useMemo(
+    () => partition(space.members.data, 'isAdministrator'),
+    [space]
+  )
 
   const admins = adminMemberships.map((membership) => membership.user)
   const members = regularMemberships.map((membership) => membership.user)
@@ -38,7 +41,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
   const sortedMembersList = [...sortUsersByFirstName(admins), ...sortUsersByFirstName(members)]
 
   const isAdmin = (collaborator: User) => {
-    const membership = space.memberships.find((membership) => membership.user.id === collaborator.id)
+    const membership = space.members.data.find((membership) => membership.user.id === collaborator.id)
     return membership?.isAdministrator
   }
 
