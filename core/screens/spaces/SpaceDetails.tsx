@@ -6,12 +6,14 @@ import { Platform, StatusBar, StyleSheet } from 'react-native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
+import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
 import ReportBlockOptionButton from '@holi/core/components/ReportBlockOptionButton'
 import { logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { createParam } from '@holi/core/navigation/hooks/useParam'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { ContentType } from '@holi/core/queries'
 import SpaceDashboardModal from '@holi/core/screens/spaces/components/SpaceDashboardModal'
@@ -35,6 +37,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   const { t } = useTranslation()
   const onScreenScroll = useScrollYHandler()
+  const { navigate } = useRouting()
 
   const { setOptions } = useUnifiedNavigation()
 
@@ -46,6 +49,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
   const isCreator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.CREATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   const { visible, show, hide } = useModalState()
 
@@ -65,11 +69,19 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
           onModalDismiss={hide}
           tintColor={tintColor}
         >
+          {isAdmin && (
+            <MoreOptionItem
+              icon="edit-2"
+              label={t('global.edit')}
+              onPress={() => navigate(`/spaces/${spaceId}/edit`)}
+              contentStyle={styles.editButton}
+            />
+          )}
           <ReportBlockOptionButton
             action="report"
             objectId={space?.id || ''}
             contentType={ContentType.SPACE}
-            style={styles.moreOptionItem}
+            style={styles.reportButton}
             confirmationModalProps={{
               title: t('spaces.spaceDetails.report.confirmation.title'),
               description: t('spaces.spaceDetails.report.confirmation.description'),
@@ -83,7 +95,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
         footerShown: false,
       },
     })
-  }, [hide, setOptions, show, space?.id, t, visible])
+  }, [hide, setOptions, show, space?.id, t, visible, isAdmin, navigate, spaceId])
 
   if (error) {
     logError(error, `[SpaceDetails.tsx] ${error.message}`)
@@ -138,7 +150,11 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  moreOptionItem: {
+  editButton: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  reportButton: {
     justifyContent: 'center',
     paddingVertical: 18,
   },

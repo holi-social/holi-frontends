@@ -2,6 +2,7 @@ import React from 'react'
 
 import NotificationConnectionItem from '@holi/core/screens/notifications/components/NotificationConnectionItem'
 import NotificationPostItem from '@holi/core/screens/notifications/components/NotificationPostItem'
+import NotificationSpaceConnectionItem from '@holi/core/screens/notifications/components/NotificationSpaceConnectionItem'
 import { NotificationProps, NotificationType } from '@holi/core/screens/notifications/components/types'
 
 /**
@@ -15,6 +16,7 @@ export const SHOWN_NOTIFICATIONS = [
   NotificationType.CONNECTION_ACCEPTED,
   NotificationType.CONNECTION_CONFIRMED,
   NotificationType.POST_COMMENT_USER_MENTION,
+  NotificationType.COMMUNITY_MEMBERSHIP_APPROVED,
 ]
 
 const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props }) => {
@@ -28,6 +30,9 @@ const NotificationItem: React.VFC<NotificationProps> = ({ notification, ...props
 
     case NotificationType.POST_COMMENT_USER_MENTION:
       return <NotificationPostItem notification={notification} {...props} testID="post-comment-mention" />
+
+    case NotificationType.COMMUNITY_MEMBERSHIP_APPROVED:
+      return <NotificationSpaceConnectionItem notification={notification} {...props} testID="space-connection" />
 
     default:
       return null
