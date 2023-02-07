@@ -19,7 +19,26 @@ interface XY {
 /**
  * The values in the below object are percentages of the screen
  */
-const SWIPE_DIRECTION = {
+const SWIPE_DIRECTION_IOS = {
+  down: {
+    start: { x: 2, y: 40 },
+    end: { x: 2, y: 60 },
+  },
+  left: {
+    start: { x: 85, y: 50 },
+    end: { x: 15, y: 50 },
+  },
+  right: {
+    start: { x: 15, y: 50 },
+    end: { x: 85, y: 50 },
+  },
+  up: {
+    start: { x: 2, y: 60 },
+    end: { x: 2, y: 40 },
+  },
+}
+
+const SWIPE_DIRECTION_ANDROID = {
   down: {
     start: { x: 50, y: 15 },
     end: { x: 50, y: 85 },
@@ -42,56 +61,50 @@ const SWIPE_DIRECTION = {
  * Swipe down based on a percentage
  */
 export const swipeDown = async (percentage = 1) => {
-  await swipeOnPercentage(
-    calculateXY(SWIPE_DIRECTION.down.start, percentage),
-    calculateXY(SWIPE_DIRECTION.down.end, percentage)
-  )
+  const direction = platform === 'ios' ? SWIPE_DIRECTION_IOS.down : SWIPE_DIRECTION_ANDROID.down
+  await swipeOnPercentage(direction.start, direction.end, percentage)
 }
 
 /**
  * Swipe Up based on a percentage
  */
 export const swipeUp = async (percentage = 1) => {
-  await swipeOnPercentage(
-    calculateXY(SWIPE_DIRECTION.up.start, percentage),
-    calculateXY(SWIPE_DIRECTION.up.end, percentage)
-  )
+  const direction = platform === 'ios' ? SWIPE_DIRECTION_IOS.up : SWIPE_DIRECTION_ANDROID.up
+  await swipeOnPercentage(direction.start, direction.end, percentage)
 }
 
 /**
  * Swipe left based on a percentage
  */
 export const swipeLeft = async (percentage = 1) => {
-  await swipeOnPercentage(
-    calculateXY(SWIPE_DIRECTION.left.start, percentage),
-    calculateXY(SWIPE_DIRECTION.left.end, percentage)
-  )
+  const direction = platform === 'ios' ? SWIPE_DIRECTION_IOS.left : SWIPE_DIRECTION_ANDROID.left
+  await swipeOnPercentage(direction.start, direction.end, percentage)
 }
 
 /**
  * Swipe right based on a percentage
  */
 export const swipeRight = async (percentage = 1) => {
-  await swipeOnPercentage(
-    calculateXY(SWIPE_DIRECTION.right.start, percentage),
-    calculateXY(SWIPE_DIRECTION.right.end, percentage)
-  )
+  const direction = platform === 'ios' ? SWIPE_DIRECTION_IOS.right : SWIPE_DIRECTION_ANDROID.right
+  await swipeOnPercentage(direction.start, direction.end, percentage)
 }
 
 /**
  * Swipe from coordinates (from) to the new coordinates (to). The given coordinates are
  * percentages of the screen.
  */
-const swipeOnPercentage = async (from: XY, to: XY) => {
+const swipeOnPercentage = async (from: XY, to: XY, percentage = 1) => {
+  from = calculateXY(from, percentage)
+  to = calculateXY(to, percentage)
   // Get the screen size and store it so it can be re-used.
   // This will save a lot of webdriver calls if this methods is used multiple times.
   SCREEN_SIZE = SCREEN_SIZE || (await Appium.getWindowRect())
   // Get the start position on the screen for the swipe
-  const pressOptions = getDeviceScreenCoordinates(SCREEN_SIZE, from)
+  const fromScreenCoordinates = getDeviceScreenCoordinates(SCREEN_SIZE, from)
   // Get the move to position on the screen for the swipe
-  const moveToScreenCoordinates = getDeviceScreenCoordinates(SCREEN_SIZE, to)
+  const toScreenCoordinates = getDeviceScreenCoordinates(SCREEN_SIZE, to)
 
-  await swipe(pressOptions, moveToScreenCoordinates)
+  await swipe(fromScreenCoordinates, toScreenCoordinates)
 }
 
 /**
@@ -115,14 +128,15 @@ const swipe = async (from: XY, to: XY) => {
         //    We move our finger from the center of the element to the
         //    starting position of the element.
         //    Play with the duration to make the swipe go slower / faster
-        { type: 'pointerMove', duration: 1000, x: to.x, y: to.y },
+        { type: 'pointerMove', duration: 2000, x: to.x, y: to.y },
+        { type: 'pause', duration: 1000 },
         // f. Finger gets up, off the screen
         { type: 'pointerUp', button: 0 },
+        // Add a pause to make sure the swipe is done
+        { type: 'pause', duration: 1000 },
       ],
     },
   ])
-  // Add a pause, just to make sure the swipe is done
-  await Appium.pause(1000)
 }
 
 /**
