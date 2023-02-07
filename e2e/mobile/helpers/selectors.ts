@@ -49,10 +49,11 @@ export const scrollToElementWithTestId = async (
   let scrollCounter = 0
   const implicitTimeout = Appium.options.waitforTimeout
   await Appium.setImplicitTimeout(timeout)
+  if (platform === 'ios') maxAttempts *= 2 // on iOS we need to scroll in smaller steps, so we might need more
   while (scrollCounter < maxAttempts) {
     // is the element in the viewport?
     try {
-      const elem = await waitForElementWithTestId(testId, 1)
+      const elem = await waitForElementWithTestId(testId, 100)
       // reset the timeout before exiting the function
       await Appium.setImplicitTimeout(implicitTimeout)
       return elem
