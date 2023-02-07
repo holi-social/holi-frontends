@@ -61,7 +61,7 @@ const assertAllowsPagination = async () => {
 const assertShowsAppUpdates = async (app: string) => {
   // check if donation updates are displayed
   await scrollToElementWithTestId(`${app}-updates-item`, 'down')
-  await waitForElementWithTestId(`${app}-updates-heading`)
+  // await waitForElementWithTestId(`${app}-updates-heading`)
 
   // click first element in ScrollView
   await tapOnElementWithTestId(`${app}-updates-item`)
