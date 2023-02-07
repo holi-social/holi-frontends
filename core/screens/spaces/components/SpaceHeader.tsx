@@ -26,7 +26,10 @@ const sortUsersByFirstName = (users: User[]) =>
 const SpaceHeader: React.VFC<SpaceHeaderProps> = ({ space, style }) => {
   const { t } = useTranslation()
   const [modalVisible, setModalVisible] = useState(false)
-  const [adminMemberships, regularMemberships] = useMemo(() => partition(space.memberships, 'isAdministrator'), [space])
+  const [adminMemberships, regularMemberships] = useMemo(
+    () => partition(space.members.data, 'isAdministrator'),
+    [space]
+  )
   const { width: deviceWidth } = useWindowDimensions()
 
   const admins = adminMemberships.map((membership) => membership.user)

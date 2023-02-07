@@ -6,11 +6,14 @@ import { Paged } from '@holi/core/types'
 
 const SpaceMemberFragment = gql`
   ${userAvatarFragment}
-  fragment FullSpaceMember on SpaceMember {
-    user {
-      ...UserAvatar
+  fragment FullSpaceMember on PagedSpaceMemberList {
+    totalResults
+    data {
+      user {
+        ...UserAvatar
+      }
+      isAdministrator
     }
-    isAdministrator
   }
 `
 
@@ -29,7 +32,7 @@ const SpaceFragment = gql`
       type
       url
     }
-    memberships {
+    members {
       ...FullSpaceMember
     }
     tasks {
@@ -51,6 +54,21 @@ const SpaceFragment = gql`
     }
     topics {
       title
+    }
+  }
+`
+
+const SpaceOverviewFragment = gql`
+  ${SpaceMemberFragment}
+  fragment OverviewSpace on Space {
+    id
+    title
+    description
+    created
+    mainImage
+    location
+    members {
+      ...FullSpaceMember
     }
   }
 `
@@ -86,7 +104,7 @@ export type SpacesResponse = {
 }
 
 export const discoverSpacesQuery = gql`
-  ${SpaceFragment}
+  ${SpaceOverviewFragment}
 
   query DiscoverSpaces($topicIds: [UUID], $location: String, $skillIds: [UUID], $offset: Int, $limit: Int) {
     discoverSpaces(topicIds: $topicIds, location: $location, skillIds: $skillIds, offset: $offset, limit: $limit) {
@@ -96,7 +114,7 @@ export const discoverSpacesQuery = gql`
       spaces {
         totalResults
         data {
-          ...FullSpace
+          ...OverviewSpace
         }
       }
     }
@@ -153,7 +171,7 @@ export type JoinSpaceResponse = {
 }
 
 export const mySpaceQuery = gql`
-  ${SpaceFragment}
+  ${SpaceOverviewFragment}
 
   query MySpaces {
     mySpaces {
@@ -162,7 +180,7 @@ export const mySpaceQuery = gql`
       spaces {
         totalResults
         data {
-          ...FullSpace
+          ...OverviewSpace
         }
       }
     }
