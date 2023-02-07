@@ -3,8 +3,6 @@ import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StatusBar, StyleSheet } from 'react-native'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
 import DefaultLayout from '@holi/core/DefaultLayout'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import MoreOptionsButtonWithModal from '@holi/core/components/MoreOptionsButtonWithModal'
@@ -20,7 +18,6 @@ import SpaceDashboardModal from '@holi/core/screens/spaces/components/SpaceDashb
 import SpaceDetailView from '@holi/core/screens/spaces/components/SpaceDetailView'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 
@@ -30,9 +27,7 @@ export type SpaceDetailsParams = {
 
 const { useParam } = createParam<SpaceDetailsParams>()
 
-type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
-
-const SpaceDetails: React.VFC<ScreenProps> = () => {
+const SpaceDetails: React.VFC = () => {
   const [spaceId] = useParam('spaceId')
 
   const { t } = useTranslation()

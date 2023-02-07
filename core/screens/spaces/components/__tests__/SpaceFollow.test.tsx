@@ -98,8 +98,10 @@ const AUTH_CONTEXT = {
   setUserLoggedOut: jest.fn(),
 }
 
-jest.mock('@holi/core/navigation/hooks/useParam', () => () => ({
-  useParam: () => [SPACE_ID, jest.fn()],
+jest.mock('@holi/core/navigation/hooks/useParam', () => ({
+  createParam: () => ({
+    useParam: () => [SPACE_ID, jest.fn()],
+  }),
 }))
 
 describe('Space follow button', () => {

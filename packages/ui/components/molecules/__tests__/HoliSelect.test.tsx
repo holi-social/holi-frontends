@@ -4,6 +4,10 @@ import React from 'react'
 import HoliSelect from '@holi/ui/components/molecules/HoliSelect'
 import { MultiSelect, SingleSelect } from '@holi/ui/components/molecules/__stories__/HoliSelect.stories'
 
+// Solves issue with `ReferenceError: You are trying to `import` a file after the Jest environment has been torn down`
+// fix from: https://stackoverflow.com/questions/50793885/referenceerror-you-are-trying-to-import-a-file-after-the-jest-environment-has
+jest.useFakeTimers()
+
 describe('HoliSelect', () => {
   describe('SingleSelect', () => {
     it('renders correctly when closed', () => {
