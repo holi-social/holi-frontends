@@ -8,6 +8,7 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import CreateSpaceCoverImage from '@holi/core/screens/spaces/components/CreateSpaceCoverImage'
 import CreateSpaceName from '@holi/core/screens/spaces/components/CreateSpaceName'
 import CreateSpaceTopics from '@holi/core/screens/spaces/components/CreateSpaceTopics'
+import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -50,31 +51,33 @@ const CreateSpace: React.VFC = () => {
   }
 
   return (
-    <View style={styles.wrapper}>
-      <DefaultLayout style={styles.defaultLayout} scrollView={false} headerOverlap>
-        <View style={[mixins.container, styles.container]}>
-          <HoliWizard
-            isBackButtonAvailable={true}
-            submitButtonLabel={t('spaces.create.space.button')}
-            onNextPress={() => handleNextButtonPress()}
-            onSubmit={() => handleSubmitButtonPress()}
-          >
-            <CreateSpaceName
-              onChangeSpaceName={(value: string) => {
-                handleSpaceNameChange(value)
-              }}
-              onChangeSpaceGoal={(value: string) => {
-                handleSpaceGoalChange(value)
-              }}
-              spaceName={spaceName}
-              spaceGoal={spaceGoal}
-            />
-            <CreateSpaceTopics />
-            <CreateSpaceCoverImage />
-          </HoliWizard>
-        </View>
-      </DefaultLayout>
-    </View>
+    <SpaceTermContextProvider>
+      <View style={styles.wrapper}>
+        <DefaultLayout style={styles.defaultLayout} scrollView={false} headerOverlap>
+          <View style={[mixins.container, styles.container]}>
+            <HoliWizard
+              isBackButtonAvailable={true}
+              submitButtonLabel={t('spaces.create.space.button')}
+              onNextPress={() => handleNextButtonPress()}
+              onSubmit={() => handleSubmitButtonPress()}
+            >
+              <CreateSpaceName
+                onChangeSpaceName={(value: string) => {
+                  handleSpaceNameChange(value)
+                }}
+                onChangeSpaceGoal={(value: string) => {
+                  handleSpaceGoalChange(value)
+                }}
+                spaceName={spaceName}
+                spaceGoal={spaceGoal}
+              />
+              <CreateSpaceTopics />
+              <CreateSpaceCoverImage />
+            </HoliWizard>
+          </View>
+        </DefaultLayout>
+      </View>
+    </SpaceTermContextProvider>
   )
 }
 
