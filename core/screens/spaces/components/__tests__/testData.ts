@@ -2,6 +2,7 @@ import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceLink, SpaceLinkType, SpaceMember, Task } from '@holi/core/screens/spaces/types'
 import { SpaceSection, SpaceSectionType } from '@holi/core/screens/spaces/types'
 import { Skill, Topic, User } from '@holi/core/screens/userprofile/types'
+import { Paged } from '@holi/core/types'
 
 const topics: Topic[] = [
   { id: 'ANIMAL_WELFARE', title: 'Animal Welfare', slug: 'animal-welfare', isDiscoverSpacesDefault: true },
@@ -36,10 +37,15 @@ export const userWithLocation = {
   location: 'Hamburg, Germany',
 }
 
-const memberships = [1, 2, 3].map((id) => ({
+const members = [1, 2, 3].map((id) => ({
   ...membership,
   id: `membership-${id}`,
 }))
+
+const pagedMembers: Paged<SpaceMember> = {
+  totalResults: 3,
+  data: members,
+}
 
 export const task: Task = {
   id: 'id',
@@ -77,7 +83,7 @@ export const space: Space = {
   title: 'Space title',
   description: 'Space description',
   mainImage: 'https://www.example.com/space1.jpg',
-  memberships,
+  members: pagedMembers,
   creator: user,
   created: '2022-11-21T12:34:56Z',
   location: 'Hamburg, Germany',
