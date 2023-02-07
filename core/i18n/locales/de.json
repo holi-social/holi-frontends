@@ -223,6 +223,7 @@
   "spaces.create.space.stepTwo.title": "Wähle Themen, die Dein Space behandeln soll",
   "spaces.create.space.title": "Space erstellen",
   "spaces.create.space.topic.search.hint": "Wählen mindestens ein und maximal sechs Themen aus",
+  "spaces.create.space.topic.search.placeholder": "Thema suchen",
   "spaces.dashboard.description": "Ein Ort für die Zusammenarbeit von Team-Mitgliedern. Hier findest Du hilfreiche Tools für Kooperation und Engagement.",
   "spaces.dashboard.openBtn": "Dashboard öffnen",
   "spaces.dashboard.title": "Dashboard",

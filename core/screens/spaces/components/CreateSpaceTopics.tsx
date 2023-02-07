@@ -1,14 +1,16 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { Topic } from '@holi/core/screens/userprofile/types'
+import { termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import useWizard from '@holi/ui/components/organisms/HoliWizard/useWizard'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -19,16 +21,48 @@ export type CreateSpaceTopicsProps = {
 const CreateSpaceTopics: React.VFC = () => {
   const [filterString, setFilterString] = useState<string>('')
   const [selectedTopics, setSelectedTopics] = useState<Topic[]>([])
+  const [orderedTerms, setOrderedTerms] = useState<Topic[]>([])
+  const [filteredTopics, setFilteredTopics] = useState<Topic[]>([])
   const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
   const mixins = useStyleMixins()
   const { t } = useTranslation()
   const { topics } = useContext(SpaceTermContext)
+  const { setNextButtonEnabled } = useWizard()
+
+  useEffect(() => {
+    if (selectedTopics.length > 0) {
+      setNextButtonEnabled(true)
+    } else {
+      setNextButtonEnabled(false)
+    }
+  }, [selectedTopics, setNextButtonEnabled])
+
+  useEffect(() => {
+    /*
+    We need to determine the right order when opening the layer:
+    * currently selected items go to the top, alphabetically sorted by translation
+    * currently unselected items go below, alphabetically sorted by translation
+    This order is kept until the selection process is done and the layer is closed.
+    */
+    const unselectedTopics = topics && topics.filter((topic) => !selectedTopics.find((item) => item.id === topic.id))
+    setOrderedTerms([...selectedTopics.sort(termsByTitleComparator), ...unselectedTopics.sort(termsByTitleComparator)])
+  }, [topics, selectedTopics])
+
+  useEffect(
+    () =>
+      setFilteredTopics(
+        filterString === ''
+          ? orderedTerms
+          : orderedTerms.filter((topic: Topic) => topic.title.toLowerCase().includes(filterString.toLowerCase()))
+      ),
+    [orderedTerms, filterString]
+  )
 
   const updateValues = (topic: Topic) => {
     if (selectedTopics.includes(topic)) {
       // remove the value
       setSelectedTopics((previousTopics: Topic[]) => previousTopics.filter((previousTopic) => previousTopic !== topic))
-    } else {
+    } else if (selectedTopics.length < 6) {
       // add the value
       setSelectedTopics((previousTopics: Topic[]) => [...previousTopics, topic])
     }
@@ -60,9 +94,9 @@ const CreateSpaceTopics: React.VFC = () => {
           </HoliText>
           <HoliText style={styles.subTitle}>{t('spaces.create.space.stepTwo.subTitle')}</HoliText>
           <HoliTextInput
-            accessibilityLabel={'Search a topic'}
+            accessibilityLabel={t('spaces.create.space.topic.search.placeholder')}
             value={filterString}
-            placeholder={'Search a topic'}
+            placeholder={t('spaces.create.space.topic.search.placeholder')}
             onChange={(text: string) => setFilterString(text)}
             trailingIcon="search"
             style={styles.input}
@@ -75,9 +109,9 @@ const CreateSpaceTopics: React.VFC = () => {
             </HoliText>
           </View>
           <View style={styles.topicsListContainer}>
-            {topics && (
+            {filteredTopics && (
               <FlatList
-                data={topics}
+                data={filteredTopics}
                 renderItem={renderTopic}
                 numColumns={2}
                 columnWrapperStyle={styles.flatlistColumnWrapper}
