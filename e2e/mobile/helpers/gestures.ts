@@ -21,8 +21,8 @@ interface XY {
  */
 const SWIPE_DIRECTION_IOS = {
   down: {
-    start: { x: 50, y: 15 },
-    end: { x: 50, y: 85 },
+    start: { x: 2, y: 40 },
+    end: { x: 2, y: 60 },
   },
   left: {
     start: { x: 85, y: 50 },
@@ -33,8 +33,8 @@ const SWIPE_DIRECTION_IOS = {
     end: { x: 85, y: 50 },
   },
   up: {
-    start: { x: 50, y: 60 },
-    end: { x: 50, y: 40 },
+    start: { x: 2, y: 60 },
+    end: { x: 2, y: 40 },
   },
 }
 
