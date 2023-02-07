@@ -9,6 +9,7 @@ import CreateSpaceCoverImage from '@holi/core/screens/spaces/components/CreateSp
 import CreateSpaceName from '@holi/core/screens/spaces/components/CreateSpaceName'
 import CreateSpaceTopics from '@holi/core/screens/spaces/components/CreateSpaceTopics'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
+import { Topic } from '@holi/core/screens/userprofile/types'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -19,6 +20,7 @@ const CreateSpace: React.VFC = () => {
   const mixins = useStyleMixins()
   const [spaceName, setSpaceName] = useState<string>('')
   const [spaceGoal, setSpaceGoal] = useState<string>('')
+  const [spaceTopics, setSpaceTopics] = useState<Topic[]>([])
 
   useLayoutEffect(
     () =>
@@ -50,6 +52,11 @@ const CreateSpace: React.VFC = () => {
     setSpaceGoal(value)
   }
 
+  const handleSpaceTopicsSelection = (topics: Topic[]) => {
+    setSpaceTopics(topics)
+    console.log(spaceTopics.length)
+  }
+
   return (
     <SpaceTermContextProvider>
       <View style={styles.wrapper}>
@@ -71,7 +78,7 @@ const CreateSpace: React.VFC = () => {
                 spaceName={spaceName}
                 spaceGoal={spaceGoal}
               />
-              <CreateSpaceTopics />
+              <CreateSpaceTopics onSelectSpaceTopics={handleSpaceTopicsSelection} />
               <CreateSpaceCoverImage />
             </HoliWizard>
           </View>

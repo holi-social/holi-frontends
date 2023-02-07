@@ -15,10 +15,10 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type CreateSpaceTopicsProps = {
-  topics: Topic[]
+  onSelectSpaceTopics: (topics: Topic[]) => void
 }
 
-const CreateSpaceTopics: React.VFC = () => {
+const CreateSpaceTopics: React.VFC<CreateSpaceTopicsProps> = ({ onSelectSpaceTopics }: CreateSpaceTopicsProps) => {
   const [filterString, setFilterString] = useState<string>('')
   const [selectedTopics, setSelectedTopics] = useState<Topic[]>([])
   const [orderedTerms, setOrderedTerms] = useState<Topic[]>([])
@@ -35,7 +35,8 @@ const CreateSpaceTopics: React.VFC = () => {
     } else {
       setNextButtonEnabled(false)
     }
-  }, [selectedTopics, setNextButtonEnabled])
+    onSelectSpaceTopics(selectedTopics)
+  }, [selectedTopics, setNextButtonEnabled, onSelectSpaceTopics])
 
   useEffect(() => {
     /*
