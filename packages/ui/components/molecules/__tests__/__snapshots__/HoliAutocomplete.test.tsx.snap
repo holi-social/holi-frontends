@@ -226,7 +226,16 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
           </RNSVGSvgView>
         </View>
       </View>
-      
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "marginTop": 6,
+          }
+        }
+      >
+        
+      </View>
     </View>
   </View>
   <View
@@ -468,46 +477,55 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
       </View>
       <View
         style={
-          Array [
-            Object {
-              "marginTop": 6,
-            },
-            Object {
-              "alignSelf": "stretch",
-              "width": "100%",
-            },
-          ]
+          Object {
+            "flexDirection": "row",
+            "marginTop": 6,
+          }
         }
       >
-        <Text
-          accessible={false}
-          selectable={true}
+        <View
           style={
             Array [
               Object {
-                "color": "#222326",
-                "fontFamily": "Circular Std Book",
-                "fontWeight": "400",
+                "flex": 4,
               },
               Object {
-                "fontSize": 12,
-                "lineHeight": 14.399999999999999,
+                "alignSelf": "stretch",
+                "width": "100%",
               },
-              false,
-              Array [
-                Object {
-                  "color": "#6f7081",
-                },
-                Object {
-                  "color": "#cc1820",
-                },
-              ],
             ]
           }
-          testID="holi-text-input-error-message"
         >
-          Error retrieving suggestions
-        </Text>
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              Array [
+                Object {
+                  "color": "#222326",
+                  "fontFamily": "Circular Std Book",
+                  "fontWeight": "400",
+                },
+                Object {
+                  "fontSize": 12,
+                  "lineHeight": 14.399999999999999,
+                },
+                false,
+                Array [
+                  Object {
+                    "color": "#6f7081",
+                  },
+                  Object {
+                    "color": "#cc1820",
+                  },
+                ],
+              ]
+            }
+            testID="holi-text-input-error-message"
+          >
+            Error retrieving suggestions
+          </Text>
+        </View>
       </View>
     </View>
   </View>

@@ -104,44 +104,53 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
-            "marginTop": 6,
-          },
-          Object {
-            "alignSelf": "stretch",
-            "width": "100%",
-          },
-        ]
+        Object {
+          "flexDirection": "row",
+          "marginTop": 6,
+        }
       }
     >
-      <Text
-        accessible={false}
-        selectable={true}
+      <View
         style={
           Array [
             Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
+              "flex": 4,
             },
             Object {
-              "fontSize": 12,
-              "lineHeight": 14.399999999999999,
+              "alignSelf": "stretch",
+              "width": "100%",
             },
-            false,
-            Array [
-              Object {
-                "color": "#6f7081",
-              },
-              Object {},
-            ],
           ]
         }
-        testID="holi-text-inputfalse-message"
       >
-        Helper Text
-      </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              Object {
+                "fontSize": 12,
+                "lineHeight": 14.399999999999999,
+              },
+              false,
+              Array [
+                Object {
+                  "color": "#6f7081",
+                },
+                Object {},
+              ],
+            ]
+          }
+          testID="holi-text-inputfalse-message"
+        >
+          Helper Text
+        </Text>
+      </View>
     </View>
   </View>
 </View>
@@ -248,44 +257,53 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
     </View>
     <View
       style={
-        Array [
-          Object {
-            "marginTop": 6,
-          },
-          Object {
-            "alignSelf": "stretch",
-            "width": "100%",
-          },
-        ]
+        Object {
+          "flexDirection": "row",
+          "marginTop": 6,
+        }
       }
     >
-      <Text
-        accessible={false}
-        selectable={true}
+      <View
         style={
           Array [
             Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
+              "flex": 4,
             },
             Object {
-              "fontSize": 12,
-              "lineHeight": 14.399999999999999,
+              "alignSelf": "stretch",
+              "width": "100%",
             },
-            false,
-            Array [
-              Object {
-                "color": "#6f7081",
-              },
-              Object {},
-            ],
           ]
         }
-        testID="holi-text-inputfalse-message"
       >
-        Helper Text
-      </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              Object {
+                "fontSize": 12,
+                "lineHeight": 14.399999999999999,
+              },
+              false,
+              Array [
+                Object {
+                  "color": "#6f7081",
+                },
+                Object {},
+              ],
+            ]
+          }
+          testID="holi-text-inputfalse-message"
+        >
+          Helper Text
+        </Text>
+      </View>
     </View>
   </View>
 </View>
@@ -392,44 +410,53 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
     </View>
     <View
       style={
-        Array [
-          Object {
-            "marginTop": 6,
-          },
-          Object {
-            "alignSelf": "stretch",
-            "width": "100%",
-          },
-        ]
+        Object {
+          "flexDirection": "row",
+          "marginTop": 6,
+        }
       }
     >
-      <Text
-        accessible={false}
-        selectable={true}
+      <View
         style={
           Array [
             Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
+              "flex": 4,
             },
             Object {
-              "fontSize": 12,
-              "lineHeight": 14.399999999999999,
+              "alignSelf": "stretch",
+              "width": "100%",
             },
-            false,
-            Array [
-              Object {
-                "color": "#6f7081",
-              },
-              Object {},
-            ],
           ]
         }
-        testID="holi-text-inputfalse-message"
       >
-        Helper Text
-      </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              Object {
+                "fontSize": 12,
+                "lineHeight": 14.399999999999999,
+              },
+              false,
+              Array [
+                Object {
+                  "color": "#6f7081",
+                },
+                Object {},
+              ],
+            ]
+          }
+          testID="holi-text-inputfalse-message"
+        >
+          Helper Text
+        </Text>
+      </View>
     </View>
   </View>
 </View>
@@ -576,43 +603,52 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
-            "marginTop": 6,
-          },
-          Object {
-            "maxWidth": "100%",
-          },
-        ]
+        Object {
+          "flexDirection": "row",
+          "marginTop": 6,
+        }
       }
     >
-      <Text
-        accessible={false}
-        selectable={true}
+      <View
         style={
           Array [
             Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
+              "flex": 4,
             },
             Object {
-              "fontSize": 12,
-              "lineHeight": 14.399999999999999,
+              "maxWidth": "100%",
             },
-            false,
-            Array [
-              Object {
-                "color": "#6f7081",
-              },
-              Object {},
-            ],
           ]
         }
-        testID="holi-text-inputfalse-message"
       >
-        Helper Text
-      </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              Object {
+                "fontSize": 12,
+                "lineHeight": 14.399999999999999,
+              },
+              false,
+              Array [
+                Object {
+                  "color": "#6f7081",
+                },
+                Object {},
+              ],
+            ]
+          }
+          testID="holi-text-inputfalse-message"
+        >
+          Helper Text
+        </Text>
+      </View>
     </View>
   </View>
 </View>
@@ -839,46 +875,55 @@ exports[`HoliTextInput renders correctly with error 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
-            "marginTop": 6,
-          },
-          Object {
-            "alignSelf": "stretch",
-            "width": "100%",
-          },
-        ]
+        Object {
+          "flexDirection": "row",
+          "marginTop": 6,
+        }
       }
     >
-      <Text
-        accessible={false}
-        selectable={true}
+      <View
         style={
           Array [
             Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
+              "flex": 4,
             },
             Object {
-              "fontSize": 12,
-              "lineHeight": 14.399999999999999,
+              "alignSelf": "stretch",
+              "width": "100%",
             },
-            false,
-            Array [
-              Object {
-                "color": "#6f7081",
-              },
-              Object {
-                "color": "#cc1820",
-              },
-            ],
           ]
         }
-        testID="holi-text-input-error-message"
       >
-        Validation Error Text
-      </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              Object {
+                "fontSize": 12,
+                "lineHeight": 14.399999999999999,
+              },
+              false,
+              Array [
+                Object {
+                  "color": "#6f7081",
+                },
+                Object {
+                  "color": "#cc1820",
+                },
+              ],
+            ]
+          }
+          testID="holi-text-input-error-message"
+        >
+          Validation Error Text
+        </Text>
+      </View>
     </View>
   </View>
 </View>
@@ -1056,44 +1101,53 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
-            "marginTop": 6,
-          },
-          Object {
-            "alignSelf": "stretch",
-            "width": "100%",
-          },
-        ]
+        Object {
+          "flexDirection": "row",
+          "marginTop": 6,
+        }
       }
     >
-      <Text
-        accessible={false}
-        selectable={true}
+      <View
         style={
           Array [
             Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
+              "flex": 4,
             },
             Object {
-              "fontSize": 12,
-              "lineHeight": 14.399999999999999,
+              "alignSelf": "stretch",
+              "width": "100%",
             },
-            false,
-            Array [
-              Object {
-                "color": "#6f7081",
-              },
-              Object {},
-            ],
           ]
         }
-        testID="holi-text-inputfalse-message"
       >
-        Helper Text
-      </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              Object {
+                "fontSize": 12,
+                "lineHeight": 14.399999999999999,
+              },
+              false,
+              Array [
+                Object {
+                  "color": "#6f7081",
+                },
+                Object {},
+              ],
+            ]
+          }
+          testID="holi-text-inputfalse-message"
+        >
+          Helper Text
+        </Text>
+      </View>
     </View>
   </View>
 </View>
@@ -1201,44 +1255,53 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
-            "marginTop": 6,
-          },
-          Object {
-            "alignSelf": "stretch",
-            "width": "100%",
-          },
-        ]
+        Object {
+          "flexDirection": "row",
+          "marginTop": 6,
+        }
       }
     >
-      <Text
-        accessible={false}
-        selectable={true}
+      <View
         style={
           Array [
             Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
+              "flex": 4,
             },
             Object {
-              "fontSize": 12,
-              "lineHeight": 14.399999999999999,
+              "alignSelf": "stretch",
+              "width": "100%",
             },
-            false,
-            Array [
-              Object {
-                "color": "#6f7081",
-              },
-              Object {},
-            ],
           ]
         }
-        testID="holi-text-inputfalse-message"
       >
-        Helper Text
-      </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              Object {
+                "fontSize": 12,
+                "lineHeight": 14.399999999999999,
+              },
+              false,
+              Array [
+                Object {
+                  "color": "#6f7081",
+                },
+                Object {},
+              ],
+            ]
+          }
+          testID="holi-text-inputfalse-message"
+        >
+          Helper Text
+        </Text>
+      </View>
     </View>
   </View>
 </View>
@@ -1345,44 +1408,53 @@ exports[`HoliTextInput renders correctly without label 1`] = `
     </View>
     <View
       style={
-        Array [
-          Object {
-            "marginTop": 6,
-          },
-          Object {
-            "alignSelf": "stretch",
-            "width": "100%",
-          },
-        ]
+        Object {
+          "flexDirection": "row",
+          "marginTop": 6,
+        }
       }
     >
-      <Text
-        accessible={false}
-        selectable={true}
+      <View
         style={
           Array [
             Object {
-              "color": "#222326",
-              "fontFamily": "Circular Std Book",
-              "fontWeight": "400",
+              "flex": 4,
             },
             Object {
-              "fontSize": 12,
-              "lineHeight": 14.399999999999999,
+              "alignSelf": "stretch",
+              "width": "100%",
             },
-            false,
-            Array [
-              Object {
-                "color": "#6f7081",
-              },
-              Object {},
-            ],
           ]
         }
-        testID="holi-text-inputfalse-message"
       >
-        Helper Text
-      </Text>
+        <Text
+          accessible={false}
+          selectable={true}
+          style={
+            Array [
+              Object {
+                "color": "#222326",
+                "fontFamily": "Circular Std Book",
+                "fontWeight": "400",
+              },
+              Object {
+                "fontSize": 12,
+                "lineHeight": 14.399999999999999,
+              },
+              false,
+              Array [
+                Object {
+                  "color": "#6f7081",
+                },
+                Object {},
+              ],
+            ]
+          }
+          testID="holi-text-inputfalse-message"
+        >
+          Helper Text
+        </Text>
+      </View>
     </View>
   </View>
 </View>
