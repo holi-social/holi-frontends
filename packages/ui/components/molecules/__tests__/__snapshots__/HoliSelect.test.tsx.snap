@@ -278,6 +278,14 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           </View>
         </View>
       </View>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+            "marginTop": 6,
+          }
+        }
+      />
     </View>
   </View>
   <RCTScrollView
@@ -1604,6 +1612,14 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           </View>
         </View>
       </View>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+            "marginTop": 6,
+          }
+        }
+      />
     </View>
   </View>
   <RCTScrollView
@@ -2857,6 +2873,14 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
           </View>
         </View>
       </View>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+            "marginTop": 6,
+          }
+        }
+      />
     </View>
   </View>
 </View>
@@ -3140,6 +3164,14 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           </View>
         </View>
       </View>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+            "marginTop": 6,
+          }
+        }
+      />
     </View>
   </View>
   <RCTScrollView
@@ -4441,6 +4473,14 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           </View>
         </View>
       </View>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+            "marginTop": 6,
+          }
+        }
+      />
     </View>
   </View>
   <RCTScrollView
@@ -5002,6 +5042,14 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
           </View>
         </View>
       </View>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+            "marginTop": 6,
+          }
+        }
+      />
     </View>
   </View>
 </View>
@@ -5277,6 +5325,14 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
           </View>
         </View>
       </View>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+            "marginTop": 6,
+          }
+        }
+      />
     </View>
   </View>
 </View>
@@ -5560,6 +5616,14 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           </View>
         </View>
       </View>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+            "marginTop": 6,
+          }
+        }
+      />
     </View>
   </View>
   <RCTScrollView
