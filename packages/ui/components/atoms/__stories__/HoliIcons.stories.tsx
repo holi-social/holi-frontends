@@ -20,7 +20,7 @@ export const Primary = ({ ...args }) => (
 )
 Primary.args = {
   icon: 'home-smile-2',
-  color: colors.positivepurple,
+  color: colors.brandColorB30,
   filled: false,
   size: 50,
 }

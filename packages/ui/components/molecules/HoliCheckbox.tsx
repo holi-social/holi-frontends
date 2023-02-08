@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   checkboxFocused: {
-    borderColor: colors.borderColorSecondary,
+    borderColor: colors.brandColorB30,
   },
   checkboxError: {
     borderWidth: 2,

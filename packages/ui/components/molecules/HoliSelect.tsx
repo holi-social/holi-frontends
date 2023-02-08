@@ -282,14 +282,14 @@ const getStyles = (textInputHeight: number) =>
     textInputOpened: {
       borderBottomLeftRadius: 0,
       borderBottomRightRadius: 0,
-      borderColor: colors.borderColorSecondary,
+      borderColor: colors.brandColorB30,
     },
     textInputLabelOpened: {
-      color: colors.secondaryColor,
+      color: colors.brandColorB30,
     },
     optionsMenu: {
       maxHeight: LIST_ITEM_HEIGHT * 4,
-      borderColor: colors.borderColorSecondary,
+      borderColor: colors.brandColorB30,
       borderWidth: 2,
       borderTopWidth: 0,
       borderBottomLeftRadius: 4,

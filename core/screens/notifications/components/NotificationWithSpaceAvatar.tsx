@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   readStatus: {
-    backgroundColor: colors.secondaryColor,
+    backgroundColor: colors.brandColorB30,
     height: 8,
     width: 8,
     borderRadius: 4,

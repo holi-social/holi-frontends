@@ -130,28 +130,28 @@ const getStyles = (checked = false) =>
       marginLeft: 1.5,
     },
     hovered: {
-      backgroundColor: tinycolor(checked ? colors.secondaryColor : colors.backgroundColorGrey)
+      backgroundColor: tinycolor(checked ? colors.brandColorB30 : colors.backgroundColorGrey)
         .darken(3)
         .toString(),
     },
     hoveredText: {
-      color: checked ? colors.fontColorWhite : colors.secondaryColor,
+      color: checked ? colors.fontColorWhite : colors.brandColorB30,
     },
     focused: {
-      outlineColor: colors.secondaryColor,
+      outlineColor: colors.brandColorB30,
       ...Platform.select({
         web: {
-          boxShadow: `0px 0px 0.7px 0.7px ${checked ? colors.secondaryColor : colors.backgroundColorGrey}`,
+          boxShadow: `0px 0px 0.7px 0.7px ${checked ? colors.brandColorB30 : colors.backgroundColorGrey}`,
         },
       }),
     },
     pressed: {
-      backgroundColor: tinycolor(checked ? colors.secondaryColor : colors.backgroundColorGrey)
+      backgroundColor: tinycolor(checked ? colors.brandColorB30 : colors.backgroundColorGrey)
         .lighten(3)
         .toString(),
     },
     checked: {
-      backgroundColor: colors.secondaryColor,
+      backgroundColor: colors.brandColorB30,
       borderRadius: 24,
     },
   })

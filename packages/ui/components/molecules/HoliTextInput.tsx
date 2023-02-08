@@ -143,7 +143,7 @@ const HoliTextInput = ({
   })
 
   const iconColor = (() => {
-    if (isFocused) return colors.secondaryColor
+    if (isFocused) return colors.brandColorB30
     if (isHovered) return tinycolor(colors.softblackLight).darken(45).toString()
     return tinycolor(colors.foreground30).lighten(80).toString()
   })()
@@ -284,7 +284,7 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: colors.backgroundColor,
     },
     inputWrapperFocused: {
-      borderColor: colors.borderColorSecondary,
+      borderColor: colors.brandColorB30,
     },
     inputWrapperDisabled: {
       borderColor: colors.borderColorBlackDisabled,
@@ -309,7 +309,7 @@ const getStyles = (theme: HoliTheme) =>
       ...Platform.select({
         web: {
           overflowX: 'hidden',
-          caretColor: colors.secondaryColor,
+          caretColor: colors.brandColorB30,
         },
       }),
     },
@@ -335,7 +335,7 @@ const getStyles = (theme: HoliTheme) =>
       bottom: -8,
     },
     inputCharsTextWrapperFocused: {
-      backgroundColor: colors.secondaryColor,
+      backgroundColor: colors.brandColorB30,
     },
     inputCharsTextWrapperDisabled: {
       backgroundColor: colors.fontColorBlackDisabled,
@@ -356,7 +356,7 @@ const getStyles = (theme: HoliTheme) =>
       color: colors.foreground30,
     },
     labelFocused: {
-      color: colors.secondaryColor,
+      color: colors.brandColorB30,
     },
     labelHasValidationErrors: {
       color: colors.error30,

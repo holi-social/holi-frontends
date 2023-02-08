@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   inlineMention: {
-    color: colors.fontColorHighlighted,
+    color: colors.brandColorB30,
     fontWeight: '600',
   },
   inlineHashtag: {

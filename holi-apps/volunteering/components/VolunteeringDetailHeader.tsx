@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   categoryText: {
-    color: colors.fontColorHighlighted,
+    color: colors.brandColorB30,
   },
   titleText: {
     marginTop: 8,

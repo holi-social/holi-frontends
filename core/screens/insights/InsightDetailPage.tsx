@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     ...Platform.select({ web: { paddingHorizontal: 20 } }),
   },
   categoryHeadline: {
-    color: colors.fontColorHighlighted,
+    color: colors.brandColorB30,
   },
   insightHeadline: {
     marginTop: 8,

@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'android' ? Number(vars.topBarHeight) : 0,
   },
   searchQuery: {
-    color: colors.fontColorHighlighted,
+    color: colors.brandColorB30,
   },
   searchFilter: {
     flexDirection: 'row',

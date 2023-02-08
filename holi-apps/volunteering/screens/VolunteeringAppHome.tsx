@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
   },
   dot: {
-    backgroundColor: colors.positivepurple,
+    backgroundColor: colors.brandColorB30,
     height: 12,
     width: 12,
     borderRadius: 6,

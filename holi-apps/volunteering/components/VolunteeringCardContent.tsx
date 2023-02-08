@@ -71,6 +71,6 @@ const styles = StyleSheet.create({
     color: colors.fontColorGrey,
   },
   categoryText: {
-    color: colors.fontColorHighlighted,
+    color: colors.brandColorB30,
   },
 })

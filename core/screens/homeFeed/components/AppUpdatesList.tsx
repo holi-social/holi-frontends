@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   seeMoreText: {
-    color: colors.secondaryColor,
+    color: colors.brandColorB30,
     textAlign: 'center',
     marginTop: 16,
   },

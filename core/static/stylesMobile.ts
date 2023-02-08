@@ -16,7 +16,7 @@ const styles: Record<string, MixedStyleDeclaration> = {
     marginBottom: 20,
   },
   a: {
-    color: colors.fontColorHighlighted,
+    color: colors.brandColorB30,
   },
   p: {
     padding: 0,
