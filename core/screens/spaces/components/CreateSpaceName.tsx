@@ -57,7 +57,7 @@ const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
           <HoliTextInput
             placeholder={t('spaces.create.space.name.input.placeholder')}
             inputLabel={t('spaces.create.space.name.label')}
-            maxNoOfCharacters={10}
+            maxNoOfCharacters={60}
             showCharactorCount={true}
             validationErrorText={nameError}
             value={spaceName}
@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
   contentStyle: {
     flex: 1,
     backgroundColor: colors.backgroundColorGreyLight,
-    width: '100%',
     ...Platform.select({
       web: {
         minHeight: '100vh',
