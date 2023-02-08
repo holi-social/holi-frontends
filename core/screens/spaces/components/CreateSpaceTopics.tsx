@@ -103,8 +103,7 @@ const CreateSpaceTopics: React.VFC<CreateSpaceTopicsProps> = ({ onSelectSpaceTop
             style={styles.input}
           />
           <View style={styles.hintContainer}>
-            {/* Replace the info icon */}
-            <HoliIcon icon={'error-warning'} size={14} color={colors.fontColorBlack} style={styles.infoIcon} />
+            <HoliIcon icon={'information'} size={14} color={colors.fontColorBlack} style={styles.infoIcon} />
             <HoliText size="small" style={styles.hint}>
               {t('spaces.create.space.topic.search.hint')}
             </HoliText>
