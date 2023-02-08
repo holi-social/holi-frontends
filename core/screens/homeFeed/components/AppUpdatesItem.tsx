@@ -70,6 +70,7 @@ const getStyles = (screenWidth: number) =>
     mainImage: {
       aspectRatio: 1,
       borderRadius: 8,
+      width: '100%',
       height: Platform.OS === 'web' ? '100%' : 'auto',
     },
   })
