@@ -3,13 +3,52 @@
 // - as js-variables in packages/styles/globalVars.ts for react-native styling
 
 // Important !!!
-// run `yarn workspace @holi/ui run generate-style-vars` on every file change
+// run `yarn ui:generate-style-vars` on every file change
 // TODO: add to dev-watcher
 
 /*
-This upper section is for main design colors and colors that are used multiple times in the variables below.
-Any value that is only used in one variable below can be written inline in that variable.
+New colors
 */
+
+$foreground30: #262424;
+$foreground20: #787777;
+$foreground10: #BFBEBE;
+
+$background30: #EBEBEB;
+$background20: #F5F5F5;
+$background10: #FFFFFF;
+
+$brandColorA30: #F5EF3F;
+$brandColorA20: #FDFD80;
+$brandColorA10: #FEFEC7;
+
+$brandColorB30: #6267E7;
+$brandColorB20: #8B95FF;
+$brandColorB10: #E8EAFF;
+
+$brandColorC30: #86DF54;
+$brandColorC20: #ABFF8B;
+$brandColorC10: #D3FFC3;
+
+$brandColorD30: #4ABEF0;
+$brandColorD20: #90DDFF;
+$brandColorD10: #D7F3FF;
+
+$warning30: #EC9D04;
+$warning20: #FFC046;
+$warning10: #FFEBD2;
+
+$error30: #CC1820;
+$error20: #FF6469;
+$error10: #FFEBEC;
+
+// $foreground30at48Percent: #2222227A;
+$foreground30at48Percent: #2624247A;
+// $foreground30at32Percent: #22222252;
+$foreground30at32Percent: #26242452;
+$foreground30at12Percent: #2222221F;
+
+
 $softblack: #222326;
 $softblackLight: #eff0f1;
 $foreground10: #b0b0b0;
