@@ -69,7 +69,7 @@ const Login: React.VFC<ScreenProps> = () => {
   }
 
   return (
-    <DefaultLayout>
+    <DefaultLayout headerOverlap={true}>
       <LoginRegistrationContainer>
         <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} />
 

@@ -104,18 +104,18 @@ test.describe('@HomeScreen', () => {
 
   test('should be able to visit volunteering app from app updates', async ({ page }) => {
     // click first element in ScrollView
-    await clickElementByTestId(page, `volunteering-updates-item`)
+    await clickElementByTestId(page, 'volunteering-updates-item')
 
     // navigate to article in volunteering app
-    await waitForElementByTestId(page, `volunteering-detailview-container`)
-    expect(page.url()).toContain(`/apps/volunteering/engagement`)
+    await waitForElementByTestId(page, 'volunteering-detailview-container')
+    expect(page.url()).toContain('/apps/volunteering/engagement')
 
     // navigate back
-    await clickElementByTestId(page, `nav-button-back`)
+    await clickElementByTestId(page, 'nav-button-back')
 
     // click on "see more" / navigate to volunteering app
-    await clickElementByTestId(page, `volunteering-updates-load-more-button`)
-    await waitForElementByTestId(page, `volunteering-app-home`)
+    await clickElementByTestId(page, 'volunteering-updates-load-more-button')
+    await waitForElementByTestId(page, 'volunteering-list-container')
   })
 })
 
