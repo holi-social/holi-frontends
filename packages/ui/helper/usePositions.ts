@@ -11,8 +11,8 @@ import { useRefList } from './useRefList'
  * @Usage:
  * ```
   const someComponent = () => {
-    const { scrollToProps } = usePositions()
-    onst propsFor = (id: string) => scrollToProps(id, onFocus)
+    const { getScrollToProps } = usePositions()
+    onst propsFor = (id: string) => getScrollToProps(id, onFocus)
 
     const onFocus = (pos: Position, ref: View, id: string) => {
       console.log('Focus on', id, ' with position:', pos)
@@ -48,7 +48,7 @@ export const usePositions = () => {
     return { x, y }
   }
 
-  const scrollToProps = (
+  const getScrollToProps = (
     id: string,
     onFocus?: (pos: Position, ref: View, id: string) => void,
     onBlur?: (pos: Position, ref: View, id: string) => void
@@ -73,6 +73,6 @@ export const usePositions = () => {
 
   return {
     getCurrentPos,
-    scrollToProps,
+    getScrollToProps,
   }
 }

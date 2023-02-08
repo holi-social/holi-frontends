@@ -40,7 +40,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
   const [fieldErrors, setFieldErrors] = useState<{ [x: string]: string[] | undefined }>({})
   const [pickedAvatar, setPickedAvatar] = useState<ImageInfo>()
   const scrollViewRef = useRef<ScrollView>()
-  const { scrollToProps } = usePositions()
+  const { getScrollToProps } = usePositions()
   const { t } = useTranslation()
 
   const testID = props.testId || 'user-profile-edit-form'
@@ -115,7 +115,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
     </>
   )
 
-  const propsFor = (id: string) => scrollToProps(id, onFocus)
+  const propsFor = (id: string) => getScrollToProps(id, onFocus)
 
   const onFocus = (pos: Position) => {
     scrollViewRef?.current?.scrollTo({ y: pos.y, animated: true })
