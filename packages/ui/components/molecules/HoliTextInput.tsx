@@ -1,7 +1,8 @@
-import React, { ReactChild, memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { ReactChild, useCallback, useEffect, useMemo, useState } from 'react'
 import {
   AccessibilityProps,
   KeyboardTypeOptions,
+  LayoutChangeEvent,
   NativeSyntheticEvent,
   Platform,
   StyleProp,
@@ -48,6 +49,7 @@ export type HoliTextInputProps = {
   testID?: string
   onFocus?: (event: NativeSyntheticEvent<TargetedEvent>) => void
   onBlur?: (event: NativeSyntheticEvent<TargetedEvent>) => void
+  onLayout?: (event: LayoutChangeEvent) => void
   accessibilityAutoComplete?: AccessibilityPropsWeb['accessibilityAutoComplete']
   accessibilityControls?: string
   showCharactorCount?: boolean
@@ -55,21 +57,24 @@ export type HoliTextInputProps = {
   [x: string]: any
 }
 
-const HoliTextInput = ({
-  noOfVisibleLines = 1,
-  maxNoOfVisibleLines = 1,
-  maxNoOfCharacters = 5000,
-  inline = false,
-  style = {},
-  inputStyle = {},
-  type,
-  value,
-  inputLabel,
-  onFocus,
-  onBlur,
-  showCharactorCount = false,
-  ...props
-}: HoliTextInputProps) => {
+const HoliTextInput = (
+  {
+    noOfVisibleLines = 1,
+    maxNoOfVisibleLines = 1,
+    maxNoOfCharacters = 5000,
+    inline = false,
+    style = {},
+    inputStyle = {},
+    type,
+    value,
+    inputLabel,
+    onFocus,
+    onBlur,
+    showCharactorCount = false,
+    ...props
+  }: HoliTextInputProps,
+  ref: React.ForwardedRef<View>
+) => {
   const dimensions = useWindowDimensions()
   const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max)
 
@@ -149,7 +154,12 @@ const HoliTextInput = ({
   })()
 
   return (
-    <View style={[styles.wrapper, inline ? styles.inline : styles.block, style]} {...hoverPropsForWeb}>
+    <View
+      ref={ref}
+      onLayout={props?.onLayout}
+      style={[styles.wrapper, inline ? styles.inline : styles.block, style]}
+      {...hoverPropsForWeb}
+    >
       <View style={[styles.wrapperContainer, { maxWidth: dimensions.width }, inline ? styles.inline : styles.block]}>
         {!!inputLabel && (
           <View style={[styles.labelWrapper, inline ? styles.inline : styles.block]}>
@@ -262,7 +272,7 @@ const HoliTextInput = ({
   )
 }
 
-export default memo(HoliTextInput)
+export default React.forwardRef(HoliTextInput)
 
 const LINE_HEIGHT = 16 * 1.4
 const INPUT_VERTICAL_PADDING = 15

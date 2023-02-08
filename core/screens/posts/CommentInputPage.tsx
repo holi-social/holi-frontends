@@ -20,8 +20,9 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
+import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
-import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
+import { useKeyboard } from '@holi/ui/helper'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -38,10 +39,10 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   const [postId] = useParam('postId')
   const [text, setText] = useState('')
   const [scrollContentHeight, setScrollContentHeight] = useState(0)
+  const [maxViewPortHeight, setMaxViewPortHeight] = useState(0)
   const scrollViewRef = useRef<ScrollView>(null)
   const { navigate, navigateBack } = useRouting()
   const { keyboardHeight } = useKeyboard()
-  const { viewPortHeight } = useSoftKeyboard()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { openToast } = useToast()
@@ -104,7 +105,12 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   }, [scrollContentHeight, keyboardHeight, screenHeight])
 
   useEffect(scrollIntoView, [scrollContentHeight, scrollIntoView])
-  useEffect(scrollIntoView, [viewPortHeight, scrollIntoView])
+  useEffect(scrollIntoView, [maxViewPortHeight, scrollIntoView])
+
+  const onHeightChange = useCallback((newContainerHeight: number) => {
+    const newScrollViewHeight = newContainerHeight - SUBMIT_BUTTON_CONTAINER_HEIGHT
+    setMaxViewPortHeight(newScrollViewHeight)
+  }, [])
 
   if (createCommentError) {
     logError(createCommentError, `[CommentInputPage.tsx] ${createCommentError.message}`)
@@ -127,73 +133,66 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
 
   if (!post) return <HoliText>{t('insights.post.notFound', { postId })}</HoliText>
 
-  const getMaxHeight = () => {
-    if (!viewPortHeight) return undefined
-    return viewPortHeight - SUBMIT_BUTTON_CONTAINER_HEIGHT - parseInt(vars.topBarHeight, 10)
-  }
-
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
-      <ScrollView
-        onContentSizeChange={scrollIntoView}
-        ref={scrollViewRef}
-        style={[styles.scrollView, { ...Platform.select({ web: { maxHeight: getMaxHeight() } }) }]}
-      >
-        <View
-          onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)}
-          style={styles.scrollContent}
-        >
-          {/* Post content */}
-          <PostContent post={post} hasHeader minimized style={styles.postAndComments} />
+      <HoliKeyboardSaveView onHeightChange={onHeightChange}>
+        <ScrollView onContentSizeChange={scrollIntoView} ref={scrollViewRef} style={styles.scrollView}>
+          <View
+            onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)}
+            style={styles.scrollContent}
+          >
+            {/* Post content */}
+            <PostContent post={post} style={styles.postAndComments} />
 
-          {/* Comment input block */}
-          <View style={mixins.container}>
-            <VerticalLine style={styles.verticalLine} />
+            {/* Comment input block */}
+            <View style={mixins.container}>
+              <VerticalLine style={styles.verticalLine} />
 
-            <View style={styles.inputContainer}>
-              <HoliUserAvatar
-                imageSrc={user.avatar}
-                label={user.fullName}
-                initials={user.avatarLabel || ''}
-                defaultColor={user.avatarDefaultColor || ''}
-                size="small"
-              />
-              <HoliRichTextInput
-                placeholder={t('insights.posts.comments.placeholder')}
-                autofocus={true}
-                onChange={setText}
-                style={styles.textInput}
-                testID="post-comment"
-              />
+              <View style={styles.inputContainer}>
+                <HoliUserAvatar
+                  imageSrc={user.avatar}
+                  label={user.fullName}
+                  initials={user.avatarLabel || ''}
+                  defaultColor={user.avatarDefaultColor || ''}
+                  size="small"
+                />
+                <HoliRichTextInput
+                  placeholder={t('insights.posts.comments.placeholder')}
+                  autofocus={true}
+                  onChange={setText}
+                  style={styles.textInput}
+                  testID="post-comment"
+                />
+              </View>
             </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
 
-      {/* Bottom Bar */}
-      <View style={[styles.bottomBar]}>
-        {/* Suggestions*/}
-        <PortalGate gateName="suggestions" style={[styles.suggestionsScrollView]} />
+        {/* Bottom Bar */}
+        <View style={[styles.bottomBar]}>
+          {/* Suggestions*/}
+          <PortalGate gateName="suggestions" style={[styles.suggestionsScrollView]} />
 
-        <View style={[styles.buttonContainer, Platform.OS === 'web' && mixins.container]}>
-          <HoliButton
-            disabled={!text.trim().length || createCommentLoading}
-            label={t('insights.posts.comments.button')}
-            variant="small"
-            inline
-            onPress={() =>
-              createPostComment({
-                variables: {
-                  input: { postId, text: text.trim() },
-                },
-              })
-            }
-            testID="btn-submit-comment"
-          >
-            {t('insights.posts.comments.button')}
-          </HoliButton>
+          <View style={[styles.buttonContainer, Platform.OS === 'web' && mixins.container]}>
+            <HoliButton
+              disabled={!text.trim().length || createCommentLoading}
+              label={t('insights.posts.comments.button')}
+              variant="small"
+              inline
+              onPress={() =>
+                createPostComment({
+                  variables: {
+                    input: { postId, text: text.trim() },
+                  },
+                })
+              }
+              testID="btn-submit-comment"
+            >
+              {t('insights.posts.comments.button')}
+            </HoliButton>
+          </View>
         </View>
-      </View>
+      </HoliKeyboardSaveView>
     </KeyboardAvoidingView>
   )
 }
@@ -220,6 +219,7 @@ const getStyles = (screenHeight: number) =>
     },
     scrollView: {
       flex: 1,
+      width: '100%',
       maxWidth: vars.maxScreenWidth,
       marginHorizontal: 'auto',
     },
@@ -283,7 +283,7 @@ const getStyles = (screenHeight: number) =>
         width: 2,
         height: 2,
       },
-      shadowOpacity: 0.1,
+      shadowOpacity: 0.4,
       shadowRadius: 6,
       borderRadius: 12,
       elevation: 4,

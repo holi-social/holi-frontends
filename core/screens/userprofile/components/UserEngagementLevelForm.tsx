@@ -79,6 +79,7 @@ const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFo
       onActionButtonPress={submit}
       headlineText={t('user.engagementLevel.form.question')}
       prependChildren={notificationComponent}
+      hideFooterWhenKeyboardIsOpen={true}
       loading={loading}
       style={styles.wrapper}
     >
