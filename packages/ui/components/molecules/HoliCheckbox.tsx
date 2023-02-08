@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   },
   checkboxError: {
     borderWidth: 2,
-    borderColor: colors.fontColorError,
+    borderColor: colors.error30,
     backgroundColor: colors.backgroundColor,
   },
   shapeRound: {
@@ -195,6 +195,6 @@ const styles = StyleSheet.create({
   },
   errorMessage: {
     marginTop: 6,
-    color: colors.fontColorError,
+    color: colors.error30,
   },
 })

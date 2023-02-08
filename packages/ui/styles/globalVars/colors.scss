@@ -46,9 +46,7 @@ $error30: #CC1820;
 $error20: #FF6469;
 $error10: #FFEBEC;
 
-// $foreground30at48Percent: #2222227A;
 $foreground30at48Percent: #2624247A;
-// $foreground30at32Percent: #22222252;
 $foreground30at32Percent: #26242452;
 $foreground30at12Percent: #2222221F;
 
@@ -60,8 +58,6 @@ $softwhite: #f7f6f3;
 $softwhiteDark: #f1efe9;
 $positivepurple: #6267e7;
 $grey: #6f7081;
-$errorRed: #cc1820;
-$errorRedLight: lighten($errorRed, 50%);
 
 $font-color-disabled: $foreground10;
 $font-color-black-disabled: $foreground10;
@@ -69,7 +65,6 @@ $font-color-grey: $grey;
 $font-color-grey-disabled: $foreground10;
 $font-color-white: $white;
 $font-color-white-disabled: $foreground10;
-$font-color-error: $errorRed;
 $font-color-highlighted: $positivepurple;
 $font-color-modal-light: #e6e1d3;
 
@@ -80,10 +75,8 @@ $border-color-black-disabled: $softblackLight;
 $border-color-grey: $softblackLight;
 $border-color-grey-darker: $foreground10;
 $border-color-secondary: $secondary-color;
-$border-color-error: $errorRed;
 
 $shadow-color-black: #000000;
-$shadow-color-error: $errorRed;
 
 $background-color: $white;
 $background-color-white: $white;
@@ -92,8 +85,6 @@ $background-color-grey-light: $softblackLight;
 $background-color-grey-dark: $softwhiteDark;
 $background-color-donation-green: #00a853;
 $background-color-success: $positivepurple;
-$background-color-error: $errorRed;
-$background-color-error-light: $errorRedLight;
 $background-color-overlay: #2222221f;
 $background-color-modal-dark: #262424;
 $background-color-pill-blue: #90ddff;

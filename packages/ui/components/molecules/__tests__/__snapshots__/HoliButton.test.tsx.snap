@@ -420,7 +420,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
       ],
@@ -522,7 +522,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
       ],
@@ -999,7 +999,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
       ],
@@ -1101,7 +1101,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
       ],
@@ -1598,7 +1598,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
         Object {
@@ -1708,7 +1708,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
         Object {
@@ -2213,7 +2213,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
         Object {
@@ -2323,7 +2323,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
         Object {
@@ -2808,7 +2808,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
       ],
@@ -2910,7 +2910,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
       ],
@@ -3387,7 +3387,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
       ],
@@ -3489,7 +3489,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
       ],
@@ -3986,7 +3986,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
         Object {
@@ -4096,7 +4096,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
         Object {
@@ -4601,7 +4601,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
         Object {
@@ -4711,7 +4711,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
         Object {

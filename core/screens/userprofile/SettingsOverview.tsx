@@ -70,7 +70,7 @@ const SettingsOverview: React.VFC = () => {
               label={t('profile.logout')}
               onPress={() => setShowLogoutConfirmation(true)}
               contentStyle={styles.logoutButton}
-              tintColor={colors.fontColorError}
+              tintColor={colors.error30}
               testID="btn-to-logout"
             />
 

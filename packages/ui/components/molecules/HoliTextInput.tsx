@@ -216,7 +216,7 @@ const HoliTextInput = ({
               {(props?.trailingIcon || props?.trailingComponent) &&
                 !hasValidationErrors &&
                 (props?.trailingComponent || <HoliIcon icon={props?.trailingIcon || ''} size={22} color={iconColor} />)}
-              {hasValidationErrors && <HoliIcon icon="error-warning" size={16} filled color={colors.fontColorError} />}
+              {hasValidationErrors && <HoliIcon icon="error-warning" size={16} filled color={colors.error30} />}
             </View>
           )}
           {!showCharactorCount && (value?.length ?? 0) > maxNoOfCharacters * 0.8 && (
@@ -291,7 +291,7 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: colors.backgroundColorGrey,
     },
     inputWrapperHasValidationErrors: {
-      borderColor: colors.errorRed,
+      borderColor: colors.error30,
     },
     inputWrapperHovered: {
       borderColor: tinycolor(colors.foreground30).lighten(35).toString(),
@@ -341,7 +341,7 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: colors.fontColorBlackDisabled,
     },
     inputCharsTextWrapperHasValidationErrors: {
-      backgroundColor: colors.errorRed,
+      backgroundColor: colors.error30,
     },
     inputCharsTextWrapperHovered: {
       backgroundColor: colors.backgroundColorGrey,
@@ -359,7 +359,7 @@ const getStyles = (theme: HoliTheme) =>
       color: colors.secondaryColor,
     },
     labelHasValidationErrors: {
-      color: colors.errorRed,
+      color: colors.error30,
     },
     helperTextWrapper: {
       flex: 4,
@@ -368,7 +368,7 @@ const getStyles = (theme: HoliTheme) =>
       color: colors.fontColorGrey,
     },
     validationErrorText: {
-      color: colors.errorRed,
+      color: colors.error30,
     },
     trailingIconWrapper: {
       height: 22,

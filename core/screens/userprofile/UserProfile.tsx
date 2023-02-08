@@ -99,7 +99,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
               }}
               successMessage={t('user.profileView.block.successMessage', { name: userFullName })}
               icon="close-circle"
-              tintColor={colors.errorRed}
+              tintColor={colors.error30}
               onConfirm={hide}
             />
           </MoreOptionsButtonWithModal>

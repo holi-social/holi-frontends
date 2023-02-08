@@ -123,7 +123,7 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
       width: '100%',
       ...Platform.select({
         native: {
-          backgroundColor: type === HoliToastType.ERROR ? colors.backgroundColorError : colors.backgroundColorSuccess,
+          backgroundColor: type === HoliToastType.ERROR ? colors.error30 : colors.backgroundColorSuccess,
         },
       }),
       ...(deviceWidth >= +vars.breakpointL
@@ -144,7 +144,7 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
     toast: {
       padding: 20,
       flex: 1,
-      backgroundColor: type === HoliToastType.ERROR ? colors.backgroundColorError : colors.backgroundColorSuccess,
+      backgroundColor: type === HoliToastType.ERROR ? colors.error30 : colors.backgroundColorSuccess,
       ...(deviceWidth >= +vars.breakpointL
         ? {
             borderRadius: 10,

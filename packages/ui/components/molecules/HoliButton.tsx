@@ -167,7 +167,7 @@ const getStyles = (inline: boolean, isWarning: boolean) =>
       color: colors.fontColorGrey,
     },
     hovered: {
-      shadowColor: isWarning ? colors.shadowColorError : colors.shadowColorBlack,
+      shadowColor: isWarning ? colors.error30 : colors.shadowColorBlack,
       shadowOffset: {
         width: 4,
         height: 4,
@@ -178,7 +178,7 @@ const getStyles = (inline: boolean, isWarning: boolean) =>
     },
     focused: {
       outlineWidth: 2,
-      outlineColor: isWarning ? colors.shadowColorError : colors.shadowColorBlack,
+      outlineColor: isWarning ? colors.error30 : colors.shadowColorBlack,
       outlineStyle: 'solid',
     },
     pressedPrimary: {
@@ -208,10 +208,10 @@ const getStyles = (inline: boolean, isWarning: boolean) =>
       backgroundColor: colors.backgroundColorGrey,
     },
     warning: {
-      backgroundColor: colors.backgroundColorErrorLight,
-      borderColor: colors.borderColorError,
+      backgroundColor: colors.error10,
+      borderColor: colors.error30,
     },
     textWarning: {
-      color: colors.fontColorError,
+      color: colors.error30,
     },
   })
