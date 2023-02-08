@@ -54,7 +54,6 @@ const CreateSpace: React.VFC = () => {
 
   const handleSpaceTopicsSelection = (topics: Topic[]) => {
     setSpaceTopics(topics)
-    console.log(spaceTopics.length)
   }
 
   return (
