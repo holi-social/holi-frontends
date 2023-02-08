@@ -1,4 +1,5 @@
 import { Skill, Topic, User } from '@holi/core/screens/userprofile/types'
+import { Paged } from '@holi/core/types'
 
 export interface SpaceMember {
   id: string
@@ -32,7 +33,7 @@ export interface Space {
   mainImage: string
   location: string
   connectionStatusToMyself: SpaceConnectionType[]
-  memberships: SpaceMember[]
+  members: Paged<SpaceMember>
   links?: SpaceLink[]
   avatar?: string
   tasks?: Task[]
