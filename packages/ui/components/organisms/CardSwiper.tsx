@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     width: 55,
     height: 55,
     borderWidth: 6,
-    borderColor: colors.primaryColor,
+    borderColor: colors.brandColorA30,
     borderRadius: 55,
     marginTop: -15,
   },

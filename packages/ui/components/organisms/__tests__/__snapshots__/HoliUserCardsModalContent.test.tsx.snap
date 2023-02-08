@@ -1755,7 +1755,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
               "paddingVertical": 13,
             },
             Object {
-              "backgroundColor": "#f3f360",
+              "backgroundColor": "#f5ef3f",
             },
           ],
           Array [

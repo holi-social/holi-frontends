@@ -358,7 +358,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                   "paddingVertical": 6,
                 },
                 Object {
-                  "backgroundColor": "#f3f360",
+                  "backgroundColor": "#f5ef3f",
                 },
               ],
               Object {

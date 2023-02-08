@@ -40,7 +40,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#f3f360",
+          "backgroundColor": "#f5ef3f",
         },
       ],
       undefined,
@@ -139,7 +139,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#f3f360",
+          "backgroundColor": "#f5ef3f",
         },
       ],
       undefined,
@@ -619,7 +619,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#f3f360",
+          "backgroundColor": "#f5ef3f",
         },
       ],
       undefined,
@@ -718,7 +718,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#f3f360",
+          "backgroundColor": "#f5ef3f",
         },
       ],
       undefined,
@@ -2428,7 +2428,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#f3f360",
+          "backgroundColor": "#f5ef3f",
         },
       ],
       undefined,
@@ -2527,7 +2527,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#f3f360",
+          "backgroundColor": "#f5ef3f",
         },
       ],
       undefined,
@@ -3007,7 +3007,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#f3f360",
+          "backgroundColor": "#f5ef3f",
         },
       ],
       undefined,
@@ -3106,7 +3106,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#f3f360",
+          "backgroundColor": "#f5ef3f",
         },
       ],
       undefined,

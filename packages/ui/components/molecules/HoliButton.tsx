@@ -182,7 +182,7 @@ const getStyles = (inline: boolean, isWarning: boolean) =>
       outlineStyle: 'solid',
     },
     pressedPrimary: {
-      backgroundColor: colors.backgroundColorYellowDark,
+      backgroundColor: colors.brandColorA30,
     },
     pressedSecondary: {
       backgroundColor: colors.backgroundColorGreyDark,
@@ -199,7 +199,7 @@ const getStyles = (inline: boolean, isWarning: boolean) =>
       borderColor: colors.borderColorBlackDisabled,
     },
     primary: {
-      backgroundColor: colors.primaryColor,
+      backgroundColor: colors.brandColorA30,
     },
     primaryDisabled: {
       backgroundColor: colors.backgroundColorGrey,

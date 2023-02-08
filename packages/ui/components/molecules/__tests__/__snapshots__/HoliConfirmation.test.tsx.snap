@@ -262,7 +262,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "paddingVertical": 13,
                 },
                 Object {
-                  "backgroundColor": "#f3f360",
+                  "backgroundColor": "#f5ef3f",
                 },
               ],
               Object {
