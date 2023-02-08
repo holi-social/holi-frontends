@@ -273,7 +273,7 @@ const getStyles = (screenHeight: number) =>
       zIndex: screenHeight < SMALL_DEVICE_HEIGHT ? 3 : undefined,
       width: '100%',
       height: SUGGESTIONS_DROPDOWN_HEIGHT,
-      maxViewPortHeight: SUGGESTIONS_DROPDOWN_HEIGHT,
+      maxHeight: SUGGESTIONS_DROPDOWN_HEIGHT,
       paddingTop: 10,
       marginBottom: screenHeight < SMALL_DEVICE_HEIGHT ? -75 : -10,
       paddingBottom: 10,

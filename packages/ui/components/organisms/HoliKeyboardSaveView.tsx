@@ -79,8 +79,6 @@ const styles = StyleSheet.create({
   outer: {
     position: 'relative',
     flex: 1,
-    borderWidth: 2,
-    borderColor: 'blue',
   },
   inner: {
     flex: 1,
