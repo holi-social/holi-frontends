@@ -177,6 +177,6 @@ const styles = StyleSheet.create({
       },
     }),
     justifyContent: 'center',
-    paddingBottom: Platform.OS === 'web' ? 28 : 28,
+    paddingBottom: 28,
   },
 })
