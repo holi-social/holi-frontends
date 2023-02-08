@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     backgroundColor: colors.backgroundColor,
     borderWidth: 1,
-    borderColor: colors.borderColorGrey,
+    borderColor: colors.background30,
   },
   secondText: {
     marginTop: 16,

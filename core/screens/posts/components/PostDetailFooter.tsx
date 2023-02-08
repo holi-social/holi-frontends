@@ -42,6 +42,6 @@ const styles = StyleSheet.create({
   },
   text: {
     paddingTop: 9,
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
 })

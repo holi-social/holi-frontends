@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     display: 'flex',
   },
   postTitle: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
     paddingTop: 16,
     paddingBottom: 8,
   },

@@ -5,7 +5,7 @@ exports[`SpaceSection renders correctly 1`] = `
   style={
     Array [
       Object {
-        "borderTopColor": "#eff0f1",
+        "borderTopColor": "#ebebeb",
         "borderTopWidth": 1,
         "paddingVertical": 32,
       },
@@ -200,7 +200,7 @@ exports[`SpaceSection renders correctly 2`] = `
   style={
     Array [
       Object {
-        "borderTopColor": "#eff0f1",
+        "borderTopColor": "#ebebeb",
         "borderTopWidth": 1,
         "paddingVertical": 32,
       },

@@ -218,7 +218,7 @@ const HoliSelect = ({
 
   const placeholderTextColor = selectedText
     ? colors.foreground30
-    : tinycolor(colors.fontColorGrey).lighten(30).toString()
+    : tinycolor(colors.foreground20).lighten(30).toString()
 
   /**
    * TODO:
@@ -314,7 +314,7 @@ const getStyles = (textInputHeight: number) =>
       height: 24,
       borderRadius: 24,
       borderWidth: 1,
-      borderColor: tinycolor(colors.borderColorGrey).darken(5).toString(),
+      borderColor: tinycolor(colors.background30).darken(5).toString(),
       alignItems: 'center',
       justifyContent: 'center',
     },

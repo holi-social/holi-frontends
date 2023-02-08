@@ -24,7 +24,7 @@ const CreateSpace: React.VFC = () => {
       setOptions({
         animation: 'slide_from_bottom',
         title: t('spaces.create.space.title'),
-        headerStyle: { backgroundColor: colors.backgroundColorGreyLight },
+        headerStyle: { backgroundColor: colors.background30 },
         headerTransparent: true,
         headerLeft: () => <HeaderBackButton icon="close" />,
         navigationCustomOptions: {
@@ -81,9 +81,9 @@ const CreateSpace: React.VFC = () => {
 export default CreateSpace
 
 const styles = StyleSheet.create({
-  wrapper: { alignItems: 'center', flex: 1, backgroundColor: colors.backgroundColorGreyLight },
+  wrapper: { alignItems: 'center', flex: 1, backgroundColor: colors.background30 },
   defaultLayout: {
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background30,
     paddingBottom: 0,
     width: '100%',
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',

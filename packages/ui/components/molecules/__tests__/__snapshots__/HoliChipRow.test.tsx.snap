@@ -103,7 +103,7 @@ exports[`renders correctly renders correctly when there is a title, is editable 
                 "fontWeight": "500",
               },
               Object {
-                "color": "#6f7081",
+                "color": "#787777",
               },
             ]
           }

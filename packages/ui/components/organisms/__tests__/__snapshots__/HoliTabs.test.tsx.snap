@@ -19,7 +19,7 @@ exports[`renders correctly renders correctly when open 1`] = `
     accessibilityRole="tablist"
     style={
       Object {
-        "borderBottomColor": "#eff0f1",
+        "borderBottomColor": "#ebebeb",
         "borderBottomWidth": 2,
         "width": "100%",
       }
@@ -100,7 +100,7 @@ exports[`renders correctly renders correctly when open 1`] = `
             style={
               Array [
                 Object {
-                  "color": "#6f7081",
+                  "color": "#787777",
                   "fontSize": 16,
                 },
                 Object {
@@ -171,7 +171,7 @@ exports[`renders correctly renders correctly when open 1`] = `
             style={
               Array [
                 Object {
-                  "color": "#6f7081",
+                  "color": "#787777",
                   "fontSize": 16,
                 },
                 Object {},

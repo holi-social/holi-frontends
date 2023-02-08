@@ -9,7 +9,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
       },
       Object {
         "alignSelf": "flex-start",
-        "backgroundColor": "#f7f6f3",
+        "backgroundColor": "#f5f5f5",
         "borderRadius": 8,
         "overflow": "hidden",
       },
@@ -170,7 +170,7 @@ exports[`renders correctly renders correctly when disabled 1`] = `
       },
       Object {
         "alignSelf": "flex-start",
-        "backgroundColor": "#f7f6f3",
+        "backgroundColor": "#f5f5f5",
         "borderRadius": 8,
         "overflow": "hidden",
       },
@@ -232,7 +232,7 @@ exports[`renders correctly renders correctly when disabled 1`] = `
           false,
           Array [
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
               "fontSize": 14,
               "fontWeight": "400",
               "lineHeight": 24,
@@ -258,7 +258,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
       },
       Object {
         "alignSelf": "flex-start",
-        "backgroundColor": "#f7f6f3",
+        "backgroundColor": "#f5f5f5",
         "borderRadius": 8,
         "overflow": "hidden",
       },
@@ -321,7 +321,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
           false,
           Array [
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
               "fontSize": 14,
               "fontWeight": "400",
               "lineHeight": 24,
@@ -345,7 +345,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
         align="xMidYMid"
         bbHeight={15}
         bbWidth={15}
-        color={4285493377}
+        color={4286084983}
         focusable={false}
         meetOrSlice={0}
         minX={0}
@@ -359,7 +359,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
             Object {
               "borderStyle": "solid",
               "borderWidth": 0,
-              "color": "#6f7081",
+              "color": "#787777",
               "display": "flex",
               "fill": "currentColor",
               "flexDirection": "row",
@@ -375,7 +375,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
             },
           ]
         }
-        tintColor={4285493377}
+        tintColor={4286084983}
         vbHeight={1024}
         vbWidth={1024}
       >

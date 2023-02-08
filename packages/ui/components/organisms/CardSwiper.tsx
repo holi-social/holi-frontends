@@ -72,7 +72,7 @@ const CardSwiper = () => {
       <CardStack
         style={styles.cardContainer}
         renderNoMoreCards={() => (
-          <HoliText style={{ fontWeight: '700', fontSize: 18, color: colors.fontColorGrey }}>No more cards :(</HoliText>
+          <HoliText style={{ fontWeight: '700', fontSize: 18, color: colors.foreground20 }}>No more cards :(</HoliText>
         )}
         ref={swiper}
         loop={true}

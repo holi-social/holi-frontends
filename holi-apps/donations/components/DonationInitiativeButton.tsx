@@ -51,7 +51,7 @@ export default DonationInitiativeButton
 
 const styles = StyleSheet.create({
   namePrefix: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
     flex: 1,
   },
   initiativeContent: {
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     color: colors.brandColorB30,
   },
   initiativeOrigin: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
     marginTop: 4,
   },
   initiative: {
@@ -81,13 +81,13 @@ const styles = StyleSheet.create({
     height: 56,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: colors.borderColorGrey,
+    borderColor: colors.background30,
   },
   projectSummary: {
     marginVertical: 24,
   },
   projectDescription: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
     marginRight: 54,
   },
 })

@@ -82,6 +82,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   textDisabled: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
 })

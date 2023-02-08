@@ -119,7 +119,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                 },
                 false,
                 Object {
-                  "color": "#6f7081",
+                  "color": "#787777",
                 },
               ]
             }
@@ -161,7 +161,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                 false,
                 Array [
                   Object {
-                    "color": "#6f7081",
+                    "color": "#787777",
                   },
                   Object {
                     "marginTop": 4,

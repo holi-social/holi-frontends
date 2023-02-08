@@ -164,10 +164,10 @@ const getStyles = (inline: boolean, isWarning: boolean) =>
       textAlign: 'center',
     },
     textDisabled: {
-      color: colors.fontColorGrey,
+      color: colors.foreground20,
     },
     hovered: {
-      shadowColor: isWarning ? colors.error30 : colors.shadowColorBlack,
+      shadowColor: isWarning ? colors.error30 : colors.foreground30,
       shadowOffset: {
         width: 4,
         height: 4,
@@ -178,14 +178,14 @@ const getStyles = (inline: boolean, isWarning: boolean) =>
     },
     focused: {
       outlineWidth: 2,
-      outlineColor: isWarning ? colors.error30 : colors.shadowColorBlack,
+      outlineColor: isWarning ? colors.error30 : colors.foreground30,
       outlineStyle: 'solid',
     },
     pressedPrimary: {
       backgroundColor: colors.brandColorA30,
     },
     pressedSecondary: {
-      backgroundColor: colors.backgroundColorGreyDark,
+      backgroundColor: colors.background20,
     },
     small: {
       borderRadius: 16,
@@ -196,16 +196,16 @@ const getStyles = (inline: boolean, isWarning: boolean) =>
       fontSize: 14,
     },
     disabled: {
-      borderColor: colors.borderColorBlackDisabled,
+      borderColor: colors.background30,
     },
     primary: {
       backgroundColor: colors.brandColorA30,
     },
     primaryDisabled: {
-      backgroundColor: colors.backgroundColorGrey,
+      backgroundColor: colors.background20,
     },
     warningDisabled: {
-      backgroundColor: colors.backgroundColorGrey,
+      backgroundColor: colors.background20,
     },
     warning: {
       backgroundColor: colors.error10,

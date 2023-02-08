@@ -82,7 +82,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
               <View style={styles.iconView}>
                 <HoliIcon
                   size={15}
-                  color={checked ? colors.fontColorWhite : colors.fontColorGrey}
+                  color={checked ? colors.fontColorWhite : colors.foreground20}
                   icon={checked ? 'check' : 'add'}
                 />
               </View>
@@ -100,7 +100,7 @@ const getStyles = (checked = false) =>
   StyleSheet.create({
     holiChip: {
       borderRadius: 8,
-      backgroundColor: colors.backgroundColorGrey,
+      backgroundColor: colors.background20,
       alignSelf: 'flex-start',
       overflow: 'hidden',
       ...Platform.select({
@@ -123,14 +123,14 @@ const getStyles = (checked = false) =>
     text: {
       fontWeight: '400',
       fontSize: 14,
-      color: checked ? colors.fontColorWhite : colors.fontColorGrey,
+      color: checked ? colors.fontColorWhite : colors.foreground20,
       lineHeight: 24,
     },
     iconView: {
       marginLeft: 1.5,
     },
     hovered: {
-      backgroundColor: tinycolor(checked ? colors.brandColorB30 : colors.backgroundColorGrey)
+      backgroundColor: tinycolor(checked ? colors.brandColorB30 : colors.background20)
         .darken(3)
         .toString(),
     },
@@ -141,12 +141,12 @@ const getStyles = (checked = false) =>
       outlineColor: colors.brandColorB30,
       ...Platform.select({
         web: {
-          boxShadow: `0px 0px 0.7px 0.7px ${checked ? colors.brandColorB30 : colors.backgroundColorGrey}`,
+          boxShadow: `0px 0px 0.7px 0.7px ${checked ? colors.brandColorB30 : colors.background20}`,
         },
       }),
     },
     pressed: {
-      backgroundColor: tinycolor(checked ? colors.brandColorB30 : colors.backgroundColorGrey)
+      backgroundColor: tinycolor(checked ? colors.brandColorB30 : colors.background20)
         .lighten(3)
         .toString(),
     },

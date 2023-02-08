@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
   },
   infoText: {
     textAlign: 'center',
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   moreOptionItem: {
     justifyContent: 'center',

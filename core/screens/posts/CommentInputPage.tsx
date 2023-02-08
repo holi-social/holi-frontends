@@ -278,7 +278,7 @@ const getStyles = (screenHeight: number) =>
       marginBottom: screenHeight < SMALL_DEVICE_HEIGHT ? -75 : -10,
       paddingBottom: 10,
       backgroundColor: colors.backgroundColor,
-      shadowColor: colors.shadowColorBlack,
+      shadowColor: colors.foreground30,
       shadowOffset: {
         width: 2,
         height: 2,
@@ -288,7 +288,7 @@ const getStyles = (screenHeight: number) =>
       borderRadius: 12,
       elevation: 4,
       borderTopWidth: 1,
-      borderTopColor: colors.borderColorGrey,
+      borderTopColor: colors.background30,
       ...Platform.select({
         web: {
           maxWidth: vars.maxScreenWidth,
@@ -307,7 +307,7 @@ const getStyles = (screenHeight: number) =>
       alignItems: 'flex-end',
       height: SUBMIT_BUTTON_CONTAINER_HEIGHT,
       borderTopWidth: 1,
-      borderTopColor: colors.borderColorGrey,
+      borderTopColor: colors.background30,
       backgroundColor: colors.backgroundColor,
       ...Platform.select({
         web: {

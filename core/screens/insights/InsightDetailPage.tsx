@@ -181,7 +181,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: colors.backgroundColorGreyDark,
+    backgroundColor: colors.background20,
     ...Platform.select({ web: { flex: 1 } }),
   },
   insightBackgroundImage: {
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   insightText: {
-    color: colors.grey,
+    color: colors.foreground20,
     marginTop: 24,
   },
   authorInfo: {
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   authorInfoText: {
-    color: colors.grey,
+    color: colors.foreground20,
   },
   authorInfoName: {
     color: colors.foreground30,

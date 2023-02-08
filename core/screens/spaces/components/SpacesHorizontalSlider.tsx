@@ -38,7 +38,7 @@ const SpacesHorizontalSlider: React.VFC<SpacesHorizontalSliderProps> = ({
       )}
       {isLoading && (
         <View style={[styles.loadingContainer, styles.cardContainer]}>
-          <HoliIcon icon="loader-4" size={50} color={colors.fontColorGrey} spinning />
+          <HoliIcon icon="loader-4" size={50} color={colors.foreground20} spinning />
         </View>
       )}
     </View>
@@ -62,6 +62,6 @@ const getStyles = (screenWidth: number) =>
       borderRadius: 8,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: colors.backgroundColorGrey,
+      backgroundColor: colors.background20,
     },
   })

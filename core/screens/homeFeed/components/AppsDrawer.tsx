@@ -73,7 +73,7 @@ const AppsDrawer: React.FC = () => {
 
 export default AppsDrawer
 
-const borderGrey = tinycolor(colors.borderColorGrey).darken(5).toString()
+const borderGrey = tinycolor(colors.background30).darken(5).toString()
 
 const styles = StyleSheet.create({
   overlayButton: {
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderColor: borderGrey,
     borderWidth: 1,
-    shadowColor: colors.shadowColorBlack,
+    shadowColor: colors.foreground30,
     shadowOffset: {
       width: 2,
       height: 2,
@@ -109,6 +109,6 @@ const styles = StyleSheet.create({
     padding: 2,
     borderWidth: 2,
     borderRadius: 16,
-    borderColor: colors.borderColorGrey,
+    borderColor: colors.background30,
   },
 })

@@ -18,7 +18,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       Array [
         Object {
           "alignItems": "center",
-          "backgroundColor": "#f7f6f3",
+          "backgroundColor": "#f5f5f5",
           "borderRadius": 12,
           "justifyContent": "center",
           "overflow": "hidden",
@@ -121,7 +121,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       Array [
         Object {
           "alignItems": "center",
-          "backgroundColor": "#f7f6f3",
+          "backgroundColor": "#f5f5f5",
           "borderRadius": 12,
           "justifyContent": "center",
           "overflow": "hidden",
@@ -224,7 +224,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       Array [
         Object {
           "alignItems": "center",
-          "backgroundColor": "#f7f6f3",
+          "backgroundColor": "#f5f5f5",
           "borderRadius": 12,
           "justifyContent": "center",
           "overflow": "hidden",

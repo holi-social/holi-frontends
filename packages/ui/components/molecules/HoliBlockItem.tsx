@@ -108,7 +108,7 @@ const stylesSmall = StyleSheet.create({
     paddingRight: 8,
   },
   usersPileText: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   textContainer: {
     flex: 1,
@@ -160,10 +160,10 @@ const stylesLarge = StyleSheet.create({
   },
   subtitle: {
     display: 'flex',
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   description: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
     marginTop: 4,
   },
 })

@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   likesNumber: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   likesButton: {
     marginLeft: 9,

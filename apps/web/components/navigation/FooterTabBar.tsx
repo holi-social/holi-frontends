@@ -129,7 +129,7 @@ const getStyles = (screenWidth: number) =>
       alignItems: 'center',
       backgroundColor: colors.backgroundColorWhite,
       borderTopWidth: 1,
-      borderTopColor: colors.borderColorGrey,
+      borderTopColor: colors.background30,
       paddingHorizontal: screenWidth > +vars.breakpointL ? 20 : 10,
       height: vars.bottomBarHeight,
       maxHeight: vars.bottomBarHeight,
@@ -153,7 +153,7 @@ const getStyles = (screenWidth: number) =>
       fontWeight: '500',
     },
     inactiveTintColor: {
-      color: colors.fontColorGrey,
+      color: colors.foreground20,
     },
     buttonLabel: {
       paddingTop: 8,

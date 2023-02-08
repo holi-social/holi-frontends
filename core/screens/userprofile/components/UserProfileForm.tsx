@@ -99,7 +99,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
       >
         <View style={styles.addImage}>
           <HoliText style={{ marginRight: 12 }}>{t('profile.avatar.add')}</HoliText>
-          <HoliIcon icon="image" color={colors.fontColorGrey} />
+          <HoliIcon icon="image" color={colors.foreground20} />
         </View>
       </HoliImagePicker>
     </View>

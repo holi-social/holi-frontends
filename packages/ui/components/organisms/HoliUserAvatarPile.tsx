@@ -83,6 +83,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   textGrey: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
 })

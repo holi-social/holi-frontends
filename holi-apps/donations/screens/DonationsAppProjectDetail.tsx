@@ -80,13 +80,13 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () 
 
   return (
     <View
-      style={{ alignItems: 'center', flex: 1, backgroundColor: colors.backgroundColorGreyLight }}
+      style={{ alignItems: 'center', flex: 1, backgroundColor: colors.background30 }}
       testID="donations-detailview-container"
     >
       <DefaultLayout
         onScroll={onScreenScroll}
         scrollEventThrottle={200}
-        style={{ backgroundColor: colors.backgroundColorGreyLight }}
+        style={{ backgroundColor: colors.background30 }}
       >
         <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
           <DonationImage picture={project.picture} label={project.title} style={styles.image} />

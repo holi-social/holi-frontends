@@ -44,12 +44,12 @@ const AppTile: React.FC<AppTileProps> = ({ appData, onPress, style }: AppTilePro
       style={[styles.appTile, style]}
       testID={`app-tile-${appData.id}`}
     >
-      <View style={[styles.contentContainer, isActive && { backgroundColor: colors.backgroundColorGreyLight }]}>
+      <View style={[styles.contentContainer, isActive && { backgroundColor: colors.background30 }]}>
         {appData.icon && (
           <HoliIcon
             icon={appData.icon}
             size={30}
-            color={isActive ? colors.foreground30 : colors.fontColorBlackDisabled}
+            color={isActive ? colors.foreground30 : colors.foreground10}
             filled={appData.iconFilled}
           />
         )}
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 13,
-    borderColor: tinycolor(colors.borderColorGrey).darken(5).toString(),
+    borderColor: tinycolor(colors.background30).darken(5).toString(),
     borderWidth: 2,
     width: tileWidth,
     height: tileWidth,

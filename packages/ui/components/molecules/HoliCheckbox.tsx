@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     height: 24,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: colors.borderColorGreyDarker,
+    borderColor: colors.background30Darker,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -161,8 +161,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.foreground30,
   },
   checkboxDisabled: {
-    borderColor: colors.borderColorBlackDisabled,
-    backgroundColor: colors.backgroundColorGreyLight,
+    borderColor: colors.background30,
+    backgroundColor: colors.background30,
     opacity: 0.6,
   },
   checkboxFocused: {
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     color: colors.fontColorWhite,
   },
   iconDisabled: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   iconError: {
     color: colors.foreground30,

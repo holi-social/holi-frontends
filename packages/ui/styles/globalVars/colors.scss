@@ -16,66 +16,43 @@ New colors
 
 $foreground30: #262424;
 $foreground20: #787777;
-$foreground10: #BFBEBE;
+$foreground10: #bfbebe;
 
-$background30: #EBEBEB;
-$background20: #F5F5F5;
-$background10: #FFFFFF;
+$background30: #ebebeb;
+$background20: #f5f5f5;
+$background10: #ffffff;
 
-$brandColorA30: #F5EF3F;
-$brandColorA20: #FDFD80;
-$brandColorA10: #FEFEC7;
+$brandColorA30: #f5ef3f;
+$brandColorA20: #fdfd80;
+$brandColorA10: #fefec7;
 
-$brandColorB30: #6267E7;
-$brandColorB20: #8B95FF;
-$brandColorB10: #E8EAFF;
+$brandColorB30: #6267e7;
+$brandColorB20: #8b95ff;
+$brandColorB10: #e8eaff;
 
-$brandColorC30: #86DF54;
-$brandColorC20: #ABFF8B;
-$brandColorC10: #D3FFC3;
+$brandColorC30: #86df54;
+$brandColorC20: #abff8b;
+$brandColorC10: #d3ffc3;
 
-$brandColorD30: #4ABEF0;
-$brandColorD20: #90DDFF;
-$brandColorD10: #D7F3FF;
+$brandColorD30: #4abef0;
+$brandColorD20: #90ddff;
+$brandColorD10: #d7f3ff;
 
-$warning30: #EC9D04;
-$warning20: #FFC046;
-$warning10: #FFEBD2;
+$warning30: #ec9d04;
+$warning20: #ffc046;
+$warning10: #ffebd2;
 
-$error30: #CC1820;
-$error20: #FF6469;
-$error10: #FFEBEC;
+$error30: #cc1820;
+$error20: #ff6469;
+$error10: #ffebec;
 
-$foreground30at48Percent: #2624247A;
+$foreground30at48Percent: #2624247a;
 $foreground30at32Percent: #26242452;
-$foreground30at12Percent: #2222221F;
+$foreground30at12Percent: #2222221f;
 
-$softblackLight: #eff0f1;
-$foreground10: #b0b0b0;
 $white: #ffffff;
-$softwhite: #f7f6f3;
-$softwhiteDark: #f1efe9;
-$grey: #6f7081;
 
-$font-color-disabled: $foreground10;
-$font-color-black-disabled: $foreground10;
-$font-color-grey: $grey;
-$font-color-grey-disabled: $foreground10;
 $font-color-white: $white;
-$font-color-white-disabled: $foreground10;
-$font-color-modal-light: #e6e1d3;
-
-$border-color-black-disabled: $softblackLight;
-$border-color-grey: $softblackLight;
-$border-color-grey-darker: $foreground10;
-
-$shadow-color-black: #000000;
 
 $background-color: $white;
 $background-color-white: $white;
-$background-color-grey: $softwhite;
-$background-color-grey-light: $softblackLight;
-$background-color-grey-dark: $softwhiteDark;
-$background-color-overlay: #2222221f;
-$background-color-modal-dark: #262424;
-$background-color-transparent-black: rgba($shadow-color-black, 0.4);

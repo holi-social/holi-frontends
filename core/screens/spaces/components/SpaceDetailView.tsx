@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     paddingVertical: 32,
   },
   tabStyle: {
-    backgroundColor: colors.backgroundColorGrey,
+    backgroundColor: colors.background20,
     paddingBottom: Platform.OS === 'web' ? +vars.bottomBarHeight : 24,
   },
 })

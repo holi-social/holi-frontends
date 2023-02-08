@@ -165,7 +165,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
 const styles = StyleSheet.create({
   layout: {
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
-    backgroundColor: colors.backgroundColorGrey,
+    backgroundColor: colors.background20,
   },
   discoverSpacesContainer: {
     flex: 1,
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   },
   tabStyle: {
     minHeight: '100%',
-    backgroundColor: colors.backgroundColorGrey,
+    backgroundColor: colors.background20,
   },
 })
 

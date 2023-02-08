@@ -56,14 +56,14 @@ exports[`renders correctly renders correctly when open 1`] = `
         Object {
           "alignSelf": "center",
           "backgroundColor": "#fff",
-          "borderColor": "#000",
+          "borderColor": "#262424",
           "borderRadius": 24,
           "borderWidth": 2,
           "margin": 25,
           "maxWidth": 460,
           "minWidth": 425,
           "padding": 24,
-          "shadowColor": "#000",
+          "shadowColor": "#262424",
           "shadowOffset": Object {
             "height": 4,
             "width": 0,
@@ -371,14 +371,14 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
         Object {
           "alignSelf": "center",
           "backgroundColor": "#fff",
-          "borderColor": "#000",
+          "borderColor": "#262424",
           "borderRadius": 24,
           "borderWidth": 2,
           "margin": 25,
           "maxWidth": 460,
           "minWidth": 425,
           "padding": 24,
-          "shadowColor": "#000",
+          "shadowColor": "#262424",
           "shadowOffset": Object {
             "height": 4,
             "width": 0,

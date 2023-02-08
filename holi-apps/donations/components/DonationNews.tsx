@@ -61,7 +61,7 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
                 date={mainNews.publishDate}
               />
             ) : (
-              <HoliText size="small" style={{ color: colors.fontColorGrey, marginBottom: 24 }}>
+              <HoliText size="small" style={{ color: colors.foreground20, marginBottom: 24 }}>
                 {t('donations:donationNews.publishTime', {
                   time: getRelativeDateString(mainNews.publishDate, i18n.language),
                 })}
@@ -96,7 +96,7 @@ const DonationNews: React.VFC<DonationNewsProps> = ({ totalEntries, news, ...pro
                       {entry.title}
                     </HoliText>
                     {entry.publishDate && (
-                      <HoliText size="small" style={{ color: colors.fontColorGrey }}>
+                      <HoliText size="small" style={{ color: colors.foreground20 }}>
                         {t('donations:donationNews.publishTime', {
                           time: getRelativeDateString(entry.publishDate, i18n.language),
                         })}
@@ -120,7 +120,7 @@ const getStyles = () =>
   StyleSheet.create({
     newsListing: {
       borderTopWidth: 1,
-      borderColor: colors.borderColorGrey,
+      borderColor: colors.background30,
       paddingTop: 18,
       marginTop: 18,
       flexDirection: 'row',

@@ -190,7 +190,7 @@ const HoliTextInput = ({
             onFocus={handleFocus}
             onBlur={handleBlur}
             placeholder={props?.placeholder}
-            placeholderTextColor={tinycolor(colors.fontColorGrey).lighten(30).toString()}
+            placeholderTextColor={tinycolor(colors.foreground20).lighten(30).toString()}
             onChange={(event) => {
               let text = event.nativeEvent.text
               // type doesn't work with RN 'numeric' on web
@@ -279,7 +279,7 @@ const getStyles = (theme: HoliTheme) =>
       alignItems: 'center',
       flexDirection: 'row',
       borderWidth: 2,
-      borderColor: colors.borderColorGrey,
+      borderColor: colors.background30,
       borderRadius: 4,
       backgroundColor: colors.backgroundColor,
     },
@@ -287,8 +287,8 @@ const getStyles = (theme: HoliTheme) =>
       borderColor: colors.brandColorB30,
     },
     inputWrapperDisabled: {
-      borderColor: colors.borderColorBlackDisabled,
-      backgroundColor: colors.backgroundColorGrey,
+      borderColor: colors.background30,
+      backgroundColor: colors.background20,
     },
     inputWrapperHasValidationErrors: {
       borderColor: colors.error30,
@@ -338,13 +338,13 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: colors.brandColorB30,
     },
     inputCharsTextWrapperDisabled: {
-      backgroundColor: colors.fontColorBlackDisabled,
+      backgroundColor: colors.foreground10,
     },
     inputCharsTextWrapperHasValidationErrors: {
       backgroundColor: colors.error30,
     },
     inputCharsTextWrapperHovered: {
-      backgroundColor: colors.backgroundColorGrey,
+      backgroundColor: colors.background20,
     },
     inputCharsText: {
       color: colors.white,
@@ -365,7 +365,7 @@ const getStyles = (theme: HoliTheme) =>
       flex: 4,
     },
     helperText: {
-      color: colors.fontColorGrey,
+      color: colors.foreground20,
     },
     validationErrorText: {
       color: colors.error30,
@@ -384,6 +384,6 @@ const getStyles = (theme: HoliTheme) =>
       alignItems: 'flex-end',
     },
     charactorCountText: {
-      color: colors.fontColorGrey,
+      color: colors.foreground20,
     },
   })

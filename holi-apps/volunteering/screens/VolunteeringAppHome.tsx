@@ -111,7 +111,7 @@ export default memo(VolunteeringAppHome)
 
 const styles = StyleSheet.create({
   defaultLayout: {
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background30,
     paddingBottom: 0,
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
   },

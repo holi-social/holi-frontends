@@ -163,8 +163,8 @@ const createStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevi
       backgroundColor: colors.backgroundColor,
       borderWidth: 2,
       borderRadius: 24,
-      borderColor: colors.shadowColorBlack,
-      shadowColor: colors.shadowColorBlack,
+      borderColor: colors.foreground30,
+      shadowColor: colors.foreground30,
       shadowOffset: {
         width: 0,
         height: 4,

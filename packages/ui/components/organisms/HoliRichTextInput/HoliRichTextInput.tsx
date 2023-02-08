@@ -186,9 +186,9 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   inlineHashtag: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   inlineUrl: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
 })

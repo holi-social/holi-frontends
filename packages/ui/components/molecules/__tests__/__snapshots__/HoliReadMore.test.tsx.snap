@@ -33,7 +33,7 @@ exports[`renders correctly renders correctly with long text 1`] = `
             false,
             Array [
               Object {
-                "color": "#6f7081",
+                "color": "#787777",
               },
               Object {},
             ],
@@ -81,7 +81,7 @@ exports[`renders correctly renders correctly with short text 1`] = `
             false,
             Array [
               Object {
-                "color": "#6f7081",
+                "color": "#787777",
               },
               Object {},
             ],

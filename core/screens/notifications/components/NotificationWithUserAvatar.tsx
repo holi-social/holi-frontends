@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   fontColorGray: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   createdDate: {
     marginTop: 4,

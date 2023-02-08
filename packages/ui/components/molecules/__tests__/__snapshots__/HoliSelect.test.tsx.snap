@@ -88,7 +88,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
             Object {
               "alignItems": "center",
               "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
+              "borderColor": "#ebebeb",
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
@@ -478,7 +478,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -577,7 +577,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -741,7 +741,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -905,7 +905,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -1004,7 +1004,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -1103,7 +1103,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -1202,7 +1202,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -1301,7 +1301,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -1411,7 +1411,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
+              "borderColor": "#ebebeb",
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
@@ -1801,7 +1801,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -1900,7 +1900,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -2064,7 +2064,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -2163,7 +2163,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -2262,7 +2262,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -2361,7 +2361,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -2460,7 +2460,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -2559,7 +2559,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -2667,7 +2667,7 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
+              "borderColor": "#ebebeb",
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
@@ -2702,7 +2702,7 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
           onContentSizeChange={[Function]}
           onFocus={[Function]}
           placeholder="Nothing selected"
-          placeholderTextColor="#c0c1c9"
+          placeholderTextColor="#c4c4c4"
           secureTextEntry={false}
           style={
             Array [
@@ -2953,7 +2953,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
+              "borderColor": "#ebebeb",
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
@@ -2993,7 +2993,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           onContentSizeChange={[Function]}
           onFocus={[Function]}
           placeholder="Nothing selected"
-          placeholderTextColor="#c0c1c9"
+          placeholderTextColor="#c4c4c4"
           secureTextEntry={false}
           style={
             Array [
@@ -3343,7 +3343,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -3442,7 +3442,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -3541,7 +3541,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -3640,7 +3640,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -3739,7 +3739,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -3838,7 +3838,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -3937,7 +3937,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -4036,7 +4036,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -4146,7 +4146,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
+              "borderColor": "#ebebeb",
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
@@ -4186,7 +4186,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           onContentSizeChange={[Function]}
           onFocus={[Function]}
           placeholder="Nothing selected"
-          placeholderTextColor="#c0c1c9"
+          placeholderTextColor="#c4c4c4"
           secureTextEntry={false}
           style={
             Array [
@@ -4612,7 +4612,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -4709,7 +4709,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -4815,7 +4815,7 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
+              "borderColor": "#ebebeb",
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
@@ -5100,7 +5100,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
+              "borderColor": "#ebebeb",
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
@@ -5135,7 +5135,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
           onContentSizeChange={[Function]}
           onFocus={[Function]}
           placeholder="Nothing selected"
-          placeholderTextColor="#c0c1c9"
+          placeholderTextColor="#c4c4c4"
           secureTextEntry={false}
           style={
             Array [
@@ -5386,7 +5386,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
+              "borderColor": "#ebebeb",
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
@@ -5426,7 +5426,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           onContentSizeChange={[Function]}
           onFocus={[Function]}
           placeholder="Nothing selected"
-          placeholderTextColor="#c0c1c9"
+          placeholderTextColor="#c4c4c4"
           secureTextEntry={false}
           style={
             Array [
@@ -5776,7 +5776,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -5873,7 +5873,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -5970,7 +5970,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -6067,7 +6067,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -6164,7 +6164,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -6261,7 +6261,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -6358,7 +6358,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
@@ -6455,7 +6455,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                 Array [
                   Object {
                     "alignItems": "center",
-                    "borderColor": "#e1e3e5",
+                    "borderColor": "#dedede",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,

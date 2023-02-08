@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     height: 14,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: colors.borderColorGrey,
+    borderColor: colors.background30,
     width: '100%',
   },
   progress: {

@@ -29,7 +29,7 @@ const getStyles = (width: number) =>
   StyleSheet.create({
     spaceAvatar: {
       borderRadius: 8,
-      backgroundColor: colors.backgroundColorGrey,
+      backgroundColor: colors.background20,
       alignItems: 'center',
       justifyContent: 'center',
       overflow: 'hidden',

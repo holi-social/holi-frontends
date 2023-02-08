@@ -56,7 +56,7 @@ const LoginProfileButton: React.FC<LoginProfileButtonProps> = ({ focused, childr
       ) : (
         <HoliIcon
           filled={focused}
-          color={focused ? colors.foreground30 : colors.fontColorGrey}
+          color={focused ? colors.foreground30 : colors.foreground20}
           icon="account-circle"
           size={24}
         />

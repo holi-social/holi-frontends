@@ -58,7 +58,7 @@ const MySpaces: React.VFC<MySpacesProps> = ({ mySpaces = [], style }) => {
                   onPress={showFeatureNotImplementedToast}
                   style={styles.optionsButton}
                 >
-                  <HoliIcon icon="tools" size={20} color={colors.fontColorGrey} />
+                  <HoliIcon icon="tools" size={20} color={colors.foreground20} />
                 </HoliButton>
               )}
             </View>

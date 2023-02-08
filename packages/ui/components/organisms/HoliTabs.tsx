@@ -91,7 +91,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
                   <HoliIcon
                     icon={tab.titleIcon}
                     size={22}
-                    color={isActive ? colors.foreground30 : colors.fontColorGrey}
+                    color={isActive ? colors.foreground30 : colors.foreground20}
                     style={styles.tabButtonIcon}
                     filled={isActive}
                   />
@@ -158,7 +158,7 @@ const getStyles = (screenWidth: number, centeredButtons = false) =>
     },
     headerContainer: {
       width: '100%',
-      borderBottomColor: colors.borderColorGrey,
+      borderBottomColor: colors.background30,
       borderBottomWidth: 2,
     },
     tabButtonsContainer: {
@@ -180,7 +180,7 @@ const getStyles = (screenWidth: number, centeredButtons = false) =>
     },
     tabButtonText: {
       fontSize: 16,
-      color: colors.fontColorGrey,
+      color: colors.foreground20,
     },
     activeTabButton: {
       borderBottomColor: colors.foreground30,

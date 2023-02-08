@@ -40,7 +40,7 @@ const VolunteeringCardContent: React.VFC<VolunteeringCardContentProps> = (props)
       </HoliText>
       {engagement.location && (
         <View style={styles.locationContainer}>
-          <HoliIcon icon="globe" size={14} color={colors.fontColorGrey} style={styles.locationIcon} />
+          <HoliIcon icon="globe" size={14} color={colors.foreground20} style={styles.locationIcon} />
           <HoliText size={'small'} style={styles.locationText}>
             {engagement.location}, {country}
           </HoliText>
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   locationText: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   categoryText: {
     color: colors.brandColorB30,

@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   requirements: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   container: {
     alignItems: 'center',
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     paddingTop: 24,
   },
   body: {
-    backgroundColor: colors.backgroundColorGrey,
+    backgroundColor: colors.background20,
     paddingTop: 24,
     paddingBottom: 72,
   },

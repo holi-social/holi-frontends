@@ -87,7 +87,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
+              "borderColor": "#ebebeb",
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
@@ -127,7 +127,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
           onFocus={[Function]}
           onSubmitEditing={[Function]}
           placeholder="Start typing..."
-          placeholderTextColor="#c0c1c9"
+          placeholderTextColor="#c4c4c4"
           secureTextEntry={false}
           style={
             Array [
@@ -334,7 +334,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
+              "borderColor": "#ebebeb",
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
@@ -376,7 +376,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
           onFocus={[Function]}
           onSubmitEditing={[Function]}
           placeholder="Start typing..."
-          placeholderTextColor="#c0c1c9"
+          placeholderTextColor="#c4c4c4"
           secureTextEntry={false}
           style={
             Array [
@@ -513,7 +513,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 false,
                 Array [
                   Object {
-                    "color": "#6f7081",
+                    "color": "#787777",
                   },
                   Object {
                     "color": "#cc1820",

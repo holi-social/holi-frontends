@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     aspectRatio: 327 / 206,
     borderRadius: 12,
     width: '100%',
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background30,
   },
   cagetory: {
     color: colors.brandColorB30,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   textGrey: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   spaceTop: {
     marginTop: 8,

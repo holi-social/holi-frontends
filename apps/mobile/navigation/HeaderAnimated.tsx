@@ -100,7 +100,7 @@ const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, rout
               <ImageBackground source={{ uri: headerBackgroundImageURI }} style={StyleSheet.absoluteFill} />
             )}
             {headerBackgroundGradient && (
-              <LinearGradient colors={[colors.shadowColorBlack, 'transparent']} style={StyleSheet.absoluteFill} />
+              <LinearGradient colors={[colors.foreground30, 'transparent']} style={StyleSheet.absoluteFill} />
             )}
           </>
         )}
