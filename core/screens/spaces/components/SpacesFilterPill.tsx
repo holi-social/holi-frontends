@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundColorPillBlue,
   },
   topic: {
-    backgroundColor: colors.backgroundColorPillGreen,
+    backgroundColor: colors.brandColorC20,
   },
   buttonContent: {
     borderColor: colors.foreground30,

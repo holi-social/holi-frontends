@@ -205,10 +205,10 @@ const styles = StyleSheet.create({
   green: {
     width: 75,
     height: 75,
-    backgroundColor: colors.tertiaryColor,
+    backgroundColor: colors.brandColorC30,
     borderRadius: 75,
     borderWidth: 6,
-    borderColor: colors.tertiaryColor,
+    borderColor: colors.brandColorC30,
   },
   red: {
     width: 75,

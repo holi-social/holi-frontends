@@ -41,7 +41,6 @@ export default {
   fontColorHighlighted: '#6267e7',
   fontColorModalLight: '#e6e1d3',
   secondaryColor: '#6267e7',
-  tertiaryColor: '#57d14c',
   borderColorBlackDisabled: '#eff0f1',
   borderColorGrey: '#eff0f1',
   borderColorGreyDarker: '#b0b0b0',
@@ -52,12 +51,10 @@ export default {
   backgroundColorGrey: '#f7f6f3',
   backgroundColorGreyLight: '#eff0f1',
   backgroundColorGreyDark: '#f1efe9',
-  backgroundColorDonationGreen: '#00a853',
   backgroundColorSuccess: '#6267e7',
   backgroundColorOverlay: '#2222221f',
   backgroundColorModalDark: '#262424',
   backgroundColorPillBlue: '#90ddff',
-  backgroundColorPillGreen: '#abff8b',
   backgroundColorTransparentBlack: 'rgba(0,0,0,.4)',
 }
 

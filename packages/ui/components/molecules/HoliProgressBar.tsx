@@ -37,12 +37,12 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   progress: {
-    borderColor: colors.tertiaryColor,
+    borderColor: colors.brandColorC30,
     borderWidth: 1,
     borderRadius: 6,
     minWidth: 12,
     height: 12,
-    backgroundColor: colors.backgroundColorPillGreen,
+    backgroundColor: colors.brandColorC20,
     maxWidth: '100%',
   },
 })
