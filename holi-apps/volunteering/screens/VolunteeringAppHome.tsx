@@ -4,7 +4,7 @@ import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
+import { createParam, singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'

@@ -25,11 +25,13 @@ interface Toast {
 
 export interface HoliToastProps extends Toast {
   closeToast: () => void
+  children?: React.ReactNode
 }
 
 export interface ToastContextValue {
   openToast: (text: string, type?: HoliToastType, timeout?: number, testID?: string) => void
   closeToast: (id: string) => void
+  children?: React.ReactNode
 }
 
 export const ToastContext = createContext<ToastContextValue>({} as ToastContextValue)

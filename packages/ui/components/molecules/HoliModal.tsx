@@ -31,6 +31,7 @@ export interface HoliModalProps extends ModalProps {
   relativeHeight?: number
   autoHeight?: boolean
   testID?: string
+  children?: React.ReactNode
 }
 
 export const useModalState = ({

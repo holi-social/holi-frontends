@@ -23,6 +23,7 @@ export type HoliTabButtonProps = {
   accessibilityControls?: string
   testID?: string
   onPress?: null | ((event: GestureResponderEvent) => void)
+  children?: React.ReactNode
 }
 
 const HoliTabButton: React.FC<HoliTabButtonProps> = ({

@@ -3,8 +3,8 @@
 exports[`SpaceSection renders correctly 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "borderTopColor": "#eff0f1",
         "borderTopWidth": 1,
         "paddingVertical": 32,
@@ -16,7 +16,7 @@ exports[`SpaceSection renders correctly 1`] = `
 >
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "flexDirection": "row",
         "justifyContent": "space-between",
@@ -27,17 +27,17 @@ exports[`SpaceSection renders correctly 1`] = `
       role="header"
       selectable={true}
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#222326",
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {
+          {
             "fontSize": 21,
             "lineHeight": 25.2,
           },
-          Object {
+          {
             "fontWeight": "400",
           },
         ]
@@ -49,7 +49,7 @@ exports[`SpaceSection renders correctly 1`] = `
       accessibilityLabel="global.edit"
       accessibilityRole="button"
       accessibilityState={
-        Object {
+        {
           "disabled": false,
         }
       }
@@ -66,12 +66,12 @@ exports[`SpaceSection renders correctly 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       style={
-        Array [
-          Array [
-            Object {
+        [
+          [
+            {
               "width": "auto",
             },
-            Object {
+            {
               "backgroundColor": "#fff",
               "borderColor": "#222326",
               "borderRadius": 28,
@@ -84,7 +84,7 @@ exports[`SpaceSection renders correctly 1`] = `
               "paddingVertical": 13,
             },
           ],
-          Object {
+          {
             "paddingHorizontal": 12,
             "paddingVertical": 8,
           },
@@ -95,8 +95,8 @@ exports[`SpaceSection renders correctly 1`] = `
       <View
         pointerEvents="none"
         style={
-          Array [
-            Object {
+          [
+            {
               "alignItems": "center",
               "flexDirection": "row",
               "justifyContent": "center",
@@ -109,18 +109,18 @@ exports[`SpaceSection renders correctly 1`] = `
           accessible={false}
           selectable={true}
           style={
-            Array [
-              Object {
+            [
+              {
                 "color": "#222326",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
-              Object {
+              {
                 "fontSize": 16,
                 "lineHeight": 19.2,
               },
               false,
-              Object {
+              {
                 "marginRight": 6,
               },
             ]
@@ -130,20 +130,19 @@ exports[`SpaceSection renders correctly 1`] = `
         </Text>
         <RNSVGSvgView
           align="xMidYMid"
-          bbHeight={24}
-          bbWidth={24}
-          color={4280427302}
+          bbHeight="24"
+          bbWidth="24"
           focusable={false}
           meetOrSlice={0}
           minX={0}
           minY={0}
           style={
-            Array [
-              Object {
+            [
+              {
                 "backgroundColor": "transparent",
                 "borderWidth": 0,
               },
-              Object {
+              {
                 "borderStyle": "solid",
                 "borderWidth": 0,
                 "color": "#222326",
@@ -155,33 +154,33 @@ exports[`SpaceSection renders correctly 1`] = `
                 "stroke": "currentColor",
                 "width": 24,
               },
-              Object {
+              {
                 "flex": 0,
                 "height": 24,
                 "width": 24,
               },
             ]
           }
-          tintColor={4280427302}
+          tintColor="#222326"
           vbHeight={1024}
           vbWidth={1024}
         >
           <RNSVGGroup
             fill={
-              Array [
-                2,
-              ]
+              {
+                "type": 2,
+              }
             }
             propList={
-              Array [
+              [
                 "fill",
                 "stroke",
               ]
             }
             stroke={
-              Array [
-                2,
-              ]
+              {
+                "type": 2,
+              }
             }
           >
             <RNSVGPath
@@ -198,8 +197,8 @@ exports[`SpaceSection renders correctly 1`] = `
 exports[`SpaceSection renders correctly 2`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "borderTopColor": "#eff0f1",
         "borderTopWidth": 1,
         "paddingVertical": 32,
@@ -211,7 +210,7 @@ exports[`SpaceSection renders correctly 2`] = `
 >
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "flexDirection": "row",
         "justifyContent": "space-between",
@@ -222,17 +221,17 @@ exports[`SpaceSection renders correctly 2`] = `
       role="header"
       selectable={true}
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#222326",
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {
+          {
             "fontSize": 21,
             "lineHeight": 25.2,
           },
-          Object {
+          {
             "fontWeight": "400",
           },
         ]

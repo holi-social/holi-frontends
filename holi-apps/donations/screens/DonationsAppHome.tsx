@@ -10,7 +10,7 @@ import { HoliHorizontalRow } from '@holi//ui/components/molecules/HoliHorizontal
 import DefaultLayout from '@holi/core/DefaultLayout'
 import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam from '@holi/core/navigation/hooks/useParam'
+import { createParam } from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'

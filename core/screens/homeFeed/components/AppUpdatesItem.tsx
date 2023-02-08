@@ -21,6 +21,7 @@ interface AppUpdatesItemProps {
   footer?: string | React.ReactNode
   onPress: (event: React.SyntheticEvent | GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
+  children?: React.ReactNode
 }
 
 const AppUpdatesItem: React.FC<AppUpdatesItemProps> = ({

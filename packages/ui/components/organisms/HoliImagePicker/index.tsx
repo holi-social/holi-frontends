@@ -18,9 +18,9 @@ const HoliImagePicker: React.FC<HoliImagePickerProps> = ({ children, buttonProps
       base64: true,
     })
 
-    if (!image || image.cancelled) return
+    if (!image) return
 
-    const { uri, base64 = '', height, width } = image
+    const { uri, height, width } = image
     const response = await fetch(uri)
     const blob = await response.blob()
     const filename = uri.substring(uri.lastIndexOf('/') + 1)
@@ -30,7 +30,7 @@ const HoliImagePicker: React.FC<HoliImagePickerProps> = ({ children, buttonProps
       type: blob.type,
     })
 
-    onPickImage({ uri, blob: reactNativeFile, base64, height, width })
+    onPickImage({ uri, blob: reactNativeFile, height, width })
   }, [pickImage, onPickImage])
 
   return (

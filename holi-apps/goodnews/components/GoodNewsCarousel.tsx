@@ -7,7 +7,7 @@ import Carousel from 'react-native-reanimated-carousel'
 
 import { logError } from '@holi/core/errors/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParam, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
+import { createParam, singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import { colors } from '@holi/ui/styles/globalVars'
 

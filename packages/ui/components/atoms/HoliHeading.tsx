@@ -27,12 +27,12 @@ export const HoliHeadingLevels: HoliHeadingLevel[] = Object.keys(HoliHeadings) a
 export const HoliHeadingSizes: HoliHeadingSize[] = ['super', 'large', 'medium', 'small'] // keep in sync with type HoliHeadingSize
 
 export type HoliHeadingProps = {
-  children?: React.ReactNode
   size?: HoliHeadingSize
   level?: HoliHeadingLevel
   selectable?: boolean
   testID?: string
   numberOfLines?: number
+  children?: React.ReactNode
 }
 
 const HoliHeading: React.FC<HoliHeadingProps & TextProps> = ({

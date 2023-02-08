@@ -1,16 +1,18 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
+/* eslint-disable prefer-arrow/prefer-arrow-functions */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// TODO: fix eslint warning
-// Based on solito@0.0.26
-// From https://gist.github.com/nandorojo/052887f99bb61b54845474f324aa41cc
-import Router, { useRouter } from 'next/router'
+// From https://github.com/nandorojo/solito/blob/master/src/params/index.tsx
+import Router from 'next/router'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Platform } from 'react-native'
 
-import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
-
+import { useNavigation } from './useNavigation'
 import { useRoute } from './useRoute'
+import { useRouter } from './useRouter'
 
-const useStable = <T>(value: T) => {
+function useStable<T>(value: T) {
   const ref = useRef(value)
   useEffect(() => {
     ref.current = value
@@ -19,7 +21,7 @@ const useStable = <T>(value: T) => {
   return ref
 }
 
-const useStableCallback = <T extends (...args: any[]) => any>(callback: T | undefined): T => {
+function useStableCallback<T extends (...args: any[]) => any>(callback: T | undefined): T {
   const callbackRef = useRef(callback)
 
   useEffect(() => {
@@ -29,6 +31,13 @@ const useStableCallback = <T extends (...args: any[]) => any>(callback: T | unde
   // https://github.com/facebook/react/issues/19240
   return useMemo(() => ((...args) => callbackRef.current?.(...args)) as T, [])
 }
+
+const parseString = (value?: string | string[]): string | undefined =>
+  Array.isArray(value) ? (value.length ? value[0] : undefined) : value
+const parseArray = (value?: string | string[]): string[] => (!value ? [] : Array.isArray(value) ? value : [value])
+
+export const singleParamConfig = { initial: undefined, parse: parseString }
+export const arrayParamConfig = { initial: [], parse: parseArray }
 
 type Config<
   Props extends Record<string, unknown>,
@@ -79,21 +88,8 @@ type Returns<
     : NonNullable<NullableUnparsedParsedType>
 > = readonly [state: ParsedType | InitialValue, setState: (value: ParsedType) => void]
 
-type UpdateOptions = {
-  web?: {
-    replace?: boolean
-  }
-}
-
-const parseString = (value?: string | string[]): string | undefined =>
-  Array.isArray(value) ? (value.length ? value[0] : undefined) : value
-const parseArray = (value?: string | string[]): string[] => (!value ? [] : Array.isArray(value) ? value : [value])
-
-export const singleParamConfig = { initial: undefined, parse: parseString }
-export const arrayParamConfig = { initial: [], parse: parseArray }
-
-const createParam = <Props extends Record<string, unknown> = Record<string, string>>() => {
-  const useParam = <
+export function createParam<Props extends Record<string, unknown> = Record<string, string>>() {
+  function useParam<
     Name extends keyof Props,
     NullableUnparsedParsedType extends Props[Name] | undefined = Props[Name] | undefined,
     ParseFunction extends undefined | ((value?: string | string[]) => NonNullable<NullableUnparsedParsedType>) = (
@@ -107,7 +103,7 @@ const createParam = <Props extends Record<string, unknown> = Record<string, stri
       : NonNullable<NullableUnparsedParsedType>
   >(
     ...[name, maybeConfig]: Params<Props, Name, NullableUnparsedParsedType, ParseFunction, InitialValue, ParsedType>
-  ): Returns<Props, Name, NullableUnparsedParsedType, ParseFunction, InitialValue, ParsedType> => {
+  ): Returns<Props, Name, NullableUnparsedParsedType, ParseFunction, InitialValue, ParsedType> {
     const {
       parse = (value?: string | string[]) => value,
       initial,
@@ -116,20 +112,25 @@ const createParam = <Props extends Record<string, unknown> = Record<string, stri
     } = maybeConfig || {}
     const nextRouter = useRouter()
     const nativeRoute = useRoute()
+    const nativeNavigation = useNavigation()
+    const nativeStateFromParams = (nativeRoute?.params as any)?.[name] as ParsedType
 
-    const stableParse = useStableCallback(parse)
+    const [nativeStateFromReact, setNativeStateFromReact] = useState<ParsedType | InitialValue>(
+      () => nativeStateFromParams ?? (initial as InitialValue)
+    )
+
+    const setNativeStateFromParams = useCallback((value: ParsedType) => {
+      nativeNavigation?.setParams({
+        [name]: value,
+      })
+    }, [])
+
+    const nativeState = nativeRoute ? nativeStateFromParams : nativeStateFromReact
+    const setNativeState = nativeRoute ? setNativeStateFromParams : setNativeStateFromReact
+
     const stableStringify = useStableCallback(stringify)
+    const stableParse = useStableCallback(parse)
     const stableParamsToClear = useStable(paramsToClearOnSetState)
-
-    const [nativeState, setNativeState] = useState<ParsedType | InitialValue>(() => {
-      const state = (nativeRoute?.params as any)?.[name]
-      return (stableParse(state) as ParsedType) ?? (initial as InitialValue)
-    })
-
-    useEffect(() => {
-      const state = (nativeRoute?.params as any)?.[name]
-      setNativeState((stableParse(state) as ParsedType) || (initial as InitialValue))
-    }, [setNativeState, stableParse, nativeRoute?.params, name, initial])
 
     const initialValue = useRef(initial)
     const hasSetState = useRef(false)
@@ -182,21 +183,31 @@ const createParam = <Props extends Record<string, unknown> = Record<string, stri
     }, [stableParse, webParam])
 
     if (Platform.OS !== 'web') {
+      if (!nativeRoute) {
+        console.error(
+          `[solito] useParam('${
+            name as string
+          }') called when there is no React Navigation route available. In a future version, this will throw an error. Please fix this by only calling useParam() inside of a React Navigation route. For now, Solito will fallback to using React state.`
+        )
+      }
       return [nativeState, setNativeState]
     }
 
     return [state, setState]
   }
 
-  const useUpdateParams = (): ((props: Partial<Props>, options?: UpdateOptions) => void) => {
-    const { setParams } = useUnifiedNavigation()
+  type UpdateOptions = {
+    web?: {
+      replace?: boolean
+    }
+  }
 
-    const setNativeStateFromParams = useCallback(
-      (value: Partial<Props>) => {
-        setParams(value)
-      },
-      [setParams]
-    )
+  function useUpdateParams(): (props: Partial<Props>, options?: UpdateOptions) => void {
+    const nativeNavigation = useNavigation()
+
+    const setNativeStateFromParams = useCallback((value: Partial<Props>) => {
+      nativeNavigation?.setParams(value)
+    }, [])
 
     const setWebState = useCallback((value: Partial<Props>, options?: UpdateOptions) => {
       const { pathname, query } = Router
@@ -232,5 +243,3 @@ const createParam = <Props extends Record<string, unknown> = Record<string, stri
     useUpdateParams,
   }
 }
-
-export default createParam

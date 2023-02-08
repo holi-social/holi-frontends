@@ -6,11 +6,13 @@ export interface HoliGridWrapperProps {
   gap: number
   itemsInRow: number
   style: ViewStyle
+  children?: React.ReactNode
 }
 
 interface GridContextValue {
   padding: number
   width: string
+  children?: React.ReactNode
 }
 
 const GridContext = createContext<GridContextValue>({

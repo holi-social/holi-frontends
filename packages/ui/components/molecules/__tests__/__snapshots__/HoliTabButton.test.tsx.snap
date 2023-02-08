@@ -6,7 +6,7 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
   accessibilityRole="tab"
   accessibilitySelected={false}
   accessibilityState={
-    Object {
+    {
       "disabled": false,
     }
   }
@@ -23,9 +23,9 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Array [
+    [
       undefined,
-      Object {
+      {
         "width": "auto",
       },
     ]
@@ -34,7 +34,7 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
   <View
     pointerEvents="none"
     style={
-      Object {
+      {
         "flexDirection": "row",
       }
     }
@@ -43,21 +43,21 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
       accessible={false}
       selectable={false}
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#222326",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
-          Object {
+          {
             "fontSize": 21,
             "lineHeight": 25.2,
           },
-          Object {
+          {
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {},
+          {},
         ]
       }
     >
@@ -73,7 +73,7 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
   accessibilityRole="tab"
   accessibilitySelected={false}
   accessibilityState={
-    Object {
+    {
       "disabled": false,
     }
   }
@@ -90,9 +90,9 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Array [
+    [
       undefined,
-      Object {
+      {
         "width": "auto",
       },
     ]
@@ -101,7 +101,7 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
   <View
     pointerEvents="none"
     style={
-      Object {
+      {
         "flexDirection": "row",
       }
     }
@@ -110,21 +110,21 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
       accessible={false}
       selectable={false}
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#222326",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
-          Object {
+          {
             "fontSize": 21,
             "lineHeight": 25.2,
           },
-          Object {
+          {
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {},
+          {},
         ]
       }
     >
@@ -140,7 +140,7 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
   accessibilityRole="tab"
   accessibilitySelected={false}
   accessibilityState={
-    Object {
+    {
       "disabled": true,
     }
   }
@@ -157,9 +157,9 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Array [
+    [
       undefined,
-      Object {
+      {
         "width": "auto",
       },
     ]
@@ -168,7 +168,7 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
   <View
     pointerEvents="none"
     style={
-      Object {
+      {
         "flexDirection": "row",
       }
     }
@@ -177,21 +177,21 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
       accessible={false}
       selectable={false}
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#222326",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
-          Object {
+          {
             "fontSize": 21,
             "lineHeight": 25.2,
           },
-          Object {
+          {
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {
+          {
             "color": "#6f7081",
           },
         ]
@@ -209,7 +209,7 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
   accessibilityRole="tab"
   accessibilitySelected={false}
   accessibilityState={
-    Object {
+    {
       "disabled": true,
     }
   }
@@ -226,9 +226,9 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Array [
+    [
       undefined,
-      Object {
+      {
         "width": "auto",
       },
     ]
@@ -237,7 +237,7 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
   <View
     pointerEvents="none"
     style={
-      Object {
+      {
         "flexDirection": "row",
       }
     }
@@ -246,21 +246,21 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
       accessible={false}
       selectable={false}
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#222326",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
-          Object {
+          {
             "fontSize": 21,
             "lineHeight": 25.2,
           },
-          Object {
+          {
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
-          Object {
+          {
             "color": "#6f7081",
           },
         ]

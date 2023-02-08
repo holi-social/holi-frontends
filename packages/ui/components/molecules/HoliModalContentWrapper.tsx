@@ -29,6 +29,7 @@ export interface HoliModalContentWrapper {
   testID?: string
   keyboardShouldPersistTaps?: ScrollViewProps['keyboardShouldPersistTaps']
   scrollable?: boolean
+  children?: React.ReactNode
 }
 
 const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = ({

@@ -15,6 +15,7 @@ export type HoliApp = {
   translationKey: string
   path?: string
   hasUpdates: boolean
+  children?: React.ReactNode
 }
 
 type AppTileProps = {
