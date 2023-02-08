@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   checkboxSelected: {
-    backgroundColor: colors.fontColorBlack,
+    backgroundColor: colors.foreground30,
   },
   checkboxDisabled: {
     borderColor: colors.borderColorBlackDisabled,
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     color: colors.fontColorGrey,
   },
   iconError: {
-    color: colors.fontColor,
+    color: colors.foreground30,
   },
   label: {
     marginLeft: 12,

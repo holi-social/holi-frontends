@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   avatarPileText: {
-    color: colors.fontColorBlack,
+    color: colors.foreground30,
   },
   actionButtons: {
     marginTop: 32,

@@ -77,7 +77,7 @@ export const All = () => {
   )
 }
 All.args = {
-  color: colors.fontColorBlack,
+  color: colors.foreground30,
 }
 All.argTypes = {
   color: { control: { type: 'color' } },

@@ -49,7 +49,7 @@ const AppTile: React.FC<AppTileProps> = ({ appData, onPress, style }: AppTilePro
           <HoliIcon
             icon={appData.icon}
             size={30}
-            color={isActive ? colors.fontColorBlack : colors.fontColorBlackDisabled}
+            color={isActive ? colors.foreground30 : colors.fontColorBlackDisabled}
             filled={appData.iconFilled}
           />
         )}

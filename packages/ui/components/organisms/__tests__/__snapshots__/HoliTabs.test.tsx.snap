@@ -78,7 +78,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                 "width": "auto",
               },
               Object {
-                "borderBottomColor": "#222326",
+                "borderBottomColor": "#262424",
               },
             ],
             Object {
@@ -104,7 +104,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "fontSize": 16,
                 },
                 Object {
-                  "color": "#222326",
+                  "color": "#262424",
                   "fontWeight": "500",
                 },
               ]
@@ -227,7 +227,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -265,7 +265,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },

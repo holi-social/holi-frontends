@@ -64,7 +64,7 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
@@ -74,7 +74,7 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
               },
               false,
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontSize": 18,
                 "fontWeight": "bold",
                 "lineHeight": 21.599999999999998,
@@ -102,7 +102,7 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
@@ -123,7 +123,7 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
             style={
               Array [
                 Object {
-                  "color": "#222326",
+                  "color": "#262424",
                   "fontFamily": "Circular Std Book",
                   "fontWeight": "400",
                 },
@@ -143,7 +143,7 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },

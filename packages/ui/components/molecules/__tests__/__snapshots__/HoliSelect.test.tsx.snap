@@ -54,7 +54,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
@@ -68,7 +68,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               },
               Array [
                 Object {
-                  "color": "#222326",
+                  "color": "#262424",
                 },
                 Object {
                   "color": "#6267e7",
@@ -128,12 +128,12 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           onContentSizeChange={[Function]}
           onFocus={[Function]}
           placeholder="Label · 2"
-          placeholderTextColor="#222326"
+          placeholderTextColor="#262424"
           secureTextEntry={false}
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
@@ -217,7 +217,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                   align="xMidYMid"
                   bbHeight={22}
                   bbWidth={22}
-                  color={4280427302}
+                  color={4280689700}
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
@@ -231,7 +231,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                       Object {
                         "borderStyle": "solid",
                         "borderWidth": 0,
-                        "color": "#222326",
+                        "color": "#262424",
                         "display": "flex",
                         "fill": "currentColor",
                         "flexDirection": "row",
@@ -247,7 +247,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor={4280689700}
                   vbHeight={1024}
                   vbWidth={1024}
                 >
@@ -458,7 +458,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -557,7 +557,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -588,7 +588,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     "borderRadius": 4,
                   },
                   Object {
-                    "backgroundColor": "#222326",
+                    "backgroundColor": "#262424",
                     "borderWidth": 0,
                   },
                 ]
@@ -721,7 +721,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -752,7 +752,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
                     "borderRadius": 4,
                   },
                   Object {
-                    "backgroundColor": "#222326",
+                    "backgroundColor": "#262424",
                     "borderWidth": 0,
                   },
                 ]
@@ -885,7 +885,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -984,7 +984,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -1083,7 +1083,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -1182,7 +1182,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -1281,7 +1281,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -1377,7 +1377,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
@@ -1391,7 +1391,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               },
               Array [
                 Object {
-                  "color": "#222326",
+                  "color": "#262424",
                 },
                 Object {
                   "color": "#6267e7",
@@ -1451,12 +1451,12 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           onContentSizeChange={[Function]}
           onFocus={[Function]}
           placeholder="Children & Youth"
-          placeholderTextColor="#222326"
+          placeholderTextColor="#262424"
           secureTextEntry={false}
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
@@ -1540,7 +1540,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                   align="xMidYMid"
                   bbHeight={22}
                   bbWidth={22}
-                  color={4280427302}
+                  color={4280689700}
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
@@ -1554,7 +1554,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                       Object {
                         "borderStyle": "solid",
                         "borderWidth": 0,
-                        "color": "#222326",
+                        "color": "#262424",
                         "display": "flex",
                         "fill": "currentColor",
                         "flexDirection": "row",
@@ -1570,7 +1570,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor={4280689700}
                   vbHeight={1024}
                   vbWidth={1024}
                 >
@@ -1781,7 +1781,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -1880,7 +1880,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -1911,7 +1911,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
                     "borderRadius": 4,
                   },
                   Object {
-                    "backgroundColor": "#222326",
+                    "backgroundColor": "#262424",
                     "borderWidth": 0,
                   },
                 ]
@@ -2044,7 +2044,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -2143,7 +2143,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -2242,7 +2242,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -2341,7 +2341,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -2440,7 +2440,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -2539,7 +2539,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -2635,7 +2635,7 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
@@ -2649,7 +2649,7 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
               },
               Array [
                 Object {
-                  "color": "#222326",
+                  "color": "#262424",
                 },
                 Object {},
                 Object {},
@@ -2707,7 +2707,7 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
@@ -2790,7 +2790,7 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
                   align="xMidYMid"
                   bbHeight={22}
                   bbWidth={22}
-                  color={4280427302}
+                  color={4280689700}
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
@@ -2804,7 +2804,7 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
                       Object {
                         "borderStyle": "solid",
                         "borderWidth": 0,
-                        "color": "#222326",
+                        "color": "#262424",
                         "display": "flex",
                         "fill": "currentColor",
                         "flexDirection": "row",
@@ -2820,7 +2820,7 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor={4280689700}
                   vbHeight={1024}
                   vbWidth={1024}
                 >
@@ -2919,7 +2919,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
@@ -2933,7 +2933,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               },
               Array [
                 Object {
-                  "color": "#222326",
+                  "color": "#262424",
                 },
                 Object {
                   "color": "#6267e7",
@@ -2998,7 +2998,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
@@ -3082,7 +3082,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                   align="xMidYMid"
                   bbHeight={22}
                   bbWidth={22}
-                  color={4280427302}
+                  color={4280689700}
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
@@ -3096,7 +3096,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                       Object {
                         "borderStyle": "solid",
                         "borderWidth": 0,
-                        "color": "#222326",
+                        "color": "#262424",
                         "display": "flex",
                         "fill": "currentColor",
                         "flexDirection": "row",
@@ -3112,7 +3112,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor={4280689700}
                   vbHeight={1024}
                   vbWidth={1024}
                 >
@@ -3323,7 +3323,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -3422,7 +3422,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -3521,7 +3521,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -3620,7 +3620,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -3719,7 +3719,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -3818,7 +3818,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -3917,7 +3917,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -4016,7 +4016,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -4112,7 +4112,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
@@ -4126,7 +4126,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               },
               Array [
                 Object {
-                  "color": "#222326",
+                  "color": "#262424",
                 },
                 Object {
                   "color": "#6267e7",
@@ -4191,7 +4191,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
@@ -4277,7 +4277,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                   align="xMidYMid"
                   bbHeight={16}
                   bbWidth={16}
-                  color={4280427302}
+                  color={4280689700}
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
@@ -4291,7 +4291,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                       Object {
                         "borderStyle": "solid",
                         "borderWidth": 0,
-                        "color": "#222326",
+                        "color": "#262424",
                         "display": "flex",
                         "fill": "currentColor",
                         "flexDirection": "row",
@@ -4307,7 +4307,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor={4280689700}
                   vbHeight={1024}
                   vbWidth={1024}
                 >
@@ -4381,7 +4381,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                   align="xMidYMid"
                   bbHeight={22}
                   bbWidth={22}
-                  color={4280427302}
+                  color={4280689700}
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
@@ -4395,7 +4395,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                       Object {
                         "borderStyle": "solid",
                         "borderWidth": 0,
-                        "color": "#222326",
+                        "color": "#262424",
                         "display": "flex",
                         "fill": "currentColor",
                         "flexDirection": "row",
@@ -4411,7 +4411,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor={4280689700}
                   vbHeight={1024}
                   vbWidth={1024}
                 >
@@ -4592,7 +4592,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -4689,7 +4689,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -4783,7 +4783,7 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
@@ -4797,7 +4797,7 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
               },
               Array [
                 Object {
-                  "color": "#222326",
+                  "color": "#262424",
                 },
                 Object {},
                 Object {},
@@ -4850,12 +4850,12 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
           onContentSizeChange={[Function]}
           onFocus={[Function]}
           placeholder="Children & Youth"
-          placeholderTextColor="#222326"
+          placeholderTextColor="#262424"
           secureTextEntry={false}
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
@@ -4939,7 +4939,7 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
                   align="xMidYMid"
                   bbHeight={22}
                   bbWidth={22}
-                  color={4280427302}
+                  color={4280689700}
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
@@ -4953,7 +4953,7 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
                       Object {
                         "borderStyle": "solid",
                         "borderWidth": 0,
-                        "color": "#222326",
+                        "color": "#262424",
                         "display": "flex",
                         "fill": "currentColor",
                         "flexDirection": "row",
@@ -4969,7 +4969,7 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor={4280689700}
                   vbHeight={1024}
                   vbWidth={1024}
                 >
@@ -5068,7 +5068,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
@@ -5082,7 +5082,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
               },
               Array [
                 Object {
-                  "color": "#222326",
+                  "color": "#262424",
                 },
                 Object {},
                 Object {},
@@ -5140,7 +5140,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
@@ -5223,7 +5223,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
                   align="xMidYMid"
                   bbHeight={22}
                   bbWidth={22}
-                  color={4280427302}
+                  color={4280689700}
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
@@ -5237,7 +5237,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
                       Object {
                         "borderStyle": "solid",
                         "borderWidth": 0,
-                        "color": "#222326",
+                        "color": "#262424",
                         "display": "flex",
                         "fill": "currentColor",
                         "flexDirection": "row",
@@ -5253,7 +5253,7 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor={4280689700}
                   vbHeight={1024}
                   vbWidth={1024}
                 >
@@ -5352,7 +5352,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
@@ -5366,7 +5366,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               },
               Array [
                 Object {
-                  "color": "#222326",
+                  "color": "#262424",
                 },
                 Object {
                   "color": "#6267e7",
@@ -5431,7 +5431,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
@@ -5515,7 +5515,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                   align="xMidYMid"
                   bbHeight={22}
                   bbWidth={22}
-                  color={4280427302}
+                  color={4280689700}
                   focusable={false}
                   meetOrSlice={0}
                   minX={0}
@@ -5529,7 +5529,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                       Object {
                         "borderStyle": "solid",
                         "borderWidth": 0,
-                        "color": "#222326",
+                        "color": "#262424",
                         "display": "flex",
                         "fill": "currentColor",
                         "flexDirection": "row",
@@ -5545,7 +5545,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
                       },
                     ]
                   }
-                  tintColor={4280427302}
+                  tintColor={4280689700}
                   vbHeight={1024}
                   vbWidth={1024}
                 >
@@ -5756,7 +5756,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -5853,7 +5853,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -5950,7 +5950,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -6047,7 +6047,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -6144,7 +6144,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -6241,7 +6241,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -6338,7 +6338,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -6435,7 +6435,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },

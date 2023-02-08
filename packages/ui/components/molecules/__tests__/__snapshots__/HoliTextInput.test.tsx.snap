@@ -80,7 +80,7 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
         style={
           Array [
             Object {
-              "color": "#222326",
+              "color": "#262424",
               "flex": 1,
               "fontFamily": "Circular Std Book",
               "fontSize": 16,
@@ -129,7 +129,7 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
@@ -233,7 +233,7 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
         style={
           Array [
             Object {
-              "color": "#222326",
+              "color": "#262424",
               "flex": 1,
               "fontFamily": "Circular Std Book",
               "fontSize": 16,
@@ -282,7 +282,7 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
@@ -386,7 +386,7 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
         style={
           Array [
             Object {
-              "color": "#222326",
+              "color": "#262424",
               "flex": 1,
               "fontFamily": "Circular Std Book",
               "fontSize": 16,
@@ -435,7 +435,7 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
@@ -509,7 +509,7 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
         style={
           Array [
             Object {
-              "color": "#222326",
+              "color": "#262424",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
@@ -523,7 +523,7 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
             },
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
               },
               undefined,
               Object {},
@@ -580,7 +580,7 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
         style={
           Array [
             Object {
-              "color": "#222326",
+              "color": "#262424",
               "flex": 1,
               "fontFamily": "Circular Std Book",
               "fontSize": 16,
@@ -627,7 +627,7 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
@@ -704,7 +704,7 @@ exports[`HoliTextInput renders correctly with error 1`] = `
         style={
           Array [
             Object {
-              "color": "#222326",
+              "color": "#262424",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
@@ -718,7 +718,7 @@ exports[`HoliTextInput renders correctly with error 1`] = `
             },
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
               },
               undefined,
               Object {},
@@ -780,7 +780,7 @@ exports[`HoliTextInput renders correctly with error 1`] = `
         style={
           Array [
             Object {
-              "color": "#222326",
+              "color": "#262424",
               "flex": 1,
               "fontFamily": "Circular Std Book",
               "fontSize": 16,
@@ -900,7 +900,7 @@ exports[`HoliTextInput renders correctly with error 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
@@ -1006,7 +1006,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
         style={
           Array [
             Object {
-              "color": "#222326",
+              "color": "#262424",
               "flex": 1,
               "fontFamily": "Circular Std Book",
               "fontSize": 16,
@@ -1040,7 +1040,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
           align="xMidYMid"
           bbHeight={22}
           bbWidth={22}
-          color={4293914865}
+          color={4294046193}
           focusable={false}
           meetOrSlice={0}
           minX={0}
@@ -1054,7 +1054,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
               Object {
                 "borderStyle": "solid",
                 "borderWidth": 0,
-                "color": "#eff0f1",
+                "color": "#f1f1f1",
                 "display": "flex",
                 "fill": "currentColor",
                 "flexDirection": "row",
@@ -1070,7 +1070,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
               },
             ]
           }
-          tintColor={4293914865}
+          tintColor={4294046193}
           vbHeight={1024}
           vbWidth={1024}
         >
@@ -1126,7 +1126,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
@@ -1230,7 +1230,7 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
         style={
           Array [
             Object {
-              "color": "#222326",
+              "color": "#262424",
               "flex": 1,
               "fontFamily": "Circular Std Book",
               "fontSize": 16,
@@ -1280,7 +1280,7 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
@@ -1384,7 +1384,7 @@ exports[`HoliTextInput renders correctly without label 1`] = `
         style={
           Array [
             Object {
-              "color": "#222326",
+              "color": "#262424",
               "flex": 1,
               "fontFamily": "Circular Std Book",
               "fontSize": 16,
@@ -1433,7 +1433,7 @@ exports[`HoliTextInput renders correctly without label 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },

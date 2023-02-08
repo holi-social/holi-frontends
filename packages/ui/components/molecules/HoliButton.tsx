@@ -149,7 +149,7 @@ const getStyles = (inline: boolean, isWarning: boolean) =>
       width: inline ? 'auto' : '100%',
     },
     nonTransparent: {
-      borderColor: colors.borderColorBlack,
+      borderColor: colors.foreground30,
       borderWidth: 2,
       borderRadius: 28,
       backgroundColor: colors.backgroundColorWhite,

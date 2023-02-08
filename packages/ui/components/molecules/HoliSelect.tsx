@@ -216,7 +216,9 @@ const HoliSelect = ({
     [options, regex]
   )
 
-  const placeholderTextColor = selectedText ? colors.fontColor : tinycolor(colors.fontColorGrey).lighten(30).toString()
+  const placeholderTextColor = selectedText
+    ? colors.foreground30
+    : tinycolor(colors.fontColorGrey).lighten(30).toString()
 
   /**
    * TODO:
@@ -321,7 +323,7 @@ const getStyles = (textInputHeight: number) =>
     },
     listItemIconContainerSelected: {
       borderWidth: 0,
-      backgroundColor: colors.fontColorBlack,
+      backgroundColor: colors.foreground30,
     },
     trailingIconContainer: {
       flexDirection: 'row',

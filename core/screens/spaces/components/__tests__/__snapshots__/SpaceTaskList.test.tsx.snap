@@ -18,7 +18,7 @@ exports[`SpaceTaskList renders correctly when there are no tasks within space 1`
     style={
       Array [
         Object {
-          "color": "#222326",
+          "color": "#262424",
           "fontFamily": "Circular Std Book",
           "fontWeight": "400",
         },
@@ -44,7 +44,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
     style={
       Array [
         Object {
-          "color": "#222326",
+          "color": "#262424",
           "fontFamily": "Circular Std Medium",
           "fontWeight": "500",
         },
@@ -129,7 +129,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Medium",
                     "fontWeight": "500",
                   },
@@ -269,7 +269,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 style={
                   Array [
                     Object {
-                      "color": "#222326",
+                      "color": "#262424",
                       "fontFamily": "Circular Std Book",
                       "fontWeight": "400",
                     },
@@ -364,7 +364,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 style={
                   Array [
                     Object {
-                      "color": "#222326",
+                      "color": "#262424",
                       "fontFamily": "Circular Std Book",
                       "fontWeight": "400",
                     },
@@ -399,7 +399,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -431,7 +431,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -484,7 +484,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   style={
                     Array [
                       Object {
-                        "color": "#222326",
+                        "color": "#262424",
                         "fontFamily": "Circular Std Book",
                         "fontWeight": "400",
                       },
@@ -558,7 +558,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Medium",
                     "fontWeight": "500",
                   },
@@ -698,7 +698,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 style={
                   Array [
                     Object {
-                      "color": "#222326",
+                      "color": "#262424",
                       "fontFamily": "Circular Std Book",
                       "fontWeight": "400",
                     },
@@ -793,7 +793,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 style={
                   Array [
                     Object {
-                      "color": "#222326",
+                      "color": "#262424",
                       "fontFamily": "Circular Std Book",
                       "fontWeight": "400",
                     },
@@ -828,7 +828,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -860,7 +860,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -913,7 +913,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   style={
                     Array [
                       Object {
-                        "color": "#222326",
+                        "color": "#262424",
                         "fontFamily": "Circular Std Book",
                         "fontWeight": "400",
                       },
@@ -987,7 +987,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Medium",
                     "fontWeight": "500",
                   },
@@ -1127,7 +1127,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 style={
                   Array [
                     Object {
-                      "color": "#222326",
+                      "color": "#262424",
                       "fontFamily": "Circular Std Book",
                       "fontWeight": "400",
                     },
@@ -1222,7 +1222,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 style={
                   Array [
                     Object {
-                      "color": "#222326",
+                      "color": "#262424",
                       "fontFamily": "Circular Std Book",
                       "fontWeight": "400",
                     },
@@ -1257,7 +1257,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -1289,7 +1289,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -1342,7 +1342,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   style={
                     Array [
                       Object {
-                        "color": "#222326",
+                        "color": "#262424",
                         "fontFamily": "Circular Std Book",
                         "fontWeight": "400",
                       },

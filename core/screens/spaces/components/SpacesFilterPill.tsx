@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundColorPillGreen,
   },
   buttonContent: {
-    borderColor: colors.borderColorBlack,
+    borderColor: colors.foreground30,
     borderRadius: 48,
     borderWidth: 1,
     paddingVertical: 4,

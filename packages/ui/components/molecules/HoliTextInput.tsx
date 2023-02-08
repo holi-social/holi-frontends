@@ -145,7 +145,7 @@ const HoliTextInput = ({
   const iconColor = (() => {
     if (isFocused) return colors.secondaryColor
     if (isHovered) return tinycolor(colors.softblackLight).darken(45).toString()
-    return tinycolor(colors.fontColor).lighten(80).toString()
+    return tinycolor(colors.foreground30).lighten(80).toString()
   })()
 
   return (
@@ -294,7 +294,7 @@ const getStyles = (theme: HoliTheme) =>
       borderColor: colors.errorRed,
     },
     inputWrapperHovered: {
-      borderColor: tinycolor(colors.borderColorBlack).lighten(35).toString(),
+      borderColor: tinycolor(colors.foreground30).lighten(35).toString(),
     },
     input: {
       flex: 1,
@@ -304,7 +304,7 @@ const getStyles = (theme: HoliTheme) =>
       lineHeight: LINE_HEIGHT,
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
-      color: colors.fontColor,
+      color: colors.foreground30,
       overflow: 'scroll',
       ...Platform.select({
         web: {
@@ -327,7 +327,7 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
     },
     inputCharsTextWrapper: {
-      backgroundColor: tinycolor(colors.backgroundColorBlack).lighten(80).toString(),
+      backgroundColor: tinycolor(colors.foreground30).lighten(80).toString(),
       borderRadius: 8,
       position: 'absolute',
       paddingHorizontal: 8,
@@ -353,7 +353,7 @@ const getStyles = (theme: HoliTheme) =>
       marginBottom: 6,
     },
     label: {
-      color: colors.fontColor,
+      color: colors.foreground30,
     },
     labelFocused: {
       color: colors.secondaryColor,

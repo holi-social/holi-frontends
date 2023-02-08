@@ -6,6 +6,10 @@
 // run `yarn ui:generate-style-vars` on every file change
 // TODO: add to dev-watcher
 
+// HINT
+// Commenting with `// ` will not prevent var generation.
+// Use `/* */` instead!
+
 /*
 New colors
 */
@@ -49,7 +53,6 @@ $foreground30at32Percent: #26242452;
 $foreground30at12Percent: #2222221F;
 
 
-$softblack: #222326;
 $softblackLight: #eff0f1;
 $foreground10: #b0b0b0;
 $white: #ffffff;
@@ -61,9 +64,7 @@ $grey: #6f7081;
 $errorRed: #cc1820;
 $errorRedLight: lighten($errorRed, 50%);
 
-$font-color: $softblack;
 $font-color-disabled: $foreground10;
-$font-color-black: $font-color;
 $font-color-black-disabled: $foreground10;
 $font-color-grey: $grey;
 $font-color-grey-disabled: $foreground10;
@@ -77,8 +78,6 @@ $primary-color: $impactyellow;
 $secondary-color: $positivepurple;
 $tertiary-color: #57d14c;
 
-$border-color: $softblack;
-$border-color-black: $softblack;
 $border-color-black-disabled: $softblackLight;
 $border-color-grey: $softblackLight;
 $border-color-grey-darker: $foreground10;
@@ -95,7 +94,6 @@ $background-color-white: $white;
 $background-color-grey: $softwhite;
 $background-color-grey-light: $softblackLight;
 $background-color-grey-dark: $softwhiteDark;
-$background-color-black: $softblack;
 $background-color-donation-green: #00a853;
 $background-color-success: $positivepurple;
 $background-color-error: $errorRed;

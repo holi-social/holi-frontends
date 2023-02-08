@@ -30,7 +30,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
         style={
           Array [
             Object {
-              "color": "#222326",
+              "color": "#262424",
               "fontFamily": "Circular Std Medium",
               "fontWeight": "500",
             },
@@ -157,7 +157,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         },
                         undefined,
                         Object {
-                          "borderColor": "#222326",
+                          "borderColor": "#262424",
                           "borderWidth": 2,
                           "height": 128,
                           "width": 128,
@@ -188,7 +188,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     style={
                       Array [
                         Object {
-                          "color": "#222326",
+                          "color": "#262424",
                           "fontFamily": "Circular Std Book",
                           "fontWeight": "400",
                         },
@@ -223,7 +223,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       style={
                         Array [
                           Object {
-                            "color": "#222326",
+                            "color": "#262424",
                             "fontFamily": "Circular Std Book",
                             "fontWeight": "400",
                           },
@@ -320,7 +320,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         },
                         undefined,
                         Object {
-                          "borderColor": "#222326",
+                          "borderColor": "#262424",
                           "borderWidth": 2,
                           "height": 128,
                           "width": 128,
@@ -336,7 +336,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       style={
                         Array [
                           Object {
-                            "color": "#222326",
+                            "color": "#262424",
                             "fontFamily": "Circular Std Book",
                             "fontWeight": "400",
                           },
@@ -364,7 +364,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     style={
                       Array [
                         Object {
-                          "color": "#222326",
+                          "color": "#262424",
                           "fontFamily": "Circular Std Book",
                           "fontWeight": "400",
                         },
@@ -399,7 +399,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       style={
                         Array [
                           Object {
-                            "color": "#222326",
+                            "color": "#262424",
                             "fontFamily": "Circular Std Book",
                             "fontWeight": "400",
                           },
@@ -496,7 +496,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         },
                         undefined,
                         Object {
-                          "borderColor": "#222326",
+                          "borderColor": "#262424",
                           "borderWidth": 2,
                           "height": 128,
                           "width": 128,
@@ -527,7 +527,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     style={
                       Array [
                         Object {
-                          "color": "#222326",
+                          "color": "#262424",
                           "fontFamily": "Circular Std Book",
                           "fontWeight": "400",
                         },
@@ -562,7 +562,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       style={
                         Array [
                           Object {
-                            "color": "#222326",
+                            "color": "#262424",
                             "fontFamily": "Circular Std Book",
                             "fontWeight": "400",
                           },
@@ -659,7 +659,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         },
                         undefined,
                         Object {
-                          "borderColor": "#222326",
+                          "borderColor": "#262424",
                           "borderWidth": 2,
                           "height": 128,
                           "width": 128,
@@ -675,7 +675,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       style={
                         Array [
                           Object {
-                            "color": "#222326",
+                            "color": "#262424",
                             "fontFamily": "Circular Std Book",
                             "fontWeight": "400",
                           },
@@ -685,7 +685,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           },
                           false,
                           Object {
-                            "color": "#222326",
+                            "color": "#262424",
                             "fontSize": 57.6,
                             "fontWeight": "bold",
                             "lineHeight": 69.12,
@@ -703,7 +703,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     style={
                       Array [
                         Object {
-                          "color": "#222326",
+                          "color": "#262424",
                           "fontFamily": "Circular Std Book",
                           "fontWeight": "400",
                         },
@@ -738,7 +738,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       style={
                         Array [
                           Object {
-                            "color": "#222326",
+                            "color": "#262424",
                             "fontFamily": "Circular Std Book",
                             "fontWeight": "400",
                           },
@@ -835,7 +835,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         },
                         undefined,
                         Object {
-                          "borderColor": "#222326",
+                          "borderColor": "#262424",
                           "borderWidth": 2,
                           "height": 128,
                           "width": 128,
@@ -866,7 +866,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     style={
                       Array [
                         Object {
-                          "color": "#222326",
+                          "color": "#262424",
                           "fontFamily": "Circular Std Book",
                           "fontWeight": "400",
                         },
@@ -901,7 +901,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       style={
                         Array [
                           Object {
-                            "color": "#222326",
+                            "color": "#262424",
                             "fontFamily": "Circular Std Book",
                             "fontWeight": "400",
                           },
@@ -998,7 +998,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         },
                         undefined,
                         Object {
-                          "borderColor": "#222326",
+                          "borderColor": "#262424",
                           "borderWidth": 2,
                           "height": 128,
                           "width": 128,
@@ -1014,7 +1014,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       style={
                         Array [
                           Object {
-                            "color": "#222326",
+                            "color": "#262424",
                             "fontFamily": "Circular Std Book",
                             "fontWeight": "400",
                           },
@@ -1042,7 +1042,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     style={
                       Array [
                         Object {
-                          "color": "#222326",
+                          "color": "#262424",
                           "fontFamily": "Circular Std Book",
                           "fontWeight": "400",
                         },
@@ -1077,7 +1077,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       style={
                         Array [
                           Object {
-                            "color": "#222326",
+                            "color": "#262424",
                             "fontFamily": "Circular Std Book",
                             "fontWeight": "400",
                           },
@@ -1176,7 +1176,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         },
                         undefined,
                         Object {
-                          "borderColor": "#222326",
+                          "borderColor": "#262424",
                           "borderWidth": 2,
                           "height": 128,
                           "width": 128,
@@ -1207,7 +1207,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     style={
                       Array [
                         Object {
-                          "color": "#222326",
+                          "color": "#262424",
                           "fontFamily": "Circular Std Book",
                           "fontWeight": "400",
                         },
@@ -1242,7 +1242,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       style={
                         Array [
                           Object {
-                            "color": "#222326",
+                            "color": "#262424",
                             "fontFamily": "Circular Std Book",
                             "fontWeight": "400",
                           },
@@ -1323,14 +1323,14 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 style={
                   Array [
                     Object {
-                      "backgroundColor": "#222326",
+                      "backgroundColor": "#262424",
                       "borderRadius": 50,
                       "height": 8,
                       "opacity": 0.3,
                       "width": 8,
                     },
                     Object {
-                      "backgroundColor": "#222326",
+                      "backgroundColor": "#262424",
                       "opacity": 1,
                     },
                   ]
@@ -1385,7 +1385,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 style={
                   Array [
                     Object {
-                      "backgroundColor": "#222326",
+                      "backgroundColor": "#262424",
                       "borderRadius": 50,
                       "height": 8,
                       "opacity": 0.3,
@@ -1444,7 +1444,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 style={
                   Array [
                     Object {
-                      "backgroundColor": "#222326",
+                      "backgroundColor": "#262424",
                       "borderRadius": 50,
                       "height": 8,
                       "opacity": 0.3,
@@ -1503,7 +1503,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 style={
                   Array [
                     Object {
-                      "backgroundColor": "#222326",
+                      "backgroundColor": "#262424",
                       "borderRadius": 50,
                       "height": 8,
                       "opacity": 0.3,
@@ -1562,7 +1562,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 style={
                   Array [
                     Object {
-                      "backgroundColor": "#222326",
+                      "backgroundColor": "#262424",
                       "borderRadius": 50,
                       "height": 8,
                       "opacity": 0.3,
@@ -1621,7 +1621,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 style={
                   Array [
                     Object {
-                      "backgroundColor": "#222326",
+                      "backgroundColor": "#262424",
                       "borderRadius": 50,
                       "height": 8,
                       "opacity": 0.3,
@@ -1680,7 +1680,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 style={
                   Array [
                     Object {
-                      "backgroundColor": "#222326",
+                      "backgroundColor": "#262424",
                       "borderRadius": 50,
                       "height": 8,
                       "opacity": 0.3,
@@ -1744,7 +1744,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             },
             Object {
               "backgroundColor": "#fff",
-              "borderColor": "#222326",
+              "borderColor": "#262424",
               "borderRadius": 28,
               "borderWidth": 2,
               "display": "flex",
@@ -1792,7 +1792,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },

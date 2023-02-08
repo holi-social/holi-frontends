@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     color: colors.grey,
   },
   authorInfoName: {
-    color: colors.fontColorBlack,
+    color: colors.foreground30,
   },
   postList: {
     marginTop: 24,

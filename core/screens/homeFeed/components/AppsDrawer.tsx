@@ -45,7 +45,7 @@ const AppsDrawer: React.FC = () => {
         <HoliText size="small" bold>
           {t('apps.drawer.open.btn.text')}
         </HoliText>
-        <HoliIcon icon="apps" size={16} color={colors.fontColorBlack} style={{ marginLeft: 3 }} />
+        <HoliIcon icon="apps" size={16} color={colors.foreground30} style={{ marginLeft: 3 }} />
       </HoliButton>
 
       {/* Apps modal (drawer) */}

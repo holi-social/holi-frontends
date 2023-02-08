@@ -29,7 +29,7 @@ exports[`SpaceSection renders correctly 1`] = `
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },
@@ -73,7 +73,7 @@ exports[`SpaceSection renders correctly 1`] = `
             },
             Object {
               "backgroundColor": "#fff",
-              "borderColor": "#222326",
+              "borderColor": "#262424",
               "borderRadius": 28,
               "borderWidth": 2,
               "display": "flex",
@@ -111,7 +111,7 @@ exports[`SpaceSection renders correctly 1`] = `
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
@@ -132,7 +132,7 @@ exports[`SpaceSection renders correctly 1`] = `
           align="xMidYMid"
           bbHeight={24}
           bbWidth={24}
-          color={4280427302}
+          color={4280689700}
           focusable={false}
           meetOrSlice={0}
           minX={0}
@@ -146,7 +146,7 @@ exports[`SpaceSection renders correctly 1`] = `
               Object {
                 "borderStyle": "solid",
                 "borderWidth": 0,
-                "color": "#222326",
+                "color": "#262424",
                 "display": "flex",
                 "fill": "currentColor",
                 "flexDirection": "row",
@@ -162,7 +162,7 @@ exports[`SpaceSection renders correctly 1`] = `
               },
             ]
           }
-          tintColor={4280427302}
+          tintColor={4280689700}
           vbHeight={1024}
           vbWidth={1024}
         >
@@ -224,7 +224,7 @@ exports[`SpaceSection renders correctly 2`] = `
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Medium",
             "fontWeight": "500",
           },

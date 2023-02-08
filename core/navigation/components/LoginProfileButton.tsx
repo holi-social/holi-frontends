@@ -56,7 +56,7 @@ const LoginProfileButton: React.FC<LoginProfileButtonProps> = ({ focused, childr
       ) : (
         <HoliIcon
           filled={focused}
-          color={focused ? colors.fontColorBlack : colors.fontColorGrey}
+          color={focused ? colors.foreground30 : colors.fontColorGrey}
           icon="account-circle"
           size={24}
         />
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   userAvatarHighlighted: {
-    borderColor: colors.backgroundColorBlack,
+    borderColor: colors.foreground30,
     borderWidth: 2,
   },
 })

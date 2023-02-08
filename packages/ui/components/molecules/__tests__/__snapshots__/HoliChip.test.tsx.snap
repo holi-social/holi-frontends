@@ -64,7 +64,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -221,7 +221,7 @@ exports[`renders correctly renders correctly when disabled 1`] = `
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -310,7 +310,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },

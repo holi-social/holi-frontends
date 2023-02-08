@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     paddingBottom: 72,
   },
   imageContainer: {
-    borderColor: colors.borderColorBlack,
+    borderColor: colors.foreground30,
     flex: 1,
     width: '100%',
     overflow: 'hidden',
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
       },
       // needed for mobile because of bug with borderRadius
       ios: {
-        borderColor: colors.borderColorBlack,
+        borderColor: colors.foreground30,
         borderTopRightRadius: 27,
         borderTopLeftRadius: 27,
       },

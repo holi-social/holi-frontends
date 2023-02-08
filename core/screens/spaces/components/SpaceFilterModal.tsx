@@ -100,7 +100,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
         <HoliText size="small" bold>
           {t('spaces.filter.button.text')}
         </HoliText>
-        <HoliIcon icon="filter-3" size={16} color={colors.fontColorBlack} style={styles.icon} />
+        <HoliIcon icon="filter-3" size={16} color={colors.foreground30} style={styles.icon} />
       </HoliButton>
 
       {/* Filter modal */}

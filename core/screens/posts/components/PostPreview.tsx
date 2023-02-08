@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   readMoreText: {
-    color: colors.fontColor,
+    color: colors.foreground30,
     lineHeight: 20,
   },
   linkPreview: {

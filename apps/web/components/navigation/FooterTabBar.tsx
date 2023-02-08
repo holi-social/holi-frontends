@@ -149,7 +149,7 @@ const getStyles = (screenWidth: number) =>
       alignItems: 'center',
     },
     activeTintColor: {
-      color: colors.fontColorBlack,
+      color: colors.foreground30,
       fontWeight: '500',
     },
     inactiveTintColor: {

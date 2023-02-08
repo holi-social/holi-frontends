@@ -112,7 +112,7 @@ exports[`SpaceSocialLink renders correctly when type is OTHER 1`] = `
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -248,7 +248,7 @@ exports[`SpaceSocialLink renders correctly when type is different than OTHER 1`]
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },

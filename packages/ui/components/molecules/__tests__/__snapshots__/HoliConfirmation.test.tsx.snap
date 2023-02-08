@@ -41,7 +41,7 @@ exports[`renders correctly renders correctly when open 1`] = `
       onStartShouldSetResponder={[Function]}
       style={
         Object {
-          "backgroundColor": "#222326",
+          "backgroundColor": "#262424",
           "bottom": 0,
           "left": 0,
           "opacity": 0.4,
@@ -79,7 +79,7 @@ exports[`renders correctly renders correctly when open 1`] = `
         style={
           Array [
             Object {
-              "color": "#222326",
+              "color": "#262424",
               "fontFamily": "Circular Std Medium",
               "fontWeight": "500",
             },
@@ -99,7 +99,7 @@ exports[`renders correctly renders correctly when open 1`] = `
         style={
           Array [
             Object {
-              "color": "#222326",
+              "color": "#262424",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
@@ -158,7 +158,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                 },
                 Object {
                   "backgroundColor": "#fff",
-                  "borderColor": "#222326",
+                  "borderColor": "#262424",
                   "borderRadius": 28,
                   "borderWidth": 2,
                   "display": "flex",
@@ -197,7 +197,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -251,7 +251,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                 },
                 Object {
                   "backgroundColor": "#fff",
-                  "borderColor": "#222326",
+                  "borderColor": "#262424",
                   "borderRadius": 28,
                   "borderWidth": 2,
                   "display": "flex",
@@ -293,7 +293,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -356,7 +356,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
       onStartShouldSetResponder={[Function]}
       style={
         Object {
-          "backgroundColor": "#222326",
+          "backgroundColor": "#262424",
           "bottom": 0,
           "left": 0,
           "opacity": 0.4,
@@ -394,7 +394,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
         style={
           Array [
             Object {
-              "color": "#222326",
+              "color": "#262424",
               "fontFamily": "Circular Std Medium",
               "fontWeight": "500",
             },
@@ -414,7 +414,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
         style={
           Array [
             Object {
-              "color": "#222326",
+              "color": "#262424",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
@@ -473,7 +473,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
                 },
                 Object {
                   "backgroundColor": "#fff",
-                  "borderColor": "#222326",
+                  "borderColor": "#262424",
                   "borderRadius": 28,
                   "borderWidth": 2,
                   "display": "flex",
@@ -512,7 +512,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -566,7 +566,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
                 },
                 Object {
                   "backgroundColor": "#fff",
-                  "borderColor": "#222326",
+                  "borderColor": "#262424",
                   "borderRadius": 28,
                   "borderWidth": 2,
                   "display": "flex",
@@ -605,7 +605,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },

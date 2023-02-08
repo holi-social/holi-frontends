@@ -36,7 +36,7 @@ const getStyles = (width: number) =>
       width,
       height: width,
       borderWidth: 2,
-      borderColor: colors.softblack,
+      borderColor: colors.foreground30,
       maxWidth: 128,
       maxHeight: 128,
     },

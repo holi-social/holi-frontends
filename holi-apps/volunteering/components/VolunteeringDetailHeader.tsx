@@ -29,8 +29,8 @@ const VolunteeringDetailHeader: React.VFC<VolunteeringDetailHeaderProps> = ({
         {engagement.location && (
           <LocationContainer
             locationName={engagement.location}
-            iconColor={colors.fontColorBlack}
-            fontColor={colors.fontColorBlack}
+            iconColor={colors.foreground30}
+            fontColor={colors.foreground30}
           />
         )}
       </View>

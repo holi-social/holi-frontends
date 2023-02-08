@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   avatar: {
-    borderColor: colors.softblack,
+    borderColor: colors.foreground30,
     borderWidth: 2,
   },
   input: {

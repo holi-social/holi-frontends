@@ -87,7 +87,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
             style={
               Array [
                 Object {
-                  "color": "#222326",
+                  "color": "#262424",
                   "fontFamily": "Circular Std Medium",
                   "fontWeight": "500",
                 },
@@ -110,7 +110,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
             style={
               Array [
                 Object {
-                  "color": "#222326",
+                  "color": "#262424",
                   "fontFamily": "Circular Std Book",
                   "fontWeight": "400",
                 },
@@ -138,7 +138,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
             style={
               Array [
                 Object {
-                  "color": "#222326",
+                  "color": "#262424",
                   "fontFamily": "Circular Std Book",
                   "fontWeight": "400",
                 },

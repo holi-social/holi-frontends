@@ -71,7 +71,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
             style={
               Array [
                 Object {
-                  "color": "#222326",
+                  "color": "#262424",
                   "fontFamily": "Circular Std Book",
                   "fontWeight": "400",
                 },
@@ -81,7 +81,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                 },
                 false,
                 Object {
-                  "color": "#222326",
+                  "color": "#262424",
                   "fontSize": 18,
                   "fontWeight": "bold",
                   "lineHeight": 21.599999999999998,
@@ -109,7 +109,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
             style={
               Array [
                 Object {
-                  "color": "#222326",
+                  "color": "#262424",
                   "fontFamily": "Circular Std Book",
                   "fontWeight": "400",
                 },
@@ -130,7 +130,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -150,7 +150,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
             style={
               Array [
                 Object {
-                  "color": "#222326",
+                  "color": "#262424",
                   "fontFamily": "Circular Std Book",
                   "fontWeight": "400",
                 },
@@ -238,7 +238,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                 },
                 Object {
                   "backgroundColor": "#fff",
-                  "borderColor": "#222326",
+                  "borderColor": "#262424",
                   "borderRadius": 28,
                   "borderWidth": 2,
                   "display": "flex",
@@ -280,7 +280,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -342,7 +342,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                 },
                 Object {
                   "backgroundColor": "#fff",
-                  "borderColor": "#222326",
+                  "borderColor": "#262424",
                   "borderRadius": 28,
                   "borderWidth": 2,
                   "display": "flex",
@@ -387,7 +387,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
               style={
                 Array [
                   Object {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },

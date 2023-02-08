@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   input: {
     width: '100%',
     paddingVertical: 10,
-    color: colors.fontColor,
+    color: colors.foreground30,
     fontSize: 16,
   },
   inlineMention: {

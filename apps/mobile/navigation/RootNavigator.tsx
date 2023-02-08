@@ -48,7 +48,7 @@ const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 
 export const BottomTabsNavigator: React.VFC = () => {
   const { options } = useUnifiedNavigation()
-  const iconColor = (isActive: boolean) => (isActive ? colors.fontColorBlack : colors.fontColorGrey)
+  const iconColor = (isActive: boolean) => (isActive ? colors.foreground30 : colors.fontColorGrey)
   const { t } = useTranslation()
   const { isLoggedIn } = useAuth()
 
@@ -68,7 +68,7 @@ export const BottomTabsNavigator: React.VFC = () => {
               color: 'black',
             },
           },
-          tabBarActiveTintColor: colors.fontColorBlack,
+          tabBarActiveTintColor: colors.foreground30,
           tabBarInactiveTintColor: colors.fontColorGrey,
         }
       }}

@@ -80,13 +80,13 @@ const getStyles = (width: number, defaultColor: string, imageIsAvailable: boolea
       width,
       height: width,
       borderWidth: 2,
-      borderColor: colors.softblack,
+      borderColor: colors.foreground30,
     },
     extralarge: {
       width,
       height: width,
       borderWidth: 2,
-      borderColor: colors.softblack,
+      borderColor: colors.foreground30,
     },
     image: {
       height: '100%',
@@ -96,7 +96,7 @@ const getStyles = (width: number, defaultColor: string, imageIsAvailable: boolea
       fontSize: initialsFontSize,
       textTransform: 'uppercase',
       fontWeight: 'bold',
-      color: tinycolor(defaultColor).isLight() ? colors.fontColorBlack : colors.fontColorWhite,
+      color: tinycolor(defaultColor).isLight() ? colors.foreground30 : colors.fontColorWhite,
       lineHeight: initialsFontSize * 1.2,
     },
   })

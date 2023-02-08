@@ -30,7 +30,7 @@ exports[`HoliUserCard renders correctly 1`] = `
         },
         undefined,
         Object {
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderWidth": 2,
           "height": 128,
           "width": 128,
@@ -61,7 +61,7 @@ exports[`HoliUserCard renders correctly 1`] = `
     style={
       Array [
         Object {
-          "color": "#222326",
+          "color": "#262424",
           "fontFamily": "Circular Std Book",
           "fontWeight": "400",
         },
@@ -96,7 +96,7 @@ exports[`HoliUserCard renders correctly 1`] = `
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -148,7 +148,7 @@ Array [
           },
           undefined,
           Object {
-            "borderColor": "#222326",
+            "borderColor": "#262424",
             "borderWidth": 2,
             "height": 128,
             "width": 128,
@@ -187,7 +187,7 @@ Array [
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },

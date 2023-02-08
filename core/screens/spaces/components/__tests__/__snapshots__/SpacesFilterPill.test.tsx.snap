@@ -40,7 +40,7 @@ exports[`SpacesFilterPill renders correctly 1`] = `
         false,
         Array [
           Object {
-            "borderColor": "#222326",
+            "borderColor": "#262424",
             "borderRadius": 48,
             "borderWidth": 1,
             "flexDirection": "row",
@@ -61,7 +61,7 @@ exports[`SpacesFilterPill renders correctly 1`] = `
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -120,7 +120,7 @@ exports[`SpacesFilterPill renders correctly 2`] = `
         false,
         Array [
           Object {
-            "borderColor": "#222326",
+            "borderColor": "#262424",
             "borderRadius": 48,
             "borderWidth": 1,
             "flexDirection": "row",
@@ -141,7 +141,7 @@ exports[`SpacesFilterPill renders correctly 2`] = `
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -200,7 +200,7 @@ exports[`SpacesFilterPill renders correctly 3`] = `
         false,
         Array [
           Object {
-            "borderColor": "#222326",
+            "borderColor": "#262424",
             "borderRadius": 48,
             "borderWidth": 1,
             "flexDirection": "row",
@@ -221,7 +221,7 @@ exports[`SpacesFilterPill renders correctly 3`] = `
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -280,7 +280,7 @@ exports[`SpacesFilterPill renders correctly 4`] = `
         false,
         Array [
           Object {
-            "borderColor": "#222326",
+            "borderColor": "#262424",
             "borderRadius": 48,
             "borderWidth": 1,
             "flexDirection": "row",
@@ -301,7 +301,7 @@ exports[`SpacesFilterPill renders correctly 4`] = `
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
