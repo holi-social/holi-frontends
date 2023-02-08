@@ -52,6 +52,7 @@ export type HoliTextInputProps = {
   onLayout?: (event: LayoutChangeEvent) => void
   accessibilityAutoComplete?: AccessibilityPropsWeb['accessibilityAutoComplete']
   accessibilityControls?: string
+  showCharactorCount?: boolean
   // eslint-disable-next-line
   [x: string]: any
 }
@@ -69,6 +70,7 @@ const HoliTextInput = (
     inputLabel,
     onFocus,
     onBlur,
+    showCharactorCount = false,
     ...props
   }: HoliTextInputProps,
   ref: React.ForwardedRef<View>
@@ -227,7 +229,7 @@ const HoliTextInput = (
               {hasValidationErrors && <HoliIcon icon="error-warning" size={16} filled color={colors.fontColorError} />}
             </View>
           )}
-          {(value?.length ?? 0) > maxNoOfCharacters * 0.8 && (
+          {!showCharactorCount && (value?.length ?? 0) > maxNoOfCharacters * 0.8 && (
             <View
               style={[
                 styles.inputCharsTextWrapper,
@@ -244,17 +246,27 @@ const HoliTextInput = (
             </View>
           )}
         </View>
-        {(props?.validationErrorText || props?.helperText) && (
-          <View style={[styles.helperTextWrapper, inline ? styles.inline : styles.block]}>
-            <HoliText
-              size="extrasmall"
-              style={[styles.helperText, hasValidationErrors ? styles.validationErrorText : {}]}
-              testID={`${props?.testID || 'holi-text'}-input${hasValidationErrors && '-error'}-message`}
-            >
-              {props?.validationErrorText || props?.helperText}
-            </HoliText>
-          </View>
-        )}
+        <View style={styles.descriptionContainer}>
+          {(props?.validationErrorText || props?.helperText) && (
+            <View style={[styles.helperTextWrapper, inline ? styles.inline : styles.block]}>
+              <HoliText
+                size="extrasmall"
+                style={[styles.helperText, hasValidationErrors ? styles.validationErrorText : {}]}
+                testID={`${props?.testID || 'holi-text'}-input${hasValidationErrors && '-error'}-message`}
+              >
+                {props?.validationErrorText || props?.helperText}
+              </HoliText>
+            </View>
+          )}
+          {showCharactorCount && (
+            <View style={[styles.charactorCountContainer, inline ? styles.inline : styles.block]}>
+              <HoliText
+                size="extrasmall"
+                style={[styles.charactorCountText, hasValidationErrors ? styles.validationErrorText : {}]}
+              >{`${value ? value.length : 0}/${maxNoOfCharacters}`}</HoliText>
+            </View>
+          )}
+        </View>
       </View>
     </View>
   )
@@ -360,7 +372,7 @@ const getStyles = (theme: HoliTheme) =>
       color: colors.errorRed,
     },
     helperTextWrapper: {
-      marginTop: 6,
+      flex: 4,
     },
     helperText: {
       color: colors.fontColorGrey,
@@ -372,5 +384,16 @@ const getStyles = (theme: HoliTheme) =>
       height: 22,
       justifyContent: 'center',
       marginRight: 12,
+    },
+    descriptionContainer: {
+      flexDirection: 'row',
+      marginTop: 6,
+    },
+    charactorCountContainer: {
+      flex: 1,
+      alignItems: 'flex-end',
+    },
+    charactorCountText: {
+      color: colors.fontColorGrey,
     },
   })
