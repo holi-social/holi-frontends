@@ -16,11 +16,14 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type CreateSpaceTopicsProps = {
   onSelectSpaceTopics: (topics: Topic[]) => void
+  selectedTopics: Topic[]
 }
 
-const CreateSpaceTopics: React.VFC<CreateSpaceTopicsProps> = ({ onSelectSpaceTopics }: CreateSpaceTopicsProps) => {
+const CreateSpaceTopics: React.VFC<CreateSpaceTopicsProps> = ({
+  onSelectSpaceTopics,
+  selectedTopics,
+}: CreateSpaceTopicsProps) => {
   const [filterString, setFilterString] = useState<string>('')
-  const [selectedTopics, setSelectedTopics] = useState<Topic[]>([])
   const [orderedTerms, setOrderedTerms] = useState<Topic[]>([])
   const [filteredTopics, setFilteredTopics] = useState<Topic[]>([])
   const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
@@ -35,8 +38,7 @@ const CreateSpaceTopics: React.VFC<CreateSpaceTopicsProps> = ({ onSelectSpaceTop
     } else {
       setNextButtonEnabled(false)
     }
-    onSelectSpaceTopics(selectedTopics)
-  }, [selectedTopics, setNextButtonEnabled, onSelectSpaceTopics])
+  }, [selectedTopics, setNextButtonEnabled])
 
   useEffect(() => {
     /*
@@ -62,10 +64,10 @@ const CreateSpaceTopics: React.VFC<CreateSpaceTopicsProps> = ({ onSelectSpaceTop
   const updateValues = (topic: Topic) => {
     if (selectedTopics.includes(topic)) {
       // remove the value
-      setSelectedTopics((previousTopics: Topic[]) => previousTopics.filter((previousTopic) => previousTopic !== topic))
+      onSelectSpaceTopics(selectedTopics.filter((selectedTopic) => selectedTopic !== topic))
     } else if (selectedTopics.length < 6) {
       // add the value
-      setSelectedTopics((previousTopics: Topic[]) => [...previousTopics, topic])
+      onSelectSpaceTopics([...selectedTopics, topic])
     }
   }
 

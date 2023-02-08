@@ -78,7 +78,7 @@ const CreateSpace: React.VFC = () => {
                 spaceName={spaceName}
                 spaceGoal={spaceGoal}
               />
-              <CreateSpaceTopics onSelectSpaceTopics={handleSpaceTopicsSelection} />
+              <CreateSpaceTopics onSelectSpaceTopics={handleSpaceTopicsSelection} selectedTopics={spaceTopics} />
               <CreateSpaceCoverImage />
             </HoliWizard>
           </View>
