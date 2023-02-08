@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundColorWhite,
   },
   skill: {
-    backgroundColor: colors.backgroundColorPillBlue,
+    backgroundColor: colors.brandColorD20,
   },
   topic: {
     backgroundColor: colors.brandColorC20,
