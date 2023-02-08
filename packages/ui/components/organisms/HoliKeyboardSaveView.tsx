@@ -36,6 +36,19 @@ const HoliKeyboardSaveView: React.FC<HoliKeyboardSaveViewProps> = ({
   const [offsetTop, setOffsetTop] = useState(0)
   const [maxHeight, setMaxHeight] = useState(WITHOUT_MAX_HEIGHT)
 
+  const storeOffsetTop = useCallback(
+    (offsetTopFromElement?: number) => {
+      const isInitialCall = offsetTop === 0
+      if (isInitialCall) {
+        if (keyboardIsOpen || softkeyboardIsOpen) return
+        if (offsetTopFromElement) {
+          setOffsetTop(offsetTopFromElement)
+        }
+      }
+    },
+    [keyboardIsOpen, softkeyboardIsOpen, offsetTop]
+  )
+
   const calcMaxHeight = useCallback(() => {
     if (Platform.OS === 'web' && !isWebTouchDevice()) return
     const maxViewPort = Platform.OS === 'web' ? viewPortHeight : screenHeight - keyboardHeight
@@ -46,20 +59,7 @@ const HoliKeyboardSaveView: React.FC<HoliKeyboardSaveViewProps> = ({
     setMaxHeight(newViewHeight)
     onHeightChange(newViewHeight)
     storeOffsetTop()
-
-    // Adding viewHeight here would cause endless loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [keyboardHeight, viewPortHeight, screenHeight])
-
-  const storeOffsetTop = (offsetTopFromElement?: number) => {
-    const isInitialCall = offsetTop === 0
-    if (isInitialCall) {
-      if (keyboardIsOpen || softkeyboardIsOpen) return
-      if (offsetTopFromElement) {
-        setOffsetTop(offsetTopFromElement)
-      }
-    }
-  }
+  }, [keyboardHeight, viewPortHeight, screenHeight, onHeightChange, offsetTop, storeOffsetTop])
 
   useEffect(calcMaxHeight, [viewPortHeight, calcMaxHeight])
 
@@ -79,6 +79,8 @@ const styles = StyleSheet.create({
   outer: {
     position: 'relative',
     flex: 1,
+    borderWidth: 2,
+    borderColor: 'blue',
   },
   inner: {
     flex: 1,

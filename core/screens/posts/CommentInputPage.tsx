@@ -39,7 +39,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   const [postId] = useParam('postId')
   const [text, setText] = useState('')
   const [scrollContentHeight, setScrollContentHeight] = useState(0)
-  const [maxHeight, setMaxHeight] = useState(100000)
+  const [maxViewPortHeight, setMaxViewPortHeight] = useState(0)
   const scrollViewRef = useRef<ScrollView>(null)
   const { navigate, navigateBack } = useRouting()
   const { keyboardHeight } = useKeyboard()
@@ -105,12 +105,12 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   }, [scrollContentHeight, keyboardHeight, screenHeight])
 
   useEffect(scrollIntoView, [scrollContentHeight, scrollIntoView])
-  useEffect(scrollIntoView, [maxHeight, scrollIntoView])
+  useEffect(scrollIntoView, [maxViewPortHeight, scrollIntoView])
 
-  const onHeightChange = (newContainerHeight: number) => {
+  const onHeightChange = useCallback((newContainerHeight: number) => {
     const newScrollViewHeight = newContainerHeight - SUBMIT_BUTTON_CONTAINER_HEIGHT
-    setMaxHeight(newScrollViewHeight)
-  }
+    setMaxViewPortHeight(newScrollViewHeight)
+  }, [])
 
   if (createCommentError) {
     logError(createCommentError, `[CommentInputPage.tsx] ${createCommentError.message}`)
@@ -136,17 +136,13 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
       <HoliKeyboardSaveView onHeightChange={onHeightChange}>
-        <ScrollView
-          onContentSizeChange={scrollIntoView}
-          ref={scrollViewRef}
-          style={[styles.scrollView, { ...Platform.select({ web: { maxHeight: maxHeight } }) }]}
-        >
+        <ScrollView onContentSizeChange={scrollIntoView} ref={scrollViewRef} style={styles.scrollView}>
           <View
             onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)}
             style={styles.scrollContent}
           >
             {/* Post content */}
-            <PostContent post={post} hasHeader minimized style={styles.postAndComments} />
+            <PostContent post={post} style={styles.postAndComments} />
 
             {/* Comment input block */}
             <View style={mixins.container}>
@@ -277,7 +273,7 @@ const getStyles = (screenHeight: number) =>
       zIndex: screenHeight < SMALL_DEVICE_HEIGHT ? 3 : undefined,
       width: '100%',
       height: SUGGESTIONS_DROPDOWN_HEIGHT,
-      maxHeight: SUGGESTIONS_DROPDOWN_HEIGHT,
+      maxViewPortHeight: SUGGESTIONS_DROPDOWN_HEIGHT,
       paddingTop: 10,
       marginBottom: screenHeight < SMALL_DEVICE_HEIGHT ? -75 : -10,
       paddingBottom: 10,
@@ -287,7 +283,7 @@ const getStyles = (screenHeight: number) =>
         width: 2,
         height: 2,
       },
-      shadowOpacity: 0.1,
+      shadowOpacity: 0.4,
       shadowRadius: 6,
       borderRadius: 12,
       elevation: 4,

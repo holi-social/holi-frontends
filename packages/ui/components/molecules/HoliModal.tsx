@@ -12,7 +12,6 @@ import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
-import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { colors } from '@holi/ui/styles/globalVars'
 import { vars } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -31,7 +30,6 @@ export interface HoliModalProps extends ModalProps {
   heading?: string
   relativeHeight?: number
   autoHeight?: boolean
-  automaticHeightAdjust?: boolean
   testID?: string
 }
 
@@ -73,7 +71,6 @@ const HoliModal: React.FC<HoliModalProps> = ({
   relativeHeight = 0.9,
   testID,
   autoHeight = true,
-  automaticHeightAdjust = false,
   children,
 }) => {
   const { t } = useTranslation()
@@ -145,8 +142,6 @@ const HoliModal: React.FC<HoliModalProps> = ({
   )
 
   const isFullscreen = height === 100
-
-  const AdjustViewComponent = automaticHeightAdjust ? HoliKeyboardSaveView : React.Fragment
 
   return (
     <>
@@ -221,7 +216,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
               )}
             </SafeAreaView>
 
-            <AdjustViewComponent>{children}</AdjustViewComponent>
+            {children}
           </Animated.View>
         </GestureHandlerRootView>
       </ModalBasic>

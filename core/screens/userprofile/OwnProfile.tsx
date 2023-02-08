@@ -22,6 +22,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -125,9 +126,8 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
                 // Smaller devices use the whole screen and
                 // larger ones should have more space above for clicking the backdrop pane
                 relativeHeight={deviceHeight > 750 ? 0.85 : 1}
-                automaticHeightAdjust={true}
               >
-                <>
+                <HoliKeyboardSaveView>
                   {editMode === 'profile' && (
                     <UserProfileForm user={user} onCancel={closeModal} onSubmit={closeModal} />
                   )}
@@ -161,7 +161,7 @@ const OwnProfile: React.VFC<ScreenProps> = () => {
                       queryToUse={sdgsQuery}
                     />
                   )}
-                </>
+                </HoliKeyboardSaveView>
               </HoliModal>
             )}
             <OwnProfileView toggleEditMode={toggleEditMode} user={user} />
