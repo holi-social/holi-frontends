@@ -16,9 +16,9 @@ const LoggedOutView: VoidFunctionComponent<LoggedOutViewProps> = (props: LoggedO
     <View style={[styles.loggedOutView, props.style]}>
       <View style={styles.moodImage}>
         <HoliLocalImage
-          imageSource={require('@holi/ui/assets/img/illustrations/illustration_logged_out.png')}
-          width={189}
-          height={158}
+          imageSource={require('@holi/ui/assets/img/illustrations/illustration_welcome.png')}
+          width={251}
+          height={262}
           label={t('profile.loggedOut.image')}
         />
       </View>
