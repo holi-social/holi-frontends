@@ -58,6 +58,7 @@ export default React.memo(HoliRichTextInputSuggestions, customComparator)
 const styles = StyleSheet.create({
   suggestionsContainer: {
     width: '100%',
+    marginBottom: 24,
   },
   suggestionItem: {
     display: 'flex',

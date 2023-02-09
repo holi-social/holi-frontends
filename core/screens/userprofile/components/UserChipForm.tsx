@@ -108,6 +108,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
       onActionButtonPress={submit}
       headlineText={t(`user.${keyInUserObject}.form.headline`)}
       prependChildren={notificationComponent}
+      hideFooterWhenKeyboardIsOpen={true}
       style={styles.modalWrapper}
       loading={loading || saved}
       testID="user-profile-chipform"
