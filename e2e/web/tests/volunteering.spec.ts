@@ -14,12 +14,12 @@ test.describe('@Volunteering', () => {
     await clickElementByTestId(page, 'home-apps-button')
     await clickElementByTestId(page, 'app-tile-volunteering')
 
-    await waitForElementByTestId(page, 'volunteering-app-home')
+    await waitForElementByTestId(page, 'volunteering-list-container')
     expect(page.url()).toContain('/apps/volunteering')
   })
 
   test('should display multiple engagements', async ({ page }) => {
-    await waitForElementByTestId(page, 'volunteering-app-home')
+    await waitForElementByTestId(page, 'volunteering-list-container')
     const listItems = await locateElementByTestId(page, 'btn-to-volunteering-engagement')
     const itemCount = await listItems.count()
     expect(itemCount).toBeGreaterThan(1)
@@ -28,7 +28,7 @@ test.describe('@Volunteering', () => {
   })
 
   test('should allow pagination', async ({ page }) => {
-    await waitForElementByTestId(page, 'volunteering-app-home')
+    await waitForElementByTestId(page, 'volunteering-list-container')
     const countListItems = async () => {
       const listItems = await locateElementByTestId(page, 'btn-to-volunteering-engagement')
       return await listItems.count()
@@ -41,7 +41,7 @@ test.describe('@Volunteering', () => {
   })
 
   test('should display engagement details', async ({ page, context }) => {
-    await waitForElementByTestId(page, 'volunteering-app-home')
+    await waitForElementByTestId(page, 'volunteering-list-container')
     // click first element in list
     await clickElementByTestId(page, 'btn-to-volunteering-engagement')
 
@@ -63,7 +63,7 @@ test.describe('@Volunteering', () => {
   })
 
   test('should open the volunteering filter menu and filter opportunities by location', async ({ page }) => {
-    await waitForElementByTestId(page, 'volunteering-app-home')
+    await waitForElementByTestId(page, 'volunteering-list-container')
 
     await clickElementByTestId(page, 'btn-to-volunteering-filter')
 
@@ -89,7 +89,7 @@ test.describe('@Volunteering', () => {
   })
 
   test('should display details of filter results', async ({ page }) => {
-    await waitForElementByTestId(page, 'volunteering-app-home')
+    await waitForElementByTestId(page, 'volunteering-list-container')
 
     // apply filer
     await clickElementByTestId(page, 'btn-to-volunteering-filter')
