@@ -46,8 +46,8 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
-    "@testing-library/jest-native": "^5.4.1",
     "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/jest-native": "^5.4.1",
     "@testing-library/react-native": "11.5.1",
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
     "@types/jest": "^29.4.0",
@@ -71,5 +71,8 @@
     "turbo": "^1.7.2"
   },
   "packageManager": "yarn@1.22.17",
-  "dependencies": {}
+  "dependencies": {
+    "patch-package": "^6.5.1",
+    "postinstall-postinstall": "^2.1.0"
+  }
 }

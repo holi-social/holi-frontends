@@ -6,6 +6,7 @@
     "**/@storybook/react-docgen-typescript-plugin": "1.0.1"
   },
   "scripts": {
+    "postinstall": "patch-package",
     "prestart": "yarn workspace @holi/ui run generate-style-vars",
     "preandroid": "yarn workspace @holi/ui run generate-style-vars",
     "preios": "yarn workspace @holi/ui run generate-style-vars",
@@ -61,6 +62,8 @@
     "lodash.partition": "^4.6.0",
     "lottie-ios": "3.4.0",
     "lottie-react-native": "5.1.4",
+    "patch-package": "^6.5.1",
+    "postinstall-postinstall": "^2.1.0",
     "react": "^18.2.0",
     "react-i18next": "^11.18.0",
     "react-icomoon": "^2.4.9",
