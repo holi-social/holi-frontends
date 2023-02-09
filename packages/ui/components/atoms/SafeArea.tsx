@@ -1,5 +1,6 @@
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
+import { Platform, SafeAreaView as SafeAreaViewIOS } from 'react-native'
+import { SafeAreaProvider, SafeAreaView as SafeAreaViewAndroid } from 'react-native-safe-area-context'
 
 export { SafeAreaProvider }
 
-export default SafeAreaView
+export default Platform.OS === 'android' ? SafeAreaViewAndroid : SafeAreaViewIOS

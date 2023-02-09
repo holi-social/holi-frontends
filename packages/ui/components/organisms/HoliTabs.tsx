@@ -23,6 +23,7 @@ export type HoliTabsProps = {
   onChangeTab?: (index: number) => void
   style?: StyleProp<ViewStyle>
   testID?: string
+  scrollEnabled?: boolean
 }
 
 const isWeb = Platform.OS === 'web'
@@ -33,6 +34,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
   centeredButtons,
   onChangeTab = () => null,
   style,
+  scrollEnabled = true,
   testID = 'tabs-module',
 }: HoliTabsProps) => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
@@ -110,6 +112,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
           pagingEnabled
           showsHorizontalScrollIndicator={false}
           onMomentumScrollEnd={handleScrollEnd}
+          scrollEnabled={scrollEnabled}
         >
           <View style={styles.tabContainer}>
             {tabs.map((tab, i) => (

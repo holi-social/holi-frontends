@@ -25,7 +25,7 @@ import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { colors } from '@holi/ui/styles/globalVars'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type UserProfileParams = {
@@ -128,17 +128,21 @@ const UserProfile: React.VFC<ScreenProps> = () => {
   if (!userId || loading) {
     // TODO: replace with proper loading indicator
     return (
-      <View style={[mixins.container, styles.messageContainer]}>
-        <HoliText>{t('rootProvider.loading.profile')}</HoliText>
-      </View>
+      <DefaultLayout>
+        <View style={[mixins.container, styles.messageContainer]}>
+          <HoliText>{t('rootProvider.loading.profile')}</HoliText>
+        </View>
+      </DefaultLayout>
     )
   }
 
   if (!user) {
     return (
-      <View style={[mixins.container, styles.messageContainer]}>
-        <HoliText>{t('user.profileView.noUser')}</HoliText>
-      </View>
+      <DefaultLayout>
+        <View style={[mixins.container, styles.messageContainer]}>
+          <HoliText>{t('user.profileView.noUser')}</HoliText>
+        </View>
+      </DefaultLayout>
     )
   }
 
@@ -213,7 +217,7 @@ const styles = StyleSheet.create({
   },
   messageContainer: {
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: vars.topBarHeight + 50,
   },
   chipRowContainer: {
     marginTop: 24,

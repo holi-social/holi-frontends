@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import UserConnectionButtons from '@holi/core/screens/userprofile/components/UserConnectionButtons'
 import type { User } from '@holi/core/screens/userprofile/types'
@@ -9,7 +9,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 
 type UserProfileViewProps = {
   user: User
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     width: '100%',
     minWidth: 250,
-    paddingTop: Platform.OS === 'android' ? Number(vars.topBarHeight) : 0,
+    marginTop: 8,
   },
   avatarName: {
     flexDirection: 'row',

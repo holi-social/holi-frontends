@@ -19,8 +19,7 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { colors } from '@holi/ui/styles/globalVars'
-import variables from '@holi/ui/styles/globalVars/variables'
+import { colors, vars } from '@holi/ui/styles/globalVars'
 
 type AppUpdatesListProps = {
   appName: string
@@ -140,7 +139,7 @@ const styles = StyleSheet.create({
     marginRight: 11,
   },
   listHeader: {
-    paddingTop: Number(variables.topBarHeight) + 24,
+    paddingTop: vars.topBarHeight + 24,
     paddingBottom: 32,
   },
   loadingContainer: {

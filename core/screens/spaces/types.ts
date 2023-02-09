@@ -46,10 +46,11 @@ export enum SpaceSectionType {
   MEMBER = 'MEMBER',
   CREATOR = 'CREATOR',
 }
+
 export type SpaceSection = {
   section: string
   type: SpaceSectionType
-  spaces: { data: Space[] }
+  spaces: Paged<Space>
 }
 
 export interface Task {
