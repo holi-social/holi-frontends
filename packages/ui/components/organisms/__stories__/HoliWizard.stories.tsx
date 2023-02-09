@@ -20,7 +20,7 @@ const StepOne = () => {
           <HoliText>Enable</HoliText>
         </HoliButton>
         <HoliButton
-          style={[styles.button, { backgroundColor: colors.backgroundColorWhite }]}
+          style={[styles.button, { backgroundColor: colors.background10 }]}
           onPress={() => setNextButtonEnabled(false)}
           label={'disable button'}
         >
@@ -42,7 +42,7 @@ const StepTwo = () => {
           <HoliText>Enable</HoliText>
         </HoliButton>
         <HoliButton
-          style={[styles.button, { backgroundColor: colors.backgroundColorWhite }]}
+          style={[styles.button, { backgroundColor: colors.background10 }]}
           onPress={() => setNextButtonEnabled(false)}
           label={'disable button'}
         >
@@ -64,7 +64,7 @@ const StepThree = () => {
           <HoliText>Enable</HoliText>
         </HoliButton>
         <HoliButton
-          style={[styles.button, { backgroundColor: colors.backgroundColorWhite }]}
+          style={[styles.button, { backgroundColor: colors.background10 }]}
           onPress={() => setNextButtonEnabled(false)}
           label={'disable button'}
         >

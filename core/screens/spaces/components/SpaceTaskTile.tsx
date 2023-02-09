@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 1,
     borderColor: colors.background30,
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
     padding: 24,
     flexShrink: 1,
   },

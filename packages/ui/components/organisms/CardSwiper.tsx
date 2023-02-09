@@ -89,7 +89,7 @@ const CardSwiper = () => {
               <Image style={styles.cardImg} source={{ uri: `${imgUri}${card.image}` }} />
               <View style={styles.textContainer}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <HoliIcon icon="home-smile-2" size={25} color={colors.fontColorWhite} style={{ marginRight: 6 }} />
+                  <HoliIcon icon="home-smile-2" size={25} color={colors.background10} style={{ marginRight: 6 }} />
                   <HoliText style={styles.text}>{card.provider}</HoliText>
                 </View>
                 <View>
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     borderRadius: 13,
   },
   text: {
-    color: colors.fontColorWhite,
+    color: colors.background10,
     fontSize: 16,
   },
   textBig: {
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
       height: 1,
     },
     shadowOpacity: 0.5,
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 0,

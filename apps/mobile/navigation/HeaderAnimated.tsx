@@ -87,10 +87,7 @@ const HeaderAnimated: React.VFC<NativeStackHeaderProps> = ({ back, options, rout
     <Animated.View style={[styles.header, headerStyle, { top: headerSlideAnimation }]}>
       <View
         pointerEvents="box-none"
-        style={[
-          StyleSheet.absoluteFill,
-          { backgroundColor: headerTransparent ? 'transparent' : colors.backgroundColorWhite },
-        ]}
+        style={[StyleSheet.absoluteFill, { backgroundColor: headerTransparent ? 'transparent' : colors.background10 }]}
       >
         {headerBackgroundCustom ? (
           headerBackgroundCustom

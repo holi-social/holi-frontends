@@ -77,7 +77,7 @@ export default HoliLexicalMentionsDropdown
 const styles = StyleSheet.create({
   suggestionsContainer: {
     width: '100%',
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.background10,
   },
   suggestionItem: {
     display: 'flex',

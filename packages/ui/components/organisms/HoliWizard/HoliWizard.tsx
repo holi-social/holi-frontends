@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     paddingHorizontal: 0,
     paddingVertical: 0,
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
   },
   nextButton: { height: 56, width: '100%' },
   buttonContainer: {

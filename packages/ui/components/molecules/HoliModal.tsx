@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   root: {
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     overflow: 'hidden',
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
   },
   handle: {
     height: 40,
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
     alignItems: 'center',
   },
   lineButton: {

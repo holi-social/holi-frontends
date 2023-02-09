@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   avatar: {
-    borderColor: colors.white,
+    borderColor: colors.background10,
     borderWidth: 2,
   },
   textGrey: {

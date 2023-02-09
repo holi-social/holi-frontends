@@ -149,7 +149,7 @@ const stylesLarge = StyleSheet.create({
     padding: 4,
     paddingRight: 8,
     borderRadius: 24,
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.background10,
   },
   usersPileText: {},
   textContainer: {

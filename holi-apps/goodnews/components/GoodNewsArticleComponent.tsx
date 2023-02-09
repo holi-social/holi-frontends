@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     borderColor: colors.foreground30,
   },
   pictureCredit: {
-    color: colors.fontColorWhite,
+    color: colors.background10,
     paddingBottom: 8,
     paddingRight: 16,
     alignSelf: 'flex-end',

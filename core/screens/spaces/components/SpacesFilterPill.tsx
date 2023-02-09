@@ -46,10 +46,10 @@ const SpacesFilterPill: React.VFC<SpacesFilterPillProps> = ({
 
 const styles = StyleSheet.create({
   generic: {
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
   },
   location: {
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
   },
   skill: {
     backgroundColor: colors.brandColorD20,

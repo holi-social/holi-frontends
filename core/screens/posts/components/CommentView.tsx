@@ -94,7 +94,7 @@ const CommentView: React.VFC<CommentProps> = ({ comment, style, ...props }) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
   },
   header: {
     flexDirection: 'row',

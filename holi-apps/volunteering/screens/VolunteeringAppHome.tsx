@@ -80,7 +80,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
         </HoliHeading>
       ),
       headerTransparent: true,
-      headerStyle: { backgroundColor: colors.backgroundColorWhite },
+      headerStyle: { backgroundColor: colors.background10 },
       headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
       headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
     })
@@ -105,7 +105,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
         <VolunteeringFilterForm onSubmit={submit} filters={filters} />
       </HoliModal>
 
-      <SafeArea style={{ backgroundColor: colors.backgroundColorWhite }}>
+      <SafeArea style={{ backgroundColor: colors.background10 }}>
         <VolunteeringListing filters={filters} clearFilters={clearFilters} onScroll={onScreenScroll} />
       </SafeArea>
     </DefaultLayout>
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -2,
     right: -2,
-    borderColor: colors.backgroundColor,
+    borderColor: colors.background10,
     borderWidth: 2,
   },
 })

@@ -160,7 +160,7 @@ const getStyles = (buttonsContainerHeight: number) =>
       justifyContent: 'center',
       marginHorizontal: 16,
       zIndex: 10,
-      backgroundColor: colors.backgroundColorWhite,
+      backgroundColor: colors.background10,
     },
     buttonsContainer: {
       marginTop: 60,

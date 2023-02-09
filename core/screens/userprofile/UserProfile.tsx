@@ -65,7 +65,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
       setOptions({
         title: t('profile.title'),
         headerTransparent: true,
-        headerStyle: { backgroundColor: colors.backgroundColorWhite },
+        headerStyle: { backgroundColor: colors.background10 },
         headerRight: ({ tintColor }) => (
           <MoreOptionsButtonWithModal
             label={t('insights.post.preview.more')}

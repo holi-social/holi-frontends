@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
     borderBottomLeftRadius: 32,
     borderBottomRightRadius: 32,
-    backgroundColor: colors.white,
+    backgroundColor: colors.background10,
   },
   location: {
     flexDirection: 'row',
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   card: {
     paddingHorizontal: 24,
     borderRadius: 32,
-    backgroundColor: colors.white,
+    backgroundColor: colors.background10,
     marginTop: 2,
     paddingVertical: 16,
   },

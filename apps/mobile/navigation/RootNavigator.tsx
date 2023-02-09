@@ -58,7 +58,7 @@ export const BottomTabsNavigator: React.VFC = () => {
       screenOptions={() => {
         return {
           tabBarStyle: {
-            backgroundColor: colors.backgroundColorWhite,
+            backgroundColor: colors.background10,
             paddingHorizontal: 0,
             borderTopWidth: StyleSheet.hairlineWidth,
             borderTopColor: colors.foreground20,

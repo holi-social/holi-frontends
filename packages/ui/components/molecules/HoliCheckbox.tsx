@@ -171,13 +171,13 @@ const styles = StyleSheet.create({
   checkboxError: {
     borderWidth: 2,
     borderColor: colors.error30,
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.background10,
   },
   shapeRound: {
     borderRadius: 24,
   },
   icon: {
-    color: colors.fontColorWhite,
+    color: colors.background10,
   },
   iconDisabled: {
     color: colors.foreground20,

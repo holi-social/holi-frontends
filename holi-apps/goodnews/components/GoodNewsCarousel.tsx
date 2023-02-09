@@ -72,7 +72,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
       },
       headerTransparent: true,
       headerStyle: { backgroundColor: 'transparent' },
-      headerTintColor: colors.fontColorWhite,
+      headerTintColor: colors.background10,
       navigationCustomOptions: {
         headerBackgroundGradient: true,
         footerShown: false,

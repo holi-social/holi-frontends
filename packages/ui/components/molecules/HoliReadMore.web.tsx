@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     paddingLeft: 34,
     paddingRight: 20,
-    backgroundImage: `linear-gradient(to right, transparent , ${colors.backgroundColor} 15%)`,
+    backgroundImage: `linear-gradient(to right, transparent , ${colors.background10} 15%)`,
   },
   readLess: {
     width: 'fit-content',

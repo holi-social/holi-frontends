@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 16,
     borderColor: colors.background30,
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
   },
   wrapper: {
     width: '100%',

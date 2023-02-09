@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   optionsButton: {
     display: 'flex',
     marginRight: 4,
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.background10,
     padding: 6,
     borderRadius: 8,
   },

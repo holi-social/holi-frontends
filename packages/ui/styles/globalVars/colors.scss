@@ -6,14 +6,6 @@
 // run `yarn ui:generate-style-vars` on every file change
 // TODO: add to dev-watcher
 
-// HINT
-// Commenting with `// ` will not prevent var generation.
-// Use `/* */` instead!
-
-/*
-New colors
-*/
-
 $foreground30: #262424;
 $foreground20: #787777;
 $foreground10: #bfbebe;
@@ -49,10 +41,3 @@ $error10: #ffebec;
 $foreground30at48Percent: #2624247a;
 $foreground30at32Percent: #26242452;
 $foreground30at12Percent: #2222221f;
-
-$white: #ffffff;
-
-$font-color-white: $white;
-
-$background-color: $white;
-$background-color-white: $white;

@@ -291,7 +291,7 @@ const getStyles = (theme: HoliTheme) =>
       borderWidth: 2,
       borderColor: colors.background30,
       borderRadius: 4,
-      backgroundColor: colors.backgroundColor,
+      backgroundColor: colors.background10,
     },
     inputWrapperFocused: {
       borderColor: colors.brandColorB30,
@@ -357,7 +357,7 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: colors.background20,
     },
     inputCharsText: {
-      color: colors.white,
+      color: colors.background10,
     },
     labelWrapper: {
       marginBottom: 6,

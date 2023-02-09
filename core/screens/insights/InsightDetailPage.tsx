@@ -55,7 +55,7 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
       setOptions({
         title: t('insights.insight.title', { title: insight?.title }),
         headerTransparent: true,
-        headerTintColor: colors.fontColorWhite,
+        headerTintColor: colors.background10,
         navigationCustomOptions: {
           headerBackgroundGradient: true,
           footerShown: false,
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     ...Platform.select({ web: { height: 'auto' } }),
   },
   insightView: {
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
     paddingTop: 40,

@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
     paddingBottom: 24,
   },
   editButton: {
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   chip: {
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.background10,
     marginRight: 8,
     marginBottom: 8,
   },

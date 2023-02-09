@@ -152,7 +152,7 @@ const getStyles = (inline: boolean, isWarning: boolean) =>
       borderColor: colors.foreground30,
       borderWidth: 2,
       borderRadius: 28,
-      backgroundColor: colors.backgroundColorWhite,
+      backgroundColor: colors.background10,
       paddingHorizontal: 32,
       paddingVertical: 13,
       elevation: 0,

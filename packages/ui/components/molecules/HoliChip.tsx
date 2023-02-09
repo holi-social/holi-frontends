@@ -82,7 +82,7 @@ const HoliChip: React.FunctionComponent<ChipProps> = ({
               <View style={styles.iconView}>
                 <HoliIcon
                   size={15}
-                  color={checked ? colors.fontColorWhite : colors.foreground20}
+                  color={checked ? colors.background10 : colors.foreground20}
                   icon={checked ? 'check' : 'add'}
                 />
               </View>
@@ -123,7 +123,7 @@ const getStyles = (checked = false) =>
     text: {
       fontWeight: '400',
       fontSize: 14,
-      color: checked ? colors.fontColorWhite : colors.foreground20,
+      color: checked ? colors.background10 : colors.foreground20,
       lineHeight: 24,
     },
     iconView: {
@@ -135,7 +135,7 @@ const getStyles = (checked = false) =>
         .toString(),
     },
     hoveredText: {
-      color: checked ? colors.fontColorWhite : colors.brandColorB30,
+      color: checked ? colors.background10 : colors.brandColorB30,
     },
     focused: {
       outlineColor: colors.brandColorB30,

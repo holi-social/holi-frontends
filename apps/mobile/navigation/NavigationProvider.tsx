@@ -15,7 +15,7 @@ const navigationTheme: Theme = {
   colors: {
     ...DefaultTheme.colors,
     notification: colors.brandColorB30,
-    background: colors.backgroundColorWhite,
+    background: colors.background10,
   },
   dark: defaultHoliTheme.dark,
 }

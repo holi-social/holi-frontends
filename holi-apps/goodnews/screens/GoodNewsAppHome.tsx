@@ -27,7 +27,7 @@ const GoodNewsAppHome: React.VFC<GoodNewsAppHomeProps> = () => {
         headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
         headerTransparent: true,
         headerStyle: { backgroundColor: 'transparent' },
-        headerTintColor: colors.fontColorWhite,
+        headerTintColor: colors.background10,
         navigationCustomOptions: {
           headerBackgroundGradient: true,
           footerShown: false,

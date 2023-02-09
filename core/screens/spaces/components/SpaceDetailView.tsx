@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     paddingTop: 12,
   },
   header: {
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
     paddingBottom: 24,
   },
   tabItem: {

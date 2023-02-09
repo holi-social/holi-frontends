@@ -102,7 +102,7 @@ export const HoliToast: React.FC<HoliToastProps> = ({ closeToast, type, text, ti
         <HoliIcon
           icon={type === HoliToastType.SUCCESS ? 'user-smile' : 'emotion-unhappy-noeyes'}
           size={20}
-          color={colors.fontColorWhite}
+          color={colors.background10}
           style={styles.toastIcon}
         />
       </View>
@@ -157,7 +157,7 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
       justifyContent: 'center',
     },
     toastText: {
-      color: colors.fontColorWhite,
+      color: colors.background10,
       textAlign: 'center',
     },
     toastIcon: {

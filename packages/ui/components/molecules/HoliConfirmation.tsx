@@ -160,7 +160,7 @@ const createStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevi
       padding: 24,
       margin: 25,
       alignSelf: 'center',
-      backgroundColor: colors.backgroundColor,
+      backgroundColor: colors.background10,
       borderWidth: 2,
       borderRadius: 24,
       borderColor: colors.foreground30,

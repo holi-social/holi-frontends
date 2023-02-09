@@ -127,7 +127,7 @@ const getStyles = (screenWidth: number) =>
   StyleSheet.create({
     fullWidthContainer: {
       alignItems: 'center',
-      backgroundColor: colors.backgroundColorWhite,
+      backgroundColor: colors.background10,
       borderTopWidth: 1,
       borderTopColor: colors.background30,
       paddingHorizontal: screenWidth > +vars.breakpointL ? 20 : 10,

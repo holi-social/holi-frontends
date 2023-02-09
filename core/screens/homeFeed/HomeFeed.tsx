@@ -46,7 +46,7 @@ const HomeFeed: React.VFC<HomeFeedProps> = () => {
       headerBackTitleVisible: true,
       headerBackVisible: true,
       headerTransparent: true,
-      headerStyle: { backgroundColor: colors.backgroundColorWhite },
+      headerStyle: { backgroundColor: colors.background10 },
       headerTitle: () => null,
       headerLeft: () => (
         <HoliButton label={t('navigation.home')} inline transparent onPress={() => navigate('/')}>

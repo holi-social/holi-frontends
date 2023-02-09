@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     padding: 8,
     paddingBottom: 16,
     borderRadius: 16,
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
   },
   mainImage: {
     aspectRatio: 1.5,

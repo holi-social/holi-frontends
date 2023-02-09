@@ -98,7 +98,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
   },
   paddingHorizontal: {
     paddingHorizontal: 24,

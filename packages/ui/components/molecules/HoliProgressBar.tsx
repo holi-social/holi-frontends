@@ -29,7 +29,7 @@ export default HoliProgressBar
 
 const styles = StyleSheet.create({
   bar: {
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
     height: 14,
     borderRadius: 6,
     borderWidth: 1,

@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   },
   list: {
     paddingTop: vars.topBarHeight + 24,
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background20,
   },
   listHeader: {
     paddingBottom: 32,

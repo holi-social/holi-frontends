@@ -55,7 +55,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
       headerBackTitleVisible: true,
       headerBackVisible: true,
       headerTransparent: true,
-      headerStyle: { backgroundColor: colors.backgroundColorWhite },
+      headerStyle: { backgroundColor: colors.background10 },
       headerTitle: () => null,
       headerLeft: ({ tintColor }) => (
         <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>

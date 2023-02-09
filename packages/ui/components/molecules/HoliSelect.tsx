@@ -152,7 +152,7 @@ const HoliSelect = ({
             item.selected && styles.listItemIconContainerSelected,
           ]}
         >
-          {item.selected && <HoliIcon icon="check" size={20} color={colors.fontColorWhite} />}
+          {item.selected && <HoliIcon icon="check" size={20} color={colors.background10} />}
         </View>
       </HoliButton>
     ),
@@ -297,7 +297,7 @@ const getStyles = (textInputHeight: number) =>
       position: 'absolute',
       width: '100%',
       top: textInputHeight - 3, // Display above bottom border of input field
-      backgroundColor: colors.backgroundColorWhite,
+      backgroundColor: colors.background10,
     },
     listItem: {
       height: LIST_ITEM_HEIGHT,

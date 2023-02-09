@@ -96,7 +96,7 @@ const getStyles = (width: number, defaultColor: string, imageIsAvailable: boolea
       fontSize: initialsFontSize,
       textTransform: 'uppercase',
       fontWeight: 'bold',
-      color: tinycolor(defaultColor).isLight() ? colors.foreground30 : colors.fontColorWhite,
+      color: tinycolor(defaultColor).isLight() ? colors.foreground30 : colors.background10,
       lineHeight: initialsFontSize * 1.2,
     },
   })

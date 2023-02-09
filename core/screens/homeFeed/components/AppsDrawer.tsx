@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
     bottom: (Platform.OS === 'web' ? +vars.bottomBarHeight : 0) + 16,
     right: 16,
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
     justifyContent: 'center',
     paddingHorizontal: 20,
     borderColor: borderGrey,
