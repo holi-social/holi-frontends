@@ -24,9 +24,6 @@ describe('@HomeScreen', () => {
     await assertShowsNoUserSuggestionsWhenLoggedOut()
 
     await assertShowsUserSuggestionsWhenLoggedIn()
-
-    // clean up, scroll up
-    await scrollToElementWithTestId('home-feed-insights-heading', 'up', { maxAttempts: 5 })
   })
 })
 
