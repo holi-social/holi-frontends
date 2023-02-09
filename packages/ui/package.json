@@ -16,7 +16,7 @@
     "@babel/core": "^7.19.3",
     "@babel/preset-env": "^7.18.2",
     "@types/react": "18.0.1",
-    "@types/react-native": "~0.70.6",
+    "@types/react-native": "0.71.1",
     "@types/tinycolor2": "1.4.3",
     "react-test-renderer": "18.2.0",
     "sass": "^1.56.2",
@@ -27,7 +27,7 @@
     "lottie-react-native": "5.1.4",
     "react": "^18.2.0",
     "react-icomoon": "2.4.9",
-    "react-native": "0.70.5",
+    "react-native": "0.71.1",
     "react-native-svg": "13.4.0"
   },
   "type": "module"

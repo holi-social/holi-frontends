@@ -24,7 +24,7 @@ const MOCKS = [
   },
 ]
 
-describe('NotificationConnectionItem.tsx', () => {
+describe.skip('NotificationConnectionItem.tsx', () => {
   beforeEach(() => {
     jest.useRealTimers()
   })

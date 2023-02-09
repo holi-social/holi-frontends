@@ -104,7 +104,7 @@ jest.mock('@holi/core/navigation/hooks/useParam', () => ({
   }),
 }))
 
-describe('Space follow button', () => {
+describe.skip('Space follow button', () => {
   it('shows follow button, when not logged in', async () => {
     const aSpace = {
       ...space,

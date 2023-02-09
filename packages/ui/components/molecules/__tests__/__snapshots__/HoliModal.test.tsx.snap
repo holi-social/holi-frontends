@@ -34,7 +34,19 @@ exports[`renders correctly renders correctly when open 1`] = `
       accessibilityRole="button"
       accessibilityState={
         {
+          "busy": undefined,
+          "checked": undefined,
           "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
         }
       }
       accessible={true}
@@ -148,7 +160,19 @@ exports[`renders correctly renders correctly when open 1`] = `
             accessibilityRole="button"
             accessibilityState={
               {
+                "busy": undefined,
+                "checked": undefined,
                 "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
               }
             }
             accessible={true}

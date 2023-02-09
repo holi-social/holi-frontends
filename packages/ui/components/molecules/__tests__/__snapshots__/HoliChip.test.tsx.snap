@@ -27,7 +27,19 @@ exports[`renders correctly renders correctly when checked 1`] = `
     accessibilityRole="checkbox"
     accessibilityState={
       {
+        "busy": undefined,
         "checked": true,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
       }
     }
     accessible={true}
@@ -184,7 +196,19 @@ exports[`renders correctly renders correctly when disabled 1`] = `
     accessibilityRole="none"
     accessibilityState={
       {
+        "busy": undefined,
+        "checked": undefined,
         "disabled": true,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
       }
     }
     accessible={false}
@@ -273,7 +297,19 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
     accessibilityRole="checkbox"
     accessibilityState={
       {
+        "busy": undefined,
         "checked": false,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
       }
     }
     accessible={true}

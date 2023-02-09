@@ -177,7 +177,19 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
               accessibilityRole="button"
               accessibilityState={
                 {
+                  "busy": undefined,
+                  "checked": undefined,
                   "disabled": false,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
                 }
               }
               accessible={true}
@@ -408,6 +420,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
   >
     <View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -417,8 +430,19 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -507,6 +531,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -516,8 +541,19 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": true,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -671,6 +707,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -680,8 +717,19 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": true,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -835,6 +883,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -844,8 +893,19 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -934,6 +994,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -943,8 +1004,19 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -1033,6 +1105,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -1042,8 +1115,19 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -1132,6 +1216,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -1141,8 +1226,19 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -1231,6 +1327,7 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -1240,8 +1337,19 @@ exports[`HoliSelect MultiSelect renders correctly after multiple selections 1`] 
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -1511,7 +1619,19 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
               accessibilityRole="button"
               accessibilityState={
                 {
+                  "busy": undefined,
+                  "checked": undefined,
                   "disabled": false,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
                 }
               }
               accessible={true}
@@ -1742,6 +1862,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
   >
     <View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -1751,8 +1872,19 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -1841,6 +1973,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -1850,8 +1983,19 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": true,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -2005,6 +2149,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -2014,8 +2159,19 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -2104,6 +2260,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -2113,8 +2270,19 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -2203,6 +2371,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -2212,8 +2381,19 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -2302,6 +2482,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -2311,8 +2492,19 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -2401,6 +2593,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -2410,8 +2603,19 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -2500,6 +2704,7 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -2509,8 +2714,19 @@ exports[`HoliSelect MultiSelect renders correctly after single selection 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -2773,7 +2989,19 @@ exports[`HoliSelect MultiSelect renders correctly when closed 1`] = `
               accessibilityRole="button"
               accessibilityState={
                 {
+                  "busy": undefined,
+                  "checked": undefined,
                   "disabled": false,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
                 }
               }
               accessible={true}
@@ -3063,7 +3291,19 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
               accessibilityRole="button"
               accessibilityState={
                 {
+                  "busy": undefined,
+                  "checked": undefined,
                   "disabled": false,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
                 }
               }
               accessible={true}
@@ -3294,6 +3534,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
   >
     <View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -3303,8 +3544,19 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -3393,6 +3645,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -3402,8 +3655,19 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -3492,6 +3756,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -3501,8 +3766,19 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -3591,6 +3867,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -3600,8 +3877,19 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -3690,6 +3978,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -3699,8 +3988,19 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -3789,6 +4089,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -3798,8 +4099,19 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -3888,6 +4200,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -3897,8 +4210,19 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -3987,6 +4311,7 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -3996,8 +4321,19 @@ exports[`HoliSelect MultiSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -4267,7 +4603,19 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               accessibilityRole="button"
               accessibilityState={
                 {
+                  "busy": undefined,
+                  "checked": undefined,
                   "disabled": false,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
                 }
               }
               accessible={true}
@@ -4372,7 +4720,19 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
               accessibilityRole="button"
               accessibilityState={
                 {
+                  "busy": undefined,
+                  "checked": undefined,
                   "disabled": false,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
                 }
               }
               accessible={true}
@@ -4573,6 +4933,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
   >
     <View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -4582,8 +4943,19 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -4670,6 +5042,7 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -4679,8 +5052,19 @@ exports[`HoliSelect SingleSelect correctly filters options 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -4941,7 +5325,19 @@ exports[`HoliSelect SingleSelect renders correctly after selection 1`] = `
               accessibilityRole="button"
               accessibilityState={
                 {
+                  "busy": undefined,
+                  "checked": undefined,
                   "disabled": false,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
                 }
               }
               accessible={true}
@@ -5225,7 +5621,19 @@ exports[`HoliSelect SingleSelect renders correctly when closed 1`] = `
               accessibilityRole="button"
               accessibilityState={
                 {
+                  "busy": undefined,
+                  "checked": undefined,
                   "disabled": false,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
                 }
               }
               accessible={true}
@@ -5515,7 +5923,19 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
               accessibilityRole="button"
               accessibilityState={
                 {
+                  "busy": undefined,
+                  "checked": undefined,
                   "disabled": false,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
                 }
               }
               accessible={true}
@@ -5746,6 +6166,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
   >
     <View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -5755,8 +6176,19 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -5843,6 +6275,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -5852,8 +6285,19 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -5940,6 +6384,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -5949,8 +6394,19 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -6037,6 +6493,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -6046,8 +6503,19 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -6134,6 +6602,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -6143,8 +6612,19 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -6231,6 +6711,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -6240,8 +6721,19 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -6328,6 +6820,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -6337,8 +6830,19 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
@@ -6425,6 +6929,7 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
         </View>
       </View>
       <View
+        onFocusCapture={[Function]}
         onLayout={[Function]}
         style={null}
       >
@@ -6434,8 +6939,19 @@ exports[`HoliSelect SingleSelect renders correctly when opened 1`] = `
           accessibilityRole="menuitem"
           accessibilityState={
             {
+              "busy": undefined,
               "checked": false,
               "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
             }
           }
           accessible={true}
