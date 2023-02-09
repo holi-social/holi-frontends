@@ -93,14 +93,6 @@
   height: 80px;
   border-radius: 10px;
 }
-.colors-overview .color-item .color-block.gradient-top {
-  opacity: 0.5;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(255,255,255,1) 100%)
-}
-.colors-overview .color-item .color-block.gradient-bottom {
-  opacity: 0.5;
-  background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(255,255,255,1) 100%)
-}
 .colors-overview .color-item .color-name {
   font-family: monospace;
   display: inline-block;
@@ -110,6 +102,9 @@
   padding: 5px;
   border-radius: 4px;
 }
+.colors-overview .color-item .color-description {
+  color: #BFBEBE;
+}
 .colors-overview .color-item .color-code {
   color: #787777;
 }
@@ -118,6 +113,11 @@
   font-weight: bold;
   font-style: italic;
 }
-.colors-overview .color-item .color-description {
-  color: #BFBEBE;
+.colors-overview .color-item.gradient-top .color-block {
+  opacity: 0.5;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(255,255,255,1) 100%)
+}
+.colors-overview .color-item.gradient-bottom .color-block {
+  opacity: 0.5;
+  background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(255,255,255,1) 100%)
 }
