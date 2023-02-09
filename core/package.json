@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@types/react": "18.0.1",
-    "@types/react-native": "~0.70.6",
+    "@types/react-native": "0.70.7",
     "@types/tinycolor2": "1.4.3"
   },
   "peerDependencies": {

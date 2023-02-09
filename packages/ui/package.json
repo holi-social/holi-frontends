@@ -16,7 +16,7 @@
     "@babel/core": "^7.19.3",
     "@babel/preset-env": "^7.18.2",
     "@types/react": "18.0.1",
-    "@types/react-native": "~0.70.6",
+    "@types/react-native": "0.70.7",
     "@types/tinycolor2": "1.4.3",
     "react-test-renderer": "18.2.0",
     "sass": "^1.56.2",
