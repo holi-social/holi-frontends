@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, Platform, StyleSheet, View } from 'react-native'
+import { FlatList, NativeScrollEvent, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -11,8 +11,8 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliCardComponent from '@holi/ui/components/molecules/HoliCardComponent'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { colors } from '@holi/ui/styles/globalVars'
-import variables from '@holi/ui/styles/globalVars/variables'
+import { colors, vars } from '@holi/ui/styles/globalVars'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import '@holi-apps/goodnews/queries'
 import VolunteeringCardContent from '@holi-apps/volunteering/components/VolunteeringCardContent'
@@ -22,11 +22,13 @@ import { VolunteeringEngagement, VolunteeringFilters } from '@holi-apps/voluntee
 type VolunteeringListingProps = {
   clearFilters: () => void
   filters: VolunteeringFilters
+  onScroll: (event: { nativeEvent: NativeScrollEvent }) => void
 }
 
 const ENGAGEMENT_PAGE_SIZE = 10
 
-const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters, filters = {} }) => {
+const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters, onScroll, filters = {} }) => {
+  const mixins = useStyleMixins()
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const [fetchingMore, setFetchingMore] = useState(false)
@@ -125,9 +127,11 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters
   return (
     <FlatList
       testID={isFiltering ? 'volunteering-list-filtered' : 'volunteering-list-unfiltered'}
+      onScroll={onScroll}
+      scrollEventThrottle={200}
       ListHeaderComponent={engagements.length ? listHeader : undefined}
       ListHeaderComponentStyle={styles.listHeader}
-      contentContainerStyle={styles.list}
+      contentContainerStyle={[mixins.container, styles.list]}
       data={engagements}
       renderItem={renderItem}
       ListFooterComponent={listFooter}
@@ -154,7 +158,8 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   list: {
-    paddingTop: Number(variables.topBarHeight) + (Platform.OS === 'android' ? Number(variables.topBarHeight) + 24 : 24),
+    paddingTop: vars.topBarHeight + 24,
+    backgroundColor: colors.backgroundColorGreyLight,
   },
   listHeader: {
     paddingBottom: 32,

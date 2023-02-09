@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StatusBar, StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -79,7 +79,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
           )}
           <ReportBlockOptionButton
             action="report"
-            objectId={space?.id || ''}
+            objectId={spaceId || ''}
             contentType={ContentType.SPACE}
             style={styles.reportButton}
             confirmationModalProps={{
@@ -95,7 +95,7 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
         footerShown: false,
       },
     })
-  }, [hide, setOptions, show, space?.id, t, visible, isAdmin, navigate, spaceId])
+  }, [hide, setOptions, show, t, visible, isAdmin, navigate, spaceId])
 
   if (error) {
     logError(error, `[SpaceDetails.tsx] ${error.message}`)
@@ -125,7 +125,6 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
 
 const styles = StyleSheet.create({
   defaultLayout: {
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 8,
     paddingBottom: 0,
     ...Platform.select({
       web: {

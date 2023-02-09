@@ -1,10 +1,10 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { Platform, SafeAreaView as SafeAreaViewIOS, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { createUUID } from '@holi/core/helpers/strings'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { default as SafeAreaViewAndroid } from '@holi/ui/components/atoms/SafeArea'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 
@@ -50,8 +50,6 @@ export const ToastProvider: React.FC<Partial<ToastContextValue>> = ({ children }
   const { width: deviceWidth } = useWindowDimensions()
   const firstToastType = toasts?.[0]?.type
   const styles = useMemo(() => createStyles(deviceWidth, firstToastType), [deviceWidth, firstToastType])
-
-  const SafeArea = Platform.OS === 'android' ? SafeAreaViewAndroid : SafeAreaViewIOS
 
   return (
     <ToastContext.Provider value={contextValue}>

@@ -1,6 +1,6 @@
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -11,7 +11,6 @@ import NotificationSearchButtons from '@holi/core/navigation/components/Notifica
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import { vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
@@ -46,18 +45,12 @@ const ChatHome: React.VFC<ScreenProps> = () => {
   return (
     <DefaultLayout onScroll={onScreenScroll} scrollEventThrottle={200}>
       <View style={mixins.container}>
-        <HoliHeading level="1" size="super" style={styles.header}>
+        <HoliHeading level="1" size="super">
           {title}
         </HoliHeading>
       </View>
     </DefaultLayout>
   )
 }
-
-const styles = StyleSheet.create({
-  header: {
-    paddingTop: Platform.OS === 'android' ? Number(vars.topBarHeight) : 0,
-  },
-})
 
 export default memo(ChatHome)

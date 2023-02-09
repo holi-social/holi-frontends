@@ -215,6 +215,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
                 </View>
               )}
             </SafeAreaView>
+
             {children}
           </Animated.View>
         </GestureHandlerRootView>

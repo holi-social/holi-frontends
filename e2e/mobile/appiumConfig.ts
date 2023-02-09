@@ -91,9 +91,10 @@ const localAndroidEmulator = {
   device: 'emulator',
   capabilities: {
     platformName: 'Android',
-    automationName: 'UiAutomator2',
-    deviceName: 'Android Emulator',
-    appPackage: process.env.APP_PATH ? appId : undefined,
+    'appium:automationName': 'UiAutomator2',
+    'appium:deviceName': 'Android Emulator',
+    'appium:appPackage': process.env.APP_PATH ? appId : undefined,
+    'appium:appActivity': '.Settings',
   },
 }
 
@@ -115,7 +116,7 @@ const localIOSSimulator = () => ({
 
 const serverConfig: Partial<Options.WebdriverIO> = {
   ...defaultConfig,
-  path: '/wd/hub',
+  // path: '/wd/hub',
   hostname: process.env.APPIUM_HOST || 'localhost',
   port: parseInt(process.env.APPIUM_PORT || '') || 4723,
 }
@@ -128,7 +129,7 @@ const localCapabilities = () => {
       ...platformConfig.capabilities,
       // if APP_PATH is not given, webdriver expects the application to be running on emulator / simulator
       // if APP_PATH is given, webdriver will install the application before running the test
-      app: process.env.APP_PATH || undefined,
+      // app: process.env.APP_PATH || undefined,
     },
     ...serverConfig,
   }

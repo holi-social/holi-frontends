@@ -154,6 +154,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
               },
             ]}
             testID="spaces-tab-navigation"
+            scrollEnabled={Platform.OS !== 'android'}
           />
         )}
       </DefaultLayout>

@@ -35,7 +35,7 @@ const SpacesGrid: React.VFC<SpacesGridProps> = ({ spaces, style }: SpacesGridPro
                 subtitle={space.location}
                 description={space.description}
                 imageSrc={space.mainImage}
-                users={space.memberships.map((membership) => membership.user)}
+                users={space.members.data.map((membership) => membership.user)}
                 href={`/spaces/${space.id}`}
                 size="large"
                 testID="space-link"

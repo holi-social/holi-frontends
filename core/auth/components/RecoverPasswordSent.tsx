@@ -20,10 +20,11 @@ const RecoverPasswordSent: React.VFC<RecoverPasswordSentProps> = (props: Recover
     <View style={[styles.viewContainer, props.style]}>
       <View style={styles.moodImage}>
         <HoliLocalImage
-          imageSource={require('@holi/ui/assets/img/illustrations/illustration_look_out.png')}
-          width={217}
-          height={158}
+          imageSource={require('@holi/ui/assets/img/illustrations/illustration_new_mail.svg')}
+          width={251}
+          height={181}
           label={t('profile.loggedOut.image')}
+          isSvg
         />
       </View>
       <HoliHeading level="2" size="medium" style={styles.heading} testID="form-sent-headline">

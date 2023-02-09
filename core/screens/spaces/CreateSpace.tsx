@@ -8,6 +8,8 @@ import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavi
 import CreateSpaceCoverImage from '@holi/core/screens/spaces/components/CreateSpaceCoverImage'
 import CreateSpaceName from '@holi/core/screens/spaces/components/CreateSpaceName'
 import CreateSpaceTopics from '@holi/core/screens/spaces/components/CreateSpaceTopics'
+import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
+import { Topic } from '@holi/core/screens/userprofile/types'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -18,6 +20,7 @@ const CreateSpace: React.VFC = () => {
   const mixins = useStyleMixins()
   const [spaceName, setSpaceName] = useState<string>('')
   const [spaceGoal, setSpaceGoal] = useState<string>('')
+  const [spaceTopics, setSpaceTopics] = useState<Topic[]>([])
 
   useLayoutEffect(
     () =>
@@ -49,32 +52,38 @@ const CreateSpace: React.VFC = () => {
     setSpaceGoal(value)
   }
 
+  const handleSpaceTopicsSelection = (topics: Topic[]) => {
+    setSpaceTopics(topics)
+  }
+
   return (
-    <View style={styles.wrapper}>
-      <DefaultLayout style={styles.defaultLayout} scrollView={false} headerOverlap>
-        <View style={[mixins.container, styles.container]}>
-          <HoliWizard
-            isBackButtonAvailable={true}
-            submitButtonLabel={t('spaces.create.space.button')}
-            onNextPress={() => handleNextButtonPress()}
-            onSubmit={() => handleSubmitButtonPress()}
-          >
-            <CreateSpaceName
-              onChangeSpaceName={(value: string) => {
-                handleSpaceNameChange(value)
-              }}
-              onChangeSpaceGoal={(value: string) => {
-                handleSpaceGoalChange(value)
-              }}
-              spaceName={spaceName}
-              spaceGoal={spaceGoal}
-            />
-            <CreateSpaceTopics />
-            <CreateSpaceCoverImage />
-          </HoliWizard>
-        </View>
-      </DefaultLayout>
-    </View>
+    <SpaceTermContextProvider>
+      <View style={styles.wrapper}>
+        <DefaultLayout style={styles.defaultLayout} scrollView={false} headerOverlap>
+          <View style={[mixins.container, styles.container]}>
+            <HoliWizard
+              isBackButtonAvailable={true}
+              submitButtonLabel={t('spaces.create.space.button')}
+              onNextPress={() => handleNextButtonPress()}
+              onSubmit={() => handleSubmitButtonPress()}
+            >
+              <CreateSpaceName
+                onChangeSpaceName={(value: string) => {
+                  handleSpaceNameChange(value)
+                }}
+                onChangeSpaceGoal={(value: string) => {
+                  handleSpaceGoalChange(value)
+                }}
+                spaceName={spaceName}
+                spaceGoal={spaceGoal}
+              />
+              <CreateSpaceTopics onSelectSpaceTopics={handleSpaceTopicsSelection} selectedTopics={spaceTopics} />
+              <CreateSpaceCoverImage />
+            </HoliWizard>
+          </View>
+        </DefaultLayout>
+      </View>
+    </SpaceTermContextProvider>
   )
 }
 
