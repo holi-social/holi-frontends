@@ -131,6 +131,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   loginLinkText: {
-    color: colors.positivepurple,
+    color: colors.brandColorB30,
   },
 })

@@ -16,9 +16,9 @@ type LocationContainerProps = {
 const LocationContainer: React.VFC<LocationContainerProps> = ({
   locationName,
   iconSize = 14,
-  iconColor = colors.fontColorGrey,
+  iconColor = colors.foreground20,
   fontSize = 'small',
-  fontColor = colors.fontColorGrey,
+  fontColor = colors.foreground20,
 }: LocationContainerProps) => {
   return (
     <View style={styles.container}>

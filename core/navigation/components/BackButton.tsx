@@ -18,7 +18,7 @@ type BackButtonProps = {
 const BackButton: React.VFC<BackButtonProps> = ({
   label,
   icon = 'arrow-left-s',
-  tintColor = colors.fontColorBlack,
+  tintColor = colors.foreground30,
   style,
   navigateHome = false,
 }: BackButtonProps) => {

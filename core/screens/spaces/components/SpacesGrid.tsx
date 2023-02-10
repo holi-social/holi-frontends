@@ -53,6 +53,6 @@ export default SpacesGrid
 
 const styles = StyleSheet.create({
   backgroundWhite: {
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.background10,
   },
 })

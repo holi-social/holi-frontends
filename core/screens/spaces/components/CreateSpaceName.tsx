@@ -99,11 +99,11 @@ const styles = StyleSheet.create({
     }),
     alignItems: 'center',
     display: 'flex',
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background30,
   },
   contentStyle: {
     flex: 1,
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background30,
     ...Platform.select({
       web: {
         minHeight: '100vh',

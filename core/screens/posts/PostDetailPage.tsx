@@ -75,7 +75,7 @@ const PostDetailPage: React.VFC<ScreenProps> = () => {
     () =>
       setOptions({
         title,
-        headerStyle: { backgroundColor: colors.backgroundColorWhite },
+        headerStyle: { backgroundColor: colors.background10 },
         navigationCustomOptions: {
           footerShown: false,
         },
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   postCommentWrapper: {
-    borderTopColor: colors.borderColorGrey,
+    borderTopColor: colors.background30,
     borderTopWidth: 1,
     width: '100%',
     height: COMMENT_BUTTON_CONTAINER_HEIGHT,

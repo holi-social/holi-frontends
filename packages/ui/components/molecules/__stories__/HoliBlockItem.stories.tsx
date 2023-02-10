@@ -14,12 +14,12 @@ export default {
 
 const Template: ComponentStory<typeof HoliBlockItem> = ({ ...args }) => {
   return (
-    <div style={{ backgroundColor: colors.backgroundColorGrey, padding: 20 }}>
+    <div style={{ backgroundColor: colors.background20, padding: 20 }}>
       <div style={{ display: 'flex', width: 300 }}>
         <HoliBlockItem
           {...args}
           label=""
-          style={args.size === 'large' ? { backgroundColor: colors.backgroundColor } : {}}
+          style={args.size === 'large' ? { backgroundColor: colors.background10 } : {}}
         />
       </div>
     </div>

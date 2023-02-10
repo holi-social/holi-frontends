@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
-import tinycolor from 'tinycolor2'
 
 import { APP_SWIPER_APPS } from '@holi/core/constants/appConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -45,7 +44,7 @@ const AppsDrawer: React.FC = () => {
         <HoliText size="small" bold>
           {t('apps.drawer.open.btn.text')}
         </HoliText>
-        <HoliIcon icon="apps" size={16} color={colors.fontColorBlack} style={{ marginLeft: 3 }} />
+        <HoliIcon icon="apps" size={16} color={colors.foreground30} style={{ marginLeft: 3 }} />
       </HoliButton>
 
       {/* Apps modal (drawer) */}
@@ -73,19 +72,16 @@ const AppsDrawer: React.FC = () => {
 
 export default AppsDrawer
 
-const borderGrey = tinycolor(colors.borderColorGrey).darken(5).toString()
-
 const styles = StyleSheet.create({
   overlayButton: {
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
     bottom: (Platform.OS === 'web' ? +vars.bottomBarHeight : 0) + 16,
     right: 16,
-    backgroundColor: colors.backgroundColorWhite,
     justifyContent: 'center',
     paddingHorizontal: 20,
-    borderColor: borderGrey,
+    borderColor: colors.background30,
     borderWidth: 1,
-    shadowColor: colors.shadowColorBlack,
+    shadowColor: colors.foreground30,
     shadowOffset: {
       width: 2,
       height: 2,
@@ -109,6 +105,6 @@ const styles = StyleSheet.create({
     padding: 2,
     borderWidth: 2,
     borderRadius: 16,
-    borderColor: colors.borderColorGrey,
+    borderColor: colors.background30,
   },
 })

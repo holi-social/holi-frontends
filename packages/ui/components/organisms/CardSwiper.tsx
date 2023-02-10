@@ -72,7 +72,7 @@ const CardSwiper = () => {
       <CardStack
         style={styles.cardContainer}
         renderNoMoreCards={() => (
-          <HoliText style={{ fontWeight: '700', fontSize: 18, color: colors.fontColorGrey }}>No more cards :(</HoliText>
+          <HoliText style={{ fontWeight: '700', fontSize: 18, color: colors.foreground20 }}>No more cards :(</HoliText>
         )}
         ref={swiper}
         loop={true}
@@ -89,7 +89,7 @@ const CardSwiper = () => {
               <Image style={styles.cardImg} source={{ uri: `${imgUri}${card.image}` }} />
               <View style={styles.textContainer}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <HoliIcon icon="home-smile-2" size={25} color={colors.fontColorWhite} style={{ marginRight: 6 }} />
+                  <HoliIcon icon="home-smile-2" size={25} color={colors.background10} style={{ marginRight: 6 }} />
                   <HoliText style={styles.text}>{card.provider}</HoliText>
                 </View>
                 <View>
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     borderRadius: 13,
   },
   text: {
-    color: colors.fontColorWhite,
+    color: colors.background10,
     fontSize: 16,
   },
   textBig: {
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
       height: 1,
     },
     shadowOpacity: 0.5,
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 0,
@@ -198,24 +198,24 @@ const styles = StyleSheet.create({
     width: 55,
     height: 55,
     borderWidth: 6,
-    borderColor: colors.primaryColor,
+    borderColor: colors.brandColorA30,
     borderRadius: 55,
     marginTop: -15,
   },
   green: {
     width: 75,
     height: 75,
-    backgroundColor: colors.tertiaryColor,
+    backgroundColor: colors.brandColorC30,
     borderRadius: 75,
     borderWidth: 6,
-    borderColor: colors.tertiaryColor,
+    borderColor: colors.brandColorC30,
   },
   red: {
     width: 75,
     height: 75,
-    backgroundColor: colors.secondaryColor,
+    backgroundColor: colors.brandColorB30,
     borderRadius: 75,
     borderWidth: 6,
-    borderColor: colors.secondaryColor,
+    borderColor: colors.brandColorB30,
   },
 })

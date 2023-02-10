@@ -29,20 +29,20 @@ export default HoliProgressBar
 
 const styles = StyleSheet.create({
   bar: {
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
     height: 14,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: colors.borderColorGrey,
+    borderColor: colors.background30,
     width: '100%',
   },
   progress: {
-    borderColor: colors.tertiaryColor,
+    borderColor: colors.brandColorC30,
     borderWidth: 1,
     borderRadius: 6,
     minWidth: 12,
     height: 12,
-    backgroundColor: colors.backgroundColorPillGreen,
+    backgroundColor: colors.brandColorC20,
     maxWidth: '100%',
   },
 })

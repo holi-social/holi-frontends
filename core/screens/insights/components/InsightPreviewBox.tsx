@@ -70,17 +70,17 @@ const styles = StyleSheet.create({
     aspectRatio: 327 / 206,
     borderRadius: 12,
     width: '100%',
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background30,
   },
   cagetory: {
-    color: colors.fontColorHighlighted,
+    color: colors.brandColorB30,
     marginTop: 16,
   },
   avatarPile: {
     marginTop: 12,
   },
   textGrey: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   spaceTop: {
     marginTop: 8,

@@ -105,7 +105,7 @@ const CreateSpaceTopics: React.VFC<CreateSpaceTopicsProps> = ({
             style={styles.input}
           />
           <View style={styles.hintContainer}>
-            <HoliIcon icon={'information'} size={14} color={colors.fontColorBlack} style={styles.infoIcon} />
+            <HoliIcon icon={'information'} size={14} color={colors.foreground30} style={styles.infoIcon} />
             <HoliText size="small" style={styles.hint}>
               {t('spaces.create.space.topic.search.hint')}
             </HoliText>
@@ -139,11 +139,11 @@ const styles = StyleSheet.create({
     }),
     alignItems: 'center',
     display: 'flex',
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background20,
   },
   contentStyle: {
     flex: 1,
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background20,
     ...Platform.select({
       web: {
         minHeight: '100vh',
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     marginBottom: 50,
     marginTop: 16,
     width: '100%',
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   input: {
     marginBottom: 16,

@@ -3,66 +3,41 @@
 // - as js-variables in packages/styles/globalVars.ts for react-native styling
 
 // Important !!!
-// run `yarn workspace @holi/ui run generate-style-vars` on every file change
+// run `yarn ui:generate-style-vars` on every file change
 // TODO: add to dev-watcher
 
-/*
-This upper section is for main design colors and colors that are used multiple times in the variables below.
-Any value that is only used in one variable below can be written inline in that variable.
-*/
-$softblack: #222326;
-$softblackLight: #eff0f1;
-$foreground10: #b0b0b0;
-$white: #ffffff;
-$softwhite: #f7f6f3;
-$softwhiteDark: #f1efe9;
-$impactyellow: #f3f360;
-$positivepurple: #6267e7;
-$grey: #6f7081;
-$errorRed: #cc1820;
-$errorRedLight: lighten($errorRed, 50%);
+$foreground30: #262424;
+$foreground20: #787777;
+$foreground10: #bfbebe;
 
-$font-color: $softblack;
-$font-color-disabled: $foreground10;
-$font-color-black: $font-color;
-$font-color-black-disabled: $foreground10;
-$font-color-grey: $grey;
-$font-color-grey-disabled: $foreground10;
-$font-color-white: $white;
-$font-color-white-disabled: $foreground10;
-$font-color-error: $errorRed;
-$font-color-highlighted: $positivepurple;
-$font-color-modal-light: #e6e1d3;
+$background30: #ebebeb;
+$background20: #f5f5f5;
+$background10: #ffffff;
 
-$primary-color: $impactyellow;
-$secondary-color: $positivepurple;
-$tertiary-color: #57d14c;
+$brandColorA30: #f5ef3f;
+$brandColorA20: #fdfd80;
+$brandColorA10: #fefec7;
 
-$border-color: $softblack;
-$border-color-black: $softblack;
-$border-color-black-disabled: $softblackLight;
-$border-color-grey: $softblackLight;
-$border-color-grey-darker: $foreground10;
-$border-color-secondary: $secondary-color;
-$border-color-error: $errorRed;
+$brandColorB30: #6267e7;
+$brandColorB20: #8b95ff;
+$brandColorB10: #e8eaff;
 
-$shadow-color-black: #000000;
-$shadow-color-error: $errorRed;
+$brandColorC30: #86df54;
+$brandColorC20: #abff8b;
+$brandColorC10: #d3ffc3;
 
-$background-color: $white;
-$background-color-yellow: $impactyellow;
-$background-color-yellow-dark: #dbdb57;
-$background-color-white: $white;
-$background-color-grey: $softwhite;
-$background-color-grey-light: $softblackLight;
-$background-color-grey-dark: $softwhiteDark;
-$background-color-black: $softblack;
-$background-color-donation-green: #00a853;
-$background-color-success: $positivepurple;
-$background-color-error: $errorRed;
-$background-color-error-light: $errorRedLight;
-$background-color-overlay: #2222221f;
-$background-color-modal-dark: #262424;
-$background-color-pill-blue: #90ddff;
-$background-color-pill-green: #abff8b;
-$background-color-transparent-black: rgba($shadow-color-black, 0.4);
+$brandColorD30: #4abef0;
+$brandColorD20: #90ddff;
+$brandColorD10: #d7f3ff;
+
+$warning30: #ec9d04;
+$warning20: #ffc046;
+$warning10: #ffebd2;
+
+$error30: #cc1820;
+$error20: #ff6469;
+$error10: #ffebec;
+
+$foreground30at48Percent: #2624247a;
+$foreground30at32Percent: #26242452;
+$foreground30at12Percent: #2222221f;

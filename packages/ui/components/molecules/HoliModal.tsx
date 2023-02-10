@@ -203,7 +203,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
                   >
                     <HoliIcon
                       icon={deviceWidth < +vars.breakpointL ? 'arrow-down-s' : 'close'}
-                      color={colors.fontColorBlack}
+                      color={colors.foreground30}
                       size={25}
                     />
                   </HoliButton>
@@ -232,11 +232,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   root: {
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     overflow: 'hidden',
-    shadowColor: colors.shadowColorBlack,
+    shadowColor: colors.foreground30,
     shadowOffset: {
       width: 0,
       height: 0,
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
   },
   handle: {
     height: 40,
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
     alignItems: 'center',
   },
   lineButton: {
@@ -262,14 +262,14 @@ const styles = StyleSheet.create({
     width: 40,
     height: 4,
     borderRadius: 4,
-    backgroundColor: colors.backgroundColorBlack,
+    backgroundColor: colors.foreground30,
     opacity: 0.3,
   },
   backdrop: {
     ...StyleSheet.absoluteFillObject,
     zIndex: 0,
     opacity: 0.4,
-    backgroundColor: colors.backgroundColorBlack,
+    backgroundColor: colors.foreground30,
   },
   dismissIcon: {
     alignSelf: 'flex-end',

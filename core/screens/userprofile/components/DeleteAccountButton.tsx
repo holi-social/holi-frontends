@@ -72,6 +72,6 @@ export default DeleteAccountButton
 
 const styles = StyleSheet.create({
   text: {
-    color: colors.errorRed,
+    color: colors.error30,
   },
 })

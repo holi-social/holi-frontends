@@ -25,7 +25,7 @@ const AuthStackNavigator: React.VFC = () => {
         header: HeaderAnimated,
         headerTransparent: true,
         headerStyle: {
-          backgroundColor: colors.backgroundColorWhite,
+          backgroundColor: colors.background10,
         },
       }}
     >

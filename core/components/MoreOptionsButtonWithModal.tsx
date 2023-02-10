@@ -17,7 +17,7 @@ export interface MoreOptionsButtonWithModalProps extends HoliButtonProps {
 const MoreOptionsButtonWithModal: React.FC<MoreOptionsButtonWithModalProps> = ({
   showOptions = false,
   onModalDismiss,
-  tintColor = colors.fontColorGrey,
+  tintColor = colors.foreground20,
   // HoliButton specific props
   label,
   onPress,
