@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
-import tinycolor from 'tinycolor2'
 
 import { APP_SWIPER_APPS } from '@holi/core/constants/appConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -73,17 +72,14 @@ const AppsDrawer: React.FC = () => {
 
 export default AppsDrawer
 
-const borderGrey = tinycolor(colors.background30).darken(5).toString()
-
 const styles = StyleSheet.create({
   overlayButton: {
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
     bottom: (Platform.OS === 'web' ? +vars.bottomBarHeight : 0) + 16,
     right: 16,
-    backgroundColor: colors.background10,
     justifyContent: 'center',
     paddingHorizontal: 20,
-    borderColor: borderGrey,
+    borderColor: colors.background30,
     borderWidth: 1,
     shadowColor: colors.foreground30,
     shadowOffset: {
