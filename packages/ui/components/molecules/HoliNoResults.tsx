@@ -44,12 +44,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingBottom: 24,
   },
-  mediaContainer: {
-    alignItems: 'center',
-    paddingBottom: 24,
-  },
   secondText: {
     marginTop: 16,
+    textAlign: 'center',
   },
   childrenContainer: {
     marginTop: 24,
