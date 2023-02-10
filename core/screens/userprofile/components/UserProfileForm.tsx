@@ -102,7 +102,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
       >
         <View style={styles.addImage}>
           <HoliText style={{ marginRight: 12 }}>{t('profile.avatar.add')}</HoliText>
-          <HoliIcon icon="image" color={colors.fontColorGrey} />
+          <HoliIcon icon="image" color={colors.foreground20} />
         </View>
       </HoliImagePicker>
     </View>
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   avatar: {
-    borderColor: colors.softblack,
+    borderColor: colors.foreground30,
     borderWidth: 2,
   },
   input: {
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginHorizontal: 16,
     zIndex: 10,
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
   },
 })
 

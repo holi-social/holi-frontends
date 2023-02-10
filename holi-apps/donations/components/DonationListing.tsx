@@ -89,7 +89,7 @@ const DonationListing: React.VFC<DonationListingProps> = ({ locationQuery, reset
             onPress={resetSearch}
             testID="donations-list-search-reset"
           >
-            <HoliText size="small" style={{ color: colors.fontColorGrey }}>
+            <HoliText size="small" style={{ color: colors.foreground20 }}>
               {t('search.filter.reset')}
             </HoliText>
           </HoliButton>
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   searchQuery: {
-    color: colors.fontColorHighlighted,
+    color: colors.brandColorB30,
   },
   searchFilter: {
     flexDirection: 'row',

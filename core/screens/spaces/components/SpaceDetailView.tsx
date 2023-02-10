@@ -54,14 +54,14 @@ const styles = StyleSheet.create({
     paddingTop: 12,
   },
   header: {
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
     paddingBottom: 24,
   },
   tabItem: {
     paddingVertical: 32,
   },
   tabStyle: {
-    backgroundColor: colors.backgroundColorGrey,
+    backgroundColor: colors.background20,
     paddingBottom: Platform.OS === 'web' ? +vars.bottomBarHeight : 24,
   },
 })

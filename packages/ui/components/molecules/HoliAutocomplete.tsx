@@ -197,17 +197,17 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 0,
   },
   textInputFocused: {
-    borderColor: colors.borderColorSecondary,
+    borderColor: colors.brandColorB30,
   },
   textInputLabelFocused: {
-    color: colors.secondaryColor,
+    color: colors.brandColorB30,
   },
   listItem: {
     height: 48,
     paddingHorizontal: 12,
     justifyContent: 'center',
     display: 'flex',
-    borderColor: colors.borderColorSecondary,
+    borderColor: colors.brandColorB30,
     borderLeftWidth: 2,
     borderRightWidth: 2,
   },

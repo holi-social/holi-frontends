@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   placeholder: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
     overflow: 'hidden',
     position: 'absolute',
     textOverflow: 'ellipsis',

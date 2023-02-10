@@ -49,7 +49,7 @@ const HoliLexicalMentionsDropdown: React.VFC<HoliLexicalMentionsDropdownProps> =
               style={[
                 styles.suggestionItem,
                 (hightlightedIndex === i || selectedIndex === i) && {
-                  backgroundColor: colors.backgroundColorGreyLight,
+                  backgroundColor: colors.background30,
                 },
               ]}
               contentStyle={{ alignItems: 'center', flexDirection: 'row' }}
@@ -77,7 +77,7 @@ export default HoliLexicalMentionsDropdown
 const styles = StyleSheet.create({
   suggestionsContainer: {
     width: '100%',
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.background10,
   },
   suggestionItem: {
     display: 'flex',

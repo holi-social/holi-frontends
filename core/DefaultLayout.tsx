@@ -76,7 +76,7 @@ export default DefaultLayout
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
   },
   headerPadding: {
     paddingTop: vars.topBarHeight + (Platform.OS === 'ios' ? -8 : 0),
@@ -86,6 +86,6 @@ const styles = StyleSheet.create({
   },
   scrollLayout: {
     justifyContent: 'flex-start',
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
   },
 })

@@ -18,7 +18,7 @@ const Notifications: React.VFC = () => {
     () =>
       setOptions({
         title,
-        headerStyle: { backgroundColor: colors.backgroundColorGreyLight },
+        headerStyle: { backgroundColor: colors.background30 },
         headerTransparent: true,
         headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon="arrow-down-s" />),
         headerRight: ({ tintColor }) =>
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         minHeight: '100vh',
       },
     }),
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background30,
   },
   container: {
     top: vars.topBarHeight,

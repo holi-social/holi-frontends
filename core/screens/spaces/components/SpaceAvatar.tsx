@@ -29,14 +29,14 @@ const getStyles = (width: number) =>
   StyleSheet.create({
     spaceAvatar: {
       borderRadius: 8,
-      backgroundColor: colors.backgroundColorGrey,
+      backgroundColor: colors.background20,
       alignItems: 'center',
       justifyContent: 'center',
       overflow: 'hidden',
       width,
       height: width,
       borderWidth: 2,
-      borderColor: colors.softblack,
+      borderColor: colors.foreground30,
       maxWidth: 128,
       maxHeight: 128,
     },

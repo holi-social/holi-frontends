@@ -17,7 +17,6 @@ import {
   ViewStyle,
   useWindowDimensions,
 } from 'react-native'
-import tinycolor from 'tinycolor2'
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -148,9 +147,9 @@ const HoliTextInput = (
   })
 
   const iconColor = (() => {
-    if (isFocused) return colors.secondaryColor
-    if (isHovered) return tinycolor(colors.softblackLight).darken(45).toString()
-    return tinycolor(colors.fontColor).lighten(80).toString()
+    if (isFocused) return colors.brandColorB30
+    if (isHovered) return colors.foreground20
+    return colors.background30
   })()
 
   return (
@@ -200,7 +199,7 @@ const HoliTextInput = (
             onFocus={handleFocus}
             onBlur={handleBlur}
             placeholder={props?.placeholder}
-            placeholderTextColor={tinycolor(colors.fontColorGrey).lighten(30).toString()}
+            placeholderTextColor={colors.foreground10}
             onChange={(event) => {
               let text = event.nativeEvent.text
               // type doesn't work with RN 'numeric' on web
@@ -226,7 +225,7 @@ const HoliTextInput = (
               {(props?.trailingIcon || props?.trailingComponent) &&
                 !hasValidationErrors &&
                 (props?.trailingComponent || <HoliIcon icon={props?.trailingIcon || ''} size={22} color={iconColor} />)}
-              {hasValidationErrors && <HoliIcon icon="error-warning" size={16} filled color={colors.fontColorError} />}
+              {hasValidationErrors && <HoliIcon icon="error-warning" size={16} filled color={colors.error30} />}
             </View>
           )}
           {!showCharactorCount && (value?.length ?? 0) > maxNoOfCharacters * 0.8 && (
@@ -289,22 +288,22 @@ const getStyles = (theme: HoliTheme) =>
       alignItems: 'center',
       flexDirection: 'row',
       borderWidth: 2,
-      borderColor: colors.borderColorGrey,
+      borderColor: colors.background30,
       borderRadius: 4,
-      backgroundColor: colors.backgroundColor,
+      backgroundColor: colors.background10,
     },
     inputWrapperFocused: {
-      borderColor: colors.borderColorSecondary,
+      borderColor: colors.brandColorB30,
     },
     inputWrapperDisabled: {
-      borderColor: colors.borderColorBlackDisabled,
-      backgroundColor: colors.backgroundColorGrey,
+      borderColor: colors.background30,
+      backgroundColor: colors.background20,
     },
     inputWrapperHasValidationErrors: {
-      borderColor: colors.errorRed,
+      borderColor: colors.error30,
     },
     inputWrapperHovered: {
-      borderColor: tinycolor(colors.borderColorBlack).lighten(35).toString(),
+      borderColor: colors.foreground20,
     },
     input: {
       flex: 1,
@@ -314,12 +313,12 @@ const getStyles = (theme: HoliTheme) =>
       lineHeight: LINE_HEIGHT,
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
-      color: colors.fontColor,
+      color: colors.foreground30,
       overflow: 'scroll',
       ...Platform.select({
         web: {
           overflowX: 'hidden',
-          caretColor: colors.secondaryColor,
+          caretColor: colors.brandColorB30,
         },
       }),
     },
@@ -337,7 +336,7 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
     },
     inputCharsTextWrapper: {
-      backgroundColor: tinycolor(colors.backgroundColorBlack).lighten(80).toString(),
+      backgroundColor: colors.foreground10,
       borderRadius: 8,
       position: 'absolute',
       paddingHorizontal: 8,
@@ -345,40 +344,40 @@ const getStyles = (theme: HoliTheme) =>
       bottom: -8,
     },
     inputCharsTextWrapperFocused: {
-      backgroundColor: colors.secondaryColor,
+      backgroundColor: colors.brandColorB30,
     },
     inputCharsTextWrapperDisabled: {
-      backgroundColor: colors.fontColorBlackDisabled,
+      backgroundColor: colors.background30,
     },
     inputCharsTextWrapperHasValidationErrors: {
-      backgroundColor: colors.errorRed,
+      backgroundColor: colors.error30,
     },
     inputCharsTextWrapperHovered: {
-      backgroundColor: colors.backgroundColorGrey,
+      backgroundColor: colors.foreground20,
     },
     inputCharsText: {
-      color: colors.white,
+      color: colors.background10,
     },
     labelWrapper: {
       marginBottom: 6,
     },
     label: {
-      color: colors.fontColor,
+      color: colors.foreground30,
     },
     labelFocused: {
-      color: colors.secondaryColor,
+      color: colors.brandColorB30,
     },
     labelHasValidationErrors: {
-      color: colors.errorRed,
+      color: colors.error30,
     },
     helperTextWrapper: {
       flex: 4,
     },
     helperText: {
-      color: colors.fontColorGrey,
+      color: colors.foreground20,
     },
     validationErrorText: {
-      color: colors.errorRed,
+      color: colors.error30,
     },
     trailingIconWrapper: {
       height: 22,
@@ -394,6 +393,6 @@ const getStyles = (theme: HoliTheme) =>
       alignItems: 'flex-end',
     },
     charactorCountText: {
-      color: colors.fontColorGrey,
+      color: colors.foreground20,
     },
   })

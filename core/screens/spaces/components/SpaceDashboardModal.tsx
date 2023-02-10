@@ -54,7 +54,7 @@ const SpaceDashboardModal: React.VFC = () => {
           style={{ maxHeight: `${MAX_MODAL_HEIGHT * 100}%` }}
         >
           <View style={styles.modalContent}>
-            <HoliHeading level="2" size="small" style={{ color: colors.fontColorGrey }}>
+            <HoliHeading level="2" size="small" style={{ color: colors.foreground20 }}>
               {t('spaces.dashboard.title')}
             </HoliHeading>
             <HoliHeading level="3" size="large" style={styles.heading}>

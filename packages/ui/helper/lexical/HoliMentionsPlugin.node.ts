@@ -71,7 +71,7 @@ export class HoliMentionsPluginNode extends TextNode {
   createDOM(config: EditorConfig): HTMLElement {
     const mentionElement = super.createDOM(config)
     mentionElement.setAttribute(MENTION_DATA_ATTR_USER_ID, this.__userId)
-    mentionElement.style.cssText = `color: ${colors.fontColorHighlighted}`
+    mentionElement.style.cssText = `color: ${colors.brandColorB30}`
     mentionElement.className = 'holi-mention'
     // TODO: updating the visible string in the input field causes errors:
     // 1. after replacement cursor is not behind the new string
