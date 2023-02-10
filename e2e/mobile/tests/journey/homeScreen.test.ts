@@ -1,5 +1,5 @@
 import { defaultAuthSteps } from '../../helpers/auth'
-import { swipeUp } from '../../helpers/gestures'
+import { scrollDown } from '../../helpers/gestures'
 import { navigateBackToHomeScreen } from '../../helpers/navigation'
 import {
   locateMultipleElementsWithTestId,
@@ -72,7 +72,7 @@ const assertShowsAppUpdates = async (app: string) => {
 
 const assertShowsNoUserSuggestionsWhenLoggedOut = async () => {
   // scroll to bottom (swipe up, opposite direction)
-  await swipeUp()
+  await scrollDown()
 
   // user suggestions element should be null when logged out
   await waitForElementWithTestIdToBeNull('user-suggestions')
