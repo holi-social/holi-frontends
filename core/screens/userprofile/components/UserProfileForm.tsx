@@ -115,10 +115,13 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
     </>
   )
 
-  const propsFor = (id: string) => getScrollToProps(id, onFocus)
+  const scrollToPropsFor = (id: string) => getScrollToProps(id, onFocus)
 
   const onFocus = (pos: Position) => {
     scrollViewRef?.current?.scrollTo({ y: pos.y, animated: true })
+    setTimeout(() => {
+      scrollViewRef?.current?.scrollTo({ y: pos.y, animated: true })
+    }, 1000)
   }
 
   useEffect(() => {
@@ -152,7 +155,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           style={styles.input}
           validationErrorText={fieldErrors?.firstName?.join()}
           inputProps={{ autoFocus: Platform.OS === 'web' }}
-          {...propsFor('firstName')}
+          {...scrollToPropsFor('firstName')}
           testID={'first-name'}
         />
         <HoliTextInput
@@ -167,7 +170,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           }}
           style={styles.input}
           validationErrorText={fieldErrors?.lastName?.join()}
-          {...propsFor('lastName')}
+          {...scrollToPropsFor('lastName')}
           testID={'last-name'}
         />
         <HoliTextInput
@@ -179,7 +182,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           noOfVisibleLines={5}
           maxNoOfVisibleLines={10}
           maxNoOfCharacters={3000}
-          {...propsFor('aboutme')}
+          {...scrollToPropsFor('aboutme')}
           style={styles.input}
         />
         <HoliTextInput
@@ -188,7 +191,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           accessibilityLabel={t('user.profileForm.pronouns')}
           placeholder={t('user.profileForm.pronounsPlaceholder')}
           onChange={(text) => setPronouns(text)}
-          {...propsFor('pronouns')}
+          {...scrollToPropsFor('pronouns')}
           style={styles.input}
         />
         <HoliTextInput
@@ -197,7 +200,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           accessibilityLabel={t('user.profileForm.location')}
           placeholder={t('user.profileForm.locationPlaceholder')}
           onChange={(text) => setLocation(text)}
-          {...propsFor('location')}
+          {...scrollToPropsFor('location')}
           style={styles.input}
         />
       </View>
