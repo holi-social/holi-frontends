@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client/core'
+import { z } from 'zod'
 
 import { Space, SpaceSection } from '@holi/core/screens/spaces/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
@@ -191,4 +192,22 @@ export type SpaceUserConnectionType = string
 
 export type MySpacesResponse = {
   mySpaces: SpaceSection[]
+}
+
+export const updateSpaceMutation = gql`
+  mutation UpdateSpace($input: UpdateSpaceInput!) {
+    updateSpace(input: $input) {
+      id
+    }
+  }
+`
+
+export const UpdateSpaceInputSchema = z.object({
+  avatar: z.instanceof(Object).optional(),
+})
+
+export type UpdateSpaceInput = z.infer<typeof UpdateSpaceInputSchema>
+
+export type UpdateSpaceResponse = {
+  updateSpace: Partial<Space>
 }
