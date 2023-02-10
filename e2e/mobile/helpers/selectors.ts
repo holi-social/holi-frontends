@@ -1,4 +1,4 @@
-import { swipeDown, swipeLeft, swipeRight, swipeUp } from './gestures'
+import { scrollDown, scrollLeft, scrollRight, scrollUp } from './gestures'
 
 type ScrollDirection = 'up' | 'down' | 'left' | 'right'
 
@@ -68,16 +68,16 @@ export const scrollToElementWithTestId = async (
      */
     switch (direction) {
       case 'down':
-        swipeUp()
+        scrollDown()
         break
       case 'up':
-        swipeDown()
+        scrollUp()
         break
       case 'left':
-        swipeRight()
+        scrollLeft()
         break
       case 'right':
-        swipeLeft()
+        scrollRight()
     }
 
     scrollCounter++

@@ -19,43 +19,43 @@ interface XY {
 /**
  * The values in the below object are percentages of the screen
  */
-const SWIPE_DIRECTIONS = {
-  down: {
+const SCROLL_DIRECTIONS = {
+  up: {
     ios: 'up',
     start: { x: 50, y: 15 },
     end: { x: 50, y: 85 },
   },
-  left: {
+  right: {
     ios: 'right',
     start: { x: 85, y: 50 },
     end: { x: 15, y: 50 },
   },
-  right: {
+  left: {
     ios: 'left',
     start: { x: 15, y: 50 },
     end: { x: 85, y: 50 },
   },
-  up: {
+  down: {
     ios: 'down',
     start: { x: 50, y: 85 },
     end: { x: 50, y: 15 },
   },
 }
 
-export const swipeDown = async () => {
-  swipeIOSOrAndroid(SWIPE_DIRECTIONS.down)
+export const scrollUp = async () => {
+  swipeIOSOrAndroid(SCROLL_DIRECTIONS.up)
 }
 
-export const swipeUp = async () => {
-  swipeIOSOrAndroid(SWIPE_DIRECTIONS.up)
+export const scrollDown = async () => {
+  swipeIOSOrAndroid(SCROLL_DIRECTIONS.down)
 }
 
-export const swipeLeft = async () => {
-  swipeIOSOrAndroid(SWIPE_DIRECTIONS.left)
+export const scrollRight = async () => {
+  swipeIOSOrAndroid(SCROLL_DIRECTIONS.right)
 }
 
-export const swipeRight = async () => {
-  swipeIOSOrAndroid(SWIPE_DIRECTIONS.right)
+export const scrollLeft = async () => {
+  swipeIOSOrAndroid(SCROLL_DIRECTIONS.left)
 }
 
 const swipeIOSOrAndroid = async (coord: { ios: string; start: XY; end: XY }) => {
