@@ -3,7 +3,6 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Keyboard, Platform, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
-import tinycolor from 'tinycolor2'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -216,9 +215,7 @@ const HoliSelect = ({
     [options, regex]
   )
 
-  const placeholderTextColor = selectedText
-    ? colors.foreground30
-    : tinycolor(colors.foreground20).lighten(30).toString()
+  const placeholderTextColor = selectedText ? colors.foreground30 : colors.foreground20
 
   /**
    * TODO:
@@ -314,7 +311,7 @@ const getStyles = (textInputHeight: number) =>
       height: 24,
       borderRadius: 24,
       borderWidth: 1,
-      borderColor: tinycolor(colors.background30).darken(5).toString(),
+      borderColor: colors.foreground10,
       alignItems: 'center',
       justifyContent: 'center',
     },
