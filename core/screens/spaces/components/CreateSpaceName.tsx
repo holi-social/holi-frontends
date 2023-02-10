@@ -44,7 +44,7 @@ const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
     <View style={styles.wrapper}>
       <DefaultLayout
         headerOverlap={true}
-        scrollView={false}
+        scrollEnabled={false}
         style={[styles.contentStyle, { width: Platform.OS === 'web' ? deviceWidth : '100%' }]}
       >
         <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
