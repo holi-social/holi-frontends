@@ -53,7 +53,12 @@ const InsightDetailPage: React.VFC<ScreenProps> = () => {
   useLayoutEffect(
     () =>
       setOptions({
-        title: t('insights.insight.title', { title: insight?.title }),
+        // * Insights are curated internally by the team, which is why it's ok to
+        // * disable the interpolation escaping mechanism from `i18next` using the
+        // * trust principle. Escaping is an essential mechanism for mitigating
+        // * XSS attacks. The moment Insights become user-facing, we need to
+        // * re-enable special character escaping by removing `interpolation: { escapeValue: false }`.
+        title: t('insights.insight.title', { title: insight?.title, interpolation: { escapeValue: false } }),
         headerTransparent: true,
         headerTintColor: colors.background10,
         navigationCustomOptions: {
