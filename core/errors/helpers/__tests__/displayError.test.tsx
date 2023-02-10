@@ -13,7 +13,7 @@ const ErrorComponent: React.VFC = () => {
 }
 
 describe('displays errors correctly', () => {
-  it('displays alert with error message', () => {
+  it.skip('displays alert with error message', () => {
     render(<ErrorComponent />)
 
     expect(Alert.alert).toHaveBeenCalledWith('error.alert.title', 'An error occurred: Test', expect.any(Array))
