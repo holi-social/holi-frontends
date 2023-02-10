@@ -10,7 +10,6 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
-import tinycolor from 'tinycolor2'
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -130,9 +129,7 @@ const getStyles = (checked = false) =>
       marginLeft: 1.5,
     },
     hovered: {
-      backgroundColor: tinycolor(checked ? colors.brandColorB30 : colors.background20)
-        .darken(3)
-        .toString(),
+      backgroundColor: checked ? colors.brandColorB20 : colors.background30,
     },
     hoveredText: {
       color: checked ? colors.background10 : colors.brandColorB30,
@@ -146,9 +143,7 @@ const getStyles = (checked = false) =>
       }),
     },
     pressed: {
-      backgroundColor: tinycolor(checked ? colors.brandColorB30 : colors.background20)
-        .lighten(3)
-        .toString(),
+      backgroundColor: checked ? colors.brandColorB10 : colors.background20,
     },
     checked: {
       backgroundColor: colors.brandColorB30,

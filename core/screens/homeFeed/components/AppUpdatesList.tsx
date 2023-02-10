@@ -10,7 +10,6 @@ import {
   ViewStyle,
   useWindowDimensions,
 } from 'react-native'
-import tinycolor from 'tinycolor2'
 
 import { HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -123,7 +122,7 @@ const styles = StyleSheet.create({
     padding: 13,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: tinycolor(colors.background30).darken(5).toString(),
+    borderColor: colors.foreground10,
     backgroundColor: colors.background20,
   },
   listingItem: {

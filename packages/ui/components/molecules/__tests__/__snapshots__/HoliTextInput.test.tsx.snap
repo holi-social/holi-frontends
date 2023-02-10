@@ -75,7 +75,7 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
         onContentSizeChange={[Function]}
         onFocus={[Function]}
         placeholder="Placeholder"
-        placeholderTextColor="#c4c4c4"
+        placeholderTextColor="#bfbebe"
         secureTextEntry={false}
         style={
           Array [
@@ -228,7 +228,7 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
         onContentSizeChange={[Function]}
         onFocus={[Function]}
         placeholder="Placeholder"
-        placeholderTextColor="#c4c4c4"
+        placeholderTextColor="#bfbebe"
         secureTextEntry={false}
         style={
           Array [
@@ -381,7 +381,7 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
         onContentSizeChange={[Function]}
         onFocus={[Function]}
         placeholder="Placeholder"
-        placeholderTextColor="#c4c4c4"
+        placeholderTextColor="#bfbebe"
         secureTextEntry={false}
         style={
           Array [
@@ -575,7 +575,7 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
         onContentSizeChange={[Function]}
         onFocus={[Function]}
         placeholder="Placeholder"
-        placeholderTextColor="#c4c4c4"
+        placeholderTextColor="#bfbebe"
         secureTextEntry={false}
         style={
           Array [
@@ -775,7 +775,7 @@ exports[`HoliTextInput renders correctly with error 1`] = `
         onContentSizeChange={[Function]}
         onFocus={[Function]}
         placeholder="Placeholder"
-        placeholderTextColor="#c4c4c4"
+        placeholderTextColor="#bfbebe"
         secureTextEntry={false}
         style={
           Array [
@@ -1001,7 +1001,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
         onContentSizeChange={[Function]}
         onFocus={[Function]}
         placeholder="Placeholder"
-        placeholderTextColor="#c4c4c4"
+        placeholderTextColor="#bfbebe"
         secureTextEntry={false}
         style={
           Array [
@@ -1040,7 +1040,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
           align="xMidYMid"
           bbHeight={22}
           bbWidth={22}
-          color={4294046193}
+          color={4293651435}
           focusable={false}
           meetOrSlice={0}
           minX={0}
@@ -1054,7 +1054,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
               Object {
                 "borderStyle": "solid",
                 "borderWidth": 0,
-                "color": "#f1f1f1",
+                "color": "#ebebeb",
                 "display": "flex",
                 "fill": "currentColor",
                 "flexDirection": "row",
@@ -1070,7 +1070,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
               },
             ]
           }
-          tintColor={4294046193}
+          tintColor={4293651435}
           vbHeight={1024}
           vbWidth={1024}
         >
@@ -1225,7 +1225,7 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
         onContentSizeChange={[Function]}
         onFocus={[Function]}
         placeholder="Placeholder"
-        placeholderTextColor="#c4c4c4"
+        placeholderTextColor="#bfbebe"
         secureTextEntry={true}
         style={
           Array [
@@ -1379,7 +1379,7 @@ exports[`HoliTextInput renders correctly without label 1`] = `
         onContentSizeChange={[Function]}
         onFocus={[Function]}
         placeholder="Placeholder"
-        placeholderTextColor="#c4c4c4"
+        placeholderTextColor="#bfbebe"
         secureTextEntry={false}
         style={
           Array [

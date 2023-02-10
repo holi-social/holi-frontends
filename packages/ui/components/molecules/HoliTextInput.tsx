@@ -17,7 +17,6 @@ import {
   ViewStyle,
   useWindowDimensions,
 } from 'react-native'
-import tinycolor from 'tinycolor2'
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -149,8 +148,8 @@ const HoliTextInput = (
 
   const iconColor = (() => {
     if (isFocused) return colors.brandColorB30
-    if (isHovered) return tinycolor(colors.softblackLight).darken(45).toString()
-    return tinycolor(colors.foreground30).lighten(80).toString()
+    if (isHovered) return colors.foreground20
+    return colors.background30
   })()
 
   return (
@@ -200,7 +199,7 @@ const HoliTextInput = (
             onFocus={handleFocus}
             onBlur={handleBlur}
             placeholder={props?.placeholder}
-            placeholderTextColor={tinycolor(colors.foreground20).lighten(30).toString()}
+            placeholderTextColor={colors.foreground10}
             onChange={(event) => {
               let text = event.nativeEvent.text
               // type doesn't work with RN 'numeric' on web
@@ -304,7 +303,7 @@ const getStyles = (theme: HoliTheme) =>
       borderColor: colors.error30,
     },
     inputWrapperHovered: {
-      borderColor: tinycolor(colors.foreground30).lighten(35).toString(),
+      borderColor: colors.foreground20,
     },
     input: {
       flex: 1,
@@ -337,7 +336,7 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
     },
     inputCharsTextWrapper: {
-      backgroundColor: tinycolor(colors.foreground30).lighten(80).toString(),
+      backgroundColor: colors.foreground10,
       borderRadius: 8,
       position: 'absolute',
       paddingHorizontal: 8,
@@ -348,13 +347,13 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: colors.brandColorB30,
     },
     inputCharsTextWrapperDisabled: {
-      backgroundColor: colors.foreground10,
+      backgroundColor: colors.background30,
     },
     inputCharsTextWrapperHasValidationErrors: {
       backgroundColor: colors.error30,
     },
     inputCharsTextWrapperHovered: {
-      backgroundColor: colors.background20,
+      backgroundColor: colors.foreground20,
     },
     inputCharsText: {
       color: colors.background10,

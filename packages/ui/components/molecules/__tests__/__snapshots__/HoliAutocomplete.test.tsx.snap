@@ -127,7 +127,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
           onFocus={[Function]}
           onSubmitEditing={[Function]}
           placeholder="Start typing..."
-          placeholderTextColor="#c4c4c4"
+          placeholderTextColor="#bfbebe"
           secureTextEntry={false}
           style={
             Array [
@@ -376,7 +376,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
           onFocus={[Function]}
           onSubmitEditing={[Function]}
           placeholder="Start typing..."
-          placeholderTextColor="#c4c4c4"
+          placeholderTextColor="#bfbebe"
           secureTextEntry={false}
           style={
             Array [
