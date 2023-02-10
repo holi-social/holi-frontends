@@ -19,7 +19,7 @@ export default TestingBanner
 
 const styles = StyleSheet.create({
   banner: {
-    backgroundColor: colors.backgroundColorPillGreen,
+    backgroundColor: colors.brandColorC20,
     borderRadius: 4,
     padding: 16,
     textAlign: 'center',

@@ -69,6 +69,6 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
   },
   disabled: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
 })

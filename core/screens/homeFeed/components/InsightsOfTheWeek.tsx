@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   insightsSubtitle: {
     marginTop: 8,
     fontWeight: '400',
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   editorsButton: {
     marginTop: 8,

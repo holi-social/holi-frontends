@@ -29,7 +29,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -40,7 +40,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#f3f360",
+          "backgroundColor": "#f5ef3f",
         },
       ],
       undefined,
@@ -66,7 +66,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -123,7 +123,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -139,7 +139,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#f3f360",
+          "backgroundColor": "#f5ef3f",
         },
       ],
       undefined,
@@ -165,7 +165,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -222,7 +222,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -256,7 +256,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -313,7 +313,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -352,7 +352,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -409,7 +409,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -420,7 +420,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
       ],
@@ -447,7 +447,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -506,7 +506,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -522,7 +522,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
       ],
@@ -549,7 +549,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -608,7 +608,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -619,7 +619,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#f3f360",
+          "backgroundColor": "#f5ef3f",
         },
       ],
       undefined,
@@ -645,7 +645,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -702,7 +702,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -718,7 +718,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#f3f360",
+          "backgroundColor": "#f5ef3f",
         },
       ],
       undefined,
@@ -744,7 +744,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -801,7 +801,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -835,7 +835,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -892,7 +892,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -931,7 +931,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -988,7 +988,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -999,7 +999,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
       ],
@@ -1026,7 +1026,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -1085,7 +1085,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -1101,7 +1101,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
       ],
@@ -1128,7 +1128,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -1187,7 +1187,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -1198,10 +1198,10 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 13,
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
         Object {
-          "backgroundColor": "#f7f6f3",
+          "backgroundColor": "#f5f5f5",
         },
       ],
       undefined,
@@ -1227,7 +1227,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -1245,7 +1245,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             },
             Object {},
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -1286,7 +1286,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -1302,10 +1302,10 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 6,
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
         Object {
-          "backgroundColor": "#f7f6f3",
+          "backgroundColor": "#f5f5f5",
         },
       ],
       undefined,
@@ -1331,7 +1331,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -1349,7 +1349,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             },
             Object {},
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -1390,7 +1390,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -1401,7 +1401,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 13,
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
       ],
       undefined,
@@ -1427,7 +1427,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -1445,7 +1445,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             },
             Object {},
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -1486,7 +1486,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -1502,7 +1502,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 6,
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
       ],
       undefined,
@@ -1528,7 +1528,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -1546,7 +1546,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             },
             Object {},
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -1587,7 +1587,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -1598,14 +1598,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
         Object {
-          "backgroundColor": "#f7f6f3",
+          "backgroundColor": "#f5f5f5",
         },
       ],
       undefined,
@@ -1631,7 +1631,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -1651,7 +1651,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
               "color": "#cc1820",
             },
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -1692,7 +1692,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -1708,14 +1708,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
         Object {
-          "backgroundColor": "#f7f6f3",
+          "backgroundColor": "#f5f5f5",
         },
       ],
       undefined,
@@ -1741,7 +1741,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -1761,7 +1761,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
               "color": "#cc1820",
             },
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -1802,7 +1802,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -1813,10 +1813,10 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 13,
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
         Object {
-          "backgroundColor": "#f7f6f3",
+          "backgroundColor": "#f5f5f5",
         },
       ],
       undefined,
@@ -1842,7 +1842,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -1860,7 +1860,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             },
             Object {},
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -1901,7 +1901,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -1917,10 +1917,10 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 6,
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
         Object {
-          "backgroundColor": "#f7f6f3",
+          "backgroundColor": "#f5f5f5",
         },
       ],
       undefined,
@@ -1946,7 +1946,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -1964,7 +1964,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             },
             Object {},
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -2005,7 +2005,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -2016,7 +2016,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 13,
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
       ],
       undefined,
@@ -2042,7 +2042,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -2060,7 +2060,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             },
             Object {},
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -2101,7 +2101,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -2117,7 +2117,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 6,
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
       ],
       undefined,
@@ -2143,7 +2143,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -2161,7 +2161,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
             },
             Object {},
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -2202,7 +2202,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -2213,14 +2213,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
         Object {
-          "backgroundColor": "#f7f6f3",
+          "backgroundColor": "#f5f5f5",
         },
       ],
       undefined,
@@ -2246,7 +2246,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -2266,7 +2266,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
               "color": "#cc1820",
             },
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -2307,7 +2307,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -2323,14 +2323,14 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
         Object {
-          "backgroundColor": "#f7f6f3",
+          "backgroundColor": "#f5f5f5",
         },
       ],
       undefined,
@@ -2356,7 +2356,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -2376,7 +2376,7 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
               "color": "#cc1820",
             },
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -2417,7 +2417,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -2428,7 +2428,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#f3f360",
+          "backgroundColor": "#f5ef3f",
         },
       ],
       undefined,
@@ -2454,7 +2454,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -2511,7 +2511,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -2527,7 +2527,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#f3f360",
+          "backgroundColor": "#f5ef3f",
         },
       ],
       undefined,
@@ -2553,7 +2553,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -2610,7 +2610,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -2644,7 +2644,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -2701,7 +2701,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -2740,7 +2740,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -2797,7 +2797,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -2808,7 +2808,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
       ],
@@ -2835,7 +2835,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -2894,7 +2894,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -2910,7 +2910,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
       ],
@@ -2937,7 +2937,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -2996,7 +2996,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -3007,7 +3007,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#f3f360",
+          "backgroundColor": "#f5ef3f",
         },
       ],
       undefined,
@@ -3033,7 +3033,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -3090,7 +3090,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -3106,7 +3106,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#f3f360",
+          "backgroundColor": "#f5ef3f",
         },
       ],
       undefined,
@@ -3132,7 +3132,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -3189,7 +3189,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -3223,7 +3223,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -3280,7 +3280,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -3319,7 +3319,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -3376,7 +3376,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -3387,7 +3387,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
       ],
@@ -3414,7 +3414,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -3473,7 +3473,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -3489,7 +3489,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
       ],
@@ -3516,7 +3516,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -3575,7 +3575,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -3586,10 +3586,10 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 13,
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
         Object {
-          "backgroundColor": "#f7f6f3",
+          "backgroundColor": "#f5f5f5",
         },
       ],
       undefined,
@@ -3615,7 +3615,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -3633,7 +3633,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             },
             Object {},
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -3674,7 +3674,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -3690,10 +3690,10 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 6,
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
         Object {
-          "backgroundColor": "#f7f6f3",
+          "backgroundColor": "#f5f5f5",
         },
       ],
       undefined,
@@ -3719,7 +3719,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -3737,7 +3737,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             },
             Object {},
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -3778,7 +3778,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -3789,7 +3789,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 13,
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
       ],
       undefined,
@@ -3815,7 +3815,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -3833,7 +3833,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             },
             Object {},
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -3874,7 +3874,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -3890,7 +3890,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 6,
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
       ],
       undefined,
@@ -3916,7 +3916,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -3934,7 +3934,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             },
             Object {},
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -3975,7 +3975,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -3986,14 +3986,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
         Object {
-          "backgroundColor": "#f7f6f3",
+          "backgroundColor": "#f5f5f5",
         },
       ],
       undefined,
@@ -4019,7 +4019,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -4039,7 +4039,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
               "color": "#cc1820",
             },
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -4080,7 +4080,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -4096,14 +4096,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
         Object {
-          "backgroundColor": "#f7f6f3",
+          "backgroundColor": "#f5f5f5",
         },
       ],
       undefined,
@@ -4129,7 +4129,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -4149,7 +4149,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
               "color": "#cc1820",
             },
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -4190,7 +4190,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -4201,10 +4201,10 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 13,
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
         Object {
-          "backgroundColor": "#f7f6f3",
+          "backgroundColor": "#f5f5f5",
         },
       ],
       undefined,
@@ -4230,7 +4230,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -4248,7 +4248,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             },
             Object {},
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -4289,7 +4289,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -4305,10 +4305,10 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 6,
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
         Object {
-          "backgroundColor": "#f7f6f3",
+          "backgroundColor": "#f5f5f5",
         },
       ],
       undefined,
@@ -4334,7 +4334,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -4352,7 +4352,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             },
             Object {},
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -4393,7 +4393,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -4404,7 +4404,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 13,
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
       ],
       undefined,
@@ -4430,7 +4430,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -4448,7 +4448,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             },
             Object {},
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -4489,7 +4489,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -4505,7 +4505,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 6,
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
       ],
       undefined,
@@ -4531,7 +4531,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -4549,7 +4549,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
             },
             Object {},
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -4590,7 +4590,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -4601,14 +4601,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 13,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
         Object {
-          "backgroundColor": "#f7f6f3",
+          "backgroundColor": "#f5f5f5",
         },
       ],
       undefined,
@@ -4634,7 +4634,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -4654,7 +4654,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
               "color": "#cc1820",
             },
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]
@@ -4695,7 +4695,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
         },
         Object {
           "backgroundColor": "#fff",
-          "borderColor": "#222326",
+          "borderColor": "#262424",
           "borderRadius": 28,
           "borderWidth": 2,
           "display": "flex",
@@ -4711,14 +4711,14 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "paddingVertical": 6,
         },
         Object {
-          "backgroundColor": "#fce7e8",
+          "backgroundColor": "#ffebec",
           "borderColor": "#cc1820",
         },
         Object {
-          "borderColor": "#eff0f1",
+          "borderColor": "#ebebeb",
         },
         Object {
-          "backgroundColor": "#f7f6f3",
+          "backgroundColor": "#f5f5f5",
         },
       ],
       undefined,
@@ -4744,7 +4744,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -4764,7 +4764,7 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
               "color": "#cc1820",
             },
             Object {
-              "color": "#6f7081",
+              "color": "#787777",
             },
           ],
         ]

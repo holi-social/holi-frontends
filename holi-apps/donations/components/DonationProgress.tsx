@@ -39,15 +39,15 @@ const DonationProgress = ({
   const interactionBar = useCallback(
     () => (
       <HoliText>
-        <HoliText size="small" style={{ color: colors.fontColorGrey }}>
+        <HoliText size="small" style={{ color: colors.foreground20 }}>
           {t('donations:donationProgress.count', { count: donationsCount })}
         </HoliText>
         {category && (
           <>
-            <HoliText size="small" style={{ color: colors.fontColorHighlighted }}>
+            <HoliText size="small" style={{ color: colors.brandColorB30 }}>
               {' ∙ '}
             </HoliText>
-            <HoliText size="small" style={{ color: colors.fontColorGrey }}>
+            <HoliText size="small" style={{ color: colors.foreground20 }}>
               {t(`donations:category.${category}`)}
             </HoliText>
           </>
@@ -64,7 +64,7 @@ const DonationProgress = ({
         <HoliProgressBar progress={progressPercentage} isSmall={isSmall} />
       </View>
       <View style={styles.goals}>
-        <HoliText size={goalTextSize} bold={size === 'large'} style={{ color: colors.fontColorGrey }}>
+        <HoliText size={goalTextSize} bold={size === 'large'} style={{ color: colors.foreground20 }}>
           {t('donations:donationProgress.percentFunded', { percentage: progressPercentage })}
         </HoliText>
         {!isSmall && (

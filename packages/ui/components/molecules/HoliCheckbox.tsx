@@ -153,37 +153,37 @@ const styles = StyleSheet.create({
     height: 24,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: colors.borderColorGreyDarker,
+    borderColor: colors.background30Darker,
     alignItems: 'center',
     justifyContent: 'center',
   },
   checkboxSelected: {
-    backgroundColor: colors.fontColorBlack,
+    backgroundColor: colors.foreground30,
   },
   checkboxDisabled: {
-    borderColor: colors.borderColorBlackDisabled,
-    backgroundColor: colors.backgroundColorGreyLight,
+    borderColor: colors.background30,
+    backgroundColor: colors.background30,
     opacity: 0.6,
   },
   checkboxFocused: {
-    borderColor: colors.borderColorSecondary,
+    borderColor: colors.brandColorB30,
   },
   checkboxError: {
     borderWidth: 2,
-    borderColor: colors.fontColorError,
-    backgroundColor: colors.backgroundColor,
+    borderColor: colors.error30,
+    backgroundColor: colors.background10,
   },
   shapeRound: {
     borderRadius: 24,
   },
   icon: {
-    color: colors.fontColorWhite,
+    color: colors.background10,
   },
   iconDisabled: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   iconError: {
-    color: colors.fontColor,
+    color: colors.foreground30,
   },
   label: {
     marginLeft: 12,
@@ -195,6 +195,6 @@ const styles = StyleSheet.create({
   },
   errorMessage: {
     marginTop: 6,
-    color: colors.fontColorError,
+    color: colors.error30,
   },
 })

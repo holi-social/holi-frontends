@@ -22,7 +22,7 @@ exports[`renders correctly renders correctly with long text 1`] = `
         style={
           Array [
             Object {
-              "color": "#222326",
+              "color": "#262424",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
@@ -33,7 +33,7 @@ exports[`renders correctly renders correctly with long text 1`] = `
             false,
             Array [
               Object {
-                "color": "#6f7081",
+                "color": "#787777",
               },
               Object {},
             ],
@@ -70,7 +70,7 @@ exports[`renders correctly renders correctly with short text 1`] = `
         style={
           Array [
             Object {
-              "color": "#222326",
+              "color": "#262424",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
@@ -81,7 +81,7 @@ exports[`renders correctly renders correctly with short text 1`] = `
             false,
             Array [
               Object {
-                "color": "#6f7081",
+                "color": "#787777",
               },
               Object {},
             ],

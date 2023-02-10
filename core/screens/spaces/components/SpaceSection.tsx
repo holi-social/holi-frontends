@@ -56,7 +56,7 @@ export default SpaceSection
 const styles = StyleSheet.create({
   wrapper: {
     borderTopWidth: 1,
-    borderTopColor: colors.borderColorGrey,
+    borderTopColor: colors.background30,
     paddingVertical: 32,
   },
   headingContainer: {

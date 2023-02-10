@@ -98,7 +98,7 @@ const VolunteeringListing: React.VFC<VolunteeringListingProps> = ({ clearFilters
 
       {isFiltering && (
         <View style={styles.headingRow}>
-          <HoliText bold style={{ color: colors.fontColorGrey }}>
+          <HoliText bold style={{ color: colors.foreground20 }}>
             {t('volunteering:filter.result', {
               count: totalResults,
             })}
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   },
   list: {
     paddingTop: vars.topBarHeight + 24,
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background20,
   },
   listHeader: {
     paddingBottom: 32,

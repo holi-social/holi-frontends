@@ -41,7 +41,7 @@ const getStyles = (theme: HoliTheme) =>
     base: {
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
-      color: colors.softblack,
+      color: colors.foreground30,
     },
     extralarge: {
       fontSize: 28,

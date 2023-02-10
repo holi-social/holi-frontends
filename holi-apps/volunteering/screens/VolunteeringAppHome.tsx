@@ -80,7 +80,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
         </HoliHeading>
       ),
       headerTransparent: true,
-      headerStyle: { backgroundColor: colors.backgroundColorWhite },
+      headerStyle: { backgroundColor: colors.background10 },
       headerLeft: ({ tintColor }) => <HeaderBackButton icon="arrow-down-s" tintColor={tintColor} />,
       headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
     })
@@ -105,7 +105,7 @@ const VolunteeringAppHome: React.VFC<VolunteeringAppHomeProps> = () => {
         <VolunteeringFilterForm onSubmit={submit} filters={filters} />
       </HoliModal>
 
-      <SafeArea style={{ backgroundColor: colors.backgroundColorWhite }}>
+      <SafeArea style={{ backgroundColor: colors.background10 }}>
         <VolunteeringListing filters={filters} clearFilters={clearFilters} onScroll={onScreenScroll} />
       </SafeArea>
     </DefaultLayout>
@@ -116,19 +116,19 @@ export default memo(VolunteeringAppHome)
 
 const styles = StyleSheet.create({
   defaultLayout: {
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background30,
     paddingBottom: 0,
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
   },
   dot: {
-    backgroundColor: colors.positivepurple,
+    backgroundColor: colors.brandColorB30,
     height: 12,
     width: 12,
     borderRadius: 6,
     position: 'absolute',
     top: -2,
     right: -2,
-    borderColor: colors.backgroundColor,
+    borderColor: colors.background10,
     borderWidth: 2,
   },
 })

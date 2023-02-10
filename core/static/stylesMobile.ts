@@ -7,7 +7,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 
 const styles: Record<string, MixedStyleDeclaration> = {
   body: {
-    color: colors.fontColor,
+    color: colors.foreground30,
   },
   h1: {
     marginBottom: 20,
@@ -16,7 +16,7 @@ const styles: Record<string, MixedStyleDeclaration> = {
     marginBottom: 20,
   },
   a: {
-    color: colors.fontColorHighlighted,
+    color: colors.brandColorB30,
   },
   p: {
     padding: 0,

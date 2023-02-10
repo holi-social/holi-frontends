@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 14 * 1.2,
     fontWeight: '700',
-    color: colors.fontColor,
+    color: colors.foreground30,
   },
   codeOfConduct: {
     paddingHorizontal: 20,

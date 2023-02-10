@@ -113,7 +113,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
             <View style={{ flex: 3 }}>
               <HoliText>{source}</HoliText>
             </View>
-            <HoliIcon icon="share-box" size={15} color={colors.backgroundColorModalDark} />
+            <HoliIcon icon="share-box" size={15} color={colors.foreground30} />
           </View>
         </HoliButton>
       </View>
@@ -149,7 +149,7 @@ const VolunteeringEngagementDetail: React.VFC<VolunteeringEngagementDetailProps>
       <DefaultLayout
         onScroll={onScreenScroll}
         scrollEventThrottle={200}
-        style={{ backgroundColor: colors.backgroundColorGreyLight }}
+        style={{ backgroundColor: colors.background30 }}
       >
         {engagement && (
           <View style={[mixins.container, styles.wrapper, { minHeight: deviceHeight }]}>
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     flex: 1,
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background30,
   },
   wrapper: {
     paddingBottom: 132,

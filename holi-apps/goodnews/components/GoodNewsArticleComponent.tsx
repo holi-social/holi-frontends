@@ -83,10 +83,10 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     borderWidth: 1,
     borderStyle: 'solid',
-    borderColor: colors.borderColorBlack,
+    borderColor: colors.foreground30,
   },
   pictureCredit: {
-    color: colors.fontColorWhite,
+    color: colors.background10,
     paddingBottom: 8,
     paddingRight: 16,
     alignSelf: 'flex-end',

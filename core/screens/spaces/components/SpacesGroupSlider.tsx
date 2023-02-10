@@ -135,6 +135,6 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   backgroundWhite: {
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.background10,
   },
 })

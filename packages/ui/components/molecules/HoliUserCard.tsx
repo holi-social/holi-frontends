@@ -85,7 +85,7 @@ const getStyles = (variant: HoliUserCardVariant) =>
       borderRadius: 16,
       alignItems: 'center',
       alignContent: 'center',
-      backgroundColor: colors.softwhite,
+      backgroundColor: colors.background20,
       padding: variant === 'normal' ? 24 : 16,
       height: variant === 'normal' ? '100%' : 'auto',
     },

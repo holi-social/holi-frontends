@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     padding: 17.2,
   },
   moreSuggestionsText: {
-    color: colors.secondaryColor,
+    color: colors.brandColorB30,
     textAlign: 'center',
     marginTop: 16,
   },

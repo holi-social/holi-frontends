@@ -17,7 +17,7 @@ const HoliModalFullscreen: React.FC<HoliModalFullscreenProps> = ({
   testID,
   label,
   style,
-  backgroundColor = colors.backgroundColorModalDark,
+  backgroundColor = colors.foreground30,
   children,
 }) => {
   const { t } = useTranslation()
@@ -38,7 +38,7 @@ const HoliModalFullscreen: React.FC<HoliModalFullscreenProps> = ({
                 style={styles.closeBtn}
                 testID="fullscreen-modal-close-btn"
               >
-                <HoliIcon icon="close" color={colors.fontColorModalLight} />
+                <HoliIcon icon="close" color={colors.foreground30} />
               </HoliButton>
             </View>
           </SafeAreaView>

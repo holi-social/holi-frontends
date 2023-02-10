@@ -103,6 +103,6 @@ export default SpaceJoin
 
 const styles = StyleSheet.create({
   pending: {
-    color: colors.fontColorDisabled,
+    color: colors.foreground10,
   },
 })

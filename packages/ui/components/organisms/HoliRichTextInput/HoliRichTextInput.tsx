@@ -178,17 +178,17 @@ const styles = StyleSheet.create({
   input: {
     width: '100%',
     paddingVertical: 10,
-    color: colors.fontColor,
+    color: colors.foreground30,
     fontSize: 16,
   },
   inlineMention: {
-    color: colors.fontColorHighlighted,
+    color: colors.brandColorB30,
     fontWeight: '600',
   },
   inlineHashtag: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   inlineUrl: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
 })
