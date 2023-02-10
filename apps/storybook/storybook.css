@@ -71,7 +71,7 @@
   max-width: 1000px;
 }
 
-.colors-overview .color-familiy {
+.colors-overview .color-family {
   display: flex;
   flex-direction: row;
   /* justify-content: space-between; */

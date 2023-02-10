@@ -24,48 +24,48 @@ const allColors = [
     familyName: 'Brand A',
     colors: [
       { name: '$brandColorA30', code: colors.brandColorA30, description: 'Contrasted yellow' },
-      { name: '$brandColorA30', code: colors.brandColorA20, description: 'Main yellow, CTAs, buttons' },
-      { name: '$brandColorA30', code: colors.brandColorA10, description: 'Soft yellow' },
+      { name: '$brandColorA20', code: colors.brandColorA20, description: 'Main yellow, CTAs, buttons' },
+      { name: '$brandColorA10', code: colors.brandColorA10, description: 'Soft yellow' },
     ],
   },
   {
     familyName: 'Brand B',
     colors: [
       { name: '$brandColorB30', code: colors.brandColorB30, description: 'Contrasted purple' },
-      { name: '$brandColorB30', code: colors.brandColorB20, description: 'Main purple, actions' },
-      { name: '$brandColorB30', code: colors.brandColorB10, description: 'Soft purple' },
+      { name: '$brandColorB20', code: colors.brandColorB20, description: 'Main purple, actions' },
+      { name: '$brandColorB10', code: colors.brandColorB10, description: 'Soft purple' },
     ],
   },
   {
     familyName: 'Brand C',
     colors: [
       { name: '$brandColorC30', code: colors.brandColorC30, description: 'Contrasted green' },
-      { name: '$brandColorC30', code: colors.brandColorC20, description: 'Main green, pills' },
-      { name: '$brandColorC30', code: colors.brandColorC10, description: 'Soft green' },
+      { name: '$brandColorC20', code: colors.brandColorC20, description: 'Main green, pills' },
+      { name: '$brandColorC10', code: colors.brandColorC10, description: 'Soft green' },
     ],
   },
   {
     familyName: 'Brand D',
     colors: [
       { name: '$brandColorC30', code: colors.brandColorC30, description: 'Contrasted blue' },
-      { name: '$brandColorC30', code: colors.brandColorC20, description: 'Main blue, pills' },
-      { name: '$brandColorC30', code: colors.brandColorC10, description: 'Soft blue' },
+      { name: '$brandColorC20', code: colors.brandColorC20, description: 'Main blue, pills' },
+      { name: '$brandColorC10', code: colors.brandColorC10, description: 'Soft blue' },
     ],
   },
   {
     familyName: 'Warning',
     colors: [
       { name: '$warning30', code: colors.warning30, description: 'Contrasted warning color' },
-      { name: '$warning30', code: colors.warning20, description: 'Main warning color' },
-      { name: '$warning30', code: colors.warning10, description: 'Soft warning color' },
+      { name: '$warning20', code: colors.warning20, description: 'Main warning color' },
+      { name: '$warning10', code: colors.warning10, description: 'Soft warning color' },
     ],
   },
   {
     familyName: 'Error',
     colors: [
       { name: '$error30', code: colors.error30, description: 'Contrasted error color' },
-      { name: '$error30', code: colors.error20, description: 'Main error color' },
-      { name: '$error30', code: colors.error10, description: 'Soft error color' },
+      { name: '$error20', code: colors.error20, description: 'Main error color' },
+      { name: '$error10', code: colors.error10, description: 'Soft error color' },
     ],
   },
   {
@@ -120,7 +120,7 @@ export const ColorsOverview = () => {
       {allColors.map((familiy) => (
         <div key={familiy.familyName}>
           <h3>{familiy.familyName}</h3>
-          <div className="color-familiy">
+          <div className="color-family">
             {familiy.colors.map((color) => (
               <ColorBlock
                 key={color.name}
