@@ -1,4 +1,4 @@
-import { swipeDown, swipeLeft, swipeRight, swipeUp } from './gestures'
+import { scrollDown, scrollLeft, scrollRight, scrollUp } from './gestures'
 
 type ScrollDirection = 'up' | 'down' | 'left' | 'right'
 
@@ -49,7 +49,6 @@ export const scrollToElementWithTestId = async (
   let scrollCounter = 0
   const implicitTimeout = Appium.options.waitforTimeout
   await Appium.setImplicitTimeout(timeout)
-  if (platform === 'ios') maxAttempts *= 2 // on iOS we need to scroll in smaller steps, so we might need more
   while (scrollCounter < maxAttempts) {
     // is the element in the viewport?
     try {
@@ -69,16 +68,16 @@ export const scrollToElementWithTestId = async (
      */
     switch (direction) {
       case 'down':
-        swipeUp()
+        scrollDown()
         break
       case 'up':
-        swipeDown()
+        scrollUp()
         break
       case 'left':
-        swipeRight()
+        scrollLeft()
         break
       case 'right':
-        swipeLeft()
+        scrollRight()
     }
 
     scrollCounter++
