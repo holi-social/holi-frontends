@@ -47,9 +47,9 @@ const allColors = [
   {
     familyName: 'Brand D',
     colors: [
-      { name: '$brandColorC30', code: colors.brandColorC30, description: 'Contrasted blue' },
-      { name: '$brandColorC20', code: colors.brandColorC20, description: 'Main blue, pills' },
-      { name: '$brandColorC10', code: colors.brandColorC10, description: 'Soft blue' },
+      { name: '$brandColorD30', code: colors.brandColorD30, description: 'Contrasted blue' },
+      { name: '$brandColorD20', code: colors.brandColorD20, description: 'Main blue, pills' },
+      { name: '$brandColorD10', code: colors.brandColorD10, description: 'Soft blue' },
     ],
   },
   {
