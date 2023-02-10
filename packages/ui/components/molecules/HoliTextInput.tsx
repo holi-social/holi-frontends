@@ -51,7 +51,7 @@ export type HoliTextInputProps = {
   onLayout?: (event: LayoutChangeEvent) => void
   accessibilityAutoComplete?: AccessibilityPropsWeb['accessibilityAutoComplete']
   accessibilityControls?: string
-  showCharactorCount?: boolean
+  showCharacterCount?: boolean
   // eslint-disable-next-line
   [x: string]: any
 }
@@ -69,7 +69,7 @@ const HoliTextInput = (
     inputLabel,
     onFocus,
     onBlur,
-    showCharactorCount = false,
+    showCharacterCount = false,
     ...props
   }: HoliTextInputProps,
   ref: React.ForwardedRef<View>
@@ -228,7 +228,7 @@ const HoliTextInput = (
               {hasValidationErrors && <HoliIcon icon="error-warning" size={16} filled color={colors.error30} />}
             </View>
           )}
-          {!showCharactorCount && (value?.length ?? 0) > maxNoOfCharacters * 0.8 && (
+          {!showCharacterCount && (value?.length ?? 0) > maxNoOfCharacters * 0.8 && (
             <View
               style={[
                 styles.inputCharsTextWrapper,
@@ -257,7 +257,7 @@ const HoliTextInput = (
               </HoliText>
             </View>
           )}
-          {showCharactorCount && (
+          {showCharacterCount && (
             <View style={[styles.charactorCountContainer, inline ? styles.inline : styles.block]}>
               <HoliText
                 size="extrasmall"
