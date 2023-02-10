@@ -44,8 +44,6 @@ const App: React.VoidFunctionComponent = () => {
       setIsReady(true)
       await SplashScreen.hideAsync()
     }
-
-    await SplashScreen.hideAsync()
   }
 
   useEffect(() => {
