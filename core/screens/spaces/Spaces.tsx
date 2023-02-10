@@ -55,7 +55,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
       headerBackTitleVisible: true,
       headerBackVisible: true,
       headerTransparent: true,
-      headerStyle: { backgroundColor: colors.backgroundColorWhite },
+      headerStyle: { backgroundColor: colors.background10 },
       headerTitle: () => null,
       headerLeft: ({ tintColor }) => (
         <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
@@ -166,7 +166,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
 const styles = StyleSheet.create({
   layout: {
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',
-    backgroundColor: colors.backgroundColorGrey,
+    backgroundColor: colors.background20,
   },
   discoverSpacesContainer: {
     flex: 1,
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   },
   tabStyle: {
     minHeight: '100%',
-    backgroundColor: colors.backgroundColorGrey,
+    backgroundColor: colors.background20,
   },
 })
 

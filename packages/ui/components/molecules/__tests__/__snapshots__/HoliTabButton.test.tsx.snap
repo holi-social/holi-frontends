@@ -45,7 +45,7 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
       style={
         [
           {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -112,7 +112,7 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
       style={
         [
           {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -179,7 +179,7 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
       style={
         [
           {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -192,7 +192,7 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
             "fontWeight": "500",
           },
           {
-            "color": "#6f7081",
+            "color": "#787777",
           },
         ]
       }
@@ -248,7 +248,7 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
       style={
         [
           {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -261,7 +261,7 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
             "fontWeight": "500",
           },
           {
-            "color": "#6f7081",
+            "color": "#787777",
           },
         ]
       }

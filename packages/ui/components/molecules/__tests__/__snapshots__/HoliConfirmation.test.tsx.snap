@@ -41,7 +41,7 @@ exports[`renders correctly renders correctly when open 1`] = `
       onStartShouldSetResponder={[Function]}
       style={
         {
-          "backgroundColor": "#222326",
+          "backgroundColor": "#262424",
           "bottom": 0,
           "left": 0,
           "opacity": 0.4,
@@ -56,14 +56,14 @@ exports[`renders correctly renders correctly when open 1`] = `
         {
           "alignSelf": "center",
           "backgroundColor": "#fff",
-          "borderColor": "#000",
+          "borderColor": "#262424",
           "borderRadius": 24,
           "borderWidth": 2,
           "margin": 25,
           "maxWidth": 460,
           "minWidth": 425,
           "padding": 24,
-          "shadowColor": "#000",
+          "shadowColor": "#262424",
           "shadowOffset": {
             "height": 4,
             "width": 0,
@@ -79,7 +79,7 @@ exports[`renders correctly renders correctly when open 1`] = `
         style={
           [
             {
-              "color": "#222326",
+              "color": "#262424",
               "fontFamily": "Circular Std Medium",
               "fontWeight": "500",
             },
@@ -99,7 +99,7 @@ exports[`renders correctly renders correctly when open 1`] = `
         style={
           [
             {
-              "color": "#222326",
+              "color": "#262424",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
@@ -158,7 +158,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                 },
                 {
                   "backgroundColor": "#fff",
-                  "borderColor": "#222326",
+                  "borderColor": "#262424",
                   "borderRadius": 28,
                   "borderWidth": 2,
                   "display": "flex",
@@ -197,7 +197,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               style={
                 [
                   {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -251,7 +251,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                 },
                 {
                   "backgroundColor": "#fff",
-                  "borderColor": "#222326",
+                  "borderColor": "#262424",
                   "borderRadius": 28,
                   "borderWidth": 2,
                   "display": "flex",
@@ -262,7 +262,7 @@ exports[`renders correctly renders correctly when open 1`] = `
                   "paddingVertical": 13,
                 },
                 {
-                  "backgroundColor": "#f3f360",
+                  "backgroundColor": "#f5ef3f",
                 },
               ],
               {
@@ -293,7 +293,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               style={
                 [
                   {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -356,7 +356,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
       onStartShouldSetResponder={[Function]}
       style={
         {
-          "backgroundColor": "#222326",
+          "backgroundColor": "#262424",
           "bottom": 0,
           "left": 0,
           "opacity": 0.4,
@@ -371,14 +371,14 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
         {
           "alignSelf": "center",
           "backgroundColor": "#fff",
-          "borderColor": "#000",
+          "borderColor": "#262424",
           "borderRadius": 24,
           "borderWidth": 2,
           "margin": 25,
           "maxWidth": 460,
           "minWidth": 425,
           "padding": 24,
-          "shadowColor": "#000",
+          "shadowColor": "#262424",
           "shadowOffset": {
             "height": 4,
             "width": 0,
@@ -394,7 +394,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
         style={
           [
             {
-              "color": "#222326",
+              "color": "#262424",
               "fontFamily": "Circular Std Medium",
               "fontWeight": "500",
             },
@@ -414,7 +414,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
         style={
           [
             {
-              "color": "#222326",
+              "color": "#262424",
               "fontFamily": "Circular Std Book",
               "fontWeight": "400",
             },
@@ -473,7 +473,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
                 },
                 {
                   "backgroundColor": "#fff",
-                  "borderColor": "#222326",
+                  "borderColor": "#262424",
                   "borderRadius": 28,
                   "borderWidth": 2,
                   "display": "flex",
@@ -512,7 +512,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
               style={
                 [
                   {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
@@ -566,7 +566,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
                 },
                 {
                   "backgroundColor": "#fff",
-                  "borderColor": "#222326",
+                  "borderColor": "#262424",
                   "borderRadius": 28,
                   "borderWidth": 2,
                   "display": "flex",
@@ -605,7 +605,7 @@ exports[`renders correctly renders correctly when open and confirmationButtonTyp
               style={
                 [
                   {
-                    "color": "#222326",
+                    "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },

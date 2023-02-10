@@ -152,7 +152,7 @@ const createStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevi
     },
     backdrop: {
       opacity: 0.4,
-      backgroundColor: colors.backgroundColorBlack,
+      backgroundColor: colors.foreground30,
       ...StyleSheet.absoluteFillObject,
     },
     modalView: {
@@ -160,11 +160,11 @@ const createStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevi
       padding: 24,
       margin: 25,
       alignSelf: 'center',
-      backgroundColor: colors.backgroundColor,
+      backgroundColor: colors.background10,
       borderWidth: 2,
       borderRadius: 24,
-      borderColor: colors.shadowColorBlack,
-      shadowColor: colors.shadowColorBlack,
+      borderColor: colors.foreground30,
+      shadowColor: colors.foreground30,
       shadowOffset: {
         width: 0,
         height: 4,

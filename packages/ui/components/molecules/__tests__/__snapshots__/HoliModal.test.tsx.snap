@@ -57,7 +57,7 @@ exports[`renders correctly renders correctly when open 1`] = `
             },
           ],
           {
-            "backgroundColor": "#222326",
+            "backgroundColor": "#262424",
             "bottom": 0,
             "left": 0,
             "opacity": 0.4,
@@ -83,7 +83,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           onAccessibilityEscape={[Function]}
           style={
             {
-              "backgroundColor": "#222326",
+              "backgroundColor": "#262424",
               "bottom": 0,
               "left": 0,
               "opacity": 0.4,
@@ -107,7 +107,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           "bottom": "0%",
           "maxHeight": "90%",
           "overflow": "hidden",
-          "shadowColor": "#000",
+          "shadowColor": "#262424",
           "shadowOffset": {
             "height": 0,
             "width": 0,
@@ -190,7 +190,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               <View
                 style={
                   {
-                    "backgroundColor": "#222326",
+                    "backgroundColor": "#262424",
                     "borderRadius": 4,
                     "height": 4,
                     "opacity": 0.3,

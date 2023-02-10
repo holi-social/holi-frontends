@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginHorizontal: 16,
     zIndex: 2,
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
   },
   loader: {
     height: 64,

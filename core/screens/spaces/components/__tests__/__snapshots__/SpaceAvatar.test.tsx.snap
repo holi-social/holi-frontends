@@ -6,8 +6,8 @@ exports[`React tree renders correctly 1`] = `
     [
       {
         "alignItems": "center",
-        "backgroundColor": "#f7f6f3",
-        "borderColor": "#222326",
+        "backgroundColor": "#f5f5f5",
+        "borderColor": "#262424",
         "borderRadius": 8,
         "borderWidth": 2,
         "height": 64,
@@ -52,8 +52,8 @@ exports[`React tree renders default grey background, when given image prop is em
     [
       {
         "alignItems": "center",
-        "backgroundColor": "#f7f6f3",
-        "borderColor": "#222326",
+        "backgroundColor": "#f5f5f5",
+        "borderColor": "#262424",
         "borderRadius": 8,
         "borderWidth": 2,
         "height": 64,

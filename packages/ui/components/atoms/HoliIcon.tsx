@@ -33,7 +33,7 @@ const HoliIcon: React.VoidFunctionComponent<HoliIconProps> = (props: HoliIconPro
   delete icoMoonProps.filled
   delete icoMoonProps.spinning
   const styling = {
-    color: props?.color || colors.fontColorBlack,
+    color: props?.color || colors.foreground30,
     borderStyle: 'solid',
     borderWidth: 0,
     ...StyleSheet.flatten<ViewStyle>(props?.style),

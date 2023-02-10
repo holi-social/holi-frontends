@@ -147,7 +147,7 @@ const FilteredSpaces: React.VFC<ScreenProps> = () => {
 const getStyles = (deviceHeight: number) =>
   StyleSheet.create({
     wrapper: {
-      backgroundColor: colors.backgroundColorGrey,
+      backgroundColor: colors.background20,
       minHeight: deviceHeight,
     },
     grid: {

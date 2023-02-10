@@ -53,7 +53,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
           style={
             [
               {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
@@ -67,7 +67,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
               },
               [
                 {
-                  "color": "#222326",
+                  "color": "#262424",
                 },
                 [
                   {},
@@ -87,7 +87,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
             {
               "alignItems": "center",
               "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
+              "borderColor": "#ebebeb",
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
@@ -127,12 +127,12 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
           onFocus={[Function]}
           onSubmitEditing={[Function]}
           placeholder="Start typing..."
-          placeholderTextColor="#c0c1c9"
+          placeholderTextColor="#bfbebe"
           secureTextEntry={false}
           style={
             [
               {
-                "color": "#222326",
+                "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
@@ -167,7 +167,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
             align="xMidYMid"
             bbHeight={22}
             bbWidth={22}
-            color={4280427302}
+            color={4280689700}
             focusable={false}
             meetOrSlice={0}
             minX={0}
@@ -181,7 +181,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
                 {
                   "borderStyle": "solid",
                   "borderWidth": 0,
-                  "color": "#222326",
+                  "color": "#262424",
                   "display": "flex",
                   "fill": "currentColor",
                   "flexDirection": "row",
@@ -197,7 +197,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
                 },
               ]
             }
-            tintColor={4280427302}
+            tintColor={4280689700}
             vbHeight={1024}
             vbWidth={1024}
           >
@@ -296,7 +296,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
           style={
             [
               {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
@@ -310,7 +310,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
               },
               [
                 {
-                  "color": "#222326",
+                  "color": "#262424",
                 },
                 [
                   {},
@@ -332,7 +332,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
             {
               "alignItems": "center",
               "backgroundColor": "#fff",
-              "borderColor": "#eff0f1",
+              "borderColor": "#ebebeb",
               "borderRadius": 4,
               "borderWidth": 2,
               "flexDirection": "row",
@@ -374,12 +374,12 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
           onFocus={[Function]}
           onSubmitEditing={[Function]}
           placeholder="Start typing..."
-          placeholderTextColor="#c0c1c9"
+          placeholderTextColor="#bfbebe"
           secureTextEntry={false}
           style={
             [
               {
-                "color": "#222326",
+                "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
                 "fontSize": 16,
@@ -500,7 +500,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
             style={
               [
                 {
-                  "color": "#222326",
+                  "color": "#262424",
                   "fontFamily": "Circular Std Book",
                   "fontWeight": "400",
                 },
@@ -511,7 +511,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 false,
                 [
                   {
-                    "color": "#6f7081",
+                    "color": "#787777",
                   },
                   {
                     "color": "#cc1820",

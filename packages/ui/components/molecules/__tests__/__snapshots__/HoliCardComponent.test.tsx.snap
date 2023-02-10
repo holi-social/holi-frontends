@@ -60,7 +60,7 @@ exports[`HoliCardComponent renders correctly 1`] = `
     style={
       [
         {
-          "color": "#222326",
+          "color": "#262424",
           "fontFamily": "Circular Std Book",
           "fontWeight": "400",
         },

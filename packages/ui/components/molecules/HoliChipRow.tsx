@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   editButton: {
-    color: colors.grey,
+    color: colors.foreground20,
   },
   chipsContainer: {
     display: 'flex',

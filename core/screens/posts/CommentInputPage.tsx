@@ -69,7 +69,7 @@ const CommentInputPage: React.VFC<ScreenProps> = () => {
     () =>
       setOptions({
         title: t('insights.posts.comments.title'),
-        headerStyle: { backgroundColor: colors.backgroundColorWhite },
+        headerStyle: { backgroundColor: colors.background10 },
         navigationCustomOptions: {
           footerShown: false,
         },
@@ -277,8 +277,8 @@ const getStyles = (screenHeight: number) =>
       paddingTop: 10,
       marginBottom: screenHeight < SMALL_DEVICE_HEIGHT ? -75 : -10,
       paddingBottom: 10,
-      backgroundColor: colors.backgroundColor,
-      shadowColor: colors.shadowColorBlack,
+      backgroundColor: colors.background10,
+      shadowColor: colors.foreground30,
       shadowOffset: {
         width: 2,
         height: 2,
@@ -288,7 +288,7 @@ const getStyles = (screenHeight: number) =>
       borderRadius: 12,
       elevation: 4,
       borderTopWidth: 1,
-      borderTopColor: colors.borderColorGrey,
+      borderTopColor: colors.background30,
       ...Platform.select({
         web: {
           maxWidth: vars.maxScreenWidth,
@@ -307,8 +307,8 @@ const getStyles = (screenHeight: number) =>
       alignItems: 'flex-end',
       height: SUBMIT_BUTTON_CONTAINER_HEIGHT,
       borderTopWidth: 1,
-      borderTopColor: colors.borderColorGrey,
-      backgroundColor: colors.backgroundColor,
+      borderTopColor: colors.background30,
+      backgroundColor: colors.background10,
       ...Platform.select({
         web: {
           maxWidth: vars.maxScreenWidth,

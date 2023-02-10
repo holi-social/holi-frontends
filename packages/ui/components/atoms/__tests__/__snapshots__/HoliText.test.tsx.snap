@@ -7,7 +7,7 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'fa
   style={
     [
       {
-        "color": "#222326",
+        "color": "#262424",
         "fontFamily": "Circular Std Book",
         "fontWeight": "400",
       },
@@ -31,7 +31,7 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'fa
   style={
     [
       {
-        "color": "#222326",
+        "color": "#262424",
         "fontFamily": "Circular Std Book",
         "fontWeight": "400",
       },
@@ -55,7 +55,7 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'tr
   style={
     [
       {
-        "color": "#222326",
+        "color": "#262424",
         "fontFamily": "Circular Std Book",
         "fontWeight": "400",
       },
@@ -82,7 +82,7 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'tr
   style={
     [
       {
-        "color": "#222326",
+        "color": "#262424",
         "fontFamily": "Circular Std Book",
         "fontWeight": "400",
       },
@@ -109,7 +109,7 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
   style={
     [
       {
-        "color": "#222326",
+        "color": "#262424",
         "fontFamily": "Circular Std Book",
         "fontWeight": "400",
       },
@@ -133,7 +133,7 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
   style={
     [
       {
-        "color": "#222326",
+        "color": "#262424",
         "fontFamily": "Circular Std Book",
         "fontWeight": "400",
       },
@@ -157,7 +157,7 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
   style={
     [
       {
-        "color": "#222326",
+        "color": "#262424",
         "fontFamily": "Circular Std Book",
         "fontWeight": "400",
       },
@@ -184,7 +184,7 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
   style={
     [
       {
-        "color": "#222326",
+        "color": "#262424",
         "fontFamily": "Circular Std Book",
         "fontWeight": "400",
       },
@@ -211,7 +211,7 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'fals
   style={
     [
       {
-        "color": "#222326",
+        "color": "#262424",
         "fontFamily": "Circular Std Book",
         "fontWeight": "400",
       },
@@ -235,7 +235,7 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'fals
   style={
     [
       {
-        "color": "#222326",
+        "color": "#262424",
         "fontFamily": "Circular Std Book",
         "fontWeight": "400",
       },
@@ -259,7 +259,7 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'true
   style={
     [
       {
-        "color": "#222326",
+        "color": "#262424",
         "fontFamily": "Circular Std Book",
         "fontWeight": "400",
       },
@@ -286,7 +286,7 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'true
   style={
     [
       {
-        "color": "#222326",
+        "color": "#262424",
         "fontFamily": "Circular Std Book",
         "fontWeight": "400",
       },
@@ -313,7 +313,7 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'fals
   style={
     [
       {
-        "color": "#222326",
+        "color": "#262424",
         "fontFamily": "Circular Std Book",
         "fontWeight": "400",
       },
@@ -337,7 +337,7 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'fals
   style={
     [
       {
-        "color": "#222326",
+        "color": "#262424",
         "fontFamily": "Circular Std Book",
         "fontWeight": "400",
       },
@@ -361,7 +361,7 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'true
   style={
     [
       {
-        "color": "#222326",
+        "color": "#262424",
         "fontFamily": "Circular Std Book",
         "fontWeight": "400",
       },
@@ -388,7 +388,7 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'true
   style={
     [
       {
-        "color": "#222326",
+        "color": "#262424",
         "fontFamily": "Circular Std Book",
         "fontWeight": "400",
       },

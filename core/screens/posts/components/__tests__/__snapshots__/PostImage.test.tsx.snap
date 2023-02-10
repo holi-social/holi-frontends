@@ -58,7 +58,7 @@ exports[`HoliModalFullscreen.tsx renders correctly image 1`] = `
           [
             {
               "aspectRatio": 1.4533898305084745,
-              "backgroundColor": "#eff0f1",
+              "backgroundColor": "#ebebeb",
               "marginTop": 26,
               "width": "100%",
             },

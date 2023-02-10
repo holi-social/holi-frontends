@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   chip: {
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.background10,
     marginRight: 8,
     marginBottom: 8,
   },

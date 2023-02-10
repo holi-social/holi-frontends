@@ -212,12 +212,12 @@ const getStyles = (
     slideButtonIcon: {
       width: 8,
       height: 8,
-      backgroundColor: colors.softblack,
+      backgroundColor: colors.foreground30,
       opacity: 0.3,
       borderRadius: 50,
     },
     activeSlideButtonIcon: {
-      backgroundColor: colors.fontColor,
+      backgroundColor: colors.foreground30,
       opacity: 1,
     },
   })

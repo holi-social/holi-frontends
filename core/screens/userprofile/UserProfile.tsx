@@ -65,7 +65,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
       setOptions({
         title: t('profile.title'),
         headerTransparent: true,
-        headerStyle: { backgroundColor: colors.backgroundColorWhite },
+        headerStyle: { backgroundColor: colors.background10 },
         headerRight: ({ tintColor }) => (
           <MoreOptionsButtonWithModal
             label={t('insights.post.preview.more')}
@@ -99,7 +99,7 @@ const UserProfile: React.VFC<ScreenProps> = () => {
               }}
               successMessage={t('user.profileView.block.successMessage', { name: userFullName })}
               icon="close-circle"
-              tintColor={colors.errorRed}
+              tintColor={colors.error30}
               onConfirm={hide}
             />
           </MoreOptionsButtonWithModal>
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
   },
   infoText: {
     textAlign: 'center',
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   moreOptionItem: {
     justifyContent: 'center',

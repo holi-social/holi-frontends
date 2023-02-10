@@ -79,13 +79,13 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   fontColorGray: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   createdDate: {
     marginTop: 4,
   },
   readStatus: {
-    backgroundColor: colors.secondaryColor,
+    backgroundColor: colors.brandColorB30,
     height: 8,
     width: 8,
     borderRadius: 4,

@@ -98,7 +98,7 @@ const PostPreview: React.VFC<PostPreviewProps> = ({ post, style }) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
   },
   paddingHorizontal: {
     paddingHorizontal: 24,
@@ -122,12 +122,12 @@ const styles = StyleSheet.create({
     display: 'flex',
   },
   postTitle: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
     paddingTop: 16,
     paddingBottom: 8,
   },
   readMoreText: {
-    color: colors.fontColor,
+    color: colors.foreground30,
     lineHeight: 20,
   },
   linkPreview: {
