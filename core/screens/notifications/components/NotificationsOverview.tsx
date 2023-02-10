@@ -89,8 +89,8 @@ const NotificationsOverview: React.VFC = () => {
         media={
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/illustrations/illustration_settings.svg')}
-            width={161}
-            height={180}
+            width={152}
+            height={152}
             label=""
             isSvg
           />
@@ -112,8 +112,8 @@ const NotificationsOverview: React.VFC = () => {
         media={
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/illustrations/illustration_settings.svg')}
-            width={161}
-            height={180}
+            width={152}
+            height={152}
             label=""
             isSvg
           />
