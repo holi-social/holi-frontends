@@ -22,8 +22,8 @@ interface XY {
 const SCROLL_DIRECTIONS = {
   up: {
     ios: 'up',
-    start: { x: 50, y: 15 },
-    end: { x: 50, y: 85 },
+    start: { x: 50, y: 20 },
+    end: { x: 50, y: 80 },
   },
   right: {
     ios: 'right',
@@ -37,8 +37,8 @@ const SCROLL_DIRECTIONS = {
   },
   down: {
     ios: 'down',
-    start: { x: 50, y: 85 },
-    end: { x: 50, y: 15 },
+    start: { x: 50, y: 80 },
+    end: { x: 50, y: 20 },
   },
 }
 
@@ -59,16 +59,16 @@ export const scrollLeft = async () => {
 }
 
 const swipeIOSOrAndroid = async (coord: { ios: string; start: XY; end: XY }) => {
-  if (platform === 'ios') {
-    swipeIOS(coord.ios)
-  } else {
-    await swipeAndroid(coord)
-  }
+  //if (platform === 'ios') {
+  //  swipeIOS(coord.ios, testId)
+  //} else {
+  await swipeAndroid(coord)
+  //}
 }
 
-const swipeIOS = async (direction: string) => {
-  await Appium.execute('mobile: scroll', { direction: direction })
-}
+// const swipeIOS = async (direction: string) => {
+//   await Appium.execute('mobile: scroll', { direction: direction })
+// }
 
 /**
  * Swipe from coordinates (start) to the new coordinates (end). The given coordinates are in percentages of the screen.
@@ -87,17 +87,17 @@ const swipeAndroid = async (coord: { start: XY; end: XY }) => {
         // c. Finger comes down into contact with screen
         { type: 'pointerDown', button: 0 },
         // d. Pause for a little bit
-        { type: 'pause', duration: 100 },
+        { type: 'pause', duration: 50 },
         // e. Finger moves to end position
         //    We move our finger from the center of the element to the
         //    starting position of the element.
         //    Play with the duration to make the swipe go slower / faster
-        { type: 'pointerMove', duration: 2000, x: end.x, y: end.y },
-        { type: 'pause', duration: 500 },
+        { type: 'pointerMove', duration: 500, x: end.x, y: end.y },
+        { type: 'pause', duration: 50 },
         // f. Finger gets up, off the screen
         { type: 'pointerUp', button: 0 },
         // Add a pause to make sure the swipe is done
-        { type: 'pause', duration: 1000 },
+        { type: 'pause', duration: 500 },
       ],
     },
   ])
