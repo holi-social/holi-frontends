@@ -123,7 +123,7 @@ const localIOSSimulator = () => ({
 
 const serverConfig: Partial<Options.WebdriverIO> = {
   ...defaultConfig,
-  host: process.env.APPIUM_HOST || 'localhost',
+  host: process.env.APPIUM_HOST || 'localhost', // host ist correct, even though the webdriver.io type has hostname
   port: parseInt(process.env.APPIUM_PORT || '') || 4723,
 }
 
