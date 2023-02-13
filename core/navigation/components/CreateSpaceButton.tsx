@@ -14,7 +14,7 @@ const CreateSpaceButton = ({ tintColor, onPress }: CreateSpaceButtonProps) => {
   const { t } = useTranslation()
 
   return (
-    <HoliButton label={t('spaces.create.space.title')} inline transparent onPress={() => onPress()}>
+    <HoliButton label={t('spaces.create.space.title')} inline transparent onPress={onPress}>
       <HoliIcon icon="add-box" size={24} color={tintColor} />
     </HoliButton>
   )
