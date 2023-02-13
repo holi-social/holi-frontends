@@ -165,7 +165,7 @@ const getStyles = () =>
       justifyContent: 'center',
       marginHorizontal: 16,
       zIndex: 10,
-      backgroundColor: colors.backgroundColorWhite,
+      backgroundColor: colors.background10,
     },
     scrollViewContent: {
       paddingHorizontal: 16,

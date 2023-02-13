@@ -127,9 +127,9 @@ const getStyles = (screenWidth: number) =>
   StyleSheet.create({
     fullWidthContainer: {
       alignItems: 'center',
-      backgroundColor: colors.backgroundColorWhite,
+      backgroundColor: colors.background10,
       borderTopWidth: 1,
-      borderTopColor: colors.borderColorGrey,
+      borderTopColor: colors.background30,
       paddingHorizontal: screenWidth > +vars.breakpointL ? 20 : 10,
       height: vars.bottomBarHeight,
       maxHeight: vars.bottomBarHeight,
@@ -149,11 +149,11 @@ const getStyles = (screenWidth: number) =>
       alignItems: 'center',
     },
     activeTintColor: {
-      color: colors.fontColorBlack,
+      color: colors.foreground30,
       fontWeight: '500',
     },
     inactiveTintColor: {
-      color: colors.fontColorGrey,
+      color: colors.foreground20,
     },
     buttonLabel: {
       paddingTop: 8,

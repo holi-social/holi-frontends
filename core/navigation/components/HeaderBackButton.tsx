@@ -16,7 +16,7 @@ export interface HeaderBackButtonProps extends Partial<HoliButtonProps> {
 }
 
 const HeaderBackButton: React.VFC<HeaderBackButtonProps> = ({
-  tintColor = colors.fontColorBlack,
+  tintColor = colors.foreground30,
   icon = 'arrow-left',
   ...props
 }) => {

@@ -77,7 +77,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
         style={styles.textContainer}
       >
         {/* The visible text. Any font style props and remaining textProps are applied here */}
-        <HoliText style={[{ color: colors.fontColorGrey }, fontStyle]} {...textProps}>
+        <HoliText style={[{ color: colors.foreground20 }, fontStyle]} {...textProps}>
           {children}
         </HoliText>
       </Text>
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     paddingLeft: 34,
     paddingRight: 20,
-    backgroundImage: `linear-gradient(to right, transparent , ${colors.backgroundColor} 15%)`,
+    backgroundImage: `linear-gradient(to right, transparent , ${colors.background10} 15%)`,
   },
   readLess: {
     width: 'fit-content',

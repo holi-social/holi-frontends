@@ -28,7 +28,7 @@ exports[`renders correctly renders correctly when there is a title, is editable 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -90,7 +90,7 @@ exports[`renders correctly renders correctly when there is a title, is editable 
           style={
             Array [
               Object {
-                "color": "#222326",
+                "color": "#262424",
                 "fontFamily": "Circular Std Book",
                 "fontWeight": "400",
               },
@@ -103,7 +103,7 @@ exports[`renders correctly renders correctly when there is a title, is editable 
                 "fontWeight": "500",
               },
               Object {
-                "color": "#6f7081",
+                "color": "#787777",
               },
             ]
           }
@@ -130,7 +130,7 @@ exports[`renders correctly renders correctly when there is a title, is editable 
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
@@ -177,7 +177,7 @@ exports[`renders correctly renders correctly when there is no title, not editabl
       style={
         Array [
           Object {
-            "color": "#222326",
+            "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },

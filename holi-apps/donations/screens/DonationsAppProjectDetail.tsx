@@ -88,13 +88,13 @@ const DonationsAppProjectDetail: React.VFC<DonationsAppProjectDetailProps> = () 
 
   return (
     <View
-      style={{ alignItems: 'center', flex: 1, backgroundColor: colors.backgroundColorGreyLight }}
+      style={{ alignItems: 'center', flex: 1, backgroundColor: colors.background30 }}
       testID="donations-detailview-container"
     >
       <DefaultLayout
         onScroll={onScreenScroll}
         scrollEventThrottle={200}
-        style={{ backgroundColor: colors.backgroundColorGreyLight }}
+        style={{ backgroundColor: colors.background30 }}
       >
         <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
           <DonationImage picture={project.picture} label={project.title} style={styles.image} />
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
     borderBottomLeftRadius: 32,
     borderBottomRightRadius: 32,
-    backgroundColor: colors.white,
+    backgroundColor: colors.background10,
   },
   location: {
     flexDirection: 'row',
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   card: {
     paddingHorizontal: 24,
     borderRadius: 32,
-    backgroundColor: colors.white,
+    backgroundColor: colors.background10,
     marginTop: 2,
     paddingVertical: 16,
   },

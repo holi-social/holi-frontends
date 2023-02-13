@@ -72,7 +72,7 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
       },
       headerTransparent: true,
       headerStyle: { backgroundColor: 'transparent' },
-      headerTintColor: colors.fontColorWhite,
+      headerTintColor: colors.background10,
       navigationCustomOptions: {
         headerBackgroundGradient: true,
         footerShown: false,
@@ -149,8 +149,8 @@ const GoodNewsCarousel: React.VFC<GoodNewsCarouselProps> = () => {
         accessibilityElementsHidden={true}
       >
         <PaginationDot
-          activeDotColor={colors.backgroundColorModalDark}
-          inactiveDotColor={colors.grey}
+          activeDotColor={colors.foreground30}
+          inactiveDotColor={colors.foreground20}
           curPage={activeArticleIndex}
           maxPage={carouselItems.length}
           sizeRatio={1.0}

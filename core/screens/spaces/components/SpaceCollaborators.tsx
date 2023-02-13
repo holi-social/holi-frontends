@@ -115,7 +115,7 @@ const SpaceCollaborators: React.VFC<SpaceCollaboratorsProps> = ({ space, onDismi
 
 const styles = StyleSheet.create({
   admin: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
     paddingLeft: 8,
   },
   avatar: {

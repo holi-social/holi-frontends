@@ -22,7 +22,7 @@ const HoliRichTextOutput: React.VFC<HoliRichTextOutputProps> = ({
   users = [],
   links = [],
   style,
-  mentionStyle = { color: colors.fontColorHighlighted },
+  mentionStyle = { color: colors.brandColorB30 },
   testID,
 }) => {
   /**

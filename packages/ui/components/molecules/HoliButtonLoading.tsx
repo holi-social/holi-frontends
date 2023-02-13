@@ -46,7 +46,7 @@ export default HoliButtonLoading
 
 const styles = StyleSheet.create({
   textDisabled: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   icon: {
     marginLeft: 6,
