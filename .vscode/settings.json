@@ -27,5 +27,8 @@
     "i18n-ally.pathMatcher": "{namespace}/i18n/locales/{locale}.json",
     "cSpell.words": [
         "extralarge"
-    ]
+    ],
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+    }
 }
