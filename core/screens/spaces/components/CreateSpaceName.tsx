@@ -55,7 +55,7 @@ const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
             placeholder={t('spaces.create.space.name.input.placeholder')}
             inputLabel={t('spaces.create.space.name.label')}
             maxNoOfCharacters={60}
-            showCharactorCount={true}
+            showCharacterCount={true}
             validationErrorText={nameError}
             value={spaceName}
             onChange={(value: string) => {
@@ -69,7 +69,7 @@ const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
               placeholder={t('spaces.create.space.goal.input.placeholder')}
               inputLabel={t('spaces.create.space.goal.label')}
               maxNoOfCharacters={600}
-              showCharactorCount={true}
+              showCharacterCount={true}
               noOfVisibleLines={5}
               maxNoOfVisibleLines={10}
               validationErrorText={goalError}
