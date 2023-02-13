@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { Topic } from '@holi/core/screens/userprofile/types'
@@ -60,19 +60,6 @@ const SpaceTopicsInput: React.VFC<SpaceTopicsInputProps> = ({
     }
   }
 
-  const renderTopic = ({ item }: { item: Topic }) => {
-    return (
-      <HoliChip
-        key={item.id}
-        checked={selectedTopics.includes(item)}
-        onPress={() => updateValues(item)}
-        text={item.title}
-        label={item.title}
-        style={styles.chip}
-      />
-    )
-  }
-
   return (
     <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
       <HoliText size="extralarge" style={styles.title}>
@@ -94,15 +81,17 @@ const SpaceTopicsInput: React.VFC<SpaceTopicsInputProps> = ({
         </HoliText>
       </View>
       <View style={styles.topicsListContainer}>
-        {filteredTopics && (
-          <FlatList
-            data={filteredTopics}
-            renderItem={renderTopic}
-            numColumns={2}
-            columnWrapperStyle={styles.flatlistColumnWrapper}
-            contentContainerStyle={styles.flatlistContainer}
-          />
-        )}
+        {filteredTopics &&
+          filteredTopics.map((topic) => (
+            <HoliChip
+              key={topic.id}
+              checked={selectedTopics.includes(topic)}
+              onPress={() => updateValues(topic)}
+              text={topic.title}
+              label={topic.title}
+              style={styles.chip}
+            />
+          ))}
       </View>
     </View>
   )
@@ -145,10 +134,12 @@ const styles = StyleSheet.create({
   },
   topicsListContainer: {
     marginTop: 16,
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    flexShrink: 1,
   },
-  flatlistColumnWrapper: { flexWrap: 'wrap' },
   flatlistContainer: {
-    justifyContent: 'space-around',
     paddingBottom: Platform.OS === 'web' ? 0 : 450,
   },
 })
