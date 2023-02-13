@@ -108,7 +108,7 @@ const NotificationSpaceConnectionItem: React.VFC<NotificationProps<NotificationS
         )}
       </NotificationWithSpaceAvatar>
 
-      {loading && <HoliLoader />}
+      {loading && <HoliLoader testID="connection-notification-loader-indicator" />}
     </View>
   )
 }

@@ -5,7 +5,11 @@ import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import { colors } from '@holi/ui/styles/globalVars'
 
-const HoliLoader: React.VFC = () => {
+export interface HoliLoaderProps {
+  testID?: string
+}
+
+const HoliLoader: React.VFC<HoliLoaderProps> = ({ testID }) => {
   const loader = (
     <View style={styles.loader}>
       <HoliLottie animType="loader" />
@@ -15,7 +19,7 @@ const HoliLoader: React.VFC = () => {
   const Wrapper = Platform.OS === 'web' ? View : Animated.View
 
   return (
-    <Wrapper style={styles.loaderContainer} entering={FadeIn} exiting={FadeOut.delay(300)}>
+    <Wrapper style={styles.loaderContainer} entering={FadeIn} exiting={FadeOut.delay(300)} testID={testID}>
       {loader}
     </Wrapper>
   )

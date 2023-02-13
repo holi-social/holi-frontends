@@ -102,7 +102,7 @@ const NotificationConnectionItem: React.VFC<NotificationProps<NotificationConnec
         )}
       </NotificationWithUserAvatar>
 
-      {loading && <HoliLoader />}
+      {loading && <HoliLoader testID="connection-notification-loader-indicator" />}
     </View>
   )
 }
