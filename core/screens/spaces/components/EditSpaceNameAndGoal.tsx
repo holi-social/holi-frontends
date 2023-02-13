@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import SpaceNameAndGoalForm from '@holi/core/screens/spaces/components/SpaceForms/SpaceNameAndGoalForm'
+import SpaceNameAndGoalForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceNameAndGoalForm'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/queries'
 import { Space } from '@holi/core/screens/spaces/types'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -62,7 +62,7 @@ const EditSpaceNameAndGoal: React.VFC<EditSpaceNameAndGoalProps> = ({
         <HoliButton
           label={t('global.save')}
           inline
-          disabled={loading || !spaceName || spaceName.length < 1 || !spaceGoal || spaceGoal.length < 1}
+          disabled={loading || !spaceName || spaceName.length < 2 || !spaceGoal || spaceGoal.length < 1}
           style={styles.footerButton}
           onPress={onSave}
         >
