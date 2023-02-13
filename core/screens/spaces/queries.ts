@@ -181,6 +181,7 @@ export const updateSpaceMutation = gql`
       title
       description
       topics {
+        id
         title
       }
     }
