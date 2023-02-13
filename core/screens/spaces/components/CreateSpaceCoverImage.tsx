@@ -16,7 +16,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type CreateSpaceCoverImageProps = {
   onUploadImage: (image: ImageInfo | undefined) => void
-  coverImage: ImageInfo
+  coverImage: ImageInfo | undefined
 }
 
 const CreateSpaceCoverImage: React.VFC<CreateSpaceCoverImageProps> = ({
@@ -158,12 +158,12 @@ const styles = StyleSheet.create({
     }),
     alignItems: 'center',
     display: 'flex',
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background10,
   },
   contentStyle: {
     flex: 1,
     width: '100%',
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background10,
     ...Platform.select({
       web: {
         minHeight: '100vh',
@@ -189,10 +189,10 @@ const styles = StyleSheet.create({
     marginBottom: 50,
     marginTop: 16,
     width: '100%',
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   imageUploadButton: {
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
   },
   instructionsContainer: {
     marginTop: 8,
@@ -201,16 +201,16 @@ const styles = StyleSheet.create({
   instructions: {
     justifyContent: 'center',
     textAlign: 'center',
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   holiTabs: {
     width: '100%',
-    backgroundColor: colors.backgroundColorGreyDark,
+    backgroundColor: colors.background20,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: colors.borderColorGreyDarker,
+    borderColor: colors.background30,
   },
   imageUploadContainer: {
     marginBottom: 4,
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
   },
   tabStyle: {
-    backgroundColor: colors.backgroundColorGrey,
+    backgroundColor: colors.background10,
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
   },
