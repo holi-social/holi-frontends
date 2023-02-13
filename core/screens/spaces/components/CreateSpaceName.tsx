@@ -31,7 +31,7 @@ const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
   const { setNextButtonEnabled } = useWizard()
 
   useEffect(() => {
-    if (spaceName && spaceName.length > 1 && spaceGoal && spaceGoal.length > 0) {
+    if (spaceName && spaceName.replace(/\s/g, '').length > 1 && spaceGoal && spaceGoal.replace(/\s/g, '').length > 0) {
       setNextButtonEnabled(true)
     } else {
       setNextButtonEnabled(false)
@@ -99,11 +99,11 @@ const styles = StyleSheet.create({
     }),
     alignItems: 'center',
     display: 'flex',
-    backgroundColor: colors.background30,
+    backgroundColor: colors.background10,
   },
   contentStyle: {
     flex: 1,
-    backgroundColor: colors.background30,
+    backgroundColor: colors.background10,
     ...Platform.select({
       web: {
         minHeight: '100vh',

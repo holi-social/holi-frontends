@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   },
   nextButton: { height: 56, width: '100%' },
   buttonContainer: {
-    bottom: Platform.OS === 'web' ? 10 : vars.topBarHeight,
+    bottom: Platform.OS === 'web' ? 0 : vars.topBarHeight,
     paddingHorizontal: Platform.OS === 'web' ? 24 : 0,
     flexDirection: 'row',
     alignItems: 'center',
