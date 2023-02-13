@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
     padding: 8,
     borderWidth: 1,
     borderRadius: 16,
-    borderColor: colors.borderColorGrey,
-    backgroundColor: colors.backgroundColorWhite,
+    borderColor: colors.background30,
+    backgroundColor: colors.background10,
   },
   wrapper: {
     width: '100%',
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    backgroundColor: colors.backgroundColorTransparentBlack,
+    backgroundColor: colors.foreground30at48Percent,
     borderRadius: 8,
   },
   editButton: {

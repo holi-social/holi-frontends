@@ -98,7 +98,7 @@ const OwnProfileView: React.VFC<OwnProfileViewProps> = ({ toggleEditMode, user }
                   paddingVertical: 72,
                 }}
               >
-                <HoliText style={{ textAlign: 'center', color: colors.fontColorGrey }}>
+                <HoliText style={{ textAlign: 'center', color: colors.foreground20 }}>
                   {t('profile.tabs.insight.empty')}
                 </HoliText>
               </View>

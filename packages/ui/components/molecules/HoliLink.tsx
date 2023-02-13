@@ -71,6 +71,6 @@ export default HoliLink
 
 const styles = StyleSheet.create({
   link: {
-    color: colors.fontColorHighlighted,
+    color: colors.brandColorB30,
   },
 })

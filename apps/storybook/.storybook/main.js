@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 const path = require('path')
 
-const storiesDirectory = '../../../packages/ui/components'
+const storiesDirectory = '../../../packages/ui'
 
 module.exports = {
   staticDirs: ['../../web/public'],

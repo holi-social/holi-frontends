@@ -24,7 +24,7 @@ export const navigateBackToHomeScreen = async (buttonId?: backHomeButtonId) => {
   let firstRun = true
   while (!homeScreenReached) {
     try {
-      await waitForHomeScreen(firstRun ? 0 : 5000)
+      await waitForHomeScreen(firstRun ? 500 : 5000)
       homeScreenReached = true
     } catch (e) {
       if (firstRun) {

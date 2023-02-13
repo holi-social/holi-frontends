@@ -94,7 +94,7 @@ const PostImage: React.VFC<PostImageProps> = ({ uri, width, height, postTitle })
 const styles = StyleSheet.create({
   postImage: {
     aspectRatio: 343 / 236,
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background30,
     marginTop: 26,
     width: '100%',
   },

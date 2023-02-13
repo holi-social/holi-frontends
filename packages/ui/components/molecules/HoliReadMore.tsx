@@ -129,7 +129,7 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
         style={styles.textContainer}
       >
         {/* The visible text. Any font style props and remaining textProps are applied here */}
-        <HoliText style={[{ color: colors.fontColorGrey }, fontStyle]} {...textProps}>
+        <HoliText style={[{ color: colors.foreground20 }, fontStyle]} {...textProps}>
           {buttonState === 'readMore' ? truncatedText : children} {buttonState === 'readLess' && ' '}
         </HoliText>
 

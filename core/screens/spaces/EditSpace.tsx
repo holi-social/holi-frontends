@@ -12,6 +12,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import EditSpaceNameAndGoal from '@holi/core/screens/spaces/components/EditSpaceNameAndGoal'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceMainImage from '@holi/core/screens/spaces/components/SpaceMainImage'
 import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
@@ -31,7 +32,7 @@ import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
-import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -62,7 +63,6 @@ const EditSpace: React.VFC<ScreenProps> = () => {
     variables: { id: spaceId },
   })
   const [updateSpace] = useMutation<UpdateSpaceResponse>(updateSpaceMutation, {
-    refetchQueries: [{ query: spaceByIdQuery, variables: { id: spaceId } }],
     onCompleted: () => openToast(t('spaces.edit.success'), HoliToastType.SUCCESS),
     onError: (error) => {
       const errors = extractFieldErrors(error)
@@ -158,10 +158,11 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               {space.title}
             </HoliHeading>
             <HoliButton
-              label={t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`)}
+              label={t('spaces.edit.title')}
               type="secondary"
               inline
               style={[styles.editButton, styles.editTitleButton]}
+              onPress={show}
             >
               <HoliText style={styles.editButtonText}>{t('global.edit')}</HoliText>
               <HoliIcon icon="edit-2" />
@@ -173,7 +174,16 @@ const EditSpace: React.VFC<ScreenProps> = () => {
             <View style={mixins.container}>
               <SpaceMainImage uri={space.mainImage} label={space.title} editable />
 
-              <SpaceSection title={t('spaces.spaceDetails.location')} editable style={styles.noBorderSection}>
+              <SpaceSection
+                title={t('spaces.spaceDetails.goal')}
+                editable
+                style={styles.noBorderSection}
+                onPressEdit={show}
+              >
+                {space.description && <HoliText>{space.description}</HoliText>}
+              </SpaceSection>
+
+              <SpaceSection title={t('spaces.spaceDetails.location')} editable>
                 {space.location && <HoliText>{space.location}</HoliText>}
               </SpaceSection>
 
@@ -215,6 +225,16 @@ const EditSpace: React.VFC<ScreenProps> = () => {
           {t('spaces.edit.close')}
         </HoliButton>
       </View>
+      <HoliModal
+        show={visible}
+        label={t('spaces.edit.title')}
+        onDismiss={hide}
+        relativeHeight={1}
+        autoHeight={false}
+        headerStyle={styles.modalHeader}
+      >
+        <EditSpaceNameAndGoal space={space} onDismiss={hide} />
+      </HoliModal>
     </>
   )
 }
@@ -230,9 +250,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: 12,
   },
+  modalHeader: {
+    backgroundColor: colors.background30,
+  },
   header: {
     alignItems: 'center',
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
     paddingBottom: 24,
   },
   editButton: {
@@ -249,7 +272,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   requirements: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   container: {
     alignItems: 'center',
@@ -258,7 +281,7 @@ const styles = StyleSheet.create({
     paddingTop: 24,
   },
   body: {
-    backgroundColor: colors.backgroundColorGrey,
+    backgroundColor: colors.background20,
     paddingTop: 24,
     paddingBottom: 72,
   },
@@ -272,7 +295,7 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   chip: {
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.background10,
     marginRight: 8,
     marginBottom: 8,
   },

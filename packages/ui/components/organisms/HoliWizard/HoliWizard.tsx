@@ -61,7 +61,7 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
   const StepCount = () => {
     return (
       <View style={styles.stepCountContainer}>
-        <HoliText size="extrasmall" style={{ color: colors.fontColorBlack }}>
+        <HoliText size="extrasmall" style={{ color: colors.foreground30 }}>
           {t('wizard.stepsCount', { current: currentStep + 1, total: stepCount })}
         </HoliText>
       </View>
@@ -79,7 +79,7 @@ const HoliWizard: React.VFC<HoliWizardProps> = ({
             testID="holi-wizard-next-btn"
             style={styles.backButton}
           >
-            <HoliIcon icon={'arrow-left'} size={24} color={colors.fontColorBlack} />
+            <HoliIcon icon={'arrow-left'} size={24} color={colors.foreground30} />
           </HoliButton>
         )}
         <View style={{ flex: 1 }}>
@@ -160,11 +160,11 @@ const styles = StyleSheet.create({
     marginRight: 10,
     paddingHorizontal: 0,
     paddingVertical: 0,
-    backgroundColor: colors.backgroundColorWhite,
+    backgroundColor: colors.background10,
   },
   nextButton: { height: 56, width: '100%' },
   buttonContainer: {
-    bottom: Platform.OS === 'web' ? 10 : vars.topBarHeight,
+    bottom: Platform.OS === 'web' ? 0 : vars.topBarHeight,
     paddingHorizontal: Platform.OS === 'web' ? 24 : 0,
     flexDirection: 'row',
     alignItems: 'center',

@@ -3,7 +3,6 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Keyboard, Platform, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
-import tinycolor from 'tinycolor2'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -152,7 +151,7 @@ const HoliSelect = ({
             item.selected && styles.listItemIconContainerSelected,
           ]}
         >
-          {item.selected && <HoliIcon icon="check" size={20} color={colors.fontColorWhite} />}
+          {item.selected && <HoliIcon icon="check" size={20} color={colors.background10} />}
         </View>
       </HoliButton>
     ),
@@ -216,7 +215,7 @@ const HoliSelect = ({
     [options, regex]
   )
 
-  const placeholderTextColor = selectedText ? colors.fontColor : tinycolor(colors.fontColorGrey).lighten(30).toString()
+  const placeholderTextColor = selectedText ? colors.foreground30 : colors.foreground20
 
   /**
    * TODO:
@@ -280,14 +279,14 @@ const getStyles = (textInputHeight: number) =>
     textInputOpened: {
       borderBottomLeftRadius: 0,
       borderBottomRightRadius: 0,
-      borderColor: colors.borderColorSecondary,
+      borderColor: colors.brandColorB30,
     },
     textInputLabelOpened: {
-      color: colors.secondaryColor,
+      color: colors.brandColorB30,
     },
     optionsMenu: {
       maxHeight: LIST_ITEM_HEIGHT * 4,
-      borderColor: colors.borderColorSecondary,
+      borderColor: colors.brandColorB30,
       borderWidth: 2,
       borderTopWidth: 0,
       borderBottomLeftRadius: 4,
@@ -295,7 +294,7 @@ const getStyles = (textInputHeight: number) =>
       position: 'absolute',
       width: '100%',
       top: textInputHeight - 3, // Display above bottom border of input field
-      backgroundColor: colors.backgroundColorWhite,
+      backgroundColor: colors.background10,
     },
     listItem: {
       height: LIST_ITEM_HEIGHT,
@@ -312,7 +311,7 @@ const getStyles = (textInputHeight: number) =>
       height: 24,
       borderRadius: 24,
       borderWidth: 1,
-      borderColor: tinycolor(colors.borderColorGrey).darken(5).toString(),
+      borderColor: colors.foreground10,
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -321,7 +320,7 @@ const getStyles = (textInputHeight: number) =>
     },
     listItemIconContainerSelected: {
       borderWidth: 0,
-      backgroundColor: colors.fontColorBlack,
+      backgroundColor: colors.foreground30,
     },
     trailingIconContainer: {
       flexDirection: 'row',

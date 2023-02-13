@@ -132,6 +132,6 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   loginLinkText: {
-    color: colors.positivepurple,
+    color: colors.brandColorB30,
   },
 })

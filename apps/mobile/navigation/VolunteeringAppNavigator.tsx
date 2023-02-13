@@ -25,7 +25,7 @@ const VolunteeringAppNavigator: React.VFC = () => {
         headerShown: true,
         headerTransparent: true,
         headerStyle: {
-          backgroundColor: colors.backgroundColorWhite,
+          backgroundColor: colors.background10,
         },
       }}
     >

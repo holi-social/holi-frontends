@@ -102,7 +102,7 @@ export const HoliToast: React.FC<HoliToastProps> = ({ closeToast, type, text, ti
         <HoliIcon
           icon={type === HoliToastType.SUCCESS ? 'user-smile' : 'emotion-unhappy-noeyes'}
           size={20}
-          color={colors.fontColorWhite}
+          color={colors.background10}
           style={styles.toastIcon}
         />
       </View>
@@ -121,7 +121,7 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
       width: '100%',
       ...Platform.select({
         native: {
-          backgroundColor: type === HoliToastType.ERROR ? colors.backgroundColorError : colors.backgroundColorSuccess,
+          backgroundColor: type === HoliToastType.ERROR ? colors.error30 : colors.brandColorB30,
         },
       }),
       ...(deviceWidth >= +vars.breakpointL
@@ -142,7 +142,7 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
     toast: {
       padding: 20,
       flex: 1,
-      backgroundColor: type === HoliToastType.ERROR ? colors.backgroundColorError : colors.backgroundColorSuccess,
+      backgroundColor: type === HoliToastType.ERROR ? colors.error30 : colors.brandColorB30,
       ...(deviceWidth >= +vars.breakpointL
         ? {
             borderRadius: 10,
@@ -157,7 +157,7 @@ const createStyles = (deviceWidth: number, type?: HoliToastType) =>
       justifyContent: 'center',
     },
     toastText: {
-      color: colors.fontColorWhite,
+      color: colors.background10,
       textAlign: 'center',
     },
     toastIcon: {

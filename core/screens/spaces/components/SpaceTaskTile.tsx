@@ -34,13 +34,13 @@ const SpaceTaskTile: React.VFC<SpaceTaskTileProps> = ({ task, style }: SpaceTask
       </View>
       <View style={[styles.iconsContainer, styles.detailContainer]}>
         <View style={styles.iconGroupContainer}>
-          <HoliIcon icon="global" size={12} color={colors.fontColorGrey} style={styles.iconGroupIcon} filled />
+          <HoliIcon icon="global" size={12} color={colors.foreground20} style={styles.iconGroupIcon} filled />
           <HoliText style={styles.iconGroupText} size="extrasmall">
             {task.location}
           </HoliText>
         </View>
         <View style={styles.iconGroupContainer}>
-          <HoliIcon icon="time" size={12} color={colors.fontColorGrey} style={styles.iconGroupIcon} filled />
+          <HoliIcon icon="time" size={12} color={colors.foreground20} style={styles.iconGroupIcon} filled />
           <HoliText style={styles.iconGroupText} size="extrasmall">
             {t(`spaces.tasks.regularity.${task.regularity}`)}
           </HoliText>
@@ -96,8 +96,8 @@ const styles = StyleSheet.create({
   taskItem: {
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: colors.borderColorGrey,
-    backgroundColor: colors.backgroundColorWhite,
+    borderColor: colors.background30,
+    backgroundColor: colors.background10,
     padding: 24,
     flexShrink: 1,
   },
@@ -114,11 +114,11 @@ const styles = StyleSheet.create({
     marginRight: 4,
   },
   iconGroupText: {
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   spotsClaimed: {
     textAlign: 'right',
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
   },
   skillsContainer: {
     flexDirection: 'row',
@@ -128,10 +128,10 @@ const styles = StyleSheet.create({
   skill: {
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: colors.borderColorGrey,
+    borderColor: colors.background30,
     paddingHorizontal: 14,
     paddingVertical: 8,
-    color: colors.fontColorGrey,
+    color: colors.foreground20,
     height: 33,
     marginRight: 4,
     marginBottom: 4,

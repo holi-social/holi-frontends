@@ -167,6 +167,29 @@ export const joinSpaceMutation = gql`
   }
 `
 
+export const UpdateSpaceInputSchema = z.object({
+  title: z.string().min(2).max(60).optional(),
+  description: z.string().max(600).optional(),
+  avatar: z.instanceof(Object).optional(),
+})
+
+export type UpdateSpaceInput = z.infer<typeof UpdateSpaceInputSchema>
+
+export const updateSpaceMutation = gql`
+  mutation UpdateSpace($input: UpdateSpaceInput) {
+    updateSpace(input: $input) {
+      id
+      title
+      description
+      avatar
+    }
+  }
+`
+
+export type UpdateSpaceResponse = {
+  updateSpace: Partial<Space>
+}
+
 export type JoinSpaceResponse = {
   updateSpaceUserConnection: Space
 }
@@ -192,22 +215,4 @@ export type SpaceUserConnectionType = string
 
 export type MySpacesResponse = {
   mySpaces: SpaceSection[]
-}
-
-export const updateSpaceMutation = gql`
-  mutation UpdateSpace($input: UpdateSpaceInput!) {
-    updateSpace(input: $input) {
-      id
-    }
-  }
-`
-
-export const UpdateSpaceInputSchema = z.object({
-  avatar: z.instanceof(Object).optional(),
-})
-
-export type UpdateSpaceInput = z.infer<typeof UpdateSpaceInputSchema>
-
-export type UpdateSpaceResponse = {
-  updateSpace: Partial<Space>
 }

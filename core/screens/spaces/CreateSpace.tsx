@@ -2,7 +2,6 @@ import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import DefaultLayout from '@holi/core/DefaultLayout'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import CreateSpaceCoverImage from '@holi/core/screens/spaces/components/CreateSpaceCoverImage'
@@ -10,6 +9,7 @@ import CreateSpaceName from '@holi/core/screens/spaces/components/CreateSpaceNam
 import CreateSpaceTopics from '@holi/core/screens/spaces/components/CreateSpaceTopics'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { Topic } from '@holi/core/screens/userprofile/types'
+import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -21,13 +21,14 @@ const CreateSpace: React.VFC = () => {
   const [spaceName, setSpaceName] = useState<string>('')
   const [spaceGoal, setSpaceGoal] = useState<string>('')
   const [spaceTopics, setSpaceTopics] = useState<Topic[]>([])
+  const [spaceCoverImage, setSpaceCoverImage] = useState<ImageInfo | undefined>()
 
   useLayoutEffect(
     () =>
       setOptions({
         animation: 'slide_from_bottom',
         title: t('spaces.create.space.title'),
-        headerStyle: { backgroundColor: colors.backgroundColorGreyLight },
+        headerStyle: { backgroundColor: colors.background10 },
         headerTransparent: true,
         headerLeft: () => <HeaderBackButton icon="close" />,
         navigationCustomOptions: {
@@ -56,32 +57,34 @@ const CreateSpace: React.VFC = () => {
     setSpaceTopics(topics)
   }
 
+  const handleImageUpload = (image: ImageInfo | undefined) => {
+    setSpaceCoverImage(image)
+  }
+
   return (
     <SpaceTermContextProvider>
       <View style={styles.wrapper}>
-        <DefaultLayout style={styles.defaultLayout} scrollView={false} headerOverlap>
-          <View style={[mixins.container, styles.container]}>
-            <HoliWizard
-              isBackButtonAvailable={true}
-              submitButtonLabel={t('spaces.create.space.button')}
-              onNextPress={() => handleNextButtonPress()}
-              onSubmit={() => handleSubmitButtonPress()}
-            >
-              <CreateSpaceName
-                onChangeSpaceName={(value: string) => {
-                  handleSpaceNameChange(value)
-                }}
-                onChangeSpaceGoal={(value: string) => {
-                  handleSpaceGoalChange(value)
-                }}
-                spaceName={spaceName}
-                spaceGoal={spaceGoal}
-              />
-              <CreateSpaceTopics onSelectSpaceTopics={handleSpaceTopicsSelection} selectedTopics={spaceTopics} />
-              <CreateSpaceCoverImage />
-            </HoliWizard>
-          </View>
-        </DefaultLayout>
+        <View style={[mixins.container, styles.container]}>
+          <HoliWizard
+            isBackButtonAvailable={true}
+            submitButtonLabel={t('spaces.create.space.button')}
+            onNextPress={() => handleNextButtonPress()}
+            onSubmit={() => handleSubmitButtonPress()}
+          >
+            <CreateSpaceName
+              onChangeSpaceName={(value: string) => {
+                handleSpaceNameChange(value)
+              }}
+              onChangeSpaceGoal={(value: string) => {
+                handleSpaceGoalChange(value)
+              }}
+              spaceName={spaceName}
+              spaceGoal={spaceGoal}
+            />
+            <CreateSpaceTopics onSelectSpaceTopics={handleSpaceTopicsSelection} selectedTopics={spaceTopics} />
+            <CreateSpaceCoverImage onUploadImage={handleImageUpload} coverImage={spaceCoverImage} />
+          </HoliWizard>
+        </View>
       </View>
     </SpaceTermContextProvider>
   )
@@ -90,9 +93,9 @@ const CreateSpace: React.VFC = () => {
 export default CreateSpace
 
 const styles = StyleSheet.create({
-  wrapper: { alignItems: 'center', flex: 1, backgroundColor: colors.backgroundColorGreyLight },
+  wrapper: { alignItems: 'center', flex: 1, backgroundColor: colors.background10 },
   defaultLayout: {
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background10,
     paddingBottom: 0,
     width: '100%',
     minHeight: Platform.OS === 'web' ? '100vh' : '100%',

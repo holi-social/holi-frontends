@@ -31,7 +31,7 @@ const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
   const { setNextButtonEnabled } = useWizard()
 
   useEffect(() => {
-    if (spaceName && spaceName.length > 1 && spaceGoal && spaceGoal.length > 0) {
+    if (spaceName && spaceName.replace(/\s/g, '').length > 1 && spaceGoal && spaceGoal.replace(/\s/g, '').length > 0) {
       setNextButtonEnabled(true)
     } else {
       setNextButtonEnabled(false)
@@ -44,7 +44,7 @@ const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
     <View style={styles.wrapper}>
       <DefaultLayout
         headerOverlap={true}
-        scrollView={false}
+        scrollEnabled={false}
         style={[styles.contentStyle, { width: Platform.OS === 'web' ? deviceWidth : '100%' }]}
       >
         <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
@@ -55,7 +55,7 @@ const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
             placeholder={t('spaces.create.space.name.input.placeholder')}
             inputLabel={t('spaces.create.space.name.label')}
             maxNoOfCharacters={60}
-            showCharactorCount={true}
+            showCharacterCount={true}
             validationErrorText={nameError}
             value={spaceName}
             onChange={(value: string) => {
@@ -69,7 +69,7 @@ const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
               placeholder={t('spaces.create.space.goal.input.placeholder')}
               inputLabel={t('spaces.create.space.goal.label')}
               maxNoOfCharacters={600}
-              showCharactorCount={true}
+              showCharacterCount={true}
               noOfVisibleLines={5}
               maxNoOfVisibleLines={10}
               validationErrorText={goalError}
@@ -99,11 +99,11 @@ const styles = StyleSheet.create({
     }),
     alignItems: 'center',
     display: 'flex',
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background10,
   },
   contentStyle: {
     flex: 1,
-    backgroundColor: colors.backgroundColorGreyLight,
+    backgroundColor: colors.background10,
     ...Platform.select({
       web: {
         minHeight: '100vh',

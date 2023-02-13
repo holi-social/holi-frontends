@@ -57,7 +57,7 @@ exports[`renders correctly renders correctly when open 1`] = `
             },
           ],
           Object {
-            "backgroundColor": "#222326",
+            "backgroundColor": "#262424",
             "bottom": 0,
             "left": 0,
             "opacity": 0.4,
@@ -83,7 +83,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           onAccessibilityEscape={[Function]}
           style={
             Object {
-              "backgroundColor": "#222326",
+              "backgroundColor": "#262424",
               "bottom": 0,
               "left": 0,
               "opacity": 0.4,
@@ -107,7 +107,7 @@ exports[`renders correctly renders correctly when open 1`] = `
           "bottom": "0%",
           "maxHeight": "90%",
           "overflow": "hidden",
-          "shadowColor": "#000",
+          "shadowColor": "#262424",
           "shadowOffset": Object {
             "height": 0,
             "width": 0,
@@ -124,10 +124,13 @@ exports[`renders correctly renders correctly when open 1`] = `
       <RCTSafeAreaView
         emulateUnlessSupported={true}
         style={
-          Object {
-            "alignItems": "center",
-            "justifyContent": "flex-end",
-          }
+          Array [
+            Object {
+              "alignItems": "center",
+              "justifyContent": "flex-end",
+            },
+            undefined,
+          ]
         }
       >
         <View
@@ -188,7 +191,7 @@ exports[`renders correctly renders correctly when open 1`] = `
               <View
                 style={
                   Object {
-                    "backgroundColor": "#222326",
+                    "backgroundColor": "#262424",
                     "borderRadius": 4,
                     "height": 4,
                     "opacity": 0.3,

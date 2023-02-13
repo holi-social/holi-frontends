@@ -77,7 +77,7 @@ const getStyles = (theme: HoliTheme) =>
     default: {
       fontWeight: '500',
       fontFamily: theme.fontFamily.default('Medium'),
-      color: colors.softblack,
+      color: colors.foreground30,
     },
     super: {
       fontSize: 36,
