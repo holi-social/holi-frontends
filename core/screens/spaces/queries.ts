@@ -166,6 +166,22 @@ export const joinSpaceMutation = gql`
   }
 `
 
+export type UpdateSpaceInput = {
+  id: string
+  title?: string
+  description?: string
+}
+
+export const updateSpaceMutation = gql`
+  mutation UpdateSpace($input: UpdateSpaceInput) {
+    updateSpace(input: $input) {
+      id
+      title
+      description
+    }
+  }
+`
+
 export type JoinSpaceResponse = {
   updateSpaceUserConnection: Space
 }

@@ -154,11 +154,11 @@ export const WithCharactorCount = ({ ...args }) => {
 }
 
 WithCharactorCount.argTypes = {
-  showCharactorCount: { description: 'Charactor count', control: { type: 'boolean' } },
+  showCharacterCount: { description: 'Charactor count', control: { type: 'boolean' } },
   maxNoOfCharacters: { description: 'Max number of charactors', type: 'number', control: { type: 'number' } },
 }
 
 WithCharactorCount.args = {
-  showCharactorCount: true,
+  showCharacterCount: true,
   maxNoOfCharacters: 10,
 }
