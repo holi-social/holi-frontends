@@ -42,7 +42,7 @@ const EditSpaceNameAndGoal: React.VFC<EditSpaceNameAndGoalProps> = ({
       saveButtonDisabled={loading || !spaceName || spaceName.length < 2 || !spaceGoal || spaceGoal.length < 1}
     >
       <SpaceNameAndGoalForm
-        title={t('spaces.edit.nameAndGoal')}
+        title={t('spaces.input.nameAndGoal.title')}
         onChangeSpaceGoal={setSpaceGoal}
         onChangeSpaceName={setSpaceName}
         spaceGoal={spaceGoal}

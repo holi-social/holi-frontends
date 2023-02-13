@@ -31,9 +31,12 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+import EditSpaceSDGs from './components/EditSpaceSDGs'
+
 enum EditFields {
   NAME = 'NAME',
   TOPICS = 'TOPICS',
+  SDGS = 'SDGS',
 }
 
 export type EditSpaceParams = {
@@ -148,10 +151,6 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 {space.description && <HoliText>{space.description}</HoliText>}
               </SpaceSection>
 
-              <SpaceSection title={t('spaces.spaceDetails.location')} editable>
-                {space.location && <HoliText>{space.location}</HoliText>}
-              </SpaceSection>
-
               <SpaceSection
                 title={t('spaces.spaceDetails.topics')}
                 editable
@@ -170,6 +169,27 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                         disabled
                         style={styles.chip}
                       />
+                    ))}
+                  </View>
+                )}
+              </SpaceSection>
+
+              <SpaceSection title={t('spaces.spaceDetails.location')} editable>
+                {space.location && <HoliText>{space.location}</HoliText>}
+              </SpaceSection>
+
+              <SpaceSection
+                title={t('spaces.spaceDetails.sdgs')}
+                editable
+                onPressEdit={() => {
+                  setEditField(EditFields.SDGS)
+                  show()
+                }}
+              >
+                {!!space.sdgs?.length && (
+                  <View style={styles.listContainer}>
+                    {space.sdgs?.map((sdg, index) => (
+                      <HoliChip key={`sdg_${index}`} text={sdg.title} label={sdg.title} disabled style={styles.chip} />
                     ))}
                   </View>
                 )}
@@ -207,6 +227,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
       >
         {editField === EditFields.NAME && <EditSpaceNameAndGoal space={space} onDismiss={hide} />}
         {editField === EditFields.TOPICS && <EditSpaceTopics space={space} onDismiss={hide} />}
+        {editField === EditFields.SDGS && <EditSpaceSDGs space={space} onDismiss={hide} />}
       </HoliModal>
     </SpaceTermContextProvider>
   )

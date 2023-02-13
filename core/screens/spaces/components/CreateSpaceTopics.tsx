@@ -95,11 +95,11 @@ const CreateSpaceTopics: React.VFC<CreateSpaceTopicsProps> = ({
           <HoliText size="extralarge" style={styles.title}>
             {t('spaces.create.space.stepTwo.title')}
           </HoliText>
-          <HoliText style={styles.subTitle}>{t('spaces.create.space.stepTwo.subTitle')}</HoliText>
+          <HoliText style={styles.subTitle}>{t('spaces.input.topics.description')}</HoliText>
           <HoliTextInput
-            accessibilityLabel={t('spaces.create.space.topic.search.placeholder')}
+            accessibilityLabel={t('spaces.input.topics.search')}
             value={filterString}
-            placeholder={t('spaces.create.space.topic.search.placeholder')}
+            placeholder={t('spaces.input.topics.search')}
             onChange={(text: string) => setFilterString(text)}
             trailingIcon="search"
             style={styles.input}
@@ -107,7 +107,7 @@ const CreateSpaceTopics: React.VFC<CreateSpaceTopicsProps> = ({
           <View style={styles.hintContainer}>
             <HoliIcon icon={'information'} size={14} color={colors.foreground30} style={styles.infoIcon} />
             <HoliText size="small" style={styles.hint}>
-              {t('spaces.create.space.topic.search.hint')}
+              {t('spaces.input.topics.hint')}
             </HoliText>
           </View>
           <View style={styles.topicsListContainer}>

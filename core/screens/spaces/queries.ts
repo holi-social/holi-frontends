@@ -56,6 +56,10 @@ const SpaceFragment = gql`
       id
       title
     }
+    sdgs {
+      id
+      title
+    }
   }
 `
 
@@ -81,6 +85,18 @@ export const topicsQuery = gql`
         id
         title
         isDiscoverSpacesDefault
+        slug
+      }
+    }
+  }
+`
+
+export const sdgsQuery = gql`
+  query SDGs {
+    sdgs {
+      data {
+        id
+        title
         slug
       }
     }
@@ -181,6 +197,10 @@ export const updateSpaceMutation = gql`
       title
       description
       topics {
+        id
+        title
+      }
+      sdgs {
         id
         title
       }

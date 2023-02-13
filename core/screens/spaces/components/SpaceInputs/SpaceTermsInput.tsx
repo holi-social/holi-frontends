@@ -1,9 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import React, { useEffect, useState } from 'react'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
-import { Topic } from '@holi/core/screens/userprofile/types'
+import { Term } from '@holi/core/screens/userprofile/types'
 import { termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -12,22 +10,30 @@ import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export type SpaceTopicsInputProps = {
-  onSelectSpaceTopics: (topics: Topic[]) => void
-  selectedTopics: Topic[]
+export type SpaceTermsInputProps = {
+  title: string
+  description: string
+  searchPlaceholder?: string
+  hint?: string
+  onSelect: (items: Term[]) => void
+  selected: Term[]
+  terms: Term[]
 }
 
-const SpaceTopicsInput: React.VFC<SpaceTopicsInputProps> = ({
-  onSelectSpaceTopics,
-  selectedTopics,
-}: SpaceTopicsInputProps) => {
+const SpaceTermsInput: React.VFC<SpaceTermsInputProps> = ({
+  title,
+  description,
+  searchPlaceholder,
+  hint,
+  onSelect,
+  selected,
+  terms,
+}: SpaceTermsInputProps) => {
   const [filterString, setFilterString] = useState<string>('')
-  const [orderedTerms, setOrderedTerms] = useState<Topic[]>([])
-  const [filteredTopics, setFilteredTopics] = useState<Topic[]>([])
+  const [orderedTerms, setOrderedTerms] = useState<Term[]>([])
+  const [filteredTerms, setFilteredTerms] = useState<Term[]>([])
   const { height: deviceHeight } = useWindowDimensions()
   const mixins = useStyleMixins()
-  const { t } = useTranslation()
-  const { topics } = useContext(SpaceTermContext)
 
   useEffect(() => {
     /*
@@ -36,59 +42,61 @@ const SpaceTopicsInput: React.VFC<SpaceTopicsInputProps> = ({
     * currently unselected items go below, alphabetically sorted by translation
     This order is kept until the selection process is done and the layer is closed.
     */
-    const unselectedTopics = topics && topics.filter((topic) => !selectedTopics.find((item) => item.id === topic.id))
-    setOrderedTerms([...selectedTopics.sort(termsByTitleComparator), ...unselectedTopics.sort(termsByTitleComparator)])
-  }, [topics, selectedTopics])
+    const unselected = terms && terms.filter((term) => !selected.find((item) => item.id === term.id))
+    setOrderedTerms([...selected.sort(termsByTitleComparator), ...unselected.sort(termsByTitleComparator)])
+  }, [terms, selected])
 
   useEffect(
     () =>
-      setFilteredTopics(
+      setFilteredTerms(
         filterString === ''
           ? orderedTerms
-          : orderedTerms.filter((topic: Topic) => topic.title.toLowerCase().includes(filterString.toLowerCase()))
+          : orderedTerms.filter((term) => term.title.toLowerCase().includes(filterString.toLowerCase()))
       ),
     [orderedTerms, filterString]
   )
 
-  const updateValues = (topic: Topic) => {
-    if (selectedTopics.includes(topic)) {
+  const updateValues = (term: Term) => {
+    if (selected.includes(term)) {
       // remove the value
-      onSelectSpaceTopics(selectedTopics.filter((selectedTopic) => selectedTopic !== topic))
-    } else if (selectedTopics.length < 6) {
+      onSelect(selected.filter((selectedTerm) => selectedTerm !== term))
+    } else if (selected.length < 6) {
       // add the value
-      onSelectSpaceTopics([...selectedTopics, topic])
+      onSelect([...selected, term])
     }
   }
 
   return (
     <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
       <HoliText size="extralarge" style={styles.title}>
-        {t('spaces.create.space.stepTwo.title')}
+        {title}
       </HoliText>
-      <HoliText style={styles.subTitle}>{t('spaces.create.space.stepTwo.subTitle')}</HoliText>
+      <HoliText style={styles.subTitle}>{description}</HoliText>
       <HoliTextInput
-        accessibilityLabel={t('spaces.create.space.topic.search.placeholder')}
+        accessibilityLabel={searchPlaceholder}
         value={filterString}
-        placeholder={t('spaces.create.space.topic.search.placeholder')}
+        placeholder={searchPlaceholder}
         onChange={(text: string) => setFilterString(text)}
         trailingIcon="search"
         style={styles.input}
       />
-      <View style={styles.hintContainer}>
-        <HoliIcon icon={'information'} size={14} color={colors.foreground30} style={styles.infoIcon} />
-        <HoliText size="small" style={styles.hint}>
-          {t('spaces.create.space.topic.search.hint')}
-        </HoliText>
-      </View>
-      <View style={styles.topicsListContainer}>
-        {filteredTopics &&
-          filteredTopics.map((topic) => (
+      {hint && (
+        <View style={styles.hintContainer}>
+          <HoliIcon icon={'information'} size={14} color={colors.foreground30} style={styles.infoIcon} />
+          <HoliText size="small" style={styles.hint}>
+            {hint}
+          </HoliText>
+        </View>
+      )}
+      <View style={styles.termsListContainer}>
+        {filteredTerms &&
+          filteredTerms.map((term) => (
             <HoliChip
-              key={topic.id}
-              checked={selectedTopics.includes(topic)}
-              onPress={() => updateValues(topic)}
-              text={topic.title}
-              label={topic.title}
+              key={term.id}
+              checked={selected.includes(term)}
+              onPress={() => updateValues(term)}
+              text={term.title}
+              label={term.title}
               style={styles.chip}
             />
           ))}
@@ -97,7 +105,7 @@ const SpaceTopicsInput: React.VFC<SpaceTopicsInputProps> = ({
   )
 }
 
-export default SpaceTopicsInput
+export default SpaceTermsInput
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -132,7 +140,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
     marginBottom: 8,
   },
-  topicsListContainer: {
+  termsListContainer: {
     marginTop: 16,
     display: 'flex',
     flexDirection: 'row',
