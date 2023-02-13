@@ -25,6 +25,7 @@ export type HoliTabsProps = {
   testID?: string
   scrollEnabled?: boolean
   tabBarWidth?: number
+  tabBarStyle?: StyleProp<ViewStyle>
 }
 
 const isWeb = Platform.OS === 'web'
@@ -38,6 +39,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
   scrollEnabled = true,
   testID = 'tabs-module',
   tabBarWidth,
+  tabBarStyle,
 }: HoliTabsProps) => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const carousel = React.useRef<ScrollView | null>(null)
@@ -77,7 +79,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
   return (
     <View style={[styles.container, style]} testID={testID}>
       <View style={styles.headerContainer} accessibilityRole="tablist" accessibilityOrientation="horizontal">
-        <View style={[mixins.container, styles.tabButtonsContainer]}>
+        <View style={[mixins.container, styles.tabButtonsContainer, tabBarStyle]}>
           {tabs.map((tab, index) => {
             const isActive = currentSlide === index
             return (

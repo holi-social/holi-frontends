@@ -47,6 +47,7 @@ const CreateSpaceCoverImage: React.VFC<CreateSpaceCoverImageProps> = ({
       <HoliTabs
         id="upload-image-tabs"
         style={styles.holiTabs}
+        tabBarStyle={styles.tabBar}
         tabBarWidth={deviceWidth - containerPadding * 2}
         tabs={[
           {
@@ -241,5 +242,8 @@ const styles = StyleSheet.create({
   uploadButtonContainer: {
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  tabBar: {
+    paddingLeft: 24,
   },
 })
