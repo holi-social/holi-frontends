@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
@@ -19,6 +19,7 @@ import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { Position, usePositions } from '@holi/ui/helper'
+import { useDelayed } from '@holi/ui/helper/useDelayed'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type UserProfileFormProps = {
@@ -115,20 +116,25 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
     </>
   )
 
-  const scrollToPropsFor = (id: string) => getScrollToProps(id, onFocus)
-
-  const onFocus = (pos: Position) => {
+  const scrollTo = (pos: Position) => {
     scrollViewRef?.current?.scrollTo({ y: pos.y, animated: true })
-    setTimeout(() => {
-      scrollViewRef?.current?.scrollTo({ y: pos.y, animated: true })
-    }, 1000)
   }
 
+  const delayedScrollTo = useDelayed(scrollTo)
+
+  const onFocus = useCallback(
+    (pos: Position) => {
+      scrollTo(pos)
+      delayedScrollTo(pos, 800)
+    },
+    [delayedScrollTo]
+  )
+
+  const scrollToPropsFor = (id: string) => getScrollToProps(id, onFocus)
+
   useEffect(() => {
-    setTimeout(() => {
-      scrollViewRef?.current?.scrollTo({ y: 0, animated: true })
-    }, 300)
-  }, [])
+    delayedScrollTo({ y: 0 }, 300)
+  }, [delayedScrollTo])
 
   return (
     <HoliModalContentWrapper
