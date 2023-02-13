@@ -31,10 +31,10 @@ const appId = 'foundation.holistic.projectholi'
 //////////////////////////////////////////
 
 // see https://www.browserstack.com/list-of-browsers-and-platforms/app_automate for list of available real devices
-const google_pixel_5_11 = { device: 'Google Pixel 5', os_version: '11.0' }
-const iphone_xs_13 = { device: 'iPhone XS', os_version: '13' }
+const android_device = { 'appium:deviceName': 'Google Pixel 6 Pro', 'appium:platformVersion': '13.0' }
+const iphone_device = { 'appium:deviceName': 'iPhone 12 Pro', 'appium:platformVersion': '16' }
 
-const browserStackDevice = platform === 'android' ? google_pixel_5_11 : iphone_xs_13
+const browserStackDevice = platform === 'ios' ? iphone_device : android_device
 
 const defaultConfig: Partial<Options.WebdriverIO> = {
   logLevel: 'error',
@@ -56,46 +56,54 @@ const localGitInfo = (() => {
     return execFileSync('git', parameters)
   }
   return {
-    branch: git(['rev-parse', '--abbrev-rev', 'HEAD'])?.toString(),
+    branch: git(['rev-parse', '--abbrev-ref', 'HEAD'])?.toString(),
     sha: git(['rev-parse', 'HEAD'])?.toString(),
   }
 })()
 
-const browserStackCapabilities = () => ({
-  // WebDriverIO level https://webdriver.io/docs/options/
-  ...defaultConfig,
-  user: requireEnvVar('BROWSERSTACK_USERNAME'),
-  key: requireEnvVar('BROWSERSTACK_ACCESS_KEY'),
-  platform,
-  capabilities: {
-    // BrowserStack options: https://www.browserstack.com/app-automate/capabilities#  (switch to Node.JS)
-    app: requireEnvVar('BROWSERSTACK_APP_URL'),
-    project: gitlabBranchName || localGitInfo.branch,
-    build: gitlabCommitSHAAndJobID || `${requireEnvVar('USER')?.toUpperCase()}_SHA${localGitInfo.sha}`,
-    name: undefined, // is set to the name of the current test in jest.setup.ts
-    'browserstack.idleTimeout': '30', // seconds, should be short in order to fail early and keep queue slots open
-    'browserstack.networkLogs': 'true',
-    'browserstack.consoleLogs': 'info',
-    'browserstack.disableAnimations': 'true',
-    ...browserStackDevice,
-  },
-})
+const browserStackCapabilities = () => {
+  return {
+    // WebDriverIO level https://webdriver.io/docs/options/
+    ...defaultConfig,
+    user: requireEnvVar('BROWSERSTACK_USERNAME'),
+    key: requireEnvVar('BROWSERSTACK_ACCESS_KEY'),
+    platform,
+    capabilities: {
+      platformName: platform,
+      'appium:automationName': platform === 'ios' ? 'XCUITest' : 'UIAutomator2',
+      'appium:automationVersion': 'latest',
+      // BrowserStack options builder: https://www.browserstack.com/app-automate/capabilities#
+      'appium:app': requireEnvVar('BROWSERSTACK_APP_URL'),
+      'bstack:options': {
+        appiumVersion: '2.0.0',
+        projectName: gitlabBranchName || localGitInfo.branch,
+        buildName: gitlabCommitSHAAndJobID || `${requireEnvVar('USER')?.toUpperCase()}_SHA${localGitInfo.sha}`,
+        sessionName: 'undefined',
+        idleTimeout: '30', // seconds, should be short in order to fail early and keep queue slots open
+        networkLogs: 'true',
+        consoleLogs: 'info',
+        disableAnimations: 'true',
+      },
+      ...browserStackDevice,
+    },
+  }
+}
 
 //////////////////////////////////////
 // local emulator/simulator testing //
 //////////////////////////////////////
 
 // see https://appium.io/docs/en/writing-running-appium/caps/#android
-const localAndroidEmulator = {
+const localAndroidEmulator = () => ({
   platform: 'Android',
   device: 'emulator',
   capabilities: {
     platformName: 'Android',
-    automationName: 'UiAutomator2',
-    deviceName: 'Android Emulator',
-    appPackage: process.env.APP_PATH ? appId : undefined,
+    'appium:automationName': 'UiAutomator2',
+    'appium:deviceName': 'Android Emulator',
+    'appium:appPackage': process.env.APP_PATH ? appId : undefined,
   },
-}
+})
 
 // see https://appium.io/docs/en/writing-running-appium/caps/#ios-only
 // see https://github.com/appium/appium-xcuitest-driver#desired-capabilities
@@ -104,31 +112,30 @@ const localIOSSimulator = () => ({
   device: 'simulator',
   capabilities: {
     platformName: 'iOS',
-    automationName: 'XCUITest',
-    platformVersion: process.env.IOS_PLATFORM_VERSION || '15.4',
-    deviceName: process.env.IOS_DEVICE_NAME || 'iPhone XS',
-    udid: requireEnvVar('LOCAL_IOS_SIMULATOR_UDID'), // get it with `xcrun simctl list | grep Booted`
+    'appium:automationName': 'XCUITest',
+    'appium:platformVersion': process.env.IOS_PLATFORM_VERSION || '15.4',
+    'appium:deviceName': process.env.IOS_DEVICE_NAME || 'iPhone XS',
+    'appium:udid': requireEnvVar('LOCAL_IOS_SIMULATOR_UDID'), // get it with `xcrun simctl list | grep Booted`
     //bundleId: process.env.APP_PATH ? appId : undefined,
-    showIOSLog: true,
+    'appium:showIOSLog': false,
   },
 })
 
 const serverConfig: Partial<Options.WebdriverIO> = {
   ...defaultConfig,
-  path: '/wd/hub',
-  hostname: process.env.APPIUM_HOST || 'localhost',
+  host: process.env.APPIUM_HOST || 'localhost', // host ist correct, even though the webdriver.io type has hostname
   port: parseInt(process.env.APPIUM_PORT || '') || 4723,
 }
 
 const localCapabilities = () => {
-  const platformConfig = platform === 'android' ? localAndroidEmulator : localIOSSimulator()
+  const platformConfig = platform === 'ios' ? localIOSSimulator() : localAndroidEmulator()
   return {
     ...platformConfig,
     capabilities: {
       ...platformConfig.capabilities,
       // if APP_PATH is not given, webdriver expects the application to be running on emulator / simulator
       // if APP_PATH is given, webdriver will install the application before running the test
-      app: process.env.APP_PATH || undefined,
+      'appium:app': process.env.APP_PATH || undefined,
     },
     ...serverConfig,
   }
