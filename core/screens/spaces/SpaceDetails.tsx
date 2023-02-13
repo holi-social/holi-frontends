@@ -73,7 +73,10 @@ const SpaceDetails: React.VFC<ScreenProps> = () => {
             <MoreOptionItem
               icon="edit-2"
               label={t('global.edit')}
-              onPress={() => navigate(`/spaces/${spaceId}/edit`)}
+              onPress={() => {
+                navigate(`/spaces/${spaceId}/edit`)
+                hide()
+              }}
               contentStyle={styles.editButton}
             />
           )}

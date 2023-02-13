@@ -1,0 +1,61 @@
+import React from 'react'
+import { Platform, StyleSheet, View, ViewStyle } from 'react-native'
+
+import SpaceGoalInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceGoalInput'
+import SpaceNameInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceNameInput'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+
+export type SpaceNameAndGoalFormProps = {
+  onChangeSpaceName: (name: string) => void
+  onChangeSpaceGoal: (goal: string) => void
+  spaceName: string
+  spaceGoal: string
+  title: string
+  style?: ViewStyle
+}
+
+const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
+  onChangeSpaceName,
+  onChangeSpaceGoal,
+  spaceName,
+  spaceGoal,
+  title,
+  style,
+}: SpaceNameAndGoalFormProps) => {
+  const mixins = useStyleMixins()
+
+  return (
+    <View style={[mixins.container, style]}>
+      <View style={styles.title}>
+        <HoliText size="extralarge">{title}</HoliText>
+      </View>
+      <SpaceNameInput value={spaceName} onChange={onChangeSpaceName} />
+      <View style={styles.goalInputContainer}>
+        <SpaceGoalInput value={spaceGoal} onChange={onChangeSpaceGoal} />
+      </View>
+    </View>
+  )
+}
+
+export default SpaceNameAndGoalForm
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingBottom: 132,
+    paddingHorizontal: 0,
+    ...Platform.select({
+      native: {
+        maxWidth: '100%',
+      },
+    }),
+  },
+  title: {
+    marginBottom: 24,
+    marginTop: 40,
+  },
+  goalInputContainer: {
+    marginTop: 24,
+  },
+})
