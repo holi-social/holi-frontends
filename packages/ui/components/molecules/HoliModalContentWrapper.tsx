@@ -10,13 +10,12 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
-import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
-import { colors, vars } from '@holi/ui/styles/globalVars'
+import { vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface HoliModalContentWrapper {
@@ -30,6 +29,7 @@ export interface HoliModalContentWrapper {
   keyboardShouldPersistTaps?: ScrollViewProps['keyboardShouldPersistTaps']
   scrollable?: boolean
   hideFooterWhenKeyboardIsOpen?: boolean
+  children?: React.ReactNode
 }
 
 const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = (
@@ -76,13 +76,7 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = (
     <View style={[styles.container, style]} testID={testID}>
       {prependChildren}
 
-      {loading && (
-        <Animated.View style={styles.loaderContainer} entering={FadeIn} exiting={FadeOut.delay(300)}>
-          <View style={styles.loader}>
-            <HoliLottie animType="loader" />
-          </View>
-        </Animated.View>
-      )}
+      {loading && <HoliLoader />}
 
       {scrollable ? (
         <ScrollView ref={ref} keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
@@ -118,18 +112,6 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 800,
     ...(Platform.OS === 'web' ? { flex: 1 } : {}),
-  },
-  loaderContainer: {
-    ...StyleSheet.absoluteFillObject,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: 16,
-    zIndex: 2,
-    backgroundColor: colors.background10,
-  },
-  loader: {
-    height: 64,
-    width: 64,
   },
   headline: {
     marginBottom: 16,
