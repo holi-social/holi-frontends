@@ -233,7 +233,7 @@
   "spaces.discover.welcome": "Willkommen in Spaces",
   "spaces.edit.avatar": "Logo ändern",
   "spaces.edit.avatar.add": "Logo hochladen",
-  "spaces.edit.avatar.error.invalid_image": "Die hochgeladene Datei ist entweder kein JPG/PNG oder ein beschädigtes Bild",
+  "spaces.edit.avatar.error.invalid_image": "Die hochgeladene Datei ist entweder kein valides Bild oder die Datei ist beschädigt.",
   "spaces.edit.avatar.error.max_upload_size": "Die hochgeladene Datei ist größer als 8MB",
   "spaces.edit.avatar.requirements": ".jpg oder .png Datei bis 8 MB",
   "spaces.edit.close": "Fertig",

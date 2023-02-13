@@ -61,7 +61,21 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { id: spaceId },
   })
-  const [updateSpace] = useMutation<UpdateSpaceResponse>(updateSpaceMutation)
+  const [updateSpace] = useMutation<UpdateSpaceResponse>(updateSpaceMutation, {
+    refetchQueries: [{ query: spaceByIdQuery, variables: { id: spaceId } }],
+    onCompleted: () => openToast(t('spaces.edit.success'), HoliToastType.SUCCESS),
+    onError: (error) => {
+      const errors = extractFieldErrors(error)
+      // TODO: setFieldErrors
+      if (errors && errors.avatar) {
+        const avatarError = errors.avatar[0]
+        const messageKey = `spaces.edit.avatar.error.${avatarError.code}`
+        openToast(i18n.exists(messageKey) ? t(messageKey) : avatarError.message, HoliToastType.ERROR)
+      } else {
+        openToast(error?.message || t('global.technicalError'), HoliToastType.ERROR)
+      }
+    },
+  })
 
   const handleUpdate = useCallback(
     async (input: UpdateSpaceInput) => {
@@ -77,22 +91,9 @@ const EditSpace: React.VFC<ScreenProps> = () => {
             id: spaceId,
           },
         },
-        refetchQueries: [{ query: spaceByIdQuery, variables: { id: spaceId } }],
-        onCompleted: () => openToast(t('spaces.edit.success'), HoliToastType.SUCCESS),
-        onError: (error) => {
-          const errors = extractFieldErrors(error)
-          // TODO: setFieldErrors
-          if (errors && errors.avatar) {
-            const avatarError = errors.avatar[0]
-            const messageKey = `spaces.edit.avatar.error.${avatarError.code}`
-            openToast(i18n.exists(messageKey) ? t(messageKey) : avatarError.message, HoliToastType.ERROR)
-          } else {
-            openToast(error?.message || t('global.technicalError'), HoliToastType.ERROR)
-          }
-        },
       })
     },
-    [updateSpace, spaceId, openToast, t, i18n]
+    [updateSpace, spaceId]
   )
 
   const space = data?.spaceById
