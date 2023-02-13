@@ -40,11 +40,12 @@ const Spaces: React.VFC<ScreenProps> = () => {
   const pageViewRef = useRef<ScrollView>(null)
 
   let hasOwnSpaces = false
+  // For now every pageview triggers a new fetch since business requirements of signup process are still in flux
   const {
     loading,
     data: mySpacesData,
     error: mySpacesError,
-  } = useQuery<MySpacesResponse>(mySpaceQuery, { skip: !isLoggedIn })
+  } = useQuery<MySpacesResponse>(mySpaceQuery, { skip: !isLoggedIn, fetchPolicy: 'network-only' })
   const mySpaces = mySpacesData?.mySpaces || []
   hasOwnSpaces = isLoggedIn && !!(mySpacesData && mySpacesData?.mySpaces?.length > 0)
 
