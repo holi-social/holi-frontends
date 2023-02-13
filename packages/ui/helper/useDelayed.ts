@@ -1,23 +1,42 @@
-import { useRef } from 'react'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useCallback, useEffect, useRef } from 'react'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type T = (props: Record<string, any>) => void
+type T = (props?: Record<string, any>) => void
 export const useDelayed = (fn: T) => {
+  const animationFrameRef = useRef(0)
+  const startTimeRef = useRef(0)
+  const timeoutRef = useRef(0)
+  const propsRef = useRef<Record<string, any>>(0)
+
   const funcRef = useRef<T | null>(null)
   funcRef.current = fn
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const start = (props: Record<string, any>, timeout: number) => {
-    const startTime = Date.now()
-    const intervalId = setInterval(() => {
-      const now = Date.now()
-      const diff = now - startTime
-      if (diff > timeout) {
-        clearInterval(intervalId)
-        requestAnimationFrame(() => funcRef?.current?.(props))
-      }
-    }, 100)
-  }
+  const rekursiveFunc = useCallback((time: DOMHighResTimeStamp) => {
+    if (startTimeRef.current === 0) startTimeRef.current = time
+    const delta = Math.round(time - startTimeRef.current)
+
+    if (delta >= timeoutRef.current) {
+      funcRef?.current?.(propsRef.current)
+      return
+    }
+    animationFrameRef.current = requestAnimationFrame(rekursiveFunc)
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      cancelAnimationFrame(animationFrameRef.current)
+    }
+  }, [animationFrameRef, rekursiveFunc])
+
+  const start = useCallback(
+    (props: Record<string, any>, timeout: number) => {
+      startTimeRef.current = 0
+      timeoutRef.current = timeout
+      propsRef.current = props
+      animationFrameRef.current = requestAnimationFrame(rekursiveFunc)
+    },
+    [rekursiveFunc]
+  )
 
   return start
 }

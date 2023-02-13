@@ -130,11 +130,11 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
     [delayedScrollTo]
   )
 
-  const scrollToPropsFor = (id: string) => getScrollToProps(id, onFocus)
-
   useEffect(() => {
     delayedScrollTo({ y: 0 }, 300)
   }, [delayedScrollTo])
+
+  const scrollToPropsFor = (id: string) => getScrollToProps(id, onFocus)
 
   return (
     <HoliModalContentWrapper
