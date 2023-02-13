@@ -21,59 +21,43 @@ interface XY {
  */
 const SCROLL_DIRECTIONS = {
   up: {
-    ios: 'up',
-    start: { x: 50, y: 15 },
-    end: { x: 50, y: 85 },
+    start: { x: 50, y: 25 },
+    end: { x: 50, y: 75 },
   },
   right: {
-    ios: 'right',
     start: { x: 85, y: 50 },
     end: { x: 15, y: 50 },
   },
   left: {
-    ios: 'left',
     start: { x: 15, y: 50 },
     end: { x: 85, y: 50 },
   },
   down: {
-    ios: 'down',
-    start: { x: 50, y: 85 },
-    end: { x: 50, y: 15 },
+    start: { x: 50, y: 75 },
+    end: { x: 50, y: 25 },
   },
 }
 
 export const scrollUp = async () => {
-  swipeIOSOrAndroid(SCROLL_DIRECTIONS.up)
+  swipe(SCROLL_DIRECTIONS.up)
 }
 
 export const scrollDown = async () => {
-  swipeIOSOrAndroid(SCROLL_DIRECTIONS.down)
+  swipe(SCROLL_DIRECTIONS.down)
 }
 
 export const scrollRight = async () => {
-  swipeIOSOrAndroid(SCROLL_DIRECTIONS.right)
+  swipe(SCROLL_DIRECTIONS.right)
 }
 
 export const scrollLeft = async () => {
-  swipeIOSOrAndroid(SCROLL_DIRECTIONS.left)
-}
-
-const swipeIOSOrAndroid = async (coord: { ios: string; start: XY; end: XY }) => {
-  if (platform === 'ios') {
-    swipeIOS(coord.ios)
-  } else {
-    await swipeAndroid(coord)
-  }
-}
-
-const swipeIOS = async (direction: string) => {
-  await Appium.execute('mobile: scroll', { direction: direction })
+  swipe(SCROLL_DIRECTIONS.left)
 }
 
 /**
  * Swipe from coordinates (start) to the new coordinates (end). The given coordinates are in percentages of the screen.
  */
-const swipeAndroid = async (coord: { start: XY; end: XY }) => {
+const swipe = async (coord: { start: XY; end: XY }) => {
   const { start, end } = await convertToScreenCoordinates(coord)
   await Appium.performActions([
     {
@@ -87,17 +71,17 @@ const swipeAndroid = async (coord: { start: XY; end: XY }) => {
         // c. Finger comes down into contact with screen
         { type: 'pointerDown', button: 0 },
         // d. Pause for a little bit
-        { type: 'pause', duration: 100 },
+        { type: 'pause', duration: 50 },
         // e. Finger moves to end position
         //    We move our finger from the center of the element to the
         //    starting position of the element.
         //    Play with the duration to make the swipe go slower / faster
-        { type: 'pointerMove', duration: 2000, x: end.x, y: end.y },
-        { type: 'pause', duration: 500 },
+        { type: 'pointerMove', duration: 500, x: end.x, y: end.y },
+        { type: 'pause', duration: 50 },
         // f. Finger gets up, off the screen
         { type: 'pointerUp', button: 0 },
         // Add a pause to make sure the swipe is done
-        { type: 'pause', duration: 1000 },
+        { type: 'pause', duration: 500 },
       ],
     },
   ])

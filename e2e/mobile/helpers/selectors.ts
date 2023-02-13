@@ -7,9 +7,13 @@ const byTestId = (testID: string) => (platform === 'ios' ? `~${testID}` : `//*[@
 
 const byText = (text: string) => `*${text}`
 
+const elementBySelector = async (elementSelector: string) => await Appium.$(elementSelector)
+
+export const elementByTestId = async (testId: string) => await elementBySelector(byTestId(testId))
+
 const waitForElement = async (elementSelector: string, timeout?: number) => {
   // https://webdriver.io/docs/api/browser/$
-  const element = await Appium.$(elementSelector)
+  const element = await elementBySelector(elementSelector)
 
   // https://webdriver.io/docs/api/element/waitForDisplayed
   await element.waitForDisplayed({ timeout })
@@ -25,7 +29,7 @@ export const waitForElementWithTestId = async (testId: string, timeout?: number)
 
 export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?: number) => {
   // https://webdriver.io/docs/api/browser/$
-  const element = await Appium.$(byTestId(testId))
+  const element = await elementByTestId(testId)
 
   // https://webdriver.io/docs/api/element/waitForDisplayed
   await element.waitForDisplayed({ timeout, reverse: true })
@@ -35,7 +39,7 @@ export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?:
 
 export const checkIfElementWithTestIdExists = async (testId: string) => {
   // https://webdriver.io/docs/api/browser/$
-  const element = await Appium.$(byTestId(testId))
+  const element = await elementByTestId(testId)
 
   // https://webdriver.io/docs/api/element/isExisting
   return element.isExisting()
