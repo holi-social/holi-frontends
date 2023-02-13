@@ -112,8 +112,14 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
   }, [])
 
   // using a Text as the button, due to vertical aligning issues on Android https://github.com/facebook/react-native/issues/27549
+  // TODO: Include the font-sizes as variables
   const ToggleButton = (
-    <Text onPress={toggleButtonState} accessible={true} accessibilityRole="button" style={buttonStyle}>
+    <Text
+      onPress={toggleButtonState}
+      accessible={true}
+      accessibilityRole="button"
+      style={[{ color: colors.foreground20, fontSize: 14 }, buttonStyle]}
+    >
       {buttonState === 'readMore' ? readMoreButtonText : readLessButtonText}
     </Text>
   )
