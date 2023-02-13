@@ -31,7 +31,7 @@ const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
   const { setNextButtonEnabled } = useWizard()
 
   useEffect(() => {
-    if (spaceName && spaceName.length > 1 && spaceGoal && spaceGoal.length > 0) {
+    if (spaceName && spaceName.replace(/\s/g, '').length > 1 && spaceGoal && spaceGoal.replace(/\s/g, '').length > 0) {
       setNextButtonEnabled(true)
     } else {
       setNextButtonEnabled(false)

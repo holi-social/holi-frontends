@@ -24,6 +24,7 @@ export type HoliTabsProps = {
   style?: StyleProp<ViewStyle>
   testID?: string
   scrollEnabled?: boolean
+  tabBarWidth?: number
 }
 
 const isWeb = Platform.OS === 'web'
@@ -36,14 +37,15 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
   style,
   scrollEnabled = true,
   testID = 'tabs-module',
+  tabBarWidth,
 }: HoliTabsProps) => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const carousel = React.useRef<ScrollView | null>(null)
 
   const { width: screenWidth } = useWindowDimensions()
-
+  const tabScreenWidth = tabBarWidth ? tabBarWidth : screenWidth
   const mixins = useStyleMixins()
-  const styles = getStyles(screenWidth, centeredButtons)
+  const styles = getStyles(tabScreenWidth, centeredButtons)
 
   useEffect(() => {
     onChangeTab(currentSlide)
@@ -55,7 +57,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
     }
 
     // Using Math.round means that when scrolling more than half of the slide width, it will move slides
-    setCurrentSlide(Math.round(nativeEvent.contentOffset.x / screenWidth))
+    setCurrentSlide(Math.round(nativeEvent.contentOffset.x / tabScreenWidth))
   }
 
   const goToIndex = (index: number) => {
@@ -67,7 +69,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
       return
     }
 
-    const scrollPoint = index * screenWidth
+    const scrollPoint = index * tabScreenWidth
     carousel.current.scrollTo({ x: scrollPoint, y: 0, animated: true })
     setCurrentSlide(index)
   }

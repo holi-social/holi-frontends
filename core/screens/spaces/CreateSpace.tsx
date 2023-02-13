@@ -9,6 +9,7 @@ import CreateSpaceName from '@holi/core/screens/spaces/components/CreateSpaceNam
 import CreateSpaceTopics from '@holi/core/screens/spaces/components/CreateSpaceTopics'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { Topic } from '@holi/core/screens/userprofile/types'
+import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -20,6 +21,7 @@ const CreateSpace: React.VFC = () => {
   const [spaceName, setSpaceName] = useState<string>('')
   const [spaceGoal, setSpaceGoal] = useState<string>('')
   const [spaceTopics, setSpaceTopics] = useState<Topic[]>([])
+  const [spaceCoverImage, setSpaceCoverImage] = useState<ImageInfo | undefined>()
 
   useLayoutEffect(
     () =>
@@ -55,6 +57,10 @@ const CreateSpace: React.VFC = () => {
     setSpaceTopics(topics)
   }
 
+  const handleImageUpload = (image: ImageInfo | undefined) => {
+    setSpaceCoverImage(image)
+  }
+
   return (
     <SpaceTermContextProvider>
       <View style={styles.wrapper}>
@@ -76,7 +82,7 @@ const CreateSpace: React.VFC = () => {
               spaceGoal={spaceGoal}
             />
             <CreateSpaceTopics onSelectSpaceTopics={handleSpaceTopicsSelection} selectedTopics={spaceTopics} />
-            <CreateSpaceCoverImage />
+            <CreateSpaceCoverImage onUploadImage={handleImageUpload} coverImage={spaceCoverImage} />
           </HoliWizard>
         </View>
       </View>
