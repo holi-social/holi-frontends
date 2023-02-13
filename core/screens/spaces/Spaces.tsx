@@ -70,7 +70,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
       ),
       headerRight: (props) => (
         <HoliHorizontalRow>
-          <CreateSpaceButton onPress={handleCreateSpaceButtonPress} />
+          <CreateSpaceButton onPress={handleCreateSpaceButtonPress} {...props} />
           <NotificationSearchButtons {...props} />
         </HoliHorizontalRow>
       ),

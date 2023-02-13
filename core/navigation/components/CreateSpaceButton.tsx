@@ -1,12 +1,13 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { HeaderButtonProps } from '@react-navigation/native-stack/lib/typescript/src/types'
+
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
-export type CreateSpaceButtonProps = {
+export interface CreateSpaceButtonProps extends HeaderButtonProps {
   onPress: () => void
-  tintColor?: string | undefined
 }
 
 const CreateSpaceButton = ({ tintColor, onPress }: CreateSpaceButtonProps) => {
