@@ -1,6 +1,15 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Animated, ModalProps, Platform, SafeAreaView, StyleSheet, View, useWindowDimensions } from 'react-native'
+import {
+  Animated,
+  ModalProps,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  View,
+  ViewStyle,
+  useWindowDimensions,
+} from 'react-native'
 import {
   GestureEvent,
   GestureHandlerRootView,
@@ -30,6 +39,7 @@ export interface HoliModalProps extends ModalProps {
   heading?: string
   relativeHeight?: number
   autoHeight?: boolean
+  headerStyle?: ViewStyle
   testID?: string
 }
 
@@ -69,8 +79,9 @@ const HoliModal: React.FC<HoliModalProps> = ({
   onDismiss,
   heading,
   relativeHeight = 0.9,
-  testID,
   autoHeight = true,
+  headerStyle,
+  testID,
   children,
 }) => {
   const { t } = useTranslation()
@@ -177,7 +188,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
             }}
             testID={`${testID}-animatedview`}
           >
-            <SafeAreaView style={styles.headerContainer}>
+            <SafeAreaView style={[styles.headerContainer, headerStyle]}>
               {!isFullscreen && isTouch && deviceWidth < +vars.breakpointL ? (
                 <PanGestureHandler onGestureEvent={onGesture} onEnded={onGestureEnd}>
                   <View style={styles.handle}>

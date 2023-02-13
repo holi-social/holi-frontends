@@ -38,6 +38,7 @@ exports[`renders correctly renders correctly when open 1`] = `
             "flexDirection": "row",
             "justifyContent": "flex-start",
           },
+          undefined,
         ]
       }
     >

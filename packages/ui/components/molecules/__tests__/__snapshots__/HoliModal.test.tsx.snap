@@ -124,10 +124,13 @@ exports[`renders correctly renders correctly when open 1`] = `
       <RCTSafeAreaView
         emulateUnlessSupported={true}
         style={
-          {
-            "alignItems": "center",
-            "justifyContent": "flex-end",
-          }
+          [
+            {
+              "alignItems": "center",
+              "justifyContent": "flex-end",
+            },
+            undefined,
+          ]
         }
       >
         <View
