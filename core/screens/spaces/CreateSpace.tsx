@@ -9,19 +9,26 @@ import CreateSpaceName from '@holi/core/screens/spaces/components/CreateSpaceNam
 import CreateSpaceTopics from '@holi/core/screens/spaces/components/CreateSpaceTopics'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { Topic } from '@holi/core/screens/userprofile/types'
+import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const CreateSpace: React.VFC = () => {
-  const { setOptions } = useUnifiedNavigation()
+  const { setOptions, navigateBack } = useUnifiedNavigation()
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const [spaceName, setSpaceName] = useState<string>('')
   const [spaceGoal, setSpaceGoal] = useState<string>('')
   const [spaceTopics, setSpaceTopics] = useState<Topic[]>([])
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const [spaceCoverImage, setSpaceCoverImage] = useState<ImageInfo | undefined>()
+  const exitConfirmationTitle = t('spaces.create.space.close.dialog.title')
+
+  const handleClosePress = () => {
+    setShowConfirmationModal(true)
+  }
 
   useLayoutEffect(
     () =>
@@ -30,7 +37,7 @@ const CreateSpace: React.VFC = () => {
         title: t('spaces.create.space.title'),
         headerStyle: { backgroundColor: colors.background10 },
         headerTransparent: true,
-        headerLeft: () => <HeaderBackButton icon="close" />,
+        headerLeft: () => <HeaderBackButton icon="close" onPress={handleClosePress} />,
         navigationCustomOptions: {
           footerShown: false,
         },
@@ -86,6 +93,20 @@ const CreateSpace: React.VFC = () => {
           </HoliWizard>
         </View>
       </View>
+      <HoliConfirmation
+        show={showConfirmationModal}
+        label={exitConfirmationTitle}
+        title={exitConfirmationTitle}
+        description={t('spaces.create.space.close.dialog.description')}
+        onDismiss={() => setShowConfirmationModal(false)}
+        dismissText={t('auth.logout.confirmation.dismiss')}
+        confirmText={t('auth.logout.confirmation.confirm')}
+        testID="exit-space-creation-confirmation"
+        onConfirm={() => {
+          setShowConfirmationModal(false)
+          navigateBack()
+        }}
+      />
     </SpaceTermContextProvider>
   )
 }

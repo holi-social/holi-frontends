@@ -214,6 +214,8 @@
   "spaces.collaborators.isAdmin": "ADMIN",
   "spaces.collaborators.showModal": "Show collaborators",
   "spaces.create.space.button": "Create Space",
+  "spaces.create.space.close.dialog.description": "Do you really want to discard the creation of your Space?",
+  "spaces.create.space.close.dialog.title": "You will loose your input",
   "spaces.create.space.goal.input.placeholder": "Our Space goal is...",
   "spaces.create.space.goal.label": "Goal",
   "spaces.create.space.name.input.description": "Keep the name short, clear and to the point",
