@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client/core'
+import { z } from 'zod'
 
 import { Space, SpaceSection } from '@holi/core/screens/spaces/types'
 import { userAvatarFragment } from '@holi/core/screens/userprofile/queries'
@@ -183,12 +184,16 @@ export const joinSpaceMutation = gql`
   }
 `
 
-export type UpdateSpaceInput = {
-  id: string
-  title?: string
-  description?: string
-  topics?: string[]
-}
+export const UpdateSpaceInputSchema = z.object({
+  id: z.string(),
+  title: z.string().min(2).max(60).optional(),
+  description: z.string().max(600).optional(),
+  avatar: z.instanceof(Object).optional(),
+  topics: z.array(z.string()).optional(),
+  sdgs: z.array(z.string()).optional(),
+})
+
+export type UpdateSpaceInput = z.infer<typeof UpdateSpaceInputSchema>
 
 export const updateSpaceMutation = gql`
   mutation UpdateSpace($input: UpdateSpaceInput) {
@@ -196,6 +201,7 @@ export const updateSpaceMutation = gql`
       id
       title
       description
+      avatar
       topics {
         id
         title
@@ -207,6 +213,10 @@ export const updateSpaceMutation = gql`
     }
   }
 `
+
+export type UpdateSpaceResponse = {
+  updateSpace: Partial<Space>
+}
 
 export type JoinSpaceResponse = {
   updateSpaceUserConnection: Space

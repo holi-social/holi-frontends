@@ -4,6 +4,7 @@ import { Linking } from 'react-native'
 
 import { HeaderButtonProps } from '@react-navigation/native-stack/lib/typescript/src/types'
 
+import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -13,6 +14,7 @@ import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalR
 const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
   const { t } = useTranslation()
   const { navigate } = useUnifiedNavigation()
+  const { isLoggedIn } = useAuth()
 
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
@@ -30,16 +32,20 @@ const NotificationSearchButtons = ({ tintColor }: HeaderButtonProps) => {
       </HoliButton>
       {/* TODO end: remove after Alpha */}
 
-      <HoliButton
-        label={t('notifications.title')}
-        inline
-        transparent
-        onPress={() => {
-          navigate('/notifications')
-        }}
-      >
-        <HoliIcon icon="notification-2" size={24} color={tintColor} />
-      </HoliButton>
+      {isLoggedIn ? (
+        <HoliButton
+          label={t('notifications.title')}
+          inline
+          transparent
+          onPress={() => {
+            navigate('/notifications')
+          }}
+        >
+          <HoliIcon icon="notification-2" size={24} color={tintColor} />
+        </HoliButton>
+      ) : (
+        [] // The && form rendered a div with margins leading to undesired spacing
+      )}
 
       <HoliButton
         label={t('navigation.search')}

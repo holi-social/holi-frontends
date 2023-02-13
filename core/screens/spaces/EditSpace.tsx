@@ -1,25 +1,33 @@
-import { useQuery } from '@apollo/client'
-import React, { memo, useLayoutEffect, useState } from 'react'
+import { useMutation, useQuery } from '@apollo/client'
+import React, { memo, useCallback, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StatusBar, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import { logError } from '@holi/core/errors/helpers'
+import { extractFieldErrors, logError } from '@holi/core/errors/helpers'
 import { useScrollYHandler } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import EditSpaceNameAndGoal from '@holi/core/screens/spaces/components/EditSpaceNameAndGoal'
+import EditSpaceSDGs from '@holi/core/screens/spaces/components/EditSpaceSDGs'
 import EditSpaceTopics from '@holi/core/screens/spaces/components/EditSpaceTopics'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceMainImage from '@holi/core/screens/spaces/components/SpaceMainImage'
 import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
 import SpaceSocialLink from '@holi/core/screens/spaces/components/SpaceSocialLink'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
-import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import {
+  SpaceByIdResponse,
+  UpdateSpaceInput,
+  UpdateSpaceInputSchema,
+  UpdateSpaceResponse,
+  spaceByIdQuery,
+  updateSpaceMutation,
+} from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
@@ -28,10 +36,10 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-import EditSpaceSDGs from './components/EditSpaceSDGs'
 
 enum EditFields {
   NAME = 'NAME',
@@ -51,18 +59,52 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const [spaceId] = useParam('spaceId')
   const [editField, setEditField] = useState<EditFields | null>(null)
 
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const onScreenScroll = useScrollYHandler()
   const { setOptions } = useUnifiedNavigation()
   const { width: deviceWidth } = useWindowDimensions()
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
+  const { openToast } = useToast()
 
   const avatarWidth = deviceWidth / 5 // make avatar responsive (SpaceAvatar has a maxWidth)
 
   const { loading, error, data } = useQuery<SpaceByIdResponse>(spaceByIdQuery, {
     variables: { id: spaceId },
   })
+  const [updateSpace] = useMutation<UpdateSpaceResponse>(updateSpaceMutation, {
+    onCompleted: () => openToast(t('spaces.edit.success'), HoliToastType.SUCCESS),
+    onError: (error) => {
+      const errors = extractFieldErrors(error)
+      // TODO: setFieldErrors
+      if (errors && errors.avatar) {
+        const avatarError = errors.avatar[0]
+        const messageKey = `spaces.edit.avatar.error.${avatarError.code}`
+        openToast(i18n.exists(messageKey) ? t(messageKey) : avatarError.message, HoliToastType.ERROR)
+      } else {
+        openToast(error?.message || t('global.technicalError'), HoliToastType.ERROR)
+      }
+    },
+  })
+
+  const handleUpdate = useCallback(
+    async (input: UpdateSpaceInput) => {
+      const resultSchema = UpdateSpaceInputSchema.safeParse(input)
+      if (!resultSchema.success) {
+        // TODO: setFieldErrors(resultSchema.error.flatten().fieldErrors)
+        return
+      }
+      await updateSpace({
+        variables: {
+          input: {
+            ...input,
+            id: spaceId,
+          },
+        },
+      })
+    },
+    [updateSpace, spaceId]
+  )
 
   const space = data?.spaceById
 
@@ -73,6 +115,11 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   }
 
   const { visible, show, hide } = useModalState()
+
+  const handleAvatarUpload = useCallback(
+    (image) => space && image?.blob && handleUpdate({ id: space.id, avatar: image.blob }),
+    [space, handleUpdate]
+  )
 
   useLayoutEffect(() => {
     setOptions({
@@ -106,15 +153,19 @@ const EditSpace: React.VFC<ScreenProps> = () => {
           {/* Header */}
           <View style={styles.header} testID="space-edit-header">
             <SpaceAvatar label={space.title} imageSrc={space.avatar} width={avatarWidth} testID="space-edit-avatar" />
-            <HoliButton
-              label={t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`)}
-              type="secondary"
-              inline
-              style={[styles.editButton, styles.editAvatarButton]}
+            <HoliImagePicker
+              buttonProps={{
+                label: t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`),
+                type: 'secondary',
+                inline: true,
+                style: [styles.editButton, styles.editAvatarButton],
+              }}
+              onPickImage={handleAvatarUpload}
+              maxFileSizeInMB={8}
             >
               <HoliText style={styles.editButtonText}>{t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`)}</HoliText>
               <HoliIcon icon="edit-2" />
-            </HoliButton>
+            </HoliImagePicker>
             <HoliText style={styles.requirements}>{t('spaces.edit.avatar.requirements')}</HoliText>
             <HoliHeading level="1" size="medium" style={styles.title} testID="space-edit-title">
               {space.title}

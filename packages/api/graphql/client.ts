@@ -115,6 +115,6 @@ export const createCache = () =>
     },
   })
 
-export const client = new ApolloClient({ link, cache: createCache() })
+export const client = new ApolloClient({ link, cache: createCache(), connectToDevTools: true })
 
 export default client
