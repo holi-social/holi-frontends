@@ -22,8 +22,8 @@ interface XY {
 const SCROLL_DIRECTIONS = {
   up: {
     ios: 'up',
-    start: { x: 50, y: 20 },
-    end: { x: 50, y: 80 },
+    start: { x: 50, y: 25 },
+    end: { x: 50, y: 75 },
   },
   right: {
     ios: 'right',
@@ -37,8 +37,8 @@ const SCROLL_DIRECTIONS = {
   },
   down: {
     ios: 'down',
-    start: { x: 50, y: 80 },
-    end: { x: 50, y: 20 },
+    start: { x: 50, y: 75 },
+    end: { x: 50, y: 25 },
   },
 }
 
