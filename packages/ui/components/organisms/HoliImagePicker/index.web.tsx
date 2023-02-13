@@ -4,7 +4,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 import { HoliImagePickerProps } from './types'
 
-const HoliImagePicker: React.FC<HoliImagePickerProps> = ({ children, buttonProps, onPickImage }) => {
+const HoliImagePicker = ({ children, buttonProps, onPickImage }: React.PropsWithChildren<HoliImagePickerProps>) => {
   const imageInputNode = useRef<HTMLInputElement>(null)
 
   const onChangeHandler = async () => {

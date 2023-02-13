@@ -8,7 +8,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 import type { HoliLinkProps } from './HoliLink'
 import webStyles from './HoliLink.module.scss'
 
-const HoliLink: React.FC<HoliLinkProps> = ({
+const HoliLink = ({
   href,
   label,
   external = false,
@@ -17,7 +17,7 @@ const HoliLink: React.FC<HoliLinkProps> = ({
   style,
   textStyle,
   testID = 'text-link',
-}) => {
+}: React.PropsWithChildren<HoliLinkProps>) => {
   const onLinkPress = React.useCallback(
     (event: SyntheticEvent<HTMLAnchorElement, Event>) => {
       const stopPropagation = onPress?.(event)

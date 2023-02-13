@@ -18,7 +18,7 @@ import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
 import { vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export interface HoliModalContentWrapper {
+export interface HoliModalContentWrapperProps {
   actionButtonText: string
   headlineText?: string
   prependChildren?: React.ReactNode
@@ -29,10 +29,9 @@ export interface HoliModalContentWrapper {
   keyboardShouldPersistTaps?: ScrollViewProps['keyboardShouldPersistTaps']
   scrollable?: boolean
   hideFooterWhenKeyboardIsOpen?: boolean
-  children?: React.ReactNode
 }
 
-const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = (
+const HoliModalContentWrapper = (
   {
     actionButtonText,
     onActionButtonPress,
@@ -45,7 +44,7 @@ const HoliModalContentWrapper: React.FC<HoliModalContentWrapper> = (
     testID = 'holi-modal-content',
     scrollable = true,
     hideFooterWhenKeyboardIsOpen = false,
-  },
+  }: React.PropsWithChildren<HoliModalContentWrapperProps>,
   ref: React.ForwardedRef<ScrollView>
 ) => {
   const { keyboardIsOpen } = useKeyboard()

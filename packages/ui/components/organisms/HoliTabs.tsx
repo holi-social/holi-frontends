@@ -28,7 +28,7 @@ export type HoliTabsProps = {
 
 const isWeb = Platform.OS === 'web'
 
-const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
+const HoliTabs: React.FC<HoliTabsProps> = ({
   id,
   tabs,
   centeredButtons,
@@ -36,7 +36,7 @@ const HoliTabs: React.FunctionComponent<HoliTabsProps> = ({
   style,
   scrollEnabled = true,
   testID = 'tabs-module',
-}: HoliTabsProps) => {
+}) => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const carousel = React.useRef<ScrollView | null>(null)
 

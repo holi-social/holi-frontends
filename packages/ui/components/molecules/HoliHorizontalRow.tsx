@@ -6,7 +6,7 @@ export interface HoliItemRowProps {
   style?: StyleProp<ViewStyle>
 }
 
-export const HoliHorizontalRow: React.FC<HoliItemRowProps> = ({ children, gap = 24, style }) => {
+export const HoliHorizontalRow = ({ children, gap = 24, style }: React.PropsWithChildren<HoliItemRowProps>) => {
   return React.Children.toArray(children).length ? (
     <View style={[style, styles.rowWrapper, { marginHorizontal: -gap / 2 }]}>
       {

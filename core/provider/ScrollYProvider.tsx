@@ -4,7 +4,7 @@ import { NativeScrollEvent } from 'react-native'
 export const ScrollYValueContext = createContext(0)
 export const ScrollYHandlerContext = createContext<(event: { nativeEvent: NativeScrollEvent }) => void>(() => null)
 
-export const ScrollYProvider: React.FC = ({ children }) => {
+export const ScrollYProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   const [scrollY, setScrollY] = useState(0)
 
   const onScroll = useCallback(

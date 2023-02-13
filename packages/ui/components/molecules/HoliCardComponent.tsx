@@ -7,27 +7,26 @@ import { colors } from '@holi/ui/styles/globalVars'
 export type HoliCardComponentProps = {
   imageUrl: string | undefined
   imageLabel: string
-  children?: React.ReactChild | React.ReactChildren | Array<React.ReactChild>
   style?: StyleProp<ViewStyle>
   testID?: string
   onCardPress: () => void
 }
 
-const ImageContainerSkeleton = () => {
+const ImageContainerSkeleton: React.VFC = () => {
   return <View style={styles.imageSkeleton} />
 }
 
-const HoliCardComponent: React.VFC<HoliCardComponentProps> = ({
+const HoliCardComponent = ({
   imageUrl,
   imageLabel,
   children,
   style,
   testID,
   onCardPress,
-}: HoliCardComponentProps) => {
+}: React.PropsWithChildren<HoliCardComponentProps>) => {
   return (
     <Pressable testID={testID} style={[styles.container, style]} onPress={() => onCardPress()}>
-      {(imageUrl && (
+      {(!!imageUrl && (
         <HoliImage
           testID={`${testID}-cardImage`}
           source={{ uri: imageUrl }}

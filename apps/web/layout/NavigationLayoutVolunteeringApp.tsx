@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import Head from 'next/head'
-import React, { PropsWithChildren } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import HeaderAnimated from '@holi/web/components/navigation/HeaderAnimated'
@@ -10,8 +10,7 @@ import volunteeringLayoutStyles from './NavigationLayoutVolunteeringApp.module.s
 
 const mergedStyles = { ...sharedLayoutStyles, ...volunteeringLayoutStyles }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const AppLayout: React.FunctionComponent = ({ children }: PropsWithChildren<any>) => {
+export const AppLayout = ({ children }: React.PropsWithChildren<unknown>) => {
   const { t } = useTranslation()
 
   return (
