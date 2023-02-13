@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { memo, useLayoutEffect } from 'react'
+import React, { memo, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StatusBar, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -13,10 +13,12 @@ import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import EditSpaceNameAndGoal from '@holi/core/screens/spaces/components/EditSpaceNameAndGoal'
+import EditSpaceTopics from '@holi/core/screens/spaces/components/EditSpaceTopics'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceMainImage from '@holi/core/screens/spaces/components/SpaceMainImage'
 import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
 import SpaceSocialLink from '@holi/core/screens/spaces/components/SpaceSocialLink'
+import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
 import { SpaceByIdResponse, spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
@@ -29,6 +31,11 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+enum EditFields {
+  NAME = 'NAME',
+  TOPICS = 'TOPICS',
+}
+
 export type EditSpaceParams = {
   spaceId: string
 }
@@ -39,6 +46,7 @@ type ScreenProps = NativeStackScreenProps<BottomTabsScreens>
 
 const EditSpace: React.VFC<ScreenProps> = () => {
   const [spaceId] = useParam('spaceId')
+  const [editField, setEditField] = useState<EditFields | null>(null)
 
   const { t } = useTranslation()
   const onScreenScroll = useScrollYHandler()
@@ -84,7 +92,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   }
 
   return (
-    <>
+    <SpaceTermContextProvider>
       <DefaultLayout
         onScroll={onScreenScroll}
         scrollEventThrottle={200}
@@ -113,7 +121,10 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               type="secondary"
               inline
               style={[styles.editButton, styles.editTitleButton]}
-              onPress={show}
+              onPress={() => {
+                setEditField(EditFields.NAME)
+                show()
+              }}
             >
               <HoliText style={styles.editButtonText}>{t('global.edit')}</HoliText>
               <HoliIcon icon="edit-2" />
@@ -129,7 +140,10 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 title={t('spaces.spaceDetails.goal')}
                 editable
                 style={styles.noBorderSection}
-                onPressEdit={show}
+                onPressEdit={() => {
+                  setEditField(EditFields.NAME)
+                  show()
+                }}
               >
                 {space.description && <HoliText>{space.description}</HoliText>}
               </SpaceSection>
@@ -138,7 +152,14 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 {space.location && <HoliText>{space.location}</HoliText>}
               </SpaceSection>
 
-              <SpaceSection title={t('spaces.spaceDetails.topics')} editable>
+              <SpaceSection
+                title={t('spaces.spaceDetails.topics')}
+                editable
+                onPressEdit={() => {
+                  setEditField(EditFields.TOPICS)
+                  show()
+                }}
+              >
                 {!!space.topics?.length && (
                   <View style={styles.listContainer}>
                     {space.topics?.map((topic, index) => (
@@ -184,9 +205,10 @@ const EditSpace: React.VFC<ScreenProps> = () => {
         autoHeight={false}
         headerStyle={styles.modalHeader}
       >
-        <EditSpaceNameAndGoal space={space} onDismiss={hide} />
+        {editField === EditFields.NAME && <EditSpaceNameAndGoal space={space} onDismiss={hide} />}
+        {editField === EditFields.TOPICS && <EditSpaceTopics space={space} onDismiss={hide} />}
       </HoliModal>
-    </>
+    </SpaceTermContextProvider>
   )
 }
 

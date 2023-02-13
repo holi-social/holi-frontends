@@ -53,6 +53,7 @@ const SpaceFragment = gql`
       }
     }
     topics {
+      id
       title
     }
   }
@@ -170,6 +171,7 @@ export type UpdateSpaceInput = {
   id: string
   title?: string
   description?: string
+  topics?: string[]
 }
 
 export const updateSpaceMutation = gql`
@@ -178,6 +180,9 @@ export const updateSpaceMutation = gql`
       id
       title
       description
+      topics {
+        title
+      }
     }
   }
 `
