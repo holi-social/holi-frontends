@@ -19,7 +19,7 @@ import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { Position, usePositions } from '@holi/ui/helper'
-import { useDelayed } from '@holi/ui/helper/useDelayed'
+import { useSaveFunctionThrottle } from '@holi/ui/helper/useSaveFunctionThrottle'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type UserProfileFormProps = {
@@ -120,18 +120,18 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
     scrollViewRef?.current?.scrollTo({ y: pos.y, animated: true })
   }
 
-  const delayedScrollTo = useDelayed(scrollTo)
+  const delayedScrollTo = useSaveFunctionThrottle(scrollTo)
 
   const onFocus = useCallback(
     (pos: Position) => {
       scrollTo(pos)
-      delayedScrollTo(pos, 800)
+      delayedScrollTo.run(pos, 800)
     },
     [delayedScrollTo]
   )
 
   useEffect(() => {
-    delayedScrollTo({ y: 0 }, 300)
+    delayedScrollTo.run({ y: 0 }, 300)
   }, [delayedScrollTo])
 
   const scrollToPropsFor = (id: string) => getScrollToProps(id, onFocus)
