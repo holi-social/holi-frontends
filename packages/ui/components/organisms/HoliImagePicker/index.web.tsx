@@ -1,16 +1,27 @@
 import React, { useRef } from 'react'
 
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { useFileSizeValidation } from '@holi/ui/components/organisms/HoliImagePicker/useFileSizeValidation'
 
 import { HoliImagePickerProps } from './types'
 
-const HoliImagePicker = ({ children, buttonProps, onPickImage }: React.PropsWithChildren<HoliImagePickerProps>) => {
+const HoliImagePicker = ({
+  children,
+  buttonProps,
+  onPickImage,
+  maxFileSizeInMB,
+}: React.PropsWithChildren<HoliImagePickerProps>) => {
+  const isFileSizeValid = useFileSizeValidation()
   const imageInputNode = useRef<HTMLInputElement>(null)
 
   const onChangeHandler = async () => {
     const fileBlob = imageInputNode.current?.files?.[0]
 
     if (!fileBlob) return
+
+    if (maxFileSizeInMB && !isFileSizeValid({ fileSize: fileBlob.size, maxFileSizeInMB })) {
+      return
+    }
 
     const reader = new FileReader()
 

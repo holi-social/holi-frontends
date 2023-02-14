@@ -7,7 +7,12 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliImagePickerProps } from './types'
 import { useMediaLibraryImagePicker } from './useMediaLibraryImagePicker'
 
-const HoliImagePicker = ({ children, buttonProps, onPickImage }: React.PropsWithChildren<HoliImagePickerProps>) => {
+const HoliImagePicker = ({
+  children,
+  buttonProps,
+  onPickImage,
+  maxFileSizeInMB,
+}: React.PropsWithChildren<HoliImagePickerProps>) => {
   const { pickImage } = useMediaLibraryImagePicker()
 
   const pickImageHandler = useCallback(async () => {
@@ -16,6 +21,7 @@ const HoliImagePicker = ({ children, buttonProps, onPickImage }: React.PropsWith
       allowsEditing: true,
       quality: 1,
       base64: true,
+      maxFileSizeInMB,
     })
 
     if (!image || image.cancelled) return
@@ -31,7 +37,7 @@ const HoliImagePicker = ({ children, buttonProps, onPickImage }: React.PropsWith
     })
 
     onPickImage({ uri, blob: reactNativeFile, base64, height, width })
-  }, [pickImage, onPickImage])
+  }, [pickImage, onPickImage, maxFileSizeInMB])
 
   return (
     <HoliButton {...buttonProps} onPress={pickImageHandler}>
