@@ -98,7 +98,6 @@ export const sdgsQuery = gql`
       data {
         id
         title
-        slug
       }
     }
   }
