@@ -7,7 +7,9 @@ export interface Term {
 export type Topic = Term & {
   isDiscoverSpacesDefault: boolean
 }
-export type SDG = Term
+export type SDG = Term & {
+  number: number
+}
 export type Skill = Term
 
 export const termsByTitleComparator = (a: Term, b: Term) => a.title.localeCompare(b.title)

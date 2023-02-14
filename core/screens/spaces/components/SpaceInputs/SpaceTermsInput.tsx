@@ -10,14 +10,18 @@ import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { colors } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+type SortedTerm = Term & { number?: number }
+const termsBySortNumberComparator = (a: SortedTerm, b: SortedTerm) => (a.number || 0) - (b.number || 0)
+
 export type SpaceTermsInputProps = {
   title: string
   description: string
   searchPlaceholder?: string
   hint?: string
-  onSelect: (items: Term[]) => void
-  selected: Term[]
-  terms: Term[]
+  showSortNumber?: boolean
+  onSelect: (items: SortedTerm[]) => void
+  selected: SortedTerm[]
+  terms: SortedTerm[]
 }
 
 const SpaceTermsInput: React.VFC<SpaceTermsInputProps> = ({
@@ -25,13 +29,14 @@ const SpaceTermsInput: React.VFC<SpaceTermsInputProps> = ({
   description,
   searchPlaceholder,
   hint,
+  showSortNumber,
   onSelect,
   selected,
   terms,
 }: SpaceTermsInputProps) => {
   const [filterString, setFilterString] = useState<string>('')
-  const [orderedTerms, setOrderedTerms] = useState<Term[]>([])
-  const [filteredTerms, setFilteredTerms] = useState<Term[]>([])
+  const [orderedTerms, setOrderedTerms] = useState<SortedTerm[]>([])
+  const [filteredTerms, setFilteredTerms] = useState<SortedTerm[]>([])
   const { height: deviceHeight } = useWindowDimensions()
   const mixins = useStyleMixins()
 
@@ -43,8 +48,11 @@ const SpaceTermsInput: React.VFC<SpaceTermsInputProps> = ({
     This order is kept until the selection process is done and the layer is closed.
     */
     const unselected = terms && terms.filter((term) => !selected.find((item) => item.id === term.id))
-    setOrderedTerms([...selected.sort(termsByTitleComparator), ...unselected.sort(termsByTitleComparator)])
-  }, [terms, selected])
+    setOrderedTerms([
+      ...selected.sort(showSortNumber ? termsBySortNumberComparator : termsByTitleComparator),
+      ...unselected.sort(showSortNumber ? termsBySortNumberComparator : termsByTitleComparator),
+    ])
+  }, [terms, selected, showSortNumber])
 
   useEffect(
     () =>
@@ -95,8 +103,8 @@ const SpaceTermsInput: React.VFC<SpaceTermsInputProps> = ({
               key={term.id}
               checked={selected.includes(term)}
               onPress={() => updateValues(term)}
-              text={term.title}
-              label={term.title}
+              text={term.number ? term.number + `. ${term.title}` : term.title}
+              label={term.number ? term.number + `. ${term.title}` : term.title}
               style={styles.chip}
             />
           ))}

@@ -60,6 +60,7 @@ const SpaceFragment = gql`
     sdgs {
       id
       title
+      number
     }
   }
 `
@@ -99,6 +100,7 @@ export const sdgsQuery = gql`
         id
         title
         slug
+        number
       }
     }
   }
@@ -209,6 +211,7 @@ export const updateSpaceMutation = gql`
       sdgs {
         id
         title
+        number
       }
     }
   }
