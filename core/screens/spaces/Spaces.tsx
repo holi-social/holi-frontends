@@ -47,7 +47,7 @@ const Spaces: React.VFC<ScreenProps> = () => {
     loading,
     data: mySpacesData,
     error: mySpacesError,
-  } = useQuery<MySpacesResponse>(mySpaceQuery, { skip: !isLoggedIn, fetchPolicy: 'network-only' })
+  } = useQuery<MySpacesResponse>(mySpaceQuery, { skip: !isLoggedIn })
   const mySpaces = mySpacesData?.mySpaces || []
   hasOwnSpaces = isLoggedIn && !!(mySpacesData && mySpacesData?.mySpaces?.length > 0)
 
