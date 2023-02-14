@@ -31,7 +31,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
   const [location, setLocation] = useState(filters.location)
   const [skillSlugs, setSkillSlugs] = useState(filters.skillSlugs)
 
-  const { loading, loadingFailed, topics, skills } = useContext(SpaceTermContext)
+  const { loadingTopics, failedTopics, loadingSkills, failedSkills, topics, skills } = useContext(SpaceTermContext)
 
   const [showFilterModal, setShowFilterModal] = useState(false)
   const closeModal = useCallback(() => {
@@ -83,7 +83,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
   )
 
   // Error state just hides the component
-  if (loadingFailed) {
+  if (failedTopics || failedSkills) {
     return <></>
   }
 
@@ -118,7 +118,7 @@ const SpaceFilterModal: React.VFC<SpaceFilterModalProps> = ({ filters = {}, appl
           onActionButtonPress={submit}
           style={styles.modalWrapper}
           scrollable={false}
-          loading={loading}
+          loading={loadingTopics || loadingSkills}
         >
           <View style={[mixins.container, styles.container]}>
             <PlacesAutocomplete

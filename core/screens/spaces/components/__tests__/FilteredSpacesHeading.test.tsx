@@ -2,8 +2,8 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 
 import FilteredSpacesHeading from '@holi/core/screens/spaces/components/FilteredSpacesHeading'
-import { SpaceTermContext } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
-import { Skill, Topic } from '@holi/core/screens/userprofile/types'
+import { SpaceTermContext, SpaceTermContextResult } from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
+import { SDG, Skill, Topic } from '@holi/core/screens/userprofile/types'
 
 const topics: Topic[] = [
   { id: '1', title: 'Topic 1', slug: 'topic-1', isDiscoverSpacesDefault: false },
@@ -15,11 +15,21 @@ const skills: Skill[] = [
   { id: '2', title: 'Skill 2', slug: 'skill-2' },
 ]
 
-const spaceTermContext = {
-  loading: false,
-  loadingFailed: false,
+const sdgs: SDG[] = [
+  { id: '1', title: 'SDG 1', slug: 'SDG-1' },
+  { id: '2', title: 'SDG 2', slug: 'SDG-2' },
+]
+
+const spaceTermContext: SpaceTermContextResult = {
+  loadingTopics: false,
+  loadingSkills: false,
+  loadingSdgs: false,
+  failedTopics: false,
+  failedSkills: false,
+  failedSdgs: false,
   topics,
   skills,
+  sdgs,
 }
 
 describe('FilteredSpacesHeading', () => {
@@ -75,7 +85,7 @@ describe('FilteredSpacesHeading', () => {
 
   it('applies generic title while loading terms', () => {
     render(
-      <SpaceTermContext.Provider value={{ ...spaceTermContext, loading: true }}>
+      <SpaceTermContext.Provider value={{ ...spaceTermContext, loadingTopics: true }}>
         <FilteredSpacesHeading topicSlug="topic-1" />
       </SpaceTermContext.Provider>
     )
@@ -85,7 +95,7 @@ describe('FilteredSpacesHeading', () => {
 
   it('applies generic title when loading of terms failed', () => {
     render(
-      <SpaceTermContext.Provider value={{ ...spaceTermContext, loadingFailed: true }}>
+      <SpaceTermContext.Provider value={{ ...spaceTermContext, failedTopics: true }}>
         <FilteredSpacesHeading topicSlug="topic-1" />
       </SpaceTermContext.Provider>
     )
