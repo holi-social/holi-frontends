@@ -1,6 +1,6 @@
 import { ApolloError } from '@apollo/client'
 
-export type graphQLErrorCode = 'NOT_FOUND'
+export type graphQLErrorCode = 'NOT_FOUND' | 'BAD_USER_INPUT'
 
 export type FieldError = {
   message: string
@@ -9,10 +9,8 @@ export type FieldError = {
 
 export type FieldErrors = { [key: string]: FieldError[] }
 
-export const isNotFoundError = (error: Pick<ApolloError, 'graphQLErrors'>) => isErrorOfType(error, 'NOT_FOUND')
-
-const isErrorOfType = (error: Pick<ApolloError, 'graphQLErrors'>, errorCode: graphQLErrorCode) =>
-  error.graphQLErrors?.some((graphQLError) => graphQLError.extensions?.code === errorCode)
+export const isErrorOfType = (error: Pick<ApolloError, 'graphQLErrors'>, errorCodes: graphQLErrorCode[]) =>
+  error.graphQLErrors?.some((graphQLError) => errorCodes.includes(graphQLError.extensions?.code))
 
 export const extractFieldErrors = (error: ApolloError): FieldErrors | undefined => {
   const errors = error.graphQLErrors.length && error.graphQLErrors[0].extensions.errors
