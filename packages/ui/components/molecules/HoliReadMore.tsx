@@ -111,19 +111,6 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
     setButtonState((previousState) => (previousState === 'readMore' ? 'readLess' : 'readMore'))
   }, [])
 
-  // using a Text as the button, due to vertical aligning issues on Android https://github.com/facebook/react-native/issues/27549
-  // TODO: Include the font-sizes as variables
-  const ToggleButton = (
-    <Text
-      onPress={toggleButtonState}
-      accessible={true}
-      accessibilityRole="button"
-      style={[{ color: colors.foreground20, fontSize: 14 }, buttonStyle]}
-    >
-      {buttonState === 'readMore' ? readMoreButtonText : readLessButtonText}
-    </Text>
-  )
-
   return (
     <View style={style}>
       {/* Use react-native's Text component to encapsulate HoliText components to avoid applying HoliText default styles
@@ -135,12 +122,23 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
         style={styles.textContainer}
       >
         {/* The visible text. Any font style props and remaining textProps are applied here */}
-        <HoliText style={[{ color: colors.foreground20 }, fontStyle]} {...textProps}>
+        <HoliText size="small" style={[styles.text, fontStyle]} {...textProps}>
           {buttonState === 'readMore' ? truncatedText : children} {buttonState === 'readLess' && ' '}
         </HoliText>
 
         {/* show button inline (mobile only) */}
-        {buttonState !== 'hidden' && ToggleButton}
+        {/* using a Text as the button, due to vertical aligning issues on Android https://github.com/facebook/react-native/issues/27549 */}
+        {buttonState !== 'hidden' && (
+          <HoliText
+            onPress={toggleButtonState}
+            accessible={true}
+            accessibilityRole="button"
+            size="small"
+            style={[styles.text, buttonStyle]}
+          >
+            {buttonState === 'readMore' ? readMoreButtonText : readLessButtonText}
+          </HoliText>
+        )}
       </Text>
     </View>
   )
@@ -152,5 +150,8 @@ const styles = StyleSheet.create({
   textContainer: {
     alignContent: 'flex-start',
     justifyContent: 'center',
+  },
+  text: {
+    color: colors.foreground20,
   },
 })
