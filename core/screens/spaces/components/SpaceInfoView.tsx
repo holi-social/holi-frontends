@@ -23,17 +23,29 @@ const SpaceInfoView: React.VFC<SpaceInfoViewProps> = ({ space, style }: SpaceInf
   return (
     <View style={style}>
       <SpaceWelcome space={space} style={[mixins.container]} />
-      {space.location && (
-        <SpaceSection title={t('spaces.spaceDetails.location')}>
-          <HoliText>{space.location}</HoliText>
-        </SpaceSection>
-      )}
       {!!space.topics?.length && (
         <SpaceSection title={t('spaces.spaceDetails.topics')}>
           <View style={styles.listContainer}>
             {
               /** FIXME convert to VirtualizedList, FlatList or SectionList */
               space.topics?.map((topic, index) => (
+                <HoliChip key={`topic_${index}`} text={topic.title} label={topic.title} disabled style={styles.chip} />
+              ))
+            }
+          </View>
+        </SpaceSection>
+      )}
+      {space.location && (
+        <SpaceSection title={t('spaces.spaceDetails.location')}>
+          <HoliText>{space.location}</HoliText>
+        </SpaceSection>
+      )}
+      {!!space.sdgs?.length && (
+        <SpaceSection title={t('spaces.spaceDetails.sdgs')}>
+          <View style={styles.listContainer}>
+            {
+              /** FIXME convert to VirtualizedList, FlatList or SectionList */
+              space.sdgs?.map((topic, index) => (
                 <HoliChip key={`topic_${index}`} text={topic.title} label={topic.title} disabled style={styles.chip} />
               ))
             }

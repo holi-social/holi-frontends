@@ -27,7 +27,6 @@ const EditSpaceModal: React.FC<EditSpaceModalProps> = ({
   return (
     <DefaultLayout headerOverlap={true} style={styles.layoutStyle} contentStyle={styles.contentStyle}>
       <ScrollView style={styles.scrollView}>{children}</ScrollView>
-      {/* {children} */}
       <View style={[mixins.container, styles.footer]}>
         <HoliButton label={t('global.dismiss')} type="secondary" inline style={styles.footerButton} onPress={onDismiss}>
           {t('global.dismiss')}

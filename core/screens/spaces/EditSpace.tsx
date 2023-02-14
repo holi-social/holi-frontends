@@ -98,12 +98,11 @@ const EditSpace: React.VFC<ScreenProps> = () => {
         variables: {
           input: {
             ...input,
-            id: spaceId,
           },
         },
       })
     },
-    [updateSpace, spaceId]
+    [updateSpace]
   )
 
   const space = data?.spaceById
@@ -119,6 +118,14 @@ const EditSpace: React.VFC<ScreenProps> = () => {
   const handleAvatarUpload = useCallback(
     (image) => space && image?.blob && handleUpdate({ id: space.id, avatar: image.blob }),
     [space, handleUpdate]
+  )
+
+  const openEditModal = useCallback(
+    (type: EditFields) => {
+      setEditField(type)
+      show()
+    },
+    [setEditField, show]
   )
 
   useLayoutEffect(() => {
@@ -175,10 +182,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               type="secondary"
               inline
               style={[styles.editButton, styles.editTitleButton]}
-              onPress={() => {
-                setEditField(EditFields.NAME)
-                show()
-              }}
+              onPress={() => openEditModal(EditFields.NAME)}
             >
               <HoliText style={styles.editButtonText}>{t('global.edit')}</HoliText>
               <HoliIcon icon="edit-2" />
@@ -194,10 +198,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
                 title={t('spaces.spaceDetails.goal')}
                 editable
                 style={styles.noBorderSection}
-                onPressEdit={() => {
-                  setEditField(EditFields.NAME)
-                  show()
-                }}
+                onPressEdit={() => openEditModal(EditFields.NAME)}
               >
                 {space.description && <HoliText>{space.description}</HoliText>}
               </SpaceSection>
@@ -205,10 +206,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               <SpaceSection
                 title={t('spaces.spaceDetails.topics')}
                 editable
-                onPressEdit={() => {
-                  setEditField(EditFields.TOPICS)
-                  show()
-                }}
+                onPressEdit={() => openEditModal(EditFields.TOPICS)}
               >
                 {!!space.topics?.length && (
                   <View style={styles.listContainer}>
@@ -232,15 +230,18 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               <SpaceSection
                 title={t('spaces.spaceDetails.sdgs')}
                 editable
-                onPressEdit={() => {
-                  setEditField(EditFields.SDGS)
-                  show()
-                }}
+                onPressEdit={() => openEditModal(EditFields.SDGS)}
               >
                 {!!space.sdgs?.length && (
                   <View style={styles.listContainer}>
                     {space.sdgs?.map((sdg, index) => (
-                      <HoliChip key={`sdg_${index}`} text={sdg.title} label={sdg.title} disabled style={styles.chip} />
+                      <HoliChip
+                        key={`sdg_${index}`}
+                        text={`${sdg.number}. ${sdg.title}`}
+                        label={`${sdg.number}. ${sdg.title}`}
+                        disabled
+                        style={styles.chip}
+                      />
                     ))}
                   </View>
                 )}
