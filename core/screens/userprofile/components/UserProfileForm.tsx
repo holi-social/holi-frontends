@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
@@ -19,6 +19,7 @@ import HoliUserAvatar from '@holi/ui/components/molecules/HoliUserAvatar'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { Position, usePositions } from '@holi/ui/helper'
+import { useSaveFunctionThrottle } from '@holi/ui/helper/'
 import { colors } from '@holi/ui/styles/globalVars'
 
 type UserProfileFormProps = {
@@ -115,17 +116,25 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
     </>
   )
 
-  const propsFor = (id: string) => getScrollToProps(id, onFocus)
-
-  const onFocus = (pos: Position) => {
+  const scrollTo = (pos: Position) => {
     scrollViewRef?.current?.scrollTo({ y: pos.y, animated: true })
   }
 
+  const delayedScrollTo = useSaveFunctionThrottle(scrollTo)
+
+  const onFocus = useCallback(
+    (pos: Position) => {
+      scrollTo(pos)
+      delayedScrollTo.run(pos, 800)
+    },
+    [delayedScrollTo]
+  )
+
   useEffect(() => {
-    setTimeout(() => {
-      scrollViewRef?.current?.scrollTo({ y: 0, animated: true })
-    }, 300)
-  }, [])
+    delayedScrollTo.run({ y: 0 }, 300)
+  }, [delayedScrollTo])
+
+  const scrollToPropsFor = (id: string) => getScrollToProps(id, onFocus)
 
   return (
     <HoliModalContentWrapper
@@ -152,7 +161,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           style={styles.input}
           validationErrorText={fieldErrors?.firstName?.join()}
           inputProps={{ autoFocus: Platform.OS === 'web' }}
-          {...propsFor('firstName')}
+          {...scrollToPropsFor('firstName')}
           testID={'first-name'}
         />
         <HoliTextInput
@@ -167,7 +176,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           }}
           style={styles.input}
           validationErrorText={fieldErrors?.lastName?.join()}
-          {...propsFor('lastName')}
+          {...scrollToPropsFor('lastName')}
           testID={'last-name'}
         />
         <HoliTextInput
@@ -179,7 +188,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           noOfVisibleLines={5}
           maxNoOfVisibleLines={10}
           maxNoOfCharacters={3000}
-          {...propsFor('aboutme')}
+          {...scrollToPropsFor('aboutme')}
           style={styles.input}
         />
         <HoliTextInput
@@ -188,7 +197,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           accessibilityLabel={t('user.profileForm.pronouns')}
           placeholder={t('user.profileForm.pronounsPlaceholder')}
           onChange={(text) => setPronouns(text)}
-          {...propsFor('pronouns')}
+          {...scrollToPropsFor('pronouns')}
           style={styles.input}
         />
         <HoliTextInput
@@ -197,7 +206,7 @@ const UserProfileForm: React.VFC<UserProfileFormProps> = ({ onSubmit, user, ...p
           accessibilityLabel={t('user.profileForm.location')}
           placeholder={t('user.profileForm.locationPlaceholder')}
           onChange={(text) => setLocation(text)}
-          {...propsFor('location')}
+          {...scrollToPropsFor('location')}
           style={styles.input}
         />
       </View>
