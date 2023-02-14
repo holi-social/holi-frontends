@@ -20,6 +20,8 @@ const EditSpaceNameAndGoal: React.VFC<EditSpaceNameAndGoalProps> = ({
   const [spaceName, setSpaceName] = useState<string>(space.title)
   const [spaceGoal, setSpaceGoal] = useState<string>(space.description)
   const { openToast } = useToast()
+  const [spaceNameError, setSpaceNameError] = useState<string>()
+  const [spaceGoalError, setSpaceGoalError] = useState<string>()
 
   const [updateSpace, { loading }] = useMutation(updateSpaceMutation, {
     onCompleted: () => {
@@ -47,6 +49,8 @@ const EditSpaceNameAndGoal: React.VFC<EditSpaceNameAndGoalProps> = ({
         onChangeSpaceName={setSpaceName}
         spaceGoal={spaceGoal}
         spaceName={spaceName}
+        spaceNameError={spaceNameError}
+        spaceGoalError={spaceGoalError}
       />
     </EditSpaceModal>
   )

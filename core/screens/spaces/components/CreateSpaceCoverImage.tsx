@@ -100,6 +100,7 @@ const CreateSpaceCoverImage: React.VFC<CreateSpaceCoverImageProps> = ({
               inline: true,
             }}
             onPickImage={onUploadImage}
+            // maxFileSizeInMB={8}
           >
             <View style={styles.uploadButtonContainer}>
               <HoliButton

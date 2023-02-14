@@ -80,7 +80,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
       // TODO: setFieldErrors
       if (errors && errors.avatar) {
         const avatarError = errors.avatar[0]
-        const messageKey = `spaces.edit.avatar.error.${avatarError.code}`
+        const messageKey = `spaces.validation.avatar.${avatarError.code}`
         openToast(i18n.exists(messageKey) ? t(messageKey) : avatarError.message, HoliToastType.ERROR)
       } else {
         openToast(error?.message || t('global.technicalError'), HoliToastType.ERROR)

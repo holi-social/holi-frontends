@@ -13,7 +13,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type HoliWizardProps = {
   testID?: string
-  onNextPress: () => Promise<boolean>
+  onNextPress: (currentStep: number) => Promise<boolean>
   onSubmit: () => Promise<boolean>
   isBackButtonAvailable?: boolean
   submitButtonLabel: string
@@ -40,12 +40,14 @@ const HoliWizard = ({
   const setNextButtonEnabled = (buttonStatus: boolean) => {
     setIsNextButtonEnabled(buttonStatus)
   }
-  const wizardContext = { setNextButtonEnabled }
+  const wizardContext = {
+    setNextButtonEnabled,
+  }
 
   const handleNextButtonPress = async () => {
     try {
       setIsLoading(true)
-      const handler = currentStep === stepCount - 1 ? onSubmit : onNextPress
+      const handler = currentStep === stepCount - 1 ? onSubmit : () => onNextPress(currentStep)
       const success = await handler()
       if (success && currentStep < stepCount - 1) {
         setCurrentStep(currentStep + 1)
