@@ -34,6 +34,8 @@ exports[`renders correctly renders correctly with long text 1`] = `
             Array [
               Object {
                 "color": "#787777",
+                "fontSize": 14,
+                "lineHeight": 16.8,
               },
               Object {},
             ],
@@ -82,6 +84,8 @@ exports[`renders correctly renders correctly with short text 1`] = `
             Array [
               Object {
                 "color": "#787777",
+                "fontSize": 14,
+                "lineHeight": 16.8,
               },
               Object {},
             ],

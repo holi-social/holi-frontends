@@ -496,6 +496,8 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       Array [
                         Object {
                           "color": "#787777",
+                          "fontSize": 14,
+                          "lineHeight": 16.8,
                         },
                         Object {},
                       ],
@@ -925,6 +927,8 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       Array [
                         Object {
                           "color": "#787777",
+                          "fontSize": 14,
+                          "lineHeight": 16.8,
                         },
                         Object {},
                       ],
@@ -1354,6 +1358,8 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       Array [
                         Object {
                           "color": "#787777",
+                          "fontSize": 14,
+                          "lineHeight": 16.8,
                         },
                         Object {},
                       ],
