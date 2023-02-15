@@ -15,11 +15,7 @@ const ImagePanZoom: React.VFC<ImagePanZoomProps> = ({ uri, postTitle }) => {
   const [imageSize, setImageSize] = useState(() => ({ width: 0, height: 0 }))
 
   useEffect(() => {
-    new Promise<{ width: number; height: number }>((res) =>
-      Image.getSize(uri, (width, height) => {
-        return res({ width, height })
-      })
-    ).then(({ width, height }) => {
+    Image.getSize(uri, (width, height) => {
       const multiplier = Math.min(Dimensions.get('window').width / width, Dimensions.get('window').height / height, 1)
       setImageSize({ width: width * multiplier, height: height * multiplier })
     })

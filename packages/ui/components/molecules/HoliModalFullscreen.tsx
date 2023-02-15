@@ -38,7 +38,7 @@ const HoliModalFullscreen: React.FC<HoliModalFullscreenProps> = ({
                 style={styles.closeBtn}
                 testID="fullscreen-modal-close-btn"
               >
-                <HoliIcon icon="close" color={colors.foreground30} />
+                <HoliIcon icon="close" color={colors.background10} />
               </HoliButton>
             </View>
           </SafeAreaView>
