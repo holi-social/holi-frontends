@@ -12,6 +12,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParam from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
+import EditSpaceCoverImage from '@holi/core/screens/spaces/components/EditSpaceCoverImage'
 import EditSpaceNameAndGoal from '@holi/core/screens/spaces/components/EditSpaceNameAndGoal'
 import EditSpaceSDGs from '@holi/core/screens/spaces/components/EditSpaceSDGs'
 import EditSpaceTopics from '@holi/core/screens/spaces/components/EditSpaceTopics'
@@ -29,6 +30,7 @@ import {
   updateSpaceMutation,
 } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { termsBySortNumberComparator } from '@holi/core/screens/userprofile/types'
 import type { BottomTabsScreens } from '@holi/mobile/navigation/RootNavigator'
 import HoliHeading from '@holi/ui/components/atoms/HoliHeading'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
@@ -40,8 +42,6 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-
-import EditSpaceCoverImage from './components/EditSpaceCoverImage'
 
 enum EditFields {
   NAME = 'NAME',
@@ -151,6 +151,8 @@ const EditSpace: React.VFC<ScreenProps> = () => {
     return <></>
   }
 
+  const sdgs = space.sdgs ? [...space.sdgs].sort(termsBySortNumberComparator) : []
+
   return (
     <SpaceTermContextProvider>
       <DefaultLayout
@@ -242,7 +244,7 @@ const EditSpace: React.VFC<ScreenProps> = () => {
               >
                 {!!space.sdgs?.length && (
                   <View style={styles.listContainer}>
-                    {space.sdgs?.map((sdg, index) => (
+                    {sdgs.map((sdg, index) => (
                       <HoliChip
                         key={`sdg_${index}`}
                         text={`${sdg.number}. ${sdg.title}`}
