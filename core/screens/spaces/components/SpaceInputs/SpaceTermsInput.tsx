@@ -100,8 +100,8 @@ const SpaceTermsInput: React.VFC<SpaceTermsInputProps> = ({
               key={term.id}
               checked={selected.includes(term)}
               onPress={() => updateValues(term)}
-              text={term.number ? term.number + `. ${term.title}` : term.title}
-              label={term.number ? term.number + `. ${term.title}` : term.title}
+              text={showSortNumber && term.number ? `${term.number}. ${term.title}` : term.title}
+              label={showSortNumber && term.number ? `${term.number}. ${term.title}` : term.title}
               style={styles.chip}
             />
           ))}
