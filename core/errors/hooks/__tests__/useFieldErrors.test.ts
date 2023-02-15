@@ -54,16 +54,16 @@ describe('useFieldErrors', () => {
     const { result } = renderHook(() => useFieldErrors())
     const translatedErrors = result.current.translateFieldErrors(testFieldErrors)
 
-    expect(translatedErrors.title).toEqual('global.validation.title.blank global.validation.title.min_length')
-    expect(translatedErrors.description).toEqual('global.validation.description.max_length')
+    expect(translatedErrors.title).toEqual(['global.validation.title.blank', 'global.validation.title.min_length'])
+    expect(translatedErrors.description).toEqual(['global.validation.description.max_length'])
   })
 
   it('correctly translates errors with custom i18n prefix', () => {
     const { result } = renderHook(() => useFieldErrors({ i18nPrefix: 'spaces' }))
     const translatedErrors = result.current.translateFieldErrors(testFieldErrors)
 
-    expect(translatedErrors.title).toEqual('spaces.validation.title.blank spaces.validation.title.min_length')
-    expect(translatedErrors.description).toEqual('spaces.validation.description.max_length')
+    expect(translatedErrors.title).toEqual(['spaces.validation.title.blank', 'spaces.validation.title.min_length'])
+    expect(translatedErrors.description).toEqual(['spaces.validation.description.max_length'])
   })
 
   it('uses message if no translation was found', () => {
@@ -71,8 +71,8 @@ describe('useFieldErrors', () => {
     const { result } = renderHook(() => useFieldErrors())
     const translatedErrors = result.current.translateFieldErrors(testFieldErrors)
 
-    expect(translatedErrors.title).toEqual('Title may not be blank. Title is too short.')
-    expect(translatedErrors.description).toEqual('Description is too long.')
+    expect(translatedErrors.title).toEqual(['Title may not be blank.', 'Title is too short.'])
+    expect(translatedErrors.description).toEqual(['Description is too long.'])
   })
 
   it('returns translated field errors', () => {
@@ -82,8 +82,8 @@ describe('useFieldErrors', () => {
       message: 'Bad user input',
     })
 
-    expect(translatedErrors.title).toEqual('global.validation.title.blank global.validation.title.min_length')
-    expect(translatedErrors.description).toEqual('global.validation.description.max_length')
+    expect(translatedErrors.title).toEqual(['global.validation.title.blank', 'global.validation.title.min_length'])
+    expect(translatedErrors.description).toEqual(['global.validation.description.max_length'])
   })
 
   it('displays toasts for all unhandled field errors', () => {
