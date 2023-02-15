@@ -52,7 +52,7 @@ const HoliHeading: React.FC<HoliHeadingProps & TextProps> = ({
       accessibilityLevel: Number(level),
     },
     default: {
-      role: 'header',
+      role: 'heading',
     },
   })
 

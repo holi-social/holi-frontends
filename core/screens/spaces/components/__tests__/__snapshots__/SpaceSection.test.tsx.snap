@@ -24,7 +24,7 @@ exports[`SpaceSection renders correctly 1`] = `
     }
   >
     <Text
-      role="header"
+      role="heading"
       selectable={true}
       style={
         [
@@ -50,7 +50,19 @@ exports[`SpaceSection renders correctly 1`] = `
       accessibilityRole="button"
       accessibilityState={
         {
+          "busy": undefined,
+          "checked": undefined,
           "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
         }
       }
       accessible={true}
@@ -218,7 +230,7 @@ exports[`SpaceSection renders correctly 2`] = `
     }
   >
     <Text
-      role="header"
+      role="heading"
       selectable={true}
       style={
         [

@@ -47,6 +47,7 @@ export default {
     },
     plugins: [
       'sentry-expo',
+      'expo-localization',
       [
         'expo-image-picker',
         {

@@ -5,6 +5,23 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
   <View
     accessibilityLabel="Donate to animals on betterplace.org"
     accessibilityRole="button"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
     accessible={true}
     collapsable={false}
     focusable={true}
@@ -82,7 +99,7 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
         >
           <Text
             numberOfLines={3}
-            role="header"
+            role="heading"
             selectable={true}
             style={
               [

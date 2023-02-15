@@ -39,7 +39,7 @@ exports[`SpaceTaskList renders correctly when there are no tasks within space 1`
 exports[`SpaceTaskList renders correctly when there are tasks within space 1`] = `
 <View>
   <Text
-    role="header"
+    role="heading"
     selectable={true}
     style={
       [
@@ -124,7 +124,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             }
           >
             <Text
-              role="header"
+              role="heading"
               selectable={true}
               style={
                 [
@@ -553,7 +553,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             }
           >
             <Text
-              role="header"
+              role="heading"
               selectable={true}
               style={
                 [
@@ -982,7 +982,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             }
           >
             <Text
-              role="header"
+              role="heading"
               selectable={true}
               style={
                 [
