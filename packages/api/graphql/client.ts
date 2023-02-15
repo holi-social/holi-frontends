@@ -1,3 +1,4 @@
+import type { NormalizedCacheObject } from '@apollo/client'
 import { ApolloClient, InMemoryCache, from } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import ApolloLinkTimeout from 'apollo-link-timeout'
@@ -113,6 +114,38 @@ export const createCache = () =>
     },
   })
 
-export const client = new ApolloClient({ link, cache: createCache(), connectToDevTools: true })
+interface ApolloCreateClientOptions {
+  readonly ssrMode: boolean
+}
+
+const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
+  return new ApolloClient({ ssrMode, link, cache: createCache() })
+}
+
+// Web
+/** This `let` variable can only be mutated by the initializeApolloWebClient function. */
+let apolloWebClient: ApolloClient<NormalizedCacheObject> | null = null
+
+// TODO: include documentation comment
+export const initializeApolloWebClient = (initState = null) => {
+  const client = apolloWebClient ?? createApolloClient({ ssrMode: typeof window === 'undefined' })
+
+  if (initState) {
+    // TODO: merge state and cache props
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const _ = client.extract()
+  }
+
+  // For SSG and SSR always create a new Apollo Client
+  if (typeof window === 'undefined') return client
+  // Create the Apollo Client once in the client
+  if (!client) apolloWebClient = client
+
+  return client
+}
+
+// Mobile
+// TODO: rename to recognize its only for client-side JS
+export const client = createApolloClient({ ssrMode: false })
 
 export default client
