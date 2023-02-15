@@ -16,10 +16,10 @@ describe('@UserConnection', () => {
     await navigateBackToHomeScreen()
 
     // user suggestions element should be visible
-    await scrollToElementWithTestId('user-suggestions', 'down', { maxAttempts: 5 })
+    await scrollToElementWithTestId('user-suggestions', 'down')
 
     // tap on first user in list
-    await scrollToElementWithTestId('user-card-suggestion-0', 'down', { maxAttempts: 5 })
+    await scrollToElementWithTestId('user-card-suggestion-0', 'down', { maxAttempts: 3 })
     await tapOnElementWithTestId('user-card-suggestion-0')
 
     // for the newly created user, the button state should be NOT_CONNECTED

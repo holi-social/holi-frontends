@@ -32,10 +32,10 @@ export const navigateBackToHomeScreen = async (buttonId?: backHomeButtonId) => {
       }
       try {
         await tapOnElementWithTestId('btn-to-home-view', 0)
-        await scrollToElementWithTestId(homeScreenTestId, 'up', { maxAttempts: 5 })
+        await scrollToElementWithTestId(homeScreenTestId, 'up')
       } catch (e) {
         await tapOnElementWithTestId('nav-button-back', 0)
-        await scrollToElementWithTestId(homeScreenTestId, 'up', { maxAttempts: 5 })
+        await scrollToElementWithTestId(homeScreenTestId, 'up')
       }
     }
   }

@@ -76,12 +76,12 @@ const swipe = async (coord: { start: XY; end: XY }) => {
         //    We move our finger from the center of the element to the
         //    starting position of the element.
         //    Play with the duration to make the swipe go slower / faster
-        { type: 'pointerMove', duration: 500, x: end.x, y: end.y },
+        { type: 'pointerMove', duration: 200, x: end.x, y: end.y },
         { type: 'pause', duration: 50 },
         // f. Finger gets up, off the screen
         { type: 'pointerUp', button: 0 },
         // Add a pause to make sure the swipe is done
-        { type: 'pause', duration: 500 },
+        { type: 'pause', duration: 200 },
       ],
     },
   ])

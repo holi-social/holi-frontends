@@ -1,4 +1,5 @@
 import { scrollDown, scrollLeft, scrollRight, scrollUp } from './gestures'
+import { delay } from './time'
 
 type ScrollDirection = 'up' | 'down' | 'left' | 'right'
 
@@ -39,26 +40,50 @@ export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?:
 
 export const checkIfElementWithTestIdExists = async (testId: string) => {
   // https://webdriver.io/docs/api/browser/$
+  const oldImplicitTimeout = Appium.options.waitforTimeout
+  await Appium.setImplicitTimeout(0)
   const element = await elementByTestId(testId)
-
   // https://webdriver.io/docs/api/element/isExisting
-  return element.isExisting()
+  // const exists = element.isExisting()
+  await Appium.setImplicitTimeout(oldImplicitTimeout)
+  return element.elementId !== undefined
+}
+
+export const waitForAnyElementWithTestId = async (testIds: string[]) => {
+  // https://webdriver.io/docs/api/browser/$
+  await Appium.setImplicitTimeout(0)
+  let found = false
+  let count = 0
+  const max = Appium.options.waitforTimeout / 1000
+  while (!found && count < max) {
+    const foundAll = await Promise.all(
+      testIds.map(async (testId): Promise<boolean> => (await elementByTestId(testId)).elementId !== undefined)
+    )
+    found = foundAll.some((e) => e)
+    count++
+    if (!found) {
+      delay(1)
+    }
+  }
+  // https://webdriver.io/docs/api/element/isExisting
+  // const exists = element.isExisting()
+  await Appium.setImplicitTimeout(Appium.options.waitforTimeout)
+  return found
 }
 
 export const scrollToElementWithTestId = async (
   testId: string,
   direction: ScrollDirection,
-  { timeout = 1000, maxAttempts = 5 }: { timeout?: number; maxAttempts?: number } = {}
+  { timeout = 1000, maxAttempts = 7 }: { timeout?: number; maxAttempts?: number } = {}
 ) => {
   let scrollCounter = 0
-  const implicitTimeout = Appium.options.waitforTimeout
   await Appium.setImplicitTimeout(timeout)
   while (scrollCounter < maxAttempts) {
     // is the element in the viewport?
     try {
       const elem = await waitForElementWithTestId(testId, 100)
       // reset the timeout before exiting the function
-      await Appium.setImplicitTimeout(implicitTimeout)
+      await Appium.setImplicitTimeout(Appium.options.waitforTimeout)
       return elem
     } catch (e) {
       //console.log(
@@ -86,7 +111,7 @@ export const scrollToElementWithTestId = async (
 
     scrollCounter++
   }
-  await Appium.setImplicitTimeout(implicitTimeout)
+  await Appium.setImplicitTimeout(Appium.options.waitforTimeout)
   // last try
   return await waitForElementWithTestId(testId, 1)
 }

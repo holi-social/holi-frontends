@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { defaultAuthSteps, logout } from '../../helpers/auth'
+import { deleteAccount, registerNewUser } from '../../helpers/auth'
 import { navigateBackToHomeScreenDeeper } from '../../helpers/navigation'
 import {
   fillFieldByTestId,
@@ -11,26 +11,22 @@ import {
 
 describe('@Comment', () => {
   // FIXME: fails on ios: expect(await submitButton.getAttribute('enabled')).toBe('false'), see HOLI-3047
-  it.skip('creates a comment and displays it in the post page.', async () => {
-    // login
-    await defaultAuthSteps()
+  it('creates a comment and displays it in the post page.', async () => {
+    await registerNewUser()
 
     // go to home feed
     await navigateBackToHomeScreenDeeper()
 
     // click first insight image link
-    await waitForElementWithTestId('feed-insight-image-link')
     await tapOnElementWithTestId('feed-insight-image-link')
 
     // click first post within the insight
     await scrollToElementWithTestId('btn-to-post', 'down', { maxAttempts: 5 })
-    await waitForElementWithTestId('btn-to-post')
     await tapOnElementWithTestId('btn-to-post')
 
     // click the comment footer button
     // TODO this is very slow due to client side rendering when there's a lot of comments - we're trying to fix it by using FlatList
-    await waitForElementWithTestId('post-detail-footer', 30000)
-    await tapOnElementWithTestId('post-detail-footer')
+    await tapOnElementWithTestId('post-detail-footer', 30000)
 
     // create e2e comment and fill the textinput
     const comment = `e2e comment ${faker.random.alphaNumeric(5)}`
@@ -53,7 +49,7 @@ describe('@Comment', () => {
 
     // clean up view
     await navigateBackToHomeScreenDeeper()
-    await logout()
+    await deleteAccount()
     await navigateBackToHomeScreenDeeper()
   })
 })
