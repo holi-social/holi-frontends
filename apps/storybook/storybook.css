@@ -3,6 +3,36 @@
   margin-bottom: 50px;
 }
 
+.welcome-page {
+  display: flex;
+  align-items: center;
+}
+.welcome-page a {
+  color: #6267e7 !important;
+  font-weight: bold;
+  text-decoration: none;
+  font-family: sans-serif;
+}
+.welcome-page .welcome-container {
+  position: relative;
+  margin: 84px auto;
+  padding: 50px;
+  border: solid 0.3px black;
+  border-radius: 30px;
+}
+.welcome-page .container-logo {
+  position: absolute;
+  top: -84px;
+  left: 10px;
+}
+.welcome-page .container-logo img {
+  display: block;
+  width: 80px;
+}
+.welcome-page .welcome-container .description {
+  margin-top: 30px;
+}
+
 .svg-preview .icons {
   display: flex;
   flex-wrap: wrap;
@@ -98,7 +128,7 @@
   display: inline-block;
   margin-bottom: 0;
   background-color: #E8EAFF;
-  color: #6267E7;
+  color: #6267e7;
   padding: 5px;
   border-radius: 4px;
 }
