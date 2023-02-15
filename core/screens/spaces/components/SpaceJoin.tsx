@@ -6,7 +6,7 @@ import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 import { useAuth } from '@holi/core/auth/AuthContextProvider'
 import { displayError } from '@holi/core/errors/helpers'
 import { useLoginRedirect } from '@holi/core/provider/LoginRedirectProvider'
-import { JoinSpaceResponse, joinSpaceMutation } from '@holi/core/screens/spaces/queries'
+import { JoinSpaceResponse, joinSpaceMutation, mySpaceQuery } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -24,7 +24,9 @@ const SpaceJoin: React.VFC<SpaceJoinProps> = ({ space, ...props }) => {
   const { isLoggedIn } = useAuth()
   const { openLoginDialog } = useLoginRedirect()
   const [withdrawDialogIsOpen, setWithdrawDialogIsOpen] = useState(false)
-  const [joinSpace, { loading, error }] = useMutation<JoinSpaceResponse>(joinSpaceMutation)
+  const [joinSpace, { loading, error }] = useMutation<JoinSpaceResponse>(joinSpaceMutation, {
+    refetchQueries: [mySpaceQuery],
+  })
 
   if (error) {
     displayError(error, t('spaces.join.error'))
