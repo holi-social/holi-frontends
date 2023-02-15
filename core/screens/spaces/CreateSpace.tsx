@@ -66,7 +66,6 @@ const CreateSpace: React.VFC = () => {
   }
 
   const handleSubmitButtonPress = async () => {
-    handleNextButtonPress(2)
     console.log('handle Submit Button Press')
     return false
   }
@@ -86,8 +85,8 @@ const CreateSpace: React.VFC = () => {
               onChangeSpaceGoal={setSpaceGoal}
               spaceName={spaceName}
               spaceGoal={spaceGoal}
-              spaceNameError={fieldErrors.title}
-              spaceGoalError={fieldErrors.description}
+              spaceNameErrors={fieldErrors.title}
+              spaceGoalErrors={fieldErrors.description}
             />
             <CreateSpaceTopics onSelectSpaceTopics={setSpaceTopics} selectedTopics={spaceTopics} />
             <CreateSpaceCoverImage onUploadImage={setSpaceCoverImage} coverImage={spaceCoverImage} />

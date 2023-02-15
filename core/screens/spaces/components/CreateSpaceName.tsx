@@ -13,8 +13,8 @@ export type CreateSpaceNameProps = {
   onChangeSpaceGoal: (goal: string) => void
   spaceName: string
   spaceGoal: string
-  spaceNameError?: string
-  spaceGoalError?: string
+  spaceNameErrors?: string[]
+  spaceGoalErrors?: string[]
 }
 
 const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
@@ -22,8 +22,8 @@ const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
   onChangeSpaceGoal,
   spaceName,
   spaceGoal,
-  spaceNameError,
-  spaceGoalError,
+  spaceNameErrors,
+  spaceGoalErrors,
 }: CreateSpaceNameProps) => {
   const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
   const { t } = useTranslation()
@@ -49,8 +49,8 @@ const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
           title={t('spaces.create.space.stepOne.title')}
           spaceName={spaceName}
           spaceGoal={spaceGoal}
-          spaceNameError={spaceNameError}
-          spaceGoalError={spaceGoalError}
+          spaceNameErrors={spaceNameErrors}
+          spaceGoalErrors={spaceGoalErrors}
           onChangeSpaceName={onChangeSpaceName}
           onChangeSpaceGoal={onChangeSpaceGoal}
         />

@@ -11,8 +11,8 @@ export type SpaceNameAndGoalFormProps = {
   onChangeSpaceGoal: (goal: string) => void
   spaceName: string
   spaceGoal: string
-  spaceNameError?: string
-  spaceGoalError?: string
+  spaceNameErrors?: string[]
+  spaceGoalErrors?: string[]
   title: string
   style?: StyleProp<ViewStyle>
 }
@@ -22,8 +22,8 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
   onChangeSpaceGoal,
   spaceName,
   spaceGoal,
-  spaceNameError,
-  spaceGoalError,
+  spaceNameErrors,
+  spaceGoalErrors,
   title,
   style,
 }: SpaceNameAndGoalFormProps) => {
@@ -34,9 +34,17 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
       <View style={styles.title}>
         <HoliText size="extralarge">{title}</HoliText>
       </View>
-      <SpaceNameInput value={spaceName} onChange={onChangeSpaceName} errorMessage={spaceNameError} />
+      <SpaceNameInput
+        value={spaceName}
+        onChange={onChangeSpaceName}
+        errorMessage={spaceNameErrors?.length ? spaceNameErrors[0] : undefined}
+      />
       <View style={styles.goalInputContainer}>
-        <SpaceGoalInput value={spaceGoal} onChange={onChangeSpaceGoal} errorMessage={spaceGoalError} />
+        <SpaceGoalInput
+          value={spaceGoal}
+          onChange={onChangeSpaceGoal}
+          errorMessage={spaceGoalErrors?.length ? spaceGoalErrors[0] : undefined}
+        />
       </View>
     </View>
   )

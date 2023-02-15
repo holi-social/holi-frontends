@@ -50,6 +50,7 @@ const HoliWizard = ({
       const handler = currentStep === stepCount - 1 ? onSubmit : () => onNextPress(currentStep)
       const success = await handler()
       if (success && currentStep < stepCount - 1) {
+        setIsNextButtonEnabled(false)
         setCurrentStep(currentStep + 1)
       }
     } finally {
