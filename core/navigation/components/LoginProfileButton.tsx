@@ -16,7 +16,12 @@ export type LoginProfileButtonProps = {
   testID?: string
 }
 
-const LoginProfileButton: React.FC<LoginProfileButtonProps> = ({ focused, children, style, ...props }) => {
+const LoginProfileButton = ({
+  focused,
+  children,
+  style,
+  ...props
+}: React.PropsWithChildren<LoginProfileButtonProps>) => {
   const { pathname, navigate } = useRouting()
   const { user } = useContext(UserContext)
   const { isLoggedIn } = useAuth()

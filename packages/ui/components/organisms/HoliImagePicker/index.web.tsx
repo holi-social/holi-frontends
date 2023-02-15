@@ -5,7 +5,12 @@ import { useFileSizeValidation } from '@holi/ui/components/organisms/HoliImagePi
 
 import { HoliImagePickerProps } from './types'
 
-const HoliImagePicker: React.FC<HoliImagePickerProps> = ({ children, buttonProps, onPickImage, maxFileSizeInMB }) => {
+const HoliImagePicker = ({
+  children,
+  buttonProps,
+  onPickImage,
+  maxFileSizeInMB,
+}: React.PropsWithChildren<HoliImagePickerProps>) => {
   const isFileSizeValid = useFileSizeValidation()
   const imageInputNode = useRef<HTMLInputElement>(null)
 

@@ -5,9 +5,7 @@ import { HoliTheme } from '.'
 import { useStyleMixins } from './mixins'
 import defaultTheme, { ThemeContext } from './theme'
 
-export const ThemeProvider: React.FunctionComponent<{
-  theme?: HoliTheme
-}> = ({ children, theme = defaultTheme }) => {
+export const ThemeProvider = ({ children, theme = defaultTheme }: React.PropsWithChildren<{ theme?: HoliTheme }>) => {
   const [isDark, toggleDarkMode] = React.useReducer((isDark) => !isDark, defaultTheme.dark)
   const [modalIsOpen, setModalIsOpen] = React.useState(false)
   const mixins = useStyleMixins()

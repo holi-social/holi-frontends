@@ -12,7 +12,13 @@ export type HoliNoResultsProps = {
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
 }
 
-const HoliNoResults: React.FC<HoliNoResultsProps> = ({ firstText, media, secondText, style, children }) => {
+const HoliNoResults = ({
+  firstText,
+  media,
+  secondText,
+  style,
+  children,
+}: React.PropsWithChildren<HoliNoResultsProps>) => {
   const { t } = useTranslation()
   const title = firstText || t('global.noResults')
 

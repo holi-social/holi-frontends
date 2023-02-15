@@ -3,18 +3,18 @@
 exports[`renders correctly renders correctly when checked 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "maxWidth": "100%",
       },
-      Object {
+      {
         "alignSelf": "flex-start",
         "backgroundColor": "#f5f5f5",
         "borderRadius": 8,
         "overflow": "hidden",
       },
       undefined,
-      Object {
+      {
         "backgroundColor": "#6267e7",
         "borderRadius": 24,
       },
@@ -26,7 +26,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
     accessibilityLabel="Test"
     accessibilityRole="checkbox"
     accessibilityState={
-      Object {
+      {
         "checked": true,
       }
     }
@@ -43,8 +43,8 @@ exports[`renders correctly renders correctly when checked 1`] = `
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "alignSelf": "center",
           "flexDirection": "row",
@@ -62,26 +62,26 @@ exports[`renders correctly renders correctly when checked 1`] = `
       accessible={false}
       selectable={false}
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
-          Object {
+          {
             "fontSize": 16,
             "lineHeight": 19.2,
           },
           false,
-          Array [
-            Object {
+          [
+            {
               "color": "#fff",
               "fontSize": 14,
               "fontWeight": "400",
               "lineHeight": 24,
             },
-            Object {},
-            Object {},
+            {},
+            {},
           ],
         ]
       }
@@ -90,7 +90,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
     </Text>
     <View
       style={
-        Object {
+        {
           "marginLeft": 1.5,
         }
       }
@@ -105,12 +105,12 @@ exports[`renders correctly renders correctly when checked 1`] = `
         minX={0}
         minY={0}
         style={
-          Array [
-            Object {
+          [
+            {
               "backgroundColor": "transparent",
               "borderWidth": 0,
             },
-            Object {
+            {
               "borderStyle": "solid",
               "borderWidth": 0,
               "color": "#fff",
@@ -122,7 +122,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
               "stroke": "currentColor",
               "width": 15,
             },
-            Object {
+            {
               "flex": 0,
               "height": 15,
               "width": 15,
@@ -135,18 +135,18 @@ exports[`renders correctly renders correctly when checked 1`] = `
       >
         <RNSVGGroup
           fill={
-            Array [
+            [
               2,
             ]
           }
           propList={
-            Array [
+            [
               "fill",
               "stroke",
             ]
           }
           stroke={
-            Array [
+            [
               2,
             ]
           }
@@ -164,11 +164,11 @@ exports[`renders correctly renders correctly when checked 1`] = `
 exports[`renders correctly renders correctly when disabled 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "maxWidth": "100%",
       },
-      Object {
+      {
         "alignSelf": "flex-start",
         "backgroundColor": "#f5f5f5",
         "borderRadius": 8,
@@ -183,7 +183,7 @@ exports[`renders correctly renders correctly when disabled 1`] = `
     accessibilityLabel="Test"
     accessibilityRole="none"
     accessibilityState={
-      Object {
+      {
         "disabled": true,
       }
     }
@@ -200,8 +200,8 @@ exports[`renders correctly renders correctly when disabled 1`] = `
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "alignSelf": "center",
           "flexDirection": "row",
@@ -219,26 +219,26 @@ exports[`renders correctly renders correctly when disabled 1`] = `
       accessible={false}
       selectable={false}
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
-          Object {
+          {
             "fontSize": 16,
             "lineHeight": 19.2,
           },
           false,
-          Array [
-            Object {
+          [
+            {
               "color": "#787777",
               "fontSize": 14,
               "fontWeight": "400",
               "lineHeight": 24,
             },
-            Object {},
-            Object {},
+            {},
+            {},
           ],
         ]
       }
@@ -252,11 +252,11 @@ exports[`renders correctly renders correctly when disabled 1`] = `
 exports[`renders correctly renders correctly when unchecked 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "maxWidth": "100%",
       },
-      Object {
+      {
         "alignSelf": "flex-start",
         "backgroundColor": "#f5f5f5",
         "borderRadius": 8,
@@ -272,7 +272,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
     accessibilityLabel="Test"
     accessibilityRole="checkbox"
     accessibilityState={
-      Object {
+      {
         "checked": false,
       }
     }
@@ -289,8 +289,8 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "center",
           "alignSelf": "center",
           "flexDirection": "row",
@@ -308,26 +308,26 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
       accessible={false}
       selectable={false}
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#262424",
             "fontFamily": "Circular Std Book",
             "fontWeight": "400",
           },
-          Object {
+          {
             "fontSize": 16,
             "lineHeight": 19.2,
           },
           false,
-          Array [
-            Object {
+          [
+            {
               "color": "#787777",
               "fontSize": 14,
               "fontWeight": "400",
               "lineHeight": 24,
             },
-            Object {},
-            Object {},
+            {},
+            {},
           ],
         ]
       }
@@ -336,7 +336,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
     </Text>
     <View
       style={
-        Object {
+        {
           "marginLeft": 1.5,
         }
       }
@@ -351,12 +351,12 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
         minX={0}
         minY={0}
         style={
-          Array [
-            Object {
+          [
+            {
               "backgroundColor": "transparent",
               "borderWidth": 0,
             },
-            Object {
+            {
               "borderStyle": "solid",
               "borderWidth": 0,
               "color": "#787777",
@@ -368,7 +368,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
               "stroke": "currentColor",
               "width": 15,
             },
-            Object {
+            {
               "flex": 0,
               "height": 15,
               "width": 15,
@@ -381,18 +381,18 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
       >
         <RNSVGGroup
           fill={
-            Array [
+            [
               2,
             ]
           }
           propList={
-            Array [
+            [
               "fill",
               "stroke",
             ]
           }
           stroke={
-            Array [
+            [
               2,
             ]
           }

@@ -3,8 +3,8 @@
 exports[`renders correctly renders correctly when open 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "alignContent": "center",
         "alignItems": "center",
         "justifyContent": "center",
@@ -18,7 +18,7 @@ exports[`renders correctly renders correctly when open 1`] = `
     accessibilityOrientation="horizontal"
     accessibilityRole="tablist"
     style={
-      Object {
+      {
         "borderBottomColor": "#ebebeb",
         "borderBottomWidth": 2,
         "width": "100%",
@@ -27,14 +27,14 @@ exports[`renders correctly renders correctly when open 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
+        [
+          {
             "alignSelf": "center",
             "maxWidth": 1200,
             "paddingHorizontal": 20,
             "width": "100%",
           },
-          Object {
+          {
             "flexDirection": "row",
             "justifyContent": "flex-start",
           },
@@ -48,7 +48,7 @@ exports[`renders correctly renders correctly when open 1`] = `
         accessibilityRole="tab"
         accessibilitySelected={true}
         accessibilityState={
-          Object {
+          {
             "disabled": false,
           }
         }
@@ -66,9 +66,9 @@ exports[`renders correctly renders correctly when open 1`] = `
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Array [
-            Array [
-              Object {
+          [
+            [
+              {
                 "alignItems": "center",
                 "borderBottomColor": "transparent",
                 "borderBottomWidth": 2,
@@ -78,11 +78,11 @@ exports[`renders correctly renders correctly when open 1`] = `
                 "top": 2,
                 "width": "auto",
               },
-              Object {
+              {
                 "borderBottomColor": "#262424",
               },
             ],
-            Object {
+            {
               "width": "auto",
             },
           ]
@@ -92,19 +92,19 @@ exports[`renders correctly renders correctly when open 1`] = `
         <View
           pointerEvents="none"
           style={
-            Object {
+            {
               "flexDirection": "row",
             }
           }
         >
           <Text
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#787777",
                   "fontSize": 16,
                 },
-                Object {
+                {
                   "color": "#262424",
                   "fontWeight": "500",
                 },
@@ -121,7 +121,7 @@ exports[`renders correctly renders correctly when open 1`] = `
         accessibilityRole="tab"
         accessibilitySelected={false}
         accessibilityState={
-          Object {
+          {
             "disabled": false,
           }
         }
@@ -139,9 +139,9 @@ exports[`renders correctly renders correctly when open 1`] = `
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
         style={
-          Array [
-            Array [
-              Object {
+          [
+            [
+              {
                 "alignItems": "center",
                 "borderBottomColor": "transparent",
                 "borderBottomWidth": 2,
@@ -151,9 +151,9 @@ exports[`renders correctly renders correctly when open 1`] = `
                 "top": 2,
                 "width": "auto",
               },
-              Object {},
+              {},
             ],
-            Object {
+            {
               "width": "auto",
             },
           ]
@@ -163,19 +163,19 @@ exports[`renders correctly renders correctly when open 1`] = `
         <View
           pointerEvents="none"
           style={
-            Object {
+            {
               "flexDirection": "row",
             }
           }
         >
           <Text
             style={
-              Array [
-                Object {
+              [
+                {
                   "color": "#787777",
                   "fontSize": 16,
                 },
-                Object {},
+                {},
               ]
             }
           >
@@ -187,7 +187,7 @@ exports[`renders correctly renders correctly when open 1`] = `
   </View>
   <RCTScrollView
     contentContainerStyle={
-      Object {
+      {
         "alignContent": "flex-start",
         "alignItems": "flex-start",
         "justifyContent": "flex-start",
@@ -202,7 +202,7 @@ exports[`renders correctly renders correctly when open 1`] = `
     <View>
       <View
         style={
-          Object {
+          {
             "flex": 1,
             "flexDirection": "row",
             "width": "100%",
@@ -213,8 +213,8 @@ exports[`renders correctly renders correctly when open 1`] = `
           accessibilityLabelledBy="test-tabs-tab-0"
           nativeID="test-tabs-panel-0"
           style={
-            Array [
-              Object {
+            [
+              {
                 "width": 750,
               },
               undefined,
@@ -227,13 +227,13 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },
@@ -251,8 +251,8 @@ exports[`renders correctly renders correctly when open 1`] = `
           accessibilityLabelledBy="test-tabs-tab-1"
           nativeID="test-tabs-panel-1"
           style={
-            Array [
-              Object {
+            [
+              {
                 "width": 750,
               },
               undefined,
@@ -265,13 +265,13 @@ exports[`renders correctly renders correctly when open 1`] = `
               accessible={false}
               selectable={true}
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "color": "#262424",
                     "fontFamily": "Circular Std Book",
                     "fontWeight": "400",
                   },
-                  Object {
+                  {
                     "fontSize": 16,
                     "lineHeight": 19.2,
                   },

@@ -38,7 +38,7 @@ const initialState = {
 export const SpaceTermContext = createContext<SpaceTermContextResult>(initialState)
 SpaceTermContext.displayName = 'SpaceTermContext'
 
-const SpaceTermContextProvider: React.FC = ({ children }) => {
+const SpaceTermContextProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   const { loading: loadingTopics, data: topicsData, error: errorTopics } = useQuery<TopicsQueryResult>(topicsQuery)
   const topics = topicsData?.topics.data || []
 

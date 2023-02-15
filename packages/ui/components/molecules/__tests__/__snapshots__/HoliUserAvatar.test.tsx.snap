@@ -3,8 +3,8 @@
 exports[`React tree renders correctly 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "alignItems": "center",
         "backgroundColor": "#f5f5f5",
         "borderRadius": 64,
@@ -12,7 +12,7 @@ exports[`React tree renders correctly 1`] = `
         "overflow": "hidden",
       },
       undefined,
-      Object {
+      {
         "borderColor": "#262424",
         "borderWidth": 2,
         "height": 128,
@@ -26,12 +26,12 @@ exports[`React tree renders correctly 1`] = `
     accessibilityRole="image"
     accessible={false}
     source={
-      Object {
+      {
         "uri": "https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg",
       }
     }
     style={
-      Object {
+      {
         "height": "100%",
         "width": "100%",
       }
@@ -43,8 +43,8 @@ exports[`React tree renders correctly 1`] = `
 exports[`React tree renders the users initials, when given image prop is empty 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "alignItems": "center",
         "backgroundColor": "red",
         "borderRadius": 64,
@@ -52,7 +52,7 @@ exports[`React tree renders the users initials, when given image prop is empty 1
         "overflow": "hidden",
       },
       undefined,
-      Object {
+      {
         "borderColor": "#262424",
         "borderWidth": 2,
         "height": 128,
@@ -67,18 +67,18 @@ exports[`React tree renders the users initials, when given image prop is empty 1
     accessible={false}
     selectable={true}
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#262424",
           "fontFamily": "Circular Std Book",
           "fontWeight": "400",
         },
-        Object {
+        {
           "fontSize": 16,
           "lineHeight": 19.2,
         },
         false,
-        Object {
+        {
           "color": "#fff",
           "fontSize": 57.6,
           "fontWeight": "bold",

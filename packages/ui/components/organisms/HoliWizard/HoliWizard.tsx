@@ -11,7 +11,6 @@ import { colors, vars } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type HoliWizardProps = {
-  children: Array<React.ReactChild>
   testID?: string
   onNextPress: () => void
   onSubmit: () => void
@@ -19,21 +18,21 @@ export type HoliWizardProps = {
   submitButtonLabel: string
 }
 
-const HoliWizard: React.VFC<HoliWizardProps> = ({
+const HoliWizard = ({
   children,
   isBackButtonAvailable = false,
   onNextPress,
   onSubmit,
   submitButtonLabel,
   testID,
-}: HoliWizardProps) => {
+}: React.PropsWithChildren<HoliWizardProps>) => {
   const { t } = useTranslation()
   const [currentStep, setCurrentStep] = useState(0)
   const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false)
   const { height: deviceHeight } = useWindowDimensions()
   const mixins = useStyleMixins()
 
-  const stepCount = children && children.length
+  const stepCount = React.Children.toArray(children).length
   const progress = stepCount - currentStep > 0 ? 100 / (stepCount - currentStep) : 0
 
   const setNextButtonEnabled = (buttonStatus: boolean) => {

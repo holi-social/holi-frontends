@@ -8,7 +8,7 @@ export interface HoliGridCellProps {
   style: ViewStyle
 }
 
-const HoliGridCell: React.FC<Partial<HoliGridCellProps>> = ({ children, style }) => {
+const HoliGridCell = ({ children, style }: React.PropsWithChildren<Partial<HoliGridCellProps>>) => {
   const { padding, width } = useGrid()
   return <View style={[style, { padding, width }]}>{children}</View>
 }

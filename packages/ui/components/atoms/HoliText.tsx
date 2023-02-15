@@ -8,7 +8,6 @@ export type HoliTextSize = 'extralarge' | 'large' | 'default' | 'small' | 'extra
 export const HoliTextSizes: HoliTextSize[] = ['large', 'default', 'small', 'extrasmall'] // keep in sync with all possible HoliTextSize values
 
 export interface HoliTextProps extends TextProps {
-  children?: React.ReactNode
   size?: HoliTextSize
   bold?: boolean
   style?: StyleProp<TextStyle>
@@ -17,7 +16,13 @@ export interface HoliTextProps extends TextProps {
   numberOfLines?: number
 }
 
-const HoliText = ({ children, size = 'default', bold = false, selectable = true, ...props }: HoliTextProps) => {
+const HoliText = ({
+  children,
+  size = 'default',
+  bold = false,
+  selectable = true,
+  ...props
+}: React.PropsWithChildren<HoliTextProps>) => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
 
