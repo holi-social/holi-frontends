@@ -1,10 +1,9 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, TextLayoutEventData, TextLayoutLine, View } from 'react-native'
+import { Text, TextLayoutEventData, TextLayoutLine, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { ReadMoreButtonState, ReadMoreProps } from '@holi/ui/components/molecules/HoliReadMore.shared'
-import { colors } from '@holi/ui/styles/globalVars'
+import { ReadMoreButtonState, ReadMoreProps, styles } from '@holi/ui/components/molecules/HoliReadMore/shared'
 
 /**
  *
@@ -126,7 +125,6 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
           {buttonState === 'readMore' ? truncatedText : children} {buttonState === 'readLess' && ' '}
         </HoliText>
 
-        {/* show button inline (mobile only) */}
         {/* using a Text as the button, due to vertical aligning issues on Android https://github.com/facebook/react-native/issues/27549 */}
         {buttonState !== 'hidden' && (
           <HoliText
@@ -145,13 +143,3 @@ const HoliReadMore: React.FunctionComponent<ReadMoreProps> = ({
 }
 
 export default HoliReadMore
-
-const styles = StyleSheet.create({
-  textContainer: {
-    alignContent: 'flex-start',
-    justifyContent: 'center',
-  },
-  text: {
-    color: colors.foreground20,
-  },
-})
