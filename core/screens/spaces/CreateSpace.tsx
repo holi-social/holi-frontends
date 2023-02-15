@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -57,7 +57,7 @@ const CreateSpace: React.VFC = () => {
         input: {
           title: spaceName,
           description: spaceGoal,
-          topics: currentStep > 0 ? spaceTopics : undefined,
+          topics: currentStep > 0 ? spaceTopics.map((topic) => topic.id) : undefined,
           cover: currentStep > 1 ? spaceCoverImage : undefined,
         },
       },
@@ -66,6 +66,7 @@ const CreateSpace: React.VFC = () => {
   }
 
   const handleSubmitButtonPress = async () => {
+    handleNextButtonPress(2)
     console.log('handle Submit Button Press')
     return false
   }

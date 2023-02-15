@@ -21,7 +21,7 @@ export type CreateSpaceTopicsProps = {
 
 const CreateSpaceTopics: React.VFC<CreateSpaceTopicsProps> = ({
   onSelectSpaceTopics,
-  selectedTopics,
+  selectedTopics = [],
 }: CreateSpaceTopicsProps) => {
   const [filterString, setFilterString] = useState<string>('')
   const [orderedTerms, setOrderedTerms] = useState<Topic[]>([])
@@ -34,7 +34,7 @@ const CreateSpaceTopics: React.VFC<CreateSpaceTopicsProps> = ({
 
   useEffect(() => {
     if (selectedTopics.length > 0) {
-      setNextButtonEnabled(true)
+      setNextButtonEnabled(selectedTopics.length > 0)
     } else {
       setNextButtonEnabled(false)
     }

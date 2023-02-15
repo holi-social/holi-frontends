@@ -192,7 +192,8 @@ export type JoinSpaceResponse = {
 export const ValidateSpaceInputSchema = z.object({
   title: z.string().trim().min(2).max(60),
   description: z.string().trim().min(1).max(600),
-  avatar: z.instanceof(Object).optional(),
+  topics: z.array(z.string() /* UUID */).min(1).max(6).optional(),
+  cover: z.instanceof(Object).optional(),
 })
 
 export type ValidateSpaceInput = z.infer<typeof ValidateSpaceInputSchema>
