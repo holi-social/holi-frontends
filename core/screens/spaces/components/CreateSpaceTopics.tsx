@@ -84,7 +84,7 @@ const CreateSpaceTopics: React.VFC<CreateSpaceTopicsProps> = ({
     <View style={styles.wrapper}>
       <DefaultLayout
         headerOverlap={true}
-        scrollEnabled={false}
+        scrollable={false}
         style={[styles.contentStyle, { width: Platform.OS === 'web' ? deviceWidth : '100%' }]}
       >
         <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
