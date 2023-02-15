@@ -4,13 +4,18 @@ export interface Term {
   slug: string
 }
 
+export type SortedTerm = Term & { number?: number }
+
 export type Topic = Term & {
   isDiscoverSpacesDefault: boolean
 }
-export type SDG = Term
+export type SDG = Term & {
+  number: number
+}
 export type Skill = Term
 
 export const termsByTitleComparator = (a: Term, b: Term) => a.title.localeCompare(b.title)
+export const termsBySortNumberComparator = (a: SortedTerm, b: SortedTerm) => (a.number || 0) - (b.number || 0)
 
 export interface User {
   id: string
