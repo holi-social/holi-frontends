@@ -1,13 +1,16 @@
+import { useMutation } from '@apollo/client'
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
+import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useUnifiedNavigation } from '@holi/core/navigation/hooks/useUnifiedNavigation'
 import CreateSpaceCoverImage from '@holi/core/screens/spaces/components/CreateSpaceCoverImage'
 import CreateSpaceName from '@holi/core/screens/spaces/components/CreateSpaceName'
 import CreateSpaceTopics from '@holi/core/screens/spaces/components/CreateSpaceTopics'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/components/SpaceTermContextProvider'
+import { ValidateSpaceResponse, validateSpaceMutation } from '@holi/core/screens/spaces/queries'
 import { Topic } from '@holi/core/screens/userprofile/types'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { ImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
@@ -22,13 +25,16 @@ const CreateSpace: React.VFC = () => {
   const [spaceName, setSpaceName] = useState<string>('')
   const [spaceGoal, setSpaceGoal] = useState<string>('')
   const [spaceTopics, setSpaceTopics] = useState<Topic[]>([])
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const [spaceCoverImage, setSpaceCoverImage] = useState<ImageInfo | undefined>()
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const exitConfirmationTitle = t('spaces.create.space.close.dialog.title')
+  const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
+  const { handleGraphQLError } = useFieldErrors({ i18nPrefix: 'spaces', handledFieldErrors: ['title', 'description'] })
 
-  const handleClosePress = () => {
-    setShowConfirmationModal(true)
-  }
+  const [validateSpace] = useMutation<ValidateSpaceResponse>(validateSpaceMutation, {
+    onCompleted: () => setFieldErrors({}),
+    onError: (error) => setFieldErrors(handleGraphQLError(error)),
+  })
 
   useLayoutEffect(
     () =>
@@ -37,7 +43,7 @@ const CreateSpace: React.VFC = () => {
         title: t('spaces.create.space.title'),
         headerStyle: { backgroundColor: colors.background10 },
         headerTransparent: true,
-        headerLeft: () => <HeaderBackButton icon="close" onPress={handleClosePress} />,
+        headerLeft: () => <HeaderBackButton icon="close" onPress={() => setShowConfirmationModal(true)} />,
         navigationCustomOptions: {
           footerShown: false,
         },
@@ -45,27 +51,23 @@ const CreateSpace: React.VFC = () => {
     [setOptions, t]
   )
 
-  const handleNextButtonPress = () => {
-    console.log('handle Next Button Press')
+  const handleNextButtonPress = async (currentStep: number) => {
+    const result = await validateSpace({
+      variables: {
+        input: {
+          title: spaceName,
+          description: spaceGoal,
+          topics: currentStep > 0 ? spaceTopics.map((topic) => topic.id) : undefined,
+          cover: currentStep > 1 ? spaceCoverImage : undefined,
+        },
+      },
+    })
+    return result?.data?.validateSpace.success || false
   }
 
-  const handleSubmitButtonPress = () => {
+  const handleSubmitButtonPress = async () => {
     console.log('handle Submit Button Press')
-  }
-
-  const handleSpaceNameChange = (value: string) => {
-    setSpaceName(value)
-  }
-  const handleSpaceGoalChange = (value: string) => {
-    setSpaceGoal(value)
-  }
-
-  const handleSpaceTopicsSelection = (topics: Topic[]) => {
-    setSpaceTopics(topics)
-  }
-
-  const handleImageUpload = (image: ImageInfo | undefined) => {
-    setSpaceCoverImage(image)
+    return false
   }
 
   return (
@@ -75,21 +77,19 @@ const CreateSpace: React.VFC = () => {
           <HoliWizard
             isBackButtonAvailable={true}
             submitButtonLabel={t('spaces.create.space.button')}
-            onNextPress={() => handleNextButtonPress()}
-            onSubmit={() => handleSubmitButtonPress()}
+            onNextPress={handleNextButtonPress}
+            onSubmit={handleSubmitButtonPress}
           >
             <CreateSpaceName
-              onChangeSpaceName={(value: string) => {
-                handleSpaceNameChange(value)
-              }}
-              onChangeSpaceGoal={(value: string) => {
-                handleSpaceGoalChange(value)
-              }}
+              onChangeSpaceName={setSpaceName}
+              onChangeSpaceGoal={setSpaceGoal}
               spaceName={spaceName}
               spaceGoal={spaceGoal}
+              spaceNameErrors={fieldErrors.title}
+              spaceGoalErrors={fieldErrors.description}
             />
-            <CreateSpaceTopics onSelectSpaceTopics={handleSpaceTopicsSelection} selectedTopics={spaceTopics} />
-            <CreateSpaceCoverImage onUploadImage={handleImageUpload} coverImage={spaceCoverImage} />
+            <CreateSpaceTopics onSelectSpaceTopics={setSpaceTopics} selectedTopics={spaceTopics} />
+            <CreateSpaceCoverImage onUploadImage={setSpaceCoverImage} coverImage={spaceCoverImage} />
           </HoliWizard>
         </View>
       </View>

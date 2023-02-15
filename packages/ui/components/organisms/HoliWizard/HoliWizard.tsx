@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, Text, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import HoliIcon from '@holi/ui/components/atoms/HoliIcon'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliProgressBar from '@holi/ui/components/molecules/HoliProgressBar'
 import HoliWizardContext from '@holi/ui/components/organisms/HoliWizard/HoliWizardContext'
 import { colors, vars } from '@holi/ui/styles/globalVars'
@@ -12,8 +13,8 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type HoliWizardProps = {
   testID?: string
-  onNextPress: () => void
-  onSubmit: () => void
+  onNextPress: (currentStep: number) => Promise<boolean>
+  onSubmit: () => Promise<boolean>
   isBackButtonAvailable?: boolean
   submitButtonLabel: string
 }
@@ -29,6 +30,7 @@ const HoliWizard = ({
   const { t } = useTranslation()
   const [currentStep, setCurrentStep] = useState(0)
   const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const { height: deviceHeight } = useWindowDimensions()
   const mixins = useStyleMixins()
 
@@ -38,16 +40,21 @@ const HoliWizard = ({
   const setNextButtonEnabled = (buttonStatus: boolean) => {
     setIsNextButtonEnabled(buttonStatus)
   }
-  const wizardContext = { setNextButtonEnabled }
+  const wizardContext = {
+    setNextButtonEnabled,
+  }
 
-  const handleNextButtonPress = () => {
-    if (currentStep < stepCount - 1) {
-      setCurrentStep(currentStep + 1)
-    }
-    if (currentStep === stepCount - 1) {
-      onSubmit()
-    } else {
-      onNextPress()
+  const handleNextButtonPress = async () => {
+    try {
+      setIsLoading(true)
+      const handler = currentStep === stepCount - 1 ? onSubmit : () => onNextPress(currentStep)
+      const success = await handler()
+      if (success && currentStep < stepCount - 1) {
+        setIsNextButtonEnabled(false)
+        setCurrentStep(currentStep + 1)
+      }
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -82,15 +89,17 @@ const HoliWizard = ({
           </HoliButton>
         )}
         <View style={{ flex: 1 }}>
-          <HoliButton
-            disabled={!isNextButtonEnabled}
-            label={t('global.next')}
+          <HoliButtonLoading
+            disabled={!isNextButtonEnabled || isLoading}
+            label={isLoading ? t('global.loading') : t('global.next')}
             onPress={handleNextButtonPress}
             testID="holi-wizard-next-btn"
             style={styles.nextButton}
+            icon={isLoading ? 'loader-4' : undefined}
+            iconSpinning={isLoading}
           >
-            <Text>{currentStep === stepCount - 1 ? submitButtonLabel : t('global.next')}</Text>
-          </HoliButton>
+            {currentStep === stepCount - 1 ? submitButtonLabel : t('global.next')}
+          </HoliButtonLoading>
         </View>
       </View>
     )

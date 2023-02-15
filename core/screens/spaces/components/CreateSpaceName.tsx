@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import DefaultLayout from '@holi/core/DefaultLayout'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import SpaceNameAndGoalForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceNameAndGoalForm'
+import { ValidateSpaceInputSchema } from '@holi/core/screens/spaces/queries'
 import useWizard from '@holi/ui/components/organisms/HoliWizard/useWizard'
 import { colors } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type CreateSpaceNameProps = {
   onChangeSpaceName: (name: string) => void
   onChangeSpaceGoal: (goal: string) => void
   spaceName: string
   spaceGoal: string
+  spaceNameErrors?: string[]
+  spaceGoalErrors?: string[]
 }
 
 const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
@@ -21,23 +22,19 @@ const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
   onChangeSpaceGoal,
   spaceName,
   spaceGoal,
+  spaceNameErrors,
+  spaceGoalErrors,
 }: CreateSpaceNameProps) => {
-  const mixins = useStyleMixins()
   const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
-  const [nameError, setNameError] = useState<string>()
-  const [goalError, setGoalError] = useState<string>()
-
   const { t } = useTranslation()
   const { setNextButtonEnabled } = useWizard()
 
   useEffect(() => {
-    if (spaceName && spaceName.replace(/\s/g, '').length > 1 && spaceGoal && spaceGoal.replace(/\s/g, '').length > 0) {
-      setNextButtonEnabled(true)
-    } else {
-      setNextButtonEnabled(false)
-      setNameError(undefined)
-      setGoalError(undefined)
-    }
+    const resultSchema = ValidateSpaceInputSchema.safeParse({
+      title: spaceName,
+      description: spaceGoal,
+    })
+    setNextButtonEnabled(resultSchema.success)
   }, [spaceName, spaceGoal, setNextButtonEnabled])
 
   return (
@@ -47,40 +44,16 @@ const CreateSpaceName: React.VFC<CreateSpaceNameProps> = ({
         scrollEnabled={false}
         style={[styles.contentStyle, { width: Platform.OS === 'web' ? deviceWidth : '100%' }]}
       >
-        <View style={[mixins.container, styles.container, { minHeight: deviceHeight }]}>
-          <View style={styles.title}>
-            <HoliText size="extralarge">{t('spaces.create.space.stepOne.title')}</HoliText>
-          </View>
-          <HoliTextInput
-            placeholder={t('spaces.create.space.name.input.placeholder')}
-            inputLabel={t('spaces.create.space.name.label')}
-            maxNoOfCharacters={60}
-            showCharacterCount={true}
-            validationErrorText={nameError}
-            value={spaceName}
-            onChange={(value: string) => {
-              onChangeSpaceName(value)
-            }}
-            helperText={t('spaces.create.space.name.input.description')}
-            accessibilityLabel={t('spaces.create.space.name.label')}
-          />
-          <View style={styles.goalInputContainer}>
-            <HoliTextInput
-              placeholder={t('spaces.create.space.goal.input.placeholder')}
-              inputLabel={t('spaces.create.space.goal.label')}
-              maxNoOfCharacters={600}
-              showCharacterCount={true}
-              noOfVisibleLines={5}
-              maxNoOfVisibleLines={10}
-              validationErrorText={goalError}
-              value={spaceGoal}
-              onChange={(value: string) => {
-                onChangeSpaceGoal(value)
-              }}
-              accessibilityLabel={t('spaces.create.space.goal.label')}
-            />
-          </View>
-        </View>
+        <SpaceNameAndGoalForm
+          style={[styles.container, { minHeight: deviceHeight }]}
+          title={t('spaces.create.space.stepOne.title')}
+          spaceName={spaceName}
+          spaceGoal={spaceGoal}
+          spaceNameErrors={spaceNameErrors}
+          spaceGoalErrors={spaceGoalErrors}
+          onChangeSpaceName={onChangeSpaceName}
+          onChangeSpaceGoal={onChangeSpaceGoal}
+        />
       </DefaultLayout>
     </View>
   )

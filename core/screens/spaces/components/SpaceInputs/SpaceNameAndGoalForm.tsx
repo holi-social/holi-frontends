@@ -1,5 +1,5 @@
 import React from 'react'
-import { Platform, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import SpaceGoalInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceGoalInput'
 import SpaceNameInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceNameInput'
@@ -11,8 +11,10 @@ export type SpaceNameAndGoalFormProps = {
   onChangeSpaceGoal: (goal: string) => void
   spaceName: string
   spaceGoal: string
+  spaceNameErrors?: string[]
+  spaceGoalErrors?: string[]
   title: string
-  style?: ViewStyle
+  style?: StyleProp<ViewStyle>
 }
 
 const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
@@ -20,6 +22,8 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
   onChangeSpaceGoal,
   spaceName,
   spaceGoal,
+  spaceNameErrors,
+  spaceGoalErrors,
   title,
   style,
 }: SpaceNameAndGoalFormProps) => {
@@ -30,9 +34,17 @@ const SpaceNameAndGoalForm: React.VFC<SpaceNameAndGoalFormProps> = ({
       <View style={styles.title}>
         <HoliText size="extralarge">{title}</HoliText>
       </View>
-      <SpaceNameInput value={spaceName} onChange={onChangeSpaceName} />
+      <SpaceNameInput
+        value={spaceName}
+        onChange={onChangeSpaceName}
+        errorMessage={spaceNameErrors?.length ? spaceNameErrors[0] : undefined}
+      />
       <View style={styles.goalInputContainer}>
-        <SpaceGoalInput value={spaceGoal} onChange={onChangeSpaceGoal} />
+        <SpaceGoalInput
+          value={spaceGoal}
+          onChange={onChangeSpaceGoal}
+          errorMessage={spaceGoalErrors?.length ? spaceGoalErrors[0] : undefined}
+        />
       </View>
     </View>
   )

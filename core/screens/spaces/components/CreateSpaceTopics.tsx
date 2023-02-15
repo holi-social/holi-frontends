@@ -33,11 +33,7 @@ const CreateSpaceTopics: React.VFC<CreateSpaceTopicsProps> = ({
   const { setNextButtonEnabled } = useWizard()
 
   useEffect(() => {
-    if (selectedTopics.length > 0) {
-      setNextButtonEnabled(true)
-    } else {
-      setNextButtonEnabled(false)
-    }
+    setNextButtonEnabled(selectedTopics.length > 0)
   }, [selectedTopics, setNextButtonEnabled])
 
   useEffect(() => {
