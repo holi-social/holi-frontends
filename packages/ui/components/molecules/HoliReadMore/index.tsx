@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Text, TextLayoutEventData, TextLayoutLine, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { ReadMoreButtonState, ReadMoreProps, styles } from '@holi/ui/components/molecules/HoliReadMore.shared'
+import { ReadMoreButtonState, ReadMoreProps, styles } from '@holi/ui/components/molecules/HoliReadMore/shared'
 
 /**
  *
